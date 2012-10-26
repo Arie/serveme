@@ -11,8 +11,8 @@ describe Reservation do
     end
   end
 
-  describe '.yestertoday' do
-    it 'returns reservations for yestertoday' do
+  describe '.yesterday' do
+    it 'returns reservations for yesterday' do
       yesterday = FactoryGirl.create(:reservation, :date => Date.yesterday)
       today     = FactoryGirl.create(:reservation, :date => Date.today)
       tomorrow  = FactoryGirl.create(:reservation, :date => Date.tomorrow)

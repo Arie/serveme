@@ -42,8 +42,6 @@ class ReservationsController < ApplicationController
     redirect_to root_path
   end
 
-  private
-
   def reservation
     @reservation ||= begin
       if just_after_midnight?

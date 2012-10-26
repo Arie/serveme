@@ -9,5 +9,5 @@
           - if current_user
             = "Hello #{current_user.nickname}"
           - else
-            = link_to 'users/auth/steam' do
+            = link_to '/users/auth/steam' do
               = image_tag 'sits_small.png', :alt => "Sign in with Steam"

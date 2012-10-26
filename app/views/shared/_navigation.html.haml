@@ -1,0 +1,13 @@
+.navbar.navbar-inverse
+  .navbar-inner
+    .container
+      %ul.nav
+        %li= link_to("Serveme", root_path, :class => 'brand')
+        %li= link_to("Credits", credits_pages_path)
+      .pull-right
+        .account
+          - if current_user
+            = "Hello #{current_user.nickname}"
+          - else
+            = link_to 'users/auth/steam' do
+              = image_tag 'sits_small.png', :alt => "Sign in with Steam"

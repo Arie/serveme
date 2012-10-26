@@ -1,0 +1,16 @@
+%h3 Todays reservations
+- if @reservations.any?
+  %table.table.table-condensed
+    %thead
+      %tr
+        %th Server
+        %th Reserved by
+        %th Reserved at
+    %tbody
+      - @reservations.each do |reservation|
+        %tr
+          %td= reservation.server.name
+          %td= reservation.user.nickname
+          %td= reservation.created_at
+- else
+  = "None yet!"

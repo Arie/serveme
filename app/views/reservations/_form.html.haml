@@ -1,0 +1,13 @@
+= simple_form_for(reservation, :html => { :class => 'form-horizontal' }) do |f|
+  - if reservation.server
+    %p= reservation.server_info
+    = f.input :server_id, :as => :hidden
+  - else
+    = f.association :server, :collection => Server.available_today_for_user(current_user)
+  = f.input :password,          :as => :string, :value => reservation.password
+  = f.input :rcon,              :as => :string
+  = f.input :tv_password,       :as => :string
+  = f.input :tv_relaypassword,  :as => :string
+
+  %button.btn{:type => :submit}
+    Save

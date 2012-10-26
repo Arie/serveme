@@ -1,0 +1,31 @@
+%h2 Welcome to the FakkelBrigade reservation system
+
+.row
+  .span10
+    %p
+      Make a reservation and within a minute your server will be ready and yours to use for the entire day (till 03:00 at night). 
+    %p
+      When you're done playing, please change the map on the server (any will do) and press the "End reservation" button here. 
+      After ending your reservation you will receive a link with the logs and STV demos.
+.row
+  .span10
+    %p
+      You can check the server's ping to many destinations on 
+      = link_to 'our smokeping graphs.', 'http://fakkelbrigade.eu/cgi-bin/smokeping.cgi', :target => '_blank'
+      
+.row
+  .span10
+    = render "shared/paypal"
+
+- if current_user && @users_reservation
+  = link_to "Show reservation",   reservation_path(@users_reservation),       :class => 'btn btn-success'
+  - if !just_after_midnight?
+    = link_to "Update reservation", edit_reservation_path(@users_reservation),  :class => 'btn btn-info'
+  = link_to "End reservation",    reservation_path(@users_reservation),       :class => 'btn btn-danger', :method => :delete, :data => { :confirm => "Make sure to switch maps before ending your reservation, else we won't be able to send you the logs and stv demos" }, :title => 'End reservation'
+- else
+  - if current_user && Server.available_today_for_user(current_user).any?
+    = link_to "Make reservation",   new_reservation_path,                     :class => 'btn btn-primary'
+
+.row
+  .span10
+    = render 'todays_reservations'

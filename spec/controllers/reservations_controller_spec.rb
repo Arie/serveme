@@ -18,7 +18,7 @@ describe ReservationsController do
   context "show" do
 
     it "shows todays reservation during normal hours" do
-      subject.stub(:just_after_midnight?).and_return { false }
+      @user.stub(:just_after_midnight?).and_return { false }
       yesterdays_reservation  = FactoryGirl.create :reservation, :date => Date.yesterday, :user => @user
       todays_reservation      = FactoryGirl.create :reservation, :date => Date.today,     :user => @user
       get :show, :id => 1337
@@ -26,7 +26,7 @@ describe ReservationsController do
     end
 
     it "shows yesterdays reservation during lockout" do
-      subject.stub(:just_after_midnight?).and_return { true }
+      @user.stub(:just_after_midnight?).and_return { true }
       yesterdays_reservation  = FactoryGirl.create :reservation, :date => Date.yesterday, :user => @user
       todays_reservation      = FactoryGirl.create :reservation, :date => Date.today,     :user => @user
       get :show, :id => 1337

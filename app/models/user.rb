@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include ApplicationHelper
   devise :omniauthable
 
   attr_accessible :uid, :nickname, :name, :provider
@@ -19,6 +20,14 @@ class User < ActiveRecord::Base
                          )
     end
     user
+  end
+
+  def reservation
+    if just_after_midnight?
+      yesterdays_reservation
+    else
+      todays_reservation
+    end
   end
 
   def todays_reservation

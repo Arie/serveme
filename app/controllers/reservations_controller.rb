@@ -44,29 +44,15 @@ class ReservationsController < ApplicationController
 
   def reservation
     @reservation ||= begin
-      if just_after_midnight?
-        existing_reservation = yesterdays_reservation
-      else
-        existing_reservation = todays_reservation
-      end
-      existing_reservation || new_reservation
+      current_user.reservation || new_reservation
     end
   end
   helper_method :reservation
-
 
   private
 
   def new_reservation
     Reservation.new(:user_id => current_user, :date => Date.today)
-  end
-
-  def todays_reservation
-    current_user.todays_reservation
-  end
-
-  def yesterdays_reservation
-    current_user.yesterdays_reservation
   end
 
   def reservations_open?

@@ -37,7 +37,7 @@ class ReservationsController < ApplicationController
       reservation.end_reservation
       flash[:notice] = "Reservation removed, restarting server. Get your STV demos and logs <a href='#{link}' target=_blank>here</a>".html_safe
     else
-      flash[:alert] = "Couldn't find a reservation on #{Date.today} for #{current_user.nickname}"
+      flash[:alert] = "Couldn't find an active reservation for #{current_user.nickname}"
     end
     redirect_to root_path
   end

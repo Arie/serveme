@@ -4,9 +4,14 @@
   .span10
     %p
       Make a reservation and within a minute your server will be ready and yours to use for the entire day (till 03:00 at night). 
-    %p
       When you're done playing, please change the map on the server (any will do) and press the "End reservation" button here. 
       After ending your reservation you will receive a link with the logs and STV demos.
+- if current_user
+  .row
+    .span10
+      %p
+        Please email me if you like this service, had a problem or suggestion:
+        = mail_to "arie@fakkelbrigade.eu"
 .row
   .span10
     %p

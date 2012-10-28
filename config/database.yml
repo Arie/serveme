@@ -6,6 +6,7 @@
 development:
   adapter: mysql2
   database: serveme_development
+  encoding: utf-8
   pool: 5
   timeout: 5000
 
@@ -15,11 +16,13 @@ development:
 test:
   adapter: mysql2
   database: serveme_test
+  encoding: utf-8
   pool: 5
   timeout: 5000
 
 production:
   adapter: mysql2
   database: serveme_production
+  encoding: utf-8
   pool: 5
   timeout: 5000

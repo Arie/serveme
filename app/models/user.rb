@@ -12,7 +12,9 @@ class User < ActiveRecord::Base
 
   def self.find_for_steam_auth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
-    unless user
+    if user
+      user.update_attributes(:name => auth.info.name, :nickname => auth.info.nickname)
+    else
       user = User.create(  name:      auth.info.name,
                            nickname:  auth.info.nickname,
                            provider:  auth.provider,

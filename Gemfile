@@ -16,6 +16,7 @@ gem 'bootstrap-sass'
 gem 'turbo-sprockets-rails3'                      #faster precompile
 gem 'simple_form'
 gem 'rubyzip'
+gem 'paper_trail'
 
 group :development do
   #Debugging

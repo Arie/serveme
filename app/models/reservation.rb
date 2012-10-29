@@ -1,5 +1,6 @@
 require 'zip/zip'
 class Reservation < ActiveRecord::Base
+  has_paper_trail
   attr_accessible :server_id, :user_id, :date, :password, :rcon, :tv_password, :tv_relaypassword
   belongs_to :user
   belongs_to :server

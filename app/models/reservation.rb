@@ -87,7 +87,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def demos
-    demo_match = File.join(server.path, 'orangebox', 'tf', "auto-#{demo_date}*.dem")
+    demo_match = File.join(server.path, 'orangebox', 'tf', "*.dem")
     Dir.glob(demo_match)
   end
 

@@ -12,7 +12,7 @@ class PagesController < ApplicationController
     if current_user
       @users_reservation = @reservations.where(:user_id => current_user).first
       if Server.available_today_for_user(current_user).none? && !current_user.todays_reservation
-        flash[:alert] = "No more servers available today, sorry :("
+        flash.now[:alert] = "No more servers available today, sorry :("
       end
     end
   end

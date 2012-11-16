@@ -3,6 +3,7 @@ class ReservationsController < ApplicationController
   before_filter :reservations_open?, :except => [:show, :destroy]
 
   def new
+    nag if current_user.has_made_many_reservations?
   end
 
   def edit
@@ -59,6 +60,10 @@ class ReservationsController < ApplicationController
     if just_after_midnight?
       redirect_to root_path
     end
+  end
+
+  def nag
+    @nag = true
   end
 
 end

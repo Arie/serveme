@@ -1,3 +1,7 @@
+- if @nag
+  %p.alert.alert-error
+    Hi! You've used this service quite a few times, please consider donating :) You can find the donate button
+    = link_to 'here', root_path
 = simple_form_for(reservation, :html => { :class => 'form-horizontal' }) do |f|
   - if reservation.server
     %p= reservation.server_info

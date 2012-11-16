@@ -9,7 +9,6 @@ class User < ActiveRecord::Base
   has_many :groups,   :through => :group_users
   has_many :servers,  :through => :groups
 
-
   def self.find_for_steam_auth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
     if user
@@ -38,6 +37,14 @@ class User < ActiveRecord::Base
 
   def yesterdays_reservation
     reservations.where(:date => Date.yesterday).last
+  end
+
+  def historic_reservations
+    Version.where(:whodunnit => self.id, :item_type => Reservation).where(:event => 'create')
+  end
+
+  def has_made_many_reservations?
+    historic_reservations.count >= 5
   end
 
 end

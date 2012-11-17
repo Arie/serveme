@@ -11,7 +11,7 @@ A web-interface to reserve TF2 gameservers
 ## Installation
 1. Make sure you've installed the requirements.
 2. Review the yaml files in the `config` directory.
-3. Enter your Steam API key in config/initializers/steam.rb: `STEAM_API_KEY = your_api_key_here`
+3. Enter your Steam API key in config/initializers/steam.rb: `STEAM_WEB_API_KEY = your_api_key_here`
 4. Install the required gems using bundler: `gem install bundler && bundle`
 5. Edit the seed data in db/seeds.rb
 6. Setup and migrate the databases: rake db:create db:migrate db:seed RAILS_ENV=production

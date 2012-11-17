@@ -3,7 +3,8 @@ class ReservationsController < ApplicationController
   before_filter :reservations_open?, :except => [:show, :destroy]
 
   def new
-    nag if current_user.has_made_many_reservations?
+    nag       if current_user.has_made_many_reservations?
+    complain  if current_user.has_not_ended_a_reservation_recently?
   end
 
   def edit
@@ -64,6 +65,10 @@ class ReservationsController < ApplicationController
 
   def nag
     @nag = true
+  end
+
+  def complain
+    @complain = true
   end
 
 end

@@ -1,4 +1,4 @@
-# FakkelBrigade communitye gameserver interface
+# FakkelBrigade community gameserver interface
 
 A web-interface to reserve TF2 gameservers
 

@@ -64,7 +64,7 @@ class Server < ActiveRecord::Base
 
   def restart
     logger.info "Killing process id #{process_id}"
-    `kill #{process_id}`
+    Process.kill(15, process_id)
   end
 
   def process_id

@@ -16,4 +16,28 @@ describe User do
       user.yesterdays_reservation.should == reservation
     end
   end
+
+  describe "#reservation" do
+
+    context "just aftermidnight" do
+
+      it "returns yesterdays reservation" do
+        subject.stub(:just_after_midnight? => true)
+        subject.should_receive(:yesterdays_reservation)
+        subject.reservation
+      end
+
+    end
+
+    context "not just after midnight" do
+
+      it "returns todays reservation" do
+        subject.stub(:just_after_midnight? => false)
+        subject.should_receive(:todays_reservation)
+        subject.reservation
+      end
+
+    end
+
+  end
 end

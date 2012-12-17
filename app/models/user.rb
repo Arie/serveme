@@ -32,11 +32,11 @@ class User < ActiveRecord::Base
   end
 
   def todays_reservation
-    reservations.where(:date => Date.today).last
+    reservations.today.last
   end
 
   def yesterdays_reservation
-    reservations.where(:date => Date.yesterday).last
+    reservations.yesterday.last
   end
 
   def historic_reservations

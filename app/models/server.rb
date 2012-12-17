@@ -68,7 +68,7 @@ class Server < ActiveRecord::Base
   end
 
   def process_id
-    @process_id ||= `ps ux | grep 'port #{port}' | grep 'srcds_linux' | grep -v grep | grep -v ruby | awk '{print $2}'`
+    @process_id ||= `ps ux | grep 'port #{port}' | grep 'srcds_linux' | grep -v grep | grep -v ruby | awk '{print $2}'`.to_i
   end
 
 end

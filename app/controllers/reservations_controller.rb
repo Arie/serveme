@@ -64,10 +64,12 @@ class ReservationsController < ApplicationController
   end
 
   def nag
+    logger.info "Nagging #{current_user.name}: Made a lot of reservations."
     @nag = true
   end
 
   def complain
+    logger.info "Complain to #{current_user.name}: Unended reservations last week"
     @complain = true
   end
 

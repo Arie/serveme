@@ -13,7 +13,7 @@ gem 'omniauth-openid'
 gem 'omniauth-steam'
 gem 'devise'
 gem 'bootstrap-sass'
-gem 'turbo-sprockets-rails3'                      #faster precompile
+# gem 'turbo-sprockets-rails3'                      #faster precompile
 gem 'simple_form'
 gem 'rubyzip'
 gem 'paper_trail'

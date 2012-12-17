@@ -54,7 +54,7 @@ class ReservationsController < ApplicationController
   private
 
   def new_reservation
-    Reservation.new(:user_id => current_user, :date => Date.today)
+    Reservation.new(:user_id => current_user.id, :date => Date.today)
   end
 
   def reservations_open?

@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Server do
 
   describe '#reserved_today_by' do
+
     it 'knows if a user reserved that server today' do
       user = FactoryGirl.create :user
       not_reserved_by_user  = FactoryGirl.create :server
@@ -13,6 +14,7 @@ describe Server do
       reserved_by_user.reserved_today_by?(user).should == true
       not_reserved_by_user.reserved_today_by?(user).should == false
     end
+
   end
 
   describe '.already_reserved_today' do
@@ -75,6 +77,7 @@ describe Server do
 
       Server.in_groups([group, group2]).should == [server_in_group]
     end
+
   end
 
   describe '.reservable_by_user' do
@@ -93,6 +96,7 @@ describe Server do
 
       Server.reservable_by_user(user).should =~ [free_server_in_users_group, busy_server_in_users_group, free_server_no_group, busy_server_no_group]
     end
+
   end
 
   describe '.available_today_for_user' do
@@ -109,6 +113,7 @@ describe Server do
 
       Server.available_today_for_user(user).should =~ [free_server_in_users_group, free_server_no_group]
     end
+
   end
 
   describe '#restart' do

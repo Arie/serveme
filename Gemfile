@@ -13,7 +13,6 @@ gem 'omniauth-openid'
 gem 'omniauth-steam'
 gem 'devise'
 gem 'bootstrap-sass'
-# gem 'turbo-sprockets-rails3'                      #faster precompile
 gem 'simple_form'
 gem 'rubyzip'
 gem 'paper_trail'
@@ -24,7 +23,7 @@ group :development do
   #Deployment
   gem 'capistrano-ext'
   gem 'capistrano_colors'
-  gem 'capistrano', :github => 'capistrano/capistrano'
+  gem 'capistrano'
   gem 'rvm-capistrano'
 end
 

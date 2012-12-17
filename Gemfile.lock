@@ -1,14 +1,3 @@
-GIT
-  remote: git://github.com/capistrano/capistrano.git
-  revision: 3100b9118b1e85f7e7529c2b04c34f23c8c3e418
-  specs:
-    capistrano (2.13.5)
-      highline
-      net-scp (>= 1.0.0)
-      net-sftp (>= 2.0.0)
-      net-ssh (>= 2.0.14)
-      net-ssh-gateway (>= 1.1.0)
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -44,6 +33,12 @@ GEM
     bootstrap-sass (2.2.1.1)
       sass (~> 3.2)
     builder (3.0.4)
+    capistrano (2.13.4)
+      highline
+      net-scp (>= 1.0.0)
+      net-sftp (>= 2.0.0)
+      net-ssh (>= 2.0.14)
+      net-ssh-gateway (>= 1.1.0)
     capistrano-ext (1.2.1)
       capistrano (>= 1.0.0)
     capistrano_colors (0.5.5)
@@ -215,7 +210,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootstrap-sass
-  capistrano!
+  capistrano
   capistrano-ext
   capistrano_colors
   coffee-script

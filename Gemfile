@@ -24,13 +24,14 @@ group :development do
   #Deployment
   gem 'capistrano-ext'
   gem 'capistrano_colors'
-  gem 'capistrano'
+  gem 'capistrano', :github => 'capistrano/capistrano'
   gem 'rvm-capistrano'
 end
 
 group :test, :development do
   gem 'pry-nav'
   gem 'factory_girl_rails'
+  gem 'rspec'
   gem 'rspec-rails'
 end
 
@@ -43,5 +44,7 @@ group :assets do
   gem 'compass-rails'
   gem 'sass-rails'
   gem 'therubyracer'
+  gem 'libv8'
   gem 'bootstrap-sass'                            #<3 twitter bootstrap
+  gem 'turbo-sprockets-rails3'
 end

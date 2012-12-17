@@ -111,4 +111,14 @@ describe Server do
     end
   end
 
+  describe '#restart' do
+
+    it "sends the software termination signal to the process" do
+      subject.should_receive(:process_id).at_least(:once).and_return { 1337 }
+      Process.should_receive(:kill).with(15, 1337)
+      subject.restart
+    end
+
+  end
+
 end

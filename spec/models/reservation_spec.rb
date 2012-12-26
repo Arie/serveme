@@ -4,18 +4,18 @@ describe Reservation do
 
   describe '.today' do
     it 'returns reservations for today' do
-      yesterday = FactoryGirl.create(:reservation, :date => Date.yesterday)
-      today     = FactoryGirl.create(:reservation, :date => Date.today)
-      tomorrow  = FactoryGirl.create(:reservation, :date => Date.tomorrow)
+      yesterday = create(:reservation, :date => Date.yesterday)
+      today     = create(:reservation, :date => Date.today)
+      tomorrow  = create(:reservation, :date => Date.tomorrow)
       Reservation.today.should == [today]
     end
   end
 
   describe '.yesterday' do
     it 'returns reservations for yesterday' do
-      yesterday = FactoryGirl.create(:reservation, :date => Date.yesterday)
-      today     = FactoryGirl.create(:reservation, :date => Date.today)
-      tomorrow  = FactoryGirl.create(:reservation, :date => Date.tomorrow)
+      yesterday = create(:reservation, :date => Date.yesterday)
+      today     = create(:reservation, :date => Date.today)
+      tomorrow  = create(:reservation, :date => Date.tomorrow)
       Reservation.yesterday.should == [yesterday]
     end
   end
@@ -58,7 +58,7 @@ describe Reservation do
 
   describe '#date' do
     it 'returns the stored date' do
-      reservation = FactoryGirl.create :reservation, :date => Date.yesterday
+      reservation = create :reservation, :date => Date.yesterday
       reservation.date.should == Date.yesterday
     end
 
@@ -111,42 +111,42 @@ describe Reservation do
   context "validations" do
 
     it "verifies the server is reservable by the user" do
-      users_group                 = FactoryGirl.create :group,  :name => "User's group"
-      other_group                 = FactoryGirl.create :group,  :name => "Not User's group"
-      user                        = FactoryGirl.create :user,   :groups => [users_group]
-      free_server_other_group     = FactoryGirl.create :server, :groups => [other_group], :name => "free server not in user's group"
+      users_group                 = create :group,  :name => "User's group"
+      other_group                 = create :group,  :name => "Not User's group"
+      user                        = create :user,   :groups => [users_group]
+      free_server_other_group     = create :server, :groups => [other_group], :name => "free server not in user's group"
 
-      reservation = FactoryGirl.build :reservation, :server => free_server_other_group
+      reservation = build :reservation, :server => free_server_other_group
       reservation.should have(1).error_on(:server_id)
       reservation.errors.full_messages.should include "Server is not available for you"
     end
 
     it "verifies the server is free when creating the reservation" do
-      users_group                 = FactoryGirl.create :group,  :name => "User's group"
-      other_group                 = FactoryGirl.create :group,  :name => "Not User's group"
-      user                        = FactoryGirl.create :user,   :groups => [users_group]
-      other_user_same_group       = FactoryGirl.create :user,   :groups => [users_group]
-      busy_server_in_users_group  = FactoryGirl.create :server, :groups => [users_group], :name => "busy server in user's group"
-      FactoryGirl.create :reservation,  :server => busy_server_in_users_group, :user => other_user_same_group
+      users_group                 = create :group,  :name => "User's group"
+      other_group                 = create :group,  :name => "Not User's group"
+      user                        = create :user,   :groups => [users_group]
+      other_user_same_group       = create :user,   :groups => [users_group]
+      busy_server_in_users_group  = create :server, :groups => [users_group], :name => "busy server in user's group"
+      create :reservation,  :server => busy_server_in_users_group, :user => other_user_same_group
 
-      reservation = FactoryGirl.build :reservation, :server => busy_server_in_users_group, :user => user
+      reservation = build :reservation, :server => busy_server_in_users_group, :user => user
       reservation.should have(1).error_on(:server_id)
       reservation.errors.full_messages.should include "Server is no longer available"
     end
 
     it 'allows user to update reservation' do
-      user                        = FactoryGirl.create :user
-      reservation                 = FactoryGirl.create :reservation,  :user => user
+      user                        = create :user
+      reservation                 = create :reservation,  :user => user
 
       reservation.password = 'new password'
       reservation.should have(:no).errors_on(:server_id)
     end
 
     it "only allows one reservation per user per day" do
-      user = FactoryGirl.create :user
-      first_reservation     = FactoryGirl.create  :reservation, :user => user, :date => Date.today
-      second_reservation    = FactoryGirl.build   :reservation, :user => user, :date => Date.today
-      reservation_next_day  = FactoryGirl.build   :reservation, :user => user, :date => Date.tomorrow
+      user = create :user
+      first_reservation     = create  :reservation, :user => user, :date => Date.today
+      second_reservation    = build   :reservation, :user => user, :date => Date.today
+      reservation_next_day  = build   :reservation, :user => user, :date => Date.tomorrow
 
       second_reservation.should have(1).error_on(:user_id)
       second_reservation.errors.full_messages.should include "User already made a reservation today"

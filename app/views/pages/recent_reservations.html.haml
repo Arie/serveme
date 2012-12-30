@@ -7,7 +7,6 @@
       %thead
         %tr
           %th Who
-          %th What
           %th When
       - @recent_reservations.each do |reservation|
         - user    = @users.select   {|u| u.id == reservation.whodunnit.to_i }.first

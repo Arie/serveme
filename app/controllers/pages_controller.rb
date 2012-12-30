@@ -21,10 +21,9 @@ class PagesController < ApplicationController
   end
 
   def recent_reservations
-    @recent_reservations  = Version.where(:event => 'create').order(:created_at).limit(50)
+    @recent_reservations  = Version.where(:event => 'create').order('created_at DESC').limit(50)
     user_ids_to_find      = @recent_reservations.pluck(:whodunnit)
     @users                = User.where(:id => user_ids_to_find).to_a
-    @servers              = Server.all.to_a
   end
 
 end

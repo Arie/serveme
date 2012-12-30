@@ -63,4 +63,8 @@ class User < ActiveRecord::Base
     last_weeks_ended_reservations.count < last_weeks_reservations.count
   end
 
+  def steam_profile_url
+    "http://steamcommunity.com/profiles/#{uid}"
+  end
+
 end

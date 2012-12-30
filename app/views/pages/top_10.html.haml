@@ -10,5 +10,5 @@
           %th Count
       - @top_10_hash.each do |user, count|
         %tr
-          %td= link_to(user.nickname, "http://steamcommunity.com/profiles/#{user.uid}", :target => "_blank")
+          %td= link_to(user.nickname, user.steam_profile_url, :target => "_blank")
           %td= count

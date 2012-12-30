@@ -11,5 +11,5 @@
       - @recent_reservations.each do |reservation|
         - user    = @users.select   {|u| u.id == reservation.whodunnit.to_i }.first
         %tr
-          %td= user.try(:name)
+          %td= link_to(user.nickname, user.steam_profile_url, :target => "_blank")
           %td= I18n.l(reservation.created_at, :format => :long)

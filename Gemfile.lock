@@ -112,7 +112,7 @@ GEM
       multi_json
       omniauth-openid
     orm_adapter (0.4.0)
-    paper_trail (2.6.4)
+    paper_trail (2.7.0)
       activerecord (~> 3.0)
       railties (~> 3.0)
     polyglot (0.3.3)
@@ -120,7 +120,7 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.3.1)
-    pry-nav (0.2.2)
+    pry-nav (0.2.3)
       pry (~> 0.9.10)
     rack (1.4.1)
     rack-cache (1.2)

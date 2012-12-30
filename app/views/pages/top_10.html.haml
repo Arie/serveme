@@ -1,0 +1,14 @@
+%h2 Top 10 users
+
+.row
+  .span10
+
+    %table.table.table-hover.table-bordered.table-striped
+      %thead
+        %tr
+          %th Who
+          %th Count
+      - @top_10_hash.each do |user, count|
+        %tr
+          %td= link_to(user.nickname, "http://steamcommunity.com/profiles/#{user.uid}", :target => "_blank")
+          %td= count

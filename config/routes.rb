@@ -17,6 +17,7 @@ Serveme::Application.routes.draw do
   resources :pages do
     collection do
       get :credits
+      get :recent_reservations
     end
   end
 

@@ -1,0 +1,18 @@
+%h2 Recent reservations
+
+.row
+  .span10
+
+    %table.table.table-hover.table-bordered.table-striped
+      %thead
+        %tr
+          %th Who
+          %th What
+          %th When
+      - @recent_reservations.each do |reservation|
+        - user    = @users.select   {|u| u.id == reservation.whodunnit.to_i }.first
+        - server  = @servers.select {|s| s.id == reservation.item_id }.first
+        %tr
+          %td= user.name
+          %td= server.name
+          %td= I18n.l(reservation.created_at, :format => :long)

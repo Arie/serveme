@@ -1,13 +1,11 @@
 class Statistic
 
   def self.recent_reservations
-    @recent_reservations  ||= Version.where(:event => 'create').order('created_at DESC').limit(50)
+    Version.where(:event => 'create').order('created_at DESC').limit(50)
   end
 
   def self.recent_users
-    @users ||= begin
-      User.where(:id => recent_reservations.pluck(:whodunnit))
-    end
+    User.where(:id => recent_reservations.pluck(:whodunnit))
   end
 
   def self.top_10

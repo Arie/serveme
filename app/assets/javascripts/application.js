@@ -15,3 +15,4 @@
 //= require_tree .
 //// Loads all Bootstrap javascripts
 //= require bootstrap
+//= require datepicker

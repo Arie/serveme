@@ -1,0 +1,8 @@
+%table.table.table-hover.table-bordered.table-striped
+  %thead
+    %tr
+      %th Server
+      %th Reservations
+      %th &nbsp;
+  - servers.each do |server|
+    = render :partial => 'server_reservations', :locals => { :server => server }

@@ -17,6 +17,8 @@ FactoryGirl.define do
     password "secret"
     rcon "supersecret"
     date Date.today
+    starts_at Time.now
+    ends_at 2.hours.from_now
   end
   factory :group do
     name "Super Secret Servers"

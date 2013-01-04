@@ -7,9 +7,11 @@
       %thead
         %tr
           %th Who
-          %th When
+          %th Created
+          %th Reservation
       - @recent_reservations.each do |reservation|
-        - user    = @users.select   {|u| u.id == reservation.whodunnit.to_i }.first
+        - user = reservation.user
         %tr
           %td= link_to(user.nickname, user.steam_profile_url, :target => "_blank")
-          %td= I18n.l(reservation.created_at, :format => :long)
+          %td= I18n.l(reservation.created_at, :format => :datepicker)
+          %td= "#{I18n.l(reservation.starts_at, :format => :datepicker)} - #{I18n.l(reservation.ends_at, :format => :time)}"

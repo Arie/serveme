@@ -1,0 +1,9 @@
+%tr
+  %td= "#{server.name} - #{server.ip_port}"
+  %td
+    %ul.unstyled
+      - server.reservations.future.order(:starts_at).each do |reservation|
+        %li
+          %small= "#{I18n.l(reservation.starts_at, :format => :short_with_dayname)} -  #{I18n.l(reservation.ends_at, :format => :time)}"
+  %td
+    = link_to "Make reservation",   new_reservation_path(:server_id => server.id),           :class => 'btn btn-primary'

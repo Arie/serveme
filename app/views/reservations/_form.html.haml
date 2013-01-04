@@ -1,13 +1,14 @@
-= simple_form_for(reservation, :html => { :class => 'form-horizontal' }) do |f|
-  - if reservation.server
-    %p= reservation.server_info
-    = f.input :server_id, :as => :hidden
-  - else
-    = f.association :server, :collection => Server.available_today_for_user(current_user)
-  = f.input :password,          :as => :string, :value => reservation.password
+%p.alert
+  All times are CET
+= simple_form_for(@reservation, :html => { :class => 'form-horizontal' }) do |f|
+  = f.association :server, :collection => Server.reservable_by_user(current_user), :selected => @reservation.server_id
+  = f.input :password,          :as => :string, :value => @reservation.password
   = f.input :rcon,              :as => :string
   = f.input :tv_password,       :as => :string
   = f.input :tv_relaypassword,  :as => :string
+  %span.inline
+    = f.input :starts_at,       :as => :string, :input_html => { :value => I18n.l(@reservation.starts_at, :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Start/end time"
+    = f.input :ends_at,         :as => :string, :input_html => { :value => I18n.l(@reservation.ends_at,   :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => false
 
   %button.btn{:type => :submit}
     Save

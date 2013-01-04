@@ -23,22 +23,6 @@ class User < ActiveRecord::Base
     user
   end
 
-  def reservation
-    if just_after_midnight?
-      yesterdays_reservation
-    else
-      todays_reservation
-    end
-  end
-
-  def todays_reservation
-    reservations.today.last
-  end
-
-  def yesterdays_reservation
-    reservations.yesterday.last
-  end
-
   def historic_reservations
     Version.where(:whodunnit => self.id, :item_type => Reservation).where(:event => 'create')
   end

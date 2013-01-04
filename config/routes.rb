@@ -13,7 +13,14 @@ Serveme::Application.routes.draw do
       get :failure
     end
   end
-  resources :reservations
+  resources :reservations, :except => [:edit, :update] do
+    member do
+      post :extend
+    end
+    collection do
+      get :server_selection
+    end
+  end
   resources :pages do
     collection do
       get :credits

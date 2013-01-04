@@ -5,27 +5,8 @@ class Server < ActiveRecord::Base
   has_many :group_servers
   has_many :reservations
 
-
-  def reserved_today_by?(user)
-    reservations.today.where(:user_id => user).any?
-  end
-
-  def self.groupless_available_today
-    without_group - already_reserved_today
-  end
-
-  def self.available_today_for_user(user)
-    reservable_by_user(user) - already_reserved_today
-  end
-
   def self.reservable_by_user(user)
     without_group + in_groups(user.groups)
-  end
-
-  def self.already_reserved_today
-    joins(:reservations).
-    where(:reservations => { :id => Reservation.today } ).
-    group('servers.id')
   end
 
   def self.without_group
@@ -43,7 +24,11 @@ class Server < ActiveRecord::Base
   end
 
   def info
-    "#{name} - connect #{ip}:#{port}; password"
+    "#{name} - connect #{ip_port}; password"
+  end
+
+  def ip_port
+    "#{ip}:#{port}"
   end
 
   def update_configuration(reservation)
@@ -68,7 +53,12 @@ class Server < ActiveRecord::Base
   end
 
   def process_id
-    @process_id ||= `ps ux | grep 'port #{port}' | grep 'srcds_linux' | grep -v grep | grep -v ruby | awk '{print $2}'`.to_i
+    @process_id ||= begin
+                      pid = `ps ux | grep 'port #{port}' | grep 'srcds_linux' | grep -v grep | grep -v ruby | awk '{print $2}'`.to_i
+                      if pid > 0
+                        pid
+                      end
+                    end
   end
 
 end

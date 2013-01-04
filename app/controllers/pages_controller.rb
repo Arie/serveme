@@ -3,17 +3,9 @@ class PagesController < ApplicationController
   skip_before_filter :authenticate_user!
 
   def welcome
-    if just_after_midnight?
-      @reservations = Reservation.yesterday
-      flash[:alert] = 'No reservations possible between 00:00 and 03:00, servers get rebooted at 03:00'
-    else
-      @reservations = Reservation.today
-    end
+    @reservations       = Reservation.within_12_hours
     if current_user
-      @users_reservation = @reservations.where(:user_id => current_user).first
-      if Server.available_today_for_user(current_user).none? && !current_user.todays_reservation
-        flash.now[:alert] = "No more servers available today, sorry :("
-      end
+      @users_reservations = current_user.reservations.order('starts_at DESC').first(10)
     end
   end
 
@@ -22,7 +14,6 @@ class PagesController < ApplicationController
 
   def recent_reservations
     @recent_reservations  = Statistic.recent_reservations
-    @users                = Statistic.recent_users
   end
 
   def top_10

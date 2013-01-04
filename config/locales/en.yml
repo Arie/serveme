@@ -1,5 +1,7 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
-  hello: "Hello world"
+  time:
+    formats:
+      time: "%H:%M"
+      datepicker: "%d-%m-%Y %H:%M"
+      short: "%d %b %H:%M"
+      short_with_dayname: "%a %d %b %H:%M"

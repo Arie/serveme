@@ -2,45 +2,6 @@ require 'spec_helper'
 
 describe Server do
 
-  describe '#reserved_today_by' do
-
-    it 'knows if a user reserved that server today' do
-      user = create :user
-      not_reserved_by_user  = create :server
-      reserved_by_user      = create :server
-
-      create :reservation, :server => reserved_by_user, :user => user
-
-      reserved_by_user.reserved_today_by?(user).should == true
-      not_reserved_by_user.reserved_today_by?(user).should == false
-    end
-
-  end
-
-  describe '.already_reserved_today' do
-
-    it "should return servers with reservations for today" do
-      free_server = create :server, :name => "free today"
-      busy_server = create :server, :name => "busy today"
-      reservation = create :reservation, :server => busy_server
-      Server.already_reserved_today.should == [busy_server]
-    end
-
-  end
-
-  describe '.groupless_available_today' do
-
-    it "should find servers without groups that aren't reserved yet" do
-      groupless_free_server   = create :server, :name => "groupless free"
-      groupless_busy_server   = create :server, :name => "groupless busy"
-      reservation             = create :reservation, :server => groupless_busy_server
-      grouped_server          = create :server, :name => "grouped"
-      grouped_server.groups << create(:group)
-      Server.groupless_available_today.should =~ [groupless_free_server]
-    end
-
-  end
-
   describe '.with_group' do
 
     it 'should find servers in a group' do
@@ -95,23 +56,6 @@ describe Server do
       create :reservation, :server => busy_server_no_group
 
       Server.reservable_by_user(user).should =~ [free_server_in_users_group, busy_server_in_users_group, free_server_no_group, busy_server_no_group]
-    end
-
-  end
-
-  describe '.available_today_for_user' do
-
-    it "returns empty servers in the users group and empty servers without groups" do
-      users_group                 = create :group,  :name => "User's group"
-      other_group                 = create :group,  :name => "Not User's group"
-      user                        = create :user,   :groups => [users_group]
-      free_server_in_users_group  = create :server, :groups => [users_group], :name => "free server in user's group"
-      busy_server_in_users_group  = create :server, :groups => [users_group], :name => "busy server in user's group"
-      free_server_other_group     = create :server, :groups => [other_group], :name => "free server not in user's group"
-      free_server_no_group        = create :server, :groups => []
-      create :reservation, :server => busy_server_in_users_group, :user => user
-
-      Server.available_today_for_user(user).should =~ [free_server_in_users_group, free_server_no_group]
     end
 
   end

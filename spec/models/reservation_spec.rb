@@ -2,24 +2,6 @@ require 'spec_helper'
 
 describe Reservation do
 
-  describe '.today' do
-    it 'returns reservations for today' do
-      yesterday = create(:reservation, :date => Date.yesterday)
-      today     = create(:reservation, :date => Date.today)
-      tomorrow  = create(:reservation, :date => Date.tomorrow)
-      Reservation.today.should == [today]
-    end
-  end
-
-  describe '.yesterday' do
-    it 'returns reservations for yesterday' do
-      yesterday = create(:reservation, :date => Date.yesterday)
-      today     = create(:reservation, :date => Date.today)
-      tomorrow  = create(:reservation, :date => Date.tomorrow)
-      Reservation.yesterday.should == [yesterday]
-    end
-  end
-
   describe "#tv_password" do
 
     it "should have a default tv_password" do
@@ -56,17 +38,6 @@ describe Reservation do
 
   end
 
-  describe '#date' do
-    it 'returns the stored date' do
-      reservation = create :reservation, :date => Date.yesterday
-      reservation.date.should == Date.yesterday
-    end
-
-    it 'returns todays date if theres no stored date' do
-      subject.date.should == Date.today
-    end
-  end
-
   describe '#server_name' do
     it "has the nickname in it" do
       subject.stub(:server).and_return { mock_model(Server, :name => "Server Name") }
@@ -77,15 +48,8 @@ describe Reservation do
 
   describe '#demo_date' do
     it 'formats a date to a stv demo date' do
-      subject.stub(:date).and_return { Date.new(2012, 4, 12) }
+      subject.stub(:starts_at).and_return { DateTime.new(2012, 4, 12) }
       subject.demo_date.should == '20120412'
-    end
-  end
-
-  describe '#log_date' do
-    it 'formats a date to a log date' do
-      subject.stub(:date).and_return { Date.new(2012, 4, 12) }
-      subject.log_date.should == '0412'
     end
   end
 
@@ -103,7 +67,6 @@ describe Reservation do
     it 'should zip demos and logs, remove configuration and destroy itself' do
       subject.should_receive(:zip_demos_and_logs)
       subject.should_receive(:remove_configuration)
-      subject.should_receive(:destroy)
       subject.end_reservation
     end
   end
@@ -121,19 +84,6 @@ describe Reservation do
       reservation.errors.full_messages.should include "Server is not available for you"
     end
 
-    it "verifies the server is free when creating the reservation" do
-      users_group                 = create :group,  :name => "User's group"
-      other_group                 = create :group,  :name => "Not User's group"
-      user                        = create :user,   :groups => [users_group]
-      other_user_same_group       = create :user,   :groups => [users_group]
-      busy_server_in_users_group  = create :server, :groups => [users_group], :name => "busy server in user's group"
-      create :reservation,  :server => busy_server_in_users_group, :user => other_user_same_group
-
-      reservation = build :reservation, :server => busy_server_in_users_group, :user => user
-      reservation.should have(1).error_on(:server_id)
-      reservation.errors.full_messages.should include "Server is no longer available"
-    end
-
     it 'allows user to update reservation' do
       user                        = create :user
       reservation                 = create :reservation,  :user => user
@@ -142,16 +92,6 @@ describe Reservation do
       reservation.should have(:no).errors_on(:server_id)
     end
 
-    it "only allows one reservation per user per day" do
-      user = create :user
-      first_reservation     = create  :reservation, :user => user, :date => Date.today
-      second_reservation    = build   :reservation, :user => user, :date => Date.today
-      reservation_next_day  = build   :reservation, :user => user, :date => Date.tomorrow
-
-      second_reservation.should have(1).error_on(:user_id)
-      second_reservation.errors.full_messages.should include "User already made a reservation today"
-      reservation_next_day.should be_valid
-    end
   end
 
   describe '#steam_connect_url' do
@@ -170,5 +110,39 @@ describe Reservation do
     end
   end
 
+  context 'finding collisions' do
+    describe '#own_colliding_reservations' do
+      it "finds colliding reservations from its user" do
+        user    = create(:user)
+        reservation       = create(:reservation,  :user => user, :starts_at => Time.now,             :ends_at => 1.hour.from_now)
+        front_overlap     = build(:reservation,   :user => user, :starts_at => 10.minutes.ago,       :ends_at => 50.minutes.from_now)
+        internal          = build(:reservation,   :user => user, :starts_at => 10.minutes.from_now,  :ends_at => 50.minutes.from_now)
+        rear_overlap      = build(:reservation,   :user => user, :starts_at => 55.minutes.from_now,  :ends_at => 2.hours.from_now)
+        complete_overlap  = build(:reservation,   :user => user, :starts_at => 10.minutes.ago,       :ends_at => 2.hours.from_now)
+
+        front_overlap.own_colliding_reservations.should == [reservation]
+        rear_overlap.own_colliding_reservations.should == [reservation]
+        complete_overlap.own_colliding_reservations.should == [reservation]
+        internal.own_colliding_reservations.should == [reservation]
+      end
+    end
+
+    describe '#other_users_colliding_reservations' do
+      it "finds colliding reservations from its server" do
+        server  = create(:server)
+        reservation       = create(:reservation,  :server => server, :starts_at => Time.now,             :ends_at => 1.hour.from_now)
+        front_overlap     = build(:reservation,   :server => server, :starts_at => 10.minutes.ago,       :ends_at => 50.minutes.from_now)
+        internal          = build(:reservation,   :server => server, :starts_at => 10.minutes.from_now,  :ends_at => 50.minutes.from_now)
+        rear_overlap      = build(:reservation,   :server => server, :starts_at => 55.minutes.from_now,  :ends_at => 2.hours.from_now)
+        complete_overlap  = build(:reservation,   :server => server, :starts_at => 10.minutes.ago,       :ends_at => 2.hours.from_now)
+
+        front_overlap.other_users_colliding_reservations.should == [reservation]
+        rear_overlap.other_users_colliding_reservations.should == [reservation]
+        complete_overlap.other_users_colliding_reservations.should == [reservation]
+        internal.other_users_colliding_reservations.should == [reservation]
+      end
+    end
+
+  end
 
 end

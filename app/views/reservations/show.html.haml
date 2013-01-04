@@ -1,15 +1,29 @@
-%dl
-  %dt Connect info
-  %dd= reservation.server_info
+%h2 Reservation
 
-  %dt sv_password
-  %dd= reservation.password
+.row
+  .span10
 
-  %dt rcon_password
-  %dd= reservation.rcon
+    %table.table.table-hover.table-bordered.table-striped
+      %tr
+        %td Connect info
+        %td
+          - if reservation.active?
+            = link_to "Join game",            reservation.steam_connect_url,          :class => 'btn btn-small btn-warning'
+            = "or enter in console: #{reservation.connect_string}"
+          - else
+            = reservation.connect_string
+      %tr
+        %td Password
+        %td= reservation.password
 
-  %dt tv_password
-  %dd= reservation.tv_password
+      %tr
+        %td RCON
+        %td= reservation.rcon
 
-  %dt tv_relaypassword
-  %dd= reservation.tv_relaypassword
+      %tr
+        %td TV password
+        %td= reservation.tv_password
+
+      %tr
+        %td Relay password
+        %td= reservation.tv_relaypassword

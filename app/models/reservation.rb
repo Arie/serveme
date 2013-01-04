@@ -1,26 +1,102 @@
 require 'zip/zip'
 class Reservation < ActiveRecord::Base
   has_paper_trail
-  attr_accessible :server_id, :user_id, :date, :password, :rcon, :tv_password, :tv_relaypassword
+  attr_accessible :server, :user, :server_id, :user_id, :password, :rcon, :tv_password, :tv_relaypassword, :starts_at, :ends_at, :provisioned, :ended
   belongs_to :user
   belongs_to :server
-  validates_presence_of :user_id, :server_id, :date, :password, :rcon
-  validates_uniqueness_of :user_id, :scope => :date, :message => "already made a reservation today"
+  validates_presence_of :user, :server, :date, :password, :rcon
   validate :validate_free_when_reserving
   validate :validate_reservable_by_user
+  validate :validate_length_of_reservation
+  validate :validate_chronologicality_of_times
 
-  delegate :name, :to => :server, :prefix => true
-
-  def self.today
-    where(:date => Date.today)
+  def self.within_12_hours
+    within_time_range(12.hours.ago, 12.hours.from_now).uniq
   end
 
-  def self.yesterday
-    where(:date => Date.yesterday)
+  def self.within_time_range(start_time, end_time)
+    (where(:starts_at => start_time...end_time).order('starts_at DESC') +
+     where(:ends_at => start_time...end_time).order('starts_at DESC'))
   end
 
-  def date
-    self[:date].presence || Date.today
+  def self.future
+    where('reservations.ends_at > ?', Time.now)
+  end
+
+  def self.upcoming
+    where('reservations.starts_at > ? AND reservations.ends_at > ?', Time.now, Time.now)
+  end
+
+  def self.current
+    where('reservations.starts_at < ? AND reservations.ends_at > ?', Time.now, Time.now)
+  end
+
+  def to_s
+    "#{user.try(:nickname)}: #{I18n.l(starts_at, :format => :datepicker)} - #{I18n.l(ends_at, :format => :time)}"
+  end
+
+  def now?
+    starts_at < Time.now && ends_at > Time.now
+  end
+
+  def active?
+    now? && provisioned?
+  end
+
+  def past?
+    ends_at < Time.now
+  end
+
+  def future?
+    starts_at > Time.now
+  end
+
+  def collides?
+    colliding_reservations.any?
+  end
+
+  def colliding_reservations
+    (own_colliding_reservations + other_users_colliding_reservations).uniq
+  end
+
+  def collides_with_own_reservation?
+    own_colliding_reservations.any?
+  end
+
+  def collides_with_other_users_reservation?
+    other_users_colliding_reservations.any?
+  end
+
+  def own_colliding_reservations
+    colliding_reservations_on(user)
+  end
+
+  def other_users_colliding_reservations
+    colliding_reservations_on(server)
+  end
+
+  def colliding_reservations_on(collider)
+    range = starts_at..ends_at
+    front_rear_and_complete_colliding = (collider.reservations.where(:starts_at => range) + collider.reservations.where(:ends_at => range))
+    internal_colliding                = collider.reservations.where('starts_at < ? AND ends_at > ?', starts_at, ends_at)
+    colliding = (front_rear_and_complete_colliding + internal_colliding).uniq
+    if persisted?
+      colliding.reject do |reservation|
+        reservation.id == id
+      end
+    else
+      colliding
+    end
+  end
+
+  def extend!
+    @extending = true
+    self.ends_at = ends_at + 1.hour
+    save!
+  end
+
+  def duration
+    ends_at - starts_at
   end
 
   def tv_password
@@ -48,14 +124,28 @@ class Reservation < ActiveRecord::Base
   end
 
   def update_configuration
-    server.update_configuration(self)
-    server.restart
+    begin
+      server.update_configuration(self)
+      server.restart
+    rescue
+      logger.error "Something went wrong provisioning the server for reservation #{self.id}"
+    ensure
+      self.provisioned = true
+      save(:validate => false)
+    end
   end
 
   def end_reservation
-    zip_demos_and_logs
-    remove_configuration
-    destroy
+    begin
+      zip_demos_and_logs
+      remove_configuration
+    rescue
+      logger.error "Something went wrong ending reservation #{self.id}"
+    ensure
+      self.ends_at  = Time.now
+      self.ended    = true
+      save(:validate => false)
+    end
   end
 
   def remove_configuration
@@ -82,7 +172,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def logs
-    log_match = File.join(server.path, 'orangebox', 'tf', 'logs', "L#{log_date}*.log")
+    log_match = File.join(server.path, 'orangebox', 'tf', 'logs', "L*.log")
     Dir.glob(log_match)
   end
 
@@ -92,11 +182,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def demo_date
-    @demo_date ||= date.strftime("%Y%m%d")
-  end
-
-  def log_date
-    @log_date  ||= date.strftime("%m%d")
+    @demo_date ||= starts_at.strftime("%Y%m%d")
   end
 
   def zipfile_name
@@ -108,14 +194,31 @@ class Reservation < ActiveRecord::Base
   end
 
   def validate_free_when_reserving
-    if Server.already_reserved_today.include?(server) && !server.reserved_today_by?(user)
-      errors.add(:server_id, "is no longer available")
+    if collides_with_own_reservation?
+      msg = "you already have a reservation in this timeframe"
+      errors.add(:starts_at, msg)
+      errors.add(:ends_at,   msg)
+    end
+    if collides_with_other_users_reservation?
+      errors.add(:server_id,  "already booked in the selected timeframe")
     end
   end
 
   def validate_reservable_by_user
     unless Server.reservable_by_user(user).include?(server)
       errors.add(:server_id, "is not available for you")
+    end
+  end
+
+  def validate_length_of_reservation
+    if duration > 3.hours && !@extending
+      errors.add(:ends_at, "maximum reservation time is 3 hours")
+    end
+  end
+
+  def validate_chronologicality_of_times
+    if (starts_at + 30.minutes) > ends_at
+      errors.add(:ends_at, "needs to be at least 30 minutes after start time")
     end
   end
 

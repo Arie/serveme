@@ -3,8 +3,9 @@
 .row
   .span10
     %p
-      Make a reservation and within a minute your server will be ready and yours to use for the entire day (till 03:00 at night). 
-      When you're done playing, please change the map on the server (any will do) and press the "End reservation" button here. 
+      Make a reservation and within a minute or so your server will be ready and yours to use for up to 3 hours.
+      If you run out of time, press the "Extend reservation" button here.
+      When you're done playing, press the "End reservation" button. 
       After ending your reservation you will receive a link with the logs and STV demos.
 - if current_user
   .row
@@ -12,6 +13,8 @@
       %p
         Please email me if you like this service, had a problem or suggestion, I'd really appreciate it!
         = mail_to "arie@fakkelbrigade.eu"
+        Alternatively, you could leave a comment on the
+        = link_to "ETF2L forums", 'http://etf2l.org/forum/community/topic-23191/?recent=427024', :target => '_blank'
 .row
   .span10
     %p
@@ -22,15 +25,12 @@
   .span10
     = render "shared/paypal"
 
-- if current_user && @users_reservation
-  = link_to "Show reservation",   reservation_path(@users_reservation),       :class => 'btn btn-success'
-  - if !just_after_midnight?
-    = link_to "Update reservation", edit_reservation_path(@users_reservation),  :class => 'btn btn-info'
-  = link_to "End reservation",    reservation_path(@users_reservation),       :class => 'btn btn-danger', :method => :delete, :data => { :confirm => "Make sure to switch maps before ending your reservation, else we won't be able to send you the logs and stv demos" }, :title => 'End reservation'
-- else
-  - if current_user && Server.available_today_for_user(current_user).any?
-    = link_to "Make reservation",   new_reservation_path,                     :class => 'btn btn-primary'
+= link_to "Make reservation",   server_selection_reservations_path, :class => 'btn btn-primary'
 
+- if current_user && current_user.reservations.any?
+  .row
+    .span12
+      = render 'shared/your_reservations'
 .row
-  .span10
+  .span12
     = render 'todays_reservations'

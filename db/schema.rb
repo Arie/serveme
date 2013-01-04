@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121029194641) do
+ActiveRecord::Schema.define(:version => 20130104171807) do
 
   create_table "group_servers", :force => true do |t|
     t.integer  "server_id"
@@ -43,6 +43,10 @@ ActiveRecord::Schema.define(:version => 20121029194641) do
     t.string   "tv_relaypassword"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.boolean  "provisioned",      :default => false
+    t.boolean  "ended",            :default => false
   end
 
   create_table "servers", :force => true do |t|

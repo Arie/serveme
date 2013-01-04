@@ -3,8 +3,6 @@ class ReservationsController < ApplicationController
   before_filter :reservations_open?, :except => [:show, :destroy]
 
   def new
-    nag       if current_user.has_made_many_reservations?
-    complain  if current_user.has_not_ended_a_reservation_recently?
   end
 
   def edit
@@ -61,16 +59,6 @@ class ReservationsController < ApplicationController
     if just_after_midnight?
       redirect_to root_path
     end
-  end
-
-  def nag
-    logger.info "Nagging #{current_user.name}: Made a lot of reservations."
-    @nag = true
-  end
-
-  def complain
-    logger.info "Complain to #{current_user.name}: Unended reservations last week"
-    @complain = true
   end
 
 end

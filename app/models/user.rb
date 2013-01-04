@@ -55,14 +55,6 @@ class User < ActiveRecord::Base
     historic_reservations.where('created_at >= ?', 1.week.ago)
   end
 
-  def has_made_many_reservations?
-    historic_reservations.count >= 5
-  end
-
-  def has_not_ended_a_reservation_recently?
-    last_weeks_ended_reservations.count < last_weeks_reservations.count
-  end
-
   def steam_profile_url
     "http://steamcommunity.com/profiles/#{uid}"
   end

@@ -1,10 +1,3 @@
-- if @nag
-  %p.alert.alert-error
-    Hi! You've used this service quite a few times, please consider donating :) You can find the donate button
-    = link_to 'here', root_path
-- if @complain
-  %p.alert.alert-error
-    It looks like you didn't end all your reservations in the last week. Please remember to end your reservation when you're done playing so other people can use the server, thanks!
 = simple_form_for(reservation, :html => { :class => 'form-horizontal' }) do |f|
   - if reservation.server
     %p= reservation.server_info

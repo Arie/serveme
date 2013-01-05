@@ -7,7 +7,7 @@ namespace :reservations do
     threads = unended_past_reservations.map do |reservation|
       thread = Thread.new do
         reservation.end_reservation
-        msg = "Ended reservation: #{reservation.id} #{reservation.user.nickname} #{reservation.server.name}"
+        msg = "[#{Time.now}] Ended reservation: #{reservation.id} #{reservation}"
         puts msg
       end
       thread
@@ -24,7 +24,7 @@ namespace :reservations do
     threads = unstarted_now_reservations.map do |reservation|
       thread = Thread.new do
         reservation.update_configuration
-        msg = "Started reservation: #{reservation.id} #{reservation.user.nickname} #{reservation.server.name}"
+        msg = "[#{Time.now}] Started reservation: #{reservation.id} #{reservation}"
         puts msg
       end
       thread

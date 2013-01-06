@@ -10,6 +10,7 @@ namespace :reservations do
         msg = "[#{Time.now}] Ended reservation: #{reservation.id} #{reservation}"
         puts msg
         Rails.logger.info msg
+        ActiveRecord::Base.connection.close
       end
       thread
     end
@@ -28,6 +29,7 @@ namespace :reservations do
         msg = "[#{Time.now}] Started reservation: #{reservation.id} #{reservation}"
         puts msg
         Rails.logger.info msg
+        ActiveRecord::Base.connection.close
       end
       thread
     end

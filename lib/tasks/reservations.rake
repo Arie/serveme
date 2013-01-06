@@ -7,9 +7,6 @@ namespace :reservations do
     threads = unended_past_reservations.map do |reservation|
       thread = Thread.new do
         reservation.end_reservation
-        msg = "[#{Time.now}] Ended reservation: #{reservation.id} #{reservation}"
-        puts msg
-        Rails.logger.info msg
         ActiveRecord::Base.connection.close
       end
       thread
@@ -26,9 +23,6 @@ namespace :reservations do
     threads = unstarted_now_reservations.map do |reservation|
       thread = Thread.new do
         reservation.update_configuration
-        msg = "[#{Time.now}] Started reservation: #{reservation.id} #{reservation}"
-        puts msg
-        Rails.logger.info msg
         ActiveRecord::Base.connection.close
       end
       thread

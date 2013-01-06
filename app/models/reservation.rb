@@ -138,6 +138,7 @@ class Reservation < ActiveRecord::Base
     ensure
       self.provisioned = true
       save(:validate => false)
+      logger.info "[#{Time.now}] Started reservation: #{reservation.id} #{reservation}"
     end
   end
 
@@ -151,6 +152,7 @@ class Reservation < ActiveRecord::Base
       self.ends_at  = Time.now
       self.ended    = true
       save(:validate => false)
+      logger.info "[#{Time.now}] Ended reservation: #{reservation.id} #{reservation}"
     end
   end
 

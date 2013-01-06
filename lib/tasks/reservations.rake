@@ -9,6 +9,7 @@ namespace :reservations do
         reservation.end_reservation
         msg = "[#{Time.now}] Ended reservation: #{reservation.id} #{reservation}"
         puts msg
+        Rails.logger.info msg
       end
       thread
     end
@@ -26,6 +27,7 @@ namespace :reservations do
         reservation.update_configuration
         msg = "[#{Time.now}] Started reservation: #{reservation.id} #{reservation}"
         puts msg
+        Rails.logger.info msg
       end
       thread
     end

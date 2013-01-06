@@ -63,6 +63,65 @@ describe Reservation do
     end
   end
 
+  describe '#active?' do
+    it 'is active when it is now and provisioned' do
+      subject.stub(:now?         => true,
+                   :provisioned? => true)
+      subject.should be_active
+    end
+  end
+
+  describe '#now?' do
+    it 'is now when current time is between starts and end time' do
+      subject.stub(:starts_at    => 1.minute.ago,
+                   :ends_at      => 1.minute.from_now)
+      subject.should be_now
+    end
+  end
+
+  describe '#past?' do
+    it 'is in the past when the end time is in the past' do
+      subject.stub(:ends_at => 1.second.ago)
+      subject.should be_past
+    end
+  end
+
+  describe '#future?' do
+    it 'is in the future when the start time is in the future' do
+      subject.stub(:starts_at => 1.minute.from_now)
+      subject.should be_future
+    end
+  end
+
+  describe '#duration' do
+    it 'calculates duration from start and end times' do
+      subject.stub(:starts_at => 1.hour.ago)
+      subject.stub(:ends_at   => 1.hour.from_now)
+      subject.duration.to_i.should eql (2 * 60 * 60)
+    end
+  end
+
+  describe '#extend!' do
+    it 'allows a user to extend a reservation by 1 hour when the end of the reservation is near' do
+      old_reservation_end_time = 10.minutes.from_now
+      reservation = create :reservation, :starts_at => 1.hour.ago, :ends_at => old_reservation_end_time, :provisioned => true
+      expect{reservation.extend!}.to change{reservation.reload.ends_at}
+    end
+
+    it 'does not extend a reservation that hasnt been provisioned yet' do
+      old_reservation_end_time = 10.minutes.from_now
+      reservation = create :reservation, :starts_at => 1.hour.ago, :ends_at => old_reservation_end_time, :provisioned => false
+      expect{reservation.extend!}.not_to change{reservation.reload.ends_at}
+    end
+
+    it "does not extend when there's more than an hour left on the reservation" do
+      old_reservation_end_time = 61.minutes.from_now
+      reservation = create :reservation, :starts_at => 1.hour.ago, :ends_at => old_reservation_end_time, :provisioned => true
+
+      expect{reservation.extend!}.not_to change{reservation.reload.ends_at}
+    end
+  end
+
   describe '#end_reservation' do
     it 'should zip demos and logs, remove configuration and destroy itself' do
       subject.should_receive(:zip_demos_and_logs)
@@ -111,6 +170,22 @@ describe Reservation do
   end
 
   context 'finding collisions' do
+
+    describe '#collides?' do
+      it 'collides if there are any colliding reservations' do
+        subject.stub(:colliding_reservations => ['foo'])
+        subject.collides?.should be_true
+      end
+    end
+
+    describe '#colliding_reservations' do
+      it "returns a unique array of collisions with own reservations and other user's reservations" do
+        subject.stub(:own_colliding_reservations          => ['foo', 'bar'])
+        subject.stub(:other_users_colliding_reservations  => ['foo', 'bar', 'baz'])
+        subject.colliding_reservations.should == ['foo', 'bar', 'baz']
+      end
+    end
+
     describe '#own_colliding_reservations' do
       it "finds colliding reservations from its user" do
         user    = create(:user)
@@ -127,6 +202,13 @@ describe Reservation do
       end
     end
 
+    describe '#collides_with_own_reservations?' do
+      it 'collides with own reservations if there are any' do
+        subject.stub(:own_colliding_reservations => ['foo'])
+        subject.collides_with_own_reservation?.should be_true
+      end
+    end
+
     describe '#other_users_colliding_reservations' do
       it "finds colliding reservations from its server" do
         server  = create(:server)
@@ -140,6 +222,13 @@ describe Reservation do
         rear_overlap.other_users_colliding_reservations.should == [reservation]
         complete_overlap.other_users_colliding_reservations.should == [reservation]
         internal.other_users_colliding_reservations.should == [reservation]
+      end
+    end
+
+    describe '#collides_with_other_users_reservations?' do
+      it 'collides with other users reservations if there are any' do
+        subject.stub(:other_users_colliding_reservations => ['foo'])
+        subject.collides_with_other_users_reservation?.should be_true
       end
     end
 

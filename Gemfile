@@ -34,6 +34,10 @@ group :test, :development do
   gem 'rspec-rails'
 end
 
+group :production do
+  gem "sentry-raven"
+end
+
 group :assets do
   gem 'coffee-script'                             #less horrible javascript
   gem 'uglifier'

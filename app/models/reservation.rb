@@ -24,7 +24,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def self.upcoming
-    where('reservations.starts_at > ? AND reservations.ends_at > ?', Time.now, Time.now)
+    where('reservations.starts_at > ?', Time.now)
   end
 
   def self.current
@@ -80,6 +80,7 @@ class Reservation < ActiveRecord::Base
     front_rear_and_complete_colliding = (collider.reservations.where(:starts_at => range) + collider.reservations.where(:ends_at => range))
     internal_colliding                = collider.reservations.where('starts_at < ? AND ends_at > ?', starts_at, ends_at)
     colliding = (front_rear_and_complete_colliding + internal_colliding).uniq
+    #If we're looking at an existing record, remove yourself from the colliding ones
     if persisted?
       colliding.reject do |reservation|
         reservation.id == id

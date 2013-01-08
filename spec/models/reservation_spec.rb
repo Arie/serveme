@@ -167,6 +167,26 @@ describe Reservation do
       reservation.should have(:no).errors_on(:ends_at)
     end
 
+    it 'has an initial duration of no more than 3 hours' do
+      reservation = build :reservation, :starts_at => Time.now, :ends_at => 181.minutes.from_now
+      reservation.should have(1).error_on(:ends_at)
+      reservation.errors.full_messages.should include "Ends at maximum reservation time is 3 hours"
+
+      reservation.ends_at = reservation.starts_at + 3.hours
+      reservation.should have(:no).errors_on(:ends_at)
+    end
+
+    it 'allows extending a reservation past 3 hours' do
+      starts = Time.now
+      reservation = build :reservation, :starts_at => starts, :ends_at => (starts + 181.minutes)
+
+      reservation.extending = false
+      reservation.should have(1).error_on(:ends_at)
+
+      reservation.extending = true
+      reservation.should have(:no).errors_on(:ends_at)
+    end
+
   end
 
   describe '#steam_connect_url' do

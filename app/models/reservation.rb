@@ -10,6 +10,8 @@ class Reservation < ActiveRecord::Base
   validate :validate_length_of_reservation
   validate :validate_chronologicality_of_times
 
+  attr_accessor :extending
+
   def self.within_12_hours
     within_time_range(12.hours.ago, 12.hours.from_now).uniq
   end
@@ -90,8 +92,8 @@ class Reservation < ActiveRecord::Base
 
   def extend!
     if less_than_1_hour_left?
-      @extending = true
-      self.ends_at = ends_at + 1.hour
+      self.extending  = true
+      self.ends_at    = ends_at + 1.hour
       save!
     end
   end
@@ -219,7 +221,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def validate_length_of_reservation
-    if duration > 3.hours && !@extending
+    if duration > 3.hours && !extending
       errors.add(:ends_at, "maximum reservation time is 3 hours")
     end
   end

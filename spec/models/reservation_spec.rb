@@ -124,6 +124,7 @@ describe Reservation do
 
   describe '#end_reservation' do
     it 'should zip demos and logs, remove configuration and destroy itself' do
+      subject.stub(:to_s => 'foo')
       subject.should_receive(:zip_demos_and_logs)
       subject.should_receive(:remove_configuration)
       subject.end_reservation
@@ -149,6 +150,21 @@ describe Reservation do
 
       reservation.password = 'new password'
       reservation.should have(:no).errors_on(:server_id)
+    end
+
+    it "validates the chronologicality of the times" do
+      reservation = build :reservation, :starts_at => 1.hour.from_now, :ends_at => 30.minutes.from_now
+      reservation.should have(1).error_on(:ends_at)
+      reservation.errors.full_messages.should include "Ends at needs to be at least 30 minutes after start time"
+    end
+
+    it 'validates the end time is at least 30 minutes after start time' do
+      reservation = build :reservation, :starts_at => Time.now, :ends_at => 29.minutes.from_now
+      reservation.should have(1).error_on(:ends_at)
+      reservation.errors.full_messages.should include "Ends at needs to be at least 30 minutes after start time"
+
+      reservation.ends_at = 30.minutes.from_now
+      reservation.should have(:no).errors_on(:ends_at)
     end
 
   end

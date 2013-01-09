@@ -129,6 +129,15 @@ describe Reservation do
       subject.should_receive(:remove_configuration)
       subject.end_reservation
     end
+
+    it 'should not do anything when the reservation was already ended' do
+      subject.stub(:to_s  => 'foo')
+      subject.stub(:ended? => true)
+      subject.should_not_receive(:zip_demos_and_logs)
+      subject.should_not_receive(:remove_configuration)
+      subject.end_reservation
+    end
+
   end
 
   context "validations" do

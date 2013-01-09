@@ -145,16 +145,18 @@ class Reservation < ActiveRecord::Base
   end
 
   def end_reservation
-    begin
-      zip_demos_and_logs
-      remove_configuration
-    rescue
-      logger.error "Something went wrong ending reservation #{self.id}"
-    ensure
-      self.ends_at  = Time.now
-      self.ended    = true
-      save(:validate => false)
-      logger.info "[#{Time.now}] Ended reservation: #{id} #{self}"
+    unless ended?
+      begin
+        zip_demos_and_logs
+        remove_configuration
+      rescue
+        logger.error "Something went wrong ending reservation #{self.id}"
+      ensure
+        self.ends_at  = Time.now
+        self.ended    = true
+        save(:validate => false)
+        logger.info "[#{Time.now}] Ended reservation: #{id} #{self}"
+      end
     end
   end
 

@@ -11,8 +11,7 @@
   .row
     .span10
       %p
-        Please email me if you like this service, had a problem or suggestion, I'd really appreciate it!
-        = mail_to "arie@fakkelbrigade.eu"
+        Please leave a comment at the bottom of this page if you like this service, had a problem or suggestion, I'd really appreciate it!
         Alternatively, you could leave a comment on the
         = link_to "ETF2L forums", 'http://etf2l.org/forum/community/topic-23191/?recent=427024', :target => '_blank'
 .row
@@ -34,3 +33,10 @@
 .row
   .span12
     = render 'todays_reservations'
+
+- if current_user
+  .row
+    .span12
+      %h3 Comments
+
+      = render 'shared/disqus'

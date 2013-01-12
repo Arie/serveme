@@ -24,7 +24,7 @@ class ReservationsController < ApplicationController
     @reservation.date        = Date.today
     if @reservation.save
       if @reservation.now?
-        @reservation.update_configuration
+        @reservation.start_reservation
         flash[:notice] = "Reservation created for #{@reservation.server_name}. Give the server a minute to (re)boot and <a href='#{@reservation.steam_connect_url}'>click here to join</a> or enter in console: #{@reservation.connect_string}".html_safe
       else
         flash[:notice] = "Reservation created for #{@reservation}"
@@ -47,36 +47,38 @@ class ReservationsController < ApplicationController
   end
 
   def destroy
-    if reservation.future?
+    if reservation.cancellable?
       flash[:notice] = "Reservation for #{@reservation} cancelled"
-      reservation.destroy
-    elsif reservation.now?
-      if reservation.provisioned?
-        reservation.end_reservation
-        link = "/uploads/#{reservation.zipfile_name}"
-        flash[:notice] = "Reservation removed, restarting server. Get your STV demos and logs <a href='#{link}' target=_blank>here</a>".html_safe
-      else
-        flash[:notice] = "Reservation cancelled"
+      if reservation.now? && !reservation.provisioned?
         logger.info "A reservation that was supposed to be active, but wasn't provisioned yet, was cancelled"
-        reservation.destroy
       end
+      reservation.destroy
+    else
+      reservation.end_reservation
+      link = "/uploads/#{reservation.zipfile_name}"
+      flash[:notice] = "Reservation removed, restarting server. Get your STV demos and logs <a href='#{link}' target=_blank>here</a>".html_safe
     end
     redirect_to root_path
   end
 
   def reservation
-    @reservation ||= begin
-                       if params[:id]
-                         current_user.reservations.find(params[:id].to_i)
-                       end
-                     end
+    @reservation ||= find_reservation
   end
   helper_method :reservation
 
   private
 
+  def find_reservation
+    if params[:id]
+      current_user.reservations.find(params[:id].to_i)
+    end
+  end
+
   def new_reservation
-    Reservation.new(:user_id => current_user.id, :server => server, :starts_at => Time.now, :ends_at => 2.hours.from_now)
+    Reservation.new(:user_id   => current_user.id,
+                    :server    => server,
+                    :starts_at => Time.now,
+                    :ends_at   => 2.hours.from_now)
   end
 
   def server

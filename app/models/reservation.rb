@@ -1,4 +1,3 @@
-require 'zip/zip'
 class Reservation < ActiveRecord::Base
   has_paper_trail
   attr_accessible :server, :user, :server_id, :user_id, :password, :rcon, :tv_password, :tv_relaypassword, :starts_at, :ends_at, :provisioned, :ended
@@ -104,6 +103,10 @@ class Reservation < ActiveRecord::Base
     active? && time_left < 1.hour
   end
 
+  def cancellable?
+    future? || (now? && !provisioned?)
+  end
+
   def duration
     ends_at - starts_at
   end
@@ -132,7 +135,7 @@ class Reservation < ActiveRecord::Base
     "steam://connect/#{server.ip}:#{server.port}/#{password}"
   end
 
-  def update_configuration
+  def start_reservation
     begin
       server.update_configuration(self)
       server.restart
@@ -149,7 +152,8 @@ class Reservation < ActiveRecord::Base
     unless ended?
       begin
         zip_demos_and_logs
-        remove_configuration
+        server.remove_configuration
+        server.restart
       rescue
         logger.error "Something went wrong ending reservation #{self.id}"
       ensure
@@ -161,32 +165,19 @@ class Reservation < ActiveRecord::Base
     end
   end
 
-  def remove_configuration
-    server.remove_configuration
-    server.restart
-  end
-
   def zip_demos_and_logs
-    input_filenames = demos + logs
-
-    zipfile_name_and_path = Rails.root.join("public", "uploads", zipfile_name)
-
-    Zip::ZipFile.open(zipfile_name_and_path, Zip::ZipFile::CREATE) do |zipfile|
-      input_filenames.each do |filename_with_path|
-        filename = filename_with_path.split('/').last
-        zipfile.add(filename, filename_with_path)
-      end
-    end
-    File.chmod(0755, zipfile_name_and_path)
-
-    logger.info "Removing logs and demos"
-    logger.info input_filenames
-    FileUtils.rm(input_filenames)
+    ZipFile.create(zipfile_name_and_path, files_to_zip)
+    remove_files_to_zip
   end
 
-  def logs
-    log_match = File.join(server.path, 'orangebox', 'tf', 'logs', "L*.log")
-    Dir.glob(log_match)
+  def remove_files_to_zip
+    logger.info "Removing logs and demos"
+    logger.info files_to_zip
+    FileUtils.rm(files_to_zip)
+  end
+
+  def files_to_zip
+    @files_to_zip ||= demos + logs
   end
 
   def demos
@@ -194,8 +185,17 @@ class Reservation < ActiveRecord::Base
     Dir.glob(demo_match)
   end
 
+  def logs
+    log_match = File.join(server.path, 'orangebox', 'tf', 'logs', "L*.log")
+    Dir.glob(log_match)
+  end
+
   def demo_date
     @demo_date ||= starts_at.strftime("%Y%m%d")
+  end
+
+  def zipfile_name_and_path
+    Rails.root.join("public", "uploads", zipfile_name)
   end
 
   def zipfile_name

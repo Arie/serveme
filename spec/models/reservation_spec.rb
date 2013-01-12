@@ -63,6 +63,27 @@ describe Reservation do
     end
   end
 
+  describe "#zip_demos_and_logs" do
+
+    it "should create a zip and remove the files that were zipped" do
+      files_to_zip  = ['foo']
+      zip_file      = 'foo.zip'
+      subject.stub(:zipfile_name_and_path => zip_file,
+                   :files_to_zip          => files_to_zip)
+
+      ZipFile.should_receive(:create).with(zip_file, files_to_zip)
+      subject.should_receive(:remove_files_to_zip).and_return { true }
+
+      subject.zip_demos_and_logs
+    end
+
+    it "should remove the files that were zipped" do
+      files_to_zip  = ['foo']
+      subject.stub(:files_to_zip => files_to_zip)
+    end
+
+  end
+
   describe '#active?' do
     it 'is active when it is now and provisioned' do
       subject.stub(:now?         => true,
@@ -122,19 +143,70 @@ describe Reservation do
     end
   end
 
+  describe '#cancellable?' do
+
+    it "should be cancellable when the reservation hasn't started yet" do
+      subject.stub(:future? => true)
+      subject.should be_cancellable
+    end
+
+    it "should be cancellable when the reservation is supposed to be active, but isn't provisioned yet" do
+      subject.stub(:now?          => true,
+                   :future?       => false,
+                   :provisioned?  => false)
+      subject.should be_cancellable
+    end
+
+    it "should not be cancellable when it's active and provisioned" do
+      subject.stub(:now?          => true,
+                   :future?       => false,
+                   :provisioned?  => true)
+      subject.should_not be_cancellable
+    end
+
+  end
+
+  describe '#start_reservation' do
+
+    let(:server) { double('server').as_null_object }
+    before do
+      subject.stub(:server => server, :to_s => 'reservation')
+    end
+
+    it "should tell the server to update its configuration" do
+      server.should_receive(:update_configuration)
+      subject.start_reservation
+    end
+
+    it "should tell the server to restart" do
+      server.should_receive(:restart)
+      subject.start_reservation
+    end
+
+    it "should be provisioned after starting" do
+      subject.should_not be_provisioned
+      subject.start_reservation
+      subject.should be_provisioned
+    end
+  end
+
   describe '#end_reservation' do
+
+    let(:server) { stub }
+    before { subject.stub(:to_s => 'foo', :server => server) }
+
     it 'should zip demos and logs, remove configuration and destroy itself' do
-      subject.stub(:to_s => 'foo')
       subject.should_receive(:zip_demos_and_logs)
-      subject.should_receive(:remove_configuration)
+      server.should_receive(:remove_configuration)
+      server.should_receive(:restart)
       subject.end_reservation
     end
 
     it 'should not do anything when the reservation was already ended' do
-      subject.stub(:to_s  => 'foo')
       subject.stub(:ended? => true)
       subject.should_not_receive(:zip_demos_and_logs)
       subject.should_not_receive(:remove_configuration)
+      subject.should_not_receive(:restart)
       subject.end_reservation
     end
 

@@ -22,7 +22,7 @@ namespace :reservations do
     unstarted_now_reservations  = now_reservations.where('provisioned = ?', false)
     threads = unstarted_now_reservations.map do |reservation|
       thread = Thread.new do
-        reservation.update_configuration
+        reservation.start_reservation
         ActiveRecord::Base.connection.close
       end
       thread

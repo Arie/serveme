@@ -103,20 +103,20 @@ describe Reservation do
 
   describe '#extend!' do
     it 'allows a user to extend a reservation by 1 hour when the end of the reservation is near' do
-      old_reservation_end_time = 10.minutes.from_now
-      reservation = create :reservation, :starts_at => 1.hour.ago, :ends_at => old_reservation_end_time, :provisioned => true
+      old_reservation_end_time = 40.minutes.from_now
+      reservation = create :reservation, :starts_at => Time.current, :ends_at => old_reservation_end_time, :provisioned => true
       expect{reservation.extend!}.to change{reservation.reload.ends_at}
     end
 
     it 'does not extend a reservation that hasnt been provisioned yet' do
-      old_reservation_end_time = 10.minutes.from_now
-      reservation = create :reservation, :starts_at => 1.hour.ago, :ends_at => old_reservation_end_time, :provisioned => false
+      old_reservation_end_time = 40.minutes.from_now
+      reservation = create :reservation, :starts_at => Time.current, :ends_at => old_reservation_end_time, :provisioned => false
       expect{reservation.extend!}.not_to change{reservation.reload.ends_at}
     end
 
     it "does not extend when there's more than an hour left on the reservation" do
       old_reservation_end_time = 61.minutes.from_now
-      reservation = create :reservation, :starts_at => 1.hour.ago, :ends_at => old_reservation_end_time, :provisioned => true
+      reservation = create :reservation, :starts_at => Time.current, :ends_at => old_reservation_end_time, :provisioned => true
 
       expect{reservation.extend!}.not_to change{reservation.reload.ends_at}
     end
@@ -165,6 +165,19 @@ describe Reservation do
       reservation = build :reservation, :starts_at => 1.hour.from_now, :ends_at => 30.minutes.from_now
       reservation.should have(1).error_on(:ends_at)
       reservation.errors.full_messages.should include "Ends at needs to be at least 30 minutes after start time"
+    end
+
+    it 'validates the start time is not too far in the past when creating a new reservation' do
+      reservation = build :reservation, :starts_at => 16.minutes.ago
+      reservation.should have(1).error_on(:starts_at)
+      reservation.starts_at = 10.minutes.ago
+      reservation.should have(:no).errors_on(:starts_at)
+    end
+
+    it 'doesnt validate start time not being in the past when updating a reservation' do
+      reservation = create :reservation, :starts_at => Time.current
+      reservation.starts_at = 16.minutes.ago
+      reservation.should have(:no).errors_on(:starts_at)
     end
 
     it 'validates the end time is at least 30 minutes after start time' do

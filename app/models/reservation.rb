@@ -9,6 +9,7 @@ class Reservation < ActiveRecord::Base
   validate :validate_reservable_by_user
   validate :validate_length_of_reservation
   validate :validate_chronologicality_of_times
+  validate :validate_starts_at_not_too_far_in_past, :on => :create
 
   attr_accessor :extending
 
@@ -225,6 +226,12 @@ class Reservation < ActiveRecord::Base
   def validate_length_of_reservation
     if duration > 3.hours && !extending
       errors.add(:ends_at, "maximum reservation time is 3 hours")
+    end
+  end
+
+  def validate_starts_at_not_too_far_in_past
+    if starts_at && starts_at < 15.minutes.ago
+      errors.add(:starts_at, "can't be more than 15 minutes in the past")
     end
   end
 

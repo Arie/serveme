@@ -139,8 +139,9 @@ class Reservation < ActiveRecord::Base
     begin
       server.update_configuration(self)
       server.restart
-    rescue
-      logger.error "Something went wrong provisioning the server for reservation #{self.id}"
+    rescue Exception => exception
+      logger.error "Something went wrong provisioning the server for reservation #{self.id} - #{exception}"
+      Raven.capture_exception(exception)
     ensure
       self.provisioned = true
       save(:validate => false)
@@ -154,8 +155,9 @@ class Reservation < ActiveRecord::Base
         zip_demos_and_logs
         server.remove_configuration
         server.restart
-      rescue
-        logger.error "Something went wrong ending reservation #{self.id}"
+      rescue Exception => exception
+        logger.error "Something went wrong ending reservation #{self.id} - #{exception}"
+        Raven.capture_exception(exception)
       ensure
         self.ends_at  = Time.now
         self.ended    = true

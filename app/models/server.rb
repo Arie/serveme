@@ -48,8 +48,12 @@ class Server < ActiveRecord::Base
   end
 
   def restart
-    logger.info "Killing process id #{process_id}"
-    Process.kill(15, process_id)
+    if proccess_id
+      logger.info "Killing process id #{process_id}"
+      Process.kill(15, process_id)
+    else
+      logger.error "No process_id found for server #{id} - #{name}"
+    end
   end
 
   def process_id

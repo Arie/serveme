@@ -48,7 +48,7 @@ class Server < ActiveRecord::Base
   end
 
   def restart
-    if proccess_id
+    if process_id
       logger.info "Killing process id #{process_id}"
       Process.kill(15, process_id)
     else

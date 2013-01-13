@@ -5,16 +5,13 @@ gem 'jquery-rails'
 gem 'haml'
 gem 'sass'
 gem 'mysql2'
-gem 'escape'
-gem 'memoizable'
-gem 'dalli'
-gem 'thin'
+gem 'thin',             :require => false
 gem 'omniauth-openid'
 gem 'omniauth-steam'
 gem 'devise'
 gem 'bootstrap-sass'
 gem 'simple_form'
-gem 'rubyzip'
+gem 'rubyzip',          :require => false
 gem 'paper_trail'
 
 group :development do

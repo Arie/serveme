@@ -36,6 +36,7 @@ end
 group :assets do
   gem 'uglifier'
   gem 'jquery-rails'
+  gem 'compass-rails'
   gem 'sass-rails'
   gem 'bootstrap-sass'                            #<3 twitter bootstrap
   gem 'therubyracer'

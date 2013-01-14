@@ -173,27 +173,13 @@ class Reservation < ActiveRecord::Base
   end
 
   def remove_files_to_zip
-    logger.info "Removing logs and demos"
+    logger.info "Removing the files that were zipped"
     logger.info files_to_zip
     FileUtils.rm(files_to_zip)
   end
 
   def files_to_zip
-    @files_to_zip ||= demos + logs
-  end
-
-  def demos
-    demo_match = File.join(server.path, 'orangebox', 'tf', "*.dem")
-    Dir.glob(demo_match)
-  end
-
-  def logs
-    log_match = File.join(server.path, 'orangebox', 'tf', 'logs', "L*.log")
-    Dir.glob(log_match)
-  end
-
-  def demo_date
-    @demo_date ||= starts_at.strftime("%Y%m%d")
+    @files_to_zip ||= server.logs + server.demos
   end
 
   def zipfile_name_and_path
@@ -201,7 +187,11 @@ class Reservation < ActiveRecord::Base
   end
 
   def zipfile_name
-    "#{user.uid}-#{id}-#{server_id}-#{demo_date}.zip"
+    "#{user.uid}-#{id}-#{server_id}-#{formatted_starts_at}.zip"
+  end
+
+  def formatted_starts_at
+    starts_at.strftime("%Y%m%d")
   end
 
   def get_binding

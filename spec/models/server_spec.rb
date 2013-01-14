@@ -70,4 +70,12 @@ describe Server do
 
   end
 
+  describe '#tf_dir' do
+
+    it "takes the server's path and adds the TF2 dirs" do
+      subject.stub(:path => '/foo/bar')
+      subject.tf_dir.should == '/foo/bar/orangebox/tf'
+    end
+  end
+
 end

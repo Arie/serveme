@@ -46,19 +46,12 @@ describe Reservation do
     end
   end
 
-  describe '#demo_date' do
-    it 'formats a date to a stv demo date' do
-      subject.stub(:starts_at).and_return { DateTime.new(2012, 4, 12) }
-      subject.demo_date.should == '20120412'
-    end
-  end
-
   describe '#zipfile_name' do
     it 'generates a unique zipfile name' do
       subject.stub(:user).and_return { mock_model(User, :uid => '1234', :nickname => "Nick Name") }
       subject.stub(:id).and_return { 1 }
       subject.stub(:server_id).and_return { 2 }
-      subject.stub(:demo_date).and_return { '3' }
+      subject.stub(:formatted_starts_at).and_return { '3' }
       subject.zipfile_name.should == "1234-1-2-3.zip"
     end
   end
@@ -82,6 +75,16 @@ describe Reservation do
       subject.stub(:files_to_zip => files_to_zip)
     end
 
+  end
+
+  describe '#remove_files_to_zip' do
+    it "should delete the files that were zipped" do
+      files = ['foo.rb']
+      subject.stub(:files_to_zip => files)
+      FileUtils.should_receive(:rm).with(files)
+
+      subject.remove_files_to_zip
+    end
   end
 
   describe '#active?' do

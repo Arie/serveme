@@ -35,15 +35,15 @@ class Server < ActiveRecord::Base
     template         = File.read(Rails.root.join("lib/reservation.cfg.erb"))
     renderer         = ERB.new(template)
     output_content   = renderer.result(reservation.get_binding)
-    output_filename  = "#{path}/orangebox/tf/cfg/reservation.cfg"
+    output_filename  = "#{tf_dir}/cfg/reservation.cfg"
     File.open(output_filename, 'w') do |f|
       f.write(output_content)
     end
   end
 
   def remove_configuration
-    if File.exists?("#{path}/orangebox/tf/cfg/reservation.cfg")
-      File.delete("#{path}/orangebox/tf/cfg/reservation.cfg")
+    if File.exists?("#{tf_dir}/cfg/reservation.cfg")
+      File.delete("#{tf_dir}/cfg/reservation.cfg")
     end
   end
 
@@ -63,6 +63,20 @@ class Server < ActiveRecord::Base
                         pid
                       end
                     end
+  end
+
+  def tf_dir
+    File.join(path, 'orangebox', 'tf')
+  end
+
+  def demos
+    demo_match = File.join(tf_dir, "*.dem")
+    Dir.glob(demo_match)
+  end
+
+  def logs
+    log_match = File.join(tf_dir, 'logs', "L*.log")
+    Dir.glob(log_match)
   end
 
 end

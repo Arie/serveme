@@ -1,0 +1,12 @@
+#!/bin/bash
+export RAILS_ENV=test
+
+./script/bundler
+
+run() {
+  echo "=== Running: $* ==="
+  time bundle exec $*
+}
+
+run rake db:create db:migrate:reset
+run rspec spec

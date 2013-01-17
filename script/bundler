@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+echo "--- Making sure bundler is installed"
+
+gem which bundler &> /dev/null || gem install bundler --no-ri --no-rdoc
+
+echo "--- Installing gems"
+
+bundle check --no-color || time bundle install --no-color

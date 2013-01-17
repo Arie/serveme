@@ -34,7 +34,7 @@ group :production do
 end
 
 group :assets, :test do
-  gem 'libv8'
+  gem "libv8", "~> 3.11.8"
 end
 
 group :assets do

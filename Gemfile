@@ -33,6 +33,10 @@ group :production do
   gem "sentry-raven"
 end
 
+group :assets, :test do
+  gem 'libv8'
+end
+
 group :assets do
   gem 'uglifier'
   gem 'jquery-rails'
@@ -40,6 +44,5 @@ group :assets do
   gem 'sass-rails'
   gem 'bootstrap-sass'                            #<3 twitter bootstrap
   gem 'therubyracer'
-  gem 'libv8'
   gem 'turbo-sprockets-rails3'
 end

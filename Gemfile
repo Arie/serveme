@@ -43,6 +43,6 @@ group :assets do
   gem 'compass-rails'
   gem 'sass-rails'
   gem 'bootstrap-sass'                            #<3 twitter bootstrap
-  gem 'therubyracer'
+  gem 'therubyracer', :require => 'v8'
   gem 'turbo-sprockets-rails3'
 end

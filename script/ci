@@ -9,5 +9,5 @@ run() {
   time bundle exec $*
 }
 
-run rake db:create db:migrate:reset
+run rake db:migrate:reset
 run rspec spec

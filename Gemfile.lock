@@ -51,6 +51,7 @@ GEM
     compass-rails (1.0.3)
       compass (>= 0.12.2, < 0.14)
     daemons (1.1.9)
+    dalli (2.6.0)
     devise (2.2.2)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -213,6 +214,7 @@ DEPENDENCIES
   capistrano-ext
   capistrano_colors
   compass-rails
+  dalli
   devise
   factory_girl_rails
   haml

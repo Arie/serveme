@@ -31,6 +31,7 @@ end
 
 group :production do
   gem "sentry-raven"
+  gem 'dalli'
 end
 
 group :assets, :test do

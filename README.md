@@ -1,4 +1,4 @@
-# FakkelBrigade community gameserver interface
+# FakkelBrigade community gameserver interface [![Build Status](https://secure.travis-ci.org/Arie/serveme.png)](http://travis-ci.org/Arie/serveme)
 
 A web-interface to reserve TF2 gameservers
 

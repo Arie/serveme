@@ -1,4 +1,5 @@
 #!/bin/bash
+`echo "STEAM_WEB_API_KEY = 'foo'" > config/initializers/steam.rb`
 export RAILS_ENV=test
 
 ./script/bundler

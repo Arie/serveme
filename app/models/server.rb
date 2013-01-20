@@ -79,4 +79,16 @@ class Server < ActiveRecord::Base
     Dir.glob(log_match)
   end
 
+  def current_rcon
+    if current_reservation
+      current_reservation.rcon
+    else
+      rcon
+    end
+  end
+
+  def current_reservation
+    reservations.current.first
+  end
+
 end

@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
 
-  skip_before_filter :authenticate_user!
+  skip_before_filter :authenticate_user!, :except => :servers
 
   def welcome
     @reservations = Reservation.within_12_hours
@@ -10,6 +10,10 @@ class PagesController < ApplicationController
   end
 
   def credits
+  end
+
+  def servers
+    @servers = Server.reservable_by_user(current_user)
   end
 
   def recent_reservations

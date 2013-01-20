@@ -78,4 +78,35 @@ describe Server do
     end
   end
 
+  describe '#current_reservation' do
+
+    it 'returns nil if there is no reservation active on the server' do
+      server = create(:server)
+      server.current_reservation.should == nil
+    end
+
+    it 'gives the current reservation if there is one' do
+      server      = create(:server)
+      reservation = create(:reservation, :starts_at => 1.minute.ago, :ends_at => 1.hour.from_now, :server => server)
+
+      server.current_reservation.should == reservation
+
+    end
+
+  end
+  describe '#current_rcon' do
+
+    it "gives the normal rcon if there's no reservation active" do
+      subject.stub(:rcon => 'the rcon')
+      subject.current_rcon.should == 'the rcon'
+    end
+
+    it "gives the rcon of the current reservation if there is one" do
+      subject.stub(:current_reservation => mock_model(Reservation, :rcon => 'foo'))
+      subject.stub(:rcon => 'bar')
+      subject.current_rcon.should == 'foo'
+    end
+
+  end
+
 end

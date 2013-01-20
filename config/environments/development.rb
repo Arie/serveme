@@ -34,4 +34,6 @@ Serveme::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+  config.cache_store = :dalli_store, 'localhost:11211',
+    { :namespace => 'serveme', :expires_in => 10.seconds }
 end

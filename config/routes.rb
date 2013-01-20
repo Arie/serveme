@@ -26,6 +26,7 @@ Serveme::Application.routes.draw do
       get :credits
       get :recent_reservations
       get :top_10
+      get :servers
     end
   end
 

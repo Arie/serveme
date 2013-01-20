@@ -1,0 +1,13 @@
+- begin
+  - server_info = ServerInfo.new(server)
+  - server_info.auth
+  %tr
+    %td= server.name
+    %td= "#{server_info.number_of_players} / #{server_info.max_players}"
+    %td= server_info.fps
+    %td= server_info.cpu
+- rescue
+  %tr
+    %td= server.name
+    %td{:colspan => 3}
+      N/A

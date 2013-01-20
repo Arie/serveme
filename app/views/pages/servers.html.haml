@@ -1,0 +1,13 @@
+%h2 Servers
+
+.row
+  .span10
+    %table.table.table-hover.table-bordered.table-striped
+      %thead
+        %tr
+          %th Name
+          %th Players
+          %th FPS
+          %th CPU%
+      - @servers.each do |server|
+        = render 'server_info', :server => server

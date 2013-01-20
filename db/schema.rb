@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130104171807) do
+ActiveRecord::Schema.define(:version => 20130120165450) do
 
   create_table "group_servers", :force => true do |t|
     t.integer  "server_id"
@@ -54,13 +54,9 @@ ActiveRecord::Schema.define(:version => 20130104171807) do
     t.string   "path"
     t.string   "ip"
     t.string   "port"
-    t.string   "password"
-    t.string   "rcon"
-    t.string   "tv_port"
-    t.string   "tv_password"
-    t.string   "tv_relaypassword"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "rcon"
   end
 
   create_table "users", :force => true do |t|

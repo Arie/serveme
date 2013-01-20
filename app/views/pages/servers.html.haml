@@ -6,8 +6,12 @@
       %thead
         %tr
           %th Name
+          %th Map name
           %th Players
           %th FPS
           %th CPU%
+          %th Traffic in
+          %th Traffic out
+          %th Uptime
       - @servers.each do |server|
         = render 'server_info', :server => server

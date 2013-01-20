@@ -2,12 +2,16 @@
   - server_info = ServerInfo.new(server)
   - server_info.auth
   %tr
-    %td= server.name
+    %td= server_info.server_name
+    %td= server_info.map_name
     %td= "#{server_info.number_of_players} / #{server_info.max_players}"
     %td= server_info.fps
     %td= server_info.cpu
+    %td= "#{server_info.traffic_in} KB/s"
+    %td= "#{server_info.traffic_out} KB/s"
+    %td= "#{server_info.uptime} minutes"
 - rescue
   %tr
     %td= server.name
-    %td{:colspan => 3}
+    %td{:colspan => 7}
       N/A

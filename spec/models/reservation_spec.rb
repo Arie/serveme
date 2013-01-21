@@ -39,14 +39,17 @@ describe Reservation do
   end
 
   describe '#server_name' do
+
     it "has the nickname in it" do
       subject.stub(:server).and_return { mock_model(Server, :name => "Server Name") }
       subject.stub(:user).and_return { mock_model(User, :uid => '1234', :nickname => "Nick Name") }
       subject.server_name.should == 'Server Name (Nick Name)'
     end
+
   end
 
   describe '#zipfile_name' do
+
     it 'generates a unique zipfile name' do
       subject.stub(:user).and_return { mock_model(User, :uid => '1234', :nickname => "Nick Name") }
       subject.stub(:id).and_return { 1 }
@@ -54,6 +57,7 @@ describe Reservation do
       subject.stub(:formatted_starts_at).and_return { '3' }
       subject.zipfile_name.should == "1234-1-2-3.zip"
     end
+
   end
 
   describe "#zip_demos_and_logs" do
@@ -78,6 +82,7 @@ describe Reservation do
   end
 
   describe '#remove_files_to_zip' do
+
     it "should delete the files that were zipped" do
       files = ['foo.rb']
       subject.stub(:files_to_zip => files)
@@ -85,47 +90,59 @@ describe Reservation do
 
       subject.remove_files_to_zip
     end
+
   end
 
   describe '#active?' do
+
     it 'is active when it is now and provisioned' do
       subject.stub(:now?         => true,
                    :provisioned? => true)
       subject.should be_active
     end
+
   end
 
   describe '#now?' do
+
     it 'is now when current time is between starts and end time' do
       subject.stub(:starts_at    => 1.minute.ago,
                    :ends_at      => 1.minute.from_now)
       subject.should be_now
     end
+
   end
 
   describe '#past?' do
+
     it 'is in the past when the end time is in the past' do
       subject.stub(:ends_at => 1.second.ago)
       subject.should be_past
     end
+
   end
 
   describe '#future?' do
+
     it 'is in the future when the start time is in the future' do
       subject.stub(:starts_at => 1.minute.from_now)
       subject.should be_future
     end
+
   end
 
   describe '#duration' do
+
     it 'calculates duration from start and end times' do
       subject.stub(:starts_at => 1.hour.ago)
       subject.stub(:ends_at   => 1.hour.from_now)
       subject.duration.to_i.should eql(2 * 60 * 60)
     end
+
   end
 
   describe '#extend!' do
+
     it 'allows a user to extend a reservation by 1 hour when the end of the reservation is near' do
       old_reservation_end_time = 40.minutes.from_now
       reservation = create :reservation, :starts_at => Time.current, :ends_at => old_reservation_end_time, :provisioned => true
@@ -144,6 +161,7 @@ describe Reservation do
 
       expect{reservation.extend!}.not_to change{reservation.reload.ends_at}
     end
+
   end
 
   describe '#cancellable?' do
@@ -191,6 +209,7 @@ describe Reservation do
       subject.start_reservation
       subject.should be_provisioned
     end
+
   end
 
   describe '#end_reservation' do
@@ -287,39 +306,48 @@ describe Reservation do
   end
 
   describe '#steam_connect_url' do
+
     it 'returns a steam connect url' do
       subject.stub(:server).and_return { mock_model Server, { :ip => 'fakkelbrigade.eu', :port => '27015'} }
       subject.stub(:password).and_return { "foo" }
       subject.steam_connect_url.should == 'steam://connect/fakkelbrigade.eu:27015/foo'
     end
+
   end
 
   describe '#connect_string' do
+
     it 'returns a console connect string' do
       subject.stub(:server).and_return { mock_model Server, { :ip => 'fakkelbrigade.eu', :port => '27015'} }
       subject.stub(:password).and_return { "foo" }
       subject.connect_string.should == 'connect fakkelbrigade.eu:27015; password foo'
     end
+
   end
 
   context 'finding collisions' do
 
     describe '#collides?' do
+
       it 'collides if there are any colliding reservations' do
         subject.stub(:colliding_reservations => ['foo'])
         subject.collides?.should be_true
       end
+
     end
 
     describe '#colliding_reservations' do
+
       it "returns a unique array of collisions with own reservations and other user's reservations" do
         subject.stub(:own_colliding_reservations          => ['foo', 'bar'])
         subject.stub(:other_users_colliding_reservations  => ['foo', 'bar', 'baz'])
         subject.colliding_reservations.should == ['foo', 'bar', 'baz']
       end
+
     end
 
     describe '#own_colliding_reservations' do
+
       it "finds colliding reservations from its user" do
         user    = create(:user)
         reservation       = create(:reservation,  :user => user, :starts_at => Time.now,             :ends_at => 1.hour.from_now)
@@ -333,16 +361,20 @@ describe Reservation do
         complete_overlap.own_colliding_reservations.should == [reservation]
         internal.own_colliding_reservations.should == [reservation]
       end
+
     end
 
     describe '#collides_with_own_reservations?' do
+
       it 'collides with own reservations if there are any' do
         subject.stub(:own_colliding_reservations => ['foo'])
         subject.collides_with_own_reservation?.should be_true
       end
+
     end
 
     describe '#other_users_colliding_reservations' do
+
       it "finds colliding reservations from its server" do
         server  = create(:server)
         reservation       = create(:reservation,  :server => server, :starts_at => Time.now,             :ends_at => 1.hour.from_now)
@@ -356,13 +388,16 @@ describe Reservation do
         complete_overlap.other_users_colliding_reservations.should == [reservation]
         internal.other_users_colliding_reservations.should == [reservation]
       end
+
     end
 
     describe '#collides_with_other_users_reservations?' do
+
       it 'collides with other users reservations if there are any' do
         subject.stub(:other_users_colliding_reservations => ['foo'])
         subject.collides_with_other_users_reservation?.should be_true
       end
+
     end
 
   end

@@ -76,6 +76,7 @@ describe Server do
       subject.stub(:path => '/foo/bar')
       subject.tf_dir.should == '/foo/bar/orangebox/tf'
     end
+
   end
 
   describe '#current_reservation' do
@@ -90,10 +91,10 @@ describe Server do
       reservation = create(:reservation, :starts_at => 1.minute.ago, :ends_at => 1.hour.from_now, :server => server)
 
       server.current_reservation.should == reservation
-
     end
 
   end
+
   describe '#current_rcon' do
 
     it "gives the normal rcon if there's no reservation active" do

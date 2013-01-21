@@ -37,8 +37,7 @@ class ReservationsController < ApplicationController
 
   def extend
     begin
-      reservation.extend!
-      flash[:notice] = "Reservation extended by 1 hour to #{I18n.l(reservation.ends_at, :format => :datepicker)}"
+      extend_reservation
     rescue
       flash[:alert] = "Could not extend, conflicting reservation by #{reservation.colliding_reservations.map(&:to_s).join(', ')}"
     ensure
@@ -48,15 +47,9 @@ class ReservationsController < ApplicationController
 
   def destroy
     if reservation.cancellable?
-      flash[:notice] = "Reservation for #{@reservation} cancelled"
-      if reservation.now? && !reservation.provisioned?
-        logger.info "A reservation that was supposed to be active, but wasn't provisioned yet, was cancelled"
-      end
-      reservation.destroy
+      cancel_reservation
     else
-      reservation.end_reservation
-      link = "/uploads/#{reservation.zipfile_name}"
-      flash[:notice] = "Reservation removed, restarting server. Get your STV demos and logs <a href='#{link}' target=_blank>here</a>".html_safe
+      end_reservation
     end
     redirect_to root_path
   end
@@ -85,5 +78,19 @@ class ReservationsController < ApplicationController
     @server ||= Server.find(params[:server_id].to_i)
   end
   helper_method :server
+
+  def cancel_reservation
+    flash[:notice] = "Reservation for #{@reservation} cancelled"
+    if reservation.now? && !reservation.provisioned?
+      logger.info "A reservation that was supposed to be active, but wasn't provisioned yet, was cancelled"
+    end
+    reservation.destroy
+  end
+
+  def end_reservation
+    reservation.end_reservation
+    link = "/uploads/#{reservation.zipfile_name}"
+    flash[:notice] = "Reservation removed, restarting server. Get your STV demos and logs <a href='#{link}' target=_blank>here</a>".html_safe
+  end
 
 end

@@ -7,6 +7,7 @@ A web-interface to reserve TF2 gameservers
 * Ruby, preferbly 1.9, but other versions might work. You should use [ruby-build](https://github.com/sstephenson/ruby-build/) to install Ruby.
 * A Source game dedicated server installation, only tested with TF2 on linux for now. 
 * A Steam API key for user sign in
+* Memcached
 
 ## Installation
 1. Make sure you've installed the requirements.

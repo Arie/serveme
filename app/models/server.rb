@@ -77,9 +77,10 @@ class Server < ActiveRecord::Base
   end
 
   def find_process_id
-    pid = `ps ux | grep 'port #{port}' | grep 'srcds_linux' | grep -v grep | grep -v ruby | awk '{print $2}'`.to_i
-    if pid > 0
-      pid
+    all_processes   = Sys::ProcTable.ps
+    found_processes = all_processes.select {|process| process.cmdline.match(/#{port}/) && process.cmdline.match(/\.\/srcds_linux/) }
+    if found_processes.any?
+      found_processes.first.pid
     end
   end
 

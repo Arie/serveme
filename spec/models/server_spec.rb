@@ -68,6 +68,18 @@ describe Server do
       subject.restart
     end
 
+    it "logs an error when it couldn't find the process id" do
+      logger = stub
+      subject.stub(:logger).and_return { logger }
+      subject.should_receive(:process_id).at_least(:once).and_return { nil }
+      Process.should_not_receive(:kill)
+
+      logger.should_receive(:error)
+
+      subject.restart
+    end
+
+
   end
 
   describe '#tf_dir' do
@@ -112,17 +124,24 @@ describe Server do
 
   describe "#remove_configuration" do
 
+    before do
+      @tf_dir       = Rails.root.join('tmp')
+      @config_file  = @tf_dir.join('cfg', 'reservation.cfg').to_s
+    end
     it 'deletes the reservation.cfg if its available' do
-      tf_dir = Rails.root.join('tmp')
-      config_file = tf_dir.join('cfg', 'reservation.cfg').to_s
-      subject.stub(:tf_dir => tf_dir)
+      subject.stub(:tf_dir => @tf_dir)
 
-      File.should_receive(:exists?).with(config_file).and_return(true)
-      File.should_receive(:delete).with(config_file)
+      File.should_receive(:exists?).with(@config_file).and_return(true)
+      File.should_receive(:delete).with(@config_file)
       subject.remove_configuration
     end
 
     it 'does not explode when there is no reservation.cfg' do
+      subject.stub(:tf_dir => @tf_dir)
+
+      File.should_receive(:exists?).with(@config_file).and_return(false)
+      File.should_not_receive(:delete).with(@config_file)
+      subject.remove_configuration
     end
   end
 

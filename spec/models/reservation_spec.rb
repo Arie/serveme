@@ -251,7 +251,7 @@ describe Reservation do
       subject.stub(:logger => logger)
 
       logger.should_receive(:error)
-      subject.start_reservation
+      subject.end_reservation
     end
 
   end

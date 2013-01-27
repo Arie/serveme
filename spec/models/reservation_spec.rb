@@ -310,7 +310,7 @@ describe Reservation do
     it 'returns a steam connect url for the server' do
       subject.stub(:server).and_return { Server.new(:ip => 'fakkelbrigade.eu', :port => '27015') }
       subject.stub(:password).and_return { "foo" }
-      subject.connect_url.should == 'steam://connect/fakkelbrigade.eu:27015/foo'
+      subject.server_connect_url.should == 'steam://connect/fakkelbrigade.eu:27015/foo'
     end
 
   end

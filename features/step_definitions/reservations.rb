@@ -126,3 +126,21 @@ end
 Then "I get notified that the reservation was extended" do
   page.should have_content "Reservation extended"
 end
+
+Then "I can control my reservation" do
+  within 'table.your-reservations' do
+    page.should have_content "End reservation"
+  end
+end
+
+Then "I can open the details of my reservation" do
+  within 'table.your-reservations' do
+    click_link "Show reservation"
+  end
+end
+
+Then "I can see the details of my reservation" do
+  server = @reservation.server
+  page.should have_content "#{server.server_connect_string(@reservation.password)}"
+  page.should have_content "#{server.stv_connect_string(@reservation.tv_password)}"
+end

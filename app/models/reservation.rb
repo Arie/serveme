@@ -131,7 +131,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def stv_connect_string
-    server.stv_connect_string(password)
+    server.stv_connect_string(tv_password)
   end
 
   def server_connect_url

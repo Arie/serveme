@@ -16,9 +16,3 @@ Then /^I can view my reservation in the list$/ do
     page.should have_content @reservation.server.name
   end
 end
-
-Then /^I can control my reservation$/ do
-  within 'table.your-reservations' do
-    page.should have_content "End reservation"
-  end
-end

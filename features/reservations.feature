@@ -38,8 +38,8 @@ Feature: Making a reservation
     When I cancel the future reservation
     Then I am notified the reservation was cancelled
 
-    @wip
   Scenario: Extending a reservation
     Given there is a reservation that will end within the hour
     When I extend my reservation
     Then the reservation's end time is an hour later
+    And I get notified that the reservation was extended

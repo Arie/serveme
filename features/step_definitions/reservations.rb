@@ -110,3 +110,19 @@ end
 Then "I am notified the reservation was cancelled" do
   page.should have_content('cancelled')
 end
+
+Given "there is a reservation that will end within the hour" do
+  @reservation = create(:reservation, :user => @current_user, :starts_at => 5.minutes.ago, :ends_at => 55.minutes.from_now, :provisioned => true)
+end
+
+When "I extend my reservation" do
+  step "I go to the welcome page"
+  click_link "Extend reservation"
+end
+
+Then "the reservation's end time is an hour later" do
+end
+
+Then "I get notified that the reservation was extended" do
+  page.should have_content "Reservation extended"
+end

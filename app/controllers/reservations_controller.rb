@@ -93,4 +93,10 @@ class ReservationsController < ApplicationController
     flash[:notice] = "Reservation removed, restarting server. Get your STV demos and logs <a href='#{link}' target=_blank>here</a>".html_safe
   end
 
+  def extend_reservation
+    if reservation.extend!
+      flash[:notice] = "Reservation extended by 1 hour to #{I18n.l(reservation.ends_at, :format => :datepicker)}"
+    end
+  end
+
 end

@@ -110,4 +110,20 @@ describe Server do
 
   end
 
+  describe "#remove_configuration" do
+
+    it 'deletes the reservation.cfg if its available' do
+      tf_dir = Rails.root.join('tmp')
+      config_file = tf_dir.join('cfg', 'reservation.cfg').to_s
+      subject.stub(:tf_dir => tf_dir)
+
+      File.should_receive(:exists?).with(config_file).and_return(true)
+      File.should_receive(:delete).with(config_file)
+      subject.remove_configuration
+    end
+
+    it 'does not explode when there is no reservation.cfg' do
+    end
+  end
+
 end

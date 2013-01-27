@@ -26,7 +26,6 @@ Feature: Making a reservation
     Then I can see my reservation on the welcome page
     And I can control my reservation
 
-    @wip
   Scenario: Checking reservation info
     When I enter the reservation details
     And I save the reservation

@@ -144,7 +144,7 @@ class Reservation < ActiveRecord::Base
       server.restart
     rescue Exception => exception
       logger.error "Something went wrong provisioning the server for reservation #{self.id} - #{exception}"
-      Raven.capture_exception(exception)
+      Raven.capture_exception(exception) if Rails.env.production?
     ensure
       self.provisioned = true
       save(:validate => false)
@@ -160,7 +160,7 @@ class Reservation < ActiveRecord::Base
         server.restart
       rescue Exception => exception
         logger.error "Something went wrong ending reservation #{self.id} - #{exception}"
-        Raven.capture_exception(exception)
+        Raven.capture_exception(exception) if Rails.env.production?
       ensure
         self.ends_at  = Time.now
         self.ended    = true

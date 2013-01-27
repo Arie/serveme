@@ -8,7 +8,7 @@
         %td Connect info
         %td
           - if reservation.active?
-            = link_to "Join game",            reservation.steam_connect_url,          :class => 'btn btn-small btn-warning'
+            = link_to "Join game", reservation.server_connect_url, :class => 'btn btn-small btn-warning'
             = "or enter in console: #{reservation.connect_string}"
           - else
             = reservation.connect_string
@@ -27,3 +27,14 @@
       %tr
         %td Relay password
         %td= reservation.tv_relaypassword
+
+      %tr
+        %td STV connect info
+        %td
+          - if reservation.active?
+            = link_to "Join STV", reservation.stv_connect_url, :class => 'btn btn-small btn-warning'
+            = "or enter in console: #{reservation.stv_connect_string}"
+          - else
+            = reservation.stv_connect_string
+
+

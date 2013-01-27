@@ -31,6 +31,26 @@ class Server < ActiveRecord::Base
     "#{ip}:#{port}"
   end
 
+  def server_connect_string(password)
+    "connect #{ip}:#{port}; password #{password}"
+  end
+
+  def stv_connect_string(tv_password)
+    "connect #{ip}:#{port.to_i + 5}; password #{tv_password}"
+  end
+
+  def server_connect_url(password)
+    steam_connect_url(ip, port, password)
+  end
+
+  def stv_connect_url(password)
+    steam_connect_url(ip, port.to_i + 5, password)
+  end
+
+  def steam_connect_url(ip, port, password)
+    "steam://connect/#{ip}:#{port}/#{password}"
+  end
+
   def update_configuration(reservation)
     template         = File.read(Rails.root.join("lib/reservation.cfg.erb"))
     renderer         = ERB.new(template)

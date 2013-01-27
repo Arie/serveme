@@ -128,11 +128,19 @@ class Reservation < ActiveRecord::Base
   end
 
   def connect_string
-    "connect #{server.ip}:#{server.port}; password #{password}"
+    server.server_connect_string(password)
   end
 
-  def steam_connect_url
-    "steam://connect/#{server.ip}:#{server.port}/#{password}"
+  def stv_connect_string
+    server.stv_connect_string(password)
+  end
+
+  def connect_url
+    server.server_connect_url(password)
+  end
+
+  def stv_connect_url
+    server.stv_connect_url(tv_password)
   end
 
   def start_reservation

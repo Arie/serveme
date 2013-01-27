@@ -305,12 +305,22 @@ describe Reservation do
 
   end
 
-  describe '#steam_connect_url' do
+  describe '#server_connect_url' do
 
-    it 'returns a steam connect url' do
-      subject.stub(:server).and_return { mock_model Server, { :ip => 'fakkelbrigade.eu', :port => '27015'} }
+    it 'returns a steam connect url for the server' do
+      subject.stub(:server).and_return { Server.new(:ip => 'fakkelbrigade.eu', :port => '27015') }
       subject.stub(:password).and_return { "foo" }
-      subject.steam_connect_url.should == 'steam://connect/fakkelbrigade.eu:27015/foo'
+      subject.connect_url.should == 'steam://connect/fakkelbrigade.eu:27015/foo'
+    end
+
+  end
+
+  describe '#stv_connect_url' do
+
+    it 'returns a steam connect url for the STV' do
+      subject.stub(:server).and_return { Server.new(:ip => 'fakkelbrigade.eu', :port => '27015') }
+      subject.stub(:tv_password).and_return { "bar" }
+      subject.stv_connect_url.should == 'steam://connect/fakkelbrigade.eu:27020/bar'
     end
 
   end
@@ -318,7 +328,7 @@ describe Reservation do
   describe '#connect_string' do
 
     it 'returns a console connect string' do
-      subject.stub(:server).and_return { mock_model Server, { :ip => 'fakkelbrigade.eu', :port => '27015'} }
+      subject.stub(:server).and_return { Server.new(:ip => 'fakkelbrigade.eu', :port => '27015') }
       subject.stub(:password).and_return { "foo" }
       subject.connect_string.should == 'connect fakkelbrigade.eu:27015; password foo'
     end

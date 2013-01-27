@@ -172,3 +172,15 @@ Then "I get notice and a link with the demos and logs" do
     find('a')[:href].should include(@reservation_zipfile_name)
   end
 end
+
+When "I go to the reservations listing" do
+  visit '/reservations'
+end
+
+Then "I see the details of my reservations" do
+  @current_user.reservations.each do |reservation|
+    within "#reservation_#{reservation.id}" do
+      find('a.btn-success')[:href].should include(reservation.id.to_s)
+    end
+  end
+end

@@ -23,10 +23,6 @@ class Server < ActiveRecord::Base
     group('servers.id')
   end
 
-  def info
-    "#{name} - connect #{ip_port}; password"
-  end
-
   def ip_port
     "#{ip}:#{port}"
   end

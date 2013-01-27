@@ -159,7 +159,6 @@ When "I end my reservation" do
 end
 
 Then "I get notice and a link with the demos and logs" do
-  save_and_open_page
   page.should have_content "Reservation removed"
   within '.alert' do
     find('a')[:href].should include(@reservation_zipfile_name)

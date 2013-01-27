@@ -6,6 +6,8 @@
   = f.input :rcon,              :as => :string
   = f.input :tv_password,       :as => :string
   = f.input :tv_relaypassword,  :as => :string
+  = f.association :server_config, :hint => "Specify a league config to run on each map start"
+  = f.association :whitelist,     :hint => "Some configs have a default whitelist, but you can still override that here. 6v6 with 9v9 unlocks? No problem!"
   %span.inline
     = f.input :starts_at,       :as => :string, :input_html => { :value => I18n.l(@reservation.starts_at, :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Start/end time"
     = f.input :ends_at,         :as => :string, :input_html => { :value => I18n.l(@reservation.ends_at,   :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => false

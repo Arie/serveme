@@ -1,8 +1,11 @@
 class Reservation < ActiveRecord::Base
   has_paper_trail
-  attr_accessible :server, :user, :server_id, :user_id, :password, :rcon, :tv_password, :tv_relaypassword, :starts_at, :ends_at, :provisioned, :ended
+  attr_accessible :server, :user, :server_id, :user_id, :password, :rcon, :tv_password, :tv_relaypassword, :starts_at, :ends_at, :provisioned, :ended, :server_config, :server_config_id, :whitelist, :whitelist_id
   belongs_to :user
   belongs_to :server
+  belongs_to :server_config
+  belongs_to :whitelist
+  belongs_to :reservation
   validates_presence_of :user, :server, :date, :password, :rcon
   validate :validate_free_when_reserving
   validate :validate_reservable_by_user

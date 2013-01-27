@@ -4,6 +4,7 @@ Serveme::Application.routes.draw do
   devise_scope :user do 
     get '/sessions/auth/:provider' => 'sessions#passthru'
     post '/users/auth/:provider/callback' => 'sessions#steam'
+    get '/users/auth/:provider/callback' => 'sessions#steam'
   end
 
   resources :sessions do

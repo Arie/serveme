@@ -15,9 +15,6 @@ gem 'steam-condenser',  :git => 'git://github.com/Arie/steam-condenser-ruby.git'
 group :development do
   gem 'quiet_assets'
 
-  #Debugging
-  gem 'pry-nav'
-
   #Deployment
   gem 'capistrano-ext'
   gem 'capistrano_colors'
@@ -28,6 +25,21 @@ end
 group :test, :development do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
+  gem 'pry-nav'
+end
+
+group :test_tools do
+  gem 'spec_coverage'
+  gem 'fuubar'
+end
+
+group :cucumber do
+  gem 'cucumber-rails'
+  gem 'database_cleaner'
+  gem 'launchy'
+  gem 'capybara'
+  gem 'selenium-webdriver'
+  gem 'fuubar-cucumber'
 end
 
 group :production do

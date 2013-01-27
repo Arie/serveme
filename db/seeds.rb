@@ -27,7 +27,7 @@ unless Server.all.any?
   servers.each do |server|
     Server.find_or_create_by_name(server[:name], :path => server[:path], :ip => server[:ip], :port => server[:port])
   end
-  puts "Seeded servers #{servers.join(', ')}"
+  puts "Seeded servers #{servers.join(', ')}" unless Rails.env.test?
 end
 
 unless ServerConfig.all.any?
@@ -35,7 +35,7 @@ unless ServerConfig.all.any?
   configs.each do |config|
     ServerConfig.create(:file => config)
   end
-  puts "Seeded configs #{configs.join(', ')}"
+  puts "Seeded configs #{configs.join(', ')}" unless Rails.env.test?
 end
 
 unless Whitelist.all.any?
@@ -43,5 +43,5 @@ unless Whitelist.all.any?
   whitelists.each do |whitelist|
     Whitelist.create(:file => whitelist)
   end
-  puts "Seeded whitelists #{whitelists.join(', ')}"
+  puts "Seeded whitelists #{whitelists.join(', ')}" unless Rails.env.test?
 end

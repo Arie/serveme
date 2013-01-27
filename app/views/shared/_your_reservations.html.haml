@@ -1,5 +1,5 @@
 %h3 Your reservations
-%table.table.table-condensed
+%table.table.table-condensed.your-reservations
   %thead
     %tr
       %th Server
@@ -8,7 +8,7 @@
       %th Actions
   %tbody
     - @users_reservations.each do |reservation|
-      %tr
+      %tr[reservation]
         %td= reservation.server.name
         %td= I18n.l(reservation.starts_at,  :format => :short)
         %td= I18n.l(reservation.ends_at,    :format => :short)

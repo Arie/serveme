@@ -2,12 +2,34 @@
 `echo "STEAM_WEB_API_KEY = 'foo'" > config/initializers/steam.rb`
 export RAILS_ENV=test
 
-./script/bundler
-
 run() {
-  echo "=== Running: $* ==="
   time bundle exec $*
 }
 
+echo "--- Starting continuous integration build"
+
+./script/bundler
+
+echo "--- Migrate the database from scratch"
+
 run rake db:migrate:reset
-run rspec spec
+
+if [[ -d coverage ]]; then
+  echo "Removing old coverage report"
+  rm -r coverage
+fi
+
+echo "--- Running RSpec"
+
+run rspec --color spec --format SpecCoverage --format progress --format html --out rspec.html
+rspec=$?
+
+echo "--- Running Cucumber"
+
+run cucumber features --profile ci --format html --out cucumber.html
+cucumber=$?
+
+if [[ $rspec -ne 0 || $cucumber -ne 0 ]]; then
+  echo "--- Some tests have failed."
+  exit 1
+fi

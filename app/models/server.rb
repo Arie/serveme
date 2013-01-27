@@ -77,12 +77,14 @@ class Server < ActiveRecord::Base
   end
 
   def process_id
-    @process_id ||= begin
-                      pid = `ps ux | grep 'port #{port}' | grep 'srcds_linux' | grep -v grep | grep -v ruby | awk '{print $2}'`.to_i
-                      if pid > 0
-                        pid
-                      end
-                    end
+    @process_id ||= find_process_id
+  end
+
+  def find_process_id
+    pid = `ps ux | grep 'port #{port}' | grep 'srcds_linux' | grep -v grep | grep -v ruby | awk '{print $2}'`.to_i
+    if pid > 0
+      pid
+    end
   end
 
   def tf_dir

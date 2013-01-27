@@ -144,3 +144,24 @@ Then "I can see the details of my reservation" do
   page.should have_content "#{server.server_connect_string(@reservation.password)}"
   page.should have_content "#{server.stv_connect_string(@reservation.tv_password)}"
 end
+
+Given "I have a running reservation" do
+  @reservation = create(:reservation, :user => @current_user, :provisioned => true)
+end
+
+When "I end my reservation" do
+  step "I go to the welcome page"
+  step "the server gets killed"
+  @reservation_zipfile_name = @reservation.zipfile_name
+  within "#reservation_#{@reservation.id}" do
+    click_link "End reservation"
+  end
+end
+
+Then "I get notice and a link with the demos and logs" do
+  save_and_open_page
+  page.should have_content "Reservation removed"
+  within '.alert' do
+    find('a')[:href].should include(@reservation_zipfile_name)
+  end
+end

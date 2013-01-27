@@ -49,3 +49,8 @@ Feature: Making a reservation
     When I extend my reservation
     Then the reservation's end time is an hour later
     And I get notified that the reservation was extended
+
+  Scenario: Ending a reservation
+    Given I have a running reservation
+    When I end my reservation
+    Then I get notice and a link with the demos and logs

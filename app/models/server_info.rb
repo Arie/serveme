@@ -4,7 +4,7 @@ class ServerInfo
 
   def initialize(server)
     @server            = server
-    @server_connection = SteamCondenser::SourceServer.new(@server.ip, @server.port.to_i)
+    @server_connection = condenser(@server.ip, @server.port)
   end
 
   def auth
@@ -63,8 +63,8 @@ class ServerInfo
     stats[:fps]
   end
 
-  def connect
-    stats[:connect]
+  def connects
+    stats[:connects]
   end
 
   def stats
@@ -81,8 +81,12 @@ class ServerInfo
       :uptime       => items[-5],
       :map_changes  => items[-4],
       :fps          => items[-3],
-      :connect      => items[-1]
+      :connects     => items[-1]
     }
+  end
+
+  def condenser(ip, port)
+    SteamCondenser::SourceServer.new(@server.ip, @server.port.to_i)
   end
 
 end

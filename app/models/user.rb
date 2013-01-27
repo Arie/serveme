@@ -23,22 +23,6 @@ class User < ActiveRecord::Base
     user
   end
 
-  def historic_reservations
-    Version.where(:whodunnit => self.id, :item_type => Reservation).where(:event => 'create')
-  end
-
-  def historic_ended_reservations
-    Version.where(:whodunnit => self.id, :item_type => Reservation).where(:event => 'destroy')
-  end
-
-  def last_weeks_ended_reservations
-    historic_ended_reservations.where('created_at >= ?', 1.week.ago)
-  end
-
-  def last_weeks_reservations
-    historic_reservations.where('created_at >= ?', 1.week.ago)
-  end
-
   def steam_profile_url
     "http://steamcommunity.com/profiles/#{uid}"
   end

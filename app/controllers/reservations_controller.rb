@@ -81,9 +81,6 @@ class ReservationsController < ApplicationController
 
   def cancel_reservation
     flash[:notice] = "Reservation for #{@reservation} cancelled"
-    if reservation.now? && !reservation.provisioned?
-      logger.info "A reservation that was supposed to be active, but wasn't provisioned yet, was cancelled"
-    end
     reservation.destroy
   end
 

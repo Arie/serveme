@@ -28,10 +28,6 @@ class Reservation < ActiveRecord::Base
     where('reservations.ends_at > ?', Time.now)
   end
 
-  def self.upcoming
-    where('reservations.starts_at > ?', Time.now)
-  end
-
   def self.current
     where('reservations.starts_at < ? AND reservations.ends_at > ?', Time.now, Time.now)
   end

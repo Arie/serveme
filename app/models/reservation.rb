@@ -122,10 +122,6 @@ class Reservation < ActiveRecord::Base
     "#{server.name} (#{user.nickname})"
   end
 
-  def server_info
-    "#{server.info} #{password}"
-  end
-
   def connect_string
     server.server_connect_string(password)
   end

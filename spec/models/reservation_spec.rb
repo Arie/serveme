@@ -292,6 +292,18 @@ describe Reservation do
       reservation.should have(:no).errors_on(:ends_at)
     end
 
+    it "validates you don't collide with another reservation of yourself" do
+      user = create(:user)
+      create :reservation, :user => user, :starts_at => Time.now, :ends_at => 179.minutes.from_now
+      reservation = build :reservation, :user => user, :starts_at => 90.minutes.from_now, :ends_at => 181.minutes.from_now
+
+      reservation.should have(1).error_on(:starts_at)
+      reservation.should have(1).error_on(:ends_at)
+
+      reservation.errors.full_messages.should include "Starts at you already have a reservation in this timeframe"
+      reservation.errors.full_messages.should include "Ends at you already have a reservation in this timeframe"
+    end
+
     it 'allows extending a reservation past 3 hours' do
       starts = Time.now
       reservation = build :reservation, :starts_at => starts, :ends_at => (starts + 181.minutes)

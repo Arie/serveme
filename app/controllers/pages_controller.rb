@@ -5,7 +5,7 @@ class PagesController < ApplicationController
   def welcome
     @reservations = Reservation.within_12_hours
     if current_user
-      @users_reservations = current_user.reservations.order('starts_at DESC').first(10)
+      @users_reservations = current_user.reservations.order('starts_at DESC').first(5)
     end
   end
 

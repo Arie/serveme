@@ -243,6 +243,17 @@ describe Reservation do
       subject.end_reservation
     end
 
+    it "logs an error if something goes wrong" do
+      server = stub
+      server.stub(:restart).and_return { raise('foo') }
+      subject.stub(:server => server)
+      logger = stub.as_null_object
+      subject.stub(:logger => logger)
+
+      logger.should_receive(:error)
+      subject.start_reservation
+    end
+
   end
 
   context "validations" do

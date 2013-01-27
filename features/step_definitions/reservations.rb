@@ -115,6 +115,14 @@ Given "there is a reservation that will end within the hour" do
   @reservation = create(:reservation, :user => @current_user, :starts_at => 5.minutes.ago, :ends_at => 55.minutes.from_now, :provisioned => true)
 end
 
+Given "a reservation that starts shortly after mine" do
+  create(:reservation, :server => @reservation.server, :starts_at => @reservation.ends_at + 5.minutes)
+end
+
+Then "I get notified extending failed" do
+  page.should have_content "Could not extend"
+end
+
 When "I extend my reservation" do
   step "I go to the welcome page"
   click_link "Extend reservation"

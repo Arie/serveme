@@ -37,4 +37,12 @@
           - else
             = reservation.stv_connect_string
 
+      - if reservation.server_config
+        %tr
+          %td Server config
+          %td= reservation.server_config
 
+      - if reservation.whitelist
+        %tr
+          %td Whitelist
+          %td= reservation.whitelist

@@ -8,7 +8,10 @@ class ZipFile
         zipfile.add(filename, filename_with_path)
       end
     end
-    File.chmod(0755, zipfile_name_and_path)
+    chmod(zipfile_name_and_path)
   end
 
+  def self.chmod(zipfile_name_and_path)
+    File.chmod(0755, zipfile_name_and_path)
+  end
 end

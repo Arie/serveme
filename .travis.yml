@@ -3,5 +3,6 @@ rvm:
   - 1.9.3
 before_script:
   - mysql -e 'create database serveme_test;'
+  - mkdir tmp/cache
   - mkdir public/uploads
 script: ./script/ci

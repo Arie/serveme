@@ -5,17 +5,17 @@ describe Reservation do
   describe "#tv_password" do
 
     it "should have a default tv_password" do
-      subject.tv_password.should == 'tv'
+      subject.tv_password.should eql 'tv'
     end
 
     it 'returns the entered tv_password if available' do
       subject.tv_password = 'tvtvtv'
-      subject.tv_password.should == 'tvtvtv'
+      subject.tv_password.should eql 'tvtvtv'
     end
 
     it 'returns the default password if the tv_password is an empty string' do
       subject.tv_password = ''
-      subject.tv_password.should == 'tv'
+      subject.tv_password.should eql 'tv'
     end
 
   end
@@ -23,17 +23,17 @@ describe Reservation do
   describe '#tv_relaypassword' do
 
     it "should have a default tv_relaypassword" do
-      subject.tv_relaypassword.should == 'tv'
+      subject.tv_relaypassword.should eql 'tv'
     end
 
     it 'returns the entered tv_relaypassword if available' do
       subject.tv_relaypassword = 'relay'
-      subject.tv_relaypassword.should == 'relay'
+      subject.tv_relaypassword.should eql 'relay'
     end
 
     it 'returns the default password if the tv_relaypassword is an empty string' do
       subject.tv_relaypassword = ''
-      subject.tv_relaypassword.should == 'tv'
+      subject.tv_relaypassword.should eql 'tv'
     end
 
   end
@@ -43,7 +43,7 @@ describe Reservation do
     it "has the nickname in it" do
       subject.stub(:server).and_return { mock_model(Server, :name => "Server Name") }
       subject.stub(:user).and_return { mock_model(User, :uid => '1234', :nickname => "Nick Name") }
-      subject.server_name.should == 'Server Name (Nick Name)'
+      subject.server_name.should eql 'Server Name (Nick Name)'
     end
 
   end
@@ -55,7 +55,7 @@ describe Reservation do
       subject.stub(:id).and_return { 1 }
       subject.stub(:server_id).and_return { 2 }
       subject.stub(:formatted_starts_at).and_return { '3' }
-      subject.zipfile_name.should == "1234-1-2-3.zip"
+      subject.zipfile_name.should eql "1234-1-2-3.zip"
     end
 
   end
@@ -344,7 +344,7 @@ describe Reservation do
     it 'returns a steam connect url for the server' do
       subject.stub(:server).and_return { Server.new(:ip => 'fakkelbrigade.eu', :port => '27015') }
       subject.stub(:password).and_return { "foo" }
-      subject.server_connect_url.should == 'steam://connect/fakkelbrigade.eu:27015/foo'
+      subject.server_connect_url.should eql 'steam://connect/fakkelbrigade.eu:27015/foo'
     end
 
   end
@@ -354,7 +354,7 @@ describe Reservation do
     it 'returns a steam connect url for the STV' do
       subject.stub(:server).and_return { Server.new(:ip => 'fakkelbrigade.eu', :port => '27015') }
       subject.stub(:tv_password).and_return { "bar" }
-      subject.stv_connect_url.should == 'steam://connect/fakkelbrigade.eu:27020/bar'
+      subject.stv_connect_url.should eql 'steam://connect/fakkelbrigade.eu:27020/bar'
     end
 
   end
@@ -364,7 +364,7 @@ describe Reservation do
     it 'returns a console connect string' do
       subject.stub(:server).and_return { Server.new(:ip => 'fakkelbrigade.eu', :port => '27015') }
       subject.stub(:password).and_return { "foo" }
-      subject.connect_string.should == 'connect fakkelbrigade.eu:27015; password foo'
+      subject.connect_string.should eql 'connect fakkelbrigade.eu:27015; password foo'
     end
 
   end
@@ -385,7 +385,7 @@ describe Reservation do
       it "returns a unique array of collisions with own reservations and other user's reservations" do
         subject.stub(:own_colliding_reservations          => ['foo', 'bar'])
         subject.stub(:other_users_colliding_reservations  => ['foo', 'bar', 'baz'])
-        subject.colliding_reservations.should == ['foo', 'bar', 'baz']
+        subject.colliding_reservations.should eql ['foo', 'bar', 'baz']
       end
 
     end
@@ -400,10 +400,10 @@ describe Reservation do
         rear_overlap      = build(:reservation,   :user => user, :starts_at => 55.minutes.from_now,  :ends_at => 2.hours.from_now)
         complete_overlap  = build(:reservation,   :user => user, :starts_at => 10.minutes.ago,       :ends_at => 2.hours.from_now)
 
-        front_overlap.own_colliding_reservations.should == [reservation]
-        rear_overlap.own_colliding_reservations.should == [reservation]
-        complete_overlap.own_colliding_reservations.should == [reservation]
-        internal.own_colliding_reservations.should == [reservation]
+        front_overlap.own_colliding_reservations.should eql [reservation]
+        rear_overlap.own_colliding_reservations.should eql [reservation]
+        complete_overlap.own_colliding_reservations.should eql [reservation]
+        internal.own_colliding_reservations.should eql [reservation]
       end
 
     end
@@ -427,10 +427,10 @@ describe Reservation do
         rear_overlap      = build(:reservation,   :server => server, :starts_at => 55.minutes.from_now,  :ends_at => 2.hours.from_now)
         complete_overlap  = build(:reservation,   :server => server, :starts_at => 10.minutes.ago,       :ends_at => 2.hours.from_now)
 
-        front_overlap.other_users_colliding_reservations.should == [reservation]
-        rear_overlap.other_users_colliding_reservations.should == [reservation]
-        complete_overlap.other_users_colliding_reservations.should == [reservation]
-        internal.other_users_colliding_reservations.should == [reservation]
+        front_overlap.other_users_colliding_reservations.should eql [reservation]
+        rear_overlap.other_users_colliding_reservations.should eql [reservation]
+        complete_overlap.other_users_colliding_reservations.should eql [reservation]
+        internal.other_users_colliding_reservations.should eql [reservation]
       end
 
     end

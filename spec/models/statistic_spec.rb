@@ -32,8 +32,8 @@ describe Statistic do
       Version.last.update_attributes(:whodunnit => other_user.id)
 
       top_10_hash = Statistic.top_10
-      top_10_hash[top_user].should == 2
-      top_10_hash[other_user].should == 1
+      top_10_hash[top_user].should eql 2
+      top_10_hash[other_user].should eql 1
     end
   end
 end

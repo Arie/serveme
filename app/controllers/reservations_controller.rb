@@ -4,8 +4,23 @@ class ReservationsController < ApplicationController
     @reservation ||= new_reservation
   end
 
+  def time_selection
+    @reservation = Reservation.new(params[:reservation])
+    @reservation.user_id = current_user.id
+    @reservation.server = free_servers.first
+    if @reservation.server && !user_already_booked_in_range?(@reservation.starts_at, @reservation.ends_at)
+      render :new
+    else
+      flash.now[:alert] = "No servers available in the given timerange" if free_servers.none?
+      @reservation.valid?
+      render :server_selection
+    end
+  end
+
   def server_selection
-    @servers = Server.reservable_by_user(current_user)
+    @reservation ||= Reservation.new(:user_id   => current_user.id,
+                                     :starts_at => Time.now,
+                                     :ends_at   => 2.hours.from_now)
   end
 
   def index
@@ -75,9 +90,15 @@ class ReservationsController < ApplicationController
   end
 
   def server
-    @server ||= Server.find(params[:server_id].to_i)
+    @server ||= find_server
   end
   helper_method :server
+
+  def find_server
+    if params[:server_id]
+      Server.find(params[:server_id].to_i)
+    end
+  end
 
   def cancel_reservation
     flash[:notice] = "Reservation for #{@reservation} cancelled"
@@ -94,6 +115,19 @@ class ReservationsController < ApplicationController
     if reservation.extend!
       flash[:notice] = "Reservation extended by 1 hour to #{I18n.l(reservation.ends_at, :format => :datepicker)}"
     end
+  end
+
+  def reservable_servers_for_user
+    @reservable_servers_for_user ||= Server.reservable_by_user(current_user)
+  end
+  helper_method :reservable_servers_for_user
+
+  def free_servers
+    @free_servers ||= FreeServerFinder.new(reservable_servers_for_user, @reservation.starts_at, @reservation.ends_at).servers
+  end
+
+  def user_already_booked_in_range?(starts_at, ends_at)
+    FreeServerFinder.new(current_user, starts_at, ends_at).user_already_reserved_a_server_in_range?(current_user, starts_at, ends_at)
   end
 
 end

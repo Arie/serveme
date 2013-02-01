@@ -24,7 +24,7 @@ end
 When "I select a server" do
   @server = Server.first
   within "#server_#{@server.id}" do
-    click_link "Make reservation"
+    click_link "Book this server"
   end
 end
 

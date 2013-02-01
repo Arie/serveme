@@ -20,6 +20,7 @@ Serveme::Application.routes.draw do
     end
     collection do
       get :server_selection
+      post :time_selection
     end
   end
   resources :pages do

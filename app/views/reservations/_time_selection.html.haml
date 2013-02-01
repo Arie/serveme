@@ -1,0 +1,12 @@
+= simple_form_for(@reservation, :url => url_for(:action => 'time_selection', :controller => 'reservations'), :method => 'post', :html => { :class => 'form' }) do |f|
+  .starts_at.left
+    .label.label-info
+      From:
+    = f.input :starts_at,     :as => :string, :input_html => { :value => I18n.l(@reservation.starts_at, :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => false
+  .ends_at
+    .label.label-info
+      To:
+    = f.input :ends_at,       :as => :string, :input_html => { :value => I18n.l(@reservation.ends_at,   :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => false
+
+  %button.btn.btn-success{:type => :submit}
+    Find available server

@@ -1,5 +1,9 @@
-%h2 Server selection
+.row
+  .span12
+    %h3 Pick a date and time...
+    = render :partial => 'time_selection'
 
 .row
   .span10
-    = render :partial => 'servers_reservations', :locals => { :servers => @servers }
+    %h3 ...or pick a server
+    = render :partial => 'servers_reservations', :locals => { :servers => reservable_servers_for_user}

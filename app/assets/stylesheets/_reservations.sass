@@ -3,9 +3,27 @@ form#new_reservation
     .starts_at
       .control-group
         width: 400px
+    .starts_at, .ends_at
+      .label
+        display: inline-block
+        width: 32px
+        text-align: center
+    .ends_at
+      .label
+        margin-left: 10px
     div, label
       display: inline-block
       &.controls
         margin-left: 10px
     label
       margin-right: 10px
+
+table.servers
+  td.actions, td.actions
+    width: 140px
+    text-align: center
+  td
+    vertical-align: middle
+    ul.unstyled
+      padding: 0
+      margin: 0

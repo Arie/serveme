@@ -7,7 +7,8 @@ class Reservation < ActiveRecord::Base
   belongs_to :whitelist
   belongs_to :reservation
   validates_presence_of :user, :server, :date, :password, :rcon
-  validate :validate_free_when_reserving
+  validate :validate_user_is_free_when_reserving
+  validate :validate_server_is_free_when_reserving, :if => :server
   validate :validate_reservable_by_user
   validate :validate_length_of_reservation
   validate :validate_chronologicality_of_times
@@ -61,24 +62,11 @@ class Reservation < ActiveRecord::Base
   end
 
   def own_colliding_reservations
-    colliding_reservations_on(user)
+    CollisionFinder.new(user, self).colliding_reservations
   end
 
   def other_users_colliding_reservations
-    colliding_reservations_on(server)
-  end
-
-  def colliding_reservations_on(collider)
-    range = starts_at..ends_at
-    front_rear_and_complete_colliding = (collider.reservations.where(:starts_at => range) + collider.reservations.where(:ends_at => range))
-    internal_colliding                = collider.reservations.where('starts_at < ? AND ends_at > ?', starts_at, ends_at)
-    colliding = (front_rear_and_complete_colliding + internal_colliding).uniq
-    #If we're an existing record, remove ourselves from the colliding ones
-    if persisted?
-      colliding.reject { |r| r.id == id }
-    else
-      colliding
-    end
+    CollisionFinder.new(server, self).colliding_reservations
   end
 
   def collides_with_own_reservation?
@@ -201,12 +189,15 @@ class Reservation < ActiveRecord::Base
     binding
   end
 
-  def validate_free_when_reserving
+  def validate_user_is_free_when_reserving
     if collides_with_own_reservation?
       msg = "you already have a reservation in this timeframe"
       errors.add(:starts_at, msg)
       errors.add(:ends_at,   msg)
     end
+  end
+
+  def validate_server_is_free_when_reserving
     if collides_with_other_users_reservation?
       errors.add(:server_id,  "already booked in the selected timeframe")
     end

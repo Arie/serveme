@@ -62,11 +62,11 @@ class Reservation < ActiveRecord::Base
   end
 
   def own_colliding_reservations
-    CollisionFinder.new(user, self).colliding_reservations
+    @own_colliding_reservations ||= CollisionFinder.new(user, self).colliding_reservations
   end
 
   def other_users_colliding_reservations
-    CollisionFinder.new(server, self).colliding_reservations
+    @other_users_colliding_reservations ||= CollisionFinder.new(server, self).colliding_reservations
   end
 
   def collides_with_own_reservation?

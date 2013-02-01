@@ -23,7 +23,7 @@ class CollisionFinder
   private
 
   def range
-    starts_at..ends_at
+    @range ||= starts_at..ends_at
   end
 
   def starts_at

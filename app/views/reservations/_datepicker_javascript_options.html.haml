@@ -1,0 +1,17 @@
+:javascript
+  $('#reservation_starts_at').datetimepicker({ 
+    autoclose: true,
+    minuteStep: 1,
+    startView: 1,
+    todayHighlight: true,
+    startDate: "#{I18n.l(Time.now, :format => :datepicker)}}",
+    format: 'dd-mm-yyyy hh:ii'
+  });
+  $('#reservation_ends_at').datetimepicker({
+    autoclose: true,
+    minuteStep: 1,
+    startView: 1,
+    todayHighlight: true,
+    startDate: "#{I18n.l(Time.now, :format => :datepicker)}}",
+    format: 'dd-mm-yyyy hh:ii'
+    });

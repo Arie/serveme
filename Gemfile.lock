@@ -112,8 +112,8 @@ GEM
     fuubar-cucumber (0.0.18)
       cucumber (~> 1.2.0)
       ruby-progressbar (~> 1.0.0)
-    gherkin (2.11.5)
-      json (>= 1.4.6)
+    gherkin (2.11.6)
+      json (>= 1.7.6)
     haml (3.1.7)
     hashie (1.2.0)
     highline (1.6.15)
@@ -227,7 +227,7 @@ GEM
       multi_json (~> 1.0)
       rubyzip
       websocket (~> 1.0.4)
-    sentry-raven (0.4.1)
+    sentry-raven (0.4.2)
       faraday (>= 0.7.6)
       hashie
       multi_json (~> 1.0)

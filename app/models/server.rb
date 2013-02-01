@@ -10,11 +10,11 @@ class Server < ActiveRecord::Base
   end
 
   def self.without_group
-    all - with_group
+    scoped - with_group
   end
 
   def self.with_group
-    Server.joins(:groups)
+    joins(:groups)
   end
 
   def self.in_groups(groups)

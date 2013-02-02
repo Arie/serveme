@@ -24,7 +24,7 @@ class ReservationsController < ApplicationController
   end
 
   def index
-    @users_reservations = current_user.reservations.order('starts_at DESC').limit(100)
+    @users_reservations = current_user.reservations.ordered.first(100)
   end
 
   def edit

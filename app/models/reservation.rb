@@ -20,9 +20,13 @@ class Reservation < ActiveRecord::Base
     within_time_range(12.hours.ago, 12.hours.from_now).uniq
   end
 
+  def self.ordered
+    order('starts_at DESC')
+  end
+
   def self.within_time_range(start_time, end_time)
-    (where(:starts_at => start_time...end_time).order('starts_at DESC') +
-     where(:ends_at => start_time...end_time).order('starts_at DESC'))
+    (where(:starts_at => start_time...end_time).ordered +
+     where(:ends_at => start_time...end_time).ordered)
   end
 
   def self.future

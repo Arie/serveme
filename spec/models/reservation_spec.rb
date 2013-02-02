@@ -278,9 +278,11 @@ describe Reservation do
     end
 
     it "validates the chronologicality of the times" do
-      reservation = build :reservation, :starts_at => 1.hour.from_now, :ends_at => 30.minutes.from_now
+      reservation = build :reservation, :starts_at => Time.now, :ends_at => 29.minutes.from_now
       reservation.should have(1).error_on(:ends_at)
       reservation.errors.full_messages.should include "Ends at needs to be at least 30 minutes after start time"
+      reservation.ends_at = 30.minutes.from_now
+      reservation.should have(:no).error_on(:ends_at)
     end
 
     it 'validates the start time is not too far in the past when creating a new reservation' do

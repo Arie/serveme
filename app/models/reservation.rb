@@ -7,8 +7,8 @@ class Reservation < ActiveRecord::Base
   belongs_to :whitelist
   belongs_to :reservation
   validates_presence_of :user, :server, :date, :password, :rcon
-  validate :validate_user_is_free_when_reserving
-  validate :validate_server_is_free_when_reserving, :if => :server
+  validate :validate_user_is_available
+  validate :validate_server_is_available, :if => :server
   validate :validate_reservable_by_user
   validate :validate_length_of_reservation
   validate :validate_chronologicality_of_times
@@ -189,7 +189,7 @@ class Reservation < ActiveRecord::Base
     binding
   end
 
-  def validate_user_is_free_when_reserving
+  def validate_user_is_available
     if collides_with_own_reservation?
       msg = "you already have a reservation in this timeframe"
       errors.add(:starts_at, msg)
@@ -197,7 +197,7 @@ class Reservation < ActiveRecord::Base
     end
   end
 
-  def validate_server_is_free_when_reserving
+  def validate_server_is_available
     if collides_with_other_users_reservation?
       errors.add(:server_id,  "already booked in the selected timeframe")
     end

@@ -2,4 +2,3 @@ default:  --strict --tags ~@import --tags ~@wip --tags ~@todo --format Cucumber:
 wip: --tags @wip --wip --format pretty
 ci: COVERAGE=on --format progress --strict --tags ~@wip --tags ~@todo
 todo: --tags @todo --wip --format pretty
-import: --tags @import

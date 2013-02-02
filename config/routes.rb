@@ -1,7 +1,7 @@
 Serveme::Application.routes.draw do
-  devise_for :users, :controllers => { :omniauth_callbacks => "sessions" } 
+  devise_for :users, :controllers => { :omniauth_callbacks => "sessions" }
 
-  devise_scope :user do 
+  devise_scope :user do
     get '/sessions/auth/:provider' => 'sessions#passthru'
     post '/users/auth/:provider/callback' => 'sessions#steam'
     get '/users/auth/:provider/callback' => 'sessions#steam'

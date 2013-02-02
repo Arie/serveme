@@ -7,7 +7,7 @@ class Statistic
   def self.top_10
     use_count_per_user  = Version.where(:event => 'create').group(:whodunnit).count
     top_10_array        = use_count_per_user.sort_by {|user, count| count }.reverse.first(10)
-    users               = User.all.to_a
+    users               = User.scoped
     top_10_hash         = {}
     top_10_array.each do |user_id, count|
       user = users.select { |u| u.id == user_id.to_i }.first

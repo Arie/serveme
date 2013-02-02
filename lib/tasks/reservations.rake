@@ -11,7 +11,7 @@ namespace :reservations do
 
   desc "start_active_reservations"
   task :start => :environment do
-    now_reservations            = Reservation.where('starts_at < ?', Time.now)
+    now_reservations            = Reservation.current
     unstarted_now_reservations  = now_reservations.where('provisioned = ?', false)
     unstarted_now_reservations.map do |reservation|
       reservation.start_reservation

@@ -13,10 +13,6 @@ describe Statistic do
       Statistic.recent_reservations.map(&:id).should eql reservations.map(&:id)
     end
 
-    it 'limits to 100 reservations' do
-      101.times { create :reservation }
-      Statistic.recent_reservations.count.should eql 100
-    end
   end
 
   describe '.top_10' do

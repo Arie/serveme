@@ -26,7 +26,7 @@
 
 = link_to "Make reservation",   server_selection_reservations_path, :class => 'btn btn-primary'
 
-- if current_user && current_user.reservations.any?
+- if @users_reservations && @users_reservations.any?
   .row
     .span12
       = render 'shared/your_reservations'

@@ -1,6 +1,7 @@
 class Reservation < ActiveRecord::Base
   has_paper_trail
-  attr_accessible :server, :user, :server_id, :user_id, :password, :rcon, :tv_password, :tv_relaypassword, :starts_at, :ends_at, :provisioned, :ended, :server_config, :server_config_id, :whitelist, :whitelist_id
+  attr_accessible :server, :user, :server_id, :user_id, :password, :rcon, :tv_password, :tv_relaypassword, :starts_at,
+                  :ends_at, :provisioned, :ended, :server_config, :server_config_id, :whitelist, :whitelist_id
   belongs_to :user
   belongs_to :server
   belongs_to :server_config
@@ -8,9 +9,9 @@ class Reservation < ActiveRecord::Base
   belongs_to :reservation
   validates_presence_of :user, :server, :password, :rcon
   validate :validate_user_is_available
-  validate :validate_server_is_available, :if => :server
+  validate :validate_server_is_available,   :if     => :server
   validate :validate_reservable_by_user
-  validate :validate_length_of_reservation
+  validate :validate_length_of_reservation, :unless => :extending
   validate :validate_chronologicality_of_times
   validate :validate_starts_at_not_too_far_in_past, :on => :create
 
@@ -214,7 +215,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def validate_length_of_reservation
-    if duration > 3.hours && !extending
+    if duration > 3.hours
       errors.add(:ends_at, "maximum reservation time is 3 hours")
     end
   end

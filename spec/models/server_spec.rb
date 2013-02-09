@@ -181,4 +181,18 @@ describe Server do
     end
   end
 
+  describe "#inactive_minutes" do
+
+    it "shows the inactive minutes from the current reservation" do
+      subject.stub(:current_reservation => stub(:inactive_minute_counter => 10))
+      subject.inactive_minutes.should eql 10
+    end
+
+    it "is 0 if there is no current reservation" do
+      subject.stub(:current_reservation => nil)
+      subject.inactive_minutes.should eql 0
+    end
+
+  end
+
 end

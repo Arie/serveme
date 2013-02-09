@@ -102,6 +102,14 @@ class Server < ActiveRecord::Base
     reservations.current.first
   end
 
+  def inactive_minutes
+    if current_reservation
+      current_reservation.inactive_minute_counter
+    else
+      0
+    end
+  end
+
   def occupied?
     begin
       ServerInfo.new(self).number_of_players > 0

@@ -10,6 +10,10 @@
     %td= "#{server_info.traffic_in} KB/s"
     %td= "#{server_info.traffic_out} KB/s"
     %td= "#{server_info.uptime} minutes"
+    - if server.current_reservation
+      %td= "#{server.inactive_minutes} minutes"
+    - else
+      %td N/A
 - rescue
   %tr
     %td= server.name

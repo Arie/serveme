@@ -13,5 +13,6 @@
           %th Traffic in
           %th Traffic out
           %th Uptime
+          %th Minutes inactive
       - @servers.each do |server|
         = render 'server_info', :server => server

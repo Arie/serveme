@@ -69,10 +69,11 @@ class ServerInfo
 
   def stats
     stats_line = ""
+    #CPU    In (KB/s)  Out (KB/s)  Uptime  Map changes  FPS      Players  Connects
+    #24.88  35.29      54.48       6       2            66.67    9        12
     get_stats.each_line do |line|
       stats_line = line
     end
-    #CPU    In (KB/s)  Out (KB/s)  Uptime  Map changes  FPS      Players  Connects\n24.88  35.29      54.48       6       2            66.67    9        12"
     items = stats_line.split(" ")
     {
       :cpu          => items[-8],

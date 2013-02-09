@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130209114732) do
+ActiveRecord::Schema.define(:version => 20130209141049) do
 
   create_table "group_servers", :force => true do |t|
     t.integer  "server_id"
@@ -44,10 +44,11 @@ ActiveRecord::Schema.define(:version => 20130209114732) do
     t.datetime "updated_at"
     t.datetime "starts_at"
     t.datetime "ends_at"
-    t.boolean  "provisioned",      :default => false
-    t.boolean  "ended",            :default => false
+    t.boolean  "provisioned",             :default => false
+    t.boolean  "ended",                   :default => false
     t.integer  "server_config_id"
     t.integer  "whitelist_id"
+    t.integer  "inactive_minute_counter", :default => 0
   end
 
   add_index "reservations", ["server_config_id"], :name => "index_reservations_on_server_config_id"

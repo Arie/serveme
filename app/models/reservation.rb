@@ -1,7 +1,7 @@
 class Reservation < ActiveRecord::Base
   has_paper_trail
   attr_accessible :server, :user, :server_id, :user_id, :password, :rcon, :tv_password, :tv_relaypassword, :starts_at,
-                  :ends_at, :provisioned, :ended, :server_config, :server_config_id, :whitelist, :whitelist_id
+                  :ends_at, :provisioned, :ended, :server_config, :server_config_id, :whitelist, :whitelist_id, :inactive_minute_counter
   belongs_to :user
   belongs_to :server
   belongs_to :server_config
@@ -161,6 +161,10 @@ class Reservation < ActiveRecord::Base
         logger.info "[#{Time.now}] Ended reservation: #{id} #{self}"
       end
     end
+  end
+
+  def inactive_too_long?
+    inactive_minute_counter >= 30
   end
 
   def zip_demos_and_logs

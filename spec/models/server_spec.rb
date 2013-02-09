@@ -144,6 +144,20 @@ describe Server do
 
   end
 
+  describe "#occupied?" do
+
+    it "is occupied when there's more than 0 players" do
+      ServerInfo.should_receive(:new).with(subject).and_return { stub(:number_of_players => 1) }
+      subject.should be_occupied
+    end
+
+    it "defaults to true when something went wrong updating the player number" do
+      ServerInfo.should_receive(:new).with(subject).and_raise { SteamCondenser::TimeoutError }
+      subject.should be_occupied
+    end
+
+  end
+
   describe "#remove_configuration" do
 
     before do

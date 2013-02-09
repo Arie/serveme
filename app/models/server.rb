@@ -102,6 +102,15 @@ class Server < ActiveRecord::Base
     reservations.current.first
   end
 
+  def occupied?
+    begin
+      ServerInfo.new(self).number_of_players > 0
+    rescue Exception => exception
+      Raven.capture_exception(exception) if Rails.env.production?
+      true
+    end
+  end
+
   private
 
   def connect_string(ip, port, password)

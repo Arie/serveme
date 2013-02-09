@@ -446,6 +446,21 @@ describe Reservation do
 
     end
 
+    describe "#inactive_too_long?" do
+
+      it "has been inactive too long when the inactive_minute_counter reaches 30" do
+        subject.inactive_minute_counter = 29
+        subject.should_not be_inactive_too_long
+
+        subject.inactive_minute_counter = 30
+        subject.should be_inactive_too_long
+
+        subject.inactive_minute_counter = 31
+        subject.should be_inactive_too_long
+      end
+
+    end
+
   end
 
 end

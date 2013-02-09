@@ -18,5 +18,21 @@ namespace :reservations do
     end
   end
 
+  desc "check_active_reservations"
+  task :check => :environment do
+    unended_now_reservations      = Reservation.current.where('ended = ?', false)
+    provisioned_now_reservations  = unended_now_reservations.where('provisioned = ?', true)
+    provisioned_now_reservations.map do |reservation|
+      if reservation.server.occupied?
+        reservation.inactive_minute_counter = 30
+        reservation.save(:validate => false)
+      else
+        reservation.increment!(:inactive_minute_counter)
+        if reservation.inactive_too_long?
+          reservation.end_reservation
+        end
+      end
+    end
+  end
 
 end

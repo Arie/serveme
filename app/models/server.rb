@@ -24,11 +24,11 @@ class Server < ActiveRecord::Base
   end
 
   def server_connect_string(password)
-    "connect #{ip}:#{port}; password #{password}"
+    connect_string(ip, port, password)
   end
 
   def stv_connect_string(tv_password)
-    "connect #{ip}:#{port.to_i + 5}; password #{tv_password}"
+    connect_string(ip, port.to_i + 5, tv_password)
   end
 
   def server_connect_url(password)
@@ -37,10 +37,6 @@ class Server < ActiveRecord::Base
 
   def stv_connect_url(password)
     steam_connect_url(ip, port.to_i + 5, password)
-  end
-
-  def steam_connect_url(ip, port, password)
-    "steam://connect/#{ip}:#{port}/#{password}"
   end
 
   def update_configuration(reservation)
@@ -104,6 +100,16 @@ class Server < ActiveRecord::Base
 
   def current_reservation
     reservations.current.first
+  end
+
+  private
+
+  def connect_string(ip, port, password)
+    "connect #{ip}:#{port}; password #{password}"
+  end
+
+  def steam_connect_url(ip, port, password)
+    "steam://connect/#{ip}:#{port}/#{password}"
   end
 
 end

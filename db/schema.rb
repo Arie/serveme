@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130127132317) do
+ActiveRecord::Schema.define(:version => 20130209114732) do
 
   create_table "group_servers", :force => true do |t|
     t.integer  "server_id"
@@ -36,7 +36,6 @@ ActiveRecord::Schema.define(:version => 20130127132317) do
   create_table "reservations", :force => true do |t|
     t.integer  "user_id"
     t.integer  "server_id"
-    t.date     "date"
     t.string   "password"
     t.string   "rcon"
     t.string   "tv_password"

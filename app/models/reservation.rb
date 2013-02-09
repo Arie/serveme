@@ -6,7 +6,7 @@ class Reservation < ActiveRecord::Base
   belongs_to :server_config
   belongs_to :whitelist
   belongs_to :reservation
-  validates_presence_of :user, :server, :date, :password, :rcon
+  validates_presence_of :user, :server, :password, :rcon
   validate :validate_user_is_available
   validate :validate_server_is_available, :if => :server
   validate :validate_reservable_by_user

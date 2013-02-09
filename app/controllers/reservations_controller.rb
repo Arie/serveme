@@ -24,7 +24,6 @@ class ReservationsController < ApplicationController
   def create
     @reservation = Reservation.new(params[:reservation])
     @reservation.user_id     = current_user.id
-    @reservation.date        = Date.today
     if @reservation.save
       if @reservation.now?
         @reservation.start_reservation
@@ -66,7 +65,6 @@ class ReservationsController < ApplicationController
     end
     redirect_to root_path
   end
-
 
   private
 

@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  include ApplicationHelper
   devise :omniauthable
 
   attr_accessible :uid, :nickname, :name, :provider

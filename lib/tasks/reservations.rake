@@ -24,7 +24,7 @@ namespace :reservations do
     provisioned_now_reservations  = unended_now_reservations.where('provisioned = ?', true)
     provisioned_now_reservations.map do |reservation|
       if reservation.server.occupied?
-        reservation.inactive_minute_counter = 30
+        reservation.inactive_minute_counter = 0
         reservation.save(:validate => false)
       else
         reservation.increment!(:inactive_minute_counter)

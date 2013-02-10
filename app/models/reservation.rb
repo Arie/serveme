@@ -170,7 +170,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def copy_logs
-    LogCopier.new(self, server.logs).copy
+    LogCopier.new(self.id, server.logs).copy
   end
 
   def zip_demos_and_logs

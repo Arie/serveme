@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130209141049) do
+ActiveRecord::Schema.define(:version => 20130210165324) do
 
   create_table "group_servers", :force => true do |t|
     t.integer  "server_id"
@@ -31,6 +31,17 @@ ActiveRecord::Schema.define(:version => 20130209141049) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "log_uploads", :force => true do |t|
+    t.integer  "reservation_id"
+    t.string   "file_name"
+    t.string   "title"
+    t.string   "map_name"
+    t.string   "status"
+    t.string   "url"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "reservations", :force => true do |t|
@@ -87,6 +98,7 @@ ActiveRecord::Schema.define(:version => 20130209141049) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "logs_tf_api_key"
   end
 
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true

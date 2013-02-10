@@ -1,0 +1,9 @@
+%p.alert.alert-block
+  = link_to('Get or generate your logs.tf API key', 'http://logs.tf/uploader', :target => '_blank')
+  on the logs.tf website, and enter it here
+
+= simple_form_for(@user, :html => { :class => 'form-inline' }) do |f|
+  = f.input :logs_tf_api_key, :label => false, :placeholder => "logs.tf API key"
+
+  %button.btn{:type => :submit}
+    Save

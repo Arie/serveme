@@ -1,0 +1,3 @@
+= link_to("Send to logs.tf",  new_reservation_log_upload_path(reservation, :file_name => params[:file_name]), :class => 'btn btn-small btn-success', :title => "logs.tf")
+.log
+  = simple_format(@log_file)

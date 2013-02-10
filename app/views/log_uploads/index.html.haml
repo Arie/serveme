@@ -1,0 +1,37 @@
+%h2 Logs available for upload to logs.tf
+
+%table.table.table-condensed.logs
+  %thead
+    %tr
+      %th Filename
+      %th End time
+      %th Size
+      %th Actions
+  - @logs.each do |log|
+    %tr
+      %td= log[:file_name]
+      %td= I18n.l(log[:last_modified], :format => :datepicker)
+      %td= number_to_human_size(log[:size].to_i)
+      %td
+        = link_to("Read log",         show_log_reservation_log_uploads_path(reservation,  :file_name => log[:file_name]), :class => 'btn btn-small btn-inverse', :title => "Read log")
+        = link_to("Send to logs.tf",  new_reservation_log_upload_path(reservation,        :file_name => log[:file_name]), :class => 'btn btn-small btn-success', :title => "logs.tf")
+
+%h3 Uploads
+%table.table.table-condensed.logs
+  %thead
+    %tr
+      %th Filename
+      %th Title
+      %th Map
+      %th Upload status
+  - @log_uploads.each do |upload|
+    %tr
+      %td
+        - if upload.url
+          = link_to(upload.file_name, upload.url, :target => '_blank')
+        - else
+          = upload.file_name
+      %td= upload.title
+      %td= upload.map_name
+      %td= upload.status
+

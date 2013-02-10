@@ -39,7 +39,9 @@ namespace :app do
     run "ln -sf #{shared_path}/steam_api_key.rb #{release_path}/config/initializers/steam_api_key.rb"
     run "ln -sf #{shared_path}/database.yml #{release_path}/config/database.yml"
     run "ln -sf #{shared_path}/uploads #{release_path}/public/uploads"
+    run "ln -sf #{shared_path}/server_logs #{release_path}/server_logs"
     run "ln -sf #{shared_path}/raven.rb #{release_path}/config/initializers/raven.rb"
+    run "ln -sf #{shared_path}/logs_tf_api_key.rb #{release_path}/config/initializers/logs_tf_api_key.rb"
     run "ln -sf #{shared_path}/secret_token.rb #{release_path}/config/initializers/secret_token.rb"
   end
 

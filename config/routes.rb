@@ -14,6 +14,15 @@ Serveme::Application.routes.draw do
       get :failure
     end
   end
+
+  resources :users do
+    collection do
+      get :edit
+      post :updated
+    end
+  end
+
+
   resources :reservations, :except => [:edit, :update] do
     member do
       post :extend
@@ -22,7 +31,13 @@ Serveme::Application.routes.draw do
       get :server_selection
       post :time_selection
     end
+    resources :log_uploads, :only => [:new, :create, :index] do
+      collection do
+        get :show_log
+      end
+    end
   end
+
   resources :pages do
     collection do
       get :credits

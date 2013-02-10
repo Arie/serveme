@@ -7,6 +7,7 @@ class Reservation < ActiveRecord::Base
   belongs_to :server_config
   belongs_to :whitelist
   belongs_to :reservation
+  has_many :log_uploads
   validates_presence_of :user, :server, :password, :rcon
   validate :validate_user_is_available
   validate :validate_server_is_available,   :if     => :server
@@ -148,6 +149,7 @@ class Reservation < ActiveRecord::Base
   def end_reservation
     unless ended?
       begin
+        copy_logs
         zip_demos_and_logs
         server.remove_configuration
         server.restart
@@ -165,6 +167,10 @@ class Reservation < ActiveRecord::Base
 
   def inactive_too_long?
     inactive_minute_counter >= 30
+  end
+
+  def copy_logs
+    LogCopier.new(self, server.logs).copy
   end
 
   def zip_demos_and_logs

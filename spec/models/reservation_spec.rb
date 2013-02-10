@@ -225,8 +225,13 @@ describe Reservation do
 
   describe '#end_reservation' do
 
-    let(:server) { stub }
+    let(:server) { stub(:logs => []) }
     before { subject.stub(:to_s => 'foo', :server => server) }
+
+    it 'should zip demos and logs, remove configuration and destroy itself' do
+      subject.should_receive(:copy_logs)
+      subject.end_reservation
+    end
 
     it 'should zip demos and logs, remove configuration and destroy itself' do
       subject.should_receive(:zip_demos_and_logs)

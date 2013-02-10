@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/Arie/logs_tf.git
+  revision: 744ca715c26779e81d5fdc46ec60d75f586b8417
+  specs:
+    logs_tf (0.0.0)
+      faraday (~> 0.8.0)
+      multipart-post (~> 1.1.0)
+
+GIT
   remote: git://github.com/Arie/steam-condenser-ruby.git
   revision: c1de7d8477dd66a270213c83852b8f4e019847e7
   specs:
@@ -298,6 +306,7 @@ DEPENDENCIES
   jquery-rails
   launchy
   libv8 (~> 3.11.8)
+  logs_tf!
   mysql2
   omniauth-openid
   omniauth-steam

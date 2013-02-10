@@ -12,6 +12,7 @@ capybara-*.html
 /public/system/*
 /public/uploads/*
 /coverage/
+/server_logs/*
 /spec/tmp/*
 **.orig
 rerun.txt

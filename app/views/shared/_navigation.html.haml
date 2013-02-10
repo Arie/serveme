@@ -12,7 +12,8 @@
       .pull-right
         .account
           - if current_user
-            = "Hello #{current_user.nickname}"
+            Hello
+            = link_to current_user.nickname, edit_users_path
           - else
             = link_to '/users/auth/steam' do
               = image_tag 'sits_small.png', :alt => "Sign in with Steam"

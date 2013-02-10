@@ -11,6 +11,7 @@ class LogUploadsController < ApplicationController
     @log_upload.file_name = find_log_file(params[:log_upload][:file_name])
     if @log_upload.save
       @log_upload.upload
+      flash[:notice] = "Logfile uploaded to logs.tf"
       redirect_to(reservation_log_uploads_path(reservation))
     else
       render :new

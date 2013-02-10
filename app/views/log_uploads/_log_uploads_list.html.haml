@@ -1,0 +1,17 @@
+%table.table.table-condensed.logs
+  %thead
+    %tr
+      %th Filename
+      %th Title
+      %th Map
+      %th Upload status
+  - @log_uploads.each do |upload|
+    %tr
+      %td
+        - if upload.url
+          = link_to(upload.file_name, upload.url, :target => '_blank')
+        - else
+          = upload.file_name
+      %td= upload.title
+      %td= upload.map_name
+      %td= upload.status

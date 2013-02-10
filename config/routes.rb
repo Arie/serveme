@@ -18,7 +18,7 @@ Serveme::Application.routes.draw do
   resources :users do
     collection do
       get :edit
-      post :updated
+      post :update
     end
   end
 

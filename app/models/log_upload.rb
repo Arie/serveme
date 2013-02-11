@@ -7,6 +7,8 @@ class LogUpload < ActiveRecord::Base
   validates_presence_of :file_name, :reservation_id
   validate :validate_log_file_exists
 
+  delegate :user, :to => :reservation, :prefix => false
+
   def self.find_log_files(reservation_id)
     log_files = Dir.glob(log_matcher(reservation_id))
     logs = []
@@ -44,7 +46,7 @@ class LogUpload < ActiveRecord::Base
   end
 
   def logs_tf_api_key
-    reservation.user.logs_tf_api_key || LOGS_TF_API_KEY
+    user.logs_tf_api_key || LOGS_TF_API_KEY
   end
 
   def log_file_exists?(file_name)

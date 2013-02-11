@@ -7,8 +7,6 @@ class LogUpload < ActiveRecord::Base
   validates_presence_of :file_name, :reservation_id
   validate :validate_log_file_exists
 
-  delegate :user, :to => :reservation, :prefix => false
-
   def self.find_log_files(reservation_id)
     log_files = Dir.glob(log_matcher(reservation_id))
     logs = []
@@ -58,6 +56,10 @@ class LogUpload < ActiveRecord::Base
   end
 
   private
+
+  def user
+    reservation.user
+  end
 
   def filenames
     logs.map { |log| log[:file_name] }

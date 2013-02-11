@@ -4,8 +4,8 @@
   = f.association :server, :collection => Server.reservable_by_user(current_user), :selected => @reservation.server_id
   = f.input :password,            :as => :string, :value => @reservation.password
   = f.input :rcon,                :as => :string
-  = f.input :tv_password,         :as => :string, :hint => "The password to connect to the STV as a player, defaults to 'tv'"
-  = f.input :tv_relaypassword,    :as => :string, :hint => "The password to connect an STV relay, defaults to 'tv'"
+  = f.input :tv_password,         :as => :string, :hint => "Password to connect to the STV as a spectator",   :placeholder => 'tv'
+  = f.input :tv_relaypassword,    :as => :string, :hint => "Password to connect to the STV with a relay",     :placeholder => 'tv'
   = f.association :server_config,                 :hint => "Specify a league config to run on each map start"
   = f.association :whitelist,                     :hint => "Some configs have a default whitelist, but you can still override that here. 6v6 with 9v9 unlocks? No problem!"
   %span.inline

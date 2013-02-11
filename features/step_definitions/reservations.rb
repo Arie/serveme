@@ -184,3 +184,46 @@ Then "I see the details of my reservations" do
     end
   end
 end
+
+Then "I can open the logs page" do
+  click_link "logs.tf"
+end
+
+When "I go to the logs page for the reservation" do
+  visit reservation_log_uploads_path(@reservation)
+end
+
+When "I check a log" do
+  click_link "Read log"
+end
+
+When "I choose to upload the log" do
+  click_link "Send to logs.tf"
+end
+
+Then "I get a notice that I didn't enter my API key yet" do
+  page.should have_content "You haven't entered your logs.tf API key yet"
+end
+
+Given "I have a logs.tf API key" do
+  @current_user.update_attributes(:logs_tf_api_key => 'foobar')
+end
+
+Then "I don't get the API key notice" do
+  page.should_not have_content "You haven't entered your logs.tf API key yet"
+end
+
+Then "I can see if it's the log file I want to upload" do
+  page.should have_content("These are not the logs you're looking for")
+end
+
+Given "my reservation had a log" do
+  dir = Rails.root.join("server_logs", "#{@reservation.id}")
+  FileUtils.mkdir_p(dir)
+  File.open(File.join(dir, "L1337.log"), 'w') {|f| f.write("These are not the logs you're looking for") }
+end
+
+Then "I get to enter the upload details" do
+  fill_in "Title",  :with => "Epsilon destroying Broder"
+  fill_in "Map",    :with => "every map"
+end

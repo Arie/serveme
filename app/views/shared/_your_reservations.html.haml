@@ -15,18 +15,18 @@
         %td
           %span
             - unless reservation.past?
-              = link_to "Show reservation",     reservation_path(reservation),          :class => 'btn btn-small btn-success'
+              = link_to "Show reservation",     reservation_path(reservation),                :class => 'btn btn-small btn-success'
 
             - if reservation.active?
-              = link_to "Join game",            reservation.server_connect_url,         :class => 'btn btn-small btn-warning'
-              = link_to "Join STV",             reservation.stv_connect_url,            :class => 'btn btn-small btn-inverse'
+              = link_to "Join game",            reservation.server_connect_url,               :class => 'btn btn-small btn-warning'
+              = link_to "Join STV",             reservation.stv_connect_url,                  :class => 'btn btn-small btn-inverse'
               - if reservation.less_than_1_hour_left?
-                = link_to "Extend reservation", extend_reservation_path(reservation),   :class => 'btn btn-small btn-primary', :title => 'Extend reservation',  :method => :post,   :data => { :confirm => "This will extend your reservation by 1 hour if possible" }
-              = link_to "End reservation",      reservation_path(reservation),          :class => 'btn btn-small btn-danger',  :title => 'End reservation',     :method => :delete, :data => { :confirm => "Are you sure you want to end your reservation?" }
+                = link_to "Extend reservation", extend_reservation_path(reservation),         :class => 'btn btn-small btn-primary', :title => 'Extend reservation',  :method => :post,   :data => { :confirm => "This will extend your reservation by 1 hour if possible" }
+              = link_to "End reservation",      reservation_path(reservation),                :class => 'btn btn-small btn-danger',  :title => 'End reservation',     :method => :delete, :data => { :confirm => "Are you sure you want to end your reservation?" }
 
             - if reservation.cancellable?
-              = link_to "Cancel reservation",   reservation_path(reservation),          :class => 'btn btn-small btn-warning', :title => 'Cancel reservation',  :method => :delete
+              = link_to "Cancel reservation",   reservation_path(reservation),                :class => 'btn btn-small btn-warning', :title => 'Cancel reservation',  :method => :delete
 
             - if reservation.past?
-              = link_to "Log/demo zip",         "/uploads/#{reservation.zipfile_name}", :class => 'btn btn-small btn-info',               :title => 'Download a zip with the logs and demos of the match'
-              = link_to "logs.tf",              reservation_log_uploads_path(reservation),         :class => 'btn btn-small btn-success', :title => 'Upload the match logs to logs.tf'
+              = link_to "Log/demo zip",         "/uploads/#{reservation.zipfile_name}",       :class => 'btn btn-small btn-info',    :title => 'Download a zip with the logs and demos of the match'
+              = link_to "logs.tf",              reservation_log_uploads_path(reservation),    :class => 'btn btn-small btn-success', :title => 'Upload the match logs to logs.tf'

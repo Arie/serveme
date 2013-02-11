@@ -53,8 +53,9 @@ describe LogUpload do
   describe '#logs_tf_api_key' do
 
     it "returns the user's api key if it's set" do
-      user = stub(:logs_tf_api_key => '12345')
-      subject.stub(:user => user)
+      user        = stub(:logs_tf_api_key => '12345')
+      reservation = stub(:user => user)
+      subject.stub(:reservation => reservation)
       subject.logs_tf_api_key.should == '12345'
     end
 

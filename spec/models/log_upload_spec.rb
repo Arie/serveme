@@ -26,4 +26,76 @@ describe LogUpload do
     end
   end
 
+  describe '#log_file' do
+
+    it 'opens the file if it exists' do
+      subject.stub(:file_name => 'foo.log')
+      subject.should_receive(:log_file_exists?).with('foo.log').and_return { true }
+      subject.should_receive(:log_file_name_and_path).and_return { 'bar' }
+
+      File.should_receive(:open).with('bar')
+      subject.log_file
+    end
+
+  end
+
+  describe '#log_file_name_and_path' do
+
+    it 'creates a file name with path from the reservation_id and file_name' do
+      subject.stub(:reservation_id => '12345')
+      subject.stub(:file_name => 'foo.log')
+
+      subject.log_file_name_and_path.should eql Rails.root.join('server_logs', subject.reservation_id, subject.file_name)
+    end
+
+  end
+
+  describe '#logs_tf_api_key' do
+
+    it "returns the user's api key if it's set" do
+      user = stub(:logs_tf_api_key => '12345')
+      subject.stub(:user => user)
+      subject.logs_tf_api_key.should == '12345'
+    end
+
+    it "returns the LOGS_TF_API_KEY constant if there's no api key for the user" do
+      LOGS_TF_API_KEY = '54321'
+      user = stub(:logs_tf_api_key => nil)
+      subject.stub(:user => user)
+      subject.logs_tf_api_key.should == '54321'
+
+      user = stub(:logs_tf_api_key => '')
+      subject.logs_tf_api_key.should == '54321'
+    end
+  end
+
+  describe '#log_file_exists?' do
+
+    it 'returns true if the requested logfile is available or this reservation' do
+      subject.stub(:reservation_id => 1337)
+      LogUpload.should_receive(:find_log_files).with(1337).and_return { [ { :file_name => "foo.log" } ] }
+      subject.log_file_exists?('foo.log').should eql true
+    end
+  end
+
+  describe '.find_log_files' do
+
+    it 'finds the log files for a reservation and puts the info in hashes' do
+      reservation_id = stub
+      log_matcher = Rails.root.join('spec', 'fixtures', 'logs', '*.log')
+      LogUpload.should_receive(:log_matcher).with(reservation_id).and_return { log_matcher }
+      subject.stub(:log_file_name_and_path => 'bar.log')
+      mtime = stub
+      File.should_receive(:mtime).with(anything).and_return { mtime }
+
+      LogUpload.find_log_files(reservation_id).should == [
+        { :file_name_and_path => Rails.root.join('spec', 'fixtures', 'logs', 'L1234567.log').to_s,
+          :file_name          => "L1234567.log",
+          :last_modified      => mtime,
+          :size               => 16 }
+      ]
+    end
+
+  end
+
 end

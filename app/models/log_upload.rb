@@ -8,8 +8,7 @@ class LogUpload < ActiveRecord::Base
   validate :validate_log_file_exists
 
   def self.find_log_files(reservation_id)
-    log_match = File.join(Rails.root.join, 'server_logs', "#{reservation_id}", "L*.log")
-    log_files = Dir.glob(log_match)
+    log_files = Dir.glob(log_matcher(reservation_id))
     logs = []
     log_files.each do |log_file|
       logs << { :file_name_and_path   => log_file,
@@ -18,6 +17,10 @@ class LogUpload < ActiveRecord::Base
                 :size                 => File.size(log_file) }
     end
     logs
+  end
+
+  def self.log_matcher(reservation_id)
+    File.join(Rails.root.join, 'server_logs', "#{reservation_id}", "L*.log")
   end
 
   def upload
@@ -34,29 +37,37 @@ class LogUpload < ActiveRecord::Base
     end
   end
 
-  private
+  def log_file
+    if log_file_exists?(file_name)
+      File.open(log_file_name_and_path)
+    end
+  end
 
   def logs_tf_api_key
     user.logs_tf_api_key || LOGS_TF_API_KEY
   end
 
-  def log_file
-    if log_file_exists?(file_name)
-      File.open(Rails.root.join("server_logs", "#{reservation_id}", file_name))
-    end
+  def log_file_exists?(file_name)
+    filenames.include?(file_name)
+  end
+
+  def log_file_name_and_path
+    Rails.root.join("server_logs", "#{reservation_id}", file_name)
+  end
+
+  private
+
+  def filenames
+    logs.map { |log| log[:file_name] }
+  end
+
+  def logs
+    LogUpload.find_log_files(reservation_id)
   end
 
   def validate_log_file_exists
     unless log_file_exists?(file_name)
       errors.add(:file_name, "file does not exist")
-    end
-  end
-
-  def log_file_exists?(file_name)
-    logs = LogUpload.find_log_files(self[:reservation_id])
-    filenames = logs.map { |log| log[:file_name] }
-    if filenames.include?(file_name)
-      true
     end
   end
 

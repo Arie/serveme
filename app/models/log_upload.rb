@@ -40,10 +40,6 @@ class LogUpload < ActiveRecord::Base
     user.logs_tf_api_key || LOGS_TF_API_KEY
   end
 
-  def user
-    reservation.user
-  end
-
   def log_file
     if log_file_exists?(file_name)
       File.open(Rails.root.join("server_logs", "#{reservation_id}", file_name))

@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
 
-  skip_before_filter :authenticate_user!, :except => :servers
+  skip_before_filter :authenticate_user!
 
   def welcome
     @reservations = Reservation.within_12_hours

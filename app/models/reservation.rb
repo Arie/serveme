@@ -181,7 +181,7 @@ class Reservation < ActiveRecord::Base
   def remove_files_to_zip
     logger.info "Removing the files that were zipped"
     logger.info files_to_zip
-    FileUtils.rm(files_to_zip)
+    server.remove_logs_and_demos
   end
 
   def files_to_zip

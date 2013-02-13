@@ -195,4 +195,15 @@ describe Server do
 
   end
 
+  describe '#remove_logs_and_demos' do
+
+    it 'removes the logs and demos from disk' do
+      subject.stub(:logs  => [stub])
+      subject.stub(:demos => [stub])
+      files = subject.logs + subject.demos
+      FileUtils.should_receive(:rm).with(files)
+      subject.remove_logs_and_demos
+    end
+  end
+
 end

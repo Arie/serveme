@@ -85,8 +85,9 @@ describe Reservation do
 
     it "should delete the files that were zipped" do
       files = ['foo.rb']
-      subject.stub(:files_to_zip => files)
-      FileUtils.should_receive(:rm).with(files)
+      server = stub
+      subject.stub(:files_to_zip => files, :server => server)
+      server.should_receive(:remove_logs_and_demos)
 
       subject.remove_files_to_zip
     end

@@ -44,50 +44,15 @@ class Server < ActiveRecord::Base
     renderer         = ERB.new(template)
     output_content   = renderer.result(reservation.get_binding)
     output_filename  = "#{tf_dir}/cfg/reservation.cfg"
-    File.open(output_filename, 'w') do |f|
-      f.write(output_content)
-    end
-  end
-
-  def remove_configuration
-    if File.exists?("#{tf_dir}/cfg/reservation.cfg")
-      File.delete("#{tf_dir}/cfg/reservation.cfg")
-    end
-  end
-
-  def restart
-    if process_id
-      logger.info "Killing process id #{process_id}"
-      Process.kill(15, process_id)
-    else
-      logger.error "No process_id found for server #{id} - #{name}"
-    end
+    write_configuration(output_filename, output_content)
   end
 
   def process_id
     @process_id ||= find_process_id
   end
 
-  def find_process_id
-    all_processes   = Sys::ProcTable.ps
-    found_processes = all_processes.select {|process| process.cmdline.match(/#{port}/) && process.cmdline.match(/\.\/srcds_linux/) }
-    if found_processes.any?
-      found_processes.first.pid
-    end
-  end
-
   def tf_dir
     File.join(path, 'orangebox', 'tf')
-  end
-
-  def demos
-    demo_match = File.join(tf_dir, "*.dem")
-    Dir.glob(demo_match)
-  end
-
-  def logs
-    log_match = File.join(tf_dir, 'logs', "L*.log")
-    Dir.glob(log_match)
   end
 
   def current_rcon
@@ -120,6 +85,14 @@ class Server < ActiveRecord::Base
   end
 
   private
+
+  def log_match
+    File.join(tf_dir, 'logs', "L*.log")
+  end
+
+  def demo_match
+    File.join(tf_dir, "*.dem")
+  end
 
   def connect_string(ip, port, password)
     "connect #{ip}:#{port}; password #{password}"

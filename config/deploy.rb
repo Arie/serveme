@@ -8,7 +8,7 @@ set :main_server,       "fakkelbrigade.eu"
 set :keep_releases,     10
 set :deploy_via,        :copy
 set :repository,        "https://github.com/Arie/serveme.git"
-set :branch,            'master'
+set :branch,            'ssh_servers'
 set :scm,               :git
 set :copy_compression,  :gzip
 set :use_sudo,          false

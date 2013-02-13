@@ -13,7 +13,7 @@ class PagesController < ApplicationController
   end
 
   def servers
-    @servers = Server.reservable_by_user(current_user)
+    @servers = Server.scoped
   end
 
   def recent_reservations

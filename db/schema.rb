@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(:version => 20130213075947) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "rcon"
-    t.string   "server_type", :default => "local"
+    t.string   "type",       :default => "LocalServer"
   end
 
   create_table "users", :force => true do |t|

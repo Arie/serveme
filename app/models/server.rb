@@ -1,3 +1,5 @@
+require 'zip_file_creator'
+
 class Server < ActiveRecord::Base
   attr_accessible :name, :path, :ip, :port
 
@@ -43,12 +45,16 @@ class Server < ActiveRecord::Base
     template         = File.read(Rails.root.join("lib/reservation.cfg.erb"))
     renderer         = ERB.new(template)
     output_content   = renderer.result(reservation.get_binding)
-    output_filename  = "#{tf_dir}/cfg/reservation.cfg"
-    write_configuration(output_filename, output_content)
+    write_configuration(reservation_config_file, output_content)
   end
 
   def process_id
-    @process_id ||= find_process_id
+    @process_id ||= begin
+                      pid = find_process_id.to_i
+                      if pid > 0
+                        pid
+                      end
+                    end
   end
 
   def tf_dir
@@ -84,7 +90,31 @@ class Server < ActiveRecord::Base
     end
   end
 
+  def restart
+    if process_id
+      logger.info "Killing process id #{process_id}"
+      kill_process
+    else
+      logger.error "No process_id found for server #{id} - #{name}"
+    end
+  end
+
+  def end_reservation(reservation)
+    zip_demos_and_logs(reservation)
+    remove_logs_and_demos
+    remove_configuration
+    restart
+  end
+
+  def zip_demos_and_logs(reservation)
+    ZipFileCreator.create(reservation, logs_and_demos)
+  end
+
   private
+
+  def logs_and_demos
+    @logs_and_demos ||= logs + demos
+  end
 
   def log_match
     File.join(tf_dir, 'logs', "L*.log")
@@ -100,6 +130,10 @@ class Server < ActiveRecord::Base
 
   def steam_connect_url(ip, port, password)
     "steam://connect/#{ip}:#{port}/#{password}"
+  end
+
+  def reservation_config_file
+    "#{tf_dir}/cfg/reservation.cfg"
   end
 
 end

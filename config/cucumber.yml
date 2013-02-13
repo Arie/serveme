@@ -1,4 +1,5 @@
-default:  --strict --tags ~@import --tags ~@wip --tags ~@todo --format Cucumber::Formatter::Fuubar
+default:  --strict --tags ~@import --tags ~@wip --tags ~@todo
+foo: --format Cucumber::Formatter::Fuubar
 wip: --tags @wip --wip --format pretty
 ci: COVERAGE=on --format progress --strict --tags ~@wip --tags ~@todo
 todo: --tags @todo --wip --format pretty

@@ -1,6 +1,6 @@
 FactoryGirl.define do
 
-  factory :server do
+  factory :server, :class => "LocalServer" do
     name "TF2 1"
     path "/home/tf2/tf2-1"
     ip "fakkelbrigade.eu"

@@ -6,15 +6,6 @@ class LocalServer < Server
     end
   end
 
-  def restart
-    if process_id
-      logger.info "Killing process id #{process_id}"
-      kill_process
-    else
-      logger.error "No process_id found for server #{id} - #{name}"
-    end
-  end
-
   def find_process_id
     all_processes   = Sys::ProcTable.ps
     found_processes = all_processes.select {|process| process.cmdline.match(/#{port}/) && process.cmdline.match(/\.\/srcds_linux/) }
@@ -33,6 +24,14 @@ class LocalServer < Server
 
   def remove_logs_and_demos
     FileUtils.rm(logs + demos)
+  end
+
+  def log_copier_class
+    LocalLogCopier
+  end
+
+  def zip_file_creator_class
+    LocalZipFileCreator
   end
 
   private

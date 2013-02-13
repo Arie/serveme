@@ -73,4 +73,8 @@ class SshZipFileCreator < ZipFileCreator
     server.execute("rm #{remote_zip_name}")
   end
 
+  def server
+    reservation.server
+  end
+
 end

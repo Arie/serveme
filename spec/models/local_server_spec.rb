@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Server do
+describe LocalServer do
 
   describe '.with_group' do
 
@@ -56,6 +56,19 @@ describe Server do
       create :reservation, :server => busy_server_no_group
 
       Server.reservable_by_user(user).should =~ [free_server_in_users_group, busy_server_in_users_group, free_server_no_group, busy_server_no_group]
+    end
+
+  end
+
+  describe '#end_reservation' do
+
+    it 'should zip demos and logs, remove configuration and restart' do
+      reservation = stub
+      subject.should_receive(:zip_demos_and_logs).with(reservation)
+      subject.should_receive(:remove_logs_and_demos)
+      subject.should_receive(:remove_configuration)
+      subject.should_receive(:restart)
+      subject.end_reservation(reservation)
     end
 
   end
@@ -191,6 +204,18 @@ describe Server do
     it "is 0 if there is no current reservation" do
       subject.stub(:current_reservation => nil)
       subject.inactive_minutes.should eql 0
+    end
+
+  end
+
+  describe '#remove_logs_and_demos' do
+
+    it 'removes the logs and demos from disk' do
+      subject.stub(:logs  => [stub])
+      subject.stub(:demos => [stub])
+      files = subject.logs + subject.demos
+      FileUtils.should_receive(:rm).with(files)
+      subject.remove_logs_and_demos
     end
 
   end

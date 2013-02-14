@@ -1,3 +1,5 @@
+require 'zip_file_creator'
+
 class Server < ActiveRecord::Base
   attr_accessible :name, :path, :ip, :port
 
@@ -43,51 +45,20 @@ class Server < ActiveRecord::Base
     template         = File.read(Rails.root.join("lib/reservation.cfg.erb"))
     renderer         = ERB.new(template)
     output_content   = renderer.result(reservation.get_binding)
-    output_filename  = "#{tf_dir}/cfg/reservation.cfg"
-    File.open(output_filename, 'w') do |f|
-      f.write(output_content)
-    end
-  end
-
-  def remove_configuration
-    if File.exists?("#{tf_dir}/cfg/reservation.cfg")
-      File.delete("#{tf_dir}/cfg/reservation.cfg")
-    end
-  end
-
-  def restart
-    if process_id
-      logger.info "Killing process id #{process_id}"
-      Process.kill(15, process_id)
-    else
-      logger.error "No process_id found for server #{id} - #{name}"
-    end
+    write_configuration(reservation_config_file, output_content)
   end
 
   def process_id
-    @process_id ||= find_process_id
-  end
-
-  def find_process_id
-    all_processes   = Sys::ProcTable.ps
-    found_processes = all_processes.select {|process| process.cmdline.match(/#{port}/) && process.cmdline.match(/\.\/srcds_linux/) }
-    if found_processes.any?
-      found_processes.first.pid
-    end
+    @process_id ||= begin
+                      pid = find_process_id.to_i
+                      if pid > 0
+                        pid
+                      end
+                    end
   end
 
   def tf_dir
     File.join(path, 'orangebox', 'tf')
-  end
-
-  def demos
-    demo_match = File.join(tf_dir, "*.dem")
-    Dir.glob(demo_match)
-  end
-
-  def logs
-    log_match = File.join(tf_dir, 'logs', "L*.log")
-    Dir.glob(log_match)
   end
 
   def current_rcon
@@ -119,7 +90,39 @@ class Server < ActiveRecord::Base
     end
   end
 
+  def restart
+    if process_id
+      logger.info "Killing process id #{process_id}"
+      kill_process
+    else
+      logger.error "No process_id found for server #{id} - #{name}"
+    end
+  end
+
+  def end_reservation(reservation)
+    zip_demos_and_logs(reservation)
+    remove_logs_and_demos
+    remove_configuration
+    restart
+  end
+
+  def zip_demos_and_logs(reservation)
+    ZipFileCreator.create(reservation, logs_and_demos)
+  end
+
   private
+
+  def logs_and_demos
+    @logs_and_demos ||= logs + demos
+  end
+
+  def log_match
+    File.join(tf_dir, 'logs', "L*.log")
+  end
+
+  def demo_match
+    File.join(tf_dir, "*.dem")
+  end
 
   def connect_string(ip, port, password)
     "connect #{ip}:#{port}; password #{password}"
@@ -127,6 +130,10 @@ class Server < ActiveRecord::Base
 
   def steam_connect_url(ip, port, password)
     "steam://connect/#{ip}:#{port}/#{password}"
+  end
+
+  def reservation_config_file
+    "#{tf_dir}/cfg/reservation.cfg"
   end
 
 end

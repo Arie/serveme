@@ -53,42 +53,9 @@ describe Reservation do
     it 'generates a unique zipfile name' do
       subject.stub(:user).and_return { mock_model(User, :uid => '1234', :nickname => "Nick Name") }
       subject.stub(:id).and_return { 1 }
-      subject.stub(:server_id).and_return { 2 }
+      subject.stub(:server).and_return { stub(:id => 2) }
       subject.stub(:formatted_starts_at).and_return { '3' }
       subject.zipfile_name.should eql "1234-1-2-3.zip"
-    end
-
-  end
-
-  describe "#zip_demos_and_logs" do
-
-    it "should create a zip and remove the files that were zipped" do
-      files_to_zip  = ['foo']
-      zip_file      = 'foo.zip'
-      subject.stub(:zipfile_name_and_path => zip_file,
-                   :files_to_zip          => files_to_zip)
-
-      ZipFile.should_receive(:create).with(zip_file, files_to_zip)
-      subject.should_receive(:remove_files_to_zip).and_return { true }
-
-      subject.zip_demos_and_logs
-    end
-
-    it "should remove the files that were zipped" do
-      files_to_zip  = ['foo']
-      subject.stub(:files_to_zip => files_to_zip)
-    end
-
-  end
-
-  describe '#remove_files_to_zip' do
-
-    it "should delete the files that were zipped" do
-      files = ['foo.rb']
-      subject.stub(:files_to_zip => files)
-      FileUtils.should_receive(:rm).with(files)
-
-      subject.remove_files_to_zip
     end
 
   end
@@ -228,23 +195,16 @@ describe Reservation do
     let(:server) { stub(:logs => []) }
     before { subject.stub(:to_s => 'foo', :server => server) }
 
-    it 'should zip demos and logs, remove configuration and destroy itself' do
+    it 'should copy the logs and send the end_reservation message to the server' do
       subject.should_receive(:copy_logs)
-      subject.end_reservation
-    end
-
-    it 'should zip demos and logs, remove configuration and destroy itself' do
-      subject.should_receive(:zip_demos_and_logs)
-      server.should_receive(:remove_configuration)
-      server.should_receive(:restart)
+      server.should_receive(:end_reservation)
       subject.end_reservation
     end
 
     it 'should not do anything when the reservation was already ended' do
       subject.stub(:ended? => true)
-      subject.should_not_receive(:zip_demos_and_logs)
-      subject.should_not_receive(:remove_configuration)
-      subject.should_not_receive(:restart)
+      subject.should_not_receive(:copy_logs)
+      server.should_not_receive(:end_reservation)
       subject.end_reservation
     end
 

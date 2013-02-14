@@ -150,9 +150,7 @@ class Reservation < ActiveRecord::Base
     unless ended?
       begin
         copy_logs
-        zip_demos_and_logs
-        server.remove_configuration
-        server.restart
+        server.end_reservation(self)
       rescue Exception => exception
         logger.error "Something went wrong ending reservation #{self.id} - #{exception}"
         Raven.capture_exception(exception) if Rails.env.production?
@@ -165,35 +163,16 @@ class Reservation < ActiveRecord::Base
     end
   end
 
+  def zipfile_name
+    "#{user.uid}-#{id}-#{server.id}-#{formatted_starts_at}.zip"
+  end
+
   def inactive_too_long?
     inactive_minute_counter >= 30
   end
 
   def copy_logs
-    LogCopier.new(self.id, server.logs).copy
-  end
-
-  def zip_demos_and_logs
-    ZipFile.create(zipfile_name_and_path, files_to_zip)
-    remove_files_to_zip
-  end
-
-  def remove_files_to_zip
-    logger.info "Removing the files that were zipped"
-    logger.info files_to_zip
-    FileUtils.rm(files_to_zip)
-  end
-
-  def files_to_zip
-    @files_to_zip ||= server.logs + server.demos
-  end
-
-  def zipfile_name_and_path
-    Rails.root.join("public", "uploads", zipfile_name)
-  end
-
-  def zipfile_name
-    "#{user.uid}-#{id}-#{server_id}-#{formatted_starts_at}.zip"
+    LogCopier.copy(self.id, server)
   end
 
   def formatted_starts_at
@@ -219,7 +198,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def validate_reservable_by_user
-    unless Server.reservable_by_user(user).include?(server)
+    unless Server.reservable_by_user(user).map(&:id).include?(server_id)
       errors.add(:server_id, "is not available for you")
     end
   end

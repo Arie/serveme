@@ -23,7 +23,7 @@ end
 
 When "I select a server" do
   @server = Server.first
-  within "#server_#{@server.id}" do
+  within "#local_server_#{@server.id}" do
     click_link "Book this server"
   end
 end
@@ -68,7 +68,7 @@ When "I save the reservation" do
 end
 
 Then "the server gets killed" do
-  Server.any_instance.should_receive(:find_process_id).and_return { 12345 }
+  LocalServer.any_instance.should_receive(:find_process_id).and_return { 12345 }
   Process.should_receive(:kill).with(15, 12345)
 end
 

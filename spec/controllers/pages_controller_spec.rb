@@ -24,7 +24,7 @@ describe PagesController do
       sign_in @user
 
       servers = ['foo']
-      Server.should_receive(:reservable_by_user).with(@user).and_return(servers)
+      Server.should_receive(:scoped).and_return(servers)
       get :servers
       assigns(:servers).should eql servers
     end

@@ -16,6 +16,10 @@ class SshServer < Server
     @logs ||= shell_output_to_array(execute("ls #{tf_dir}/logs/L*.log"))
   end
 
+  def log_matcher
+    "#{tf_dir}/logs/L*.log"
+  end
+
   def remove_logs_and_demos
     execute("rm -f #{logs_and_demos.join(' ')}")
   end
@@ -33,7 +37,7 @@ class SshServer < Server
   end
 
   def copy_from_server(files, destination)
-    copy_command = "scp #{ip}:#{files} #{destination}"
+    copy_command = "scp '#{ip}:#{files}' #{destination}"
     logger.info "copying from remote server: #{copy_command}"
     `#{copy_command}`
   end

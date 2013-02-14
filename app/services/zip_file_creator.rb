@@ -62,7 +62,7 @@ class SshZipFileCreator < ZipFileCreator
   private
 
   def download_zip_from_remote_server
-    server.scp_from_server(remote_zip_name, zipfile_name_and_path)
+    server.copy_from_server(remote_zip_name, zipfile_name_and_path)
   end
 
   def remote_zip_name

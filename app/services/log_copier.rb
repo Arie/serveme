@@ -38,7 +38,7 @@ end
 class SshLogCopier < LogCopier
 
   def copy_logs
-    server.scp_from_server(logs.join(" "), directory_to_copy_to)
+    server.copy_from_server(logs.join(" "), directory_to_copy_to)
   end
 
 end

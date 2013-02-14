@@ -26,16 +26,16 @@ class SshServer < Server
     `#{ssh_command}`
   end
 
-  def scp_to_server(files, destination)
-    scp_command = "scp #{files} #{ip}:#{destination}"
-    logger.info "copying to remote server: #{scp_command}"
-    `#{scp_command}`
+  def copy_to_server(files, destination)
+    copy_command = "scp #{files} #{ip}:#{destination}"
+    logger.info "copying to remote server: #{copy_command}"
+    `#{copy_command}`
   end
 
-  def scp_from_server(files, destination)
-    scp_command = "scp #{ip}:#{files} #{destination}"
-    logger.info "copying from remote server: #{scp_command}"
-    `#{scp_command}`
+  def copy_from_server(files, destination)
+    copy_command = "scp #{ip}:#{files} #{destination}"
+    logger.info "copying from remote server: #{copy_command}"
+    `#{copy_command}`
   end
 
   def log_copier_class
@@ -57,7 +57,7 @@ class SshServer < Server
     File.open(tmp_file, "w") do |f|
       f.write(output_content)
     end
-    scp_to_server(tmp_file, reservation_config_file)
+    copy_to_server(tmp_file, reservation_config_file)
   end
 
   def shell_output_to_array(shell_output)

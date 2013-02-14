@@ -134,8 +134,7 @@ class Reservation < ActiveRecord::Base
 
   def start_reservation
     begin
-      server.update_configuration(self)
-      server.restart
+      server.start_reservation(self)
     rescue Exception => exception
       logger.error "Something went wrong provisioning the server for reservation #{self.id} - #{exception}"
       Raven.capture_exception(exception) if Rails.env.production?
@@ -149,7 +148,6 @@ class Reservation < ActiveRecord::Base
   def end_reservation
     unless ended?
       begin
-        copy_logs
         server.end_reservation(self)
       rescue Exception => exception
         logger.error "Something went wrong ending reservation #{self.id} - #{exception}"
@@ -169,10 +167,6 @@ class Reservation < ActiveRecord::Base
 
   def inactive_too_long?
     inactive_minute_counter >= 30
-  end
-
-  def copy_logs
-    LogCopier.copy(self.id, server)
   end
 
   def formatted_starts_at

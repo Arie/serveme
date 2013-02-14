@@ -64,6 +64,7 @@ describe LocalServer do
 
     it 'should zip demos and logs, remove configuration and restart' do
       reservation = stub
+      subject.should_receive(:copy_logs)
       subject.should_receive(:zip_demos_and_logs).with(reservation)
       subject.should_receive(:remove_logs_and_demos)
       subject.should_receive(:remove_configuration)

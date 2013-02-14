@@ -161,20 +161,9 @@ describe Reservation do
       subject.stub(:server => server, :to_s => 'reservation')
     end
 
-    it "should tell the server to update its configuration" do
-      server.should_receive(:update_configuration)
+    it "should tell the server to start the reservation" do
+      server.should_receive(:start_reservation).with(subject)
       subject.start_reservation
-    end
-
-    it "should tell the server to restart" do
-      server.should_receive(:restart)
-      subject.start_reservation
-    end
-
-    it "should be provisioned after starting" do
-      subject.should_not be_provisioned
-      subject.start_reservation
-      subject.should be_provisioned
     end
 
     it "logs an error if something goes wrong" do
@@ -195,15 +184,13 @@ describe Reservation do
     let(:server) { stub(:logs => []) }
     before { subject.stub(:to_s => 'foo', :server => server) }
 
-    it 'should copy the logs and send the end_reservation message to the server' do
-      subject.should_receive(:copy_logs)
+    it 'should send the end_reservation message to the server' do
       server.should_receive(:end_reservation)
       subject.end_reservation
     end
 
     it 'should not do anything when the reservation was already ended' do
       subject.stub(:ended? => true)
-      subject.should_not_receive(:copy_logs)
       server.should_not_receive(:end_reservation)
       subject.end_reservation
     end

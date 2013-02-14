@@ -99,7 +99,13 @@ class Server < ActiveRecord::Base
     end
   end
 
+  def start_reservation(reservation)
+    update_configuration(reservation)
+    restart
+  end
+
   def end_reservation(reservation)
+    copy_logs(reservation)
     zip_demos_and_logs(reservation)
     remove_logs_and_demos
     remove_configuration
@@ -108,6 +114,10 @@ class Server < ActiveRecord::Base
 
   def zip_demos_and_logs(reservation)
     ZipFileCreator.create(reservation, logs_and_demos)
+  end
+
+  def copy_logs(reservation)
+    LogCopier.copy(reservation.id, self)
   end
 
   private

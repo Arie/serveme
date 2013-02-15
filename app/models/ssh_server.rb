@@ -30,16 +30,17 @@ class SshServer < Server
   end
 
   def copy_to_server(files, destination)
-    logger.info "copying TO remote server, FILES: #{files} DESTINATION: #{destination}"
-    files.each do |file|
-      ssh.scp_put(ip, file.to_s, destination)
-    end
+    scp(:scp_put, ip, files, destination)
   end
 
   def copy_from_server(files, destination)
-    logger.info "copying FROM remote server, FILES: #{files} DESTINATION: #{destination}"
+    scp(:scp_get, ip, files, destination)
+  end
+
+  def scp(action, ip, files, destination)
+    logger.info "SCP #{action}, FILES: #{files} DESTINATION: #{destination}"
     files.each do |file|
-      ssh.scp_get(ip, file.to_s, destination)
+      ssh.send(action, ip, file.to_s, destination)
     end
   end
 

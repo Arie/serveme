@@ -1,4 +1,4 @@
-# FakkelBrigade community gameserver interface [![Build Status](https://secure.travis-ci.org/Arie/serveme.png)](http://travis-ci.org/Arie/serveme) [![Code Climate](https://codeclimate.com/github/Arie/serveme.png)](https://codeclimate.com/github/Arie/serveme)
+# FakkelBrigade community gameserver interface [![Build Status](https://secure.travis-ci.org/Arie/serveme.png)](http://travis-ci.org/Arie/serveme) [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/Arie/serveme)
 
 A web-interface to reserve TF2 gameservers
 

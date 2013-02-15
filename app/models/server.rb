@@ -8,7 +8,11 @@ class Server < ActiveRecord::Base
   has_many :reservations
 
   def self.reservable_by_user(user)
-    without_group + in_groups(user.groups)
+    where(:id => ids_reservable_by_user(user))
+  end
+
+  def self.ids_reservable_by_user(user)
+    without_group.map(&:id) + in_groups(user.groups).map(&:id)
   end
 
   def self.without_group

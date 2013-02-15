@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130213075947) do
+ActiveRecord::Schema.define(:version => 20130215205918) do
 
   create_table "group_servers", :force => true do |t|
     t.integer  "server_id"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(:version => 20130213075947) do
     t.datetime "updated_at"
     t.string   "rcon"
     t.string   "type",       :default => "LocalServer"
+    t.integer  "position",   :default => 1000
   end
 
   create_table "users", :force => true do |t|

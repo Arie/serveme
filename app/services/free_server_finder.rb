@@ -21,7 +21,7 @@ class FreeServerFinder
   private
 
   def servers_available_for_user
-    @servers_available_for_user ||= Server.reservable_by_user(user)
+    @servers_available_for_user ||= Server.reservable_by_user(user).order('servers.position ASC')
   end
 
   def reservation

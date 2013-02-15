@@ -44,6 +44,7 @@ GEM
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
     binding_of_caller (0.6.8)
+    blockenspiel (0.4.5)
     bootstrap-sass (2.2.2.0)
       sass (~> 3.2)
     builder (3.0.4)
@@ -147,6 +148,11 @@ GEM
     net-ssh (2.6.5)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
+    net-ssh-simple (1.6.2)
+      blockenspiel (~> 0.4.3)
+      hashie (>= 1.1.0)
+      net-scp (~> 1.1.0)
+      net-ssh (~> 2.6.3)
     nokogiri (1.5.6)
     omniauth (1.1.2)
       hashie (~> 1.2)
@@ -303,6 +309,7 @@ DEPENDENCIES
   libv8 (~> 3.11.8)
   logs_tf
   mysql2
+  net-ssh-simple
   omniauth-openid
   omniauth-steam
   paper_trail

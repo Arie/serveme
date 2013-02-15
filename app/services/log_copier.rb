@@ -38,7 +38,7 @@ end
 class SshLogCopier < LogCopier
 
   def copy_logs
-    server.copy_from_server(server.log_matcher, directory_to_copy_to)
+    server.copy_from_server(logs, directory_to_copy_to)
   end
 
 end

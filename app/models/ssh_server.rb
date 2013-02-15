@@ -1,11 +1,15 @@
 class SshServer < Server
 
+  def find_process_id
+    execute("ps ux | grep port | grep #{port} | grep srcds_linux | grep -v grep | grep -v ruby | awk '{print \$2}'")
+  end
+
   def remove_configuration
     execute("rm -f #{reservation_config_file}")
   end
 
-  def find_process_id
-    execute("ps ux | grep port | grep #{port} | grep srcds_linux | grep -v grep | grep -v ruby | awk '{print \\$2}'")
+  def remove_logs_and_demos
+    execute("rm -f #{logs_and_demos.join(' ')}")
   end
 
   def demos
@@ -16,30 +20,27 @@ class SshServer < Server
     @logs ||= shell_output_to_array(execute("ls #{tf_dir}/logs/L*.log"))
   end
 
-  def log_matcher
-    "#{tf_dir}/logs/L*.log"
-  end
-
-  def remove_logs_and_demos
-    execute("rm -f #{logs_and_demos.join(' ')}")
-  end
-
   def execute(command)
-    ssh_command = "ssh #{ip} \"#{command}\""
-    logger.info "executing remotely: #{ssh_command}"
-    `#{ssh_command}`
+    logger.info "executing remotely: #{command}"
+    ssh_exec(command).stdout
+  end
+
+  def ssh_exec(command)
+    ssh.ssh(ip, command)
   end
 
   def copy_to_server(files, destination)
-    copy_command = "scp #{files} #{ip}:#{destination}"
-    logger.info "copying to remote server: #{copy_command}"
-    `#{copy_command}`
+    logger.info "copying TO remote server, FILES: #{files} DESTINATION: #{destination}"
+    files.each do |file|
+      ssh.scp_put(ip, file.to_s, destination)
+    end
   end
 
   def copy_from_server(files, destination)
-    copy_command = "scp '#{ip}:#{files}' #{destination}"
-    logger.info "copying from remote server: #{copy_command}"
-    `#{copy_command}`
+    logger.info "copying FROM remote server, FILES: #{files} DESTINATION: #{destination}"
+    files.each do |file|
+      ssh.scp_get(ip, file.to_s, destination)
+    end
   end
 
   def log_copier_class
@@ -50,22 +51,31 @@ class SshServer < Server
     SshZipFileCreator
   end
 
-  private
+  def write_configuration(output_filename, output_content)
+    File.open(temporary_reservation_config_file, "w") do |f|
+      f.write(output_content)
+    end
+    upload_configuration(temporary_reservation_config_file)
+  end
 
   def kill_process
     execute("kill -15 #{process_id}")
   end
 
-  def write_configuration(output_filename, output_content)
-    tmp_file = Rails.root.join("tmp", "server_#{id}_reservation.cfg")
-    File.open(tmp_file, "w") do |f|
-      f.write(output_content)
-    end
-    copy_to_server(tmp_file, reservation_config_file)
+  def upload_configuration(configuration_file)
+    copy_to_server([configuration_file], reservation_config_file)
   end
 
   def shell_output_to_array(shell_output)
     shell_output.lines.map(&:chomp)
+  end
+
+  def temporary_reservation_config_file
+    Rails.root.join("tmp", "server_#{id}_reservation.cfg")
+  end
+
+  def ssh
+    @ssh ||= Net::SSH::Simple.new({:host_name => ip})
   end
 
 end

@@ -24,4 +24,7 @@ class PagesController < ApplicationController
     @top_10_hash = Statistic.top_10
   end
 
+  def server_providers
+  end
+
 end

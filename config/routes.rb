@@ -44,6 +44,7 @@ Serveme::Application.routes.draw do
       get :recent_reservations
       get :top_10
       get :servers
+      get :server_providers
     end
   end
 

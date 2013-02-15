@@ -1,3 +1,4 @@
+# encoding: utf-8
 Given "there are reservations today" do
   create(:reservation, :server => Server.last, :starts_at => 4.hours.from_now, :ends_at => 5.hours.from_now)
   @reservation = create(:reservation, :server => Server.first, :starts_at => 5.hours.from_now, :ends_at => 6.hours.from_now)
@@ -222,6 +223,19 @@ Given "my reservation had a log" do
   FileUtils.mkdir_p(dir)
   File.open(File.join(dir, "L1337.log"), 'w') {|f| f.write("These are not the logs you're looking for") }
 end
+
+Then "I can see it's pretty special" do
+  page.should have_content("]ρтqяσx[ Psycho Killer")
+  page.should have_content("CคpTคiИ★Lucky")
+  page.should have_content("Λϟ ϟλϟ ϟIИØ™")
+end
+
+Given "my reservation had a log with special characters" do
+  dir = Rails.root.join("server_logs", "#{@reservation.id}")
+  FileUtils.mkdir_p(dir)
+  FileUtils.cp(Rails.root.join('spec', 'fixtures', 'logs', 'special_characters.log'), File.join(dir, "L1337.log"))
+end
+
 
 Then "I get to enter the upload details" do
   fill_in "Title",  :with => "Epsilon destroying Broder"

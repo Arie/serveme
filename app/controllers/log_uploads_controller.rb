@@ -27,7 +27,7 @@ class LogUploadsController < ApplicationController
 
   def show_log
     file = find_log_file(params[:file_name].to_s)
-    @log_file = File.read(file[:file_name_and_path])
+    @log_file = File.read(file[:file_name_and_path]).force_encoding('UTF-8').encode('UTF-16LE', :invalid => :replace, :replace => '').encode('UTF-8')
   end
 
   private

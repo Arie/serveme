@@ -12,7 +12,7 @@ class ServerInfo
   end
 
   def server_name
-    status.fetch(:server_name,        'unknown')
+    status.fetch(:server_name,        'unknown').force_encoding('UTF-8').encode('UTF-16LE', :invalid => :replace, :replace => '').encode('UTF-8')
   end
 
   def number_of_players

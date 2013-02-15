@@ -87,14 +87,14 @@ describe LogUpload do
       LogUpload.should_receive(:log_matcher).with(reservation_id).and_return { log_matcher }
       subject.stub(:log_file_name_and_path => 'bar.log')
       mtime = stub
-      File.should_receive(:mtime).with(anything).and_return { mtime }
+      File.should_receive(:mtime).at_least(:once).with(anything).and_return { mtime }
 
-      LogUpload.find_log_files(reservation_id).should == [
+      LogUpload.find_log_files(reservation_id).should include(
         { :file_name_and_path => Rails.root.join('spec', 'fixtures', 'logs', 'L1234567.log').to_s,
           :file_name          => "L1234567.log",
           :last_modified      => mtime,
           :size               => 16 }
-      ]
+      )
     end
 
   end

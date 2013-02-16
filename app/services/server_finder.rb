@@ -1,4 +1,4 @@
-class FreeServerFinder
+class ServerFinder
 
   attr_reader :user, :starts_at, :ends_at
 
@@ -9,7 +9,7 @@ class FreeServerFinder
   end
 
   def servers
-    servers_available_for_user.select do |server|
+    ServerFinder.available_for_user(user).select do |server|
       CollisionFinder.new(server, reservation).colliding_reservations.none?
     end
   end
@@ -18,11 +18,11 @@ class FreeServerFinder
     CollisionFinder.new(user, reservation).colliding_reservations.any?
   end
 
-  private
-
-  def servers_available_for_user
-    @servers_available_for_user ||= Server.reservable_by_user(user).order('servers.position ASC')
+  def self.available_for_user(user)
+    Server.reservable_by_user(user).order('servers.position ASC')
   end
+
+  private
 
   def reservation
     @reservation ||= Reservation.new(:starts_at => starts_at, :ends_at => ends_at, :user_id => user.id)

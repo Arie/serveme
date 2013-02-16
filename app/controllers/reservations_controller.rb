@@ -15,6 +15,7 @@ class ReservationsController < ApplicationController
 
   def server_selection
     @reservation ||= new_reservation
+    @servers ||= ServerFinder.available_for_user(current_user)
   end
 
   def new
@@ -106,7 +107,7 @@ class ReservationsController < ApplicationController
   end
 
   def free_server_finder
-    FreeServerFinder.new(current_user, @reservation.starts_at, @reservation.ends_at)
+    ServerFinder.new(current_user, @reservation.starts_at, @reservation.ends_at)
   end
 
   def extend_reservation

@@ -16,6 +16,7 @@ set :use_sudo,          false
 set :user,              'tf2'
 set :rvm_ruby_string,   '1.9.3@serveme'
 set :rvm_type,          :system
+set :stage,             'production'
 
 server "#{main_server}", :web, :app, :db, :primary => true
 

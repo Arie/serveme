@@ -1,4 +1,4 @@
-source :rubygems
+source 'https://rubygems.org'
 
 gem 'rails'
 gem 'haml'
@@ -64,4 +64,5 @@ group :assets do
   gem 'bootstrap-sass'                            #<3 twitter bootstrap
   gem 'therubyracer', :require => 'v8'
   gem 'turbo-sprockets-rails3'
+  gem 'font-awesome-sass-rails'
 end

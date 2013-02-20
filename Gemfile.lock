@@ -15,7 +15,7 @@ GIT
       rack (>= 1.1, < 2.0)
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     actionmailer (3.2.12)
       actionpack (= 3.2.12)
@@ -112,6 +112,9 @@ GEM
     faraday (0.8.5)
       multipart-post (~> 1.1)
     ffi (1.4.0)
+    font-awesome-sass-rails (3.0.2.1)
+      railties (>= 3.1.1)
+      sass-rails (>= 3.1.1)
     fssm (0.2.10)
     fuubar (1.1.0)
       rspec (~> 2.0)
@@ -305,6 +308,7 @@ DEPENDENCIES
   database_cleaner
   devise
   factory_girl_rails
+  font-awesome-sass-rails
   fuubar
   fuubar-cucumber
   haml

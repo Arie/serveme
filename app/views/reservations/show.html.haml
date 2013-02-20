@@ -8,7 +8,9 @@
         %td Connect info
         %td
           - if reservation.active?
-            = link_to "Join game", reservation.server_connect_url, :class => 'btn btn-small btn-warning'
+            = link_to reservation.server_connect_url, :class => 'btn btn-small btn-warning' do
+              Join game
+              %i.icon-play
             = "or enter in console: #{reservation.connect_string}"
           - else
             = reservation.connect_string
@@ -32,7 +34,9 @@
         %td STV connect info
         %td
           - if reservation.active?
-            = link_to "Join STV", reservation.stv_connect_url, :class => 'btn btn-small btn-inverse'
+            = link_to reservation.stv_connect_url, :class => 'btn btn-small btn-inverse' do
+              Join STV
+              %i.icon-film
             = "or enter in console: #{reservation.stv_connect_string}"
           - else
             = reservation.stv_connect_string

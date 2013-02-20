@@ -24,7 +24,9 @@
   .span10
     = render "shared/paypal"
 
-= link_to "Make reservation", server_selection_reservations_path, :class => 'btn btn-primary', :title => "Get a server right now, or make a reservation"
+= link_to server_selection_reservations_path, :class => 'btn btn-primary', :title => "Get a server right now, or make a reservation" do
+  Make reservation
+  %i.icon-calendar
 
 - if @users_reservations && @users_reservations.any?
   .row

@@ -15,8 +15,8 @@
         %tr{:class => klass}
           %td= reservation.server.name
           %td= reservation.user.nickname
-          %td= I18n.l(reservation.starts_at,  :format => :time)
-          %td= I18n.l(reservation.ends_at,    :format => :time)
+          %td= I18n.l(reservation.starts_at,  :format => :time_without_seconds)
+          %td= I18n.l(reservation.ends_at,    :format => :time_without_seconds)
 
 - else
   = "None yet!"

@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  devise :omniauthable
+  devise :omniauthable, :rememberable, :trackable
 
   attr_accessible :uid, :nickname, :name, :provider, :logs_tf_api_key
 

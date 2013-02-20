@@ -12,7 +12,7 @@
         %td= reservation.server.name
         %td= I18n.l(reservation.starts_at,  :format => :short)
         %td= I18n.l(reservation.ends_at,    :format => :short)
-        %td
+        %td.actions
           %span
             - unless reservation.past?
               = link_to reservation_path(reservation),              :class => 'btn btn-small btn-success' do

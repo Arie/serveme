@@ -10,7 +10,7 @@
       %td= log[:file_name]
       %td= I18n.l(log[:last_modified], :format => :datepicker)
       %td= number_to_human_size(log[:size].to_i)
-      %td
+      %td.actions
         = link_to show_log_reservation_log_uploads_path(reservation,  :file_name => log[:file_name]), :class => 'btn btn-small btn-inverse', :title => "Read log" do
           Read log
           %i.icon-zoom-in

@@ -14,6 +14,8 @@ gem 'steam-condenser',  :git => 'git://github.com/Arie/steam-condenser-ruby.git'
 gem 'logs_tf'
 gem 'sys-proctable',    :require => 'sys/proctable'
 gem 'net-ssh-simple'
+gem 'tf2_line_parser',  :github => "Arie/tf2_line_parser"
+gem 'draper'
 
 group :development do
   gem 'quiet_assets'

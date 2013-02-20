@@ -1,7 +1,10 @@
 en:
+  datetime:
+    formats:
+      time: "%H:%M:%S"
   time:
     formats:
-      time: "%H:%M"
+      time: "%H:%M:%S"
       datepicker: "%d-%m-%Y %H:%M"
       short: "%d %b %H:%M"
       short_with_dayname: "%a %d %b %H:%M"

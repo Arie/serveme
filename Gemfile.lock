@@ -8,6 +8,12 @@ GIT
       multi_xml (~> 0.5.1)
 
 GIT
+  remote: git://github.com/Arie/tf2_line_parser.git
+  revision: b057d0e1539bed554ef019f2b615bd226ad5820b
+  specs:
+    tf2_line_parser (0.0.2)
+
+GIT
   remote: git://github.com/puma/puma.git
   revision: 2e2440024623e91bc4f3eb9052b27164627a60f3
   specs:
@@ -101,6 +107,10 @@ GEM
       railties (~> 3.1)
       warden (~> 1.2.1)
     diff-lcs (1.1.3)
+    draper (1.1.0)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      request_store (~> 1.0.3)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -216,6 +226,7 @@ GEM
     rdoc (3.12.1)
       json (~> 1.4)
     ref (1.0.2)
+    request_store (1.0.5)
     rspec (2.12.0)
       rspec-core (~> 2.12.0)
       rspec-expectations (~> 2.12.0)
@@ -307,6 +318,7 @@ DEPENDENCIES
   dalli
   database_cleaner
   devise
+  draper
   factory_girl_rails
   font-awesome-sass-rails
   fuubar
@@ -335,6 +347,7 @@ DEPENDENCIES
   spec_coverage
   steam-condenser!
   sys-proctable
+  tf2_line_parser!
   therubyracer
   turbo-sprockets-rails3
   uglifier

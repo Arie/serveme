@@ -221,7 +221,8 @@ end
 Given "my reservation had a log" do
   dir = Rails.root.join("server_logs", "#{@reservation.id}")
   FileUtils.mkdir_p(dir)
-  File.open(File.join(dir, "L1337.log"), 'w') {|f| f.write("These are not the logs you're looking for") }
+  line = 'L 02/15/2013 - 00:09:15: "Console<0><Console><Console>" say "These are not the logs you\'re looking for"'
+  File.open(File.join(dir, "L1337.log"), 'w') {|f| f.write(line) }
 end
 
 Then "I can see it's pretty special" do

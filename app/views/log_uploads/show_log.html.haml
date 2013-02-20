@@ -1,5 +1,11 @@
-= link_to new_reservation_log_upload_path(reservation, :file_name => params[:file_name]), :class => 'btn btn-small btn-success', :title => "logs.tf" do
-  Send to logs.tf
-  %i.icon-upload
-.log
-  = simple_format(@log_file)
+.row
+  .span12
+    = link_to new_reservation_log_upload_path(reservation, :file_name => params[:file_name]), :class => 'btn btn-small btn-success', :title => "logs.tf" do
+      Send to logs.tf
+      %i.icon-upload
+
+    %table.table.table-bordered.log_events
+      - @events.each do |event|
+        %tr{:class => event.table_class}
+          %td= event.time
+          %td= event.text.html_safe

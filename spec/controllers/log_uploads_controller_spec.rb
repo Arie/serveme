@@ -86,7 +86,7 @@ describe LogUploadsController do
 
     it 'assigns the utf-8 encoded log_file variable' do
       log = stub
-      log.should_receive(:force_encoding).with('UTF-8').and_return { stub.as_null_object }
+      log.should_receive(:lines).and_return { stub.as_null_object }
       subject.stub(:logs => [{:file_name => 'foo.log', :file_name_and_path => 'bar.log'}])
       File.should_receive(:read).with('bar.log').and_return(log)
       get :show_log, :reservation_id => @reservation.id, :file_name => 'foo.log'

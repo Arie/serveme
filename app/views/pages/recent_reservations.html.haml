@@ -14,4 +14,4 @@
         %tr
           %td= link_to(user.nickname, user.steam_profile_url, :target => "_blank")
           %td= I18n.l(reservation.created_at, :format => :datepicker)
-          %td= "#{I18n.l(reservation.starts_at, :format => :datepicker)} - #{I18n.l(reservation.ends_at, :format => :time)}"
+          %td= "#{I18n.l(reservation.starts_at, :format => :datepicker)} - #{I18n.l(reservation.ends_at, :format => :time_without_seconds)}"

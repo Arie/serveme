@@ -9,7 +9,7 @@ Capistrano::Configuration.instance.load do
     desc "Start puma"
     task :start, :roles => lambda { fetch(:puma_role) }, :on_no_matching_servers => :continue do
       puma_env = "production"
-      run "cd #{current_path} && #{fetch(:bundle_cmd, "bundle")} exec puma -e #{puma_env} -b 'tcp://127.0.0.1:3000' -t 2:16 -S #{shared_path}/sockets/puma.state --control 'unix://#{shared_path}/sockets/pumactl.sock' >> #{shared_path}/log/puma.log 2>&1 &", :pty => false
+      run "cd #{current_path} && #{fetch(:bundle_cmd, "bundle")} exec puma -e #{puma_env} -b 'tcp://127.0.0.1:3010' -t 2:16 -S #{shared_path}/sockets/puma.state --control 'unix://#{shared_path}/sockets/pumactl.sock' >> #{shared_path}/log/puma.log 2>&1 &", :pty => false
     end
 
     desc "Stop puma"

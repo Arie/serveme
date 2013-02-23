@@ -1,0 +1,5 @@
+en:
+  activerecord:
+    attributes:
+      user:
+        logs_tf_api_key: logs.tf API key

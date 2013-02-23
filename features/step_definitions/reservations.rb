@@ -169,7 +169,7 @@ end
 
 Then "I get notice and a link with the demos and logs" do
   page.should have_content "Reservation removed"
-  within '.alert' do
+  within '.flash.alert' do
     find('a')[:href].should include(@reservation_zipfile_name)
   end
 end

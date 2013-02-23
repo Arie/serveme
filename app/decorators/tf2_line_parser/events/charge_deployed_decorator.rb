@@ -2,7 +2,7 @@
 class TF2LineParser::Events::ChargeDeployedDecorator < TF2LineParser::PlayerEventDecorator
 
   def text
-    "#{uber_icon} #{player.name} übercharged #{uber_icon}"
+    "#{player.name} übercharged #{uber_icon}"
   end
 
   def uber_icon

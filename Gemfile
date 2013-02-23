@@ -67,4 +67,5 @@ group :assets do
   gem 'therubyracer', :require => 'v8'
   gem 'turbo-sprockets-rails3'
   gem 'font-awesome-sass-rails'
+  gem 'oily_png'
 end

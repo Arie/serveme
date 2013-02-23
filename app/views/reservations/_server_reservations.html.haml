@@ -4,7 +4,7 @@
     %ul.unstyled
       - server.reservations.future.order(:starts_at).each do |reservation|
         %li
-          %small= "#{I18n.l(reservation.starts_at, :format => :short_with_dayname)} -  #{I18n.l(reservation.ends_at, :format => :time)}"
+          %small= "#{I18n.l(reservation.starts_at, :format => :short_with_dayname)} -  #{I18n.l(reservation.ends_at, :format => :time_without_seconds)}"
   %td.actions
     = link_to new_reservation_path(:server_id => server.id), :class => 'btn btn-primary' do
       Book this server

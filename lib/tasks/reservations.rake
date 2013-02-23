@@ -2,7 +2,7 @@ namespace :reservations do
 
   desc "end_past_reservations"
   task :end => :environment do
-    past_reservations         = Reservation.where('ends_at < ? AND provisioned = ?', Time.now, true)
+    past_reservations         = Reservation.where('ends_at < ? AND provisioned = ?', Time.current, true)
     unended_past_reservations = past_reservations.where('ended = ?', false)
     unended_past_reservations.map do |reservation|
       reservation.end_reservation

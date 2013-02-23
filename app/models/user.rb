@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   devise :omniauthable, :rememberable, :trackable
 
-  attr_accessible :uid, :nickname, :name, :provider, :logs_tf_api_key
+  attr_accessible :uid, :nickname, :name, :provider, :logs_tf_api_key, :time_zone
 
   has_many :reservations
   has_many :group_users

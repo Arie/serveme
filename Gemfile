@@ -33,6 +33,7 @@ group :test, :development do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
   gem 'pry-nav'
+  gem 'zonebie'
 end
 
 group :test_tools do

@@ -83,7 +83,7 @@ class ReservationsController < ApplicationController
   def new_reservation
     Reservation.new(:user_id   => current_user.id,
                     :server    => server,
-                    :starts_at => Time.now,
+                    :starts_at => Time.current,
                     :ends_at   => 2.hours.from_now)
   end
 

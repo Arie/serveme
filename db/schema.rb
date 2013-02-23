@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130220220105) do
+ActiveRecord::Schema.define(:version => 20130223104516) do
 
   create_table "group_servers", :force => true do |t|
     t.integer  "server_id"
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(:version => 20130220220105) do
     t.datetime "updated_at"
     t.string   "logs_tf_api_key"
     t.string   "remember_token"
+    t.string   "time_zone"
   end
 
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true

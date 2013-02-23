@@ -2,8 +2,9 @@
   = link_to('Get or generate your logs.tf API key', 'http://logs.tf/uploader', :target => '_blank')
   on the logs.tf website, and enter it here
 
-= simple_form_for(@user, :html => { :class => 'form-inline' }) do |f|
-  = f.input :logs_tf_api_key, :label => false, :placeholder => "logs.tf API key"
+= simple_form_for(@user, :html => { :class => 'form-horizontal' }) do |f|
+  = f.input :logs_tf_api_key, :placeholder => "logs.tf API key"
+  = f.input :time_zone, :priority => /Europe/, :include_blank => true, :hint => "Auto detection thinks you're in time zone: #{time_zone_from_cookie}"
 
   %button.btn{:type => :submit}
     Save

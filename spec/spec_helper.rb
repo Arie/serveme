@@ -39,3 +39,4 @@ RSpec.configure do |config|
   # Shorter FactoryGirl syntax
   config.include FactoryGirl::Syntax::Methods
 end
+Zonebie.set_random_timezone

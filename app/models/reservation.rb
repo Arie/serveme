@@ -32,11 +32,11 @@ class Reservation < ActiveRecord::Base
   end
 
   def self.future
-    where('reservations.ends_at > ?', Time.now)
+    where('reservations.ends_at > ?', Time.current)
   end
 
   def self.current
-    where('reservations.starts_at < ? AND reservations.ends_at > ?', Time.now, Time.now)
+    where('reservations.starts_at < ? AND reservations.ends_at > ?', Time.current, Time.current)
   end
 
   def to_s
@@ -44,7 +44,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def now?
-    starts_at < Time.now && ends_at > Time.now
+    starts_at < Time.current && ends_at > Time.current
   end
 
   def active?
@@ -52,11 +52,11 @@ class Reservation < ActiveRecord::Base
   end
 
   def past?
-    ends_at < Time.now
+    ends_at < Time.current
   end
 
   def future?
-    starts_at > Time.now
+    starts_at > Time.current
   end
 
   def collides?
@@ -92,7 +92,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def less_than_1_hour_left?
-    time_left = (ends_at - Time.now)
+    time_left = (ends_at - Time.current)
     active? && time_left < 1.hour
   end
 
@@ -153,7 +153,7 @@ class Reservation < ActiveRecord::Base
         logger.error "Something went wrong ending reservation #{self.id} - #{exception}"
         Raven.capture_exception(exception) if Rails.env.production?
       ensure
-        self.ends_at  = Time.now
+        self.ends_at  = Time.current
         self.ended    = true
         save(:validate => false)
         logger.info "[#{Time.now}] Ended reservation: #{id} #{self}"

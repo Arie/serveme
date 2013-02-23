@@ -230,7 +230,7 @@ describe Reservation do
     end
 
     it "validates the chronologicality of the times" do
-      reservation = build :reservation, :starts_at => Time.now, :ends_at => 29.minutes.from_now
+      reservation = build :reservation, :starts_at => Time.current, :ends_at => 29.minutes.from_now
       reservation.should have(1).error_on(:ends_at)
       reservation.errors.full_messages.should include "Ends at needs to be at least 30 minutes after start time"
       reservation.ends_at = 30.minutes.from_now
@@ -251,7 +251,7 @@ describe Reservation do
     end
 
     it 'validates the end time is at least 30 minutes after start time' do
-      reservation = build :reservation, :starts_at => Time.now, :ends_at => 29.minutes.from_now
+      reservation = build :reservation, :starts_at => Time.current, :ends_at => 29.minutes.from_now
       reservation.should have(1).error_on(:ends_at)
       reservation.errors.full_messages.should include "Ends at needs to be at least 30 minutes after start time"
 
@@ -260,7 +260,7 @@ describe Reservation do
     end
 
     it 'has an initial duration of no more than 3 hours' do
-      reservation = build :reservation, :starts_at => Time.now, :ends_at => 181.minutes.from_now
+      reservation = build :reservation, :starts_at => Time.current, :ends_at => 181.minutes.from_now
       reservation.should have(1).error_on(:ends_at)
       reservation.errors.full_messages.should include "Ends at maximum reservation time is 3 hours"
 
@@ -270,7 +270,7 @@ describe Reservation do
 
     it "validates you don't collide with another reservation of yourself" do
       user = create(:user)
-      create :reservation, :user => user, :starts_at => Time.now, :ends_at => 179.minutes.from_now
+      create :reservation, :user => user, :starts_at => Time.current, :ends_at => 179.minutes.from_now
       reservation = build :reservation, :user => user, :starts_at => 90.minutes.from_now, :ends_at => 181.minutes.from_now
 
       reservation.should have(1).error_on(:starts_at)
@@ -281,7 +281,7 @@ describe Reservation do
     end
 
     it 'allows extending a reservation past 3 hours' do
-      starts = Time.now
+      starts = Time.current
       reservation = build :reservation, :starts_at => starts, :ends_at => (starts + 181.minutes)
 
       reservation.extending = false
@@ -348,7 +348,7 @@ describe Reservation do
 
       it "finds colliding reservations from its user" do
         user    = create(:user)
-        reservation       = create(:reservation,  :user => user, :starts_at => Time.now,             :ends_at => 1.hour.from_now)
+        reservation       = create(:reservation,  :user => user, :starts_at => Time.current,             :ends_at => 1.hour.from_now)
         front_overlap     = build(:reservation,   :user => user, :starts_at => 10.minutes.ago,       :ends_at => 50.minutes.from_now)
         internal          = build(:reservation,   :user => user, :starts_at => 10.minutes.from_now,  :ends_at => 50.minutes.from_now)
         rear_overlap      = build(:reservation,   :user => user, :starts_at => 55.minutes.from_now,  :ends_at => 2.hours.from_now)
@@ -375,7 +375,7 @@ describe Reservation do
 
       it "finds colliding reservations from its server" do
         server  = create(:server)
-        reservation       = create(:reservation,  :server => server, :starts_at => Time.now,             :ends_at => 1.hour.from_now)
+        reservation       = create(:reservation,  :server => server, :starts_at => Time.current,             :ends_at => 1.hour.from_now)
         front_overlap     = build(:reservation,   :server => server, :starts_at => 10.minutes.ago,       :ends_at => 50.minutes.from_now)
         internal          = build(:reservation,   :server => server, :starts_at => 10.minutes.from_now,  :ends_at => 50.minutes.from_now)
         rear_overlap      = build(:reservation,   :server => server, :starts_at => 55.minutes.from_now,  :ends_at => 2.hours.from_now)

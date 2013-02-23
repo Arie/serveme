@@ -4,7 +4,7 @@
     minuteStep: 1,
     startView: 1,
     todayHighlight: true,
-    startDate: "#{I18n.l(Time.now, :format => :datepicker)}}",
+    startDate: "#{I18n.l(Time.current, :format => :datepicker)}}",
     format: 'dd-mm-yyyy hh:ii'
   };
   $('#reservation_starts_at').datetimepicker(datepicker_options);

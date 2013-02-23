@@ -1,3 +1,8 @@
+- if current_user
+  %p.alert
+    We've added time zone support,  all times should be in your local time now. You can override the automatically detected timezone
+    = link_to('here', edit_users_path)
+
 %h2 Welcome to the FakkelBrigade reservation system
 
 .row

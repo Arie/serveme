@@ -229,6 +229,7 @@ Then "I can see it's pretty special" do
   page.should have_content("]ρтqяσx[ Psycho Killer")
   page.should have_content("CคpTคiИ★Lucky")
   page.should have_content("Λϟ ϟλϟ ϟIИØ™")
+  page.should have_content("Dança, Dança")
 end
 
 Given "my reservation had a log with special characters" do

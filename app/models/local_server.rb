@@ -8,7 +8,7 @@ class LocalServer < Server
 
   def find_process_id
     all_processes   = Sys::ProcTable.ps
-    found_processes = all_processes.select {|process| process.cmdline.match(/#{port}/) && process.cmdline.match(/\.\/srcds_linux/) }
+    found_processes = all_processes.select {|process| process.cmdline.match(/#{port}/) && process.cmdline.match(/\.\/srcds_linux/) && !process.cmdline.match(/\.\/tv_relay/) }
     if found_processes.any?
       found_processes.first.pid
     end

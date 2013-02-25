@@ -6,7 +6,7 @@ class TF2LineParser::Events::RoleChangeDecorator < TF2LineParser::PlayerEventDec
 
   def role_text
     return icon('small_class_icons-scout')        if scout?
-    return icon('small_class_icons-solier')       if soldier?
+    return icon('small_class_icons-soldier')      if soldier?
     return icon('small_class_icons-pyro')         if pyro?
     return icon('small_class_icons-demoman')      if demoman?
     return icon('small_class_icons-heavyweapons') if heavyweapons?

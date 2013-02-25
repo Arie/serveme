@@ -77,6 +77,13 @@ GEM
       ffi (~> 1.0, >= 1.0.11)
     chunky_png (1.2.7)
     coderay (1.0.9)
+    coffee-rails (3.2.2)
+      coffee-script (>= 2.2.0)
+      railties (~> 3.2.0)
+    coffee-script (2.2.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.5.0)
     compass (0.12.2)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
@@ -315,6 +322,7 @@ DEPENDENCIES
   capistrano-ext
   capistrano_colors
   capybara
+  coffee-rails
   compass-rails
   cucumber-rails
   dalli

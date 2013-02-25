@@ -22,24 +22,36 @@
         %td RCON
         %td= reservation.rcon
 
-      %tr
-        %td TV password
-        %td= reservation.tv_password
+      - if !!reservation.disable_source_tv
 
-      %tr
-        %td Relay password
-        %td= reservation.tv_relaypassword
+        %tr
+          %td STV
+          %td Disabled
 
-      %tr
-        %td STV connect info
-        %td
-          - if reservation.active?
-            = link_to reservation.stv_connect_url, :class => 'btn btn-small btn-inverse' do
-              Join STV
-              %i.icon-film
-            = "or enter in console: #{reservation.stv_connect_string}"
-          - else
-            = reservation.stv_connect_string
+      - else
+
+        %tr
+          %td STV
+          %td Enabled
+
+        %tr
+          %td TV password
+          %td= reservation.tv_password
+
+        %tr
+          %td Relay password
+          %td= reservation.tv_relaypassword
+
+        %tr
+          %td STV connect info
+          %td
+            - if reservation.active?
+              = link_to reservation.stv_connect_url, :class => 'btn btn-small btn-inverse' do
+                Join STV
+                %i.icon-film
+              = "or enter in console: #{reservation.stv_connect_string}"
+            - else
+              = reservation.stv_connect_string
 
       - if reservation.server_config
         %tr

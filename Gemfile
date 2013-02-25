@@ -69,4 +69,5 @@ group :assets do
   gem 'turbo-sprockets-rails3'
   gem 'font-awesome-sass-rails'
   gem 'oily_png'
+  gem 'coffee-rails'
 end

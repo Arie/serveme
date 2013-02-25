@@ -10,6 +10,8 @@
         %li=    link_to("Top 10 users",        top_10_pages_path)
         %li=    link_to("Credits",             credits_pages_path)
         %li=    link_to("Server providers",    server_providers_pages_path)
+        - if current_user
+          %li= link_to "Settings", edit_users_path
       .pull-right
         .account
           - if current_user

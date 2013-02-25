@@ -37,7 +37,7 @@ group :test, :development do
 end
 
 group :test_tools do
-  gem 'spec_coverage'
+  gem 'coveralls', require: false
   gem 'fuubar'
 end
 

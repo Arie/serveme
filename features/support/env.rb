@@ -1,7 +1,5 @@
-if ENV['COVERAGE']
-  require 'simplecov'
-  load '.coverage'
-end
+require 'coveralls'
+Coveralls.wear!
 
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'

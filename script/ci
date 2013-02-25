@@ -21,7 +21,7 @@ fi
 
 echo "--- Running RSpec"
 
-run rspec --color spec --format SpecCoverage --format progress --format html --out rspec.html
+run rspec --color spec --format progress --format html --out rspec.html
 rspec=$?
 
 echo "--- Running Cucumber"

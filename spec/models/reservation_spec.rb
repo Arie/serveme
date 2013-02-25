@@ -170,10 +170,9 @@ describe Reservation do
       server = stub
       server.stub(:restart).and_return { raise('foo') }
       subject.stub(:server => server)
-      logger = stub.as_null_object
-      subject.stub(:logger => logger)
+      Rails.stub(:logger => stub.as_null_object)
 
-      logger.should_receive(:error)
+      Rails.logger.should_receive(:error)
       subject.start_reservation
     end
 
@@ -199,10 +198,9 @@ describe Reservation do
       server = stub
       server.stub(:restart).and_return { raise('foo') }
       subject.stub(:server => server)
-      logger = stub.as_null_object
-      subject.stub(:logger => logger)
+      Rails.stub(:logger => stub.as_null_object)
 
-      logger.should_receive(:error)
+      Rails.logger.should_receive(:error)
       subject.end_reservation
     end
 

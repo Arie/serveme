@@ -133,31 +133,12 @@ class Reservation < ActiveRecord::Base
   end
 
   def start_reservation
-    begin
-      server.start_reservation(self)
-    rescue Exception => exception
-      logger.error "Something went wrong provisioning the server for reservation #{self.id} - #{exception}"
-      Raven.capture_exception(exception) if Rails.env.production?
-    ensure
-      self.provisioned = true
-      save(:validate => false)
-      logger.info "[#{Time.now}] Started reservation: #{id} #{self}"
-    end
+    ReservationManager.new(self).start_reservation
   end
 
   def end_reservation
     unless ended?
-      begin
-        server.end_reservation(self)
-      rescue Exception => exception
-        logger.error "Something went wrong ending reservation #{self.id} - #{exception}"
-        Raven.capture_exception(exception) if Rails.env.production?
-      ensure
-        self.ends_at  = Time.current
-        self.ended    = true
-        save(:validate => false)
-        logger.info "[#{Time.now}] Ended reservation: #{id} #{self}"
-      end
+      ReservationManager.new(self).end_reservation
     end
   end
 

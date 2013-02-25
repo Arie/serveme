@@ -15,12 +15,12 @@ class ReservationManager
     manage_reservation(:end)
   end
 
-  def start_reservation_steps
+  def after_start_reservation_steps
     reservation.provisioned = true
     reservation.save(:validate => false)
   end
 
-  def end_reservation_steps
+  def after_end_reservation_steps
     reservation.ends_at  = Time.current
     reservation.ended    = true
     reservation.save(:validate => false)
@@ -33,7 +33,7 @@ class ReservationManager
       Rails.logger.error "Something went wrong #{action}ing the server for reservation #{reservation.id} - #{exception}"
       Raven.capture_exception(exception) if Rails.env.production?
     ensure
-      send("#{action}_reservation_steps")
+      send("after_#{action}_reservation_steps")
       Rails.logger.info "[#{Time.now}] #{action.capitalize}ed reservation: #{reservation.id} #{reservation}"
     end
   end

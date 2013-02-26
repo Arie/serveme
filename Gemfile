@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'rails'
 gem 'haml'
 gem 'mysql2'
-gem 'puma',             :github => "puma/puma", :require => false
+gem 'thin',             :require => false
 gem 'omniauth-openid'
 gem 'omniauth-steam'
 gem 'devise'

@@ -8,7 +8,7 @@ A web-interface to reserve TF2 gameservers
 * A Steam API key for user sign in
 * Memcached
 * A Source game dedicated server installation, only tested with TF2 on linux for now.
-* Gameserver started with `-port PORTNUMBER` in the startup line
+* Gameserver started with `-port PORTNUMBER -autoupdate` in the startup line
 
 ## Installation
 1. Make sure you've installed the requirements.

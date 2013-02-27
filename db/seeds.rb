@@ -25,7 +25,7 @@ unless Server.all.any?
   servers = [fb1, fb2, fb4]
 
   servers.each do |server|
-    Server.find_or_create_by_name(server[:name], :path => server[:path], :ip => server[:ip], :port => server[:port])
+    LocalServer.find_or_create_by_name(server[:name], :path => server[:path], :ip => server[:ip], :port => server[:port])
   end
   puts "Seeded servers #{servers.join(', ')}" unless Rails.env.test?
 end

@@ -15,9 +15,10 @@ A web-interface to reserve TF2 gameservers
 3. Enter your Steam API key in config/initializers/steam.rb: `STEAM_WEB_API_KEY = your_api_key_here`
 4. Install the required gems using bundler: `gem install bundler && bundle`
 5. Edit the seed data in db/seeds.rb
-6. Setup and migrate the databases: rake db:create db:migrate db:seed RAILS_ENV=production
-7. Setup a cronjob to deal with the reservations, here's an example: `*/1 * * * * /bin/bash -l -c 'cd /path/to/the/application; bundle exec rake environment reservations:end reservations:start RAILS_ENV=production' >/dev/null 2>&1`
-8. Start the webserver: `thin -C config/thin.yml start`
+6. Change the value of variable `chdir` in config/thin.yml to the path to your app: `chdir: /path/to/the/application`
+7. Setup and migrate the databases: rake db:create db:migrate db:seed RAILS_ENV=production
+8. Setup a cronjob to deal with the reservations, here's an example: `*/1 * * * * /bin/bash -l -c 'cd /path/to/the/application; bundle exec rake environment reservations:end reservations:start RAILS_ENV=production' >/dev/null 2>&1`
+9. Start the webserver: `thin -C config/thin.yml start`
 
 
 ## Servers

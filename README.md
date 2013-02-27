@@ -20,6 +20,7 @@ A web-interface to reserve TF2 gameservers
 7. Setup and migrate the databases: rake db:create db:migrate db:seed RAILS_ENV=production
 8. Setup a cronjob to deal with the reservations, here's an example: `*/1 * * * * /bin/bash -l -c 'cd /path/to/the/application; bundle exec rake environment reservations:end reservations:start RAILS_ENV=production' >/dev/null 2>&1`
 9. Start the webserver: `thin -C config/thin.yml start`
+10. Add `exec reservation.cfg` to the server.cfg of the gameserver
 
 
 ## Servers

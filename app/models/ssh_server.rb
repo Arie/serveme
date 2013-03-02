@@ -9,7 +9,7 @@ class SshServer < Server
   end
 
   def remove_logs_and_demos
-    execute("rm -f #{logs_and_demos.join(' ')}")
+    execute("rm -f #{logs_and_demos.map(&:shellescape).join(' ')}")
   end
 
   def demos

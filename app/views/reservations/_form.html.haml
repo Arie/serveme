@@ -1,6 +1,6 @@
 %p.alert
-  Please pick your start and end time carefully. Reservations that have no players for 30 minutes in a row get ended automatically. All times are in timezone:
-  = Time.zone
+  Please pick your start and end time carefully, reservations that have no players for 30 minutes get ended automatically. All times are in timezone:
+  = link_to(Time.zone, edit_users_path)
 = simple_form_for(@reservation, :html => { :class => 'form-horizontal' }) do |f|
   = f.association :server, :collection => ServerFinder.available_for_user(current_user), :selected => @reservation.server_id
   = f.input :password,            :as => :string, :value => @reservation.password

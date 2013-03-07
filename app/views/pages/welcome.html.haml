@@ -1,7 +1,7 @@
 - if current_user
-  %p.alert.alert-success
-    We've added time zone support,  all times should be in your local time now. You can override the automatically detected timezone
-    = link_to('here', edit_users_path)
+  - if current_user.reservations.count >= 5
+    %p.alert
+      Hi there! You've made #{current_user.reservations.count} reservations so far, have you considered donating to keep this service running?
 
 %h2 Welcome to the FakkelBrigade reservation system
 

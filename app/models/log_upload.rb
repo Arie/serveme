@@ -9,14 +9,14 @@ class LogUpload < ActiveRecord::Base
 
   def self.find_log_files(reservation_id)
     log_files = Dir.glob(log_matcher(reservation_id))
-    logs = []
-    log_files.each do |log_file|
-      logs << { :file_name_and_path   => log_file,
-                :file_name            => File.basename(log_file),
-                :last_modified        => File.mtime(log_file),
-                :size                 => File.size(log_file) }
+    log_files.collect do |log_file|
+      {
+        :file_name_and_path   => log_file,
+        :file_name            => File.basename(log_file),
+        :last_modified        => File.mtime(log_file),
+        :size                 => File.size(log_file)
+      }
     end
-    logs
   end
 
   def self.log_matcher(reservation_id)

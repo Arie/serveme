@@ -23,9 +23,10 @@
               = link_to  reservation.server_connect_url,            :class => 'btn btn-small btn-warning' do
                 Join game
                 %i.icon-play
-              = link_to reservation.stv_connect_url,                :class => 'btn btn-small btn-inverse' do
-                Join STV
-                %i.icon-film
+              - unless reservation.disable_source_tv?
+                = link_to reservation.stv_connect_url,                :class => 'btn btn-small btn-inverse' do
+                  Join STV
+                  %i.icon-film
               - if reservation.less_than_1_hour_left?
                 = link_to extend_reservation_path(reservation),     :class => 'btn btn-small btn-primary', :title => 'Extend reservation',  :method => :post,   :data => { :confirm => "This will extend your reservation by 1 hour if possible" } do
                   Extend reservation

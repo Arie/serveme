@@ -28,21 +28,20 @@ There's currently no web interface for adding/editing servers (pull requests wel
 
 Here's how you add a local server:
 ```ruby
-Server.create(:name => "Name",
-              :ip:  => "server_ip_or_hostname",
-              :port => "server_port",
-              :path => "/absolute/path/on/file/system")
+LocalServer.create(:name => "Name",
+                   :ip   => "server_ip_or_hostname",
+                   :port => "server_port",
+                   :path => "/absolute/path/on/file/system")
 ```
 The local servers should run with the same user as the web application, if you don't like this, use the ssh interface for managing 'remote' servers.
 
 And this is how you add a remote server:
 
 ```ruby
-Server.create(:name => "Name",
-              :ip:  => "server_ip_or_hostname",
-              :port => "server_port",
-              :path => "/absolute/path/on/file/system",
-              :type => "SshServer")
+SshServer.create(:name => "Name",
+                 :ip   => "server_ip_or_hostname",
+                 :port => "server_port",
+                 :path => "/absolute/path/on/file/system")
 ```
 
 The user running the web application needs to be able to ssh to the remote server, you should use passwordless key-based authorization for this, add an entry in ~/.ssh/config for each remote machine. 

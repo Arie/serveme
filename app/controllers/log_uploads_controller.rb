@@ -27,8 +27,8 @@ class LogUploadsController < ApplicationController
 
   def show_log
     file = find_log_file(params[:file_name].to_s)
-    log_lines = File.read(file[:file_name_and_path]).lines
-    @events = log_lines.map { |log_line| TF2LineParser::Parser.new(log_line).parse }.reject(&:nil?).map(&:decorate)
+    file_content = File.read(file[:file_name_and_path])
+    @log_file = ActiveSupport::Multibyte::Chars.new(file_content).tidy_bytes
   end
 
   private

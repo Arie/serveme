@@ -1,3 +1,2 @@
 #!/usr/bin/env ruby
-SimpleCov.start 'rails' do
-end
+SimpleCov.start 'rails'

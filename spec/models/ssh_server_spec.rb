@@ -71,8 +71,12 @@ describe SshServer do
       subject.stub(:id => 'foo')
       subject.stub(:temporary_reservation_config_file => temporary_reservation_file)
       subject.should_receive(:upload_configuration).with(temporary_reservation_file)
-      File.should_receive(:open).and_return(stub.as_null_object)
-      subject.write_configuration(stub, stub)
+      filename = stub
+      content = stub
+      file = stub
+      File.should_receive(:open).and_yield(file)
+      file.should_receive(:write).with(content)
+      subject.write_configuration(filename, content)
     end
 
   end

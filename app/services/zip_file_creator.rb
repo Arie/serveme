@@ -59,12 +59,6 @@ class SshZipFileCreator < ZipFileCreator
     server.execute("zip --junk-paths #{remote_zip_name} #{shell_escaped_files_to_zip.join(' ')}")
   end
 
-  private
-
-  def shell_escaped_files_to_zip
-    files_to_zip.collect { |file| file.shellescape }
-  end
-
   def download_zip_from_remote_server
     server.copy_from_server([remote_zip_name], zipfile_name_and_path)
   end
@@ -77,8 +71,14 @@ class SshZipFileCreator < ZipFileCreator
     server.execute("rm #{remote_zip_name}")
   end
 
+  private
+
   def server
     reservation.server
+  end
+
+  def shell_escaped_files_to_zip
+    files_to_zip.collect { |file| file.shellescape }
   end
 
 end

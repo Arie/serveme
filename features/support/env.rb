@@ -5,7 +5,7 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
   SimpleCov::Formatter::HTMLFormatter,
   Coveralls::SimpleCov::Formatter
 ]
-SimpleCov.start
+SimpleCov.start 'rails'
 
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'

@@ -67,11 +67,11 @@ describe SshServer do
   describe '#update_configuration' do
 
     it 'uploads the temporary reservation file to the server' do
-      temporary_reservation_file = stub
-      File.stub(:open)
+      temporary_reservation_file = Rails.root.join("tmp", "temp_reservation.cfg")
       subject.stub(:id => 'foo')
       subject.stub(:temporary_reservation_config_file => temporary_reservation_file)
       subject.should_receive(:upload_configuration).with(temporary_reservation_file)
+      File.should_receive(:open).and_return(stub.as_null_object)
       subject.write_configuration(stub, stub)
     end
 

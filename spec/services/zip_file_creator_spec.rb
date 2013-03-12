@@ -40,6 +40,19 @@ describe ZipFileCreator do
       zip_file.zip
     end
 
+    describe '#create_zip' do
+
+      it "zips, downloads the zip, remove the zip from the server and chmods the file" do
+        zip_file = SshZipFileCreator.new(reservation, ["foo'bar"])
+        zip_file.should_receive(:zip)
+        zip_file.should_receive(:download_zip_from_remote_server)
+        zip_file.should_receive(:remove_zip_file_on_remote_server)
+        zip_file.should_receive(:chmod)
+        zip_file.create_zip
+      end
+
+    end
+
   end
 
 end

@@ -20,6 +20,13 @@ describe UsersController do
       @user.reload.logs_tf_api_key.should eql 'abc'
     end
 
+    it 'allows the user to update the time zone key' do
+      post :update, :user => { :time_zone => 'Europe/Amsterdam' }
+      @user.reload.time_zone.should eql 'Europe/Amsterdam'
+      get :edit
+      Time.zone.to_s.should include(@user.time_zone)
+    end
+
     it "ignores other parameters" do
       post :update, :user => { :nickname => 'foobar' }
       @user.reload.nickname.should_not eql 'abc'

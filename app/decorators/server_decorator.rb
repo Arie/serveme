@@ -8,7 +8,7 @@ class ServerDecorator < Draper::Decorator
 
   def flag
     if location
-      h.content_tag(:span, "", :class => "flags-#{location.flag}")
+      h.content_tag(:span, "", :class => "flags-#{location.flag}", :title => location.name)
     else
       ""
     end

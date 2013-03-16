@@ -19,9 +19,9 @@ describe ServerDecorator do
     context "server with location" do
 
       it 'returns an empty span with the flag class' do
-        location = stub(:flag => "en")
+        location = stub(:flag => "en", :name => "England")
         server.stub(:location => location)
-        subject.flag.should == '<span class="flags-en"></span>'
+        subject.flag.should == '<span class="flags-en" title="England"></span>'
       end
 
       it 'returns an empty string' do

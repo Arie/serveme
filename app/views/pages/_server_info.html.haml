@@ -2,7 +2,9 @@
   - server_info = ServerInfo.new(server)
   - server_info.auth
   %tr
-    %td= server_info.server_name
+    %td
+      = server.flag
+      = server_info.server_name
     %td= server_info.map_name
     %td= "#{server_info.number_of_players} / #{server_info.max_players}"
     %td= server_info.fps

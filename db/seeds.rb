@@ -45,3 +45,32 @@ unless Whitelist.all.any?
   end
   puts "Seeded whitelists #{whitelists.join(', ')}" unless Rails.env.test?
 end
+
+unless Location.all.any?
+  locations = [
+                {:name => "Austria",        :flag => "at"},
+                {:name => "Belgium",        :flag => "be"},
+                {:name => "Canada",         :flag => "ca"},
+                {:name => "Czech Republic", :flag => "cz"},
+                {:name => "Denmark",        :flag => "dk"},
+                {:name => "England",        :flag => "en"},
+                {:name => "EU",             :flag => "europeanunion"},
+                {:name => "Germany",        :flag => "de"},
+                {:name => "Finland",        :flag => "fi"},
+                {:name => "France",         :flag => "fr"},
+                {:name => "Hungary",        :flag => "hu"},
+                {:name => "Ireland",        :flag => "ie"},
+                {:name => "Israel",         :flag => "il"},
+                {:name => "Latvia",         :flag => "lt"},
+                {:name => "Netherlands",    :flag => "nl"},
+                {:name => "Norway",         :flag => "no"},
+                {:name => "Russia",         :flag => "ru"},
+                {:name => "Scotland",       :flag => "scotland"},
+                {:name => "Spain",          :flag => "es"},
+                {:name => "UK",             :flag => "uk"},
+                {:name => "USA",            :flag => "us"}
+              ]
+  locations.each do |location|
+    Location.find_or_create_by_name(location[:name], :flag => location[:flag])
+  end
+end

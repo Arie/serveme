@@ -1,0 +1,2 @@
+class SshServerDecorator < ServerDecorator
+end

@@ -13,7 +13,8 @@
         - klass = 'success' if reservation.active?
         - klass = 'info'    if reservation.future?
         %tr{:class => klass}
-          %td= reservation.server.name
+          - server = reservation.server.decorate
+          %td= server.name
           %td= reservation.user.nickname
           %td= I18n.l(reservation.starts_at,  :format => :time_without_seconds)
           %td= I18n.l(reservation.ends_at,    :format => :time_without_seconds)

@@ -9,7 +9,8 @@
   %tbody
     - @users_reservations.each do |reservation|
       %tr[reservation]
-        %td= reservation.server.name
+        - server = reservation.server.decorate
+        %td= server.name
         %td= I18n.l(reservation.starts_at,  :format => :short)
         %td= I18n.l(reservation.ends_at,    :format => :short)
         %td.actions

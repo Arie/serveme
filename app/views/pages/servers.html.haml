@@ -15,4 +15,4 @@
           %th Uptime
           %th Inactive
       - @servers.each do |server|
-        = render 'server_info', :server => server
+        = render 'server_info', :server => server.decorate

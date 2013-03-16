@@ -7,4 +7,4 @@
           %th Reservations
           %th.actions &nbsp;
       - servers.each do |server|
-        = render :partial => 'server_reservations', :locals => { :server => server }
+        = render :partial => 'server_reservations', :locals => { :server => server.decorate }

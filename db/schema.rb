@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130225172709) do
+ActiveRecord::Schema.define(:version => 20130316125354) do
 
   create_table "group_servers", :force => true do |t|
     t.integer  "server_id"
@@ -29,6 +29,13 @@ ActiveRecord::Schema.define(:version => 20130225172709) do
 
   create_table "groups", :force => true do |t|
     t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "locations", :force => true do |t|
+    t.string   "name"
+    t.string   "flag"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -80,8 +87,9 @@ ActiveRecord::Schema.define(:version => 20130225172709) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "rcon"
-    t.string   "type",       :default => "LocalServer"
-    t.integer  "position",   :default => 1000
+    t.string   "type",        :default => "LocalServer"
+    t.integer  "position",    :default => 1000
+    t.integer  "location_id"
   end
 
   create_table "users", :force => true do |t|

@@ -6,6 +6,7 @@ class Server < ActiveRecord::Base
   has_many :groups, :through => :group_servers
   has_many :group_servers
   has_many :reservations
+  belongs_to :location
 
   def self.reservable_by_user(user)
     where(:id => ids_reservable_by_user(user))

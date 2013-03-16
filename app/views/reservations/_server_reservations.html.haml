@@ -1,5 +1,8 @@
-%tr[server]
-  %td= "#{server.name} - #{server.ip}:#{server.port}"
+%tr[server.source]
+  %td
+    = server.name
+    \-
+    #{server.ip}:#{server.port}
   %td
     %ul.unstyled
       - server.reservations.future.order(:starts_at).each do |reservation|

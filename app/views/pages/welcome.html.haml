@@ -1,6 +1,6 @@
 - if current_user
   - if current_user.reservations.count >= 5
-    %p.alert
+    %p.alert.alert-info
       Hi there! You've made #{current_user.reservations.count} reservations so far, have you considered donating to keep this service running?
 
 %h2 Welcome to the FakkelBrigade reservation system

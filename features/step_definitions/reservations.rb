@@ -215,14 +215,11 @@ Then "I don't get the API key notice" do
 end
 
 Then "I can see if it's the log file I want to upload" do
-  page.should have_content("These are not the logs you're looking for")
+  page.should have_content("Please check that the settings are correct for this game mode")
 end
 
 Given "my reservation had a log" do
-  dir = Rails.root.join("server_logs", "#{@reservation.id}")
-  FileUtils.mkdir_p(dir)
-  line = 'L 02/15/2013 - 00:09:15: "Console<0><Console><Console>" say "These are not the logs you\'re looking for"'
-  File.open(File.join(dir, "L1337.log"), 'w') {|f| f.write(line) }
+  step "my reservation had a log with special characters"
 end
 
 Then "I can see it's pretty special" do

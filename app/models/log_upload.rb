@@ -18,7 +18,7 @@ class LogUpload < ActiveRecord::Base
       }
     end
     log_files.select do |log_file|
-      log_file[:size] > 10.kilobytes
+      log_file[:size] > 8.kilobytes
     end
   end
 

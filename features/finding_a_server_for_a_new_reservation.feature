@@ -8,6 +8,7 @@ Feature: Finding an available server
     And there are reservations today
 
   Scenario: Selecting a server
+    Given there are active and inactive servers
     When I go make a reservation
     Then I get to select a server
     And I can see the current reservations per server

@@ -8,9 +8,17 @@ When "I go make a reservation" do
   visit '/reservations/server_selection'
 end
 
+Given "there are active and inactive servers" do
+  @active_server    = create(:server, :name => "Active")
+  @inactive_server  = create(:server, :name => "Inactive", :active => false)
+end
+
 Then "I get to select a server" do
-  Server.all.each do |server|
+  Server.active.each do |server|
     page.should have_content server.name
+  end
+  Server.inactive.each do |server|
+    page.should_not have_content server.name
   end
 end
 

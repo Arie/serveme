@@ -16,6 +16,15 @@ describe LocalServer do
 
   end
 
+  describe '.active' do
+
+    it 'returns active servers' do
+      active_server   = create :server, :name => "Active"
+      inactive_server = create :server, :name => "Inactive", :active => false
+      Server.active.should == [active_server]
+    end
+  end
+
   describe '.in_groups' do
 
     it 'should find servers belonging to a certain group' do

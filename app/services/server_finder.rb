@@ -19,7 +19,7 @@ class ServerFinder
   end
 
   def self.available_for_user(user)
-    Server.reservable_by_user(user).order('servers.position ASC')
+    Server.active.reservable_by_user(user).order('servers.position ASC')
   end
 
   private

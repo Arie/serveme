@@ -24,6 +24,14 @@ class Server < ActiveRecord::Base
     joins(:groups)
   end
 
+  def self.active
+    where('servers.active = ?', true)
+  end
+
+  def self.inactive
+    where('servers.active = ?', false)
+  end
+
   def self.in_groups(groups)
     with_group.
     where(:groups => { :id => groups }).

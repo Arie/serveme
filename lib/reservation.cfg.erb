@@ -10,4 +10,9 @@ tv_relaypassword "<%= tv_relaypassword %>"
 <% if whitelist %>
 <%= %{mp_tournament_whitelist "cfg/#{whitelist}"} %><% end %>
 
-tv_enable "<%= !!disable_source_tv ? 0 : 1 %>"
+<% if disable_source_tv? %>
+<%= 'tv_enable "0"' %>
+<%= 'tv_stop' %>
+<% else %>
+<%= 'tv_enable "1"' %>
+<% end %>

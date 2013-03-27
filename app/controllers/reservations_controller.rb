@@ -81,10 +81,16 @@ class ReservationsController < ApplicationController
   end
 
   def new_reservation
-    Reservation.new(:user_id   => current_user.id,
-                    :server    => server,
-                    :starts_at => Time.current,
-                    :ends_at   => 2.hours.from_now)
+    new_reservation_attributes = { :user_id   => current_user.id,
+                                   :server    => server,
+                                   :starts_at => params[:starts_at] || Time.current,
+                                   :ends_at   => params[:ends_at] || 2.hours.from_now }
+    if previous_reservation
+      previous_reservation_attributes = previous_reservation.attributes.slice('password', 'rcon', 'tv_password', 'disable_source_tv', 'server_config_id', 'whitelist_id')
+      new_reservation_attributes.merge!(previous_reservation_attributes)
+    end
+
+    Reservation.new(new_reservation_attributes)
   end
 
   def server
@@ -125,6 +131,12 @@ class ReservationsController < ApplicationController
     reservation.end_reservation
     link = "/uploads/#{reservation.zipfile_name}"
     flash[:notice] = "Reservation removed, restarting server. Get your STV demos and logs <a href='#{link}' target=_blank>here</a>".html_safe
+  end
+
+  private
+
+  def previous_reservation
+    current_user.reservations.last
   end
 
 end

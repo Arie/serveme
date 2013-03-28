@@ -33,7 +33,7 @@
                   Extend reservation
                   %i.icon-time
               - if reservation.just_started?
-                = link_to reservation_path(reservation),            :class => 'btn btn-small btn-danger',  :title => 'End reservation',     :method => :delete, :data => { :confirm => "This reservation has just started. Please wait 5 minutes for the server to update and go online." } do
+                = link_to reservation_path(reservation),            :class => 'btn btn-small btn-danger',  :title => 'End reservation',     :method => :delete, :data => { :confirm => "This reservation has just started, it can take a few minutes for the server to update and go online. Do you want to end this reservation anyway?" } do
                   End reservation
                   %i.icon-remove
               - else

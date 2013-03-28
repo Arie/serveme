@@ -25,16 +25,21 @@
                 Join game
                 %i.icon-play
               - unless reservation.disable_source_tv?
-                = link_to reservation.stv_connect_url,                :class => 'btn btn-small btn-inverse' do
+                = link_to reservation.stv_connect_url,              :class => 'btn btn-small btn-inverse' do
                   Join STV
                   %i.icon-film
               - if reservation.less_than_1_hour_left?
                 = link_to extend_reservation_path(reservation),     :class => 'btn btn-small btn-primary', :title => 'Extend reservation',  :method => :post,   :data => { :confirm => "This will extend your reservation by 1 hour if possible" } do
                   Extend reservation
                   %i.icon-time
-              = link_to reservation_path(reservation),              :class => 'btn btn-small btn-danger',  :title => 'End reservation',     :method => :delete, :data => { :confirm => "Are you sure you want to end your reservation?" } do
-                End reservation
-                %i.icon-remove
+              - if reservation.just_started?
+                = link_to reservation_path(reservation),            :class => 'btn btn-small btn-danger',  :title => 'End reservation',     :method => :delete, :data => { :confirm => "This reservation has just started. Please wait 5 minutes for the server to update and go online." } do
+                  End reservation
+                  %i.icon-remove
+              - else
+                = link_to reservation_path(reservation),            :class => 'btn btn-small btn-danger',  :title => 'End reservation',     :method => :delete, :data => { :confirm => "Are you sure you want to end your reservation?" } do
+                  End reservation
+                  %i.icon-remove
 
             - if reservation.cancellable?
               = link_to reservation_path(reservation),              :class => 'btn btn-small btn-warning', :title => 'Cancel reservation',  :method => :delete do

@@ -96,6 +96,10 @@ class Reservation < ActiveRecord::Base
     active? && time_left < 1.hour
   end
 
+  def just_started?
+    starts_at > 5.minutes.ago
+  end
+
   def cancellable?
     future? || (now? && !provisioned?)
   end

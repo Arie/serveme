@@ -1,0 +1,46 @@
+%h2 A few numbers
+.row
+  .span10
+
+    %table.table.table-hover.table-bordered.table-striped
+
+      %thead
+        %tr
+          %th What
+          %th The numbers
+        %tr
+          %td Total reservations
+          %td= Statistic.total_reservations
+        %tr
+          %td Total reservation time
+          %td= Duration.new(Statistic.total_playtime).format("%w %~w and %d %~d")
+
+%h2 Top 10 users
+
+.row
+  .span10
+
+    %table.table.table-hover.table-bordered.table-striped
+      %thead
+        %tr
+          %th Who
+          %th Reservation count
+      - @top_10_users_hash.each do |user, count|
+        %tr
+          %td= link_to(user.nickname, user.steam_profile_url, :target => "_blank")
+          %td= count
+
+%h2 Top 10 servers
+
+.row
+  .span10
+
+    %table.table.table-hover.table-bordered.table-striped
+      %thead
+        %tr
+          %th Which
+          %th Reservation count
+      - @top_10_servers_hash.each do |server, count|
+        %tr
+          %td= server.name
+          %td= count

@@ -252,6 +252,9 @@ GEM
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
+    ruby-duration (3.0.0)
+      activesupport (>= 3.0.0)
+      i18n
     ruby-openid (2.2.3)
     ruby-progressbar (1.0.2)
     rubyzip (0.9.9)
@@ -355,6 +358,7 @@ DEPENDENCIES
   quiet_assets
   rails
   rspec-rails
+  ruby-duration
   rubyzip
   rvm-capistrano
   sass-rails

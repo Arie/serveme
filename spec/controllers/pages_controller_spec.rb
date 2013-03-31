@@ -10,11 +10,13 @@ describe PagesController do
     end
   end
 
-  describe '#top_10' do
+  describe '#statistics' do
     it "should assign the top 10 hash" do
-      Statistic.should_receive(:top_10).and_return(:foo)
-      get :top_10
-      assigns(:top_10_hash).should eql(:foo)
+      Statistic.should_receive(:top_10_users).and_return(:foo)
+      Statistic.should_receive(:top_10_servers).and_return(:bar)
+      get :statistics
+      assigns(:top_10_users_hash).should eql(:foo)
+      assigns(:top_10_servers_hash).should eql(:bar)
     end
   end
 

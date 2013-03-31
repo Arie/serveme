@@ -4,7 +4,7 @@ class Statistic
     Reservation.order('created_at DESC').limit(100)
   end
 
-  def self.top_10
+  def self.top_10_users
     use_count_per_user  = Version.where(:event => 'create').group(:whodunnit).count
     top_10_array        = use_count_per_user.sort_by {|user, count| count }.reverse.first(10)
     top_10_users        = User.where(:id => top_10_array.map(&:first)).to_a
@@ -14,6 +14,25 @@ class Statistic
       top_10_hash[user] = count
     end
     top_10_hash
+  end
+
+  def self.top_10_servers
+    use_count_per_server  = Reservation.group(:server_id).count
+    top_10_array          = use_count_per_server.sort_by {|server, count| count }.reverse.first(10)
+    top_10_servers_hash   = {}
+    top_10_array.each do |server_id, count|
+      server = Server.find(server_id)
+      top_10_servers_hash[server] = count
+    end
+    top_10_servers_hash
+  end
+
+  def self.total_reservations
+    Reservation.last.id
+  end
+
+  def self.total_playtime
+    Reservation.scoped.sum(&:duration)
   end
 
 end

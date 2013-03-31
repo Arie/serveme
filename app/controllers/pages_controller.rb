@@ -20,8 +20,9 @@ class PagesController < ApplicationController
     @recent_reservations = Statistic.recent_reservations
   end
 
-  def top_10
-    @top_10_hash = Statistic.top_10
+  def statistics
+    @top_10_users_hash   = Statistic.top_10_users
+    @top_10_servers_hash = Statistic.top_10_servers
   end
 
   def server_providers

@@ -43,7 +43,7 @@ Serveme::Application.routes.draw do
     collection do
       get :credits
       get :recent_reservations
-      get :top_10
+      get :statistics
       get :servers
       get :server_providers
     end

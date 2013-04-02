@@ -16,3 +16,6 @@ tv_relaypassword "<%= tv_relaypassword %>"
 <% else %>
 <%= 'tv_enable "1"' %>
 <% end %>
+
+<% if user.logs_tf_api_key.present? %>
+<%= %{tftrue_logs_apikey "#{user.logs_tf_api_key}"} %><% end %>

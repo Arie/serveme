@@ -8,13 +8,14 @@ class Reservation < ActiveRecord::Base
   belongs_to :whitelist
   belongs_to :reservation
   has_many :log_uploads
+
   validates_presence_of :user, :server, :password, :rcon
-  validate :validate_user_is_available
-  validate :validate_server_is_available,   :if     => :server
-  validate :validate_reservable_by_user
-  validate :validate_length_of_reservation, :unless => :extending
-  validate :validate_chronologicality_of_times
-  validate :validate_starts_at_not_too_far_in_past, :on => :create
+  validates_with Reservations::UserIsAvailableValidator
+  validates_with Reservations::ServerIsAvailableValidator
+  validates_with Reservations::ReservableByUserValidator
+  validates_with Reservations::LengthOfReservationValidator
+  validates_with Reservations::ChronologicalityOfTimesValidator
+  validates_with Reservations::StartsNotTooFarInPastValidator, :on => :create
 
   attr_accessor :extending
 
@@ -158,44 +159,6 @@ class Reservation < ActiveRecord::Base
 
   def get_binding
     binding
-  end
-
-  def validate_user_is_available
-    if collides_with_own_reservation?
-      msg = "you already have a reservation in this timeframe"
-      errors.add(:starts_at, msg)
-      errors.add(:ends_at,   msg)
-    end
-  end
-
-  def validate_server_is_available
-    if collides_with_other_users_reservation?
-      errors.add(:server_id,  "already booked in the selected timeframe")
-    end
-  end
-
-  def validate_reservable_by_user
-    unless Server.reservable_by_user(user).map(&:id).include?(server_id)
-      errors.add(:server_id, "is not available for you")
-    end
-  end
-
-  def validate_length_of_reservation
-    if duration > 3.hours
-      errors.add(:ends_at, "maximum reservation time is 3 hours")
-    end
-  end
-
-  def validate_starts_at_not_too_far_in_past
-    if starts_at && starts_at < 15.minutes.ago
-      errors.add(:starts_at, "can't be more than 15 minutes in the past")
-    end
-  end
-
-  def validate_chronologicality_of_times
-    if (starts_at + 30.minutes) > ends_at
-      errors.add(:ends_at, "needs to be at least 30 minutes after start time")
-    end
   end
 
 end

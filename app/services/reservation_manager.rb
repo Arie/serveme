@@ -12,7 +12,7 @@ class ReservationManager
   end
 
   def end_reservation
-    manage_reservation(:end)
+    manage_reservation(:end) unless reservation.ended?
   end
 
   def after_start_reservation_steps

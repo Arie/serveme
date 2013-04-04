@@ -141,21 +141,19 @@ class Reservation < ActiveRecord::Base
   end
 
   def end_reservation
-    unless ended?
-      ReservationManager.new(self).end_reservation
-    end
+    ReservationManager.new(self).end_reservation
   end
 
   def zipfile_name
     "#{user.uid}-#{id}-#{server.id}-#{formatted_starts_at}.zip"
   end
 
-  def inactive_too_long?
-    inactive_minute_counter >= 30
-  end
-
   def formatted_starts_at
     starts_at.strftime("%Y%m%d")
+  end
+
+  def inactive_too_long?
+    inactive_minute_counter >= 30
   end
 
   def get_binding

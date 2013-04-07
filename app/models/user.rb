@@ -26,4 +26,20 @@ class User < ActiveRecord::Base
     "http://steamcommunity.com/profiles/#{uid}"
   end
 
+  def donator?
+    @donator ||= groups.include?(Group.donator_group)
+  end
+
+  def maximum_reservation_length
+    if donator?
+      5.hours
+    else
+      3.hours
+    end
+  end
+
+  def total_reservation_seconds
+    reservations.sum(&:duration)
+  end
+
 end

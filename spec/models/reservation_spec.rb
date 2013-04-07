@@ -257,13 +257,28 @@ describe Reservation do
       reservation.should have(:no).errors_on(:ends_at)
     end
 
-    it 'has an initial duration of no more than 3 hours' do
-      reservation = build :reservation, :starts_at => Time.current, :ends_at => 181.minutes.from_now
-      reservation.should have(1).error_on(:ends_at)
-      reservation.errors.full_messages.should include "Ends at maximum reservation time is 3 hours"
+    context "for non-donators" do
+      it 'has an initial duration of no more than 3 hours' do
+        reservation = build :reservation, :starts_at => Time.current, :ends_at => 181.minutes.from_now
+        reservation.should have(1).error_on(:ends_at)
+        reservation.errors.full_messages.should include "Ends at maximum reservation time is 3 hours"
 
-      reservation.ends_at = reservation.starts_at + 3.hours
-      reservation.should have(:no).errors_on(:ends_at)
+        reservation.ends_at = reservation.starts_at + 3.hours
+        reservation.should have(:no).errors_on(:ends_at)
+      end
+    end
+
+    context "for donators" do
+      it 'has an initial duration of no more than 3 hours' do
+        reservation = build :reservation, :starts_at => Time.current, :ends_at => 301.minutes.from_now
+        user = reservation.user
+        user.stub(:donator? => true)
+        reservation.should have(1).error_on(:ends_at)
+        reservation.errors.full_messages.should include "Ends at maximum reservation time is 5 hours"
+
+        reservation.ends_at = reservation.starts_at + 5.hours
+        reservation.should have(:no).errors_on(:ends_at)
+      end
     end
 
     it "validates you don't collide with another reservation of yourself" do

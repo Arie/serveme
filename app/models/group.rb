@@ -6,4 +6,9 @@ class Group < ActiveRecord::Base
 
   has_many :servers,  :through => :group_servers
   has_many :group_servers
+
+  def self.donator_group
+    find_by_name("Donators")
+  end
+
 end

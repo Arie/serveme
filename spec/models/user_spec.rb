@@ -36,4 +36,12 @@ describe User do
     end
   end
 
+  describe "#total_reservation_seconds" do
+    it "calculates the amount of time a user has reserved servers" do
+      user = create(:user)
+      create(:reservation, :user => user, :starts_at => 1.hour.from_now, :ends_at => 2.hours.from_now)
+      user.total_reservation_seconds.should == 3600
+    end
+  end
+
 end

@@ -10,7 +10,9 @@
 .row
   .span10
     %p
-      Please leave a comment at the bottom of this page if you like this service, had a problem or suggestion, I'd really appreciate it!
+      Please
+      = link_to("leave a comment", "#leave-a-comment")
+      if you like this service, had a problem or suggestion, I'd really appreciate it!
       Alternatively, you could leave a comment on the
       = link_to "ETF2L forums", 'http://etf2l.org/forum/community/topic-23191/?recent=427024', :target => '_blank'
 
@@ -26,6 +28,7 @@
   .row
     .span12
       = render 'shared/your_reservations'
+
 .row
   .span12
     = render 'todays_reservations'
@@ -34,4 +37,5 @@
   .span12
     %h3 Comments
 
-    = render 'shared/disqus'
+    #leave-a-comment
+      = render 'shared/disqus'

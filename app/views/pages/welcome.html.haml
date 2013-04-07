@@ -1,8 +1,3 @@
-- if current_user
-  - if current_user.reservations.count >= 5
-    %p.alert.alert-info
-      Hi there! You've made #{current_user.reservations.count} reservations so far, have you considered donating to keep this service running?
-
 %h2 Welcome to the FakkelBrigade reservation system
 
 .row
@@ -19,12 +14,6 @@
       Alternatively, you could leave a comment on the
       = link_to "ETF2L forums", 'http://etf2l.org/forum/community/topic-23191/?recent=427024', :target => '_blank'
 
-.row
-  .span10
-    %p
-      You can check the server's ping to many destinations on 
-      = link_to 'our smokeping graphs.', 'http://fakkelbrigade.eu/cgi-bin/smokeping.cgi', :target => '_blank'
-      
 .row
   .span10
     = render "shared/paypal"

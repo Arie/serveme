@@ -1,0 +1,5 @@
+- if current_user.reservations.count >= 5
+  .donate.alert.alert-info
+    - duration = Duration.new(current_user.total_reservation_seconds)
+    Hi there! You've made #{duration.format("%h %~h")} worth of reservations so far, have you considered donating to keep this service running?
+    = render "shared/paypal_button"

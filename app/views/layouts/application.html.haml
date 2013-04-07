@@ -12,6 +12,8 @@
 
   .container-fluid
 
+    = render 'shared/nag_message' if current_user
+
     = render 'shared/flash'
 
     = yield

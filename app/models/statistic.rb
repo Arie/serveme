@@ -31,7 +31,7 @@ class Statistic
     Reservation.last.id
   end
 
-  def self.total_playtime
+  def self.total_playtime_seconds
     Reservation.scoped.sum(&:duration)
   end
 

@@ -5,8 +5,8 @@ module Reservations
       user = record.user
       maximum_reservation_length = user.maximum_reservation_length
       if !record.extending && record.duration > maximum_reservation_length
-        duration_in_words = Duration.new(maximum_reservation_length).format("%h %~h")
-        record.errors.add(:ends_at, "maximum reservation time is #{duration_in_words}")
+        duration_in_words = (maximum_reservation_length / 3600.0).round
+        record.errors.add(:ends_at, "maximum reservation time is #{duration_in_words} hours")
       end
     end
 

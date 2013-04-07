@@ -70,9 +70,9 @@ describe Statistic do
 
     it "returns total number playtime" do
       reservation =  create :reservation, :starts_at => 1.hours.from_now, :ends_at => 2.hours.from_now
-      Statistic.total_playtime.should == 3600
+      Statistic.total_playtime_seconds.should == 3600
       reservation =  create :reservation, :starts_at => 3.hours.from_now, :ends_at => 4.hours.from_now
-      Statistic.total_playtime.should == 7200
+      Statistic.total_playtime_seconds.should == 7200
     end
 
   end

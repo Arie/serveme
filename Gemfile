@@ -16,7 +16,6 @@ gem 'sys-proctable',    :require => 'sys/proctable'
 gem 'net-ssh-simple'
 gem 'tf2_line_parser',  '~> 0.0.3'
 gem 'draper'
-gem 'ruby-duration'
 
 group :development do
   gem 'quiet_assets'

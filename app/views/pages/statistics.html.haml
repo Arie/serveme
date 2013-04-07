@@ -13,7 +13,7 @@
           %td= Statistic.total_reservations
         %tr
           %td Total reservation time
-          %td= Duration.new(Statistic.total_playtime).format("%w %~w and %d %~d")
+          %td= "#{(Statistic.total_playtime_seconds / 3600.0).round} hours"
 
 %h2 Top 10 users
 

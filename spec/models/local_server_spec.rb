@@ -175,7 +175,7 @@ describe LocalServer do
     end
 
     it "defaults to true when something went wrong updating the player number" do
-      ServerInfo.should_receive(:new).with(subject).and_raise { SteamCondenser::TimeoutError }
+      ServerInfo.should_receive(:new).with(subject).and_raise(SteamCondenser::TimeoutError)
       subject.should be_occupied
     end
 

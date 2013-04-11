@@ -97,8 +97,8 @@ class Server < ActiveRecord::Base
   def occupied?
     begin
       ServerInfo.new(self).number_of_players > 0
-    rescue Exception => exception
-      Raven.capture_exception(exception) if Rails.env.production?
+    rescue Errno::ECONNREFUSED, SteamCondenser::TimeoutError
+      #Just assume it's occupied when the server times out or isn't up
       true
     end
   end

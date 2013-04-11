@@ -429,10 +429,10 @@ describe Reservation do
     describe '#just_started?' do
 
       it "is just started if it started within the last 5 minutes" do
-        subject.stub(:starts_at => 290.seconds.ago)
+        subject.stub(:starts_at => 110.seconds.ago)
         subject.should be_just_started
 
-        subject.stub(:starts_at => 301.seconds.ago)
+        subject.stub(:starts_at => 121.seconds.ago)
         subject.should_not be_just_started
       end
     end

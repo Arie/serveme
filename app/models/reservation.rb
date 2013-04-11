@@ -98,7 +98,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def just_started?
-    starts_at > 5.minutes.ago
+    starts_at > 2.minutes.ago
   end
 
   def cancellable?

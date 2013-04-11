@@ -82,7 +82,7 @@ Then "the server gets killed" do
 end
 
 Then "the server does not get killed" do
-  Server.any_instance.should_not_receive(:find_process_id)
+  LocalServer.any_instance.should_not_receive(:find_process_id)
   Process.should_not_receive(:kill)
 end
 
@@ -163,19 +163,36 @@ Then "I can see the details of my reservation" do
 end
 
 Given "I have a running reservation" do
-  @reservation = create(:reservation, :user => @current_user, :provisioned => true)
+  start_reservation(10.minutes.ago)
 end
 
-When "I end my reservation" do
+Given "I have a reservation that has just started" do
+  step "the server does not get killed"
+  start_reservation(Time.current)
+end
+
+def start_reservation(starts_at)
+  @reservation = create(:reservation, :user => @current_user, :provisioned => true, :starts_at => starts_at)
+end
+
+When "I try to end my reservation" do
   step "I go to the welcome page"
-  step "the server gets killed"
   @reservation_zipfile_name = @reservation.zipfile_name
   within "#reservation_#{@reservation.id}" do
     click_link "End reservation"
   end
 end
 
-Then "I get notice and a link with the demos and logs" do
+When "I end my reservation" do
+  step "the server gets killed"
+  step "I try to end my reservation"
+end
+
+Then "I get told I should wait before ending" do
+  page.should have_content "was started in the last 2 minutes"
+end
+
+Then "I get a notice and a link with the demos and logs" do
   page.should have_content "Reservation removed"
   within '.flash.alert' do
     find('a')[:href].should include(@reservation_zipfile_name)

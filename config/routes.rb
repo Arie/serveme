@@ -24,7 +24,7 @@ Serveme::Application.routes.draw do
   end
 
 
-  resources :reservations, :except => [:edit, :update] do
+  resources :reservations do
     member do
       post :extend
     end

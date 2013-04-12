@@ -1,5 +1,7 @@
 class ReservationsController < ApplicationController
 
+  before_filter :find_reservation, :only => [:edit, :update]
+
   def time_selection
     @reservation          = Reservation.new(params[:reservation])
     @reservation.user_id  = current_user.id
@@ -43,6 +45,26 @@ class ReservationsController < ApplicationController
   end
 
   def edit
+    @reservation = reservation
+  end
+
+  def update
+    parameters = params[:reservation].slice(:password, :rcon, :disable_source_tv, :tv_password, :tv_relaypassword, :server_config_id, :whitelist_id)
+    parameters.merge!(:user_id => current_user.id)
+    if reservation.schedulable?
+      parameters.merge!(params[:reservation].slice(:server_id, :starts_at, :ends_at))
+    end
+    if reservation.update_attributes(parameters)
+      if reservation.now?
+        reservation.update_reservation
+        flash[:notice] = "Reservation updated for #{reservation}, your changes will be active after a mapchange."
+      else
+        flash[:notice] = "Reservation updated for #{reservation}"
+      end
+      redirect_to root_path
+    else
+      render :edit
+    end
   end
 
   def extend

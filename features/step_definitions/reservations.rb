@@ -47,6 +47,12 @@ When "I don't enter any reservation details" do
   click_button "Save"
 end
 
+When "I leave important reservation fields blank" do
+  fill_in "Password",       :with => ""
+  fill_in "Rcon",           :with => ""
+  click_button "Save"
+end
+
 When "I enter the reservation details" do
   step "I go make a reservation"
   step "I select a server"
@@ -67,8 +73,37 @@ end
 When "I enter the reservation details for a future reservation" do
   step "I enter the reservation details"
 
-  fill_in "Start/end time",       :with => I18n.l(3.hours.from_now, :format => :datepicker)
+  fill_in "Start/end time",      :with => I18n.l(3.hours.from_now, :format => :datepicker)
   fill_in "reservation_ends_at", :with => I18n.l(4.hours.from_now, :format => :datepicker)
+end
+
+When "I go edit my reservation" do
+  visit edit_reservation_path(@reservation)
+end
+
+When "I edit my reservation" do
+  step "I go edit my reservation"
+  @ends_at = @reservation.starts_at + 90.minutes
+  fill_in "reservation_ends_at", :with => I18n.l(@ends_at, :format => :datepicker)
+  click_button "Save"
+end
+
+When "I edit my reservation's password" do
+  step "I go edit my reservation"
+  fill_in "Password", :with => "newpassword"
+  click_button "Save"
+end
+
+Then "the reservation's password is updated" do
+  @reservation.reload.password.should == 'newpassword'
+end
+
+Then "I see my changes will be in effect after a map change" do
+  page.should have_content "your changes will be active after a mapchange"
+end
+
+Then "I see the new reservation details in the list" do
+  page.should have_content(I18n.l(@ends_at, :format => :short))
 end
 
 When "I save the reservation" do
@@ -99,7 +134,7 @@ end
 
 Then "I can cancel the reservation" do
   within "#reservation_#{@reservation.id}" do
-    page.should have_content "Cancel reservation"
+    page.should have_content "Cancel"
   end
 end
 
@@ -112,7 +147,7 @@ When "I cancel the future reservation" do
   step "the server does not get killed"
   @reservation = @current_user.reservations.last
   within "#reservation_#{@reservation.id}" do
-    click_link "Cancel reservation"
+    click_link "Cancel"
   end
 end
 
@@ -134,7 +169,7 @@ end
 
 When "I extend my reservation" do
   step "I go to the welcome page"
-  click_link "Extend reservation"
+  click_link "Extend"
 end
 
 Then "the reservation's end time is an hour later" do
@@ -146,13 +181,13 @@ end
 
 Then "I can control my reservation" do
   within 'table.your-reservations' do
-    page.should have_content "End reservation"
+    page.should have_content "End"
   end
 end
 
 Then "I can open the details of my reservation" do
   within 'table.your-reservations' do
-    click_link "Show reservation"
+    click_link "Show"
   end
 end
 
@@ -162,6 +197,10 @@ Then "I can see the details of my reservation" do
   page.should have_content "#{server.stv_connect_string(@reservation.tv_password)}"
 end
 
+Given "I have a future reservation" do
+  step "there is a future reservation"
+  @reservation = Reservation.last
+end
 Given "I have a running reservation" do
   start_reservation(10.minutes.ago)
 end
@@ -179,7 +218,7 @@ When "I try to end my reservation" do
   step "I go to the welcome page"
   @reservation_zipfile_name = @reservation.zipfile_name
   within "#reservation_#{@reservation.id}" do
-    click_link "End reservation"
+    click_link "End"
   end
 end
 

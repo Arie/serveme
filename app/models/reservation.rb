@@ -60,6 +60,10 @@ class Reservation < ActiveRecord::Base
     starts_at > Time.current
   end
 
+  def schedulable?
+    !persisted? || (persisted? && !active?)
+  end
+
   def collides?
     colliding_reservations.any?
   end
@@ -143,6 +147,10 @@ class Reservation < ActiveRecord::Base
 
   def end_reservation
     ReservationManager.new(self).end_reservation
+  end
+
+  def update_reservation
+    ReservationManager.new(self).update_reservation
   end
 
   def zipfile_name

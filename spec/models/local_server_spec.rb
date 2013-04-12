@@ -83,6 +83,16 @@ describe LocalServer do
 
   end
 
+  describe '#update_reservation' do
+
+    it "should only update the configuration" do
+      reservation = stub
+      subject.should_receive(:update_configuration)
+      subject.update_reservation(reservation)
+    end
+
+  end
+
   describe '#restart' do
 
     it "sends the software termination signal to the process" do

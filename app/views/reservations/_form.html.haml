@@ -2,7 +2,7 @@
   Please pick your start and end time carefully, reservations that have no players for 30 minutes get ended automatically. All times are in timezone:
   = link_to(Time.zone, edit_users_path)
 = simple_form_for(@reservation, :html => { :class => 'form-horizontal' }) do |f|
-  = f.association :server, :collection => ServerFinder.available_for_user(current_user), :selected => @reservation.server_id
+  = f.association :server, :collection => ServerFinder.available_for_user(current_user), :selected => @reservation.server_id, :disabled => !@reservation.schedulable?
   = f.input :password,            :as => :string, :value => @reservation.password
   = f.input :rcon,                :as => :string
   = f.input :disable_source_tv,   :as => :boolean,  :hint => "Disable STV if you want to run a TF2Lobby game"
@@ -12,8 +12,8 @@
   = f.association :whitelist,                       :hint => "Some configs have a default whitelist, but you can still override that here. 6v6 with 9v9 unlocks? No problem!"
   %span.inline
     .starts_at
-      = f.input :starts_at,       :as => :string, :input_html => { :value => I18n.l(@reservation.starts_at, :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Start/end time"
-    = f.input :ends_at,           :as => :string, :input_html => { :value => I18n.l(@reservation.ends_at,   :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => false
+      = f.input :starts_at,       :as => :string, :input_html => { :value => I18n.l(@reservation.starts_at, :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Start/end time" , :disabled => !@reservation.schedulable?
+    = f.input :ends_at,           :as => :string, :input_html => { :value => I18n.l(@reservation.ends_at,   :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => false,             :disabled => !@reservation.schedulable?
   %button.btn{:type => :submit}
     Save
 

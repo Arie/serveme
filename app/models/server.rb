@@ -117,6 +117,10 @@ class Server < ActiveRecord::Base
     restart
   end
 
+  def update_reservation(reservation)
+    update_configuration(reservation)
+  end
+
   def end_reservation(reservation)
     copy_logs(reservation)
     zip_demos_and_logs(reservation)

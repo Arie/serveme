@@ -178,6 +178,18 @@ describe Reservation do
 
   end
 
+  describe '#update_reservation' do
+    let(:server) { double('server').as_null_object }
+    before do
+      subject.stub(:server => server, :to_s => 'reservation')
+    end
+
+    it "should tell the server to update the reservation" do
+      server.should_receive(:update_reservation).with(subject)
+      subject.update_reservation
+    end
+  end
+
   describe '#end_reservation' do
 
     let(:server) { stub(:logs => []) }
@@ -435,6 +447,27 @@ describe Reservation do
         subject.stub(:starts_at => 121.seconds.ago)
         subject.should_not be_just_started
       end
+    end
+
+    describe '#schedulable?' do
+
+      it "is schedulable when it wasn't saved yet" do
+        subject.stub(:persisted? => false)
+        subject.should be_schedulable
+      end
+
+      it "is schedulable when it was saved but not active yet" do
+        subject.stub(:persisted?  => true,
+                     :active?     => false
+                    )
+        subject.should be_schedulable
+
+        subject.stub(:persisted?  => true,
+                     :active?     => true
+                    )
+        subject.should_not be_schedulable
+      end
+
     end
 
   end

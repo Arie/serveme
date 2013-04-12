@@ -9,3 +9,6 @@ en:
       datepicker: "%d-%m-%Y %H:%M"
       short: "%d %b %H:%M"
       short_with_dayname: "%a %d %b %H:%M"
+  timeleft:
+    one: "%{count} minute"
+    other: "%{count} minutes"

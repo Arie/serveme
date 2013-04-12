@@ -470,6 +470,30 @@ describe Reservation do
 
     end
 
+    describe '#nearly_over?' do
+      it "is nearly over when there's less than 10 minutes left" do
+        subject.stub(:ends_at => 11.minutes.from_now)
+        subject.should_not be_nearly_over
+
+        subject.stub(:ends_at => 9.minutes.from_now)
+        subject.should be_nearly_over
+      end
+    end
+
+    describe '#warn_nearly_over' do
+
+      it "should send a message to the server warning the reservation is nearly over" do
+        server = stub
+        subject.stub(:time_left => 1.minute)
+        subject.stub(:server => server)
+
+        message = "This reservation will end in less than 1 minute, if you need more time, extend your reservation on the website."
+        server.should_receive(:rcon_say).with(message)
+        subject.warn_nearly_over
+      end
+
+    end
+
   end
 
 end

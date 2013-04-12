@@ -138,11 +138,20 @@ class Server < ActiveRecord::Base
   end
 
   def condenser
-    SteamCondenser::SourceServer.new(ip, port.to_i)
+    @condenser ||= SteamCondenser::SourceServer.new(ip, port.to_i)
   end
 
   def rcon_auth
-    condenser.rcon_auth(current_rcon)
+    @rcon_auth ||= condenser.rcon_auth(current_rcon)
+  end
+
+  def rcon_say(message)
+    begin
+      condenser.rcon_exec("say #{message}") if rcon_auth
+    rescue Errno::ECONNREFUSED, SteamCondenser::TimeoutError => exception
+      Raven.capture_exception(exception) if Rails.env.production?
+      Rails.logger.error "Couldn't deliver message to server #{id} - #{name}, message: #{message}"
+    end
   end
 
   private

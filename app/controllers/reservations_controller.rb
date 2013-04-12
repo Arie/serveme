@@ -68,13 +68,12 @@ class ReservationsController < ApplicationController
   end
 
   def extend
-    begin
-      extend_reservation
-    rescue ActiveRecord::RecordInvalid
+    if reservation.extend!
+      flash[:notice] = "Reservation extended by 1 hour to #{I18n.l(reservation.ends_at, :format => :datepicker)}"
+    else
       flash[:alert] = "Could not extend, conflicting reservation by #{reservation.colliding_reservations.map(&:to_s).join(', ')}"
-    ensure
-      redirect_to root_path
     end
+    redirect_to root_path
   end
 
   def show
@@ -138,12 +137,6 @@ class ReservationsController < ApplicationController
 
   def free_server_finder
     ServerFinder.new(current_user, @reservation.starts_at, @reservation.ends_at)
-  end
-
-  def extend_reservation
-    if reservation.extend!
-      flash[:notice] = "Reservation extended by 1 hour to #{I18n.l(reservation.ends_at, :format => :datepicker)}"
-    end
   end
 
   def cancel_reservation

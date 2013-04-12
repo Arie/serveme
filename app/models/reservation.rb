@@ -92,7 +92,7 @@ class Reservation < ActiveRecord::Base
     if less_than_1_hour_left?
       self.extending  = true
       self.ends_at    = ends_at + 1.hour
-      save!
+      save
     end
   end
 
@@ -103,6 +103,20 @@ class Reservation < ActiveRecord::Base
 
   def just_started?
     starts_at > 2.minutes.ago
+  end
+
+  def nearly_over?
+    time_left < 10.minutes
+  end
+
+  def time_left
+    ends_at - Time.current
+  end
+
+  def warn_nearly_over
+    time_left_in_minutes  = (time_left / 60.0).ceil
+    time_left_text        = I18n.t(:timeleft, :count => time_left_in_minutes)
+    server.rcon_say("This reservation will end in less than #{time_left_text}, if you need more time, extend your reservation on the website.")
   end
 
   def cancellable?

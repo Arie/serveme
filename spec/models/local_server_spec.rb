@@ -261,4 +261,29 @@ describe LocalServer do
 
   end
 
+  describe '#rcon_say' do
+
+    let(:message)       { "Hello world!" }
+    let(:condenser)     { stub }
+    let(:current_rcon)  { stub }
+
+    before do
+      subject.stub(:condenser => condenser, :current_rcon => current_rcon)
+      condenser.should_receive(:rcon_auth).with(current_rcon).and_return { true }
+    end
+
+    it "delivers a message with rcon say to the server" do
+      condenser.should_receive(:rcon_exec).with("say #{message}")
+      subject.rcon_say(message)
+    end
+
+    it "logs an error if something went wrong" do
+      condenser.should_receive(:rcon_exec).and_raise(SteamCondenser::TimeoutError)
+      logger = stub
+      Rails.stub(:logger => logger)
+      logger.should_receive(:error).with(anything)
+      subject.rcon_say "foobar"
+    end
+  end
+
 end

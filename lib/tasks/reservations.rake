@@ -26,6 +26,9 @@ namespace :reservations do
       if reservation.server.occupied?
         reservation.inactive_minute_counter = 0
         reservation.save(:validate => false)
+        if reservation.nearly_over?
+          reservation.warn_nearly_over
+        end
       else
         reservation.increment!(:inactive_minute_counter)
         if reservation.inactive_too_long?

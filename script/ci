@@ -19,17 +19,5 @@ if [[ -d coverage ]]; then
   rm -r coverage
 fi
 
-echo "--- Running RSpec"
-
-run rspec --color spec --format progress --format html --out rspec.html
-rspec=$?
-
-echo "--- Running Cucumber"
-
-run cucumber features --profile ci --format html --out cucumber.html
-cucumber=$?
-
-if [[ $rspec -ne 0 || $cucumber -ne 0 ]]; then
-  echo "--- Some tests have failed."
-  exit 1
-fi
+echo "--- Running RSpec and Cucumber ---"
+run rake test_with_coveralls

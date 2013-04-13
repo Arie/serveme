@@ -64,7 +64,7 @@ class ReservationsController < ApplicationController
     if reservation.extend!
       flash[:notice] = "Reservation extended by 1 hour to #{I18n.l(reservation.ends_at, :format => :datepicker)}"
     else
-      flash[:alert] = "Could not extend, conflicting reservation by #{reservation.colliding_reservations.map(&:to_s).join(', ')}"
+      flash[:alert] = "Could not extend, conflicting reservation"
     end
     redirect_to root_path
   end

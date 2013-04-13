@@ -2,10 +2,8 @@ require 'spec_helper'
 
 describe ServerInfo do
 
-  let(:server) { stub(:ip => 'fakkelbrigade.eu', :port => '27015', :current_rcon => 'foo', :id => 1) }
-
+  let(:server) { stub(:ip => 'fakkelbrigade.eu', :port => '27015', :current_rcon => 'foo', :id => 1, :condenser => SteamCondenser::SourceServer.stub(:new)) }
   subject do
-    SteamCondenser::SourceServer.stub(:new)
     described_class.new(server)
   end
 
@@ -70,7 +68,7 @@ describe ServerInfo do
       server_connection = stub
       subject.stub(:server_connection => server_connection)
 
-      server_connection.should_receive(:rcon_auth).with(server.current_rcon)
+      server_connection.should_receive(:rcon_auth)
       subject.auth
     end
   end

@@ -2,13 +2,15 @@ class ServerInfo
 
   attr_accessor :server, :server_connection
 
+  delegate :condenser, :to => :server, :prefix => false
+
   def initialize(server)
     @server            = server
-    @server_connection = condenser(@server.ip, @server.port)
+    @server_connection = condenser
   end
 
   def auth
-    server_connection.rcon_auth(server.current_rcon)
+    server_connection.rcon_auth
   end
 
   def server_name
@@ -84,10 +86,6 @@ class ServerInfo
       :fps          => items[-3],
       :connects     => items[-1]
     }
-  end
-
-  def condenser(ip, port)
-    SteamCondenser::SourceServer.new(@server.ip, @server.port.to_i)
   end
 
 end

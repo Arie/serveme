@@ -137,6 +137,14 @@ class Server < ActiveRecord::Base
     LogCopier.copy(reservation.id, self)
   end
 
+  def condenser
+    SteamCondenser::SourceServer.new(ip, port.to_i)
+  end
+
+  def rcon_auth
+    condenser.rcon_auth(current_rcon)
+  end
+
   private
 
   def logs_and_demos

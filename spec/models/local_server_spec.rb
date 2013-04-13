@@ -240,4 +240,25 @@ describe LocalServer do
 
   end
 
+  describe '#condenser' do
+
+    it 'creates a steam condenser to the server' do
+      subject.stub(:ip => 'fakkelbrigade.eu', :port => "27015")
+      SteamCondenser::SourceServer.should_receive(:new).with('fakkelbrigade.eu', 27015)
+      subject.condenser
+    end
+
+  end
+
+  describe '#rcon_auth' do
+
+    it "sends the current rcon to the condenser" do
+      condenser = stub
+      subject.stub(:condenser => condenser, :current_rcon => "foobar")
+      condenser.should_receive(:rcon_auth).with("foobar")
+      subject.rcon_auth
+    end
+
+  end
+
 end

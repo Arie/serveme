@@ -10,7 +10,7 @@ class ServerInfo
   end
 
   def auth
-    server_connection.rcon_auth
+    server.rcon_auth
   end
 
   def server_name

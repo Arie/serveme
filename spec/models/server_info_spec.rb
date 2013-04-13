@@ -65,10 +65,10 @@ describe ServerInfo do
 
   describe '#auth' do
     it "authenticates with the server's rcon" do
-      server_connection = stub
-      subject.stub(:server_connection => server_connection)
+      server = stub
+      subject.stub(:server => server)
 
-      server_connection.should_receive(:rcon_auth)
+      server.should_receive(:rcon_auth)
       subject.auth
     end
   end

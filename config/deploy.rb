@@ -1,5 +1,4 @@
 require './config/boot'
-require 'rvm/capistrano'
 
 set :application,       "serveme"
 set :deploy_to,         "/var/www/serveme"
@@ -63,3 +62,5 @@ end
 
 after "deploy:update_code", "thin:link_config"
 after "deploy", "deploy:cleanup"
+
+require 'rvm/capistrano'

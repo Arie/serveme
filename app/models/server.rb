@@ -16,6 +16,10 @@ class Server < ActiveRecord::Base
     without_group.map(&:id) + in_groups(user.groups).map(&:id)
   end
 
+  def self.ordered
+    ordered_by_position.ordered_by_name
+  end
+
   def self.without_group
     scoped - with_group
   end
@@ -155,6 +159,14 @@ class Server < ActiveRecord::Base
   end
 
   private
+
+  def self.ordered_by_position
+    order("servers.position ASC")
+  end
+
+  def self.ordered_by_name
+    order("servers.name ASC")
+  end
 
   def logs_and_demos
     @logs_and_demos ||= logs + demos

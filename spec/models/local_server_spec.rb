@@ -50,6 +50,18 @@ describe LocalServer do
 
   end
 
+  describe '.ordered' do
+
+    it "orders by position and name" do
+      fourth  = create :server, :position => 3
+      second  = create :server, :position => 1, :name => "B"
+      first   = create :server, :position => 1, :name => "A"
+      third   = create :server, :position => 2
+
+      Server.ordered.should == [first, second, third, fourth]
+    end
+  end
+
   describe '.reservable_by_user' do
 
     it "returns servers in the users group and servers without groups regardless of reservations" do

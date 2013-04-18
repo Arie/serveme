@@ -13,7 +13,7 @@ class PagesController < ApplicationController
   end
 
   def servers
-    @servers = Server.scoped
+    @servers = Server.ordered
   end
 
   def recent_reservations

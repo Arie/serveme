@@ -27,6 +27,13 @@ Feature: Uploading logs to logs.tf
     Then I can see it's pretty special
 
     @logs
+  Scenario: Checking a log with even weirder characters
+    Given my reservation had a log with very special characters
+    When I go to the logs page for the reservation
+    And I check a log
+    Then I can see it's very special
+
+    @logs
   Scenario: Going to upload a log without my own API key
     Given my reservation had a log
     When I go to the logs page for the reservation

@@ -293,12 +293,22 @@ Then "I can see it's pretty special" do
   page.should have_content("Dança, Dança")
 end
 
+Then "I can see it's very special" do
+  page.should have_content("★radist★")
+  page.should have_content("Çàïèñü ïîù¸ëú")
+end
+
 Given "my reservation had a log with special characters" do
   dir = Rails.root.join("server_logs", "#{@reservation.id}")
   FileUtils.mkdir_p(dir)
   FileUtils.cp(Rails.root.join('spec', 'fixtures', 'logs', 'special_characters.log'), File.join(dir, "L1337.log"))
 end
 
+Given "my reservation had a log with very special characters" do
+  dir = Rails.root.join("server_logs", "#{@reservation.id}")
+  FileUtils.mkdir_p(dir)
+  FileUtils.cp(Rails.root.join('spec', 'fixtures', 'logs', 'very_special_characters.log'), File.join(dir, "L1337.log"))
+end
 
 Then "I get to enter the upload details" do
   fill_in "Title",  :with => "Epsilon destroying Broder"

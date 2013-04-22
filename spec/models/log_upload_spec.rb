@@ -90,7 +90,7 @@ describe LogUpload do
       File.should_receive(:mtime).at_least(:once).with(anything).and_return { mtime }
 
       found_logs = LogUpload.find_log_files(reservation_id)
-      found_logs.size.should == 1
+      found_logs.size.should == 2
       found_logs.should_not include(
         { :file_name_and_path => Rails.root.join('spec', 'fixtures', 'logs', 'L1234567.log').to_s,
           :file_name          => "L1234567.log",

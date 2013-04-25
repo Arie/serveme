@@ -42,4 +42,8 @@ class User < ActiveRecord::Base
     reservations.sum(&:duration)
   end
 
+  def top10?
+    Statistic.top_10_users.has_key?(self)
+  end
+
 end

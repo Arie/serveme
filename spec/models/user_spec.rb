@@ -44,4 +44,14 @@ describe User do
     end
   end
 
+  describe '#top10?' do
+
+    it 'returns if a user is in the top 10' do
+      user = create(:user)
+      create(:reservation, :user => user)
+      user.should be_top10
+    end
+
+  end
+
 end

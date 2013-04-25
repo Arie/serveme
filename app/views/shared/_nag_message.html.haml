@@ -1,5 +1,10 @@
-- if current_user.reservations.count >= 5
-  .donate.alert.alert-info
-    - duration = (current_user.total_reservation_seconds / 3600.0).round
-    Hi there! You've made #{duration} hours worth of reservations so far, have you considered donating to keep this service running?
-    = render "shared/paypal_button"
+- if current_user.reservations.count >= 10
+  - if current_user.top10?
+    .donate.alert.alert-error
+      Hey, you're one of our top 10 users, have you donated yet?
+      = render "shared/paypal_button"
+  - else
+    .donate.alert.alert-info
+      - duration = (current_user.total_reservation_seconds / 3600.0).round
+      Hi there! You've made #{duration} hours worth of reservations so far, have you considered donating to keep this service running?
+      = render "shared/paypal_button"

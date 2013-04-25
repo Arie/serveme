@@ -5,7 +5,7 @@ class Statistic
   end
 
   def self.top_10_users
-    use_count_per_user  = Version.where(:event => 'create').group(:whodunnit).count
+    use_count_per_user  = Reservation.group(:user_id).count
     top_10_array        = use_count_per_user.sort_by {|user, count| count }.reverse.first(10)
     top_10_users        = User.where(:id => top_10_array.map(&:first)).to_a
     top_10_hash         = {}

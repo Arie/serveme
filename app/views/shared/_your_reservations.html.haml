@@ -27,14 +27,9 @@
                 = link_to extend_reservation_path(reservation),     :class => 'btn btn-small btn-primary', :title => 'Extend reservation',  :method => :post,   :data => { :confirm => "This will extend your reservation by 1 hour if possible" } do
                   Extend
                   %i.icon-time
-              - if reservation.just_started?
-                = link_to reservation_path(reservation),            :class => 'btn btn-small btn-danger',  :title => 'End reservation',     :method => :delete, :data => { :confirm => "This reservation has just started, it can take a few minutes for the server to update and go online. Please wait 3 minutes from the start of your reservation before stopping it."} do
-                  End
-                  %i.icon-remove
-              - else
-                = link_to reservation_path(reservation),            :class => 'btn btn-small btn-danger',  :title => 'End reservation',     :method => :delete, :data => { :confirm => "Are you sure you want to end your reservation?" } do
-                  End
-                  %i.icon-remove
+              = link_to reservation_path(reservation),            :class => 'btn btn-small btn-danger',  :title => 'End reservation',     :method => :delete, :data => { :confirm => "Are you sure you want to end your reservation?" } do
+                End
+                %i.icon-remove
             - if reservation.cancellable?
               = link_to reservation_path(reservation),              :class => 'btn btn-small btn-warning', :title => 'Cancel reservation',  :method => :delete do
                 Cancel

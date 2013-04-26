@@ -2,5 +2,40 @@
 
 .row
   .span10
-    %h3
-      Upgrading all servers to SteamPipe, no reservations possible till that's done.
+    %p
+      Make a reservation and within a minute or so your server will be ready and yours to use for up to 3 hours.
+      If you run out of time, press the "Extend reservation" button here.
+      Feel free to use the server for any kind of match you want.
+
+.row
+  .span10
+    %p
+      Please
+      = link_to("leave a comment", "#leave-a-comment")
+      if you like this service, had a problem or suggestion, I'd really appreciate it!
+      Alternatively, you could leave a comment on the
+      = link_to "ETF2L forums", 'http://etf2l.org/forum/community/topic-23191/?recent=427024', :target => '_blank'
+
+.row
+  .span10
+    = render "shared/paypal"
+
+= link_to server_selection_reservations_path, :class => 'btn btn-primary', :title => "Get a server right now, or make a reservation" do
+  Make reservation
+  %i.icon-calendar
+
+- if @users_reservations && @users_reservations.any?
+  .row
+    .span12
+      = render 'shared/your_reservations'
+
+.row
+  .span12
+    = render 'todays_reservations'
+
+.row
+  .span12
+    %h3 Comments
+
+    #leave-a-comment
+      = render 'shared/disqus'

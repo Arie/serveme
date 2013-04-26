@@ -173,7 +173,7 @@ class Server < ActiveRecord::Base
   end
 
   def log_match
-    File.join(tf_dir, 'logs', "L*.log")
+    File.join(tf_dir, 'logs', "*.log")
   end
 
   def demo_match

@@ -48,7 +48,7 @@ describe SshServer do
     it 'finds the log files' do
       subject.stub(:shell_output_to_array)
       subject.stub(:tf_dir => "foo")
-      subject.should_receive(:execute).with("ls #{subject.tf_dir}/logs/L*.log")
+      subject.should_receive(:execute).with("ls #{subject.tf_dir}/logs/*.log")
       subject.logs
     end
 

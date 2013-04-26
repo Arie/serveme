@@ -17,7 +17,7 @@ class SshServer < Server
   end
 
   def logs
-    @logs ||= shell_output_to_array(execute("ls #{tf_dir}/logs/L*.log"))
+    @logs ||= shell_output_to_array(execute("ls #{tf_dir}/logs/*.log"))
   end
 
   def execute(command)

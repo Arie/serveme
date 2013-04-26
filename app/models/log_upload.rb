@@ -23,7 +23,7 @@ class LogUpload < ActiveRecord::Base
   end
 
   def self.log_matcher(reservation_id)
-    File.join(Rails.root.join, 'server_logs', "#{reservation_id}", "L*.log")
+    File.join(Rails.root.join, 'server_logs', "#{reservation_id}", "*.log")
   end
 
   def upload

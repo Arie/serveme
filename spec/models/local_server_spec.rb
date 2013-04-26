@@ -153,7 +153,7 @@ describe LocalServer do
 
     it "takes the server's path and adds the TF2 dirs" do
       subject.stub(:path => '/foo/bar')
-      subject.tf_dir.should eql '/foo/bar/orangebox/tf'
+      subject.tf_dir.should eql '/foo/bar/tf'
     end
 
   end

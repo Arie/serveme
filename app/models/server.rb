@@ -75,7 +75,7 @@ class Server < ActiveRecord::Base
   end
 
   def tf_dir
-    File.join(path, 'orangebox', 'tf')
+    File.join(path, 'tf')
   end
 
   def current_rcon

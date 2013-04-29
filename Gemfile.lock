@@ -46,7 +46,7 @@ GEM
     binding_of_caller (0.7.1)
       debug_inspector (>= 0.0.1)
     blockenspiel (0.4.5)
-    bootstrap-sass (2.3.1.1)
+    bootstrap-sass (2.3.1.0)
       sass (~> 3.2)
     builder (3.0.4)
     bzip2-ruby (0.2.7)
@@ -322,7 +322,7 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   binding_of_caller
-  bootstrap-sass
+  bootstrap-sass (= 2.3.1.0)
   capistrano
   capistrano-ext
   capistrano_colors

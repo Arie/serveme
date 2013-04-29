@@ -64,7 +64,7 @@ group :assets do
   gem 'jquery-rails'
   gem 'compass-rails'
   gem 'sass-rails'
-  gem 'bootstrap-sass'                            #<3 twitter bootstrap
+  gem 'bootstrap-sass', "2.3.1.0"
   gem 'therubyracer', :require => 'v8'
   gem 'turbo-sprockets-rails3'
   gem 'font-awesome-sass-rails'

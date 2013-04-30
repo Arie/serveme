@@ -56,7 +56,7 @@ class SshZipFileCreator < ZipFileCreator
   end
 
   def zip
-    server.execute("zip --junk-paths #{remote_zip_name} #{shell_escaped_files_to_zip.join(' ')}")
+    server.execute("zip -j #{remote_zip_name} #{shell_escaped_files_to_zip.join(' ')}")
   end
 
   def download_zip_from_remote_server

@@ -54,7 +54,7 @@ describe ZipFileCreator do
     it "shell escapes the file names" do
       zip_file = SshZipFileCreator.new(reservation, ["foo'bar"])
       zip_file.stub(:remote_zip_name => "foo.zip")
-      server.should_receive(:execute).with("zip --junk-paths foo.zip foo\\'bar")
+      server.should_receive(:execute).with("zip -j foo.zip foo\\'bar")
       zip_file.zip
     end
 

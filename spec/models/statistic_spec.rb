@@ -55,9 +55,7 @@ describe Statistic do
 
       top_10_hash = Statistic.top_10_servers
 
-      top_10_hash[server1].should eql 3
-      top_10_hash[server2].should eql 2
-      top_10_hash[server3].should eql 1
+      top_10_hash.should eql "#1" => 3, "#2" => 2, "#3" => 1
     end
   end
 

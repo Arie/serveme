@@ -5,26 +5,18 @@ class Statistic
   end
 
   def self.top_10_users
-    use_count_per_user  = Reservation.group(:user_id).count
-    top_10_array        = use_count_per_user.sort_by {|user, count| count }.reverse.first(10)
-    top_10_users        = User.where(:id => top_10_array.map(&:first)).to_a
+    top_10_user_id_count_hash = Reservation.joins(:user).order("count_all DESC").limit(10).count(group: "users.id")
+    top_10_users              = User.where(:id => top_10_user_id_count_hash.keys).to_a
     top_10_hash         = {}
-    top_10_array.each do |user_id, count|
-      user = top_10_users.select { |u| u.id == user_id.to_i }.first
+    top_10_user_id_count_hash.map do |user_id, count|
+      user = top_10_users.find { |u| u.id == user_id.to_i }
       top_10_hash[user] = count
     end
     top_10_hash
   end
 
   def self.top_10_servers
-    use_count_per_server  = Reservation.group(:server_id).count
-    top_10_array          = use_count_per_server.sort_by {|server, count| count }.reverse.first(10)
-    top_10_servers_hash   = {}
-    top_10_array.each do |server_id, count|
-      server = Server.find(server_id)
-      top_10_servers_hash[server] = count
-    end
-    top_10_servers_hash
+    Reservation.joins(:server).order("count_all DESC").limit(10).count(group: "servers.name")
   end
 
   def self.total_reservations

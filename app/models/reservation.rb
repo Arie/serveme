@@ -9,6 +9,8 @@ class Reservation < ActiveRecord::Base
   belongs_to :reservation
   has_many :log_uploads
 
+  delegate :donator?, :to => :user, :prefix => false
+
   validates_presence_of :user, :server, :password, :rcon
   validates_with Reservations::UserIsAvailableValidator
   validates_with Reservations::ServerIsAvailableValidator

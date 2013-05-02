@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
     if donator?
       5.hours
     else
-      3.hours
+      2.hours
     end
   end
 

@@ -39,7 +39,7 @@ class ReservationsController < ApplicationController
   end
 
   def index
-    @users_reservations = current_user.reservations.ordered.first(100)
+    @users_reservations = current_user.reservations.ordered.paginate(:page => params[:page], :per_page => 20)
   end
 
   def edit

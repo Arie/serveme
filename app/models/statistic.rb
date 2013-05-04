@@ -1,9 +1,5 @@
 class Statistic
 
-  def self.recent_reservations
-    Reservation.order('created_at DESC').limit(100)
-  end
-
   def self.top_10_users
     top_10_user_id_count_hash = Reservation.joins(:user).order("count_all DESC").limit(10).count(group: "users.id")
     top_10_users              = User.where(:id => top_10_user_id_count_hash.keys).to_a

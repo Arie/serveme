@@ -2,6 +2,10 @@
 
 .row
   .span10
+    = will_paginate @recent_reservations, :renderer => BootstrapPagination::Rails
+
+.row
+  .span10
 
     %table.table.table-hover.table-bordered.table-striped
       %thead

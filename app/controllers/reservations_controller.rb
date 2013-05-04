@@ -62,7 +62,7 @@ class ReservationsController < ApplicationController
 
   def extend
     if reservation.extend!
-      flash[:notice] = "Reservation extended by 1 hour to #{I18n.l(reservation.ends_at, :format => :datepicker)}"
+      flash[:notice] = "Reservation extended to #{I18n.l(reservation.ends_at, :format => :datepicker)}"
     else
       flash[:alert] = "Could not extend, conflicting reservation"
     end

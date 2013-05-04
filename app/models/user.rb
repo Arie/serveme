@@ -38,6 +38,14 @@ class User < ActiveRecord::Base
     end
   end
 
+  def reservation_extension_time
+    if donator?
+      1.hour
+    else
+      20.minutes
+    end
+  end
+
   def total_reservation_seconds
     reservations.sum(&:duration)
   end

@@ -270,6 +270,7 @@ describe Reservation do
     end
 
     context "for non-donators" do
+
       it 'has an initial duration of no more than 2 hours' do
         reservation = build :reservation, :starts_at => Time.current, :ends_at => 121.minutes.from_now
         reservation.should have(1).error_on(:ends_at)
@@ -278,19 +279,47 @@ describe Reservation do
         reservation.ends_at = reservation.starts_at + 2.hours
         reservation.should have(:no).errors_on(:ends_at)
       end
+
+      it 'gets extended with 20 minutes at a time' do
+        reservation = build :reservation, :starts_at => Time.current, :ends_at => 31.minutes.from_now
+        reservation.user.stub(:donator? => false)
+        old_ends_at = reservation.ends_at
+        reservation.stub(:active? => true)
+
+        reservation.extend!
+
+        reservation.ends_at.to_i.should == (old_ends_at + 20.minutes).to_i
+      end
+
     end
 
     context "for donators" do
-      it 'has an initial duration of no more than 5 hours' do
-        reservation = build :reservation, :starts_at => Time.current, :ends_at => 301.minutes.from_now
-        user = reservation.user
+
+      let(:user) { create(:user) }
+
+      before do
         user.stub(:donator? => true)
+      end
+
+      it 'has an initial duration of no more than 5 hours' do
+        reservation = build :reservation, :starts_at => Time.current, :ends_at => 301.minutes.from_now, :user => user
         reservation.should have(1).error_on(:ends_at)
         reservation.errors.full_messages.should include "Ends at maximum reservation time is 5 hours"
 
         reservation.ends_at = reservation.starts_at + 5.hours
         reservation.should have(:no).errors_on(:ends_at)
       end
+
+      it 'gets extended with 1 hour at a time' do
+        reservation = build :reservation, :starts_at => Time.current, :ends_at => 31.minutes.from_now, :user => user
+        reservation.stub(:active? => true)
+        old_ends_at = reservation.ends_at
+
+        reservation.extend!
+
+        reservation.ends_at.to_i.should == (old_ends_at + 1.hour).to_i
+      end
+
     end
 
     it "validates you don't collide with another reservation of yourself" do

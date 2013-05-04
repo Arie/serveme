@@ -1,4 +1,4 @@
-- if current_user.reservations.count >= 10
+- if !current_user.donator? && current_user.reservations.count >= 10
   - if current_user.top10?
     .donate.alert.alert-error
       Hey, you're one of our top 10 users, have you donated yet?

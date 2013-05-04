@@ -12,3 +12,7 @@ en:
   timeleft:
     one: "%{count} minute"
     other: "%{count} minutes"
+  user:
+    donator:
+      "true": Yes! :)
+      "false": No :(

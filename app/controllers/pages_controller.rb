@@ -3,7 +3,7 @@ class PagesController < ApplicationController
   skip_before_filter :authenticate_user!
 
   def welcome
-    @reservations = Reservation.within_12_hours
+    @reservations = Reservation.within_12_hours.first(25)
     if current_user
       @users_reservations = current_user.reservations.ordered.first(5)
     end
@@ -17,7 +17,7 @@ class PagesController < ApplicationController
   end
 
   def recent_reservations
-    @recent_reservations = Statistic.recent_reservations
+    @recent_reservations = Reservation.order('starts_at DESC').paginate(:page => params[:page], :per_page => 50)
   end
 
   def statistics

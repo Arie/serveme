@@ -2,16 +2,27 @@
 
 .row
   .span10
+    = will_paginate @recent_reservations, :renderer => BootstrapPagination::Rails
 
-    %table.table.table-hover.table-bordered.table-striped
+.row
+  .span10
+
+    %table.table.table-condensed.table-hover
       %thead
         %tr
-          %th Who
-          %th Created
-          %th Reservation
-      - @recent_reservations.each do |reservation|
-        - user = reservation.user
-        %tr
-          %td= link_to(user.nickname, user.steam_profile_url, :target => "_blank")
-          %td= I18n.l(reservation.created_at, :format => :datepicker)
-          %td= "#{I18n.l(reservation.starts_at, :format => :datepicker)} - #{I18n.l(reservation.ends_at, :format => :time_without_seconds)}"
+          %th Server
+          %th Reserved by
+          %th Reserved from
+          %th Reserved until
+      %tbody
+        - @recent_reservations.each do |reservation|
+          
+          - klass = 'success' if reservation.active?
+          - klass = 'info'    if reservation.future?
+          %tr{:class => klass}
+            - server = reservation.server.decorate
+            - user = reservation.user
+            %td= server.name
+            %td= link_to(user.nickname, user.steam_profile_url, :target => "_blank")
+            %td= I18n.l(reservation.starts_at,  :format => :short)
+            %td= I18n.l(reservation.ends_at,    :format => :short)

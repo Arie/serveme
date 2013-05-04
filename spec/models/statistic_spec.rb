@@ -2,19 +2,6 @@ require 'spec_helper'
 
 describe Statistic do
 
-  describe '.recent_reservations' do
-
-    it 'orders by creation date' do
-      oldest  = create :reservation, :created_at => 4.days.ago
-      older   = create :reservation, :created_at => 3.days.ago
-      new     = create :reservation, :created_at => 2.days.ago
-      newest  = create :reservation, :created_at => 1.day.ago
-      reservations = [newest, new, older, oldest]
-      Statistic.recent_reservations.map(&:id).should eql reservations.map(&:id)
-    end
-
-  end
-
   describe '.top_10_users' do
 
     it "returns a hash with top users" do

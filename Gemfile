@@ -28,6 +28,7 @@ group :development do
   gem 'capistrano-ext'
   gem 'capistrano_colors'
   gem 'capistrano'
+  gem 'capistrano-maintenance'
   gem 'rvm-capistrano'
 end
 

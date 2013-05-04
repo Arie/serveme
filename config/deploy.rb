@@ -15,6 +15,7 @@ set :user,              'tf2'
 set :rvm_ruby_string,   '1.9.3@serveme'
 set :rvm_type,          :system
 set :stage,             'production'
+set :maintenance_template_path, 'app/views/pages/maintenance.html.erb'
 
 server "#{main_server}", :web, :app, :db, :primary => true
 
@@ -24,6 +25,8 @@ ssh_options[:forward_agent] = true
 after 'deploy:finalize_update', 'app:symlink'
 after 'deploy',                 'deploy:cleanup'
 
+before 'deploy:restart',        'deploy:web:disable'
+after 'deploy:restart',        'deploy:web:enable'
 namespace :deploy do
   desc "Restart the servers"
   task :restart do
@@ -64,3 +67,4 @@ after "deploy:update_code", "thin:link_config"
 after "deploy", "deploy:cleanup"
 
 require 'rvm/capistrano'
+

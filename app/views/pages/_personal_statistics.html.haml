@@ -1,50 +1,52 @@
 %h2 Your stats
-%table.table.table-condensed.table-hover
-
-  %tr
-    %td User #
-    %td= user.id
-
-  %tr
-    %td Date joined
-    %td= I18n.l(user.created_at, :format => :datepicker)
-  
-  %tr
-    %td Login count
-    %td= user.sign_in_count
-
-  %tr
-    %td Reservations made
-    %td= user.reservations.count
-
-  %tr
-    %td Total reservation time
-    - duration = (user.total_reservation_seconds / 3600.0).round
-    %td= "#{duration} hours"
-
-  %tr
-    %td Logs uploaded
-    %td= user.log_uploads.where(:status => "success").count
-
-  %tr
-    %td Donator
-    %td= t("user.donator.#{user.donator?}")
-
-
-%h2 A few site statistics
 .row
   .span10
+    %table.table.table-condensed.table-hover.table-bordered
 
-    %table.table.table-hover.table-bordered.table-striped
+      %tr
+        %td User #
+        %td= user.id
 
-      %thead
-        %tr
-          %th What
-          %th The numbers
-        %tr
-          %td Total reservations
-          %td= Statistic.total_reservations
-        %tr
-          %td Total reservation time
-          %td= "#{(Statistic.total_playtime_seconds / 3600.0).round} hours"
+      %tr
+        %td Date joined
+        %td= I18n.l(user.created_at, :format => :datepicker)
+      
+      %tr
+        %td Login count
+        %td= user.sign_in_count
+
+      %tr
+        %td Reservations made
+        %td= user.reservations.count
+
+      %tr
+        %td Total reservation time
+        - duration = (user.total_reservation_seconds / 3600.0).round
+        %td= "#{duration} hours"
+
+      %tr
+        %td Logs uploaded
+        %td= user.log_uploads.where(:status => "success").count
+
+      %tr
+        %td Donator
+        %td= t("user.donator.#{user.donator?}")
+
+
+    %h2 A few site statistics
+    .row
+      .span10
+
+        %table.table.table-hover.table-bordered.table-striped
+
+          %thead
+            %tr
+              %th What
+              %th The numbers
+            %tr
+              %td Total reservations
+              %td= Statistic.total_reservations
+            %tr
+              %td Total reservation time
+              %td= "#{(Statistic.total_playtime_seconds / 3600.0).round} hours"
 

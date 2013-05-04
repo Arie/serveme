@@ -3,7 +3,7 @@ class PagesController < ApplicationController
   skip_before_filter :authenticate_user!
 
   def welcome
-    @reservations = Reservation.within_12_hours
+    @reservations = Reservation.within_12_hours.first(25)
     if current_user
       @users_reservations = current_user.reservations.ordered.first(5)
     end

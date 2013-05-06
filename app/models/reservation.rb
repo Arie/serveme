@@ -9,6 +9,8 @@ class Reservation < ActiveRecord::Base
   belongs_to :reservation
   has_many :log_uploads
 
+  delegate :donator?, :to => :user, :prefix => false
+
   validates_presence_of :user, :server, :password, :rcon
   validates_with Reservations::UserIsAvailableValidator
   validates_with Reservations::ServerIsAvailableValidator
@@ -91,7 +93,7 @@ class Reservation < ActiveRecord::Base
   def extend!
     if less_than_1_hour_left?
       self.extending  = true
-      self.ends_at    = ends_at + 1.hour
+      self.ends_at    = ends_at + user.reservation_extension_time
       save
     end
   end

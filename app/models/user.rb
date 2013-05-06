@@ -35,7 +35,15 @@ class User < ActiveRecord::Base
     if donator?
       5.hours
     else
-      3.hours
+      2.hours
+    end
+  end
+
+  def reservation_extension_time
+    if donator?
+      1.hour
+    else
+      20.minutes
     end
   end
 

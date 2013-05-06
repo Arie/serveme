@@ -160,7 +160,7 @@ Given "there is a reservation that will end within the hour" do
 end
 
 Given "a reservation that starts shortly after mine" do
-  create(:reservation, :server => @reservation.server, :starts_at => @reservation.ends_at + 5.minutes)
+  create(:reservation, :server => @reservation.server, :starts_at => @reservation.ends_at + 5.minutes, :ends_at => @reservation.ends_at + 1.hour)
 end
 
 Then "I get notified extending failed" do

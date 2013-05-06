@@ -1,5 +1,7 @@
 require './config/boot'
 
+set :stages,            %w(eu na)
+set :default_stage,     "eu"
 set :application,       "serveme"
 set :deploy_to,         "/var/www/serveme"
 set :use_sudo,          false
@@ -16,8 +18,6 @@ set :rvm_ruby_string,   '1.9.3@serveme'
 set :rvm_type,          :system
 set :stage,             'production'
 set :maintenance_template_path, 'app/views/pages/maintenance.html.erb'
-
-server "#{main_server}", :web, :app, :db, :primary => true
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
@@ -67,4 +67,3 @@ after "deploy:update_code", "thin:link_config"
 after "deploy", "deploy:cleanup"
 
 require 'rvm/capistrano'
-

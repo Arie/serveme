@@ -202,6 +202,8 @@ GEM
       slop (~> 3.4)
     pry-nav (0.2.3)
       pry (~> 0.9.10)
+    puma (2.0.1)
+      rack (>= 1.1, < 2.0)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
     rack (1.4.5)
@@ -357,6 +359,7 @@ DEPENDENCIES
   omniauth-steam
   paper_trail
   pry-nav
+  puma
   quiet_assets
   rails
   rspec-rails

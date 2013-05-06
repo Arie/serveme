@@ -3,7 +3,10 @@ source 'https://rubygems.org'
 gem 'rails'
 gem 'haml'
 gem 'mysql2'
+#For EU
 gem 'thin',             :require => false
+#For NA
+gem 'puma',             :require => false
 gem 'omniauth-openid'
 gem 'omniauth-steam'
 gem 'devise'

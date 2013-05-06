@@ -16,7 +16,7 @@ class Statistic
   end
 
   def self.total_reservations
-    Reservation.last.id
+    Reservation.last.id if Reservation.last
   end
 
   def self.total_playtime_seconds

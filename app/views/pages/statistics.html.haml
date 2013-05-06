@@ -1,9 +1,28 @@
 - if current_user
   = render 'personal_statistics', :user => current_user
-%h2 Top 10 users
 
 .row
   .span10
+    %h2 A few site statistics
+
+
+    %table.table.table-hover.table-bordered.table-striped
+
+      %thead
+        %tr
+          %th What
+          %th The numbers
+        %tr
+          %td Total reservations
+          %td= Statistic.total_reservations.to_i
+        %tr
+          %td Total reservation time
+          %td= "#{(Statistic.total_playtime_seconds / 3600.0).round} hours"
+
+
+.row
+  .span10
+    %h2 Top 10 users
 
     %table.table.table-hover.table-bordered.table-striped
       %thead
@@ -15,10 +34,10 @@
           %td= link_to(user.nickname, user.steam_profile_url, :target => "_blank")
           %td= count
 
-%h2 Top 10 servers
 
 .row
   .span10
+    %h2 Top 10 servers
 
     %table.table.table-hover.table-bordered.table-striped
       %thead

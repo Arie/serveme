@@ -1,3 +1,5 @@
+require 'puma/capistrano'
+
 set :deploy_to,         "/var/www/serveme"
 set :main_server,       "na.fakkelbrigade.eu"
 set :user,              'arie'

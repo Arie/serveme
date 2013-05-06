@@ -25,9 +25,6 @@ ssh_options[:forward_agent] = true
 after 'deploy:finalize_update', 'app:symlink'
 after 'deploy',                 'deploy:cleanup'
 
-before 'deploy:restart',        'deploy:web:disable'
-after 'deploy:restart',        'deploy:web:enable'
-
 namespace :app do
   desc "makes a symbolic link to the shared files"
   task :symlink, :roles => [:web, :app] do

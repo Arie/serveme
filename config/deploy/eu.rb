@@ -5,6 +5,8 @@ set :user,              'tf2'
 server "#{main_server}", :web, :app, :db, :primary => true
 
 after "deploy:update_code", "thin:link_config"
+before 'deploy:restart',    'deploy:web:disable'
+after 'deploy:restart',     'deploy:web:enable'
 
 namespace :thin do
 

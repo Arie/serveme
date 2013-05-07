@@ -73,4 +73,8 @@ unless Location.all.any?
   locations.each do |location|
     Location.find_or_create_by_name(location[:name], :flag => location[:flag])
   end
+
+  unless Group.all.any?
+    Group.create!(:name => "Donators")
+  end
 end

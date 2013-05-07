@@ -13,4 +13,6 @@ class Group < ActiveRecord::Base
     find_by_name("Donators")
   end
 
+
+
 end

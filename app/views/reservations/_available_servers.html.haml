@@ -1,0 +1,13 @@
+.span12
+  .row
+    .span12
+      %h4 Servers in use right now
+  .row
+    .span6
+      %h5 Non-donators
+      = "#{Reservation.current.where(:server_id => Server.without_group).count} / #{Server.without_group.count}"
+      servers
+    .span6
+      %h5 Donators only
+      = "#{Reservation.current.where(:server_id => Server.for_donators).count} / #{Server.for_donators.count}"
+      servers

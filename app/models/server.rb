@@ -42,6 +42,10 @@ class Server < ActiveRecord::Base
     group('servers.id')
   end
 
+  def self.for_donators
+    Group.donator_group.servers
+  end
+
   def server_connect_string(password)
     connect_string(ip, port, password)
   end

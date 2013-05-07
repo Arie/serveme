@@ -178,7 +178,15 @@ class Reservation < ActiveRecord::Base
   end
 
   def inactive_too_long?
-    inactive_minute_counter >= 30
+    inactive_minute_counter >= inactive_minute_limit
+  end
+
+  def inactive_minute_limit
+    if user && user.donator?
+      45
+    else
+      15
+    end
   end
 
   def get_binding

@@ -454,15 +454,42 @@ describe Reservation do
 
     describe "#inactive_too_long?" do
 
-      it "has been inactive too long when the inactive_minute_counter reaches 30" do
-        subject.inactive_minute_counter = 29
-        subject.should_not be_inactive_too_long
+      context "for donators" do
 
-        subject.inactive_minute_counter = 30
-        subject.should be_inactive_too_long
+        before do
+          subject.stub(:user).and_return { mock_model(User, :donator? => true) }
+        end
 
-        subject.inactive_minute_counter = 31
-        subject.should be_inactive_too_long
+        it "has been inactive too long when the inactive_minute_counter reaches 45" do
+          subject.inactive_minute_counter = 44
+          subject.should_not be_inactive_too_long
+
+          subject.inactive_minute_counter = 45
+          subject.should be_inactive_too_long
+
+          subject.inactive_minute_counter = 46
+          subject.should be_inactive_too_long
+        end
+
+      end
+
+      context "for non-donators" do
+
+        before do
+          subject.stub(:user).and_return { mock_model(User, :donator? => false) }
+        end
+
+        it "has been inactive too long when the inactive_minute_counter reaches 15" do
+          subject.inactive_minute_counter = 14
+          subject.should_not be_inactive_too_long
+
+          subject.inactive_minute_counter = 15
+          subject.should be_inactive_too_long
+
+          subject.inactive_minute_counter = 16
+          subject.should be_inactive_too_long
+        end
+
       end
 
     end

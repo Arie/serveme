@@ -28,4 +28,7 @@ class PagesController < ApplicationController
   def server_providers
   end
 
+  def faq
+  end
+
 end

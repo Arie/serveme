@@ -46,6 +46,7 @@ Serveme::Application.routes.draw do
       get :statistics
       get :servers
       get :server_providers
+      get :faq
     end
   end
 

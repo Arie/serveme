@@ -185,7 +185,7 @@ class Reservation < ActiveRecord::Base
     if user && user.donator?
       45
     else
-      15
+      30
     end
   end
 

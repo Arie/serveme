@@ -329,7 +329,7 @@ PLATFORMS
 DEPENDENCIES
   better_errors
   binding_of_caller
-  bootstrap-sass (= 2.3.1.0)
+  bootstrap-sass
   capistrano
   capistrano-ext
   capistrano-maintenance

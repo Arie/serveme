@@ -291,6 +291,34 @@ describe Reservation do
         reservation.ends_at.to_i.should == (old_ends_at + 20.minutes).to_i
       end
 
+      it "doesn't allow multiple future reservations" do
+        user = create :user
+        user.stub(:donator? => false)
+
+        now_reservation           = create :reservation, :starts_at => 5.minutes.ago, :ends_at => 1.hour.from_now, :user => user
+        first_future_reservation  = create :reservation, :starts_at => 10.hours.from_now, :ends_at => 11.hours.from_now, :user => user
+        second_future_reservation = build  :reservation, :starts_at => 12.hours.from_now, :ends_at => 13.hours.from_now, :user => user
+
+        second_future_reservation.should_not be_valid
+        second_future_reservation.should have_at_least(1).error_on(:starts_at)
+
+        now_reservation.starts_at = 12.hours.from_now
+        now_reservation.ends_at   = 13.hours.from_now
+        now_reservation.should_not be_valid
+        now_reservation.should have_at_least(1).error_on(:starts_at)
+      end
+
+      it "does allow editing of a future reservation" do
+        user = create :user
+        user.stub(:donator? => false)
+
+        future_reservation           = create :reservation, :starts_at => 20.minutes.from_now, :ends_at => 1.hour.from_now, :user => user
+
+        future_reservation.starts_at = 12.hours.from_now
+        future_reservation.ends_at   = 13.hours.from_now
+        future_reservation.should be_valid
+      end
+
     end
 
     context "for donators" do
@@ -320,6 +348,15 @@ describe Reservation do
         reservation.ends_at.to_i.should == (old_ends_at + 1.hour).to_i
       end
 
+      it 'allows multiple future reservations' do
+        user = create :user
+        user.stub(:donator? => true)
+        first_future_reservation  = create :reservation, :starts_at => 10.hours.from_now, :ends_at => 11.hours.from_now, :user => user
+        second_future_reservation = build  :reservation, :starts_at => 12.hours.from_now, :ends_at => 13.hours.from_now, :user => user
+
+        second_future_reservation.should be_valid
+      end
+
     end
 
     it "validates you don't collide with another reservation of yourself" do
@@ -327,7 +364,7 @@ describe Reservation do
       create :reservation, :user => user, :starts_at => Time.current, :ends_at => 119.minutes.from_now
       reservation = build :reservation, :user => user, :starts_at => 90.minutes.from_now, :ends_at => 121.minutes.from_now
 
-      reservation.should have(1).error_on(:starts_at)
+      reservation.should have_at_least(1).error_on(:starts_at)
       reservation.should have(1).error_on(:ends_at)
 
       reservation.errors.full_messages.should include "Starts at you already have a reservation in this timeframe"

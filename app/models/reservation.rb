@@ -17,7 +17,8 @@ class Reservation < ActiveRecord::Base
   validates_with Reservations::ReservableByUserValidator
   validates_with Reservations::LengthOfReservationValidator
   validates_with Reservations::ChronologicalityOfTimesValidator
-  validates_with Reservations::StartsNotTooFarInPastValidator, :on => :create
+  validates_with Reservations::StartsNotTooFarInPastValidator,            :on => :create
+  validates_with Reservations::OnlyOneFutureReservationPerUserValidator,  :unless => :donator?
 
   attr_accessor :extending
 
@@ -34,8 +35,12 @@ class Reservation < ActiveRecord::Base
      where(:ends_at => start_time...end_time).ordered)
   end
 
-  def self.future
+  def self.ending_in_future
     where('reservations.ends_at > ?', Time.current)
+  end
+
+  def self.future
+    where('reservations.starts_at > ?', Time.current)
   end
 
   def self.current

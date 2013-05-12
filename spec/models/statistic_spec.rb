@@ -8,7 +8,7 @@ describe Statistic do
       top_user    = create :user, :name => "Top user"
       other_user  = create :user, :name => "Not top user"
 
-      create :reservation, :user => top_user
+      create :reservation, :user => top_user, :starts_at => 10.minutes.ago, :ends_at => 1.hour.from_now
       create :reservation, :user => top_user, :starts_at => 24.hours.from_now, :ends_at => 25.hours.from_now
       Version.update_all(:whodunnit => top_user.id)
       create :reservation, :user => other_user

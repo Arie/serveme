@@ -5,7 +5,7 @@
     #{server.ip}:#{server.port}
   %td
     %ul.unstyled
-      - server.reservations.future.order(:starts_at).each do |reservation|
+      - server.reservations.ending_in_future.order(:starts_at).each do |reservation|
         %li
           %small= "#{I18n.l(reservation.starts_at, :format => :short_with_dayname)} -  #{I18n.l(reservation.ends_at, :format => :time_without_seconds)}"
   %td.actions

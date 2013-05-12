@@ -19,9 +19,13 @@ class ApplicationController < ActionController::Base
   end
 
   def set_time_zone_from_cookie
-    Time.zone = time_zone_from_cookie
-    if current_user
-      current_user.update_attributes(:time_zone => time_zone_from_cookie)
+    begin
+      Time.zone = time_zone_from_cookie
+      if current_user
+        current_user.update_attributes(:time_zone => time_zone_from_cookie)
+      end
+    rescue ArgumentError
+      set_default_time_zone
     end
   end
 

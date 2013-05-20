@@ -295,9 +295,9 @@ describe Reservation do
         user = create :user
         user.stub(:donator? => false)
 
-        now_reservation           = create :reservation, :starts_at => 5.minutes.ago, :ends_at => 1.hour.from_now, :user => user
-        first_future_reservation  = create :reservation, :starts_at => 10.hours.from_now, :ends_at => 11.hours.from_now, :user => user
-        second_future_reservation = build  :reservation, :starts_at => 12.hours.from_now, :ends_at => 13.hours.from_now, :user => user
+        now_reservation           = create :reservation, :starts_at => 5.minutes.ago,       :ends_at => 1.hour.from_now,    :user => user
+        first_future_reservation  = create :reservation, :starts_at => 90.minutes.from_now, :ends_at => 2.hours.from_now,   :user => user
+        second_future_reservation = build  :reservation, :starts_at => 12.hours.from_now,   :ends_at => 13.hours.from_now,  :user => user
 
         second_future_reservation.should_not be_valid
         second_future_reservation.should have_at_least(1).error_on(:starts_at)
@@ -314,8 +314,8 @@ describe Reservation do
 
         future_reservation           = create :reservation, :starts_at => 20.minutes.from_now, :ends_at => 1.hour.from_now, :user => user
 
-        future_reservation.starts_at = 12.hours.from_now
-        future_reservation.ends_at   = 13.hours.from_now
+        future_reservation.starts_at = 90.minutes.from_now
+        future_reservation.ends_at   = 2.hours.from_now
         future_reservation.should be_valid
       end
 

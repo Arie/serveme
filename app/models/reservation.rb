@@ -19,6 +19,7 @@ class Reservation < ActiveRecord::Base
   validates_with Reservations::ChronologicalityOfTimesValidator
   validates_with Reservations::StartsNotTooFarInPastValidator,            :on => :create
   validates_with Reservations::OnlyOneFutureReservationPerUserValidator,  :unless => :donator?
+  validates_with Reservations::StartsNotTooFarInFutureValidator,          :unless => :donator?
 
   attr_accessor :extending
 

@@ -1,7 +1,7 @@
 # encoding: utf-8
 Given "there are reservations today" do
-  create(:reservation, :server => Server.last, :starts_at => 4.hours.from_now, :ends_at => 5.hours.from_now)
-  @reservation = create(:reservation, :server => Server.first, :starts_at => 5.hours.from_now, :ends_at => 6.hours.from_now)
+  create(:reservation, :server => Server.last, :starts_at => 10.minutes.from_now, :ends_at => 1.hour.from_now)
+  @reservation = create(:reservation, :server => Server.first, :starts_at => 130.minutes.from_now, :ends_at => 3.hours.from_now)
 end
 
 When "I go make a reservation" do
@@ -73,8 +73,8 @@ end
 When "I enter the reservation details for a future reservation" do
   step "I enter the reservation details"
 
-  fill_in "Start/end time",      :with => I18n.l(3.hours.from_now, :format => :datepicker)
-  fill_in "reservation_ends_at", :with => I18n.l(4.hours.from_now, :format => :datepicker)
+  fill_in "Start/end time",      :with => I18n.l(30.minutes.from_now, :format => :datepicker)
+  fill_in "reservation_ends_at", :with => I18n.l(1.hour.from_now,     :format => :datepicker)
 end
 
 When "I go edit my reservation" do

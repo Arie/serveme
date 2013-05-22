@@ -13,6 +13,9 @@
 
   .container-fluid
 
+    .alert.alert-error
+      Due to a problem with the reservation system's connection to steam, you might not be able to log in :(
+
     = render 'shared/nag_message' if current_user
 
     = render 'shared/flash'

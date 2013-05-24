@@ -1,10 +1,18 @@
-- if !current_user.donator? && current_user.reservations.count >= 10
-  - if current_user.top10?
-    .donate.alert.alert-error
-      Hey, you're one of our top 10 users, have you donated yet?
-      = render "shared/paypal_button"
-  - else
-    .donate.alert.alert-info
-      - duration = (current_user.total_reservation_seconds / 3600.0).round
-      Hi there! You've made #{duration} hours worth of reservations so far, have you considered donating to keep this service running?
-      = render "shared/paypal_button"
+- users_last_reservation = current_user.reservations.last
+- if users_last_reservation && users_last_reservation.inactive_too_long?
+  .alert.alert-error
+    Your
+    = link_to("last reservation", reservation_path(users_last_reservation))
+    was automatically ended due to inactivity. Please end your reservations on this site when you're done playing so other people can use the server.
+
+- if !current_user.donator?
+  - if current_user.reservations.count >= 10
+    - if current_user.top10?
+      .donate.alert.alert-error
+        Hey, you're one of our top 10 users, have you donated yet?
+        = render "shared/paypal_button"
+    - else
+      .donate.alert.alert-info
+        - duration = (current_user.total_reservation_seconds / 3600.0).round
+        Hi there! You've made #{duration} hours worth of reservations so far, have you considered donating to keep this service running?
+        = render "shared/paypal_button"

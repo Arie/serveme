@@ -3,7 +3,7 @@ module Reservations
 
     def validate(record)
       if record.starts_at && record.starts_at > 3.hours.from_now
-        record.errors.add(:starts_at, "can't be more than 3 hours in the future for non-donators")
+        record.errors.add(:starts_at, "can't be this far in the future for non-donators")
       end
     end
 

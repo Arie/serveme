@@ -497,14 +497,14 @@ describe Reservation do
           subject.stub(:user).and_return { mock_model(User, :donator? => true) }
         end
 
-        it "has been inactive too long when the inactive_minute_counter reaches 45" do
-          subject.inactive_minute_counter = 44
+        it "has been inactive too long when the inactive_minute_counter reaches 60" do
+          subject.inactive_minute_counter = 59
           subject.should_not be_inactive_too_long
 
-          subject.inactive_minute_counter = 45
+          subject.inactive_minute_counter = 60
           subject.should be_inactive_too_long
 
-          subject.inactive_minute_counter = 46
+          subject.inactive_minute_counter = 61
           subject.should be_inactive_too_long
         end
 

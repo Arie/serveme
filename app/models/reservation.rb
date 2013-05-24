@@ -189,7 +189,7 @@ class Reservation < ActiveRecord::Base
 
   def inactive_minute_limit
     if user && user.donator?
-      45
+      60
     else
       30
     end

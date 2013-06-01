@@ -162,11 +162,11 @@ class Server < ActiveRecord::Base
     end
   end
 
-  private
-
   def number_of_players
     @number_of_players ||= ServerInfo.new(self).number_of_players
   end
+
+  private
 
   def self.ordered_by_position
     order("servers.position ASC")

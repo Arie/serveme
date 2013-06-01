@@ -11,7 +11,7 @@
       %tr[reservation]
         - server = reservation.server.decorate
         - if reservation.active?
-          %td= "#{server.name} (#{pluralize(reservation.last_number_of_players, 'player')})"
+          %td= "#{server.name} (#{pluralize(reservation.last_number_of_players, 'player')})".html_safe
         - else
           %td= server.name
         %td= I18n.l(reservation.starts_at,  :format => :short)

@@ -195,6 +195,10 @@ class Reservation < ActiveRecord::Base
     end
   end
 
+  def has_players?
+    last_number_of_players > 0
+  end
+
   def get_binding
     binding
   end

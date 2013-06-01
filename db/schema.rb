@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130322090823) do
+ActiveRecord::Schema.define(:version => 20130601142637) do
 
   create_table "group_servers", :force => true do |t|
     t.integer  "server_id"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(:version => 20130322090823) do
     t.integer  "whitelist_id"
     t.integer  "inactive_minute_counter", :default => 0
     t.boolean  "disable_source_tv",       :default => false
+    t.integer  "last_number_of_players",  :default => 0
   end
 
   add_index "reservations", ["server_config_id"], :name => "index_reservations_on_server_config_id"

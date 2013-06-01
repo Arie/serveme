@@ -24,9 +24,11 @@ namespace :reservations do
     provisioned_now_reservations  = unended_now_reservations.where('provisioned = ?', true)
     provisioned_now_reservations.map do |reservation|
       if reservation.server.occupied?
+        reservation.update_column(:last_number_of_players, reservation.number_of_players.to_i)
         reservation.update_column(:inactive_minute_counter, 0)
         reservation.warn_nearly_over if reservation.nearly_over?
       else
+        reservation.update_column(:last_number_of_players, 0)
         reservation.increment!(:inactive_minute_counter)
         if reservation.inactive_too_long?
           reservation.end_reservation

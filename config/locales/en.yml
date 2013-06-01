@@ -16,3 +16,7 @@ en:
     donator:
       "true": Yes! :)
       "false": No :(
+  server:
+    were_x_players_left:
+      one: was %{count} player
+      other: were %{count} players

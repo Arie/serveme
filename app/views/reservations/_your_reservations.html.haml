@@ -10,7 +10,10 @@
     - @users_reservations.each do |reservation|
       %tr[reservation]
         - server = reservation.server.decorate
-        %td= server.name
+        - if reservation.active?
+          %td= "#{server.name} (#{pluralize(reservation.last_number_of_players, 'player')})"
+        - else
+          %td= server.name
         %td= I18n.l(reservation.starts_at,  :format => :short)
         %td= I18n.l(reservation.ends_at,    :format => :short)
         %td.actions
@@ -27,7 +30,11 @@
                 = link_to extend_reservation_path(reservation),     :class => 'btn btn-small btn-primary', :title => 'Extend reservation',  :method => :post,   :data => { :confirm => "This will extend your reservation if possible" } do
                   Extend
                   %i.icon-time
-              = link_to reservation_path(reservation),            :class => 'btn btn-small btn-danger',  :title => 'End reservation',     :method => :delete, :data => { :confirm => "Are you sure you want to end your reservation?" } do
+              - if reservation.has_players?
+                - end_message = "Are you sure you want to end your reservation? There #{I18n.t(:were_x_players_left, :count => reservation.last_number_of_players, :scope => :server)} left on the server at #{I18n.l(Time.zone.now, :format => :time_without_seconds)}"
+              - else
+                - end_message = "Are you sure you want to end your reservation?"
+              = link_to reservation_path(reservation),              :class => 'btn btn-small btn-danger',  :title => 'End reservation',     :method => :delete, :data => { :confirm => end_message } do
                 End
                 %i.icon-remove
             - if reservation.cancellable?

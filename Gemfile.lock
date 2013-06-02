@@ -7,6 +7,13 @@ GIT
       multi_json (~> 1.5.0)
       multi_xml (~> 0.5.1)
 
+GIT
+  remote: git://github.com/puma/puma.git
+  revision: 10b6667403945704e3f5af267c8e5cb6fd12d612
+  specs:
+    puma (2.0.1)
+      rack (>= 1.1, < 2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -201,8 +208,6 @@ GEM
       slop (~> 3.4)
     pry-nav (0.2.3)
       pry (~> 0.9.10)
-    puma (2.0.1)
-      rack (>= 1.1, < 2.0)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
     rack (1.4.5)
@@ -358,7 +363,7 @@ DEPENDENCIES
   omniauth-steam
   paper_trail
   pry-nav
-  puma
+  puma!
   quiet_assets
   rails
   rspec-rails

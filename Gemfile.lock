@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/Arie/puma.git
+  revision: fa98f84e432dda91bdfbca4a8746391a1941afee
+  specs:
+    puma (2.0.1)
+      rack (>= 1.1, < 2.0)
+
+GIT
   remote: git://github.com/Arie/steam-condenser-ruby.git
   revision: c1de7d8477dd66a270213c83852b8f4e019847e7
   specs:
@@ -6,13 +13,6 @@ GIT
       bzip2-ruby (~> 0.2.7)
       multi_json (~> 1.5.0)
       multi_xml (~> 0.5.1)
-
-GIT
-  remote: git://github.com/puma/puma.git
-  revision: 10b6667403945704e3f5af267c8e5cb6fd12d612
-  specs:
-    puma (2.0.1)
-      rack (>= 1.1, < 2.0)
 
 GEM
   remote: https://rubygems.org/

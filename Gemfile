@@ -6,7 +6,7 @@ gem 'mysql2'
 #For EU
 gem 'thin',             :require => false
 #For NA
-gem 'puma',             :github => "puma/puma", :require => false
+gem 'puma',             :github => "Arie/puma", :require => false
 gem 'omniauth-openid'
 gem 'omniauth-steam'
 gem 'devise'

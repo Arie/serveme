@@ -20,7 +20,7 @@
           %span
             - unless reservation.past?
               = link_to reservation_path(reservation),              :class => 'btn btn-small btn-success' do
-                Show
+                Details
                 %i.icon-list
               = link_to edit_reservation_path(reservation),         :class => 'btn btn-small btn-info',    :title => 'Edit reservation' do
                 Edit

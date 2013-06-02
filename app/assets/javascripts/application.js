@@ -16,3 +16,4 @@
 //// Loads all Bootstrap javascripts
 //= require bootstrap
 //= require datepicker
+//= require zero-clipboard

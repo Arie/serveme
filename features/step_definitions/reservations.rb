@@ -67,6 +67,7 @@ end
 
 Then "I can see my reservation on the welcome page" do
   @reservation = @current_user.reservations.last
+  step "I go to the welcome page"
   step "I can view my reservation in the list"
 end
 
@@ -186,8 +187,9 @@ Then "I can control my reservation" do
 end
 
 Then "I can open the details of my reservation" do
+  step "I go to the welcome page"
   within 'table.your-reservations' do
-    click_link "Show"
+    click_link "Details"
   end
 end
 

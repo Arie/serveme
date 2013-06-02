@@ -155,6 +155,10 @@ class Reservation < ActiveRecord::Base
     server.stv_connect_string(tv_password)
   end
 
+  def rcon_string
+    "rcon_address #{server.ip}:#{server.port}; rcon_password #{rcon}"
+  end
+
   def server_connect_url
     server.server_connect_url(password)
   end

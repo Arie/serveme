@@ -1,4 +1,5 @@
 cron '*/1 * * * *' do
+  sleep 1
   end_past_reservations
   start_active_reservations
   check_active_reservations

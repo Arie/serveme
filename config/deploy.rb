@@ -1,4 +1,5 @@
 require './config/boot'
+require 'cronic/recipes'
 
 set :stages,            %w(eu na)
 set :default_stage,     "eu"
@@ -24,6 +25,9 @@ ssh_options[:forward_agent] = true
 
 after 'deploy:finalize_update', 'app:symlink'
 after 'deploy',                 'deploy:cleanup'
+after "deploy:stop",            "cronic:stop"
+after "deploy:start",           "cronic:start"
+after "deploy:restart",         "cronic:restart"
 
 namespace :app do
   desc "makes a symbolic link to the shared files"

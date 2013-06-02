@@ -45,7 +45,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def self.current
-    where('reservations.starts_at < ? AND reservations.ends_at > ?', Time.current, Time.current)
+    where('reservations.starts_at <= ? AND reservations.ends_at >= ?', Time.current, Time.current)
   end
 
   def to_s

@@ -22,6 +22,7 @@ gem 'draper'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'zeroclipboard-rails'
+gem 'cronic'
 
 group :development do
   gem 'quiet_assets'

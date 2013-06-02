@@ -103,10 +103,9 @@ class Server < ActiveRecord::Base
   end
 
   def occupied?
-    begin
+    if number_of_players
       number_of_players > 0
-    rescue Errno::ECONNREFUSED, SteamCondenser::TimeoutError
-      #Just assume it's occupied when the server times out or isn't up
+    else
       true
     end
   end
@@ -163,7 +162,11 @@ class Server < ActiveRecord::Base
   end
 
   def number_of_players
-    @number_of_players ||= ServerInfo.new(self).number_of_players
+    begin
+      @number_of_players ||= ServerInfo.new(self).number_of_players
+    rescue Errno::ECONNREFUSED, SteamCondenser::TimeoutError
+      nil
+    end
   end
 
   private

@@ -14,7 +14,7 @@ class PagesController < ApplicationController
   end
 
   def servers
-    @servers = Server.ordered
+    @servers = Server.active.ordered
   end
 
   def recent_reservations

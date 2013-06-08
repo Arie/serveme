@@ -17,3 +17,4 @@
 //= require bootstrap
 //= require datepicker
 //= require zero-clipboard
+//= require select2

@@ -7,10 +7,16 @@ class ServerDecorator < Draper::Decorator
   end
 
   def flag
-    if location
-      h.content_tag(:span, "", :class => "flags-#{location.flag}", :title => location.name)
+    if flag_abbreviation
+      h.content_tag(:span, "", :class => "flags flags-#{location.flag}", :title => location.name)
     else
       ""
+    end
+  end
+
+  def flag_abbreviation
+    if location
+      location.flag
     end
   end
 

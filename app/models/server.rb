@@ -129,8 +129,8 @@ class Server < ActiveRecord::Base
   end
 
   def end_reservation(reservation)
-    copy_logs(reservation)
     zip_demos_and_logs(reservation)
+    copy_logs(reservation)
     remove_logs_and_demos
     remove_configuration
     restart
@@ -141,7 +141,7 @@ class Server < ActiveRecord::Base
   end
 
   def copy_logs(reservation)
-    LogCopier.copy(reservation.id, self)
+    LogCopier.copy(reservation, self)
   end
 
   def condenser

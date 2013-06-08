@@ -1,15 +1,15 @@
 class LogCopier
 
-  attr_accessor :reservation_id, :server, :logs
+  attr_accessor :reservation, :server, :logs
 
-  def initialize(reservation_id, server)
+  def initialize(reservation, server)
     @server           = server
-    @reservation_id   = reservation_id
+    @reservation      = reservation
     @logs             = server.logs
   end
 
-  def self.copy(reservation_id, server)
-    server.log_copier_class.new(reservation_id, server).copy
+  def self.copy(reservation, server)
+    server.log_copier_class.new(reservation, server).copy
   end
 
   def copy
@@ -18,7 +18,7 @@ class LogCopier
   end
 
   def directory_to_copy_to
-    Rails.root.join("server_logs", "#{reservation_id}")
+    Rails.root.join("server_logs", "#{reservation.id}")
   end
 
   def make_directory
@@ -38,7 +38,12 @@ end
 class SshLogCopier < LogCopier
 
   def copy_logs
-    server.copy_from_server(logs, directory_to_copy_to)
+    zipfile_name_and_path = Rails.root.join("public", "uploads", reservation.zipfile_name)
+    Zip::ZipFile.foreach(zipfile_name_and_path) do |zipped_file|
+      if zipped_file.name.match("^.*\.log$")
+        zipped_file.extract(File.join(directory_to_copy_to, zipped_file.name))
+      end
+    end
   end
 
 end

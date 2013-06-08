@@ -63,11 +63,18 @@ class Server < ActiveRecord::Base
   end
 
   def update_configuration(reservation)
-    template         = File.read(Rails.root.join("lib/reservation.cfg.erb"))
-    renderer         = ERB.new(template)
-    output_content   = renderer.result(reservation.get_binding)
-    write_configuration(reservation_config_file, output_content)
+    ['reservation.cfg', 'ctf_turbine.cfg'].each do |config_file|
+      config_body = generate_config_file(reservation, config_file)
+      write_configuration(server_config_file(config_file), config_body)
+    end
   end
+
+  def generate_config_file(reservation, config_file)
+    template         = File.read(Rails.root.join("lib/#{config_file}.erb"))
+    renderer         = ERB.new(template)
+    renderer.result(reservation.get_binding)
+  end
+
 
   def process_id
     @process_id ||= begin
@@ -199,8 +206,16 @@ class Server < ActiveRecord::Base
     "steam://connect/#{ip}:#{port}/#{password}"
   end
 
+  def server_config_file(config_file)
+    "#{tf_dir}/cfg/#{config_file}"
+  end
+
   def reservation_config_file
-    "#{tf_dir}/cfg/reservation.cfg"
+    server_config_file('reservation.cfg')
+  end
+
+  def initial_map_config_file
+    server_config_file('ctf_turbine.cfg')
   end
 
 end

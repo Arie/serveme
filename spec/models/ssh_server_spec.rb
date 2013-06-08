@@ -4,9 +4,10 @@ describe SshServer do
 
   describe '#remove_configuration' do
 
-    it 'deletes the reservation.cfg' do
-      subject.stub(:reservation_config_file => '/tmp/foo')
-      subject.should_receive(:execute).with("rm -f /tmp/foo")
+    it 'deletes the reservation configs' do
+      subject.stub(:tf_dir => '/tmp/foo/tf')
+      subject.should_receive(:execute).with("rm -f /tmp/foo/tf/cfg/reservation.cfg")
+      subject.should_receive(:execute).with("rm -f /tmp/foo/tf/cfg/ctf_turbine.cfg")
       subject.remove_configuration
     end
 
@@ -67,16 +68,13 @@ describe SshServer do
   describe '#update_configuration' do
 
     it 'uploads the temporary reservation file to the server' do
-      temporary_reservation_file = Rails.root.join("tmp", "temp_reservation.cfg")
-      subject.stub(:id => 'foo')
-      subject.stub(:temporary_reservation_config_file => temporary_reservation_file)
-      subject.should_receive(:upload_configuration).with(temporary_reservation_file)
-      filename = stub
-      content = stub
-      file = stub
-      File.should_receive(:open).and_yield(file)
-      file.should_receive(:write).with(content)
-      subject.write_configuration(filename, content)
+      output_filename = stub
+      output_content = stub
+      temp_file = stub.as_null_object
+      temp_file.stub(:path => "foo")
+      Tempfile.should_receive(:new).with('config_file').and_return { temp_file }
+      subject.should_receive(:upload_configuration).with(temp_file.path, output_filename)
+      subject.write_configuration(output_filename, output_content)
     end
 
   end
@@ -164,11 +162,8 @@ describe SshServer do
   describe '#upload_configuration' do
 
     it 'uses copy_to_server to transfer the configuration to the reservation file destination' do
-      subject.stub(:reservation_config_file => 'destination')
-      configuration_file_name = stub
-
-      subject.should_receive(:copy_to_server).with([configuration_file_name], 'destination')
-      subject.upload_configuration(configuration_file_name)
+      subject.should_receive(:copy_to_server).with(['foo.cfg'], 'reservation.cfg')
+      subject.upload_configuration('foo.cfg', 'reservation.cfg')
     end
   end
 
@@ -182,15 +177,6 @@ describe SshServer do
     it 'chomps off line breaks' do
       subject.shell_output_to_array(shell_output).first.should_not include("\n")
     end
-  end
-
-  describe '#temporary_reservation_config_file' do
-
-    it 'returns a temporary place to put the reservation config before uploading' do
-      subject.stub(:id => 'foo')
-      subject.temporary_reservation_config_file.should == Rails.root.join("tmp", "server_#{subject.id}_reservation.cfg")
-    end
-
   end
 
 end

@@ -103,7 +103,7 @@ class ReservationsController < ApplicationController
                                    :starts_at => params[:starts_at] || Time.current,
                                    :ends_at   => params[:ends_at] || 2.hours.from_now }
     if previous_reservation
-      previous_reservation_attributes = previous_reservation.attributes.slice('password', 'rcon', 'tv_password', 'disable_source_tv', 'server_config_id', 'whitelist_id')
+      previous_reservation_attributes = previous_reservation.attributes.slice('password', 'rcon', 'tv_password', 'disable_source_tv', 'server_config_id', 'whitelist_id', 'first_map')
       new_reservation_attributes.merge!(previous_reservation_attributes)
     end
 
@@ -151,7 +151,7 @@ class ReservationsController < ApplicationController
   end
 
   def sanitized_parameters
-    parameters = params[:reservation].slice(:password, :rcon, :disable_source_tv, :tv_password, :tv_relaypassword, :server_config_id, :whitelist_id)
+    parameters = params[:reservation].slice(:password, :rcon, :disable_source_tv, :tv_password, :tv_relaypassword, :server_config_id, :whitelist_id, :first_map)
     if reservation.schedulable?
       parameters.merge!(params[:reservation].slice(:server_id, :starts_at, :ends_at))
     end

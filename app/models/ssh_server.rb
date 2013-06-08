@@ -5,7 +5,9 @@ class SshServer < Server
   end
 
   def remove_configuration
-    execute("rm -f #{reservation_config_file}")
+    [reservation_config_file, initial_map_config_file].each do |config_file|
+      execute("rm -f #{config_file}")
+    end
   end
 
   def remove_logs_and_demos
@@ -53,26 +55,22 @@ class SshServer < Server
   end
 
   def write_configuration(output_filename, output_content)
-    File.open(temporary_reservation_config_file, "w") do |f|
-      f.write(output_content)
-    end
-    upload_configuration(temporary_reservation_config_file)
+    file = Tempfile.new('config_file')
+    file.write(output_content)
+    file.close
+    upload_configuration(file.path, output_filename)
   end
 
   def kill_process
     execute("kill -15 #{process_id}")
   end
 
-  def upload_configuration(configuration_file)
-    copy_to_server([configuration_file], reservation_config_file)
+  def upload_configuration(configuration_file, upload_file)
+    copy_to_server([configuration_file], upload_file)
   end
 
   def shell_output_to_array(shell_output)
     shell_output.lines.map(&:chomp)
-  end
-
-  def temporary_reservation_config_file
-    Rails.root.join("tmp", "server_#{id}_reservation.cfg")
   end
 
   def ssh

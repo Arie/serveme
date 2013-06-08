@@ -208,12 +208,15 @@ describe LocalServer do
     before do
       @tf_dir       = Rails.root.join('tmp')
       @config_file  = @tf_dir.join('cfg', 'reservation.cfg').to_s
+      @map_file     = @tf_dir.join('cfg', 'ctf_turbine.cfg').to_s
     end
     it 'deletes the reservation.cfg if its available' do
       subject.stub(:tf_dir => @tf_dir)
 
       File.should_receive(:exists?).with(@config_file).and_return(true)
       File.should_receive(:delete).with(@config_file)
+      File.should_receive(:exists?).with(@map_file).and_return(true)
+      File.should_receive(:delete).with(@map_file)
       subject.remove_configuration
     end
 
@@ -222,6 +225,8 @@ describe LocalServer do
 
       File.should_receive(:exists?).with(@config_file).and_return(false)
       File.should_not_receive(:delete).with(@config_file)
+      File.should_receive(:exists?).with(@map_file).and_return(false)
+      File.should_not_receive(:delete).with(@map_file)
       subject.remove_configuration
     end
   end

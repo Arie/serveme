@@ -1,8 +1,10 @@
 class LocalServer < Server
 
   def remove_configuration
-    if File.exists?("#{tf_dir}/cfg/reservation.cfg")
-      File.delete("#{tf_dir}/cfg/reservation.cfg")
+    [reservation_config_file, initial_map_config_file].each do |config_file|
+      if File.exists?(config_file)
+        File.delete(config_file)
+      end
     end
   end
 

@@ -22,6 +22,7 @@ gem 'draper'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'zeroclipboard-rails'
+gem 'jquery-datatables-rails'
 gem 'cronic'
 
 group :development do

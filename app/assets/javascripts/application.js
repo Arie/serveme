@@ -18,3 +18,5 @@
 //= require datepicker
 //= require zero-clipboard
 //= require select2
+//= require dataTables/jquery.dataTables
+//= require dataTables/jquery.dataTables.bootstrap

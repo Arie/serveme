@@ -2,7 +2,7 @@
 
 .row
   .span12
-    %table.table.table-hover.table-bordered.table-striped
+    %table.table.table-hover.table-bordered.table-striped.datatable
       %thead
         %tr
           %th Name
@@ -14,5 +14,13 @@
           %th Traffic out
           %th Uptime
           %th Inactive
-      - @servers.each do |server|
-        = render 'server_info', :server => server.decorate
+      %tbody
+        - @servers.each do |server|
+          = render 'server_info', :server => server.decorate
+
+:javascript
+  $('.datatable').dataTable({
+    "sDom": "<'row-fluid'<'span6'><'span6'>r>t<'row-fluid'<'span6'><'span6'>>",
+    "iDisplayLength": "50",
+    "sPaginationType": "bootstrap"
+  }); 

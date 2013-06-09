@@ -11,15 +11,6 @@
 
   .container-fluid
 
-    .alert.alert-success
-      There's now a shorter URL for this site:
-      = link_to "serveme.tf",     "http://serveme.tf"
-      for the EU version and
-      = link_to "na.serveme.tf",  "http://na.serveme.tf"
-      for the North-American version
-
-
-
     = render 'shared/nag_message' if current_user
 
     = render 'shared/flash'

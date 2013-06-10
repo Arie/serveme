@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails'
+gem 'rails', '~> 3.2.13'
 gem 'haml'
 gem 'mysql2'
 #For EU
@@ -23,6 +23,11 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'zeroclipboard-rails'
 gem 'cronic'
+
+#Bundler speedup
+gem 'builder',  '~> 3.0.4'
+gem 'rack',     '~> 1.4.5'
+gem 'railties', '~> 3.2.13'
 
 group :development do
   gem 'better_errors'

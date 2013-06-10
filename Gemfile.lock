@@ -266,7 +266,7 @@ GEM
     ruby-openid (2.2.3)
     ruby-progressbar (1.0.2)
     rubyzip (0.9.9)
-    rufus-scheduler (2.0.18)
+    rufus-scheduler (2.0.19)
       tzinfo (>= 0.3.23)
     rvm-capistrano (1.3.1)
       capistrano (>= 2.0.0)
@@ -342,6 +342,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-sass
+  builder (~> 3.0.4)
   capistrano
   capistrano-ext
   capistrano-maintenance
@@ -373,7 +374,9 @@ DEPENDENCIES
   paper_trail
   pry-nav
   puma!
-  rails
+  rack (~> 1.4.5)
+  rails (~> 3.2.13)
+  railties (~> 3.2.13)
   rspec-rails
   rubyzip
   rvm-capistrano

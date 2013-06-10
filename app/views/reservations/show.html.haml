@@ -7,12 +7,11 @@
 
     %table.table.table-hover.table-bordered.table-striped
       %tr
+        %td Actions
+        %td.actions= render 'actions'
+      %tr
         %td Connect info
         %td
-          - if reservation.active?
-            = link_to reservation.server_connect_url, :class => 'btn btn-small btn-warning' do
-              Join game
-              %i.icon-play
           = reservation.connect_string
           = render 'shared/copy_button', :copy_button_id => "connect_string", :copy_text => reservation.connect_string
       %tr

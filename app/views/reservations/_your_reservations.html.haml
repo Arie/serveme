@@ -16,45 +16,4 @@
           %td= server.name
         %td= I18n.l(reservation.starts_at,  :format => :short)
         %td= I18n.l(reservation.ends_at,    :format => :short)
-        %td.actions
-          %span
-            - unless reservation.past?
-              = link_to reservation_path(reservation),              :class => 'btn btn-small btn-success' do
-                Details
-                %i.icon-list
-              = link_to edit_reservation_path(reservation),         :class => 'btn btn-small btn-info',    :title => 'Edit reservation' do
-                Edit
-                %i.icon-edit
-            - if reservation.active?
-              - if reservation.less_than_1_hour_left?
-                = link_to extend_reservation_path(reservation),     :class => 'btn btn-small btn-primary', :title => 'Extend reservation',  :method => :post,   :data => { :confirm => "This will extend your reservation if possible" } do
-                  Extend
-                  %i.icon-time
-              - if reservation.has_players?
-                - end_message = "Are you sure you want to end your reservation? There #{I18n.t(:were_x_players_left, :count => reservation.last_number_of_players, :scope => :server)} left on the server at #{I18n.l(Time.zone.now, :format => :time_without_seconds)}"
-              - else
-                - end_message = "Are you sure you want to end your reservation?"
-              = link_to reservation_path(reservation),              :class => 'btn btn-small btn-danger',  :title => 'End reservation',     :method => :delete, :data => { :confirm => end_message } do
-                End
-                %i.icon-remove
-            - if reservation.cancellable?
-              = link_to reservation_path(reservation),              :class => 'btn btn-small btn-warning', :title => 'Cancel reservation',  :method => :delete do
-                Cancel
-                %i.icon-trash
-
-            - if reservation.active?
-              = link_to  reservation.server_connect_url,            :class => 'btn btn-small btn-warning' do
-                Join game
-                %i.icon-play
-              - unless reservation.disable_source_tv?
-                = link_to reservation.stv_connect_url,              :class => 'btn btn-small btn-inverse' do
-                  Join STV
-                  %i.icon-film
-
-            - if reservation.past?
-              = link_to "/uploads/#{reservation.zipfile_name}",     :class => 'btn btn-small btn-info',    :title => 'Download a zip with the logs and demos of the match' do
-                Log/demo zip
-                %i.icon-download-alt
-              = link_to reservation_log_uploads_path(reservation),  :class => 'btn btn-small btn-success', :title => 'Upload the match logs to logs.tf' do
-                logs.tf
-                %i.icon-upload-alt
+        %td.actions= render 'reservations/actions', :reservation => reservation

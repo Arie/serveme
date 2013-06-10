@@ -1,3 +1,10 @@
+<% if disable_source_tv? %>
+<%= 'tv_enable 0' %>
+<%= 'tv_stop' %>
+<% else %>
+<%= 'tv_enable 1' %>
+<% end %>
+
 <% if first_map.present? %>
 changelevel <%= first_map %>
 changelevel <%= first_map %>

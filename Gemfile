@@ -25,7 +25,6 @@ gem 'zeroclipboard-rails'
 gem 'cronic'
 
 group :development do
-  gem 'quiet_assets'
   gem 'better_errors'
   gem 'binding_of_caller'
 
@@ -75,7 +74,7 @@ group :assets do
   gem 'bootstrap-sass'
   gem 'therubyracer', :require => 'v8'
   gem 'turbo-sprockets-rails3'
-  gem 'font-awesome-sass-rails'
+  gem 'font-awesome-rails'
   gem 'oily_png'
   gem 'coffee-rails'
 end

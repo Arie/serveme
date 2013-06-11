@@ -204,6 +204,10 @@ class Reservation < ActiveRecord::Base
     last_number_of_players.to_i > 0
   end
 
+  def very_short?
+    duration < 15.minutes
+  end
+
   def get_binding
     binding
   end

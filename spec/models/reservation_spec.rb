@@ -563,6 +563,16 @@ describe Reservation do
 
     end
 
+    describe "#very_short?" do
+      it "was very short if it was less than 15 minutes" do
+        subject.stub(:duration => 14.minutes)
+        subject.should be_very_short
+
+        subject.stub(:duration => 16.minutes)
+        subject.should_not be_very_short
+      end
+    end
+
     describe '#nearly_over?' do
       it "is nearly over when there's less than 10 minutes left" do
         subject.stub(:ends_at => 11.minutes.from_now)

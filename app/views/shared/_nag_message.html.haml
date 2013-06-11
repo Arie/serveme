@@ -1,11 +1,20 @@
 - users_last_reservation = current_user.reservations.last
-- if users_last_reservation && users_last_reservation.inactive_too_long?
-  .row
-    .span11.alert.alert-error
-      %h2
-        Your
-        = link_to("last reservation", reservation_path(users_last_reservation))
-        was automatically ended due to inactivity. Please end your reservations on this site when you're done playing so other people can use the server. First warning.
+- if users_last_reservation
+  - if users_last_reservation.inactive_too_long?
+    .row
+      .span11.alert.alert-error
+        %h2
+          Your
+          = link_to("last reservation", reservation_path(users_last_reservation))
+          was automatically ended due to inactivity. Please end your reservations on this site when you're done playing so other people can use the server. First warning.
+  - if users_last_reservation.very_short?
+    .row
+      .span11.alert.alert-error
+        %h2
+          Your
+          = link_to("last reservation", reservation_path(users_last_reservation))
+          was very short, was something wrong? Please leave a comment if there was a problem.
+
 
 - if !current_user.donator?
   - if current_user.reservations.count >= 10

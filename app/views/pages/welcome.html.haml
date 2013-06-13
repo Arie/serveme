@@ -1,24 +1,23 @@
-%h2 Welcome to the FakkelBrigade reservation system
-
 .row
-  .span10
+  .span9
+    %h2 Welcome to the FakkelBrigade reservation system
     %p
       Make a reservation and within a few minutes your server will be ready and yours to use.
       If you run out of time, press the "Extend reservation" button here.
       Feel free to use the server for any kind of match you want.
-
-.row
-  .span10
     %p
       Please
       = link_to("leave a comment", "#leave-a-comment")
       if you like this service, had a problem or suggestion, I'd really appreciate it!
       Alternatively, you could leave a comment on the
       = link_to "ETF2L forums", 'http://etf2l.org/forum/community/topic-23191/?recent=427024', :target => '_blank'
+    %p
+      If you enjoy this service, please consider contributing to the operating costs by donating. All donations get divided between the server providers based on time played on their servers.
+      A donation of 5 euros or more gets you
+      = link_to('donator status', faq_pages_path)
+  .span3
+    = render "shared/paypal_widget"
 
-.row
-  .span10
-    = render "shared/paypal"
 
 .row
   .span10

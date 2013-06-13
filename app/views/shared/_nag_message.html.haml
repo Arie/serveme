@@ -1,5 +1,5 @@
 - users_last_reservation = current_user.reservations.last
-- if users_last_reservation
+- if users_last_reservation && users_last_reservation.past?
   - if users_last_reservation.inactive_too_long?
     .row
       .span11.alert.alert-error

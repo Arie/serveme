@@ -23,6 +23,7 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'zeroclipboard-rails'
 gem 'cronic'
+gem "google_visualr"
 
 #Bundler speedup
 gem 'builder',  '~> 3.0.4'

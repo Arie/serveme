@@ -53,6 +53,23 @@ describe Statistic do
     end
   end
 
+  describe '.reservations_per_day' do
+
+    let(:today) {Date.today}
+    let(:tomorrow) {Date.today + 1.day}
+    before do
+      Rails.cache.clear
+      User.any_instance.stub(:donator? => true)
+      create :reservation, :starts_at => tomorrow + 13.hour, :ends_at => tomorrow + 14.hours
+      create :reservation, :starts_at => tomorrow + 15.hour, :ends_at => tomorrow + 16.hours
+      create :reservation, :starts_at => tomorrow + 17.hour, :ends_at => tomorrow + 18.hours
+    end
+
+    it 'returns an array with reservations per date' do
+      Statistic.reservations_per_day.should == [[(tomorrow).to_date.to_s, 3]]
+    end
+  end
+
   describe 'interesting_numbers' do
 
     it "returns the number of reservations" do

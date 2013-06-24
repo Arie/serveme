@@ -5,6 +5,7 @@
   = javascript_include_tag "application"
   = csrf_meta_tags
   = render 'shared/google_analytics'
+  = content_for(:head)
 %body
 
   = render 'shared/navigation'

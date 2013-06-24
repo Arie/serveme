@@ -23,4 +23,22 @@ class Statistic
     Reservation.scoped.sum(&:duration)
   end
 
+  def self.reservations_per_day_chart
+    data_table = GoogleVisualr::DataTable.new
+    data_table.new_column('string', 'Date' )
+    data_table.new_column('number', 'Reservations')
+    data_table.add_rows(reservations_per_day)
+    option = { width: 780, height: 240, title: 'Reservations in the last 50 days', colors: ["#0044cc", "#0055cc","#0066cc","#0077cc", "0088cc"], legend: {position: 'none'} }
+    GoogleVisualr::Interactive::ColumnChart.new(data_table, option)
+  end
+
+  def self.reservations_per_day
+    Rails.cache.fetch "reservations_per_day_#{Date.current}", :expires_in => 1.hour do
+      Reservation.order('DATE(starts_at) DESC').group("DATE(starts_at)").limit(50).count(:id).collect do |date, count|
+        [date.to_s, count]
+      end
+    end
+  end
+
+
 end

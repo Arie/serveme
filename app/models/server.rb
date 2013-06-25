@@ -38,7 +38,7 @@ class Server < ActiveRecord::Base
 
   def self.in_groups(groups)
     with_group.
-    where(:groups => { :id => groups }).
+    where(:groups => { :id => groups.map(&:id) }).
     group('servers.id')
   end
 

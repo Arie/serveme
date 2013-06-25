@@ -6,9 +6,6 @@ Serveme::Application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
-  # Log error messages when you accidentally call methods on nil.
-  config.whiny_nils = true
-
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
@@ -36,4 +33,6 @@ Serveme::Application.configure do
   config.assets.debug = true
   config.cache_store = :dalli_store, 'localhost:11211',
     { :namespace => 'serveme', :expires_in => 10.seconds }
+
+  config.eager_load = false
 end

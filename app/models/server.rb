@@ -21,7 +21,7 @@ class Server < ActiveRecord::Base
   end
 
   def self.without_group
-    scoped - with_group
+    all - with_group
   end
 
   def self.with_group

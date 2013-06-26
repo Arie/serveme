@@ -25,7 +25,7 @@ unless Server.all.any?
   servers = [fb1, fb2, fb4]
 
   servers.each do |server|
-    LocalServer.find_or_create_by_name(server[:name], :path => server[:path], :ip => server[:ip], :port => server[:port])
+    LocalServer.where(:name => server[:name], :path => server[:path], :ip => server[:ip], :port => server[:port]).first_or_create
   end
   puts "Seeded servers #{servers.join(', ')}" unless Rails.env.test?
 end
@@ -71,7 +71,7 @@ unless Location.all.any?
                 {:name => "USA",            :flag => "us"}
               ]
   locations.each do |location|
-    Location.find_or_create_by_name(location[:name], :flag => location[:flag])
+    Location.where(:name => location[:name], :flag => location[:flag]).first_or_create
   end
 
   unless Group.all.any?

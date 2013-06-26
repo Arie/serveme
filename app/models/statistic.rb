@@ -1,7 +1,7 @@
 class Statistic
 
   def self.top_10_users
-    top_10_user_id_count_hash = Reservation.joins(:user).order("count_all DESC").limit(10).count(group: "users.id")
+    top_10_user_id_count_hash = Reservation.joins(:user).order("count_all DESC").limit(10).group("users.id").count
     top_10_users              = User.where(:id => top_10_user_id_count_hash.keys).to_a
     top_10_hash         = {}
     top_10_user_id_count_hash.map do |user_id, count|
@@ -12,7 +12,7 @@ class Statistic
   end
 
   def self.top_10_servers
-    Reservation.joins(:server).order("count_all DESC").limit(10).count(group: "servers.name")
+    Reservation.joins(:server).order("count_all DESC").limit(10).group("servers.name").count
   end
 
   def self.total_reservations
@@ -20,7 +20,7 @@ class Statistic
   end
 
   def self.total_playtime_seconds
-    Reservation.scoped.sum(&:duration)
+    Reservation.all.to_a.sum(&:duration)
   end
 
   def self.reservations_per_day_chart

@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
   end
 
   def total_reservation_seconds
-    reservations.sum(&:duration)
+    reservations.to_a.sum(&:duration)
   end
 
   def top10?

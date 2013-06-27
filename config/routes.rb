@@ -51,7 +51,8 @@ Serveme::Application.routes.draw do
   end
 
   get   '/login', :to => 'sessions#new',  :as => :login
-  match '/users/auth/failure',            :to => 'sessions#failure'
+  get   '/users/auth/failure',            :to => 'sessions#failure'
+  post  '/users/auth/failure',            :to => 'sessions#failure'
 
   root :to => "pages#welcome"
 end

@@ -1,6 +1,10 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 3.2.13'
+gem 'rails', '~> 4.0.0'
+gem 'protected_attributes'
+gem "actionpack-action_caching"
+
+gem 'paper_trail', :github => 'airblade/paper_trail', :branch => 'rails4'
 gem 'haml'
 gem 'mysql2'
 #For EU
@@ -9,10 +13,9 @@ gem 'thin',             :require => false
 gem 'puma'
 gem 'omniauth-openid'
 gem 'omniauth-steam'
-gem 'devise'
-gem 'simple_form'
+gem 'devise', :github => 'plataformatec/devise', :branch => 'rails4'
+gem 'simple_form', "3.0.0.rc"
 gem 'rubyzip',          :require => false
-gem 'paper_trail'
 gem 'steam-condenser',  :git => 'git://github.com/Arie/steam-condenser-ruby.git'
 gem 'logs_tf'
 gem 'sys-proctable',    :require => 'sys/proctable'
@@ -26,9 +29,9 @@ gem 'cronic'
 gem "google_visualr"
 
 #Bundler speedup
-gem 'builder',  '~> 3.0.4'
-gem 'rack',     '~> 1.4.5'
-gem 'railties', '~> 3.2.13'
+gem 'builder',  '~> 3.1.0'
+gem 'rack',     '~> 1.5.0'
+gem 'railties', '~> 4.0.0'
 
 group :development do
   gem 'better_errors'
@@ -55,7 +58,7 @@ group :test_tools do
 end
 
 group :cucumber do
-  gem 'cucumber-rails'
+  gem 'cucumber-rails', :github => 'cucumber/cucumber-rails', :branch => "master_rails4_test"
   gem 'database_cleaner'
   gem 'launchy'
   gem 'capybara'
@@ -68,19 +71,16 @@ group :production do
   gem 'dalli'
 end
 
-group :assets, :test do
+group :test do
   gem "libv8", "~> 3.11.8"
 end
 
-group :assets do
-  gem 'uglifier'
-  gem 'jquery-rails'
-  gem 'compass-rails'
-  gem 'sass-rails'
-  gem 'bootstrap-sass'
-  gem 'therubyracer', :require => 'v8'
-  gem 'turbo-sprockets-rails3'
-  gem 'font-awesome-rails'
-  gem 'oily_png'
-  gem 'coffee-rails'
-end
+gem 'uglifier'
+gem 'jquery-rails'
+gem "compass-rails", github: "milgner/compass-rails", ref: "1749c06f15dc4b058427e7969810457213647fb8"
+gem 'sass-rails'
+gem 'bootstrap-sass'
+gem 'therubyracer', :require => 'v8'
+gem 'font-awesome-rails'
+gem 'oily_png'
+gem 'coffee-rails'

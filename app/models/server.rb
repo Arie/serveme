@@ -21,7 +21,7 @@ class Server < ActiveRecord::Base
   end
 
   def self.without_group
-    scoped - with_group
+    all - with_group
   end
 
   def self.with_group
@@ -38,7 +38,7 @@ class Server < ActiveRecord::Base
 
   def self.in_groups(groups)
     with_group.
-    where(:groups => { :id => groups }).
+    where(:groups => { :id => groups.map(&:id) }).
     group('servers.id')
   end
 

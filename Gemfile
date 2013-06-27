@@ -27,6 +27,7 @@ gem 'will_paginate-bootstrap'
 gem 'zeroclipboard-rails'
 gem 'cronic'
 gem "google_visualr"
+gem 'rack-cache'
 
 #Bundler speedup
 gem 'builder',  '~> 3.1.0'

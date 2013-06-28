@@ -29,11 +29,6 @@ gem 'cronic'
 gem "google_visualr"
 gem 'rack-cache'
 
-#Bundler speedup
-gem 'builder',  '~> 3.1.0'
-gem 'rack',     '~> 1.5.0'
-gem 'railties', '~> 4.0.0'
-
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'

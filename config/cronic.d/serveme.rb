@@ -1,8 +1,22 @@
 cron '*/1 * * * *' do
-  sleep 1
-  end_past_reservations
-  start_active_reservations
-  check_active_reservations
+  db do
+    sleep 1
+    end_past_reservations
+    start_active_reservations
+    check_active_reservations
+  end
+end
+
+def db(&block)
+  begin
+    ActiveRecord::Base.connection_pool.clear_stale_cached_connections!
+    yield block
+  rescue Exception => e
+    raise e
+  ensure
+    ActiveRecord::Base.connection.close if ActiveRecord::Base.connection
+    ActiveRecord::Base.clear_active_connections!
+  end
 end
 
 def end_past_reservations

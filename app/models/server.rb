@@ -8,6 +8,11 @@ class Server < ActiveRecord::Base
   has_many :reservations
   belongs_to :location
 
+  validates_presence_of :name
+  validates_presence_of :ip
+  validates_presence_of :port
+  validates_presence_of :path
+
   def self.reservable_by_user(user)
     where(:id => ids_reservable_by_user(user))
   end

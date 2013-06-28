@@ -73,6 +73,7 @@ group :production do
 end
 
 group :test do
+  gem 'shoulda-matchers'
   gem "libv8", "~> 3.11.8"
 end
 

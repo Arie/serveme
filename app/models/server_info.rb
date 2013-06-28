@@ -37,6 +37,7 @@ class ServerInfo
 
   def get_stats
     Rails.cache.fetch "stats_#{server.id}" do
+      auth
       server_connection.rcon_exec('stats')
     end
   end

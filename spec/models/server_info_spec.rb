@@ -174,6 +174,7 @@ describe ServerInfo do
     it "gets server info from the rcon based server information" do
       server_connection = stub
       subject.stub(:server_connection => server_connection)
+      server.stub(:rcon_auth)
       server_connection.should_receive(:rcon_exec).with('stats')
       subject.get_stats
     end

@@ -22,7 +22,7 @@ class Server < ActiveRecord::Base
   end
 
   def self.ordered
-    ordered_by_position.ordered_by_name
+    ordered_by_name.ordered_by_position
   end
 
   def self.without_group

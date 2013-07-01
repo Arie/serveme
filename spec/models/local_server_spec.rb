@@ -58,10 +58,10 @@ describe LocalServer do
   describe '.ordered' do
 
     it "orders by position and name" do
-      fourth  = create :server, :position => 3
-      second  = create :server, :position => 1, :name => "B"
-      first   = create :server, :position => 1, :name => "A"
-      third   = create :server, :position => 2
+      fourth  = create :server, :position => 3, :name => "AB"
+      second  = create :server, :position => 1, :name => "A1"
+      first   = create :server, :position => 1, :name => "A0"
+      third   = create :server, :position => 2, :name => "B0"
 
       Server.ordered.should == [first, second, third, fourth]
     end

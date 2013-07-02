@@ -4,11 +4,13 @@ class UserDecorator < Draper::Decorator
 
   def nickname
     if donator?
-      (source.nickname + '&nbsp;' + donator_icon).html_safe
+      "#{source.nickname} #{donator_icon}".html_safe
     else
       source.nickname
     end
   end
+
+  private
 
   def donator_icon
     content_tag(:icon, "".html_safe, :class => "icon-star", :title => "Donator")

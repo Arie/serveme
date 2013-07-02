@@ -9,12 +9,12 @@ GIT
 
 GIT
   remote: git://github.com/airblade/paper_trail.git
-  revision: e76fb279eb5f0bbfa481f16b820a075419ab3d3f
+  revision: 1baead241804bbe476a8fa89b24ab4bdcb6d0c95
   branch: rails4
   specs:
     paper_trail (2.7.2)
-      activerecord (>= 4.0.0.beta, < 5.0)
-      railties (>= 4.0.0.beta, < 5.0)
+      activerecord (~> 4.0)
+      railties (~> 4.0)
 
 GIT
   remote: git://github.com/cucumber/cucumber-rails.git
@@ -233,7 +233,7 @@ GEM
       slop (~> 3.4)
     pry-nav (0.2.3)
       pry (~> 0.9.10)
-    puma (2.1.1)
+    puma (2.2.0)
       rack (>= 1.1, < 2.0)
     rack (1.5.2)
     rack-cache (1.2)
@@ -320,8 +320,6 @@ GEM
       activesupport (>= 3.0)
       sprockets (~> 2.8)
     sys-proctable (0.9.3)
-    tf2_line_parser (0.0.5)
-      activesupport
     therubyracer (0.11.4)
       libv8 (~> 3.11.8.12)
       ref
@@ -408,7 +406,6 @@ DEPENDENCIES
   simple_form (= 3.0.0.rc)
   steam-condenser!
   sys-proctable
-  tf2_line_parser (~> 0.0.3)
   therubyracer
   thin
   uglifier

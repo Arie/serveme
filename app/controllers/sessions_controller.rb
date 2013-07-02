@@ -18,7 +18,7 @@ class SessionsController < Devise::OmniauthCallbacksController
   end
 
   def passthru
-    render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
+    render :template => 'pages/not_found', :status => 404
   end
 
 end

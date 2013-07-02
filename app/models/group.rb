@@ -10,9 +10,7 @@ class Group < ActiveRecord::Base
   attr_accessible :name
 
   def self.donator_group
-    find_by_name("Donators")
+    find_or_create_by(:name => "Donators")
   end
-
-
 
 end

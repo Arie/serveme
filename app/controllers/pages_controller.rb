@@ -32,4 +32,10 @@ class PagesController < ApplicationController
   def faq
   end
 
+  def not_found
+  end
+
+  def error
+    Raven.capture_exception(env["action_dispatch.exception"]) if Rails.env.production?
+  end
 end

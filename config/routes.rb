@@ -1,4 +1,8 @@
 Serveme::Application.routes.draw do
+
+  get "/404", :to => "pages#not_found"
+  get "/500", :to => "pages#error"
+
   devise_for :users, :controllers => { :omniauth_callbacks => "sessions" }
 
   devise_scope :user do

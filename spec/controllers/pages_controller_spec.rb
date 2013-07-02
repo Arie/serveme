@@ -32,4 +32,24 @@ describe PagesController do
     end
   end
 
+  describe '#not_found' do
+
+    it "should show the not found page" do
+      get :not_found
+      response.should render_template("pages/not_found")
+      response.status.should == 404
+    end
+
+  end
+
+
+  describe '#error' do
+    it "should show the error page" do
+      get :error
+      response.should render_template("pages/error")
+      response.status.should == 500
+    end
+
+  end
+
 end

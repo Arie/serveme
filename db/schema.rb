@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130608121138) do
+ActiveRecord::Schema.define(version: 20130702145826) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 20130608121138) do
   end
 
   add_index "reservations", ["server_config_id"], name: "index_reservations_on_server_config_id", using: :btree
+  add_index "reservations", ["user_id", "starts_at"], name: "index_reservations_on_user_id_and_starts_at", unique: true, using: :btree
   add_index "reservations", ["whitelist_id"], name: "index_reservations_on_whitelist_id", using: :btree
 
   create_table "server_configs", force: true do |t|

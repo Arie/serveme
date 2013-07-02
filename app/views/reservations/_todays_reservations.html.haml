@@ -15,7 +15,8 @@
         %tr{:class => klass}
           - server = reservation.server.decorate
           %td= server.name
-          %td= reservation.user.nickname
+          - user = reservation.user.decorate
+          %td= user.nickname
           %td= I18n.l(reservation.starts_at,  :format => :time_without_seconds)
           %td= I18n.l(reservation.ends_at,    :format => :time_without_seconds)
 

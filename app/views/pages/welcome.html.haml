@@ -25,17 +25,19 @@
       Make reservation
       %i.icon-calendar
 
-- if Server.for_donators.any?
-  .row= render 'reservations/available_servers'
+- cache "available_servers_#{Reservation.maximum(:updated_at)}" do
+  - if Server.for_donators.any?
+    .row= render 'reservations/available_servers'
 
 - if @users_reservations && @users_reservations.any?
   .row
     .span12
       = render 'reservations/your_reservations'
 
-.row
-  .span12
-    = render 'reservations/todays_reservations'
+- cache "todays_reservations_#{Reservation.maximum(:updated_at)}" do
+  .row
+    .span12
+      = render 'reservations/todays_reservations'
 
 .row
   .span12

@@ -48,6 +48,15 @@ namespace :app do
 
 end
 
+namespace :puma do
+    desc 'Start puma'
+    task :start, :roles => lambda { fetch(:puma_role) }, :on_no_matching_servers => :continue do
+      puma_env = fetch(:rack_env, fetch(:rails_env, 'production'))
+      puma_flags = fetch(:puma_flags)
+      run "cd #{current_path} && #{fetch(:puma_cmd)} -q -d -e #{puma_env} -b '#{fetch(:puma_socket)}' -S #{fetch(:puma_state)} --control 'unix://#{shared_path}/sockets/pumactl.sock' #{puma_flags}", :pty => false
+    end
+end
+
 def execute_rake(task_name, path = release_path)
   run "cd #{path} && bundle exec rake RAILS_ENV=#{rails_env} #{task_name}", :env => {'RAILS_ENV' => rails_env}
 end

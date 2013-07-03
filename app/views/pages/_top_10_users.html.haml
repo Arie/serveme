@@ -1,0 +1,9 @@
+%table.table.table-hover.table-bordered.table-striped
+  %thead
+    %tr
+      %th Who
+      %th Reservation count
+  - @top_10_users_hash.each do |user, count|
+    %tr
+      %td= link_to(user.nickname, user.steam_profile_url, :target => "_blank")
+      %td= count

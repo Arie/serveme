@@ -1,0 +1,12 @@
+%table.table.table-hover.table-bordered.table-striped
+
+  %thead
+    %tr
+      %th What
+      %th The numbers
+    %tr
+      %td Total reservations
+      %td= Statistic.total_reservations.to_i
+    %tr
+      %td Total reservation time
+      %td= "#{(Statistic.total_playtime_seconds / 3600.0).round} hours"

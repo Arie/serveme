@@ -5,55 +5,23 @@
   .span10
     %h2 A few site statistics
 
-
-    %table.table.table-hover.table-bordered.table-striped
-
-      %thead
-        %tr
-          %th What
-          %th The numbers
-        %tr
-          %td Total reservations
-          %td= Statistic.total_reservations.to_i
-        %tr
-          %td Total reservation time
-          %td= "#{(Statistic.total_playtime_seconds / 3600.0).round} hours"
+    = render 'site_totals'
 
 .row
   .span10
     %h2 Reservations graph
 
-    - content_for :head do
-      %script{:src => 'http://www.google.com/jsapi'}
-    .chart{:id => "reservations_per_day", :style => "height: 250px"}
-      = render_chart(Statistic.reservations_per_day_chart, 'reservations_per_day')
-    
+    = render 'reservations_per_month_graph'
 
 .row
   .span10
     %h2 Top 10 users
 
-    %table.table.table-hover.table-bordered.table-striped
-      %thead
-        %tr
-          %th Who
-          %th Reservation count
-      - @top_10_users_hash.each do |user, count|
-        %tr
-          %td= link_to(user.nickname, user.steam_profile_url, :target => "_blank")
-          %td= count
+    = render 'top_10_users'
 
 
 .row
   .span10
     %h2 Top 10 servers
 
-    %table.table.table-hover.table-bordered.table-striped
-      %thead
-        %tr
-          %th Which
-          %th Reservation count
-      - @top_10_servers_hash.each do |server_name, count|
-        %tr
-          %td= server_name
-          %td= count
+    = render 'top_10_servers'

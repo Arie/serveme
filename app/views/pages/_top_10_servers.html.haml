@@ -1,0 +1,9 @@
+%table.table.table-hover.table-bordered.table-striped
+  %thead
+    %tr
+      %th Which
+      %th Reservation count
+  - @top_10_servers_hash.each do |server_name, count|
+    %tr
+      %td= server_name
+      %td= count

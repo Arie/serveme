@@ -1,0 +1,4 @@
+- content_for :head do
+  %script{:src => 'http://www.google.com/jsapi'}
+.chart{:id => "reservations_per_day", :style => "height: 250px"}
+  = render_chart(Statistic.reservations_per_day_chart, 'reservations_per_day')

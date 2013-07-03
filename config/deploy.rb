@@ -1,5 +1,6 @@
 require './config/boot'
 require 'cronic/recipes'
+require 'puma/capistrano'
 
 set :stages,            %w(eu na)
 set :default_stage,     "eu"
@@ -19,6 +20,7 @@ set :rvm_ruby_string,   '1.9.3@serveme'
 set :rvm_type,          :system
 set :stage,             'production'
 set :maintenance_template_path, 'app/views/pages/maintenance.html.erb'
+set :deploy_to,         "/var/www/serveme"
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
@@ -28,6 +30,8 @@ after 'deploy',                 'deploy:cleanup'
 after "deploy:stop",            "cronic:stop"
 after "deploy:start",           "cronic:start"
 after "deploy:restart",         "cronic:restart"
+before 'deploy:restart',        'deploy:web:disable'
+after 'deploy:restart',         'deploy:web:enable'
 
 namespace :app do
   desc "makes a symbolic link to the shared files"

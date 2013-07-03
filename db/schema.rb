@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130703114207) do
+ActiveRecord::Schema.define(version: 20130703143733) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
     t.integer  "group_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "group_servers", ["group_id"], name: "index_group_servers_on_group_id", using: :btree
@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(version: 20130703114207) do
   create_table "group_users", force: true do |t|
     t.integer  "user_id"
     t.integer  "group_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "group_users", ["group_id"], name: "index_group_users_on_group_id", using: :btree
@@ -35,8 +35,8 @@ ActiveRecord::Schema.define(version: 20130703114207) do
 
   create_table "groups", force: true do |t|
     t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "groups", ["name"], name: "index_groups_on_name", using: :btree
@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(version: 20130703114207) do
   create_table "locations", force: true do |t|
     t.string   "name"
     t.string   "flag"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "log_uploads", force: true do |t|
@@ -55,8 +55,8 @@ ActiveRecord::Schema.define(version: 20130703114207) do
     t.string   "map_name"
     t.string   "status"
     t.string   "url"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "reservations", force: true do |t|
@@ -81,16 +81,15 @@ ActiveRecord::Schema.define(version: 20130703114207) do
   end
 
   add_index "reservations", ["ends_at"], name: "index_reservations_on_ends_at", using: :btree
-  add_index "reservations", ["server_config_id"], name: "index_reservations_on_server_config_id", using: :btree
   add_index "reservations", ["server_id"], name: "index_reservations_on_server_id", using: :btree
   add_index "reservations", ["starts_at"], name: "index_reservations_on_starts_at", using: :btree
+  add_index "reservations", ["updated_at"], name: "index_reservations_on_updated_at", using: :btree
   add_index "reservations", ["user_id", "starts_at"], name: "index_reservations_on_user_id_and_starts_at", unique: true, using: :btree
-  add_index "reservations", ["whitelist_id"], name: "index_reservations_on_whitelist_id", using: :btree
 
   create_table "server_configs", force: true do |t|
     t.string   "file"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "servers", force: true do |t|
@@ -147,8 +146,8 @@ ActiveRecord::Schema.define(version: 20130703114207) do
 
   create_table "whitelists", force: true do |t|
     t.string   "file"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

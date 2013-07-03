@@ -5,7 +5,8 @@
   .span10
     %h2 A few site statistics
 
-    = render 'site_totals'
+    - cache "site_totals_#{Reservation.last.id}" do
+      = render 'site_totals'
 
 .row
   .span10
@@ -17,11 +18,13 @@
   .span10
     %h2 Top 10 users
 
-    = render 'top_10_users'
+    - cache "top_10_users_#{Reservation.last.id}" do
+      = render 'top_10_users'
 
 
 .row
   .span10
     %h2 Top 10 servers
 
-    = render 'top_10_servers'
+    - cache "top_10_servers_#{Reservation.last.id}" do
+      = render 'top_10_servers'

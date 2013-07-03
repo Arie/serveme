@@ -21,6 +21,7 @@ set :rvm_type,          :system
 set :stage,             'production'
 set :maintenance_template_path, 'app/views/pages/maintenance.html.erb'
 set :deploy_to,         "/var/www/serveme"
+set :puma_pid,          "#{shared_path}/pids/puma.pid"
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
@@ -52,8 +53,15 @@ namespace :puma do
     desc 'Start puma'
     task :start, :roles => lambda { fetch(:puma_role) }, :on_no_matching_servers => :continue do
       puma_env = fetch(:rack_env, fetch(:rails_env, 'production'))
-      puma_flags = fetch(:puma_flags)
-      run "cd #{current_path} && #{fetch(:puma_cmd)} -q -d -e #{puma_env} -b '#{fetch(:puma_socket)}' -S #{fetch(:puma_state)} --control 'unix://#{shared_path}/sockets/pumactl.sock' #{puma_flags}", :pty => false
+      run "cd #{current_path} && #{fetch(:puma_cmd)} -q -d #{fetch(:puma_flags)} -e #{puma_env} -b '#{fetch(:puma_socket)}' --pidfile #{fetch(:puma_pid)}", :pty => false
+    end
+    desc 'Restart puma'
+    task :restart, :roles => lambda { fetch(:puma_role) }, :on_no_matching_servers => :continue do
+      run "cd #{current_path} && #{fetch(:pumactl_cmd)} --pidfile #{fetch(:puma_pid)} restart"
+    end
+    desc 'Stop puma'
+    task :stop, :roles => lambda { fetch(:puma_role) }, :on_no_matching_servers => :continue do
+      run "cd #{current_path} && #{fetch(:pumactl_cmd)} --pidfile #{fetch(:puma_pid)} stop"
     end
 end
 

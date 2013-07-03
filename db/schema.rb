@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130702145826) do
+ActiveRecord::Schema.define(version: 20130703114207) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -20,6 +20,9 @@ ActiveRecord::Schema.define(version: 20130702145826) do
     t.datetime "updated_at"
   end
 
+  add_index "group_servers", ["group_id"], name: "index_group_servers_on_group_id", using: :btree
+  add_index "group_servers", ["server_id"], name: "index_group_servers_on_server_id", using: :btree
+
   create_table "group_users", force: true do |t|
     t.integer  "user_id"
     t.integer  "group_id"
@@ -27,11 +30,16 @@ ActiveRecord::Schema.define(version: 20130702145826) do
     t.datetime "updated_at"
   end
 
+  add_index "group_users", ["group_id"], name: "index_group_users_on_group_id", using: :btree
+  add_index "group_users", ["user_id"], name: "index_group_users_on_user_id", using: :btree
+
   create_table "groups", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "groups", ["name"], name: "index_groups_on_name", using: :btree
 
   create_table "locations", force: true do |t|
     t.string   "name"
@@ -72,7 +80,10 @@ ActiveRecord::Schema.define(version: 20130702145826) do
     t.string   "first_map"
   end
 
+  add_index "reservations", ["ends_at"], name: "index_reservations_on_ends_at", using: :btree
   add_index "reservations", ["server_config_id"], name: "index_reservations_on_server_config_id", using: :btree
+  add_index "reservations", ["server_id"], name: "index_reservations_on_server_id", using: :btree
+  add_index "reservations", ["starts_at"], name: "index_reservations_on_starts_at", using: :btree
   add_index "reservations", ["user_id", "starts_at"], name: "index_reservations_on_user_id_and_starts_at", unique: true, using: :btree
   add_index "reservations", ["whitelist_id"], name: "index_reservations_on_whitelist_id", using: :btree
 
@@ -95,6 +106,9 @@ ActiveRecord::Schema.define(version: 20130702145826) do
     t.integer  "location_id"
     t.boolean  "active",      default: true
   end
+
+  add_index "servers", ["active"], name: "index_servers_on_active", using: :btree
+  add_index "servers", ["location_id"], name: "index_servers_on_location_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "uid"

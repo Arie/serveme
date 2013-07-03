@@ -235,6 +235,7 @@ GEM
       pry (~> 0.9.10)
     puma (2.2.2)
       rack (>= 1.1, < 2.0)
+    query_reviewer (0.1.8)
     rack (1.5.2)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -394,6 +395,7 @@ DEPENDENCIES
   protected_attributes
   pry-nav
   puma
+  query_reviewer
   rack-cache
   rails (~> 4.0.0)
   rspec-rails

@@ -38,6 +38,7 @@ group :development do
   gem 'capistrano'
   gem 'capistrano-maintenance'
   gem 'rvm-capistrano'
+  gem 'query_reviewer'
 end
 
 group :test, :development do

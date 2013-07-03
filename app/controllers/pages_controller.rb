@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
 
   skip_before_filter :authenticate_user!
-  caches_action :credits, :recent_reservations, :servers, :statistics, :server_providers, :faq, :expires_in => 1.minute, :unless => :current_user
+  caches_action :credits, :servers, :statistics, :server_providers, :faq, :expires_in => 1.minute, :unless => :current_user
 
   def welcome
     @reservations = Reservation.within_12_hours.first(25)

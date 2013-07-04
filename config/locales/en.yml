@@ -14,8 +14,8 @@ en:
     other: "%{count} minutes"
   user:
     donator:
-      "true": Yes! :)
-      "false": No :(
+      1: Yes! :)
+      0: No :(
   server:
     were_x_players_left:
       one: was %{count} player

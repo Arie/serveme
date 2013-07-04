@@ -1,5 +1,3 @@
-require 'zip_file_creator'
-
 class Server < ActiveRecord::Base
   attr_accessible :name, :path, :ip, :port
 

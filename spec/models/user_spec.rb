@@ -14,9 +14,9 @@ describe User do
   describe '.find_for_steam_auth' do
 
     before do
-      @auth = stub(:provider => 'steam',
+      @auth = double(:provider => 'steam',
                 :uid      => '321',
-                :info     => stub(:name => "Kees", :nickname => "Killer")
+                :info     => double(:name => "Kees", :nickname => "Killer")
               )
     end
 

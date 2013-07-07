@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ServerInfo do
 
-  let(:server) { stub(:ip => 'fakkelbrigade.eu', :port => '27015', :current_rcon => 'foo', :id => 1, :condenser => SteamCondenser::SourceServer.stub(:new)) }
+  let(:server) { double(:ip => 'fakkelbrigade.eu', :port => '27015', :current_rcon => 'foo', :id => 1, :condenser => SteamCondenser::SourceServer.stub(:new)) }
   subject do
     described_class.new(server)
   end
@@ -65,7 +65,7 @@ describe ServerInfo do
 
   describe '#auth' do
     it "authenticates with the server's rcon" do
-      server = stub
+      server = double
       subject.stub(:server => server)
 
       server.should_receive(:rcon_auth)
@@ -153,14 +153,14 @@ describe ServerInfo do
     before { Rails.cache.clear }
 
     it 'gets server info from the rcon-less server connection' do
-      server_connection = stub
+      server_connection = double
       subject.stub(:server_connection => server_connection)
       server_connection.should_receive(:server_info).and_return({:foo => 'bar'})
       subject.status[:foo].should eql 'bar'
     end
 
     it "deletes the content_data from the hash because it can't be memcached" do
-      server_connection = stub
+      server_connection = double
       subject.stub(:server_connection => server_connection)
       server_connection.should_receive(:server_info).and_return({:content_data => 'foo'})
       subject.status.should_not have_key(:content_data)
@@ -172,7 +172,7 @@ describe ServerInfo do
     before { Rails.cache.clear }
 
     it "gets server info from the rcon based server information" do
-      server_connection = stub
+      server_connection = double
       subject.stub(:server_connection => server_connection)
       server.stub(:rcon_auth)
       server_connection.should_receive(:rcon_exec).with('stats')

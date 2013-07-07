@@ -53,7 +53,7 @@ describe Reservation do
     it 'generates a unique zipfile name' do
       subject.stub(:user).and_return { mock_model(User, :uid => '1234', :nickname => "Nick Name") }
       subject.stub(:id).and_return { 1 }
-      subject.stub(:server).and_return { stub(:id => 2) }
+      subject.stub(:server).and_return { double(:id => 2) }
       subject.stub(:formatted_starts_at).and_return { '3' }
       subject.zipfile_name.should eql "1234-1-2-3.zip"
     end
@@ -167,10 +167,10 @@ describe Reservation do
     end
 
     it "logs an error if something goes wrong" do
-      server = stub
+      server = double
       server.stub(:restart).and_return { raise('foo') }
       subject.stub(:server => server)
-      Rails.stub(:logger => stub.as_null_object)
+      Rails.stub(:logger => double.as_null_object)
 
       Rails.logger.should_receive(:error)
       subject.start_reservation
@@ -192,7 +192,7 @@ describe Reservation do
 
   describe '#end_reservation' do
 
-    let(:server) { stub(:logs => []) }
+    let(:server) { double(:logs => []) }
     before { subject.stub(:to_s => 'foo', :server => server) }
 
     it 'should send the end_reservation message to the server' do
@@ -207,10 +207,10 @@ describe Reservation do
     end
 
     it "logs an error if something goes wrong" do
-      server = stub
+      server = double
       server.stub(:restart).and_return { raise('foo') }
       subject.stub(:server => server)
-      Rails.stub(:logger => stub.as_null_object)
+      Rails.stub(:logger => double.as_null_object)
 
       Rails.logger.should_receive(:error)
       subject.end_reservation
@@ -586,7 +586,7 @@ describe Reservation do
     describe '#warn_nearly_over' do
 
       it "should send a message to the server warning the reservation is nearly over" do
-        server = stub
+        server = double
         subject.stub(:time_left => 1.minute)
         subject.stub(:server => server)
 

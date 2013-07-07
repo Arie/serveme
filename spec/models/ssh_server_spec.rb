@@ -68,9 +68,9 @@ describe SshServer do
   describe '#update_configuration' do
 
     it 'uploads the temporary reservation file to the server' do
-      output_filename = stub
-      output_content = stub
-      temp_file = stub.as_null_object
+      output_filename = double
+      output_content = double
+      temp_file = double.as_null_object
       temp_file.stub(:path => "foo")
       Tempfile.should_receive(:new).with('config_file').and_return { temp_file }
       subject.should_receive(:upload_configuration).with(temp_file.path, output_filename)
@@ -83,13 +83,13 @@ describe SshServer do
 
     it 'sends the command to ssh_exec' do
       command = 'foo'
-      subject.should_receive(:ssh_exec).with(command).and_return { stub.as_null_object }
+      subject.should_receive(:ssh_exec).with(command).and_return { double.as_null_object }
       subject.execute(command)
     end
 
     it "gets the command results by calling stdout on the ssh_exec result" do
       command = 'foo'
-      subject.should_receive(:ssh_exec).with(command).and_return { stub(:stdout => "Great success!") }
+      subject.should_receive(:ssh_exec).with(command).and_return { double(:stdout => "Great success!") }
       subject.execute(command).should == "Great success!"
     end
 
@@ -97,9 +97,9 @@ describe SshServer do
 
   describe '#ssh_exec' do
     it "calls the ssh API with ip and command" do
-      command = stub
-      ip = stub
-      ssh = stub
+      command = double
+      ip = double
+      ssh = double
       subject.stub(:ssh => ssh, :ip => ip)
       ssh.should_receive(:ssh).with(ip, command)
 
@@ -110,7 +110,7 @@ describe SshServer do
   describe '#ssh' do
 
     it "creates the Net::SSH::Simple instance" do
-      subject.stub(:ip => stub)
+      subject.stub(:ip => double)
       Net::SSH::Simple.should_receive(:new).with({:host_name => subject.ip})
       subject.ssh
     end
@@ -120,7 +120,7 @@ describe SshServer do
   describe '#log_copier_class' do
 
     it "returns the class used to copy SshServer logs" do
-      subject.log_copier_class.should == SshLogCopier 
+      subject.log_copier_class.should == SshLogCopier
     end
 
   end
@@ -138,7 +138,7 @@ describe SshServer do
     it "uses the ssh instance to copy files to the server" do
       files = [File.join('foo')]
       destination = 'bar'
-      ssh = stub
+      ssh = double
       subject.stub(:ssh => ssh)
 
       ssh.should_receive(:scp_put).with(subject.ip, 'foo', 'bar')
@@ -151,7 +151,7 @@ describe SshServer do
     it "uses the ssh instance to copy files from the server" do
       files = [File.join('foo')]
       destination = 'bar'
-      ssh = stub
+      ssh = double
       subject.stub(:ssh => ssh)
 
       ssh.should_receive(:scp_get).with(subject.ip, 'foo', 'bar')

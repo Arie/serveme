@@ -89,7 +89,7 @@ describe LocalServer do
   describe '#end_reservation' do
 
     it 'should zip demos and logs, remove configuration and restart' do
-      reservation = stub
+      reservation = double
       subject.should_receive(:copy_logs)
       subject.should_receive(:zip_demos_and_logs).with(reservation)
       subject.should_receive(:remove_logs_and_demos)
@@ -103,7 +103,7 @@ describe LocalServer do
   describe '#update_reservation' do
 
     it "should only update the configuration" do
-      reservation = stub
+      reservation = double
       subject.should_receive(:update_configuration)
       subject.update_reservation(reservation)
     end
@@ -119,7 +119,7 @@ describe LocalServer do
     end
 
     it "logs an error when it couldn't find the process id" do
-      logger = stub
+      logger = double
       subject.stub(:logger).and_return { logger }
       subject.should_receive(:process_id).at_least(:once).and_return { nil }
       Process.should_not_receive(:kill)
@@ -144,9 +144,9 @@ describe LocalServer do
                          "./srcds_linux -game tf -port 27025 -autoupdate +ip 176.9.138.143 +maxplayers 24 +map ctf_turbine -tickrate 66 +tv_port 27030 +tv_maxclients 32 +tv_enable 1"]
       processes = []
       other_processes.each_with_index do |process, index|
-        processes << stub(:cmdline => process, :pid => 2000 + index)
+        processes << double(:cmdline => process, :pid => 2000 + index)
       end
-      processes << stub(:cmdline => correct_process, :pid => 1337)
+      processes << double(:cmdline => correct_process, :pid => 1337)
       Sys::ProcTable.should_receive(:ps).and_return(processes)
 
       subject.stub(:port => '27015')
@@ -197,7 +197,7 @@ describe LocalServer do
   describe "#occupied?" do
 
     it "is occupied when there's more than 0 players" do
-      ServerInfo.should_receive(:new).with(subject).and_return { stub(:number_of_players => 1) }
+      ServerInfo.should_receive(:new).with(subject).and_return { double(:number_of_players => 1) }
       subject.should be_occupied
     end
 
@@ -239,7 +239,7 @@ describe LocalServer do
   describe "#inactive_minutes" do
 
     it "shows the inactive minutes from the current reservation" do
-      subject.stub(:current_reservation => stub(:inactive_minute_counter => 10))
+      subject.stub(:current_reservation => double(:inactive_minute_counter => 10))
       subject.inactive_minutes.should eql 10
     end
 
@@ -253,8 +253,8 @@ describe LocalServer do
   describe '#remove_logs_and_demos' do
 
     it 'removes the logs and demos from disk' do
-      subject.stub(:logs  => [stub])
-      subject.stub(:demos => [stub])
+      subject.stub(:logs  => [double])
+      subject.stub(:demos => [double])
       files = subject.logs + subject.demos
       FileUtils.should_receive(:rm).with(files)
       subject.remove_logs_and_demos
@@ -275,7 +275,7 @@ describe LocalServer do
   describe '#rcon_auth' do
 
     it "sends the current rcon to the condenser" do
-      condenser = stub
+      condenser = double
       subject.stub(:condenser => condenser, :current_rcon => "foobar")
       condenser.should_receive(:rcon_auth).with("foobar")
       subject.rcon_auth
@@ -286,8 +286,8 @@ describe LocalServer do
   describe '#rcon_say' do
 
     let(:message)       { "Hello world!" }
-    let(:condenser)     { stub }
-    let(:current_rcon)  { stub }
+    let(:condenser)     { double }
+    let(:current_rcon)  { double }
 
     before do
       subject.stub(:condenser => condenser, :current_rcon => current_rcon)
@@ -301,7 +301,7 @@ describe LocalServer do
 
     it "logs an error if something went wrong" do
       condenser.should_receive(:rcon_exec).and_raise(SteamCondenser::TimeoutError)
-      logger = stub
+      logger = double
       Rails.stub(:logger => logger)
       logger.should_receive(:error).with(anything)
       subject.rcon_say "foobar"

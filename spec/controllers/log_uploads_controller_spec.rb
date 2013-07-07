@@ -66,7 +66,7 @@ describe LogUploadsController do
   describe '#index' do
 
     it "assigns the logs variable" do
-      logs = stub
+      logs = double
       subject.stub(:logs => logs)
 
       get :index, :reservation_id => @reservation.id
@@ -74,7 +74,7 @@ describe LogUploadsController do
     end
 
     it "assigns the log_uploads variable" do
-      log_uploads = stub
+      log_uploads = double
       subject.stub(:log_uploads => log_uploads)
 
       get :index, :reservation_id => @reservation.id
@@ -85,7 +85,7 @@ describe LogUploadsController do
   describe '#show_log' do
 
     it 'assigns the log_file variable' do
-      log = stub.as_null_object
+      log = double.as_null_object
       subject.stub(:logs => [{:file_name => 'foo.log', :file_name_and_path => 'bar.log'}])
       File.should_receive(:read).with('bar.log').and_return(log)
       get :show_log, :reservation_id => @reservation.id, :file_name => 'foo.log'

@@ -5,7 +5,7 @@ describe LogUpload do
   describe '#upload' do
 
     it 'creates a LogsTF::Log file' do
-      log_file         = stub
+      log_file         = double
       map_name         = 'map'
       title            = 'title'
       logs_tf_api_key  = 'api_key'
@@ -17,7 +17,7 @@ describe LogUpload do
 
     it "sends the upload to logs.tf" do
       log = as_null_object
-      upload = stub
+      upload = double
       subject.stub(:logs_tf_api_key => 'api_key')
       LogsTF::Log.should_receive(:new).with(nil, nil, nil, 'api_key').and_return { log }
       LogsTF::Upload.should_receive(:new).with(log).and_return { upload }
@@ -53,19 +53,19 @@ describe LogUpload do
   describe '#logs_tf_api_key' do
 
     it "returns the user's api key if it's set" do
-      user        = stub(:logs_tf_api_key => '12345')
-      reservation = stub(:user => user)
+      user        = double(:logs_tf_api_key => '12345')
+      reservation = double(:user => user)
       subject.stub(:reservation => reservation)
       subject.logs_tf_api_key.should == '12345'
     end
 
     it "returns the LOGS_TF_API_KEY constant if there's no api key for the user" do
       LOGS_TF_API_KEY = '54321'
-      user = stub(:logs_tf_api_key => nil)
+      user = double(:logs_tf_api_key => nil)
       subject.stub(:user => user)
       subject.logs_tf_api_key.should == '54321'
 
-      user = stub(:logs_tf_api_key => '')
+      user = double(:logs_tf_api_key => '')
       subject.logs_tf_api_key.should == '54321'
     end
   end
@@ -82,11 +82,11 @@ describe LogUpload do
   describe '.find_log_files' do
 
     it 'finds the log files for a reservation and puts the info in hashes' do
-      reservation_id = stub
+      reservation_id = double
       log_matcher = Rails.root.join('spec', 'fixtures', 'logs', '*.log')
       LogUpload.should_receive(:log_matcher).with(reservation_id).and_return { log_matcher }
       subject.stub(:log_file_name_and_path => 'bar.log')
-      mtime = stub
+      mtime = double
       File.should_receive(:mtime).at_least(:once).with(anything).and_return { mtime }
 
       found_logs = LogUpload.find_log_files(reservation_id)

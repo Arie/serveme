@@ -46,13 +46,6 @@ GIT
       railties (>= 3.2.6, < 5)
       warden (~> 1.2.1)
 
-GIT
-  remote: git://github.com/puma/puma.git
-  revision: 9d4811f940854050dc9b02f4e0cdd309ad3d4774
-  specs:
-    puma (2.3.0)
-      rack (>= 1.1, < 2.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -240,6 +233,8 @@ GEM
       slop (~> 3.4)
     pry-nav (0.2.3)
       pry (~> 0.9.10)
+    puma (2.3.1)
+      rack (>= 1.1, < 2.0)
     query_reviewer (0.1.8)
     rack (1.5.2)
     rack-cache (1.2)
@@ -399,7 +394,7 @@ DEPENDENCIES
   paper_trail!
   protected_attributes
   pry-nav
-  puma!
+  puma
   query_reviewer
   rack-cache
   rails (~> 4.0.0)

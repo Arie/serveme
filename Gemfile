@@ -10,7 +10,7 @@ gem 'mysql2'
 #For EU
 gem 'thin',             :require => false
 #For NA
-gem 'puma',             :github => 'puma/puma'
+gem 'puma'
 gem 'omniauth-openid'
 gem 'omniauth-steam'
 gem 'devise', :github => 'plataformatec/devise', :branch => 'rails4'

@@ -13,7 +13,7 @@ gem 'thin',             :require => false
 gem 'puma'
 gem 'omniauth-openid'
 gem 'omniauth-steam'
-gem 'devise', :github => 'plataformatec/devise', :branch => 'rails4'
+gem 'devise'
 gem 'simple_form', "3.0.0.rc"
 gem 'rubyzip',          :require => false
 gem 'steam-condenser',  :git => 'git://github.com/Arie/steam-condenser-ruby.git'

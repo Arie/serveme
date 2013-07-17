@@ -22,6 +22,8 @@ class Reservation < ActiveRecord::Base
   validates_with Reservations::OnlyOneFutureReservationPerUserValidator,  :unless => :donator?
   validates_with Reservations::StartsNotTooFarInFutureValidator,          :unless => :donator?
 
+  validate :validate_first_map_is_not_mvm
+
   attr_accessor :extending
 
   def self.within_12_hours
@@ -210,6 +212,12 @@ class Reservation < ActiveRecord::Base
 
   def get_binding
     binding
+  end
+
+  def validate_first_map_is_not_mvm
+    if first_map && first_map.match(/mvm_.*/)
+      errors.add(:first_map, "you can't play MvM on our servers")
+    end
   end
 
 end

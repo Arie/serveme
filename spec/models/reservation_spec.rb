@@ -269,6 +269,14 @@ describe Reservation do
       reservation.should have(:no).errors_on(:ends_at)
     end
 
+    it 'validates a mvm map was not picked as the first map' do
+      reservation = build :reservation
+      reservation.first_map = 'mvm_coaltown'
+      reservation.should have(1).error_on(:first_map)
+      reservation.first_map = 'cp_badlands'
+      reservation.should have(:no).errors_on(:first_map)
+    end
+
     context "for non-donators" do
 
       it 'has an initial duration of no more than 2 hours' do

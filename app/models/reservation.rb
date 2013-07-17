@@ -12,7 +12,7 @@ class Reservation < ActiveRecord::Base
 
   delegate :donator?, :to => :user, :prefix => false
 
-  validates_presence_of :user, :server, :password, :rcon
+  validates_presence_of :user, :server, :password, :rcon, :starts_at, :ends_at
   validates_with Reservations::UserIsAvailableValidator
   validates_with Reservations::ServerIsAvailableValidator
   validates_with Reservations::ReservableByUserValidator

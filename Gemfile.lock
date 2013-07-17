@@ -341,7 +341,7 @@ GEM
       will_paginate (>= 3.0.3)
     xpath (2.0.0)
       nokogiri (~> 1.3)
-    zeroclipboard-rails (0.0.4)
+    zeroclipboard-rails (0.0.5.beta1)
       railties (>= 3.1)
     zonebie (0.0.4)
       chunky_png
@@ -406,5 +406,5 @@ DEPENDENCIES
   uglifier
   will_paginate
   will_paginate-bootstrap
-  zeroclipboard-rails
+  zeroclipboard-rails (= 0.0.5.beta1)
   zonebie

@@ -30,7 +30,7 @@ Serveme::Application.routes.draw do
 
   resources :reservations do
     member do
-      post :extend
+      post :extend_reservation, :as => :extend
     end
     collection do
       get :server_selection

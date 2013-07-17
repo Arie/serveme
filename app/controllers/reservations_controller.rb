@@ -61,16 +61,21 @@ class ReservationsController < ApplicationController
     end
   end
 
-  def extend
-    if reservation.extend!
-      flash[:notice] = "Reservation extended to #{I18n.l(reservation.ends_at, :format => :datepicker)}"
-    else
-      flash[:alert] = "Could not extend, conflicting reservation"
-    end
-    redirect_to root_path
-  end
+ def extend_reservation
+   if reservation.extend!
+     flash[:notice] = "Reservation extended to #{I18n.l(reservation.ends_at, :format => :datepicker)}"
+   else
+     flash[:alert] = "Could not extend, conflicting reservation"
+   end
+   redirect_to root_path
+ end
 
   def show
+    if reservation
+      render :show
+    else
+      redirect_to new_reservation_path
+    end
   end
 
   def destroy
@@ -92,7 +97,7 @@ class ReservationsController < ApplicationController
   helper_method :reservation
 
   def find_reservation
-    if params[:id]
+    if params[:id].to_i > 0
       current_user.reservations.find(params[:id].to_i)
     end
   end

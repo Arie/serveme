@@ -9,7 +9,7 @@ GIT
 
 GIT
   remote: git://github.com/airblade/paper_trail.git
-  revision: 1baead241804bbe476a8fa89b24ab4bdcb6d0c95
+  revision: c441a5de2d61042126bb042c3c18012fca3af32b
   branch: rails4
   specs:
     paper_trail (2.7.2)
@@ -74,7 +74,7 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     blockenspiel (0.4.5)
-    bootstrap-sass (2.3.2.0)
+    bootstrap-sass (2.3.2.1)
       sass (~> 3.2)
     builder (3.1.4)
     bzip2-ruby (0.2.7)
@@ -191,7 +191,7 @@ GEM
     multi_json (1.5.1)
     multi_xml (0.5.4)
     multipart-post (1.2.0)
-    mysql2 (0.3.12)
+    mysql2 (0.3.13)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
     net-sftp (2.1.2)

@@ -30,12 +30,12 @@ class Reservation < ActiveRecord::Base
     within_time_range(12.hours.ago, 12.hours.from_now).uniq
   end
 
-  def self.with_user_and_group
-    includes(:user => :groups)
+  def self.with_user_and_server
+    includes(:user => :groups).includes(:server => :location)
   end
 
   def self.ordered
-    with_user_and_group.order('starts_at DESC')
+    with_user_and_server.order('starts_at DESC')
   end
 
   def self.within_time_range(start_time, end_time)

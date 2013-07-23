@@ -20,5 +20,5 @@ tv_relaypassword "<%= tv_relaypassword %>"
 <% if user.logs_tf_api_key.present? %>
   <%= %{tftrue_logs_apikey "#{user.logs_tf_api_key}"} %>
 <% else %>
-  <%= %{tftrue_logs_apikey "#{LogsTF::API_KEY}"} %>
+  <%= %{tftrue_logs_apikey "#{LOGS_TF_API_KEY}"} %>
 <% end %>

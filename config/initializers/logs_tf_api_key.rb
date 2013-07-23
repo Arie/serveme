@@ -1,1 +1,1 @@
-LogsTF::API_KEY = 'foo'
+LOGS_TF_API_KEY = 'foo'

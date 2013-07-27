@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130703143733) do
+ActiveRecord::Schema.define(version: 20130727102830) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -102,10 +102,12 @@ ActiveRecord::Schema.define(version: 20130703143733) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "rcon"
-    t.string   "type",        default: "LocalServer"
-    t.integer  "position",    default: 1000
+    t.string   "type",         default: "LocalServer"
+    t.integer  "position",     default: 1000
     t.integer  "location_id"
-    t.boolean  "active",      default: true
+    t.boolean  "active",       default: true
+    t.string   "ftp_username"
+    t.string   "ftp_password"
   end
 
   add_index "servers", ["active"], name: "index_servers_on_active", using: :btree

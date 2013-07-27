@@ -163,11 +163,15 @@ class Server < ActiveRecord::Base
   end
 
   def rcon_say(message)
+    rcon_exec("say #{message}")
+  end
+
+  def rcon_exec(command)
     begin
-      condenser.rcon_exec("say #{message}") if rcon_auth
+      condenser.rcon_exec(command) if rcon_auth
     rescue Errno::ECONNREFUSED, SteamCondenser::TimeoutError => exception
       Raven.capture_exception(exception) if Rails.env.production?
-      Rails.logger.error "Couldn't deliver message to server #{id} - #{name}, message: #{message}"
+      Rails.logger.error "Couldn't deliver command to server #{id} - #{name}, command: #{command}"
     end
   end
 

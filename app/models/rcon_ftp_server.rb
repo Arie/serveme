@@ -10,6 +10,7 @@ class RconFtpServer < RemoteServer
   end
 
   def copy_to_server(files, destination)
+    ftp.debug_mode = true
     ftp_action(:putbinaryfile, files, destination)
   end
 

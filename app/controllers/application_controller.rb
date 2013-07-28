@@ -6,10 +6,6 @@ class ApplicationController < ActionController::Base
   before_filter :authenticate_user!
   before_filter :set_time_zone
 
-  # def current_user
-  #   User.first
-  # end
-
   def set_time_zone
     set_time_zone_from_current_user || set_time_zone_from_cookie || set_default_time_zone
   end

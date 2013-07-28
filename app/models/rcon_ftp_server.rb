@@ -10,7 +10,6 @@ class RconFtpServer < RemoteServer
   end
 
   def copy_to_server(files, destination)
-    ftp.debug_mode = true
     ftp_action(:putbinaryfile, files, destination)
   end
 
@@ -39,7 +38,11 @@ class RconFtpServer < RemoteServer
   end
 
   def ftp
-    @ftp ||= Net::FTP.new(ip, ftp_username, ftp_password)
+    @ftp ||= begin
+               ftp = Net::FTP.new(ip, ftp_username, ftp_password)
+               ftp.passive = true
+               ftp
+             end
   end
 
   def restart

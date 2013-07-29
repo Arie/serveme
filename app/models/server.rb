@@ -93,7 +93,7 @@ class Server < ActiveRecord::Base
   end
 
   def current_rcon
-    if current_reservation
+    if current_reservation && current_reservation.provisioned?
       current_reservation.rcon
     else
       rcon

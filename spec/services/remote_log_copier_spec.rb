@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SshLogCopier do
+describe RemoteLogCopier do
 
   describe '#copy_logs' do
 
@@ -10,7 +10,7 @@ describe SshLogCopier do
       reservation = double(:id => 1, :zipfile_name => "foo.zip")
 
       destination = double
-      log_copier = SshLogCopier.new(reservation, server)
+      log_copier = RemoteLogCopier.new(reservation, server)
       log_copier.stub(:directory_to_copy_to => destination)
 
       zipped_file = double(:name => "foo.log")

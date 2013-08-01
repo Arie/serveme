@@ -26,4 +26,14 @@ class ZipFileCreator
     Rails.root.join("public", "uploads", zipfile_name)
   end
 
+  def shell_escaped_files_to_zip
+    files_to_zip.collect { |file| file.shellescape }
+  end
+
+  private
+
+  def server
+    reservation.server
+  end
+
 end

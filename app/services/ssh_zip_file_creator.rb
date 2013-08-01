@@ -23,14 +23,4 @@ class SshZipFileCreator < ZipFileCreator
     server.execute("rm #{remote_zip_name}")
   end
 
-  private
-
-  def server
-    reservation.server
-  end
-
-  def shell_escaped_files_to_zip
-    files_to_zip.collect { |file| file.shellescape }
-  end
-
 end

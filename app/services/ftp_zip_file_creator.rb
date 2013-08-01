@@ -10,25 +10,15 @@ class FtpZipFileCreator < ZipFileCreator
 
   def zip(tmp_dir)
     Zip::ZipFile.open(zipfile_name_and_path, Zip::ZipFile::CREATE) do |zipfile|
-      Dir.glob(File.join(tmp_dir, "*")).each do |filename_with_path|
+      files_to_zip_in_dir(tmp_dir).each do |filename_with_path|
         filename_without_path = File.basename(filename_with_path)
         zipfile.add(filename_without_path, filename_with_path)
       end
     end
   end
 
-  def zip_file_name
-    "logs_and_demos_#{reservation.id}.zip"
-  end
-
-  private
-
-  def server
-    reservation.server
-  end
-
-  def shell_escaped_files_to_zip
-    files_to_zip.collect { |file| file.shellescape }
+  def files_to_zip_in_dir(dir)
+    Dir.glob(File.join(dir, "*"))
   end
 
 end

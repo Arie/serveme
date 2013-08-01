@@ -1,0 +1,2 @@
+class RconFtpServerDecorator < ServerDecorator
+end

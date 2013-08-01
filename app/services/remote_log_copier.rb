@@ -1,4 +1,4 @@
-class SshLogCopier < LogCopier
+class RemoteLogCopier < LogCopier
 
   def copy_logs
     zipfile_name_and_path = Rails.root.join("public", "uploads", reservation.zipfile_name)

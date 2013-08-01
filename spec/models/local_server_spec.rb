@@ -187,7 +187,7 @@ describe LocalServer do
     end
 
     it "gives the rcon of the current reservation if there is one" do
-      subject.stub(:current_reservation => mock_model(Reservation, :rcon => 'foo'))
+      subject.stub(:current_reservation => mock_model(Reservation, :rcon => 'foo', :provisioned? => true))
       subject.stub(:rcon => 'bar')
       subject.current_rcon.should eql 'foo'
     end

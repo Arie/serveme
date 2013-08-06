@@ -1,10 +1,14 @@
+%h2 Welcome to the FakkelBrigade reservation system
+
 .row
-  .span9
-    %h2 Welcome to the FakkelBrigade reservation system
+  .span10
     %p
       Make a reservation and within a few minutes your server will be ready and yours to use.
       If you run out of time, press the "Extend reservation" button here.
       Feel free to use the server for any kind of match you want.
+
+.row
+  .span10
     %p
       Please
       = link_to("leave a comment", "#leave-a-comment")
@@ -20,8 +24,11 @@
       = link_to('trade me TF2 items to donate.', 'http://steamcommunity.com/id/ariekanarie')
       If you trade a well tradable/sellable item like bills/buds/keys I can give you donator status for that, but you can also send something nice just to say thanks.
   .span3
-    = render "shared/paypal_widget"
+    = render "shared/paypal_button"
 
+.row
+  .span10
+    = render "shared/paypal"
 
 .row
   .span10

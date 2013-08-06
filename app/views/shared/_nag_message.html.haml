@@ -22,3 +22,4 @@
       - duration = (current_user.total_reservation_seconds / 3600.0).round
       %h4
         Hi there! You've made #{duration} hours worth of reservations so far, have you considered donating to keep this service running?
+        = render "shared/paypal_button"

@@ -147,4 +147,17 @@ describe RconFtpServer do
     end
   end
 
+  describe '#current_reservation' do
+
+    it 'finds a reservation that has just expired as the current reservation' do
+
+      server      = create :server
+      server.update_attribute(:type, "RconFtpServer")
+      server = RconFtpServer.find(server.id)
+      reservation = create :reservation, :starts_at => 10.minutes.ago, :ends_at => 1.hour.from_now, :server => server
+      reservation.update_attribute(:ends_at, 1.second.ago)
+      server.current_reservation.should == reservation
+    end
+  end
+
 end

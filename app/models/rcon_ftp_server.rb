@@ -50,4 +50,8 @@ class RconFtpServer < RemoteServer
     rcon_exec("_restart")
   end
 
+  def current_reservation
+    Reservation.where('reservations.starts_at <= ? AND reservations.ended = ?', Time.current, false).first
+  end
+
 end

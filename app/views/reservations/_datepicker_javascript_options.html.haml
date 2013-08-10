@@ -5,7 +5,8 @@
     startView: 1,
     todayHighlight: true,
     startDate: "#{I18n.l(Time.current, :format => :datepicker)}}",
-    format: 'dd-mm-yyyy hh:ii'
+    showMeridian: true,
+    format: '#{I18n.t('time.formats.javascript_datepicker')}'
   };
   $('#reservation_starts_at').datetimepicker(datepicker_options);
   $('#reservation_ends_at').datetimepicker(datepicker_options)

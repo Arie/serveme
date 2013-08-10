@@ -1,0 +1,12 @@
+"en-US":
+  datetime:
+    formats:
+      time: "%I:%M:%S %P"
+  time:
+    formats:
+      time: "%I:%M:%S %P"
+      time_without_seconds: "%I:%M %P"
+      datepicker: "%d-%m-%Y %I:%M %P"
+      short: "%d %b %I:%M %P"
+      short_with_dayname: "%a %d %b %I:%M %P"
+      javascript_datepicker: "dd-mm-yyyy HH:ii p"

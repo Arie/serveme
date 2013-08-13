@@ -12,15 +12,16 @@
 
   .container-fluid
 
-    .row
-      .span11.alert.alert-success
-        You can now
-        = link_to('trade me', 'http://steamcommunity.com/id/ariekanarie')
-        keys/bills/buds for donator status, or just
-        = link_to('trade me', 'http://steamcommunity.com/id/ariekanarie')
-        items to say thanks :)
+    - unless current_user && current_user.donator?
+      .row
+        .span11.alert.alert-success
+          You can now
+          = link_to('trade me', 'http://steamcommunity.com/id/ariekanarie')
+          keys/bills/buds for donator status, or just
+          = link_to('trade me', 'http://steamcommunity.com/id/ariekanarie')
+          items to say thanks :)
 
-    = render 'shared/nag_message' if current_user
+      = render 'shared/nag_message' if current_user
 
     = render 'shared/flash'
 

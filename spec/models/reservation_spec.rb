@@ -277,6 +277,12 @@ describe Reservation do
       reservation.should have(:no).errors_on(:first_map)
     end
 
+    it "prevents you from choosing ctf_turbine as the first map" do
+      reservation = build :reservation
+      reservation.first_map = 'ctf_turbine'
+      reservation.should have(1).error_on(:first_map)
+    end
+
     context "for non-donators" do
 
       it 'has an initial duration of no more than 2 hours' do

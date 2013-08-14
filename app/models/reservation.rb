@@ -21,7 +21,7 @@ class Reservation < ActiveRecord::Base
   validates_with Reservations::StartsNotTooFarInPastValidator,            :on => :create
   validates_with Reservations::OnlyOneFutureReservationPerUserValidator,  :unless => :donator?
   validates_with Reservations::StartsNotTooFarInFutureValidator,          :unless => :donator?
-  validates_with Reservations::MapIsNotMvmValidator
+  validates_with Reservations::MapIsValidValidator
 
   attr_accessor :extending
 

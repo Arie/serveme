@@ -16,7 +16,7 @@ gem 'omniauth-steam'
 gem 'devise'
 gem 'simple_form', "3.0.0.rc"
 gem 'rubyzip',          :require => false
-gem 'steam-condenser',  :git => 'git://github.com/Arie/steam-condenser-ruby.git'
+gem 'steam-condenser',  :github => 'Arie/steam-condenser-ruby'
 gem 'logs_tf'
 gem 'sys-proctable',    :require => 'sys/proctable'
 gem 'net-ssh-simple'
@@ -74,7 +74,7 @@ end
 
 gem 'uglifier'
 gem 'jquery-rails'
-gem "compass-rails", github: "milgner/compass-rails", ref: "1749c06f15dc4b058427e7969810457213647fb8"
+gem "compass-rails", '2.0.alpha.0' #github: "milgner/compass-rails", ref: "1749c06f15dc4b058427e7969810457213647fb8"
 gem 'sass-rails'
 gem 'bootstrap-sass'
 gem 'therubyracer', :require => 'v8'

@@ -33,8 +33,7 @@
   $("#reservation_server_id").select2({
     formatResult: formatServer,
     formatSelection: formatServer,
-    enable: #{@reservation.schedulable?},
     escapeMarkup: function(m) { return m }
-  })
+  });
 
-  $("select.disabled").disable();
+  $("#reservation_server_id").select2("enable", #{@reservation.schedulable?}); 

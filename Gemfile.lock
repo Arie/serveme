@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/Arie/steam-condenser-ruby.git
-  revision: 2fdf5afb8c008ac297ccd22479bf3a97152514b2
+  revision: cea100bbe00a94eb9f506ceb15fa42c44da2e2f4
   specs:
     steam-condenser (1.3.6)
       multi_json (~> 1.7.2)

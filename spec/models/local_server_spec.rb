@@ -202,7 +202,7 @@ describe LocalServer do
     end
 
     it "defaults to true when something went wrong updating the player number" do
-      ServerInfo.should_receive(:new).with(subject).and_raise(SteamCondenser::TimeoutError)
+      ServerInfo.should_receive(:new).with(subject).and_raise(SteamCondenser::Error::Timeout)
       subject.should be_occupied
     end
 
@@ -266,7 +266,7 @@ describe LocalServer do
 
     it 'creates a steam condenser to the server' do
       subject.stub(:ip => 'fakkelbrigade.eu', :port => "27015")
-      SteamCondenser::SourceServer.should_receive(:new).with('fakkelbrigade.eu', 27015)
+      SteamCondenser::Servers::SourceServer.should_receive(:new).with('fakkelbrigade.eu', 27015)
       subject.condenser
     end
 
@@ -300,7 +300,7 @@ describe LocalServer do
     end
 
     it "logs an error if something went wrong" do
-      condenser.should_receive(:rcon_exec).and_raise(SteamCondenser::TimeoutError)
+      condenser.should_receive(:rcon_exec).and_raise(SteamCondenser::Error::Timeout)
       logger = double
       Rails.stub(:logger => logger)
       logger.should_receive(:error).with(anything)

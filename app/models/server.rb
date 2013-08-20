@@ -155,7 +155,7 @@ class Server < ActiveRecord::Base
   end
 
   def condenser
-    @condenser ||= SteamCondenser::SourceServer.new(ip, port.to_i)
+    @condenser ||= SteamCondenser::Servers::SourceServer.new(ip, port.to_i)
   end
 
   def rcon_auth
@@ -169,7 +169,7 @@ class Server < ActiveRecord::Base
   def rcon_exec(command)
     begin
       condenser.rcon_exec(command) if rcon_auth
-    rescue Errno::ECONNREFUSED, SteamCondenser::TimeoutError => exception
+    rescue Errno::ECONNREFUSED, SteamCondenser::Error::Timeout => exception
       Raven.capture_exception(exception) if Rails.env.production?
       Rails.logger.error "Couldn't deliver command to server #{id} - #{name}, command: #{command}"
     end
@@ -178,7 +178,7 @@ class Server < ActiveRecord::Base
   def number_of_players
     begin
       @number_of_players ||= ServerInfo.new(self).number_of_players
-    rescue Errno::ECONNREFUSED, SteamCondenser::TimeoutError
+    rescue Errno::ECONNREFUSED, SteamCondenser::Error::Timeout
       nil
     end
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130829113428) do
+ActiveRecord::Schema.define(version: 20130829130257) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 20130829113428) do
     t.string   "file_name"
     t.string   "title"
     t.string   "map_name"
-    t.string   "status"
+    t.text     "status"
     t.string   "url"
     t.datetime "created_at"
     t.datetime "updated_at"

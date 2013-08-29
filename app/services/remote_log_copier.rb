@@ -1,3 +1,5 @@
+require 'zip'
+
 class RemoteLogCopier < LogCopier
 
   def copy_logs

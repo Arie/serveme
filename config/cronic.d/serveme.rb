@@ -31,22 +31,22 @@ def end_past_normal_reservations
   end
 end
 
-def end_past_instant_reservations
-  unended_past_instant_reservations.map do |reservation|
-    reservation.end_reservation
-  end
+def unended_past_normal_reservations
+  unended_past_reservations.where('end_instantly = ?', false)
 end
 
 def unended_past_reservations
   Reservation.where('ends_at < ? AND provisioned = ? AND ended = ?', Time.current, true, false)
 end
 
-def unended_past_normal_reservations
-  unended_past_reservations.where('end_instantly = ?', false)
+def end_past_instant_reservations
+  unended_past_instant_reservations.map do |reservation|
+    reservation.end_reservation
+  end
 end
 
 def unended_past_instant_reservations
-  unended_past_reservations.where('end_instantly = ?', true)
+  Reservation.where('provisioned = ? AND ended = ? AND end_instantly = ?', true, false, true)
 end
 
 def end_reservation(reservations)

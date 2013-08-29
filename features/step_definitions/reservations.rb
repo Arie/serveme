@@ -224,8 +224,12 @@ When "I try to end my reservation" do
 end
 
 When "I end my reservation" do
-  step "the server gets killed"
   step "I try to end my reservation"
+end
+
+Given "the end reservations job has run" do
+  step "the server gets killed"
+  Reservation.last.end_reservation
 end
 
 Then "I get told I should wait before ending" do

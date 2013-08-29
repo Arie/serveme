@@ -1,10 +1,10 @@
-every '1s', :mutex => 'instant_reservations' do
+every '1s', :mutex => 'serveme' do
   db do
     start_instant_reservations
   end
 end
 
-cron '*/1 * * * *', :mutex => 'periodic_checks' do
+cron '*/1 * * * *', :mutex => 'serveme' do
   db do
     sleep 1
     end_past_reservations

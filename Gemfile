@@ -13,7 +13,7 @@ gem 'omniauth-openid'
 gem 'omniauth-steam'
 gem 'devise'
 gem 'simple_form', "3.0.0.rc"
-gem 'rubyzip',          :require => 'zip'
+gem 'rubyzip',          :require => false
 gem 'steam-condenser',  :github => 'Arie/steam-condenser-ruby'
 gem 'logs_tf'
 gem 'sys-proctable',    :require => 'sys/proctable'

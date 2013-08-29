@@ -1,3 +1,5 @@
+require 'zip'
+
 class ZipFileCreator
 
   attr_accessor :reservation, :files_to_zip

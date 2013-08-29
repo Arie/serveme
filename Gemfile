@@ -7,8 +7,6 @@ gem "actionpack-action_caching"
 gem 'paper_trail', :github => 'airblade/paper_trail', :branch => 'rails4'
 gem 'haml'
 gem 'mysql2'
-#For EU
-gem 'thin',             :require => false
 #For NA
 gem 'puma'
 gem 'omniauth-openid'
@@ -30,6 +28,7 @@ gem 'rack-cache'
 
 group :development do
   gem 'better_errors'
+  gem 'thin',             :require => false
   gem 'binding_of_caller'
 
   #Deployment

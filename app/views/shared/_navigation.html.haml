@@ -2,7 +2,20 @@
   .navbar-inner
     .container
       %ul.nav
-        %li= link_to("serveme.tf", root_path, :class => 'brand')
+        %li.dropdown
+          %a.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#"}
+            serveme.tf
+            %b.caret>
+          %ul.dropdown-menu
+            %li
+              = link_to('http://serveme.tf',     :target => "_blank") do
+                %span{:class => ["flags", "flags-eu"]}
+                serveme.tf (Europe)
+            %li
+              = link_to('http://na.serveme.tf',  :target => "_blank") do
+                %span{:class => ["flags", "flags-us"]}
+                na.serveme.tf (North-America)
+
         - if current_user
           %li.dropdown
             %a.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#"}

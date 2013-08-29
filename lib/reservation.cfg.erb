@@ -4,6 +4,8 @@ sv_password "<%= password %>"
 tv_password "<%= tv_password %>"
 tv_relaypassword "<%= tv_relaypassword %>"
 
+tftrue_logs_prefix "serveme.tf"
+tftrue_tournament_insecure 1
 
 <% if server_config %>
 <%= "exec #{server_config}" %><% end %>
@@ -22,5 +24,3 @@ tv_relaypassword "<%= tv_relaypassword %>"
 <% else %>
   <%= %{tftrue_logs_apikey "#{LOGS_TF_API_KEY}"} %>
 <% end %>
-
-tftrue_logs_prefix "serveme.tf"

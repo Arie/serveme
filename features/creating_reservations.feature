@@ -16,7 +16,6 @@ Feature: Making a reservation
     When I enter the reservation details
     And I save the reservation
     Then I can see my reservation on the welcome page
-    And I can control my reservation
 
   Scenario: Unsuccesfully creating a reservation
     When I go make a reservation
@@ -35,5 +34,3 @@ Feature: Making a reservation
     When I enter the reservation details
     And I save the reservation
     Then I can open the details of my reservation
-    And I can see the details of my reservation
-

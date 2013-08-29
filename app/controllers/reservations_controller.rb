@@ -27,8 +27,8 @@ class ReservationsController < ApplicationController
     @reservation.user_id     = current_user.id
     if @reservation.save
       if @reservation.now?
-        @reservation.start_reservation
-        flash[:notice] = "Reservation created for #{@reservation.server_name}. Give the server a minute to (re)boot/update and <a href='#{@reservation.server_connect_url}'>click here to join</a> or enter in console: #{@reservation.connect_string}".html_safe
+        @reservation.update_attribute(:start_instantly, true)
+        flash[:notice] = "Reservation created for #{@reservation.server_name}. The server is now being configured, give it a minute to (re)boot/update and <a href='#{@reservation.server_connect_url}'>click here to join</a> or enter in console: #{@reservation.connect_string}".html_safe
         redirect_to reservation_path(@reservation)
       else
         flash[:notice] = "Reservation created for #{@reservation}"

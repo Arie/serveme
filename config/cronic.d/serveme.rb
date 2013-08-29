@@ -1,3 +1,9 @@
+every '1s' do
+  db do
+    start_instant_reservations
+  end
+end
+
 cron '*/1 * * * *' do
   db do
     sleep 1
@@ -28,15 +34,27 @@ def end_past_reservations
 end
 
 def start_active_reservations
-  now_reservations            = Reservation.current
-  unstarted_now_reservations  = now_reservations.where('provisioned = ?', false)
-  unstarted_now_reservations.map do |reservation|
+  unstarted_now_reservations  = now_reservations.where('provisioned = ? AND start_instantly = ?', false, false)
+  start_reservations(unstarted_now_reservations)
+end
+
+def start_instant_reservations
+  unstarted_instant_reservations = now_reservations.where('provisioned = ? AND start_instantly = ?', false, true)
+  start_reservations(unstarted_instant_reservations)
+end
+
+def now_reservations
+  Reservation.current
+end
+
+def start_reservations(reservations)
+  reservations.map do |reservation|
     reservation.start_reservation
   end
 end
 
 def check_active_reservations
-  unended_now_reservations      = Reservation.current.where('ended = ?', false)
+  unended_now_reservations      = now_reservations.where('ended = ?', false)
   provisioned_now_reservations  = unended_now_reservations.where('provisioned = ?', true)
   provisioned_now_reservations.map do |reservation|
     if reservation.server.occupied?

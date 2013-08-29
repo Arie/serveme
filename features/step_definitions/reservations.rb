@@ -108,7 +108,6 @@ Then "I see the new reservation details in the list" do
 end
 
 When "I save the reservation" do
-  step "the server gets killed"
   click_button "Save"
 end
 

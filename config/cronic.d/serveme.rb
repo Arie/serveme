@@ -1,4 +1,4 @@
-every '1s' do
+every '1s', :overlap => false do
   db do
     start_instant_reservations
   end

@@ -86,6 +86,27 @@ describe LocalServer do
 
   end
 
+  describe '#start_reservation' do
+    it 'updates the configuration and triggers a restart' do
+      reservation = double
+      subject.should_receive(:restart)
+      subject.should_receive(:update_configuration).with(reservation)
+      subject.start_reservation(reservation)
+    end
+
+    it 'writes a config file' do
+      reservation = double
+      subject.should_receive(:restart)
+      file = double
+      subject.stub(:tf_dir => '/tmp')
+      File.should_receive(:open).with(anything, 'w').twice.and_yield(file)
+      file.should_receive(:write).with(anything).twice
+      subject.should_receive(:generate_config_file).twice.with(reservation, anything).and_return("config file contents")
+      subject.start_reservation(reservation)
+    end
+
+  end
+
   describe '#end_reservation' do
 
     it 'should zip demos and logs, remove configuration and restart' do

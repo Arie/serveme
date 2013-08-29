@@ -16,13 +16,12 @@ GIT
       railties (~> 4.0)
 
 GIT
-  remote: git://github.com/cucumber/cucumber-rails.git
-  revision: 25e6170c4260042c20c86099d3b6832dad7eb81f
-  branch: master_rails4_test
+  remote: https://github.com/cucumber/cucumber-rails.git
+  revision: 38a24b4763eda3d08aa95bae5ef9dea1bc053519
   specs:
-    cucumber-rails (1.3.1)
+    cucumber-rails (1.4.0)
       capybara (>= 1.1.2)
-      cucumber (>= 1.2.0)
+      cucumber (>= 1.3.6)
       nokogiri (>= 1.5.0)
       rails (>= 3.0.0)
 

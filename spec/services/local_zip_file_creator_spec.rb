@@ -14,7 +14,7 @@ describe LocalZipFileCreator do
       zip_file.stub(:files_to_zip => ['foo/qux.zip'])
       zip_file.stub(:zipfile_name_and_path => 'bar.zip')
       zip_zip_file = double
-      Zip::ZipFile.should_receive(:open).with(zip_file.zipfile_name_and_path, Zip::ZipFile::CREATE).and_yield(zip_zip_file)
+      Zip::File.should_receive(:open).with(zip_file.zipfile_name_and_path, Zip::File::CREATE).and_yield(zip_zip_file)
       zip_zip_file.should_receive(:add).with('qux.zip', 'foo/qux.zip')
       zip_file.zip
     end

@@ -1,4 +1,3 @@
-require 'zip/zip'
 require 'spec_helper'
 
 describe ZipFileCreator do

@@ -9,7 +9,7 @@ class FtpZipFileCreator < ZipFileCreator
   end
 
   def zip(tmp_dir)
-    Zip::ZipFile.open(zipfile_name_and_path, Zip::ZipFile::CREATE) do |zipfile|
+    Zip::File.open(zipfile_name_and_path, Zip::File::CREATE) do |zipfile|
       files_to_zip_in_dir(tmp_dir).each do |filename_with_path|
         filename_without_path = File.basename(filename_with_path)
         zipfile.add(filename_without_path, filename_with_path)

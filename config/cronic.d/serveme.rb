@@ -1,13 +1,14 @@
-every '1s', :mutex => 'serveme' do
+every '1s', :mutex => 'instant_jobs' do
   db do
     start_instant_reservations
+    end_past_instant_reservations
   end
 end
 
-cron '*/1 * * * *', :mutex => 'serveme' do
+cron '*/1 * * * *', :mutex => 'periodic_jobs' do
   db do
     sleep 1
-    end_past_reservations
+    end_past_normal_reservations
     start_active_reservations
     check_active_reservations
   end
@@ -20,15 +21,36 @@ def db(&block)
   rescue Exception => e
     raise e
   ensure
-    ActiveRecord::Base.connection.close if ActiveRecord::Base.connection
-    ActiveRecord::Base.clear_active_connections!
+    ActiveRecord::Base.connection_pool.release_connection if ActiveRecord::Base.connection
   end
 end
 
-def end_past_reservations
-  past_reservations         = Reservation.where('ends_at < ? AND provisioned = ?', Time.current, true)
-  unended_past_reservations = past_reservations.where('ended = ?', false)
-  unended_past_reservations.map do |reservation|
+def end_past_normal_reservations
+  unended_past_normal_reservations.map do |reservation|
+    reservation.end_reservation
+  end
+end
+
+def end_past_instant_reservations
+  unended_past_instant_reservations.map do |reservation|
+    reservation.end_reservation
+  end
+end
+
+def unended_past_reservations
+  Reservation.where('ends_at < ? AND provisioned = ? AND ended = ?', Time.current, true, false)
+end
+
+def unended_past_normal_reservations
+  unended_past_reservations.where('end_instantly = ?', false)
+end
+
+def unended_past_instant_reservations
+  unended_past_reservations.where('end_instantly = ?', true)
+end
+
+def end_reservation(reservations)
+  reservations.map do |reservation|
     reservation.end_reservation
   end
 end

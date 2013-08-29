@@ -144,9 +144,9 @@ class ReservationsController < ApplicationController
   end
 
   def end_reservation
-    reservation.end_reservation
+    reservation.update_attribute(:end_instantly, true)
     link = "/uploads/#{reservation.zipfile_name}"
-    flash[:notice] = "Reservation removed, restarting server. Get your STV demos and logs <a href='#{link}' target=_blank>here</a>".html_safe
+    flash[:notice] = "Reservation removed, restarting server. Your STV demos and logs will be available <a href='#{link}' target=_blank>here</a> shortly".html_safe
   end
 
   private

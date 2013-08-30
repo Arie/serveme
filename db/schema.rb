@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130829130257) do
+ActiveRecord::Schema.define(version: 20130830100342) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20130829130257) do
     t.integer  "last_number_of_players",  default: 0
     t.string   "first_map"
     t.boolean  "start_instantly",         default: false
-    t.boolean  "end_instantly"
+    t.boolean  "end_instantly",           default: false
   end
 
   add_index "reservations", ["end_instantly"], name: "index_reservations_on_end_instantly", using: :btree

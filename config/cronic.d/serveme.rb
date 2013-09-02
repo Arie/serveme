@@ -1,16 +1,12 @@
-every '1s', :mutex => 'instant_jobs' do
+every '1s' do
   db do
     start_instant_reservations
     end_past_instant_reservations
-  end
-end
-
-cron '*/1 * * * *', :mutex => 'periodic_jobs' do
-  db do
-    sleep 1
-    end_past_normal_reservations
-    start_active_reservations
-    check_active_reservations
+    if (Time.now.to_i) % 60 == 0
+      end_past_normal_reservations
+      start_active_reservations
+      check_active_reservations
+    end
   end
 end
 

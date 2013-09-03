@@ -21,7 +21,7 @@ gem 'net-ssh-simple'
 gem 'draper'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
-gem 'zeroclipboard-rails', '0.0.5.beta1'
+gem 'zeroclipboard-rails'
 gem 'cronic'
 gem "google_visualr"
 gem 'rack-cache'

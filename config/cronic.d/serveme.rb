@@ -1,4 +1,4 @@
-every '1s' do
+every '1s', :mutex => 'reservations' do
   db do
     start_instant_reservations
     end_past_instant_reservations

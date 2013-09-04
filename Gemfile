@@ -4,7 +4,6 @@ gem 'rails', '~> 4.0.0'
 gem 'protected_attributes'
 gem "actionpack-action_caching"
 
-gem 'paper_trail', :github => 'airblade/paper_trail', :branch => 'rails4'
 gem 'haml'
 gem 'mysql2'
 #For NA

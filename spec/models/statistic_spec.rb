@@ -11,9 +11,7 @@ describe Statistic do
 
       create :reservation, :user => top_user, :starts_at => 10.minutes.ago, :ends_at => 1.hour.from_now
       create :reservation, :user => top_user, :starts_at => 24.hours.from_now, :ends_at => 25.hours.from_now
-      Version.update_all(:whodunnit => top_user.id)
       create :reservation, :user => other_user
-      Version.last.update_attributes(:whodunnit => other_user.id)
 
       top_10_hash = Statistic.top_10_users
       top_10_hash[top_user].should eql 2

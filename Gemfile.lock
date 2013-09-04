@@ -7,15 +7,6 @@ GIT
       multi_xml (~> 0.5.2)
 
 GIT
-  remote: git://github.com/airblade/paper_trail.git
-  revision: c441a5de2d61042126bb042c3c18012fca3af32b
-  branch: rails4
-  specs:
-    paper_trail (2.7.2)
-      activerecord (~> 4.0)
-      railties (~> 4.0)
-
-GIT
   remote: https://github.com/cucumber/cucumber-rails.git
   revision: 46731e2b00ca08786f46c8f813395c9bcf24b01f
   specs:
@@ -373,7 +364,6 @@ DEPENDENCIES
   oily_png
   omniauth-openid
   omniauth-steam
-  paper_trail!
   protected_attributes
   pry-nav
   puma

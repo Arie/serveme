@@ -9,8 +9,8 @@ set :deploy_to,         "/var/www/serveme"
 set :use_sudo,          false
 set :main_server,       "fakkelbrigade.eu"
 set :keep_releases,     10
-set :deploy_via,        :copy
-set :repository,        "."#"https://github.com/Arie/serveme.git"
+set :deploy_via,        :remote_cache
+set :repository,        "https://github.com/Arie/serveme.git"
 set :branch,            'master'
 set :scm,               :git
 set :copy_compression,  :gzip

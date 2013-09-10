@@ -10,7 +10,7 @@ gem 'mysql2'
 gem 'puma'
 gem 'omniauth-openid'
 gem 'omniauth-steam'
-gem 'devise', '~> 3.0.3'
+gem 'devise'
 gem 'simple_form', "3.0.0.rc"
 gem 'rubyzip'
 gem 'steam-condenser',  :github => 'Arie/steam-condenser-ruby'

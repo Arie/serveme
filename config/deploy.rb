@@ -43,6 +43,7 @@ namespace :app do
     run "ln -sf #{shared_path}/maps_dir.rb #{release_path}/config/initializers/maps_dir.rb"
     run "ln -sf #{shared_path}/secret_token.rb #{release_path}/config/initializers/secret_token.rb"
     run "ln -sf #{shared_path}/locale.rb #{release_path}/config/initializers/locale.rb"
+    run "ln -sf #{shared_path}/devise.rb #{release_path}/config/initializers/devise.rb"
   end
 
 end

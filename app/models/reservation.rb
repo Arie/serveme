@@ -11,17 +11,7 @@ class Reservation < ActiveRecord::Base
 
   delegate :donator?, :to => :user, :prefix => false
 
-  validates_presence_of :user, :server, :password, :rcon, :starts_at, :ends_at
-  validates_with Reservations::UserIsAvailableValidator
-  validates_with Reservations::ServerIsAvailableValidator
-  validates_with Reservations::ReservableByUserValidator
-  validates_with Reservations::LengthOfReservationValidator
-  validates_with Reservations::ChronologicalityOfTimesValidator
-  validates_with Reservations::StartsNotTooFarInPastValidator,            :on => :create
-  validates_with Reservations::OnlyOneFutureReservationPerUserValidator,  :unless => :donator?
-  validates_with Reservations::StartsNotTooFarInFutureValidator,          :unless => :donator?
-  validates_with Reservations::MapIsValidValidator
-  validates_with Reservations::CustomWhitelistValidator
+  include ReservationValidations
 
   attr_accessor :extending
 
@@ -198,11 +188,8 @@ class Reservation < ActiveRecord::Base
   end
 
   def inactive_minute_limit
-    if user && user.donator?
-      60
-    else
-      30
-    end
+    return 60 if user && user.donator?
+    30
   end
 
   def has_players?

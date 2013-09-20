@@ -3,6 +3,7 @@
     formats:
       time: "%I:%M:%S %P"
   time:
+    show_meridian: true
     formats:
       time: "%I:%M:%S %P"
       time_without_seconds: "%I:%M %P"

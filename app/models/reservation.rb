@@ -8,8 +8,10 @@ class Reservation < ActiveRecord::Base
   belongs_to :whitelist
   belongs_to :reservation
   has_many :log_uploads
+  has_one :custom_whitelist
 
   delegate :donator?, :to => :user, :prefix => false
+  delegate :content, :to => :custom_whitelist, :prefix => true
 
   validates_presence_of :user, :server, :password, :rcon, :starts_at, :ends_at
   validates_with Reservations::UserIsAvailableValidator

@@ -20,7 +20,7 @@
     = radio_button_tag :whitelist_type, "custom_whitelist", (@reservation.custom_whitelist_id.present?)
     Custom whitelist
   = f.association :whitelist,     :collection => Whitelist.ordered,    :hint => "Some configs have a default whitelist, but you can still override that here. 6v6 with 9v9 unlocks? No problem!"
-  = f.input :custom_whitelist_id, :hint => "Enter the number for a whitelist you created on <a href='http://whitelist.tf/configure', target='_blank'>whitelist.tf</a>"
+  = f.input :custom_whitelist_id, :hint => "Enter the number (ID) for a whitelist from <a href='http://whitelist.tf/configure', target='_blank'>whitelist.tf</a>"
   %span.inline
     .starts_at
       = f.input :starts_at,       :as => :string, :input_html => { :value => I18n.l(@reservation.starts_at, :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Start/end time" , :disabled => !@reservation.schedulable?

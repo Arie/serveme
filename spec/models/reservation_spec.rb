@@ -2,6 +2,29 @@ require 'spec_helper'
 
 describe Reservation do
 
+  context "with a custom whitelist" do
+    before do
+      subject.stub(:user).and_return { mock_model(User, :uid => '1234', :nickname => "Nick Name") } 
+    end
+
+    it "saves a new custom whitelist from whitelist.tf" do
+      request = double(:body => "the whitelist")
+      connection = double
+      connection.should_receive(:get).with(anything).and_return(request)
+      Faraday.should_receive(:new).with(anything).and_return(connection)
+      reservation = build(:reservation, :custom_whitelist_id => 103)
+      reservation.valid?
+      WhitelistTf.find_by_tf_whitelist_id(103).content.should == "the whitelist"
+    end
+
+    it "sets an error if the whitelist couldn't be downloaded" do
+      reservation = build(:reservation, :custom_whitelist_id => 103)
+      Faraday.should_receive(:new).with(anything).and_raise(Faraday::Error::ClientError.new("foo"))
+      reservation.should have(1).error_on(:custom_whitelist_id)
+    end
+
+  end
+
   describe "#tv_password" do
 
     it "should have a default tv_password" do

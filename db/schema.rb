@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130830100342) do
+ActiveRecord::Schema.define(version: 20130920123643) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -80,8 +80,10 @@ ActiveRecord::Schema.define(version: 20130830100342) do
     t.string   "first_map"
     t.boolean  "start_instantly",         default: false
     t.boolean  "end_instantly",           default: false
+    t.integer  "custom_whitelist_id"
   end
 
+  add_index "reservations", ["custom_whitelist_id"], name: "index_reservations_on_custom_whitelist_id", using: :btree
   add_index "reservations", ["end_instantly"], name: "index_reservations_on_end_instantly", using: :btree
   add_index "reservations", ["ends_at"], name: "index_reservations_on_ends_at", using: :btree
   add_index "reservations", ["server_config_id"], name: "index_reservations_on_server_config_id", using: :btree
@@ -151,6 +153,15 @@ ActiveRecord::Schema.define(version: 20130830100342) do
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
+
+  create_table "whitelist_tfs", force: true do |t|
+    t.integer  "tf_whitelist_id"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "whitelist_tfs", ["tf_whitelist_id"], name: "index_whitelist_tfs_on_tf_whitelist_id", using: :btree
 
   create_table "whitelists", force: true do |t|
     t.string   "file"

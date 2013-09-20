@@ -323,6 +323,7 @@ GEM
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
     uuidtools (2.1.4)
+    vcr (2.5.0)
     warden (1.2.3)
       rack (>= 1.0)
     websocket (1.0.7)
@@ -391,6 +392,7 @@ DEPENDENCIES
   therubyracer
   thin
   uglifier
+  vcr
   will_paginate
   will_paginate-bootstrap
   zeroclipboard-rails

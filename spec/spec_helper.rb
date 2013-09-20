@@ -44,4 +44,9 @@ RSpec.configure do |config|
   # Shorter FactoryGirl syntax
   config.include FactoryGirl::Syntax::Methods
 end
+VCR.configure do |c|
+  c.cassette_library_dir = "spec/fixtures/vcr"
+  c.hook_into :faraday
+  c.configure_rspec_metadata!
+end
 Zonebie.set_random_timezone

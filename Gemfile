@@ -68,6 +68,7 @@ end
 group :test do
   gem 'shoulda-matchers'
   gem "libv8", "~> 3.11.8"
+  gem 'vcr'
 end
 
 gem 'uglifier'

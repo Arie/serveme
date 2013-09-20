@@ -634,6 +634,18 @@ describe Reservation do
 
     end
 
+    describe '#custom_whitelist_content' do
+
+      it "should return the text of the custom whitelist do" do
+        custom_whitelist_id = 1337
+        subject.stub(:custom_whitelist_id => 1337)
+        whitelist_tf = mock_model(WhitelistTf, :content => "whitelist content")
+        WhitelistTf.should_receive(:find_by_tf_whitelist_id).with(custom_whitelist_id).and_return(whitelist_tf)
+        subject.custom_whitelist_content.should == 'whitelist content'
+      end
+    end
+
+
   end
 
 end

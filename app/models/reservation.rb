@@ -8,10 +8,8 @@ class Reservation < ActiveRecord::Base
   belongs_to :whitelist
   belongs_to :reservation
   has_many :log_uploads
-  belongs_to :custom_whitelist, :class_name => "WhitelistTf"
 
   delegate :donator?, :to => :user, :prefix => false
-  delegate :content, :to => :custom_whitelist, :prefix => true
 
   validates_presence_of :user, :server, :password, :rcon, :starts_at, :ends_at
   validates_with Reservations::UserIsAvailableValidator
@@ -217,6 +215,10 @@ class Reservation < ActiveRecord::Base
 
   def get_binding
     binding
+  end
+
+  def custom_whitelist_content
+    WhitelistTf.find_by_tf_whitelist_id(custom_whitelist_id).try(:content)
   end
 
 end

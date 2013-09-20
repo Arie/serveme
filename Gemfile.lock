@@ -167,7 +167,7 @@ GEM
       thor (>= 0.14, < 2.0)
     launchy (2.3.0)
       addressable (~> 2.3)
-    libv8 (3.11.8.17)
+    libv8 (3.16.14.3)
     logs_tf (0.0.2)
       faraday (~> 0.8.0)
       multipart-post (~> 1.2.0)
@@ -183,17 +183,17 @@ GEM
     multi_xml (0.5.5)
     multipart-post (1.2.0)
     mysql2 (0.3.13)
-    net-scp (1.1.2)
-      net-ssh (>= 2.6.5)
+    net-scp (1.0.4)
+      net-ssh (>= 1.99.1)
     net-sftp (2.1.2)
       net-ssh (>= 2.6.5)
     net-ssh (2.6.8)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
-    net-ssh-simple (1.6.2)
+    net-ssh-simple (1.6.1)
       blockenspiel (~> 0.4.3)
       hashie (>= 1.1.0)
-      net-scp (~> 1.1.0)
+      net-scp (~> 1.0.4)
       net-ssh (~> 2.6.3)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
@@ -284,7 +284,7 @@ GEM
       faraday (>= 0.7.6)
       hashie (>= 1.1.0)
       uuidtools
-    shoulda-matchers (2.3.0)
+    shoulda-matchers (2.4.0)
       activesupport (>= 3.0.0)
     simplecov (0.7.1)
       multi_json (~> 1.0)
@@ -303,8 +303,8 @@ GEM
     sys-proctable (0.9.3)
     term-ansicolor (1.2.2)
       tins (~> 0.8)
-    therubyracer (0.11.4)
-      libv8 (~> 3.11.8.12)
+    therubyracer (0.12.0)
+      libv8 (~> 3.16.14.0)
       ref
     thin (1.5.1)
       daemons (>= 1.0.9)
@@ -366,7 +366,7 @@ DEPENDENCIES
   haml
   jquery-rails
   launchy
-  libv8 (~> 3.11.8)
+  libv8
   logs_tf
   mysql2
   net-ssh-simple

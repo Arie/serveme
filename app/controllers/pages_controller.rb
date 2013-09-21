@@ -18,7 +18,7 @@ class PagesController < ApplicationController
   end
 
   def recent_reservations
-    @recent_reservations = Reservation.order('starts_at DESC').paginate(:page => params[:page], :per_page => 50)
+    @recent_reservations = Reservation.order('starts_at DESC').joins(:server).paginate(:page => params[:page], :per_page => 50)
   end
 
   def statistics

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130920123643) do
+ActiveRecord::Schema.define(version: 20130921134940) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -59,6 +59,8 @@ ActiveRecord::Schema.define(version: 20130920123643) do
     t.datetime "updated_at"
   end
 
+  add_index "log_uploads", ["reservation_id"], name: "index_log_uploads_on_reservation_id", using: :btree
+
   create_table "reservations", force: true do |t|
     t.integer  "user_id"
     t.integer  "server_id"
@@ -92,6 +94,7 @@ ActiveRecord::Schema.define(version: 20130920123643) do
   add_index "reservations", ["starts_at"], name: "index_reservations_on_starts_at", using: :btree
   add_index "reservations", ["updated_at"], name: "index_reservations_on_updated_at", using: :btree
   add_index "reservations", ["user_id", "starts_at"], name: "index_reservations_on_user_id_and_starts_at", unique: true, using: :btree
+  add_index "reservations", ["user_id"], name: "index_reservations_on_user_id", using: :btree
   add_index "reservations", ["whitelist_id"], name: "index_reservations_on_whitelist_id", using: :btree
 
   create_table "server_configs", force: true do |t|
@@ -142,6 +145,7 @@ ActiveRecord::Schema.define(version: 20130920123643) do
   end
 
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["uid"], name: "index_users_on_uid", using: :btree
 
   create_table "versions", force: true do |t|
     t.string   "item_type",  null: false

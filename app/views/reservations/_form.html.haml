@@ -38,26 +38,20 @@
 
   function enableDefaultWhitelist() {
     $("#reservation_whitelist_id").val('');
-    $("#reservation_whitelist_id").prop('disabled', true);
     $(".reservation_whitelist").hide();
     $("#reservation_custom_whitelist_id").val('');
-    $("#reservation_custom_whitelist_id").prop('disabled', true);
     $(".reservation_custom_whitelist_id").hide();
   };
 
   function enableLeagueWhitelist() {
-    $("#reservation_whitelist_id").prop('disabled', false);
     $(".reservation_whitelist").show();
     $("#reservation_custom_whitelist_id").val('', true);
-    $("#reservation_custom_whitelist_id").prop('disabled', true);
     $(".reservation_custom_whitelist_id").hide();
   };
 
   function enableCustomWhitelist() {
-    $("#reservation_custom_whitelist_id").prop('disabled', false);
     $(".reservation_custom_whitelist_id").show();
     $("#reservation_whitelist_id").val('');
-    $("#reservation_whitelist_id").prop('disabled', true);
     $(".reservation_whitelist").hide();
   };
 

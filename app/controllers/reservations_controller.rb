@@ -156,7 +156,7 @@ class ReservationsController < ApplicationController
   end
 
   def sanitized_parameters
-    parameters = params[:reservation].slice(:password, :rcon, :disable_source_tv, :tv_password, :tv_relaypassword, :server_config_id, :whitelist_id, :first_map)
+    parameters = params[:reservation].slice(:password, :rcon, :disable_source_tv, :tv_password, :tv_relaypassword, :server_config_id, :whitelist_id, :custom_whitelist_id, :first_map)
     if reservation.schedulable?
       parameters.merge!(params[:reservation].slice(:server_id, :starts_at, :ends_at))
     end

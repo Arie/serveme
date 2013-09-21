@@ -6,7 +6,7 @@
     = f.select :server_id, ServerFinder.available_for_user(current_user).map {|s| [s.name, s.id, :"data-flag" => s.decorate.flag_abbreviation]}, :selected => @reservation.server_id, :input_html => { :class => "select2" }
     = f.error :server_id, :class => "error"
   = f.input :password,            :as => :string, :value => @reservation.password, :hint => "The server password to join the game"
-  = f.input :rcon,                :as => :string, :hint => "The RCON password to control the server"
+  = f.input :rcon,                :as => :string, :hint => "The RCON password to control the server", :disabled => !@reservation.schedulable?
   = f.input :first_map,           :hint => "First map", :collection => MAPS, :input_html => { :class => "select2", :data => { :placeholder => "Select first map (optional)" } }
   = f.input :disable_source_tv,   :as => :boolean,  :hint => "Disable STV if you want to run a TF2Lobby game"
   = f.input :tv_password,         :as => :string,   :hint => "Password to connect to the STV as a spectator",   :placeholder => 'tv'

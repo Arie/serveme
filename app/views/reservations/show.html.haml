@@ -62,7 +62,7 @@
       - if reservation.custom_whitelist_id.present?
         %tr
           %td Whitelist
-          %td= link_to("Custom whitelist", "http://whitelist.tf/#{custom_whitelist_id}")
+          %td= link_to("Custom whitelist", "http://whitelist.tf/#{reservation.custom_whitelist_id}")
       - elsif reservation.whitelist
         %tr
           %td Whitelist

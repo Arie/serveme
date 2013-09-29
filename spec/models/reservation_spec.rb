@@ -78,7 +78,20 @@ describe Reservation do
       subject.stub(:id).and_return { 1 }
       subject.stub(:server).and_return { double(:id => 2) }
       subject.stub(:formatted_starts_at).and_return { '3' }
+      subject.stub(:starts_at).and_return { Time.now }
       subject.zipfile_name.should eql "1234-1-2-3.zip"
+    end
+
+  end
+
+  describe "#formattted_starts_at" do
+
+    it "uses the UTC time" do
+      starts_at = Time.now
+      subject.stub(:starts_at).and_return { starts_at }
+      month_number  = sprintf("%02d", starts_at.month)
+      day_number    = sprintf("%02d", starts_at.day)
+      subject.formatted_starts_at.should == "#{starts_at.year}#{month_number}#{day_number}"
     end
 
   end

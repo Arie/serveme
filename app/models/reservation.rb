@@ -180,7 +180,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def formatted_starts_at
-    starts_at.strftime("%Y%m%d")
+    starts_at.utc.strftime("%Y%m%d")
   end
 
   def inactive_too_long?

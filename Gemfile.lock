@@ -7,14 +7,6 @@ GIT
       multi_xml (~> 0.5.2)
 
 GIT
-  remote: git://github.com/plataformatec/simple_form.git
-  revision: 50c4ac4a8bd0cb883ddaa309b779978e4207fef4
-  specs:
-    simple_form (3.0.0)
-      actionpack (>= 4.0.0, < 4.1)
-      activemodel (>= 4.0.0, < 4.1)
-
-GIT
   remote: https://github.com/cucumber/cucumber-rails.git
   revision: 92fc3e9242885e9616ef6051812ed075890c8c85
   specs:
@@ -286,6 +278,9 @@ GEM
       uuidtools
     shoulda-matchers (2.4.0)
       activesupport (>= 3.0.0)
+    simple_form (3.0.0)
+      actionpack (>= 4.0.0, < 4.1)
+      activemodel (>= 4.0.0, < 4.1)
     simplecov (0.7.1)
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
@@ -386,7 +381,7 @@ DEPENDENCIES
   selenium-webdriver
   sentry-raven
   shoulda-matchers
-  simple_form!
+  simple_form
   steam-condenser!
   sys-proctable
   therubyracer

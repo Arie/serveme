@@ -87,7 +87,7 @@ describe Reservation do
   describe "#formattted_starts_at" do
 
     it "uses the UTC time" do
-      starts_at = Time.now
+      starts_at = Time.now.utc
       subject.stub(:starts_at).and_return { starts_at }
       month_number  = sprintf("%02d", starts_at.month)
       day_number    = sprintf("%02d", starts_at.day)

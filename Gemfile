@@ -33,7 +33,7 @@ group :development do
   #Deployment
   gem 'capistrano-ext'
   gem 'capistrano_colors'
-  gem 'capistrano'
+  gem 'capistrano', "~> 2.0"
   gem 'capistrano-maintenance'
   gem 'rvm-capistrano'
   gem 'query_reviewer'

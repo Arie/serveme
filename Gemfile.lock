@@ -339,7 +339,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-sass
-  capistrano
+  capistrano (~> 2.0)
   capistrano-ext
   capistrano-maintenance
   capistrano_colors

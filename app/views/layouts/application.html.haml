@@ -14,12 +14,8 @@
 
     - unless current_user && current_user.donator?
       .row
-        .span11.alert.alert-success
-          You can now
-          = link_to('trade me', 'http://steamcommunity.com/id/ariekanarie')
-          keys/bills/buds for donator status, or just
-          = link_to('trade me', 'http://steamcommunity.com/id/ariekanarie')
-          items to say thanks :)
+        .span11.alert.alert-error
+          Because of the low amount of donations recently, we're shutting down 11 servers. :'(
 
       = render 'shared/nag_message' if current_user
 

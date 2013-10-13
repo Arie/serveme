@@ -12,10 +12,9 @@
 
   .container-fluid
 
-    - unless current_user && current_user.donator?
-      .row
-        .span11.alert.alert-error
-          Because of the low amount of donations recently, we're shutting down 11 servers. :'(
+    .row
+      .span11.alert.alert-error
+        Because of the low amount of donations recently, we're shutting down 11 servers. :'(
 
       = render 'shared/nag_message' if current_user
 

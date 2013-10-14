@@ -1,5 +1,5 @@
 .row
-  .span12
+  .span6
     %h3 Pick a date and time...
     = render :partial => 'time_selection'
 
@@ -7,3 +7,6 @@
   .span10
     %h3 ...or pick a server
     = render :partial => 'servers_reservations', :locals => { :servers => ServerFinder.available_for_user(current_user) }
+  - unless donator?
+    .span3
+      = render 'shared/adsense_sidebar'

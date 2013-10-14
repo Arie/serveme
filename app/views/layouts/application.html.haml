@@ -12,11 +12,16 @@
 
   .container-fluid
 
+    - unless donator?
+      .row
+        .span11
+          = render 'shared/adsense_header'
+
     .row
       .span11.alert.alert-error
         Because of the low amount of donations recently, we're shutting down 11 servers. :'(
 
-      = render 'shared/nag_message' if current_user
+    = render 'shared/nag_message' if current_user
 
     = render 'shared/flash'
 

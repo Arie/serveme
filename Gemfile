@@ -19,7 +19,7 @@ gem 'sys-proctable',    :require => 'sys/proctable'
 gem 'net-ssh-simple'
 gem 'draper'
 gem 'will_paginate'
-gem 'will_paginate-bootstrap'
+gem 'will_paginate-bootstrap', "0.2.5"
 gem 'zeroclipboard-rails'
 gem 'cronic'
 gem "google_visualr"

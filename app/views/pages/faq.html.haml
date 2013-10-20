@@ -29,6 +29,21 @@
 
     .well
       %p.text-success
+        Q: I've donated but it still says I'm not a donator :(
+      %p
+        %em
+          A: After you've donated with PayPal, we have to activate you manually. You'll get an email at your PayPal address asking for
+          = link_to("your serveme.tf user #", statistics_pages_path)
+          Once you've answered this email we'll activate your donator status and let you know by email.
+
+    .well
+      %p.text-success
+        Q: How long does the donator status last?
+      %p
+        %em A: The donator status lasts for an undetermined time. We haven't removed the donator status of anyone yet, not even people that paid the minimum amount 10 months ago.
+
+    .well
+      %p.text-success
         Q: Noone can connect to my server, what do I do?
       %p
         %em A: It can take a couple of minutes for the server to start (and update to the latest TF2 version), please be patient. If the server isn't up after 5 minutes, try another one.

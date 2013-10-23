@@ -20,7 +20,7 @@ class Statistic
   end
 
   def self.total_playtime_seconds
-    Reservation.all.to_a.sum(&:duration)
+    Reservation.select(:starts_at, :ends_at).to_a.sum(&:duration)
   end
 
   def self.reservations_per_day_chart

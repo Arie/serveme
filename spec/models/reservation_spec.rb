@@ -134,11 +134,12 @@ describe Reservation do
 
   end
 
-  describe '#duration' do
+  describe 'duration' do
 
-    it 'calculates duration from start and end times' do
+    it 'calculates duration from start and end times before validation' do
       subject.stub(:starts_at => 1.hour.ago)
       subject.stub(:ends_at   => 1.hour.from_now)
+      subject.valid?
       subject.duration.to_i.should eql(2 * 60 * 60)
     end
 

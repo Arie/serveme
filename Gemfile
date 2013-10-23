@@ -5,7 +5,7 @@ gem 'protected_attributes'
 gem "actionpack-action_caching"
 
 gem 'haml'
-gem "pg"
+gem 'mysql2'
 #For NA
 gem 'puma'
 gem 'omniauth-openid'

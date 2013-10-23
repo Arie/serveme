@@ -13,9 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20131023112842) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
     t.integer  "group_id"

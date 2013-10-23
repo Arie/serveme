@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130921134940) do
+ActiveRecord::Schema.define(version: 20131023112842) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 20130921134940) do
     t.boolean  "start_instantly",         default: false
     t.boolean  "end_instantly",           default: false
     t.integer  "custom_whitelist_id"
+    t.integer  "duration"
   end
 
   add_index "reservations", ["custom_whitelist_id"], name: "index_reservations_on_custom_whitelist_id", using: :btree

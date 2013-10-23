@@ -9,6 +9,8 @@ class Reservation < ActiveRecord::Base
   belongs_to :reservation
   has_many :log_uploads
 
+  before_validation :calculate_duration
+
   delegate :donator?, :to => :user, :prefix => false
 
   include ReservationValidations
@@ -127,10 +129,6 @@ class Reservation < ActiveRecord::Base
     future? || (now? && !provisioned?)
   end
 
-  def duration
-    ends_at - starts_at
-  end
-
   def tv_password
     self[:tv_password].presence || 'tv'
   end
@@ -206,6 +204,10 @@ class Reservation < ActiveRecord::Base
 
   def custom_whitelist_content
     WhitelistTf.find_by_tf_whitelist_id(custom_whitelist_id).try(:content)
+  end
+
+  def calculate_duration
+    self.duration = (ends_at.to_i - starts_at.to_i)
   end
 
 end

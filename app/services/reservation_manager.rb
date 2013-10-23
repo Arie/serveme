@@ -32,6 +32,7 @@ class ReservationManager
   def after_end_reservation_steps
     reservation.ends_at  = Time.current
     reservation.ended    = true
+    reservation.duration = reservation.ends_at.to_i - reservation.starts_at.to_i
     reservation.save(:validate => false)
   end
 

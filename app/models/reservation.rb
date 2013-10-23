@@ -128,7 +128,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def duration
-    (ends_at - starts_at).to_i
+    ends_at - starts_at
   end
 
   def tv_password

@@ -7,6 +7,7 @@ class RemoteServer < Server
       upload_configuration(file.path, output_filename)
     ensure
       file.close
+      file.unlink
     end
   end
 

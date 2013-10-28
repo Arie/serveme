@@ -1,3 +1,5 @@
+# Monkey patch created from Rails PR #12252
+# https://github.com/rails/rails/pull/12252
 module ActiveRecord
 
   class Migrator

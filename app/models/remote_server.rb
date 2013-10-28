@@ -1,10 +1,13 @@
 class RemoteServer < Server
 
   def write_configuration(output_filename, output_content)
-    file = Tempfile.new('config_file')
-    file.write(output_content)
-    upload_configuration(file.path, output_filename)
-    file.close
+    begin
+      file = Tempfile.new('config_file')
+      file.write(output_content)
+      upload_configuration(file.path, output_filename)
+    ensure
+      file.close
+    end
   end
 
   def upload_configuration(configuration_file, upload_file)

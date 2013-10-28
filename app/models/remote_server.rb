@@ -3,8 +3,8 @@ class RemoteServer < Server
   def write_configuration(output_filename, output_content)
     begin
       file = Tempfile.new('config_file')
+      file.sync = true
       file.write(output_content)
-      file.rewind
       upload_configuration(file.path, output_filename)
     ensure
       file.close

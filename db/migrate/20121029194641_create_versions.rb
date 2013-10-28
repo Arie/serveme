@@ -1,10 +1,10 @@
 class CreateVersions < ActiveRecord::Migration
   def self.up
     create_table :versions do |t|
-      t.string   :item_type, :null => false
+      t.string   :item_type, :null => false, :limit => 191
       t.integer  :item_id,   :null => false
-      t.string   :event,     :null => false
-      t.string   :whodunnit
+      t.string   :event,     :null => false, :limit => 191
+      t.string   :whodunnit, :limit => 191
       t.text     :object
       t.datetime :created_at
     end

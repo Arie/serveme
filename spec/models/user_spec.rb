@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'spec_helper'
 
 describe User do
@@ -20,20 +21,43 @@ describe User do
               )
     end
 
-    it "creates and returns a new user if it can't find an existing one" do
-      expect{User.find_for_steam_auth(@auth)}.to change{User.count}.from(0).to(1)
+    context 'new user' do
+
+      it "creates and returns a new user if it can't find an existing one" do
+        expect{User.find_for_steam_auth(@auth)}.to change{User.count}.from(0).to(1)
+      end
+
+      it 'cleans up crazy names when trying to create a new user' do
+        @auth.stub(:info => double(:name => "this.XKLL 🎂", :nickname => "this.XKLL 🎂"))
+        expect{User.find_for_steam_auth(@auth)}.to change{User.count}.from(0).to(1)
+      end
+
     end
 
-    it "returns an existing user if it could find one by uid" do
-      create(:user, :uid => '321')
-      expect{User.find_for_steam_auth(@auth)}.not_to change{User.count}
+    context "existing user" do
+
+      it "returns an existing user if it could find one by uid" do
+        create(:user, :uid => '321')
+        expect{User.find_for_steam_auth(@auth)}.not_to change{User.count}
+      end
+
+      it "updates an existing user with new information" do
+        user = create(:user, :name => "Karel", :uid => '321')
+        expect{User.find_for_steam_auth(@auth)}.not_to change{User.count}
+        user.reload.name.should eql "Kees"
+      end
+
+      it "cleans up the nickname when trying to update an existing user" do
+        user = create(:user, :name => "Karel", :uid => '321')
+        @auth.stub(:uid => '321',
+                   :provider => 'steam',
+                   :info => double(:name => "this.XKLL 🎂", :nickname => "this.XKLL 🎂")
+                  )
+        expect{User.find_for_steam_auth(@auth)}.not_to change{User.count}
+        user.reload.name.should eql "this.XKLL 🎂"
+      end
     end
 
-    it "updates an existing user with new information" do
-      user = create(:user, :name => "Karel", :uid => '321')
-      expect{User.find_for_steam_auth(@auth)}.not_to change{User.count}
-      user.reload.name.should eql "Kees"
-    end
   end
 
   describe "#total_reservation_seconds" do

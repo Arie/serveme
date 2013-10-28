@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131023112842) do
+ActiveRecord::Schema.define(version: 20131028193857) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20131023112842) do
   add_index "group_users", ["user_id"], name: "index_group_users_on_user_id", using: :btree
 
   create_table "groups", force: true do |t|
-    t.string   "name"
+    t.string   "name",       limit: 191
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -124,20 +124,20 @@ ActiveRecord::Schema.define(version: 20131023112842) do
   add_index "servers", ["location_id"], name: "index_servers_on_location_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "uid"
-    t.string   "provider"
-    t.string   "name"
-    t.string   "nickname"
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
+    t.string   "uid",                    limit: 191
+    t.string   "provider",               limit: 191
+    t.string   "name",                   limit: 191
+    t.string   "nickname",               limit: 191
+    t.string   "email",                  limit: 191, default: "", null: false
+    t.string   "encrypted_password",     limit: 191, default: "", null: false
+    t.string   "reset_password_token",   limit: 191
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0
+    t.integer  "sign_in_count",                      default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.string   "current_sign_in_ip",     limit: 191
+    t.string   "last_sign_in_ip",        limit: 191
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "logs_tf_api_key"
@@ -149,10 +149,10 @@ ActiveRecord::Schema.define(version: 20131023112842) do
   add_index "users", ["uid"], name: "index_users_on_uid", using: :btree
 
   create_table "versions", force: true do |t|
-    t.string   "item_type",  null: false
-    t.integer  "item_id",    null: false
-    t.string   "event",      null: false
-    t.string   "whodunnit"
+    t.string   "item_type",  limit: 191, null: false
+    t.integer  "item_id",                null: false
+    t.string   "event",      limit: 191, null: false
+    t.string   "whodunnit",  limit: 191
     t.text     "object"
     t.datetime "created_at"
   end

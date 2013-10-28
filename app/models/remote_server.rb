@@ -4,6 +4,7 @@ class RemoteServer < Server
     begin
       file = Tempfile.new('config_file')
       file.write(output_content)
+      file.rewind
       upload_configuration(file.path, output_filename)
     ensure
       file.close

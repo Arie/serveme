@@ -128,7 +128,7 @@ ActiveRecord::Schema.define(version: 20131028193857) do
     t.string   "provider",               limit: 191
     t.string   "name",                   limit: 191
     t.string   "nickname",               limit: 191
-    t.string   "email",                  limit: 191, default: "", null: false
+    t.string   "email",                  limit: 191
     t.string   "encrypted_password",     limit: 191, default: "", null: false
     t.string   "reset_password_token",   limit: 191
     t.datetime "reset_password_sent_at"
@@ -140,7 +140,7 @@ ActiveRecord::Schema.define(version: 20131028193857) do
     t.string   "last_sign_in_ip",        limit: 191
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "logs_tf_api_key"
+    t.string   "logs_tf_api_key",        limit: 191
     t.string   "remember_token"
     t.string   "time_zone"
   end

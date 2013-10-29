@@ -34,7 +34,7 @@
   .span10
     = link_to server_selection_reservations_path, :class => 'btn btn-primary', :title => "Get a server right now, or make a reservation" do
       Make reservation
-      %i.icon-calendar
+      %i.fa.fa-calendar
 
 - if Server.for_donators.any?
   .row= render 'reservations/available_servers'

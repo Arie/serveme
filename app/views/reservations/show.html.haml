@@ -50,7 +50,7 @@
             - if reservation.active?
               = link_to reservation.stv_connect_url, :class => 'btn btn-small btn-inverse' do
                 Join STV
-                %i.icon-film
+                %i.fa.fa-film
             = reservation.stv_connect_string
             = render 'shared/copy_button', :copy_button_id => "stv_connect_string", :copy_text => reservation.stv_connect_string
 

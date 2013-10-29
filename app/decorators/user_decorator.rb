@@ -13,7 +13,7 @@ class UserDecorator < Draper::Decorator
   private
 
   def donator_icon
-    content_tag(:icon, "".html_safe, :class => "icon-star", :title => "Donator")
+    content_tag(:icon, "".html_safe, :class => "fa.fa-star", :title => "Donator")
   end
 
 end

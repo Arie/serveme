@@ -1,6 +1,6 @@
 .clip_container{:id => "#{copy_button_id}_container", :data => { :"clipboard-text" => copy_text } }
   .clip_button{:id => copy_button_id, :title => "Copy to clipboard"}
-    %i.icon-copy{:id => "#{copy_button_id}_icon"}>
+    %i.fa.fa-copy{:id => "#{copy_button_id}_icon"}>
 :javascript
   var #{copy_button_id} = new ZeroClipboard($("##{copy_button_id}_container"));
   #{copy_button_id}.setHandCursor(true);

@@ -35,7 +35,7 @@
   - if reservation.past?
     = link_to "/uploads/#{reservation.zipfile_name}",     :class => 'btn btn-small btn-info',    :title => 'Download a zip with the logs and demos of the match' do
       Log/demo zip
-      %i.fa.fa-download-alt
+      %i.fa.fa-download
     = link_to reservation_log_uploads_path(reservation),  :class => 'btn btn-small btn-success', :title => 'Upload the match logs to logs.tf' do
       logs.tf
-      %i.fa.fa-upload-alt
+      %i.fa.fa-upload

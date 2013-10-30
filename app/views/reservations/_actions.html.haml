@@ -17,11 +17,11 @@
       - end_message = "Are you sure you want to end your reservation?"
     = link_to reservation_path(reservation),              :class => 'btn btn-small btn-danger',  :title => 'End reservation',     :method => :delete, :data => { :confirm => end_message } do
       End
-      %i.fa.fa-remove
+      %i.fa.fa-stop
   - if reservation.cancellable?
     = link_to reservation_path(reservation),              :class => 'btn btn-small btn-warning', :title => 'Cancel reservation',  :method => :delete do
       Cancel
-      %i.fa.fa-trash
+      %i.fa.fa-trash-o
 
   - if reservation.active? || (reservation.now? && reservation.start_instantly?)
     = link_to  reservation.server_connect_url,            :class => 'btn btn-small btn-warning' do

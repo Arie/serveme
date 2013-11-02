@@ -19,10 +19,6 @@
 
     = render 'shared/nag_message' if current_user
 
-    .row
-      .span11.alert.alert-error
-        One of our machines got attacked, so our server fleet is missing some sailors tonight
-
     = render 'shared/flash'
 
     = yield

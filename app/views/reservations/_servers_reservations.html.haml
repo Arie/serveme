@@ -1,10 +1,11 @@
 .row
   .span10
-    %table.servers.table.table-hover.table-bordered.table-striped
-      %thead
-        %tr
-          %th Server
-          %th Reservations
-          %th.actions &nbsp;
-      - servers.each do |server|
-        = render :partial => 'server_reservations', :locals => { :server => server.decorate }
+    - server_groups.each do |group|
+      %table.servers.table.table-hover.table-bordered.table-striped
+        %thead
+          %tr
+            %th= "Reservable by: #{group[:name]}"
+            %th Reservations
+            %th.actions &nbsp;
+        - group[:servers].each do |server|
+          = render :partial => 'server_reservations', :locals => { :server => server.decorate }

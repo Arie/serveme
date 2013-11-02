@@ -16,7 +16,7 @@ class Server < ActiveRecord::Base
   end
 
   def self.ids_reservable_by_user(user)
-    without_group.map(&:id) + in_groups(user.groups).map(&:id)
+    without_group.pluck(&:id) + in_groups(user.groups).pluck(&:id)
   end
 
   def self.ordered
@@ -24,7 +24,11 @@ class Server < ActiveRecord::Base
   end
 
   def self.without_group
-    all - with_group
+    if with_group.any?
+      where('servers.id NOT IN (?)', with_group)
+    else
+      all
+    end
   end
 
   def self.with_group

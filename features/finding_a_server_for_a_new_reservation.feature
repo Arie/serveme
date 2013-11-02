@@ -13,6 +13,12 @@ Feature: Finding an available server
     Then I get to select a server
     And I can see the current reservations per server
 
+  Scenario: Selecting a donator server
+    Given there is a donator only server
+    And I am a donator
+    When I go make a reservation
+    Then I get to select a donator server
+
   Scenario: Finding an available server
     When I go make a reservation
     And I enter a date and time on which there is a server available

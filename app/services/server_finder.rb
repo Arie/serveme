@@ -9,7 +9,7 @@ class ServerFinder
   end
 
   def servers
-    ServerFinder.available_for_user(user).select do |server|
+    Server.active.reservable_by_user(user).select do |server|
       CollisionFinder.new(server, reservation).colliding_reservations.none?
     end
   end
@@ -19,7 +19,13 @@ class ServerFinder
   end
 
   def self.available_for_user(user)
-    Server.active.reservable_by_user(user).ordered
+    servers = []
+    user.groups.each do |group|
+      servers << {:name => group.name, :servers => Server.active.reservable_by_user(user).in_groups([group])}
+    end
+
+    free_servers = Server.active.reservable_by_user(user).without_group.ordered
+    servers << {:name => "Everyone", :servers => free_servers}
   end
 
   private

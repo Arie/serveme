@@ -22,6 +22,12 @@ Then "I get to select a server" do
   end
 end
 
+
+Then "I get to select a donator server" do
+  page.should have_content "Donator Only Server"
+end
+
+
 Then "I can see the current reservations per server" do
   Server.all.each do |server|
     server.reservations.each do |reservation|

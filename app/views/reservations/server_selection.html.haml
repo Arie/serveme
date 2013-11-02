@@ -6,7 +6,7 @@
 .row
   .span10
     %h3 ...or pick a server
-    = render :partial => 'servers_reservations', :locals => { :servers => ServerFinder.available_for_user(current_user) }
+    = render :partial => 'servers_reservations', :locals => { :server_groups => ServerFinder.available_for_user(current_user) }
   - unless donator?
     .span3
       = render 'shared/adsense_sidebar'

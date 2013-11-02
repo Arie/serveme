@@ -55,7 +55,7 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     blockenspiel (0.4.5)
-    bootstrap-sass (3.0.0.0)
+    bootstrap-sass (2.3.2.2)
       sass (~> 3.2)
     builder (3.1.4)
     capistrano (2.15.5)
@@ -340,7 +340,7 @@ DEPENDENCIES
   actionpack-action_caching
   better_errors
   binding_of_caller
-  bootstrap-sass
+  bootstrap-sass (~> 2.3)
   capistrano (~> 2.0)
   capistrano-ext
   capistrano-maintenance

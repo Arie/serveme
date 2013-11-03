@@ -161,18 +161,6 @@ class Reservation < ActiveRecord::Base
     server.stv_connect_url(tv_password)
   end
 
-  def start_reservation
-    ReservationManager.new(self).start_reservation
-  end
-
-  def end_reservation
-    ReservationManager.new(self).end_reservation
-  end
-
-  def update_reservation
-    ReservationManager.new(self).update_reservation
-  end
-
   def zipfile_name
     "#{user.uid}-#{id}-#{server.id}-#{formatted_starts_at}.zip"
   end
@@ -208,6 +196,24 @@ class Reservation < ActiveRecord::Base
 
   def calculate_duration
     self.duration = (ends_at.to_i - starts_at.to_i)
+  end
+
+  def start_reservation
+    reservation_manager.start_reservation
+  end
+
+  def update_reservation
+    reservation_manager.update_reservation
+  end
+
+  def end_reservation
+    reservation_manager.end_reservation
+  end
+
+  private
+
+  def reservation_manager
+    ReservationManager.new(self)
   end
 
 end

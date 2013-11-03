@@ -3,7 +3,7 @@
   = link_to(Time.zone, edit_users_path)
 = simple_form_for(@reservation, :html => { :class => 'form-horizontal' }) do |f|
   = f.input :server, :as => :select, :disabled => !@reservation.schedulable? do
-    = f.select :server_id, grouped_options_for_select(ServerFinder.available_for_user(current_user).map {|g| [g[:name], g[:servers].map {|s| [s.name, s.id, :"data-flag" => s.decorate.flag_abbreviation]}]}, selected_key = @reservation.server_id), :input_html => { :class => "select2" }
+    = f.select :server_id, grouped_options_for_select(ServerFinder.grouped_available_for_user(current_user).map {|g| [g[:name], g[:servers].map {|s| [s.name, s.id, :"data-flag" => s.decorate.flag_abbreviation]}]}, selected_key = @reservation.server_id), :input_html => { :class => "select2" }
     = f.error :server_id, :class => "error"
   = f.input :password,            :as => :string, :value => @reservation.password, :hint => "The server password to join the game"
   = f.input :rcon,                :as => :string, :hint => "The RCON password to control the server", :disabled => !@reservation.schedulable?

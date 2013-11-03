@@ -19,13 +19,21 @@ class ServerFinder
   end
 
   def self.available_for_user(user)
-    servers = []
+    Server.active.reservable_by_user(user)
+  end
+
+  def self.grouped_available_for_user(user)
+    grouped_for_user(user, available_for_user(user))
+  end
+
+  def self.grouped_for_user(user, servers)
+    grouped_servers = []
     user.groups.each do |group|
-      servers << {:name => group.name, :servers => Server.active.reservable_by_user(user).in_groups([group]).ordered}
+      grouped_servers << {:name => group.name, :servers => servers.in_groups([group]).ordered}
     end
 
-    free_servers = Server.active.reservable_by_user(user).without_group.ordered
-    servers << {:name => "Everyone", :servers => free_servers}
+    free_servers = servers.without_group.ordered
+    grouped_servers << {:name => "Everyone", :servers => free_servers}
   end
 
   private

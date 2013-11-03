@@ -15,7 +15,6 @@ class ReservationsController < ApplicationController
 
   def server_selection
     @reservation ||= new_reservation
-    @servers ||= ServerFinder.available_for_user(current_user)
   end
 
   def new

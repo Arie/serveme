@@ -1,4 +1,4 @@
-%h3 Your settings
+%h2 Your settings
 = simple_form_for(@user, :html => { :class => 'form-horizontal' }) do |f|
   = f.input :time_zone, :priority => /Europe/, :include_blank => true, :hint => "Auto detection thinks you're in time zone: #{time_zone_from_cookie}", :required => true
   - logs_tf_hint = "#{link_to('Get or generate your logs.tf API key', 'http://logs.tf/uploader', :target => '_blank')} on the logs.tf website, and enter it here"
@@ -6,3 +6,5 @@
 
   %button.btn{:type => :submit}
     Save
+
+= render 'statistics', :user => @user

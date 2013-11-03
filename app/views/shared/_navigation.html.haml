@@ -26,15 +26,10 @@
               %li= link_to("Recent reservations", recent_reservations_pages_path)
         - else
           %li= link_to("Recent reservations",     recent_reservations_pages_path)
-        %li.dropdown
-          %a.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#"}
-            Servers
-            %b.caret>
-          %ul.dropdown-menu
-            %li= link_to("List",                  servers_pages_path)
-            %li= link_to("Providers",             server_providers_pages_path)
+        %li= link_to("Servers",                   servers_pages_path)
         %li= link_to("FAQ",                       faq_pages_path)
-        %li= link_to("Statistics",                statistics_pages_path)
+        %li= link_to("Stats",                     statistics_pages_path)
+        %li= link_to("Sponsors",                  server_providers_pages_path)
         %li= link_to("Credits",                   credits_pages_path)
         - if current_user
           %li= link_to "Settings",                edit_users_path

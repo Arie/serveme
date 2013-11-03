@@ -21,7 +21,7 @@ class ServerFinder
   def self.available_for_user(user)
     servers = []
     user.groups.each do |group|
-      servers << {:name => group.name, :servers => Server.active.reservable_by_user(user).in_groups([group])}
+      servers << {:name => group.name, :servers => Server.active.reservable_by_user(user).in_groups([group]).ordered}
     end
 
     free_servers = Server.active.reservable_by_user(user).without_group.ordered

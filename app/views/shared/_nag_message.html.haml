@@ -2,24 +2,28 @@
 - if users_last_reservation && users_last_reservation.past?
   - if users_last_reservation.inactive_too_long?
     .row
-      .span11.alert.alert-error
-        %h4
-          Your
-          = link_to("last reservation", reservation_path(users_last_reservation))
-          was automatically ended due to inactivity. Please end your reservations on this site when you're done playing so other people can use the server.
+      .span12
+        .alert.alert-error
+          %h4
+            Your
+            = link_to("last reservation", reservation_path(users_last_reservation))
+            was automatically ended due to inactivity. Please end your reservations on this site when you're done playing so other people can use the server.
   - if users_last_reservation.very_short?
     .row
-      .span11.alert.alert-error
-        %h4
-          Your
-          = link_to("last reservation", reservation_path(users_last_reservation))
-          was very short, was something wrong? Please leave a comment if there was a problem.
+      .span12
+        .alert.alert-error
+          %h4
+            Your
+            = link_to("last reservation", reservation_path(users_last_reservation))
+            was very short, was something wrong? Please leave a comment if there was a problem.
 
 
 - if !donator?
   - if current_user.reservations.count >= 10
-    .donate.alert.alert-info
-      - duration = (current_user.total_reservation_seconds / 3600.0).round
-      %h4
-        Hi there! You've made #{duration} hours worth of reservations so far, have you considered donating to keep this service running?
-        = render "shared/paypal_button"
+    .row
+      .span12
+        .donate.alert.alert-info
+          - duration = (current_user.total_reservation_seconds / 3600.0).round
+          %h4
+            Hi there! You've made #{duration} hours worth of reservations so far, have you considered donating to keep this service running?
+            = render "shared/paypal_button"

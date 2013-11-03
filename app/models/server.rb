@@ -20,7 +20,7 @@ class Server < ActiveRecord::Base
   end
 
   def self.ordered
-    ordered_by_position.ordered_by_name
+    order('servers.position ASC, servers.name ASC')
   end
 
   def self.without_group
@@ -193,14 +193,6 @@ class Server < ActiveRecord::Base
   end
 
   private
-
-  def self.ordered_by_position
-    order("servers.position ASC")
-  end
-
-  def self.ordered_by_name
-    order("servers.name ASC")
-  end
 
   def logs_and_demos
     @logs_and_demos ||= logs + demos

@@ -1,3 +1,10 @@
 .paypal
-  %p If you enjoy this service, please consider contributing to the operating costs. A donation of 5 euros or more gets you donator status.
+  %p
+    If you enjoy this service, please consider contributing to the operating costs by donating. All donations get divided between the server providers based on time played on their servers.
+    A donation of 5 euros or more gets you
+    = link_to('donator status', faq_pages_path)
+  %p
+    You can also
+    = link_to('trade me TF2 items to donate.', 'http://steamcommunity.com/id/ariekanarie')
+    If you trade a well tradable/sellable item like bills/buds/keys I can give you donator status for that, but you can also send something nice just to say thanks.
   = render 'shared/paypal_button'

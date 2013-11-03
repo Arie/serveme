@@ -6,7 +6,7 @@
     .label.label-info To:
     = f.input :ends_at,   :as => :string, :input_html => { :value => I18n.l(@reservation.ends_at,   :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => false
 
-  %button.btn.btn-success{:type => :submit}
+  %button.btn.btn-large.btn-success{:type => :submit}
     Find available server
     %i.fa.fa-time
 

@@ -1,0 +1,5 @@
+test:
+  mode: sandbox
+  client_id: foo
+  client_secret: bar
+  rest_endpoint: https://api.sandbox.paypal.com

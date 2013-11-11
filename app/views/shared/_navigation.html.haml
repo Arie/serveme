@@ -32,6 +32,7 @@
         %li= link_to("Sponsors",                  server_providers_pages_path)
         %li= link_to("Credits",                   credits_pages_path)
         - if current_user
+          %li= link_to "Donate",                  new_paypal_order_path
           %li= link_to "Settings",                edit_users_path
       .pull-right
         .account

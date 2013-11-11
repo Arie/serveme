@@ -32,3 +32,8 @@
         %td Donator
         %td= t("user.donator.#{!!user.donator?}")
 
+      - if user.donator_until
+        %tr
+          %td Donator until
+          %td= I18n.l(user.donator_until, :format => :datepicker)
+

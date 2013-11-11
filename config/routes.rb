@@ -54,6 +54,12 @@ Serveme::Application.routes.draw do
     end
   end
 
+  resources :paypal_orders, :only => [:new, :create] do
+    collection do
+      get :redirect
+    end
+  end
+
   get   '/login', :to => 'sessions#new',  :as => :login
   get   '/users/auth/failure',            :to => 'sessions#failure'
   post  '/users/auth/failure',            :to => 'sessions#failure'

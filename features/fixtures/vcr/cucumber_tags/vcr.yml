@@ -1,0 +1,94 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://foo:bar@api.sandbox.paypal.com/v1/oauth2/token
+    body:
+      encoding: US-ASCII
+      string: grant_type=client_credentials
+    headers:
+      User-Agent:
+      - PayPalSDK/rest-sdk-ruby 0.6.0 (paypal-sdk-core 0.2.6; ruby 1.9.3p448-x86_64-darwin13.0.0)
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept:
+      - ! '*/*'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Proxy-Server-Info:
+      - host=slcsbjava4.slc.paypal.com;threadId=1719
+      Paypal-Debug-Id:
+      - 96337d0846d31
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '282'
+      Dc:
+      - origin2-api.sandbox.paypal.com
+      Date:
+      - Mon, 11 Nov 2013 00:16:15 GMT
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - DC=origin2-api.sandbox.paypal.com; secure
+    body:
+      encoding: US-ASCII
+      string: ! '{"scope":"https://api.paypal.com/v1/payments/.* https://api.paypal.com/v1/vault/credit-card
+        https://api.paypal.com/v1/vault/credit-card/.* openid","access_token":"xxxxxxxxxxxxx","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":28800}'
+    http_version: 
+  recorded_at: Mon, 11 Nov 2013 00:16:15 GMT
+- request:
+    method: post
+    uri: https://api.sandbox.paypal.com/v1/payments/payment
+    body:
+      encoding: US-ASCII
+      string: ! '{"intent":"sale","payer":{"payment_method":"paypal"},"transactions":[{"amount":{"currency":"EUR","total":"1.00"},"item_list":{"items":[{"quantity":"1","name":"serveme.tf
+        - 1 month","price":"1.00","currency":"EUR"}]}}],"redirect_urls":{"return_url":"http://localhost:3000/paypal_orders/redirect/?order_id=6","cancel_url":"http://localhost:3000/paypal_orders/new"}}'
+    headers:
+      Authorization:
+      - Bearer foobartoken
+      Content-Type:
+      - application/json
+      User-Agent:
+      - PayPalSDK/rest-sdk-ruby 0.6.0 (paypal-sdk-core 0.2.6; ruby 1.9.3p448-x86_64-darwin13.0.0)
+      Paypal-Request-Id:
+      - d36b3f90-37ae-4845-96e9-0b9be81b91f4
+      Accept:
+      - ! '*/*'
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Proxy-Server-Info:
+      - host=slcsbjava4.slc.paypal.com;threadId=175
+      Paypal-Debug-Id:
+      - def50fe1470c1
+      Content-Language:
+      - ! '*'
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '820'
+      Dc:
+      - origin2-api.sandbox.paypal.com
+      Date:
+      - Mon, 11 Nov 2013 00:16:16 GMT
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - DC=origin2-api.sandbox.paypal.com; secure
+    body:
+      encoding: US-ASCII
+      string: ! '{"id":"PAY-xxxxxxxxxxxxxx","create_time":"2013-11-11T00:16:15Z","update_time":"2013-11-11T00:16:16Z","state":"created","intent":"sale","payer":{"payment_method":"paypal","payer_info":{"shipping_address":{}}},"transactions":[{"amount":{"total":"1.00","currency":"EUR","details":{"subtotal":"1.00"}},"item_list":{"items":[{"name":"serveme.tf
+        - 1 month","price":"1.00","currency":"EUR","quantity":"1"}]}}],"links":[{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-xxxxxxxxxxxxx","rel":"self","method":"GET"},{"href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-xxxxxxxxxx","rel":"approval_url","method":"REDIRECT"},{"href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-xxxxxxxxx/execute","rel":"execute","method":"POST"}]}'
+    http_version: 
+  recorded_at: Mon, 11 Nov 2013 00:16:16 GMT
+recorded_with: VCR 2.7.0

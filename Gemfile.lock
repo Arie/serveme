@@ -98,6 +98,8 @@ GEM
       simplecov (>= 0.7)
       term-ansicolor
       thor
+    crack (0.4.1)
+      safe_yaml (~> 0.9.0)
     cronic (0.1.2)
       dante (~> 0.1.5)
       rails (>= 3)
@@ -203,6 +205,12 @@ GEM
       multi_json
       omniauth-openid
     orm_adapter (0.4.0)
+    paypal-sdk-core (0.2.6)
+      multi_json (~> 1.0)
+      xml-simple
+    paypal-sdk-rest (0.6.0)
+      paypal-sdk-core (~> 0.2.4)
+      uuidtools (~> 2.1)
     polyglot (0.3.3)
     protected_attributes (1.0.5)
       activemodel (>= 4.0.1, < 5.0)
@@ -264,6 +272,7 @@ GEM
       tzinfo (>= 0.3.22)
     rvm-capistrano (1.5.1)
       capistrano (~> 2.15.4)
+    safe_yaml (0.9.7)
     sass (3.2.12)
     sass-rails (4.0.1)
       railties (>= 4.0.0, < 5.0)
@@ -323,10 +332,14 @@ GEM
     vcr (2.7.0)
     warden (1.2.3)
       rack (>= 1.0)
+    webmock (1.15.2)
+      addressable (>= 2.2.7)
+      crack (>= 0.3.2)
     websocket (1.0.7)
     will_paginate (3.0.5)
     will_paginate-bootstrap (0.2.5)
       will_paginate (>= 3.0.3)
+    xml-simple (1.1.2)
     xpath (2.0.0)
       nokogiri (~> 1.3)
     zeroclipboard-rails (0.0.8)
@@ -370,6 +383,7 @@ DEPENDENCIES
   oily_png
   omniauth-openid
   omniauth-steam
+  paypal-sdk-rest
   protected_attributes
   pry-nav
   puma
@@ -390,6 +404,7 @@ DEPENDENCIES
   thin
   uglifier
   vcr
+  webmock
   will_paginate
   will_paginate-bootstrap (= 0.2.5)
   zeroclipboard-rails

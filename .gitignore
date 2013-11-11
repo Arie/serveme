@@ -1,4 +1,5 @@
 /config/initializers/steam.rb
+/config/paypal.yml
 *.rbc
 *.sassc
 .sass-cache

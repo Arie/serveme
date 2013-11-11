@@ -24,6 +24,7 @@ gem 'zeroclipboard-rails'
 gem 'cronic'
 gem "google_visualr"
 gem 'rack-cache'
+gem 'paypal-sdk-rest'
 
 group :development do
   gem 'better_errors'
@@ -69,6 +70,7 @@ group :test do
   gem 'shoulda-matchers'
   gem "libv8"
   gem 'vcr'
+  gem 'webmock'
 end
 
 gem 'uglifier'

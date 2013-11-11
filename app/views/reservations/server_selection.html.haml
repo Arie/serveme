@@ -1,3 +1,13 @@
+- if @donator_nag
+  .row
+    .span12
+      .donate.alert.alert-info
+        %h4
+          - free_servers = Server.for_donators.active.count - used_donator_server_count
+          Donators have #{free_servers} available servers right now.
+          Become a donator and instantly get access!
+          = render "shared/paypal_button"
+
 .row
   .span6
     %h3 Pick a date and time...

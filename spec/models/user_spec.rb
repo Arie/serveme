@@ -78,4 +78,15 @@ describe User do
 
   end
 
+  describe "#donator_until" do
+
+    it 'knows how long it is still a donator' do
+      user = create(:user)
+      user.groups << Group.donator_group
+      expiration = 1.day.from_now
+      user.group_users.last.update_attribute(:expires_at, 1.day.from_now)
+      user.donator_until.to_i.should == expiration.to_i
+    end
+  end
+
 end

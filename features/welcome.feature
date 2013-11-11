@@ -1,5 +1,11 @@
 Feature: Viewing the welcome page
 
+
+  Scenario: Viewing available servers
+    Given there are servers
+    When I go to the welcome page
+    Then I see a count of free and donator-only servers
+
   Scenario: Viewing current reservations
     Given there are reservations today
     When I go to the welcome page

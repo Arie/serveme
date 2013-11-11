@@ -7,7 +7,10 @@ class ReservationsController < ApplicationController
     if @reservation.server && !user_already_booked_at_that_time?
       redirect_to new_reservation_path(:server_id => @reservation.server, :starts_at => @reservation.starts_at, :ends_at => @reservation.ends_at)
     else
-      flash.now[:alert] = "No servers available in the given timerange" if free_servers.none?
+      if free_servers.none?
+        flash.now[:alert] = "No servers available in the given timerange"
+        @donator_nag = true unless current_user.donator?
+      end
       @reservation.valid?
       render :server_selection
     end

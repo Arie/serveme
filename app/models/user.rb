@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :group_users
   has_many :groups,   :through => :group_users
   has_many :servers,  :through => :groups
+  has_many :paypal_orders
 
   def self.find_for_steam_auth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
@@ -53,6 +54,12 @@ class User < ActiveRecord::Base
 
   def top10?
     Statistic.top_10_users.has_key?(self)
+  end
+
+  def donator_until
+    if donator?
+      group_users.find_by_group_id(Group.donator_group).expires_at
+    end
   end
 
 end

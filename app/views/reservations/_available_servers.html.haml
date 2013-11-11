@@ -5,9 +5,9 @@
   .row
     .span6
       %h5 Non-donators
-      = "#{Reservation.current.where(:server_id => Server.without_group).count} / #{Server.active.without_group.count}"
+      = "#{used_free_server_count} / #{Server.active.without_group.count}"
       servers
     .span6
       %h5 Donators only
-      = "#{Reservation.current.where(:server_id => Server.for_donators).count} / #{Server.for_donators.active.count}"
+      = "#{used_donator_server_count} / #{Server.for_donators.active.count}"
       servers

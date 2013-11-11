@@ -1,0 +1,31 @@
+.row
+  .span12
+    %h2 Become a donator
+
+    %p
+      Thanks for your interest in becoming a donator! As a donator you help to keep this site running. These are the perks for donators:
+
+      %ul
+        %li Longer reservations (5h instead of 2h)
+        %li Longer idle time allowed (60m instead of 30m)
+        %li Easier extension of reservations (1h at a time instead of 20m)
+        %li More than 1 future reservation allowed
+        %li Allowed to make reservations more than 3 hours in the future
+        %li No ads
+
+    %p
+      We use the money for the following things:
+      %ul
+        %li
+          Pay
+          = link_to("the server providers", server_providers_pages_path)
+          their share, based on minutes played on their servers
+        %li Pay for the hosting of the site
+        %li Fund additional gameservers
+        %li
+          = link_to("Arie's", 'http://steamcommunity.com/id/ariekanarie', :target => "_blank")
+          Bugatti Veyron fund
+
+.row
+  .span12
+    = render 'form'

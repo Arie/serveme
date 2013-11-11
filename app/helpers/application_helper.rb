@@ -4,4 +4,12 @@ module ApplicationHelper
     @current_user_is_donator ||= current_user && current_user.donator?
   end
 
+  def used_free_server_count
+    Reservation.current.where(:server_id => Server.without_group).count
+  end
+
+  def used_donator_server_count
+    Reservation.current.where(:server_id => Server.for_donators).count
+  end
+
 end

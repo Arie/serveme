@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131028193857) do
+ActiveRecord::Schema.define(version: 20131110205758) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -28,8 +28,10 @@ ActiveRecord::Schema.define(version: 20131028193857) do
     t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "expires_at"
   end
 
+  add_index "group_users", ["expires_at"], name: "index_group_users_on_expires_at", using: :btree
   add_index "group_users", ["group_id"], name: "index_group_users_on_group_id", using: :btree
   add_index "group_users", ["user_id"], name: "index_group_users_on_user_id", using: :btree
 
@@ -60,6 +62,27 @@ ActiveRecord::Schema.define(version: 20131028193857) do
   end
 
   add_index "log_uploads", ["reservation_id"], name: "index_log_uploads_on_reservation_id", using: :btree
+
+  create_table "paypal_orders", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "product_id"
+    t.string   "payment_id", limit: 191
+    t.string   "payer_id",   limit: 191
+    t.string   "status",     limit: 191
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "paypal_orders", ["payer_id"], name: "index_paypal_orders_on_payer_id", using: :btree
+  add_index "paypal_orders", ["payment_id"], name: "index_paypal_orders_on_payment_id", using: :btree
+  add_index "paypal_orders", ["product_id"], name: "index_paypal_orders_on_product_id", using: :btree
+  add_index "paypal_orders", ["user_id"], name: "index_paypal_orders_on_user_id", using: :btree
+
+  create_table "products", force: true do |t|
+    t.string  "name"
+    t.decimal "price", precision: 15, scale: 6, null: false
+    t.integer "days"
+  end
 
   create_table "reservations", force: true do |t|
     t.integer  "user_id"

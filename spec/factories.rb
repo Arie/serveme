@@ -27,4 +27,15 @@ FactoryGirl.define do
     name "Super Secret Servers"
   end
 
+  factory :product do
+    name "1 year"
+    days 366
+    price 9.00
+  end
+
+  factory :paypal_order do
+    association :product
+    association :user
+  end
+
 end

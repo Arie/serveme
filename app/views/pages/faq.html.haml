@@ -17,30 +17,15 @@
         Q: What do I get for donating?
       %p
         %em
-          A: Donators that donate 5 euros or more get some nice benefits:
+          A: Donators get these benefits:
           %ul
-            %li Longer initial reservation durations (5h instead of 2h)
-            %li Longer idle reservation durations (60m instead of 30m)
+            %li Longer reservations (5h instead of 2h)
+            %li Longer idle time allowed (60m instead of 30m)
             %li Easier extension of reservations (1h at a time instead of 20m)
             %li More than 1 future reservation allowed
             %li Allowed to make reservations more than 3 hours in the future
             %li No ads
       = render "shared/paypal_button"
-
-    .well
-      %p.text-success
-        Q: I've donated but it still says I'm not a donator :(
-      %p
-        %em
-          A: After you've donated with PayPal, we have to activate you manually. You'll get an email at your PayPal address asking for
-          = link_to("your serveme.tf user #", statistics_pages_path)
-          Once you've answered this email we'll activate your donator status and let you know by email.
-
-    .well
-      %p.text-success
-        Q: How long does the donator status last?
-      %p
-        %em A: The donator status lasts for an undetermined time. We haven't removed the donator status of anyone yet, not even people that paid the minimum amount 10 months ago.
 
     .well
       %p.text-success

@@ -78,6 +78,34 @@ describe User do
 
   end
 
+  describe "#donator?" do
+
+    it "is no longer a donator if the membership expired" do
+      user = create(:user)
+      user.groups << Group.donator_group
+
+      user.group_users.last.update_attribute(:expires_at, 1.day.ago)
+      user.should_not be_donator
+    end
+
+    it "is a donator when the membership is eternal" do
+      user = create(:user)
+      user.groups << Group.donator_group
+
+      user.group_users.last.update_attribute(:expires_at, nil)
+      user.should be_donator
+    end
+
+    it "is a donator when the membership expires in future" do
+      user = create(:user)
+      user.groups << Group.donator_group
+
+      user.group_users.last.update_attribute(:expires_at, 1.day.from_now)
+      user.should be_donator
+    end
+
+  end
+
   describe "#donator_until" do
 
     it 'knows how long it is still a donator' do

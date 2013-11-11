@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
 
   has_many :log_uploads, :through => :reservations
   has_many :reservations
-  has_many :group_users
+  has_many :group_users, -> { where("group_users.expires_at IS NULL OR group_users.expires_at > ?", Time.current)}
   has_many :groups,   :through => :group_users
   has_many :servers,  :through => :groups
   has_many :paypal_orders

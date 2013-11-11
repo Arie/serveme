@@ -1,1 +1,1 @@
-PayPal::SDK::Core::Config.load('config/paypal.yml',  ENV['RACK_ENV'] || 'production')
+PayPal::SDK::Core::Config.load('config/paypal.yml',  Rails.env)

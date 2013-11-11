@@ -91,7 +91,7 @@ describe PaypalOrder do
         order.stub(:payment => payment)
 
         order.prepare.should be_true
-        order.status.should == "redirected"
+        order.status.should == "Redirected"
       end
 
     end

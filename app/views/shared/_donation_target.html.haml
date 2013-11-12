@@ -1,0 +1,23 @@
+- goal_percentage = PaypalOrder.monthly_goal_percentage
+
+- if goal_percentage.between?(0, 30)
+  - bar_class = "danger"
+- if goal_percentage.between?(30, 70)
+  - bar_class = "warning"
+- if goal_percentage.between?(70, 100)
+  - bar_class = "success"
+- if goal_percentage >= 100
+  - bar_class = "info"
+
+.row
+  .span2
+    %strong Monthly goal (€#{PaypalOrder.monthly_goal.round})
+
+  .span6.progress.progress-striped.active{:class => "progress-#{bar_class}"}
+    - if goal_percentage <= 100
+      - width = goal_percentage.round
+    - else
+      - width = 100
+    .bar{:style => "width: #{width}%"}
+
+  .span1= render 'shared/paypal_button'

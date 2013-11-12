@@ -1,10 +1,12 @@
 .paypal
   %p
     If you enjoy this service, please
-    = link_to('consider contributing to the operating costs by donating.', faq_pages_path)
+    = link_to('consider contributing to the operating costs by donating.', new_paypal_order_path)
     All donations get divided between the server providers based on time played on their servers.
+
+  = render "shared/donation_target" if SITE_URL == 'http://serveme.tf'
+
   %p
     You can also
     = link_to('trade me TF2 items to donate.', 'http://steamcommunity.com/id/ariekanarie')
     If you trade a well tradable/sellable item like bills/buds/keys I can give you donator status for that, but you can also send something nice just to say thanks.
-  = render 'shared/paypal_button'

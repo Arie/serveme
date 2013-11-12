@@ -39,4 +39,22 @@ class PaypalOrder < ActiveRecord::Base
     donator_status.expires_at < Time.current
   end
 
+  def self.monthly_total(now = Time.current)
+    monthly(now).joins(:product).sum('products.price')
+  end
+
+  def self.monthly_goal_percentage(now = Time.current)
+    (monthly_total(now) / monthly_goal) * 100.0
+  end
+
+  def self.monthly(now = Time.current)
+    beginning_of_month = now.beginning_of_month
+    end_of_month = now.end_of_month
+    where('paypal_orders.created_at > ? AND paypal_orders.created_at < ?', beginning_of_month, end_of_month)
+  end
+
+  def self.monthly_goal
+    100.0
+  end
+
 end

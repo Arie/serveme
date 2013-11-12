@@ -40,7 +40,7 @@ class PaypalOrder < ActiveRecord::Base
   end
 
   def self.monthly_total(now = Time.current)
-    monthly(now).joins(:product).sum('products.price')
+    where(:status => "Completed").monthly(now).joins(:product).sum('products.price')
   end
 
   def self.monthly_goal_percentage(now = Time.current)

@@ -125,5 +125,57 @@ describe PaypalOrder do
 
   end
 
+  context "monthly goal" do
+
+    describe ".montly goal" do
+
+      it 'returns the monthly goal in euros' do
+        PaypalOrder.monthly_goal.should == 100.0
+      end
+
+    end
+
+    context "total" do
+
+      let!(:product)         { create(:product, :price => 1.0) }
+      let!(:previous_month)  { create(:paypal_order, :product => product, :status => "Completed", :created_at => Time.zone.local(2013, 10, 15, 12)) }
+      let!(:first_of_month)  { create(:paypal_order, :product => product, :status => "Completed", :created_at => Time.zone.local(2013, 11, 1,  12)) }
+      let!(:middle_of_month) { create(:paypal_order, :product => product, :status => "Completed", :created_at => Time.zone.local(2013, 11, 15, 12)) }
+      let!(:end_of_month)    { create(:paypal_order, :product => product, :status => "Completed", :created_at => Time.zone.local(2013, 11, 30, 12)) }
+      let!(:next_month)      { create(:paypal_order, :product => product, :status => "Completed", :created_at => Time.zone.local(2013, 12, 1,  12)) }
+
+      describe '.monthly' do
+
+        it 'returns the orders for the month' do
+          PaypalOrder.monthly(Time.zone.local(2013, 11, 11, 12)).should =~ [first_of_month, middle_of_month, end_of_month]
+        end
+
+      end
+
+      describe '.monthly_total' do
+
+        it 'returns the orders for the current month' do
+          PaypalOrder.monthly_total(Time.zone.local(2013, 11, 11, 12)).should == 3.0
+        end
+
+        it 'only counts Completed orders' do
+          create(:paypal_order, :status => "foobar", :product => product, :created_at => Time.zone.local(2013, 11, 15, 12))
+          PaypalOrder.monthly_total(Time.zone.local(2013, 11, 11, 12)).should == 3.0
+        end
+
+      end
+
+      describe '.monthly_goal_percentage' do
+
+        it 'calculates the percentage of the goal achieved' do
+          PaypalOrder.monthly_goal_percentage.should == 3.0
+        end
+
+      end
+
+    end
+
+  end
+
 
 end

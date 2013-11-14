@@ -1,23 +1,17 @@
 - if @donator_nag
-  .row
-    .span12
+  .row.servers_selection
+    .col-md-12
       .donate.alert.alert-info
         %h4
           - free_servers = Server.for_donators.active.count - used_donator_server_count
           Donators have #{free_servers} available servers right now.
           Become a donator and instantly get access!
-          = render "shared/paypal_button"
-
-.row
-  .span6
-    %h3 Pick a date and time...
+          =render "shared/paypal_button"
+.row.servers_selection
+  .col-md-3
+    %p.lead Pick a date and time...
     = render :partial => 'time_selection'
 
-.row
-  .span10
-    %h3 ...or pick a server
+  .col-md-9
+    %p.lead ...or pick a server
     = render :partial => 'servers_reservations', :locals => { :server_groups => ServerFinder.grouped_available_for_user(current_user)}
-
-  - unless donator?
-    .span3
-      = render 'shared/adsense_sidebar'

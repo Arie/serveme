@@ -9,16 +9,19 @@
 - if goal_percentage >= 100
   - bar_class = "info"
 
-.row
-  .span2
+.donation_target
+  .col-md-2
     %strong Monthly goal (€#{PaypalOrder.monthly_goal.round})
 
-  .span6.progress.progress-striped.active{:class => "progress-#{bar_class}"}
-    - if goal_percentage <= 100
-      - width = goal_percentage.round
-    - else
-      - width = 100
-    .bar{:style => "width: #{width}%"}
-      = "#{width} %"
+  .col-md-8
+    .progress.progress-striped.active
+      - if goal_percentage <= 100
+        - width = goal_percentage.round
+      - else
+        - width = 100
+      .progress-bar{:class => "progress-bar-#{bar_class}", :role => "progressbar", :style => "width: #{width}%"}
+        #{width} %
 
-  .span1= render 'shared/paypal_button'
+  .col-md-2
+    .center-block
+      = render 'shared/paypal_button'

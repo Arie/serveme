@@ -1,9 +1,9 @@
 .row
-  .span10
+  .col-md-12
     %h2 FAQ
 
     %p.lead
-      Hey there, we hope you're enjoying the FakkelBrigade Server Reservation System, or Serveme. Here we'll try to answer your questions :)
+      Hey there, we hope you're enjoying serveme.tf. Here we'll try to answer your questions :)
 
 
     .well
@@ -43,7 +43,7 @@
     .well
       %p.text-success
         Q: How do I manage the server?
-      %p 
+      %p
         %em
           A: The RCON password is your "admin password", if you have it, you can do all the server commands with it that normal users without it can't.
           To use it, type "rcon_password PASSWORD" in console, and if you aren't in the server, you must also do "rcon_address IP:PORT".
@@ -85,7 +85,7 @@
                 etf2l, etf2l_6v6, etf2l_9v9, etf2l_6v6_5cp, etf2l_6v6_ctf, etf2l_6v6_stopwatch, etf2l_9v9_5cp, etf2l_9v9_ctf, etf2l_9v9_koth, etf2l_9v9_stopwatch, etf2l_ultiduo, etf2l_bball
             %tr
               %td
-                %span.label.label-important UGC:
+                %span.label.label-danger UGC:
               %td
                 ugc_HL_ctf, ugc_HL_koth, ugc_HL_standard, ugc_HL_stopwatch, ugc_HL_tugofwar
             %tr
@@ -106,5 +106,5 @@
           A: Leave a comment at the bottom of this page with your question and we'll get it answered ASAP.
 
 .row
-  .span10
+  .col-md-12
     = render 'shared/disqus'

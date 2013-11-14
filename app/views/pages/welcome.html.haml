@@ -1,47 +1,64 @@
 = render 'shared/nag_message' if current_user
 
-%h2 Welcome to the FakkelBrigade reservation system
+- content_for :jumbotron do
+  .jumbotron
+    .container
+      .row
+        .col-md-8
+          %h1 Welcome to serveme.tf!
+          %p The easiest way to borrow a TF2 server
+          = link_to server_selection_reservations_path, :class => 'btn btn-lg btn-primary', :title => "Get a server right now, or make a reservation" do
+            Let's play!
+            %i.fa.fa-crosshairs
+        .col-md-4
+          .available_servers= render 'reservations/available_servers'
 
 .row
-  .span10
-    %p
-      Make a reservation and within a few minutes your server will be ready and yours to use.
-      If you run out of time, press the "Extend reservation" button here.
+  .col-md-12
+    %p.lead
+      = link_to("Book a server", server_selection_reservations_path)
+      and within a few minutes your server will be ready and yours to use.
       Feel free to use the server for any kind of match you want.
 
 .row
-  .span10
+  .col-md-12
     %p
       Please
-      = link_to("leave a comment", "#leave-a-comment")
-      if you like this service, had a problem or suggestion, I'd really appreciate it!
-      Alternatively, you could leave a comment on the
-      = link_to "ETF2L forums", 'http://etf2l.org/forum/community/topic-23191/?recent=427024', :target => '_blank'
+      = link_to('consider contributing to the operating costs by donating.', new_paypal_order_path)
+      All donations get divided between the server providers based on time played on their servers.
+
+      You can also
+      = link_to('trade me TF2 items to donate.', 'http://steamcommunity.com/id/ariekanarie')
+      If you trade a well tradable/sellable item like bills/buds/keys I can give you donator status for that, but you can also send something nice just to say thanks.
+
 
 .row
-  .span10
-    = render "shared/paypal"
+  = render "shared/donation_target"# if SITE_URL == 'http://serveme.tf'
+
+.row &nbsp;
 
 .row
-  .span10
-    = link_to server_selection_reservations_path, :class => 'btn btn-large btn-primary', :title => "Get a server right now, or make a reservation" do
-      Make reservation
-      %i.fa.fa-calendar
+  .col-md-12
+    = link_to("Leave a comment", "#leave-a-comment")
+    if you like this service, had a problem or suggestion, I'd really appreciate it!
+    Alternatively, you could leave a comment on the
+    = link_to "ETF2L forums", 'http://etf2l.org/forum/community/topic-23191/?recent=427024', :target => '_blank'
 
-- if Server.for_donators.any?
-  .row= render 'reservations/available_servers'
+.row &nbsp;
+
 
 - if @users_reservations && @users_reservations.any?
+  %h3 Your most recent reservations
   .row
-    .span12
-      = render 'reservations/your_reservations'
+    .col-md-12
+      = render 'reservations/users_reservations'
 
 .row
-  .span12
+  .col-md-12
     = render 'reservations/todays_reservations'
 
 .row
-  .span12
+  .col-md-12
     %h3 Comments
 
     #leave-a-comment

@@ -27,7 +27,9 @@ jQuery(function($) {
   if ($("#whitelist_type_league_whitelist").is(':checked')) { enableLeagueWhitelist(); };
   if ($("#whitelist_type_custom_whitelist").is(':checked')) { enableCustomWhitelist(); };
 
+  $("#reservation_whitelist_id").select2();
   $("#reservation_first_map").select2();
+  $("#reservation_server_config_id").select2();
 
   $("#reservation_server_id").select2({
     formatResult: formatServer,

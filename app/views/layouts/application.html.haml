@@ -5,20 +5,31 @@
   = javascript_include_tag "application"
   = csrf_meta_tags
   = render 'shared/google_analytics'
+  %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
   = content_for(:head)
 %body
 
   = render 'shared/navigation'
 
-  .container-fluid
+  = content_for(:jumbotron)
 
-    - unless donator?
+  .container
+
+    - if !donator?
       .row
-        .span11
-          = render 'shared/adsense_header'
+        .col-md-11
+          .row
+            .col-md-12
+              = render 'shared/flash'
 
-    = render 'shared/flash'
+          = yield
+        .col-md-1
+          = render 'shared/adsense_sidebar'
+    - else
+      .row
+        .col-md-12
+          = render 'shared/flash'
 
-    = yield
+      = yield
 
   = render 'shared/timezone'

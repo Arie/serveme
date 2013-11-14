@@ -1,19 +1,21 @@
 .row
-  .span12
-    %p.alert
+  .col-md-12
+    %p.alert.alert-warning
       Please pick your start and end time carefully, reservations that have no players for 30 minutes (60 minutes for donators) get ended automatically. All times are in timezone:
       = link_to(Time.zone, edit_users_path)
+.row
+  .col-md-7
     = simple_form_for(@reservation, :html => { :class => 'form-horizontal' }) do |f|
       = f.input :server, :as => :select, :disabled => !@reservation.schedulable? do
         = f.select :server_id, grouped_options_for_select(ServerFinder.grouped_available_for_user(current_user).map {|g| [g[:name], g[:servers].map {|s| [s.name, s.id, :"data-flag" => s.decorate.flag_abbreviation]}]}, selected_key = @reservation.server_id), :input_html => { :class => "select2" }
         = f.error :server_id, :class => "error"
-      = f.input :password,            :as => :string, :value => @reservation.password, :hint => "The server password to join the game"
-      = f.input :rcon,                :as => :string, :hint => "The RCON password to control the server", :disabled => !@reservation.schedulable?
-      = f.input :first_map,           :hint => "First map", :collection => MAPS, :input_html => { :class => "select2", :data => { :placeholder => "Select first map (optional)" } }
+      = f.input :password,            :as => :string, :value => @reservation.password, :placeholder => "The server password to join the game"
+      = f.input :rcon,                :as => :string, :placeholder => "The RCON password to control the server", :disabled => !@reservation.schedulable?
+      = f.input :first_map,           :collection => MAPS, :input_html => { :class => "select2" }
       = f.input :disable_source_tv,   :as => :boolean,  :hint => "Disable STV if you want to run a TF2Lobby game"
-      = f.input :tv_password,         :as => :string,   :hint => "Password to connect to the STV as a spectator",   :placeholder => 'tv'
-      = f.input :tv_relaypassword,    :as => :string,   :hint => "Password to connect to the STV with a relay",     :placeholder => 'tv'
-      = f.association :server_config, :collection => ServerConfig.ordered, :hint => "Specify a league config to run on each map start"
+      = f.input :tv_password,         :as => :string,   :placeholder => "Password for STV, default tv"
+      = f.input :tv_relaypassword,    :as => :string,   :placeholder => "Password for STV (relay), default tv"
+      = f.association :server_config, :collection => ServerConfig.ordered, :hint => "Specify a league config to run on each map start", :input_html => { :class => "select2" }
       = f.input :whitelist_type, :label => "Item whitelist" do
         = radio_button_tag :whitelist_type, "default_whitelist", (!@reservation.custom_whitelist_id.present? && !@reservation.whitelist.present?)
         %span Default whitelist
@@ -23,12 +25,12 @@
         %span Whitelist.tf (custom whitelist)
       = f.association :whitelist,     :collection => Whitelist.ordered,    :hint => "Some configs have a default whitelist, but you can still override that here. 6v6 with 9v9 unlocks? No problem!"
       = f.input :custom_whitelist_id, :hint => "Enter the number (ID) for a whitelist from <a href='http://whitelist.tf/configure', target='_blank'>whitelist.tf</a>"
-      %span.inline
-        .starts_at
-          = f.input :starts_at,       :as => :string, :input_html => { :value => I18n.l(@reservation.starts_at, :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Start/end time" , :disabled => !@reservation.schedulable?
-        = f.input :ends_at,           :as => :string, :input_html => { :value => I18n.l(@reservation.ends_at,   :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => false,             :disabled => !@reservation.schedulable?
-      %button.btn{:type => :submit}
-        Save
+      = f.input :starts_at,       :as => :string, :input_html => { :value => I18n.l(@reservation.starts_at, :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Starts at" , :disabled => !@reservation.schedulable?
+      = f.input :ends_at,         :as => :string, :input_html => { :value => I18n.l(@reservation.ends_at,   :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Ends at",    :disabled => !@reservation.schedulable?
+
+      .col-md-offset-2
+        %button.btn.btn-primary{:type => :submit}
+          Save
 
     = render "datepicker_javascript_options"
 

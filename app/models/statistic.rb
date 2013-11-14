@@ -28,7 +28,7 @@ class Statistic
     data_table.new_column('string', 'Date' )
     data_table.new_column('number', 'Reservations')
     data_table.add_rows(reservations_per_day)
-    option = { width: 780, height: 240, title: 'Reservations in the last 50 days', colors: ["#0044cc", "#0055cc","#0066cc","#0077cc", "0088cc"], legend: {position: 'none'} }
+    option = { width: 1100, height: 240, title: 'Reservations in the last 50 days', colors: ["#0044cc", "#0055cc","#0066cc","#0077cc", "0088cc"], legend: {position: 'none'} }
     GoogleVisualr::Interactive::ColumnChart.new(data_table, option)
   end
 

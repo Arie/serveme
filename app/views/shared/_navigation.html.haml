@@ -1,12 +1,13 @@
-.navbar.navbar-inverse
-  .navbar-inner
-    .container
-      %ul.nav
+.navbar.navbar-inverse{:role => "navigation"}
+  .container
+    .navbar-header
+      %ul.nav.navbar-nav
         %li.dropdown
-          %a.brand.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#"}
+          %a.navbar-brand.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#"}
+            %i.fa.fa-globe
             serveme.tf
             %b.caret>
-          %ul.dropdown-menu
+          %ul.dropdown-menu#serveme_links
             %li
               = link_to('http://serveme.tf') do
                 %span{:class => ["flags", "flags-eu"]}
@@ -16,25 +17,63 @@
                 %span{:class => ["flags", "flags-us"]}
                 na.serveme.tf (North-America)
 
+    .navbar-inner
+      %ul.nav.navbar-nav
         - if current_user
           %li.dropdown
             %a.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#"}
+              %i.fa.fa-list
               Reservations
               %b.caret>
             %ul.dropdown-menu
-              %li= link_to("Your reservations",   reservations_path)
-              %li= link_to("Recent reservations", recent_reservations_pages_path)
+              %li
+                = link_to reservations_path do
+                  %i.fa.fa-user
+                  Your reservations
+              %li
+                = link_to recent_reservations_pages_path do
+                  %i.fa.fa-clock-o
+                  Recent reservations
         - else
           %li= link_to("Recent reservations",     recent_reservations_pages_path)
-        %li= link_to("Servers",                   servers_pages_path)
-        %li= link_to("FAQ",                       faq_pages_path)
-        %li= link_to("Stats",                     statistics_pages_path)
-        %li= link_to("Sponsors",                  server_providers_pages_path)
-        %li= link_to("Credits",                   credits_pages_path)
+        %li
+          = link_to servers_pages_path do
+            %i.fa.fa-tasks
+            Servers
+        %li
+          = link_to faq_pages_path do
+            %i.fa.fa-question
+            FAQ
+        %li
+          = link_to statistics_pages_path do
+            %i.fa.fa-bar-chart-o
+            Stats
+
+        %li.dropdown
+          %a.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#"}
+            %i.fa.fa-trophy
+              Credits
+            %b.caret>
+          %ul.dropdown-menu
+            %li
+              = link_to server_providers_pages_path do
+                %i.fa.fa-heart
+                Sponsors
+            %li
+              = link_to credits_pages_path do
+                %i.fa.fa-thumbs-up
+                Credits
+
         - if current_user
-          %li= link_to "Donate",                  new_paypal_order_path
-          %li= link_to "Settings",                edit_users_path
-      .pull-right
+          %li
+            = link_to new_paypal_order_path do
+              %i.fa.fa-star
+              Donate
+          %li
+            = link_to edit_users_path do
+              %i.fa.fa-cogs
+              Settings
+      %ul.nav.navbar-nav.navbar-right
         .account
           - if current_user
             Hello

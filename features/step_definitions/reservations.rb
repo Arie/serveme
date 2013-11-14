@@ -46,7 +46,7 @@ end
 Then "I get to enter the reservation details" do
   page.should have_content "Password"
   page.should have_content "Rcon"
-  page.should have_content "Start/end time"
+  page.should have_content "Starts at"
 end
 
 When "I don't enter any reservation details" do
@@ -80,8 +80,8 @@ end
 When "I enter the reservation details for a future reservation" do
   step "I enter the reservation details"
 
-  fill_in "Start/end time",      :with => I18n.l(30.minutes.from_now, :format => :datepicker)
-  fill_in "reservation_ends_at", :with => I18n.l(1.hour.from_now,     :format => :datepicker)
+  fill_in "Starts at",      :with => I18n.l(30.minutes.from_now, :format => :datepicker)
+  fill_in "Ends at", :with => I18n.l(1.hour.from_now,     :format => :datepicker)
 end
 
 When "I go edit my reservation" do

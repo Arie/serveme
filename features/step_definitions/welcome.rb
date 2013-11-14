@@ -23,6 +23,6 @@ Then /^I can view my reservation in the list$/ do
 end
 
 Then "I see a count of free and donator-only servers" do
-  page.should have_content "Non-donators"
+  page.should have_content "Everyone"
   page.should have_content "Donators only"
 end

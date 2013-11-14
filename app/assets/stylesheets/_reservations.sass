@@ -1,27 +1,10 @@
 form#new_reservation
-  span.inline
-    .starts_at
-      .control-group
-        width: 400px
-    .starts_at, .ends_at
-      .label
-        display: inline-block
-        width: 32px
-        text-align: center
-    .ends_at
-      .label
-        margin-left: 10px
-    div, label
-      display: inline-block
-      &.controls
-        margin-left: 10px
-    label
-      margin-right: 10px
   label.checkbox
-    width: 200px
     display: inline-block
-    input#reservation_disable_source_tv
-      margin-top: 7px
+    padding-top: 0px
+  &.time_selection
+    input
+      width: 161px
 
 .reservation_whitelist_type
   .controls
@@ -43,8 +26,15 @@ table.servers
       margin: 0
 
 .select2-container
-  width: 220px
+  width: 100%
   .select2-choice
     span.flags
       display: inline-block
       margin-right: 5px
+
+.servers_selection
+  margin-top: 20px
+
+.donate
+  h4
+    margin-bottom: 0px

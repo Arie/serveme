@@ -1,11 +1,11 @@
 %h2 Recent reservations
 
 .row
-  .span10
+  .col-md-12
     = will_paginate @recent_reservations, :renderer => BootstrapPagination::Rails
 
 .row
-  .span10
+  .col-md-12
 
     %table.table.table-condensed.table-hover
       %thead
@@ -16,7 +16,6 @@
           %th Reserved until
       %tbody
         - @recent_reservations.each do |reservation|
-          
           - klass = 'success' if reservation.active?
           - klass = 'info'    if reservation.future?
           %tr{:class => klass}

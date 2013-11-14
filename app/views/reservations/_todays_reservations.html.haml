@@ -9,7 +9,6 @@
         %th Reserved until
     %tbody
       - @reservations.each do |reservation|
-        
         - klass = 'success' if reservation.active?
         - klass = 'info'    if reservation.future?
         %tr{:class => klass}

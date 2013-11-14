@@ -6,3 +6,5 @@ en:
       reservation:
         disable_source_tv: Disable Source TV
         whitelist: League whitelist
+        tv_relaypassword: Relay password
+        tv_password: STV password

@@ -55,7 +55,7 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     blockenspiel (0.4.5)
-    bootstrap-sass (2.3.2.2)
+    bootstrap-sass (3.0.2.1)
       sass (~> 3.2)
     builder (3.1.4)
     capistrano (2.15.5)
@@ -341,7 +341,7 @@ GEM
       crack (>= 0.3.2)
     websocket (1.0.7)
     will_paginate (3.0.5)
-    will_paginate-bootstrap (0.2.5)
+    will_paginate-bootstrap (1.0.0)
       will_paginate (>= 3.0.3)
     xml-simple (1.1.2)
     xpath (2.0.0)
@@ -357,7 +357,7 @@ DEPENDENCIES
   actionpack-action_caching
   better_errors
   binding_of_caller
-  bootstrap-sass (~> 2.3)
+  bootstrap-sass
   capistrano (~> 2.0)
   capistrano-ext
   capistrano-maintenance
@@ -410,6 +410,6 @@ DEPENDENCIES
   vcr
   webmock
   will_paginate
-  will_paginate-bootstrap (= 0.2.5)
+  will_paginate-bootstrap
   zeroclipboard-rails
   zonebie

@@ -2,26 +2,26 @@
   = render 'users/statistics', :user => current_user
 
 .row
-  .span10
+  .col-md-12
     %h2 A few site statistics
 
     = render 'site_totals'
 
 .row
-  .span10
+  .col-md-12
     %h2 Reservations graph
 
     = render 'reservations_per_month_graph'
 
 .row
-  .span10
+  .col-md-12
     %h2 Top 10 users
 
     = render 'top_10_users'
 
 
 .row
-  .span10
+  .col-md-12
     %h2 Top 10 servers
 
     = render 'top_10_servers'

@@ -1,20 +1,9 @@
-%h3 Your reservations
+%h2 Your reservations
 
-%table.table.table-condensed.your-reservations
-  %thead
-    %tr
-      %th Server
-      %th Reserved from
-      %th Reserved until
-      %th Actions
-  %tbody
-    - @users_reservations.each do |reservation|
-      %tr[reservation]
-        - server = reservation.server.decorate
-        - if reservation.active?
-          %td= "#{server.name} (#{pluralize(reservation.last_number_of_players, 'player')})".html_safe
-        - else
-          %td= server.name
-        %td= I18n.l(reservation.starts_at,  :format => :short)
-        %td= I18n.l(reservation.ends_at,    :format => :short)
-        %td.actions= render 'reservations/actions', :reservation => reservation
+.row
+  .col-md-12
+    = will_paginate @users_reservations, :renderer => BootstrapPagination::Rails
+
+.row
+  .col-md-12
+    = render 'users_reservations'

@@ -14,6 +14,9 @@
   = content_for(:jumbotron)
 
   .container
+    .row
+      .col-md-12
+        = render 'shared/adsense_header'
 
     - if !donator?
       .row

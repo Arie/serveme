@@ -4,7 +4,7 @@ class PaypalOrder < ActiveRecord::Base
   belongs_to :product
   belongs_to :user
 
-  attr_accessible :product_id, :payment_id, :payer_id, :status
+  attr_accessible :product, :product_id, :payment_id, :payer_id, :status
 
   validates_presence_of :user_id, :product_id
 

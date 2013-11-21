@@ -1,7 +1,7 @@
 class PaypalOrdersController < ApplicationController
 
   def new
-    @paypal_order = PaypalOrder.new(:product_id => Product.last.id)
+    @paypal_order = PaypalOrder.new(:product => Product.find_by_name("1 year"))
   end
 
   def create

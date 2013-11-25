@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131110205758) do
+ActiveRecord::Schema.define(version: 20131125091744) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -184,7 +184,7 @@ ActiveRecord::Schema.define(version: 20131110205758) do
 
   create_table "whitelist_tfs", force: true do |t|
     t.integer  "tf_whitelist_id"
-    t.text     "content"
+    t.text     "content",         limit: 16777215
     t.datetime "created_at"
     t.datetime "updated_at"
   end

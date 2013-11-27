@@ -19,11 +19,19 @@
 
 
 - if !donator?
-  - if current_user.reservations.count >= 10
+  - if current_user.reservations.count.between?(10, 100)
     .row
       .col-md-12
-        .donate.alert.alert-info
+        .donate.alert.alert-danger
           - duration = (current_user.total_reservation_seconds / 3600.0).round
           %h4
             Hi there! You've made #{duration} hours worth of reservations so far, have you considered donating to keep this service running?
+            = render "shared/paypal_button"
+
+  - if current_user.reservations.count > 100
+    .row
+      .col-md-12
+        .donate.alert.alert-danger
+          %h4
+            Wow, you've made more than 100 reservations! You must really like us! Please DONATE to help us keep this service alive!
             = render "shared/paypal_button"

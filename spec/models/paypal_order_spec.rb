@@ -137,6 +137,8 @@ describe PaypalOrder do
 
     context "total" do
 
+      before { time_travel_to(Date.new(2013, 11, 15)) }
+      after { back_to_the_present }
       let!(:product)         { create(:product, :price => 1.0) }
       let!(:previous_month)  { create(:paypal_order, :product => product, :status => "Completed", :created_at => Time.zone.local(2013, 10, 15, 12)) }
       let!(:first_of_month)  { create(:paypal_order, :product => product, :status => "Completed", :created_at => Time.zone.local(2013, 11, 1,  12)) }

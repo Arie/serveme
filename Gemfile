@@ -70,6 +70,7 @@ group :test do
   gem "libv8"
   gem 'vcr'
   gem 'webmock'
+  gem 'delorean'
 end
 
 gem 'uglifier'

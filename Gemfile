@@ -75,7 +75,7 @@ end
 
 gem 'uglifier'
 gem 'jquery-rails'
-gem "compass-rails", '2.0.alpha.0' #github: "milgner/compass-rails", ref: "1749c06f15dc4b058427e7969810457213647fb8"
+gem "compass-rails", "~> 1.1.2"
 gem 'sass-rails'
 gem 'bootstrap-sass'
 gem 'simple_form'

@@ -28,8 +28,12 @@ jQuery(function($) {
   if ($("#whitelist_type_custom_whitelist").is(':checked')) { enableCustomWhitelist(); };
 
   $("#reservation_whitelist_id").select2();
-  $("#reservation_first_map").select2();
-  $("#reservation_server_config_id").select2();
+  $("#reservation_first_map").select2({
+    allowClear: true
+  });
+  $("#reservation_server_config_id").select2({
+    allowClear: true
+  });
 
   $("#reservation_server_id").select2({
     formatResult: formatServer,

@@ -15,6 +15,14 @@
 
   .container
 
+    .row
+      .col-md-11
+        .flash.alert.alert-danger
+          %h3
+            We've received very little donations this month, not even enough to pay our own bills, let alone compensate the server providers. Until we get some more donations we're switching nearly all servers to donator-only :( Sorry about that, and this ugly banner.
+            = link_to "Please donate!", new_paypal_order_path
+
+
     - if !donator?
       .row
         .col-md-12

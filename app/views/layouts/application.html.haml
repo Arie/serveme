@@ -1,47 +1,48 @@
 !!!
-%head
-  %title serveme.tf - free TF2 server reservations
-  = stylesheet_link_tag    "application", :media => "all"
-  = javascript_include_tag "application"
-  = csrf_meta_tags
-  = render 'shared/google_analytics'
-  %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
-  = content_for(:head)
-%body
+%html
+  %head
+    %title serveme.tf - free TF2 server reservations
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+    = render 'shared/google_analytics'
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+    = content_for(:head)
+  %body
 
-  = render 'shared/navigation'
+    = render 'shared/navigation'
 
-  = content_for(:jumbotron)
+    = content_for(:jumbotron)
 
-  .container
-
-    .row
-      .col-md-11
-        .flash.alert.alert-danger
-          %h3
-            We've received very little donations this month, not even enough to pay our own bills, let alone compensate the server providers. Until we get some more donations we're switching nearly all servers to donator-only :( Sorry about that, and this ugly banner.
-            = link_to "Please donate!", new_paypal_order_path
-
-
-    - if !donator?
-      .row
-        .col-md-12
-          = render 'shared/adsense_responsive'
+    .container
 
       .row
         .col-md-11
-          .row
-            .col-md-12
-              = render 'shared/flash'
+          .flash.alert.alert-danger
+            %h3
+              We've received very little donations this month, not even enough to pay our own bills, let alone compensate the server providers. Until we get some more donations we're switching nearly all servers to donator-only :( Sorry about that, and this ugly banner.
+              = link_to "Please donate!", new_paypal_order_path
 
-          = yield
-        .col-md-1
-          = render 'shared/adsense_sidebar'
-    - else
-      .row
-        .col-md-12
-          = render 'shared/flash'
 
-      = yield
+      - if !donator?
+        .row
+          .col-md-12
+            = render 'shared/adsense_responsive'
 
-  = render 'shared/timezone'
+        .row
+          .col-md-11
+            .row
+              .col-md-12
+                = render 'shared/flash'
+
+            = yield
+          .col-md-1
+            = render 'shared/adsense_sidebar'
+      - else
+        .row
+          .col-md-12
+            = render 'shared/flash'
+
+        = yield
+
+    = render 'shared/timezone'

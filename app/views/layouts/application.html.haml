@@ -16,33 +16,30 @@
 
     .container
 
-      .row
-        .col-md-11
-          .flash.alert.alert-danger
-            %h3
-              We've received very little donations this month, not even enough to pay our own bills, let alone compensate the server providers. Until we get some more donations we're switching nearly all servers to donator-only :( Sorry about that, and this ugly banner.
-              = link_to "Please donate!", new_paypal_order_path
-
-
       - if !donator?
         .row
           .col-md-12
             = render 'shared/adsense_responsive'
 
-        .row
-          .col-md-11
-            .row
-              .col-md-12
-                = render 'shared/flash'
+        - if !donator?
+          .row
+            .col-md-12
+              = render 'shared/adsense_responsive'
 
-            = yield
-          .col-md-1
-            = render 'shared/adsense_sidebar'
-      - else
-        .row
-          .col-md-12
-            = render 'shared/flash'
+          .row
+            .col-md-11
+              .row
+                .col-md-12
+                  = render 'shared/flash'
 
-        = yield
+              = yield
+            .col-md-1
+              = render 'shared/adsense_sidebar'
+        - else
+          .row
+            .col-md-12
+              = render 'shared/flash'
 
-    = render 'shared/timezone'
+          = yield
+
+      = render 'shared/timezone'

@@ -16,6 +16,15 @@
 
     .container
 
+      .row
+        .col-md-11
+          .flash.alert.alert-success
+            %h4
+              Happy
+              = link_to("Festivus", 'http://en.wikipedia.org/wiki/Festivus')
+              and Merry Christmas!
+              All servers are free to use for the holidays. All current donors have received an extra month of donator status.
+              = link_to "Please donate!", new_paypal_order_path
       - if !donator?
         .row
           .col-md-12

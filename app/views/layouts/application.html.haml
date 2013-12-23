@@ -30,18 +30,13 @@
           .col-md-12
             = render 'shared/adsense_responsive'
 
-        - if !donator?
-          .row
-            .col-md-12
-              = render 'shared/adsense_responsive'
-
           .row
             .col-md-11
               .row
                 .col-md-12
                   = render 'shared/flash'
 
-            = yield
+              = yield
 
             .col-md-1
               = render 'shared/adsense_sidebar'

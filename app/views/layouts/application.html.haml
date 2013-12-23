@@ -41,14 +41,15 @@
                 .col-md-12
                   = render 'shared/flash'
 
-              = yield
+            = yield
+
             .col-md-1
               = render 'shared/adsense_sidebar'
-        - else
-          .row
-            .col-md-12
-              = render 'shared/flash'
+      - else
+        .row
+          .col-md-12
+            = render 'shared/flash'
 
-          = yield
+        = yield
 
       = render 'shared/timezone'

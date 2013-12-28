@@ -46,6 +46,18 @@ describe RconFtpServer do
       subject.delete_from_server(files)
     end
 
+    it 'logs an error when deleting failed' do
+      files = ['foo.log']
+      ftp = double
+      subject.stub(:ftp => ftp)
+      logger = double
+      Rails.stub(:logger => logger)
+
+      ftp.should_receive(:delete).with(files.first).and_raise Net::FTPPermError
+      logger.should_receive(:error).with("couldn't delete file: foo.log")
+      subject.delete_from_server(files)
+    end
+
   end
 
   describe '#logs' do

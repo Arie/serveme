@@ -22,7 +22,11 @@ class RconFtpServer < RemoteServer
 
   def delete_from_server(files)
     files.each do |file|
-      ftp.send(:delete, file.shellescape)
+      begin
+        ftp.send(:delete, file.shellescape)
+      rescue Net::FTPPermError
+        Rails.logger.error "couldn't delete file: #{file.shellescape}"
+      end
     end
   end
 

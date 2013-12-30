@@ -12,5 +12,9 @@ class Product < ActiveRecord::Base
     where(:active => true)
   end
 
+  def self.ordered
+    order(:price)
+  end
+
 
 end

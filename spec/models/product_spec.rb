@@ -24,4 +24,15 @@ describe Product do
     end
 
   end
+
+  describe ".ordered" do
+
+    it "orders by price" do
+      middle  = create :product, :price => 10
+      last    = create :product, :price => 15
+      first   = create :product, :price => 5
+
+      Product.ordered.should == [first, middle, last]
+    end
+  end
 end

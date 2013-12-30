@@ -1,5 +1,5 @@
 = simple_form_for(@paypal_order, :html => { :class => 'form-inline' }) do |f|
-  = f.input :product_id, :collection => Product.active, :label_method => :list_name, :label => false, :include_blank => false
+  = f.input :product_id, :collection => @products, :label_method => :list_name, :label => false, :include_blank => false
 
   %button.btn.btn-success{:type => :submit}
     Donate with PayPal

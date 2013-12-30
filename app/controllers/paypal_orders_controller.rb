@@ -1,6 +1,7 @@
 class PaypalOrdersController < ApplicationController
 
   def new
+    @products = Product.active.ordered
     @paypal_order = PaypalOrder.new(:product => Product.find_by_name("1 year"))
   end
 
@@ -30,6 +31,5 @@ class PaypalOrdersController < ApplicationController
   def paypal_order
     @paypal_order ||= current_user.paypal_orders.build
   end
-
 
 end

@@ -8,4 +8,9 @@ class Product < ActiveRecord::Base
     "#{name} - #{price.round} EUR"
   end
 
+  def self.active
+    where(:active => true)
+  end
+
+
 end

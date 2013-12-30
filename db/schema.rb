@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131125091744) do
+ActiveRecord::Schema.define(version: 20131230165037) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -80,8 +80,9 @@ ActiveRecord::Schema.define(version: 20131125091744) do
 
   create_table "products", force: true do |t|
     t.string  "name"
-    t.decimal "price", precision: 15, scale: 6, null: false
+    t.decimal "price",  precision: 15, scale: 6,                null: false
     t.integer "days"
+    t.boolean "active",                          default: true
   end
 
   create_table "reservations", force: true do |t|

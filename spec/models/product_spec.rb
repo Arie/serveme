@@ -14,4 +14,14 @@ describe Product do
       subject.list_name.should == "foobar - 12 EUR"
     end
   end
+
+  describe ".active" do
+
+    it "returns only active products" do
+      active    = create :product, :active => true
+      inactive  = create :product, :active => false
+      Product.active.should == [active]
+    end
+
+  end
 end

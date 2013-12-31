@@ -598,14 +598,22 @@ describe Reservation do
         subject.should be_schedulable
       end
 
-      it "is schedulable when it was saved but not active yet" do
+      it "is schedulable when it was saved but not active yet or in the past" do
         subject.stub(:persisted?  => true,
-                     :active?     => false
+                     :active?     => false,
+                     :past?       => false
                     )
         subject.should be_schedulable
 
         subject.stub(:persisted?  => true,
-                     :active?     => true
+                     :active?     => true,
+                     :past?       => false,
+                    )
+        subject.should_not be_schedulable
+
+        subject.stub(:persisted?  => true,
+                     :active?     => false,
+                     :past?       => true
                     )
         subject.should_not be_schedulable
       end

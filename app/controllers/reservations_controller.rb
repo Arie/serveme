@@ -50,16 +50,11 @@ class ReservationsController < ApplicationController
   end
 
   def update
-    if reservation.update_attributes(sanitized_parameters)
-      if reservation.now?
-        reservation.update_reservation
-        flash[:notice] = "Reservation updated for #{reservation}, your changes will be active after a mapchange."
-      else
-        flash[:notice] = "Reservation updated for #{reservation}"
-      end
+    if reservation.past?
+      flash[:error] = "Reservation has expired, can't update it anymore"
       redirect_to root_path
     else
-      render :edit
+      update_reservation
     end
   end
 
@@ -92,6 +87,20 @@ class ReservationsController < ApplicationController
   end
 
   private
+
+  def update_reservation
+    if reservation.update_attributes(sanitized_parameters)
+      if reservation.now?
+        reservation.update_reservation
+        flash[:notice] = "Reservation updated for #{reservation}, your changes will be active after a mapchange."
+      else
+        flash[:notice] = "Reservation updated for #{reservation}"
+      end
+      redirect_to root_path
+    else
+      render :edit
+    end
+  end
 
   def reservation
     @reservation ||= find_reservation

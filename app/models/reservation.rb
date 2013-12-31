@@ -67,7 +67,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def schedulable?
-    !persisted? || (persisted? && !active?)
+    !persisted? || (persisted? && !active? && !past?)
   end
 
   def collides?

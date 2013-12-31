@@ -151,8 +151,6 @@ class ReservationsController < ApplicationController
     flash[:notice] = "Reservation removed, restarting server. Your STV demos and logs will be available <a href='#{link}' target=_blank>here</a> shortly".html_safe
   end
 
-  private
-
   def previous_reservation
     current_user.reservations.last
   end

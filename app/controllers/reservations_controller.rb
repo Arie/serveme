@@ -51,7 +51,7 @@ class ReservationsController < ApplicationController
 
   def update
     if reservation.past?
-      flash[:error] = "Reservation has expired, can't update it anymore"
+      flash[:alert] = "Reservation has expired, can't update it anymore"
       redirect_to root_path
     else
       update_reservation

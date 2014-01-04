@@ -17,6 +17,14 @@
             = link_to("last reservation", reservation_path(users_last_reservation))
             was very short, was something wrong? Please leave a comment if there was a problem.
 
+- if na_system? && current_user.reservations.count % 10 == 0
+  .row
+    .col-md-12
+      .alert.alert-success
+        %h4
+          Thanks for being a serveme user. Have you considered owning one of our servers? You can use the promo code 'serveme' on
+          = link_to("tragicservers.com", "http://www.tragicservers.com")
+          for a 20% lifetime discount!
 
 - if !donator?
   - if current_user.reservations.count.between?(10, 100)

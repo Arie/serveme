@@ -33,7 +33,7 @@
 
 
 .row
-  = render "shared/donation_target" if SITE_URL == 'http://serveme.tf'
+  = render "shared/donation_target" if eu_system?
 
 .row &nbsp;
 

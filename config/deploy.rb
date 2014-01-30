@@ -16,7 +16,7 @@ set :scm,               :git
 set :copy_compression,  :gzip
 set :use_sudo,          false
 set :user,              'tf2'
-set :rvm_ruby_string,   '1.9.3@serveme'
+set :rvm_ruby_string,   '2.1.0@serveme'
 set :rvm_type,          :system
 set :stage,             'production'
 set :maintenance_template_path, 'app/views/pages/maintenance.html.erb'

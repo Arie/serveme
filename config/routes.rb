@@ -61,7 +61,17 @@ Serveme::Application.routes.draw do
     end
   end
 
-  get   '/login', :to => 'sessions#new',  :as => :login
+  #Pretty URLs
+  get   '/donate',                        :to => "paypal_orders#new",         :as => "donate"
+  get   '/statistics',                    :to => "pages#statistics",          :as => "statistics"
+  get   '/faq',                           :to => "pages#faq",                 :as => "faq"
+  get   '/credits',                       :to => "pages#credits",             :as => "credits"
+  get   '/server-providers',              :to => "pages#server_providers",    :as => "server_providers"
+  get   '/your-reservations',             :to => "reservations#index",        :as => "your_reservations"
+  get   '/recent-reservations',           :to => "pages#recent_reservations", :as => "recent_reservations"
+  get   '/settings',                      :to => "users#edit",                :as => "settings"
+
+  get   '/login',                         :to => 'sessions#new',      :as => :login
   get   '/users/auth/failure',            :to => 'sessions#failure'
   post  '/users/auth/failure',            :to => 'sessions#failure'
 

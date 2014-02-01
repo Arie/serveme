@@ -27,25 +27,25 @@
               %b.caret>
             %ul.dropdown-menu
               %li
-                = link_to reservations_path do
+                = link_to your_reservations_path do
                   %i.fa.fa-user
                   Your reservations
               %li
-                = link_to recent_reservations_pages_path do
+                = link_to recent_reservations_path do
                   %i.fa.fa-clock-o
                   Recent reservations
         - else
-          %li= link_to("Recent reservations",     recent_reservations_pages_path)
+          %li= link_to("Recent reservations",     recent_reservations_path)
         %li
           = link_to servers_path do
             %i.fa.fa-tasks
             Servers
         %li
-          = link_to faq_pages_path do
+          = link_to faq_path do
             %i.fa.fa-question
             FAQ
         %li
-          = link_to statistics_pages_path do
+          = link_to statistics_path do
             %i.fa.fa-bar-chart-o
             Stats
 
@@ -56,21 +56,21 @@
             %b.caret>
           %ul.dropdown-menu
             %li
-              = link_to server_providers_pages_path do
+              = link_to server_providers_path do
                 %i.fa.fa-heart
                 Sponsors
             %li
-              = link_to credits_pages_path do
+              = link_to credits_path do
                 %i.fa.fa-thumbs-up
                 Credits
 
         - if current_user
           %li
-            = link_to new_paypal_order_path do
+            = link_to donate_path do
               %i.fa.fa-star
               Donate
           %li
-            = link_to edit_users_path do
+            = link_to settings_path do
               %i.fa.fa-cogs
               Settings
       %ul.nav.navbar-nav.navbar-right

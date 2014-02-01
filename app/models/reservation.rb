@@ -103,7 +103,6 @@ class Reservation < ActiveRecord::Base
   end
 
   def less_than_1_hour_left?
-    time_left = (ends_at - Time.current)
     active? && time_left < 1.hour
   end
 

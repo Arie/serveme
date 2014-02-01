@@ -20,18 +20,6 @@ describe PagesController do
     end
   end
 
-  describe "#servers" do
-    it "should assign the servers variable" do
-      @user = create :user
-      sign_in @user
-
-      servers = ['foo']
-      Server.should_receive(:ordered).and_return(servers)
-      get :servers
-      assigns(:servers).should eql servers
-    end
-  end
-
   describe '#not_found' do
 
     it "should show the not found page" do

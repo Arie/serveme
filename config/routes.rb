@@ -48,11 +48,12 @@ Serveme::Application.routes.draw do
       get :credits
       get :recent_reservations
       get :statistics
-      get :servers
       get :server_providers
       get :faq
     end
   end
+
+  resources :servers, :only => :index
 
   resources :paypal_orders, :only => [:new, :create] do
     collection do

@@ -1,3 +1,5 @@
+- content_for(:title) { "settings" }
+
 %h2 Your settings
 = simple_form_for(@user, :html => { :class => 'form-horizontal' }) do |f|
   = f.input :time_zone, :priority => /Europe/, :include_blank => true, :hint => "Auto detection thinks you're in time zone: #{time_zone_from_cookie}", :required => true, :input_html => {:class => "select2"}

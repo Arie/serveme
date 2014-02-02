@@ -1,20 +1,21 @@
 - begin
   - server_info = ServerInfo.new(server)
-  %tr
-    %td
-      = server.flag
-      = server_info.server_name
-    %td= server_info.map_name
-    %td= "#{server_info.number_of_players} / #{server_info.max_players}"
-    %td= server_info.fps
-    %td= server_info.cpu
-    %td= "#{server_info.traffic_in} KB/s"
-    %td= "#{server_info.traffic_out} KB/s"
-    %td= "#{server_info.uptime} minutes"
-    - if server.current_reservation
-      %td= "#{server.inactive_minutes} minutes"
-    - else
-      %td N/A
+  - cache "server_info_#{server.id}_#{server_info.uptime.to_i}" do
+    %tr
+      %td
+        = server.flag
+        = server_info.server_name
+      %td= server_info.map_name
+      %td= "#{server_info.number_of_players} / #{server_info.max_players}"
+      %td= server_info.fps
+      %td= server_info.cpu
+      %td= "#{server_info.traffic_in} KB/s"
+      %td= "#{server_info.traffic_out} KB/s"
+      %td= "#{server_info.uptime} minutes"
+      - if server.current_reservation
+        %td= "#{server.inactive_minutes} minutes"
+      - else
+        %td N/A
 - rescue
   %tr
     %td= server.name

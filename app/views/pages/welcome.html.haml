@@ -1,17 +1,18 @@
 = render 'shared/nag_message' if current_user
 
 - content_for :jumbotron do
-  .jumbotron
-    .container
-      .row
-        .col-md-8
-          %h1 Welcome to serveme.tf!
-          %p The easiest way to borrow a TF2 server
-          = link_to server_selection_reservations_path, :class => 'btn btn-lg btn-primary', :title => "Get a server right now, or make a reservation" do
-            Let's play!
-            %i.fa.fa-crosshairs
-        .col-md-4
-          .available_servers= render 'reservations/available_servers'
+  - cache "available_servers_#{@most_recently_updated_reservation_time}" do
+    .jumbotron
+      .container
+        .row
+          .col-md-8
+            %h1 Welcome to serveme.tf!
+            %p The easiest way to borrow a TF2 server
+            = link_to server_selection_reservations_path, :class => 'btn btn-lg btn-primary', :title => "Get a server right now, or make a reservation" do
+              Let's play!
+              %i.fa.fa-crosshairs
+          .col-md-4
+            .available_servers= render 'reservations/available_servers'
 
 .row
   .col-md-12
@@ -60,9 +61,10 @@
     .col-md-12
       = render 'reservations/users_reservations'
 
-.row
-  .col-md-12
-    = render 'reservations/todays_reservations'
+- cache "todays_reservations_#{@most_recently_updated_reservation_time}" do
+  .row
+    .col-md-12
+      = render 'reservations/todays_reservations'
 
 .row
   .col-md-12

@@ -4,6 +4,7 @@ class PagesController < ApplicationController
   caches_action :credits, :statistics, :server_providers, :faq, :expires_in => 1.minute, :unless => :current_user
 
   def welcome
+    @most_recently_updated_reservation_time = Reservation.maximum(:updated_at).to_i
     @reservations = Reservation.within_12_hours.first(50)
     if current_user
       @users_reservations = current_user.reservations.ordered.first(5)

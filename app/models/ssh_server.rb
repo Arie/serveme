@@ -1,5 +1,3 @@
-require 'net/sftp'
-
 class SshServer < RemoteServer
 
   def find_process_id

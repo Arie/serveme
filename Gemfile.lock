@@ -387,6 +387,7 @@ DEPENDENCIES
   libv8
   logs_tf
   mysql2
+  net-sftp
   net-ssh
   net-ssh-simple
   oily_png

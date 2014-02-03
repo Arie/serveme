@@ -1,3 +1,5 @@
+require 'net/sftp'
+
 class SshServer < RemoteServer
 
   def find_process_id
@@ -30,7 +32,11 @@ class SshServer < RemoteServer
   end
 
   def copy_from_server(files, destination)
-    scp(:scp_get, ip, files, destination)
+    Net::SFTP.start(ip, nil) do |sftp|
+      files.collect do |file|
+        sftp.download(file, destination)
+      end
+    end
   end
 
   def scp(action, ip, files, destination)

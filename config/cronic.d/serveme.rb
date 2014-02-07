@@ -1,10 +1,8 @@
-every '1s', :mutex => 'reservations' do
+every '1m', :mutex => 'reservations' do
   db do
-    if (Time.now.to_i) % 60 == 0
-      end_past_reservations
-      start_active_reservations
-      check_active_reservations
-    end
+    end_past_reservations
+    start_active_reservations
+    check_active_reservations
   end
 end
 

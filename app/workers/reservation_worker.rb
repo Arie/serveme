@@ -11,7 +11,7 @@ class ReservationWorker
       server = reservation.server
       server.send("#{action}_reservation", reservation)
     rescue Exception => exception
-      Rails.logger.error "Something went wrong #{action}-ing the server for reservation #{reservation.id} - #{exception}"
+      Rails.logger.error "Something went wrong #{action}-ing the server for reservation #{reservation_id} - #{exception}"
       Raven.capture_exception(exception) if Rails.env.production?
     ensure
       send("after_#{action}_reservation_steps") if reservation

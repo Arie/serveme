@@ -189,66 +189,35 @@ describe Reservation do
 
   end
 
-  describe '#start_reservation' do
+  context "reservation worker" do
 
-    let(:server) { double('server').as_null_object }
-    before do
-      subject.stub(:server => server, :to_s => 'reservation')
+    let(:reservation) { create :reservation }
+
+    describe '#start_reservation' do
+
+      it "should tell the worker to start the reservation" do
+        ReservationWorker.should_receive(:perform_async).with(reservation.id, 'start')
+        reservation.start_reservation
+      end
+
     end
 
-    it "should tell the server to start the reservation" do
-      server.should_receive(:start_reservation).with(subject)
-      subject.start_reservation
+    describe '#update_reservation' do
+
+      it "should tell the worker to start the reservation" do
+        ReservationWorker.should_receive(:perform_async).with(reservation.id, 'update')
+        reservation.update_reservation
+      end
+
     end
 
-    it "logs an error if something goes wrong" do
-      server = double
-      server.stub(:restart).and_return { raise('foo') }
-      subject.stub(:server => server)
-      Rails.stub(:logger => double.as_null_object)
+    describe '#end_reservation' do
 
-      Rails.logger.should_receive(:error)
-      subject.start_reservation
-    end
+      it 'should tell the worker to end the reservation' do
+        ReservationWorker.should_receive(:perform_async).with(reservation.id, 'end')
+        reservation.end_reservation
+      end
 
-  end
-
-  describe '#update_reservation' do
-    let(:server) { double('server').as_null_object }
-    before do
-      subject.stub(:server => server, :to_s => 'reservation')
-    end
-
-    it "should tell the server to update the reservation" do
-      server.should_receive(:update_reservation).with(subject)
-      subject.update_reservation
-    end
-  end
-
-  describe '#end_reservation' do
-
-    let(:server) { double(:logs => []) }
-    before { subject.stub(:to_s => 'foo', :server => server) }
-
-    it 'should send the end_reservation message to the server' do
-      server.should_receive(:end_reservation)
-      subject.end_reservation
-    end
-
-    it 'should not do anything when the reservation was already ended' do
-      subject.stub(:ended? => true)
-      server.should_not_receive(:end_reservation)
-      subject.end_reservation
-    end
-
-    it "logs an error if something goes wrong" do
-      server = double
-      server.stub(:restart).and_return { raise('foo') }
-      subject.stub(:server => server)
-      Rails.stub(:logger => double.as_null_object)
-
-      Rails.logger.should_receive(:error)
-      subject.end_reservation
     end
 
   end

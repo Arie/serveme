@@ -1,6 +1,7 @@
 require './config/boot'
 require 'cronic/recipes'
 require 'puma/capistrano'
+require 'sidekiq/capistrano'
 
 set :stages,            %w(eu na)
 set :default_stage,     "eu"

@@ -5,6 +5,9 @@ SimpleCov.start 'rails'
 
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
+require 'sidekiq'
+require 'sidekiq/testing'
+Sidekiq::Testing.inline!
 
 #Load seed data
 require Rails.root.join('db', 'seeds')

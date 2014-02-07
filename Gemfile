@@ -25,6 +25,7 @@ gem 'cronic'
 gem "google_visualr"
 gem 'rack-cache'
 gem 'paypal-sdk-rest'
+gem 'sidekiq'
 
 group :development do
   gem 'better_errors'

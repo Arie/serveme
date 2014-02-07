@@ -1,7 +1,7 @@
 class Reservation < ActiveRecord::Base
   attr_accessible :server, :user, :server_id, :user_id, :password, :rcon, :tv_password, :tv_relaypassword, :starts_at, :disable_source_tv,
                   :ends_at, :provisioned, :ended, :server_config, :server_config_id, :whitelist, :whitelist_id, :inactive_minute_counter,
-                  :first_map, :start_instantly, :custom_whitelist_id
+                  :first_map, :custom_whitelist_id
   belongs_to :user
   belongs_to :server
   belongs_to :server_config

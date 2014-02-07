@@ -1,0 +1,18 @@
+class ServerNumberOfPlayersWorker
+  include Sidekiq::Worker
+
+  def perform(reservation_id)
+    reservation = Reservation.find(reservation_id)
+    if reservation.server.occupied?
+      reservation.update_column(:last_number_of_players, reservation.server.number_of_players)
+      reservation.update_column(:inactive_minute_counter, 0)
+      reservation.warn_nearly_over if reservation.nearly_over?
+    else
+      reservation.update_column(:last_number_of_players, 0)
+      reservation.increment!(:inactive_minute_counter)
+      if reservation.inactive_too_long?
+        reservation.end_reservation
+      end
+    end
+  end
+end

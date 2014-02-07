@@ -117,18 +117,7 @@ When "I save the reservation" do
   click_button "Save"
 end
 
-Then "the server gets killed" do
-  LocalServer.any_instance.should_receive(:find_process_id).and_return { 12345 }
-  Process.should_receive(:kill).with(15, 12345)
-end
-
-Then "the server does not get killed" do
-  LocalServer.any_instance.should_not_receive(:find_process_id)
-  Process.should_not_receive(:kill)
-end
-
 When "I save the future reservation" do
-  step "the server does not get killed"
   click_button "Save"
 end
 
@@ -150,7 +139,6 @@ Given "there is a future reservation" do
 end
 
 When "I cancel the future reservation" do
-  step "the server does not get killed"
   @reservation = @current_user.reservations.last
   within "#reservation_#{@reservation.id}" do
     click_link "Cancel"
@@ -213,7 +201,6 @@ Given "I have a running reservation" do
 end
 
 Given "I have a reservation that has just started" do
-  step "the server does not get killed"
   start_reservation(Time.current)
 end
 
@@ -234,7 +221,6 @@ When "I end my reservation" do
 end
 
 Given "the end reservations job has run" do
-  step "the server gets killed"
   Reservation.last.end_reservation
 end
 

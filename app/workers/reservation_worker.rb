@@ -1,6 +1,8 @@
 class ReservationWorker
   include Sidekiq::Worker
 
+  sidekiq_options :retry => false
+
   attr_accessor :reservation
 
   def perform(reservation_id, action)

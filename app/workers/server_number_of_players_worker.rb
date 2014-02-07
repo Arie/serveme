@@ -1,6 +1,8 @@
 class ServerNumberOfPlayersWorker
   include Sidekiq::Worker
 
+  sidekiq_options :retry => 1
+
   def perform(reservation_id)
     reservation = Reservation.find(reservation_id)
     if reservation.server.occupied?

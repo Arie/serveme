@@ -26,6 +26,7 @@ gem "google_visualr"
 gem 'rack-cache'
 gem 'paypal-sdk-rest'
 gem 'sidekiq'
+gem 'sinatra', '>= 1.3.0', :require => nil
 
 group :development do
   gem 'better_errors'

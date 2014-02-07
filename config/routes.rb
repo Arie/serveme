@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Serveme::Application.routes.draw do
 
   get "/404", :to => "pages#not_found"
@@ -59,6 +61,10 @@ Serveme::Application.routes.draw do
     collection do
       get :redirect
     end
+  end
+
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
   end
 
   #Pretty URLs

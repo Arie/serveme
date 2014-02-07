@@ -32,6 +32,10 @@ class User < ActiveRecord::Base
     @donator ||= groups.include?(Group.donator_group)
   end
 
+  def admin?
+    @admin ||= groups.include?(Group.admin_group)
+  end
+
   def maximum_reservation_length
     if donator?
       5.hours

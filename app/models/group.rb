@@ -13,4 +13,8 @@ class Group < ActiveRecord::Base
     find_or_create_by(:name => "Donators")
   end
 
+  def self.admin_group
+    find_or_create_by(:name => "Admins")
+  end
+
 end

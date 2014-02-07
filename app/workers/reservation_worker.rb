@@ -14,8 +14,8 @@ class ReservationWorker
       Rails.logger.error "Something went wrong #{action}-ing the server for reservation #{reservation.id} - #{exception}"
       Raven.capture_exception(exception) if Rails.env.production?
     ensure
-      send("after_#{action}_reservation_steps")
-      Rails.logger.info "[#{Time.now}] #{action.capitalize}ed reservation: #{reservation.id} #{reservation}"
+      send("after_#{action}_reservation_steps") if reservation
+      Rails.logger.info "[#{Time.now}] #{action.capitalize}ed reservation: #{reservation_id} #{reservation}"
     end
   end
 

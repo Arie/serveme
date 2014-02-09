@@ -117,4 +117,15 @@ describe User do
     end
   end
 
+  describe "#admin?" do
+
+    it "is an admin when in the admin group" do
+      user = create(:user)
+      user.groups << Group.admin_group
+      user.should be_admin
+    end
+
+  end
+
+
 end

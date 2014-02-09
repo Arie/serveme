@@ -66,5 +66,7 @@ module Serveme
     # the I18n.default_locale when a translation can not be found)
     config.i18n.fallbacks = true
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
+
+    config.exceptions_app = self.routes
   end
 end

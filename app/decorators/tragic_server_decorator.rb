@@ -1,0 +1,2 @@
+class TragicServerDecorator < ServerDecorator
+end

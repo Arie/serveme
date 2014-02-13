@@ -1,16 +1,4 @@
 en:
-  datetime:
-    formats:
-      time: "%H:%M:%S"
-  time:
-    show_meridian: false
-    formats:
-      time: "%H:%M:%S"
-      time_without_seconds: "%H:%M"
-      datepicker: "%d-%m-%Y %H:%M"
-      short: "%d %b %H:%M"
-      short_with_dayname: "%a %d %b %H:%M"
-      javascript_datepicker: "dd-mm-yyyy hh:ii"
   timeleft:
     one: "%{count} minute"
     other: "%{count} minutes"

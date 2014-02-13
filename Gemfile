@@ -28,6 +28,7 @@ gem 'paypal-sdk-rest'
 gem 'sidekiq'
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'mechanize'
+gem 'american_date'
 
 group :development do
   gem 'better_errors'

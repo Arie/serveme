@@ -6,17 +6,6 @@ GIT
       multi_json (~> 1.6)
       multi_xml (~> 0.5)
 
-GIT
-  remote: https://github.com/cucumber/cucumber-rails.git
-  revision: bca67a6482ce5b18ff96df4498de3dc15ce45f6b
-  specs:
-    cucumber-rails (1.4.0)
-      capybara (>= 1.1.2, < 3)
-      cucumber (>= 1.3.8, < 2)
-      mime-types (~> 1.16)
-      nokogiri (~> 1.5)
-      rails (>= 3, < 5)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -116,6 +105,11 @@ GEM
       gherkin (~> 2.12)
       multi_json (>= 1.7.5, < 2.0)
       multi_test (>= 0.0.2)
+    cucumber-rails (1.4.0)
+      capybara (>= 1.1.2)
+      cucumber (>= 1.2.0)
+      nokogiri (>= 1.5.0)
+      rails (>= 3.0.0)
     daemons (1.1.9)
     dalli (2.7.0)
     dante (0.1.5)
@@ -411,7 +405,7 @@ DEPENDENCIES
   compass-rails (~> 1.1.2)
   coveralls
   cronic
-  cucumber-rails!
+  cucumber-rails
   dalli
   database_cleaner
   delorean

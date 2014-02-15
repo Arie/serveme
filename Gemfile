@@ -57,7 +57,7 @@ group :test_tools do
 end
 
 group :cucumber do
-  gem 'cucumber-rails', :require => false, git: 'https://github.com/cucumber/cucumber-rails.git'
+  gem 'cucumber-rails'
   gem 'database_cleaner'
   gem 'launchy'
   gem 'capybara'

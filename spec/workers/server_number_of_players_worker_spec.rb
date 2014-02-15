@@ -9,6 +9,8 @@ describe ServerNumberOfPlayersWorker do
 
 
   it "finds the server to check" do
+    server = double(:server, :occupied? => true, :number_of_players => 1)
+    reservation.should_receive(:server).at_least(:once).and_return { server }
     ServerNumberOfPlayersWorker.perform_async(reservation.id)
   end
 

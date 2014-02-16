@@ -54,7 +54,7 @@ class PaypalOrder < ActiveRecord::Base
   end
 
   def self.monthly_goal
-    100.0
+    125.0
   end
 
 end

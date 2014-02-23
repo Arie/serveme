@@ -51,6 +51,31 @@ describe ServerNumberOfPlayersWorker do
 
     end
 
+    context "auto end reservation" do
+
+      it "ends the reservation if server becomes empty after 30 minutes" do
+        reservation.starts_at = 31.minutes.ago
+        reservation.last_number_of_players = 1
+        reservation.should_receive(:end_reservation)
+        ServerNumberOfPlayersWorker.perform_async(reservation.id)
+      end
+
+      it "doesn't end the reservation if it's more recent" do
+        reservation.starts_at = 29.minutes.ago
+        reservation.last_number_of_players = 1
+        reservation.should_not_receive(:end_reservation)
+        ServerNumberOfPlayersWorker.perform_async(reservation.id)
+      end
+
+      it "doesn't end the reservation if it wasn't occupied before" do
+        reservation.starts_at = 31.minutes.ago
+        reservation.last_number_of_players = 0
+        reservation.should_not_receive(:end_reservation)
+        ServerNumberOfPlayersWorker.perform_async(reservation.id)
+      end
+
+    end
+
   end
 
 

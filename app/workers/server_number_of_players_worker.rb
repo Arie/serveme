@@ -10,7 +10,7 @@ class ServerNumberOfPlayersWorker
       reservation.update_column(:inactive_minute_counter, 0)
       reservation.warn_nearly_over if reservation.nearly_over?
     else
-      previous_number_of_players = reservation.last_number_of_players
+      previous_number_of_players = reservation.last_number_of_players.to_i
       reservation.update_column(:last_number_of_players, 0)
       reservation.increment!(:inactive_minute_counter)
       if reservation.inactive_too_long?

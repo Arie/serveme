@@ -3,6 +3,7 @@ rvm:
   - 1.9.3
   - 2.0.0
   - 2.1.0
+  - rbx
 before_script:
   - mysql -e 'create database serveme_test;'
   - mkdir tmp/cache

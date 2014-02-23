@@ -4,6 +4,14 @@ gem 'rails', '~> 4.0.0'
 gem 'protected_attributes'
 gem "actionpack-action_caching"
 
+#Rubinius
+platforms :rbx do
+  gem 'rubysl'
+  gem "racc"
+  gem "rubinius-coverage"
+  gem "rubysl-test-unit"
+end
+
 gem 'haml'
 gem 'mysql2'
 #For NA

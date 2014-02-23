@@ -48,7 +48,7 @@
           %td STV connect info
           %td
             - if reservation.active?
-              = link_to reservation.stv_connect_url, :class => 'btn btn-small btn-primary' do
+              = link_to reservation.stv_connect_url, :class => 'btn btn-xs btn-primary' do
                 Join STV
                 %i.fa.fa-film
             = reservation.stv_connect_string

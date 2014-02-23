@@ -33,6 +33,7 @@ Serveme::Application.routes.draw do
   resources :reservations do
     member do
       post :extend_reservation, :as => :extend
+      post :idle_reset,         :as => :idle_reset
     end
     collection do
       get :server_selection

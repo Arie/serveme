@@ -28,4 +28,16 @@ describe ReservationsController do
 
   end
 
+  describe "#idle_reset" do
+
+    it "sets the idle timer back to 0" do
+      reservation = create :reservation, :user => @user
+      reservation.update_attribute(:inactive_minute_counter, 25)
+
+      post :idle_reset, :id => reservation.id
+      reservation.reload.inactive_minute_counter.should == 0
+    end
+
+  end
+
 end

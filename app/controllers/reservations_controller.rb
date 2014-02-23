@@ -89,6 +89,12 @@ class ReservationsController < ApplicationController
     redirect_to root_path
   end
 
+  def idle_reset
+    flash[:notice] = "Reservation idle timer reset"
+    reservation.update_attribute(:inactive_minute_counter, 0)
+    redirect_to reservation_path(reservation)
+  end
+
   private
 
   def sanitized_parameters

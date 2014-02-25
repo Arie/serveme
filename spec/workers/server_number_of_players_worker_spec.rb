@@ -31,9 +31,9 @@ describe ServerNumberOfPlayersWorker do
   context "unoccupied server" do
 
     let(:server) { double(:server, :occupied? => false, :number_of_players => 0) }
+    before { reservation.stub(:server => server) }
 
     it "saves the number of players and resets the inactive minutes" do
-      reservation.stub(:server => server)
 
       reservation.should_receive(:update_column).with(:last_number_of_players, 0)
       reservation.should_receive(:increment!).with(:inactive_minute_counter)

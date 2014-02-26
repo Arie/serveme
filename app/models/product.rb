@@ -5,7 +5,7 @@ class Product < ActiveRecord::Base
   validates_presence_of :name, :price
 
   def list_name
-    "#{name} - #{price.round} EUR"
+    "#{name} - #{price.round.to_i} EUR"
   end
 
   def self.active

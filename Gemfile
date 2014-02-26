@@ -13,7 +13,17 @@ platforms :rbx do
 end
 
 gem 'haml'
-gem 'mysql2'
+platforms :ruby do
+  gem 'mysql2'
+  gem 'therubyracer'
+  gem 'oily_png'
+  gem 'sys-proctable',    :require => 'sys/proctable'
+end
+platforms :jruby do
+  gem 'therubyrhino', :platforms => :jruby
+  gem 'activerecord-jdbcmysql-adapter'
+  gem 'chunky_png'
+end
 #For NA
 gem 'puma'
 gem 'omniauth-openid'
@@ -22,7 +32,6 @@ gem 'devise'
 gem 'rubyzip'
 gem 'steam-condenser', :github => 'koraktor/steam-condenser-ruby'
 gem 'logs_tf'
-gem 'sys-proctable',    :require => 'sys/proctable'
 gem 'net-ssh-simple'
 gem 'net-ssh'
 gem 'net-sftp'
@@ -40,8 +49,7 @@ gem 'american_date'
 
 group :development do
   gem 'better_errors'
-  gem 'thin',             :require => false
-  gem 'binding_of_caller'
+  gem 'binding_of_caller', :platforms => :ruby
 
   #Deployment
   gem 'capistrano-ext'
@@ -80,7 +88,6 @@ end
 
 group :test do
   gem 'shoulda-matchers'
-  gem "libv8"
   gem 'vcr'
   gem 'webmock'
   gem 'delorean'
@@ -93,7 +100,6 @@ gem 'sass-rails'
 gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'will_paginate-bootstrap'
-gem 'therubyracer', :require => 'v8'
+gem 'execjs'
 gem 'font-awesome-rails'
-gem 'oily_png'
 gem 'coffee-rails'

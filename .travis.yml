@@ -5,7 +5,6 @@ rvm:
   - 2.1.0
   - rbx
   - jruby-19mode
-  - jruby-head
 before_script:
   - mysql -e 'create database serveme_test;'
   - mkdir tmp/cache

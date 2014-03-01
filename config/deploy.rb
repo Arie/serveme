@@ -57,6 +57,16 @@ namespace :puma do
       puma_env = fetch(:rack_env, fetch(:rails_env, 'production'))
       run "cd #{current_path} && #{fetch(:puma_cmd)} -q -d #{fetch(:puma_flags)} -e #{puma_env} -b '#{fetch(:puma_socket)}' -S #{fetch(:puma_state)} --control 'unix://#{shared_path}/sockets/pumactl.sock'", :pty => false
     end
+
+    desc 'Restart puma'
+    task :restart, :roles => lambda { puma_role }, :on_no_matching_servers => :continue do
+      begin
+        run "cd #{current_path} && #{pumactl_cmd} -S #{state_path} phased-restart"
+      rescue Capistrano::CommandError => ex
+        puts "Failed to restart puma: #{ex}\nAssuming not started."
+        start
+      end
+    end
 end
 
 def execute_rake(task_name, path = release_path)

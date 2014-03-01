@@ -2,6 +2,7 @@ every '1m', :mutex => 'reservations' do
   db do
     end_past_reservations
     start_active_reservations
+    update_server_info
     check_active_reservations
   end
 end
@@ -56,4 +57,8 @@ def check_active_reservations
   unended_now_reservations      = now_reservations.where('ended = ?', false)
   provisioned_now_reservations  = unended_now_reservations.where('provisioned = ?', true)
   ActiveReservationCheckerWorker.perform_async(provisioned_now_reservations.map(&:id))
+end
+
+def update_server_info
+  ServersInfoUpdaterWorker.perform_async
 end

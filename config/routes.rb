@@ -56,6 +56,8 @@ Serveme::Application.routes.draw do
     end
   end
 
+  resources :donators
+
   resources :servers, :only => :index
 
   resources :paypal_orders, :only => [:new, :create] do

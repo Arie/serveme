@@ -5,6 +5,7 @@ class PaypalOrder < ActiveRecord::Base
   belongs_to :user
 
   attr_accessible :product, :product_id, :payment_id, :payer_id, :status
+  delegate :name, :to => :product, :allow_nil => true, :prefix => true
 
   validates_presence_of :user_id, :product_id
 
@@ -40,7 +41,11 @@ class PaypalOrder < ActiveRecord::Base
   end
 
   def self.monthly_total(now = Time.current)
-    where(:status => "Completed").monthly(now).joins(:product).sum('products.price')
+    completed.monthly(now).joins(:product).sum('products.price')
+  end
+
+  def self.completed
+    where(:status => "Completed")
   end
 
   def self.monthly_goal_percentage(now = Time.current)

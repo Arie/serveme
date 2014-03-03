@@ -6,3 +6,7 @@ end
 Given "I am a donator" do
   @current_user.groups << Group.donator_group
 end
+
+Given "I am an admin" do
+  @current_user.groups << Group.admin_group
+end

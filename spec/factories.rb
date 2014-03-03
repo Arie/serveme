@@ -14,6 +14,14 @@ FactoryGirl.define do
     provider "steam"
   end
 
+  factory :admin, :class => "User" do
+    uid "1337"
+    nickname "Admin"
+    name "Admin Abuse"
+    provider "steam"
+    groups { [ Group.donator_group ] }
+  end
+
   factory :reservation do
     association :server
     association :user

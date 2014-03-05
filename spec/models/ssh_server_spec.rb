@@ -150,10 +150,12 @@ describe SshServer do
     it "uses the ssh instance to copy files from the server" do
       files = [File.join('foo')]
       destination = 'bar'
-      sftp = double
+      sftp = double :file
+      destination_file = double :file
 
+      File.should_receive(:new).with(destination, 'wb').and_return(destination_file)
       Net::SFTP.should_receive(:start).with(subject.ip, nil).and_yield(sftp)
-      sftp.should_receive(:download).with(files.first, destination)
+      sftp.should_receive(:download).with(files.first, destination_file)
       subject.copy_from_server(files, destination)
     end
   end

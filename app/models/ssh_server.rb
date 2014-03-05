@@ -29,10 +29,11 @@ class SshServer < RemoteServer
     scp(:scp_put, ip, files, destination)
   end
 
+  #FIXME handle case where destination is a DIR
   def copy_from_server(files, destination)
     Net::SFTP.start(ip, nil) do |sftp|
       files.collect do |file|
-        sftp.download(file, destination)
+        sftp.download(file, File.new(destination, 'wb'))
       end
     end
   end

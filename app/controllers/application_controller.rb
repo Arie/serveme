@@ -38,4 +38,10 @@ class ApplicationController < ActionController::Base
   end
   helper_method :time_zone_from_cookie
 
+  def require_admin
+    unless current_user && current_user.admin?
+      redirect_to root_path
+    end
+  end
+
 end

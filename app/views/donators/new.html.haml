@@ -1,0 +1,13 @@
+%h2 New donator
+
+.row
+  .col-md-9
+    = simple_form_for(@donator, url: url_for(controller: "donators", action: "create"), :html => { :class => 'form' }) do |f|
+      = f.input :user_id
+      = f.input :expires_at, :as => :string, :input_html => { :value => I18n.l(@donator.expires_at, :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Expires at"
+
+      .col-md-offset-2
+        %button.btn.btn-default{:type => :submit}
+          Save
+
+= render "datepicker_options"

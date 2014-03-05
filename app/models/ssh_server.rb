@@ -30,9 +30,18 @@ class SshServer < RemoteServer
   end
 
   def copy_from_server(files, destination)
+    if File.directory?(destination)
+      destination_dir = destination
+      destination_is_directory = true
+    else
+      destination_is_directory = false
+    end
     Net::SFTP.start(ip, nil) do |sftp|
       files.collect do |file|
-        sftp.download(file, destination)
+        if destination_is_directory
+          destination = File.join(destination_dir, File.basename(file))
+        end
+        sftp.download(file, File.new(destination, 'wb'))
       end
     end
   end

@@ -77,7 +77,8 @@
         .account
           - if current_user
             Hello
-            = link_to current_user.decorate.nickname, edit_users_path
+            = link_to current_user.decorate.nickname, settings_path
+
             |
             = link_to "logout", users_logout_path, :method => :delete
           - else

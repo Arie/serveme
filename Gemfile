@@ -1,30 +1,9 @@
 source 'https://rubygems.org'
 
 gem 'rails', '~> 4.0.0'
+gem 'haml'
 gem 'protected_attributes'
 gem "actionpack-action_caching"
-
-#Rubinius
-platforms :rbx do
-  gem 'rubysl'
-  gem "racc"
-  gem "rubinius-coverage"
-  gem "rubysl-test-unit"
-end
-
-gem 'haml'
-platforms :ruby do
-  gem 'mysql2'
-  gem 'therubyracer'
-  gem 'oily_png'
-  gem 'sys-proctable',    :require => 'sys/proctable'
-end
-platforms :jruby do
-  gem 'therubyrhino', :platforms => :jruby
-  gem 'activerecord-jdbcmysql-adapter'
-  gem 'chunky_png'
-end
-#For NA
 gem 'puma'
 gem 'omniauth-openid'
 gem 'omniauth-steam'
@@ -46,6 +25,24 @@ gem 'sidekiq'
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'mechanize'
 gem 'american_date'
+
+platforms :rbx do
+  gem 'rubysl'
+  gem "racc"
+  gem "rubinius-coverage"
+  gem "rubysl-test-unit"
+end
+platforms :ruby do
+  gem 'mysql2'
+  gem 'therubyracer'
+  gem 'oily_png'
+  gem 'sys-proctable',    :require => 'sys/proctable'
+end
+platforms :jruby do
+  gem 'therubyrhino'
+  gem 'activerecord-jdbcmysql-adapter'
+  gem 'chunky_png'
+end
 
 group :development do
   gem 'better_errors'

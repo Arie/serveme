@@ -1,0 +1,11 @@
+:javascript
+  var datepicker_options = {
+    autoclose: true,
+    minuteStep: 1,
+    startView: 1,
+    todayHighlight: true,
+    startDate: "#{I18n.l(Time.current, :format => :datepicker)}}",
+    showMeridian: #{I18n.t(:show_meridian, :scope => :time)},
+    format: '#{I18n.t('time.formats.javascript_datepicker')}'
+  };
+  $('#group_user_expires_at').datetimepicker(datepicker_options);

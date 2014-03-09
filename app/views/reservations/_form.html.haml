@@ -12,7 +12,6 @@
       = f.input :password,            :as => :string, :value => @reservation.password, :placeholder => "The server password to join the game"
       = f.input :rcon,                :as => :string, :placeholder => "The RCON password to control the server", :disabled => !@reservation.schedulable?
       = f.input :first_map,           :collection => MAPS, :input_html => { :class => "select2" }
-      = f.input :disable_source_tv,   :as => :boolean,  :hint => "Disable STV if you want to run a TF2Lobby game"
       = f.input :tv_password,         :as => :string,   :placeholder => "Password for STV, default tv"
       = f.input :tv_relaypassword,    :as => :string,   :placeholder => "Password for STV (relay), default tv"
       = f.association :server_config, :collection => ServerConfig.ordered, :hint => "Specify a league config to run on each map start", :input_html => { :class => "select2" }

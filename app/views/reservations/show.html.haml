@@ -24,14 +24,6 @@
           = reservation.rcon_string
           = render 'shared/copy_button', :copy_button_id => "rcon_string", :copy_text => reservation.rcon_string
 
-      - if !!reservation.disable_source_tv
-
-        %tr
-          %td STV
-          %td Disabled
-
-      - else
-
         %tr
           %td STV
           %td Enabled

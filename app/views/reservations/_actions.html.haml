@@ -33,10 +33,9 @@
     = link_to  reservation.server_connect_url,            :class => 'btn btn-xs btn-warning' do
       Join game
       %i.fa.fa-play
-    - unless reservation.disable_source_tv?
-      = link_to reservation.stv_connect_url,              :class => 'btn btn-xs btn-primary' do
-        Join STV
-        %i.fa.fa-film
+    = link_to reservation.stv_connect_url,              :class => 'btn btn-xs btn-primary' do
+      Join STV
+      %i.fa.fa-film
 
   - if reservation.past?
     = link_to "/uploads/#{reservation.zipfile_name}",     :class => 'btn btn-xs btn-info',    :title => 'Download a zip with the logs and demos of the match' do

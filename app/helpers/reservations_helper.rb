@@ -26,7 +26,7 @@ module ReservationsHelper
                                    :starts_at => params[:starts_at] || Time.current,
                                    :ends_at   => params[:ends_at] || 2.hours.from_now }
     if previous_reservation
-      previous_reservation_attributes = previous_reservation.attributes.slice('password', 'rcon', 'tv_password', 'disable_source_tv', 'server_config_id', 'whitelist_id', 'custom_whitelist_id', 'first_map')
+      previous_reservation_attributes = previous_reservation.attributes.slice('password', 'rcon', 'tv_password', 'server_config_id', 'whitelist_id', 'custom_whitelist_id', 'first_map')
       new_reservation_attributes.merge!(previous_reservation_attributes)
     end
 

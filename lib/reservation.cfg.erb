@@ -14,12 +14,7 @@ tftrue_logs_prefix "serveme.tf"
 <% elsif whitelist %>
 <%= %{mp_tournament_whitelist "cfg/#{whitelist}"} %><% end %>
 
-<% if disable_source_tv? %>
-<%= 'tv_enable "0"' %>
-<%= 'tv_stop' %>
-<% else %>
 <%= 'tv_enable "1"' %>
-<% end %>
 
 <% if user.logs_tf_api_key.present? %>
   <%= %{tftrue_logs_apikey "#{user.logs_tf_api_key}"} %>

@@ -108,8 +108,10 @@ ActiveRecord::Schema.define(version: 20140122205926) do
     t.boolean  "end_instantly",           default: false
     t.integer  "custom_whitelist_id"
     t.integer  "duration"
+    t.boolean  "auto_end",                default: true
   end
 
+  add_index "reservations", ["auto_end"], name: "index_reservations_on_auto_end", using: :btree
   add_index "reservations", ["custom_whitelist_id"], name: "index_reservations_on_custom_whitelist_id", using: :btree
   add_index "reservations", ["end_instantly"], name: "index_reservations_on_end_instantly", using: :btree
   add_index "reservations", ["ends_at"], name: "index_reservations_on_ends_at", using: :btree
@@ -149,19 +151,19 @@ ActiveRecord::Schema.define(version: 20140122205926) do
 
   create_table "users", force: true do |t|
     t.string   "uid",                    limit: 191
-    t.string   "provider",               limit: 191
+    t.string   "provider"
     t.string   "name",                   limit: 191
     t.string   "nickname",               limit: 191
     t.string   "email",                  limit: 191
-    t.string   "encrypted_password",     limit: 191, default: "", null: false
+    t.string   "encrypted_password",                 default: "", null: false
     t.string   "reset_password_token",   limit: 191
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.integer  "sign_in_count",                      default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip",     limit: 191
-    t.string   "last_sign_in_ip",        limit: 191
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "logs_tf_api_key",        limit: 191
@@ -173,10 +175,10 @@ ActiveRecord::Schema.define(version: 20140122205926) do
   add_index "users", ["uid"], name: "index_users_on_uid", using: :btree
 
   create_table "versions", force: true do |t|
-    t.string   "item_type",  limit: 191, null: false
-    t.integer  "item_id",                null: false
-    t.string   "event",      limit: 191, null: false
-    t.string   "whodunnit",  limit: 191
+    t.string   "item_type",  null: false, limit: 191
+    t.integer  "item_id",    null: false
+    t.string   "event",      null: false, limit: 191
+    t.string   "whodunnit"
     t.text     "object"
     t.datetime "created_at"
   end
@@ -194,8 +196,8 @@ ActiveRecord::Schema.define(version: 20140122205926) do
 
   create_table "whitelists", force: true do |t|
     t.string   "file"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

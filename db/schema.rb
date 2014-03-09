@@ -16,8 +16,8 @@ ActiveRecord::Schema.define(version: 20140122205926) do
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
     t.integer  "group_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_index "group_servers", ["group_id"], name: "index_group_servers_on_group_id", using: :btree
@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(version: 20140122205926) do
   create_table "group_users", force: true do |t|
     t.integer  "user_id"
     t.integer  "group_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.datetime "expires_at"
   end
 
@@ -37,8 +37,8 @@ ActiveRecord::Schema.define(version: 20140122205926) do
 
   create_table "groups", force: true do |t|
     t.string   "name",       limit: 191
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   add_index "groups", ["name"], name: "index_groups_on_name", using: :btree
@@ -46,8 +46,8 @@ ActiveRecord::Schema.define(version: 20140122205926) do
   create_table "locations", force: true do |t|
     t.string   "name"
     t.string   "flag"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "log_uploads", force: true do |t|
@@ -57,8 +57,8 @@ ActiveRecord::Schema.define(version: 20140122205926) do
     t.string   "map_name"
     t.text     "status"
     t.string   "url"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   add_index "log_uploads", ["reservation_id"], name: "index_log_uploads_on_reservation_id", using: :btree
@@ -124,8 +124,8 @@ ActiveRecord::Schema.define(version: 20140122205926) do
 
   create_table "server_configs", force: true do |t|
     t.string   "file"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "servers", force: true do |t|

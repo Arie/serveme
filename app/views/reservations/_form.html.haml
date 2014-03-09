@@ -25,6 +25,7 @@
         %span Whitelist.tf (custom whitelist)
       = f.association :whitelist,     :collection => Whitelist.ordered,    :hint => "Some configs have a default whitelist, but you can still override that here. 6v6 with 9v9 unlocks? No problem!"
       = f.input :custom_whitelist_id, :hint => "Enter the number (ID) for a whitelist from <a href='http://whitelist.tf/configure', target='_blank'>whitelist.tf</a>"
+      = f.input :auto_end,        :as => :boolean,  :hint => "Automatically end my reservation when I leave the server"
       = f.input :starts_at,       :as => :string, :input_html => { :value => I18n.l(@reservation.starts_at, :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Starts at" , :disabled => !@reservation.schedulable?
       = f.input :ends_at,         :as => :string, :input_html => { :value => I18n.l(@reservation.ends_at,   :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Ends at",    :disabled => !@reservation.schedulable?
 

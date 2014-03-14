@@ -9,7 +9,7 @@ end
 
 def db(&block)
   begin
-    ActiveRecord::Base.connection_pool.clear_stale_cached_connections!
+    ActiveRecord::Base.connection_pool.reap
     yield block
   rescue Exception => e
     raise e

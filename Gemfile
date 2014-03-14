@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.0.0'
+gem 'rails', '>= 4.1.0.rc1'
 gem 'haml'
 gem 'protected_attributes'
 gem "actionpack-action_caching"
@@ -84,6 +84,8 @@ group :production do
 end
 
 group :test do
+  #Load minitest explicitly to work around shoulda issue
+  gem "minitest"
   gem 'shoulda-matchers'
   gem 'vcr'
   gem 'webmock'

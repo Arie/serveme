@@ -6,8 +6,6 @@ describe Product do
   it { should validate_presence_of(:name) }
   it { should validate_presence_of(:price) }
 
-  before { Product.destroy_all }
-
   describe "#list_name" do
     it "is a name with the rounded price included for use in the dropdown" do
 

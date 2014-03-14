@@ -63,7 +63,7 @@ class User < ActiveRecord::Base
 
   def donator_until
     if donator?
-      group_users.find_by_group_id(Group.donator_group).expires_at
+      group_users.find_by_group_id(Group.donator_group).try(:expires_at)
     end
   end
 

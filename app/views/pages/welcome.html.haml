@@ -15,6 +15,13 @@
             .available_servers= render 'reservations/available_servers'
 
 .row
+  .col-md-11
+    .flash.alert.alert-success
+      %h4
+        It's my birthday this week, to celebrate everyone is a donator until the 21st of march. All current donators have received an extra month of donator status!
+        = link_to "Please donate!", new_paypal_order_path
+
+.row
   .col-md-12
     %p.lead
       = link_to("Book a server", server_selection_reservations_path)

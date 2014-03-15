@@ -5,7 +5,7 @@ class ServersController < ApplicationController
 
   def index
     SteamCondenser::Servers::Sockets::BaseSocket.timeout = 500
-    @servers = Server.active.ordered
+    @servers = Server.active.order(:name)
   end
 
 end

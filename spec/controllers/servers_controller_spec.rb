@@ -4,10 +4,11 @@ describe ServersController do
 
   describe "#index" do
     it "should assign the servers variable" do
-      servers = ['foo']
-      Server.should_receive(:ordered).and_return(servers)
+      first   = create :server, name: "abc"
+      third   = create :server, name: "efg"
+      second  = create :server, name: "bcd"
       get :index
-      assigns(:servers).should eql servers
+      assigns(:servers).map(&:name).should eql [first.name, second.name, third.name]
     end
   end
 

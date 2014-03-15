@@ -32,7 +32,7 @@ platforms :rbx do
   gem 'rubysl'
   gem "racc"
   gem "rubinius-coverage"
-  gem "rubysl-test-unit"
+  gem "rubysl-test-unit", "2.0.2"
 end
 platforms :ruby do
   gem 'mysql2'

@@ -39,7 +39,7 @@ When "my PayPal payment was successful" do
 end
 
 Given "there are products" do
-  create(:product, :name => "1 year",     :days => 366, :price => 9.00)
-  create(:product, :name => "1 month",    :days => 31,  :price => 1.00)
-  create(:product, :name => "6 months",   :days => 186, :price => 5.00)
+  Product.where(:name => "1 year",     :days => 366, :price => 9.00).first_or_create
+  Product.where(:name => "1 month",    :days => 31,  :price => 1.00).first_or_create
+  Product.where(:name => "6 months",   :days => 186, :price => 5.00).first_or_create
 end

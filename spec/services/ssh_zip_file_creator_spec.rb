@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe SshZipFileCreator do
 
-  let!(:server)        { double(:zip_file_creator_class => SshZipFileCreator) }
+  let!(:server)        { double(:zip_file_creator_class => SshZipFileCreator, :name => "The server") }
   let!(:reservation)   { double(:server => server) }
 
   it "shell escapes the file names" do

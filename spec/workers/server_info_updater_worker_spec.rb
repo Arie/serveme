@@ -18,7 +18,7 @@ describe ServerInfoUpdaterWorker do
   it "logs an error if something went wrong" do
     server_info.should_receive(:status).and_raise { ArgumentError }
 
-    Rails.logger.should_receive(:info).with(anything)
+    Rails.logger.should_receive(:warn).with(anything)
 
     ServerInfoUpdaterWorker.perform_async(server.id)
   end

@@ -289,7 +289,7 @@ describe Reservation do
 
     context "for non-donators" do
 
-      it 'has an initial duration of no more than 2 hours' do
+      xit 'has an initial duration of no more than 2 hours' do
         reservation = build :reservation, :starts_at => Time.current, :ends_at => 121.minutes.from_now
         reservation.should have(1).error_on(:ends_at)
         reservation.errors.full_messages.should include "Ends at maximum reservation time is 2 hours, you can extend if you run out of time"
@@ -389,7 +389,7 @@ describe Reservation do
       reservation.errors.full_messages.should include "Ends at you already have a reservation in this timeframe"
     end
 
-    it 'allows extending a reservation past 3 hours' do
+    xit 'allows extending a reservation past 3 hours' do
       starts = Time.current
       reservation = build :reservation, :starts_at => starts, :ends_at => (starts + 181.minutes)
 

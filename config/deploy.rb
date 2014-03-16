@@ -27,6 +27,8 @@ default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
 after 'deploy:finalize_update', 'app:symlink'
+before "deploy",                "deploy:web:disable"
+after "deploy",                 "deploy:web:enable"
 after 'deploy',                 'deploy:cleanup'
 after "deploy:stop",            "cronic:stop"
 after "deploy:start",           "cronic:start"

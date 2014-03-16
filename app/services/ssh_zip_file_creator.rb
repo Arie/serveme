@@ -12,7 +12,7 @@ class SshZipFileCreator < ZipFileCreator
   end
 
   def download_zip_from_remote_server
-    Rails.logger.info "[#{Time.now}] Downloading #{remote_zip_name} from #{server.name}"
+    Rails.logger.info "Downloading #{remote_zip_name} from #{server.name}"
     server.copy_from_server([remote_zip_name], zipfile_name_and_path)
   end
 

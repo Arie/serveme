@@ -16,7 +16,7 @@ class ServerNumberOfPlayersWorker
       if reservation.inactive_too_long?
         reservation.end_reservation
       elsif previous_number_of_players > 0 && (reservation.starts_at < 30.minutes.ago) && (reservation.auto_end?)
-        Rails.logger.warn "Automatically ended #{reservation} because it went from occupied to empty"
+        Rails.logger.warn "Automatically ending #{reservation} because it went from occupied to empty"
         reservation.end_reservation
       end
     end

@@ -10,7 +10,7 @@ class ServerInfoUpdaterWorker
       server_info.status
       server_info.get_stats
     rescue
-      Rails.logger.info "[#{Time.now}] Couldn't update #{server.name}"
+      Rails.logger.info "Couldn't update #{server.name}"
     end
   end
 end

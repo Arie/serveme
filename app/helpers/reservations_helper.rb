@@ -16,7 +16,11 @@ module ReservationsHelper
 
   def find_reservation
     if params[:id].to_i > 0
-      current_user.reservations.find(params[:id].to_i)
+      if current_user.admin?
+        Reservation.find(params[:id].to_i)
+      else
+        current_user.reservations.find(params[:id].to_i)
+      end
     end
   end
 

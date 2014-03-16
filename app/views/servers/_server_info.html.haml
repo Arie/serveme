@@ -13,7 +13,13 @@
       %td= "#{server_info.traffic_out} KB/s"
       %td= "#{server_info.uptime} minutes"
       - if server.current_reservation
-        %td= "#{server.inactive_minutes} minutes"
+        %td
+          = "#{server.inactive_minutes} minutes"
+          - if current_user && current_user.admin?
+            = link_to reservation_path(current_reservation), :class => 'btn btn-xs btn-danger',  :title => 'End reservation',     :method => :delete, :data => { :confirm => end_message } do
+              End
+              %i.fa.fa-stop
+
       - else
         %td N/A
 - rescue

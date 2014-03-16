@@ -4,6 +4,7 @@ describe ReservationsController do
 
   before do
     @user         = create :user
+    @user.groups << Group.admin_group
     sign_in @user
   end
 
@@ -12,6 +13,12 @@ describe ReservationsController do
     it "redirects to new_reservation_path when it cant find the reservation" do
       get :show, :id => 'foo'
       response.should redirect_to(new_reservation_path)
+    end
+
+    it "shows any reservation for an admin" do
+      reservation = create :reservation
+      get :show, :id => reservation.id
+      assigns(:reservation).should == reservation
     end
 
   end

@@ -15,11 +15,14 @@
     </style>
 </head>
 <body>
-    <h1>Serveme temporarily offline</h2>
+    <div class="maintenance">
+      <h1>Serveme temporarily offline</h2>
 
-    <p>The system is down for <%= reason ? reason : "upgrades" %><br>
-           as of <%= Time.now.strftime("%H:%M %Z") %>.</p>
+      <p>The system is down for <%= reason ? reason : "upgrades" %><br>
+            as of <%= Time.now.strftime("%H:%M %Z") %>.</p>
 
-    <p>It'll be back online <%= deadline ? deadline : "shortly" %>.</p>
+      <p>It'll be back online <%= deadline ? deadline : "shortly" %>.</p>
+      <img style="width: 100%" src="./assets/maintenance.gif" />
+    </div>
 </body>
 </html>

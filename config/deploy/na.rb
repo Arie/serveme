@@ -1,4 +1,4 @@
-set :main_server,       "na.fakkelbrigade.eu"
+set :main_server,       "na.serveme.tf"
 set :user,              'arie'
 set :puma_flags,        '-w 2 -t 1:8'
 set :sidekiq_processes,  1

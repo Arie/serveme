@@ -14,7 +14,7 @@ class ServerInfo
   end
 
   def server_name
-    status.fetch(:server_name,        'unknown').force_encoding('UTF-8').encode('UTF-16LE', :invalid => :replace, :replace => '').encode('UTF-8')
+    ActiveSupport::Multibyte::Chars.new(status.fetch(:server_name, 'unknown')).tidy_bytes.to_s
   end
 
   def number_of_players

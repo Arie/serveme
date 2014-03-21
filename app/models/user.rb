@@ -29,8 +29,7 @@ class User < ActiveRecord::Base
   end
 
   def donator?
-    #@donator ||= groups.include?(Group.donator_group)
-    true
+    @donator ||= groups.include?(Group.donator_group)
   end
 
   def admin?

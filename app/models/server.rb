@@ -143,6 +143,8 @@ class Server < ActiveRecord::Base
     if rcon_auth
       condenser.rcon_exec("tftrue_tv_delaymapchange 0")
       condenser.rcon_exec("changelevel ctf_turbine")
+    else
+      raise Exception, "Couldn't RCON auth to the server"
     end
   end
 

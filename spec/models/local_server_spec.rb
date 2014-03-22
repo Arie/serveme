@@ -193,8 +193,7 @@ describe LocalServer do
 
       it "executes rcon commands directly through the condenser" do
         condenser.should_receive(:rcon_exec).with("status").and_return "hostname: blabla"
-        condenser.should_receive(:rcon_exec).with("tftrue_tv_delaymapchange 0")
-        condenser.should_receive(:rcon_exec).with("changelevel ctf_turbine")
+        condenser.should_receive(:rcon_exec).with("kickall; tftrue_tv_delaymapchange 0; changelevel ctf_turbine")
         subject.fast_restart
       end
 

@@ -140,14 +140,13 @@ class Server < ActiveRecord::Base
 
   def fast_restart(rcon = current_rcon)
     Rails.logger.info("Attempting RCON changelevel restart of server #{name}")
-    condenser = SteamCondenser::Servers::SourceServer.new(ip, port.to_i)
-    if condenser.rcon_auth(rcon)
+    if rcon_auth(rcon)
       status = condenser.rcon_exec("status")
       unless status.include?("hostname:")
         raise Exception, "RCON status didn't seem correct: #{status}"
       end
-      condenser.rcon_exec("tftrue_tv_delaymapchange 0")
-      condenser.rcon_exec("changelevel ctf_turbine")
+      rcon_exec("tftrue_tv_delaymapchange 0")
+      rcon_exec("changelevel ctf_turbine")
     else
       raise Exception, "Couldn't RCON auth to the server"
     end
@@ -191,8 +190,8 @@ class Server < ActiveRecord::Base
     @condenser ||= SteamCondenser::Servers::SourceServer.new(ip, port.to_i)
   end
 
-  def rcon_auth
-    @rcon_auth ||= condenser.rcon_auth(current_rcon)
+  def rcon_auth(rcon = current_rcon)
+    @rcon_auth ||= condenser.rcon_auth(rcon)
   end
 
   def rcon_say(message)

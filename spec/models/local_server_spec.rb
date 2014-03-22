@@ -178,12 +178,26 @@ describe LocalServer do
       expect { subject.fast_restart }.to raise_exception
     end
 
-    it "executes rcon commands directly through the condenser if it could rcon auth" do
-      condenser = double(:rcon_auth => true)
-      subject.stub(:condenser => condenser, :current_rcon => "foobar")
-      condenser.should_receive(:rcon_exec).with("tftrue_tv_delaymapchange 0")
-      condenser.should_receive(:rcon_exec).with("changelevel ctf_turbine")
-      subject.fast_restart
+    context "after rcon auth" do
+
+      let(:condenser) { double(:rcon_auth => true).as_null_object }
+
+      before do
+        subject.stub(:ip=> "127.0.0.1", :current_rcon => "foobar", :condenser => condenser)
+      end
+
+      it "raises an error if returned a dodgy status" do
+        condenser.should_receive(:rcon_exec).with("status").and_return ""
+        expect { subject.fast_restart }.to raise_exception
+      end
+
+      it "executes rcon commands directly through the condenser" do
+        condenser.should_receive(:rcon_exec).with("status").and_return "hostname: blabla"
+        condenser.should_receive(:rcon_exec).with("tftrue_tv_delaymapchange 0")
+        condenser.should_receive(:rcon_exec).with("changelevel ctf_turbine")
+        subject.fast_restart
+      end
+
     end
 
   end

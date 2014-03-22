@@ -171,6 +171,24 @@ describe LocalServer do
 
   end
 
+  describe "#fast_restart" do
+
+    it "raises an error if it couldn't rcon auth" do
+      subject.stub(:rcon_auth => false)
+      expect { subject.fast_restart }.to raise_exception
+    end
+
+    it "executes rcon commands directly through the condenser if it could rcon auth" do
+      condenser = double
+      subject.stub(:condenser => condenser)
+      subject.stub(:rcon_auth => true)
+      condenser.should_receive(:rcon_exec).with("tftrue_tv_delaymapchange 0")
+      condenser.should_receive(:rcon_exec).with("changelevel ctf_turbine")
+      subject.fast_restart
+    end
+
+  end
+
   unless defined? JRUBY_VERSION
     describe '#find_process_id' do
       it 'picks the correct pid from the list' do

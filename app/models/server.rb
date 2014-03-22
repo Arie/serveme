@@ -133,7 +133,7 @@ class Server < ActiveRecord::Base
     begin
       fast_restart
     rescue Exception => e
-      Rails.logger.warn("Got error #{e.class} trying to do a fast restart of server #{name}, falling back to slow restart")
+      Rails.logger.warn("Got error #{e.class}: #{e.message} trying to do a fast restart of server #{name}, falling back to slow restart")
       slow_restart
     end
   end

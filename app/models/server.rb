@@ -140,7 +140,7 @@ class Server < ActiveRecord::Base
 
   def fast_restart
     Rails.logger.info("Attempting RCON changelevel restart of server #{name}")
-    rcon_exec("changelevel ctf_turbine")
+    condenser.rcon_exec("changelevel ctf_turbine") if rcon_auth
   end
 
   def slow_restart

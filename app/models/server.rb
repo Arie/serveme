@@ -181,7 +181,6 @@ class Server < ActiveRecord::Base
     begin
       condenser.rcon_exec(command) if rcon_auth
     rescue Errno::ECONNREFUSED, SteamCondenser::Error::Timeout => exception
-      Raven.capture_exception(exception) if Rails.env.production?
       Rails.logger.error "Couldn't deliver command to server #{id} - #{name}, command: #{command}"
     end
   end

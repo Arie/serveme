@@ -174,7 +174,8 @@ describe LocalServer do
   describe "#fast_restart" do
 
     it "raises an error if it couldn't rcon auth" do
-      subject.stub(:rcon_auth => false)
+      condenser = double(:rcon_auth => false)
+      subject.stub(:condenser => condenser)
       expect { subject.fast_restart }.to raise_exception
     end
 
@@ -187,7 +188,14 @@ describe LocalServer do
       end
 
       it "executes rcon commands directly through the condenser" do
-        condenser.should_receive(:rcon_exec).with("kickall; tftrue_tv_delaymapchange 0; exec server.cfg")
+        condenser.should_receive(:rcon_exec).with("kickall; tftrue_tv_delaymapchange 0")
+        condenser.should_receive(:rcon_exec).with("exec server.cfg")
+        subject.fast_restart
+      end
+
+      it "expect an RCONBan error when triggering the restart" do
+        condenser.should_receive(:rcon_exec).with("kickall; tftrue_tv_delaymapchange 0")
+        condenser.should_receive(:rcon_exec).with("exec server.cfg").and_raise SteamCondenser::Error::RCONBan
         subject.fast_restart
       end
 

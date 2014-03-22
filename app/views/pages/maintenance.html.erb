@@ -19,7 +19,7 @@
       <h1>Serveme temporarily offline</h2>
 
       <p>The system is down for <%= reason ? reason : "upgrades" %><br>
-            as of <%= Time.now.strftime("%H:%M %Z") %> / <%= Time.now.in_time_zone("Eastern Time (US & Canada)").strftime("%H:%M %Z") %>.</p>
+            as of <%= Time.now.strftime("%H:%M %Z") %> / <%= Time.now.in_time_zone("Eastern Time (US & Canada)").strftime("%I:%M %P %Z") %>.</p>
 
       <p>It'll be back online <%= deadline ? deadline : "shortly" %>.</p>
       <img style="width: 100%" src="/assets/maintenance.gif" />

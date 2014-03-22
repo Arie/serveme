@@ -11,7 +11,7 @@ module FastRestart
 
   def fast_restart(rcon = current_rcon)
     Rails.logger.info("Attempting RCON changelevel restart of server #{name}")
-    if rcon_auth(rcon)
+    if condenser.rcon_auth(rcon)
       status = condenser.rcon_exec("status")
       unless status.include?("hostname:")
         raise Exception, "RCON status didn't seem correct: #{status}"

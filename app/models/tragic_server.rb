@@ -1,6 +1,7 @@
-class TragicServer < RconFtpServer
+class TragicServer < RemoteServer
 
   include FastRestart
+  include FtpAccess
 
   def slow_restart
     Rails.logger.info("Attempting web control restart of server #{name}")

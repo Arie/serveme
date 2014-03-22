@@ -1,5 +1,5 @@
-<% if first_map.present? %>
-changelevel <%= first_map %>
+<% if first_map.present? && first_map != "ctf_turbine" %>
+tftrue_tv_delaymapchange 0
 changelevel <%= first_map %>
 <% end %>
 

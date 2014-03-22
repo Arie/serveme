@@ -123,7 +123,7 @@ describe LocalServer do
   describe '#end_reservation' do
 
     it 'should zip demos and logs, remove configuration and restart' do
-      reservation = double
+      reservation = double(:rcon => "foo")
       subject.should_receive(:copy_logs)
       subject.should_receive(:zip_demos_and_logs).with(reservation)
       subject.should_receive(:remove_logs_and_demos)
@@ -179,9 +179,8 @@ describe LocalServer do
     end
 
     it "executes rcon commands directly through the condenser if it could rcon auth" do
-      condenser = double
-      subject.stub(:condenser => condenser)
-      subject.stub(:rcon_auth => true)
+      condenser = double(:rcon_auth => true)
+      subject.stub(:condenser => condenser, :current_rcon => "foobar")
       condenser.should_receive(:rcon_exec).with("tftrue_tv_delaymapchange 0")
       condenser.should_receive(:rcon_exec).with("changelevel ctf_turbine")
       subject.fast_restart

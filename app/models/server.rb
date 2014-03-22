@@ -129,18 +129,18 @@ class Server < ActiveRecord::Base
     end
   end
 
-  def restart
+  def restart(rcon = current_rcon)
     begin
-      fast_restart
+      fast_restart(rcon)
     rescue Exception => e
       Rails.logger.warn("Got error #{e.class}: #{e.message} trying to do a fast restart of server #{name}, falling back to slow restart")
       slow_restart
     end
   end
 
-  def fast_restart
+  def fast_restart(rcon = current_rcon)
     Rails.logger.info("Attempting RCON changelevel restart of server #{name}")
-    if rcon_auth
+    if condenser.rcon_auth(rcon)
       condenser.rcon_exec("tftrue_tv_delaymapchange 0")
       condenser.rcon_exec("changelevel ctf_turbine")
     else
@@ -171,7 +171,7 @@ class Server < ActiveRecord::Base
     copy_logs(reservation)
     remove_logs_and_demos
     remove_configuration
-    restart
+    restart(reservation.rcon)
   end
 
   def zip_demos_and_logs(reservation)

@@ -160,7 +160,7 @@ class Server < ActiveRecord::Base
 
   def start_reservation(reservation)
     update_configuration(reservation)
-    restart
+    restart(server.rcon)
   end
 
   def update_reservation(reservation)

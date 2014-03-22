@@ -49,8 +49,9 @@ class RconFtpServer < RemoteServer
              end
   end
 
-  def restart
+  def restart(rcon = current_rcon)
     Rails.logger.info("Attempting RCON restart of server #{name}")
+    rcon_auth(rcon)
     rcon_exec("_restart")
   end
 

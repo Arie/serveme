@@ -142,6 +142,10 @@ class Server < ActiveRecord::Base
     Rails.logger.info("Attempting RCON changelevel restart of server #{name}")
     condenser = SteamCondenser::Servers::SourceServer.new(ip, port.to_i)
     if condenser.rcon_auth(rcon)
+      status = condenser.rcon_exec("status")
+      unless status.include?("hostname:")
+        raise Exception, "RCON status didn't seem correct: #{status}"
+      end
       condenser.rcon_exec("tftrue_tv_delaymapchange 0")
       condenser.rcon_exec("changelevel ctf_turbine")
     else

@@ -186,14 +186,9 @@ describe LocalServer do
         subject.stub(:ip=> "127.0.0.1", :current_rcon => "foobar", :condenser => condenser)
       end
 
-      it "raises an error if returned a dodgy status" do
-        condenser.should_receive(:rcon_exec).with("status").and_return ""
-        expect { subject.fast_restart }.to raise_exception
-      end
-
       it "executes rcon commands directly through the condenser" do
-        condenser.should_receive(:rcon_exec).with("status").and_return "hostname: blabla"
-        condenser.should_receive(:rcon_exec).with("kickall; tftrue_tv_delaymapchange 0; changelevel ctf_turbine")
+        condenser.should_receive(:rcon_exec).with("kickall; tftrue_tv_delaymapchange 0")
+        condenser.should_receive(:rcon_exec).with("changelevel ctf_turbine")
         subject.fast_restart
       end
 

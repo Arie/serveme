@@ -140,6 +140,7 @@ class Server < ActiveRecord::Base
 
   def fast_restart(rcon = current_rcon)
     Rails.logger.info("Attempting RCON changelevel restart of server #{name}")
+    condenser = SteamCondenser::Servers::SourceServer.new(ip, port.to_i)
     if condenser.rcon_auth(rcon)
       condenser.rcon_exec("tftrue_tv_delaymapchange 0")
       condenser.rcon_exec("changelevel ctf_turbine")

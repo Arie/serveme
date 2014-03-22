@@ -26,7 +26,7 @@
       = f.input :custom_whitelist_id, :hint => "Enter the number (ID) for a whitelist from <a href='http://whitelist.tf/configure', target='_blank'>whitelist.tf</a>"
 
       - users_last_reservation = current_user.reservations.last
-      - if true# users_last_reservation && users_last_reservation.past? && users_last_reservation.inactive_too_long?
+      - if users_last_reservation && users_last_reservation.past? && users_last_reservation.inactive_too_long?
         - hint = "Auto-ending is forced on for your next reservation, because you didn't end your last one"
         - readonly = true
         - value = true

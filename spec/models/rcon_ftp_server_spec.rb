@@ -19,6 +19,7 @@ describe RconFtpServer do
   describe '#restart' do
 
     it "sends the software termination signal to the process" do
+      subject.should_receive(:rcon_auth)
       subject.should_receive(:rcon_exec).with("_restart")
       subject.restart
     end

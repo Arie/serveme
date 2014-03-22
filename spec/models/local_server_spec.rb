@@ -146,6 +146,12 @@ describe LocalServer do
 
   describe '#restart' do
 
+    it "tries a fast restart, if that doesn't work falls back to slow restart" do
+      subject.should_receive(:fast_restart).and_raise { ArgumentError }
+      subject.should_receive(:slow_restart)
+      subject.restart
+    end
+
     it "sends the software termination signal to the process" do
       subject.should_receive(:process_id).at_least(:once).and_return { 1337 }
       Process.should_receive(:kill).with(15, 1337)

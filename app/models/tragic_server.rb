@@ -1,6 +1,6 @@
 class TragicServer < RconFtpServer
 
-  def restart
+  def slow_restart
     Rails.logger.info("Attempting web control restart of server #{name}")
     web_management.restart
   end

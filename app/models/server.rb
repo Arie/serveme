@@ -130,6 +130,20 @@ class Server < ActiveRecord::Base
   end
 
   def restart
+    begin
+      fast_restart
+    rescue Exception => e
+      Rails.logger.warn("Got error #{e.class} trying to do a fast restart of server #{name}, falling back to slow restart")
+      slow_restart
+    end
+  end
+
+  def fast_restart
+    Rails.logger.info("Attempting RCON changelevel restart of server #{name}")
+    rcon_exec("changelevel ctf_turbine")
+  end
+
+  def slow_restart
     if process_id
       logger.info "Killing process id #{process_id}"
       kill_process

@@ -14,7 +14,7 @@ module FastRestart
     if condenser.rcon_auth(rcon)
       condenser.rcon_exec("kickall; tftrue_tv_delaymapchange 0")
       begin
-        condenser.rcon_exec("exec server.cfg; changelevel ctf_turbine")
+        condenser.rcon_exec("exec server.cfg; exec ctf_turbine.cfg; changelevel ctf_turbine")
       # A server doing a restart like this sends the same packet as when you get banned
       rescue SteamCondenser::Error::RCONBan
         Rails.logger.info "Restart triggered RCONBan error"

@@ -189,13 +189,13 @@ describe LocalServer do
 
       it "executes rcon commands directly through the condenser" do
         condenser.should_receive(:rcon_exec).with("kickall; tftrue_tv_delaymapchange 0")
-        condenser.should_receive(:rcon_exec).with("exec server.cfg; changelevel ctf_turbine")
+        condenser.should_receive(:rcon_exec).with("exec server.cfg; exec ctf_turbine.cfg; changelevel ctf_turbine")
         subject.fast_restart
       end
 
       it "expect an RCONBan error when triggering the restart" do
         condenser.should_receive(:rcon_exec).with("kickall; tftrue_tv_delaymapchange 0")
-        condenser.should_receive(:rcon_exec).with("exec server.cfg; changelevel ctf_turbine").and_raise SteamCondenser::Error::RCONBan
+        condenser.should_receive(:rcon_exec).with("exec server.cfg; exec ctf_turbine.cfg; changelevel ctf_turbine").and_raise SteamCondenser::Error::RCONBan
         subject.fast_restart
       end
 

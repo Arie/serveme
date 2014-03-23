@@ -6,18 +6,21 @@
     = link_to edit_reservation_path(reservation),         :class => 'btn btn-xs btn-info',    :title => 'Edit reservation' do
       Edit
       %i.fa.fa-edit
+
   - if reservation.active? || (reservation.now? && reservation.start_instantly?)
     - if reservation.less_than_1_hour_left?
       = link_to extend_reservation_path(reservation),     :class => 'btn btn-xs btn-primary', :title => 'Extend reservation',  :method => :post,   :data => { :confirm => "This will extend your reservation if possible" } do
         Extend
         %i.fa.fa-clock-o
-    - if reservation.inactive_minute_counter > 0
-      = link_to idle_reset_reservation_path(reservation),  :class => 'btn btn-xs btn-primary', :title => "Idle reset",           :method => :post do
-        - afk_text = "#{reservation.inactive_minute_counter}/#{reservation.inactive_minute_limit}m"
-        Idle reset (#{afk_text})
-        %i.fa.fa-undo
 
     - unless reservation.end_instantly?
+
+      - if reservation.inactive_minute_counter > 0
+        = link_to idle_reset_reservation_path(reservation),  :class => 'btn btn-xs btn-primary', :title => "Idle reset",           :method => :post do
+          - afk_text = "#{reservation.inactive_minute_counter}/#{reservation.inactive_minute_limit}m"
+          Idle reset (#{afk_text})
+          %i.fa.fa-undo
+
       - if reservation.has_players?
         - end_message = "Are you sure you want to end your reservation? There #{I18n.t(:were_x_players_left, :count => reservation.last_number_of_players, :scope => :server)} left on the server at #{I18n.l(Time.zone.now, :format => :time_without_seconds)}"
       - else
@@ -25,18 +28,19 @@
       = link_to reservation_path(reservation),              :class => 'btn btn-xs btn-danger',  :title => 'End reservation',     :method => :delete, :data => { :confirm => end_message } do
         End
         %i.fa.fa-stop
+
+      = link_to  reservation.server_connect_url,            :class => 'btn btn-xs btn-warning' do
+        Join game
+        %i.fa.fa-play
+
+      = link_to reservation.stv_connect_url,              :class => 'btn btn-xs btn-primary' do
+        Join STV
+        %i.fa.fa-film
+
   - if reservation.cancellable?
     = link_to reservation_path(reservation),              :class => 'btn btn-xs btn-warning', :title => 'Cancel reservation',  :method => :delete do
       Cancel
       %i.fa.fa-trash-o
-
-  - if reservation.active? || (reservation.now? && reservation.start_instantly?)
-    = link_to  reservation.server_connect_url,            :class => 'btn btn-xs btn-warning' do
-      Join game
-      %i.fa.fa-play
-    = link_to reservation.stv_connect_url,              :class => 'btn btn-xs btn-primary' do
-      Join STV
-      %i.fa.fa-film
 
   - if reservation.past?
     = link_to "/uploads/#{reservation.zipfile_name}",     :class => 'btn btn-xs btn-info',    :title => 'Download a zip with the logs and demos of the match' do

@@ -1,9 +1,8 @@
 class TragicServer < RemoteServer
 
-  include FastRestart
   include FtpAccess
 
-  def slow_restart
+  def restart
     Rails.logger.info("Attempting web control restart of server #{name}")
     web_management.restart
   end

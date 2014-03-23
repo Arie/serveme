@@ -1,5 +1,4 @@
 class Server < ActiveRecord::Base
-  include FastRestart
 
   attr_accessible :name, :path, :ip, :port
 
@@ -131,7 +130,7 @@ class Server < ActiveRecord::Base
     end
   end
 
-  def slow_restart
+  def restart
     if process_id
       logger.info "Killing process id #{process_id}"
       kill_process
@@ -142,7 +141,7 @@ class Server < ActiveRecord::Base
 
   def start_reservation(reservation)
     update_configuration(reservation)
-    restart(rcon)
+    restart
   end
 
   def update_reservation(reservation)
@@ -154,7 +153,7 @@ class Server < ActiveRecord::Base
     copy_logs(reservation)
     remove_logs_and_demos
     remove_configuration
-    restart(reservation.rcon)
+    restart
   end
 
   def zip_demos_and_logs(reservation)

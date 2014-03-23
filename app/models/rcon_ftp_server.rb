@@ -2,9 +2,8 @@ class RconFtpServer < RemoteServer
 
   include FtpAccess
 
-  def restart(rcon = current_rcon)
+  def restart
     Rails.logger.info("Attempting RCON restart of server #{name}")
-    rcon_auth(rcon)
     rcon_exec("_restart")
   end
 

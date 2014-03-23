@@ -146,12 +146,6 @@ describe LocalServer do
 
   describe '#restart' do
 
-    it "tries a fast restart, if that doesn't work falls back to slow restart" do
-      subject.should_receive(:fast_restart).and_raise { ArgumentError }
-      subject.should_receive(:slow_restart)
-      subject.restart
-    end
-
     it "sends the software termination signal to the process" do
       subject.should_receive(:process_id).at_least(:once).and_return { 1337 }
       Process.should_receive(:kill).with(15, 1337)
@@ -167,38 +161,6 @@ describe LocalServer do
       logger.should_receive(:error)
 
       subject.restart
-    end
-
-  end
-
-  describe "#fast_restart" do
-
-    it "raises an error if it couldn't rcon auth" do
-      condenser = double(:rcon_auth => false)
-      subject.stub(:condenser => condenser)
-      expect { subject.fast_restart }.to raise_exception
-    end
-
-    context "after rcon auth" do
-
-      let(:condenser) { double(:rcon_auth => true).as_null_object }
-
-      before do
-        subject.stub(:ip=> "127.0.0.1", :current_rcon => "foobar", :condenser => condenser)
-      end
-
-      it "executes rcon commands directly through the condenser" do
-        condenser.should_receive(:rcon_exec).with("kickall; tftrue_tv_delaymapchange 0")
-        condenser.should_receive(:rcon_exec).with("exec server.cfg; exec ctf_turbine.cfg; changelevel ctf_turbine")
-        subject.fast_restart
-      end
-
-      it "expect an RCONBan error when triggering the restart" do
-        condenser.should_receive(:rcon_exec).with("kickall; tftrue_tv_delaymapchange 0")
-        condenser.should_receive(:rcon_exec).with("exec server.cfg; exec ctf_turbine.cfg; changelevel ctf_turbine").and_raise SteamCondenser::Error::RCONBan
-        subject.fast_restart
-      end
-
     end
 
   end

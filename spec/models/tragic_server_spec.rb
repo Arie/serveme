@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe TragicServer do
 
-  describe "#slow_restart" do
+  describe "#restart" do
 
     it "tells the web management interface to restart" do
       web_management = double(:web_management)
@@ -10,7 +10,7 @@ describe TragicServer do
 
       web_management.should_receive(:restart)
 
-      subject.slow_restart
+      subject.restart
     end
 
   end

@@ -7,12 +7,26 @@
     %p.lead
       Hey there, we hope you're enjoying serveme.tf. Here we'll try to answer your questions :)
 
+    .well
+      %p.text-success
+        Q: What is this?
+      %p
+        %em A: This is the easiest way to borrow a TF2 server!
 
     .well
       %p.text-success
         Q: Is this completely free?
-      %p 
-        %em Yes, it is completely free for everyone to use!
+      %p
+        %em A: Yep, but there are perks for those who help us pay the bills by donating.
+
+    .well
+      %p.text-success
+        Q: What can I use this for?
+      %p
+        %em
+          A: You're allowed to use serveme for anything vaguely related to competitive TF2.
+          1v1 practice, private clan practice, pcw's, scrims, mixes, lobbies or officials.
+          Basically anything that's not a pub or MvM match.
 
     .well
       %p.text-success
@@ -28,6 +42,12 @@
             %li Allowed to make reservations more than 3 hours in the future
             %li No ads
       = render "shared/paypal_button"
+
+    .well
+      %p.text-success
+        Q: Can I use serveme for MvM?
+      %p
+        %em A: Nope, sorry. MvM is about twice as resource intensive as a highlander match, and that might cause other games on the same server to lag.
 
     .well
       %p.text-success
@@ -47,7 +67,7 @@
     .well
       %p.text-success
         Q: How do I change the map?
-      %p 
+      %p
         %em
           A: Assuming you don't want to play on ctf_turbine, you'll want to change the map:
           "rcon changelevel MAPNAME"
@@ -55,9 +75,9 @@
     .well
       %p.text-success
         Q: How can I enable sv_cheats?
-      %p 
+      %p
         %em
-          The TFTrue plugin enforces some competitive settings, but you can override this:
+          A: The TFTrue plugin enforces some competitive settings, but you can override this:
           rcon tftrue_tournament_insecure 1; rcon sv_cheats 1
 
     .well

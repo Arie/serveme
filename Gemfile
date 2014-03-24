@@ -94,7 +94,7 @@ end
 
 gem 'uglifier'
 gem 'jquery-rails'
-gem "compass-rails", "~> 1.1.2"
+gem "compass-rails", "~> 1.1.7"
 gem 'sass-rails'
 gem 'bootstrap-sass'
 gem 'simple_form'

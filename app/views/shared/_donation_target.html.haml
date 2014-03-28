@@ -1,4 +1,4 @@
-- goal_percentage = PaypalOrder.monthly_goal_percentage
+- goal_percentage = PaypalOrder.monthly_goal_percentage.round
 
 - if goal_percentage.between?(0, 30)
   - bar_class = "danger"
@@ -16,11 +16,11 @@
   .col-md-8
     .progress.progress-striped.active
       - if goal_percentage <= 100
-        - width = goal_percentage.round
+        - width = goal_percentage
       - else
         - width = 100
       .progress-bar{:class => "progress-bar-#{bar_class}", :role => "progressbar", :style => "width: #{width}%"}
-        %strong #{width} %
+        %strong #{goal_percentage} %
 
   .col-md-2
     .center-block

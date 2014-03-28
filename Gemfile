@@ -30,7 +30,7 @@ platforms :rbx do
   gem 'rubysl'
   gem "racc"
   gem "rubinius-coverage"
-  gem "rubysl-test-unit", "2.0.2"
+  gem "rubysl-test-unit"
 end
 platforms :ruby do
   gem 'mysql2'
@@ -53,6 +53,7 @@ group :development do
   gem 'capistrano_colors'
   gem 'capistrano', "~> 2.0"
   gem 'capistrano-maintenance'
+  gem "capistrano-sidekiq"
   gem 'rvm-capistrano'
   gem 'query_reviewer'
 end

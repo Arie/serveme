@@ -130,6 +130,7 @@ GEM
       nokogiri (>= 1.5.0)
       rails (>= 3.0.0)
     dalli (2.7.0)
+    dante (0.1.5)
     database_cleaner (1.2.0)
     debug_inspector (0.0.2)
     delorean (2.1.0)
@@ -660,6 +661,7 @@ DEPENDENCIES
   coveralls
   cucumber-rails
   dalli
+  dante
   database_cleaner
   delorean
   devise

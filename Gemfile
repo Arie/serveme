@@ -11,8 +11,12 @@ gem 'devise'
 gem 'rubyzip'
 gem 'steam-condenser', :github => 'koraktor/steam-condenser-ruby'
 gem 'logs_tf'
+
+#Logdaemon
 gem 'tf2_line_parser'
 gem 'eventmachine'
+gem 'dante'
+
 gem 'net-ssh-simple'
 gem 'net-ssh'
 gem 'net-sftp'

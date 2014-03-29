@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140329114535) do
+ActiveRecord::Schema.define(version: 20140329194614) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -129,6 +129,11 @@ ActiveRecord::Schema.define(version: 20140329114535) do
     t.string   "file"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "server_notifications", force: true do |t|
+    t.string  "message", limit: 190
+    t.boolean "ad"
   end
 
   create_table "servers", force: true do |t|

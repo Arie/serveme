@@ -46,4 +46,9 @@ FactoryGirl.define do
     association :user
   end
 
+  factory :server_notification do
+    message "This is the notification"
+    ad false
+  end
+
 end

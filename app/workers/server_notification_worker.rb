@@ -2,7 +2,7 @@ class ServerNotificationWorker
   include Sidekiq::Worker
   include Sidetiq::Schedulable
 
-  recurrence { minutely(30) }
+  recurrence { hourly.minute_of_hour(0, 20, 40) }
 
   def perform
     reservations.each do |reservation|

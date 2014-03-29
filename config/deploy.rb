@@ -1,5 +1,4 @@
 require './config/boot'
-require 'cronic/recipes'
 require 'puma/capistrano'
 require 'active_support/core_ext'
 
@@ -28,9 +27,6 @@ ssh_options[:forward_agent] = true
 
 after 'deploy:finalize_update', 'app:symlink'
 after 'deploy',                 'deploy:cleanup'
-after "deploy:stop",            "cronic:stop"
-after "deploy:start",           "cronic:start"
-after "deploy:restart",         "cronic:restart"
 
 namespace :app do
   desc "makes a symbolic link to the shared files"

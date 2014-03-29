@@ -17,11 +17,11 @@ gem 'net-sftp'
 gem 'draper'
 gem 'will_paginate'
 gem 'zeroclipboard-rails'
-gem 'cronic'
 gem "google_visualr"
 gem 'rack-cache'
 gem 'paypal-sdk-rest'
 gem 'sidekiq'
+gem 'sidetiq', :github => "ggilder/sidetiq", :ref => "204091b"
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'mechanize'
 gem 'american_date'

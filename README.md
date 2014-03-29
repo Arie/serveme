@@ -19,9 +19,8 @@ A web-interface to reserve TF2 gameservers
 5. Edit the seed data in db/seeds.rb
 6. Change the value of variable `chdir` in config/thin.yml to the path to your app: `chdir: /path/to/the/application`
 7. Setup and migrate the databases: rake db:create db:migrate db:seed RAILS_ENV=production
-8. Start the cronic scheduler to deal with planned reservations: `script/cronic -d -l log/cronic.log -P tmp/pids/cronic.pid`
-9. Start the webserver: `thin -C config/thin.yml start`
-10. Add `exec reservation.cfg` to the server.cfg of the gameserver
+8. Start the webserver: `thin -C config/thin.yml start`
+9. Add `exec reservation.cfg` to the server.cfg of the gameserver
 
 
 ## Servers

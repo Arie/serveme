@@ -122,7 +122,7 @@ class Reservation < ActiveRecord::Base
   def warn_nearly_over
     time_left_in_minutes  = (time_left / 60.0).ceil
     time_left_text        = I18n.t(:timeleft, :count => time_left_in_minutes)
-    server.rcon_say("This reservation will end in less than #{time_left_text}, if you need more time, extend your reservation on the website.")
+    server.rcon_say("This reservation will end in less than #{time_left_text}, if this server is not yet booked by someone else, you can say !extend for more time")
   end
 
   def cancellable?

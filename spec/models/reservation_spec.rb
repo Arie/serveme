@@ -610,7 +610,7 @@ describe Reservation do
         subject.stub(:time_left => 1.minute)
         subject.stub(:server => server)
 
-        message = "This reservation will end in less than 1 minute, if you need more time, extend your reservation on the website."
+        message = "This reservation will end in less than 1 minute, if this server is not yet booked by someone else, you can say !extend for more time"
         server.should_receive(:rcon_say).with(message)
         subject.warn_nearly_over
       end

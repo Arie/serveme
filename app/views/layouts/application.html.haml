@@ -20,6 +20,11 @@
     = content_for(:jumbotron)
 
     .container
+      .row
+        .col-md-11
+          .flash.alert.alert-success
+            %h4
+              You can now end and extend your reservations while on the server, use !end and !extend in chat :)
 
       - if !donator?
         .row

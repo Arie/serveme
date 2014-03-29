@@ -25,12 +25,6 @@ class CronWorker
     Reservation.where('ends_at < ? AND provisioned = ? AND ended = ?', Time.current, true, false)
   end
 
-  def end_reservation(reservations)
-    reservations.map do |reservation|
-      reservation.end_reservation
-    end
-  end
-
   def start_active_reservations
     unstarted_now_reservations  = now_reservations.where('provisioned = ? AND start_instantly = ?', false, false)
     start_reservations(unstarted_now_reservations)

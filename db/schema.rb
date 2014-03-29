@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140309135527) do
+ActiveRecord::Schema.define(version: 20140329114535) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -96,24 +96,26 @@ ActiveRecord::Schema.define(version: 20140309135527) do
     t.datetime "updated_at"
     t.datetime "starts_at"
     t.datetime "ends_at"
-    t.boolean  "provisioned",             default: false
-    t.boolean  "ended",                   default: false
+    t.boolean  "provisioned",                        default: false
+    t.boolean  "ended",                              default: false
     t.integer  "server_config_id"
     t.integer  "whitelist_id"
-    t.integer  "inactive_minute_counter", default: 0
-    t.integer  "last_number_of_players",  default: 0
+    t.integer  "inactive_minute_counter",            default: 0
+    t.integer  "last_number_of_players",             default: 0
     t.string   "first_map"
-    t.boolean  "start_instantly",         default: false
-    t.boolean  "end_instantly",           default: false
+    t.boolean  "start_instantly",                    default: false
+    t.boolean  "end_instantly",                      default: false
     t.integer  "custom_whitelist_id"
     t.integer  "duration"
-    t.boolean  "auto_end",                default: true
+    t.boolean  "auto_end",                           default: true
+    t.string   "logsecret",               limit: 64
   end
 
   add_index "reservations", ["auto_end"], name: "index_reservations_on_auto_end", using: :btree
   add_index "reservations", ["custom_whitelist_id"], name: "index_reservations_on_custom_whitelist_id", using: :btree
   add_index "reservations", ["end_instantly"], name: "index_reservations_on_end_instantly", using: :btree
   add_index "reservations", ["ends_at"], name: "index_reservations_on_ends_at", using: :btree
+  add_index "reservations", ["logsecret"], name: "index_reservations_on_logsecret", using: :btree
   add_index "reservations", ["server_config_id"], name: "index_reservations_on_server_config_id", using: :btree
   add_index "reservations", ["server_id", "starts_at"], name: "index_reservations_on_server_id_and_starts_at", unique: true, using: :btree
   add_index "reservations", ["server_id"], name: "index_reservations_on_server_id", using: :btree

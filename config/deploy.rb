@@ -1,6 +1,7 @@
 require './config/boot'
 require 'puma/capistrano'
 require 'active_support/core_ext'
+require "./config/deploy/logdaemon"
 
 set :stages,            %w(eu na)
 set :default_stage,     "eu"
@@ -27,6 +28,9 @@ ssh_options[:forward_agent] = true
 
 after 'deploy:finalize_update', 'app:symlink'
 after 'deploy',                 'deploy:cleanup'
+after "deploy:stop",            "logdaemon:stop"
+after "deploy:start",           "logdaemon:start"
+after "deploy:restart",         "logdaemon:restart"
 
 namespace :app do
   desc "makes a symbolic link to the shared files"

@@ -150,6 +150,7 @@ GEM
       activesupport (>= 3.0)
       request_store (~> 1.0.3)
     erubis (2.7.0)
+    eventmachine (1.0.3)
     execjs (2.0.2)
     factory_girl (4.4.0)
       activesupport (>= 3.0.0)
@@ -589,6 +590,8 @@ GEM
     sys-proctable (0.9.4)
     term-ansicolor (1.3.0)
       tins (~> 1.0)
+    tf2_line_parser (0.1.1)
+      activesupport
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
       ref
@@ -661,6 +664,7 @@ DEPENDENCIES
   delorean
   devise
   draper
+  eventmachine
   execjs
   factory_girl_rails
   font-awesome-rails
@@ -704,6 +708,7 @@ DEPENDENCIES
   sinatra (>= 1.3.0)
   steam-condenser!
   sys-proctable
+  tf2_line_parser
   therubyracer
   therubyrhino
   uglifier

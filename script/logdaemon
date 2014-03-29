@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+require 'dante'
+require 'eventmachine'
+require 'socket'
+require 'sidekiq'
+require File.expand_path("../../app/workers/log_worker", __FILE__)
+
+class Handler < EM::Connection
+
+  def receive_data(data)
+    log_line = ActiveSupport::Multibyte::Chars.new(data).tidy_bytes[5..-1]
+    LogWorker.perform_async(log_line)
+  end
+
+end
+
+runner = Dante::Runner.new('logdaemon')
+runner.with_options do |opts|
+  opts.on("-i", "--ip IP", String, "IP to bind to") do |ip|
+    options[:ip] = ip
+  end
+end
+runner.description = "TF2 server logdaemon"
+
+runner.execute do |opts|
+  ip    = opts[:ip]
+  port  = opts[:port]
+  puts "Listening on #{ip}:#{port}..."
+  EM.run {
+    EM::open_datagram_socket(ip, port, Handler)
+  }
+end
+

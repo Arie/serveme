@@ -10,6 +10,7 @@ class Reservation < ActiveRecord::Base
   has_many :log_uploads
 
   before_validation :calculate_duration
+  before_create :generate_logsecret
 
   delegate :donator?, :to => :user, :prefix => false
 
@@ -159,6 +160,10 @@ class Reservation < ActiveRecord::Base
 
   def calculate_duration
     self.duration = (ends_at.to_i - starts_at.to_i)
+  end
+
+  def generate_logsecret
+    self.logsecret ||= rand(2**128)
   end
 
   def start_reservation

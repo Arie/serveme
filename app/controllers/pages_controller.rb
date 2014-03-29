@@ -29,6 +29,15 @@ class PagesController < ApplicationController
   def faq
   end
 
+  def switch_theme
+    if black_theme?
+      cookies[:theme] = "white"
+    else
+      cookies[:theme] = "black"
+    end
+    redirect_to root_path
+  end
+
   def not_found
     render 'not_found', :status => 404
   end

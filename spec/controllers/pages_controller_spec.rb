@@ -20,6 +20,17 @@ describe PagesController do
     end
   end
 
+  describe "#switch_theme" do
+
+    it "toggles between themes by setting a cookie" do
+      get :switch_theme
+      cookies[:theme].should == "black"
+      get :switch_theme
+      cookies[:theme].should == "white"
+    end
+
+  end
+
   describe '#not_found' do
 
     it "should show the not found page" do

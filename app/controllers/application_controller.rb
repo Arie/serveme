@@ -38,6 +38,11 @@ class ApplicationController < ActionController::Base
   end
   helper_method :time_zone_from_cookie
 
+  def black_theme?
+    @black_theme ||= cookies[:theme] == "black"
+  end
+  helper_method :black_theme?
+
   def require_admin
     unless current_user && current_user.admin?
       redirect_to root_path

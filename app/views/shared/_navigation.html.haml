@@ -78,9 +78,16 @@
           - if current_user
             Hello
             = link_to current_user.decorate.nickname, settings_path
-
             |
             = link_to "logout", users_logout_path, :method => :delete
           - else
             = link_to '/users/auth/steam' do
               = image_tag 'sits_small.png', :alt => "Sign in with Steam"
+          = link_to switch_theme_path do
+            .theme_switcher
+              - if black_theme?
+                - switch_to_color = "white"
+              - else
+                - switch_to_color = "black"
+              .color{:class => switch_to_color}
+

@@ -79,6 +79,7 @@ Serveme::Application.routes.draw do
   get   '/your-reservations',             :to => "reservations#index",        :as => "your_reservations"
   get   '/recent-reservations',           :to => "pages#recent_reservations", :as => "recent_reservations"
   get   '/settings',                      :to => "users#edit",                :as => "settings"
+  get   '/switch-theme',                  :to => "pages#switch_theme",        :as => "switch_theme"
 
   get   '/login',                         :to => 'sessions#new',      :as => :login
   get   '/users/auth/failure',            :to => 'sessions#failure'

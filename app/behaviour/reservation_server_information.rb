@@ -27,6 +27,10 @@ module ReservationServerInformation
     "#{user.uid}-#{id}-#{server.id}-#{formatted_starts_at}.zip"
   end
 
+  def zipfile_url
+    "#{SITE_URL}/uploads/#{zipfile_name}"
+  end
+
   def has_players?
     last_number_of_players.to_i > 0
   end

@@ -43,9 +43,7 @@
       %i.fa.fa-trash-o
 
   - if reservation.past?
-    = link_to "/uploads/#{reservation.zipfile_name}",     :class => 'btn btn-xs btn-info',    :title => 'Download a zip with the logs and demos of the match' do
-      Log/demo zip
-      %i.fa.fa-download
+    = render 'reservations/zip_file_link', :reservation => reservation
     = link_to reservation_log_uploads_path(reservation),  :class => 'btn btn-xs btn-success', :title => 'Upload the match logs to logs.tf' do
       logs.tf
       %i.fa.fa-upload

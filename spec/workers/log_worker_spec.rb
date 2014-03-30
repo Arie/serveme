@@ -43,7 +43,7 @@ describe LogWorker do
 
     it "notifies when extension wasn't possible" do
       reservation.should_receive(:extend!).and_return { false }
-      server.should_receive(:rcon_say).with("Couldn't extend your reservation")
+      server.should_receive(:rcon_say).with("Couldn't extend your reservation: you can only extend when there's less than 1 hour left and no one else has booked the server.")
       LogWorker.perform_async(extend_line)
     end
 

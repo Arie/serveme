@@ -33,7 +33,7 @@ class LogWorker
       reservation.server.rcon_say "Extended your reservation by #{(reserver.reservation_extension_time / 60.0).round} minutes"
     else
       Rails.logger.info "Couldn't extend #{reservation} from chat"
-      reservation.server.rcon_say "Couldn't extend your reservation"
+      reservation.server.rcon_say "Couldn't extend your reservation: you can only extend when there's less than 1 hour left and no one else has booked the server."
     end
   end
 

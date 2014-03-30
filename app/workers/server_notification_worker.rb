@@ -16,6 +16,7 @@ class ServerNotificationWorker
     else
       notification = notifications_for_non_donators.sample
     end
+    reservation.server.set_logaddress
     reservation.server.rcon_say(notification.message) if notification
   end
 

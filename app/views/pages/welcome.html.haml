@@ -12,7 +12,13 @@
               Let's play!
               %i.fa.fa-crosshairs
           .col-md-4
-            .available_servers= render 'reservations/available_servers'
+            - if na_system?
+              .sponsor
+                = render 'shared/na_sponsor'
+                .available_servers= render 'reservations/available_servers'
+            - else
+              .available_servers= render 'reservations/available_servers'
+
 
 .row
   .col-md-12

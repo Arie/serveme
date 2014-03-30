@@ -120,7 +120,7 @@ describe User do
       user.groups << Group.donator_group
       expiration = 1.day.from_now
       user.group_users.last.update_attribute(:expires_at, 1.day.from_now)
-      user.donator_until.to_i.should == expiration.to_i
+      user.donator_until.to_date.should == expiration.to_date
     end
   end
 

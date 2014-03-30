@@ -344,4 +344,12 @@ describe LocalServer do
     end
   end
 
+  describe "#set_logaddress" do
+
+    it "tells the the server the logaddress by rcon" do
+      subject.should_receive(:rcon_exec).with("logaddress_add localhost:40001")
+      subject.set_logaddress
+    end
+  end
+
 end

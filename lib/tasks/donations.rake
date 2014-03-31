@@ -6,7 +6,7 @@ namespace :donations do
     start_time = Date.parse(args[:start_date]).beginning_of_day
     end_time = Date.parse(args[:end_date]).end_of_day
     reservations = Reservation.where(:starts_at => start_time..end_time)
-    total_reservation_seconds = reservations.sum(&:duration)
+    total_reservation_seconds = reservations.to_a.sum(&:duration)
     active_server_ids = reservations.pluck(:server_id).uniq
 
     puts "=" * 100
@@ -18,7 +18,7 @@ namespace :donations do
     Server.where(:id => active_server_ids).group(:ip).pluck(:ip).sort.each do |hostname|
       host_server_count = Server.where(:ip => hostname).count
       host_reservations = reservations.where(:server_id => Server.where(:ip => hostname))
-      hostname_sum = host_reservations.sum(&:duration)
+      hostname_sum = host_reservations.to_a.sum(&:duration)
       hostname_share = hostname_sum / total_reservation_seconds.to_f
       puts "Hostname: #{hostname} (#{host_server_count} servers)"
       puts "Reservation seconds: #{hostname_sum}"

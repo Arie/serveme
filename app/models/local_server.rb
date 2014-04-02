@@ -37,6 +37,10 @@ class LocalServer < Server
     Dir.glob(File.join(tf_dir, dir, "*"))
   end
 
+  def copy_to_server(files, destination)
+    FileUtils.cp(files, destination)
+  end
+
   def remove_logs_and_demos
     FileUtils.rm(logs + demos)
   end

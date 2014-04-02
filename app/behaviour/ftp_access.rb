@@ -10,6 +10,12 @@ module FtpAccess
     @logs ||= ftp.nlst("#{tf_dir}/logs/*.log")
   end
 
+  def list_files(dir)
+    ftp.nlst(File.join(tf_dir, dir, "*")).collect do |f|
+      File.basename(f)
+    end
+  end
+
   def copy_to_server(files, destination)
     ftp_action(:putbinaryfile, files, destination)
   end

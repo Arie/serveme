@@ -33,6 +33,10 @@ class LocalServer < Server
     Dir.glob(log_match)
   end
 
+  def list_files(dir)
+    Dir.glob(File.join(tf_dir, dir, "*"))
+  end
+
   def remove_logs_and_demos
     FileUtils.rm(logs + demos)
   end

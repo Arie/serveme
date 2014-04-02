@@ -47,6 +47,8 @@ Serveme::Application.routes.draw do
     end
   end
 
+  resources :map_uploads, :only => [:new, :create]
+
   resources :pages do
     collection do
       get :credits

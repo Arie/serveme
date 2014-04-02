@@ -9,6 +9,12 @@ GIT
       sidekiq (>= 2.16.0)
 
 GIT
+  remote: git://github.com/koraktor/rbzip2.git
+  revision: ca6f4ee8df06a19f2898c3d90673922643b5f6b4
+  specs:
+    rbzip2 (0.2.0)
+
+GIT
   remote: git://github.com/koraktor/steam-condenser-ruby.git
   revision: e04f7b4f8c0a17378062f1a0555aa75a29ad8670
   specs:
@@ -88,6 +94,10 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    carrierwave (0.9.0)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      json (>= 1.7)
     celluloid (0.15.2)
       timers (~> 1.1.0)
     childprocess (0.5.2)
@@ -656,6 +666,7 @@ DEPENDENCIES
   capistrano-sidekiq
   capistrano_colors
   capybara
+  carrierwave
   chunky_png
   coffee-rails
   compass-rails (~> 1.1.7)
@@ -670,6 +681,7 @@ DEPENDENCIES
   eventmachine
   execjs
   factory_girl_rails
+  ffi
   font-awesome-rails
   fuubar
   fuubar-cucumber
@@ -695,6 +707,7 @@ DEPENDENCIES
   racc
   rack-cache
   rails (>= 4.1.0.rc1)
+  rbzip2!
   rspec-rails
   rubinius-coverage
   rubysl

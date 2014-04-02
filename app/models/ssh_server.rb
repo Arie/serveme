@@ -12,6 +12,16 @@ class SshServer < RemoteServer
     @logs ||= shell_output_to_array(execute("ls #{tf_dir}/logs/*.log"))
   end
 
+  def list_files(dir)
+    files = []
+    Net::SFTP.start(ip, nil) do |sftp|
+      sftp.dir.foreach(File.join(tf_dir, dir)) do |entry|
+        files << entry.name
+      end
+    end
+    files
+  end
+
   def delete_from_server(files)
     execute("rm -f #{files.map(&:shellescape).join(' ')}")
   end

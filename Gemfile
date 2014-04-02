@@ -12,6 +12,10 @@ gem 'rubyzip'
 gem 'steam-condenser', :github => 'koraktor/steam-condenser-ruby'
 gem 'logs_tf'
 
+#Map uploads
+gem 'carrierwave'
+gem 'rbzip2', :github => 'koraktor/rbzip2'
+
 #Logdaemon
 gem 'tf2_line_parser'
 gem 'eventmachine'
@@ -31,6 +35,10 @@ gem 'sidetiq', :github => "ggilder/sidetiq", :ref => "204091b"
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'mechanize'
 gem 'american_date'
+
+platforms :rbx, :ruby do
+  gem 'ffi'
+end
 
 platforms :rbx do
   gem 'rubysl'

@@ -34,7 +34,9 @@ class LocalServer < Server
   end
 
   def list_files(dir)
-    Dir.glob(File.join(tf_dir, dir, "*"))
+    Dir.glob(File.join(tf_dir, dir, "*")).map do |f|
+      File.basename(f)
+    end
   end
 
   def copy_to_server(files, destination)

@@ -286,6 +286,30 @@ describe LocalServer do
 
   end
 
+  describe "#copy_to_server" do
+
+    it "uses a simple local copy" do
+      files = double(:files)
+      destination = double(:destination)
+      FileUtils.should_receive(:cp).with(files, destination)
+      subject.copy_to_server(files, destination)
+    end
+
+  end
+
+  describe "#list_files" do
+
+    it "takes the globbed files and returns just the basename" do
+      complete_filepaths = ["/foo/bar/baz.bsp", "/foo/bar/qux.txt"]
+      subject.stub(:tf_dir => "foo")
+      dir = "bar"
+      Dir.should_receive(:glob).with(File.join(subject.tf_dir, dir, "*")).and_return(complete_filepaths)
+
+      subject.list_files("bar").should == ['baz.bsp', 'qux.txt']
+    end
+
+  end
+
   describe '#remove_logs_and_demos' do
 
     it 'removes the logs and demos from disk' do

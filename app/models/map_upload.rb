@@ -2,7 +2,7 @@ class MapUpload < ActiveRecord::Base
   belongs_to :user
   attr_accessible :file, :user_id
 
-  validates_presence_of :user_id, :file
+  validates_presence_of :user_id
   validate :validate_not_already_present
   validate :validate_file_is_a_bsp
 

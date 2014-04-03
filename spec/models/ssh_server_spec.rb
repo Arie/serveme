@@ -145,6 +145,22 @@ describe SshServer do
     end
   end
 
+  describe '#list_files' do
+
+    it "uses the sftp instance list the files on the server" do
+      subject.stub(:tf_dir => "/foo/tf")
+      sftp_dir = double(:sftp_dir)
+      sftp_entry = double(:sftp_entry, :name => "file_entry")
+      dir = "cfg"
+      sftp_dir.should_receive(:foreach).with(File.join(subject.tf_dir, dir)).and_yield(sftp_entry)
+      sftp = double(:sftp, dir: sftp_dir)
+      Net::SFTP.should_receive(:start).with(subject.ip, nil).and_yield(sftp)
+      subject.list_files(dir).should == ["file_entry"]
+    end
+
+  end
+
+
   describe '#copy_from_server' do
 
     it "uses the sftp instance to copy files from the server" do

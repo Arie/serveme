@@ -51,4 +51,14 @@ FactoryGirl.define do
     ad false
   end
 
+  factory :map_upload do
+    association :user
+    file do
+      temp = Tempfile.new(["map", ".bsp"])
+      temp.write("VBSP foobar")
+      temp.close
+      temp
+    end
+  end
+
 end

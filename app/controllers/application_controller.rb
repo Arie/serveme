@@ -49,4 +49,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def require_donator
+    unless current_user && current_user.donator?
+      flash[:alert] = "Only donators can do that..."
+      redirect_to root_path
+    end
+  end
+
 end

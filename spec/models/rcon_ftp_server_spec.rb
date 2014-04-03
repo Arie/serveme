@@ -71,6 +71,19 @@ describe RconFtpServer do
 
   end
 
+  describe "#list_files" do
+
+    it "lists the files in a given dir" do
+      dir = "cfg"
+      files = ["/foo/bar/etf2l.cfg", "/foo/bar/koth.cfg"]
+      ftp = double
+      subject.stub(:ftp => ftp)
+      ftp.should_receive(:nlst).with(File.join(subject.tf_dir, dir, "*")).and_return(files)
+      subject.list_files(dir).should == ['etf2l.cfg', 'koth.cfg']
+    end
+
+  end
+
   describe '#remove_logs_and_demos' do
 
     it 'removes the logs and demos' do

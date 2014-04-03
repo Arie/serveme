@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140329194614) do
+ActiveRecord::Schema.define(version: 20140402165802) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -62,6 +62,14 @@ ActiveRecord::Schema.define(version: 20140329194614) do
   end
 
   add_index "log_uploads", ["reservation_id"], name: "index_log_uploads_on_reservation_id", using: :btree
+
+  create_table "map_uploads", force: true do |t|
+    t.string   "name"
+    t.string   "file"
+    t.integer  "user_id",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "paypal_orders", force: true do |t|
     t.integer  "user_id"

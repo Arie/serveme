@@ -33,6 +33,16 @@ class LocalServer < Server
     Dir.glob(log_match)
   end
 
+  def list_files(dir)
+    Dir.glob(File.join(tf_dir, dir, "*")).map do |f|
+      File.basename(f)
+    end
+  end
+
+  def copy_to_server(files, destination)
+    FileUtils.cp(files, destination)
+  end
+
   def remove_logs_and_demos
     FileUtils.rm(logs + demos)
   end

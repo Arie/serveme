@@ -1,1 +1,1 @@
-MAPS_DIR = "/Users/arie/Projects/fakkelbrigade/serveme"
+MAPS_DIR = "/Users/arie/Projects/fakkelbrigade/serveme/tmp"

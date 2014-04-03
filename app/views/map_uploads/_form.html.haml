@@ -1,0 +1,6 @@
+= simple_form_for(@map_upload, :html => { :class => 'form-inline' }) do |f|
+
+  = f.input :file, :label => false, :placeholder => 'Map .bsp file'
+
+  %button.btn.btn-default{:type => :submit}
+    Upload

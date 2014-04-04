@@ -22,10 +22,9 @@ module FtpAccess
   end
 
   def copy_to_server(files, destination_dir)
-    destination = File.join(tf_dir, destination_dir)
-    logger.info "FTP PUT, FILES: #{files} DESTINATION: #{destination}"
+    logger.info "FTP PUT, FILES: #{files} DESTINATION: #{destination_dir}"
     files.each do |file|
-      destination_file = File.join(destination, File.basename(file)).to_s
+      destination_file = File.join(destination_dir, File.basename(file)).to_s
       ftp.putbinaryfile(file, destination_file)
     end
   end

@@ -144,7 +144,7 @@ describe RconFtpServer do
       files = [File.join('foo')]
       destination = 'bar'
       ftp = double
-      destination_file = File.join(subject.tf_dir, destination, 'foo')
+      destination_file = File.join(destination, 'foo')
       ftp.should_receive(:putbinaryfile).with(files.first, destination_file)
       subject.stub(:ftp => ftp)
 

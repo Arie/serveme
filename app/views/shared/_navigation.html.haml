@@ -5,7 +5,6 @@
         %li.dropdown
           %a.navbar-brand.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#"}
             %i.fa.fa-globe
-            serveme.tf
             %b.caret>
           %ul.dropdown-menu#serveme_links
             %li
@@ -40,6 +39,11 @@
           = link_to servers_path do
             %i.fa.fa-tasks
             Servers
+        - if current_user && current_user.donator?
+          %li
+            = link_to upload_map_path do
+              %i.fa.fa-upload
+              Upload map
         %li
           = link_to faq_path do
             %i.fa.fa-question

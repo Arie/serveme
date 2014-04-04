@@ -11,6 +11,14 @@ class MapUpload < ActiveRecord::Base
 
   mount_uploader :file, MapUploader
 
+  def self.available_maps
+    Rails.cache.fetch "maps_#{last.try(:created_at).to_i}", :expires_in => 1.day do
+      map_filematcher = File.join(MAPS_DIR, "*.bsp")
+      map_filenames = Dir.glob(map_filematcher)
+      map_filenames.map { |filename| filename.match(/.*\/(.*)\.bsp/)[1] }.sort
+    end
+  end
+
   def validate_not_already_present
     if file.filename && File.exists?(File.join(MAPS_DIR, file.filename))
       errors.add(:file, "already available")

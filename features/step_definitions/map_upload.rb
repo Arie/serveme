@@ -9,7 +9,7 @@ When "I try to upload a wrong kind of file" do
 end
 
 Then "I see a message the map file was invalid" do
-  page.should have_content "map not a map (bsp)"
+  page.should have_content "not a map (bsp)"
 end
 
 When "I try to upload an existing map" do
@@ -24,7 +24,7 @@ Then "I get shown a message I should be a donator" do
 end
 
 Then "I see a message the map is already available" do
-  page.should have_content "map already available"
+  page.should have_content "already available"
 end
 
 When "I upload a new map" do

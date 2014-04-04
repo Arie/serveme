@@ -1,6 +1,6 @@
 class MapUploader < CarrierWave::Uploader::Base
 
-  permissions 0644
+  permissions 0755
 
   def store_dir
     MAPS_DIR

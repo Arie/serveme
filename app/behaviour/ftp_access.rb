@@ -16,8 +16,18 @@ module FtpAccess
     end
   end
 
-  def copy_to_server(files, destination)
-    ftp_action(:putbinaryfile, files, destination)
+  def upload_configuration(configuration_file, upload_file)
+    logger.info "FTP PUT, CONFIG FILE: #{configuration_file} DESTINATION: #{upload_file}"
+    ftp.putbinaryfile(configuration_file, upload_file)
+  end
+
+  def copy_to_server(files, destination_dir)
+    destination = File.join(tf_dir, destination_dir)
+    logger.info "FTP PUT, FILES: #{files} DESTINATION: #{destination}"
+    files.each do |file|
+      destination_file = File.join(destination, File.basename(file)).to_s
+      ftp.putbinaryfile(file, destination_file)
+    end
   end
 
   def copy_from_server(files, destination)
@@ -34,13 +44,6 @@ module FtpAccess
       rescue Net::FTPPermError
         Rails.logger.error "couldn't delete file: #{file.shellescape}"
       end
-    end
-  end
-
-  def ftp_action(action, files, destination)
-    logger.info "FTP #{action}, FILES: #{files} DESTINATION: #{destination}"
-    files.each do |file|
-       ftp.send(action, file.to_s, destination)
     end
   end
 

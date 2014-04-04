@@ -144,7 +144,8 @@ describe RconFtpServer do
       files = [File.join('foo')]
       destination = 'bar'
       ftp = double
-      ftp.should_receive(:putbinaryfile).with(files.first, destination)
+      destination_file = File.join(subject.tf_dir, destination, 'foo')
+      ftp.should_receive(:putbinaryfile).with(files.first, destination_file)
       subject.stub(:ftp => ftp)
 
       subject.copy_to_server(files, destination)
@@ -166,8 +167,10 @@ describe RconFtpServer do
 
   describe '#upload_configuration' do
 
-    it 'uses copy_to_server to transfer the configuration to the reservation file destination' do
-      subject.should_receive(:copy_to_server).with(['foo.cfg'], 'reservation.cfg')
+    it 'puts the file on the server with ftp' do
+      ftp = double
+      ftp.should_receive(:putbinaryfile).with('foo.cfg', 'reservation.cfg')
+      subject.stub(:ftp => ftp)
       subject.upload_configuration('foo.cfg', 'reservation.cfg')
     end
   end

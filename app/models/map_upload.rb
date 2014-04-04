@@ -29,7 +29,7 @@ class MapUpload < ActiveRecord::Base
 
   def bzip2_uploaded_file
     target_file   = File.new("#{file_and_path}.bz2", "wb+")
-    bz2           = RBzip2::IO.new(target_file)
+    bz2           = RBzip2.default_adapter::Compressor.new(target_file)
     bz2.write(file.read)
     bz2.close
   end

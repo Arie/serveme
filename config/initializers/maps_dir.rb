@@ -1,1 +1,1 @@
-MAPS_DIR = "/Users/arie/Projects/fakkelbrigade/serveme/tmp"
+MAPS_DIR = File.expand_path("../../../tmp", __FILE__)

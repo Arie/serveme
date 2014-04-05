@@ -6,7 +6,7 @@
 development:
   adapter: mysql2
   database: serveme_development
-  encoding: <%= !defined?(JRUBY_VERSION) ? "utf8mb4" : false %>
+  encoding: utf8mb4
   pool: 5
   timeout: 5000
 
@@ -17,14 +17,14 @@ test: &test
   adapter: mysql2
   database: serveme_test
   username: root
-  encoding: <%= !defined?(JRUBY_VERSION) ? "utf8mb4" : false %>
+  encoding: utf8mb4
   pool: 5
   timeout: 5000
 
 production:
   adapter: mysql2
   database: serveme_production
-  encoding: <%= !defined?(JRUBY_VERSION) ? "utf8mb4" : false %>
+  encoding: utf8mb4
   pool: 5
   timeout: 5000
 

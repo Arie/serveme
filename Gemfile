@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '>= 4.1.0.rc1'
+gem 'rails', '>= 4.1.0.rc2'
 gem 'haml'
 gem 'protected_attributes'
 gem "actionpack-action_caching"
@@ -36,27 +36,11 @@ gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'mechanize'
 gem 'american_date'
 
-platforms :rbx, :ruby do
-  gem 'ffi'
-end
-
-platforms :rbx do
-  gem 'rubysl'
-  gem "racc"
-  gem "rubinius-coverage"
-  gem "rubysl-test-unit"
-end
-platforms :ruby do
-  gem 'mysql2'
-  gem 'therubyracer'
-  gem 'oily_png'
-  gem 'sys-proctable',    :require => 'sys/proctable'
-end
-platforms :jruby do
-  gem 'therubyrhino'
-  gem 'activerecord-jdbcmysql-adapter'
-  gem 'chunky_png'
-end
+gem 'ffi'
+gem 'mysql2'
+gem 'therubyracer'
+gem 'oily_png'
+gem 'sys-proctable',    :require => 'sys/proctable'
 
 group :development do
   gem 'better_errors'

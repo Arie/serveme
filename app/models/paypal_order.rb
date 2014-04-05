@@ -12,11 +12,16 @@ class PaypalOrder < ActiveRecord::Base
   def complete_payment!
     update_attributes(:status => "Completed")
     update_donator_status
+    announce_donator
   end
 
   def update_donator_status
     donator_status.expires_at = new_expiration_time
     donator_status.save
+  end
+
+  def announce_donator
+    AnnounceDonatorWorker.perform_async(self.id)
   end
 
   def new_expiration_time

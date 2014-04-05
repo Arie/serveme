@@ -35,6 +35,7 @@ When "I go to donate" do
 end
 
 When "my PayPal payment was successful" do
+  AnnounceDonatorWorker.should_receive(:perform_async)
   @current_user.paypal_orders.last.complete_payment!
 end
 

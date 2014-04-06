@@ -23,7 +23,7 @@ class LogWorker
 
   def handle_end
     Rails.logger.info "Ending #{reservation} from chat"
-    reservation.server.rcon_say "Ending your reservation, zipfile with logs and demos can be downloaded here in a minute: #{reservation.zipfile_url}"
+    reservation.server.rcon_say "Ending your reservation..."
     ReservationWorker.perform_async(reservation.id, "end")
   end
 

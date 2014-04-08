@@ -32,7 +32,7 @@ class MapUpload < ActiveRecord::Base
   end
 
   def file_and_path
-    File.join(MAPS_DIR, file.filename)
+    File.join(MAPS_DIR, file.file.filename)
   end
 
   def bzip2_uploaded_file

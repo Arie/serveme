@@ -40,11 +40,11 @@ gem 'ffi'
 gem 'mysql2'
 gem 'therubyracer'
 gem 'oily_png'
-gem 'sys-proctable',    :require => 'sys/proctable'
+gem 'sys-proctable', '~> 0.9.4', :require => 'sys/proctable'
 
 group :development do
   gem 'better_errors'
-  gem 'binding_of_caller', :platforms => :ruby
+  gem 'binding_of_caller'
 
   #Deployment
   gem 'capistrano-ext'

@@ -7,6 +7,7 @@ class AddTypeToServerNotifications < ActiveRecord::Migration
       else
         sn.notification_type = "public"
       end
+      sn.save
     end
 
     remove_column :server_notifications, :ad

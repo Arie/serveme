@@ -17,23 +17,15 @@ class ServerNotificationWorker
       notification = notifications_for_non_donators.sample
     end
     reservation.server.set_logaddress
-    reservation.server.rcon_say(notification.message) if notification
+    reservation.server.rcon_say(notification.message.gsub("%{name}", reservation.user.nickname)) if notification
   end
 
   def notifications_for_donators
-    @notifications_for_donators ||= notifications
+    @notifications_for_donators ||= ServerNotification.for_everyone + ServerNotification.for_donators
   end
 
   def notifications_for_non_donators
-    @notifications_for_non_donators ||= notifications + ads
-  end
-
-  def notifications
-    ServerNotification.where(:ad => false)
-  end
-
-  def ads
-    ServerNotification.where(:ad => true)
+    @notifications_for_non_donators ||= ServerNotification.for_everyone + ServerNotification.ads
   end
 
   def reservations

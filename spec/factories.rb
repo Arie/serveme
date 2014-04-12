@@ -48,7 +48,7 @@ FactoryGirl.define do
 
   factory :server_notification do
     message "This is the notification"
-    ad false
+    notification_type 'public'
   end
 
   factory :map_upload do

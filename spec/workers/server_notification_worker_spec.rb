@@ -27,7 +27,7 @@ describe ServerNotificationWorker do
     context "with notifications" do
 
       before do
-        create :server_notification, :ad => true, :message => "this is an ad"
+        create :server_notification, notification_type: 'ad', message: "this is an ad"
       end
 
 
@@ -37,10 +37,25 @@ describe ServerNotificationWorker do
         ServerNotificationWorker.perform_async
       end
 
-      it "wont send an add to donators" do
-        create :server_notification, :ad => true, :message => "this is a notification"
+      it "can send a donator notifications to donators" do
+        create :server_notification, notification_type: "donator", message: "thanks for donating"
+        reservation.stub(:user => donator)
+        server.should_receive(:rcon_say).with("thanks for donating")
+        ServerNotificationWorker.perform_async
+      end
+
+      it "wont send an ad to donators" do
+        create :server_notification, notification_type: "ad", message: "this is a notification"
         reservation.stub(:user => donator)
         server.should_not_receive(:rcon_say).with("this is an ad")
+        ServerNotificationWorker.perform_async
+      end
+
+      it "can use the user's name as a variable" do
+        create :server_notification, notification_type: "donator", message: "thanks for donating %{name}, you rock!"
+        donator.stub(:nickname => "Arie")
+        reservation.stub(:user => donator)
+        server.should_receive(:rcon_say).with("thanks for donating Arie, you rock!")
         ServerNotificationWorker.perform_async
       end
 

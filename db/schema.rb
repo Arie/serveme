@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140402165802) do
+ActiveRecord::Schema.define(version: 20140411121933) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -140,8 +140,8 @@ ActiveRecord::Schema.define(version: 20140402165802) do
   end
 
   create_table "server_notifications", force: true do |t|
-    t.string  "message", limit: 190
-    t.boolean "ad"
+    t.string "message",           limit: 190
+    t.string "notification_type", limit: 191
   end
 
   create_table "servers", force: true do |t|

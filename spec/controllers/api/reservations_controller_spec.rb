@@ -18,7 +18,7 @@ describe Api::ReservationsController do
           starts_at: String,
           ends_at: String
         }.ignore_extra_keys!
-      }
+      }.ignore_extra_keys!
       expect(response.body).to match_json_expression(json)
     end
 
@@ -36,11 +36,12 @@ describe Api::ReservationsController do
           password: wildcard_matcher,
           tv_password: wildcard_matcher,
           tv_relaypassword: wildcard_matcher,
-          servers: Array,
-          whitelists: Array,
-          server_configs: Array,
-        }.ignore_extra_keys!
-      }
+        }.ignore_extra_keys!,
+        servers: Array,
+        whitelists: Array,
+        server_configs: Array,
+        actions: Hash
+        }
       expect(response.body).to match_json_expression(json)
     end
   end
@@ -59,7 +60,7 @@ describe Api::ReservationsController do
           tv_password: reservation.tv_password,
           tv_relaypassword: reservation.tv_relaypassword
         }.ignore_extra_keys!
-      }
+      }.ignore_extra_keys!
       expect(response.body).to match_json_expression(json)
     end
 
@@ -90,7 +91,7 @@ describe Api::ReservationsController do
           start_instantly: true,
           end_instantly: false
         }.ignore_extra_keys!
-      }
+      }.ignore_extra_keys!
       ReservationWorker.should_receive(:perform_async).with(anything, "start")
       post :create, format: :json, reservation: { starts_at: Time.current, ends_at: 2.hours.from_now, rcon: 'foo', password: 'bar', server_id: server.id }
       expect(response.body).to match_json_expression(json)
@@ -101,9 +102,12 @@ describe Api::ReservationsController do
       json = {
         reservation: {
           errors: wildcard_matcher,
-          servers: Array,
-        }.ignore_extra_keys!
-      }
+        }.ignore_extra_keys!,
+        servers: Array,
+        whitelists: Array,
+        server_configs: Array,
+        actions: Hash
+        }
       post :create, format: :json, reservation: {rcon: 'foo'}
       expect(response.body).to match_json_expression(json)
       response.status.should == 400
@@ -132,7 +136,7 @@ describe Api::ReservationsController do
         reservation: {
           end_instantly: true
         }.ignore_extra_keys!
-      }
+      }.ignore_extra_keys!
       expect(response.body).to match_json_expression(json)
       response.status.should == 200
     end

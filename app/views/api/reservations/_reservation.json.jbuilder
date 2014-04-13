@@ -1,4 +1,3 @@
-json.id reservation.id
 json.starts_at reservation.starts_at
 json.ends_at reservation.ends_at
 json.server_id reservation.server_id
@@ -11,11 +10,16 @@ json.server_config_id reservation.server_config_id
 json.whitelist_id reservation.whitelist_id
 json.custom_whitelist_id reservation.custom_whitelist_id
 json.auto_end reservation.auto_end
-json.last_number_of_players reservation.last_number_of_players
-json.inactive_minute_counter reservation.inactive_minute_counter
-json.logsecret reservation.logsecret
-json.start_instantly reservation.start_instantly
-json.end_instantly reservation.end_instantly
+if reservation.persisted?
+  json.id reservation.id
+  json.last_number_of_players reservation.last_number_of_players
+  json.inactive_minute_counter reservation.inactive_minute_counter
+  json.logsecret reservation.logsecret
+  json.start_instantly reservation.start_instantly
+  json.end_instantly reservation.end_instantly
+  json.provisioned reservation.provisioned
+  json.ended reservation.ended
+end
 
 json.errors do
   reservation.errors.to_hash.each do |attribute, errors|

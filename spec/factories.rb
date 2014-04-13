@@ -61,4 +61,9 @@ FactoryGirl.define do
     end
   end
 
+  factory :location do
+    name "Netherlands"
+    flag "nl"
+  end
+
 end

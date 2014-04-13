@@ -35,6 +35,7 @@ gem 'sidetiq', :github => "ggilder/sidetiq", :ref => "204091b"
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'mechanize'
 gem 'american_date'
+gem 'jbuilder'
 
 gem 'ffi'
 gem 'mysql2'
@@ -89,6 +90,7 @@ group :test do
   gem 'vcr'
   gem 'webmock'
   gem 'delorean'
+  gem 'json_expressions'
 end
 
 gem 'uglifier'

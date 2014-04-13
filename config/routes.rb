@@ -73,6 +73,15 @@ Serveme::Application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
+  namespace :api do
+    resources :reservations do
+      collection do
+        post :find_servers
+      end
+    end
+  end
+
+
   #Pretty URLs
   get   '/donate',                        :to => "paypal_orders#new",         :as => "donate"
   get   '/statistics',                    :to => "pages#statistics",          :as => "statistics"

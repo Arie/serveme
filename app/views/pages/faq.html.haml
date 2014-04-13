@@ -21,6 +21,18 @@
 
     .well
       %p.text-success
+        Q: Free huh? I guess these servers run on toasters with 3rd world internet!
+      %p
+        - unless na_system?
+          %em A: Our servers are provided by community members with years of experience running TF2 servers. And we're not tied to one location or country, so if you have a bad routing to one server, you can try another in a different location/country.
+        - else
+          %em
+            A: All our servers are provided by
+            = link_to("TragicServers", "http://tragicservers.com")
+            , no toasters allowed! With 4 locations to choose from, we're sure you'll find one that pings well for you.
+
+    .well
+      %p.text-success
         Q: What can I use this for?
       %p
         %em

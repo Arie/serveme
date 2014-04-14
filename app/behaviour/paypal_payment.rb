@@ -64,7 +64,7 @@ module PaypalPayment
       Item.new( :name       => "serveme.tf - #{product.name}",
                 :price      => format_price(product.price),
                 :quantity   => 1,
-                :currency  => "EUR")
+                :currency  => product.currency)
     ]
   end
 

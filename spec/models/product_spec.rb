@@ -37,4 +37,19 @@ describe Product do
       Product.ordered.should == [first, middle, last]
     end
   end
+
+  describe "#currency" do
+
+    it "is USD for NA system" do
+      SITE_URL = "http://na.serveme.tf"
+      subject.currency.should == "USD"
+    end
+
+    it "is EUR for everything else" do
+      SITE_URL = "http://test.host"
+      subject.currency.should == "EUR"
+    end
+
+  end
+
 end

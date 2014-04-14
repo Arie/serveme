@@ -8,14 +8,6 @@ class Product < ActiveRecord::Base
     "#{name} - #{price.round.to_i} #{currency}"
   end
 
-  def currency
-    if SITE_URL == 'http://na.serveme.tf'
-      "USD"
-    else
-      "EUR"
-    end
-  end
-
   def self.active
     where(:active => true)
   end

@@ -39,6 +39,7 @@ FactoryGirl.define do
     name "1 year"
     days 366
     price 9.00
+    currency "EUR"
   end
 
   factory :paypal_order do

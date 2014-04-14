@@ -1,2 +1,3 @@
 User-Agent: *
 Disallow: /pages/recent-reservations
+Disallow: /recent-reservations

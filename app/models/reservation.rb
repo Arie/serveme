@@ -99,6 +99,7 @@ class Reservation < ActiveRecord::Base
     if less_than_1_hour_left?
       self.extending  = true
       self.ends_at    = ends_at + user.reservation_extension_time
+      self.inactive_minute_counter = 0
       save
     end
   end

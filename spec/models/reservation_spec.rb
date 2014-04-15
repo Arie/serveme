@@ -151,6 +151,12 @@ describe Reservation do
       expect{reservation.extend!}.to change{reservation.reload.ends_at}
     end
 
+    it 'resets the idle timer when extending' do
+      old_reservation_end_time = 40.minutes.from_now
+      reservation = create :reservation, :starts_at => Time.current, :ends_at => old_reservation_end_time, :provisioned => true, :inactive_minute_counter => 20
+      expect{reservation.extend!}.to change{reservation.reload.inactive_minute_counter}.from(20).to(0)
+    end
+
     it 'does not extend a reservation that hasnt been provisioned yet' do
       old_reservation_end_time = 40.minutes.from_now
       reservation = create :reservation, :starts_at => Time.current, :ends_at => old_reservation_end_time, :provisioned => false

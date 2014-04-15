@@ -1,4 +1,7 @@
 .navbar.navbar-inverse{:role => "navigation"}
+  %ul.nav.navbar-nav.navbar-left.octocat
+    = link_to "http://github.com/Arie/serveme", :title => "Fork me on GitHub"  do
+      = image_tag "octocat.png", :alt => "Fork me on GitHub", :class => "octocat"
   .container
     .navbar-header
       %ul.nav.navbar-nav
@@ -94,4 +97,3 @@
               - else
                 - switch_to_color = "black"
               .color{:class => switch_to_color}
-

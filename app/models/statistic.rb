@@ -44,7 +44,7 @@ class Statistic
     Rails.cache.fetch "reservations_per_day_#{Date.current}", :expires_in => 1.hour do
       Reservation.order('DATE(starts_at) DESC').group("DATE(starts_at)").limit(50).count(:id).collect do |date, count|
         [date.to_s, count]
-      end
+      end.reverse
     end
   end
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><%= SITE_HOST %> temporarily offline</title>
+<title>serveme.tf temporarily offline</title>
     <style type="text/css">
     body {
         width: 500px;
@@ -16,7 +16,7 @@
 </head>
 <body>
     <div class="maintenance">
-      <h1><%= SITE_HOST %> temporarily offline</h2>
+      <h1>serveme.tf temporarily offline</h2>
 
       <p>The system is down for <%= reason ? reason : "upgrades" %><br>
             as of <%= Time.now.strftime("%H:%M %Z") %> / <%= Time.now.in_time_zone("Eastern Time (US & Canada)").strftime("%I:%M %P %Z") %>.</p>

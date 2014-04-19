@@ -16,8 +16,8 @@ ActiveRecord::Schema.define(version: 20140414200448) do
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
     t.integer  "group_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "group_servers", ["group_id"], name: "index_group_servers_on_group_id", using: :btree
@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(version: 20140414200448) do
   create_table "group_users", force: true do |t|
     t.integer  "user_id"
     t.integer  "group_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.datetime "expires_at"
   end
 
@@ -37,8 +37,8 @@ ActiveRecord::Schema.define(version: 20140414200448) do
 
   create_table "groups", force: true do |t|
     t.string   "name",       limit: 191
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "groups", ["name"], name: "index_groups_on_name", using: :btree
@@ -46,8 +46,8 @@ ActiveRecord::Schema.define(version: 20140414200448) do
   create_table "locations", force: true do |t|
     t.string   "name"
     t.string   "flag"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "log_uploads", force: true do |t|
@@ -57,8 +57,8 @@ ActiveRecord::Schema.define(version: 20140414200448) do
     t.string   "map_name"
     t.text     "status"
     t.string   "url"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "log_uploads", ["reservation_id"], name: "index_log_uploads_on_reservation_id", using: :btree
@@ -136,8 +136,8 @@ ActiveRecord::Schema.define(version: 20140414200448) do
 
   create_table "server_configs", force: true do |t|
     t.string   "file"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "server_notifications", force: true do |t|
@@ -165,20 +165,20 @@ ActiveRecord::Schema.define(version: 20140414200448) do
   add_index "servers", ["location_id"], name: "index_servers_on_location_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "uid"
-    t.string   "provider"
+    t.string   "uid",                    limit: 191
+    t.string   "provider",               limit: 191
     t.string   "name",                   limit: 191
     t.string   "nickname",               limit: 191
     t.string   "email",                  limit: 191
-    t.string   "encrypted_password",                 default: "", null: false
+    t.string   "encrypted_password",     limit: 191, default: "", null: false
     t.string   "reset_password_token",   limit: 191
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.integer  "sign_in_count",                      default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.string   "current_sign_in_ip",     limit: 191
+    t.string   "last_sign_in_ip",        limit: 191
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "logs_tf_api_key",        limit: 191
@@ -192,10 +192,10 @@ ActiveRecord::Schema.define(version: 20140414200448) do
   add_index "users", ["uid"], name: "index_users_on_uid", using: :btree
 
   create_table "versions", force: true do |t|
-    t.string   "item_type",  null: false
-    t.integer  "item_id",    null: false
-    t.string   "event",      null: false
-    t.string   "whodunnit"
+    t.string   "item_type",  limit: 191, null: false
+    t.integer  "item_id",                null: false
+    t.string   "event",      limit: 191, null: false
+    t.string   "whodunnit",  limit: 191
     t.text     "object"
     t.datetime "created_at"
   end
@@ -213,8 +213,8 @@ ActiveRecord::Schema.define(version: 20140414200448) do
 
   create_table "whitelists", force: true do |t|
     t.string   "file"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

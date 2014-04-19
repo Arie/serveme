@@ -44,7 +44,7 @@ module PaypalPayment
   end
 
   def amount
-    Amount.new(:currency  => "EUR",
+    Amount.new(:currency  => product.currency,
                :total     => format_price(product.price))
   end
 

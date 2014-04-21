@@ -36,7 +36,7 @@ after "deploy:restart",         "logdaemon:restart"
 namespace :app do
   desc "makes a symbolic link to the shared files"
   task :symlink, :roles => [:web, :app] do
-    run "ln -sf #{shared_path}/puma.rb #{release_path}/config/puma/#{stage}.rb"
+    run "ln -sf #{shared_path}/puma.rb #{release_path}/config/puma/production.rb"
     run "ln -sf #{shared_path}/steam_api_key.rb #{release_path}/config/initializers/steam_api_key.rb"
     run "ln -sf #{shared_path}/database.yml #{release_path}/config/database.yml"
     run "ln -sf #{shared_path}/paypal.yml #{release_path}/config/paypal.yml"

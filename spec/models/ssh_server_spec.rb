@@ -134,13 +134,14 @@ describe SshServer do
 
   describe '#copy_to_server' do
 
-    it "uses the ssh instance to copy files to the server" do
+    it "uses scp to copy files to the server" do
       files = [File.join('foo')]
       destination = 'bar'
-      ssh = double
-      subject.stub(:ssh => ssh)
+      scp = double(:scp)
+      scp_upload = double(:scp_upload, :wait => true)
 
-      ssh.should_receive(:scp_put).with(subject.ip, 'foo', 'bar')
+      Net::SCP.should_receive(:start).with(subject.ip, nil).and_yield(scp)
+      scp.should_receive(:upload).with('foo', 'bar').and_return(scp_upload)
       subject.copy_to_server(files, destination)
     end
   end

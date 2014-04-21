@@ -36,7 +36,12 @@ class SshServer < RemoteServer
   end
 
   def copy_to_server(files, destination)
-    scp(:scp_put, ip, files, destination)
+    logger.info "SCP PUT, FILES: #{files} DESTINATION: #{destination}"
+    Net::SCP.start(ip, nil) do |scp|
+      files.collect do |f|
+        scp.upload(f, destination)
+      end.map(&:wait)
+    end
   end
 
   def copy_from_server(files, destination)
@@ -53,13 +58,6 @@ class SshServer < RemoteServer
         end
         sftp.download(file, File.new(destination, 'wb'))
       end
-    end
-  end
-
-  def scp(action, ip, files, destination)
-    logger.info "SCP #{action}, FILES: #{files} DESTINATION: #{destination}"
-    files.each do |file|
-      ssh.send(action, ip, file.to_s, destination)
     end
   end
 

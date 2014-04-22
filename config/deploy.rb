@@ -17,7 +17,7 @@ set :scm,               :git
 set :copy_compression,  :gzip
 set :use_sudo,          false
 set :user,              'tf2'
-set :rvm_ruby_string,   '2.1.1@serveme'
+set :rvm_ruby_string,   '2.1.1'
 set :rvm_type,          :system
 set :stage,             'production'
 set :maintenance_template_path, 'app/views/pages/maintenance.html.erb'
@@ -36,6 +36,7 @@ after "deploy:restart",         "logdaemon:restart"
 namespace :app do
   desc "makes a symbolic link to the shared files"
   task :symlink, :roles => [:web, :app] do
+    run "ln -sf #{shared_path}/puma.rb #{release_path}/config/puma/production.rb"
     run "ln -sf #{shared_path}/steam_api_key.rb #{release_path}/config/initializers/steam_api_key.rb"
     run "ln -sf #{shared_path}/database.yml #{release_path}/config/database.yml"
     run "ln -sf #{shared_path}/paypal.yml #{release_path}/config/paypal.yml"
@@ -61,20 +62,9 @@ namespace :app do
 end
 
 namespace :puma do
-    desc 'Start puma'
-    task :start, :roles => lambda { fetch(:puma_role) }, :on_no_matching_servers => :continue do
-      puma_env = fetch(:rack_env, fetch(:rails_env, 'production'))
-      run "cd #{current_path} && #{fetch(:puma_cmd)} -q -d #{fetch(:puma_flags)} -e #{puma_env} -b '#{fetch(:puma_socket)}' -S #{fetch(:puma_state)} --control 'unix://#{shared_path}/sockets/pumactl.sock'", :pty => false
-    end
-
     desc 'Restart puma'
     task :restart, :roles => lambda { puma_role }, :on_no_matching_servers => :continue do
-      begin
-        run "cd #{current_path} && #{pumactl_cmd} -S #{state_path} phased-restart"
-      rescue Capistrano::CommandError => ex
-        puts "Failed to restart puma: #{ex}\nAssuming not started."
-        start
-      end
+      phased_restart
     end
 end
 

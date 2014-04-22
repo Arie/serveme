@@ -1,7 +1,10 @@
+# encoding: UTF-8
 en:
   datetime:
     formats:
       time: "%H:%M:%S"
+  currency:
+    symbol: "€"
   time:
     show_meridian: false
     formats:

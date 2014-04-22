@@ -16,8 +16,4 @@ module ApplicationHelper
     SITE_URL == 'http://na.serveme.tf'
   end
 
-  def eu_system?
-    SITE_URL == 'http://serveme.tf'
-  end
-
 end

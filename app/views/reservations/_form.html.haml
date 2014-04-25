@@ -23,7 +23,7 @@
         = radio_button_tag :whitelist_type, "custom_whitelist", (@reservation.custom_whitelist_id.present?)
         %span Whitelist.tf (custom whitelist)
       = f.association :whitelist,     :collection => Whitelist.ordered,    :hint => "Some configs have a default whitelist, but you can still override that here. 6v6 with 9v9 unlocks? No problem!"
-      = f.input :custom_whitelist_id, :hint => "Enter the number (ID) for a whitelist from <a href='http://whitelist.tf/configure', target='_blank'>whitelist.tf</a>"
+      = f.input :custom_whitelist_id, :hint => "Enter the number (ID) for a whitelist from <a href='http://whitelist.tf/configure', target='_blank'>whitelist.tf</a>".html_safe
 
       - users_last_reservation = current_user.reservations.last
       - if users_last_reservation && users_last_reservation.past? && users_last_reservation.inactive_too_long?

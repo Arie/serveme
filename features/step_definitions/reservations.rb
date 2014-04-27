@@ -55,7 +55,7 @@ end
 When "I enter the reservation details" do
   step "I go make a reservation"
 
-  fill_in "Available servers", :with => Server.first.id
+  fill_in "Server", :with => Server.first.id
   fill_in "Password", :with => "secret"
   fill_in "Rcon",     :with => "even more secret"
 end

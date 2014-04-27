@@ -16,7 +16,7 @@
         free_servers = #{free_servers.map { |s| {id: s.id, text: s.name, flag: s.location_flag} }.to_json};
         find_server_url = "#{@reservation.persisted? ? find_servers_for_reservation_reservations_url(id: @reservation.id) : find_servers_for_user_reservations_url}";
 
-      = f.input :server_id, :disabled => !@reservation.schedulable?, :label => "Available servers"
+      = f.input :server_id, :disabled => !@reservation.schedulable?, :label => "Server", :required => true
       = f.input :password,            :as => :string, :value => @reservation.password, :placeholder => "The server password to join the game"
       = f.input :rcon,                :as => :string, :placeholder => "The RCON password to control the server", :disabled => !@reservation.schedulable?
       = f.input :first_map,           :collection => MapUpload.available_maps, :input_html => { :class => "select2" }

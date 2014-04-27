@@ -3,5 +3,4 @@
     %i.fa.fa-copy{:id => "#{copy_button_id}_icon"}>
 :javascript
   var #{copy_button_id} = new ZeroClipboard($("##{copy_button_id}_container"));
-  #{copy_button_id}.setHandCursor(true);
-  #{copy_button_id}.glue($('#{copy_button_id}'), $('#{copy_button_id}_container'));
+  #{copy_button_id}.clip($('#{copy_button_id}'), $('#{copy_button_id}_container'));

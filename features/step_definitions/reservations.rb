@@ -72,7 +72,7 @@ Then "I see the errors for the missing reservation fields" do
 end
 
 Then "I can see my reservation on the welcome page" do
-  @reservation = @current_user.reservations.last
+  @reservation = @current_user.reservations.reload.last
   step "I go to the welcome page"
   step "I can view my reservation in the list"
 end
@@ -139,7 +139,7 @@ Given "there is a future reservation" do
 end
 
 When "I cancel the future reservation" do
-  @reservation = @current_user.reservations.last
+  @reservation = @current_user.reservations.reload.last
   within "#reservation_#{@reservation.id}" do
     click_link "Cancel"
   end
@@ -240,7 +240,7 @@ When "I go to the reservations listing" do
 end
 
 Then "I see the details of my reservations" do
-  @current_user.reservations.each do |reservation|
+  @current_user.reservations.reload.each do |reservation|
     within "#reservation_#{reservation.id}" do
       find('a.btn-success')[:href].should include(reservation.id.to_s)
     end

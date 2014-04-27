@@ -3,8 +3,7 @@ class ReservationsController < ApplicationController
   include ReservationsHelper
 
   def time_selection
-    @reservation          = Reservation.new(params[:reservation])
-    @reservation.user_id  = current_user.id
+    @reservation          = current_user.reservations.build(reservation_params)
     @reservation.server   = free_servers.first
     if @reservation.server && !user_already_booked_at_that_time?
       redirect_to new_reservation_path(:server_id => @reservation.server, :starts_at => @reservation.starts_at, :ends_at => @reservation.ends_at)
@@ -27,8 +26,7 @@ class ReservationsController < ApplicationController
   end
 
   def create
-    @reservation = Reservation.new(params[:reservation])
-    @reservation.user_id     = current_user.id
+    @reservation = current_user.reservations.build(reservation_params)
     if @reservation.save
       if @reservation.now?
         @reservation.update_attribute(:start_instantly, true)
@@ -96,14 +94,6 @@ class ReservationsController < ApplicationController
   end
 
   private
-
-  def sanitized_parameters
-    parameters = params[:reservation].slice(:password, :tv_password, :tv_relaypassword, :server_config_id, :whitelist_id, :custom_whitelist_id, :first_map, :auto_end)
-    if reservation.schedulable?
-      parameters.merge!(params[:reservation].slice(:rcon, :server_id, :starts_at, :ends_at))
-    end
-    parameters.merge!(:user_id => current_user.id)
-  end
 
   def reservation
     @reservation ||= find_reservation

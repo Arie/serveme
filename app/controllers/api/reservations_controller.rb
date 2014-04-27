@@ -11,14 +11,12 @@ class Api::ReservationsController < Api::ApplicationController
   end
 
   def find_servers
-    @reservation = Reservation.new(reservation_params)
-    @reservation.user_id = current_user.id
+    @reservation = current_user.reservations.build(reservation_params)
     @servers = free_servers
   end
 
   def create
-    @reservation = Reservation.new(reservation_params)
-    @reservation.user_id = current_user.id
+    @reservation = current_user.reservations.build(reservation_params)
     if @reservation.save
       if @reservation.now?
         @reservation.update_attribute(:start_instantly, true)

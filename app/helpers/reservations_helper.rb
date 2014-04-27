@@ -1,7 +1,7 @@
 module ReservationsHelper
 
   def update_reservation
-    if reservation.update_attributes(sanitized_parameters)
+    if reservation.update_attributes(reservation_params)
       if reservation.now?
         reservation.update_reservation
         flash[:notice] = "Reservation updated for #{reservation}, your changes will be active after a mapchange."
@@ -25,8 +25,7 @@ module ReservationsHelper
   end
 
   def new_reservation
-    new_reservation_attributes = { :user_id   => current_user.id,
-                                   :server    => server,
+    new_reservation_attributes = { :server    => server,
                                    :starts_at => params[:starts_at] || Time.current,
                                    :ends_at   => params[:ends_at] || 2.hours.from_now }
     if previous_reservation
@@ -34,7 +33,7 @@ module ReservationsHelper
       new_reservation_attributes.merge!(previous_reservation_attributes)
     end
 
-    Reservation.new(new_reservation_attributes)
+    current_user.reservations.build(new_reservation_attributes)
   end
 
   def find_server
@@ -69,6 +68,16 @@ module ReservationsHelper
 
   def previous_reservation
     current_user.reservations.last
+  end
+
+  private
+
+  def reservation_params
+    permitted_params = [:password, :tv_password, :tv_relaypassword, :server_config_id, :whitelist_id, :custom_whitelist_id, :first_map, :auto_end]
+    if reservation.nil? || (reservation && reservation.schedulable?)
+      permitted_params += [:rcon, :server_id, :starts_at, :ends_at]
+    end
+    params.require(:reservation).permit(permitted_params)
   end
 
 end

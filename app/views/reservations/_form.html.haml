@@ -3,12 +3,20 @@
     %p.alert.alert-warning
       Please pick your start and end time carefully, reservations that have no players for 30 minutes (60 minutes for donators) get ended automatically. All times are in timezone:
       = link_to(Time.zone, edit_users_path)
+
+= render "donator_nag"
+
 .row
   .col-md-7.col-md-offset-2
-    = simple_form_for(@reservation, :html => { :class => 'form-horizontal' }) do |f|
-      = f.input :server, :as => :select, :disabled => !@reservation.schedulable? do
-        = f.select :server_id, grouped_options_for_select(ServerFinder.grouped_available_for_user(current_user).map {|g| [g[:name], g[:servers].map {|s| [s.name, s.id, :"data-flag" => s.decorate.flag_abbreviation]}]}, selected_key = @reservation.server_id), :input_html => { :class => "select2" }
-        = f.error :server_id, :class => "error"
+    = simple_form_for(@reservation, :html => { :class => 'form-horizontal reservation' }) do |f|
+      = f.input :starts_at,       :as => :string, :input_html => { :value => I18n.l(@reservation.starts_at, :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Starts at" , :disabled => !@reservation.schedulable?
+      = f.input :ends_at,         :as => :string, :input_html => { :value => I18n.l(@reservation.ends_at,   :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Ends at",    :disabled => !@reservation.schedulable?
+
+      :javascript
+        free_servers = #{free_servers.map { |s| {id: s.id, text: s.name, flag: s.location_flag} }.to_json};
+        find_server_url = "#{@reservation.persisted? ? find_servers_for_reservation_reservations_url(id: @reservation.id) : find_servers_for_user_reservations_url}";
+
+      = f.input :server_id, :disabled => !@reservation.schedulable?, :label => "Available servers"
       = f.input :password,            :as => :string, :value => @reservation.password, :placeholder => "The server password to join the game"
       = f.input :rcon,                :as => :string, :placeholder => "The RCON password to control the server", :disabled => !@reservation.schedulable?
       = f.input :first_map,           :collection => MapUpload.available_maps, :input_html => { :class => "select2" }
@@ -37,9 +45,6 @@
         - value = reservation.auto_end
       = f.input :auto_end, :as => :boolean, :hint => hint, :readonly => readonly, :disabled => readonly, :input_html => { :value => value }
 
-      = f.input :starts_at,       :as => :string, :input_html => { :value => I18n.l(@reservation.starts_at, :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Starts at" , :disabled => !@reservation.schedulable?
-      = f.input :ends_at,         :as => :string, :input_html => { :value => I18n.l(@reservation.ends_at,   :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Ends at",    :disabled => !@reservation.schedulable?
-
       .col-md-offset-2
         %button.btn.btn-primary{:type => :submit}
           Save
@@ -48,3 +53,4 @@
 
     :javascript
       $("#reservation_server_id").select2("enable", #{@reservation.schedulable?});
+

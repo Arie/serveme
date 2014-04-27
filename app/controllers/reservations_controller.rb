@@ -2,25 +2,6 @@ class ReservationsController < ApplicationController
 
   include ReservationsHelper
 
-  def time_selection
-    @reservation          = current_user.reservations.build(reservation_params)
-    @reservation.server   = free_servers.first
-    if @reservation.server && !user_already_booked_at_that_time?
-      redirect_to new_reservation_path(:server_id => @reservation.server, :starts_at => @reservation.starts_at, :ends_at => @reservation.ends_at)
-    else
-      if free_servers.none?
-        flash.now[:alert] = "No servers available in the given timerange"
-        @donator_nag = true unless current_user.donator?
-      end
-      @reservation.valid?
-      render :server_selection
-    end
-  end
-
-  def server_selection
-    @reservation ||= new_reservation
-  end
-
   def new
     @reservation ||= new_reservation
   end
@@ -99,12 +80,5 @@ class ReservationsController < ApplicationController
     @reservation ||= find_reservation
   end
   helper_method :reservation
-
-  def server
-    @server ||= find_server
-  end
-  helper_method :server
-
-
 
 end

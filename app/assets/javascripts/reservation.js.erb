@@ -1,7 +1,9 @@
+var free_servers;
+
 jQuery(function($) {
+
   function formatServer(server) {
-    element = server.element;
-    return "<span class='flags flags-" + $(element).data('flag') + "'></span>" + server.text;
+    return "<span class='flags flags-" + server.flag + "'></span>" + server.text;
   };
 
   function enableDefaultWhitelist() {
@@ -28,9 +30,11 @@ jQuery(function($) {
   if ($("#whitelist_type_custom_whitelist").is(':checked')) { enableCustomWhitelist(); };
 
   $("#reservation_whitelist_id").select2();
+
   $("#reservation_first_map").select2({
     allowClear: true
   });
+
   $("#reservation_server_config_id").select2({
     allowClear: true
   });
@@ -38,19 +42,66 @@ jQuery(function($) {
   $("#reservation_server_id").select2({
     formatResult: formatServer,
     formatSelection: formatServer,
+    data: function() { return {results: free_servers}; },
     escapeMarkup: function(m) { return m }
   });
+  selectCurrentServer();
 
   $("#whitelist_type_default_whitelist").change(function() {
     enableDefaultWhitelist();
   });
 
   $("#whitelist_type_custom_whitelist").change(function() {
-  enableCustomWhitelist();
+    enableCustomWhitelist();
   });
 
   $("#whitelist_type_league_whitelist").change(function() {
     enableLeagueWhitelist();
   });
+
+  function findFreeServers() {
+    enableSpinner();
+    $.post(find_server_url, $("form.reservation").serialize() ).done(function( data ) {
+      free_servers = [];
+      $.each(data.servers, function(idx, server) {
+        free_servers.push({id: server.id, text: server.name, flag: server.flag});
+      });
+      selectCurrentServer();
+      disableSpinner();
+    });
+  };
+
+  function selectCurrentServer() {
+    $("#reservation_server_id").select2("val", $("#reservation_server_id").val());
+  };
+
+  function enableSpinner() {
+    $(".reservation_server_id label").prepend("<i id='server_spinner' class='fa fa-spinner fa-spin'></i>");
+    $("#reservation_server_id").select2("enable", false);
+  };
+
+  function disableSpinner() {
+    $("#server_spinner").remove();
+    $("#reservation_server_id").select2("enable", true);
+  };
+
+
+  $("#reservation_starts_at").change(function() {
+    findFreeServers();
+  });
+
+  $("#reservation_ends_at").change(function() {
+    findFreeServers();
+  });
+
+  function loadServers() {
+    if ($("#reservation_starts_at").enabled()) {
+      findFreeServers();
+    } else {
+      selectCurrentServer();
+    };
+  };
+
+  loadServers();
 
 });

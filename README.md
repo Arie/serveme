@@ -175,11 +175,7 @@ If there's any errors, you'll get a HTTP 400 and a new prefilled reservation JSO
     {
       "id": 64,
       "name": "FritzBrigade #10",
-      "location": {
-        "id": 8,
-        "name": "Germany",
-        "flag": "de"
-      }
+      "flag": "de"
     }
   ],
   "server_configs": [

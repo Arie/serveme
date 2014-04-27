@@ -5,7 +5,7 @@ Given "there are reservations today" do
 end
 
 When "I go make a reservation" do
-  visit '/reservations/server_selection'
+  visit new_reservation_path
 end
 
 Given "there are active and inactive servers" do
@@ -36,13 +36,6 @@ Then "I can see the current reservations per server" do
   end
 end
 
-When "I select a server" do
-  @server = Server.first
-  within "#local_server_#{@server.id}" do
-    click_link "Book this server"
-  end
-end
-
 Then "I get to enter the reservation details" do
   page.should have_content "Password"
   page.should have_content "Rcon"
@@ -61,8 +54,8 @@ end
 
 When "I enter the reservation details" do
   step "I go make a reservation"
-  step "I select a server"
 
+  fill_in "Available servers", :with => Server.first.id
   fill_in "Password", :with => "secret"
   fill_in "Rcon",     :with => "even more secret"
 end

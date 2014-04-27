@@ -10,3 +10,6 @@ en:
     were_x_players_left:
       one: was %{count} player
       other: were %{count} players
+    available:
+      one: "%{count} available server"
+      other: "%{count} available servers"

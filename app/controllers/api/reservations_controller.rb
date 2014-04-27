@@ -11,8 +11,7 @@ class Api::ReservationsController < Api::ApplicationController
   end
 
   def find_servers
-    @reservation = current_user.reservations.build(reservation_params)
-    @servers = free_servers
+    find_servers_for_user
   end
 
   def create

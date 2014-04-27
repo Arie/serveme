@@ -9,7 +9,6 @@ Feature: Making a reservation
 
   Scenario: Entering reservation details
     When I go make a reservation
-    And I select a server
     Then I get to enter the reservation details
 
   Scenario: Creating a reservation
@@ -19,7 +18,6 @@ Feature: Making a reservation
 
   Scenario: Unsuccesfully creating a reservation
     When I go make a reservation
-    And I select a server
     And I don't enter any reservation details
     Then I see the errors for the missing reservation fields
 

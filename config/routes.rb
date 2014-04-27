@@ -37,6 +37,8 @@ Serveme::Application.routes.draw do
       post :idle_reset,         :as => :idle_reset
     end
     collection do
+      post :find_servers_for_user
+      patch :find_servers_for_reservation
       get :server_selection
       post :time_selection
     end

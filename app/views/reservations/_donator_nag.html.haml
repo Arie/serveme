@@ -1,0 +1,10 @@
+- if !current_user.donator? && free_servers.count < 3
+  - free_donator_servers_count = Server.for_donators.active.count - used_donator_server_count
+  - if free_donator_servers_count > 0
+    .row
+      .col-md-12
+        .donate.alert.alert-info
+          %h4
+            Donators have #{I18n.t(:available, :count => free_donator_servers_count, :scope => :server)} right now.
+            Become a donator and instantly get access!
+            =render "shared/paypal_button"

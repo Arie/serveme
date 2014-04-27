@@ -5,7 +5,7 @@ json.actions do
   json.create api_reservations_url
 end
 json.servers do
-  json.partial! 'api/servers/list', servers: @servers
+  json.partial! 'servers/list', servers: @servers
 end
 json.server_configs do
   json.partial! 'api/server_configs/list', server_configs: ServerConfig.ordered

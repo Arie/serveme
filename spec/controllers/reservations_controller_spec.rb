@@ -47,4 +47,24 @@ describe ReservationsController do
 
   end
 
+  describe "#find_servers_for_reservation" do
+
+    render_views
+
+    it "returns a list of alternative servers for a reservation " do
+      reservation = create :reservation, :user => @user
+      patch :find_servers_for_reservation, format: :json, id: reservation.id
+      response.body.should == {servers: Server.active.map { |s| {id: s.id, name: s.name, flag: s.location.flag} } }.to_json
+    end
+
+    it "doesnt return servers in use" do
+      create :reservation
+      reservation = create :reservation, :user => @user
+      patch :find_servers_for_reservation, format: :json, id: reservation.id
+      free_server = reservation.server
+      response.body.should == {servers: [{id: free_server.id, name: free_server.name, flag: free_server.location.flag}] }.to_json
+    end
+
+  end
+
 end

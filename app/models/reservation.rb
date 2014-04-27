@@ -35,10 +35,6 @@ class Reservation < ActiveRecord::Base
      where(:ends_at => start_time...end_time).ordered)
   end
 
-  def self.ending_in_future
-    where('reservations.ends_at > ?', Time.current)
-  end
-
   def self.future
     where('reservations.starts_at > ?', Time.current)
   end
@@ -80,11 +76,11 @@ class Reservation < ActiveRecord::Base
   end
 
   def own_colliding_reservations
-    @own_colliding_reservations ||= CollisionFinder.new(user, self).colliding_reservations
+    @own_colliding_reservations ||= CollisionFinder.new(Reservation.where(:user_id => user.id), self).colliding_reservations
   end
 
   def other_users_colliding_reservations
-    @other_users_colliding_reservations ||= CollisionFinder.new(server, self).colliding_reservations
+    @other_users_colliding_reservations ||= CollisionFinder.new(Reservation.where(:server_id => server.id), self).colliding_reservations
   end
 
   def collides_with_own_reservation?

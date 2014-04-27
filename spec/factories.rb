@@ -5,6 +5,7 @@ FactoryGirl.define do
     path "/home/tf2/tf2-1"
     ip "fakkelbrigade.eu"
     port "27015"
+    location
   end
 
   factory :user do

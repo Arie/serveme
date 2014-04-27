@@ -12,6 +12,8 @@ class Server < ActiveRecord::Base
   validates_presence_of :port
   validates_presence_of :path
 
+  delegate :flag, :to => :location, :prefix => true, :allow_nil => true
+
   def self.reservable_by_user(user)
     where(:id => ids_reservable_by_user(user))
   end
@@ -38,10 +40,6 @@ class Server < ActiveRecord::Base
 
   def self.active
     where('servers.active = ?', true)
-  end
-
-  def self.inactive
-    where('servers.active = ?', false)
   end
 
   def self.in_groups(groups)

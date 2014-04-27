@@ -4,11 +4,16 @@ class UsersController < ApplicationController
   end
 
   def update
-    User.attr_accessible :logs_tf_api_key, :time_zone
-    if current_user.update_attributes(params[:user])
+    if current_user.update_attributes(user_params)
       flash[:notice] = "Settings saved"
     end
     redirect_to root_path
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:logs_tf_api_key, :time_zone)
   end
 
 end

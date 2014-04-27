@@ -11,5 +11,5 @@ en:
       one: was %{count} player
       other: were %{count} players
     available:
-      one: "%{count} available server"
+      one: "a server available"
       other: "%{count} available servers"

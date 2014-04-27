@@ -95,12 +95,15 @@ jQuery(function($) {
   });
 
   function loadServers() {
-    if ($("#reservation_starts_at").enabled()) {
-      findFreeServers();
-    } else {
-      selectCurrentServer();
+    if ($("#reservation_starts_at").length > 0) {
+      if ($("#reservation_starts_at:enabled").length > 0) {
+        findFreeServers();
+      } else {
+        selectCurrentServer();
+      };
     };
   };
+
 
   loadServers();
 

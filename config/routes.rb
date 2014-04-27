@@ -39,7 +39,6 @@ Serveme::Application.routes.draw do
     collection do
       post :find_servers_for_user
       patch :find_servers_for_reservation
-      get :server_selection
       post :time_selection
     end
     resources :log_uploads, :only => [:new, :create, :index] do

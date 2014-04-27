@@ -287,6 +287,12 @@ describe Reservation do
       reservation.should have(:no).errors_on(:first_map)
     end
 
+    it "validates the server is active" do
+      reservation = build :reservation
+      reservation.server = create :server, :active => false
+      reservation.should have(1).errors_on(:server_id)
+    end
+
     context "for non-donators" do
 
       it 'has an initial duration of no more than 2 hours' do

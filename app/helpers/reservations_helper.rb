@@ -48,7 +48,7 @@ module ReservationsHelper
   end
 
   def free_servers
-    @free_servers ||= free_server_finder.servers
+    @free_servers ||= free_server_finder.servers.ordered
   end
 
   def free_server_finder

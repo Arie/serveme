@@ -1,7 +1,7 @@
 class LogWorker
   include Sidekiq::Worker
 
-  attr_accessor :raw_line, :line, :event, :reservation_id
+  attr_accessor :raw_line, :line, :event, :reservation_id, :message
 
   def perform(raw_line)
     @raw_line         = raw_line
@@ -12,12 +12,13 @@ class LogWorker
 
   def handle_event
     if event.is_a?(TF2LineParser::Events::Say) && said_by_reserver?
-      handle_message(event.message)
+      @message = event.message
+      handle_message
     end
   end
 
-  def handle_message(message)
-    action = valid_actions[message]
+  def handle_message
+    action = action_for_message
     send(action) if action
   end
 
@@ -37,13 +38,21 @@ class LogWorker
     end
   end
 
-  def valid_actions
-    {
-      "!end"    => "handle_end",
-      "!extend" => "handle_extend"
-    }
+  def handle_rcon
+    rcon_command = message.split(" ")[1..-1].join(" ")
+    reservation.server.rcon_exec(rcon_command) if rcon_command
   end
 
+  def action_for_message
+    case message
+    when /!end.*/
+      :handle_end
+    when /!extend.*/
+      :handle_extend
+    when /!rcon .*/
+      :handle_rcon
+    end
+  end
 
   def said_by_reserver?
     event.player.steam_id == reserver_steam_id

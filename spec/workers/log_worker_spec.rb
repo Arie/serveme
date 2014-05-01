@@ -2,12 +2,15 @@ require 'spec_helper'
 
 describe LogWorker do
 
-  let(:user)          { create :user, :uid => '76561197960497430' }
-  let(:reservation)   { create :reservation, :user => user, :logsecret => '1234567' }
-  let(:server)        { create :server }
-  let(:extend_line)   { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><STEAM_0:0:115851><Red>" say "!extend"' }
-  let(:troll_line)    { '1234567L 03/29/2014 - 13:15:53: "TRoll<3><STEAM_0:0:12345><Red>" say "!end"' }
-  let(:end_line)      { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><STEAM_0:0:115851><Red>" say "!end"' }
+  let(:user)                  { create :user, :uid => '76561197960497430' }
+  let(:reservation)           { create :reservation, :user => user, :logsecret => '1234567' }
+  let(:server)                { create :server }
+  let(:extend_line)           { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><STEAM_0:0:115851><Red>" say "!extend"' }
+  let(:troll_line)            { '1234567L 03/29/2014 - 13:15:53: "TRoll<3><STEAM_0:0:12345><Red>" say "!end"' }
+  let(:end_line)              { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><STEAM_0:0:115851><Red>" say "!end"' }
+  let(:rcon_changelevel_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><STEAM_0:0:115851><Red>" say "!rcon changelevel cp_badlands"' }
+  let(:rcon_empty_line)       { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><STEAM_0:0:115851><Red>" say "!rcon"' }
+  let(:rcon_with_quotes_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><STEAM_0:0:115851><Red>" say "!rcon mp_tournament "1""' }
   subject(:logworker) { LogWorker.perform_async(line) }
 
   before do
@@ -45,6 +48,25 @@ describe LogWorker do
       reservation.should_receive(:extend!).and_return { false }
       server.should_receive(:rcon_say).with("Couldn't extend your reservation: you can only extend when there's less than 1 hour left and no one else has booked the server.")
       LogWorker.perform_async(extend_line)
+    end
+
+  end
+
+  describe "rcon" do
+
+    it "doesn't do anything without a command" do
+      server.should_not_receive(:rcon_exec)
+      LogWorker.perform_async(rcon_empty_line)
+    end
+
+    it "executes rcon commands" do
+      server.should_receive(:rcon_exec).with("changelevel cp_badlands")
+      LogWorker.perform_async(rcon_changelevel_line)
+    end
+
+    it "is not afraid of quotes in the commands" do
+      server.should_receive(:rcon_exec).with('mp_tournament "1"')
+      LogWorker.perform_async(rcon_with_quotes_line)
     end
 
   end

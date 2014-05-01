@@ -40,7 +40,10 @@ class LogWorker
 
   def handle_rcon
     rcon_command = message.split(" ")[1..-1].join(" ")
-    reservation.server.rcon_exec(rcon_command) if rcon_command
+    if rcon_command
+      Rails.logger.info "Sending rcon command #{rcon_command} from chat for reservation #{reservation}"
+      reservation.server.rcon_exec(rcon_command)
+    end
   end
 
   def action_for_message

@@ -14,6 +14,19 @@
         %td
           = reservation.connect_string
           = render 'shared/copy_button', :copy_button_id => "connect_string", :copy_text => reservation.connect_string
+
+      %tr
+        %td TF2Center info
+        %td
+          Server Address:
+          - ip_and_port = "#{reservation.server.ip}:#{reservation.server.port}"
+          = ip_and_port
+          = render 'shared/copy_button', :copy_button_id => "server_address", :copy_text => ip_and_port
+          %br
+          Rcon Password:
+          = reservation.rcon
+          = render 'shared/copy_button', :copy_button_id => "rcon_password", :copy_text => reservation.rcon
+
       %tr
         %td Password
         %td= reservation.password

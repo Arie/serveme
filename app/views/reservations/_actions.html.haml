@@ -15,11 +15,10 @@
 
     - unless reservation.end_instantly?
 
-      - if reservation.inactive_minute_counter > 0
-        = link_to idle_reset_reservation_path(reservation),  :class => 'btn btn-xs btn-primary', :title => "Idle reset",           :method => :post do
-          - afk_text = "#{reservation.inactive_minute_counter}/#{reservation.inactive_minute_limit}m"
-          Idle reset (#{afk_text})
-          %i.fa.fa-undo
+      = link_to idle_reset_reservation_path(reservation),  :class => 'btn btn-xs btn-primary', :title => "Idle reset",           :method => :post do
+        - afk_text = "#{reservation.inactive_minute_counter}/#{reservation.inactive_minute_limit}m"
+        Idle reset (#{afk_text})
+        %i.fa.fa-undo
 
       - if reservation.has_players?
         - end_message = "Are you sure you want to end your reservation? There #{I18n.t(:were_x_players_left, :count => reservation.last_number_of_players, :scope => :server)} left on the server at #{I18n.l(Time.zone.now, :format => :time_without_seconds)}"

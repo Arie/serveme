@@ -339,7 +339,7 @@ GEM
       faraday (>= 0.7.6)
       hashie (>= 1.1.0)
       uuidtools
-    shoulda-matchers (2.6.0)
+    shoulda-matchers (2.6.1)
       activesupport (>= 3.0.0)
     sidekiq (3.0.0)
       celluloid (>= 0.15.2)

@@ -4,12 +4,6 @@
       Please pick your start and end time carefully, reservations that have no players for 30 minutes (60 minutes for donators) get ended automatically. All times are in timezone:
       = link_to(Time.zone, edit_users_path)
 
-- unless na_system?
-  .row
-    .col-md-12
-      %p.alert.alert-success
-        It's possible again to use VanillaTV servers with TF2Center :)
-
 = render "donator_nag"
 
 .row

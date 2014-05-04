@@ -8,9 +8,9 @@ describe ServerNotificationWorker do
   let(:server)        { double(:server, :set_logaddress => true) }
 
   before do
-    Reservation.should_receive(:includes).with(:user, :server).and_return(Reservation)
-    Reservation.should_receive(:current).and_return([reservation])
     reservation.stub(:server => server)
+    Reservation.should_receive(:includes).with(:user, :server).and_return(Reservation)
+    Reservation.should_receive(:find).with(reservation.id).and_return(reservation)
   end
 
   describe "#send_notification" do
@@ -19,7 +19,7 @@ describe ServerNotificationWorker do
 
       it "sets the logaddress, just in case it was deleted" do
         server.should_receive(:set_logaddress)
-        ServerNotificationWorker.perform_async
+        ServerNotificationWorker.perform_async(reservation.id)
       end
 
     end
@@ -34,21 +34,21 @@ describe ServerNotificationWorker do
       it "can send an ad to non donators" do
         reservation.stub(:user => non_donator)
         server.should_receive(:rcon_say).with("this is an ad")
-        ServerNotificationWorker.perform_async
+        ServerNotificationWorker.perform_async(reservation.id)
       end
 
       it "can send a donator notifications to donators" do
         create :server_notification, notification_type: "donator", message: "thanks for donating"
         reservation.stub(:user => donator)
         server.should_receive(:rcon_say).with("thanks for donating")
-        ServerNotificationWorker.perform_async
+        ServerNotificationWorker.perform_async(reservation.id)
       end
 
       it "wont send an ad to donators" do
         create :server_notification, notification_type: "ad", message: "this is a notification"
         reservation.stub(:user => donator)
         server.should_not_receive(:rcon_say).with("this is an ad")
-        ServerNotificationWorker.perform_async
+        ServerNotificationWorker.perform_async(reservation.id)
       end
 
       it "can use the user's name as a variable" do
@@ -56,7 +56,7 @@ describe ServerNotificationWorker do
         donator.stub(:nickname => "Arie")
         reservation.stub(:user => donator)
         server.should_receive(:rcon_say).with("thanks for donating Arie, you rock!")
-        ServerNotificationWorker.perform_async
+        ServerNotificationWorker.perform_async(reservation.id)
       end
 
     end

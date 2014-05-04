@@ -1,13 +1,11 @@
 class ServerNotificationWorker
   include Sidekiq::Worker
-  include Sidetiq::Schedulable
 
-  recurrence { hourly.minute_of_hour(0, 20, 40) }
+  sidekiq_options :retry => 3
 
-  def perform
-    reservations.each do |reservation|
-      send_notification(reservation)
-    end
+  def perform(reservation_id)
+    reservation = Reservation.includes(:user, :server).find(reservation_id)
+    send_notification(reservation)
   end
 
   def send_notification(reservation)
@@ -26,10 +24,6 @@ class ServerNotificationWorker
 
   def notifications_for_non_donators
     @notifications_for_non_donators ||= ServerNotification.for_everyone + ServerNotification.ads
-  end
-
-  def reservations
-    Reservation.includes(:user, :server).current
   end
 
 end

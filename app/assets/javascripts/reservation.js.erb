@@ -43,7 +43,7 @@ jQuery(function($) {
     formatResult: formatServer,
     formatSelection: formatServer,
     formatNoMatches: function() {
-      return "No servers available between " + startsAt() + " and " + endsAt();
+      return "No more servers available between " + startsAt() + " and " + endsAt();
     },
     data: function() { return {results: free_servers}; },
     escapeMarkup: function(m) { return m }

@@ -42,6 +42,9 @@ jQuery(function($) {
   $("#reservation_server_id").select2({
     formatResult: formatServer,
     formatSelection: formatServer,
+    formatNoMatches: function() {
+      return "No servers available between " + startsAt() + " and " + endsAt();
+    },
     data: function() { return {results: free_servers}; },
     escapeMarkup: function(m) { return m }
   });
@@ -93,6 +96,14 @@ jQuery(function($) {
   $("#reservation_ends_at").change(function() {
     findFreeServers();
   });
+
+  function startsAt() {
+    return $("#reservation_starts_at").val();
+  };
+
+  function endsAt() {
+    return $("#reservation_ends_at").val();
+  };
 
   function loadServers() {
     if ($("#reservation_starts_at").length > 0) {

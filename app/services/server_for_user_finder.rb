@@ -18,7 +18,7 @@ class ServerForUserFinder
         available_for_user
       end
     else
-      Server.where("1 = 0")
+      Server.none
     end
   end
 

@@ -41,7 +41,7 @@
       Cancel
       %i.fa.fa-trash-o
 
-  - if reservation.past?
+  - if reservation.past? && reservation.less_than_month_old?
     = render 'reservations/zip_file_link', :reservation => reservation
     = link_to reservation_log_uploads_path(reservation),  :class => 'btn btn-xs btn-success', :title => 'Upload the match logs to logs.tf' do
       logs.tf

@@ -59,6 +59,10 @@ class Reservation < ActiveRecord::Base
     ends_at < Time.current
   end
 
+  def less_than_month_old?
+    ends_at > 31.days.ago
+  end
+
   def future?
     starts_at > Time.current
   end

@@ -29,7 +29,7 @@ FactoryGirl.define do
     password "secret"
     rcon "supersecret"
     starts_at Time.current
-    ends_at 1.hour.from_now
+    ends_at { starts_at + 1.hour }
   end
 
   factory :group do

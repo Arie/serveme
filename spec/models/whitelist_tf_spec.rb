@@ -5,21 +5,24 @@ describe WhitelistTf do
   it { should validate_presence_of(:tf_whitelist_id) }
   it { should validate_presence_of(:content) }
 
-  describe ".find_or_download" do
+  describe ".download_and_save_whitelist" do
 
-    it "find an existing whitelist" do
-      whitelist = double
-      WhitelistTf.should_receive(:find_by_tf_whitelist_id).with(100).and_return(whitelist)
+    it "creates a whitelist if it didn't exist" do
+      whitelist_content = "whitelist"
+      WhitelistTf.should_receive(:whitelist_content).with(100).and_return(whitelist_content)
 
-      WhitelistTf.find_or_download(100).should == whitelist
+      WhitelistTf.download_and_save_whitelist(100)
+      WhitelistTf.find_by_tf_whitelist_id(100).content.should == whitelist_content
     end
 
-    it "downloads a whitelist if it didn't exist" do
-      whitelist = double
-      WhitelistTf.should_receive(:find_by_tf_whitelist_id).with(100).and_return(nil)
-      WhitelistTf.should_receive(:download_and_save_whitelist).with(100).and_return(whitelist)
+    it "updates an existing whitelist" do
+      create :whitelist_tf, tf_whitelist_id: 1337, content: "old content"
 
-      WhitelistTf.find_or_download(100).should == whitelist
+      updated_content = "updated content"
+      WhitelistTf.should_receive(:whitelist_content).with(1337).and_return(updated_content)
+      WhitelistTf.download_and_save_whitelist(1337)
+
+      WhitelistTf.find_by_tf_whitelist_id(1337).content.should == updated_content
     end
 
   end

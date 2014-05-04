@@ -17,6 +17,19 @@ describe Reservation do
       WhitelistTf.find_by_tf_whitelist_id(103).content.should == "the whitelist"
     end
 
+    it "updates the whitelist" do
+      request = double(:body => "104 the whitelist")
+      connection = double
+      connection.should_receive(:get).with(anything).and_return(request)
+      Faraday.should_receive(:new).with(anything).and_return(connection)
+      reservation = create :reservation
+
+      reservation.custom_whitelist_id = 104
+      reservation.valid?
+
+      WhitelistTf.find_by_tf_whitelist_id(104).content.should == "104 the whitelist"
+    end
+
     it "sets an error if the whitelist couldn't be downloaded" do
       reservation = build(:reservation, :custom_whitelist_id => 103)
       Faraday.should_receive(:new).with(anything).and_raise(Faraday::Error::ClientError.new("foo"))
@@ -638,6 +651,7 @@ describe Reservation do
         WhitelistTf.should_receive(:find_by_tf_whitelist_id).with(custom_whitelist_id).and_return(whitelist_tf)
         subject.custom_whitelist_content.should == 'whitelist content'
       end
+
     end
 
 

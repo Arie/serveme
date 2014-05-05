@@ -9,7 +9,7 @@
       %p.lead Click on a bar to plan a reservation after that one, or click on a server name.
   .row
     .col-md-12
-      - servers = Server.includes(:location).active.reservable_by_user(current_user)
+      - servers = Server.includes(:location).active.reservable_by_user(current_user).order('servers.name')
       - reservations = {}
       - servers.each do |s|
         - reservations[s.id] = []

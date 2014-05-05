@@ -13,7 +13,7 @@
       - reservations = {}
       - servers.each do |s|
         - reservations[s.id] = []
-      - Reservation.order(:starts_at).within_time_range(reservation.starts_at, reservation.starts_at + 7.hours).uniq.each do |r|
+      - Reservation.joins(:server).where(:server => servers).order(:starts_at).within_time_range(reservation.starts_at, reservation.starts_at + 7.hours).uniq.each do |r|
         - reservations[r.server_id] << r
       .server_reservations
         - servers.each do |s|

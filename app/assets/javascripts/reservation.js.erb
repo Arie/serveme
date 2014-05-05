@@ -43,7 +43,7 @@ jQuery(function($) {
     formatResult: formatServer,
     formatSelection: formatServer,
     formatNoMatches: function() {
-      return "No more servers available between " + startsAt() + " and " + endsAt();
+      return "No more servers available between " + startsAt().val() + " and " + endsAt().val();
     },
     data: function() { return {results: free_servers}; },
     escapeMarkup: function(m) { return m }
@@ -97,16 +97,61 @@ jQuery(function($) {
     findFreeServers();
   });
 
+  $("#toggle_reservations_list").click(function() {
+    $("#toggle_reservations_list").hide();
+    $("#server_reservations_table").slideToggle('slow');
+  });
+
+  $(".gantt").click(function(event) {
+    ele = $(event.currentTarget);
+    starts = ele.data('next-start');
+    ends   = ele.data('next-end');
+    server_id  = ele.data('server-id');
+    $('html body').animate({
+      scrollTop: startsAt().offset().top
+      }, {
+        duration: 100,
+        complete: function() {
+          startsAt().val(starts);
+          endsAt().val(ends);
+          serverId().val(server_id);
+          updateStartsAt();
+        }
+      })
+  });
+
+  $(".server_name").click(function(event) {
+    ele = $(event.target);
+    server_id  = ele.data('server-id');
+    $('html body').animate({
+      scrollTop: serverId().offset().top
+      }, {
+        duration: 100,
+        complete: function() {
+          serverId().val(server_id);
+          updateStartsAt();
+        }
+      })
+  });
+
+  function updateStartsAt() {
+    startsAt().change();
+  };
+
+  function serverId() {
+    return $("#reservation_server_id");
+  };
+
   function startsAt() {
-    return $("#reservation_starts_at").val();
+    return $("#reservation_starts_at");
   };
 
   function endsAt() {
-    return $("#reservation_ends_at").val();
+    return $("#reservation_ends_at");
   };
 
   function loadServers() {
-    if ($("#reservation_starts_at").length > 0) {
+    if (startsAt().length > 0) {
       if ($("#reservation_starts_at:enabled").length > 0) {
         findFreeServers();
       } else {
@@ -117,5 +162,7 @@ jQuery(function($) {
 
 
   loadServers();
+
+  $('.gantt').tooltip();
 
 });

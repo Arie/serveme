@@ -1,0 +1,45 @@
+#server_reservations_table
+  .row
+    .col-md-12
+      %h3
+        Reservation chart for
+        #{I18n.l(reservation.starts_at, :format => :datepicker)}
+        \-
+        #{I18n.l(reservation.starts_at + 7.hours, :format => :time_without_seconds)}
+      %p.lead Click on a bar to plan a reservation after that one, or click on a server name.
+  .row
+    .col-md-12
+      - servers = Server.includes(:location).active
+      - reservations = {}
+      - servers.each do |s|
+        - reservations[s.id] = []
+      - Reservation.order(:starts_at).within_time_range(reservation.starts_at, reservation.starts_at + 7.hours).uniq.each do |r|
+        - reservations[r.server_id] << r
+      .server_reservations
+        - servers.each do |s|
+          - s = s.decorate
+          .row.server
+            .col-xs-2.name.server_name{:data => { :server_id => s.id }}
+              = s.name
+            .col-xs-10.reservations
+              - reservations[s.id].each do |r|
+                - duration = (r.duration / 25.0).round
+                - minutes_from_starts_at = ((r.starts_at - reservation.starts_at) / 25.0).round
+                - start_time = I18n.l(r.starts_at, :format => :time_without_seconds)
+                - end_time = I18n.l(r.ends_at, :format => :time_without_seconds)
+                - time = "#{start_time}-#{end_time}"
+                - next_start = r.ends_at + 1.minute
+                - next_end = next_start + 1.hour
+                - next_start_formatted = I18n.l(next_start, :format => :datepicker)
+                - next_end_formatted = I18n.l(next_end, :format => :datepicker)
+                - text = "#{r}"
+                .progress.gantt{:style => "left: #{minutes_from_starts_at}px; width: #{duration}px", :data => { :container => "body", :toggle => "tooltip", :placement => "top", :next_start => next_start_formatted, :next_end => next_end_formatted, :server_id => r.server_id}, :title => text}
+                  .progress-bar{:role => "progressbar", :style => "width: 100%"}
+                    = time
+
+.row
+  .col-md-12
+    %button#toggle_reservations_list{:class => 'btn btn-xs btn-success'}
+      %i.fa.fa-align-right
+      Reservation chart
+

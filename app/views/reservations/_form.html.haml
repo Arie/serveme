@@ -6,6 +6,8 @@
 
 = render "donator_nag"
 
+= render "server_reservations_table"
+
 .row
   .col-md-7.col-md-offset-2
     = simple_form_for(@reservation, :html => { :class => 'form-horizontal reservation' }) do |f|

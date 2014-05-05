@@ -49,3 +49,31 @@ table
 .donate
   h4
     margin-bottom: 0px
+
+#server_reservations_table
+  display: none
+
+.server_reservations
+  .server
+    margin-bottom: 2px
+    .name
+      display: inline-block
+      cursor: pointer
+      &:hover
+        text-decoration: underline
+    .reservations
+      position: relative
+      display: inline-block
+      overflow: hidden
+      height: 20px
+      .gantt
+        cursor: pointer
+        display: inline-block
+        position: absolute
+        overflow: hidden
+        text-align: center
+        height: 20px
+        background-color: #428bca
+        border-left: 1px white
+        .progress-bar
+          font-size: 10px

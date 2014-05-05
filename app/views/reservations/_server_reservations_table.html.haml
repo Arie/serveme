@@ -19,9 +19,9 @@
         - servers.each do |s|
           - s = s.decorate
           .row.server
-            .col-xs-3.name.server_name{:data => { :server_id => s.id }}
+            .col-xs-2.name.server_name{:data => { :server_id => s.id }}
               = s.name
-            .col-xs-9.reservations
+            .col-xs-10.reservations
               - reservations[s.id].each do |r|
                 - duration = (r.duration / 25.0).round
                 - minutes_from_starts_at = ((r.starts_at - reservation.starts_at) / 25.0).round

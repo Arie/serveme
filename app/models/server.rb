@@ -147,10 +147,10 @@ class Server < ActiveRecord::Base
   end
 
   def end_reservation(reservation)
+    remove_configuration
     zip_demos_and_logs(reservation)
     copy_logs(reservation)
     remove_logs_and_demos
-    remove_configuration
     restart
   end
 

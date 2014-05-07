@@ -16,9 +16,7 @@
         %td
           = "#{server.inactive_minutes} minutes"
           - if current_user && current_user.admin?
-            = link_to reservation_path(server.current_reservation), :class => 'btn btn-xs btn-danger',  :title => 'End reservation', :method => :delete, :data => { :confirm => "Sure?" } do
-              End
-              %i.fa.fa-stop
+            = render "reservations/actions", :reservation => server.current_reservation
 
       - else
         %td N/A

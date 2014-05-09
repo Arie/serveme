@@ -1,6 +1,7 @@
 - begin
   - server_info = ServerInfo.new(server)
-  - cache "server_info_#{server.id}_#{server_info.uptime.to_i}" do
+  - admin = current_user && current_user.admin?
+  - cache "server_info_#{server.id}_#{server_info.uptime.to_i}_#{admin}" do
     %tr
       %td
         = server.flag
@@ -15,7 +16,7 @@
       - if server.current_reservation
         %td
           = "#{server.inactive_minutes} minutes"
-          - if current_user && current_user.admin?
+          - if admin
             = render "reservations/actions", :reservation => server.current_reservation
 
       - else

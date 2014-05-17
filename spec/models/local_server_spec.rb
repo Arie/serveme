@@ -107,19 +107,6 @@ describe LocalServer do
 
   end
 
-  describe "#write_custom_whitelist" do
-
-    it "takes a whitelist and writes it to the server dir" do
-      reservation = double(:custom_whitelist_id => 1337)
-      reservation.stub(:custom_whitelist_content => "foobar")
-
-      subject.stub(:tf_dir => '/tmp')
-      subject.should_receive(:write_configuration).with('/tmp/cfg/custom_whitelist_1337.txt', 'foobar')
-
-      subject.write_custom_whitelist(reservation)
-    end
-  end
-
   describe '#end_reservation' do
 
     it 'should zip demos and logs, remove configuration and restart' do

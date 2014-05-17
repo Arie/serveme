@@ -155,10 +155,6 @@ class Reservation < ActiveRecord::Base
     duration < 15.minutes
   end
 
-  def custom_whitelist_content
-    WhitelistTf.find_by_tf_whitelist_id(custom_whitelist_id).try(:content)
-  end
-
   def calculate_duration
     self.duration = (ends_at.to_i - starts_at.to_i)
   end

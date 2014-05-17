@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140414200448) do
+ActiveRecord::Schema.define(version: 20140517202148) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -201,15 +201,6 @@ ActiveRecord::Schema.define(version: 20140414200448) do
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
-
-  create_table "whitelist_tfs", force: true do |t|
-    t.integer  "tf_whitelist_id"
-    t.text     "content",         limit: 16777215
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "whitelist_tfs", ["tf_whitelist_id"], name: "index_whitelist_tfs_on_tf_whitelist_id", using: :btree
 
   create_table "whitelists", force: true do |t|
     t.string   "file"

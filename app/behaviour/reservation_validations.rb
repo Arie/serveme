@@ -11,7 +11,6 @@ module ReservationValidations
       validates_with Reservations::OnlyOneFutureReservationPerUserValidator,  :unless => :donator?
       validates_with Reservations::StartsNotTooFarInFutureValidator,          :unless => :donator?
       validates_with Reservations::MapIsValidValidator
-      validates_with Reservations::CustomWhitelistValidator
     end
   end
 end

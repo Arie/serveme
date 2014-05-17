@@ -73,11 +73,6 @@ class Server < ActiveRecord::Base
       config_body = generate_config_file(reservation, config_file)
       write_configuration(server_config_file(config_file), config_body)
     end
-    write_custom_whitelist(reservation) if reservation.custom_whitelist_id.present?
-  end
-
-  def write_custom_whitelist(reservation)
-    write_configuration(server_config_file("custom_whitelist_#{reservation.custom_whitelist_id}.txt"), reservation.custom_whitelist_content)
   end
 
   def generate_config_file(reservation, config_file)

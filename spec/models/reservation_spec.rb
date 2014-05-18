@@ -531,79 +531,78 @@ describe Reservation do
       end
 
     end
+  end
 
-    describe '#just_started?' do
+  describe '#just_started?' do
 
-      it "is just started if it started within the last 5 minutes" do
-        subject.stub(:starts_at => 170.seconds.ago)
-        subject.should be_just_started
+    it "is just started if it started within the last 5 minutes" do
+      subject.stub(:starts_at => 170.seconds.ago)
+      subject.should be_just_started
 
-        subject.stub(:starts_at => 181.seconds.ago)
-        subject.should_not be_just_started
-      end
+      subject.stub(:starts_at => 181.seconds.ago)
+      subject.should_not be_just_started
+    end
+  end
+
+  describe '#schedulable?' do
+
+    it "is schedulable when it wasn't saved yet" do
+      subject.stub(:persisted? => false)
+      subject.should be_schedulable
     end
 
-    describe '#schedulable?' do
+    it "is schedulable when it was saved but not active yet or in the past" do
+      subject.stub(:persisted?  => true,
+                    :active?     => false,
+                    :past?       => false
+                  )
+      subject.should be_schedulable
 
-      it "is schedulable when it wasn't saved yet" do
-        subject.stub(:persisted? => false)
-        subject.should be_schedulable
-      end
+      subject.stub(:persisted?  => true,
+                    :active?     => true,
+                    :past?       => false,
+                  )
+      subject.should_not be_schedulable
 
-      it "is schedulable when it was saved but not active yet or in the past" do
-        subject.stub(:persisted?  => true,
-                     :active?     => false,
-                     :past?       => false
-                    )
-        subject.should be_schedulable
-
-        subject.stub(:persisted?  => true,
-                     :active?     => true,
-                     :past?       => false,
-                    )
-        subject.should_not be_schedulable
-
-        subject.stub(:persisted?  => true,
-                     :active?     => false,
-                     :past?       => true
-                    )
-        subject.should_not be_schedulable
-      end
-
+      subject.stub(:persisted?  => true,
+                    :active?     => false,
+                    :past?       => true
+                  )
+      subject.should_not be_schedulable
     end
 
-    describe "#very_short?" do
-      it "was very short if it was less than 15 minutes" do
-        subject.stub(:duration => 14.minutes)
-        subject.should be_very_short
+  end
 
-        subject.stub(:duration => 16.minutes)
-        subject.should_not be_very_short
-      end
+  describe "#very_short?" do
+    it "was very short if it was less than 15 minutes" do
+      subject.stub(:duration => 14.minutes)
+      subject.should be_very_short
+
+      subject.stub(:duration => 16.minutes)
+      subject.should_not be_very_short
     end
+  end
 
-    describe '#nearly_over?' do
-      it "is nearly over when there's less than 10 minutes left" do
-        subject.stub(:ends_at => 11.minutes.from_now)
-        subject.should_not be_nearly_over
+  describe '#nearly_over?' do
+    it "is nearly over when there's less than 10 minutes left" do
+      subject.stub(:ends_at => 11.minutes.from_now)
+      subject.should_not be_nearly_over
 
-        subject.stub(:ends_at => 9.minutes.from_now)
-        subject.should be_nearly_over
-      end
+      subject.stub(:ends_at => 9.minutes.from_now)
+      subject.should be_nearly_over
     end
+  end
 
-    describe '#warn_nearly_over' do
+  describe '#warn_nearly_over' do
 
-      it "should send a message to the server warning the reservation is nearly over" do
-        server = double
-        subject.stub(:time_left => 1.minute)
-        subject.stub(:server => server)
+    it "should send a message to the server warning the reservation is nearly over" do
+      server = double
+      subject.stub(:time_left => 1.minute)
+      subject.stub(:server => server)
 
-        message = "This reservation will end in less than 1 minute, if this server is not yet booked by someone else, you can say !extend for more time"
-        server.should_receive(:rcon_say).with(message)
-        subject.warn_nearly_over
-      end
-
+      message = "This reservation will end in less than 1 minute, if this server is not yet booked by someone else, you can say !extend for more time"
+      server.should_receive(:rcon_say).with(message)
+      subject.warn_nearly_over
     end
 
   end

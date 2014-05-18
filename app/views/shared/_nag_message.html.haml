@@ -5,9 +5,8 @@
       .col-md-12
         .alert.alert-danger
           %h4
-            FFFFUUUUUUUUU!!!!111oneoneleven you didn't end
-            = link_to("your previous reservation", reservation_path(users_last_reservation))
-            please do that next time so other people can use the server.
+            = link_to("Your previous reservation", reservation_path(users_last_reservation))
+            expired due to inactivity. If you need more than #{users_last_reservation.inactive_minute_limit} minutes to get people on your server, press the "idle reset" button to keep your reservation open.
   - if users_last_reservation.very_short?
     .row
       .col-md-12

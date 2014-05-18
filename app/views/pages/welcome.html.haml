@@ -18,6 +18,12 @@
                 .available_servers= render 'reservations/available_servers'
             - else
               .available_servers= render 'reservations/available_servers'
+.row
+  .col-md-12
+    .flash.alert.alert-success
+      We'd like to know your opinion on serveme.tf, please
+      = link_to("fill in our survey", "https://docs.google.com/forms/d/1RDQ3ytV291_dLLsoRYzYeUT_KsseptmSvE1qE-ZAKJI/viewform?usp=send_form", :target => "_blank")
+      and you could win one of five 1-year donator memberships.
 
 
 .row

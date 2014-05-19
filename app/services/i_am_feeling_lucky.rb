@@ -5,7 +5,6 @@ class IAmFeelingLucky
 
   def initialize(user)
     @user = user
-    build_reservation
   end
 
   def build_reservation

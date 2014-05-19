@@ -16,7 +16,7 @@ class ReservationsController < ApplicationController
   end
 
   def i_am_feeling_lucky
-    @reservation = IAmFeelingLucky.new(current_user)
+    @reservation = IAmFeelingLucky.new(current_user).build_reservation
     if @reservation.save
       reservation_saved
     else

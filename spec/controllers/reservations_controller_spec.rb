@@ -73,7 +73,8 @@ describe ReservationsController do
 
     it "shows me my reservation if I'm lucky" do
       reservation = create(:reservation, :user => @user)
-      IAmFeelingLucky.should_receive(:new).and_return(reservation)
+      lucky = double(:lucky, :build_reservation => reservation)
+      IAmFeelingLucky.should_receive(:new).and_return(lucky)
 
       post :i_am_feeling_lucky
 
@@ -82,7 +83,8 @@ describe ReservationsController do
 
     it "shows an error if I'm not so lucky" do
       reservation = double(:reservation, :human_timerange => "the_timerange", :save => false)
-      IAmFeelingLucky.should_receive(:new).and_return(reservation)
+      lucky = double(:lucky, :build_reservation => reservation)
+      IAmFeelingLucky.should_receive(:new).and_return(lucky)
 
       post :i_am_feeling_lucky
 

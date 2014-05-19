@@ -44,10 +44,10 @@ class Reservation < ActiveRecord::Base
   end
 
   def to_s
-    "#{user.try(:nickname)}: #{human_timeframe}"
+    "#{user.try(:nickname)}: #{human_timerange}"
   end
 
-  def human_timeframe
+  def human_timerange
     "#{I18n.l(starts_at, :format => :datepicker)} - #{I18n.l(ends_at, :format => :time)}"
   end
 

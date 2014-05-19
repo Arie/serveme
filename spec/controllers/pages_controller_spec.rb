@@ -20,6 +20,18 @@ describe PagesController do
     end
   end
 
+  describe "#faq" do
+
+    render_views
+
+    it "renders" do
+      get :faq
+
+      response.should be_success
+    end
+
+  end
+
   describe "#switch_theme" do
 
     it "toggles between themes by setting a cookie" do

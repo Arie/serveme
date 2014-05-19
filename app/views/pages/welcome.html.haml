@@ -5,12 +5,15 @@
     .jumbotron
       .container
         .row
-          .col-md-8
+          .col-md-8.buttons
             %h1 Welcome to serveme.tf!
             %p The easiest way to borrow a TF2 server
             = link_to new_reservation_path, :class => 'btn btn-lg btn-primary', :title => "Get a server right now, or make a reservation" do
               Let's play!
               %i.fa.fa-crosshairs
+            = link_to i_am_feeling_lucky_reservations_path, :class => 'btn btn-lg btn-warning', :method => :post, :title => "Make a reservation in 1 click" do
+              I'm feeling lucky
+              %i.fa.fa-bolt
           .col-md-4
             - if na_system?
               .sponsor

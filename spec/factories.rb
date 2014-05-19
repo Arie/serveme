@@ -28,7 +28,7 @@ FactoryGirl.define do
     association :user
     password "secret"
     rcon "supersecret"
-    starts_at Time.current
+    starts_at 1.minute.ago
     ends_at { starts_at + 1.hour }
   end
 

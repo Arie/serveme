@@ -67,4 +67,28 @@ describe ReservationsController do
 
   end
 
+  describe "#i_am_feeling_lucky" do
+
+    render_views
+
+    it "shows me my reservation if I'm lucky" do
+      reservation = create(:reservation, :user => @user)
+      IAmFeelingLucky.should_receive(:new).and_return(reservation)
+
+      post :i_am_feeling_lucky
+
+      response.should redirect_to reservation_path(reservation)
+    end
+
+    it "shows an error if I'm not so lucky" do
+      reservation = double(:reservation, :human_timerange => "the_timerange", :save => false)
+      IAmFeelingLucky.should_receive(:new).and_return(reservation)
+
+      post :i_am_feeling_lucky
+
+      response.should redirect_to root_path
+    end
+
+  end
+
 end

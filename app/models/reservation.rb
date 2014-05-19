@@ -44,7 +44,11 @@ class Reservation < ActiveRecord::Base
   end
 
   def to_s
-    "#{user.try(:nickname)}: #{I18n.l(starts_at, :format => :datepicker)} - #{I18n.l(ends_at, :format => :time)}"
+    "#{user.try(:nickname)}: #{human_timeframe}"
+  end
+
+  def human_timeframe
+    "#{I18n.l(starts_at, :format => :datepicker)} - #{I18n.l(ends_at, :format => :time)}"
   end
 
   def now?
@@ -173,6 +177,10 @@ class Reservation < ActiveRecord::Base
 
   def end_reservation
     reservation_manager.end_reservation
+  end
+
+  def reusable_attributes
+    attributes.slice('server_id', 'password', 'rcon', 'tv_password', 'server_config_id', 'whitelist_id', 'custom_whitelist_id', 'first_map', 'auto_end')
   end
 
   def get_binding

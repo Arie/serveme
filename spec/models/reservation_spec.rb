@@ -607,4 +607,16 @@ describe Reservation do
 
   end
 
+  describe "#reusable_attributes" do
+
+    it "returns the attributes and values of those attributes that a new reservation can be based on" do
+      subject.starts_at = Time.new(2014, 1, 1)
+      subject.password = "the_password"
+
+      subject.reusable_attributes.should include "password" => "the_password"
+      subject.reusable_attributes.should_not include "starts_at" => subject.starts_at
+    end
+
+  end
+
 end

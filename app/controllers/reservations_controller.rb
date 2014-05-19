@@ -9,17 +9,19 @@ class ReservationsController < ApplicationController
   def create
     @reservation = current_user.reservations.build(reservation_params)
     if @reservation.save
-      if @reservation.now?
-        @reservation.update_attribute(:start_instantly, true)
-        @reservation.start_reservation
-        flash[:notice] = "Reservation created for #{@reservation.server_name}. The server is now being configured, give it a minute to (re)boot/update and <a href='#{@reservation.server_connect_url}'>click here to join</a> or enter in console: #{@reservation.connect_string}".html_safe
-        redirect_to reservation_path(@reservation)
-      else
-        flash[:notice] = "Reservation created for #{@reservation}"
-        redirect_to root_path
-      end
+      reservation_saved
     else
       render :new
+    end
+  end
+
+  def i_am_feeling_lucky
+    @reservation = IAmFeelingLucky.new(current_user)
+    if @reservation.save
+      reservation_saved
+    else
+      flash[:alert] = "You're not very lucky, no server is available for the timerange #{@reservation.human_timerange} :("
+      redirect_to root_path
     end
   end
 
@@ -80,5 +82,17 @@ class ReservationsController < ApplicationController
     @reservation ||= find_reservation
   end
   helper_method :reservation
+
+  def reservation_saved
+    if @reservation.now?
+      @reservation.update_attribute(:start_instantly, true)
+      @reservation.start_reservation
+      flash[:notice] = "Reservation created for #{@reservation.server_name}. The server is now being configured, give it a minute to (re)boot/update and <a href='#{@reservation.server_connect_url}'>click here to join</a> or enter in console: #{@reservation.connect_string}".html_safe
+      redirect_to reservation_path(@reservation)
+    else
+      flash[:notice] = "Reservation created for #{@reservation}"
+      redirect_to root_path
+    end
+  end
 
 end

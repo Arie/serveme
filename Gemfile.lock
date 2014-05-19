@@ -133,7 +133,7 @@ GEM
       mime-types (~> 1.16)
       nokogiri (~> 1.5)
       rails (>= 3, < 5)
-    dalli (2.7.1)
+    dalli (2.7.2)
     dante (0.2.0)
     database_cleaner (1.2.0)
     debug_inspector (0.0.2)

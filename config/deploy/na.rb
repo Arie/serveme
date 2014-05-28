@@ -1,6 +1,8 @@
 set :main_server,       "na.serveme.tf"
 set :user,              'arie'
-set :sidekiq_processes,  1
+set :sidekiq_processes,  2
+set :puma_flags,        '-w 4 -t 1:8'
+set :rvm_ruby_string,   '2.0.0@serveme'
 
 server "#{main_server}", :web, :app, :db, :primary => true
 

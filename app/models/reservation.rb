@@ -155,10 +155,6 @@ class Reservation < ActiveRecord::Base
     30
   end
 
-  def very_short?
-    duration < 15.minutes
-  end
-
   def calculate_duration
     self.duration = (ends_at.to_i - starts_at.to_i)
   end

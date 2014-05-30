@@ -27,14 +27,14 @@ class Statistic
     reservations_per_time_unit("Date", reservations_per_day, "Reservations in the last 50 days")
   end
 
-  def self.reservations_per_month_chart
-    reservations_per_time_unit("Month", reservations_per_month, "Reservations per month")
+  def self.reserved_hours_per_month_chart
+    reservations_per_time_unit("Month", reserved_hours_per_month, "Hours played", "Hours played")
   end
 
-  def self.reservations_per_time_unit(time_unit, statistics_array, title)
+  def self.reservations_per_time_unit(time_unit, statistics_array, title, bar_title = "Reservation")
     data_table = GoogleVisualr::DataTable.new
     data_table.new_column('string', time_unit)
-    data_table.new_column('number', 'Reservations')
+    data_table.new_column('number', bar_title)
     data_table.add_rows(statistics_array)
     option = { width: 1100, height: 240, title: title, colors: ["#0044cc", "#0055cc","#0066cc","#0077cc", "0088cc"], legend: {position: 'none'} }
     GoogleVisualr::Interactive::ColumnChart.new(data_table, option)
@@ -48,13 +48,13 @@ class Statistic
     end
   end
 
-  def self.reservations_per_month
-    Rails.cache.fetch "reservations_per_month_#{Date.current}", :expires_in => 1.hour do
-      result = ActiveRecord::Base.connection.execute("SELECT COUNT(*), YEAR(starts_at), MONTH(starts_at) FROM reservations GROUP BY YEAR(starts_at), MONTH(starts_at)")
-      result.to_a.map do |count, year, month|
+  def self.reserved_hours_per_month
+    Rails.cache.fetch "reserved_hours_per_month_#{Date.current}", :expires_in => 1.hour do
+      result = ActiveRecord::Base.connection.execute("SELECT SUM(duration), YEAR(starts_at), MONTH(starts_at) FROM reservations GROUP BY YEAR(starts_at), MONTH(starts_at)")
+      result.to_a.map do |seconds, year, month|
         date = Date.new(year, month)
         formatted_date = date.strftime("%b %Y")
-        [formatted_date, count]
+        [formatted_date, (seconds.to_f / 3600.0).round]
       end
     end
   end

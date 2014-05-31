@@ -75,6 +75,27 @@ class Server < ActiveRecord::Base
     end
   end
 
+  def enable_plugins
+    write_configuration(metamod_file, metamod_body)
+  end
+
+  def disable_plugins
+    delete_from_server([metamod_file])
+  end
+
+  def metamod_file
+    "#{tf_dir}/addons/metamod.vdf"
+  end
+
+  def metamod_body
+    <<-VDF
+    "Plugin"
+    {
+      "file"	"../tf/addons/metamod/bin/server"
+    }
+    VDF
+  end
+
   def generate_config_file(reservation, config_file)
     template         = File.read(Rails.root.join("lib/#{config_file}.erb"))
     renderer         = ERB.new(template)
@@ -134,6 +155,7 @@ class Server < ActiveRecord::Base
 
   def start_reservation(reservation)
     update_configuration(reservation)
+    enable_plugins if reservation.enable_plugins?
     restart
   end
 
@@ -143,6 +165,7 @@ class Server < ActiveRecord::Base
 
   def end_reservation(reservation)
     remove_configuration
+    disable_plugins
     zip_demos_and_logs(reservation)
     copy_logs(reservation)
     remove_logs_and_demos

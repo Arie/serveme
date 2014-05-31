@@ -88,14 +88,15 @@ describe LocalServer do
 
   describe '#start_reservation' do
     it 'updates the configuration and triggers a restart' do
-      reservation = double
+      reservation = double(:enable_plugins? => true)
       subject.should_receive(:restart)
+      subject.should_receive(:enable_plugins)
       subject.should_receive(:update_configuration).with(reservation)
       subject.start_reservation(reservation)
     end
 
     it 'writes a config file' do
-      reservation = double(:custom_whitelist_id => nil)
+      reservation = double(:custom_whitelist_id => nil, :enable_plugins? => false)
       subject.should_receive(:restart)
       file = double
       subject.stub(:tf_dir => '/tmp')
@@ -113,6 +114,7 @@ describe LocalServer do
       reservation = double(:rcon => "foo")
       subject.should_receive(:copy_logs)
       subject.should_receive(:zip_demos_and_logs).with(reservation)
+      subject.should_receive(:disable_plugins)
       subject.should_receive(:remove_logs_and_demos)
       subject.should_receive(:remove_configuration)
       subject.should_receive(:restart)
@@ -358,6 +360,15 @@ describe LocalServer do
     it "tells the the server the logaddress by rcon" do
       subject.should_receive(:rcon_exec).with("logaddress_add localhost:40001")
       subject.set_logaddress
+    end
+  end
+
+  describe "#enable_plugins" do
+
+    it "writes the metamod.vdf to the server" do
+      subject.should_receive(:path).at_least(:once).and_return("foo")
+      subject.should_receive(:write_configuration).with(subject.metamod_file, anything)
+      subject.enable_plugins
     end
   end
 

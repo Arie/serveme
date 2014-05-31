@@ -82,7 +82,7 @@ module ReservationsHelper
   private
 
   def reservation_params
-    permitted_params = [:id, :password, :tv_password, :tv_relaypassword, :server_config_id, :whitelist_id, :custom_whitelist_id, :first_map, :auto_end]
+    permitted_params = [:id, :password, :tv_password, :tv_relaypassword, :server_config_id, :whitelist_id, :custom_whitelist_id, :first_map, :auto_end, :enable_plugins]
     if reservation.nil? || (reservation && reservation.schedulable?)
       permitted_params += [:rcon, :server_id, :starts_at, :ends_at]
     end

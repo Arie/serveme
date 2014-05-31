@@ -1,9 +1,13 @@
 class LocalServer < Server
 
   def remove_configuration
-    [reservation_config_file, initial_map_config_file].each do |config_file|
-      if File.exists?(config_file)
-        File.delete(config_file)
+    delete_from_server([reservation_config_file, initial_map_config_file])
+  end
+
+  def delete_from_server(files)
+    files.each do |file|
+      if File.exists?(file)
+        File.delete(file)
       end
     end
   end

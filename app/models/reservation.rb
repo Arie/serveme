@@ -113,7 +113,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def just_started?
-    starts_at > 2.minutes.ago
+    starts_at > 1.minute.ago
   end
 
   def nearly_over?

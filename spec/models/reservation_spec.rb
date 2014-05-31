@@ -535,11 +535,11 @@ describe Reservation do
 
   describe '#just_started?' do
 
-    it "is just started if it started within the last 2 minutes" do
-      subject.stub(:starts_at => 110.seconds.ago)
+    it "is just started if it started within the last minute" do
+      subject.stub(:starts_at => 59.seconds.ago)
       subject.should be_just_started
 
-      subject.stub(:starts_at => 121.seconds.ago)
+      subject.stub(:starts_at => 61.seconds.ago)
       subject.should_not be_just_started
     end
   end
@@ -572,6 +572,7 @@ describe Reservation do
     end
 
   end
+
 
   describe '#nearly_over?' do
     it "is nearly over when there's less than 10 minutes left" do

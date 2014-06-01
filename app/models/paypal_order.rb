@@ -64,7 +64,7 @@ class PaypalOrder < ActiveRecord::Base
   end
 
   def self.monthly_goal
-    (SITE_HOST == "na.serveme.tf") ? 35.0 : 125.0
+    (SITE_HOST == "na.serveme.tf") ? 50.0 : 150.0
   end
 
 end

@@ -130,7 +130,7 @@ describe PaypalOrder do
     describe ".montly goal" do
 
       it 'returns the monthly goal in euros' do
-        PaypalOrder.monthly_goal.should == 125.0
+        PaypalOrder.monthly_goal.should == 150.0
       end
 
     end
@@ -170,7 +170,7 @@ describe PaypalOrder do
       describe '.monthly_goal_percentage' do
 
         it 'calculates the percentage of the goal achieved' do
-          PaypalOrder.monthly_goal_percentage.should == 2.4
+          PaypalOrder.monthly_goal_percentage.should == 2.0
         end
 
       end

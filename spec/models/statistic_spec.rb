@@ -72,7 +72,7 @@ describe Statistic do
 
     it "returns the number of reservations" do
       reservation =  create :reservation
-      Statistic.total_reservations.should == reservation.id
+      Statistic.total_reservations.should == 1
     end
 
     it "returns total number playtime" do

@@ -20,7 +20,8 @@ function pingServer(ip, callback) {
             if (_that.inUse) {
                 end = new Date();
                 _that.inUse = false;
-                ping = end - start;
+                //Compensate for TCP handshake
+                ping = Math.round((end - start) / 2.0);
                 ping = ping + "ms";
                 _that.callback(ping, e);
             }

@@ -15,10 +15,16 @@
       = f.input :ends_at,         :as => :string, :input_html => { :value => I18n.l(@reservation.ends_at,   :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Ends at",    :disabled => !@reservation.schedulable?
 
       :javascript
-        free_servers = #{free_servers.map { |s| {id: s.id, text: s.name, flag: s.location_flag} }.to_json};
+        free_servers = #{free_servers.map { |s| {id: s.id, text: s.name, flag: s.location_flag, ip_and_port: "#{s.ip}:#{s.port}"} }.to_json};
         find_server_url = "#{@reservation.persisted? ? find_servers_for_reservation_reservations_url(id: @reservation.id) : find_servers_for_user_reservations_url}";
 
       = f.input :server_id, :disabled => !@reservation.schedulable?, :label => "Server", :required => true
+      .form-group.string.optional.readonly.disabled.reservation_ping
+        %label.string.optional.col-lg-2.control-label{for: 'reservation_ping'}
+          Ping
+        .col-lg-2
+          %input#reservation_ping.string.optional.readonly.disabled.form-control{disabled: "disabled", type: "text"}
+
       = f.input :password,            :as => :string, :value => @reservation.password, :placeholder => "The server password to join the game"
       = f.input :rcon,                :as => :string, :placeholder => "The RCON password to control the server", :disabled => !@reservation.schedulable?
       = f.input :first_map,           :collection => MapUpload.available_maps, :input_html => { :class => "select2" }

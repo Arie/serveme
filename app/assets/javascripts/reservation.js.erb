@@ -63,29 +63,49 @@ jQuery(function($) {
   });
 
   function findFreeServers() {
-    enableSpinner();
+    enableSpinner("reservation_server_id");
     $.post(find_server_url, $("form.reservation").serialize() ).done(function( data ) {
       free_servers = [];
       $.each(data.servers, function(idx, server) {
-        free_servers.push({id: server.id, text: server.name, flag: server.flag});
+        free_servers.push({id: server.id, text: server.name, flag: server.flag, ip_and_port: server.ip_and_port});
       });
       selectCurrentServer();
-      disableSpinner();
+      disableSpinner("reservation_server_id");
     });
+  };
+
+  function pingCurrentServer() {
+    currentServerId = serverId();
+    $.each(free_servers, function(idx, server) {
+      if (server.id == serverId().val()) {
+        enableSpinner("reservation_ping");
+        new pingServer(server.ip_and_port, function(ping, e) {;
+          setPing(ping, server.id);
+        });
+      };
+    });
+  };
+
+  function setPing(ping, server_id) {
+    if (serverId().val() == server_id) {
+      disableSpinner("reservation_ping");
+      $("#reservation_ping").val(ping);
+    };
   };
 
   function selectCurrentServer() {
     $("#reservation_server_id").select2("val", $("#reservation_server_id").val());
+    pingCurrentServer();
   };
 
-  function enableSpinner() {
-    $(".reservation_server_id label").prepend("<i id='server_spinner' class='fa fa-spinner fa-spin'></i>");
-    $("#reservation_server_id").select2("enable", false);
+  function enableSpinner(field) {
+    $("." + field + " label").prepend("<i class='fa fa-spinner fa-spin " + field + "_spinner' '></i>");
+    $("#" + field).select2("enable", false);
   };
 
-  function disableSpinner() {
-    $("#server_spinner").remove();
-    $("#reservation_server_id").select2("enable", true);
+  function disableSpinner(field) {
+    $("." + field + '_spinner').remove();
+    $("#" + field).select2("enable", true);
   };
 
 
@@ -95,6 +115,10 @@ jQuery(function($) {
 
   $("#reservation_ends_at").change(function() {
     findFreeServers();
+  });
+
+  $("#reservation_server_id").change(function() {
+    pingCurrentServer();
   });
 
   $("#toggle_reservations_list").click(function() {

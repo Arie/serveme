@@ -54,7 +54,7 @@ describe ReservationsController do
     it "returns a list of alternative servers for a reservation " do
       reservation = create :reservation, :user => @user
       patch :find_servers_for_reservation, format: :json, id: reservation.id
-      response.body.should == {servers: Server.active.map { |s| {id: s.id, name: s.name, flag: s.location.flag} } }.to_json
+      response.body.should == {servers: Server.active.map { |s| {id: s.id, name: s.name, flag: s.location.flag, ip_and_port: "#{s.ip}:#{s.port}"} } }.to_json
     end
 
     it "doesnt return servers in use" do
@@ -62,7 +62,7 @@ describe ReservationsController do
       reservation = create :reservation, :user => @user
       patch :find_servers_for_reservation, format: :json, id: reservation.id
       free_server = reservation.server
-      response.body.should == {servers: [{id: free_server.id, name: free_server.name, flag: free_server.location.flag}] }.to_json
+      response.body.should == {servers: [{id: free_server.id, name: free_server.name, flag: free_server.location.flag, ip_and_port: "#{free_server.ip}:#{free_server.port}"}] }.to_json
     end
 
   end

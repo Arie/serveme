@@ -71,7 +71,7 @@ describe SshServer do
       output_content = double
       temp_file = double.as_null_object
       temp_file.stub(:path => "foo")
-      Tempfile.should_receive(:new).with('config_file').and_return { temp_file }
+      Tempfile.should_receive(:new).with('config_file').and_return(temp_file)
       subject.should_receive(:upload_configuration).with(temp_file.path, output_filename)
       subject.write_configuration(output_filename, output_content)
     end
@@ -82,13 +82,13 @@ describe SshServer do
 
     it 'sends the command to ssh_exec' do
       command = 'foo'
-      subject.should_receive(:ssh_exec).with(command).and_return { double.as_null_object }
+      subject.should_receive(:ssh_exec).with(command).and_return(double.as_null_object)
       subject.execute(command)
     end
 
     it "gets the command results by calling stdout on the ssh_exec result" do
       command = 'foo'
-      subject.should_receive(:ssh_exec).with(command).and_return { double(:stdout => "Great success!") }
+      subject.should_receive(:ssh_exec).with(command).and_return(double(:stdout => "Great success!"))
       subject.execute(command).should == "Great success!"
     end
 

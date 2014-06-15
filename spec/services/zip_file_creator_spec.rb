@@ -12,7 +12,7 @@ describe ZipFileCreator do
     it "instantiates the correct ZipFileCreator based on the server and creates the zip" do
       created_zipper = double
       created_zipper.should_receive(:create_zip)
-      zipper_class.should_receive(:new).with(reservation, files_to_zip).and_return { created_zipper }
+      zipper_class.should_receive(:new).with(reservation, files_to_zip).and_return(created_zipper)
       ZipFileCreator.create(reservation, files_to_zip)
     end
 

@@ -42,7 +42,7 @@ describe LogUploadsController do
     context "successful save" do
 
       it 'starts the upload to logs.tf' do
-        @upload.should_receive(:save).and_return { true }
+        @upload.should_receive(:save).and_return(true)
         subject.should_receive(:find_log_file).with(anything).and_return({:file_name => 'foo.log'})
         @upload.should_receive(:upload)
         LogUpload.should_receive(:new).with(anything).and_return(@upload)
@@ -54,7 +54,7 @@ describe LogUploadsController do
     context "unsuccesful save" do
 
       it "doesnt upload" do
-        @upload.should_receive(:save).and_return { false }
+        @upload.should_receive(:save).and_return(false)
         @upload.should_not_receive(:upload)
         LogUpload.should_receive(:new).with(anything).and_return(@upload)
         post :create, :reservation_id => @reservation.id, :log_upload => { :file_name => 'bar'}

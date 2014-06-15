@@ -13,7 +13,7 @@ describe ReservationWorker do
 
     it "logs an error if something goes wrong" do
       server = double
-      server.stub(:restart).and_return { raise('foo') }
+      server.stub(:restart).and_raise('foo')
       subject.stub(:server => server)
       Rails.stub(:logger => double.as_null_object)
 
@@ -51,7 +51,7 @@ describe ReservationWorker do
     end
 
     it "logs an error if something goes wrong" do
-      Server.any_instance.stub(:restart).and_return { raise('foo') }
+      Server.any_instance.stub(:restart).and_raise('foo')
       Rails.stub(:logger => double.as_null_object)
 
       Rails.logger.should_receive(:error)

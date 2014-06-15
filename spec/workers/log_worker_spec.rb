@@ -15,8 +15,8 @@ describe LogWorker do
 
   before do
     Rails.cache.clear
-    Reservation.should_receive(:includes).with(:user).and_return { Reservation }
-    Reservation.should_receive(:find).with(reservation.id).and_return { reservation }
+    Reservation.should_receive(:includes).with(:user).and_return(Reservation)
+    Reservation.should_receive(:find).with(reservation.id).and_return(reservation)
     reservation.stub(:server => server)
   end
 
@@ -39,13 +39,13 @@ describe LogWorker do
   describe "extending reservation" do
 
     it "triggers extension directly and notifies the server" do
-      reservation.should_receive(:extend!).and_return { true }
+      reservation.should_receive(:extend!).and_return(true)
       server.should_receive(:rcon_say)
       LogWorker.perform_async(extend_line)
     end
 
     it "notifies when extension wasn't possible" do
-      reservation.should_receive(:extend!).and_return { false }
+      reservation.should_receive(:extend!).and_return(false)
       server.should_receive(:rcon_say).with("Couldn't extend your reservation: you can only extend when there's less than 1 hour left and no one else has booked the server.")
       LogWorker.perform_async(extend_line)
     end

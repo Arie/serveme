@@ -103,7 +103,7 @@ describe RconFtpServer do
       output_content = double
       temp_file = double.as_null_object
       temp_file.stub(:path => "foo")
-      Tempfile.should_receive(:new).with('config_file').and_return { temp_file }
+      Tempfile.should_receive(:new).with('config_file').and_return(temp_file)
       subject.should_receive(:upload_configuration).with(temp_file.path, output_filename)
       subject.write_configuration(output_filename, output_content)
     end
@@ -115,7 +115,7 @@ describe RconFtpServer do
     it "creates the Net::FTP instance" do
       subject.stub(:ip => double, :ftp_username => double, :ftp_password => double)
       ftp = double
-      Net::FTP.should_receive(:new).with(subject.ip, subject.ftp_username, subject.ftp_password).and_return { ftp }
+      Net::FTP.should_receive(:new).with(subject.ip, subject.ftp_username, subject.ftp_password).and_return(ftp)
       ftp.should_receive(:passive=).with(true)
       subject.ftp
     end

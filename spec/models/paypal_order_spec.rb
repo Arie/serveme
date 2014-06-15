@@ -81,7 +81,7 @@ describe PaypalOrder do
         order.stub(:add_transaction)
         order.stub(:payment => payment)
 
-        order.prepare.should be_false
+        expect(order.prepare).to eql(false)
       end
 
       it "sets the status of the order to directed if it could create the payment" do
@@ -90,8 +90,8 @@ describe PaypalOrder do
         order.stub(:add_transaction)
         order.stub(:payment => payment)
 
-        order.prepare.should be_true
-        order.status.should == "Redirected"
+        expect(order.prepare).to eql(true)
+        expect(order.status).to eql("Redirected")
       end
 
     end
@@ -102,7 +102,7 @@ describe PaypalOrder do
       let(:payment_class) { double }
 
       before do
-        payment_class.should_receive(:find).with("payment_id").and_return { payment }
+        payment_class.should_receive(:find).with("payment_id").and_return(payment)
         order.stub(:payment_id => "payment_id")
       end
 

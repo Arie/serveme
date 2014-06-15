@@ -6,8 +6,8 @@ describe ServerInfoUpdaterWorker do
   let(:server_info) { double(:server_info) }
 
   before do
-    Server.should_receive(:find).with(server.id).and_return { server }
-    ServerInfo.should_receive(:new).with(server).and_return { server_info }
+    Server.should_receive(:find).with(server.id).and_return(server)
+    ServerInfo.should_receive(:new).with(server).and_return(server_info)
   end
   it "gets the server info" do
     server_info.should_receive(:status)

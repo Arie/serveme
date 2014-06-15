@@ -62,6 +62,7 @@ group :test, :development do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
   gem 'rspec-collection_matchers'
+  gem 'rspec-activemodel-mocks'
   gem 'pry-nav'
   gem 'zonebie'
 end

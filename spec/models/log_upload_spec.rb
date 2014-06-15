@@ -11,7 +11,7 @@ describe LogUpload do
       logs_tf_api_key  = 'api_key'
       subject.stub(:log_file => log_file, :map_name => map_name, :title => title, :logs_tf_api_key => logs_tf_api_key)
       LogsTF::Log.should_receive(:new).with(log_file, map_name, title, logs_tf_api_key)
-      LogsTF::Upload.should_receive(:new).and_return { as_null_object }
+      LogsTF::Upload.should_receive(:new).and_return(as_null_object)
       subject.upload
     end
 
@@ -19,8 +19,8 @@ describe LogUpload do
       log = as_null_object
       upload = double
       subject.stub(:logs_tf_api_key => 'api_key')
-      LogsTF::Log.should_receive(:new).with(nil, nil, nil, 'api_key').and_return { log }
-      LogsTF::Upload.should_receive(:new).with(log).and_return { upload }
+      LogsTF::Log.should_receive(:new).with(nil, nil, nil, 'api_key').and_return(log)
+      LogsTF::Upload.should_receive(:new).with(log).and_return(upload)
       upload.should_receive(:send)
       subject.upload
     end
@@ -30,8 +30,8 @@ describe LogUpload do
 
     it 'opens the file if it exists' do
       subject.stub(:file_name => 'foo.log')
-      subject.should_receive(:log_file_exists?).with('foo.log').and_return { true }
-      subject.should_receive(:log_file_name_and_path).and_return { 'bar' }
+      subject.should_receive(:log_file_exists?).with('foo.log').and_return(true)
+      subject.should_receive(:log_file_name_and_path).and_return('bar')
 
       File.should_receive(:open).with('bar')
       subject.log_file
@@ -74,7 +74,7 @@ describe LogUpload do
 
     it 'returns true if the requested logfile is available or this reservation' do
       subject.stub(:reservation_id => 1337)
-      LogUpload.should_receive(:find_log_files).with(1337).and_return { [ { :file_name => "foo.log" } ] }
+      LogUpload.should_receive(:find_log_files).with(1337).and_return([ { :file_name => "foo.log" } ])
       subject.log_file_exists?('foo.log').should eql true
     end
   end
@@ -84,10 +84,10 @@ describe LogUpload do
     it 'finds the log files for a reservation and puts the info in hashes' do
       reservation_id = double
       log_matcher = Rails.root.join('spec', 'fixtures', 'logs', '*.log')
-      LogUpload.should_receive(:log_matcher).with(reservation_id).and_return { log_matcher }
+      LogUpload.should_receive(:log_matcher).with(reservation_id).and_return(log_matcher)
       subject.stub(:log_file_name_and_path => 'bar.log')
       mtime = double
-      File.should_receive(:mtime).at_least(:once).with(anything).and_return { mtime }
+      File.should_receive(:mtime).at_least(:once).with(anything).and_return(mtime)
 
       found_logs = LogUpload.find_log_files(reservation_id)
       found_logs.size.should == 2

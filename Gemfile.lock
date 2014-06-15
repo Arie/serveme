@@ -146,7 +146,7 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
-    docile (1.1.4)
+    docile (1.1.5)
     domain_name (0.5.19)
       unf (>= 0.0.5, < 1.0.0)
     draper (1.3.0)
@@ -306,6 +306,10 @@ GEM
       rspec-core (~> 2.99.0)
       rspec-expectations (~> 2.99.0)
       rspec-mocks (~> 2.99.0)
+    rspec-activemodel-mocks (1.0.1)
+      activemodel (>= 3.0)
+      activesupport (>= 3.0)
+      rspec-mocks (>= 2.99, < 4.0)
     rspec-collection_matchers (1.0.0)
       rspec-expectations (>= 2.99.0.beta1)
     rspec-core (2.99.0)
@@ -474,6 +478,7 @@ DEPENDENCIES
   rack-cache
   rails (~> 4.1.0)
   rbzip2!
+  rspec-activemodel-mocks
   rspec-collection_matchers
   rspec-rails
   rubyzip

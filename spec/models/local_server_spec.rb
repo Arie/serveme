@@ -136,15 +136,15 @@ describe LocalServer do
   describe '#restart' do
 
     it "sends the software termination signal to the process" do
-      subject.should_receive(:process_id).at_least(:once).and_return { 1337 }
+      subject.should_receive(:process_id).at_least(:once).and_return(1337)
       Process.should_receive(:kill).with(15, 1337)
       subject.restart
     end
 
     it "logs an error when it couldn't find the process id" do
       logger = double
-      subject.stub(:logger).and_return { logger }
-      subject.should_receive(:process_id).at_least(:once).and_return { nil }
+      subject.stub(:logger).and_return(logger)
+      subject.should_receive(:process_id).at_least(:once).and_return(nil)
       Process.should_not_receive(:kill)
 
       logger.should_receive(:error)
@@ -220,7 +220,7 @@ describe LocalServer do
   describe "#occupied?" do
 
     it "is occupied when there's more than 0 players" do
-      ServerInfo.should_receive(:new).with(subject).and_return { double(:number_of_players => 1) }
+      ServerInfo.should_receive(:new).with(subject).and_return(double(:number_of_players => 1))
       subject.should be_occupied
     end
 
@@ -338,7 +338,7 @@ describe LocalServer do
 
     before do
       subject.stub(:condenser => condenser, :current_rcon => current_rcon)
-      condenser.should_receive(:rcon_auth).with(current_rcon).and_return { true }
+      condenser.should_receive(:rcon_auth).with(current_rcon).and_return(true)
     end
 
     it "delivers a message with rcon say to the server" do

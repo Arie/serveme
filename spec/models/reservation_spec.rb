@@ -41,8 +41,8 @@ describe Reservation do
   describe '#server_name' do
 
     it "has the nickname in it" do
-      subject.stub(:server).and_return { mock_model(Server, :name => "Server Name") }
-      subject.stub(:user).and_return { mock_model(User, :uid => '1234', :nickname => "Nick Name") }
+      subject.stub(:server).and_return(mock_model(Server, :name => "Server Name"))
+      subject.stub(:user).and_return(mock_model(User, :uid => '1234', :nickname => "Nick Name"))
       subject.server_name.should eql 'Server Name (Nick Name)'
     end
 
@@ -51,11 +51,11 @@ describe Reservation do
   describe '#zipfile_name' do
 
     it 'generates a unique zipfile name' do
-      subject.stub(:user).and_return { mock_model(User, :uid => '1234', :nickname => "Nick Name") }
-      subject.stub(:id).and_return { 1 }
-      subject.stub(:server).and_return { double(:id => 2) }
-      subject.stub(:formatted_starts_at).and_return { '3' }
-      subject.stub(:starts_at).and_return { Time.now }
+      subject.stub(:user).and_return(mock_model(User, :uid => '1234', :nickname => "Nick Name"))
+      subject.stub(:id).and_return(1)
+      subject.stub(:server).and_return(double(:id => 2))
+      subject.stub(:formatted_starts_at).and_return('3')
+      subject.stub(:starts_at).and_return(Time.now)
       subject.zipfile_name.should eql "1234-1-2-3.zip"
     end
 
@@ -65,7 +65,7 @@ describe Reservation do
 
     it "uses the UTC time" do
       starts_at = Time.now.utc
-      subject.stub(:starts_at).and_return { starts_at }
+      subject.stub(:starts_at).and_return(starts_at)
       month_number  = sprintf("%02d", starts_at.month)
       day_number    = sprintf("%02d", starts_at.day)
       subject.formatted_starts_at.should == "#{starts_at.year}#{month_number}#{day_number}"
@@ -388,8 +388,8 @@ describe Reservation do
   describe '#server_connect_url' do
 
     it 'returns a steam connect url for the server' do
-      subject.stub(:server).and_return { Server.new(:ip => 'fakkelbrigade.eu', :port => '27015') }
-      subject.stub(:password).and_return { "foo" }
+      subject.stub(:server).and_return(Server.new(:ip => 'fakkelbrigade.eu', :port => '27015'))
+      subject.stub(:password).and_return("foo")
       subject.server_connect_url.should eql 'steam://connect/fakkelbrigade.eu:27015/foo'
     end
 
@@ -398,8 +398,8 @@ describe Reservation do
   describe '#stv_connect_url' do
 
     it 'returns a steam connect url for the STV' do
-      subject.stub(:server).and_return { Server.new(:ip => 'fakkelbrigade.eu', :port => '27015') }
-      subject.stub(:tv_password).and_return { "bar" }
+      subject.stub(:server).and_return(Server.new(:ip => 'fakkelbrigade.eu', :port => '27015'))
+      subject.stub(:tv_password).and_return("bar")
       subject.stv_connect_url.should eql 'steam://connect/fakkelbrigade.eu:27020/bar'
     end
 
@@ -408,8 +408,8 @@ describe Reservation do
   describe '#connect_string' do
 
     it 'returns a console connect string' do
-      subject.stub(:server).and_return { Server.new(:ip => 'fakkelbrigade.eu', :port => '27015') }
-      subject.stub(:password).and_return { "foo" }
+      subject.stub(:server).and_return(Server.new(:ip => 'fakkelbrigade.eu', :port => '27015'))
+      subject.stub(:password).and_return("foo")
       subject.connect_string.should eql 'connect fakkelbrigade.eu:27015; password foo'
     end
 
@@ -421,7 +421,7 @@ describe Reservation do
 
       it 'collides if there are any colliding reservations' do
         subject.stub(:colliding_reservations => ['foo'])
-        subject.collides?.should be_true
+        expect(subject.collides?).to eql(true)
       end
 
     end
@@ -458,7 +458,7 @@ describe Reservation do
 
       it 'collides with own reservations if there are any' do
         subject.stub(:own_colliding_reservations => ['foo'])
-        subject.collides_with_own_reservation?.should be_true
+        expect(subject.collides_with_own_reservation?).to eql(true)
       end
 
     end
@@ -485,7 +485,7 @@ describe Reservation do
 
       it 'collides with other users reservations if there are any' do
         subject.stub(:other_users_colliding_reservations => ['foo'])
-        subject.collides_with_other_users_reservation?.should be_true
+        expect(subject.collides_with_other_users_reservation?).to eql(true)
       end
 
     end
@@ -495,7 +495,7 @@ describe Reservation do
       context "for donators" do
 
         before do
-          subject.stub(:user).and_return { mock_model(User, :donator? => true) }
+          subject.stub(:user).and_return(mock_model(User, :donator? => true))
         end
 
         it "has been inactive too long when the inactive_minute_counter reaches 60" do
@@ -514,7 +514,7 @@ describe Reservation do
       context "for non-donators" do
 
         before do
-          subject.stub(:user).and_return { mock_model(User, :donator? => false) }
+          subject.stub(:user).and_return(mock_model(User, :donator? => false))
         end
 
         it "has been inactive too long when the inactive_minute_counter reaches 30" do

@@ -31,5 +31,12 @@ describe TestApiController do
     response.status.should == 200
   end
 
+  it 'allows the api user to send a steam uid' do
+    api_user    = create :user, :api_key => "foobar"
+    steam_user  = create :user, :uid => "1337"
+    get :index, api_key: 'foobar', steam_uid: "1337"
+    controller.current_user.should == steam_user
+  end
+
 end
 

@@ -10,12 +10,26 @@ class Api::ApplicationController < ActionController::Base
     current_user
   end
 
-  def current_user
+  def api_user
     begin
-      @current_user ||= User.find_by_api_key!(params[:api_key])
+      @api_key_user ||= User.find_by_api_key!(params[:api_key])
     rescue ActiveRecord::RecordNotFound
       head :unauthorized
     end
+  end
+
+  def uid_user
+    @uid_user ||= User.find_by_uid(params[:steam_uid])
+  end
+
+  def current_user
+    @current_user ||= begin
+                        if api_user && uid_user
+                          uid_user
+                        else
+                          api_user
+                        end
+                      end
   end
 
   def handle_not_found

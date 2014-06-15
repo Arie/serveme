@@ -3,10 +3,11 @@ class ReservationWorker
 
   sidekiq_options :retry => false
 
-  attr_accessor :reservation
+  attr_accessor :reservation, :reservation_id
 
   def perform(reservation_id, action)
     begin
+      @reservation_id = reservation_id
       @reservation = Reservation.find(reservation_id)
       server = reservation.server
       server.send("#{action}_reservation", reservation)
@@ -34,6 +35,7 @@ class ReservationWorker
     reservation.ended    = true
     reservation.duration = reservation.ends_at.to_i - reservation.starts_at.to_i
     reservation.save(:validate => false)
+    LogScanWorker.perform_async(reservation_id)
   end
 
 end

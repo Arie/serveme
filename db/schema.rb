@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140531185925) do
+ActiveRecord::Schema.define(version: 20140615165202) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -93,6 +93,14 @@ ActiveRecord::Schema.define(version: 20140531185925) do
     t.boolean "active",                            default: true
     t.string  "currency"
   end
+
+  create_table "reservation_players", force: true do |t|
+    t.integer "reservation_id"
+    t.string  "steam_uid",      limit: 191
+  end
+
+  add_index "reservation_players", ["reservation_id"], name: "index_reservation_players_on_reservation_id", using: :btree
+  add_index "reservation_players", ["steam_uid"], name: "index_reservation_players_on_steam_uid", using: :btree
 
   create_table "reservations", force: true do |t|
     t.integer  "user_id"

@@ -1,0 +1,13 @@
+require 'spec_helper'
+
+describe FindPlayersInLog do
+
+  describe ".perform" do
+
+    it "takes a log and finds the players in it" do
+      log = Rails.root.join("spec", "fixtures", "logs", "special_characters.log")
+      FindPlayersInLog.perform(log).should == [76561197970773724, 76561198012531702, 76561198043711148, 76561197979088829, 76561198012531702, 76561198054664886, 76561198012531702, 76561197978390640, 76561198030042478, 76561197986034945, 76561197991320838, 76561197991033579, 76561197993843145, 76561197994754935, 76561198030042478]
+    end
+
+  end
+end

@@ -91,6 +91,7 @@ Serveme::Application.routes.draw do
   get   '/credits',                       :to => "pages#credits",             :as => "credits"
   get   '/server-providers',              :to => "pages#server_providers",    :as => "server_providers"
   get   '/your-reservations',             :to => "reservations#index",        :as => "your_reservations"
+  get   '/reservations-played',           :to => "reservations#played_in",    :as => "played_in"
   get   '/recent-reservations',           :to => "pages#recent_reservations", :as => "recent_reservations"
   get   '/settings',                      :to => "users#edit",                :as => "settings"
   get   '/switch-theme',                  :to => "pages#switch_theme",        :as => "switch_theme"

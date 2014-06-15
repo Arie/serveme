@@ -29,6 +29,10 @@ class ReservationsController < ApplicationController
     @users_reservations = current_user.reservations.ordered.paginate(:page => params[:page], :per_page => 20)
   end
 
+  def played_in
+    @users_games = Reservation.joins(:reservation_players).where('reservation_players.steam_uid = ?', current_user.uid).where('reservations.starts_at > ?', 31.days.ago)
+  end
+
   def edit
     @reservation = reservation
   end

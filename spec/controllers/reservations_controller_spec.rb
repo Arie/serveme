@@ -93,4 +93,17 @@ describe ReservationsController do
 
   end
 
+  describe "#played_in" do
+
+    it "shows you a list of reservations you were in, in the last 31 days" do
+      played_in = create :reservation_player, user: @user
+      reservation = played_in.reservation
+
+      get :played_in
+
+      assigns(:users_games).should == [reservation]
+    end
+
+  end
+
 end

@@ -56,6 +56,12 @@
 .row &nbsp;
 
 
+- if @users_games && @users_games.any?
+  %h3 Reservations you played in
+  .row
+    .col-md-12
+      = render 'reservations/users_games'
+
 - if @users_reservations && @users_reservations.any?
   %h3 Your most recent reservations
   .row

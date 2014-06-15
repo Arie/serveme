@@ -474,6 +474,7 @@ DEPENDENCIES
   rack-cache
   rails (~> 4.1.0)
   rbzip2!
+  rspec-collection_matchers
   rspec-rails
   rubyzip
   rvm-capistrano

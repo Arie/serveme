@@ -1,0 +1,21 @@
+%table.table.table-condensed.your-reservations
+  %thead
+    %tr
+      %th Server
+      %th Reserved from
+      %th Reserved until
+      %th Reserved by
+      %th Logs/demos
+  %tbody
+    - @users_games.each do |reservation|
+      %tr[reservation]
+        - server = reservation.server.decorate
+        %td= server.name
+        %td= I18n.l(reservation.starts_at,  :format => :short)
+        %td= I18n.l(reservation.ends_at,    :format => :short)
+        %td= reservation.user.nickname
+        %td.actions
+          - if reservation.less_than_month_old?
+            = render 'reservations/zip_file_link', :reservation => reservation
+          - else
+            N/A

@@ -68,4 +68,9 @@ FactoryGirl.define do
     flag "nl"
   end
 
+  factory :reservation_player do
+    association :reservation
+    association :user
+  end
+
 end

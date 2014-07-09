@@ -9,7 +9,7 @@ class PrivateServersController < ApplicationController
   end
 
   def create
-    current_user.private_server_id = params[:private_server][:server_id].to_i
+    current_user.private_server_id = params[:private_server][:server_id]
     flash[:notice] = "Private server saved"
     redirect_to settings_path
   end

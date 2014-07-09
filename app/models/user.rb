@@ -79,9 +79,11 @@ class User < ActiveRecord::Base
   end
 
   def private_server_id=(server_id)
-    group_server = Group.private_user(self).group_servers.first_or_initialize
-    group_server.server_id = server_id
-    group_server.save!
+    if server_id.to_i > 0
+      group_server = Group.private_user(self).group_servers.first_or_initialize
+      group_server.server_id = server_id.to_i
+      group_server.save!
+    end
   end
 
 end

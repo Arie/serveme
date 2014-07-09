@@ -1,0 +1,37 @@
+.row
+  .col-md-12
+    %h2 Private servers
+
+    %p
+      You can rent any serveme.tf server to be your private clanserver. For 15 euros per month you get both donator status and the option to pick any server as your private server. You can even change which server is exclusively yours
+
+    %p
+      Here's what's different compared to renting a server from an old-fashioned server hoster:
+
+    %ul
+      %li Ability to switch which server is yours
+      %li Automated logs/demo zips instead of FTP access
+      %li You reserve your server through serveme.tf
+
+    %p
+      Getting a private server will also get you all the donator perks, like:
+
+    %ul
+      %li Longer reservations (5h instead of 2h)
+      %li Longer idle time allowed (60m instead of 30m)
+      %li Ability to upload maps
+      %li Easier extension of reservations (1h at a time instead of 20m)
+      %li More than 1 future reservation allowed
+      %li Allowed to make reservations more than 3 hours in the future
+
+    %p
+      Here's how it works
+
+    %ol
+      %li Select the private server option on the donate page
+      %li Complete your payment
+      %li
+        Select your private server
+        = link_to "on the settings page", settings_path
+
+    = link_to "Rent a private server", donate_path, :class => "btn btn-success"

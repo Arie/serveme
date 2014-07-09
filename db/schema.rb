@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140615165202) do
+ActiveRecord::Schema.define(version: 20140705193937) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -88,11 +88,14 @@ ActiveRecord::Schema.define(version: 20140615165202) do
 
   create_table "products", force: true do |t|
     t.string  "name"
-    t.decimal "price",    precision: 15, scale: 6,                null: false
+    t.decimal "price",                 precision: 15, scale: 6,                null: false
     t.integer "days"
-    t.boolean "active",                            default: true
+    t.boolean "active",                                         default: true
     t.string  "currency"
+    t.boolean "grants_private_server"
   end
+
+  add_index "products", ["grants_private_server"], name: "index_products_on_grants_private_server", using: :btree
 
   create_table "reservation_players", force: true do |t|
     t.integer "reservation_id"

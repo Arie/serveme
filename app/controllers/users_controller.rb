@@ -1,6 +1,9 @@
 class UsersController < ApplicationController
   def edit
     @user = current_user
+    if @user.has_private_server_option?
+      @private_server = PrivateServer.new
+    end
   end
 
   def update

@@ -35,6 +35,9 @@ class PagesController < ApplicationController
   def faq
   end
 
+  def private_servers
+  end
+
   def switch_theme
     if black_theme?
       cookies[:theme] = "white"

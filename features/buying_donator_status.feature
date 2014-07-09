@@ -20,3 +20,9 @@ Feature: Buying donator status
     And my PayPal payment was successful
     Then my donator status lasts for a year
 
+    @vcr
+  Scenario: Buying a private server
+    When I buy 1 month worth of private server
+    And my PayPal payment was successful
+    Then my donator status lasts for a month
+    And I get to choose a private server in my settings

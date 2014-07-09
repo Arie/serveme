@@ -63,6 +63,8 @@ Serveme::Application.routes.draw do
 
   resources :donators
 
+  resources :private_servers, :only => :create
+
   resources :servers, :only => :index
 
   resources :paypal_orders, :only => [:new, :create] do
@@ -96,6 +98,7 @@ Serveme::Application.routes.draw do
   get   '/settings',                      :to => "users#edit",                :as => "settings"
   get   '/switch-theme',                  :to => "pages#switch_theme",        :as => "switch_theme"
   get   '/upload-map',                    :to => "map_uploads#new",           :as => "upload_map"
+  get   '/private-servers',               :to => "pages#private_servers",     :as => "private_server_info"
 
   get   '/login',                         :to => 'sessions#new',      :as => :login
   get   '/users/auth/failure',            :to => 'sessions#failure'

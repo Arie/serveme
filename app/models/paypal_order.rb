@@ -11,38 +11,15 @@ class PaypalOrder < ActiveRecord::Base
 
   def complete_payment!
     update_attributes(:status => "Completed")
-    update_donator_status
+    AddGroupMembership.new(product.days, user).perform
+    if product.grants_private_server?
+      AddGroupMembership.new(product.days, user, Group.private_user(user)).perform
+    end
     announce_donator
-  end
-
-  def update_donator_status
-    donator_status.expires_at = new_expiration_time
-    donator_status.save
   end
 
   def announce_donator
     AnnounceDonatorWorker.perform_async(self.id)
-  end
-
-  def new_expiration_time
-    days_to_add = product.days
-    if first_time_donator? || former_donator?
-      days_to_add.days.from_now
-    else
-      donator_status.expires_at + days_to_add.days
-    end
-  end
-
-  def donator_status
-    @donator_status ||= user.group_users.where(:group_id => Group.donator_group).first_or_initialize
-  end
-
-  def first_time_donator?
-    donator_status.new_record?
-  end
-
-  def former_donator?
-    donator_status.expires_at < Time.current
   end
 
   def self.monthly_total(now = Time.current)

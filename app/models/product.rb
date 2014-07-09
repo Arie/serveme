@@ -16,5 +16,4 @@ class Product < ActiveRecord::Base
     order(:price)
   end
 
-
 end

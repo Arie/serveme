@@ -13,57 +13,6 @@ describe PaypalOrder do
 
   end
 
-  describe "#update_donator_status" do
-
-    it "adds extra days to the donator status expiration date" do
-      old_expires_at = 1.week.from_now
-      number_of_days = 31
-      donator_status = double(:new_record? => false, :expires_at => old_expires_at)
-      subject.stub(:product => double(:days => number_of_days))
-      subject.stub(:donator_status => donator_status)
-
-      new_expires_at = old_expires_at + number_of_days.days
-      donator_status.should_receive(:expires_at=).with(new_expires_at)
-      donator_status.should_receive(:save)
-
-      subject.update_donator_status
-    end
-
-  end
-
-  describe "#update_donator_status" do
-
-    it "adds extra days to the donator status expiration date" do
-      old_expires_at = 1.week.from_now
-      number_of_days = 31
-      donator_status = double(:new_record? => false, :expires_at => old_expires_at)
-      subject.stub(:product => double(:days => number_of_days))
-      subject.stub(:donator_status => donator_status)
-
-      new_expires_at = old_expires_at + number_of_days.days
-      donator_status.should_receive(:expires_at=).with(new_expires_at)
-      donator_status.should_receive(:save)
-
-      subject.update_donator_status
-    end
-
-  end
-
-  context "donator status" do
-
-    it "should know a first time donator" do
-      donator_status = double(:new_record? => true)
-      subject.stub(:donator_status => donator_status)
-      subject.should be_first_time_donator
-    end
-
-    it "should know a former donator" do
-      donator_status = double(:expires_at => 1.day.ago)
-      subject.stub(:donator_status => donator_status)
-      subject.should be_former_donator
-    end
-  end
-
   context "paypal" do
 
     let(:order) { create(:paypal_order) }

@@ -12,7 +12,27 @@
     %button.btn.btn-default{:type => :submit}
       Save
 
+- if current_user.has_private_server_option?
+  %h2 Your private server
+
+  :javascript
+    free_servers = #{Server.active.ordered.map { |s| {id: s.id, text: s.name, flag: s.location_flag, ip_and_port: "#{s.ip}:#{s.port}"} }.to_json};
+  = simple_form_for(@private_server, url: url_for(controller: "private_servers", action: "create"), :html => { :class => 'form' }) do |f|
+    = f.input :server_id, :label => "Private server", :required => true, :input_html => { :value => (current_user.private_server && current_user.private_server.id) }
+
+    .col-md-offset-2
+      %button.btn.btn-default{:type => :submit}
+        Save private server
+
 = render 'statistics', :user => @user
 
 :javascript
   $("#user_time_zone").select2();
+  $("#private_server_server_id").select2("enable", #{current_user.has_private_server_option?});
+  $("#private_server_server_id").select2({
+    formatResult: function(server) { return "<span class='flags flags-" + server.flag + "'></span>" + server.text; },
+    formatSelection: function(server) { return "<span class='flags flags-" + server.flag + "'></span>" + server.text; },
+    data: function() { return {results: free_servers}; },
+    escapeMarkup: function(m) { return m }
+  });
+  $("#private_server_server_id").select2("val", $("#private_server_server_id").val());

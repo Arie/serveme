@@ -67,4 +67,21 @@ class User < ActiveRecord::Base
     end
   end
 
+  def has_private_server_option?
+    @has_private_server_option ||=
+      begin
+        groups.include?(Group.private_user(self))
+      end
+  end
+
+  def private_server
+    Group.private_user(self).servers.first
+  end
+
+  def private_server_id=(server_id)
+    group_server = Group.private_user(self).group_servers.first_or_initialize
+    group_server.server_id = server_id
+    group_server.save!
+  end
+
 end

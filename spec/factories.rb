@@ -36,6 +36,16 @@ FactoryGirl.define do
     name "Super Secret Servers"
   end
 
+  factory :group_user do
+    association :group
+    association :user
+  end
+
+  factory :group_server do
+    association :group
+    association :server
+  end
+
   factory :product do
     name "1 year"
     days 366

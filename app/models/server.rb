@@ -169,6 +169,7 @@ class Server < ActiveRecord::Base
     zip_demos_and_logs(reservation)
     copy_logs(reservation)
     remove_logs_and_demos
+    rcon_exec("kickall")
     restart
   end
 

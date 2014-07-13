@@ -169,7 +169,7 @@ class Server < ActiveRecord::Base
     zip_demos_and_logs(reservation)
     copy_logs(reservation)
     remove_logs_and_demos
-    rcon_exec("kickall")
+    rcon_exec("kickall Reservation ended, every player can download the STV demo at http:/​/#{SITE_HOST}")
     restart
   end
 

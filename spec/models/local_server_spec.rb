@@ -117,7 +117,7 @@ describe LocalServer do
       subject.should_receive(:disable_plugins)
       subject.should_receive(:remove_logs_and_demos)
       subject.should_receive(:remove_configuration)
-      subject.should_receive(:rcon_exec).with("kickall")
+      subject.should_receive(:rcon_exec).with(/kickall.*/)
       subject.should_receive(:restart)
       subject.end_reservation(reservation)
     end

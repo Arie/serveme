@@ -22,13 +22,11 @@
             - else
               .available_servers= render 'reservations/available_servers'
 
-- unless na_system?
-  .row
-    .col-md-12
-      .alert.alert-success
-        %h4
-          You can now rent any serveme.tf server as
-          = link_to "a private server for 15 euros per month.", private_server_info_path
+.row
+  .col-md-12
+    .alert.alert-warning
+      %h4
+        Servers can take a bit longer, up to 5 minutes, to start because Valve's update servers are really slow the past few days.
 
 .row
   .col-md-12

@@ -3,7 +3,7 @@ require 'puma/capistrano'
 require 'active_support/core_ext'
 require "./config/deploy/logdaemon"
 
-set :stages,            %w(eu na)
+set :stages,            %w(eu na au)
 set :default_stage,     "eu"
 set :application,       "serveme"
 set :deploy_to,         "/var/www/serveme"

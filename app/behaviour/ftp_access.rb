@@ -52,9 +52,11 @@ module FtpAccess
 
   def ftp
     @ftp ||= begin
-               ftp = Net::FTP.new(ip, ftp_username, ftp_password)
+               port = ftp_port.presence || 21
+               ftp = Net::FTP.new("#{ip}:#{port}", ftp_username, ftp_password)
                ftp.passive = true
                ftp
              end
   end
+
 end

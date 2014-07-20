@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140705193937) do
+ActiveRecord::Schema.define(version: 20140720161759) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -171,6 +171,7 @@ ActiveRecord::Schema.define(version: 20140705193937) do
     t.boolean  "active",       default: true
     t.string   "ftp_username"
     t.string   "ftp_password"
+    t.integer  "ftp_port",     default: 21
   end
 
   add_index "servers", ["active"], name: "index_servers_on_active", using: :btree

@@ -115,7 +115,9 @@ describe RconFtpServer do
     it "creates the Net::FTP instance" do
       subject.stub(:ip => 'ip', :ftp_username => double, :ftp_password => double)
       ftp = double
-      Net::FTP.should_receive(:new).with("ip:21", subject.ftp_username, subject.ftp_password).and_return(ftp)
+      Net::FTP.should_receive(:new).and_return(ftp)
+      ftp.should_receive(:connect).with('ip', 21)
+      ftp.should_receive(:login).with(subject.ftp_username, subject.ftp_password)
       ftp.should_receive(:passive=).with(true)
       subject.ftp
     end

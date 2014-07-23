@@ -165,6 +165,20 @@ describe RconFtpServer do
       ftp.should_receive(:getbinaryfile).with('foo', 'bar/foo')
       subject.copy_from_server(files, destination)
     end
+
+    it 'logs an error when downloading failed' do
+      files = ['foo.log']
+      destination = 'bar'
+      ftp = double
+      subject.stub(:ftp => ftp)
+      logger = double
+      Rails.stub(:logger => logger)
+
+      ftp.should_receive(:getbinaryfile).with('foo.log', 'bar/foo.log').and_raise Net::FTPPermError
+      logger.should_receive(:error).with("couldn't download file: foo.log")
+      subject.copy_from_server(files, destination)
+    end
+
   end
 
   describe '#upload_configuration' do

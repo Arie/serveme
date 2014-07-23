@@ -32,7 +32,11 @@ module FtpAccess
   def copy_from_server(files, destination)
     logger.info "FTP GET, FILES: #{files} DESTINATION: #{destination}"
     files.each do |file|
-      ftp.getbinaryfile(file, File.join(destination, File.basename(file)))
+      begin
+        ftp.getbinaryfile(file, File.join(destination, File.basename(file)))
+      rescue Net::FTPPermError
+        Rails.logger.error "couldn't download file: #{file}"
+      end
     end
   end
 

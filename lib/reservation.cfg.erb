@@ -9,6 +9,7 @@ logaddress_add "<%= "#{SITE_HOST}:40001"%>"
 tftrue_logs_prefix "serveme.tf"
 tftrue_logs_roundend 0
 tftrue_tv_delaymapchange 1
+livelogs_force_logsecret 0
 
 <% if server_config %>
 <%= "exec #{server_config}" %><% end %>

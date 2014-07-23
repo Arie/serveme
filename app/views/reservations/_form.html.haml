@@ -49,7 +49,7 @@
         - value = true
         = f.input :auto_end, :as => :hidden, :input_html => { :value => true }
       - else
-        - hint = "Automatically end my reservation when I leave the server"
+        - hint = "Automatically end the reservation once everyone has left the server"
         - readonly = false
         - value = reservation.auto_end
       = f.input :auto_end, :as => :boolean, :hint => hint, :readonly => readonly, :disabled => readonly, :input_html => { :value => value }

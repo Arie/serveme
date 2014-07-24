@@ -2,7 +2,7 @@
 %html
   %head
     - subtitle = content_for(:title) || "free TF2 server reservations"
-    %title serveme.tf - #{subtitle}
+    %title #{SITE_HOST} - #{subtitle}
     = stylesheet_link_tag    "application", :media => "all"
     - if black_theme?
       = stylesheet_link_tag    "themes/black", :media => "all"

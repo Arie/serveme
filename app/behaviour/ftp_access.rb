@@ -48,13 +48,20 @@ module FtpAccess
   end
 
   def delete_from_server(files)
-    files.each do |file|
-      begin
-        ftp.send(:delete, file.shellescape)
-      rescue Net::FTPPermError
-        Rails.logger.error "couldn't delete file: #{file.shellescape}"
+    threads = []
+    files.each_slice(4) do |files_for_thread|
+      threads << Thread.new do
+        ftp = make_ftp_connection
+        files_for_thread.each do |file|
+          begin
+            ftp.send(:delete, file.shellescape)
+          rescue Net::FTPPermError
+            Rails.logger.error "couldn't delete file: #{file.shellescape}"
+          end
+        end
       end
     end
+    threads.map { |t| t.join(30) }
   end
 
   def zip_file_creator_class

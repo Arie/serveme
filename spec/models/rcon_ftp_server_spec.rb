@@ -41,7 +41,7 @@ describe RconFtpServer do
     it 'sends the ftp delete command for the given files' do
       files = ['foo.log']
       ftp = double
-      subject.stub(:ftp => ftp)
+      subject.stub(:make_ftp_connection => ftp)
       ftp.should_receive(:delete).with(files.first)
       subject.delete_from_server(files)
     end
@@ -49,7 +49,7 @@ describe RconFtpServer do
     it 'logs an error when deleting failed' do
       files = ['foo.log']
       ftp = double
-      subject.stub(:ftp => ftp)
+      subject.stub(:make_ftp_connection => ftp)
       logger = double
       Rails.stub(:logger => logger)
 

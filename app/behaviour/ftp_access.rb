@@ -31,13 +31,20 @@ module FtpAccess
 
   def copy_from_server(files, destination)
     logger.info "FTP GET, FILES: #{files} DESTINATION: #{destination}"
-    files.each do |file|
-      begin
-        ftp.getbinaryfile(file, File.join(destination, File.basename(file)))
-      rescue Net::FTPPermError
-        Rails.logger.error "couldn't download file: #{file}"
+    threads = []
+    files.each_slice(4) do |files_for_thread|
+      threads << Thread.new do
+        ftp = make_ftp_connection
+        files_for_thread.each do |file|
+          begin
+            ftp.getbinaryfile(file, File.join(destination, File.basename(file)))
+          rescue
+            Rails.logger.error "couldn't download file: #{file}"
+          end
+        end
       end
     end
+    threads.map { |t| t.join(30) }
   end
 
   def delete_from_server(files)
@@ -55,14 +62,14 @@ module FtpAccess
   end
 
   def ftp
-    @ftp ||= begin
-               port = ftp_port.presence || 21
-               ftp = Net::FTP.new
-               ftp.connect(ip, port)
-               ftp.login(ftp_username, ftp_password)
-               ftp.passive = true
-               ftp
-             end
+    @ftp ||= make_ftp_connection
+  end
+
+  def make_ftp_connection
+    ftp = Net::FTP.new
+    ftp.connect(ip, ftp_port.presence || 21)
+    ftp.login(ftp_username, ftp_password)
+    ftp
   end
 
 end

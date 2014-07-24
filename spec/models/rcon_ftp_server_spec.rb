@@ -118,7 +118,6 @@ describe RconFtpServer do
       Net::FTP.should_receive(:new).and_return(ftp)
       ftp.should_receive(:connect).with('ip', 21)
       ftp.should_receive(:login).with(subject.ftp_username, subject.ftp_password)
-      ftp.should_receive(:passive=).with(true)
       subject.ftp
     end
 
@@ -148,7 +147,7 @@ describe RconFtpServer do
       ftp = double
       destination_file = File.join(destination, 'foo')
       ftp.should_receive(:putbinaryfile).with(files.first, destination_file)
-      subject.stub(:ftp => ftp)
+      subject.stub(:make_ftp_connection => ftp)
 
       subject.copy_to_server(files, destination)
     end
@@ -160,7 +159,7 @@ describe RconFtpServer do
       files = [File.join('foo')]
       destination = 'bar'
       ftp = double
-      subject.stub(:ftp => ftp)
+      subject.stub(:make_ftp_connection => ftp)
 
       ftp.should_receive(:getbinaryfile).with('foo', 'bar/foo')
       subject.copy_from_server(files, destination)
@@ -170,7 +169,7 @@ describe RconFtpServer do
       files = ['foo.log']
       destination = 'bar'
       ftp = double
-      subject.stub(:ftp => ftp)
+      subject.stub(:make_ftp_connection => ftp)
       logger = double
       Rails.stub(:logger => logger)
 

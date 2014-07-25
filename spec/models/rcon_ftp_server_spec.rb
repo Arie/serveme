@@ -116,6 +116,7 @@ describe RconFtpServer do
       subject.stub(:ip => 'ip', :ftp_username => double, :ftp_password => double)
       ftp = double
       Net::FTP.should_receive(:new).and_return(ftp)
+      ftp.should_receive(:passive=).with(true)
       ftp.should_receive(:connect).with('ip', 21)
       ftp.should_receive(:login).with(subject.ftp_username, subject.ftp_password)
       subject.ftp

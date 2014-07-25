@@ -74,6 +74,7 @@ module FtpAccess
 
   def make_ftp_connection
     ftp = Net::FTP.new
+    ftp.passive = true
     ftp.connect(ip, ftp_port.presence || 21)
     ftp.login(ftp_username, ftp_password)
     ftp

@@ -20,7 +20,7 @@ class ReservationCleanupWorker
   end
 
   def old_reservations
-    Reservation.where('ends_at < ? AND ends_at > ?', 32.days.ago, 40.days.ago)
+    Reservation.where('ends_at < ? AND ends_at > ?', 20.days.ago, 35.days.ago)
   end
 
 

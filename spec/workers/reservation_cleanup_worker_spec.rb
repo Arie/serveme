@@ -7,7 +7,7 @@ describe ReservationCleanupWorker do
 
 
   before do
-    old_reservation.update_column(:ends_at, 35.days.ago)
+    old_reservation.update_column(:ends_at, 25.days.ago)
   end
 
   it "finds the old reservations" do

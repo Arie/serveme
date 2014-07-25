@@ -15,7 +15,7 @@
         %td= I18n.l(reservation.ends_at,    :format => :short)
         %td= reservation.user.nickname
         %td.actions
-          - if reservation.less_than_month_old?
+          - if reservation.younger_than_cleanup_age?
             = render 'reservations/zip_file_link', :reservation => reservation
           - else
             N/A

@@ -78,6 +78,7 @@ Serveme::Application.routes.draw do
   end
 
   namespace :api do
+    resources :users, :only => :show
     resources :reservations do
       collection do
         post :find_servers

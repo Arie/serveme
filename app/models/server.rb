@@ -164,6 +164,7 @@ class Server < ActiveRecord::Base
   end
 
   def end_reservation(reservation)
+    rcon_exec("log off; tv_stoprecord")
     remove_configuration
     disable_plugins
     zip_demos_and_logs(reservation)

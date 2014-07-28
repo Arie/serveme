@@ -23,6 +23,18 @@ describe ReservationsController do
 
   end
 
+  describe "#new" do
+
+    it "redirects to root if 2 short reservations were made recently" do
+      @user.groups << Group.donator_group
+      create :reservation, :user => @user, :starts_at => 9.minutes.ago, :ended => true
+      create :reservation, :user => @user, :starts_at => 4.minutes.ago, :ended => true
+      get :new
+      response.should redirect_to root_path
+    end
+
+  end
+
   describe "#update" do
 
     it "redirects to root_path when it tries to update a reservation that is over" do

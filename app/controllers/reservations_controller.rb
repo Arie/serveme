@@ -3,6 +3,10 @@ class ReservationsController < ApplicationController
   include ReservationsHelper
 
   def new
+    if user_made_two_very_short_reservations_in_last_ten_minutes?
+      flash[:alert] = "You made 2 very short reservations in the last ten minutes, please wait a bit before making another one. If there was a problem with your server, let us know in the comments below"
+      redirect_to root_path
+    end
     @reservation ||= new_reservation
   end
 
@@ -97,6 +101,14 @@ class ReservationsController < ApplicationController
       flash[:notice] = "Reservation created for #{@reservation}"
       redirect_to root_path
     end
+  end
+
+  def user_made_two_very_short_reservations_in_last_ten_minutes?
+    count = current_user.reservations.
+      where('starts_at > ?', 10.minutes.ago).
+      where('ended = ?', true).
+      count
+    count >= 2
   end
 
 end

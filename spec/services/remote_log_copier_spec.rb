@@ -9,7 +9,7 @@ describe RemoteLogCopier do
       server = double(:logs => logs)
       reservation = double(:id => 1, :zipfile_name => "foo.zip")
 
-      destination = double
+      destination = "dir"
       log_copier = RemoteLogCopier.new(reservation, server)
       log_copier.stub(:directory_to_copy_to => destination)
 

@@ -16,7 +16,7 @@ describe FtpZipFileCreator do
     end
 
     it "gets the files from the server" do
-      tmp_dir = double
+      tmp_dir = "tmp_dir"
       Dir.should_receive(:mktmpdir).and_yield(tmp_dir)
       files = ['foo', 'bar']
       server.should_receive(:copy_from_server).with(files, tmp_dir)
@@ -31,7 +31,7 @@ describe FtpZipFileCreator do
     it 'zips the file in the tmp dir' do
       zip_file_stub = double
       files = ['/tmp/foo']
-      tmp_dir = double
+      tmp_dir = "tmp_dir"
       zipfile_name_and_path = '/tmp/foo.zip'
 
       zip_file_stub.should_receive(:add).with(File.basename(files.first), files.first)

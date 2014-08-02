@@ -22,6 +22,14 @@ GIT
       multi_json (~> 1.6)
       multi_xml (~> 0.5)
 
+GIT
+  remote: git://github.com/seuros/capistrano-sidekiq.git
+  revision: 2182753ef10848148b869fcf26cb3cdc2ec34550
+  specs:
+    capistrano-sidekiq (0.3.6)
+      capistrano
+      sidekiq
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -76,9 +84,6 @@ GEM
       capistrano (>= 1.0.0)
     capistrano-maintenance (0.0.4)
       capistrano (>= 2.0.0)
-    capistrano-sidekiq (0.3.5)
-      capistrano
-      sidekiq
     capistrano_colors (0.5.5)
     capybara (2.4.1)
       mime-types (>= 1.16)
@@ -296,7 +301,7 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (10.3.2)
     redis (3.1.0)
-    redis-namespace (1.5.0)
+    redis-namespace (1.5.1)
       redis (~> 3.0, >= 3.0.4)
     ref (1.0.5)
     request_store (1.0.8)
@@ -435,7 +440,7 @@ DEPENDENCIES
   capistrano (~> 2.0)
   capistrano-ext
   capistrano-maintenance
-  capistrano-sidekiq
+  capistrano-sidekiq!
   capistrano_colors
   capybara
   carrierwave

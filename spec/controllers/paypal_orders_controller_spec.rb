@@ -13,11 +13,11 @@ describe PaypalOrdersController do
     it 'shows the form again when paypal processing failed' do
 
       paypal_order = double.as_null_object
-      paypal_order.should_receive(:prepare).and_return(false)
+      expect(paypal_order).to receive(:prepare).and_return(false)
       subject.stub(:paypal_order => paypal_order)
 
       post :create, { :paypal_order => {:product_id => 1} }
-      response.should render_template(:new)
+      expect(response).to render_template(:new)
     end
   end
 

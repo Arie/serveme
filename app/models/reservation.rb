@@ -53,7 +53,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def now?
-    (starts_at && ends_at) && (starts_at < Time.current && ends_at > Time.current)
+    times_entered? && (starts_at < Time.current && ends_at > Time.current)
   end
 
   def active?
@@ -182,6 +182,10 @@ class Reservation < ActiveRecord::Base
 
   def get_binding
     binding
+  end
+
+  def times_entered?
+    starts_at && ends_at
   end
 
   private

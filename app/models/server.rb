@@ -201,7 +201,7 @@ class Server < ActiveRecord::Base
   def rcon_exec(command)
     begin
       condenser.rcon_exec(command) if rcon_auth
-    rescue Errno::ECONNREFUSED, SteamCondenser::Error::Timeout, SteamCondenser::Error::RCONNoAuth => exception
+    rescue Errno::ECONNREFUSED, SteamCondenser::Error::Timeout, SteamCondenser::Error::RCONNoAuth, SteamCondenser::Error::RCONBan => exception
       Rails.logger.error "Couldn't deliver command to server #{id} - #{name}, command: #{command}"
     end
   end

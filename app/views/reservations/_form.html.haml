@@ -18,19 +18,19 @@
         free_servers = #{free_servers.map { |s| {id: s.id, text: s.name, flag: s.location_flag, ip_and_port: "#{s.ip}:#{s.port}"} }.to_json};
         find_server_url = "#{@reservation.persisted? ? find_servers_for_reservation_reservations_url(id: @reservation.id) : find_servers_for_user_reservations_url}";
 
-      = f.input :server_id, :disabled => !@reservation.schedulable?, :label => "Server", :required => true
+      = f.input :server_id, :label => "Server", :required => true, :disabled => !@reservation.schedulable?
       .form-group.string.optional.readonly.disabled.reservation_ping
         %label.string.optional.col-lg-2.control-label{for: 'reservation_ping'}
           Ping
         .col-lg-2
           %input#reservation_ping.string.optional.readonly.disabled.form-control{disabled: "disabled", type: "text"}
 
-      = f.input :password,            :as => :string, :value => @reservation.password, :placeholder => "The server password to join the game"
-      = f.input :rcon,                :as => :string, :placeholder => "The RCON password to control the server", :disabled => !@reservation.schedulable?
-      = f.input :first_map,           :collection => MapUpload.available_maps, :input_html => { :class => "select2" }
+      = f.input :password,            :as => :string, :placeholder => "The server password to join the game"
+      = f.input :rcon,                :as => :string, :placeholder => "The RCON password to control the server",        :disabled => !@reservation.schedulable?
+      = f.input :first_map,           :collection => MapUpload.available_maps, :input_html => { :class => "select2" },  :disabled => !@reservation.schedulable?
       = f.input :tv_password,         :as => :string,   :placeholder => "Password for STV, default tv"
       = f.input :tv_relaypassword,    :as => :string,   :placeholder => "Password for STV (relay), default tv"
-      = f.input :enable_plugins,      :as => :boolean,  :hint => "Enable SOAP DM and MGE (donators only)", :disable => !current_user.donator?
+      = f.input :enable_plugins,      :as => :boolean,  :hint => "Enable SOAP DM and MGE (donators only)",              :disabled => (!current_user.donator? || !@reservation.schedulable? )
       = f.association :server_config, :collection => ServerConfig.ordered, :hint => "Specify a league config to run on each map start", :input_html => { :class => "select2" }
       = f.input :whitelist_type, :label => "Item whitelist" do
         = radio_button_tag :whitelist_type, "default_whitelist", (!@reservation.custom_whitelist_id.present? && !@reservation.whitelist.present?)

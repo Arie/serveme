@@ -53,7 +53,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def now?
-    starts_at < Time.current && ends_at > Time.current
+    (starts_at && ends_at) && (starts_at < Time.current && ends_at > Time.current)
   end
 
   def active?

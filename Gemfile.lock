@@ -16,7 +16,7 @@ GIT
 
 GIT
   remote: git://github.com/koraktor/steam-condenser-ruby.git
-  revision: f9d9be344dbe87595e107beae94336aec33739b2
+  revision: c8a7b69d3dc73d56c1de6b6653ec45491d047db1
   specs:
     steam-condenser (1.3.9)
       multi_json (~> 1.6)

@@ -3,9 +3,10 @@
     .col-md-12
       %h3
         Reservation chart for
-        #{I18n.l(reservation.starts_at, :format => :datepicker)}
+        - starts_at = reservation.starts_at || Time.current
+        #{I18n.l(starts_at, :format => :datepicker)}
         \-
-        #{I18n.l(reservation.starts_at + 7.hours, :format => :time_without_seconds)}
+        #{I18n.l(starts_at + 7.hours, :format => :time_without_seconds)}
       %p.lead Click on a bar to plan a reservation after that one, or click on a server name.
   .row
     .col-md-12
@@ -13,7 +14,7 @@
       - reservations = {}
       - servers.each do |s|
         - reservations[s.id] = []
-      - Reservation.joins(:server).where(:server => servers).order(:starts_at).within_time_range(reservation.starts_at, reservation.starts_at + 7.hours).uniq.each do |r|
+      - Reservation.joins(:server).where(:server => servers).order(:starts_at).within_time_range(starts_at, starts_at + 7.hours).uniq.each do |r|
         - reservations[r.server_id] << r
       .server_reservations
         - servers.each do |s|

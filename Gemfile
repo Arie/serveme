@@ -18,7 +18,7 @@ gem 'carrierwave'
 gem 'rbzip2', :github => 'koraktor/rbzip2'
 
 #Logdaemon
-gem 'tf2_line_parser'
+gem 'tf2_line_parser', :github => "Arie/tf2_line_parser"
 gem 'eventmachine'
 gem 'dante'
 

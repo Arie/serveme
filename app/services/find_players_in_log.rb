@@ -24,7 +24,7 @@ class FindPlayersInLog
   end
 
   def find_player_in_line(line)
-    regex = /L (?'time'.*): "(?'player_nick'.+)<(?'player_uid'\d+)><(?'player_steamid'STEAM_\S+)><>" STEAM USERID validated/
+    regex = /L (?'time'.*): "(?'player_nick'.+)<(?'player_uid'\d+)><(?'player_steamid'(\[\S+\]|STEAM_\S+))><>" STEAM USERID validated/
     begin
       match = line.match(regex)
     rescue ArgumentError

@@ -66,7 +66,7 @@ class LogWorker
   end
 
   def reserver_steam_id
-    @reserver_steam_id ||= SteamCondenser::Community::SteamId.community_id_to_steam_id(reserver.uid.to_i)
+    @reserver_steam_id ||= SteamCondenser::Community::SteamId.community_id_to_steam_id2(reserver.uid.to_i)
   end
 
   def event

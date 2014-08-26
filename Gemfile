@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', "~> 4.1.0"
-gem 'sprockets', '2.11.0'
+gem 'sprockets'
 gem 'haml'
 gem 'protected_attributes'
 gem "actionpack-action_caching"
@@ -98,8 +98,8 @@ end
 
 gem 'uglifier'
 gem 'jquery-rails'
-gem "compass-rails", "~> 1.1.7"
-gem 'sass-rails'
+gem "compass-rails"
+gem 'sass-rails', '~> 5.0.0.beta1'
 gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'will_paginate-bootstrap'

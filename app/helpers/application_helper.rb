@@ -12,10 +12,6 @@ module ApplicationHelper
     Reservation.current.where(:server_id => Server.for_donators).count
   end
 
-  def eu_system?
-    SITE_URL == 'http://serveme.tf'
-  end
-
   def na_system?
     SITE_URL == 'http://na.serveme.tf'
   end

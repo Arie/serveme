@@ -256,16 +256,12 @@ describe Reservation do
       reservation.should have(:no).errors_on(:ends_at)
     end
 
-    it 'validates a mvm map was not picked as the first map as non-donator' do
+    it 'validates a mvm map was not picked as the first map' do
       reservation = build :reservation
       reservation.first_map = 'mvm_coaltown'
       reservation.should have(1).error_on(:first_map)
       reservation.first_map = 'cp_badlands'
       reservation.should have(:no).errors_on(:first_map)
-
-      reservation.stub(:donator? => true)
-      reservation.first_map = 'mvm_coaltown'
-      expect(reservation).to have(:no).errors_on(:first_map)
     end
 
     it "validates the server is active" do

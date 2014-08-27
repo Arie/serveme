@@ -78,6 +78,7 @@ module Serveme
           '.html', '.erb', '.haml',                 # Templates
           '.png',  '.gif', '.jpg', '.jpeg',         # Images
           '.eot',  '.otf', '.svc', '.woff', '.ttf', # Fonts
+          '.swf',                                   # Flash
         ]
       end)
     end

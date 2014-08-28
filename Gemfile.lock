@@ -31,7 +31,7 @@ GIT
 
 GIT
   remote: git://github.com/seuros/capistrano-sidekiq.git
-  revision: 73477132fe05f62916f3ca432281202ddabd50f9
+  revision: 807ede255740b57f11b04c0929e6f8a04cf35951
   specs:
     capistrano-sidekiq (0.3.6)
       capistrano
@@ -117,7 +117,7 @@ GEM
     coffee-script (2.3.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.7.1)
+    coffee-script-source (1.8.0)
     compass (1.0.1)
       chunky_png (~> 1.2)
       compass-core (~> 1.0.1)
@@ -234,7 +234,7 @@ GEM
     method_source (0.8.2)
     mime-types (1.25.1)
     mini_portile (0.6.0)
-    minitest (5.4.0)
+    minitest (5.4.1)
     multi_json (1.10.1)
     multi_test (0.1.1)
     multi_xml (0.5.5)
@@ -357,7 +357,7 @@ GEM
     rvm-capistrano (1.5.3)
       capistrano (~> 2.15.4)
     safe_yaml (1.0.3)
-    sass (3.4.1)
+    sass (3.4.2)
     sass-rails (5.0.0.beta1)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.2)

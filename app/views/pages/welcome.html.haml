@@ -19,6 +19,10 @@
               .sponsor
                 = render 'shared/na_sponsor'
                 .available_servers= render 'reservations/available_servers'
+            - elsif au_system?
+              .sponsor
+                = render 'shared/au_sponsor'
+                .available_servers= render 'reservations/available_servers'
             - else
               .available_servers= render 'reservations/available_servers'
 

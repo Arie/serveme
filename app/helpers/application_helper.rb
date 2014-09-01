@@ -16,4 +16,8 @@ module ApplicationHelper
     SITE_URL == 'http://na.serveme.tf'
   end
 
+  def au_system?
+    SITE_URL == 'http://au.serveme.tf'
+  end
+
 end

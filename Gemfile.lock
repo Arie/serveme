@@ -31,9 +31,9 @@ GIT
 
 GIT
   remote: git://github.com/seuros/capistrano-sidekiq.git
-  revision: 807ede255740b57f11b04c0929e6f8a04cf35951
+  revision: 862dd7215a885a1fe90b545eb4776c08f652eef9
   specs:
-    capistrano-sidekiq (0.3.6)
+    capistrano-sidekiq (0.3.7)
       capistrano
       sidekiq
 
@@ -374,7 +374,7 @@ GEM
       uuidtools
     shoulda-matchers (2.6.2)
       activesupport (>= 3.0.0)
-    sidekiq (3.2.2)
+    sidekiq (3.2.3)
       celluloid (>= 0.15.2)
       connection_pool (>= 2.0.0)
       json

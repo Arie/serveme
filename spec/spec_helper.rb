@@ -25,6 +25,12 @@ RSpec.configure do |config|
   config.order = "random"
   config.include FactoryGirl::Syntax::Methods
   config.infer_spec_type_from_file_location!
+  config.expect_with :rspec do |c|
+    c.syntax = [:should, :expect]
+  end
+  config.mock_with :rspec do |c|
+    c.syntax = [:should, :expect]
+  end
 end
 VCR.configure do |c|
   c.cassette_library_dir = "spec/fixtures/vcr"

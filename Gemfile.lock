@@ -14,13 +14,13 @@ GIT
       activesupport
 
 GIT
-  remote: git://github.com/ggilder/sidetiq.git
-  revision: 204091b7bb7779ce37ebda9eda2c694d511ae139
-  ref: 204091b
+  remote: git://github.com/camjackson/sidetiq.git
+  revision: 12ac51ceb4f5e99ff2940047b160bdfacad047b6
+  ref: 12ac51ceb4f5e99ff2940047b160bdfacad047b6
   specs:
-    sidetiq (0.5.0)
+    sidetiq (0.6.1)
       celluloid (>= 0.14.1)
-      ice_cube (~> 0.11.0)
+      ice_cube (= 0.11.1)
       sidekiq (>= 2.16.0)
 
 GIT
@@ -167,7 +167,7 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
     docile (1.1.5)
-    domain_name (0.5.20)
+    domain_name (0.5.21)
       unf (>= 0.0.5, < 1.0.0)
     draper (1.3.1)
       actionpack (>= 3.0)
@@ -216,7 +216,7 @@ GEM
     json_expressions (0.8.3)
     launchy (2.4.2)
       addressable (~> 2.3)
-    libv8 (3.16.14.3)
+    libv8 (3.16.14.5)
     logs_tf (0.0.3)
       faraday (~> 0.8.0)
       multipart-post (~> 1.2.0)
@@ -336,7 +336,7 @@ GEM
       rspec-mocks (>= 2.99, < 4.0)
     rspec-collection_matchers (1.0.0)
       rspec-expectations (>= 2.99.0.beta1)
-    rspec-core (3.1.1)
+    rspec-core (3.1.2)
       rspec-support (~> 3.1.0)
     rspec-expectations (3.1.0)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -375,7 +375,7 @@ GEM
       uuidtools
     shoulda-matchers (2.7.0)
       activesupport (>= 3.0.0)
-    sidekiq (3.2.2)
+    sidekiq (3.2.4)
       celluloid (>= 0.15.2)
       connection_pool (>= 2.0.0)
       json
@@ -427,7 +427,7 @@ GEM
       unf_ext
     unf_ext (0.0.6)
     uuidtools (2.1.5)
-    vcr (2.9.2)
+    vcr (2.9.3)
     warden (1.2.3)
       rack (>= 1.0)
     webmock (1.18.0)
@@ -480,7 +480,6 @@ DEPENDENCIES
   fuubar-cucumber
   google_visualr
   haml
-  ice_cube (= 0.11.1)
   jbuilder
   jquery-rails
   json_expressions
@@ -513,7 +512,7 @@ DEPENDENCIES
   selenium-webdriver
   sentry-raven
   shoulda-matchers
-  sidekiq (= 3.2.2)
+  sidekiq
   sidetiq!
   simple_form
   sinatra (>= 1.3.0)

@@ -32,7 +32,8 @@ gem "google_visualr"
 gem 'rack-cache'
 gem 'paypal-sdk-rest'
 gem 'sidekiq'
-gem 'sidetiq', "0.6.0"
+gem 'sidetiq'
+gem 'celluloid', '~> 0.15.2'
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'mechanize'
 gem 'american_date'

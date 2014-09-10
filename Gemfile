@@ -31,11 +31,10 @@ gem 'zeroclipboard-rails'
 gem "google_visualr"
 gem 'rack-cache'
 gem 'paypal-sdk-rest'
-gem 'sidekiq', "3.2.2"
-gem 'sidetiq', :github => "ggilder/sidetiq", :ref => "204091b"
-gem 'celluloid', '~> 0.15.2'
+gem 'sidekiq'
+gem 'sidetiq', :github => "camjackson/sidetiq", :ref => "12ac51ceb4f5e99ff2940047b160bdfacad047b6"
+
 gem 'sinatra', '>= 1.3.0', :require => nil
-gem 'ice_cube', '0.11.3'
 gem 'mechanize'
 gem 'american_date'
 gem 'jbuilder'

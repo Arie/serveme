@@ -18,7 +18,7 @@
     <div class="maintenance">
       <h1>serveme.tf temporarily offline</h2>
 
-      <p>The system is down for <%= reason ? reason : "upgrades" %><br>
+      <p>The system is down, reason: <%= reason ? reason : "upgrades" %><br>
 
       <p>It'll be back online <%= deadline ? deadline : "soon" %>.</p>
       <img style="width: 100%" src="/assets/maintenance.gif" />

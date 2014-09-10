@@ -32,7 +32,7 @@ gem "google_visualr"
 gem 'rack-cache'
 gem 'paypal-sdk-rest'
 gem 'sidekiq'
-gem 'sidetiq', :github => "camjackson/sidetiq", :ref => "12ac51ceb4f5e99ff2940047b160bdfacad047b6"
+gem 'sidetiq', "0.6.0"
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'mechanize'
 gem 'american_date'

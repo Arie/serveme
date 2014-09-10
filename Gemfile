@@ -35,7 +35,7 @@ gem 'sidekiq', "3.2.2"
 gem 'sidetiq', :github => "ggilder/sidetiq", :ref => "204091b"
 gem 'celluloid', '~> 0.15.2'
 gem 'sinatra', '>= 1.3.0', :require => nil
-gem 'ice_cube', '0.11.0'
+gem 'ice_cube', '0.11.3'
 gem 'mechanize'
 gem 'american_date'
 gem 'jbuilder'

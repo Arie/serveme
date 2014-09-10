@@ -155,7 +155,7 @@ class Server < ActiveRecord::Base
 
   def start_reservation(reservation)
     update_configuration(reservation)
-    enable_plugins if reservation.enable_plugins?
+    #enable_plugins if reservation.enable_plugins?
     restart
   end
 

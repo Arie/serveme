@@ -32,7 +32,8 @@ gem "google_visualr"
 gem 'rack-cache'
 gem 'paypal-sdk-rest'
 gem 'sidekiq'
-gem 'sidetiq', :github => "camjackson/sidetiq", :ref => "12ac51ceb4f5e99ff2940047b160bdfacad047b6"
+gem 'sidetiq', :github => "ggilder/sidetiq", :ref => "204091b"
+gem 'ice_cube', '0.11.0'
 
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'mechanize'

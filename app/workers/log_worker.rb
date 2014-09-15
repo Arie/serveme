@@ -49,6 +49,7 @@ class LogWorker
   def handle_rate
     RateWorker.perform_async(reservation.id, sayer_steam_uid, event.player.name, message)
     reservation.server.rcon_say "Thanks for rating this server #{event.player.name}"
+    Rails.logger.info "#{event.player.name} rated server #{reservation.server.name}: #{message} from chat"
   end
 
   def action_for_message_said_by_reserver

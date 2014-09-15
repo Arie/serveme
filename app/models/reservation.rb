@@ -9,6 +9,7 @@ class Reservation < ActiveRecord::Base
   belongs_to :reservation
   has_many :log_uploads
   has_many :reservation_players
+  has_many :ratings
 
   before_validation :calculate_duration
   before_create :generate_logsecret

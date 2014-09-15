@@ -5,6 +5,7 @@ class Server < ActiveRecord::Base
   has_many :groups, :through => :group_servers
   has_many :group_servers
   has_many :reservations
+  has_many :ratings, :through => :reservations
   belongs_to :location
 
   validates_presence_of :name

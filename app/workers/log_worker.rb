@@ -11,14 +11,14 @@ class LogWorker
   end
 
   def handle_event
-    if event.is_a?(TF2LineParser::Events::Say) && said_by_reserver?
+    if event.is_a?(TF2LineParser::Events::Say)
       @message = event.message
       handle_message
     end
   end
 
   def handle_message
-    action = action_for_message
+    action = action_by_reserver || action_for_message_said_by_anyone
     send(action) if action
   end
 
@@ -46,7 +46,12 @@ class LogWorker
     end
   end
 
-  def action_for_message
+  def handle_rate
+    RateWorker.perform_async(reservation.id, sayer_steam_uid, event.player.name, message)
+    reservation.server.rcon_say "Thanks for rating this server #{event.player.name}"
+  end
+
+  def action_for_message_said_by_reserver
     case message
     when /!end.*/
       :handle_end
@@ -57,8 +62,19 @@ class LogWorker
     end
   end
 
+  def action_for_message_said_by_anyone
+    case message
+    when /!rate.*/
+      :handle_rate
+    end
+  end
+
   def said_by_reserver?
     event.player.steam_id == reserver_steam_id
+  end
+
+  def action_by_reserver
+    said_by_reserver? && action_for_message_said_by_reserver
   end
 
   def reserver
@@ -67,6 +83,10 @@ class LogWorker
 
   def reserver_steam_id
     @reserver_steam_id ||= SteamCondenser::Community::SteamId.community_id_to_steam_id2(reserver.uid.to_i)
+  end
+
+  def sayer_steam_uid
+    @sayer_steam_uid ||= SteamCondenser::Community::SteamId.steam_id_to_community_id(event.player.steam_id)
   end
 
   def event

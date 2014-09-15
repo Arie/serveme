@@ -13,7 +13,7 @@ class RateWorker
     @sayer_name = sayer_name
     rating.parse_message!(message)
     reservation.server.rcon_say "Thanks for rating this server #{sayer_name}"
-    Rails.logger.info "#{sayer_name} rated server #{reservation.server.name}: #{message[1..-1]} from chat"
+    Rails.logger.info "#{sayer_name} rated server #{reservation.server.name}: #{message[1..-1].join(" ")} from chat"
   end
 
   def rating

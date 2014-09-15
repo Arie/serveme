@@ -6,7 +6,6 @@ class Rating < ActiveRecord::Base
 
   def parse_message!(message)
     #!rate bad lag during midfights
-    message = message.split(" ")
     self[:opinion] = message[1]
     self[:reason] = message[2..-1].join(" ")
     save!

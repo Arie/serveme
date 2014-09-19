@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140915125744) do
+ActiveRecord::Schema.define(version: 20140919102537) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -105,9 +105,11 @@ ActiveRecord::Schema.define(version: 20140915125744) do
     t.string   "reason",         limit: 191
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "published",                  default: false
   end
 
   add_index "ratings", ["opinion"], name: "index_ratings_on_opinion", using: :btree
+  add_index "ratings", ["published"], name: "index_ratings_on_published", using: :btree
   add_index "ratings", ["reservation_id"], name: "index_ratings_on_reservation_id", using: :btree
   add_index "ratings", ["steam_uid"], name: "index_ratings_on_steam_uid", using: :btree
 

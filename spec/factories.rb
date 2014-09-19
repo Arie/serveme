@@ -83,4 +83,12 @@ FactoryGirl.define do
     association :user
   end
 
+  factory :rating do
+    association :reservation
+    association :user
+    nickname "my nickname"
+    opinion "good"
+    reason "this server is aimaaiizing"
+  end
+
 end

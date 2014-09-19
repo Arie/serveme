@@ -61,7 +61,14 @@ Serveme::Application.routes.draw do
     end
   end
 
+  #Admins
   resources :donators
+  resources :ratings do
+    member do
+      post :publish
+      post :unpublish
+    end
+  end
 
   resources :private_servers, :only => :create
 

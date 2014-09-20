@@ -26,4 +26,20 @@ class Rating < ActiveRecord::Base
     save!
   end
 
+  def self.published
+    where(:published => true)
+  end
+
+  def self.good
+    with_opinion("good")
+  end
+
+  def self.bad
+    with_opinion("bad")
+  end
+
+  def self.with_opinion(opinion)
+    where(:opinion => opinion)
+  end
+
 end

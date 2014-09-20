@@ -153,6 +153,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def inactive_minute_limit
+    return 240 if user && user.admin?
     return 60 if user && user.donator?
     30
   end

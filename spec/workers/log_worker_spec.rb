@@ -3,8 +3,9 @@ require 'spec_helper'
 describe LogWorker do
 
   let(:user)                  { create :user, :uid => '76561197960497430' }
+  let(:server)                { double(:server, :id => 1, :rcon_auth => true, :condenser => condenser).as_null_object }
+  let(:condenser)             { double.as_null_object }
   let(:reservation)           { create :reservation, :user => user, :logsecret => '1234567' }
-  let(:server)                { create :server }
   let(:extend_line)           { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!extend"' }
   let(:troll_line)            { '1234567L 03/29/2014 - 13:15:53: "TRoll<3><[U:0:1337]><Red>" say "!end"' }
   let(:end_line)              { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!end"' }
@@ -17,6 +18,7 @@ describe LogWorker do
   subject(:logworker) { LogWorker.perform_async(line) }
 
   before do
+    allow(Server).to receive(:find).with(anything).and_return(server)
     Rails.cache.clear
     Reservation.should_receive(:includes).at_least(:once).with(:user).and_return(Reservation)
     Reservation.should_receive(:find).at_least(:once).with(reservation.id).and_return(reservation)

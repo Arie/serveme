@@ -4,6 +4,12 @@ describe CronWorker do
 
   let(:reservation) { create :reservation }
 
+  before do
+    condenser = double.as_null_object
+    server = double(:server, :id => 1, :rcon_auth => true, :condenser => condenser)
+    allow(Server).to receive(:find).with(anything).and_return(server)
+  end
+
   describe "#end_past_reservations" do
 
     it "tells unended past reservations to end" do

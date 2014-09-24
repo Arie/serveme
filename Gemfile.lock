@@ -21,9 +21,9 @@ GIT
 
 GIT
   remote: git://github.com/seuros/capistrano-sidekiq.git
-  revision: 862dd7215a885a1fe90b545eb4776c08f652eef9
+  revision: 07c72f135275849a3cc926c179a4c3e665a29ac0
   specs:
-    capistrano-sidekiq (0.3.7)
+    capistrano-sidekiq (0.3.8)
       capistrano
       sidekiq
 
@@ -173,7 +173,7 @@ GEM
       railties (>= 3.0.0)
     faraday (0.8.9)
       multipart-post (~> 1.2.0)
-    ffi (1.9.3)
+    ffi (1.9.4)
     font-awesome-rails (4.2.0.0)
       railties (>= 3.2, < 5.0)
     fuubar (2.0.0)
@@ -366,7 +366,7 @@ GEM
       json
       redis (>= 3.0.6)
       redis-namespace (>= 1.3.1)
-    sidetiq (0.6.2)
+    sidetiq (0.6.3)
       celluloid (>= 0.14.1)
       ice_cube (= 0.11.1)
       sidekiq (>= 3.0.0)

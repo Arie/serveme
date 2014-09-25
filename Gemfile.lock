@@ -182,6 +182,8 @@ GEM
     fuubar-cucumber (0.0.22)
       cucumber (~> 1.3.0)
       ruby-progressbar (~> 1.2)
+    geocoder (1.2.5)
+    geoip (1.4.0)
     gherkin (2.12.2)
       multi_json (~> 1.3)
     google_visualr (2.3.0)
@@ -463,6 +465,8 @@ DEPENDENCIES
   font-awesome-rails
   fuubar
   fuubar-cucumber
+  geocoder
+  geoip
   google_visualr
   haml
   jbuilder

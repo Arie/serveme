@@ -33,6 +33,8 @@ gem 'rack-cache'
 gem 'paypal-sdk-rest'
 gem 'sidekiq', "~> 3.2.5"
 gem 'sidetiq'
+gem 'geoip'
+gem 'geocoder'
 
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'mechanize'

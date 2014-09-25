@@ -15,6 +15,9 @@ class Server < ActiveRecord::Base
   validates_presence_of :port
   validates_presence_of :path
 
+  geocoded_by :ip
+  before_save :geocode, :if => :ip_changed?
+
   delegate :flag, :to => :location, :prefix => true, :allow_nil => true
 
   def self.reservable_by_user(user)

@@ -8,6 +8,7 @@ class RateWorker
   def perform(reservation_id, sayer_steam_uid, sayer_name, message)
     message = message.split(" ")
     return unless ["good", "bad"].include?(message[1].to_s)
+    return if (message[1] == "bad" && message[2..-1].empty?)
     @reservation_id = reservation_id
     @sayer_steam_uid = sayer_steam_uid
     @sayer_name = sayer_name

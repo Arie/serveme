@@ -13,6 +13,7 @@ describe LogWorker do
   let(:rcon_empty_line)       { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!rcon"' }
   let(:rcon_with_quotes_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!rcon mp_tournament "1""' }
   let(:rate_line)             { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!rate bad laggy piece of shit"' }
+  let(:bad_rate_without_reason_line) { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!rate bad "' }
   let(:empty_rate_line)       { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!rate "' }
   let(:wrong_rate_line)       { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!rate foobar"' }
   subject(:logworker) { LogWorker.perform_async(line) }
@@ -94,6 +95,9 @@ describe LogWorker do
 
     it "ignores invalid ratings" do
       LogWorker.perform_async(wrong_rate_line)
+      Rating.count.should == 0
+
+      LogWorker.perform_async(bad_rate_without_reason_line)
       Rating.count.should == 0
 
       LogWorker.perform_async(empty_rate_line)

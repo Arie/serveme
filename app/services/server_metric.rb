@@ -6,7 +6,7 @@ class ServerMetric
 
   def initialize(server_info)
     @server_info = server_info
-    if current_reservation
+    if current_reservation && players_playing?
       save_server_statistics
       save_player_statistics
     end
@@ -48,6 +48,10 @@ class ServerMetric
 
   def number_of_players
     server_info.number_of_players.to_i
+  end
+
+  def players_playing?
+    number_of_players > 0
   end
 
 end

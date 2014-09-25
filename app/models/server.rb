@@ -15,7 +15,7 @@ class Server < ActiveRecord::Base
   validates_presence_of :port
   validates_presence_of :path
 
-  geocoded_by :ip
+  geocoded_by :host_to_ip
   before_save :geocode, :if => :ip_changed?
 
   delegate :flag, :to => :location, :prefix => true, :allow_nil => true
@@ -252,6 +252,10 @@ class Server < ActiveRecord::Base
 
   def initial_map_config_file
     server_config_file('ctf_turbine.cfg')
+  end
+
+  def host_to_ip
+    Resolv.getaddress(ip)
   end
 
 end

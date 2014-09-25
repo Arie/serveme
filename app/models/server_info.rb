@@ -30,7 +30,7 @@ class ServerInfo
   end
 
   def status
-    Rails.cache.fetch "status_#{server.id}" do
+    Rails.cache.fetch "server_info_#{server.id}" do
       server_connection.server_info.delete_if {|key| key == :content_data }
     end
   end
@@ -39,6 +39,13 @@ class ServerInfo
     Rails.cache.fetch "stats_#{server.id}" do
       auth
       server_connection.rcon_exec('stats')
+    end
+  end
+
+  def get_rcon_status
+    Rails.cache.fetch "rcon_status_#{server.id}" do
+      auth
+      ActiveSupport::Multibyte::Chars.new(server_connection.rcon_exec('status')).to_s
     end
   end
 

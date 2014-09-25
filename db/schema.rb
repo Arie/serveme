@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140919102537) do
+ActiveRecord::Schema.define(version: 20140925100125) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -85,6 +85,24 @@ ActiveRecord::Schema.define(version: 20140919102537) do
   add_index "paypal_orders", ["payment_id"], name: "index_paypal_orders_on_payment_id", using: :btree
   add_index "paypal_orders", ["product_id"], name: "index_paypal_orders_on_product_id", using: :btree
   add_index "paypal_orders", ["user_id"], name: "index_paypal_orders_on_user_id", using: :btree
+
+  create_table "player_statistics", force: true do |t|
+    t.integer  "server_id",                     null: false
+    t.integer  "reservation_id",                null: false
+    t.string   "name",              limit: 191
+    t.string   "steam_uid",         limit: 191
+    t.integer  "ping"
+    t.integer  "loss"
+    t.integer  "minutes_connected"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "player_statistics", ["loss"], name: "index_player_statistics_on_loss", using: :btree
+  add_index "player_statistics", ["ping"], name: "index_player_statistics_on_ping", using: :btree
+  add_index "player_statistics", ["reservation_id"], name: "index_player_statistics_on_reservation_id", using: :btree
+  add_index "player_statistics", ["server_id"], name: "index_player_statistics_on_server_id", using: :btree
+  add_index "player_statistics", ["steam_uid"], name: "index_player_statistics_on_steam_uid", using: :btree
 
   create_table "products", force: true do |t|
     t.string  "name"
@@ -172,6 +190,25 @@ ActiveRecord::Schema.define(version: 20140919102537) do
     t.string "message",           limit: 190
     t.string "notification_type", limit: 191
   end
+
+  create_table "server_statistics", force: true do |t|
+    t.integer  "server_id",                     null: false
+    t.integer  "reservation_id",                null: false
+    t.integer  "cpu_usage"
+    t.integer  "fps"
+    t.integer  "number_of_players"
+    t.string   "map_name",          limit: 191
+    t.integer  "traffic_in"
+    t.integer  "traffic_out"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "server_statistics", ["cpu_usage"], name: "index_server_statistics_on_cpu_usage", using: :btree
+  add_index "server_statistics", ["fps"], name: "index_server_statistics_on_fps", using: :btree
+  add_index "server_statistics", ["number_of_players"], name: "index_server_statistics_on_number_of_players", using: :btree
+  add_index "server_statistics", ["reservation_id"], name: "index_server_statistics_on_reservation_id", using: :btree
+  add_index "server_statistics", ["server_id"], name: "index_server_statistics_on_server_id", using: :btree
 
   create_table "servers", force: true do |t|
     t.string   "name"

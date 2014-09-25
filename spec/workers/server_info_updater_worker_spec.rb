@@ -8,10 +8,12 @@ describe ServerInfoUpdaterWorker do
   before do
     Server.should_receive(:find).with(server.id).and_return(server)
     ServerInfo.should_receive(:new).with(server).and_return(server_info)
+    allow(ServerMetric).to receive(:new)
   end
   it "gets the server info" do
     server_info.should_receive(:status)
     server_info.should_receive(:get_stats)
+    server_info.should_receive(:get_rcon_status)
     ServerInfoUpdaterWorker.perform_async(server.id)
   end
 

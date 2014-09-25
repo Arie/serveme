@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   has_many :servers,  :through => :groups
   has_many :paypal_orders
   has_many :reservation_players, :primary_key => :uid, :foreign_key => :steam_uid
+  has_many :player_statistics,   :primary_key => :uid, :foreign_key => :steam_uid
 
   def self.find_for_steam_auth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first

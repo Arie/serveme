@@ -9,6 +9,8 @@ class ServerInfoUpdaterWorker
     begin
       server_info.status
       server_info.get_stats
+      server_info.get_rcon_status
+      ServerMetric.new(server_info)
     rescue
       Rails.logger.warn "Couldn't update #{server.name}"
     end

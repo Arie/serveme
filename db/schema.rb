@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140925100125) do
+ActiveRecord::Schema.define(version: 20140925132716) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(version: 20140925100125) do
     t.integer  "minutes_connected"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "ip",                limit: 191
   end
 
   add_index "player_statistics", ["loss"], name: "index_player_statistics_on_loss", using: :btree

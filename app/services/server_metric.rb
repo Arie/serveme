@@ -32,6 +32,7 @@ class ServerMetric
                                   :name               => player.name,
                                   :steam_uid          => player.steam_uid,
                                   :ping               => player.ping,
+                                  :ip                 => player.ip,
                                   :loss               => player.loss,
                                   :minutes_connected  => player.minutes_connected
                                 )

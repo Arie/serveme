@@ -68,7 +68,9 @@ describe IAmFeelingLucky do
       previous_reservation.update_column(:ends_at,   1.hour.ago)
       new_reservation_taking_my_previous_server = create :reservation, :server => previous_reservation.server
 
-      some_fallback_server = create :server, :location_id => create(:location), :ip => "3.3.3.3"
+      create :server, :location_id => create(:location), :ip => "3.3.3.3", :position => 10
+      some_fallback_server            = create :server, :location_id => create(:location), :ip => "3.3.3.3", :position => 1
+      create :server, :location_id => create(:location), :ip => "3.3.3.3", :position => 10
 
       reservation = subject.build_reservation
 

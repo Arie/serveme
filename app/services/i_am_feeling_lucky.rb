@@ -67,7 +67,7 @@ class IAmFeelingLucky
   end
 
   def available_servers
-    ServerForUserFinder.new(user, starts_at, ends_at).servers
+    ServerForUserFinder.new(user, starts_at, ends_at).servers.ordered
   end
 
   def first_available_server

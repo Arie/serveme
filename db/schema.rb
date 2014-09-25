@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140925163238) do
+ActiveRecord::Schema.define(version: 20140925195717) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -231,6 +231,7 @@ ActiveRecord::Schema.define(version: 20140925163238) do
   end
 
   add_index "servers", ["active"], name: "index_servers_on_active", using: :btree
+  add_index "servers", ["latitude", "longitude"], name: "index_servers_on_latitude_and_longitude", using: :btree
   add_index "servers", ["location_id"], name: "index_servers_on_location_id", using: :btree
 
   create_table "users", force: true do |t|
@@ -259,6 +260,7 @@ ActiveRecord::Schema.define(version: 20140925163238) do
   end
 
   add_index "users", ["api_key"], name: "index_users_on_api_key", unique: true, using: :btree
+  add_index "users", ["latitude", "longitude"], name: "index_users_on_latitude_and_longitude", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["uid"], name: "index_users_on_uid", using: :btree
 

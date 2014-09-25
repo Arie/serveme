@@ -3,7 +3,7 @@ require 'spec_helper'
 describe ServerMetric do
 
   let(:rcon_stats_output) { %|CPU    In (KB/s)  Out (KB/s)  Uptime  Map changes  FPS      Players  Connects
-24.88  35.29      54.48       6       2            66.67    9        12|}
+24.88  35.29      54.48       6       2            66.67    17        21|}
 
   let(:rcon_status_output)  { %q{hostname: BlackOut Gaming #5 (Jakov)
 version : 2406664/24 2406664 secure
@@ -36,7 +36,7 @@ Loaded plugins:
 
   let(:reservation) { create :reservation }
   let(:server) { double :server, :id => reservation.server_id, :current_reservation => reservation, :condenser => double }
-  let(:server_info_hash) { { :number_of_player => 1, :map_name => "cp_granlands" } }
+  let(:server_info_hash) { { :number_of_players => 1, :map_name => "cp_granlands" } }
   let(:server_info) { ServerInfo.new(server) }
 
   before do

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140925195717) do
+ActiveRecord::Schema.define(version: 20140926092225) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -71,6 +71,30 @@ ActiveRecord::Schema.define(version: 20140925195717) do
     t.datetime "updated_at"
   end
 
+  create_table "maxmind_geolite_city_blocks", id: false, force: true do |t|
+    t.integer "start_ip_num", limit: 8, null: false
+    t.integer "end_ip_num",   limit: 8, null: false
+    t.integer "loc_id",       limit: 8, null: false
+  end
+
+  add_index "maxmind_geolite_city_blocks", ["end_ip_num", "start_ip_num"], name: "index_maxmind_geolite_city_blocks_on_end_ip_num_range", unique: true, using: :btree
+  add_index "maxmind_geolite_city_blocks", ["loc_id"], name: "index_maxmind_geolite_city_blocks_on_loc_id", using: :btree
+  add_index "maxmind_geolite_city_blocks", ["start_ip_num"], name: "index_maxmind_geolite_city_blocks_on_start_ip_num", unique: true, using: :btree
+
+  create_table "maxmind_geolite_city_location", id: false, force: true do |t|
+    t.integer "loc_id",      limit: 8,  null: false
+    t.string  "country",                null: false
+    t.string  "region",                 null: false
+    t.string  "city"
+    t.string  "postal_code",            null: false
+    t.float   "latitude",    limit: 24
+    t.float   "longitude",   limit: 24
+    t.integer "metro_code"
+    t.integer "area_code"
+  end
+
+  add_index "maxmind_geolite_city_location", ["loc_id"], name: "index_maxmind_geolite_city_location_on_loc_id", unique: true, using: :btree
+
   create_table "paypal_orders", force: true do |t|
     t.integer  "user_id"
     t.integer  "product_id"
@@ -99,6 +123,7 @@ ActiveRecord::Schema.define(version: 20140925195717) do
     t.string   "ip",                limit: 191
   end
 
+  add_index "player_statistics", ["created_at"], name: "index_player_statistics_on_created_at", using: :btree
   add_index "player_statistics", ["loss"], name: "index_player_statistics_on_loss", using: :btree
   add_index "player_statistics", ["ping"], name: "index_player_statistics_on_ping", using: :btree
   add_index "player_statistics", ["reservation_id"], name: "index_player_statistics_on_reservation_id", using: :btree
@@ -206,6 +231,7 @@ ActiveRecord::Schema.define(version: 20140925195717) do
   end
 
   add_index "server_statistics", ["cpu_usage"], name: "index_server_statistics_on_cpu_usage", using: :btree
+  add_index "server_statistics", ["created_at"], name: "index_server_statistics_on_created_at", using: :btree
   add_index "server_statistics", ["fps"], name: "index_server_statistics_on_fps", using: :btree
   add_index "server_statistics", ["number_of_players"], name: "index_server_statistics_on_number_of_players", using: :btree
   add_index "server_statistics", ["reservation_id"], name: "index_server_statistics_on_reservation_id", using: :btree

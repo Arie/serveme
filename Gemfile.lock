@@ -21,7 +21,7 @@ GIT
 
 GIT
   remote: git://github.com/seuros/capistrano-sidekiq.git
-  revision: 07c72f135275849a3cc926c179a4c3e665a29ac0
+  revision: f6b8123a57d80c3c869117a2e1938f61cbba2d33
   specs:
     capistrano-sidekiq (0.3.8)
       capistrano
@@ -173,7 +173,7 @@ GEM
       railties (>= 3.0.0)
     faraday (0.8.9)
       multipart-post (~> 1.2.0)
-    ffi (1.9.4)
+    ffi (1.9.5)
     font-awesome-rails (4.2.0.0)
       railties (>= 3.2, < 5.0)
     fuubar (2.0.0)

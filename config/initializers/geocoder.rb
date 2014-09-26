@@ -3,7 +3,7 @@ Geocoder.configure(
   ip_lookup:        :maxmind_local,
   maxmind_local:    {package: :city},
   units:            :km,
-  cache:            Rails.cache,
+  cache:            Redis.new,
 )
 Geocoder::Lookup::Test.set_default_stub(
   [

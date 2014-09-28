@@ -196,10 +196,6 @@ class Server < ActiveRecord::Base
     @rcon_auth ||= condenser.rcon_auth(rcon)
   end
 
-  def set_logaddress
-    rcon_exec("logaddress_add #{SITE_HOST}:40001")
-  end
-
   def rcon_say(message)
     rcon_exec("say #{message}")
   end

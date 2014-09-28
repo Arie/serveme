@@ -49,7 +49,6 @@ namespace :app do
     run "ln -sf #{shared_path}/locale.rb #{release_path}/config/initializers/locale.rb"
     run "ln -sf #{shared_path}/devise.rb #{release_path}/config/initializers/devise.rb"
     run "ln -sf #{shared_path}/site_url.rb #{release_path}/config/initializers/site_url.rb"
-    run "ln -sf #{shared_path}/site_url.rb #{release_path}/config/initializers/site_url.rb"
     run "ln -sf #{shared_path}/GeoLiteCity.dat #{release_path}/doc/GeoLiteCity.dat"
   end
 

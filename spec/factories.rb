@@ -100,4 +100,13 @@ FactoryGirl.define do
     minutes_connected 11
   end
 
+  factory :server_statistic do
+    association :reservation
+    association :server
+    cpu_usage 10
+    fps 66
+    traffic_in 51
+    traffic_out 241
+  end
+
 end

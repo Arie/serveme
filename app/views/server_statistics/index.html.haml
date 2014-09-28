@@ -1,0 +1,40 @@
+- content_for(:title) { "server statistics" }
+
+%h2= link_to "Server statistics", server_statistics_path
+
+.row
+  .col-md-10
+    = will_paginate @server_statistics, :renderer => BootstrapPagination::Rails
+
+
+.row
+  .col-md-12
+    %table.table.table-condensed.table-hover
+      %thead
+        %tr
+          %th Server
+          %th Date
+          %th CPU Usage
+          %th FPS
+          %th Map
+          %th Players
+          %th Traffic in
+          %th Traffic out
+      %tbody
+        - @server_statistics.each do |server_statistic|
+          %tr[server_statistic]
+            - server = server_statistic.server && server_statistic.server.decorate
+            %td= link_to server.name, show_server_statistic_path(:server_id => server_statistic.server)
+            %td
+              - time = I18n.l(server_statistic.created_at, format: :short_with_dayname_and_seconds)
+              = link_to(time, show_reservation_server_statistic_path(:reservation_id => server_statistic.reservation.id), :class => "server_reservation_statistics")
+            %td= server_statistic.cpu_usage
+            %td= server_statistic.fps
+            %td= server_statistic.map_name
+            %td= server_statistic.number_of_players
+            %td
+              = server_statistic.traffic_in
+              KB/s
+            %td
+              = server_statistic.traffic_out
+              KB/s

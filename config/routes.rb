@@ -71,6 +71,7 @@ Serveme::Application.routes.draw do
   end
 
   resources :player_statistics, :only => :index
+  resources :server_statistics, :only => :index
 
   resources :private_servers, :only => :create
 
@@ -113,6 +114,9 @@ Serveme::Application.routes.draw do
   get   '/player_statistics/steam/:steam_uid'                             => 'player_statistics#show_for_player',                  :as => "show_player_statistic"
   get   '/player_statistics/reservation/:reservation_id/steam/:steam_uid' => 'player_statistics#show_for_reservation_and_player',  :as => "show_reservation_and_player_statistic"
   get   '/player_statistics/server/:server_id'                            => 'player_statistics#show_for_server',                  :as => "show_server_player_statistic"
+
+  get   '/server_statistics/server/:server_id'                            => 'server_statistics#show_for_server',                  :as => "show_server_statistic"
+  get   '/server_statistics/reservation/:reservation_id'                  => 'server_statistics#show_for_reservation',             :as => "show_reservation_server_statistic"
 
   get   '/login',                         :to => 'sessions#new',      :as => :login
   get   '/users/auth/failure',            :to => 'sessions#failure'

@@ -91,4 +91,15 @@ FactoryGirl.define do
     reason "this server is aimaaiizing"
   end
 
+  factory :player_statistic do
+    association :reservation
+    association :server
+    association :user
+    name "Player"
+    ping 100
+    loss 0
+    ip "1.1.1.1"
+    minutes_connected 11
+  end
+
 end

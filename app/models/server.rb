@@ -255,7 +255,7 @@ class Server < ActiveRecord::Base
   end
 
   def host_to_ip
-    Resolv.getaddress(ip)
+    Resolv.getaddress(ip) unless Rails.env.test?
   end
 
 end

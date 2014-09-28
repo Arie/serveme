@@ -22,7 +22,8 @@
         - @ratings.each do |rating|
           %tr[rating]{class: rating.opinion == "bad" ? "danger" : "success"}
             - user = rating.user && rating.user.decorate
-            %td= rating.server_name
+            - server = rating.server && rating.server.decorate
+            %td= server.name
             %td= I18n.l(rating.updated_at, format: :short_with_dayname)
             - if user
               %td= link_to(user.nickname, user.steam_profile_url, :target => "_blank")
@@ -35,4 +36,5 @@
                 = link_to "Publish",    publish_rating_path(rating),    method: :post,    class: "btn btn-xs btn-success"
               - else
                 = link_to "Unpublish",  unpublish_rating_path(rating),  method: :post,    class: "btn btn-xs btn-info"
+              = link_to "Stats",        show_reservation_and_player_statistic_path(reservation_id: rating.reservation_id, steam_uid: rating.steam_uid), class: "btn btn-xs btn-primary"
               = link_to "Destroy",      rating_path(rating),            method: :delete,  class: "btn btn-xs btn-danger"

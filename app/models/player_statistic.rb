@@ -3,4 +3,8 @@ class PlayerStatistic < ActiveRecord::Base
   belongs_to :server
   belongs_to :reservation
   belongs_to :user, :primary_key => :uid, :foreign_key => :steam_uid
+  geocoded_by :ip
+  before_save :geocode, :if => :ip_changed?
+
+  delegate :name, :to => :server, :prefix => true
 end

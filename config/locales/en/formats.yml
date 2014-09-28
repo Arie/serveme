@@ -13,4 +13,5 @@ en:
       datepicker: "%d-%m-%Y %H:%M"
       short: "%d %b %H:%M"
       short_with_dayname: "%a %d %b %H:%M"
+      short_with_dayname_and_seconds: "%a %d %b %H:%M:%S"
       javascript_datepicker: "dd-mm-yyyy hh:ii"

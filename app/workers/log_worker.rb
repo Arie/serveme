@@ -106,7 +106,7 @@ class LogWorker
       end
       if matches[:secret].present?
         Rails.cache.fetch("reservation_secret_#{matches[:secret]}", expires_in: 1.minute) do
-          @reservation_id = Reservation.where(:logsecret => matches[:secret]).last.try(:id)
+          @reservation_id = Reservation.where(:logsecret => matches[:secret]).pluck(:id).last
         end
       end
     end

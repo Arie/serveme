@@ -30,20 +30,20 @@ class ServerInfo
   end
 
   def status
-    Rails.cache.fetch "server_info_#{server.id}" do
+    Rails.cache.fetch "server_info_#{server.id}", expires_in: 1.minute do
       server_connection.server_info.delete_if {|key| key == :content_data }
     end
   end
 
   def get_stats
-    Rails.cache.fetch "stats_#{server.id}" do
+    Rails.cache.fetch "stats_#{server.id}", expires_in: 1.minute do
       auth
       server_connection.rcon_exec('stats')
     end
   end
 
   def get_rcon_status
-    Rails.cache.fetch "rcon_status_#{server.id}" do
+    Rails.cache.fetch "rcon_status_#{server.id}", expires_in: 1.minute do
       auth
       ActiveSupport::Multibyte::Chars.new(server_connection.rcon_exec('status')).to_s
     end

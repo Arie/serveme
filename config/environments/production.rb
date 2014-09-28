@@ -43,7 +43,7 @@ Serveme::Application.configure do
 
   # Use a different cache store in production
   config.cache_store = :dalli_store, '127.0.0.1:11211',
-    { :namespace => 'serveme', :expires_in => 1.minute }
+    { :namespace => 'serveme', :expires_in => 1.hour }
   config.action_dispatch.rack_cache = {
     :metastore    => Dalli::Client.new,
     :entitystore  => 'file:tmp/cache/rack/body',

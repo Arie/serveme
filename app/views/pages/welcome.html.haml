@@ -1,7 +1,7 @@
 = render 'shared/nag_message' if current_user
 
 - content_for :jumbotron do
-  - cache "available_servers_#{@most_recently_updated_reservation_time}" do
+  - cache "available_servers_#{@most_recently_updated_reservation_time}", expires_in: 1.minute do
     .jumbotron
       .container
         .row
@@ -78,7 +78,7 @@
     .col-md-12
       = render 'reservations/users_reservations'
 
-- cache "todays_reservations_#{@most_recently_updated_reservation_time}_#{Time.current.zone}" do
+- cache "todays_reservations_#{@most_recently_updated_reservation_time}_#{Time.current.zone}", expires_in: 1.minute do
   .row
     .col-md-12
       = render 'reservations/todays_reservations'

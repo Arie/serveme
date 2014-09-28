@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
 
   skip_before_filter :authenticate_user!
-  caches_action :credits, :statistics, :server_providers, :faq, :unless => :current_user
+  caches_action :credits, :statistics, :server_providers, :faq, :unless => :current_user, expires_in: 1.minute
 
   def welcome
     @most_recently_updated_reservation_time = Reservation.maximum(:updated_at).to_i

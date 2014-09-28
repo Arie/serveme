@@ -168,6 +168,10 @@ class Reservation < ActiveRecord::Base
     self.logsecret ||= rand(2**128)
   end
 
+  def self.played_in(steam_uid)
+    joins(:reservation_players).where('reservation_players.steam_uid = ? AND reservations.starts_at > ? AND reservations.ended = ?', steam_uid, 31.days.ago, true).ordered
+  end
+
   def start_reservation
     reservation_manager.start_reservation
   end

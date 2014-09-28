@@ -34,7 +34,7 @@ class ReservationsController < ApplicationController
   end
 
   def played_in
-    @users_games = Reservation.joins(:reservation_players).where('reservation_players.steam_uid = ?', current_user.uid).where('reservations.starts_at > ?', 31.days.ago).ordered
+    @users_games = Reservation.played_in(current_user.uid)
   end
 
   def edit

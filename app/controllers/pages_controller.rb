@@ -8,12 +8,7 @@ class PagesController < ApplicationController
     @reservations = Reservation.within_12_hours.first(50)
     if current_user
       @users_reservations = current_user.reservations.ordered.first(5)
-      @users_games        = Reservation.
-                              joins(:reservation_players).
-                              where('reservation_players.steam_uid = ?', current_user.uid).
-                              where('reservations.starts_at > ?', 31.days.ago).
-                              ordered.
-                              limit(5)
+      @users_games        = Reservation.played_in(current_user.uid).limit(5)
     end
   end
 

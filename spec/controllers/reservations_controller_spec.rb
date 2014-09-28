@@ -110,6 +110,7 @@ describe ReservationsController do
     it "shows you a list of reservations you were in, in the last 31 days" do
       played_in = create :reservation_player, user: @user
       reservation = played_in.reservation
+      reservation.update_attribute(:ended, true)
 
       get :played_in
 

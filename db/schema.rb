@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140926221246) do
+ActiveRecord::Schema.define(version: 20140928100101) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -87,27 +87,18 @@ ActiveRecord::Schema.define(version: 20140926221246) do
   add_index "paypal_orders", ["user_id"], name: "index_paypal_orders_on_user_id", using: :btree
 
   create_table "player_statistics", force: true do |t|
-    t.integer  "server_id",                     null: false
-    t.integer  "reservation_id",                null: false
-    t.string   "name",              limit: 191
-    t.string   "steam_uid",         limit: 191
     t.integer  "ping"
     t.integer  "loss"
     t.integer  "minutes_connected"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "ip",                limit: 191
-    t.float    "latitude",          limit: 24
-    t.float    "longitude",         limit: 24
+    t.integer  "reservation_player_id"
   end
 
   add_index "player_statistics", ["created_at"], name: "index_player_statistics_on_created_at", using: :btree
-  add_index "player_statistics", ["latitude", "longitude"], name: "index_player_statistics_on_latitude_and_longitude", using: :btree
   add_index "player_statistics", ["loss"], name: "index_player_statistics_on_loss", using: :btree
   add_index "player_statistics", ["ping"], name: "index_player_statistics_on_ping", using: :btree
-  add_index "player_statistics", ["reservation_id"], name: "index_player_statistics_on_reservation_id", using: :btree
-  add_index "player_statistics", ["server_id"], name: "index_player_statistics_on_server_id", using: :btree
-  add_index "player_statistics", ["steam_uid"], name: "index_player_statistics_on_steam_uid", using: :btree
+  add_index "player_statistics", ["reservation_player_id"], name: "index_player_statistics_on_reservation_player_id", using: :btree
 
   create_table "products", force: true do |t|
     t.string  "name"
@@ -139,8 +130,13 @@ ActiveRecord::Schema.define(version: 20140926221246) do
   create_table "reservation_players", force: true do |t|
     t.integer "reservation_id"
     t.string  "steam_uid",      limit: 191
+    t.string  "name",           limit: 191
+    t.string  "ip",             limit: 191
+    t.float   "latitude",       limit: 24
+    t.float   "longitude",      limit: 24
   end
 
+  add_index "reservation_players", ["latitude", "longitude"], name: "index_reservation_players_on_latitude_and_longitude", using: :btree
   add_index "reservation_players", ["reservation_id"], name: "index_reservation_players_on_reservation_id", using: :btree
   add_index "reservation_players", ["steam_uid"], name: "index_reservation_players_on_steam_uid", using: :btree
 

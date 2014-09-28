@@ -57,7 +57,7 @@ Loaded plugins:
     player_statistic = PlayerStatistic.last
     player_statistic.ping.should == 57
     player_statistic.loss.should == 0
-    player_statistic.ip.should == "111.111.111.111"
+    player_statistic.reservation_player.ip.should == "111.111.111.111"
   end
 
 end

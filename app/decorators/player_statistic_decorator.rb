@@ -3,11 +3,15 @@ class PlayerStatisticDecorator < Draper::Decorator
   delegate_all
 
   def name
-    flag + source.name
+    if flag
+      flag + reservation_player.name
+    else
+      reservation_player.name
+    end
   end
 
   def flag
-    h.content_tag(:span, "", :class => "flags flags-#{flag_abbreviation}", :title => geocoded.country)
+    geocoded && h.content_tag(:span, "", :class => "flags flags-#{flag_abbreviation}", :title => geocoded.country)
   end
 
   def flag_abbreviation
@@ -15,15 +19,15 @@ class PlayerStatisticDecorator < Draper::Decorator
   end
 
   def maps_link
-    if player_statistic.latitude
-      distance = player_statistic.server.distance_to(player_statistic.to_coordinates).to_f.round
-      coords = player_statistic.to_coordinates
+    if reservation_player.latitude
+      distance = reservation_player.server.distance_to(reservation_player.to_coordinates).to_f.round
+      coords = reservation_player.to_coordinates
       link_to distance, "http://maps.google.com/maps?q=#{coords.first},#{coords.last}+(Player)&z=4&ll=#{coords.first},#{coords.last}"
     end
   end
 
   def geocoded
-    @geocoded ||= Geocoder.search(ip).try(:first)
+    @geocoded ||= Geocoder.search(reservation_player.ip).try(:first)
   end
 
 end

@@ -81,6 +81,8 @@ FactoryGirl.define do
   factory :reservation_player do
     association :reservation
     association :user
+    name "reservation player"
+    ip "127.0.0.1"
   end
 
   factory :rating do
@@ -92,13 +94,9 @@ FactoryGirl.define do
   end
 
   factory :player_statistic do
-    association :reservation
-    association :server
-    association :user
-    name "Player"
+    association :reservation_player
     ping 100
     loss 0
-    ip "1.1.1.1"
     minutes_connected 11
   end
 

@@ -27,21 +27,19 @@ class ServerMetric
     PlayerStatistic.transaction do
       RconStatusParser.new(server_info.get_rcon_status).players.each do |player|
         if player.relevant?
-          PlayerStatistic.create!(:server_id          => server.id,
-                                  :reservation_id     => current_reservation.id,
-                                  :name               => player.name,
-                                  :steam_uid          => player.steam_uid,
+          rp = ReservationPlayer.where(:reservation => current_reservation, :steam_uid => player.steam_uid).first_or_create(:name => player.name, :ip => player.ip)
+          PlayerStatistic.create!(:reservation_player => rp,
                                   :ping               => player.ping,
-                                  :ip                 => player.ip,
                                   :loss               => player.loss,
                                   :minutes_connected  => player.minutes_connected
-                                )
+                                 )
         end
 
 
       end
     end
   end
+
 
   def current_reservation
     @current_reservation ||= server.current_reservation

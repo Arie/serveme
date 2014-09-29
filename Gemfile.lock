@@ -21,7 +21,7 @@ GIT
 
 GIT
   remote: git://github.com/seuros/capistrano-sidekiq.git
-  revision: f6b8123a57d80c3c869117a2e1938f61cbba2d33
+  revision: ebf072987cc460dd2d1681d0aa1de2926376d12c
   specs:
     capistrano-sidekiq (0.3.8)
       capistrano
@@ -345,7 +345,7 @@ GEM
     rubyzip (1.1.6)
     rvm-capistrano (1.5.4)
       capistrano (~> 2.15.4)
-    safe_yaml (1.0.3)
+    safe_yaml (1.0.4)
     sass (3.4.5)
     sass-rails (5.0.0.beta1)
       railties (>= 4.0.0, < 5.0)
@@ -417,7 +417,7 @@ GEM
     vcr (2.9.3)
     warden (1.2.3)
       rack (>= 1.0)
-    webmock (1.18.0)
+    webmock (1.19.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
     webrobots (0.1.1)

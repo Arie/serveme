@@ -72,7 +72,7 @@ module ReservationsHelper
     reservation.update_attribute(:end_instantly, true)
     reservation.end_reservation
     link = "/uploads/#{reservation.zipfile_name}"
-    flash[:notice] = "Reservation removed, restarting server. Your STV demos and logs will be available <a href='#{link}' target=_blank>here</a> shortly".html_safe
+    flash[:notice] = "Reservation removed, restarting server. Your STV demos and logs will be available <a href='#{link}' target=_blank>here</a> soon".html_safe
   end
 
   def previous_reservation

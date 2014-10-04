@@ -72,3 +72,10 @@
         %tr
           %td Whitelist
           %td= reservation.whitelist
+
+      - if current_user.admin?
+        %tr
+          %td Logsecret
+          %td
+            = reservation.logsecret
+            = render 'shared/copy_button', :copy_button_id => "logsecret_string", :copy_text => reservation.logsecret

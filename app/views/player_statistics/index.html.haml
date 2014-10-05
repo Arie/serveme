@@ -18,6 +18,7 @@
           %th IP
           %th Ping
           %th Loss
+          %th Minutes connected
           %th Distance to server
       %tbody
         - @player_statistics.each do |player_statistic|
@@ -33,4 +34,5 @@
             %td= player_statistic.reservation_player.ip
             %td= link_to player_statistic.ping, show_reservation_and_player_statistic_path(:reservation_id => player_statistic.reservation.id, :steam_uid => player_statistic.reservation_player.steam_uid)
             %td= player_statistic.loss
+            %td= player_statistic.minutes_connected
             %td= player_statistic.maps_link

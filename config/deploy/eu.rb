@@ -5,3 +5,12 @@ set :puma_flags,        '-w 4 -t 1:8'
 set :sidekiq_processes,  2
 
 server "#{main_server}", :web, :app, :db, :primary => true
+
+namespace :app do
+  desc "symlinks the NFO servers login information"
+  task :symlink_nfoservers, :roles => [:web, :app] do
+    run "ln -sf #{shared_path}/nfoservers.rb #{release_path}/config/initializers/nfoservers.rb"
+  end
+end
+
+after "app:symlink", "app:symlink_nfoservers"

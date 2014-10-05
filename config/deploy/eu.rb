@@ -9,6 +9,7 @@ server "#{main_server}", :web, :app, :db, :primary => true
 namespace :app do
   desc "symlinks the NFO servers login information"
   task :symlink_nfoservers, :roles => [:web, :app] do
+    run "rm #{release_path}/config/initializers/tragicservers.rb"
     run "ln -sf #{shared_path}/nfoservers.rb #{release_path}/config/initializers/nfoservers.rb"
   end
 end

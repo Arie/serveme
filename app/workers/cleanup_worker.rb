@@ -1,4 +1,4 @@
-class ReservationCleanupWorker
+class CleanupWorker
   include Sidekiq::Worker
   include Sidetiq::Schedulable
 
@@ -6,6 +6,7 @@ class ReservationCleanupWorker
 
   def perform
     remove_old_reservation_logs_and_zips
+    remove_old_statistics
   end
 
   def remove_old_reservation_logs_and_zips
@@ -19,10 +20,22 @@ class ReservationCleanupWorker
     end
   end
 
-  def old_reservations
-    Reservation.where('ends_at < ? AND ends_at > ?', 20.days.ago, 35.days.ago)
+  def remove_old_statistics
+    old_player_statistics.delete_all
+    old_server_statistics.delete_all
   end
 
+  def old_reservations
+    Reservation.where('ends_at < ? AND ends_at > ?', 31.days.ago, 35.days.ago)
+  end
+
+  def old_player_statistics
+    PlayerStatistic.where('created_at < ?', 7.days.ago)
+  end
+
+  def old_server_statistics
+    ServerStatistic.where('created_at < ?', 35.days.ago)
+  end
 
 end
 

@@ -1,3 +1,3 @@
 CronWorker
-ReservationCleanupWorker
+CleanupWorker
 ServersNotificationWorker

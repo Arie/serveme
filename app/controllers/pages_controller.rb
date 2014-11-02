@@ -1,6 +1,7 @@
 class PagesController < ApplicationController
 
   skip_before_filter :authenticate_user!
+  skip_before_filter :block_users_with_expired_reservations
   caches_action :credits, :statistics, :server_providers, :faq, :unless => :current_user, expires_in: 1.minute
 
   def welcome

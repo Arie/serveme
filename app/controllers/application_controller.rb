@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :authenticate_user!
   before_filter :set_time_zone
+  before_filter :check_expired_reservations
+  before_filter :block_users_with_expired_reservations
 
   def set_time_zone
     set_time_zone_from_current_user || set_time_zone_from_cookie || set_default_time_zone
@@ -52,6 +54,30 @@ class ApplicationController < ActionController::Base
   def require_donator
     unless current_user && current_user.donator?
       flash[:alert] = "Only donators can do that..."
+      redirect_to root_path
+    end
+  end
+
+  def expired_reservation
+    @expired_reservation ||= begin
+                              if current_user && !(current_user.donator? || current_user.admin?)
+                                current_user.
+                                  reservations.where('starts_at > ?', 24.hours.ago).
+                                  where('inactive_minute_counter = ?', 30).
+                                  where('duration < ?', 35.minutes).
+                                  last
+                              end
+                             end
+  end
+
+  def check_expired_reservations
+    if expired_reservation
+      flash[:alert] = "You reserved a server and didn't use it, you are blocked from using #{SITE_HOST} until #{I18n.l(expired_reservation.starts_at + 24.hours, :format => :short)}"
+    end
+  end
+
+  def block_users_with_expired_reservations
+    if expired_reservation
       redirect_to root_path
     end
   end

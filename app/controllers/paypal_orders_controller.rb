@@ -1,5 +1,7 @@
 class PaypalOrdersController < ApplicationController
 
+  skip_before_filter :block_users_with_expired_reservations
+
   def new
     @products = Product.active.ordered
     @paypal_order = PaypalOrder.new(:product => Product.find_by_name("1 year"))

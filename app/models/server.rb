@@ -85,6 +85,15 @@ class Server < ActiveRecord::Base
     write_configuration(metamod_file, metamod_body)
   end
 
+  def enable_arena_respawn
+    arena_respawn_file = "#{Rails.root.join("doc", "arena_respawn.smx")}"
+    copy_to_server([arena_respawn_file], "#{tf_dir}/addons/sourcemod/plugins")
+  end
+
+  def disable_arena_respawn
+    delete_from_server(["#{tf_dir}/addons/sourcemod/plugins/arena_respawn.smx"])
+  end
+
   def disable_plugins
     delete_from_server([metamod_file])
   end
@@ -161,7 +170,13 @@ class Server < ActiveRecord::Base
 
   def start_reservation(reservation)
     update_configuration(reservation)
-    enable_plugins if reservation.enable_plugins?
+    if reservation.enable_arena_respawn?
+      enable_plugins
+      enable_arena_respawn
+    else
+      enable_plugins if reservation.enable_plugins?
+      disable_arena_respawn
+    end
     restart
   end
 

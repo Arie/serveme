@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140928100101) do
+ActiveRecord::Schema.define(version: 20141102091151) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -165,6 +165,7 @@ ActiveRecord::Schema.define(version: 20140928100101) do
     t.boolean  "auto_end",                           default: true
     t.string   "logsecret",               limit: 64
     t.boolean  "enable_plugins",                     default: false
+    t.boolean  "enable_arena_respawn",               default: false
   end
 
   add_index "reservations", ["auto_end"], name: "index_reservations_on_auto_end", using: :btree

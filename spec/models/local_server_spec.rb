@@ -88,15 +88,16 @@ describe LocalServer do
 
   describe '#start_reservation' do
     it 'updates the configuration and triggers a restart' do
-      reservation = double(:enable_plugins? => true)
+      reservation = double(:enable_plugins? => true, :enable_arena_respawn? => false)
       subject.should_receive(:restart)
       subject.should_receive(:enable_plugins)
+      subject.should_receive(:disable_arena_respawn)
       subject.should_receive(:update_configuration).with(reservation)
       subject.start_reservation(reservation)
     end
 
     it 'writes a config file' do
-      reservation = double(:custom_whitelist_id => nil, :enable_plugins? => false)
+      reservation = double(:custom_whitelist_id => nil, :enable_plugins? => false, :enable_arena_respawn? => false)
       subject.should_receive(:restart)
       file = double
       subject.stub(:tf_dir => '/tmp')
@@ -104,6 +105,18 @@ describe LocalServer do
       file.should_receive(:write).with(anything).twice
       subject.should_receive(:generate_config_file).twice.with(reservation, anything).and_return("config file contents")
       subject.start_reservation(reservation)
+    end
+
+    context "with enable arena respawn enabled" do
+
+      it "copies the arena respawn stuff and enables plugins" do
+        reservation = double(:enable_plugins? => true, :enable_arena_respawn? => true)
+        subject.should_receive(:restart)
+        subject.should_receive(:update_configuration).with(reservation)
+        subject.should_receive(:enable_plugins)
+        subject.should_receive(:enable_arena_respawn)
+        subject.start_reservation(reservation)
+      end
     end
 
   end
@@ -384,6 +397,32 @@ describe LocalServer do
 
     def create_rating(opinion)
       create(:rating, :reservation => reservation, :opinion => opinion, :published => true)
+    end
+
+  end
+
+  context "arena respawn" do
+
+    before do
+      subject.stub(:tf_dir => '/tmp')
+    end
+
+    describe "#disable_arena_respawn" do
+
+      it "deletes the plugin file from the server" do
+        subject.should_receive(:delete_from_server).with(["#{subject.tf_dir}/addons/sourcemod/plugins/arena_respawn.smx"])
+        subject.disable_arena_respawn
+      end
+
+    end
+
+    describe "#enable_arena_respawn" do
+
+      it "copies the plugin file to the server" do
+        subject.should_receive(:copy_to_server).with(["#{Rails.root.join("doc", "arena_respawn.smx")}"], "#{subject.tf_dir}/addons/sourcemod/plugins")
+        subject.enable_arena_respawn
+      end
+
     end
 
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141102091151) do
+ActiveRecord::Schema.define(version: 20141102105758) do
 
   create_table "group_servers", force: true do |t|
     t.integer  "server_id"
@@ -259,6 +259,7 @@ ActiveRecord::Schema.define(version: 20141102091151) do
     t.string   "api_key",                limit: 32
     t.float    "latitude",               limit: 24
     t.float    "longitude",              limit: 24
+    t.integer  "expired_reservations",               default: 0
   end
 
   add_index "users", ["api_key"], name: "index_users_on_api_key", unique: true, using: :btree

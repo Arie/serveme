@@ -1,4 +1,4 @@
-set :main_server,       "au.serveme.tf"
+set :main_server,       "direct.au.serveme.tf"
 set :user,              'arie'
 set :sidekiq_processes,  1
 set :puma_flags,        '-w 1 -t 1:16'

@@ -21,9 +21,9 @@ GIT
 
 GIT
   remote: git://github.com/seuros/capistrano-sidekiq.git
-  revision: 101ef76b9b95baae502fc10c3f90461d3f832a41
+  revision: a2df250bbd6e7455692e5d292ab9145a0cd84962
   specs:
-    capistrano-sidekiq (0.3.8)
+    capistrano-sidekiq (0.4.0)
       capistrano
       sidekiq
 
@@ -69,7 +69,7 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     blockenspiel (0.4.5)
-    bootstrap-sass (3.3.0.1)
+    bootstrap-sass (3.3.1.0)
       sass (~> 3.2)
     builder (3.2.2)
     capistrano (2.15.5)
@@ -226,12 +226,12 @@ GEM
     method_source (0.8.2)
     mime-types (2.4.3)
     mini_portile (0.6.1)
-    minitest (5.4.2)
+    minitest (5.4.3)
     multi_json (1.10.1)
     multi_test (0.1.1)
     multi_xml (0.5.5)
     multipart-post (1.2.0)
-    mysql2 (0.3.16)
+    mysql2 (0.3.17)
     net-http-digest_auth (1.4)
     net-http-persistent (2.9.4)
     net-scp (1.2.1)
@@ -326,7 +326,7 @@ GEM
       activemodel (>= 3.0)
       activesupport (>= 3.0)
       rspec-mocks (>= 2.99, < 4.0)
-    rspec-collection_matchers (1.0.0)
+    rspec-collection_matchers (1.1.2)
       rspec-expectations (>= 2.99.0.beta1)
     rspec-core (3.1.7)
       rspec-support (~> 3.1.0)
@@ -361,9 +361,8 @@ GEM
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
-    sentry-raven (0.11.2)
+    sentry-raven (0.12.0)
       faraday (>= 0.7.6)
-      uuidtools
     shoulda-matchers (2.7.0)
       activesupport (>= 3.0.0)
     sidekiq (3.2.6)
@@ -421,7 +420,7 @@ GEM
     vcr (2.9.3)
     warden (1.2.3)
       rack (>= 1.0)
-    webmock (1.20.3)
+    webmock (1.20.4)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
     webrobots (0.1.1)

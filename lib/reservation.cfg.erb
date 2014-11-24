@@ -5,7 +5,7 @@ tv_password "<%= tv_password %>"
 tv_relaypassword "<%= tv_relaypassword %>"
 sv_logflush 0
 sv_logsecret "<%= logsecret %>"
-logaddress_add "<%= "direct.#{SITE_HOST}:40001"%>"
+logaddress_add <%= "direct.#{SITE_HOST}:40001" %>
 
 tftrue_logs_prefix "serveme.tf"
 tftrue_logs_roundend 0

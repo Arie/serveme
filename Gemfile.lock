@@ -19,14 +19,6 @@ GIT
   specs:
     rbzip2 (0.2.0)
 
-GIT
-  remote: git://github.com/seuros/capistrano-sidekiq.git
-  revision: 289edd447186bd677c2c84e367f36f024029f08a
-  specs:
-    capistrano-sidekiq (0.4.0)
-      capistrano
-      sidekiq
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -82,6 +74,9 @@ GEM
       capistrano (>= 1.0.0)
     capistrano-maintenance (0.0.4)
       capistrano (>= 2.0.0)
+    capistrano-sidekiq (0.4.0)
+      capistrano
+      sidekiq
     capistrano_colors (0.5.5)
     capybara (2.4.4)
       mime-types (>= 1.16)
@@ -447,7 +442,7 @@ DEPENDENCIES
   capistrano (~> 2.0)
   capistrano-ext
   capistrano-maintenance
-  capistrano-sidekiq!
+  capistrano-sidekiq
   capistrano_colors
   capybara
   carrierwave

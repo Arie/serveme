@@ -56,7 +56,7 @@ group :development do
   gem 'capistrano_colors'
   gem 'capistrano', "~> 2.0"
   gem 'capistrano-maintenance'
-  gem 'capistrano-sidekiq' , github: 'seuros/capistrano-sidekiq'
+  gem 'capistrano-sidekiq'
   gem 'rvm-capistrano'
   gem 'query_reviewer'
 end

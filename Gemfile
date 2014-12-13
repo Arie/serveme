@@ -103,7 +103,7 @@ gem 'uglifier'
 gem 'jquery-rails'
 gem "compass-rails"
 gem 'sass'
-gem 'sass-rails', '~> 5.0.0.beta1'
+gem 'sass-rails', "5.0.0.beta1"
 gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'will_paginate-bootstrap'

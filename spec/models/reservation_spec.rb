@@ -125,26 +125,26 @@ describe Reservation do
     it 'allows a user to extend a reservation by 1 hour when the end of the reservation is near' do
       old_reservation_end_time = 40.minutes.from_now
       reservation = create :reservation, :starts_at => Time.current, :ends_at => old_reservation_end_time, :provisioned => true
-      expect{reservation.extend!}.to change{reservation.reload.ends_at}
+      expect{reservation.extend!}.to change{reservation.ends_at}
     end
 
     it 'resets the idle timer when extending' do
       old_reservation_end_time = 40.minutes.from_now
       reservation = create :reservation, :starts_at => Time.current, :ends_at => old_reservation_end_time, :provisioned => true, :inactive_minute_counter => 20
-      expect{reservation.extend!}.to change{reservation.reload.inactive_minute_counter}.from(20).to(0)
+      expect{reservation.extend!}.to change{reservation.inactive_minute_counter}.from(20).to(0)
     end
 
     it 'does not extend a reservation that hasnt been provisioned yet' do
       old_reservation_end_time = 40.minutes.from_now
       reservation = create :reservation, :starts_at => Time.current, :ends_at => old_reservation_end_time, :provisioned => false
-      expect{reservation.extend!}.not_to change{reservation.reload.ends_at}
+      expect{reservation.extend!}.not_to change{reservation.ends_at}
     end
 
     it "does not extend when there's more than an hour left on the reservation" do
       old_reservation_end_time = 61.minutes.from_now
       reservation = create :reservation, :starts_at => Time.current, :ends_at => old_reservation_end_time, :provisioned => true
 
-      expect{reservation.extend!}.not_to change{reservation.reload.ends_at}
+      expect{reservation.extend!}.not_to change{reservation.ends_at}
     end
 
   end

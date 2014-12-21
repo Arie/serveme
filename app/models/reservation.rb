@@ -62,7 +62,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def past?
-    ends_at < Time.current
+    ends_at <= Time.current
   end
 
   def younger_than_cleanup_age?

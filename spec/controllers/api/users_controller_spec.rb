@@ -5,7 +5,7 @@ describe Api::UsersController do
   render_views
 
   before do
-    @user = create :user, :uid => "the-uid", :nickname => "the-nickname", :name => "the-name"
+    @user = create :user, :uid => 12345, :nickname => "the-nickname", :name => "the-name"
     controller.stub(:current_user => @user)
   end
 
@@ -17,7 +17,7 @@ describe Api::UsersController do
       json = {
         user: {
           id: Integer,
-          uid: "the-uid",
+          uid: "12345",
           nickname: "the-nickname",
           name: "the-name",
           donator: false,
@@ -26,6 +26,7 @@ describe Api::UsersController do
           total_reservation_seconds: Integer,
         }
       }
+      expect(response.status).to eql 200
       expect(response.body).to match_json_expression(json)
     end
 

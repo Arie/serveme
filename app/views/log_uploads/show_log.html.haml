@@ -4,4 +4,6 @@
 
 .log
 
-  = simple_format(@log_file)
+  - @log_file.each_line do |line|
+    = line
+    %br

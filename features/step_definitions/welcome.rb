@@ -13,7 +13,7 @@ Then /^I can view a list of current reservations$/ do
 end
 
 Given /^I have made a reservation that is currently active$/ do
-  @reservation = create(:reservation, :user => @current_user, :starts_at => Time.current, :ends_at => 1.hour.from_now, :provisioned => true, :server => Server.first)
+  @reservation = create(:reservation, :user => @current_user, :starts_at => 1.minute.ago, :ends_at => 1.hour.from_now, :provisioned => true, :server => Server.first)
 end
 
 Then /^I can view my reservation in the list$/ do

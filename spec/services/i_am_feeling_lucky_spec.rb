@@ -13,9 +13,9 @@ describe IAmFeelingLucky do
       reservation = subject.build_reservation
 
       reservation.server.should == available_server
-      reservation.rcon.should be_an Integer
-      reservation.password.should be_an Integer
-      reservation.tv_password.should be_an Integer
+      reservation.rcon.should be_present
+      reservation.password.should be_present
+      reservation.tv_password.should be_present
       reservation.auto_end.should be true
     end
 

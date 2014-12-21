@@ -192,9 +192,14 @@ end
 Given "I have a running reservation" do
   start_reservation(10.minutes.ago)
 end
+Given "I have a past reservation" do
+  start_reservation(10.minutes.ago)
+  @reservation.update_attribute(:ends_at, 1.minute.ago)
+  @reservation.update_attribute(:ended, true)
+end
 
 Given "I have a reservation that has just started" do
-  start_reservation(Time.current)
+  start_reservation(1.second.ago)
 end
 
 def start_reservation(starts_at)

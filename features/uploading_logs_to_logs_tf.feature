@@ -5,9 +5,7 @@ Feature: Uploading logs to logs.tf
 
   Background:
     Given I am logged in
-    And I have a running reservation
-    And I end my reservation
-    And the end reservations job has run
+    And I have a past reservation
 
   Scenario: Going the logs screen
     When I go to the reservations listing

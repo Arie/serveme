@@ -1,6 +1,5 @@
 require './config/boot'
 require 'puma/capistrano'
-require 'active_support/core_ext'
 require "./config/deploy/logdaemon"
 
 set :stages,            %w(eu na au)

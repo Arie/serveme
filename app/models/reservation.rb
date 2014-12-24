@@ -66,7 +66,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def younger_than_cleanup_age?
-    ends_at > 20.days.ago
+    ends_at > 28.days.ago
   end
 
   def future?

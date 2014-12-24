@@ -9,3 +9,4 @@ before_script:
   - mkdir tmp/cache
   - mkdir public/uploads
 script: ./script/ci
+sudo: false

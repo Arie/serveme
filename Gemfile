@@ -76,12 +76,13 @@ group :test_tools do
 end
 
 group :cucumber do
+  gem 'cucumber', github: 'cucumber/cucumber'
   gem 'cucumber-rails'
   gem 'database_cleaner'
   gem 'launchy'
   gem 'capybara'
   gem 'selenium-webdriver'
-  gem 'fuubar-cucumber'
+  #gem 'fuubar-cucumber'
 end
 
 group :production do

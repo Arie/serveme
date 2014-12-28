@@ -48,6 +48,9 @@ ActiveRecord::Schema.define(version: 20141228001017) do
     t.integer "hiperz_id", limit: 4
   end
 
+  add_index "hiperz_server_informations", ["hiperz_id"], name: "index_hiperz_server_informations_on_hiperz_id", using: :btree
+  add_index "hiperz_server_informations", ["server_id"], name: "index_hiperz_server_informations_on_server_id", using: :btree
+
   create_table "locations", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.string   "flag",       limit: 255

@@ -1,0 +1,46 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://cp.hiperz.com/api/generic/do.php?action=restart&api_key=hiperz_api_key&gs_id=3873
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - cp.hiperz.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sun, 28 Dec 2014 00:29:09 GMT
+      Server:
+      - Apache
+      Set-Cookie:
+      - PHPSESSID=hj4hemcbqag9uig9qr21fd0cp5; path=/
+      Cache-Control:
+      - max-age=0, no-cache, no-store, must-revalidate, post-check=0, pre-check=0
+      Pragma:
+      - no-cache
+      X-Mod-Pagespeed:
+      - 1.9.32.2-4321
+      Vary:
+      - Accept-Encoding
+      Content-Length:
+      - '77'
+      Content-Type:
+      - text/html; charset=ISO-8859-1
+    body:
+      encoding: ASCII-8BIT
+      string: '{"done":"true","details":"stopped now updating and starting"}'
+    http_version: 
+  recorded_at: Sun, 28 Dec 2014 00:29:21 GMT
+recorded_with: VCR 2.9.3

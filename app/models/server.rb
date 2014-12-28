@@ -63,7 +63,7 @@ class Server < ActiveRecord::Base
   end
 
   def stv_connect_string(tv_password)
-    connect_string(ip, port.to_i + 5, tv_password)
+    connect_string(ip, tv_port, tv_password)
   end
 
   def server_connect_url(password)
@@ -71,7 +71,11 @@ class Server < ActiveRecord::Base
   end
 
   def stv_connect_url(password)
-    steam_connect_url(ip, port.to_i + 5, password)
+    steam_connect_url(ip, tv_port, password)
+  end
+
+  def tv_port
+    port.to_i + 5
   end
 
   def update_configuration(reservation)

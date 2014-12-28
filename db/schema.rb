@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141102105758) do
+ActiveRecord::Schema.define(version: 20141228001017) do
 
   create_table "group_servers", force: :cascade do |t|
     t.integer  "server_id",  limit: 4
@@ -42,6 +42,11 @@ ActiveRecord::Schema.define(version: 20141102105758) do
   end
 
   add_index "groups", ["name"], name: "index_groups_on_name", using: :btree
+
+  create_table "hiperz_server_informations", force: :cascade do |t|
+    t.integer "server_id", limit: 4
+    t.integer "hiperz_id", limit: 4
+  end
 
   create_table "locations", force: :cascade do |t|
     t.string   "name",       limit: 255

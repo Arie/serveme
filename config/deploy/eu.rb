@@ -15,3 +15,12 @@ namespace :app do
 end
 
 after "app:symlink", "app:symlink_nfoservers"
+
+namespace :app do
+  desc "symlinks the hiperz api information"
+  task :symlink_hiperz, :roles => [:web, :app] do
+    run "ln -sf #{shared_path}/hiperz.rb #{release_path}/config/initializers/hiperz.rb"
+  end
+end
+
+after "app:symlink", "app:symlink_hiperz"

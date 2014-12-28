@@ -3,15 +3,19 @@ module FtpAccess
   require 'net/ftp'
 
   def demos
-    @demos ||= ftp.nlst("#{tf_dir}/*.dem")
+    @demos ||= begin
+                 list_files("/", "*.dem").map { |file| "#{tf_dir}/#{file}" }
+               end
   end
 
   def logs
-    @logs ||= ftp.nlst("#{tf_dir}/logs/*.log")
+    @logs ||=  begin
+                 list_files("logs", "*.log").map { |file| "#{tf_dir}/logs/#{file}" }
+               end
   end
 
-  def list_files(dir)
-    ftp.nlst(File.join(tf_dir, dir, "*")).collect do |f|
+  def list_files(dir, pattern = "*")
+    ftp.nlst(File.join(tf_dir, dir, pattern)).collect do |f|
       File.basename(f)
     end
   end

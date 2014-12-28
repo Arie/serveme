@@ -30,8 +30,8 @@ describe RconFtpServer do
     it 'finds the demo files' do
       ftp = double
       subject.stub(:ftp => ftp)
-      ftp.should_receive(:nlst).with("#{subject.tf_dir}/*.dem")
-      subject.demos
+      ftp.should_receive(:nlst).with("#{subject.tf_dir}/*.dem").and_return(["bla.dem", "foo.dem"])
+      subject.demos.should eql ["#{subject.tf_dir}/bla.dem", "#{subject.tf_dir}/foo.dem"]
     end
 
   end
@@ -65,8 +65,8 @@ describe RconFtpServer do
     it 'finds the log files' do
       ftp = double
       subject.stub(:ftp => ftp)
-      ftp.should_receive(:nlst).with("#{subject.tf_dir}/logs/*.log")
-      subject.logs
+      ftp.should_receive(:nlst).with("#{subject.tf_dir}/logs/*.log").and_return(["foo", "bar"])
+      subject.logs.should eql ["#{subject.tf_dir}/logs/foo", "#{subject.tf_dir}/logs/bar"]
     end
 
   end

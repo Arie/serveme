@@ -31,7 +31,12 @@ class ServerInfo
 
   def status
     Rails.cache.fetch "server_info_#{server.id}", expires_in: 1.minute do
-      server_connection.server_info.delete_if {|key| key == :content_data }
+      begin
+        info = server_connection.server_info
+        info.delete_if {|key| key == :content_data }
+      rescue SteamCondenser::Error
+        {}
+      end
     end
   end
 

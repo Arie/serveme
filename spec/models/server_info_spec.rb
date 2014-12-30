@@ -165,6 +165,15 @@ describe ServerInfo do
       server_connection.should_receive(:server_info).and_return({:content_data => 'foo'})
       subject.status.should_not have_key(:content_data)
     end
+
+    it "returns an empty hash if something went wrong" do
+      server_connection = double
+      subject.stub(:server_connection => server_connection)
+      expect(server_connection).to receive(:server_info).and_raise(SteamCondenser::Error.new("Response of type SteamCondenser::Servers::Packets::RCON::RCONGoldSrcResponse cannot be handled by this method."))
+
+      expect(subject.status).to eql({})
+    end
+
   end
 
   describe '#get_stats' do

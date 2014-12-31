@@ -69,6 +69,24 @@ Loaded plugins:
 0:	"TFTrue v4.63, AnAkkk"
 ---------------------} }
 
+  let(:playing_over_an_hour) { %q{
+# userid name                uniqueid            connected ping loss state  adr
+#      2 "SourceTV"          BOT                                     active
+#      4 "Lupus"             [U:1:58880794]       1:24:34    80    0 active 130.204.219.90:27005
+#      9 "h3x"               [U:1:56594558]       1:12:58    97    0 active 85.107.17.57:27005
+#      6 "Buttnose"          [U:1:16733858]       1:23:57    61    0 active 94.192.59.71:59018
+#      7 "Raptor | TF2Pickup.net" [U:1:91169800]  1:22:22    71    0 active 80.123.6.127:49441
+#      8 "nyxgrandkillah"    [U:1:58889462]       1:20:46    69    0 active 88.201.142.16:27005
+#     10 "[M] Nadir"         [U:1:31923277]       1:11:25    56    0 active 188.63.130.208:27005
+#     11 "zooooob"           [U:1:27416040]       1:10:52    87    0 active 84.248.100.46:27005
+#     12 "kaidus"            [U:1:3048631]        1:09:42    59    0 active 86.2.59.49:27005
+#     13 "Übersexuals :3 Mirelin" [U:1:37008225]  1:08:51   78    0 active 46.109.163.177:27005
+#     14 "^.^"               [U:1:88662301]       1:08:38    55    0 active 85.27.163.7:27005
+#     15 "Shifty"            [U:1:53210756]       1:06:31    70    0 active 188.99.211.225:27008
+#     16 "Thalash!"          [U:1:103786523]      1:05:37    69    0 active 93.167.11.208:27005
+#     17 "Dave_ `S funny lessons" [U:1:38202343] 55:09      142    0 active 67.184.78.225:27005
+
+              } }
   describe "#players" do
 
     it "creates player objects" do
@@ -93,6 +111,11 @@ Loaded plugins:
     it "creates many player objects" do
       r = RconStatusParser.new(rcon_status_output_with_many_players)
       r.players.size.should == 12
+    end
+
+    it "handles players that have been connected for over an hour" do
+      r = RconStatusParser.new(playing_over_an_hour)
+      r.players.size.should == 13
     end
 
   end

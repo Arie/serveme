@@ -19,7 +19,7 @@ class RconStatusParser
   end
 
   def player_regex
-    /\#\s+\d+\s+\"(.*)"\s+(\[.*\])\s+(\d+:\d+)\s+(\d+)\s+(\d+)\s(\w+)\s+(\d+.\d+.\d+.\d+)/
+    /\#\s+\d+\s+\"(.*)"\s+(\[.*\])\s+(\d+:?\d+:\d+)\s+(\d+)\s+(\d+)\s(\w+)\s+(\d+.\d+.\d+.\d+)/
   end
 
 

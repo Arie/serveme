@@ -70,21 +70,43 @@ Loaded plugins:
 ---------------------} }
 
   let(:playing_over_an_hour) { %q{
+hostname: FromageBrigade #4 (Buttnose)
+version : 2560108/24 2560108 secure
+udp/ip  : 188.165.226.226:27045  (public ip: 188.165.226.226)
+steamid : [A:1:799990793:5046] (90093665752376329)
+account : not logged in  (No account specified)
+map     : cp_process_final at: 0 x, 0 y, 0 z
+sourcetv:  port 27050, delay 90.0s
+players : 11 humans, 1 bots (25 max)
+edicts  : 1138 used of 2048 max
+         Spawns Points Kills Deaths Assists
+Scout       296    431   258    225      89
+Sniper       41     34    30     21       3
+Soldier     404    467   345    331      80
+Demoman     187    165   122    153      31
+Medic       125    253    25    105      62
+Heavy         9     14    13      7       0
+Pyro         56      7     4     17       7
+Spy          12      3     1      6       1
+Engineer      3      0     0      1       0
+
 # userid name                uniqueid            connected ping loss state  adr
 #      2 "SourceTV"          BOT                                     active
-#      4 "Lupus"             [U:1:58880794]       1:24:34    80    0 active 130.204.219.90:27005
-#      9 "h3x"               [U:1:56594558]       1:12:58    97    0 active 85.107.17.57:27005
-#      6 "Buttnose"          [U:1:16733858]       1:23:57    61    0 active 94.192.59.71:59018
-#      7 "Raptor | TF2Pickup.net" [U:1:91169800]  1:22:22    71    0 active 80.123.6.127:49441
-#      8 "nyxgrandkillah"    [U:1:58889462]       1:20:46    69    0 active 88.201.142.16:27005
-#     10 "[M] Nadir"         [U:1:31923277]       1:11:25    56    0 active 188.63.130.208:27005
-#     11 "zooooob"           [U:1:27416040]       1:10:52    87    0 active 84.248.100.46:27005
-#     12 "kaidus"            [U:1:3048631]        1:09:42    59    0 active 86.2.59.49:27005
-#     13 "Übersexuals :3 Mirelin" [U:1:37008225]  1:08:51   78    0 active 46.109.163.177:27005
-#     14 "^.^"               [U:1:88662301]       1:08:38    55    0 active 85.27.163.7:27005
-#     15 "Shifty"            [U:1:53210756]       1:06:31    70    0 active 188.99.211.225:27008
-#     16 "Thalash!"          [U:1:103786523]      1:05:37    69    0 active 93.167.11.208:27005
-#     17 "Dave_ `S funny lessons" [U:1:38202343] 55:09      142    0 active 67.184.78.225:27005
+#     18 "zooooob"           [U:1:27416040]      14:01       76    0 active 84.248.100.46:27005
+#     19 "^.^"               [U:1:88662301]      07:04       60    0 active 85.27.163.7:27005
+#      9 "h3x"               [U:1:56594558]       1:38:47   105    0 active 85.107.17.57:27005
+#      6 "Buttnose"          [U:1:16733858]       1:49:47    73    0 active 94.192.59.71:59018
+#      7 "Raptor | TF2Pickup.net" [U:1:91169800]  1:48:12    74    0 active 80.123.6.127:49441
+#      8 "nyxgrandkillah"    [U:1:58889462]       1:46:36    67    0 active 88.201.142.16:27005
+#     20 "evokje"            [U:1:46012236]      02:28       79    0 active 78.63.214.124:27005
+#     13 "Übersexuals :3 Mirelin" [U:1:37008225]  1:34:40   75    0 active 46.109.163.177:27005
+#     15 "Shifty"            [U:1:53210756]       1:32:21    75    0 active 188.99.211.225:27008
+#     16 "Thalash!"          [U:1:103786523]      1:31:26    67    0 active 93.167.11.208:27005
+#     17 "Dave_ `S funny lessons" [U:1:38202343]  1:20:59   141    0 active 67.184.78.225:27005
+Loaded plugins:
+---------------------
+0:      "TFTrue v4.68, AnAkkk"
+---------------------
 
               } }
   describe "#players" do
@@ -115,7 +137,8 @@ Loaded plugins:
 
     it "handles players that have been connected for over an hour" do
       r = RconStatusParser.new(playing_over_an_hour)
-      r.players.size.should == 13
+      r.players.size.should == 11
+      r.players.map(&:minutes_connected).should eql [14, 7, 98, 109, 108, 106, 2, 94, 92, 91, 80]
     end
 
   end

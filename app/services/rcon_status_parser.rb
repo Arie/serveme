@@ -54,7 +54,12 @@ class RconStatusParser
     end
 
     def minutes_connected
-      connect_duration.split(":").first.to_i
+      splitted_time = connect_duration.split(":").map(&:to_i)
+      if splitted_time.size == 2
+        splitted_time.first
+      elsif splitted_time.size == 3
+        splitted_time.first * 60 + splitted_time.second
+      end
     end
 
   end

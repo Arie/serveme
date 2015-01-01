@@ -40,8 +40,14 @@ class PaypalOrder < ActiveRecord::Base
     where('paypal_orders.created_at > ? AND paypal_orders.created_at < ?', beginning_of_month, end_of_month)
   end
 
-  def self.monthly_goal
-    (SITE_HOST == "serveme.tf") ? 200.0 : 50.0
+  def self.monthly_goal(site_host = SITE_HOST)
+    if site_host == "serveme.tf"
+      250.0
+    elsif site_host == "na.serveme.tf"
+      100.0
+    else
+      50.0
+    end
   end
 
 end

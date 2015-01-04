@@ -18,7 +18,7 @@ class ServerInfo
   end
 
   def number_of_players
-    status.fetch(:number_of_players,  '0')
+    status.fetch(:number_of_players,  nil)
   end
 
   def max_players

@@ -33,9 +33,9 @@ describe ServerInfo do
         subject.number_of_players.should eql "10"
       end
 
-      it 'returns 0 if it cant get the number_of_players from the hash' do
+      it 'returns nil if it cant get the number_of_players from the hash' do
         subject.status.delete_if {|key| key == :number_of_players }
-        subject.number_of_players.should eql '0'
+        subject.number_of_players.should eql nil
       end
     end
 

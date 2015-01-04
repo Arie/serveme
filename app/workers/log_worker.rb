@@ -81,7 +81,7 @@ class LogWorker
   end
 
   def reserver_steam_id
-    @reserver_steam_id ||= SteamCondenser::Community::SteamId.community_id_to_steam_id2(reserver.uid.to_i)
+    @reserver_steam_id ||= SteamCondenser::Community::SteamId.community_id_to_steam_id3(reserver.uid.to_i)
   end
 
   def sayer_steam_uid

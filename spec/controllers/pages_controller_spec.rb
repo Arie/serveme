@@ -36,9 +36,9 @@ describe PagesController do
 
     it "toggles between themes by setting a cookie" do
       get :switch_theme
-      cookies[:theme].should == "black"
-      get :switch_theme
       cookies[:theme].should == "white"
+      get :switch_theme
+      cookies[:theme].should == "black"
     end
 
   end

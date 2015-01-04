@@ -4,10 +4,10 @@
     - subtitle = content_for(:title) || "free TF2 server reservations"
     %title #{SITE_HOST} - #{subtitle}
     = stylesheet_link_tag    "application", :media => "all"
-    - if black_theme?
-      = stylesheet_link_tag    "themes/black", :media => "all"
-    - else
+    - if white_theme?
       = stylesheet_link_tag    "themes/white", :media => "all"
+    - else
+      = stylesheet_link_tag    "themes/black", :media => "all"
     = javascript_include_tag "application"
     = csrf_meta_tags
     = render 'shared/google_analytics'

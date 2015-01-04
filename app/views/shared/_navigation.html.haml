@@ -103,8 +103,8 @@
               = image_tag 'sits_small.png', :alt => "Sign in with Steam"
           = link_to switch_theme_path do
             .theme_switcher
-              - if black_theme?
-                - switch_to_color = "white"
-              - else
+              - if white_theme?
                 - switch_to_color = "black"
+              - else
+                - switch_to_color = "white"
               .color{:class => switch_to_color}

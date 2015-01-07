@@ -21,4 +21,11 @@ describe HiperzServer do
 
   end
 
+  describe "#ftp_connection_pool_size" do
+
+    it "has a smaller connection pool size because the FTP server won't accept more" do
+      subject.ftp_connection_pool_size.should eql 4
+    end
+  end
+
 end

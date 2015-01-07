@@ -36,7 +36,7 @@ module FtpAccess
   def copy_from_server(files, destination)
     logger.info "FTP GET, FILES: #{files} DESTINATION: #{destination}"
     threads = []
-    files.each_slice(10) do |files_for_thread|
+    files.each_slice(file_count_per_thread(files)).to_a.each do |files_for_thread|
       threads << Thread.new do
         ftp = make_ftp_connection
         files_for_thread.each do |file|
@@ -53,7 +53,7 @@ module FtpAccess
 
   def delete_from_server(files)
     threads = []
-    files.each_slice(10) do |files_for_thread|
+    files.each_slice(file_count_per_thread(files)).to_a.each do |files_for_thread|
       threads << Thread.new do
         ftp = make_ftp_connection
         files_for_thread.each do |file|
@@ -82,6 +82,14 @@ module FtpAccess
     ftp.connect(ip, ftp_port.presence || 21)
     ftp.login(ftp_username, ftp_password)
     ftp
+  end
+
+  def ftp_connection_pool_size
+    10
+  end
+
+  def file_count_per_thread(files)
+    (files.size / ftp_connection_pool_size.to_f).ceil
   end
 
 end

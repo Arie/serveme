@@ -34,6 +34,7 @@ module FtpAccess
   end
 
   def copy_from_server(files, destination)
+    return if files.none?
     logger.info "FTP GET, FILES: #{files} DESTINATION: #{destination}"
     threads = []
     files.each_slice(file_count_per_thread(files)).to_a.each do |files_for_thread|
@@ -52,6 +53,7 @@ module FtpAccess
   end
 
   def delete_from_server(files)
+    return if files.none?
     threads = []
     files.each_slice(file_count_per_thread(files)).to_a.each do |files_for_thread|
       threads << Thread.new do

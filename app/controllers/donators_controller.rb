@@ -12,9 +12,7 @@ class DonatorsController < ApplicationController
   end
 
   def create
-    find_by_user_id = User.where(id: params[:group_user][:user_id]).first
-    find_by_uuid    = User.where(uid: params[:group_user][:user_id]).first
-    user = find_by_user_id || find_by_uuid
+    user = User.where(uid: params[:group_user][:user_id]).first
     if user && user.group_users.create(group_id: Group.donator_group.id, expires_at: params[:group_user][:expires_at])
       flash[:notice] = "New donator added"
       redirect_to donators_path

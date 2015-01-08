@@ -17,7 +17,7 @@ class HiperzServer < RemoteServer
   end
 
   def ftp_connection_pool_size
-    4
+    1
   end
 
 end

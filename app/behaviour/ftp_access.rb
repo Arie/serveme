@@ -61,7 +61,7 @@ module FtpAccess
         files_for_thread.each do |file|
           begin
             ftp.send(:delete, file.shellescape)
-          rescue Net::FTPPermError, EOFError
+          rescue
             Rails.logger.error "couldn't delete file: #{file.shellescape}"
           end
         end

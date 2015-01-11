@@ -61,7 +61,7 @@ module FtpAccess
         files_for_thread.each do |file|
           begin
             ftp.send(:delete, file.shellescape)
-          rescue Net::FTPPermError
+          rescue Net::FTPPermError, EOFError
             Rails.logger.error "couldn't delete file: #{file.shellescape}"
           end
         end
@@ -79,11 +79,15 @@ module FtpAccess
   end
 
   def make_ftp_connection
-    ftp = Net::FTP.new
-    ftp.passive = true
-    ftp.connect(ip, ftp_port.presence || 21)
-    ftp.login(ftp_username, ftp_password)
-    ftp
+    begin
+      ftp = Net::FTP.new
+      ftp.passive = true
+      ftp.connect(ip, ftp_port.presence || 21)
+      ftp.login(ftp_username, ftp_password)
+      ftp
+    rescue EOFError
+      Rails.logger.error "Got an EOF error on server #{id.to_s}: #{name}"
+    end
   end
 
   def ftp_connection_pool_size

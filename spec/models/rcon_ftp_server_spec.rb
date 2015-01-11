@@ -213,4 +213,18 @@ describe RconFtpServer do
 
   end
 
+  describe "#make_ftp_connection " do
+
+    it 'logs an error on EOF' do
+      subject.stub(:id => 1, :name => "Server Name")
+      logger = double
+      Rails.stub(:logger => logger)
+
+      Net::FTP.should_receive(:new).and_raise EOFError
+      logger.should_receive(:error).with("Got an EOF error on server 1: Server Name")
+      subject.make_ftp_connection
+    end
+
+  end
+
 end

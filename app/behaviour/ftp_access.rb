@@ -91,7 +91,7 @@ module FtpAccess
   end
 
   def ftp_connection_pool_size
-    10
+    4
   end
 
   def file_count_per_thread(files)

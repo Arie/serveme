@@ -208,7 +208,7 @@ describe RconFtpServer do
 
     it "calculates how many files each thread should get to meet the connection limit" do
       files = 1.upto(100).to_a
-      subject.file_count_per_thread(files).should eql 10
+      subject.file_count_per_thread(files).should eql 25
     end
 
   end

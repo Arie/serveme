@@ -7,10 +7,12 @@ class ReservationWorker
 
   def perform(reservation_id, action)
     begin
-      @reservation_id = reservation_id
-      @reservation = Reservation.find(reservation_id)
-      server = reservation.server
-      server.send("#{action}_reservation", reservation)
+      Timeout.timeout(60) do
+        @reservation_id = reservation_id
+        @reservation = Reservation.find(reservation_id)
+        server = reservation.server
+        server.send("#{action}_reservation", reservation)
+      end
     rescue Exception => exception
       Rails.logger.error "Something went wrong #{action}-ing the server for reservation #{reservation_id} - #{exception}"
       Raven.capture_exception(exception) if Rails.env.production?

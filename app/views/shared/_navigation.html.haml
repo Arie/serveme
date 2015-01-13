@@ -36,6 +36,14 @@
               %b.caret>
             %ul.dropdown-menu
               %li
+                = link_to i_am_feeling_lucky_reservations_path, :method => :post, :title => "Make a reservation in 1 click" do
+                  %i.fa.fa-warning
+                  1-click reservation
+              %li
+                = link_to new_reservation_path do
+                  %i.fa.fa-edit
+                  Make reservation
+              %li
                 = link_to your_reservations_path do
                   %i.fa.fa-user
                   Your reservations
@@ -94,10 +102,10 @@
       %ul.nav.navbar-nav.navbar-right
         .account
           - if current_user
-            Hello
             = link_to current_user.decorate.nickname, settings_path
             |
-            = link_to "logout", users_logout_path, :method => :delete
+            = link_to users_logout_path, :method => :delete do
+              %i.fa.fa-sign-out
           - else
             = link_to '/users/auth/steam' do
               = image_tag 'sits_small.png', :alt => "Sign in with Steam"

@@ -36,9 +36,9 @@ class PagesController < ApplicationController
 
   def switch_theme
     if white_theme?
-      cookies[:theme] = "black"
+      cookies.permanent[:theme] = "black"
     else
-      cookies[:theme] = "white"
+      cookies.permanent[:theme] = "white"
     end
     redirect_to root_path
   end

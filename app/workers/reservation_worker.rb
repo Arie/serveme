@@ -7,7 +7,7 @@ class ReservationWorker
 
   def perform(reservation_id, action)
     begin
-      Timeout.timeout(120) do
+      Timeout.timeout(180) do
         @reservation_id = reservation_id
         @reservation = Reservation.find(reservation_id)
         server = reservation.server

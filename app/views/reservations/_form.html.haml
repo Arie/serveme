@@ -48,13 +48,10 @@
       - if users_last_reservation && users_last_reservation.past? && users_last_reservation.inactive_too_long?
         - hint = "Auto-ending is forced on for your next reservation, because you didn't end your last one"
         - readonly = true
-        - value = true
-        = f.input :auto_end, :as => :hidden, :input_html => { :value => true }
       - else
         - hint = "Automatically end the reservation once everyone has left the server"
         - readonly = false
-        - value = reservation.auto_end
-      = f.input :auto_end, :as => :boolean, :hint => hint, :readonly => readonly, :disabled => readonly, :input_html => { :value => value }
+      = f.input :auto_end, :as => :boolean, :hint => hint, :readonly => readonly, :disabled => readonly, :input_html => { :value => true }
 
       .col-md-offset-2
         %button.btn.btn-primary{:type => :submit}

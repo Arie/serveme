@@ -185,7 +185,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def reusable_attributes
-    attributes.slice('server_id', 'password', 'rcon', 'tv_password', 'server_config_id', 'whitelist_id', 'custom_whitelist_id', 'first_map', 'auto_end', "enable_plugins", "enable_arena_respawn")
+    attributes.slice("server_id", "password", "rcon", "tv_password", "server_config_id", "whitelist_id", "custom_whitelist_id", "first_map", "enable_plugins", "enable_arena_respawn")
   end
 
   def get_binding

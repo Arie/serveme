@@ -36,14 +36,6 @@
               %b.caret>
             %ul.dropdown-menu
               %li
-                = link_to i_am_feeling_lucky_reservations_path, :method => :post, :title => "Make a reservation in 1 click" do
-                  %i.fa.fa-warning
-                  1-click reservation
-              %li
-                = link_to new_reservation_path do
-                  %i.fa.fa-edit
-                  Make reservation
-              %li
                 = link_to your_reservations_path do
                   %i.fa.fa-user
                   Your reservations
@@ -55,6 +47,14 @@
                 = link_to recent_reservations_path do
                   %i.fa.fa-clock-o
                   Recent reservations
+              %li
+                = link_to new_reservation_path do
+                  %i.fa.fa-edit
+                  Make reservation
+              %li
+                = link_to i_am_feeling_lucky_reservations_path, :method => :post, :title => "Make a reservation in 1 click" do
+                  %i.fa.fa-warning
+                  1-click reservation
         - else
           %li= link_to("Recent reservations",     recent_reservations_path)
         %li

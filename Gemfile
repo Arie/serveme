@@ -23,7 +23,7 @@ gem 'eventmachine'
 gem 'dante'
 
 gem 'net-ssh-simple'
-gem 'net-ssh'
+gem 'net-ssh', "2.9.1"
 gem 'net-sftp'
 gem 'draper'
 gem 'will_paginate'

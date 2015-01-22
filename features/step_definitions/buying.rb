@@ -45,7 +45,7 @@ Then "my donator status lasts for a year" do
 end
 
 When "I go to donate" do
-  click_link "Donate"
+  visit new_paypal_order_path
 end
 
 When "my PayPal payment was successful" do

@@ -1,0 +1,23 @@
+.row
+  .col-md-12
+    %h2 Donator leaderboard
+
+    %p
+      These people have donated the most through the normal donation system. This doesn't include direct donations and TF2 items.
+
+    %table.table.table-hover.table-bordered.table-striped
+      %thead
+        %tr
+          %th Name
+          %th Awesomeness level
+          %th Amount
+      - @donators.each do |user, value|
+        %tr
+          %td
+            = link_to(user.nickname, user.steam_profile_url, :target => "_blank")
+          %td
+            %span.donator
+              - (value / 10.0).round.times do
+                %i.fa.fa-star
+                  %nbsp
+          %td= number_to_currency(value)

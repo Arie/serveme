@@ -49,4 +49,16 @@ describe DonatorsController do
     end
 
   end
+
+  describe "#leaderboard" do
+
+    it "shows a top 25 of donators" do
+      user = create :user
+      create :paypal_order, :user => user, :status => "Completed"
+
+      get :leaderboard
+      response.should render_template(:leaderboard)
+    end
+
+  end
 end

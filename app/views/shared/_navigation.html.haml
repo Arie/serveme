@@ -89,12 +89,21 @@
               = link_to credits_path do
                 %i.fa.fa-thumbs-up
                 Credits
-
+        %li.dropdown
+          %a.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#"}
+            %i.fa.fa-star
+            Donate
+            %b.caret>
+          %ul.dropdown-menu
+            %li
+              = link_to donate_path do
+                %i.fa.fa-paypal
+                Donate
+            %li
+              = link_to leaderboard_donators_path do
+                %i.fa.fa-money
+                Leaderboard
         - if current_user
-          %li
-            = link_to donate_path do
-              %i.fa.fa-star
-              Donate
           %li
             = link_to settings_path do
               %i.fa.fa-cogs

@@ -3,8 +3,10 @@ en:
   datetime:
     formats:
       time: "%H:%M:%S"
-  currency:
-    symbol: "€"
+  number:
+    currency:
+      format:
+        unit: "€"
   time:
     show_meridian: false
     formats:

@@ -1,3 +1,5 @@
 "en-AU":
-  currency:
-    symbol: "$"
+  number:
+    currency:
+      format:
+        unit: "$"

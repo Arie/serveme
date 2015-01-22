@@ -40,6 +40,12 @@ class PaypalOrder < ActiveRecord::Base
     where('paypal_orders.created_at > ? AND paypal_orders.created_at < ?', beginning_of_month, end_of_month)
   end
 
+  def self.leaderboard
+    completed.group(:user).joins(:user).joins(:product).sum('products.price').sort_by do |user, amount|
+      amount
+    end.reverse
+  end
+
   def self.monthly_goal(site_host = SITE_HOST)
     if site_host == "serveme.tf"
       250.0

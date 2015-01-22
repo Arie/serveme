@@ -2,8 +2,10 @@
   datetime:
     formats:
       time: "%I:%M:%S %P"
-  currency:
-    symbol: "$"
+  number:
+    currency:
+      format:
+        unit: "$"
   time:
     show_meridian: true
     formats:

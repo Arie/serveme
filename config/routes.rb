@@ -61,8 +61,12 @@ Serveme::Application.routes.draw do
     end
   end
 
-  #Admins
-  resources :donators
+  resources :donators do
+    collection do
+      get :leaderboard
+    end
+  end
+
   resources :ratings do
     member do
       post :publish
@@ -77,7 +81,7 @@ Serveme::Application.routes.draw do
 
   resources :servers, :only => :index
 
-  resources :paypal_orders, :only => [:new, :create] do
+  resources :paypal_orders, :only => [:new, :create, :index] do
     collection do
       get :redirect
     end

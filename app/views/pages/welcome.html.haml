@@ -28,6 +28,13 @@
 
 .row
   .col-md-12
+    .alert.alert-success
+      %h4
+        We've added a
+        = link_to("donator leaderboard :)", leaderboard_donators_path)
+
+.row
+  .col-md-12
     %p.lead
       = link_to("Book a server", new_reservation_path)
       and within a few minutes your server will be ready and yours to use.

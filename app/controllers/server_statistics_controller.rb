@@ -1,5 +1,4 @@
 class ServerStatisticsController < ApplicationController
-  before_filter :require_admin
 
   def index
     @server_statistics = paginate(server_statistics)
@@ -11,7 +10,7 @@ class ServerStatisticsController < ApplicationController
   end
 
   def show_for_server
-    @server_statistics = paginate(server_statistics.where("servers.id = ?", params[:server_id].to_i))
+    @server_statistics = paginate(server_statistics.where("server_id = ?", params[:server_id].to_i))
     render :index
   end
 

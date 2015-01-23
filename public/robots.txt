@@ -1,3 +1,5 @@
 User-Agent: *
 Disallow: /pages/recent_reservations
 Disallow: /recent-reservations
+Disallow: /player_statistics
+Disallow: /server_statistics

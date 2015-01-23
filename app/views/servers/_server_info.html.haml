@@ -4,8 +4,9 @@
   - cache "server_info_#{server.id}_#{server_info.uptime.to_i}_#{admin}", expires_in: 1.minute do
     %tr
       %td
-        = server.flag
-        = server_info.server_name
+        = link_to show_server_player_statistic_path(:server_id => server.id) do
+          = server.flag
+          = server_info.server_name
       %td= server_info.map_name
       %td= "#{server_info.number_of_players} / #{server_info.max_players}"
       %td= server_info.fps
@@ -23,6 +24,8 @@
         %td N/A
 - rescue
   %tr
-    %td= server.name
+    %td
+      = link_to show_server_player_statistic_path(:server_id => server.id) do
+        = server.name
     %td{:colspan => 8}
       N/A

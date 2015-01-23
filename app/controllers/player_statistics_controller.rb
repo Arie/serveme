@@ -28,7 +28,7 @@ class PlayerStatisticsController < ApplicationController
   private
 
   def player_statistics
-    PlayerStatistic.order('player_statistics.id DESC').joins(:reservation_player => [:reservation, {:server => :location}]).eager_load(:reservation_player, :user, :reservation, { :server => :location})
+    PlayerStatistic.order('player_statistics.id DESC').includes(:user, { :server => :location }, :reservation)
   end
 
   def paginate(scope)

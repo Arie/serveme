@@ -18,11 +18,10 @@ class ServerStatisticsController < ApplicationController
   private
 
   def server_statistics
-    ServerStatistic.order('server_statistics.id DESC').joins(:reservation, {:server => :location}).eager_load(:reservation, {:server => :location})
+    ServerStatistic.order('server_statistics.id DESC').includes(:reservation, {:server => :location})
   end
 
   def paginate(scope)
     scope.paginate(:page => params[:page], :per_page => 100)
   end
-
 end

@@ -142,4 +142,20 @@ describe Api::ReservationsController do
     end
   end
 
+  describe "#idle_reset" do
+    it "resets the idle timer for a reservation and returns the modified reservation" do
+      reservation = create :reservation, :inactive_minute_counter => 20, :user => @user
+      json = {
+        reservation: {
+          inactive_minute_counter: 0
+        }.ignore_extra_keys!
+      }.ignore_extra_keys!
+
+      post :idle_reset, :id => reservation.id, format: :json
+
+      response.status.should == 200
+      expect(response.body).to match_json_expression(json)
+    end
+  end
+
 end

@@ -94,6 +94,9 @@ Serveme::Application.routes.draw do
   namespace :api do
     resources :users, :only => :show
     resources :reservations do
+      member do
+        post :idle_reset
+      end
       collection do
         post :find_servers
       end

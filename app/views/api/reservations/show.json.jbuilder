@@ -3,4 +3,5 @@ json.reservation do
 end
 json.actions do
   json.delete api_reservation_url(@reservation)
+  json.idle_reset idle_reset_api_reservation_url(@reservation)
 end

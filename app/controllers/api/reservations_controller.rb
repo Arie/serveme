@@ -40,6 +40,11 @@ class Api::ReservationsController < Api::ApplicationController
     end
   end
 
+  def idle_reset
+    reservation.update_attribute(:inactive_minute_counter, 0)
+    render :show
+  end
+
   private
 
   def reservation

@@ -268,12 +268,11 @@ GEM
       multi_json
       omniauth-openid
     orm_adapter (0.5.0)
-    paypal-sdk-core (0.3.1)
+    paypal-sdk-rest (1.0.0)
+      coveralls
       multi_json (~> 1.0)
-      xml-simple
-    paypal-sdk-rest (0.10.0)
-      paypal-sdk-core (~> 0.3.1)
       uuidtools (~> 2.1)
+      xml-simple
     protected_attributes (1.0.8)
       activemodel (>= 4.0.1, < 5.0)
     pry (0.10.1)
@@ -381,9 +380,9 @@ GEM
       faraday (>= 0.7.6)
     shoulda-matchers (2.7.0)
       activesupport (>= 3.0.0)
-    sidekiq (3.3.0)
+    sidekiq (3.3.1)
       celluloid (>= 0.16.0)
-      connection_pool (>= 2.0.0)
+      connection_pool (>= 2.1.1)
       json
       redis (>= 3.0.6)
       redis-namespace (>= 1.3.1)

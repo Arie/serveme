@@ -55,10 +55,10 @@ GEM
     addressable (2.3.6)
     american_date (1.1.0)
     arel (6.0.0)
-    autoprefixer-rails (5.0.0.3)
+    autoprefixer-rails (5.1.0)
       execjs
       json
-    bcrypt (3.1.9)
+    bcrypt (3.1.10)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -108,7 +108,7 @@ GEM
     coffee-script (2.3.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.8.0)
+    coffee-script-source (1.9.0)
     compass (1.0.3)
       chunky_png (~> 1.2)
       compass-core (~> 1.0.2)
@@ -126,7 +126,7 @@ GEM
       sass-rails (<= 5.0.1)
       sprockets (< 2.13)
     connection_pool (2.1.1)
-    coveralls (0.7.3)
+    coveralls (0.7.8)
       multi_json (~> 1.10)
       rest-client (~> 1.7)
       simplecov (~> 0.9.1)

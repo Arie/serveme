@@ -26,12 +26,15 @@
             - else
               .available_servers= render 'reservations/available_servers'
 
-.row
-  .col-md-12
-    .alert.alert-success
-      %h4
-        We've added a
-        = link_to("donator leaderboard :)", leaderboard_donators_path)
+
+- if !na_system? && !au_system?
+  .row
+    .col-md-12
+      .alert.alert-success
+        %h4
+          We've fixed an error regarding
+          = link_to("PayPal donations", donate_path)
+          they should work again :)
 
 .row
   .col-md-12

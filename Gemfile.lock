@@ -268,11 +268,12 @@ GEM
       multi_json
       omniauth-openid
     orm_adapter (0.5.0)
-    paypal-sdk-rest (1.0.0)
-      coveralls
+    paypal-sdk-core (0.3.1)
       multi_json (~> 1.0)
-      uuidtools (~> 2.1)
       xml-simple
+    paypal-sdk-rest (0.10.0)
+      paypal-sdk-core (~> 0.3.1)
+      uuidtools (~> 2.1)
     protected_attributes (1.0.8)
       activemodel (>= 4.0.1, < 5.0)
     pry (0.10.1)
@@ -504,7 +505,8 @@ DEPENDENCIES
   oily_png
   omniauth-openid
   omniauth-steam
-  paypal-sdk-rest
+  paypal-sdk-core (= 0.3.1)
+  paypal-sdk-rest (= 0.10.0)
   protected_attributes
   pry-nav
   puma

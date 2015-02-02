@@ -30,7 +30,8 @@ gem 'will_paginate'
 gem 'zeroclipboard-rails'
 gem "google_visualr"
 gem 'rack-cache'
-gem 'paypal-sdk-rest', :github => "Arie/PayPal-Ruby-SDK"
+gem 'paypal-sdk-rest'
+gem 'certified'
 gem 'sidekiq'
 gem 'sidetiq'
 gem 'geoip'

@@ -1,14 +1,4 @@
 GIT
-  remote: git://github.com/Arie/PayPal-Ruby-SDK.git
-  revision: f5076f9182fb5b80ae8db8f3ad9f540432f9e207
-  specs:
-    paypal-sdk-rest (1.0.0)
-      coveralls
-      multi_json (~> 1.0)
-      uuidtools (~> 2.1)
-      xml-simple
-
-GIT
   remote: git://github.com/Arie/steam-condenser-ruby.git
   revision: c3b1ffb197b720b8d8265688768d492915056b9a
   specs:
@@ -107,6 +97,7 @@ GEM
       mime-types (>= 1.16)
     celluloid (0.16.0)
       timers (~> 4.0.0)
+    certified (1.0.0)
     childprocess (0.5.5)
       ffi (~> 1.0, >= 1.0.11)
     chronic (0.10.2)
@@ -278,6 +269,11 @@ GEM
       multi_json
       omniauth-openid
     orm_adapter (0.5.0)
+    paypal-sdk-rest (1.0.0)
+      coveralls
+      multi_json (~> 1.0)
+      uuidtools (~> 2.1)
+      xml-simple
     protected_attributes (1.0.8)
       activemodel (>= 4.0.1, < 5.0)
     pry (0.10.1)
@@ -474,6 +470,7 @@ DEPENDENCIES
   capistrano_colors
   capybara
   carrierwave
+  certified
   coffee-rails
   compass-rails
   coveralls
@@ -509,7 +506,7 @@ DEPENDENCIES
   oily_png
   omniauth-openid
   omniauth-steam
-  paypal-sdk-rest!
+  paypal-sdk-rest
   protected_attributes
   pry-nav
   puma

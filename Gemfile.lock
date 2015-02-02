@@ -97,7 +97,6 @@ GEM
       mime-types (>= 1.16)
     celluloid (0.16.0)
       timers (~> 4.0.0)
-    certified (1.0.0)
     childprocess (0.5.5)
       ffi (~> 1.0, >= 1.0.11)
     chronic (0.10.2)
@@ -470,7 +469,6 @@ DEPENDENCIES
   capistrano_colors
   capybara
   carrierwave
-  certified
   coffee-rails
   compass-rails
   coveralls

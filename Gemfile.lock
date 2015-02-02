@@ -1,4 +1,14 @@
 GIT
+  remote: git://github.com/Arie/PayPal-Ruby-SDK.git
+  revision: f5076f9182fb5b80ae8db8f3ad9f540432f9e207
+  specs:
+    paypal-sdk-rest (1.0.0)
+      coveralls
+      multi_json (~> 1.0)
+      uuidtools (~> 2.1)
+      xml-simple
+
+GIT
   remote: git://github.com/Arie/steam-condenser-ruby.git
   revision: c3b1ffb197b720b8d8265688768d492915056b9a
   specs:
@@ -268,12 +278,6 @@ GEM
       multi_json
       omniauth-openid
     orm_adapter (0.5.0)
-    paypal-sdk-core (0.3.1)
-      multi_json (~> 1.0)
-      xml-simple
-    paypal-sdk-rest (0.10.0)
-      paypal-sdk-core (~> 0.3.1)
-      uuidtools (~> 2.1)
     protected_attributes (1.0.8)
       activemodel (>= 4.0.1, < 5.0)
     pry (0.10.1)
@@ -505,8 +509,7 @@ DEPENDENCIES
   oily_png
   omniauth-openid
   omniauth-steam
-  paypal-sdk-core (= 0.3.1)
-  paypal-sdk-rest (= 0.10.0)
+  paypal-sdk-rest!
   protected_attributes
   pry-nav
   puma

@@ -15,7 +15,7 @@ class MapUploader < CarrierWave::Uploader::Base
   end
 
   def extension_white_list
-    %w(bsp)
+    %w(bsp zip bz2)
   end
 
 end

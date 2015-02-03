@@ -31,6 +31,11 @@ RSpec.configure do |config|
   config.mock_with :rspec do |c|
     c.syntax = [:should, :expect]
   end
+  config.after(:example, :map_archive) do
+    Dir.glob(File.join(MAPS_DIR, "*.bsp*")).each do |file|
+      FileUtils.rm(file)
+    end
+  end
 end
 VCR.configure do |c|
   c.cassette_library_dir = "spec/fixtures/vcr"

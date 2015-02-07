@@ -73,7 +73,7 @@ class ApplicationController < ActionController::Base
   def check_expired_reservations
     if expired_reservation
       end_time = I18n.l(expired_reservation.starts_at + 24.hours, :format => :short)
-      flash[:alert] = "You reserved a server and didn't use it, you are blocked from using #{SITE_HOST} until #{end_time}. Donators never get blocked, you can #{view_context.link_to('DONATE NOW', donate_path)} to lift the ban"
+      flash[:alert] = "You reserved a server and didn't use it, you are blocked from using #{SITE_HOST} until #{end_time}. Donators never get blocked, you can #{view_context.link_to('DONATE NOW', donate_path)} to lift the ban".html_safe
     end
   end
 

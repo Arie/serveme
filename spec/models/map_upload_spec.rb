@@ -18,36 +18,82 @@ describe MapUpload do
 
   context "archives", :map_archive do
 
-    it "extracts the zip when uploading a zip" do
-      source = File.open(Rails.root.join("spec", "fixtures", "maps.zip"))
-      zip = Tempfile.new(["foo", ".zip"])
-      zip.write source.read
-      zip.close
+    context "zip" do
+      it "extracts the zip when uploading a zip" do
+        source = File.open(Rails.root.join("spec", "fixtures", "maps.zip"))
+        zip = Tempfile.new(["foo", ".zip"])
+        zip.write source.read
+        zip.close
 
-      create :map_upload, :file => zip
+        create :map_upload, :file => zip
 
-      maps_with_path = Dir.glob(File.join(MAPS_DIR, "*.bsp"))
-      maps = maps_with_path.map { |file| File.basename(file) }
-      expect(maps).to include "achievement_idle.bsp", "achievement_idle_foo.bsp"
+        maps_with_path = Dir.glob(File.join(MAPS_DIR, "*.bsp"))
+        maps = maps_with_path.map { |file| File.basename(file) }
+        expect(maps).to include "achievement_idle.bsp", "achievement_idle_foo.bsp"
+      end
+
+      it "sends the files to the servers" do
+        source = File.open(Rails.root.join("spec", "fixtures", "maps.zip"))
+        zip = Tempfile.new(["foo", ".zip"])
+        zip.write source.read
+        zip.close
+
+        allow(UploadFilesToServersWorker).to receive(:perform_async)
+
+        create :map_upload, :file => zip
+
+        maps_with_paths = [Rails.root.join("tmp", "achievement_idle.bsp").to_s, Rails.root.join("tmp", "achievement_idle_foo.bsp").to_s]
+
+        expect(UploadFilesToServersWorker).to have_received(:perform_async).with(files: maps_with_paths,
+                                                                                destination: "maps",
+                                                                                overwrite: false)
+
+      end
     end
 
-    it "extracts the bz2 when uploading a bz2" do
-      source = File.open(Rails.root.join("spec", "fixtures", "achievement_idle.bsp.bz2"))
-      FileUtils.cp(source, Rails.root.join("spec", "fixtures", "foo.bsp.bz2"))
-      copy = File.open(Rails.root.join("spec", "fixtures", "foo.bsp.bz2"))
+    context "bz2" do
 
-      create :map_upload, :file => copy
+      it "extracts the bz2 when uploading a bz2" do
+        source = File.open(Rails.root.join("spec", "fixtures", "achievement_idle.bsp.bz2"))
+        FileUtils.cp(source, Rails.root.join("spec", "fixtures", "foo.bsp.bz2"))
+        copy = File.open(Rails.root.join("spec", "fixtures", "foo.bsp.bz2"))
 
-      maps_with_path = Dir.glob(File.join(MAPS_DIR, "*.bsp*"))
-      maps = maps_with_path.map { |file| File.basename(file) }
-      expect(maps).to include "foo.bsp", "foo.bsp.bz2"
+        create :map_upload, :file => copy
+
+        maps_with_path = Dir.glob(File.join(MAPS_DIR, "*.bsp*"))
+        maps = maps_with_path.map { |file| File.basename(file) }
+        expect(maps).to include "foo.bsp", "foo.bsp.bz2"
+      end
+
+      it "sends the files to the servers" do
+        source = File.open(Rails.root.join("spec", "fixtures", "achievement_idle.bsp.bz2"))
+        FileUtils.cp(source, Rails.root.join("spec", "fixtures", "foo.bsp.bz2"))
+        copy = File.open(Rails.root.join("spec", "fixtures", "foo.bsp.bz2"))
+
+        allow(UploadFilesToServersWorker).to receive(:perform_async)
+
+        create :map_upload, :file => copy
+
+        maps_with_paths = [Rails.root.join("tmp", "foo.bsp").to_s]
+
+        expect(UploadFilesToServersWorker).to have_received(:perform_async).with(files: maps_with_paths,
+                                                                                destination: "maps",
+                                                                                overwrite: false)
+
+      end
+
     end
 
   end
 
   it "triggers the upload to the servers" do
-    UploadFilesToServersWorker.should_receive(:perform_async)
-    create :map_upload
+    allow(UploadFilesToServersWorker).to receive(:perform_async)
+    map_upload = create :map_upload
+    maps_with_paths = [File.join(MAPS_DIR, map_upload.file.filename)]
+
+    expect(UploadFilesToServersWorker).to have_received(:perform_async).with(files: maps_with_paths,
+                                                                             destination: "maps",
+                                                                             overwrite: false)
   end
 
 end

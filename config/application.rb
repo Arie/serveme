@@ -76,10 +76,10 @@ module Serveme
       # Explicitly register the extensions we are interested in compiling
       app.config.assets.precompile.push(Proc.new do |path|
         File.extname(path).in? [
-          '.html', '.erb', '.haml',                 # Templates
-          '.png',  '.gif', '.jpg', '.jpeg',         # Images
-          '.eot',  '.otf', '.svc', '.woff', '.ttf', # Fonts
-          '.swf',                                   # Flash
+          '.html', '.erb', '.haml',                           # Templates
+          '.png',  '.gif', '.jpg', '.jpeg',                   # Images
+          '.eot',  '.otf', '.svc', '.woff', '.woff2', '.ttf', # Fonts
+          '.swf',                                             # Flash
         ]
       end)
     end

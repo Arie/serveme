@@ -169,7 +169,7 @@ GEM
       activesupport (>= 3.0)
       request_store (~> 1.0)
     erubis (2.7.0)
-    eventmachine (1.0.6)
+    eventmachine (1.0.4)
     execjs (2.3.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -480,7 +480,7 @@ DEPENDENCIES
   delorean
   devise
   draper
-  eventmachine
+  eventmachine (= 1.0.4)
   execjs
   factory_girl_rails
   ffi

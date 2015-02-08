@@ -10,5 +10,14 @@ describe NfoControlPanel do
       subject.restart
     end
 
+    it "does not explode with a bad form" do
+      form = double(:form, field_with: nil)
+      page = double(:page, form: form)
+      agent = double(:agent)
+      allow(agent).to receive(:get).and_return(page)
+      subject.stub(:agent => agent, :login => nil)
+      expect { subject.restart }.to_not raise_error
+    end
+
   end
 end

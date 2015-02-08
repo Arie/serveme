@@ -51,6 +51,7 @@ namespace :app do
     run "ln -sf #{shared_path}/site_url.rb #{release_path}/config/initializers/site_url.rb"
     run "ln -sf #{shared_path}/GeoLiteCity.dat #{release_path}/doc/GeoLiteCity.dat"
     run "ln -sf #{shared_path}/arena_respawn.smx #{release_path}/doc/arena_respawn.smx"
+    run "ln -sf #{shared_path}/cacert.pem #{release_path}/config/cacert.pem"
   end
 
   desc "check if you're not an idiot"
@@ -62,6 +63,8 @@ namespace :app do
   end
 
 end
+
+
 
 namespace :puma do
     desc 'Restart puma'

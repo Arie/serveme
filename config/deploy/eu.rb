@@ -24,11 +24,3 @@ namespace :app do
 end
 
 after "app:symlink", "app:symlink_hiperz"
-
-namespace :app do
-  desc "symlinks the cacert to fix SSL errors"
-  task :symlink_cacert, :roles => [:web, :app] do
-    run "ln -sf #{shared_path}/cacert.pem #{release_path}/config/cacert.pem"
-  end
-end
-after "app:symlink", "app:symlink_cacert"

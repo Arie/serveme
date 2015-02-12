@@ -1,0 +1,41 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://eu.simraicontrol.com/billingapi.aspx
+    body:
+      encoding: US-ASCII
+      string: tcadmin_username=the_username&tcadmin_password=the_password&function=RestartByBillingId&response_type=text&client_package_id=serveme_1
+    headers:
+      Accept-Encoding:
+      - none
+      User-Agent:
+      - Faraday v0.8.9
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      cache-control:
+      - private, no-cache="Set-Cookie", no-store
+      content-length:
+      - '12'
+      content-type:
+      - text/plain; charset=utf-8
+      server:
+      - TCAdmin-2.0 Microsoft-HTTPAPI/2.0
+      x-aspnet-version:
+      - 2.0.50727
+      set-cookie:
+      - __TCAdmin2UserName=the_username; path=/, __TCAdmin2=; expires=Mon, 11-Oct-1999
+        22:00:00 GMT; path=/; HttpOnly, __TCAdmin2UpdateNotification=; path=/
+      date:
+      - Sat, 21 Mar 2015 15:06:31 GMT
+    body:
+      encoding: UTF-8
+      string: "0\tSuccess\t0\t"
+    http_version: 
+  recorded_at: Sat, 21 Mar 2015 15:07:31 GMT
+recorded_with: VCR 2.9.3

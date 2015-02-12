@@ -24,3 +24,12 @@ namespace :app do
 end
 
 after "app:symlink", "app:symlink_hiperz"
+
+namespace :app do
+  desc "symlinks the simrai api information"
+  task :symlink_simrai, :roles => [:web, :app] do
+    run "ln -sf #{shared_path}/simrai.rb #{release_path}/config/initializers/simrai.rb"
+  end
+end
+
+after "app:symlink", "app:symlink_simrai"

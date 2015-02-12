@@ -487,6 +487,7 @@ DEPENDENCIES
   eventmachine
   execjs
   factory_girl_rails
+  faraday
   ffi
   font-awesome-rails
   fuubar

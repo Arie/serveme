@@ -39,7 +39,10 @@ gem 'geoip'
 gem 'geocoder'
 
 gem 'sinatra', '>= 1.3.0', :require => nil
+#NFO server restarts
 gem 'mechanize'
+#Simrai server restarts
+gem 'faraday'
 gem 'american_date'
 gem 'jbuilder'
 

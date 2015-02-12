@@ -23,15 +23,6 @@
               .available_servers= render 'reservations/available_servers'
 
 
-- if na_system?
-  .row
-    .col-md-12
-      .alert.alert-success
-        %h4
-          We've fixed an error regarding
-          = link_to("PayPal donations", donate_path)
-          they should work again :)
-
 .row
   .col-md-12
     %p.lead

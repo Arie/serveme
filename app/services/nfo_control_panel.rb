@@ -17,7 +17,7 @@ class NfoControlPanel
       selects.option_with(:value => "restart").click
       agent.submit(control_form, control_form.buttons.first)
     else
-      Raven.capture_exception("NFO restart error", extra: { page: page.inspect } ) if Rails.env.production?
+      Raven.capture_message("NFO restart error", extra: { page: page.inspect } ) if Rails.env.production?
     end
   end
 

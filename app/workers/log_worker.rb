@@ -29,7 +29,10 @@ class LogWorker
 
   def handle_message
     action = action_by_reserver || action_for_message_said_by_anyone
-    send(action) if action
+    if action
+      reservation.status_update("#{event.player.name} (#{sayer_steam_uid}): #{event.message}")
+      send(action)
+    end
   end
 
   def handle_end

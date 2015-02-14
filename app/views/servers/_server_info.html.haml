@@ -1,6 +1,6 @@
 - begin
   - server_info = ServerInfo.new(server)
-  - admin = current_user && current_user.admin?
+  - admin = !!current_admin
   - cache "server_info_#{server.id}_#{server_info.uptime.to_i}_#{admin}", expires_in: 1.minute do
     %tr
       %td

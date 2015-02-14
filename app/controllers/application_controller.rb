@@ -45,8 +45,17 @@ class ApplicationController < ActionController::Base
   end
   helper_method :white_theme?
 
+  def current_admin
+    @current_admin ||=  begin
+                          if current_user && current_user.admin?
+                            current_user
+                          end
+                        end
+  end
+  helper_method :current_admin
+
   def require_admin
-    unless current_user && current_user.admin?
+    unless current_admin
       redirect_to root_path
     end
   end

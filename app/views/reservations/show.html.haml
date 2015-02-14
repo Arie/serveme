@@ -58,6 +58,11 @@
                 %i.fa.fa-film
             = reservation.stv_connect_string
             = render 'shared/copy_button', :copy_button_id => "stv_connect_string", :copy_text => reservation.stv_connect_string
+            - password_for_relay = reservation.tv_relaypassword.presence || reservation.tv_password
+            - if current_admin
+              = link_to "http://relay.fakkelbrigade.eu/new?ip_port=#{ip_and_port}&password=#{password_for_relay}", :title => "create relay", :class => "btn btn-xs btn-warning" do
+                Create relay
+                %i.fa.fa-share-alt
 
       - if reservation.server_config
         %tr

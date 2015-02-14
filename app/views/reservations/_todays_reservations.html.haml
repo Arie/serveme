@@ -24,7 +24,7 @@
           %td= I18n.l(reservation.starts_at,  :format => :time_without_seconds)
           %td= I18n.l(reservation.ends_at,    :format => :time_without_seconds)
           - if current_admin
-            %td.actions= render 'actions', :reservation => reservation
+            %td.actions= render 'reservations/actions', :reservation => reservation
 
 - else
   = "None yet!"

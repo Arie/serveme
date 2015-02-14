@@ -83,7 +83,7 @@
 
     - if current_user.admin?
       %table.table.table-hover.table-bordered.table-striped
-        - reservation.status_updates.each do |su|
+        - reservation.reservation_statuses.each do |su|
           %tr
             %td= I18n.l(su.created_at)
             %td= su.status

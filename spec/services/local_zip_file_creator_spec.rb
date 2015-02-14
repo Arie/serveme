@@ -3,7 +3,7 @@ require 'spec_helper'
 describe LocalZipFileCreator do
 
   let!(:zipper_class)  { LocalZipFileCreator }
-  let!(:reservation)   { double(:server => server) }
+  let!(:reservation)   { double(:server => server, :status_update => nil) }
   let!(:server)        { double(:zip_file_creator_class => zipper_class) }
 
   describe '#zip' do

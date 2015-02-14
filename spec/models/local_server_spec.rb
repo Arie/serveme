@@ -124,7 +124,7 @@ describe LocalServer do
   describe '#end_reservation' do
 
     it 'should zip demos and logs, remove configuration and restart' do
-      reservation = double(:rcon => "foo")
+      reservation = double(:rcon => "foo", :status_update => nil)
       subject.should_receive(:copy_logs)
       subject.should_receive(:zip_demos_and_logs).with(reservation)
       subject.should_receive(:disable_plugins)

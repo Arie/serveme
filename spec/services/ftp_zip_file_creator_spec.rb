@@ -3,7 +3,7 @@ require 'spec_helper'
 describe FtpZipFileCreator do
 
   let!(:server)        { double(:zip_file_creator_class => FtpZipFileCreator) }
-  let!(:reservation)   { double(:server => server) }
+  let!(:reservation)   { double(:server => server, :status_update => nil) }
 
   describe '#create_zip' do
 

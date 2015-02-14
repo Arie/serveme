@@ -9,6 +9,7 @@ class LogCopier
   end
 
   def self.copy(reservation, server)
+    reservation.status_update("Getting logs from server")
     server.log_copier_class.new(reservation, server).copy
   end
 

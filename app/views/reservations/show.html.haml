@@ -79,6 +79,10 @@
           %td
             = reservation.logsecret
             = render 'shared/copy_button', :copy_button_id => "logsecret_string", :copy_text => reservation.logsecret
+            - ip_and_port = "#{reservation.server.ip}:#{reservation.server.port}"
+            = link_to "http://live.fakkelbrigade.eu/matches/new?host=#{ip_and_port}&rcon=#{reservation.rcon}&logsecret=#{reservation.logsecret}", :title => "create livestats", :class => "btn btn-xs btn-warning" do
+              Livestats
+              %i.fa.fa-bar-chart
 
 
     - if current_admin

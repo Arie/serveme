@@ -88,7 +88,7 @@ describe LocalServer do
 
   describe '#start_reservation' do
     it 'updates the configuration and triggers a restart' do
-      reservation = double(:enable_plugins? => true, :enable_arena_respawn? => false)
+      reservation = stubbed_reservation(:enable_plugins? => true)
       subject.should_receive(:restart)
       subject.should_receive(:enable_plugins)
       subject.should_receive(:disable_arena_respawn)
@@ -97,7 +97,7 @@ describe LocalServer do
     end
 
     it 'writes a config file' do
-      reservation = double(:custom_whitelist_id => nil, :enable_plugins? => false, :enable_arena_respawn? => false)
+      reservation = stubbed_reservation(:custom_whitelist_id => nil)
       subject.should_receive(:restart)
       file = double
       subject.stub(:tf_dir => '/tmp')
@@ -110,7 +110,7 @@ describe LocalServer do
     context "with enable arena respawn enabled" do
 
       it "copies the arena respawn stuff and enables plugins" do
-        reservation = double(:enable_plugins? => true, :enable_arena_respawn? => true)
+        reservation = stubbed_reservation(:enable_plugins? => true, :enable_arena_respawn? => true)
         subject.should_receive(:restart)
         subject.should_receive(:update_configuration).with(reservation)
         subject.should_receive(:enable_plugins)
@@ -425,6 +425,14 @@ describe LocalServer do
 
     end
 
+  end
+
+  def stubbed_reservation(stubs = {})
+    reservation = double(:reservation, :status_update => true, :enable_arena_respawn? => false, :enable_plugins? => false)
+    stubs.each do |k, v|
+      reservation.stub(k) { v }
+    end
+    reservation
   end
 
 end

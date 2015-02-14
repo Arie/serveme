@@ -79,10 +79,12 @@ class Server < ActiveRecord::Base
   end
 
   def update_configuration(reservation)
+    reservation.status_update("Sending reservation config files")
     ['reservation.cfg', 'ctf_turbine.cfg'].each do |config_file|
       config_body = generate_config_file(reservation, config_file)
       write_configuration(server_config_file(config_file), config_body)
     end
+    reservation.status_update("Finished sending reservation config files")
   end
 
   def enable_plugins
@@ -176,12 +178,19 @@ class Server < ActiveRecord::Base
     update_configuration(reservation)
     if reservation.enable_arena_respawn?
       enable_plugins
+      reservation.status_update("Enabled plugins")
       enable_arena_respawn
+      reservation.status_update("Enabled Arena:Respawn")
     else
-      enable_plugins if reservation.enable_plugins?
+      if reservation.enable_plugins?
+        enable_plugins
+        reservation.status_update("Enabled plugins")
+      end
       disable_arena_respawn
     end
+    reservation.status_update("Restarting server")
     restart
+    reservation.status_update("Restarted server, waiting to boot")
   end
 
   def update_reservation(reservation)

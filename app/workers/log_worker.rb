@@ -14,6 +14,16 @@ class LogWorker
     if event.is_a?(TF2LineParser::Events::Say)
       @message = event.message
       handle_message
+    else
+      mapstart = event.unknown.match(/(Started map\ "(\w+)")/)
+      if mapstart
+        map = mapstart[2]
+        if map == "ctf_turbine"
+          reservation.status_update("Server startup complete, switching map")
+        else
+          reservation.status_update("Server finished loading map \"#{map}\"")
+        end
+      end
     end
   end
 

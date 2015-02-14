@@ -10,9 +10,11 @@ class Reservation < ActiveRecord::Base
   has_many :log_uploads
   has_many :reservation_players
   has_many :ratings
+  has_many :reservation_statuses
 
   before_validation :calculate_duration
   before_create :generate_logsecret
+  after_create :generate_initial_status
 
   delegate :donator?, :to => :user, :prefix => false
 
@@ -196,10 +198,18 @@ class Reservation < ActiveRecord::Base
     starts_at && ends_at
   end
 
+  def status_update(status)
+    reservation_statuses.create!(:status => status)
+  end
+
   private
 
   def reservation_manager
     ReservationManager.new(self)
+  end
+
+  def generate_initial_status
+    status_update("Waiting to start")
   end
 
 end

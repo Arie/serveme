@@ -11,7 +11,7 @@ class Handler < EM::Connection
 
   def receive_data(data)
     log_line = ActiveSupport::Multibyte::Chars.new(data).tidy_bytes[5..-1]
-    if log_line.match(/(!extend|!end|!rcon.*|!rate.*)/)
+    if log_line.match(/(!extend|!end|!rcon.*|!rate.*|Started map\ "\w+\")/)
       LogWorker.perform_async(log_line)
     end
   end

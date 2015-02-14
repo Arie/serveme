@@ -79,3 +79,11 @@
           %td
             = reservation.logsecret
             = render 'shared/copy_button', :copy_button_id => "logsecret_string", :copy_text => reservation.logsecret
+
+
+    - if current_user.admin?
+      %table.table.table-hover.table-bordered.table-striped
+        - reservation.status_updates.each do |su|
+          %tr
+            %td= I18n.l(su.created_at)
+            %td= su.status

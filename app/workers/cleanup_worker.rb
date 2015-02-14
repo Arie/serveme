@@ -23,10 +23,15 @@ class CleanupWorker
   def remove_old_statistics
     old_player_statistics.delete_all
     old_server_statistics.delete_all
+    old_reservation_statuses.delete_all
   end
 
   def old_reservations
     Reservation.where('ends_at < ? AND ends_at > ?', 31.days.ago, 35.days.ago)
+  end
+
+  def old_reservation_statuses
+    ReservationStatus.where('created_at < ?', 31.days.ago)
   end
 
   def old_player_statistics

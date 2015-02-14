@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141228001017) do
+ActiveRecord::Schema.define(version: 20150214104854) do
 
   create_table "group_servers", force: :cascade do |t|
     t.integer  "server_id",  limit: 4
@@ -147,6 +147,16 @@ ActiveRecord::Schema.define(version: 20141228001017) do
   add_index "reservation_players", ["latitude", "longitude"], name: "index_reservation_players_on_latitude_and_longitude", using: :btree
   add_index "reservation_players", ["reservation_id"], name: "index_reservation_players_on_reservation_id", using: :btree
   add_index "reservation_players", ["steam_uid"], name: "index_reservation_players_on_steam_uid", using: :btree
+
+  create_table "reservation_statuses", force: :cascade do |t|
+    t.integer  "reservation_id", limit: 4
+    t.string   "status",         limit: 191
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "reservation_statuses", ["created_at"], name: "index_reservation_statuses_on_created_at", using: :btree
+  add_index "reservation_statuses", ["reservation_id"], name: "index_reservation_statuses_on_reservation_id", using: :btree
 
   create_table "reservations", force: :cascade do |t|
     t.integer  "user_id",                 limit: 4

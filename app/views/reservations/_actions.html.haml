@@ -1,8 +1,8 @@
 %span
+  = link_to reservation_path(reservation),              :class => 'btn btn-xs btn-success' do
+    Details
+    %i.fa.fa-list
   - unless reservation.past?
-    = link_to reservation_path(reservation),              :class => 'btn btn-xs btn-success' do
-      Details
-      %i.fa.fa-list
     = link_to edit_reservation_path(reservation),         :class => 'btn btn-xs btn-info',    :title => 'Edit reservation' do
       Edit
       %i.fa.fa-edit

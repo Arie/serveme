@@ -7,6 +7,9 @@
         %th Reserved by
         %th Reserved from
         %th Reserved until
+        - if current_admin
+          %th Actions
+
 
     %tbody
       - @reservations.each do |reservation|
@@ -20,6 +23,8 @@
           %td= user.nickname
           %td= I18n.l(reservation.starts_at,  :format => :time_without_seconds)
           %td= I18n.l(reservation.ends_at,    :format => :time_without_seconds)
+          - if current_admin
+            %td.actions= render 'actions', :reservation => reservation
 
 - else
   = "None yet!"

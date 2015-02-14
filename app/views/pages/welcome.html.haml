@@ -69,7 +69,7 @@
     .col-md-12
       = render 'reservations/users_reservations'
 
-- cache "todays_reservations_#{@most_recently_updated_reservation_time}_#{Time.current.zone}", expires_in: 1.minute do
+- cache "todays_reservations_#{@most_recently_updated_reservation_time}_#{Time.current.zone}_#{!!current_admin}", expires_in: 1.minute do
   .row
     .col-md-12
       = render 'reservations/todays_reservations'

@@ -14,7 +14,7 @@ class LogWorker
     if event.is_a?(TF2LineParser::Events::Say)
       @message = event.message
       handle_message
-    else
+    elsif event.is_a?(TF2LineParser::Events::Unknown)
       mapstart = event.unknown.match(/(Started map\ "(\w+)")/)
       if mapstart
         map = mapstart[2]

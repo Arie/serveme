@@ -198,6 +198,7 @@ class Server < ActiveRecord::Base
   end
 
   def end_reservation(reservation)
+    return if reservation.ended?
     rcon_exec("log off; tv_stoprecord")
     reservation.status_update("Removing configuration and disabling plugins")
     remove_configuration

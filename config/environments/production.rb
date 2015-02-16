@@ -64,4 +64,11 @@ Serveme::Application.configure do
 
   config.eager_load = false
   config.lograge.enabled = true
+  config.lograge.custom_options = lambda do |event|
+    {
+      host: event.payload[:host],
+      fwd: event.payload[:fwd].try(:inspect),
+      user_id: event.payload[:user_id]
+    }
+  end
 end

@@ -213,6 +213,10 @@ GEM
     launchy (2.4.3)
       addressable (~> 2.3)
     libv8 (3.16.14.7)
+    lograge (0.3.1)
+      actionpack (>= 3)
+      activesupport (>= 3)
+      railties (>= 3)
     logs_tf (0.0.3)
       faraday (~> 0.8.0)
       multipart-post (~> 1.2.0)
@@ -494,6 +498,7 @@ DEPENDENCIES
   jquery-rails
   json_expressions
   launchy
+  lograge
   logs_tf
   mechanize
   minitest

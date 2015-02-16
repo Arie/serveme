@@ -88,6 +88,7 @@ end
 group :production do
   gem "sentry-raven"
   gem 'dalli'
+  gem 'lograge'
 end
 
 group :test do

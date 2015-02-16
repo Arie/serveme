@@ -19,7 +19,7 @@ gem 'rbzip2', :github => 'koraktor/rbzip2'
 
 #Logdaemon
 gem 'tf2_line_parser'
-gem 'eventmachine', "1.0.4"
+gem 'eventmachine'
 gem 'dante'
 
 gem 'net-ssh-simple'

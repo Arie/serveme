@@ -169,7 +169,7 @@ GEM
       activesupport (>= 3.0)
       request_store (~> 1.0)
     erubis (2.7.0)
-    eventmachine (1.0.4)
+    eventmachine (1.0.7)
     execjs (2.3.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -201,7 +201,7 @@ GEM
       domain_name (~> 0.5)
     i18n (0.7.0)
     ice_cube (0.11.1)
-    jbuilder (2.2.6)
+    jbuilder (2.2.7)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
     jquery-rails (4.0.3)
@@ -480,7 +480,7 @@ DEPENDENCIES
   delorean
   devise
   draper
-  eventmachine (= 1.0.4)
+  eventmachine
   execjs
   factory_girl_rails
   ffi

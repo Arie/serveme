@@ -13,6 +13,8 @@ gem 'rubyzip'
 gem 'steam-condenser', :github => 'Arie/steam-condenser-ruby'
 gem 'logs_tf'
 
+gem 'lograge'
+
 #Map uploads
 gem 'carrierwave'
 gem 'rbzip2', :github => 'koraktor/rbzip2'
@@ -88,7 +90,6 @@ end
 group :production do
   gem "sentry-raven"
   gem 'dalli'
-  gem 'lograge'
 end
 
 group :test do

@@ -61,7 +61,7 @@
             - ip_and_port = "#{reservation.server.ip}:#{reservation.server.tv_port}"
             - password_for_relay = reservation.tv_relaypassword.presence || reservation.tv_password
             - if current_admin
-              = link_to "http://relay.fakkelbrigade.eu/new?ip_port=#{ip_and_port}&password=#{password_for_relay}", :title => "create relay", :class => "btn btn-xs btn-warning" do
+              = link_to "http://relay.fakkelbrigade.eu/new?ip_port=#{ip_and_port}&password=#{password_for_relay}", :title => "create relay", :class => "btn btn-xs btn-warning", :target => "_blank" do
                 Create relay
                 %i.fa.fa-share-alt
 
@@ -86,7 +86,7 @@
             = reservation.logsecret
             = render 'shared/copy_button', :copy_button_id => "logsecret_string", :copy_text => reservation.logsecret
             - ip_and_port = "#{reservation.server.ip}:#{reservation.server.port}"
-            = link_to "http://live.fakkelbrigade.eu/matches/new?host=#{ip_and_port}&rcon=#{reservation.rcon}&logsecret=#{reservation.logsecret}", :title => "create livestats", :class => "btn btn-xs btn-warning" do
+            = link_to "http://live.fakkelbrigade.eu/matches/new?host=#{ip_and_port}&rcon=#{reservation.rcon}&logsecret=#{reservation.logsecret}", :title => "create livestats", :class => "btn btn-xs btn-warning", :target => "_blank" do
               Livestats
               %i.fa.fa-bar-chart
 

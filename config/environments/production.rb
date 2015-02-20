@@ -66,7 +66,7 @@ Serveme::Application.configure do
   config.lograge.enabled = true
   config.lograge.custom_options = lambda do |event|
     {
-      ip: event.payload[:ip].try(:inspect),
+      ip: event.payload[:ip],
       user_id: event.payload[:user_id]
     }
   end

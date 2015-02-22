@@ -7,7 +7,6 @@ class PagesController < ApplicationController
 
   def welcome
     @most_recently_updated_reservation_time = Reservation.maximum(:updated_at).to_i
-    @reservations = Reservation.within_12_hours.first(50)
     if current_user
       @users_reservations = current_user.reservations.ordered.first(5)
       @users_games        = Reservation.played_in(current_user.uid).limit(5)

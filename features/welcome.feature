@@ -6,11 +6,6 @@ Feature: Viewing the welcome page
     When I go to the welcome page
     Then I see a count of free and donator-only servers
 
-  Scenario: Viewing current reservations
-    Given there are reservations today
-    When I go to the welcome page
-    Then I can view a list of current reservations
-
   Scenario: Viewing my own current reservation
     Given I am logged in
     And I have made a reservation that is currently active

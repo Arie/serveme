@@ -22,10 +22,6 @@ class Reservation < ActiveRecord::Base
 
   attr_accessor :extending
 
-  def self.within_12_hours
-    within_time_range(12.hours.ago, 12.hours.from_now).uniq
-  end
-
   def self.with_user_and_server
     includes(:user => :groups).includes(:server => :location)
   end

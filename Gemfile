@@ -60,7 +60,6 @@ group :development do
   gem 'capistrano-maintenance'
   gem 'capistrano-sidekiq'
   gem 'rvm-capistrano', :require => false
-  gem 'query_reviewer'
 end
 
 group :test, :development do

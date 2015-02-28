@@ -6,8 +6,11 @@ rvm:
   - 2.2
     #- rbx
     #- jruby-19mode
+addons:
+  postgresql: "9.3"
 before_script:
-  - mysql -e 'create database serveme_test;'
+  - psql -c 'create database serveme_test;' -U postgres
+  - cp config/database.yml.travis config/database.yml
   - mkdir tmp/cache
   - mkdir public/uploads
 script: ./script/ci

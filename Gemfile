@@ -44,7 +44,7 @@ gem 'american_date'
 gem 'jbuilder'
 
 gem 'ffi'
-gem 'mysql2'
+gem 'pg'
 gem 'therubyracer'
 gem 'oily_png'
 gem 'sys-proctable', '~> 0.9.4', :require => 'sys/proctable'

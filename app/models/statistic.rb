@@ -49,14 +49,22 @@ class Statistic
   end
 
   def self.reserved_hours_per_month
-    Rails.cache.fetch "reserved_hours_per_month_#{Date.current}", :expires_in => 1.hour do
-      result = ActiveRecord::Base.connection.execute("SELECT SUM(duration), YEAR(starts_at), MONTH(starts_at) FROM reservations GROUP BY YEAR(starts_at), MONTH(starts_at)")
-      result.to_a.map do |seconds, year, month|
+   Rails.cache.fetch "reserved_hours_per_month_#{Date.current}", :expires_in => 1.hour do
+      result = ActiveRecord::Base.connection.execute("SELECT TO_CHAR(starts_at, 'YYYY-MM') AS year_month,
+                                                      SUM(duration) as duration
+                                                      FROM reservations
+                                                      GROUP BY 1
+                                                      ORDER BY 1")
+      result.to_a.map do |duration_per_month|
+        year_month= duration_per_month["year_month"]
+        seconds   = duration_per_month["duration"]
+        year = year_month.split("-").first.to_i
+        month = year_month.split("-").last.to_i
         date = Date.new(year, month)
         formatted_date = date.strftime("%b %Y")
         [formatted_date, (seconds.to_f / 3600.0).round]
       end
-    end
+   end
   end
 
 

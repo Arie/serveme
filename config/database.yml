@@ -4,9 +4,10 @@
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
 development:
-  adapter: mysql2
+  adapter: postgresql
   database: serveme_development
-  encoding: utf8mb4
+  username: serveme
+  encoding: unicode
   pool: 5
   timeout: 5000
 
@@ -14,17 +15,18 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test: &test
-  adapter: mysql2
+  adapter: postgresql
   database: serveme_test
-  username: root
-  encoding: utf8mb4
+  username: serveme
+  encoding: unicode
   pool: 5
   timeout: 5000
 
 production:
-  adapter: mysql2
+  adapter: postgresql
   database: serveme_production
-  encoding: utf8mb4
+  username: serveme
+  encoding: unicode
   pool: 5
   timeout: 5000
 

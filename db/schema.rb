@@ -13,9 +13,12 @@
 
 ActiveRecord::Schema.define(version: 20150214104854) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "group_servers", force: :cascade do |t|
-    t.integer  "server_id",  limit: 4
-    t.integer  "group_id",   limit: 4
+    t.integer  "server_id"
+    t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -24,8 +27,8 @@ ActiveRecord::Schema.define(version: 20150214104854) do
   add_index "group_servers", ["server_id"], name: "index_group_servers_on_server_id", using: :btree
 
   create_table "group_users", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4
-    t.integer  "group_id",   limit: 4
+    t.integer  "user_id"
+    t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "expires_at"
@@ -44,27 +47,27 @@ ActiveRecord::Schema.define(version: 20150214104854) do
   add_index "groups", ["name"], name: "index_groups_on_name", using: :btree
 
   create_table "hiperz_server_informations", force: :cascade do |t|
-    t.integer "server_id", limit: 4
-    t.integer "hiperz_id", limit: 4
+    t.integer "server_id"
+    t.integer "hiperz_id"
   end
 
   add_index "hiperz_server_informations", ["hiperz_id"], name: "index_hiperz_server_informations_on_hiperz_id", using: :btree
   add_index "hiperz_server_informations", ["server_id"], name: "index_hiperz_server_informations_on_server_id", using: :btree
 
   create_table "locations", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.string   "flag",       limit: 255
+    t.string   "name"
+    t.string   "flag"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "log_uploads", force: :cascade do |t|
-    t.integer  "reservation_id", limit: 4
-    t.string   "file_name",      limit: 255
-    t.string   "title",          limit: 255
-    t.string   "map_name",       limit: 255
-    t.text     "status",         limit: 65535
-    t.string   "url",            limit: 255
+    t.integer  "reservation_id"
+    t.string   "file_name"
+    t.string   "title"
+    t.string   "map_name"
+    t.text     "status"
+    t.string   "url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -72,16 +75,16 @@ ActiveRecord::Schema.define(version: 20150214104854) do
   add_index "log_uploads", ["reservation_id"], name: "index_log_uploads_on_reservation_id", using: :btree
 
   create_table "map_uploads", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.string   "file",       limit: 255
-    t.integer  "user_id",    limit: 4,   null: false
+    t.string   "name"
+    t.string   "file"
+    t.integer  "user_id",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "paypal_orders", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4
-    t.integer  "product_id", limit: 4
+    t.integer  "user_id"
+    t.integer  "product_id"
     t.string   "payment_id", limit: 191
     t.string   "payer_id",   limit: 191
     t.string   "status",     limit: 191
@@ -95,12 +98,12 @@ ActiveRecord::Schema.define(version: 20150214104854) do
   add_index "paypal_orders", ["user_id"], name: "index_paypal_orders_on_user_id", using: :btree
 
   create_table "player_statistics", force: :cascade do |t|
-    t.integer  "ping",                  limit: 4
-    t.integer  "loss",                  limit: 4
-    t.integer  "minutes_connected",     limit: 4
+    t.integer  "ping"
+    t.integer  "loss"
+    t.integer  "minutes_connected"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "reservation_player_id", limit: 4
+    t.integer  "reservation_player_id"
   end
 
   add_index "player_statistics", ["created_at"], name: "index_player_statistics_on_created_at", using: :btree
@@ -109,25 +112,25 @@ ActiveRecord::Schema.define(version: 20150214104854) do
   add_index "player_statistics", ["reservation_player_id"], name: "index_player_statistics_on_reservation_player_id", using: :btree
 
   create_table "products", force: :cascade do |t|
-    t.string  "name",                  limit: 255
-    t.decimal "price",                             precision: 15, scale: 6,                null: false
-    t.integer "days",                  limit: 4
-    t.boolean "active",                limit: 1,                            default: true
-    t.string  "currency",              limit: 255
-    t.boolean "grants_private_server", limit: 1
+    t.string  "name"
+    t.decimal "price",                 precision: 15, scale: 6,                null: false
+    t.integer "days"
+    t.boolean "active",                                         default: true
+    t.string  "currency"
+    t.boolean "grants_private_server"
   end
 
   add_index "products", ["grants_private_server"], name: "index_products_on_grants_private_server", using: :btree
 
   create_table "ratings", force: :cascade do |t|
-    t.integer  "reservation_id", limit: 4
+    t.integer  "reservation_id"
     t.string   "steam_uid",      limit: 191
     t.string   "nickname",       limit: 191
     t.string   "opinion",        limit: 191
     t.string   "reason",         limit: 191
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "published",      limit: 1,   default: false
+    t.boolean  "published",                  default: false
   end
 
   add_index "ratings", ["opinion"], name: "index_ratings_on_opinion", using: :btree
@@ -136,12 +139,12 @@ ActiveRecord::Schema.define(version: 20150214104854) do
   add_index "ratings", ["steam_uid"], name: "index_ratings_on_steam_uid", using: :btree
 
   create_table "reservation_players", force: :cascade do |t|
-    t.integer "reservation_id", limit: 4
+    t.integer "reservation_id"
     t.string  "steam_uid",      limit: 191
     t.string  "name",           limit: 191
     t.string  "ip",             limit: 191
-    t.float   "latitude",       limit: 24
-    t.float   "longitude",      limit: 24
+    t.float   "latitude"
+    t.float   "longitude"
   end
 
   add_index "reservation_players", ["latitude", "longitude"], name: "index_reservation_players_on_latitude_and_longitude", using: :btree
@@ -149,7 +152,7 @@ ActiveRecord::Schema.define(version: 20150214104854) do
   add_index "reservation_players", ["steam_uid"], name: "index_reservation_players_on_steam_uid", using: :btree
 
   create_table "reservation_statuses", force: :cascade do |t|
-    t.integer  "reservation_id", limit: 4
+    t.integer  "reservation_id"
     t.string   "status",         limit: 191
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -159,31 +162,31 @@ ActiveRecord::Schema.define(version: 20150214104854) do
   add_index "reservation_statuses", ["reservation_id"], name: "index_reservation_statuses_on_reservation_id", using: :btree
 
   create_table "reservations", force: :cascade do |t|
-    t.integer  "user_id",                 limit: 4
-    t.integer  "server_id",               limit: 4
-    t.string   "password",                limit: 255
-    t.string   "rcon",                    limit: 255
-    t.string   "tv_password",             limit: 255
-    t.string   "tv_relaypassword",        limit: 255
+    t.integer  "user_id"
+    t.integer  "server_id"
+    t.string   "password"
+    t.string   "rcon"
+    t.string   "tv_password"
+    t.string   "tv_relaypassword"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "starts_at"
     t.datetime "ends_at"
-    t.boolean  "provisioned",             limit: 1,   default: false
-    t.boolean  "ended",                   limit: 1,   default: false
-    t.integer  "server_config_id",        limit: 4
-    t.integer  "whitelist_id",            limit: 4
-    t.integer  "inactive_minute_counter", limit: 4,   default: 0
-    t.integer  "last_number_of_players",  limit: 4,   default: 0
-    t.string   "first_map",               limit: 255
-    t.boolean  "start_instantly",         limit: 1,   default: false
-    t.boolean  "end_instantly",           limit: 1,   default: false
-    t.integer  "custom_whitelist_id",     limit: 4
-    t.integer  "duration",                limit: 4
-    t.boolean  "auto_end",                limit: 1,   default: true
+    t.boolean  "provisioned",                        default: false
+    t.boolean  "ended",                              default: false
+    t.integer  "server_config_id"
+    t.integer  "whitelist_id"
+    t.integer  "inactive_minute_counter",            default: 0
+    t.integer  "last_number_of_players",             default: 0
+    t.string   "first_map"
+    t.boolean  "start_instantly",                    default: false
+    t.boolean  "end_instantly",                      default: false
+    t.integer  "custom_whitelist_id"
+    t.integer  "duration"
+    t.boolean  "auto_end",                           default: true
     t.string   "logsecret",               limit: 64
-    t.boolean  "enable_plugins",          limit: 1,   default: false
-    t.boolean  "enable_arena_respawn",    limit: 1,   default: false
+    t.boolean  "enable_plugins",                     default: false
+    t.boolean  "enable_arena_respawn",               default: false
   end
 
   add_index "reservations", ["auto_end"], name: "index_reservations_on_auto_end", using: :btree
@@ -201,7 +204,7 @@ ActiveRecord::Schema.define(version: 20150214104854) do
   add_index "reservations", ["whitelist_id"], name: "index_reservations_on_whitelist_id", using: :btree
 
   create_table "server_configs", force: :cascade do |t|
-    t.string   "file",       limit: 255
+    t.string   "file"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -212,14 +215,14 @@ ActiveRecord::Schema.define(version: 20150214104854) do
   end
 
   create_table "server_statistics", force: :cascade do |t|
-    t.integer  "server_id",         limit: 4,   null: false
-    t.integer  "reservation_id",    limit: 4,   null: false
-    t.integer  "cpu_usage",         limit: 4
-    t.integer  "fps",               limit: 4
-    t.integer  "number_of_players", limit: 4
+    t.integer  "server_id",                     null: false
+    t.integer  "reservation_id",                null: false
+    t.integer  "cpu_usage"
+    t.integer  "fps"
+    t.integer  "number_of_players"
     t.string   "map_name",          limit: 191
-    t.integer  "traffic_in",        limit: 4
-    t.integer  "traffic_out",       limit: 4
+    t.integer  "traffic_in"
+    t.integer  "traffic_out"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -232,22 +235,22 @@ ActiveRecord::Schema.define(version: 20150214104854) do
   add_index "server_statistics", ["server_id"], name: "index_server_statistics_on_server_id", using: :btree
 
   create_table "servers", force: :cascade do |t|
-    t.string   "name",         limit: 255
-    t.string   "path",         limit: 255
-    t.string   "ip",           limit: 255
-    t.string   "port",         limit: 255
+    t.string   "name"
+    t.string   "path"
+    t.string   "ip"
+    t.string   "port"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "rcon",         limit: 255
-    t.string   "type",         limit: 255, default: "LocalServer"
-    t.integer  "position",     limit: 4,   default: 1000
-    t.integer  "location_id",  limit: 4
-    t.boolean  "active",       limit: 1,   default: true
-    t.string   "ftp_username", limit: 255
-    t.string   "ftp_password", limit: 255
-    t.integer  "ftp_port",     limit: 4,   default: 21
-    t.float    "latitude",     limit: 24
-    t.float    "longitude",    limit: 24
+    t.string   "rcon"
+    t.string   "type",         default: "LocalServer"
+    t.integer  "position",     default: 1000
+    t.integer  "location_id"
+    t.boolean  "active",       default: true
+    t.string   "ftp_username"
+    t.string   "ftp_password"
+    t.integer  "ftp_port",     default: 21
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   add_index "servers", ["active"], name: "index_servers_on_active", using: :btree
@@ -259,25 +262,25 @@ ActiveRecord::Schema.define(version: 20150214104854) do
     t.string   "provider",               limit: 191
     t.string   "name",                   limit: 191
     t.string   "nickname",               limit: 191
-    t.string   "email",                  limit: 191
+    t.string   "email",                  limit: 191, default: "", null: false
     t.string   "encrypted_password",     limit: 191, default: "", null: false
     t.string   "reset_password_token",   limit: 191
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          limit: 4,   default: 0
+    t.integer  "sign_in_count",                      default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip",     limit: 191
     t.string   "last_sign_in_ip",        limit: 191
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "logs_tf_api_key",        limit: 191
-    t.string   "remember_token",         limit: 255
-    t.string   "time_zone",              limit: 255
+    t.string   "logs_tf_api_key"
+    t.string   "remember_token"
+    t.string   "time_zone"
     t.string   "api_key",                limit: 32
-    t.float    "latitude",               limit: 24
-    t.float    "longitude",              limit: 24
-    t.integer  "expired_reservations",   limit: 4,   default: 0
+    t.float    "latitude"
+    t.float    "longitude"
+    t.integer  "expired_reservations",               default: 0
   end
 
   add_index "users", ["api_key"], name: "index_users_on_api_key", unique: true, using: :btree
@@ -286,18 +289,18 @@ ActiveRecord::Schema.define(version: 20150214104854) do
   add_index "users", ["uid"], name: "index_users_on_uid", using: :btree
 
   create_table "versions", force: :cascade do |t|
-    t.string   "item_type",  limit: 191,   null: false
-    t.integer  "item_id",    limit: 4,     null: false
-    t.string   "event",      limit: 191,   null: false
+    t.string   "item_type",  limit: 191, null: false
+    t.integer  "item_id",                null: false
+    t.string   "event",      limit: 191, null: false
     t.string   "whodunnit",  limit: 191
-    t.text     "object",     limit: 65535
+    t.text     "object"
     t.datetime "created_at"
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
   create_table "whitelists", force: :cascade do |t|
-    t.string   "file",       limit: 255
+    t.string   "file"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

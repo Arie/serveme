@@ -59,7 +59,7 @@ group :development do
   gem 'capistrano', "~> 2.0"
   gem 'capistrano-maintenance'
   gem 'capistrano-sidekiq'
-  gem 'rvm-capistrano'
+  gem 'rvm-capistrano', :require => false
   gem 'query_reviewer'
 end
 

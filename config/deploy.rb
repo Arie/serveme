@@ -52,6 +52,7 @@ namespace :app do
     run "ln -sf #{shared_path}/GeoLiteCity.dat #{release_path}/doc/GeoLiteCity.dat"
     run "ln -sf #{shared_path}/arena_respawn.smx #{release_path}/doc/arena_respawn.smx"
     run "ln -sf #{shared_path}/cacert.pem #{release_path}/config/cacert.pem"
+    run "ln -sf #{shared_path}/newrelic.yml #{release_path}/config/newrelic.yml"
   end
 
   desc "check if you're not an idiot"

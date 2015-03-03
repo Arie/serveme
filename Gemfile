@@ -49,6 +49,8 @@ gem 'therubyracer'
 gem 'oily_png'
 gem 'sys-proctable', '~> 0.9.4', :require => 'sys/proctable'
 
+gem 'newrelic_rpm'
+
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'

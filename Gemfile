@@ -49,7 +49,6 @@ gem 'therubyracer'
 gem 'oily_png'
 gem 'sys-proctable', '~> 0.9.4', :require => 'sys/proctable'
 
-gem 'newrelic_rpm'
 
 group :development do
   gem 'better_errors'
@@ -114,3 +113,5 @@ gem 'will_paginate-bootstrap'
 gem 'execjs'
 gem 'font-awesome-rails'
 gem 'coffee-rails'
+
+gem 'newrelic_rpm'

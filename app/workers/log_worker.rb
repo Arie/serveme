@@ -1,4 +1,5 @@
 class LogWorker
+  require 'action_view'
   include ActionView::Helpers::TextHelper
   include Sidekiq::Worker
 

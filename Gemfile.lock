@@ -237,7 +237,7 @@ GEM
     mime-types (2.4.3)
     mini_portile (0.6.2)
     minitest (5.5.1)
-    multi_json (1.10.1)
+    multi_json (1.11.0)
     multi_test (0.1.2)
     multi_xml (0.5.5)
     multipart-post (1.2.0)
@@ -272,7 +272,7 @@ GEM
       multi_json
       omniauth-openid
     orm_adapter (0.5.0)
-    paypal-sdk-rest (1.1.1)
+    paypal-sdk-rest (1.1.2)
       multi_json (~> 1.0)
       uuidtools (~> 2.1)
       xml-simple

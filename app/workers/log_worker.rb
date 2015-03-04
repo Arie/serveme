@@ -1,4 +1,5 @@
 class LogWorker
+  include ActionView::Helpers::TextHelper
   include Sidekiq::Worker
 
   attr_accessor :raw_line, :line, :event, :reservation_id, :message
@@ -63,6 +64,13 @@ class LogWorker
     RateWorker.perform_async(reservation.id, sayer_steam_uid, event.player.name, message)
   end
 
+  def handle_timeleft
+    minutes_until_reservation_ends = ((reservation.ends_at - Time.current) / 60).round
+    minutes = [minutes_until_reservation_ends, 0].max
+    timeleft = pluralize(minutes, "minute")
+    reservation.server.rcon_say "Reservation time left: #{timeleft}"
+  end
+
   def action_for_message_said_by_reserver
     case message
     when /!end.*/
@@ -78,6 +86,8 @@ class LogWorker
     case message
     when /!rate.*/
       :handle_rate
+    when /!timeleft.*/
+      :handle_timeleft
     end
   end
 

@@ -16,6 +16,7 @@ describe LogWorker do
   let(:bad_rate_without_reason_line) { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!rate bad "' }
   let(:empty_rate_line)       { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!rate "' }
   let(:wrong_rate_line)       { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!rate foobar"' }
+  let(:timeleft_line)         { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!timeleft"' }
   let(:turbine_start_line)    { '1234567L 02/07/2015 - 20:39:40: Started map "ctf_turbine" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
   let(:badlands_start_line)   { '1234567L 02/07/2015 - 20:39:40: Started map "cp_badlands" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
   subject(:logworker) { LogWorker.perform_async(line) }
@@ -122,6 +123,15 @@ describe LogWorker do
         LogWorker.perform_async(badlands_start_line)
         ReservationStatus.last.status.should include("cp_badlands")
       end
+    end
+
+  end
+
+  describe "timeleft" do
+
+    it "returns the time left in words for the reservation" do
+      server.should_receive(:rcon_say).with('Reservation time left: 59 minutes')
+      LogWorker.perform_async(timeleft_line)
     end
 
   end

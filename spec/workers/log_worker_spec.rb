@@ -130,7 +130,7 @@ describe LogWorker do
   describe "timeleft" do
 
     it "returns the time left in words for the reservation" do
-      server.should_receive(:rcon_say).with('Reservation time left: 59 minutes')
+      server.should_receive(:rcon_say).with(/Reservation time left: \d+ minutes/)
       LogWorker.perform_async(timeleft_line)
     end
 

@@ -148,7 +148,7 @@ GEM
       rails (>= 3, < 5)
     dalli (2.7.2)
     dante (0.2.0)
-    database_cleaner (1.4.0)
+    database_cleaner (1.4.1)
     debug_inspector (0.0.2)
     delorean (2.1.0)
       chronic

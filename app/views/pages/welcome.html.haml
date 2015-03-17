@@ -22,17 +22,6 @@
             - else
               .available_servers= render 'reservations/available_servers'
 
-.row
-  .col-md-12
-    .alert.alert-success
-      %h4
-        It's my birthday! So just today, all EU
-        = link_to("PayPal donations", donate_path)
-        are 50% off :)
-
-.row &nbsp;
-
-
 
 .row
   .col-md-12
@@ -66,6 +55,7 @@
     = link_to "ETF2L forums", 'http://etf2l.org/forum/community/topic-23191/?recent=427024', :target => '_blank'
 
 .row &nbsp;
+
 
 - if @users_games && @users_games.any?
   %h3 Reservations you played in

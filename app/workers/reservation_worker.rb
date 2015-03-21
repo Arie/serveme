@@ -17,7 +17,7 @@ class ReservationWorker
         Raven.capture_exception(exception) if Rails.env.production?
       ensure
         send("after_#{action}_reservation_steps") if reservation
-        Rails.logger.info "#{action.capitalize}ed reservation: #{reservation_id} #{reservation}"
+        Rails.logger.info "#{action.capitalize}ed reservation: #{reservation}"
       end
     end
   end

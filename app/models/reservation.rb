@@ -44,7 +44,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def to_s
-    "#{user.try(:nickname)}: #{human_timerange}"
+    "#{id} #{user.try(:nickname)}: #{human_timerange}"
   end
 
   def human_timerange

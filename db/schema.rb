@@ -16,294 +16,294 @@ ActiveRecord::Schema.define(version: 20150321152639) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "group_servers", id: :bigserial, force: :cascade do |t|
-    t.integer  "server_id",  limit: 8
-    t.integer  "group_id",   limit: 8
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+  create_table "group_servers", force: :cascade do |t|
+    t.integer  "server_id"
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index "group_servers", ["group_id"], name: "idx_23063_index_group_servers_on_group_id", using: :btree
-  add_index "group_servers", ["server_id"], name: "idx_23063_index_group_servers_on_server_id", using: :btree
+  add_index "group_servers", ["group_id"], name: "index_group_servers_on_group_id", using: :btree
+  add_index "group_servers", ["server_id"], name: "index_group_servers_on_server_id", using: :btree
 
-  create_table "group_users", id: :bigserial, force: :cascade do |t|
-    t.integer  "user_id",    limit: 8
-    t.integer  "group_id",   limit: 8
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+  create_table "group_users", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.datetime "expires_at"
   end
 
-  add_index "group_users", ["expires_at"], name: "idx_23069_index_group_users_on_expires_at", using: :btree
-  add_index "group_users", ["group_id"], name: "idx_23069_index_group_users_on_group_id", using: :btree
-  add_index "group_users", ["user_id"], name: "idx_23069_index_group_users_on_user_id", using: :btree
+  add_index "group_users", ["expires_at"], name: "index_group_users_on_expires_at", using: :btree
+  add_index "group_users", ["group_id"], name: "index_group_users_on_group_id", using: :btree
+  add_index "group_users", ["user_id"], name: "index_group_users_on_user_id", using: :btree
 
-  create_table "groups", id: :bigserial, force: :cascade do |t|
-    t.text     "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "groups", force: :cascade do |t|
+    t.string   "name",       limit: 191
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index "groups", ["name"], name: "idx_23054_index_groups_on_name", using: :btree
+  add_index "groups", ["name"], name: "index_groups_on_name", using: :btree
 
-  create_table "hiperz_server_informations", id: :bigserial, force: :cascade do |t|
-    t.integer "server_id", limit: 8
-    t.integer "hiperz_id", limit: 8
+  create_table "hiperz_server_informations", force: :cascade do |t|
+    t.integer "server_id"
+    t.integer "hiperz_id"
   end
 
-  add_index "hiperz_server_informations", ["hiperz_id"], name: "idx_23075_index_hiperz_server_informations_on_hiperz_id", using: :btree
-  add_index "hiperz_server_informations", ["server_id"], name: "idx_23075_index_hiperz_server_informations_on_server_id", using: :btree
+  add_index "hiperz_server_informations", ["hiperz_id"], name: "index_hiperz_server_informations_on_hiperz_id", using: :btree
+  add_index "hiperz_server_informations", ["server_id"], name: "index_hiperz_server_informations_on_server_id", using: :btree
 
-  create_table "locations", id: :bigserial, force: :cascade do |t|
-    t.text     "name"
-    t.text     "flag"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "locations", force: :cascade do |t|
+    t.string   "name"
+    t.string   "flag"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "log_uploads", id: :bigserial, force: :cascade do |t|
-    t.integer  "reservation_id", limit: 8
-    t.text     "file_name"
-    t.text     "title"
-    t.text     "map_name"
+  create_table "log_uploads", force: :cascade do |t|
+    t.integer  "reservation_id"
+    t.string   "file_name"
+    t.string   "title"
+    t.string   "map_name"
     t.text     "status"
-    t.text     "url"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-  end
-
-  add_index "log_uploads", ["reservation_id"], name: "idx_23090_index_log_uploads_on_reservation_id", using: :btree
-
-  create_table "map_uploads", id: :bigserial, force: :cascade do |t|
-    t.text     "name"
-    t.text     "file"
-    t.integer  "user_id",    limit: 8, null: false
+    t.string   "url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "paypal_orders", id: :bigserial, force: :cascade do |t|
-    t.integer  "user_id",    limit: 8
-    t.integer  "product_id", limit: 8
-    t.text     "payment_id"
-    t.text     "payer_id"
-    t.text     "status"
+  add_index "log_uploads", ["reservation_id"], name: "index_log_uploads_on_reservation_id", using: :btree
+
+  create_table "map_uploads", force: :cascade do |t|
+    t.string   "name"
+    t.string   "file"
+    t.integer  "user_id",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "paypal_orders", ["payer_id"], name: "idx_23108_index_paypal_orders_on_payer_id", using: :btree
-  add_index "paypal_orders", ["payment_id"], name: "idx_23108_index_paypal_orders_on_payment_id", using: :btree
-  add_index "paypal_orders", ["product_id"], name: "idx_23108_index_paypal_orders_on_product_id", using: :btree
-  add_index "paypal_orders", ["user_id"], name: "idx_23108_index_paypal_orders_on_user_id", using: :btree
-
-  create_table "player_statistics", id: :bigserial, force: :cascade do |t|
-    t.integer  "ping",                  limit: 8
-    t.integer  "loss",                  limit: 8
-    t.integer  "minutes_connected",     limit: 8
+  create_table "paypal_orders", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "product_id"
+    t.string   "payment_id", limit: 191
+    t.string   "payer_id",   limit: 191
+    t.string   "status",     limit: 191
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "reservation_player_id", limit: 8
   end
 
-  add_index "player_statistics", ["created_at"], name: "idx_23117_index_player_statistics_on_created_at", using: :btree
-  add_index "player_statistics", ["loss"], name: "idx_23117_index_player_statistics_on_loss", using: :btree
-  add_index "player_statistics", ["ping"], name: "idx_23117_index_player_statistics_on_ping", using: :btree
-  add_index "player_statistics", ["reservation_player_id"], name: "idx_23117_index_player_statistics_on_reservation_player_id", using: :btree
+  add_index "paypal_orders", ["payer_id"], name: "index_paypal_orders_on_payer_id", using: :btree
+  add_index "paypal_orders", ["payment_id"], name: "index_paypal_orders_on_payment_id", using: :btree
+  add_index "paypal_orders", ["product_id"], name: "index_paypal_orders_on_product_id", using: :btree
+  add_index "paypal_orders", ["user_id"], name: "index_paypal_orders_on_user_id", using: :btree
 
-  create_table "products", id: :bigserial, force: :cascade do |t|
-    t.text    "name"
-    t.decimal "price",                           precision: 15, scale: 6,                null: false
-    t.integer "days",                  limit: 8
-    t.boolean "active",                                                   default: true
-    t.text    "currency"
+  create_table "player_statistics", force: :cascade do |t|
+    t.integer  "ping"
+    t.integer  "loss"
+    t.integer  "minutes_connected"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "reservation_player_id"
+  end
+
+  add_index "player_statistics", ["created_at"], name: "index_player_statistics_on_created_at", using: :btree
+  add_index "player_statistics", ["loss"], name: "index_player_statistics_on_loss", using: :btree
+  add_index "player_statistics", ["ping"], name: "index_player_statistics_on_ping", using: :btree
+  add_index "player_statistics", ["reservation_player_id"], name: "index_player_statistics_on_reservation_player_id", using: :btree
+
+  create_table "products", force: :cascade do |t|
+    t.string  "name"
+    t.decimal "price",                 precision: 15, scale: 6,                null: false
+    t.integer "days"
+    t.boolean "active",                                         default: true
+    t.string  "currency"
     t.boolean "grants_private_server"
   end
 
-  add_index "products", ["grants_private_server"], name: "idx_23123_index_products_on_grants_private_server", using: :btree
+  add_index "products", ["grants_private_server"], name: "index_products_on_grants_private_server", using: :btree
 
-  create_table "ratings", id: :bigserial, force: :cascade do |t|
-    t.integer  "reservation_id", limit: 8
-    t.text     "steam_uid"
-    t.text     "nickname"
-    t.text     "opinion"
-    t.text     "reason"
+  create_table "ratings", force: :cascade do |t|
+    t.integer  "reservation_id"
+    t.string   "steam_uid",      limit: 191
+    t.string   "nickname",       limit: 191
+    t.string   "opinion",        limit: 191
+    t.string   "reason",         limit: 191
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "published",                default: false
+    t.boolean  "published",                  default: false
   end
 
-  add_index "ratings", ["opinion"], name: "idx_23133_index_ratings_on_opinion", using: :btree
-  add_index "ratings", ["published"], name: "idx_23133_index_ratings_on_published", using: :btree
-  add_index "ratings", ["reservation_id"], name: "idx_23133_index_ratings_on_reservation_id", using: :btree
-  add_index "ratings", ["steam_uid"], name: "idx_23133_index_ratings_on_steam_uid", using: :btree
+  add_index "ratings", ["opinion"], name: "index_ratings_on_opinion", using: :btree
+  add_index "ratings", ["published"], name: "index_ratings_on_published", using: :btree
+  add_index "ratings", ["reservation_id"], name: "index_ratings_on_reservation_id", using: :btree
+  add_index "ratings", ["steam_uid"], name: "index_ratings_on_steam_uid", using: :btree
 
-  create_table "reservation_players", id: :bigserial, force: :cascade do |t|
-    t.integer "reservation_id", limit: 8
-    t.text    "steam_uid"
-    t.text    "name"
-    t.text    "ip"
+  create_table "reservation_players", force: :cascade do |t|
+    t.integer "reservation_id"
+    t.string  "steam_uid",      limit: 191
+    t.string  "name",           limit: 191
+    t.string  "ip",             limit: 191
     t.float   "latitude"
     t.float   "longitude"
   end
 
-  add_index "reservation_players", ["latitude", "longitude"], name: "idx_23161_index_reservation_players_on_latitude_and_longitude", using: :btree
-  add_index "reservation_players", ["reservation_id"], name: "idx_23161_index_reservation_players_on_reservation_id", using: :btree
-  add_index "reservation_players", ["steam_uid"], name: "idx_23161_index_reservation_players_on_steam_uid", using: :btree
+  add_index "reservation_players", ["latitude", "longitude"], name: "index_reservation_players_on_latitude_and_longitude", using: :btree
+  add_index "reservation_players", ["reservation_id"], name: "index_reservation_players_on_reservation_id", using: :btree
+  add_index "reservation_players", ["steam_uid"], name: "index_reservation_players_on_steam_uid", using: :btree
 
-  create_table "reservation_statuses", id: :bigserial, force: :cascade do |t|
-    t.integer  "reservation_id", limit: 8
-    t.text     "status"
+  create_table "reservation_statuses", force: :cascade do |t|
+    t.integer  "reservation_id"
+    t.string   "status",         limit: 191
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "reservation_statuses", ["created_at"], name: "idx_23170_index_reservation_statuses_on_created_at", using: :btree
-  add_index "reservation_statuses", ["reservation_id"], name: "idx_23170_index_reservation_statuses_on_reservation_id", using: :btree
+  add_index "reservation_statuses", ["created_at"], name: "index_reservation_statuses_on_created_at", using: :btree
+  add_index "reservation_statuses", ["reservation_id"], name: "index_reservation_statuses_on_reservation_id", using: :btree
 
-  create_table "reservations", id: :bigserial, force: :cascade do |t|
-    t.integer  "user_id",                 limit: 8
-    t.integer  "server_id",               limit: 8
-    t.text     "password"
-    t.text     "rcon"
-    t.text     "tv_password"
-    t.text     "tv_relaypassword"
+  create_table "reservations", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "server_id"
+    t.string   "password"
+    t.string   "rcon"
+    t.string   "tv_password"
+    t.string   "tv_relaypassword"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "starts_at"
     t.datetime "ends_at"
-    t.boolean  "provisioned",                       default: false
-    t.boolean  "ended",                             default: false
-    t.integer  "server_config_id",        limit: 8
-    t.integer  "whitelist_id",            limit: 8
-    t.integer  "inactive_minute_counter", limit: 8, default: 0
-    t.integer  "last_number_of_players",  limit: 8, default: 0
-    t.text     "first_map"
-    t.boolean  "start_instantly",                   default: false
-    t.boolean  "end_instantly",                     default: false
-    t.integer  "custom_whitelist_id",     limit: 8
-    t.integer  "duration",                limit: 8
-    t.boolean  "auto_end",                          default: true
-    t.text     "logsecret"
-    t.boolean  "enable_plugins",                    default: false
-    t.boolean  "enable_arena_respawn",              default: false
+    t.boolean  "provisioned",                        default: false
+    t.boolean  "ended",                              default: false
+    t.integer  "server_config_id"
+    t.integer  "whitelist_id"
+    t.integer  "inactive_minute_counter",            default: 0
+    t.integer  "last_number_of_players",             default: 0
+    t.string   "first_map"
+    t.boolean  "start_instantly",                    default: false
+    t.boolean  "end_instantly",                      default: false
+    t.integer  "custom_whitelist_id"
+    t.integer  "duration"
+    t.boolean  "auto_end",                           default: true
+    t.string   "logsecret",               limit: 64
+    t.boolean  "enable_plugins",                     default: false
+    t.boolean  "enable_arena_respawn",               default: false
   end
 
-  add_index "reservations", ["auto_end"], name: "idx_23143_index_reservations_on_auto_end", using: :btree
-  add_index "reservations", ["custom_whitelist_id"], name: "idx_23143_index_reservations_on_custom_whitelist_id", using: :btree
-  add_index "reservations", ["end_instantly"], name: "idx_23143_index_reservations_on_end_instantly", using: :btree
-  add_index "reservations", ["ends_at"], name: "idx_23143_index_reservations_on_ends_at", using: :btree
-  add_index "reservations", ["logsecret"], name: "idx_23143_index_reservations_on_logsecret", using: :btree
-  add_index "reservations", ["server_config_id"], name: "idx_23143_index_reservations_on_server_config_id", using: :btree
-  add_index "reservations", ["server_id", "starts_at"], name: "idx_23143_index_reservations_on_server_id_and_starts_at", unique: true, using: :btree
-  add_index "reservations", ["server_id"], name: "idx_23143_index_reservations_on_server_id", using: :btree
-  add_index "reservations", ["start_instantly"], name: "idx_23143_index_reservations_on_start_instantly", using: :btree
-  add_index "reservations", ["starts_at"], name: "idx_23143_index_reservations_on_starts_at", using: :btree
-  add_index "reservations", ["updated_at"], name: "idx_23143_index_reservations_on_updated_at", using: :btree
-  add_index "reservations", ["user_id"], name: "idx_23143_index_reservations_on_user_id", using: :btree
-  add_index "reservations", ["whitelist_id"], name: "idx_23143_index_reservations_on_whitelist_id", using: :btree
+  add_index "reservations", ["auto_end"], name: "index_reservations_on_auto_end", using: :btree
+  add_index "reservations", ["custom_whitelist_id"], name: "index_reservations_on_custom_whitelist_id", using: :btree
+  add_index "reservations", ["end_instantly"], name: "index_reservations_on_end_instantly", using: :btree
+  add_index "reservations", ["ends_at"], name: "index_reservations_on_ends_at", using: :btree
+  add_index "reservations", ["logsecret"], name: "index_reservations_on_logsecret", using: :btree
+  add_index "reservations", ["server_config_id"], name: "index_reservations_on_server_config_id", using: :btree
+  add_index "reservations", ["server_id", "starts_at"], name: "index_reservations_on_server_id_and_starts_at", unique: true, using: :btree
+  add_index "reservations", ["server_id"], name: "index_reservations_on_server_id", using: :btree
+  add_index "reservations", ["start_instantly"], name: "index_reservations_on_start_instantly", using: :btree
+  add_index "reservations", ["starts_at"], name: "index_reservations_on_starts_at", using: :btree
+  add_index "reservations", ["updated_at"], name: "index_reservations_on_updated_at", using: :btree
+  add_index "reservations", ["user_id"], name: "index_reservations_on_user_id", using: :btree
+  add_index "reservations", ["whitelist_id"], name: "index_reservations_on_whitelist_id", using: :btree
 
-  create_table "server_configs", id: :bigserial, force: :cascade do |t|
-    t.text     "file"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "server_notifications", id: :bigserial, force: :cascade do |t|
-    t.text "message"
-    t.text "notification_type"
-  end
-
-  create_table "server_statistics", id: :bigserial, force: :cascade do |t|
-    t.integer  "server_id",         limit: 8, null: false
-    t.integer  "reservation_id",    limit: 8, null: false
-    t.integer  "cpu_usage",         limit: 8
-    t.integer  "fps",               limit: 8
-    t.integer  "number_of_players", limit: 8
-    t.text     "map_name"
-    t.integer  "traffic_in",        limit: 8
-    t.integer  "traffic_out",       limit: 8
+  create_table "server_configs", force: :cascade do |t|
+    t.string   "file"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "server_statistics", ["cpu_usage"], name: "idx_23216_index_server_statistics_on_cpu_usage", using: :btree
-  add_index "server_statistics", ["created_at"], name: "idx_23216_index_server_statistics_on_created_at", using: :btree
-  add_index "server_statistics", ["fps"], name: "idx_23216_index_server_statistics_on_fps", using: :btree
-  add_index "server_statistics", ["number_of_players"], name: "idx_23216_index_server_statistics_on_number_of_players", using: :btree
-  add_index "server_statistics", ["reservation_id"], name: "idx_23216_index_server_statistics_on_reservation_id", using: :btree
-  add_index "server_statistics", ["server_id"], name: "idx_23216_index_server_statistics_on_server_id", using: :btree
+  create_table "server_notifications", force: :cascade do |t|
+    t.string "message",           limit: 190
+    t.string "notification_type", limit: 191
+  end
 
-  create_table "servers", id: :bigserial, force: :cascade do |t|
-    t.text     "name"
-    t.text     "path"
-    t.text     "ip"
-    t.text     "port"
+  create_table "server_statistics", force: :cascade do |t|
+    t.integer  "server_id",                     null: false
+    t.integer  "reservation_id",                null: false
+    t.integer  "cpu_usage"
+    t.integer  "fps"
+    t.integer  "number_of_players"
+    t.string   "map_name",          limit: 191
+    t.integer  "traffic_in"
+    t.integer  "traffic_out"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "rcon"
-    t.text     "type",                   default: "LocalServer"
-    t.integer  "position",     limit: 8, default: 1000
-    t.integer  "location_id",  limit: 8
-    t.boolean  "active",                 default: true
-    t.text     "ftp_username"
-    t.text     "ftp_password"
-    t.integer  "ftp_port",     limit: 8, default: 21
+  end
+
+  add_index "server_statistics", ["cpu_usage"], name: "index_server_statistics_on_cpu_usage", using: :btree
+  add_index "server_statistics", ["created_at"], name: "index_server_statistics_on_created_at", using: :btree
+  add_index "server_statistics", ["fps"], name: "index_server_statistics_on_fps", using: :btree
+  add_index "server_statistics", ["number_of_players"], name: "index_server_statistics_on_number_of_players", using: :btree
+  add_index "server_statistics", ["reservation_id"], name: "index_server_statistics_on_reservation_id", using: :btree
+  add_index "server_statistics", ["server_id"], name: "index_server_statistics_on_server_id", using: :btree
+
+  create_table "servers", force: :cascade do |t|
+    t.string   "name"
+    t.string   "path"
+    t.string   "ip"
+    t.string   "port"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "rcon"
+    t.string   "type",         default: "LocalServer"
+    t.integer  "position",     default: 1000
+    t.integer  "location_id"
+    t.boolean  "active",       default: true
+    t.string   "ftp_username"
+    t.string   "ftp_password"
+    t.integer  "ftp_port",     default: 21
     t.float    "latitude"
     t.float    "longitude"
     t.string   "billing_id"
   end
 
-  add_index "servers", ["active"], name: "idx_23185_index_servers_on_active", using: :btree
-  add_index "servers", ["latitude", "longitude"], name: "idx_23185_index_servers_on_latitude_and_longitude", using: :btree
-  add_index "servers", ["location_id"], name: "idx_23185_index_servers_on_location_id", using: :btree
+  add_index "servers", ["active"], name: "index_servers_on_active", using: :btree
+  add_index "servers", ["latitude", "longitude"], name: "index_servers_on_latitude_and_longitude", using: :btree
+  add_index "servers", ["location_id"], name: "index_servers_on_location_id", using: :btree
 
-  create_table "users", id: :bigserial, force: :cascade do |t|
-    t.text     "uid"
-    t.text     "provider"
-    t.text     "name"
-    t.text     "nickname"
-    t.text     "email"
-    t.text     "encrypted_password",               default: "", null: false
-    t.text     "reset_password_token"
+  create_table "users", force: :cascade do |t|
+    t.string   "uid",                    limit: 191
+    t.string   "provider",               limit: 191
+    t.string   "name",                   limit: 191
+    t.string   "nickname",               limit: 191
+    t.string   "email",                  limit: 191, default: "", null: false
+    t.string   "encrypted_password",     limit: 191, default: "", null: false
+    t.string   "reset_password_token",   limit: 191
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          limit: 8, default: 0
+    t.integer  "sign_in_count",                      default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.text     "current_sign_in_ip"
-    t.text     "last_sign_in_ip"
+    t.string   "current_sign_in_ip",     limit: 191
+    t.string   "last_sign_in_ip",        limit: 191
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "logs_tf_api_key"
-    t.text     "remember_token"
-    t.text     "time_zone"
-    t.text     "api_key"
+    t.string   "logs_tf_api_key"
+    t.string   "remember_token"
+    t.string   "time_zone"
+    t.string   "api_key",                limit: 32
     t.float    "latitude"
     t.float    "longitude"
-    t.integer  "expired_reservations",   limit: 8, default: 0
+    t.integer  "expired_reservations",               default: 0
   end
 
-  add_index "users", ["api_key"], name: "idx_23225_index_users_on_api_key", unique: true, using: :btree
-  add_index "users", ["latitude", "longitude"], name: "idx_23225_index_users_on_latitude_and_longitude", using: :btree
-  add_index "users", ["reset_password_token"], name: "idx_23225_index_users_on_reset_password_token", unique: true, using: :btree
-  add_index "users", ["uid"], name: "idx_23225_index_users_on_uid", using: :btree
+  add_index "users", ["api_key"], name: "index_users_on_api_key", unique: true, using: :btree
+  add_index "users", ["latitude", "longitude"], name: "index_users_on_latitude_and_longitude", using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["uid"], name: "index_users_on_uid", using: :btree
 
-  create_table "versions", id: :bigserial, force: :cascade do |t|
-    t.text     "item_type",            null: false
-    t.integer  "item_id",    limit: 8, null: false
-    t.text     "event",                null: false
-    t.text     "whodunnit"
+  create_table "versions", force: :cascade do |t|
+    t.string   "item_type",  limit: 191, null: false
+    t.integer  "item_id",                null: false
+    t.string   "event",      limit: 191, null: false
+    t.string   "whodunnit",  limit: 191
     t.text     "object"
     t.datetime "created_at"
   end
 
-  add_index "versions", ["item_type", "item_id"], name: "idx_23237_index_versions_on_item_type_and_item_id", using: :btree
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
-  create_table "whitelists", id: :bigserial, force: :cascade do |t|
-    t.text     "file"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "whitelists", force: :cascade do |t|
+    t.string   "file"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

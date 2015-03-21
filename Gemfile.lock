@@ -80,7 +80,7 @@ GEM
       capistrano (>= 1.0.0)
     capistrano-maintenance (0.0.4)
       capistrano (>= 2.0.0)
-    capistrano-sidekiq (0.5.1)
+    capistrano-sidekiq (0.5.2)
       capistrano
       sidekiq
     capistrano_colors (0.5.5)
@@ -201,7 +201,7 @@ GEM
       domain_name (~> 0.5)
     i18n (0.7.0)
     ice_cube (0.11.1)
-    jbuilder (2.2.11)
+    jbuilder (2.2.12)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
     jquery-rails (4.0.3)

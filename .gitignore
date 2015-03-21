@@ -1,5 +1,4 @@
 /config/initializers/steam.rb
-/config/initializers/simrai.rb
 /config/paypal.yml
 *.rbc
 *.sassc

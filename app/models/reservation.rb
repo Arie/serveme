@@ -6,7 +6,6 @@ class Reservation < ActiveRecord::Base
   belongs_to :server
   belongs_to :server_config
   belongs_to :whitelist
-  belongs_to :reservation
   has_many :log_uploads
   has_many :reservation_players
   has_many :ratings

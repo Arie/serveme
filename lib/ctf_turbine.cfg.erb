@@ -1,2 +1,5 @@
+<% if first_map.present? && first_map != "ctf_turbine" %>
 tftrue_tv_delaymapchange 0
-changelevel koth_wubwubwub_remix
+changelevel <%= first_map %>
+<% end %>
+

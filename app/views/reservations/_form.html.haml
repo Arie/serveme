@@ -1,7 +1,7 @@
 .row
   .col-md-12
     %p.alert.alert-warning
-      Please pick your start and end time carefully, reservations that have no players for 30 minutes (60 minutes for donators) get ended automatically. All times are in timezone:
+      Please pick your start and end time carefully, reservations that have no players for 30 minutes (60 minutes for donators) get ended automatically and you will receive a 24h temp ban. Use the "idle reset" button if you need more time before you start (e.g. your lobby takes a long time to fill). All times are in timezone:
       = link_to(Time.zone, edit_users_path)
 
 = render "donator_nag"

@@ -109,4 +109,10 @@ FactoryGirl.define do
     traffic_out 241
   end
 
+  factory :voucher do
+    association :product
+    association :user
+    code "foobar"
+  end
+
 end

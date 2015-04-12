@@ -11,10 +11,7 @@ class PaypalOrder < ActiveRecord::Base
 
   def complete_payment!
     update_attributes(:status => "Completed")
-    AddGroupMembership.new(product.days, user).perform
-    if product.grants_private_server?
-      AddGroupMembership.new(product.days, user, Group.private_user(user)).perform
-    end
+    GrantPerks.new(product, user).perform
     announce_donator
   end
 

@@ -12,6 +12,7 @@ gem 'devise'
 gem 'rubyzip'
 gem 'steam-condenser', :github => 'Arie/steam-condenser-ruby'
 gem 'logs_tf'
+gem 'base32_pure'
 
 gem 'lograge'
 

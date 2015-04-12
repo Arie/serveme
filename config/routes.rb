@@ -30,7 +30,6 @@ Serveme::Application.routes.draw do
     end
   end
 
-
   resources :reservations do
     member do
       post :extend_reservation, :as => :extend
@@ -87,6 +86,8 @@ Serveme::Application.routes.draw do
     end
   end
 
+  resources :vouchers
+
   authenticate :user, lambda { |u| u.admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
@@ -103,9 +104,9 @@ Serveme::Application.routes.draw do
     end
   end
 
-
   #Pretty URLs
   get   '/donate',                        :to => "paypal_orders#new",         :as => "donate"
+  get   '/voucher(/:code)',                 :to => "vouchers#new",              :as => "claim"
   get   '/statistics',                    :to => "pages#statistics",          :as => "statistics"
   get   '/faq',                           :to => "pages#faq",                 :as => "faq"
   get   '/credits',                       :to => "pages#credits",             :as => "credits"

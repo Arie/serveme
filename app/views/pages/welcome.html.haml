@@ -22,6 +22,15 @@
             - else
               .available_servers= render 'reservations/available_servers'
 
+.row
+  .col-md-12
+    .alert.alert-success
+      %h4
+        It's now possible to
+        = link_to "buy donator status for someone else", donate_path(gift: true)
+
+.row &nbsp;
+
 
 .row
   .col-md-12

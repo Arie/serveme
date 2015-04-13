@@ -24,9 +24,11 @@
       %button.btn.btn-default{:type => :submit}
         Save private server
 
-- if current_user.vouchers.any?
+%h2#your-vouchers
+  Your vouchers
+  = link_to "Buy", donate_path(gift: true), class: "btn btn-success"
 
-  %h2#your-vouchers Your vouchers
+- if current_user.vouchers.any?
 
   %table.table.table-condensed
     %thead
@@ -49,8 +51,6 @@
           - if voucher.claimed_by
             - user = voucher.claimed_by
             = link_to(user.nickname, user.steam_profile_url, :target => "_blank")
-
-
 
 = render 'statistics', :user => @user
 

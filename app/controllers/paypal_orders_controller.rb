@@ -4,7 +4,7 @@ class PaypalOrdersController < ApplicationController
 
   def new
     @products = Product.active.ordered
-    @paypal_order = PaypalOrder.new(:product => Product.find_by_name("1 year"))
+    @paypal_order = PaypalOrder.new(gift: params[:gift], product: Product.find_by_name("1 year"))
   end
 
   def create

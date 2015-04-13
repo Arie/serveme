@@ -3,7 +3,7 @@ class VouchersController < ApplicationController
   skip_before_filter :block_users_with_expired_reservations
 
   def new
-    @voucher = Voucher.find_by_code(params[:code]) if params[:code]
+    @voucher = Voucher.find_voucher(params[:code]) if params[:code]
     @voucher ||= Voucher.new
     if @voucher.claimed?
       flash.now[:alert] = "This code has already been used"
@@ -12,7 +12,7 @@ class VouchersController < ApplicationController
 
   def create
     code = params.require(:voucher).require(:code)
-    @voucher = Voucher.unclaimed.find_by_code(code)
+    @voucher = Voucher.unclaimed.find_voucher(code)
     if @voucher
       @voucher.claim!(current_user)
       flash.now[:notice] = "Code activated: #{@voucher.product.name}"

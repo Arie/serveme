@@ -21,7 +21,7 @@ class Voucher < ActiveRecord::Base
     where(claimed_at: nil)
   end
 
-  def self.find_by_code(code)
+  def self.find_voucher(code)
     begin
       code = encode(Base32::Crockford.decode(code, :integer))
       where(code: code).first

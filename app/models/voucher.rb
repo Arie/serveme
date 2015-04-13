@@ -1,12 +1,17 @@
 class Voucher < ActiveRecord::Base
 
   belongs_to :product
-  belongs_to :user, :foreign_key => :claimed_by
+  belongs_to :paypal_order
+  belongs_to :claimed_by,  class_name: "User"
+  belongs_to :created_by,  class_name: "User"
   attr_accessible :code, :product
 
+  def hyphenate
+    Base32::Crockford.hypenate(code).upcase
+  end
+
   def self.generate!(product)
-    voucher = create!(product: product, code: generate_code)
-    Base32::Crockford.hypenate(voucher.code).upcase
+    create!(product: product, code: generate_code)
   end
 
   def self.generate_code
@@ -34,8 +39,8 @@ class Voucher < ActiveRecord::Base
     with_lock do
       reload
       raise AlreadyClaimed if claimed?
-      self[:claimed_by] = user.id
-      self[:claimed_at] = Time.current
+      self.claimed_by = user
+      self.claimed_at = Time.current
       GrantPerks.new(product, user).perform
       save!
     end

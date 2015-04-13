@@ -24,6 +24,34 @@
       %button.btn.btn-default{:type => :submit}
         Save private server
 
+- if current_user.vouchers.any?
+
+  %h2#your-vouchers Your vouchers
+
+  %table.table.table-condensed
+    %thead
+      %tr
+        %th Code
+        %th Product
+        %th Generated
+        %th Claimed
+        %th Claimed by
+
+    - current_user.vouchers.each do |voucher|
+      %tr
+        %td
+          = link_to voucher.hyphenate, claim_path(code: voucher.hyphenate)
+          = render 'shared/copy_button', :copy_button_id => "voucher_code_#{voucher.id}", :copy_text => claim_url(code: voucher.hyphenate)
+        %td= voucher.product.name
+        %td= I18n.l(voucher.created_at, format: :short)
+        %td= I18n.l(voucher.claimed_at, format: :short) if voucher.claimed_at
+        %td
+          - if voucher.claimed_by
+            - user = voucher.claimed_by
+            = link_to(user.nickname, user.steam_profile_url, :target => "_blank")
+
+
+
 = render 'statistics', :user => @user
 
 :javascript

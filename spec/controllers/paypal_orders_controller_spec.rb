@@ -43,6 +43,17 @@ describe PaypalOrdersController do
       flash[:alert].should == "Something went wrong while trying to activate your donator status, please contact us using the comment section"
     end
 
+    it "redirects to settings path if it was a gift" do
+      order.update_attribute(:gift, true)
+      order.should_receive(:charge).with("PayerID").and_return(true)
+      subject.stub(:order).and_return(order)
+
+      get :redirect, :order_id => order.id, :PayerID => "PayerID"
+
+      response.should redirect_to(settings_path("#your-vouchers"))
+      flash[:notice].should == "Your donation has been received and we've made a voucher code that you can give away"
+    end
+
   end
 
   describe "#order" do

@@ -4,14 +4,18 @@ class PaypalOrder < ActiveRecord::Base
   belongs_to :product
   belongs_to :user
 
-  attr_accessible :product, :product_id, :payment_id, :payer_id, :status
+  attr_accessible :product, :product_id, :payment_id, :payer_id, :status, :gift
   delegate :name, :to => :product, :allow_nil => true, :prefix => true
 
   validates_presence_of :user_id, :product_id
 
   def complete_payment!
     update_attributes(:status => "Completed")
-    GrantPerks.new(product, user).perform
+    if gift?
+      GeneratePaypalVoucher.new(self).perform
+    else
+      GrantPerks.new(product, user).perform
+    end
     announce_donator
   end
 

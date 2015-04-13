@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_many :paypal_orders
   has_many :reservation_players, :primary_key => :uid, :foreign_key => :steam_uid
   has_many :player_statistics,   :primary_key => :uid, :foreign_key => :steam_uid
+  has_many :vouchers,            :foreign_key => :created_by_id
   geocoded_by :current_sign_in_ip
   before_save :geocode, :if => :current_sign_in_ip_changed?
 

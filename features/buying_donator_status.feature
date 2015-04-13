@@ -26,3 +26,10 @@ Feature: Buying donator status
     And my PayPal payment was successful
     Then my donator status lasts for a month
     And I get to choose a private server in my settings
+
+    @vcr
+  Scenario: Buying for someone else
+    When I buy 1 month worth of donator status for someone else
+    And my PayPal payment was successful
+    Then I see a voucher code on my settings page
+

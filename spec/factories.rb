@@ -111,7 +111,8 @@ FactoryGirl.define do
 
   factory :voucher do
     association :product
-    association :user
+    association :created_by,    factory: :user
+    association :claimed_by,    factory: :user
     code "foobar"
   end
 

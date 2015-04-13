@@ -6,7 +6,7 @@ class VouchersController < ApplicationController
     @voucher = Voucher.find_voucher(params[:code]) if params[:code]
     @voucher ||= Voucher.new
     if @voucher.claimed?
-      flash.now[:alert] = "This code has already been used"
+      flash[:alert] = "This code has already been used"
     end
   end
 
@@ -15,10 +15,10 @@ class VouchersController < ApplicationController
     @voucher = Voucher.unclaimed.find_voucher(code)
     if @voucher
       @voucher.claim!(current_user)
-      flash.now[:notice] = "Code activated: #{@voucher.product.name}"
+      flash[:notice] = "Code activated: #{@voucher.product.name}"
       redirect_to root_path
     else
-      flash.now[:alert] = "Invalid code or already used"
+      flash[:alert] = "Invalid code or already used"
       @voucher = Voucher.new
       render :new
     end

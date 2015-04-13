@@ -18,6 +18,18 @@ When "I buy 1 month worth of private server" do
   step "I click the donate button"
 end
 
+When "I buy 1 month worth of donator status for someone else" do
+  step "I go to donate"
+  select "1 month - 1 EUR"
+  choose "For someone else"
+  step "I click the donate button"
+end
+
+Then "I see a voucher code on my settings page" do
+  visit settings_path
+  page.should have_content "Your vouchers"
+end
+
 Then "I get to choose a private server in my settings" do
   visit settings_path
   page.should have_content "Private server"

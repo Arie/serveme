@@ -3,8 +3,8 @@ When "I go to activate a voucher" do
 end
 
 When "I enter a valid voucher code" do
-  code = Voucher.generate!(Product.find_by_name "1 month")
-  fill_in_voucher_code(code)
+  voucher = Voucher.generate!(Product.find_by_name "1 month")
+  fill_in_voucher_code(voucher.code)
 end
 
 When "I enter a used voucher code" do

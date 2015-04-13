@@ -8,7 +8,9 @@ class PaypalOrdersController < ApplicationController
   end
 
   def create
-    paypal_order.product_id = params[:paypal_order][:product_id].to_i
+    order_params = params.require(:paypal_order).permit([:product_id, :gift])
+    paypal_order.product_id = order_params[:product_id].to_i
+    paypal_order.gift       = order_params[:gift]
     if paypal_order.save && paypal_order.prepare
       redirect_to paypal_order.checkout_url
     else
@@ -19,11 +21,17 @@ class PaypalOrdersController < ApplicationController
 
   def redirect
     if order.charge(params[:PayerID])
-      flash[:notice] = "Your donation has been received and your donator perks are now activated, thanks! <3"
+      if order.gift?
+        flash[:notice] = "Your donation has been received and we've made a voucher code that you can give away"
+        redirect_to settings_path("#your-vouchers")
+      else
+        flash[:notice] = "Your donation has been received and your donator perks are now activated, thanks! <3"
+        redirect_to root_path
+      end
     else
       flash[:alert] = "Something went wrong while trying to activate your donator status, please contact us using the comment section"
+      redirect_to root_path
     end
-    redirect_to root_path
   end
 
   def order

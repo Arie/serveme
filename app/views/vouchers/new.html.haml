@@ -16,7 +16,7 @@
 .row
   .col-md-12.form-inline
     = simple_form_for(Voucher.new) do |f|
-      = f.input :code, :class => "col-md-10 form-control required", autofocus: true
+      = f.input :code, :input_html => { value: @voucher.code }, :class => "col-md-10 form-control required", autofocus: true
 
       %button.btn.btn-warning{:type => :submit}
         Claim

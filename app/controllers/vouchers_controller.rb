@@ -4,12 +4,9 @@ class VouchersController < ApplicationController
 
   def new
     @voucher = Voucher.find_by_code(params[:code]) if params[:code]
-    if @voucher
-      if @voucher.claimed?
-        flash.now[:alert] = "This code has already been used"
-      end
-    else
-      @voucher = Voucher.new
+    @voucher ||= Voucher.new
+    if @voucher.claimed?
+      flash.now[:alert] = "This code has already been used"
     end
   end
 

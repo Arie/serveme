@@ -106,7 +106,7 @@ Serveme::Application.routes.draw do
 
   #Pretty URLs
   get   '/donate',                        :to => "paypal_orders#new",         :as => "donate"
-  get   '/voucher(/:code)',                 :to => "vouchers#new",              :as => "claim"
+  get   '/voucher(/:code)',               :to => "vouchers#new",              :as => "claim"
   get   '/statistics',                    :to => "pages#statistics",          :as => "statistics"
   get   '/faq',                           :to => "pages#faq",                 :as => "faq"
   get   '/credits',                       :to => "pages#credits",             :as => "credits"

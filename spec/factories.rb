@@ -116,4 +116,8 @@ FactoryGirl.define do
     code "foobar"
   end
 
+  factory :reservation_status do
+    status "this is the status"
+  end
+
 end

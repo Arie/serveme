@@ -24,8 +24,11 @@ class ReservationsController < ApplicationController
 
   def i_am_feeling_lucky
     @reservation = IAmFeelingLucky.new(current_user).build_reservation
-    if @reservation.save
-      reservation_saved
+    if @reservation.valid?
+      @reservation.server.with_lock do
+        @reservation.save!
+      end
+      reservation_saved if @reservation.persisted?
     else
       flash[:alert] = "You're not very lucky, no server is available for the timerange #{@reservation.human_timerange} :("
       redirect_to root_path

@@ -14,10 +14,9 @@ class ReservationsController < ApplicationController
     @reservation = current_user.reservations.build(reservation_params)
     if @reservation.valid?
       @reservation.server.with_lock do
-        if @reservation.save!
-          reservation_saved
-        end
+        @reservation.save!
       end
+      reservation_saved if @reservation.persisted?
     else
       render :new
     end

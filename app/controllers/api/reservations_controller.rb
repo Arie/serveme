@@ -16,8 +16,11 @@ class Api::ReservationsController < Api::ApplicationController
 
   def create
     @reservation = current_user.reservations.build(reservation_params)
-    if @reservation.save
-      if @reservation.now?
+    if @reservation.valid?
+      @reservation.server.with_lock do
+        @reservation.save!
+      end
+      if @reservation.persisted? && @reservation.now?
         @reservation.update_attribute(:start_instantly, true)
         @reservation.start_reservation
       end

@@ -94,7 +94,7 @@ describe ReservationsController do
     end
 
     it "shows an error if I'm not so lucky" do
-      reservation = double(:reservation, :human_timerange => "the_timerange", :save => false)
+      reservation = double(:reservation, :human_timerange => "the_timerange", :save => false, :valid? => false)
       lucky = double(:lucky, :build_reservation => reservation)
       IAmFeelingLucky.should_receive(:new).and_return(lucky)
 

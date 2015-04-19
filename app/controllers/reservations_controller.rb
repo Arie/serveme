@@ -12,8 +12,12 @@ class ReservationsController < ApplicationController
 
   def create
     @reservation = current_user.reservations.build(reservation_params)
-    if @reservation.save
-      reservation_saved
+    if @reservation.valid?
+      @reservation.server.with_lock do
+        if @reservation.save!
+          reservation_saved
+        end
+      end
     else
       render :new
     end

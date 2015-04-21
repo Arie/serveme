@@ -108,7 +108,7 @@ end
 
 gem 'uglifier'
 gem 'jquery-rails'
-gem "compass-rails"
+gem 'compass-rails', github: 'y-yagi/compass-rails', branch: 'sass-rails-5_0_x'
 gem 'sass'
 gem 'sass-rails'
 gem 'bootstrap-sass'

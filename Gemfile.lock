@@ -12,6 +12,16 @@ GIT
   specs:
     rbzip2 (0.2.0)
 
+GIT
+  remote: git://github.com/y-yagi/compass-rails.git
+  revision: 88e6b4dd4021ef91c18eb3c2ffc13c2f9fe362d7
+  branch: sass-rails-5_0_x
+  specs:
+    compass-rails (2.0.4)
+      compass (~> 1.0.0)
+      sass-rails (< 5.1)
+      sprockets (< 2.13)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -122,10 +132,6 @@ GEM
       sass (>= 3.3.0, < 3.5)
     compass-import-once (1.0.5)
       sass (>= 3.2, < 3.5)
-    compass-rails (2.0.4)
-      compass (~> 1.0.0)
-      sass-rails (<= 5.0.1)
-      sprockets (< 2.13)
     connection_pool (2.2.0)
     coveralls (0.8.0)
       multi_json (~> 1.10)
@@ -237,7 +243,7 @@ GEM
     method_source (0.8.2)
     mime-types (2.4.3)
     mini_portile (0.6.2)
-    minitest (5.5.1)
+    minitest (5.6.0)
     multi_json (1.11.0)
     multi_test (0.1.2)
     multi_xml (0.5.5)
@@ -371,7 +377,7 @@ GEM
       capistrano (~> 2.15.4)
     safe_yaml (1.0.4)
     sass (3.4.13)
-    sass-rails (5.0.1)
+    sass-rails (5.0.3)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.1)
       sprockets (>= 2.8, < 4.0)
@@ -477,7 +483,7 @@ DEPENDENCIES
   capybara
   carrierwave
   coffee-rails
-  compass-rails
+  compass-rails!
   coveralls
   cucumber
   cucumber-rails

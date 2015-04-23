@@ -7,20 +7,19 @@ GIT
       multi_xml (~> 0.5)
 
 GIT
-  remote: git://github.com/koraktor/rbzip2.git
-  revision: ca6f4ee8df06a19f2898c3d90673922643b5f6b4
-  specs:
-    rbzip2 (0.2.0)
-
-GIT
-  remote: git://github.com/y-yagi/compass-rails.git
-  revision: 88e6b4dd4021ef91c18eb3c2ffc13c2f9fe362d7
-  branch: sass-rails-5_0_x
+  remote: git://github.com/Compass/compass-rails.git
+  revision: 4c7cf5cd94de275401847c1948a6c3e1f43b3d4a
   specs:
     compass-rails (2.0.4)
       compass (~> 1.0.0)
       sass-rails (< 5.1)
       sprockets (< 2.13)
+
+GIT
+  remote: git://github.com/koraktor/rbzip2.git
+  revision: ca6f4ee8df06a19f2898c3d90673922643b5f6b4
+  specs:
+    rbzip2 (0.2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -392,7 +391,7 @@ GEM
       faraday (>= 0.7.6)
     shoulda-matchers (2.8.0)
       activesupport (>= 3.0.0)
-    sidekiq (3.3.3)
+    sidekiq (3.3.4)
       celluloid (>= 0.16.0)
       connection_pool (>= 2.1.1)
       json
@@ -437,7 +436,7 @@ GEM
     tilt (1.4.1)
     timers (4.0.1)
       hitimes
-    tins (1.3.5)
+    tins (1.4.2)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.1)

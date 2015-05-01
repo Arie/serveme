@@ -8,15 +8,6 @@
             = link_to("Your previous reservation", reservation_path(users_last_reservation))
             expired due to inactivity. If you need more than #{users_last_reservation.inactive_minute_limit} minutes to get people on your server, press the "idle reset" button to keep your reservation open.
 
-- if na_system? && current_user.reservations.count % 10 == 0
-  .row
-    .col-md-12
-      .alert.alert-success
-        %h4
-          Thanks for being a serveme user. Have you considered owning one of our servers? You can use the promo code 'serveme' on
-          = link_to("tragicservers.com", "http://www.tragicservers.com/link.php?id=3")
-          for a 20% lifetime discount!
-
 - if !donator?
   - if current_user.reservations.count.between?(10, 100)
     .row

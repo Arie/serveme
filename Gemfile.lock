@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/Compass/compass-rails.git
-  revision: db1f12e800cda923ff4db69dbe3346d4b6719b83
+  revision: 3e88f991150ffa39b0a539dffb3326248d18e6ad
   specs:
     compass-rails (2.0.4)
       compass (~> 1.0.0)
@@ -88,8 +88,8 @@ GEM
       net-ssh-gateway (>= 1.1.0)
     capistrano-ext (1.2.1)
       capistrano (>= 1.0.0)
-    capistrano-maintenance (0.0.4)
-      capistrano (>= 2.0.0)
+    capistrano-maintenance (0.0.5)
+      capistrano (~> 2.0)
     capistrano-sidekiq (0.5.2)
       capistrano
       sidekiq
@@ -226,7 +226,7 @@ GEM
     logs_tf (0.0.3)
       faraday (~> 0.8.0)
       multipart-post (~> 1.2.0)
-    loofah (2.0.1)
+    loofah (2.0.2)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
@@ -278,7 +278,7 @@ GEM
       multi_json
       omniauth-openid
     orm_adapter (0.5.0)
-    paypal-sdk-rest (1.1.3)
+    paypal-sdk-rest (1.2.0)
       multi_json (~> 1.0)
       uuidtools (~> 2.1)
       xml-simple

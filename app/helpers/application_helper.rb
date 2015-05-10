@@ -16,12 +16,8 @@ module ApplicationHelper
     Reservation.current.where(:server_id => Server.for_donators).count
   end
 
-  def na_system?
-    SITE_URL == "http://na.serveme.tf"
-  end
-
-  def eu_system?
-    SITE_URL == "http://serveme.tf"
+  ['au', 'na'].each do |subdomain|
+    define_method("#{subdomain}_system?") { SITE_URL == "http://#{subdomain}.serveme.tf" }
   end
 
 end

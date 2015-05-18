@@ -91,7 +91,6 @@ describe LocalServer do
       reservation = stubbed_reservation(:enable_plugins? => true)
       subject.should_receive(:restart)
       subject.should_receive(:enable_plugins)
-      subject.should_receive(:disable_arena_respawn)
       subject.should_receive(:update_configuration).with(reservation)
       subject.start_reservation(reservation)
     end
@@ -105,18 +104,6 @@ describe LocalServer do
       file.should_receive(:write).with(anything).twice
       subject.should_receive(:generate_config_file).twice.with(reservation, anything).and_return("config file contents")
       subject.start_reservation(reservation)
-    end
-
-    context "with enable arena respawn enabled" do
-
-      it "copies the arena respawn stuff and enables plugins" do
-        reservation = stubbed_reservation(:enable_plugins? => true, :enable_arena_respawn? => true)
-        subject.should_receive(:restart)
-        subject.should_receive(:update_configuration).with(reservation)
-        subject.should_receive(:enable_plugins)
-        subject.should_receive(:enable_arena_respawn)
-        subject.start_reservation(reservation)
-      end
     end
 
   end
@@ -401,34 +388,8 @@ describe LocalServer do
 
   end
 
-  context "arena respawn" do
-
-    before do
-      subject.stub(:tf_dir => '/tmp')
-    end
-
-    describe "#disable_arena_respawn" do
-
-      it "deletes the plugin file from the server" do
-        subject.should_receive(:delete_from_server).with(["#{subject.tf_dir}/addons/sourcemod/plugins/arena_respawn.smx"])
-        subject.disable_arena_respawn
-      end
-
-    end
-
-    describe "#enable_arena_respawn" do
-
-      it "copies the plugin file to the server" do
-        subject.should_receive(:copy_to_server).with(["#{Rails.root.join("doc", "arena_respawn.smx")}"], "#{subject.tf_dir}/addons/sourcemod/plugins")
-        subject.enable_arena_respawn
-      end
-
-    end
-
-  end
-
   def stubbed_reservation(stubs = {})
-    reservation = double(:reservation, :status_update => true, :enable_arena_respawn? => false, :enable_plugins? => false)
+    reservation = double(:reservation, :status_update => true, :enable_plugins? => false)
     stubs.each do |k, v|
       reservation.stub(k) { v }
     end

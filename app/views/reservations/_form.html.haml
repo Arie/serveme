@@ -32,7 +32,6 @@
       = f.input :tv_password,         :as => :string,   :placeholder => "Password for STV, default tv"
       = f.input :tv_relaypassword,    :as => :string,   :placeholder => "Password for STV (relay), default tv"
       = f.input :enable_plugins,      :as => :boolean,  :hint => "Enable SOAP DM and MGE (donators only)",              :disabled => (!current_user.donator? || !@reservation.schedulable? )
-      = f.input :enable_arena_respawn,:as => :boolean,  :hint => "Enable Arena:Respawn (donators only)",                :disabled => (!current_user.donator? || !@reservation.schedulable? )
       = f.association :server_config, :collection => ServerConfig.ordered, :hint => "Specify a league config to run on each map start", :input_html => { :class => "select2" }
       = f.input :whitelist_type, :label => "Item whitelist" do
         = radio_button_tag :whitelist_type, "default_whitelist", (!@reservation.custom_whitelist_id.present? && !@reservation.whitelist.present?)

@@ -13,10 +13,6 @@ tftrue_logs_roundend 0
 tftrue_tv_delaymapchange 1
 livelogs_force_logsecret 0
 
-<% if enable_arena_respawn %>
-  tf_arena_use_queue 0
-  tf_arena_override_cap_enable_time 20
-<% end %>
 <% if server_config %>
 <%= "exec #{server_config}" %><% end %>
 <% if custom_whitelist_id %>

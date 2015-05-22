@@ -197,6 +197,11 @@ class Reservation < ActiveRecord::Base
     reservation_statuses.create!(:status => status)
   end
 
+  def tf2center?
+    tags = server.rcon_exec("sv_tags")
+    tags.include?("TF2Center")
+  end
+
   private
 
   def reservation_manager

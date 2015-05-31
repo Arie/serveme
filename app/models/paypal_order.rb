@@ -49,7 +49,7 @@ class PaypalOrder < ActiveRecord::Base
 
   def self.monthly_goal(site_host = SITE_HOST)
     if site_host == "serveme.tf"
-      250.0
+      300.0
     elsif site_host == "na.serveme.tf"
       100.0
     else

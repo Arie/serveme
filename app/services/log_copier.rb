@@ -15,6 +15,7 @@ class LogCopier
 
   def copy
     make_directory
+    set_directory_permissions
     copy_logs
   end
 
@@ -24,6 +25,10 @@ class LogCopier
 
   def make_directory
     FileUtils.mkdir_p(directory_to_copy_to)
+  end
+
+  def set_directory_permissions
+    FileUtils.chmod_R(0775, directory_to_copy_to)
   end
 
 end

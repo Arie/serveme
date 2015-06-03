@@ -6,6 +6,45 @@
   .col-md-12
     %p
       These awesome organisations and individuals have contributed gameservers to the reservation system
+
+%h3 Professional hosting providers
+
+.row
+
+  .col-md-12
+    %table.table.table-hover.table-bordered.table-striped
+      %thead
+        %tr
+          %th
+            Logo
+          %th
+            Name
+          %th
+            Description
+          %th
+            Location
+          %th
+            IP
+
+      %tr
+        %td= image_tag('server_providers/tragicservers_logo.png', :class => "server_provider_logo")
+        %td= link_to('TragicServers', 'http://www.tragicservers.com/link.php?id=3', :target => '_blank')
+        %td
+          %p
+            TragicServers is a very well known provider in North America who does a lot for the NA scene. For the NA version of serveme.tf, TragicServers provides all gameservers in 4 locations. TragicServers is the reason there's a na.serveme.tf at all.
+        %td United States of Amercia, Chicago-Dallas-New York-San Jose
+        %td servechi1.tragicservers.com, servedal1.tragicservers.com, serveny1.tragicservers.com, serversj1.tragicservers.com
+
+      %tr
+        %td= image_tag('server_providers/simrai.png')
+        %td= link_to('SimRai', 'https://www.simrai.com/', :target => '_blank')
+        %td
+          "SimRai provides perfect quality gaming servers that don't leave you with an empty wallet. Simple as that. Please try our services, you won't be disappointed!"
+        %td France, the Netherlands, England
+        %td 195.154.168.136, 77.246.174.116, 94.75.192.199, 88.150.176.82
+
+%h3 Community supporters
+
 .row
   .col-md-12
     %table.table.table-hover.table-bordered.table-striped
@@ -32,16 +71,6 @@
             FakkelBrigades provides a number of gameservers.
         %td Germany, Falkenstein & France, Roubaix
         %td fakkelbrigade.eu & fr.fakkelbrigade.eu, fritz.fakkelbrigade.eu, franz.fakkelbrigade.eu & beret.fakkelbrigade.eu
-
-      %tr
-        %td= image_tag('server_providers/tragicservers_logo.png', :class => "server_provider_logo")
-        %td= link_to('TragicServers', 'http://www.tragicservers.com/link.php?id=3', :target => '_blank')
-        %td
-          %p
-            TragicServers is a very well known provider in North America who does a lot for the NA scene. For the NA version of serveme.tf, TragicServers provides all gameservers in 4 locations. TragicServers is the reason there's a na.serveme.tf at all.
-        %td United States of Amercia, Chicago-Dallas-New York-San Jose
-        %td servechi1.tragicservers.com, servedal1.tragicservers.com, serveny1.tragicservers.com, serversj1.tragicservers.com
-
 
       %tr
         %td= image_tag('server_providers/seriouscat.png')
@@ -91,14 +120,6 @@
           "Sometimes when my mom isn't home, I like to go into her garden, cover myself with dirt and pretend I'm a carrot."
         %td Germany, Frankfurt
         %td serveme.bball.eu
-
-      %tr
-        %td= image_tag('server_providers/simrai.png')
-        %td= link_to('SimRai', 'https://www.simrai.com/', :target => '_blank')
-        %td
-          "SimRai provides perfect quality gaming servers that don't leave you with an empty wallet. Simple as that. Please try our services, you won't be disappointed!"
-        %td France, the Netherlands, England
-        %td 195.154.168.136, 77.246.174.116, 94.75.192.199, 88.150.176.82
 
       %tr
         %td

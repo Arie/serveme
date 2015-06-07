@@ -24,6 +24,9 @@ class SimraiServer < RemoteServer
 
   end
 
+  def ftp_connection_pool_size
+    1
+  end
 
   def connection
     @connection ||= Faraday.new(:url => 'http://eu.simraicontrol.com', :headers => { accept_encoding: 'none' } ) do |faraday|

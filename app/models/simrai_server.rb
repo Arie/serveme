@@ -24,17 +24,6 @@ class SimraiServer < RemoteServer
 
   end
 
-  def copy_from_server(files, destination)
-    return if files.none?
-    logger.info "FTP GET, FILES: #{files} DESTINATION: #{destination}"
-    files.each do |file|
-      begin
-        ftp.getbinaryfile(file, File.join(destination, File.basename(file)))
-      rescue
-        Rails.logger.error "couldn't download file: #{file}"
-      end
-    end
-  end
 
   def connection
     @connection ||= Faraday.new(:url => 'http://eu.simraicontrol.com', :headers => { accept_encoding: 'none' } ) do |faraday|

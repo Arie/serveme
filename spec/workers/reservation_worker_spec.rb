@@ -44,12 +44,6 @@ describe ReservationWorker do
       ReservationWorker.perform_async(reservation.id, "end")
     end
 
-    it 'should not do anything when the reservation was already ended' do
-      reservation.update_attribute(:ended, true)
-      Server.any_instance.should_not_receive(:end_reservation)
-      ReservationWorker.perform_async(reservation.id, "end")
-    end
-
     it "logs an error if something goes wrong" do
       Server.any_instance.stub(:restart).and_raise('foo')
       Rails.stub(:logger => double.as_null_object)

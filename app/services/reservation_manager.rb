@@ -14,9 +14,6 @@ class ReservationManager
 
   def end_reservation
     reservation.reservation_statuses.create!(:status => "Ending")
-    puts reservation.inspect
-    puts reservation.ended
-    puts reservation.ended?
     manage_reservation(:end) unless reservation.ended?
   end
 

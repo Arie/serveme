@@ -51,7 +51,7 @@ class PaypalOrder < ActiveRecord::Base
     if site_host == "serveme.tf"
       300.0
     elsif site_host == "na.serveme.tf"
-      100.0
+      175.0
     else
       50.0
     end

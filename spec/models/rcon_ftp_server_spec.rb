@@ -175,7 +175,7 @@ describe RconFtpServer do
       Rails.stub(:logger => logger)
 
       ftp.should_receive(:getbinaryfile).with('foo.log', 'bar/foo.log').and_raise Net::FTPPermError
-      logger.should_receive(:error).with("couldn't download file: foo.log")
+      logger.should_receive(:error).with("couldn't download file: foo.log - Net::FTPPermError")
       subject.copy_from_server(files, destination)
     end
 

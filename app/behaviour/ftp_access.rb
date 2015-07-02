@@ -43,8 +43,9 @@ module FtpAccess
         files_for_thread.each do |file|
           begin
             ftp.getbinaryfile(file, File.join(destination, File.basename(file)))
-          rescue
-            Rails.logger.error "couldn't download file: #{file}"
+          rescue Exception => exception
+            Rails.logger.error "couldn't download file: #{file} - #{exception}"
+            Raven.capture_exception(exception) if Rails.env.production?
           end
         end
       end

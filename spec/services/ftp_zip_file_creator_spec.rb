@@ -8,18 +8,16 @@ describe FtpZipFileCreator do
   describe '#create_zip' do
 
     it "makes a tmpdir locally to store the files to be zipped" do
-      Dir.should_receive(:mktmpdir)
       zip_file = FtpZipFileCreator.new(reservation, ["foo'bar"])
+      server.should_receive(:copy_from_server).with(Array, String)
       zip_file.stub(:zipfile_name => "/tmp/foo.zip")
       zip_file.should_receive(:chmod)
       zip_file.create_zip
     end
 
     it "gets the files from the server" do
-      tmp_dir = "tmp_dir"
-      Dir.should_receive(:mktmpdir).and_yield(tmp_dir)
       files = ['foo', 'bar']
-      server.should_receive(:copy_from_server).with(files, tmp_dir)
+      server.should_receive(:copy_from_server).with(files, String)
       zip_file = FtpZipFileCreator.new(reservation, files)
       zip_file.stub(:zipfile_name => "/tmp/foo.zip")
       zip_file.create_zip

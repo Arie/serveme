@@ -1,12 +1,15 @@
 class FtpZipFileCreator < ZipFileCreator
 
   def create_zip
-    Dir.mktmpdir do |tmp_dir|
+    tmp_dir = Dir.mktmpdir
+    begin
       reservation.status_update("Downloading logs and demos from FTP")
       server.copy_from_server(files_to_zip, tmp_dir)
       zip(tmp_dir)
+      chmod
+    ensure
+      FileUtils.remove_entry tmp_dir
     end
-    chmod
   end
 
   def zip(tmp_dir)

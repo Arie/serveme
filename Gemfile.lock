@@ -218,7 +218,7 @@ GEM
     json_expressions (0.8.3)
     launchy (2.4.3)
       addressable (~> 2.3)
-    libv8 (3.16.14.9)
+    libv8 (3.16.14.11)
     lograge (0.3.3)
       actionpack (>= 3)
       activesupport (>= 3)

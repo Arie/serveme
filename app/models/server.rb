@@ -88,7 +88,7 @@ class Server < ActiveRecord::Base
   end
 
   def enable_plugins
-    #write_configuration(metamod_file, metamod_body)
+    write_configuration(metamod_file, metamod_body)
   end
 
   def disable_plugins

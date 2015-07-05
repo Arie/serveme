@@ -34,7 +34,7 @@ gem 'zeroclipboard-rails'
 gem "google_visualr"
 gem 'rack-cache'
 gem 'paypal-sdk-rest'
-gem 'sidekiq'
+gem 'sidekiq', "~> 3.4.1"
 gem 'sidetiq'
 gem 'geoip'
 gem 'geocoder'

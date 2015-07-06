@@ -1,14 +1,15 @@
 class FtpZipFileCreator < ZipFileCreator
 
   def create_zip
-    tmp_dir = Dir.mkdir(Rails.root.join("tmp", "reservation-#{reservation.id.to_s}"), 0770)
+    path = Rails.root.join("tmp", "reservation-#{reservation.id.to_s}").to_s
+    Dir.mkdir(path, 0770)
     begin
       reservation.status_update("Downloading logs and demos from FTP")
-      server.copy_from_server(files_to_zip, tmp_dir)
-      zip(tmp_dir)
+      server.copy_from_server(files_to_zip, path)
+      zip(path)
       chmod
     ensure
-      FileUtils.remove_entry(tmp_dir, force: true)
+      FileUtils.remove_entry(path, force: true)
     end
   end
 

@@ -10,10 +10,10 @@
   - bar_class = "info"
 
 .donation_target
-  .col-md-2
-    %strong Monthly goal (#{I18n.t('number.currency.format.unit')}#{PaypalOrder.monthly_goal.round})
+  .col-md-3
+    %strong Monthly server bills (#{I18n.t('number.currency.format.unit')}#{PaypalOrder.monthly_goal.round})
 
-  .col-md-8
+  .col-md-7
     .progress.progress-striped.active
       - if goal_percentage <= 100
         - width = goal_percentage

@@ -9,7 +9,7 @@ class MonthlyDonationPorgressAnnouncerWorker
     human_date = Date.today.strftime("%B %-d")
 
     Reservation.includes(:user, :server).current.each do |r|
-      r.server.rcon_say("Today is #{human_date}, monthly donation goal is currently at #{PaypalOrder.monthly_goal_percentage.round}% Please donate at #{SITE_HOST} to keep this service alive") unless r.user.donator?
+      r.server.rcon_say("Today is #{human_date}, this month's donations have paid for #{PaypalOrder.monthly_goal_percentage.round} percent of our server bills. Please donate at #{SITE_HOST} to keep this service alive") unless r.user.donator?
     end
   end
 

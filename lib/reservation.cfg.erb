@@ -10,8 +10,8 @@ sv_rcon_whitelist_address <%= "direct.#{SITE_HOST}" %>
 tftrue_no_hats 0
 tftrue_logs_prefix "serveme.tf"
 tftrue_logs_roundend 0
-tv_delaymapchange 1
-livelogs_force_logsecret 0
+tftrue_tv_delaymapchange 1
+tv_delaymapchange 0
 
 <% if server_config %>
 <%= "exec #{server_config}" %><% end %>

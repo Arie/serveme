@@ -39,6 +39,9 @@ gem 'sidetiq'
 gem 'geoip'
 gem 'geocoder'
 
+gem 'dalli'
+gem 'connection_pool'
+
 gem 'sinatra', '>= 1.3.0', :require => nil
 #NFO server restarts
 gem 'mechanize'
@@ -93,7 +96,6 @@ end
 
 group :production do
   gem "sentry-raven"
-  gem 'dalli'
 end
 
 group :test do

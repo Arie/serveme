@@ -482,6 +482,7 @@ DEPENDENCIES
   carrierwave
   coffee-rails
   compass-rails!
+  connection_pool
   coveralls
   cucumber
   cucumber-rails

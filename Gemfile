@@ -38,6 +38,7 @@ gem 'sidekiq', "~> 3.4.1"
 gem 'sidetiq'
 gem 'geoip'
 gem 'geocoder'
+gem 'rbtrace'
 
 gem 'dalli'
 gem 'connection_pool'

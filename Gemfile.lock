@@ -244,6 +244,7 @@ GEM
     mime-types (2.6.1)
     mini_portile (0.6.2)
     minitest (5.7.0)
+    msgpack (0.6.1)
     multi_json (1.11.2)
     multi_test (0.1.2)
     multi_xml (0.5.5)
@@ -331,6 +332,10 @@ GEM
     rb-fsevent (0.9.5)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
+    rbtrace (0.4.7)
+      ffi (>= 1.0.6)
+      msgpack (>= 0.4.3)
+      trollop (>= 1.16.2)
     redis (3.2.1)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
@@ -438,6 +443,7 @@ GEM
     timers (4.0.1)
       hitimes
     tins (1.5.4)
+    trollop (2.1.2)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.1)
@@ -527,6 +533,7 @@ DEPENDENCIES
   puma
   rack-cache
   rails (~> 4.2.0)
+  rbtrace
   rbzip2!
   rspec-activemodel-mocks
   rspec-collection_matchers

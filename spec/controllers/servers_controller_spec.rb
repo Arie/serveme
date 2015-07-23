@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe ServersController do
 
+  before do
+    @user         = create :user
+    @user.groups << Group.donator_group
+    sign_in @user
+  end
+
   describe "#index" do
     it "should assign the servers variable" do
       first   = create :server, name: "abc"

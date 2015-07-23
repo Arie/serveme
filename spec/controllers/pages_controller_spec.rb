@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe PagesController do
 
+  before do
+    @user         = create :user
+    @user.groups << Group.donator_group
+    sign_in @user
+  end
+
   describe "#recent_reservations" do
     it "should assign the recent reservations variable" do
       reservation = create :reservation

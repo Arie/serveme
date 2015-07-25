@@ -10,7 +10,7 @@ class CleanupWorker
   end
 
   def remove_old_reservation_logs_and_zips
-    old_reservations.each do |reservation|
+    old_reservations.find_each do |reservation|
       logs_dir = Rails.root.join("server_logs", "#{reservation.id}")
       zip = Rails.root.join("public", "uploads", "#{reservation.zipfile_name}")
       if Dir.exists?(logs_dir)

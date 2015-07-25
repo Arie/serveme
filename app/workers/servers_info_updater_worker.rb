@@ -2,8 +2,8 @@ class ServersInfoUpdaterWorker
   include Sidekiq::Worker
 
   def perform
-    Server.active.each do |s|
-      ServerInfoUpdaterWorker.perform_async(s.id)
+    Server.active.pluck(:id).each do |id|
+      ServerInfoUpdaterWorker.perform_async(id)
     end
   end
 end

@@ -43,7 +43,7 @@ class CronWorker
   def check_active_reservations
     unended_now_reservations      = now_reservations.where('ended = ?', false)
     provisioned_now_reservations  = unended_now_reservations.where('provisioned = ?', true)
-    ActiveReservationCheckerWorker.perform_async(provisioned_now_reservations.map(&:id))
+    ActiveReservationCheckerWorker.perform_async(provisioned_now_reservations.pluck(:id))
   end
 
   def update_server_info

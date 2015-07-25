@@ -154,15 +154,6 @@ class Server < ActiveRecord::Base
     end
   end
 
-  def restart
-    if process_id
-      logger.info "Killing process id #{process_id}"
-      kill_process
-    else
-      logger.error "No process_id found for server #{id} - #{name}"
-    end
-  end
-
   def start_reservation(reservation)
     update_configuration(reservation)
     if reservation.enable_plugins?

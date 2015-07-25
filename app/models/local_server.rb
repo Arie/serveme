@@ -12,6 +12,15 @@ class LocalServer < Server
     end
   end
 
+  def restart
+    if process_id
+      logger.info "Killing process id #{process_id}"
+      kill_process
+    else
+      logger.error "No process_id found for server #{id} - #{name}"
+    end
+  end
+
   def find_process_id
     all_processes   = Sys::ProcTable.ps
     found_processes = all_processes.select {|process| process.cmdline.match(/#{port}/) && process.cmdline.match(/\.\/srcds_linux/) && !process.cmdline.match(/\.\/tv_relay/) }

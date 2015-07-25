@@ -26,6 +26,15 @@ class SshServer < RemoteServer
     execute("rm -f #{files.map(&:shellescape).join(' ')}")
   end
 
+  def restart
+    if process_id
+      logger.info "Killing process id #{process_id}"
+      kill_process
+    else
+      logger.error "No process_id found for server #{id} - #{name}"
+    end
+  end
+
   def execute(command)
     logger.info "executing remotely: #{command}"
     ssh_exec(command).stdout
@@ -69,12 +78,27 @@ class SshServer < RemoteServer
     execute("kill -15 #{process_id}")
   end
 
+  def restart
+    if process_id
+      logger.info "Killing process id #{process_id}"
+      kill_process
+    else
+      logger.error "No process_id found for server #{id} - #{name}"
+    end
+    ssh_close
+  end
+
   def shell_output_to_array(shell_output)
     shell_output.lines.map(&:chomp)
   end
 
   def ssh
     @ssh ||= Net::SSH::Simple.new({:host_name => ip})
+  end
+
+  def ssh_close
+    ssh.close
+    @ssh = nil
   end
 
 end

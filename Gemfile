@@ -53,7 +53,6 @@ gem 'jbuilder'
 
 gem 'ffi'
 gem 'pg'
-gem 'therubyracer'
 gem 'oily_png'
 gem 'sys-proctable', '~> 0.9.4', :require => 'sys/proctable'
 
@@ -107,6 +106,7 @@ group :test do
   gem 'webmock'
   gem 'delorean'
   gem 'json_expressions'
+  gem 'therubyracer'
 end
 
 gem 'uglifier'

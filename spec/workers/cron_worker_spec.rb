@@ -6,7 +6,7 @@ describe CronWorker do
 
   before do
     condenser = double.as_null_object
-    server = double(:server, :id => 1, :rcon_auth => true, :condenser => condenser)
+    server = double(:server, :id => 1, :rcon_auth => true, :rcon_disconnect => true, :condenser => condenser)
     allow(Server).to receive(:find).with(anything).and_return(server)
     allow(ServerMetric).to receive(:new)
   end

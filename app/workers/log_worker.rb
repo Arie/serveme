@@ -34,6 +34,7 @@ class LogWorker
     if action
       reservation.status_update("#{event.player.name} (#{sayer_steam_uid}): #{event.message}")
       send(action)
+      reservation.server.rcon_disconnect
     end
   end
 

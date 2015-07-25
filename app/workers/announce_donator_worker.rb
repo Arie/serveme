@@ -8,6 +8,7 @@ class AnnounceDonatorWorker
     @product  = @paypal_order.product
     Server.active.each do |s|
       s.rcon_say("#{@user.nickname} just donated to serveme.tf - #{@product.name}! #{PaypalOrder.monthly_goal_percentage.round} percent of our monthly server bills are now taken care of")
+      s.rcon_disconnect
     end
   end
 

@@ -12,10 +12,6 @@ describe LogWorker do
   let(:rcon_changelevel_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!rcon changelevel cp_badlands"' }
   let(:rcon_empty_line)       { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!rcon"' }
   let(:rcon_with_quotes_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!rcon mp_tournament "1""' }
-  let(:rate_line)             { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!rate bad laggy piece of shit"' }
-  let(:bad_rate_without_reason_line) { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!rate bad "' }
-  let(:empty_rate_line)       { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!rate "' }
-  let(:wrong_rate_line)       { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!rate foobar"' }
   let(:timeleft_line)         { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!timeleft"' }
   let(:turbine_start_line)    { '1234567L 02/07/2015 - 20:39:40: Started map "ctf_turbine" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
   let(:badlands_start_line)   { '1234567L 02/07/2015 - 20:39:40: Started map "cp_badlands" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
@@ -76,35 +72,6 @@ describe LogWorker do
     it "is not afraid of quotes in the commands" do
       server.should_receive(:rcon_exec).with('mp_tournament "1"')
       LogWorker.perform_async(rcon_with_quotes_line)
-    end
-
-  end
-
-  describe "rating servers" do
-
-    it "saves the rating" do
-      LogWorker.perform_async(rate_line)
-      Rating.count.should == 1
-      rating = Rating.last
-      rating.reservation.should == reservation
-      rating.nickname.should == "Troll"
-      rating.steam_uid.should == "76561197960278073"
-    end
-
-    it "informs the player the rating was saved" do
-      server.should_receive(:rcon_say).with("Thanks for rating this server Troll")
-      LogWorker.perform_async(rate_line)
-    end
-
-    it "ignores invalid ratings" do
-      LogWorker.perform_async(wrong_rate_line)
-      Rating.count.should == 0
-
-      LogWorker.perform_async(bad_rate_without_reason_line)
-      Rating.count.should == 0
-
-      LogWorker.perform_async(empty_rate_line)
-      Rating.count.should == 0
     end
 
   end

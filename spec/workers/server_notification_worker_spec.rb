@@ -23,6 +23,7 @@ describe ServerNotificationWorker do
     it "can send an ad to non donators" do
       reservation.stub(:user => non_donator)
       server.should_receive(:rcon_say).with("this is an ad")
+      server.should_receive(:rcon_disconnect)
       ServerNotificationWorker.perform_async(reservation.id)
     end
 

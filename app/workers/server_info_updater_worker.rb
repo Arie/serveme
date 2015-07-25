@@ -13,6 +13,8 @@ class ServerInfoUpdaterWorker
       ServerMetric.new(server_info)
     rescue
       Rails.logger.warn "Couldn't update #{server.name}"
+    ensure
+      server.rcon_disconnect
     end
   end
 end

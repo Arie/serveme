@@ -11,7 +11,10 @@ class ServerNotificationWorker
   def send_notification(reservation)
     unless reservation.user.donator?
       notification = notifications_for_non_donators.sample
-      reservation.server.rcon_say(notification.message.gsub("%{name}", reservation.user.nickname)) if notification
+      if notification
+        reservation.server.rcon_say(notification.message.gsub("%{name}", reservation.user.nickname))
+        reservation.server.rcon_disconnect
+      end
     end
   end
 

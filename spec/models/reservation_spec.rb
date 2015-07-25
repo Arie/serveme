@@ -610,6 +610,7 @@ describe Reservation do
 
       message = "This reservation will end in less than 1 minute, if this server is not yet booked by someone else, you can say !extend for more time"
       server.should_receive(:rcon_say).with(message)
+      server.should_receive(:rcon_disconnect)
       subject.warn_nearly_over
     end
 

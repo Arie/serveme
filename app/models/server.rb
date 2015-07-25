@@ -190,6 +190,7 @@ class Server < ActiveRecord::Base
     rcon_exec("kickall Reservation ended, every player can download the STV demo at http:/​/#{SITE_HOST}")
     reservation.status_update("Restarting server")
     restart
+    rcon_disconnect
     reservation.status_update("Restarted server")
   end
 
@@ -217,8 +218,18 @@ class Server < ActiveRecord::Base
     begin
       condenser.rcon_exec(command) if rcon_auth
     rescue Errno::ECONNREFUSED, SteamCondenser::Error::Timeout, SteamCondenser::Error::RCONNoAuth, SteamCondenser::Error::RCONBan => exception
-      Rails.logger.error "Couldn't deliver command to server #{id} - #{name}, command: #{command}"
+      Rails.logger.error "Couldn't deliver command to server #{id} - #{name}, command: #{command}, exception: #{exception}"
       nil
+    end
+  end
+
+  def rcon_disconnect
+    begin
+      condenser.disconnect
+    rescue exception
+      Rails.logger.error "Couldn't disconnect RCON of server #{id} - #{name}, exception: #{exception}"
+    ensure
+      @condenser = nil
     end
   end
 

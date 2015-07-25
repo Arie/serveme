@@ -119,6 +119,7 @@ describe LocalServer do
       subject.should_receive(:remove_configuration)
       subject.should_receive(:rcon_exec).twice
       subject.should_receive(:restart)
+      subject.should_receive(:rcon_disconnect)
       subject.end_reservation(reservation)
     end
 
@@ -363,29 +364,6 @@ describe LocalServer do
       subject.should_receive(:write_configuration).with(subject.metamod_file, anything)
       subject.enable_plugins
     end
-  end
-
-  describe "#rating" do
-
-    let(:server)      { create :server }
-    let(:reservation) { create :reservation, :server => server }
-
-    it "retuns a rating between 0.0 and 1.0" do
-      server.rating.should == 1.0
-      good_rating = create_rating("good")
-      server.rating.should == 1.0
-      bad_rating = create_rating("bad")
-      server.rating.should == 0.5
-      good_rating.destroy
-      server.rating.should == 0.0
-      bad_rating.destroy
-      server.rating.should == 1.0
-    end
-
-    def create_rating(opinion)
-      create(:rating, :reservation => reservation, :opinion => opinion, :published => true)
-    end
-
   end
 
   def stubbed_reservation(stubs = {})

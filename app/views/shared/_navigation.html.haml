@@ -52,8 +52,6 @@
                 = link_to i_am_feeling_lucky_reservations_path, :method => :post, :title => "Make a reservation in 1 click" do
                   %i.fa.fa-warning
                   1-click reservation
-        - else
-          %li= link_to("Recent reservations",     recent_reservations_path)
         - if current_user && current_user.donator?
           %li
             = link_to servers_path do

@@ -61,10 +61,6 @@ class LogWorker
     end
   end
 
-  def handle_rate
-    RateWorker.perform_async(reservation.id, sayer_steam_uid, event.player.name, message)
-  end
-
   def handle_timeleft
     minutes_until_reservation_ends = ((reservation.ends_at - Time.current) / 60).round
     minutes = [minutes_until_reservation_ends, 0].max
@@ -85,8 +81,6 @@ class LogWorker
 
   def action_for_message_said_by_anyone
     case message
-    when /!rate.*/
-      :handle_rate
     when /!timeleft.*/
       :handle_timeleft
     end

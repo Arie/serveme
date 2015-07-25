@@ -66,13 +66,6 @@ Serveme::Application.routes.draw do
     end
   end
 
-  resources :ratings do
-    member do
-      post :publish
-      post :unpublish
-    end
-  end
-
   resources :player_statistics, :only => :index
   resources :server_statistics, :only => :index
 

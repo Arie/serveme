@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150413110446) do
+ActiveRecord::Schema.define(version: 20150725122007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,22 +122,6 @@ ActiveRecord::Schema.define(version: 20150413110446) do
   end
 
   add_index "products", ["grants_private_server"], name: "index_products_on_grants_private_server", using: :btree
-
-  create_table "ratings", force: :cascade do |t|
-    t.integer  "reservation_id"
-    t.string   "steam_uid",      limit: 191
-    t.string   "nickname",       limit: 191
-    t.string   "opinion",        limit: 191
-    t.string   "reason",         limit: 191
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "published",                  default: false
-  end
-
-  add_index "ratings", ["opinion"], name: "index_ratings_on_opinion", using: :btree
-  add_index "ratings", ["published"], name: "index_ratings_on_published", using: :btree
-  add_index "ratings", ["reservation_id"], name: "index_ratings_on_reservation_id", using: :btree
-  add_index "ratings", ["steam_uid"], name: "index_ratings_on_steam_uid", using: :btree
 
   create_table "reservation_players", force: :cascade do |t|
     t.integer "reservation_id"

@@ -1,7 +1,5 @@
 class Server < ActiveRecord::Base
 
-  include ServerRatings
-
   attr_accessible :name, :path, :ip, :port
 
   has_many :groups, :through => :group_servers

@@ -226,7 +226,7 @@ class Server < ActiveRecord::Base
   def rcon_disconnect
     begin
       condenser.disconnect
-    rescue exception
+    rescue Exception => e
       Rails.logger.error "Couldn't disconnect RCON of server #{id} - #{name}, exception: #{exception}"
     ensure
       @condenser = nil

@@ -13,6 +13,14 @@ GIT
   specs:
     rbzip2 (0.2.0)
 
+GIT
+  remote: git://github.com/koraktor/steam-condenser-ruby.git
+  revision: e4347780425340c2cdf88564246d09a4ebc564b5
+  specs:
+    steam-condenser (1.3.11)
+      multi_json (~> 1.6)
+      multi_xml (~> 0.5)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -421,9 +429,6 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
-    steam-condenser (1.3.11)
-      multi_json (~> 1.6)
-      multi_xml (~> 0.5)
     sys-proctable (0.9.8)
     term-ansicolor (1.3.2)
       tins (~> 1.0)
@@ -545,7 +550,7 @@ DEPENDENCIES
   simple_form
   sinatra (>= 1.3.0)
   sprockets
-  steam-condenser
+  steam-condenser!
   sys-proctable (~> 0.9.4)
   tf2_line_parser
   therubyracer

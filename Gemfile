@@ -10,7 +10,7 @@ gem 'omniauth-openid'
 gem 'omniauth-steam'
 gem 'devise'
 gem 'rubyzip'
-gem 'steam-condenser'
+gem 'steam-condenser', :github => 'koraktor/steam-condenser-ruby'
 gem 'logs_tf'
 gem 'base32_pure'
 

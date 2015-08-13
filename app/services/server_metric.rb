@@ -24,8 +24,9 @@ class ServerMetric
   end
 
   def save_player_statistics
+    parser = RconStatusParser.new(server_info.get_rcon_status)
     PlayerStatistic.transaction do
-      RconStatusParser.new(server_info.get_rcon_status).players.each do |player|
+      parser.players.each do |player|
         if player.relevant?
           rp = ReservationPlayer.where(:reservation => current_reservation, :steam_uid => player.steam_uid).first_or_create(:name => player.name, :ip => player.ip)
           PlayerStatistic.create!(:reservation_player => rp,

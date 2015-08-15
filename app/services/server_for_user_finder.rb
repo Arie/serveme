@@ -9,7 +9,7 @@ class ServerForUserFinder
   end
 
   def servers
-    if (ends_at.to_i - starts_at.to_i).between?(60, 18000)
+    if (ends_at.to_i - starts_at.to_i).between?(60, 36000)
       available_for_user = Server.includes(:location).active.reservable_by_user(user)
       colliding_reservations = CollisionFinder.new(Reservation.where(:server_id => available_for_user), reservation).colliding_reservations
       if colliding_reservations.any?

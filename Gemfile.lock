@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/Compass/compass-rails.git
-  revision: 3e88f991150ffa39b0a539dffb3326248d18e6ad
+  revision: d600de4a6c5870613aac63f32491da4771a3c982
   specs:
-    compass-rails (2.0.4)
+    compass-rails (2.0.5)
       compass (~> 1.0.0)
       sass-rails (< 5.1)
       sprockets (< 2.13)
@@ -64,7 +64,7 @@ GEM
     addressable (2.3.8)
     american_date (1.1.0)
     arel (6.0.3)
-    autoprefixer-rails (5.2.1.1)
+    autoprefixer-rails (5.2.1.2)
       execjs
       json
     base32_pure (0.1.0)
@@ -177,7 +177,7 @@ GEM
       request_store (~> 1.0)
     erubis (2.7.0)
     eventmachine (1.0.8)
-    execjs (2.5.2)
+    execjs (2.6.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.5.0)
@@ -200,7 +200,7 @@ GEM
     google_visualr (2.4.0)
     haml (4.0.7)
       tilt
-    hashie (3.4.1)
+    hashie (3.4.2)
     highline (1.7.3)
     hike (1.2.3)
     hitimes (1.2.2)
@@ -258,9 +258,9 @@ GEM
     net-ssh (2.9.2)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
-    net-ssh-simple (1.6.9)
+    net-ssh-simple (1.6.10)
       blockenspiel (= 0.4.5)
-      hashie (= 3.4.1)
+      hashie (= 3.4.2)
       net-scp (= 1.2.1)
       net-ssh (= 2.9.2)
     netrc (0.10.3)
@@ -280,7 +280,7 @@ GEM
       multi_json
       omniauth-openid
     orm_adapter (0.5.0)
-    paypal-sdk-rest (1.3.2)
+    paypal-sdk-rest (1.3.3)
       multi_json (~> 1.0)
       uuidtools (~> 2.1)
       xml-simple
@@ -293,7 +293,7 @@ GEM
       slop (~> 3.4)
     pry-nav (0.2.4)
       pry (>= 0.9.10, < 0.11.0)
-    puma (2.12.3)
+    puma (2.13.0)
     rack (1.6.4)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -317,7 +317,7 @@ GEM
       sprockets-rails
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
-    rails-dom-testing (1.0.6)
+    rails-dom-testing (1.0.7)
       activesupport (>= 4.2.0.beta, < 5.0)
       nokogiri (~> 1.6.0)
       rails-deprecated_sanitizer (>= 1.0.1)

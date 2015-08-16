@@ -27,9 +27,6 @@
             = render 'shared/adsense_responsive'
 
           .row
-            .col-md-1
-              = render 'shared/adsense_sidebar'
-
             .col-md-11
               .row
                 .col-md-12
@@ -37,6 +34,8 @@
 
               = yield
 
+            .col-md-1
+              = render 'shared/adsense_sidebar'
       - else
         .row
           .col-md-12

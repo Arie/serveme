@@ -293,7 +293,7 @@ GEM
       slop (~> 3.4)
     pry-nav (0.2.4)
       pry (>= 0.9.10, < 0.11.0)
-    puma (2.13.1)
+    puma (2.13.4)
     rack (1.6.4)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -440,7 +440,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
-    timers (4.0.1)
+    timers (4.0.2)
       hitimes
     tins (1.6.0)
     trollop (2.1.2)

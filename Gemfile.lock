@@ -15,7 +15,7 @@ GIT
 
 GIT
   remote: git://github.com/koraktor/steam-condenser-ruby.git
-  revision: dd780d30ab56ea6339c5a0c47274d261aac35df8
+  revision: bca7c81dd432caac6b057e23b672fb309d09351b
   specs:
     steam-condenser (1.3.11)
       multi_json (~> 1.6)
@@ -380,7 +380,7 @@ GEM
     rvm-capistrano (1.5.6)
       capistrano (~> 2.15.4)
     safe_yaml (1.0.4)
-    sass (3.4.16)
+    sass (3.4.17)
     sass-rails (5.0.3)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.1)

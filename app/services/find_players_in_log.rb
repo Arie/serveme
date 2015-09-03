@@ -2,6 +2,8 @@ class FindPlayersInLog
 
   attr_accessor :log, :players
 
+  PLAYER_JOINED_REGEX = /L (?'time'.*): "(?'player_nick'.+)<(?'player_uid'\d+)><(?'player_steamid'(\[\S+\]|STEAM_\S+))><>" STEAM USERID validated/
+
   def self.perform(log)
     finder = new(log)
     finder.parse_log
@@ -24,12 +26,11 @@ class FindPlayersInLog
   end
 
   def find_player_in_line(line)
-    regex = /L (?'time'.*): "(?'player_nick'.+)<(?'player_uid'\d+)><(?'player_steamid'(\[\S+\]|STEAM_\S+))><>" STEAM USERID validated/
     begin
-      match = line.match(regex)
+      match = line.match(PLAYER_JOINED_REGEX)
     rescue ArgumentError
       tidied_line = ActiveSupport::Multibyte::Chars.new(line).tidy_bytes
-      match = tidied_line.match(regex)
+      match = tidied_line.match(PLAYER_JOINED_REGEX)
     end
     if match
       convert_steam_id_to_community_id(match[:player_steamid])

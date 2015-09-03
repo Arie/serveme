@@ -1,8 +1,5 @@
 class PrivateServerCleanupWorker
   include Sidekiq::Worker
-  include Sidetiq::Schedulable
-
-  recurrence { daily.hour_of_day(5, 11, 17, 23) }
 
   def perform
     expired_private_servers.destroy_all

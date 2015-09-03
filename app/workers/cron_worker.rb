@@ -1,8 +1,5 @@
 class CronWorker
   include Sidekiq::Worker
-  include Sidetiq::Schedulable
-
-  recurrence { minutely }
 
   def perform
     end_past_reservations

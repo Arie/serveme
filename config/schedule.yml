@@ -1,0 +1,24 @@
+clean_up:
+  cron: "0 5 * * *"
+  class: "CleanupWorker"
+  queue: default
+
+minutely:
+  cron: "* * * * *"
+  class: "CronWorker"
+  queue: default
+
+monthly_donations:
+  cron: "15 2,21 * * *"
+  class: "MonthlyDonationPorgressAnnouncerWorker"
+  queue: default
+
+private_server_cleanup:
+  cron: "0 */6 * * *"
+  class: "PrivateServerCleanupWorker"
+  queue: default
+
+notifications:
+  cron: "*/20 * * * *"
+  class: "ServersNotificationWorker"
+  queue: default

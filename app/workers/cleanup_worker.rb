@@ -1,8 +1,5 @@
 class CleanupWorker
   include Sidekiq::Worker
-  include Sidetiq::Schedulable
-
-  recurrence { daily.hour_of_day(6) }
 
   def perform
     remove_old_reservation_logs_and_zips

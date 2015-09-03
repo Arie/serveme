@@ -1,9 +1,6 @@
 class MonthlyDonationPorgressAnnouncerWorker
 
   include Sidekiq::Worker
-  include Sidetiq::Schedulable
-
-  recurrence { daily.hour_of_day(21).minute_of_hour(15) }
 
   def perform
     human_date = Date.today.strftime("%B %-d")

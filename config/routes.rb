@@ -1,5 +1,5 @@
 require 'sidekiq/web'
-require 'sidetiq/web'
+require 'sidekiq/cron/web'
 
 Serveme::Application.routes.draw do
 

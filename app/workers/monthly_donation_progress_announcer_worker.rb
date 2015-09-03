@@ -1,4 +1,4 @@
-class MonthlyDonationPorgressAnnouncerWorker
+class MonthlyDonationProgressAnnouncerWorker
 
   include Sidekiq::Worker
 

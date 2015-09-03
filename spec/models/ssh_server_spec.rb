@@ -168,11 +168,11 @@ describe SshServer do
       files = [File.join('foo')]
       destination = 'bar'
       sftp = double :file
-      destination_file = double :file
+      destination_file = double :file, path: "bar"
 
       File.should_receive(:new).with(destination, 'wb').and_return(destination_file)
       Net::SFTP.should_receive(:start).with(subject.ip, nil).and_yield(sftp)
-      sftp.should_receive(:download).with(files.first, destination_file)
+      sftp.should_receive(:download).with(files.first, "bar")
       subject.copy_from_server(files, destination)
     end
 
@@ -180,11 +180,11 @@ describe SshServer do
       files = [File.join('foo')]
       Dir.mktmpdir do |dir|
         sftp = double :file
-        destination_file = double :file
+        destination_file = double :file, path: "bar"
 
         File.should_receive(:new).with("#{dir}/foo", 'wb').and_return(destination_file)
         Net::SFTP.should_receive(:start).with(subject.ip, nil).and_yield(sftp)
-        sftp.should_receive(:download).with(files.first, destination_file)
+        sftp.should_receive(:download).with(files.first, "bar")
         subject.copy_from_server(files, dir)
       end
     end

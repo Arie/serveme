@@ -200,7 +200,7 @@ class Reservation < ActiveRecord::Base
 
   def tf2center?
     tags = server.rcon_exec("sv_tags")
-    tags && tags.include?("TF2Center")
+    tags && (tags.include?("TF2Center") || tags.include?("TF2Stadium"))
   end
 
   private

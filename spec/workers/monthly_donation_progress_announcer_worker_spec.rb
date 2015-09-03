@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MonthlyDonationPorgressAnnouncerWorker do
+describe MonthlyDonationProgressAnnouncerWorker do
 
   it "announces the monthly goal percentage to all non-donators once per day" do
     non_donator = create :user
@@ -18,7 +18,7 @@ describe MonthlyDonationPorgressAnnouncerWorker do
     expect(server).to receive(:rcon_say).with("Today is #{human_date}, this month's donations have paid for 0 percent of our server bills. Please donate at #{SITE_HOST} to keep this service alive")
     expect(donator_server).not_to receive(:rcon_say)
 
-    MonthlyDonationPorgressAnnouncerWorker.perform_async
+    MonthlyDonationProgressAnnouncerWorker.perform_async
   end
 
 end

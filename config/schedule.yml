@@ -10,7 +10,7 @@ minutely:
 
 monthly_donations:
   cron: "15 2,21 * * *"
-  class: "MonthlyDonationPorgressAnnouncerWorker"
+  class: "MonthlyDonationProgressAnnouncerWorker"
   queue: default
 
 private_server_cleanup:

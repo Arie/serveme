@@ -51,7 +51,6 @@ namespace :app do
     run "ln -sf #{shared_path}/site_url.rb #{release_path}/config/initializers/site_url.rb"
     run "ln -sf #{shared_path}/GeoLiteCity.dat #{release_path}/doc/GeoLiteCity.dat"
     run "ln -sf #{shared_path}/cacert.pem #{release_path}/config/cacert.pem"
-    run "ln -sf #{shared_path}/newrelic.yml #{release_path}/config/newrelic.yml"
   end
 
   desc "check if you're not an idiot"

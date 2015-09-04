@@ -120,5 +120,3 @@ gem 'will_paginate-bootstrap'
 gem 'execjs'
 gem 'font-awesome-rails'
 gem 'coffee-rails'
-
-gem 'newrelic_rpm'

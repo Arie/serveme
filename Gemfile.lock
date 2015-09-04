@@ -15,7 +15,7 @@ GIT
 
 GIT
   remote: git://github.com/koraktor/steam-condenser-ruby.git
-  revision: bca7c81dd432caac6b057e23b672fb309d09351b
+  revision: 6b3991522612728b404cc3e59ce4ef7a571238ac
   specs:
     steam-condenser (1.3.11)
       multi_json (~> 1.6)
@@ -324,7 +324,7 @@ GEM
       multi_json (~> 1.0)
       uuidtools (~> 2.1)
       xml-simple
-    pg (0.18.2)
+    pg (0.18.3)
     protected_attributes (1.1.3)
       activemodel (>= 4.0.1, < 5.0)
     pry (0.10.1)
@@ -423,12 +423,12 @@ GEM
       capistrano (~> 2.15.4)
     safe_yaml (1.0.4)
     sass (3.4.18)
-    sass-rails (5.0.3)
+    sass-rails (5.0.4)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.1)
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
-      tilt (~> 1.1)
+      tilt (>= 1.1, < 3)
     selenium-webdriver (2.47.1)
       childprocess (~> 0.5)
       multi_json (~> 1.0)

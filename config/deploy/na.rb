@@ -1,7 +1,7 @@
 set :main_server,       "direct.na.serveme.tf"
 set :user,              'arie'
-set :sidekiq_processes,  1
 set :puma_flags,        '-w 2 -t 1:4'
+set :sidekiq_processes,  1
 
 server "#{main_server}", :web, :app, :db, :primary => true
 

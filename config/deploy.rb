@@ -21,7 +21,7 @@ set :rvm_type,          :system
 set :stage,             'production'
 set :maintenance_template_path, 'app/views/pages/maintenance.html.erb'
 set :deploy_to,         "/var/www/serveme"
-set :sidekiq_options, "-c 5"
+set :sidekiq_options, "-c 15"
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true

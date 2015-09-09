@@ -9,7 +9,7 @@ class ReservationWorker
     @reservation_id = reservation_id
     @reservation = Reservation.find(reservation_id)
     begin
-      Timeout::timeout(180) do
+      Timeout::timeout(300) do
         server = reservation.server
         server.send("#{action}_reservation", reservation)
       end

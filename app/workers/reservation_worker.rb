@@ -19,6 +19,7 @@ class ReservationWorker
     ensure
       send("after_#{action}_reservation_steps") if reservation
       Rails.logger.info "#{action.capitalize}ed reservation: #{reservation}"
+      GC.start
     end
   end
 

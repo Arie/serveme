@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/Arie/remote_lock.git
+  revision: 78c23fc6a3f548d86fdd89b9ffcd5c4195c55843
+  specs:
+    remote_lock (1.2.0)
+
+GIT
   remote: git://github.com/Compass/compass-rails.git
   revision: d600de4a6c5870613aac63f32491da4771a3c982
   specs:
@@ -574,6 +580,7 @@ DEPENDENCIES
   rails (~> 4.2.0)
   rbtrace
   rbzip2!
+  remote_lock!
   rspec-activemodel-mocks
   rspec-collection_matchers
   rspec-rails

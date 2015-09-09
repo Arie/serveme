@@ -33,4 +33,8 @@ Serveme::Application.configure do
   config.active_support.deprecation = :stderr
 
   config.eager_load = true
+
+  config.cache_store = :dalli_store, '127.0.0.1:11211',
+    { :namespace => 'serveme', :expires_in => 10.seconds }
+
 end

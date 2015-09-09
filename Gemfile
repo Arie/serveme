@@ -13,6 +13,7 @@ gem 'rubyzip'
 gem 'steam-condenser', :github => 'koraktor/steam-condenser-ruby'
 gem 'logs_tf'
 gem 'base32_pure'
+gem 'remote_lock',     :github => "Arie/remote_lock"
 
 gem 'lograge'
 

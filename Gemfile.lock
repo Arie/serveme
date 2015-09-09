@@ -379,6 +379,7 @@ GEM
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
     ref (2.0.0)
+    remote_lock (1.1.0)
     request_store (1.2.0)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
@@ -574,6 +575,7 @@ DEPENDENCIES
   rails (~> 4.2.0)
   rbtrace
   rbzip2!
+  remote_lock
   rspec-activemodel-mocks
   rspec-collection_matchers
   rspec-rails

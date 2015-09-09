@@ -13,7 +13,7 @@ class ReservationsController < ApplicationController
   def create
     @reservation = current_user.reservations.build(reservation_params)
     if @reservation.valid?
-      @reservation.server.with_lock do
+        $lock.synchronize("save-reservation-server-#{@reservation.server_id}", expiry: 2.seconds) do
         @reservation.save!
       end
       reservation_saved if @reservation.persisted?
@@ -25,7 +25,7 @@ class ReservationsController < ApplicationController
   def i_am_feeling_lucky
     @reservation = IAmFeelingLucky.new(current_user).build_reservation
     if @reservation.valid?
-      @reservation.server.with_lock do
+      $lock.synchronize("save-reservation-server-#{@reservation.server_id}", expiry: 2.minutes) do
         @reservation.save!
       end
       reservation_saved if @reservation.persisted?

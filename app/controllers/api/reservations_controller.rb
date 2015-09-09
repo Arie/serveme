@@ -17,7 +17,7 @@ class Api::ReservationsController < Api::ApplicationController
   def create
     @reservation = current_user.reservations.build(reservation_params)
     if @reservation.valid?
-      @reservation.server.with_lock do
+      $lock.synchronize("save-reservation-server-#{@reservation.server_id}", expiry: 2.seconds) do
         @reservation.save!
       end
       if @reservation.persisted? && @reservation.now?

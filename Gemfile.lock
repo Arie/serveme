@@ -237,7 +237,7 @@ GEM
     fuubar (2.0.0)
       rspec (~> 3.0)
       ruby-progressbar (~> 1.4)
-    geocoder (1.2.10)
+    geocoder (1.2.11)
     geoip (1.6.1)
     gherkin (2.12.2)
       multi_json (~> 1.3)

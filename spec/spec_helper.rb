@@ -31,6 +31,9 @@ RSpec.configure do |config|
   config.mock_with :rspec do |c|
     c.syntax = [:should, :expect]
   end
+  config.before(:suite) do
+    Rails.cache.clear
+  end
   config.after(:example, :map_archive) do
     Dir.glob(File.join(MAPS_DIR, "*.bsp*")).each do |file|
       FileUtils.rm(file)

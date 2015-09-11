@@ -35,6 +35,6 @@ Serveme::Application.configure do
   config.eager_load = true
 
   config.cache_store = :dalli_store, '127.0.0.1:11211',
-    { :namespace => 'serveme', :expires_in => 10.seconds }
+    { :namespace => 'serveme', :expires_in => 1.second, :pool_size => 25 }
 
 end

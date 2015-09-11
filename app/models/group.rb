@@ -1,4 +1,8 @@
 class Group < ActiveRecord::Base
+
+  DONATOR_GROUP  = find_or_create_by(:name => "Donators").freeze
+  ADMIN_GROUP    = find_or_create_by(:name => "Admins").freeze
+
   validates_presence_of :name
 
   has_many :users,    :through => :group_users
@@ -10,11 +14,11 @@ class Group < ActiveRecord::Base
   attr_accessible :name
 
   def self.donator_group
-    find_or_create_by(:name => "Donators")
+    DONATOR_GROUP
   end
 
   def self.admin_group
-    find_or_create_by(:name => "Admins")
+    ADMIN_GROUP
   end
 
   def self.private_user(user)

@@ -39,7 +39,7 @@ describe LocalServer do
       server_not_in_group = create :server, :name => "server in no groups"
       server_other_group  = create :server, :name => "server other group", :groups => [other_group]
 
-      Server.in_groups([group]).should eq [server_in_group]
+      Server.in_groups(Group.where(id: group.id)).should eq [server_in_group]
     end
 
     it 'should only return servers once even with multiple matching groups' do
@@ -50,7 +50,7 @@ describe LocalServer do
       server_not_in_group = create :server, :name => "server in no groups"
       server_other_group  = create :server, :name => "server other group", :groups => [other_group]
 
-      Server.in_groups([group, group2]).should eq [server_in_group]
+      Server.in_groups(Group.where(id: [group.id, group2.id])).should eq [server_in_group]
     end
 
   end

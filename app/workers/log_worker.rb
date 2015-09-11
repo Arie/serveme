@@ -1,6 +1,4 @@
 class LogWorker
-  require 'action_view'
-  include ActionView::Helpers::TextHelper
   include Sidekiq::Worker
 
   attr_accessor :raw_line, :line, :event, :reservation_id, :message
@@ -72,7 +70,7 @@ class LogWorker
   def handle_timeleft
     minutes_until_reservation_ends = ((reservation.ends_at - Time.current) / 60).round
     minutes = [minutes_until_reservation_ends, 0].max
-    timeleft = pluralize(minutes, "minute")
+    timeleft = (minutes > 0) ? "#{minutes} minutes" : "#{minutes} minutes"
     reservation.server.rcon_say "Reservation time left: #{timeleft}"
   end
 

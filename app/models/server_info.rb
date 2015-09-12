@@ -14,7 +14,7 @@ class ServerInfo
   end
 
   def server_name
-    ActiveSupport::Multibyte::Chars.new(status.fetch(:server_name, 'unknown')).tidy_bytes.to_s
+    ActiveSupport::Multibyte::Chars.new(status.fetch(:server_name, 'unknown'.freeze)).tidy_bytes.to_s
   end
 
   def number_of_players
@@ -22,11 +22,11 @@ class ServerInfo
   end
 
   def max_players
-    status.fetch(:max_players,        '0')
+    status.fetch(:max_players,        '0'.freeze)
   end
 
   def map_name
-    status.fetch(:map_name,           'unknown')
+    status.fetch(:map_name,           'unknown'.freeze)
   end
 
   def status
@@ -43,14 +43,14 @@ class ServerInfo
   def get_stats
     Rails.cache.fetch "stats_#{server.id}", expires_in: 1.minute do
       auth
-      server_connection.rcon_exec('stats')
+      server_connection.rcon_exec('stats'.freeze)
     end
   end
 
   def get_rcon_status
     Rails.cache.fetch "rcon_status_#{server.id}", expires_in: 1.minute do
       auth
-      ActiveSupport::Multibyte::Chars.new(server_connection.rcon_exec('status')).to_s
+      ActiveSupport::Multibyte::Chars.new(server_connection.rcon_exec('status'.freeze)).to_s
     end
   end
 

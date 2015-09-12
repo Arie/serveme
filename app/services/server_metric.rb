@@ -10,6 +10,7 @@ class ServerMetric
       save_server_statistics
       save_player_statistics
     end
+    nil
   end
 
   def save_server_statistics

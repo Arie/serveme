@@ -54,7 +54,7 @@ class SshServer < RemoteServer
   end
 
   def copy_from_server(files, destination)
-    files.map { |f| f.force_encoding('UTF-8') }
+    files.map! { |f| f.force_encoding('UTF-8') }
     if File.directory?(destination)
       destination_dir = destination
       destination_is_directory = true

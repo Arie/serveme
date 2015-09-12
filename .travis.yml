@@ -13,3 +13,6 @@ before_script:
   - mkdir public/uploads
 script: ./script/ci
 sudo: false
+services:
+  - memcached
+  - redis-server

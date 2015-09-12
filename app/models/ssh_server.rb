@@ -61,11 +61,10 @@ class SshServer < RemoteServer
       destination_is_directory = false
     end
     Net::SFTP.start(ip, nil) do |sftp|
-      files.collect do |file|
-        if destination_is_directory
-          destination = File.join(destination_dir, File.basename(file))
-        end
-        sftp.download(file, destination)
+      if destination_is_directory
+        files.map { |file| sftp.download(file, File.join(destination_dir, File.basename(file))) }.each { |d| d.wait }
+      else
+        files.map { |file| sftp.download(file, destination) }.each { |d| d.wait }
       end
     end
   end

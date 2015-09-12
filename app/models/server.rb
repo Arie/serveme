@@ -232,11 +232,11 @@ class Server < ActiveRecord::Base
     end
   end
 
-  private
-
   def server_info
     @server_info ||= ServerInfo.new(self)
   end
+
+  private
 
   def logs_and_demos
     @logs_and_demos ||= logs + demos

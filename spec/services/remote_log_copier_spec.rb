@@ -13,9 +13,7 @@ describe RemoteLogCopier do
       log_copier = RemoteLogCopier.new(reservation, server)
       log_copier.stub(:directory_to_copy_to => destination)
 
-      zipped_file = double(:name => "foo.log")
-      Zip::File.should_receive(:foreach).with(Rails.root.join("public", "uploads", reservation.zipfile_name)).and_yield(zipped_file)
-      zipped_file.should_receive(:extract).with("#{destination}/#{zipped_file.name}")
+      log_copier.should_receive("system").with("unzip #{Rails.root.join("public", "uploads", "foo.zip")} *.log -d dir")
 
       log_copier.copy_logs
     end

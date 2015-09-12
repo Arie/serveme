@@ -1,14 +1,8 @@
-require 'zip'
-
 class RemoteLogCopier < LogCopier
 
   def copy_logs
     zipfile_name_and_path = Rails.root.join("public", "uploads", reservation.zipfile_name)
-    Zip::File.foreach(zipfile_name_and_path) do |zipped_file|
-      if zipped_file.name.match("^.*\.log$")
-        zipped_file.extract(File.join(directory_to_copy_to, zipped_file.name)) { true }
-      end
-    end
+    system("unzip #{zipfile_name_and_path} *.log -d #{directory_to_copy_to}")
   end
 
 end

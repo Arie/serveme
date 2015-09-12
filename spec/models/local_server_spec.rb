@@ -157,25 +157,10 @@ describe LocalServer do
   end
 
   describe '#find_process_id' do
-    it 'picks the correct pid from the list' do
-      correct_process = './srcds_linux -game tf -port 27015 -autoupdate +ip 176.9.138.143 +maxplayers 24 +map ctf_turbine -tickrate 66 +tv_port 27020 +tv_maxclients 32 +tv_enable 1"'
-      other_processes = ["/bin/sh ./srcds_run -ip 176.9.138.143 -game tf -console +tv_maxclients 255 +exec relay.cfg +tv_port 27100 +tv_relay relay.vanillatv.org:27100 +password +tv_autorecord 1",
-                        "./srcds_linux -ip 176.9.138.143 -game tf -console +tv_maxclients 255 +exec relay.cfg +tv_port 27100 +tv_relay relay.vanillatv.org:27100 +password +tv_autorecord 1",
-                        "SCREEN -AmdS tf2-4 ./srcds_run -game tf -port 27045 -autoupdate +ip 176.9.138.143 +maxplayers 24 +map ctf_turbine -tickrate 66 +tv_port 27050 +tv_maxclients 32 +tv_enable 1 +exec server.cfg",
-                        "/bin/sh ./srcds_run -game tf -port 27045 -autoupdate +ip 176.9.138.143 +maxplayers 24 +map ctf_turbine -tickrate 66 +tv_port 27050 +tv_maxclients 32 +tv_enable 1 +exec server.cfg",
-                        "SCREEN -AmdS webrelay ./srcds_run -ip 176.9.138.143 -game tf -console +tv_maxclients 255 +exec relay.cfg +tv_port 27100 +tv_relay 176.9.138.143:27030 +password tv +tv_autorecord 1",
-                        "/bin/sh ./srcds_run -ip 176.9.138.143 -game tf -console +tv_maxclients 255 +exec relay.cfg +tv_port 27100 +tv_relay 176.9.138.143:27030 +password tv +tv_autorecord 1",
-                        "./srcds_linux -ip 176.9.138.143 -game tf -console +tv_maxclients 255 +exec relay.cfg +tv_port 27100 +tv_relay 176.9.138.143:27030 +password tv +tv_autorecord 1",
-                        "./srcds_linux -game tf -port 27025 -autoupdate +ip 176.9.138.143 +maxplayers 24 +map ctf_turbine -tickrate 66 +tv_port 27030 +tv_maxclients 32 +tv_enable 1"]
-      processes = []
-      other_processes.each_with_index do |process, index|
-        processes << double(:cmdline => process, :pid => 2000 + index)
-      end
-      processes << double(:cmdline => correct_process, :pid => 1337)
-      Sys::ProcTable.should_receive(:ps).and_return(processes)
-
+    it 'finds correct pid' do
       subject.stub(:port => '27015')
-      subject.process_id.should eql 1337
+      subject.should_receive(:system).with("ps ux | grep port | grep #{subject.port} | grep srcds_linux | grep -v grep | grep -v ruby | awk '{print \$2}'")
+      subject.find_process_id
     end
   end
 

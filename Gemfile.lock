@@ -475,7 +475,6 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
-    sys-proctable (0.9.8)
     term-ansicolor (1.3.2)
       tins (~> 1.0)
     tf2_line_parser (0.1.4)
@@ -596,7 +595,6 @@ DEPENDENCIES
   sinatra (>= 1.3.0)
   sprockets
   steam-condenser!
-  sys-proctable (~> 0.9.4)
   tf2_line_parser
   therubyracer
   uglifier

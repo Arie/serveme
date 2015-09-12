@@ -55,7 +55,6 @@ gem 'ffi'
 gem 'pg'
 gem 'therubyracer'
 gem 'oily_png'
-gem 'sys-proctable', '~> 0.9.4', :require => 'sys/proctable'
 
 
 group :development do

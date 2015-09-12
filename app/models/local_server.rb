@@ -22,11 +22,7 @@ class LocalServer < Server
   end
 
   def find_process_id
-    all_processes   = Sys::ProcTable.ps
-    found_processes = all_processes.select {|process| process.cmdline.match(/#{port}/) && process.cmdline.match(/\.\/srcds_linux/) && !process.cmdline.match(/\.\/tv_relay/) }
-    if found_processes.any?
-      found_processes.first.pid
-    end
+    system("ps ux | grep port | grep #{port} | grep srcds_linux | grep -v grep | grep -v ruby | awk '{print \$2}'")
   end
 
   def demos

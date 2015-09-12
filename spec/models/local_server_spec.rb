@@ -156,14 +156,6 @@ describe LocalServer do
 
   end
 
-  describe '#find_process_id' do
-    it 'finds correct pid' do
-      subject.stub(:port => '27015')
-      subject.should_receive(:system).with("ps ux | grep port | grep #{subject.port} | grep srcds_linux | grep -v grep | grep -v ruby | awk '{print \$2}'")
-      subject.find_process_id
-    end
-  end
-
   describe '#tf_dir' do
 
     it "takes the server's path and adds the TF2 dirs" do

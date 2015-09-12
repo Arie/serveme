@@ -22,7 +22,7 @@ class LocalServer < Server
   end
 
   def find_process_id
-    system("ps ux | grep port | grep #{port} | grep srcds_linux | grep -v grep | grep -v ruby | awk '{print \$2}'")
+    `ps ux | grep port | grep #{port} | grep srcds_linux | grep -v grep | grep -v ruby | awk '{print \$2}'`
   end
 
   def demos

@@ -584,7 +584,6 @@ DEPENDENCIES
   rspec-activemodel-mocks
   rspec-collection_matchers
   rspec-rails
-  rubyzip
   rvm-capistrano
   sass
   sass-rails

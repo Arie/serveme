@@ -1,7 +1,7 @@
 class LocalLogCopier < LogCopier
 
   def copy_logs
-    FileUtils.cp(logs, directory_to_copy_to, :preserve => true)
+    system("cp #{logs.map(&:shellescape).join(" ")} #{directory_to_copy_to}")
   end
 
 end

@@ -46,11 +46,7 @@ class SshServer < RemoteServer
 
   def copy_to_server(files, destination)
     logger.info "SCP PUT, FILES: #{files} DESTINATION: #{destination}"
-    Net::SCP.start(ip, nil) do |scp|
-      files.collect do |f|
-        scp.upload(f, destination)
-      end.map(&:wait)
-    end
+    system("scp #{files.map(&:shellescape).join(" ")} #{ip}:#{destination}")
   end
 
   def copy_from_server(files, destination)

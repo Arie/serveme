@@ -35,7 +35,6 @@ class ServerInfo
         info = server_connection.server_info
         info.delete_if {|key| key == :content_data }.freeze
       rescue SteamCondenser::Error, Errno::ECONNREFUSED
-        Rails.logger.warn "Couldn't update #{server.name}"
         {}
       end
     end

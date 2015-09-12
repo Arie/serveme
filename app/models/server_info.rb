@@ -18,22 +18,22 @@ class ServerInfo
   end
 
   def number_of_players
-    status.fetch(:number_of_players,  nil)
+    status.fetch(:number_of_players,  nil).freeze
   end
 
   def max_players
-    status.fetch(:max_players,        '0'.freeze)
+    status.fetch(:max_players,        '0'.freeze).freeze
   end
 
   def map_name
-    status.fetch(:map_name,           'unknown'.freeze)
+    status.fetch(:map_name,           'unknown'.freeze).freeze
   end
 
   def status
     Rails.cache.fetch "server_info_#{server.id}", expires_in: 1.minute do
       begin
         info = server_connection.server_info
-        info.delete_if {|key| key == :content_data }
+        info.delete_if {|key| key == :content_data }.freeze
       rescue SteamCondenser::Error
         {}
       end
@@ -43,43 +43,43 @@ class ServerInfo
   def get_stats
     Rails.cache.fetch "stats_#{server.id}", expires_in: 1.minute do
       auth
-      server_connection.rcon_exec('stats'.freeze)
+      server_connection.rcon_exec('stats'.freeze).freeze
     end
   end
 
   def get_rcon_status
     Rails.cache.fetch "rcon_status_#{server.id}", expires_in: 1.minute do
       auth
-      ActiveSupport::Multibyte::Chars.new(server_connection.rcon_exec('status'.freeze)).to_s
+      ActiveSupport::Multibyte::Chars.new(server_connection.rcon_exec('status'.freeze)).to_s.freeze
     end
   end
 
   def cpu
-    stats[:cpu]
+    stats[:cpu].freeze
   end
 
   def traffic_in
-    stats[:in]
+    stats[:in].freeze
   end
 
   def traffic_out
-    stats[:out]
+    stats[:out].freeze
   end
 
   def uptime
-    stats[:uptime]
+    stats[:uptime].freeze
   end
 
   def map_changes
-    stats[:map_changes]
+    stats[:map_changes].freeze
   end
 
   def fps
-    stats[:fps]
+    stats[:fps].freeze
   end
 
   def connects
-    stats[:connects]
+    stats[:connects].freeze
   end
 
   def stats
@@ -91,13 +91,13 @@ class ServerInfo
     end
     items = stats_line.split(" ")
     {
-      :cpu          => items[-8],
-      :in           => items[-7],
-      :out          => items[-6],
-      :uptime       => items[-5],
-      :map_changes  => items[-4],
-      :fps          => items[-3],
-      :connects     => items[-1]
+      :cpu          => items[-8].freeze,
+      :in           => items[-7].freeze,
+      :out          => items[-6].freeze,
+      :uptime       => items[-5].freeze,
+      :map_changes  => items[-4].freeze,
+      :fps          => items[-3].freeze,
+      :connects     => items[-1].freeze
     }
   end
 

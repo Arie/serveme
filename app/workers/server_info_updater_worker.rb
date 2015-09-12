@@ -4,7 +4,7 @@ class ServerInfoUpdaterWorker
   sidekiq_options :retry => false
 
   def perform(server_id)
-    server = Server.find(server_id)
+    server      = Server.find(server_id)
     server_info = ServerInfo.new(server)
     begin
       server_info.status

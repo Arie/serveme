@@ -278,9 +278,9 @@ describe LocalServer do
   describe "#copy_to_server" do
 
     it "uses a simple local copy" do
-      files = double(:files)
-      destination = double(:destination)
-      FileUtils.should_receive(:cp).with(files, destination)
+      files = ["foo", "bar"]
+      destination = "destination"
+      subject.should_receive("system").with("cp foo bar destination")
       subject.copy_to_server(files, destination)
     end
 

@@ -44,7 +44,7 @@ class LocalServer < Server
   end
 
   def copy_to_server(files, destination)
-    FileUtils.cp(files, destination)
+    system("cp #{files.map(&:shellescape).join(" ")} #{destination}")
   end
 
   def remove_logs_and_demos

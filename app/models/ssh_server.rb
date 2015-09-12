@@ -54,7 +54,6 @@ class SshServer < RemoteServer
   end
 
   def copy_from_server(files, destination)
-    files.map! { |f| f.force_encoding('UTF-8') }
     if File.directory?(destination)
       destination_dir = destination
       destination_is_directory = true
@@ -65,7 +64,7 @@ class SshServer < RemoteServer
       if destination_is_directory
         files.map { |file| sftp.download(file, File.join(destination_dir, File.basename(file))) }.each { |d| d.wait }
       else
-        files.map { |file| sftp.download(file, destination) }.each { |d| d.wait }
+        files.map { |file| sftp.download(file, File.new(destination, 'wb').path) }.each { |d| d.wait }
       end
     end
   end

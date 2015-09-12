@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ServerInfo do
 
-  let(:server) { double(:ip => 'fakkelbrigade.eu', :port => '27015', :current_rcon => 'foo', :id => 1, :condenser => SteamCondenser::Servers::SourceServer.stub(:new)) }
+  let(:server) { double(:name => "Name", :ip => 'fakkelbrigade.eu', :port => '27015', :current_rcon => 'foo', :id => 1, :condenser => SteamCondenser::Servers::SourceServer.stub(:new)) }
   subject do
     described_class.new(server)
   end

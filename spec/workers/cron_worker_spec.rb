@@ -7,7 +7,7 @@ describe CronWorker do
   before do
     condenser = double.as_null_object
     server = double(:server, :id => 1, :rcon_auth => true, :rcon_disconnect => true, :condenser => condenser)
-    allow(Server).to receive(:find).with(anything).and_return(server)
+    reservation.stub(:server => server)
     allow(ServerMetric).to receive(:new)
   end
 
@@ -33,21 +33,12 @@ describe CronWorker do
 
   end
 
-  describe "#update_server_info" do
-
-    it "triggers the server info update worker" do
-      ServersInfoUpdaterWorker.should_receive(:perform_async)
-      CronWorker.perform_async
-    end
-
-  end
-
   describe "#check_active_reservations" do
 
     it "triggers the active reservation checker worker for active reservations" do
       reservation.update_attribute(:provisioned, true)
       reservation.update_attribute(:ended,       false)
-      ActiveReservationCheckerWorker.should_receive(:perform_async).with([reservation.id])
+      ActiveReservationsCheckerWorker.should_receive(:perform_async).with([reservation.id])
       CronWorker.perform_async
     end
 

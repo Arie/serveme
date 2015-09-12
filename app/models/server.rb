@@ -226,13 +226,17 @@ class Server < ActiveRecord::Base
 
   def number_of_players
     begin
-      @number_of_players ||= ServerInfo.new(self).number_of_players
+      @number_of_players ||= server_info.number_of_players
     rescue Errno::ECONNREFUSED, SteamCondenser::Error::Timeout
       nil
     end
   end
 
   private
+
+  def server_info
+    @server_info ||= ServerInfo.new(self)
+  end
 
   def logs_and_demos
     @logs_and_demos ||= logs + demos

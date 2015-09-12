@@ -65,7 +65,7 @@ class SshServer < RemoteServer
         if destination_is_directory
           destination = File.join(destination_dir, File.basename(file))
         end
-        sftp.download(file, File.new(destination, 'wb').path)
+        sftp.download(file, destination)
       end
     end
   end

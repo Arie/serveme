@@ -7,10 +7,14 @@ class ActiveReservationCheckerWorker
     reservation = Reservation.find(reservation_id)
 
     server_info = reservation.server.server_info
-    server_info.status
-    server_info.get_stats
-    server_info.get_rcon_status
-    ServerMetric.new(server_info)
+    begin
+      server_info.status
+      server_info.get_stats
+      server_info.get_rcon_status
+      ServerMetric.new(server_info)
+    rescue SteamCondenser::Error, Errno::ECONNREFUSED
+      Rails.logger.warn "Couldn't update #{reservation.server.name}"
+    end
 
     if reservation.server.occupied?
       reservation.update_column(:last_number_of_players, server_info.number_of_players)

@@ -54,19 +54,8 @@ class SshServer < RemoteServer
   end
 
   def copy_from_server(files, destination)
-    if File.directory?(destination)
-      destination_dir = destination
-      destination_is_directory = true
-    else
-      destination_is_directory = false
-    end
-    Net::SFTP.start(ip, nil) do |sftp|
-      if destination_is_directory
-        files.map { |file| sftp.download(file, File.join(destination_dir, File.basename(file))) }.each { |d| d.wait }
-      else
-        files.map { |file| sftp.download(file, File.new(destination, 'wb').path) }.each { |d| d.wait }
-      end
-    end
+    logger.info "SCP GET, FILES: #{files.join(", ")} DESTINATION: #{destination}"
+    system("scp #{ip}:\"#{files.map(&:shellescape).join(" ")}\" #{destination}")
   end
 
   def zip_file_creator_class

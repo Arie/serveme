@@ -50,7 +50,7 @@ class ServerInfo
   def get_rcon_status
     Rails.cache.fetch "rcon_status_#{server.id}", expires_in: 1.minute do
       auth
-      ActiveSupport::Multibyte::Chars.new(server_connection.rcon_exec('status'.freeze)).to_s.freeze
+      ActiveSupport::Multibyte::Chars.new(server_connection.rcon_exec('status'.freeze)).tidy_bytes.to_s
     end
   end
 

@@ -249,7 +249,7 @@ GEM
     hashie (3.4.2)
     highline (1.7.3)
     hike (1.2.3)
-    hitimes (1.2.2)
+    hitimes (1.2.3)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
     i18n (0.7.0)

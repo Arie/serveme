@@ -33,7 +33,7 @@ class ServerInfo
     Rails.cache.fetch "server_info_#{server.id}", expires_in: 1.minute do
       begin
         info = server_connection.server_info
-        info.delete_if {|key| key == :content_data }.freeze
+        info.delete_if {|key| key == :content_data }
       rescue SteamCondenser::Error, Errno::ECONNREFUSED
         {}
       end

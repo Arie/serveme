@@ -29,7 +29,7 @@ class PaypalOrdersController < ApplicationController
         redirect_to root_path
       end
     else
-      flash[:alert] = "Something went wrong while trying to activate your donator status, please contact us using the comment section"
+      flash[:alert] = "Something went wrong while trying to activate your donator status, please check if you have sufficient funds in your PayPal account"
       redirect_to root_path
     end
   end

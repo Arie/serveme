@@ -70,7 +70,7 @@ GEM
     addressable (2.3.8)
     american_date (1.1.0)
     arel (6.0.3)
-    autoprefixer-rails (6.0.2)
+    autoprefixer-rails (6.0.3)
       execjs
       json
     base32_pure (0.1.0)
@@ -152,7 +152,6 @@ GEM
       nenv
       rspec-logsplit (>= 0.1.2)
       timers (>= 4.1.1)
-    certifi (2015.08.10)
     childprocess (0.5.6)
       ffi (~> 1.0, >= 1.0.11)
     chronic (0.10.2)
@@ -247,7 +246,7 @@ GEM
     haml (4.0.7)
       tilt
     hashie (3.4.2)
-    highline (1.7.3)
+    highline (1.7.6)
     hike (1.2.3)
     hitimes (1.2.3)
     http-cookie (1.0.2)
@@ -338,7 +337,7 @@ GEM
       slop (~> 3.4)
     pry-nav (0.2.4)
       pry (>= 0.9.10, < 0.11.0)
-    puma (2.13.4)
+    puma (2.14.0)
     rack (1.6.4)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -439,8 +438,7 @@ GEM
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
-    sentry-raven (0.14.0)
-      certifi
+    sentry-raven (0.15.1)
       faraday (>= 0.7.6)
     shoulda-matchers (2.8.0)
       activesupport (>= 3.0.0)

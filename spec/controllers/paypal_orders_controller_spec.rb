@@ -40,7 +40,7 @@ describe PaypalOrdersController do
       get :redirect, :order_id => order.id, :PayerID => "PayerID"
 
       response.should redirect_to(root_path)
-      flash[:alert].should == "Something went wrong while trying to activate your donator status, please contact us using the comment section"
+      flash[:alert].should == "Something went wrong while trying to activate your donator status, please check if you have sufficient funds in your PayPal account"
     end
 
     it "redirects to settings path if it was a gift" do

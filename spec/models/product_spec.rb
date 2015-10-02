@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe Product do
 
-  it { should have_many(:paypal_orders) }
-  it { should validate_presence_of(:name) }
-  it { should validate_presence_of(:price) }
-
   before { Product.destroy_all }
 
   describe "#list_name" do

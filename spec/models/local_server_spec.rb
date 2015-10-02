@@ -2,11 +2,6 @@ require 'spec_helper'
 
 describe LocalServer do
 
-  it { should validate_presence_of(:path) }
-  it { should validate_presence_of(:ip) }
-  it { should validate_presence_of(:port) }
-  it { should validate_presence_of(:name) }
-
   describe '.with_group' do
 
     it 'should find servers in a group' do

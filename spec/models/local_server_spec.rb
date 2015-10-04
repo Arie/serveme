@@ -160,6 +160,38 @@ describe LocalServer do
 
   end
 
+  describe "#demos" do
+
+    it "uses a Dir glob to get the demos" do
+      subject.stub(:demo_match => "foo")
+      Dir.should_receive(:glob).with("foo")
+      subject.demos
+    end
+
+  end
+
+  describe "#logs" do
+
+    it "uses a Dir glob to get the logs" do
+      subject.stub(:log_match => "bar")
+      Dir.should_receive(:glob).with("bar")
+      subject.logs
+    end
+
+  end
+
+  describe "#log_copier_class" do
+    it "returns the log copier class" do
+      subject.log_copier_class.should eql(LocalLogCopier)
+    end
+  end
+
+  describe "#zip_file_creator_class" do
+    it "returns the zip file creator class" do
+      subject.zip_file_creator_class.should eql(LocalZipFileCreator)
+    end
+  end
+
   describe '#current_reservation' do
 
     it 'returns nil if there is no reservation active on the server' do

@@ -3,25 +3,35 @@ require 'spec_helper'
 describe ActiveReservationCheckerWorker do
 
   let(:reservation) { create :reservation }
+  let(:server_info) { double(:server_info, number_of_players: 1).as_null_object }
+  let(:server)      { double(:server, server_info: server_info, name: "Server name") }
   before do
-    server_info = double(:server_info, number_of_players: 1).as_null_object
-    server = double(:server, server_info: server_info)
-    reservation.should_receive(:server).and_return(server)
+    reservation.stub(:server => server)
     allow(ServerMetric).to receive(:new)
     Reservation.should_receive(:find).with(reservation.id).and_return(reservation)
   end
 
   it "finds the server to check" do
-    server = double(:server, :occupied? => true, :number_of_players => 1)
+    server.stub(:occupied? => true, :number_of_players => 1)
     reservation.should_receive(:server).at_least(:once).and_return(server)
     ActiveReservationCheckerWorker.perform_async(reservation.id)
   end
 
+  it "logs an error if it couldn't reach the server" do
+    server.stub(:occupied? => false)
+    allow(server_info).to receive(:status).and_raise(Errno::ECONNREFUSED)
+
+    allow(Rails.logger).to receive(:warn)
+
+    ActiveReservationCheckerWorker.perform_async(reservation.id)
+
+    expect(Rails.logger).to have_received(:warn)
+  end
+
   context "occupied server" do
 
-    let(:server) { double(:server, :occupied? => true, :number_of_players => 1) }
-
     it "saves the number of players and resets the inactive minutes" do
+      server.stub(:occupied? => true, :number_of_players => 1)
       reservation.stub(:server => server)
 
       reservation.should_receive(:update_column).with(:last_number_of_players,  1)
@@ -33,8 +43,10 @@ describe ActiveReservationCheckerWorker do
 
   context "unoccupied server" do
 
-    let(:server) { double(:server, :occupied? => false, :number_of_players => 0) }
-    before { reservation.stub(:server => server) }
+    before do
+      reservation.stub(:server => server)
+      server.stub(:occupied? => false, :number_of_players => 0)
+    end
 
     it "saves the number of players and resets the inactive minutes" do
 

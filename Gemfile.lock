@@ -188,7 +188,7 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
     docile (1.1.5)
-    domain_name (0.5.24)
+    domain_name (0.5.25)
       unf (>= 0.0.5, < 1.0.0)
     draper (2.1.0)
       actionpack (>= 3.0)
@@ -313,7 +313,7 @@ GEM
       pry (>= 0.9.10, < 0.11.0)
     puma (2.14.0)
     rack (1.6.4)
-    rack-cache (1.2)
+    rack-cache (1.3.0)
       rack (>= 0.4)
     rack-openid (1.3.1)
       rack (>= 1.1.0)
@@ -406,6 +406,10 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    sassc (1.7.1)
+      bundler
+      ffi (~> 1.9.6)
+      sass (>= 3.3.0)
     selenium-webdriver (2.47.1)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
@@ -557,6 +561,7 @@ DEPENDENCIES
   rvm-capistrano
   sass
   sass-rails
+  sassc
   selenium-webdriver
   sentry-raven
   shoulda-matchers

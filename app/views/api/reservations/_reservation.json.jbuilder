@@ -21,6 +21,9 @@ if reservation.persisted?
   json.provisioned reservation.provisioned
   json.ended reservation.ended
 end
+if reservation.ended?
+  json.log_uploads reservation.log_uploads.pluck(:url)
+end
 
 json.errors do
   reservation.errors.to_hash.each do |attribute, errors|

@@ -34,7 +34,7 @@ class LogScanWorker
   end
 
   def link_found_logs_tf_uploads_to_reservation
-    logs_tf_uploads.each do |id|
+    logs_tf_uploads.reject(&:empty?).flatten.uniq.each do |id|
       l = LogUpload.new
       l.reservation_id = reservation_id
       l.url = "http://logs.tf/#{id}"

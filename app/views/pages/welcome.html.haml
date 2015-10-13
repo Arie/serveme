@@ -6,7 +6,8 @@
       .container
         .row
           .col-md-8.buttons
-            %h1 Welcome to #{SITE_HOST}!
+            %h1
+              Welcome to #{SITE_HOST}!
             %p The easiest way to borrow a TF2 server
             = link_to new_reservation_path, :class => 'btn btn-lg btn-primary', :title => "Get a server right now, or make a reservation" do
               Let's play!
@@ -22,14 +23,25 @@
             - else
               .available_servers= render 'reservations/available_servers'
 
-- if na_system?
-  .row
-    .col-md-12
-      .alert.alert-success
-        %h4
-          Exclusive 30% off your next game, voice and VPS server at tragicservers.com.
-        = link_to('Order today', "http://www.tragicservers.com/link.php?id=15")
-        using "SERVEME30" at checkout
+-#- if na_system?
+-#  .row
+-#    .col-md-12
+-#      .alert.alert-success
+-#        %h4
+-#          Exclusive 30% off your next game, voice and VPS server at tragicservers.com.
+-#        = link_to('Order today', "http://www.tragicservers.com/link.php?id=15")
+-#        using "SERVEME30" at checkout
+-#
+.row
+  .col-md-1
+    = image_tag("blu_party_hat.png")
+  .col-md-10
+    .alert.alert-success
+      %h4
+        It's serveme.tf's 3rd birthday :)
+      = link_to("Discounts on premium status until Friday, enjoy!", donate_path)
+  .col-md-1
+    = image_tag("red_party_hat.png")
 
 .row
   .col-md-12
@@ -42,7 +54,7 @@
   .col-md-12
     %p
       Please
-      = link_to('consider contributing to the operating costs by donating.', new_paypal_order_path)
+      = link_to('consider contributing to the operating costs by donating.', donate_path)
       All donations get divided between the server providers based on time played on their servers.
 
       You can also

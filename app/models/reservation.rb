@@ -198,7 +198,7 @@ class Reservation < ActiveRecord::Base
     reservation_statuses.create!(:status => status)
   end
 
-  def tf2center?
+  def lobby?
     tags = server.rcon_exec("sv_tags")
     tags && (tags.include?("TF2Center") || tags.include?("TF2Stadium"))
   end

@@ -637,7 +637,7 @@ describe Reservation do
 
   end
 
-  describe "#tf2center?" do
+  describe "#lobby?" do
 
     it "checks the server's tags for TF2Center" do
       server = double
@@ -645,7 +645,7 @@ describe Reservation do
       server.should_receive("rcon_exec").with("sv_tags").and_return(tags_line)
       subject.stub(:server => server)
 
-      subject.should be_tf2center
+      subject.should be_lobby
     end
   end
 

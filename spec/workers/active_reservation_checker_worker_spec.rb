@@ -57,7 +57,7 @@ describe ActiveReservationCheckerWorker do
 
     context "inactive too long" do
 
-      context "not a TF2Center reservation" do
+      context "not a lobby" do
 
         it "ends the reservation and increases the user's expired reservations counter" do
           user = double(:user)
@@ -65,7 +65,7 @@ describe ActiveReservationCheckerWorker do
           reservation.stub(:server => server)
           reservation.stub(:user   => user)
           reservation.stub(:inactive_too_long? => true)
-          reservation.stub(:tf2center? => false)
+          reservation.stub(:lobby? => false)
           reservation.should_receive(:end_reservation)
           ActiveReservationCheckerWorker.perform_async(reservation.id)
         end

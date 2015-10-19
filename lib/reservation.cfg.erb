@@ -14,7 +14,7 @@ tv_delaymapchange 1
 
 <% if server_config %>
 <%= "exec #{server_config}" %><% end %>
-<% if custom_whitelist_id %>
+<% if custom_whitelist_id.present? %>
 <%= %{tftrue_whitelist_id #{custom_whitelist_id}} %>
 <%= %{say "Whitelist: http://whitelist.tf/#{custom_whitelist_id}"} %>
 <% elsif whitelist %>

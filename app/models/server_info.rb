@@ -32,8 +32,19 @@ class ServerInfo
   def status
     Rails.cache.fetch "server_info_#{server.id}", expires_in: 1.minute do
       begin
-        info = server_connection.server_info
-        info.delete_if {|key| key == :content_data }
+        out = {}
+        get_rcon_status.lines.each do |line|
+          case line
+          when /^hostname\W+(.*)$/
+            out[:server_name] ||= $1
+          when /^map\W+(\S+)/
+            out[:map_name] ||= $1
+          when /^players\W+(\S+).+\((\d+)/
+            out[:number_of_players] ||= $1.to_i
+            out[:max_players] ||= $2
+          end
+        end
+        out
       rescue SteamCondenser::Error, Errno::ECONNREFUSED
         {}
       end

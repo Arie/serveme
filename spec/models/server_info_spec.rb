@@ -73,6 +73,19 @@ describe ServerInfo do
     end
   end
 
+  describe "#get_rcon_status" do
+
+    it "auths and uses rcon to get the status" do
+      subject.should_receive(:auth)
+      server_connection = double
+      subject.stub(:server_connection => server_connection)
+      server_connection.should_receive(:rcon_exec).with("status").and_return ""
+
+      subject.get_rcon_status
+    end
+
+  end
+
 
   context "'rcon stats' statistics" do
 
@@ -150,26 +163,47 @@ describe ServerInfo do
 
   describe '#status' do
 
-    before { Rails.cache.clear }
-
-    it 'gets server info from the rcon-less server connection' do
-      server_connection = double
-      subject.stub(:server_connection => server_connection)
-      server_connection.should_receive(:server_info).and_return({:foo => 'bar'})
-      subject.status[:foo].should eql 'bar'
+    before do
+      Rails.cache.clear
     end
 
-    it "deletes the content_data from the hash because it can't be memcached" do
-      server_connection = double
-      subject.stub(:server_connection => server_connection)
-      server_connection.should_receive(:server_info).and_return({:content_data => 'foo'})
-      subject.status.should_not have_key(:content_data)
+    it "gets server info from rcon status" do
+      rcon_status_output = %|hostname: FakkelBrigade #1
+version : 3032525/24 3032525 secure
+udp/ip  : 176.9.138.143:27015  (public ip: 176.9.138.143)
+steamid : [A:1:3175318537:5985] (90097701101995017)
+account : not logged in  (No account specified)
+map     : ctf_turbine at: 0 x, 0 y, 0 z
+tags    : ctf,increased_maxplayers
+sourcetv:  port 27020, delay 30.0s
+players : 12 humans, 1 bots (33 max)
+edicts  : 532 used of 2048 max
+        Spawns Points Kills Deaths Assists
+Scout         0      0     0      0       0
+Sniper        0      0     0      0       0
+Soldier       0      0     0      0       0
+Demoman       0      0     0      0       0
+Medic         0      0     0      0       0
+Heavy         0      0     0      0       0
+Pyro          0      0     0      0       0
+Spy           0      0     0      0       0
+Engineer      0      0     0      0       0
+
+# userid name                uniqueid            connected ping loss state  adr
+#      2 "SourceTV"          BOT                                     active
+Loaded plugins:
+---------------------
+0:	"TFTrue v4.75, AnAkkk"
+---------------------|
+      subject.stub(:get_rcon_status => rcon_status_output)
+      subject.server_name.should eql "FakkelBrigade #1"
+      subject.map_name.should eql "ctf_turbine"
+      subject.max_players.should eql "33"
+      subject.number_of_players.should eql 12
     end
 
     it "returns an empty hash if something went wrong" do
-      server_connection = double
-      subject.stub(:server_connection => server_connection)
-      expect(server_connection).to receive(:server_info).and_raise(SteamCondenser::Error.new("Response of type SteamCondenser::Servers::Packets::RCON::RCONGoldSrcResponse cannot be handled by this method."))
+      subject.stub(:get_rcon_status).and_raise(SteamCondenser::Error.new("BOOM"))
 
       expect(subject.status).to eql({})
     end

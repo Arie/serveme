@@ -34,8 +34,8 @@ gem 'zeroclipboard-rails'
 gem "google_visualr"
 gem 'rack-cache'
 gem 'paypal-sdk-rest'
-gem 'sidekiq', :github => "mperham/sidekiq", :branch => "internal_rewrite"
-gem 'sidekiq-cron'
+gem 'sidekiq',      :github => "mperham/sidekiq", :branch => "internal_rewrite"
+gem 'sidekiq-cron', :github => "Arie/sidekiq-cron"
 gem 'geoip'
 gem 'geocoder'
 gem 'rbtrace'

@@ -25,7 +25,6 @@ set :deploy_to,         "/var/www/serveme"
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
-before 'deploy',                'app:idiotcheck'
 after 'deploy:finalize_update', 'app:symlink'
 after 'deploy',                 'deploy:cleanup'
 after "deploy:stop",            "logdaemon:stop"
@@ -50,14 +49,6 @@ namespace :app do
     run "ln -sf #{shared_path}/site_url.rb #{release_path}/config/initializers/site_url.rb"
     run "ln -sf #{shared_path}/GeoLiteCity.dat #{release_path}/doc/GeoLiteCity.dat"
     run "ln -sf #{shared_path}/cacert.pem #{release_path}/config/cacert.pem"
-  end
-
-  desc "check if you're not an idiot"
-  task :idiotcheck, :roles => [:web, :app] do
-    app_controller = File.read(File.expand_path('../../app/controllers/application_controller.rb',  __FILE__))
-    if app_controller.match(/def current_user/)
-      raise "YOU FORGOT TO ENABLE AUTHENTICATION AGAIN IDIOT\n" * 100
-    end
   end
 
 end

@@ -110,7 +110,7 @@ end
 
 gem 'uglifier'
 gem 'jquery-rails'
-gem 'compass-rails', github: 'Compass/compass-rails'
+gem 'compass-rails'
 gem 'sass'
 gem 'sass-rails'
 gem 'sassc'

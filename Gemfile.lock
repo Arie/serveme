@@ -402,10 +402,16 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    sassc (1.7.1)
+    sassc (1.8.0)
       bundler
       ffi (~> 1.9.6)
       sass (>= 3.3.0)
+    sassc-rails (1.1.0)
+      rails (>= 4.0.0)
+      sass
+      sassc (~> 1.6)
+      sprockets (> 2.11)
+      tilt
     selenium-webdriver (2.48.1)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
@@ -557,8 +563,7 @@ DEPENDENCIES
   rspec-rails
   rvm-capistrano
   sass
-  sass-rails
-  sassc
+  sassc-rails
   selenium-webdriver
   sentry-raven
   shoulda-matchers

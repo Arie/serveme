@@ -4,3 +4,4 @@ end
 
 require "openid/fetchers"
 OpenID.fetcher.ca_file = "/etc/ssl/certs/ca-certificates.crt"
+OmniAuth.config.full_host = SITE_URL

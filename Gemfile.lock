@@ -5,14 +5,6 @@ GIT
     remote_lock (1.2.0)
 
 GIT
-  remote: git://github.com/johnathanludwig/sidekiq-cron.git
-  revision: d34f510014194fb40aadcba138b72fffbd155be6
-  specs:
-    sidekiq-cron (0.3.1)
-      rufus-scheduler (>= 2.0.24)
-      sidekiq (>= 4.0.0)
-
-GIT
   remote: git://github.com/koraktor/rbzip2.git
   revision: ca6f4ee8df06a19f2898c3d90673922643b5f6b4
   specs:
@@ -250,8 +242,8 @@ GEM
     method_source (0.8.2)
     mime-types (2.6.2)
     mini_portile (0.6.2)
-    minitest (5.8.2)
-    msgpack (0.7.0)
+    minitest (5.8.3)
+    msgpack (0.7.1)
     multi_json (1.11.2)
     multi_test (0.1.2)
     multi_xml (0.5.5)
@@ -271,7 +263,7 @@ GEM
       net-scp (= 1.2.1)
       net-ssh (= 3.0.1)
     netrc (0.11.0)
-    nokogiri (1.6.6.3)
+    nokogiri (1.6.6.4)
       mini_portile (~> 0.6.0)
     ntlm-http (0.1.1)
     oily_png (1.2.0)
@@ -343,8 +335,10 @@ GEM
       msgpack (>= 0.4.3)
       trollop (>= 1.16.2)
     redis (3.2.2)
+    redis-namespace (1.5.2)
+      redis (~> 3.0, >= 3.0.4)
     ref (2.0.0)
-    request_store (1.2.0)
+    request_store (1.2.1)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
     rest-client (1.8.0)
@@ -361,7 +355,7 @@ GEM
       rspec-mocks (>= 2.99, < 4.0)
     rspec-collection_matchers (1.1.2)
       rspec-expectations (>= 2.99.0.beta1)
-    rspec-core (3.4.0)
+    rspec-core (3.4.1)
       rspec-support (~> 3.4.0)
     rspec-expectations (3.4.0)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -377,11 +371,11 @@ GEM
       rspec-expectations (~> 3.4.0)
       rspec-mocks (~> 3.4.0)
       rspec-support (~> 3.4.0)
-    rspec-support (3.4.0)
+    rspec-support (3.4.1)
     ruby-openid (2.7.0)
     ruby-progressbar (1.7.5)
     rubyzip (1.1.7)
-    rufus-scheduler (3.1.9)
+    rufus-scheduler (3.1.10)
     rvm-capistrano (1.5.6)
       capistrano (~> 2.15.4)
     safe_yaml (1.0.4)
@@ -405,11 +399,15 @@ GEM
       faraday (>= 0.7.6)
     shoulda-matchers (3.0.1)
       activesupport (>= 4.0.0)
-    sidekiq (4.0.0)
+    sidekiq (4.0.1)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
       json (~> 1.0)
       redis (~> 3.2, >= 3.2.1)
+    sidekiq-cron (0.4.0)
+      redis-namespace (>= 1.5.2)
+      rufus-scheduler (>= 2.0.24)
+      sidekiq (>= 4.0.0)
     simple_form (3.2.0)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
@@ -547,7 +545,7 @@ DEPENDENCIES
   sentry-raven
   shoulda-matchers
   sidekiq
-  sidekiq-cron!
+  sidekiq-cron
   simple_form
   sinatra (>= 1.3.0)
   sprockets

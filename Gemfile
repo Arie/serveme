@@ -35,7 +35,7 @@ gem "google_visualr"
 gem 'rack-cache'
 gem 'paypal-sdk-rest'
 gem 'sidekiq'
-gem 'sidekiq-cron', github: "johnathanludwig/sidekiq-cron"
+gem 'sidekiq-cron'
 gem 'geoip'
 gem 'geocoder'
 gem 'rbtrace'

@@ -9,6 +9,6 @@ server "#{main_server}", :web, :app, :db, :primary => true
 namespace :logdaemon do
   desc "Start the logdaemon process"
   task :start, :roles => lambda { roles } do
-    run "cd #{current_path};#{rails_env} #{logdaemon_command} -i 172.31.9.250 -p 40001 -d -l #{logdaemon_log} -P #{logdaemon_pid}"
+    run "cd #{current_path};#{rails_env} #{logdaemon_command} -i 172.31.9.240 -p 40001 -d -l #{logdaemon_log} -P #{logdaemon_pid}"
   end
 end

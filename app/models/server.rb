@@ -171,17 +171,17 @@ class Server < ActiveRecord::Base
 
   def end_reservation(reservation)
     return if reservation.ended?
-    rcon_exec("log off; tv_stoprecord")
+    rcon_exec("sv_logflush 1; tv_stoprecord; kickall Reservation ended, every player can download the STV demo at http:/​/#{SITE_HOST}")
+    sleep 1 # Give server a second to finish the STV demo and write the log
     reservation.status_update("Removing configuration and disabling plugins")
     remove_configuration
     disable_plugins
     zip_demos_and_logs(reservation)
     copy_logs(reservation)
     remove_logs_and_demos
-    rcon_exec("kickall Reservation ended, every player can download the STV demo at http:/​/#{SITE_HOST}")
     reservation.status_update("Restarting server")
-    restart
     rcon_disconnect
+    restart
     reservation.status_update("Restarted server")
   end
 

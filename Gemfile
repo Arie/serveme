@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', "~> 4.2.0"
-gem 'sprockets'
+gem 'sprockets', "~> 2.12"
 gem 'haml'
 gem 'protected_attributes'
 gem "actionpack-action_caching"

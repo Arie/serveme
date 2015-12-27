@@ -16,6 +16,7 @@ describe SshServer do
 
     it "sends the software termination signal to the process" do
       subject.stub(:process_id => 1337)
+      Net::SSH.should_receive(:start).with(subject.ip, {})
       subject.should_receive(:execute).with("kill -15 #{subject.process_id}")
       subject.restart
     end
@@ -108,9 +109,9 @@ describe SshServer do
 
   describe '#ssh' do
 
-    it "creates the Net::SSH::Simple instance" do
+    it "creates the Net::SSH instance" do
       subject.stub(:ip => double)
-      Net::SSH::Simple.should_receive(:new).with({:host_name => subject.ip})
+      Net::SSH.should_receive(:start).with(subject.ip, {})
       subject.ssh
     end
 

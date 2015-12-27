@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Api::ReservationsController < Api::ApplicationController
 
   include ReservationsHelper

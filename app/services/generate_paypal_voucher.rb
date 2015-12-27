@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class GeneratePaypalVoucher
 
   attr_accessor :paypal_order

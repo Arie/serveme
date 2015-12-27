@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class PlayerStatisticDecorator < Draper::Decorator
   include Draper::LazyHelpers
   delegate_all

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class NfoControlPanel
 
   attr_reader :server_name, :page

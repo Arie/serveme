@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class LogUpload < ActiveRecord::Base
 
   attr_accessible :file_name, :title, :map_name, :status, :url

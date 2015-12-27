@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Server < ActiveRecord::Base
 
   attr_accessible :name, :path, :ip, :port

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RemoteServer < Server
 
   def write_configuration(output_filename, output_content)

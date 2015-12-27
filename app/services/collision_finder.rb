@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CollisionFinder
 
   attr_reader :colliding_with, :collider

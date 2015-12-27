@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class SshServer < RemoteServer
 
   def find_process_id
@@ -41,7 +42,7 @@ class SshServer < RemoteServer
   end
 
   def ssh_exec(command)
-    ssh.ssh(ip, command)
+    ssh.exec!(command)
   end
 
   def copy_to_server(files, destination)
@@ -77,11 +78,11 @@ class SshServer < RemoteServer
   end
 
   def ssh
-    @ssh ||= Net::SSH::Simple.new({:host_name => ip})
+    @ssh ||= Net::SSH.start(ip, {})
   end
 
   def ssh_close
-    ssh.close
+    ssh.try(:close)
     @ssh = nil
   end
 

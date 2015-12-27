@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RconStatusParser
 
   attr_accessor :rcon_status_output

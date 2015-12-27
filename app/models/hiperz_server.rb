@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class HiperzServer < RemoteServer
 
   has_one :hiperz_server_information, :foreign_key => :server_id

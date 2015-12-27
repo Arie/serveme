@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ServerMetric
 
   delegate :server, :map_name, :cpu, :traffic_in, :traffic_out, :uptime, :fps, :to => :server_info

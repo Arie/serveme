@@ -72,7 +72,6 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    blockenspiel (0.4.5)
     bootstrap-sass (3.3.6)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
@@ -257,11 +256,6 @@ GEM
     net-ssh (3.0.1)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
-    net-ssh-simple (1.6.12)
-      blockenspiel (= 0.4.5)
-      hashie (= 3.4.3)
-      net-scp (= 1.2.1)
-      net-ssh (= 3.0.1)
     netrc (0.11.0)
     nokogiri (1.6.7.1)
       mini_portile2 (~> 2.0.0.rc2)
@@ -520,7 +514,6 @@ DEPENDENCIES
   minitest
   net-sftp
   net-ssh
-  net-ssh-simple
   oily_png
   omniauth-openid
   omniauth-steam

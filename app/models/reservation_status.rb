@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ReservationStatus < ActiveRecord::Base
   belongs_to :reservation
   attr_accessible :status

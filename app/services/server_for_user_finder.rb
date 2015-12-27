@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ServerForUserFinder
 
   attr_reader :user, :starts_at, :ends_at

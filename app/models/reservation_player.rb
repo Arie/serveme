@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ReservationPlayer < ActiveRecord::Base
   attr_accessible :reservation_id, :steam_uid, :name, :ip, :latitude, :longitude
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class LogCopier
 
   attr_accessor :reservation, :server, :logs

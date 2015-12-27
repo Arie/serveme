@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module ReservationValidations
   def self.included(mod)
     mod.class_eval do

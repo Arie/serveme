@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module ReservationServerInformation
   def server_name
     "#{server.name} (##{id})"

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module PaypalPayment
   include PayPal::SDK::REST
 

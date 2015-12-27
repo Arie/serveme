@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ServerInfo
 
   attr_accessor :server, :server_connection

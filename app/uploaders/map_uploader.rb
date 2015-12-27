@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class MapUploader < CarrierWave::Uploader::Base
 
   permissions 0755

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class FindLogsTfUploadsInLog
 
   attr_accessor :log, :logs_tf_upload_ids

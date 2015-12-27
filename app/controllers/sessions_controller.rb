@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class SessionsController < Devise::OmniauthCallbacksController
 
   skip_before_filter :verify_authenticity_token

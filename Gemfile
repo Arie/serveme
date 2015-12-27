@@ -25,7 +25,6 @@ gem 'tf2_line_parser'
 gem 'eventmachine'
 gem 'dante'
 
-gem 'net-ssh-simple'
 gem 'net-ssh'
 gem 'net-sftp'
 gem 'draper'

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class PagesController < ApplicationController
 
   skip_before_filter :authenticate_user!, :except => :recent_reservations

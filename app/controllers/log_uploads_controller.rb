@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class LogUploadsController < ApplicationController
 
   def new

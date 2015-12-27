@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class PrivateServersController < ApplicationController
 
   before_filter :require_private_server_option

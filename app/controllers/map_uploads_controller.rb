@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class MapUploadsController < ApplicationController
 
   before_filter :require_donator

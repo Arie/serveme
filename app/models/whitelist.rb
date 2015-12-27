@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Whitelist < ActiveRecord::Base
   attr_accessible :file
   has_many :reservations, :dependent => :nullify

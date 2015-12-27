@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class PaypalOrdersController < ApplicationController
 
   skip_before_filter :block_users_with_expired_reservations

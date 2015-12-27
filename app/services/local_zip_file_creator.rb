@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class LocalZipFileCreator < ZipFileCreator
 
   def create_zip

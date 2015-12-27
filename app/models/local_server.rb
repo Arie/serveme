@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class LocalServer < Server
 
   def remove_configuration

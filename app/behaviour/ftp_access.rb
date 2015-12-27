@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module FtpAccess
 
   require 'net/ftp'

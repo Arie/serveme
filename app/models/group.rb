@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Group < ActiveRecord::Base
 
   DONATOR_GROUP  = find_or_create_by(:name => "Donators").freeze

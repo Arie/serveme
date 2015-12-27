@@ -38,11 +38,15 @@ class SshServer < RemoteServer
 
   def execute(command)
     logger.info "executing remotely: #{command}"
-    ssh_exec(command).stdout
+    ssh_exec(command)
   end
 
   def ssh_exec(command)
-    ssh.exec!(command)
+    out = []
+    ssh.exec!(command) do |channel, stream, data|
+      out << data if stream == :stdout
+    end
+    out.join("\n")
   end
 
   def copy_to_server(files, destination)
@@ -78,7 +82,7 @@ class SshServer < RemoteServer
   end
 
   def ssh
-    @ssh ||= Net::SSH.start(ip, {})
+    @ssh ||= Net::SSH.start(ip, nil)
   end
 
   def ssh_close

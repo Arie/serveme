@@ -16,7 +16,7 @@ describe SshServer do
 
     it "sends the software termination signal to the process" do
       subject.stub(:process_id => 1337)
-      Net::SSH.should_receive(:start).with(subject.ip, {})
+      Net::SSH.should_receive(:start).with(subject.ip, nil)
       subject.should_receive(:execute).with("kill -15 #{subject.process_id}")
       subject.restart
     end
@@ -87,21 +87,14 @@ describe SshServer do
       subject.execute(command)
     end
 
-    it "gets the command results by calling stdout on the ssh_exec result" do
-      command = 'foo'
-      subject.should_receive(:ssh_exec).with(command).and_return(double(:stdout => "Great success!"))
-      subject.execute(command).should == "Great success!"
-    end
-
   end
 
   describe '#ssh_exec' do
     it "calls the ssh API with ip and command" do
       command = double
-      ip = double
       ssh = double
-      subject.stub(:ssh => ssh, :ip => ip)
-      ssh.should_receive(:ssh).with(ip, command)
+      subject.stub(:ssh => ssh)
+      ssh.should_receive(:exec!).with(command)
 
       subject.ssh_exec(command)
     end
@@ -111,7 +104,7 @@ describe SshServer do
 
     it "creates the Net::SSH instance" do
       subject.stub(:ip => double)
-      Net::SSH.should_receive(:start).with(subject.ip, {})
+      Net::SSH.should_receive(:start).with(subject.ip, nil)
       subject.ssh
     end
 

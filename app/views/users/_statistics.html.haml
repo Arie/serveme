@@ -29,11 +29,11 @@
         %td= user.log_uploads.where(:status => "success").count
 
       %tr
-        %td Donator
+        %td Premium
         %td= t("user.donator.#{!!user.donator?}")
 
       - if user.donator_until
         %tr
-          %td Donator until
+          %td Premium until
           %td= I18n.l(user.donator_until, :format => :datepicker)
 

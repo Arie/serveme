@@ -24,5 +24,5 @@ end
 
 Then "I see a count of free and donator-only servers" do
   page.should have_content "Everyone"
-  page.should have_content "Donators only"
+  page.should have_content "Premium"
 end

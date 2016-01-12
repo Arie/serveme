@@ -3,26 +3,26 @@
 When "I buy 1 month worth of donator status" do
   step "I go to donate"
   select "1 month - 1 EUR"
-  step "I click the donate button"
+  step "I click the buy button"
 end
 
 When "I buy 1 year worth of donator status" do
   step "I go to donate"
   select "1 year - 9 EUR"
-  step "I click the donate button"
+  step "I click the buy button"
 end
 
 When "I buy 1 month worth of private server" do
   step "I go to donate"
   select "Private server: 1 month - 15 EUR"
-  step "I click the donate button"
+  step "I click the buy button"
 end
 
 When "I buy 1 month worth of donator status for someone else" do
   step "I go to donate"
   select "1 month - 1 EUR"
   choose "For someone else"
-  step "I click the donate button"
+  step "I click the buy button"
 end
 
 Then "I see a voucher code on my settings page" do
@@ -38,9 +38,9 @@ Then "I get to choose a private server in my settings" do
   click_button "Save private server"
 end
 
-When "I click the donate button" do
+When "I click the buy button" do
   begin
-    click_button "Donate with PayPal"
+    click_button "Buy with PayPal"
   rescue ActionController::RoutingError
   end
 

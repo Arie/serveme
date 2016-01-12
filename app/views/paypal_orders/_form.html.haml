@@ -3,7 +3,7 @@
     = f.input :product_id, :collection => @products, :label_method => :list_name, :label => false, :include_blank => false
 
     %button.btn.btn-success{:type => :submit}
-      Donate with PayPal
+      Buy with PayPal
   .form-horizontal
 
     = f.input :gift, as: "radio_buttons", label: "I'm buying this...", collection: [["For me", false], ["For someone else", true]]

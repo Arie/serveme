@@ -12,7 +12,7 @@ describe UserDecorator do
       it "decorates the nickname with a donator icon" do
         user.stub(:donator? => true)
         user.stub(:nickname => "Foo")
-        subject.nickname.should == '<span class="donator">Foo <icon class="fa fa-star" title="Donator"></icon></span>'
+        subject.nickname.should == '<span class="donator">Foo <icon class="fa fa-star" title="Premium"></icon></span>'
       end
     end
 

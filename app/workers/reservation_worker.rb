@@ -8,9 +8,9 @@ class ReservationWorker
 
   def perform(reservation_id, action)
     @reservation_id = reservation_id
-    @reservation = Reservation.find(reservation_id)
     begin
       $lock.synchronize("#{action}-reservation-#{reservation_id}", retries: 1, expiry: 2.minutes) do
+        @reservation = Reservation.find(reservation_id)
         server = reservation.server
         server.send("#{action}_reservation", reservation)
       end

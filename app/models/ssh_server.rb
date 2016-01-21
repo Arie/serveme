@@ -78,7 +78,7 @@ class SshServer < RemoteServer
   end
 
   def shell_output_to_array(shell_output)
-    shell_output.lines.map(&:chomp)
+    shell_output.lines.to_a.map(&:chomp)
   end
 
   def ssh

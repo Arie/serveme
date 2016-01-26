@@ -89,6 +89,15 @@
             = link_to "http://live.fakkelbrigade.eu/matches/new?host=#{ip_and_port}&rcon=#{reservation.rcon}&logsecret=#{reservation.logsecret}", :title => "create livestats", :class => "btn btn-xs btn-warning", :target => "_blank" do
               Livestats
               %i.fa.fa-bar-chart
+        %tr
+          %td Stats
+          %td
+            = link_to show_reservation_statistic_path(reservation),         :title => "Player stats", :class => "btn btn-xs btn-info" do
+              Player stats
+              %i.fa.fa-bar-chart
+            = link_to show_reservation_server_statistic_path(reservation),  :title => "Server stats", :class => "btn btn-xs btn-primary" do
+              Server stats
+              %i.fa.fa-bar-chart
 
 
     - if current_admin

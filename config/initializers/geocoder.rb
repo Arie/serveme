@@ -25,6 +25,8 @@ Geocoder::Lookup::Test.set_default_stub(
   ]
 )
 #Monkeypatch Geocoder so it caches maxmind local lookups
+require 'geocoder/lookups/maxmind_local'
+
 module Geocoder::Lookup
   class MaxmindLocal < Base
     def results(query)

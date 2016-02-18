@@ -277,7 +277,7 @@ GEM
       multi_json
       omniauth-openid
     orm_adapter (0.5.0)
-    paypal-sdk-rest (1.4.2)
+    paypal-sdk-rest (1.4.3)
       multi_json (~> 1.0)
       uuidtools (~> 2.1)
       xml-simple
@@ -452,7 +452,7 @@ GEM
     vcr (3.0.1)
     warden (1.2.6)
       rack (>= 1.0)
-    webmock (1.22.6)
+    webmock (1.23.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff

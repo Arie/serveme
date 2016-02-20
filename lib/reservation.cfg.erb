@@ -12,6 +12,7 @@ tftrue_logs_prefix "serveme.tf"
 tftrue_logs_roundend 0
 tftrue_tv_autorecord 0
 tv_delaymapchange 1
+tv_enable 1
 
 <% if server_config %>
 <%= "exec #{server_config}" %><% end %>
@@ -21,8 +22,6 @@ tv_delaymapchange 1
 <% elsif whitelist %>
 <%= %{mp_tournament_whitelist "cfg/#{whitelist}"} %><% end %>
 
-<%= 'tv_enable "1"' %>
-
 <% if user.logs_tf_api_key.present? %>
   <%= %{tftrue_logs_apikey "#{user.logs_tf_api_key}"} %>
 <% else %>
@@ -30,7 +29,3 @@ tv_delaymapchange 1
 <% end %>
 
 tf_preround_push_from_damage_enable 1
-
-#http://etf2l.org/forum/general/topic-9853/page-14/#post-549961
-banid 0 U:1:122851060 kick
-addip 0 82.122.74.82

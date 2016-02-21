@@ -27,7 +27,7 @@ class Api::ReservationsController < Api::ApplicationController
       end
       render :show
     else
-      Rails.logger.warn "API: User: #{api_user.nickname} - Validation errors: #{@reservation.errors.full_messages.join(", ")}"
+      Rails.logger.warn "API: User: #{api_user.nickname} - Validation errors: #{@reservation.errors.full_messages.join(", ")} - #{@reservation.attributes}"
       @servers = free_servers
       render :find_servers, :status => :bad_request
     end

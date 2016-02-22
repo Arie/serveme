@@ -21,6 +21,13 @@
     = content_for(:jumbotron)
 
     .container
+      .row
+        .col-md-11
+          .flash.alert.alert-success
+            %h4
+              We like to your hear your thoughts about serveme.tf,
+              = link_to("answer our survey", "http://goo.gl/forms/FcYlJllszV", target: "_blank")
+              for a chance to win one of the five 1-year premium codes
       - if !donator?
         .row
           .col-md-12

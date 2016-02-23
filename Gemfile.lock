@@ -61,9 +61,8 @@ GEM
     addressable (2.4.0)
     american_date (1.1.1)
     arel (6.0.3)
-    autoprefixer-rails (6.3.3)
+    autoprefixer-rails (6.3.3.1)
       execjs
-      json
     base32_pure (0.1.0)
     bcrypt (3.1.10)
     better_errors (2.1.1)
@@ -388,7 +387,7 @@ GEM
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
-    sentry-raven (0.15.5)
+    sentry-raven (0.15.6)
       faraday (>= 0.7.6)
     shoulda-matchers (3.1.1)
       activesupport (>= 4.0.0)
@@ -446,7 +445,7 @@ GEM
     vcr (3.0.1)
     warden (1.2.6)
       rack (>= 1.0)
-    webmock (1.24.0)
+    webmock (1.24.1)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff

@@ -4,10 +4,7 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
 
   protect_from_forgery
-  skip_before_filter :authenticate_user!
-  def current_user
-    User.first
-  end
+  before_filter :authenticate_user!
   before_filter :set_time_zone
   before_filter :check_expired_reservations
   before_filter :block_users_with_expired_reservations

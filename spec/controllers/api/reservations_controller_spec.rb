@@ -89,7 +89,10 @@ describe Api::ReservationsController do
           last_number_of_players: Fixnum,
           inactive_minute_counter: Fixnum,
           start_instantly: true,
-          end_instantly: false
+          end_instantly: false,
+          server: {
+            ip_and_port: String,
+          }.ignore_extra_keys!
         }.ignore_extra_keys!
       }.ignore_extra_keys!
       ReservationWorker.should_receive(:perform_async).with(anything, "start")

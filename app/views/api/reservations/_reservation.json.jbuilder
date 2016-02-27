@@ -20,6 +20,9 @@ if reservation.persisted?
   json.end_instantly reservation.end_instantly
   json.provisioned reservation.provisioned
   json.ended reservation.ended
+  json.server do
+    json.partial! "servers/server", server: reservation.server
+  end
 end
 if reservation.ended?
   json.log_uploads reservation.log_uploads.pluck(:url)

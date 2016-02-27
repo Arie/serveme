@@ -215,6 +215,10 @@ If everything went alright, you'll get a HTTP 200 and shown your reservation det
     "logsecret": 298424416816498481223654962917404607282,
     "start_instantly": false,
     "end_instantly": false,
+    "server": {
+      "name": "Server name",
+      "ip_and_port": "127.0.0.1:27015"
+    },
     "errors": {}
   },
   "actions": {

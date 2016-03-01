@@ -3,7 +3,7 @@ rcon_password "<%= rcon %>"
 sv_password "<%= password %>"
 tv_password "<%= tv_password %>"
 tv_relaypassword "<%= tv_relaypassword %>"
-sv_logflush 1
+sv_logflush 0
 logaddress_add <%= "direct.#{SITE_HOST}:40001" %>
 sv_rcon_whitelist_address <%= "direct.#{SITE_HOST}" %>
 
@@ -11,6 +11,7 @@ tftrue_no_hats 0
 tftrue_logs_prefix "serveme.tf"
 tftrue_logs_roundend 0
 tftrue_tv_autorecord 0
+tftrue_restorestats 0
 tv_delaymapchange 1
 tv_enable 1
 

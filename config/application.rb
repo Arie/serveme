@@ -69,6 +69,7 @@ module Serveme
       # We don't want the default of everything that isn't js or css, because it pulls too many things in
       app.config.assets.precompile.shift
 
+      app.config.assets.precompile.push("themes/black.css", "themes/white.css", "themes/slate.css")
       # Explicitly register the extensions we are interested in compiling
       app.config.assets.precompile.push(Proc.new do |path|
         File.extname(path).in? [

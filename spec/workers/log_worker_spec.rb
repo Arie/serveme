@@ -13,8 +13,8 @@ describe LogWorker do
   let(:rcon_empty_line)       { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!rcon"' }
   let(:rcon_with_quotes_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!rcon mp_tournament "1""' }
   let(:timeleft_line)         { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!timeleft"' }
-  let(:turbine_start_line)    { '1234567L 02/07/2015 - 20:39:40: Started map "ctf_turbine" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
-  let(:badlands_start_line)   { '1234567L 02/07/2015 - 20:39:40: Started map "cp_badlands" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
+  let(:assault_start_line)    { '1234567L 02/07/2015 - 20:39:40: Started map "cs_assault" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
+  let(:de_dust2_start_line)   { '1234567L 02/07/2015 - 20:39:40: Started map "de_dust2" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
   subject(:logworker) { LogWorker.perform_async(line) }
 
   before do
@@ -78,17 +78,17 @@ describe LogWorker do
 
   describe "recognizing server start" do
 
-    context "turbine" do
+    context "assault" do
       it "saves a status indicating the server started and will change again" do
-        LogWorker.perform_async(turbine_start_line)
+        LogWorker.perform_async(assault_start_line)
         ReservationStatus.last.status.should include("switching map")
       end
     end
 
     context "other map" do
       it "saves a status indicating the server has started the map" do
-        LogWorker.perform_async(badlands_start_line)
-        ReservationStatus.last.status.should include("cp_badlands")
+        LogWorker.perform_async(de_dust2_start_line)
+        ReservationStatus.last.status.should include("de_dust2")
       end
     end
 

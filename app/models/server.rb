@@ -79,7 +79,7 @@ class Server < ActiveRecord::Base
 
   def update_configuration(reservation)
     reservation.status_update("Sending reservation config files")
-    ['cfg/reservation.cfg', 'maps/cfg/cs_assault.cfg'].each do |config_file|
+    ['reservation.cfg', 'autoexec.cfg'].each do |config_file|
       config_body = generate_config_file(reservation, config_file)
       write_configuration(server_config_file(config_file), config_body)
     end
@@ -260,15 +260,15 @@ class Server < ActiveRecord::Base
   end
 
   def server_config_file(config_file)
-    "#{game_dir}/#{config_file}"
+    "#{game_dir}/cfg/#{config_file}"
   end
 
   def reservation_config_file
-    server_config_file('cfg/reservation.cfg')
+    server_config_file('reservation.cfg')
   end
 
   def initial_map_config_file
-    server_config_file('maps/cfg/cs_assault.cfg')
+    server_config_file('autoexec.cfg')
   end
 
   def host_to_ip

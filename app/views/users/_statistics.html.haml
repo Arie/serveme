@@ -25,10 +25,6 @@
         %td= "#{duration} hours"
 
       %tr
-        %td Logs uploaded
-        %td= user.log_uploads.where(:status => "success").count
-
-      %tr
         %td Premium
         %td= t("user.donator.#{!!user.donator?}")
 

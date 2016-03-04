@@ -38,14 +38,6 @@ unless ServerConfig.all.any?
   puts "Seeded configs #{configs.join(', ')}" unless Rails.env.test?
 end
 
-unless Whitelist.all.any?
-  whitelists = [ 'etf2l_whitelist_6thcup.txt', 'etf2l_whitelist_6v6.txt', 'etf2l_whitelist_9v9.txt', 'etf2l_whitelist_bball.txt', 'etf2l_whitelist_quickfix.txt', 'etf2l_whitelist_vanilla.txt', 'item_whitelist_ugc_HL.txt' ]
-  whitelists.each do |whitelist|
-    Whitelist.create(:file => whitelist)
-  end
-  puts "Seeded whitelists #{whitelists.join(', ')}" unless Rails.env.test?
-end
-
 unless Location.all.any?
   locations = [
                 {:name => "Austria",        :flag => "at"},

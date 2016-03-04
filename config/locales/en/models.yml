@@ -1,9 +1,6 @@
 en:
   activerecord:
     attributes:
-      user:
-        logs_tf_api_key: logs.tf API key
       reservation:
-        whitelist: League whitelist
         tv_relaypassword: Relay password
         tv_password: STV password

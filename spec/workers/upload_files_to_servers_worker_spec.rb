@@ -11,7 +11,7 @@ describe UploadFilesToServersWorker do
 
       Server.should_receive(:active).and_return([server])
       server.should_receive(:list_files).with(destination).and_return(existing_files)
-      server.should_receive(:copy_to_server).with(["bar"], File.join(server.tf_dir, destination))
+      server.should_receive(:copy_to_server).with(["bar"], File.join(server.game_dir, destination))
 
       UploadFilesToServersWorker.perform_async('files' => files, 'destination' => destination, 'overwrite' => false)
     end
@@ -25,7 +25,7 @@ describe UploadFilesToServersWorker do
       destination = "tmp"
 
       Server.should_receive(:active).and_return([server])
-      server.should_receive(:copy_to_server).with(files, File.join(server.tf_dir, destination))
+      server.should_receive(:copy_to_server).with(files, File.join(server.game_dir, destination))
 
       UploadFilesToServersWorker.perform_async('files' => files, 'destination' => destination, 'overwrite' => true)
     end

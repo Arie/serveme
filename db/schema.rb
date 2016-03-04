@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151015103512) do
+ActiveRecord::Schema.define(version: 20150725122007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,19 +60,6 @@ ActiveRecord::Schema.define(version: 20151015103512) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "log_uploads", force: :cascade do |t|
-    t.integer  "reservation_id"
-    t.string   "file_name"
-    t.string   "title"
-    t.string   "map_name"
-    t.text     "status"
-    t.string   "url"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "log_uploads", ["reservation_id"], name: "index_log_uploads_on_reservation_id", using: :btree
 
   create_table "map_uploads", force: :cascade do |t|
     t.string   "name"
@@ -160,13 +147,11 @@ ActiveRecord::Schema.define(version: 20151015103512) do
     t.boolean  "provisioned",                        default: false
     t.boolean  "ended",                              default: false
     t.integer  "server_config_id"
-    t.integer  "whitelist_id"
     t.integer  "inactive_minute_counter",            default: 0
     t.integer  "last_number_of_players",             default: 0
     t.string   "first_map"
     t.boolean  "start_instantly",                    default: false
     t.boolean  "end_instantly",                      default: false
-    t.string   "custom_whitelist_id"
     t.integer  "duration"
     t.boolean  "auto_end",                           default: true
     t.string   "logsecret",               limit: 64
@@ -175,7 +160,6 @@ ActiveRecord::Schema.define(version: 20151015103512) do
   end
 
   add_index "reservations", ["auto_end"], name: "index_reservations_on_auto_end", using: :btree
-  add_index "reservations", ["custom_whitelist_id"], name: "index_reservations_on_custom_whitelist_id", using: :btree
   add_index "reservations", ["end_instantly"], name: "index_reservations_on_end_instantly", using: :btree
   add_index "reservations", ["ends_at"], name: "index_reservations_on_ends_at", using: :btree
   add_index "reservations", ["logsecret"], name: "index_reservations_on_logsecret", using: :btree
@@ -186,7 +170,6 @@ ActiveRecord::Schema.define(version: 20151015103512) do
   add_index "reservations", ["starts_at"], name: "index_reservations_on_starts_at", using: :btree
   add_index "reservations", ["updated_at"], name: "index_reservations_on_updated_at", using: :btree
   add_index "reservations", ["user_id"], name: "index_reservations_on_user_id", using: :btree
-  add_index "reservations", ["whitelist_id"], name: "index_reservations_on_whitelist_id", using: :btree
 
   create_table "server_configs", force: :cascade do |t|
     t.string   "file"
@@ -260,7 +243,6 @@ ActiveRecord::Schema.define(version: 20151015103512) do
     t.string   "last_sign_in_ip",        limit: 191
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "logs_tf_api_key"
     t.string   "remember_token"
     t.string   "time_zone"
     t.string   "api_key",                limit: 32
@@ -299,11 +281,5 @@ ActiveRecord::Schema.define(version: 20151015103512) do
   add_index "vouchers", ["claimed_by_id"], name: "index_vouchers_on_claimed_by_id", using: :btree
   add_index "vouchers", ["code"], name: "index_vouchers_on_code", using: :btree
   add_index "vouchers", ["product_id"], name: "index_vouchers_on_product_id", using: :btree
-
-  create_table "whitelists", force: :cascade do |t|
-    t.string   "file"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
 end

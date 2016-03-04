@@ -5,8 +5,8 @@ describe SshServer do
   describe '#remove_configuration' do
 
     it 'deletes the reservation configs' do
-      subject.stub(:tf_dir => '/tmp/foo/tf')
-      subject.should_receive(:execute).with("rm -f /tmp/foo/tf/cfg/reservation.cfg /tmp/foo/tf/cfg/ctf_turbine.cfg")
+      subject.stub(:game_dir => '/tmp/foo/csgo')
+      subject.should_receive(:execute).with("rm -f /tmp/foo/csgo/cfg/reservation.cfg /tmp/foo/csgo/cfg/cs_assault.cfg")
       subject.remove_configuration
     end
 
@@ -37,8 +37,8 @@ describe SshServer do
 
     it 'finds the demo files' do
       subject.stub(:shell_output_to_array)
-      subject.stub(:tf_dir => "foo")
-      subject.should_receive(:execute).with("ls #{subject.tf_dir}/*.dem")
+      subject.stub(:game_dir => "foo")
+      subject.should_receive(:execute).with("ls #{subject.game_dir}/*.dem")
       subject.demos
     end
 
@@ -48,8 +48,8 @@ describe SshServer do
 
     it 'finds the log files' do
       subject.stub(:shell_output_to_array)
-      subject.stub(:tf_dir => "foo")
-      subject.should_receive(:execute).with("ls #{subject.tf_dir}/logs/*.log")
+      subject.stub(:game_dir => "foo")
+      subject.should_receive(:execute).with("ls #{subject.game_dir}/logs/*.log")
       subject.logs
     end
 
@@ -140,11 +140,11 @@ describe SshServer do
   describe '#list_files' do
 
     it "uses the sftp instance list the files on the server" do
-      subject.stub(:tf_dir => "/foo/tf")
+      subject.stub(:game_dir => "/foo/tf")
       sftp_dir = double(:sftp_dir)
       sftp_entry = double(:sftp_entry, :name => "file_entry")
       dir = "cfg"
-      sftp_dir.should_receive(:foreach).with(File.join(subject.tf_dir, dir)).and_yield(sftp_entry)
+      sftp_dir.should_receive(:foreach).with(File.join(subject.game_dir, dir)).and_yield(sftp_entry)
       sftp = double(:sftp, dir: sftp_dir)
       Net::SFTP.should_receive(:start).with(subject.ip, nil).and_yield(sftp)
       subject.list_files(dir).should == ["file_entry"]

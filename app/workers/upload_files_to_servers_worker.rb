@@ -18,7 +18,7 @@ class UploadFilesToServersWorker
       end
       Rails.logger.info "Copying to server #{s.name}: #{files_to_copy.join(", ")}"
       if files_to_copy.any?
-        s.copy_to_server(files_to_copy, File.join(s.tf_dir, destination))
+        s.copy_to_server(files_to_copy, File.join(s.game_dir, destination))
       end
     end
   end

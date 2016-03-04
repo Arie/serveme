@@ -20,7 +20,7 @@ class SshZipFileCreator < ZipFileCreator
   end
 
   def remote_zip_name
-    File.join("#{server.tf_dir}", "logs_and_demos_#{reservation.id}.zip")
+    File.join("#{server.game_dir}", "logs_and_demos_#{reservation.id}.zip")
   end
 
   def remove_zip_file_on_remote_server

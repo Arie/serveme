@@ -39,12 +39,12 @@ describe SshZipFileCreator do
 
   describe '#remote_zip_name' do
 
-    it 'generates the remote zip name from the servers tf dir and reservations id' do
+    it 'generates the remote zip name from the servers game dir and reservations id' do
       zip_file = SshZipFileCreator.new(reservation, ["foo'bar"])
       zip_file.stub(:server => server)
       reservation.stub(:id => 1337)
-      server.stub(:tf_dir => "foo")
-      zip_file.remote_zip_name.should == "#{server.tf_dir}/logs_and_demos_#{zip_file.reservation.id}.zip"
+      server.stub(:game_dir => "foo")
+      zip_file.remote_zip_name.should == "#{server.game_dir}/logs_and_demos_#{zip_file.reservation.id}.zip"
     end
   end
 

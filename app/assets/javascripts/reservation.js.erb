@@ -6,31 +6,6 @@ jQuery(function($) {
     return "<span class='flags flags-" + server.flag + "'></span>" + server.text;
   };
 
-  function enableDefaultWhitelist() {
-    $("#reservation_whitelist_id").val('');
-    $(".reservation_whitelist").hide();
-    $("#reservation_custom_whitelist_id").val('');
-    $(".reservation_custom_whitelist_id").hide();
-  };
-
-  function enableLeagueWhitelist() {
-    $(".reservation_whitelist").show();
-    $("#reservation_custom_whitelist_id").val('', true);
-    $(".reservation_custom_whitelist_id").hide();
-  };
-
-  function enableCustomWhitelist() {
-    $(".reservation_custom_whitelist_id").show();
-    $("#reservation_whitelist_id").val('');
-    $(".reservation_whitelist").hide();
-  };
-
-  if ($("#whitelist_type_default_whitelist").is(':checked'))  { enableDefaultWhitelist(); };
-  if ($("#whitelist_type_league_whitelist").is(':checked')) { enableLeagueWhitelist(); };
-  if ($("#whitelist_type_custom_whitelist").is(':checked')) { enableCustomWhitelist(); };
-
-  $("#reservation_whitelist_id").select2();
-
   $("#reservation_first_map").select2({
     allowClear: true
   });
@@ -49,18 +24,6 @@ jQuery(function($) {
     escapeMarkup: function(m) { return m }
   });
   selectCurrentServer();
-
-  $("#whitelist_type_default_whitelist").change(function() {
-    enableDefaultWhitelist();
-  });
-
-  $("#whitelist_type_custom_whitelist").change(function() {
-    enableCustomWhitelist();
-  });
-
-  $("#whitelist_type_league_whitelist").change(function() {
-    enableLeagueWhitelist();
-  });
 
   function findFreeServers() {
     enableSpinner("reservation_server_id");

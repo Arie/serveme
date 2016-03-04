@@ -224,9 +224,6 @@ GEM
       actionpack (>= 3)
       activesupport (>= 3)
       railties (>= 3)
-    logs_tf (0.0.4)
-      faraday (~> 0.8)
-      multipart-post (>= 1.2.0)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -503,7 +500,6 @@ DEPENDENCIES
   json_expressions
   launchy
   lograge
-  logs_tf
   mechanize
   minitest
   net-sftp

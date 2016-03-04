@@ -637,16 +637,4 @@ describe Reservation do
 
   end
 
-  describe "#lobby?" do
-
-    it "checks the server's tags for TF2Center" do
-      server = double
-      tags_line = '"\"sv_tags\" = \"TF2Center,cp,increased_maxplayers,nocrits,nodmgspread\" ( def. \"\" )\n notify\n - Server tags. Used to provide extra information to clients when they\'re browsing for servers. Separate tags with a comma."'
-      server.should_receive("rcon_exec").with("sv_tags").and_return(tags_line)
-      subject.stub(:server => server)
-
-      subject.should be_lobby
-    end
-  end
-
 end

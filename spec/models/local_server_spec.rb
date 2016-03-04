@@ -91,10 +91,10 @@ describe LocalServer do
     end
 
     it 'writes a config file' do
-      reservation = stubbed_reservation(:custom_whitelist_id => nil)
+      reservation = stubbed_reservation
       subject.should_receive(:restart)
       file = double
-      subject.stub(:tf_dir => '/tmp')
+      subject.stub(:game_dir => '/tmp')
       File.should_receive(:open).with(anything, 'w').twice.and_yield(file)
       file.should_receive(:write).with(anything).twice
       subject.should_receive(:generate_config_file).twice.with(reservation, anything).and_return("config file contents")
@@ -151,11 +151,11 @@ describe LocalServer do
 
   end
 
-  describe '#tf_dir' do
+  describe '#game_dir' do
 
-    it "takes the server's path and adds the TF2 dirs" do
+    it "takes the server's path and adds the CSGO dirs" do
       subject.stub(:path => '/foo/bar')
-      subject.tf_dir.should eql '/foo/bar/tf'
+      subject.game_dir.should eql '/foo/bar/csgo'
     end
 
   end
@@ -240,12 +240,12 @@ describe LocalServer do
   describe "#remove_configuration" do
 
     before do
-      @tf_dir       = Rails.root.join('tmp')
-      @config_file  = @tf_dir.join('cfg', 'reservation.cfg').to_s
-      @map_file     = @tf_dir.join('cfg', 'ctf_turbine.cfg').to_s
+      @game_dir       = Rails.root.join('tmp')
+      @config_file  = @game_dir.join('cfg', 'reservation.cfg').to_s
+      @map_file     = @game_dir.join('cfg', 'cs_assault.cfg').to_s
     end
     it 'deletes the reservation.cfg if its available' do
-      subject.stub(:tf_dir => @tf_dir)
+      subject.stub(:game_dir => @game_dir)
 
       File.should_receive(:exists?).with(@config_file).and_return(true)
       File.should_receive(:delete).with(@config_file)
@@ -255,7 +255,7 @@ describe LocalServer do
     end
 
     it 'does not explode when there is no reservation.cfg' do
-      subject.stub(:tf_dir => @tf_dir)
+      subject.stub(:game_dir => @game_dir)
 
       File.should_receive(:exists?).with(@config_file).and_return(false)
       File.should_not_receive(:delete).with(@config_file)
@@ -294,9 +294,9 @@ describe LocalServer do
 
     it "takes the globbed files and returns just the basename" do
       complete_filepaths = ["/foo/bar/baz.bsp", "/foo/bar/qux.txt"]
-      subject.stub(:tf_dir => "foo")
+      subject.stub(:game_dir => "foo")
       dir = "bar"
-      Dir.should_receive(:glob).with(File.join(subject.tf_dir, dir, "*")).and_return(complete_filepaths)
+      Dir.should_receive(:glob).with(File.join(subject.game_dir, dir, "*")).and_return(complete_filepaths)
 
       subject.list_files("bar").should == ['baz.bsp', 'qux.txt']
     end

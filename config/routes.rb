@@ -41,11 +41,6 @@ Serveme::Application.routes.draw do
       post :time_selection
       post :i_am_feeling_lucky
     end
-    resources :log_uploads, :only => [:new, :create, :index] do
-      collection do
-        get :show_log
-      end
-    end
   end
 
   resources :map_uploads, :only => [:new, :create]

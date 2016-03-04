@@ -10,6 +10,3 @@ end
 json.server_configs do
   json.partial! 'api/server_configs/list', server_configs: ServerConfig.ordered
 end
-json.whitelists do
-  json.partial! 'api/whitelists/list', whitelists: Whitelist.ordered
-end

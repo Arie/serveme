@@ -95,14 +95,14 @@ class Server < ActiveRecord::Base
   end
 
   def metamod_file
-    "#{tf_dir}/addons/metamod.vdf"
+    "#{game_dir}/addons/metamod.vdf"
   end
 
   def metamod_body
     <<-VDF
     "Plugin"
     {
-      "file"	"../tf/addons/metamod/bin/server"
+      "file"	"../csgo/addons/metamod/bin/server"
     }
     VDF
   end
@@ -123,8 +123,8 @@ class Server < ActiveRecord::Base
                     end
   end
 
-  def tf_dir
-    File.join(path, 'tf')
+  def game_dir
+    File.join(path, 'csgo')
   end
 
   def current_rcon
@@ -244,11 +244,11 @@ class Server < ActiveRecord::Base
   end
 
   def log_match
-    File.join(tf_dir, 'logs', "*.log")
+    File.join(game_dir, 'logs', "*.log")
   end
 
   def demo_match
-    File.join(tf_dir, "*.dem")
+    File.join(game_dir, "*.dem")
   end
 
   def connect_string(ip, port, password)
@@ -260,7 +260,7 @@ class Server < ActiveRecord::Base
   end
 
   def server_config_file(config_file)
-    "#{tf_dir}/cfg/#{config_file}"
+    "#{game_dir}/cfg/#{config_file}"
   end
 
   def reservation_config_file
@@ -268,7 +268,7 @@ class Server < ActiveRecord::Base
   end
 
   def initial_map_config_file
-    server_config_file('ctf_turbine.cfg')
+    server_config_file('cs_assault.cfg')
   end
 
   def host_to_ip

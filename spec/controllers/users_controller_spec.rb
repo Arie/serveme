@@ -15,11 +15,6 @@ describe UsersController do
   end
 
   describe '#update' do
-    it 'allows the user to update the logs.tf api key' do
-      post :update, :user => { :logs_tf_api_key => 'abc' }
-      @user.reload.logs_tf_api_key.should eql 'abc'
-    end
-
     it 'allows the user to update the time zone key' do
       post :update, :user => { :time_zone => 'Europe/Amsterdam' }
       @user.reload.time_zone.should eql 'Europe/Amsterdam'

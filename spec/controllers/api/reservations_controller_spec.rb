@@ -38,7 +38,6 @@ describe Api::ReservationsController do
           tv_relaypassword: wildcard_matcher,
         }.ignore_extra_keys!,
         servers: Array,
-        whitelists: Array,
         server_configs: Array,
         actions: Hash
         }
@@ -107,7 +106,6 @@ describe Api::ReservationsController do
           errors: wildcard_matcher,
         }.ignore_extra_keys!,
         servers: Array,
-        whitelists: Array,
         server_configs: Array,
         actions: Hash
         }

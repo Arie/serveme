@@ -5,18 +5,18 @@ module FtpAccess
 
   def demos
     @demos ||= begin
-                 list_files("/", "*.dem").map { |file| "#{tf_dir}/#{file}" }
+                 list_files("/", "*.dem").map { |file| "#{game_dir}/#{file}" }
                end
   end
 
   def logs
     @logs ||=  begin
-                 list_files("logs", "*.log").map { |file| "#{tf_dir}/logs/#{file}" }
+                 list_files("logs", "*.log").map { |file| "#{game_dir}/logs/#{file}" }
                end
   end
 
   def list_files(dir, pattern = "*")
-    ftp.nlst(File.join(tf_dir, dir, pattern)).collect do |f|
+    ftp.nlst(File.join(game_dir, dir, pattern)).collect do |f|
       File.basename(f)
     end
   end

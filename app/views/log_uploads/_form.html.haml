@@ -1,9 +1,0 @@
-= simple_form_for([reservation, @log_upload], :html => { :class => 'form-inline' }) do |f|
-
-  = f.input :file_name, :label => false, :placeholder => 'Log file', :disabled => true
-  = f.input :file_name, :as => :hidden
-  = f.input :title,     :label => false, :placeholder => 'Title'
-  = f.input :map_name,  :label => false, :placeholder => 'Map'
-
-  %button.btn.btn-default{:type => :submit}
-    Upload

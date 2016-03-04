@@ -1,9 +1,0 @@
-- if current_user.logs_tf_api_key.blank?
-  .alert.alert-block
-    %p
-      You haven't entered your logs.tf API key yet. You can still upload logs to logs.tf, but you won't be able to manage them on the logs.tf website
-    %p
-      If you want to be able to edit or delete your log later, enter your logs.tf API key
-      = link_to('here', edit_users_path, :target => '_blank')
-
-= render 'form'

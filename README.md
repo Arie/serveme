@@ -1,14 +1,14 @@
 # [FakkelBrigade server reservations](http://serveme.tf)
 [![Build Status](https://secure.travis-ci.org/Arie/serveme.png)](http://travis-ci.org/Arie/serveme) [![Dependency Status](https://gemnasium.com/Arie/serveme.png)](https://gemnasium.com/Arie/serveme) [![Code Climate](https://codeclimate.com/github/Arie/serveme.png)](https://codeclimate.com/github/Arie/serveme) [![Coverage Status](https://coveralls.io/repos/Arie/serveme/badge.png?branch=master)](https://coveralls.io/r/Arie/serveme)
 
-A web-interface to reserve TF2 gameservers
+A web-interface to reserve CS:GO gameservers
 
 ## Requirements
 
 * Ruby, preferbly 2.2, but other versions might work. You should use [ruby-build](https://github.com/sstephenson/ruby-build/) to install Ruby.
 * A Steam API key for user sign in
 * Memcached
-* A Source game dedicated server installation, only tested with TF2 on linux for now.
+* A Source game dedicated server installation, only tested with CS:GO on linux for now.
 * Gameserver started with `-port PORTNUMBER -autoupdate` in the startup line
 
 ## Installation
@@ -83,7 +83,7 @@ POST a reservation with starts_at and ends_at filled in to find_servers.
 curl -X POST -H "Content-Type: application/json" -d '{"reservation":{"starts_at":"2014-04-13T18:00:20.415+02:00","ends_at":"2014-04-13T20:00:20.415+02:00"}}' 'http://serveme.tf/api/reservations/find_servers?api_key=your_api_key'
 ```
 
-This will return a prefilled JSON response with available servers, whitelists and server configs included:
+This will return a prefilled JSON response with available servers and server configs included:
 ```
 {
   "reservation": {
@@ -96,8 +96,6 @@ This will return a prefilled JSON response with available servers, whitelists an
     "tv_password": "tv",
     "tv_relaypassword": "tv",
     "server_config_id": null,
-    "whitelist_id": null,
-    "custom_whitelist_id": null,
     "auto_end": true
   },
   "servers": [
@@ -119,16 +117,6 @@ This will return a prefilled JSON response with available servers, whitelists an
     {
       "id": 3,
       "file": "etf2l_9v9"
-    }
-  ],
-  "whitelists": [
-    {
-      "id": 2,
-      "file": "etf2l_whitelist_6v6.txt"
-    },
-    {
-      "id": 3,
-      "file": "etf2l_whitelist_9v9.txt"
     }
   ],
   "actions": {
@@ -156,8 +144,6 @@ If there's any errors, you'll get a HTTP 400 and a new prefilled reservation JSO
     "tv_password": "tv",
     "tv_relaypassword": "tv",
     "server_config_id": null,
-    "whitelist_id": null,
-    "custom_whitelist_id": null,
     "auto_end": true,
     "errors": {
       "server": {
@@ -184,12 +170,6 @@ If there's any errors, you'll get a HTTP 400 and a new prefilled reservation JSO
       "file": "wptf2l"
     }
   ],
-  "whitelists": [
-    {
-      "id": 9,
-      "file": "wp9v9_whitelist.txt"
-    }
-  ]
 }
 ```
 
@@ -206,8 +186,6 @@ If everything went alright, you'll get a HTTP 200 and shown your reservation det
     "tv_password": "tv",
     "tv_relaypassword": "tv",
     "server_config_id": null,
-    "whitelist_id": null,
-    "custom_whitelist_id": null,
     "auto_end": true,
     "id": 12345,
     "last_number_of_players": 0,

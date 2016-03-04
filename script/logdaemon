@@ -24,7 +24,7 @@ runner.with_options do |opts|
     options[:ip] = ip
   end
 end
-runner.description = "TF2 server logdaemon"
+runner.description = "CS:GO server logdaemon"
 
 runner.execute do |opts|
   ip    = opts[:ip]

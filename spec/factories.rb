@@ -1,8 +1,8 @@
 FactoryGirl.define do
 
   factory :server, :class => "LocalServer" do
-    name "TF2 1"
-    path "/home/tf2/tf2-1"
+    name "CS:GO 1"
+    path "/home/csgo/csgo-1"
     ip "fakkelbrigade.eu"
     port "27015"
     location

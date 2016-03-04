@@ -11,7 +11,7 @@
       %p.text-success
         Q: What is this?
       %p
-        %em A: This is the easiest way to borrow a TF2 server!
+        %em A: This is the easiest way to borrow a CS:GO server!
 
     .well
       %p.text-success
@@ -24,7 +24,7 @@
         Q: Free huh? I guess these servers run on toasters with 3rd world internet!
       %p
         - unless na_system?
-          %em A: Our servers are provided by community members with years of experience running TF2 servers. And we're not tied to one location or country, so if you have a bad routing to one server, you can try another in a different location/country.
+          %em A: Our servers are provided by community members with years of experience running CS:GO servers. And we're not tied to one location or country, so if you have a bad routing to one server, you can try another in a different location/country.
         - else
           %em
             A: All our servers are provided by
@@ -36,9 +36,9 @@
         Q: What can I use this for?
       %p
         %em
-          A: You're allowed to use serveme for anything vaguely related to competitive TF2.
+          A: You're allowed to use serveme for anything vaguely related to competitive CS:GO.
           1v1 practice, private clan practice, pcw's, scrims, mixes, lobbies or officials.
-          Basically anything that's not a pub or MvM match.
+          Basically anything that's not a pub.
 
     .well
       %p.text-success
@@ -58,15 +58,9 @@
 
     .well
       %p.text-success
-        Q: Can I use serveme for MvM?
-      %p
-        %em A: Nope, sorry. MvM is about twice as resource intensive as a highlander match, and that might cause other games on the same server to lag.
-
-    .well
-      %p.text-success
         Q: Noone can connect to my server, what do I do?
       %p
-        %em A: It can take a couple of minutes for the server to start (and update to the latest TF2 version), please be patient. If the server isn't up after 5 minutes, try another one.
+        %em A: It can take a couple of minutes for the server to start (and update to the latest CS:GO version), please be patient. If the server isn't up after 5 minutes, try another one.
 
 
     .well
@@ -82,7 +76,7 @@
         Q: How do I change the map?
       %p
         %em
-          A: Assuming you don't want to play on ctf_turbine, you'll want to change the map:
+          A: Assuming you don't want to play on cs_assault, you'll want to change the map:
           "rcon changelevel MAPNAME"
 
     .well
@@ -101,21 +95,19 @@
           %table.table
             %tr
               %td
-                %span.label.label-info ETF2L:
+                %span.label.label-info ESL:
               %td
-                etf2l, etf2l_6v6, etf2l_9v9, etf2l_6v6_5cp, etf2l_6v6_ctf, etf2l_6v6_stopwatch, etf2l_9v9_5cp, etf2l_9v9_ctf, etf2l_9v9_koth,
-                etf2l_9v9_stopwatch, etf2l_ultiduo, etf2l_bball
+                TODO
             %tr
               %td
-                %span.label.label-danger UGC:
+                %span.label.label-danger ESEA:
               %td
-                ugc_4v_koth, ugc_4v_sd, ugc_4v_standard, ugc_4v_stopwatch, ugc_4v_tugofwar, ugc_6v_ctf, ugc_6v_koth, ugc_6v_standard,
-                ugc_6v_stopwatch, ugc_HL_ctf, ugc_HL_dom, ugc_HL_koth, ugc_HL_standard, ugc_HL_stopwatch, ugc_HL_tugofwar
+                TODO
             %tr
               %td
-                %span.label.label-success ESEA:
+                %span.label.label-success FACEIT:
               %td
-                esea/ctf, esea/koth, esea/push, esea/stopwatch
+                TODO
     .well
       %p.text-success
         Q: I want to use serveme.tf in one of my own projects, is there an API?

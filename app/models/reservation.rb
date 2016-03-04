@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 class Reservation < ActiveRecord::Base
   attr_accessible :server, :user, :server_id, :user_id, :password, :rcon, :tv_password, :tv_relaypassword, :starts_at,
-                  :ends_at, :provisioned, :ended, :server_config, :server_config_id, :whitelist, :whitelist_id, :inactive_minute_counter,
-                  :first_map, :custom_whitelist_id, :auto_end, :enable_plugins
+                  :ends_at, :provisioned, :ended, :server_config, :server_config_id, :inactive_minute_counter,
+                  :first_map, :auto_end, :enable_plugins
   belongs_to :user
   belongs_to :server
   belongs_to :server_config
-  belongs_to :whitelist
-  has_many :log_uploads
   has_many :reservation_players
   has_many :ratings
   has_many :reservation_statuses
@@ -184,7 +182,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def reusable_attributes
-    attributes.slice("server_id", "password", "rcon", "tv_password", "server_config_id", "whitelist_id", "custom_whitelist_id", "first_map", "enable_plugins")
+    attributes.slice("server_id", "password", "rcon", "tv_password", "server_config_id", "first_map", "enable_plugins")
   end
 
   def get_binding
@@ -197,11 +195,6 @@ class Reservation < ActiveRecord::Base
 
   def status_update(status)
     reservation_statuses.create!(:status => status)
-  end
-
-  def lobby?
-    tags = server.rcon_exec("sv_tags")
-    tags && (tags.include?("TF2Center") || tags.include?("TF2Stadium")) || tags.include?("TF2Pickup")
   end
 
   private

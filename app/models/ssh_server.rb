@@ -6,17 +6,17 @@ class SshServer < RemoteServer
   end
 
   def demos
-    @demos ||= shell_output_to_array(execute("ls #{tf_dir}/*.dem"))
+    @demos ||= shell_output_to_array(execute("ls #{game_dir}/*.dem"))
   end
 
   def logs
-    @logs ||= shell_output_to_array(execute("ls #{tf_dir}/logs/*.log"))
+    @logs ||= shell_output_to_array(execute("ls #{game_dir}/logs/*.log"))
   end
 
   def list_files(dir)
     files = []
     Net::SFTP.start(ip, nil) do |sftp|
-      sftp.dir.foreach(File.join(tf_dir, dir)) do |entry|
+      sftp.dir.foreach(File.join(game_dir, dir)) do |entry|
         files << entry.name
       end
     end

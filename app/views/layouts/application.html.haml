@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    - subtitle = content_for(:title) || "free TF2 server reservations"
+    - subtitle = content_for(:title) || "free CS:GO server reservations"
     %title #{SITE_HOST} - #{subtitle}
     = stylesheet_link_tag    "application", :media => "all"
     - if white_theme?
@@ -12,7 +12,7 @@
     = csrf_meta_tags
     = render 'shared/google_analytics'
     %meta{:name => "viewport",    :content => "width=device-width, initial-scale=1.0"}
-    %meta{:name => "description", :content => "Free TF2 servers, ready for action in 60 seconds!"}
+    %meta{:name => "description", :content => "Free CS:GO servers, ready for action in 60 seconds!"}
     = content_for(:head)
   %body
 

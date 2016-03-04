@@ -16,18 +16,6 @@
           = render 'shared/copy_button', :copy_button_id => "connect_string", :copy_text => reservation.connect_string
 
       %tr
-        %td TF2Center info
-        %td
-          Server Address:
-          - ip_and_port = "#{reservation.server.ip}:#{reservation.server.port}"
-          = ip_and_port
-          = render 'shared/copy_button', :copy_button_id => "server_address", :copy_text => ip_and_port
-          %br
-          Rcon Password:
-          = reservation.rcon
-          = render 'shared/copy_button', :copy_button_id => "rcon_password", :copy_text => reservation.rcon
-
-      %tr
         %td Password
         %td= reservation.password
 
@@ -70,14 +58,6 @@
           %td Server config
           %td= reservation.server_config
 
-      - if reservation.custom_whitelist_id.present?
-        %tr
-          %td Whitelist
-          %td= link_to("Custom whitelist", "http://whitelist.tf/#{reservation.custom_whitelist_id}")
-      - elsif reservation.whitelist
-        %tr
-          %td Whitelist
-          %td= reservation.whitelist
 
       - if current_admin
         %tr

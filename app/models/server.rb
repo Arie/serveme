@@ -79,7 +79,7 @@ class Server < ActiveRecord::Base
 
   def update_configuration(reservation)
     reservation.status_update("Sending reservation config files")
-    ['reservation.cfg', 'ctf_turbine.cfg'].each do |config_file|
+    ['reservation.cfg', 'cs_assault.cfg'].each do |config_file|
       config_body = generate_config_file(reservation, config_file)
       write_configuration(server_config_file(config_file), config_body)
     end

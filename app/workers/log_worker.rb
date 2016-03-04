@@ -26,7 +26,7 @@ class LogWorker
       mapstart = event.unknown.match(MAP_START)
       if mapstart
         map = mapstart[2]
-        if map == "ctf_turbine"
+        if map == "cs_assault"
           reservation.status_update("Server startup complete, switching map")
         else
           reservation.status_update("Server finished loading map \"#{map}\"")

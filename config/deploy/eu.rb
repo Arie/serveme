@@ -1,6 +1,5 @@
-set :main_server,       "fakkelbrigade.eu"
-set :user,              'tf2'
-set :puma_socket,       'tcp://127.0.0.1:3010'
+set :main_server,       "wilhelm.fakkelbrigade.eu"
+set :user,              'arie'
 set :puma_flags,        '-w 2 -t 1:4'
 set :sidekiq_processes,  2
 
@@ -14,12 +13,3 @@ namespace :app do
   end
 end
 after "app:symlink", "app:symlink_nfoservers"
-
-
-namespace :app do
-  desc "symlinks the simrai api information"
-  task :symlink_simrai, :roles => [:web, :app] do
-    run "ln -sf #{shared_path}/config/initializers/simrai.rb #{release_path}/config/initializers/simrai.rb"
-  end
-end
-after "app:symlink", "app:symlink_simrai"

@@ -2,7 +2,7 @@
 class LocalServer < Server
 
   def remove_configuration
-    delete_from_server([reservation_config_file, initial_map_config_file])
+    delete_from_server([reservation_config_file])
   end
 
   def delete_from_server(files)

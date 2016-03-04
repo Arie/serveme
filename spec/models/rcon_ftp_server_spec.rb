@@ -9,7 +9,7 @@ describe RconFtpServer do
   describe '#remove_configuration' do
 
     it 'deletes the reservation configs' do
-      configuration_files = ["/foo/bar/cfg/reservation.cfg", "/foo/bar/cfg/autoexec.cfg"]
+      configuration_files = ["/foo/bar/cfg/reservation.cfg", "/foo/bar/cfg/valve.rc"]
       subject.should_receive(:delete_from_server).with(configuration_files)
       subject.remove_configuration
     end

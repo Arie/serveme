@@ -1,4 +1,10 @@
+exec default.cfg
+exec autoexec.cfg
+stuffcmds
+
 sv_logsecret "<%= logsecret %>"
 <% if first_map.present? && first_map != "cs_assault" %>
-changelevel <%= first_map %>
+map <%= first_map %>
+<% else %>
+map cs_assault
 <% end %>

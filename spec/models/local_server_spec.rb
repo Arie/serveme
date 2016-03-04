@@ -242,7 +242,7 @@ describe LocalServer do
     before do
       @game_dir       = Rails.root.join('tmp')
       @config_file  = @game_dir.join('cfg', 'reservation.cfg').to_s
-      @map_file     = @game_dir.join('cfg', 'autoexec.cfg').to_s
+      @map_file     = @game_dir.join('cfg', 'valve.rc').to_s
     end
     it 'deletes the reservation.cfg if its available' do
       subject.stub(:game_dir => @game_dir)

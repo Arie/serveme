@@ -6,7 +6,7 @@ describe SshServer do
 
     it 'deletes the reservation configs' do
       subject.stub(:game_dir => '/tmp/foo/csgo')
-      subject.should_receive(:execute).with("rm -f /tmp/foo/csgo/cfg/reservation.cfg /tmp/foo/csgo/cfg/autoexec.cfg")
+      subject.should_receive(:execute).with("rm -f /tmp/foo/csgo/cfg/reservation.cfg /tmp/foo/csgo/cfg/valve.rc")
       subject.remove_configuration
     end
 

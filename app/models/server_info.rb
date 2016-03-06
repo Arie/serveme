@@ -90,26 +90,21 @@ class ServerInfo
     stats[:fps].freeze
   end
 
-  def connects
-    stats[:connects].freeze
-  end
-
   def stats
     stats_line = ""
-    #CPU    In (KB/s)  Out (KB/s)  Uptime  Map changes  FPS      Players  Connects
-    #24.88  35.29      54.48       6       2            66.67    9        12
+    #CPU   NetIn   NetOut    Uptime  Maps   FPS   Players  Svms    +-ms   ~tick
+    #10.0      11.0      12.0     883     2   10.00       0  243.12    4.45    4.46|
     get_stats.each_line do |line|
       stats_line = line
     end
     items = stats_line.split(" ")
     {
-      :cpu          => items[-8].freeze,
-      :in           => items[-7].freeze,
-      :out          => items[-6].freeze,
-      :uptime       => items[-5].freeze,
-      :map_changes  => items[-4].freeze,
-      :fps          => items[-3].freeze,
-      :connects     => items[-1].freeze
+      :cpu          => items[0].freeze,
+      :in           => items[1].freeze,
+      :out          => items[2].freeze,
+      :uptime       => items[3].freeze,
+      :map_changes  => items[4].freeze,
+      :fps          => items[5].freeze,
     }
   end
 

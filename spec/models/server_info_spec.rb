@@ -90,15 +90,15 @@ describe ServerInfo do
   context "'rcon stats' statistics" do
 
     before do
-      rcon_stats_output = %|CPU    In (KB/s)  Out (KB/s)  Uptime  Map changes  FPS      Players  Connects
-                            24.88  35.29      54.48       6       2            66.67    9        12|
+      rcon_stats_output = %|CPU   NetIn   NetOut    Uptime  Maps   FPS   Players  Svms    +-ms   ~tick
+  10.0      11.0      12.0     883     2   10.00       0  243.12    4.45    4.46|
       subject.stub(:get_stats => rcon_stats_output)
     end
 
     describe '#stats' do
 
       it "it creates a hash from the 'rcon stats' output" do
-        subject.stats.keys.should =~ [:cpu, :in, :out, :uptime, :map_changes, :fps, :connects]
+        subject.stats.keys.should =~ [:cpu, :in, :out, :uptime, :map_changes, :fps]
       end
 
     end
@@ -106,7 +106,7 @@ describe ServerInfo do
     describe '#cpu' do
 
       it 'returns the server cpu percentage' do
-        subject.cpu.should eql '24.88'
+        subject.cpu.should eql '10.0'
       end
 
     end
@@ -114,7 +114,7 @@ describe ServerInfo do
     describe '#traffic_in' do
 
       it 'returns the traffic in KB/s' do
-        subject.traffic_in.should eql '35.29'
+        subject.traffic_in.should eql '11.0'
       end
 
     end
@@ -122,7 +122,7 @@ describe ServerInfo do
     describe '#traffic_out' do
 
       it 'returns the traffic out KB/s' do
-        subject.traffic_out.should eql '54.48'
+        subject.traffic_out.should eql '12.0'
       end
 
     end
@@ -130,7 +130,7 @@ describe ServerInfo do
     describe '#uptime' do
 
       it 'returns the uptime minutes' do
-        subject.uptime.should eql '6'
+        subject.uptime.should eql '883'
       end
 
     end
@@ -146,15 +146,7 @@ describe ServerInfo do
     describe '#fps' do
 
       it 'returns the server fps' do
-        subject.fps.should eql '66.67'
-      end
-
-    end
-
-    describe '#connects' do
-
-      it 'returns the number of player connects' do
-        subject.connects.should eql '12'
+        subject.fps.should eql '10.00'
       end
 
     end
@@ -168,38 +160,21 @@ describe ServerInfo do
     end
 
     it "gets server info from rcon status" do
-      rcon_status_output = %|hostname: FakkelBrigade #1
-version : 3032525/24 3032525 secure
-udp/ip  : 176.9.138.143:27015  (public ip: 176.9.138.143)
-steamid : [A:1:3175318537:5985] (90097701101995017)
-account : not logged in  (No account specified)
-map     : ctf_turbine at: 0 x, 0 y, 0 z
-tags    : ctf,increased_maxplayers
-sourcetv:  port 27020, delay 30.0s
-players : 12 humans, 1 bots (33 max)
-edicts  : 532 used of 2048 max
-        Spawns Points Kills Deaths Assists
-Scout         0      0     0      0       0
-Sniper        0      0     0      0       0
-Soldier       0      0     0      0       0
-Demoman       0      0     0      0       0
-Medic         0      0     0      0       0
-Heavy         0      0     0      0       0
-Pyro          0      0     0      0       0
-Spy           0      0     0      0       0
-Engineer      0      0     0      0       0
+      rcon_status_output = %|hostname: KroketBrigade #01
+version : 1.35.2.7/13527 299/6320 secure  [G:1:248936]
+udp/ip  : 5.200.27.206:27315  (public ip: 5.200.27.206)
+os      :  Linux
+type    :  community dedicated
+map     : de_dust2
+players : 4 humans, 0 bots (12/0 max) (hibernating)
 
-# userid name                uniqueid            connected ping loss state  adr
-#      2 "SourceTV"          BOT                                     active
-Loaded plugins:
----------------------
-0:	"TFTrue v4.75, AnAkkk"
----------------------|
+# userid name uniqueid connected ping loss state rate adr
+#end|
       subject.stub(:get_rcon_status => rcon_status_output)
-      subject.server_name.should eql "FakkelBrigade #1"
-      subject.map_name.should eql "ctf_turbine"
-      subject.max_players.should eql "33"
-      subject.number_of_players.should eql 12
+      subject.server_name.should eql "KroketBrigade #01"
+      subject.map_name.should eql "de_dust2"
+      subject.max_players.should eql "12"
+      subject.number_of_players.should eql 4
     end
 
     it "returns an empty hash if something went wrong" do

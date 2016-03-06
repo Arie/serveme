@@ -64,7 +64,7 @@ GEM
     autoprefixer-rails (6.3.3.1)
       execjs
     base32_pure (0.1.0)
-    bcrypt (3.1.10)
+    bcrypt (3.1.11)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -286,7 +286,7 @@ GEM
       slop (~> 3.4)
     pry-nav (0.2.4)
       pry (>= 0.9.10, < 0.11.0)
-    puma (3.0.2)
+    puma (3.1.0)
     rack (1.6.4)
     rack-cache (1.6.1)
       rack (>= 0.4)

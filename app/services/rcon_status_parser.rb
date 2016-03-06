@@ -3,7 +3,7 @@ class RconStatusParser
 
   attr_accessor :rcon_status_output
 
-  PLAYER_REGEX = /\#\s+\d+\s+\"(.*)"\s+(\[.*\])\s+(\d+:?\d+:\d+)\s+(\d+)\s+(\d+)\s(\w+)\s+(\d+.\d+.\d+.\d+)/
+  PLAYER_REGEX = /\#\s+\d+\s+\d+?\s+\"(.*)"\s+(\[.*\]|STEAM_.+)\s+(\d+:?\d+:\d+)\s+(\d+)\s+(\d+)\s(\w+)\s+(\d+)\s+(\d+.\d+.\d+.\d+)/
 
   def initialize(rcon_status_output)
     @rcon_status_output = rcon_status_output
@@ -24,15 +24,16 @@ class RconStatusParser
 
   class Player
 
-    attr_reader :name, :steam_id, :connect_duration, :ping, :loss, :state, :ip
+    attr_reader :name, :steam_id, :connect_duration, :ping, :loss, :state, :rate, :ip
 
-    def initialize(name, steam_id, connect_duration, ping, loss, state, ip)
+    def initialize(name, steam_id, connect_duration, ping, loss, state, rate, ip)
       @name             = name
       @steam_id         = steam_id
       @connect_duration = connect_duration
       @ping             = ping.to_i
       @loss             = loss.to_i
       @state            = state
+      @rate             = rate
       @ip               = ip
     end
 

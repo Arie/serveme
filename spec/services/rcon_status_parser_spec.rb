@@ -22,7 +22,8 @@ map     : de_nuke
 players : 1 humans, 0 bots (12/0 max) (not hibernating)
 
 # userid name uniqueid connected ping loss state rate adr
-#  2 1 "Arie - serveme.tf" STEAM_1:0:115851 1:01:50 26 1 active 80000 127.0.0.1:27005| }
+#  2 1 "Arie - serveme.tf" STEAM_1:0:115851 1:01:50 26 1 active 80000 127.0.0.1:27005
+L alflaflalfl| }
                                #
   describe "#players" do
 

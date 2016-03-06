@@ -91,7 +91,8 @@ describe ServerInfo do
 
     before do
       rcon_stats_output = %|CPU   NetIn   NetOut    Uptime  Maps   FPS   Players  Svms    +-ms   ~tick
-  10.0      11.0      12.0     883     2   10.00       0  243.12    4.45    4.46|
+  10.0      11.0      12.0     883     2   10.00       0  243.12    4.45    4.46
+  L aldkjalsdfj|
       subject.stub(:get_stats => rcon_stats_output)
     end
 
@@ -169,7 +170,9 @@ map     : de_dust2
 players : 4 humans, 0 bots (12/0 max) (hibernating)
 
 # userid name uniqueid connected ping loss state rate adr
-#end|
+#  2 1 "Arie - serveme.tf" STEAM_1:0:115851 1:01:50 26 1 active 80000 127.0.0.1:27005
+#end
+L balblabla|
       subject.stub(:get_rcon_status => rcon_status_output)
       subject.server_name.should eql "KroketBrigade #01"
       subject.map_name.should eql "de_dust2"

@@ -94,9 +94,7 @@ class ServerInfo
     stats_line = ""
     #CPU   NetIn   NetOut    Uptime  Maps   FPS   Players  Svms    +-ms   ~tick
     #10.0      11.0      12.0     883     2   10.00       0  243.12    4.45    4.46|
-    get_stats.each_line do |line|
-      stats_line = line
-    end
+    stats_line = get_stats.lines[1]
     items = stats_line.split(" ")
     {
       :cpu          => items[0].freeze,

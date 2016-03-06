@@ -2,37 +2,22 @@ require 'spec_helper'
 
 describe ServerMetric do
 
-  let(:rcon_stats_output) { %|CPU    In (KB/s)  Out (KB/s)  Uptime  Map changes  FPS      Players  Connects
-24.88  35.29      54.48       6       2            66.67    17        21|}
+  let(:rcon_stats_output) { %|CPU   NetIn   NetOut    Uptime  Maps   FPS   Players  Svms    +-ms   ~tick
+10.0      11.0      12.0     883     2   127.31       0  243.12    4.45    4.46
+L aldkjalsdfj|}
 
-  let(:rcon_status_output)  { %q{hostname: BlackOut Gaming #5 (Jakov)
-version : 2406664/24 2406664 secure
-udp/ip  : 109.70.149.21:27055  (public ip: 109.70.149.21)
-steamid : [A:1:251166723:4677] (90092080360620035)
-account : not logged in  (No account specified)
-map     : koth_pro_viaduct_rc4 at: 0 x, 0 y, 0 z
-sourcetv:  port 27060, delay 90.0s
-players : 17 humans, 1 bots (25 max)
-edicts  : 478 used of 2048 max
-        Spawns Points Kills Deaths Assists
-Scout         0      0     0      0       0
-Sniper        0      0     0      0       0
-Soldier       0      0     0      0       0
-Demoman       0      0     0      0       0
-Medic         0      0     0      0       0
-Heavy         0      0     0      0       0
-Pyro          0      0     0      0       0
-Spy           0      0     0      0       0
-Engineer      0      0     0      0       0
-
-# userid name                uniqueid            connected ping loss state  adr
-#      2 "SourceTV"          BOT                                     active
-#      4 "TNT-DEAD"          [U:1:51245596]      11:49       57    0 active 111.111.111.111:4597
-#      5 "Bloodyyy"          [U:1:50924149]      00:49       76    1 active 222.222.222.222:27005
-Loaded plugins:
----------------------
-0:      "TFTrue v4.63, AnAkkk"
----------------------} }
+  let(:rcon_status_output) { %q|hostname: KroketBrigade #01 (#13)
+version : 1.35.2.7/13527 299/6320 secure  [G:1:248936]
+udp/ip  : 5.200.27.206:27315  (public ip: 5.200.27.206)
+os      :  Linux
+type    :  community dedicated
+map     : de_nuke
+players : 1 humans, 0 bots (12/0 max) (not hibernating)
+#
+# userid name uniqueid connected ping loss state rate adr
+#  2 1 "Arie - serveme.tf" STEAM_1:0:115851 1:01:50 26 1 active 80000 127.0.0.1:27005
+#end
+L blablablabla|}
 
   let(:reservation) { create :reservation }
   let(:server) { double :server, :id => reservation.server_id, :current_reservation => reservation, :condenser => double }
@@ -51,13 +36,13 @@ Loaded plugins:
     expect(PlayerStatistic.count).to eql 1
     expect(ServerStatistic.count).to eql 1
     server_statistic = ServerStatistic.last
-    server_statistic.cpu_usage.should == 25
-    server_statistic.fps.should == 67
+    server_statistic.cpu_usage.should == 10
+    server_statistic.fps.should == 127
 
     player_statistic = PlayerStatistic.last
-    player_statistic.ping.should == 57
-    player_statistic.loss.should == 0
-    player_statistic.reservation_player.ip.should == "111.111.111.111"
+    player_statistic.ping.should == 26
+    player_statistic.loss.should == 1
+    player_statistic.reservation_player.ip.should == "127.0.0.1"
   end
 
 end

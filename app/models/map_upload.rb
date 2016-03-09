@@ -2,6 +2,7 @@
 require 'zip'
 
 class MapUpload < ActiveRecord::Base
+  BLACKLIST = ["pl_badwater_pro_v8.bsp"]
   belongs_to :user
   attr_accessible :file, :user_id
   attr_accessor :maps
@@ -9,6 +10,7 @@ class MapUpload < ActiveRecord::Base
   validates_presence_of :user_id
   validate :validate_not_already_present,   :unless => :archive?
   validate :validate_file_is_a_bsp,         :unless => :archive?
+  validate :validate_not_blacklisted,       :unless => :archive?
 
   after_create :process_maps
   after_create :remove_uploaded_file,       :if => :zip?
@@ -46,6 +48,12 @@ class MapUpload < ActiveRecord::Base
     end
   end
 
+  def validate_not_blacklisted
+    if file.filename && self.class.blacklisted?(file.filename)
+      errors.add(:file, "map blacklisted, causes server instability")
+    end
+  end
+
   def maps_with_full_path
     maps.collect do |map|
       File.join(MAPS_DIR, map)
@@ -67,6 +75,11 @@ class MapUpload < ActiveRecord::Base
     end
   end
 
+  def self.blacklisted?(filename)
+    target_filename = filename.match(/(^.*\.bsp)/)[1]
+    BLACKLIST.include?(target_filename)
+  end
+
   def bzip2_uploaded_maps
     maps_with_full_path.each do |map_with_path|
       Rails.logger.info "Bzipping #{map_with_path}"
@@ -85,7 +98,7 @@ class MapUpload < ActiveRecord::Base
     maps = []
     Zip::File.foreach(file.file.file) do |zipped_file|
       filename = File.basename(zipped_file.name)
-      if filename.match(/^.*\.bsp$/) && !filename.match(/__MACOSX/) && !self.class.map_exists?(filename)
+      if filename.match(/^.*\.bsp$/) && !filename.match(/__MACOSX/) && !self.class.map_exists?(filename) && !self.class.blacklisted?(filename)
         Rails.logger.info "Extracting #{filename} from #{file.file.file} upload ##{self.id} (ZIP)"
         zipped_file.extract(File.join(MAPS_DIR, filename)) { false }
         maps << filename
@@ -106,7 +119,7 @@ class MapUpload < ActiveRecord::Base
     target_filename = filename.match(/(^.*\.bsp)\.bz2/)[1]
     maps = []
 
-    if !self.class.map_exists?(target_filename)
+    if !self.class.map_exists?(target_filename) && !self.class.blacklisted?(target_filename)
       Rails.logger.info "Extracting #{target_filename} from #{filename} upload ##{self.id} (BZ2)"
       data  = RBzip2.default_adapter::Decompressor.new(File.new(source_file)).read
 

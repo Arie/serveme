@@ -16,6 +16,13 @@ describe MapUpload do
     upload.errors.full_messages.should == ["File not a map (bsp) file"]
   end
 
+  it "rejects blacklisted (crashing) maps" do
+    file = double(:file, filename: "pl_badwater_pro_v8.bsp")
+    subject.stub(:file => file)
+    subject.validate_not_blacklisted
+    subject.errors.full_messages.should == ["File map blacklisted, causes server instability"]
+  end
+
   context "archives", :map_archive do
 
     context "zip" do

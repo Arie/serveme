@@ -27,7 +27,7 @@ Capistrano::Configuration.instance.load do
 
     desc "Start the logdaemon process"
     task :start, :roles => lambda { roles } do
-      run "cd #{current_path};#{rails_env} #{logdaemon_command} -i #{main_server} -p 40001 -d -l #{logdaemon_log} -P #{logdaemon_pid}"
+      run "cd #{current_path};#{rails_env} #{logdaemon_command} -i #{main_server} -p 40002 -d -l #{logdaemon_log} -P #{logdaemon_pid}"
     end
 
     desc "Restart the logdaemon process"

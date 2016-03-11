@@ -20,7 +20,6 @@ set :rvm_ruby_string,   '2.3.0'
 set :rvm_type,          :user
 set :stage,             'production'
 set :maintenance_template_path, 'app/views/pages/maintenance.html.erb'
-set :deploy_to,         "/var/www/serveme"
 
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true

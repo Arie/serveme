@@ -25,7 +25,7 @@ class ActiveReservationCheckerWorker
       previous_number_of_players = reservation.last_number_of_players.to_i
       reservation.update_column(:last_number_of_players, 0)
       reservation.increment!(:inactive_minute_counter)
-      if reservation.inactive_too_long? && !reservation.lobby?
+      if reservation.inactive_too_long?
         reservation.user.increment!(:expired_reservations)
         reservation.update_attribute(:end_instantly, true)
         reservation.end_reservation

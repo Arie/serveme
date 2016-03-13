@@ -62,6 +62,7 @@ function startStatusSpinner() {
   if(reservationStatusSpinning !== true) {
     reservationStatusSpinner().html("<i class='fa fa-spinner fa-spin reservation_status_spinner' '></i>");
   }
+  reservationStatusSpinning = true;
 }
 
 function stopStatusSpinner() {

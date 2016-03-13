@@ -205,6 +205,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def status
+    return "starting"
     return "ended"            if past?
     return "ready"            if ServerStatistic.where(reservation_id: id, server_id: server_id).any?
     status_messages = reservation_statuses.pluck(:status)

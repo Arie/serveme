@@ -197,6 +197,16 @@ class Reservation < ActiveRecord::Base
     reservation_statuses.create!(:status => status)
   end
 
+
+  def status
+    return "ended"            if past?
+    return "ready"            if ServerStatistic.where(reservation_id: id, server_id: server_id).any?
+    status_messages = reservation_statuses.pluck(:status)
+    return "ready"            if status_messages.include?("Server finished loading map \"#{first_map}\"")
+    return "starting"         if status_messages.include?("Starting")
+    return "waiting_to_start" if status_messages.include?("Waiting to start")
+  end
+
   private
 
   def reservation_manager

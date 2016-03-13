@@ -11,7 +11,7 @@
     formats:
       time: "%I:%M:%S %P"
       time_without_seconds: "%I:%M %P"
-      datepicker: "%m/%d/%Y %I:%M %P"
+      datepicker: "%d-%m-%Y %I:%M %P"
       short: "%b %d %I:%M %P"
       short_with_dayname: "%a %d %b %I:%M %P"
-      javascript_datepicker: "mm/dd/yyyy HH:ii p"
+      javascript_datepicker: "dd-mm-yyyy HH:ii p"

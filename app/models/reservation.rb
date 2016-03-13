@@ -204,6 +204,16 @@ class Reservation < ActiveRecord::Base
     tags && (tags.include?("TF2Center") || tags.include?("TF2Stadium")) || tags.include?("TF2Pickup")
   end
 
+  def status
+    return "starting"
+    return "ended"            if past?
+    return "ready"            if ServerStatistic.where(reservation_id: id, server_id: server_id).any?
+    status_messages = reservation_statuses.pluck(:status)
+    return "ready"            if status_messages.include?("Server finished loading map \"#{first_map}\"")
+    return "starting"         if status_messages.include?("Starting")
+    return "waiting_to_start" if status_messages.include?("Waiting to start")
+  end
+
   private
 
   def reservation_manager

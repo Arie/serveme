@@ -34,6 +34,7 @@ Serveme::Application.routes.draw do
     member do
       post :extend_reservation, :as => :extend
       match :idle_reset,        :via => [:get, :post], :as => :idle_reset
+      get :status,              :as => :status
     end
     collection do
       post :find_servers_for_user

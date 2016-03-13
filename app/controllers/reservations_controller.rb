@@ -91,6 +91,13 @@ class ReservationsController < ApplicationController
     redirect_to reservation_path(reservation)
   end
 
+  def status
+    reservation
+    respond_to do |format|
+      format.json
+    end
+  end
+
   private
 
   def reservation

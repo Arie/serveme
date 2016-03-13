@@ -54,7 +54,7 @@ function handleReservationEnded() {
 }
 
 function handleReservationStarting(status_messages) {
-  reservationStatusMessage().html("Starting: " + status_messages.slice(-1)[0]);
+  reservationStatusMessage().html("Starting: " + status_messages.slice(0)[0]);
   setTimeout(getReservationStatus, 500);
 }
 

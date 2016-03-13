@@ -202,7 +202,7 @@ class Reservation < ActiveRecord::Base
     return "ended"            if past?
     return "ready"            if ServerStatistic.where(reservation_id: id, server_id: server_id).any?
     status_messages = reservation_statuses.pluck(:status)
-    return "ready"            if status_messages.include?("Server finished loading map \"#{first_map}\"")
+    return "ready"            if status_messages.grep(/Server finished loading map/).any?
     return "starting"         if status_messages.include?("Starting")
     return "waiting_to_start" if status_messages.include?("Waiting to start")
   end

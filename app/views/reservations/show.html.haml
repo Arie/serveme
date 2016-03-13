@@ -1,7 +1,6 @@
-- if current_admin
-  :javascript
-    reservation_status_url = "#{status_reservation_path(reservation)}";
-    getReservationStatus();
+:javascript
+  reservation_status_url = "#{status_reservation_path(reservation)}";
+  getReservationStatus();
 
 %h3
   Reservation:
@@ -12,13 +11,12 @@
 
     %table.table.table-hover.table-bordered.table-striped
       %tr
-        - if current_admin
-          %td Status
-          %td
-            #reservation_status
-              #reservation_status_spinner
-                %i.fa.fa-spinner.fa-spin.reservation_status_spinner
-              #reservation_status_message= reservation.status.titleize
+        %td Status
+        %td
+          #reservation_status
+            #reservation_status_spinner
+              %i.fa.fa-spinner.fa-spin.reservation_status_spinner
+            #reservation_status_message= reservation.status.titleize
       %tr
         %td Actions
         %td.actions= render 'actions'

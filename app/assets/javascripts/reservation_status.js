@@ -44,7 +44,7 @@ function handleReservationReady() {
 
 function handleReservationWaitingToStart() {
   reservationStatusMessage().html("Waiting to start");
-  setTimeout(getReservationStatus, 1000);
+  setTimeout(getReservationStatus, 10000);
 }
 
 

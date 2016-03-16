@@ -7,7 +7,7 @@ gem 'protected_attributes'
 gem "actionpack-action_caching"
 gem 'puma'
 gem 'omniauth-openid'
-gem 'omniauth-steam'
+gem 'omniauth-steam',  :github => "reu/omniauth-steam"
 gem 'devise'
 gem 'steam-condenser', :github => 'koraktor/steam-condenser-ruby'
 gem 'base32_pure'

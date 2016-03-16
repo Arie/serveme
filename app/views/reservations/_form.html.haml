@@ -31,7 +31,6 @@
       = f.input :first_map,           :collection => MapUpload.available_maps, :input_html => { :class => "select2" },  :disabled => !@reservation.schedulable?
       = f.input :tv_password,         :as => :string,   :placeholder => "Password for STV, default tv"
       = f.input :tv_relaypassword,    :as => :string,   :placeholder => "Password for STV (relay), default tv"
-      = f.input :enable_plugins,      :as => :boolean,  :hint => "Enable SOAP DM and MGE (premium only)",               :disabled => (!current_user.donator? || !@reservation.schedulable? )
       = f.association :server_config, :collection => ServerConfig.ordered, :hint => "Specify a league config to run on each map start", :input_html => { :class => "select2" }
 
       - users_last_reservation = current_user.reservations.last

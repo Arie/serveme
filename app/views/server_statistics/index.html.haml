@@ -33,8 +33,8 @@
             %td= server_statistic.map_name
             %td= server_statistic.number_of_players
             %td
-              = server_statistic.traffic_in
+              = server_statistic.traffic_in / 1024.0
               KB/s
             %td
-              = server_statistic.traffic_out
+              = server_statistic.traffic_out / 1024.0
               KB/s

@@ -8,7 +8,6 @@ json.tv_password reservation.tv_password
 json.tv_relaypassword reservation.tv_relaypassword
 json.server_config_id reservation.server_config_id
 json.auto_end reservation.auto_end
-json.enable_plugins reservation.enable_plugins
 if reservation.persisted?
   json.id reservation.id
   json.last_number_of_players reservation.last_number_of_players

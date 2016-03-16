@@ -1,9 +1,8 @@
-set :main_server,       "direct.na.serveme.tf"
+set :main_server,       "csna.serveme.tf"
 set :user,              'arie'
 set :puma_flags,        '-w 2 -t 1:4'
 set :sidekiq_processes,  1
 set :rvm_type,           :user
-set :deploy_to,         "/var/www/csgo"
 
 server "#{main_server}", :web, :app, :db, :primary => true
 

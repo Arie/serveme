@@ -1,3 +1,4 @@
+json.status reservation.status
 json.starts_at reservation.starts_at
 json.ends_at reservation.ends_at
 json.server_id reservation.server_id

@@ -244,7 +244,7 @@ class Server < ActiveRecord::Base
   end
 
   def log_match
-    File.join(game_dir, 'logs', "*.log")
+    File.join(game_dir, 'logfiles', "*.log")
   end
 
   def demo_match

@@ -1,5 +1,5 @@
 require './config/boot'
-require 'puma/capistrano'
+require './lib/puma/capistrano'
 require "./config/deploy/logdaemon"
 
 set :stages,            %w(eu na au)

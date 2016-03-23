@@ -63,10 +63,12 @@ group :development do
   #Deployment
   gem 'capistrano-ext'
   gem 'capistrano_colors'
-  gem 'capistrano', "~> 2.0"
+  gem 'capistrano'
   gem 'capistrano-maintenance'
   gem 'capistrano-sidekiq'
-  gem 'rvm-capistrano', :require => false
+  gem 'capistrano-rvm'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
 end
 
 group :test, :development do

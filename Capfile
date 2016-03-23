@@ -1,8 +1,16 @@
-load 'deploy' if respond_to?(:namespace) # cap2 differentiator
-load 'deploy/assets'
-load 'config/deploy'
-require "bundler/capistrano"
-require 'capistrano_colors' unless ENV['COLORIZE_CAPISTRANO'] == 'off'
-require 'capistrano/ext/multistage'
+# Load DSL and set up stages
+require 'capistrano/setup'
+
+# Include default deployment tasks
+require 'capistrano/deploy'
+
+require 'capistrano/maintenance'
+
+require 'capistrano/rvm'
+require 'capistrano/bundler'
+require 'capistrano/rails'
+
 require 'capistrano/sidekiq'
-require "rvm/capistrano"
+
+# Load custom tasks from `lib/capistrano/tasks` if you have any defined
+Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }

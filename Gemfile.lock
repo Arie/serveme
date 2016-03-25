@@ -95,6 +95,9 @@ GEM
     capistrano-sidekiq (0.5.4)
       capistrano
       sidekiq (>= 3.4)
+    capistrano3-puma (1.2.1)
+      capistrano (~> 3.0)
+      puma (>= 2.6)
     capistrano_colors (0.5.5)
     capybara (2.6.2)
       addressable
@@ -235,8 +238,8 @@ GEM
       multipart-post (>= 1.2.0)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
-    mail (2.6.3)
-      mime-types (>= 1.16, < 3)
+    mail (2.6.4)
+      mime-types (>= 1.16, < 4)
     mechanize (2.7.4)
       domain_name (~> 0.5, >= 0.5.1)
       http-cookie (~> 1.0)
@@ -261,7 +264,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-sftp (2.1.2)
       net-ssh (>= 2.6.5)
-    net-ssh (3.1.0)
+    net-ssh (3.1.1)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     ntlm-http (0.1.1)
@@ -478,6 +481,7 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rvm
   capistrano-sidekiq
+  capistrano3-puma
   capistrano_colors
   capybara
   carrierwave

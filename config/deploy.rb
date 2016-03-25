@@ -13,6 +13,15 @@ set :rvm_type,          :system
 set :maintenance_template_path, 'app/views/pages/maintenance.html.erb'
 set :rails_env,         "production"
 
+set :puma_conf,         "#{release_path}/config/puma/production.rb"
+set :puma_state,        "#{shared_path}/tmp/pids/puma.state"
+set :puma_pid,          "#{shared_path}/tmp/pids/puma.pid"
+set :puma_bind,         "unix://#{shared_path}/tmp/sockets/puma.sock"    #accept array for multi-bind
+set :puma_default_control_app, "unix://#{shared_path}/tmp/sockets/pumactl.sock"
+set :puma_access_log,  fetch(:rack_env, fetch(:rails_env, 'production'))
+set :puma_init_active_record, true
+set :puma_preload_app, false
+
 # Default value for :linked_files is []
 set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/puma/production.rb', 'config/initializers/steam_api_key.rb', 'config/paypal.yml', 'config/initializers/raven.rb', 'config/initializers/logs_tf_api_key.rb', 'config/initializers/maps_dir.rb', 'config/initializers/secret_token.rb', 'config/initializers/devise.rb', 'config/initializers/site_url.rb', 'doc/GeoLiteCity.dat', 'config/cacert.pem')
 

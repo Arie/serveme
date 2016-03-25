@@ -9,6 +9,7 @@ require 'capistrano/maintenance'
 require 'capistrano/rvm'
 require 'capistrano/bundler'
 require 'capistrano/rails'
+require 'capistrano/faster_assets'
 
 require 'capistrano/puma'
 require 'capistrano/sidekiq'

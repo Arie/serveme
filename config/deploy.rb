@@ -10,9 +10,14 @@ set :use_sudo,          false
 set :user,              'tf2'
 set :rvm_ruby_string,   '2.3.0'
 set :rvm_type,          :system
-set :maintenance_template_path, 'app/views/pages/maintenance.html.erb'
-set :rails_env,         "production"
 
+set :maintenance_template_path, 'app/views/pages/maintenance.html.erb'
+
+#Rails
+set :rails_env,         "production"
+set :conditionally_migrate, true
+
+#Puma
 set :puma_conf,         "#{release_path}/config/puma/production.rb"
 set :puma_state,        "#{shared_path}/tmp/pids/puma.state"
 set :puma_pid,          "#{shared_path}/tmp/pids/puma.pid"

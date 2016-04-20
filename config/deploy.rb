@@ -1,6 +1,6 @@
 require "./config/deploy/logdaemon"
 # config valid only for current version of Capistrano
-lock '3.4.0'
+lock '3.4.1'
 
 set :application,       'serveme'
 set :repo_url,          "https://github.com/Arie/serveme.git"

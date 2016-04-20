@@ -11,6 +11,7 @@ describe LocalLogCopier do
       log_copier = LocalLogCopier.new(reservation, server)
       log_copier.stub(:directory_to_copy_to => "copy_to_dir")
 
+      log_copier.should_receive(:system).with("LANG=ALL LC_ALL=C sed -i -r 's/([0-9]{1,3}.){3}[0-9]{1,3}/0.0.0.0/' foo bar b\\'az")
       log_copier.should_receive(:system).with("cp foo bar b\\'az copy_to_dir")
 
       log_copier.copy_logs

@@ -101,7 +101,7 @@ describe LogUpload do
         { :file_name_and_path => Rails.root.join('spec', 'fixtures', 'logs', 'special_characters.log').to_s,
           :file_name          => "special_characters.log",
           :last_modified      => mtime,
-          :size               => 121335 }
+          :size               => 121220 }
       )
     end
 

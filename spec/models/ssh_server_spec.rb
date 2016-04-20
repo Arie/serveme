@@ -121,7 +121,7 @@ describe SshServer do
   describe '#zip_file_creator_class' do
 
     it "returns the class used to create SshServer zipfiles" do
-      subject.zip_file_creator_class.should == SshZipFileCreator
+      subject.zip_file_creator_class.should == DownloadThenZipFileCreator
     end
 
   end

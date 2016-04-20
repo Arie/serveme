@@ -5,18 +5,18 @@ L 02/15/2013 - 00:09:15: "Console<0><Console><Console>" say "* You must record P
 L 02/15/2013 - 00:09:51: "]ρтqяσx[ Psycho Killer<3><STEAM_0:1:22371670><>" entered the game
 L 02/15/2013 - 00:10:17: "]ρтqяσx[ Psycho Killer<3><STEAM_0:1:22371670><Unassigned>" joined team "Blue"
 L 02/15/2013 - 00:10:18: "]ρтqяσx[ Psycho Killer<3><STEAM_0:1:22371670><Blue>" changed role to "soldier"
-L 02/15/2013 - 00:11:09: rcon from "176.9.138.143:48232": command "stats"
+L 02/15/2013 - 00:11:09: rcon from "0.0.0.0:48232": command "stats"
 L 02/15/2013 - 00:12:59: "]ρтqяσx[ Psycho Killer<3><STEAM_0:1:22371670><Blue>" picked up item "medkit_medium"
 L 02/15/2013 - 00:13:08: "]ρтqяσx[ Psycho Killer<3><STEAM_0:1:22371670><Blue>" picked up item "ammopack_medium"
 L 02/15/2013 - 00:13:08: "]ρтqяσx[ Psycho Killer<3><STEAM_0:1:22371670><Blue>" picked up item "medkit_medium"
-L 02/15/2013 - 00:13:12: "Aka Game<4><STEAM_0:0:5253998><>" connected, address "94.132.117.194:27005"
+L 02/15/2013 - 00:13:12: "Aka Game<4><STEAM_0:0:5253998><>" connected, address "0.0.0.0:27005"
 L 02/15/2013 - 00:13:12: "Aka Game<4><STEAM_0:0:5253998><>" STEAM USERID validated
-L 02/15/2013 - 00:13:21: "X_DIAS<5><STEAM_0:0:26132987><>" connected, address "188.82.219.23:27005"
+L 02/15/2013 - 00:13:21: "X_DIAS<5><STEAM_0:0:26132987><>" connected, address "0.0.0.0:27005"
 L 02/15/2013 - 00:13:21: "X_DIAS<5><STEAM_0:0:26132987><>" STEAM USERID validated
 L 02/15/2013 - 00:13:34: "Aka Game<4><STEAM_0:0:5253998><>" entered the game
 L 02/15/2013 - 00:13:37: "Aka Game<4><STEAM_0:0:5253998><Unassigned>" joined team "Red"
 L 02/15/2013 - 00:13:38: "Aka Game<4><STEAM_0:0:5253998><Red>" changed role to "scout"
-L 02/15/2013 - 00:13:54: "ser mais "leve"<6><STEAM_0:0:41722710><>" connected, address "84.91.251.174:27005"
+L 02/15/2013 - 00:13:54: "ser mais "leve"<6><STEAM_0:0:41722710><>" connected, address "0.0.0.0:27005"
 L 02/15/2013 - 00:13:54: "ser mais "leve"<6><STEAM_0:0:41722710><>" STEAM USERID validated
 L 02/15/2013 - 00:14:05: "Aka Game<4><STEAM_0:0:5253998><Red>" picked up item "ammopack_small"
 L 02/15/2013 - 00:14:20: "]ρтqяσx[ Psycho Killer<3><STEAM_0:1:22371670><Blue>" committed suicide with "tf_projectile_rocket" (attacker_position "1429 -2536 363")
@@ -35,7 +35,7 @@ L 02/15/2013 - 00:14:52: "Aka Game<4><STEAM_0:0:5253998><Red>" killed "ser mais 
 L 02/15/2013 - 00:14:53: "Aka Game<4><STEAM_0:0:5253998><Red>" picked up item "tf_ammo_pack"
 L 02/15/2013 - 00:14:54: "Aka Game<4><STEAM_0:0:5253998><Red>" picked up item "ammopack_small"
 L 02/15/2013 - 00:15:07: "ser mais "leve"<6><STEAM_0:0:41722710><Blue>" picked up item "medkit_medium"
-L 02/15/2013 - 00:15:07: "CคpTคiИ★Lucky<7><STEAM_0:1:9411550><>" connected, address "89.152.8.99:27005"
+L 02/15/2013 - 00:15:07: "CคpTคiИ★Lucky<7><STEAM_0:1:9411550><>" connected, address "0.0.0.0:27005"
 L 02/15/2013 - 00:15:08: "CคpTคiИ★Lucky<7><STEAM_0:1:9411550><>" STEAM USERID validated
 L 02/15/2013 - 00:15:08: "Aka Game<4><STEAM_0:0:5253998><Red>" triggered "damage" (damage "73")
 L 02/15/2013 - 00:15:09: "ser mais "leve"<6><STEAM_0:0:41722710><Blue>" triggered "damage" (damage "75")
@@ -45,7 +45,7 @@ L 02/15/2013 - 00:15:13: "]ρтqяσx[ Psycho Killer<3><STEAM_0:1:22371670><Blue
 L 02/15/2013 - 00:15:13: "]ρтqяσx[ Psycho Killer<3><STEAM_0:1:22371670><Blue>" picked up item "medkit_small"
 L 02/15/2013 - 00:15:13: "Aka Game<4><STEAM_0:0:5253998><Red>" picked up item "ammopack_medium"
 L 02/15/2013 - 00:15:17: "Aka Game<4><STEAM_0:0:5253998><Red>" picked up item "medkit_medium"
-L 02/15/2013 - 00:15:24: "X_DIAS<8><STEAM_0:0:26132987><>" connected, address "188.82.219.23:27005"
+L 02/15/2013 - 00:15:24: "X_DIAS<8><STEAM_0:0:26132987><>" connected, address "0.0.0.0:27005"
 L 02/15/2013 - 00:15:25: "X_DIAS<8><STEAM_0:0:26132987><>" STEAM USERID validated
 L 02/15/2013 - 00:15:27: "ser mais "leve"<6><STEAM_0:0:41722710><Blue>" picked up item "medkit_medium"
 L 02/15/2013 - 00:15:29: "]ρтqяσx[ Psycho Killer<3><STEAM_0:1:22371670><Blue>" picked up item "medkit_small"
@@ -54,7 +54,7 @@ L 02/15/2013 - 00:15:31: "X_DIAS<8><STEAM_0:0:26132987><>" disconnected (reason 
 L 02/15/2013 - 00:15:33: "]ρтqяσx[ Psycho Killer<3><STEAM_0:1:22371670><Blue>" picked up item "ammopack_small"
 L 02/15/2013 - 00:15:34: "Aka Game<4><STEAM_0:0:5253998><Red>" triggered "damage" (damage "54")
 L 02/15/2013 - 00:15:34: "Aka Game<4><STEAM_0:0:5253998><Red>" killed "]ρтqяσx[ Psycho Killer<3><STEAM_0:1:22371670><Blue>" with "scattergun" (attacker_position "2992 -1014 296") (victim_position "2759 -879 296")
-L 02/15/2013 - 00:15:34: "TreV.avi<9><STEAM_0:0:47199579><>" connected, address "85.245.80.48:57716"
+L 02/15/2013 - 00:15:34: "TreV.avi<9><STEAM_0:0:47199579><>" connected, address "0.0.0.0:57716"
 L 02/15/2013 - 00:15:34: "TreV.avi<9><STEAM_0:0:47199579><>" STEAM USERID validated
 L 02/15/2013 - 00:15:38: "Aka Game<4><STEAM_0:0:5253998><Red>" picked up item "tf_ammo_pack"
 L 02/15/2013 - 00:15:43: "CคpTคiИ★Lucky<7><STEAM_0:1:9411550><Unassigned>" joined team "Blue"
@@ -73,7 +73,7 @@ L 02/15/2013 - 00:16:04: "Aka Game<4><STEAM_0:0:5253998><Red>" picked up item "a
 L 02/15/2013 - 00:16:04: "TreV.avi<9><STEAM_0:0:47199579><Unassigned>" joined team "Blue"
 L 02/15/2013 - 00:16:04: "TreV.avi<9><STEAM_0:0:47199579><Blue>" changed role to "soldier"
 L 02/15/2013 - 00:16:06: "]ρтqяσx[ Psycho Killer<3><STEAM_0:1:22371670><Blue>" triggered "damage" (damage "28")
-L 02/15/2013 - 00:16:07: "X_DIAS<10><STEAM_0:0:26132987><>" connected, address "188.82.219.23:27005"
+L 02/15/2013 - 00:16:07: "X_DIAS<10><STEAM_0:0:26132987><>" connected, address "0.0.0.0:27005"
 L 02/15/2013 - 00:16:07: "X_DIAS<10><STEAM_0:0:26132987><>" STEAM USERID validated
 L 02/15/2013 - 00:16:10: "Aka Game<4><STEAM_0:0:5253998><Red>" triggered "damage" (damage "8")
 L 02/15/2013 - 00:16:11: "ser mais "leve"<6><STEAM_0:0:41722710><Blue>" picked up item "medkit_medium"
@@ -100,7 +100,7 @@ L 02/15/2013 - 00:16:36: "CคpTคiИ★Lucky<7><STEAM_0:1:9411550><Blue>" trig
 L 02/15/2013 - 00:16:36: "CคpTคiИ★Lucky<7><STEAM_0:1:9411550><Blue>" triggered "healed" against "TreV.avi<9><STEAM_0:0:47199579><Blue>" (healing "3")
 L 02/15/2013 - 00:16:37: "CคpTคiИ★Lucky<7><STEAM_0:1:9411550><Blue>" triggered "healed" against "TreV.avi<9><STEAM_0:0:47199579><Blue>" (healing "24")
 L 02/15/2013 - 00:16:37: "CคpTคiИ★Lucky<7><STEAM_0:1:9411550><Blue>" triggered "healed" against "TreV.avi<9><STEAM_0:0:47199579><Blue>" (healing "4")
-L 02/15/2013 - 00:16:44: "XiuUu - tf2portugal.com<11><STEAM_0:0:9062456><>" connected, address "85.246.201.157:52541"
+L 02/15/2013 - 00:16:44: "XiuUu - tf2portugal.com<11><STEAM_0:0:9062456><>" connected, address "0.0.0.0:52541"
 L 02/15/2013 - 00:16:44: "X_DIAS<10><STEAM_0:0:26132987><Unassigned>" joined team "Blue"
 L 02/15/2013 - 00:16:46: "ser mais "leve"<6><STEAM_0:0:41722710><Blue>" picked up item "ammopack_small"
 L 02/15/2013 - 00:16:46: "XiuUu - tf2portugal.com<11><STEAM_0:0:9062456><>" STEAM USERID validated
@@ -124,7 +124,7 @@ L 02/15/2013 - 00:17:10: "Aka Game<4><STEAM_0:0:5253998><Red>" triggered "damage
 L 02/15/2013 - 00:17:11: "Aka Game<4><STEAM_0:0:5253998><Red>" triggered "damage" (damage "83")
 L 02/15/2013 - 00:17:11: "Aka Game<4><STEAM_0:0:5253998><Red>" killed "X_DIAS<10><STEAM_0:0:26132987><Blue>" with "scattergun" (attacker_position "4629 -754 296") (victim_position "4776 -952 296")
 L 02/15/2013 - 00:17:16: "TreV.avi<9><STEAM_0:0:47199579><Blue>" picked up item "tf_ammo_pack"
-L 02/15/2013 - 00:17:20: "STARVED buying backpacks<12><STEAM_0:0:34888375><>" connected, address "82.155.54.49:49302"
+L 02/15/2013 - 00:17:20: "STARVED buying backpacks<12><STEAM_0:0:34888375><>" connected, address "0.0.0.0:49302"
 L 02/15/2013 - 00:17:20: "STARVED buying backpacks<12><STEAM_0:0:34888375><>" STEAM USERID validated
 L 02/15/2013 - 00:17:20: "X_DIAS<10><STEAM_0:0:26132987><Blue>" triggered "damage" (damage "54")
 L 02/15/2013 - 00:17:21: "Aka Game<4><STEAM_0:0:5253998><Red>" triggered "damage" (damage "20")
@@ -132,7 +132,7 @@ L 02/15/2013 - 00:17:22: "Aka Game<4><STEAM_0:0:5253998><Red>" triggered "damage
 L 02/15/2013 - 00:17:22: "ser mais "leve"<6><STEAM_0:0:41722710><Blue>" joined team "Red"
 L 02/15/2013 - 00:17:22: "Aka Game<4><STEAM_0:0:5253998><Red>" killed "ser mais "leve"<6><STEAM_0:0:41722710><Red>" with "player" (attacker_position "4656 -734 296") (victim_position "4950 -1040 296")
 L 02/15/2013 - 00:17:22: "X_DIAS<10><STEAM_0:0:26132987><Blue>" picked up item "tf_ammo_pack"
-L 02/15/2013 - 00:17:25: "Signs.<13><STEAM_0:1:12884608><>" connected, address "94.132.160.180:27005"
+L 02/15/2013 - 00:17:25: "Signs.<13><STEAM_0:1:12884608><>" connected, address "0.0.0.0:27005"
 L 02/15/2013 - 00:17:26: "Signs.<13><STEAM_0:1:12884608><>" STEAM USERID validated
 L 02/15/2013 - 00:17:26: "Aka Game<4><STEAM_0:0:5253998><Red>" triggered "damage" (damage "103")
 L 02/15/2013 - 00:17:27: "Aka Game<4><STEAM_0:0:5253998><Red>" triggered "damage" (damage "73")
@@ -172,7 +172,7 @@ L 02/15/2013 - 00:17:54: "TreV.avi<9><STEAM_0:0:47199579><Blue>" triggered "dama
 L 02/15/2013 - 00:17:54: "Aka Game<4><STEAM_0:0:5253998><Red>" triggered "damage" (damage "9")
 L 02/15/2013 - 00:17:55: "Aka Game<4><STEAM_0:0:5253998><Red>" triggered "damage" (damage "12")
 L 02/15/2013 - 00:17:55: "Aka Game<4><STEAM_0:0:5253998><Red>" triggered "damage" (damage "14")
-L 02/15/2013 - 00:17:58: "Kaneco.avi<14><STEAM_0:0:15527555><>" connected, address "188.81.62.211:54622"
+L 02/15/2013 - 00:17:58: "Kaneco.avi<14><STEAM_0:0:15527555><>" connected, address "0.0.0.0:54622"
 L 02/15/2013 - 00:17:58: "Kaneco.avi<14><STEAM_0:0:15527555><>" STEAM USERID validated
 L 02/15/2013 - 00:18:00: "Aka Game<4><STEAM_0:0:5253998><Red>" picked up item "ammopack_medium"
 L 02/15/2013 - 00:18:00: "Aka Game<4><STEAM_0:0:5253998><Red>" picked up item "medkit_medium"
@@ -192,9 +192,9 @@ L 02/15/2013 - 00:18:08: "ser mais "leve"<6><STEAM_0:0:41722710><Red>" triggered
 L 02/15/2013 - 00:18:08: "ser mais "leve"<6><STEAM_0:0:41722710><Red>" killed "TreV.avi<9><STEAM_0:0:47199579><Blue>" with "tf_projectile_pipe_remote" (attacker_position "1838 -1369 192") (victim_position "2308 -1295 161")
 L 02/15/2013 - 00:18:11: "STARVED buying backpacks<12><STEAM_0:0:34888375><Red>" picked up item "ammopack_medium"
 L 02/15/2013 - 00:18:11: "STARVED buying backpacks<12><STEAM_0:0:34888375><Red>" picked up item "medkit_medium"
-L 02/15/2013 - 00:18:12: "Λϟ ϟλϟ ϟIИØ™<15><STEAM_0:1:15383925><>" connected, address "188.82.97.199:64438"
+L 02/15/2013 - 00:18:12: "Λϟ ϟλϟ ϟIИØ™<15><STEAM_0:1:15383925><>" connected, address "0.0.0.0:64438"
 L 02/15/2013 - 00:18:13: "Λϟ ϟλϟ ϟIИØ™<15><STEAM_0:1:15383925><>" STEAM USERID validated
-L 02/15/2013 - 00:18:14: "v.slap | qwarK<16><STEAM_0:1:16788708><>" connected, address "188.82.125.130:51563"
+L 02/15/2013 - 00:18:14: "v.slap | qwarK<16><STEAM_0:1:16788708><>" connected, address "0.0.0.0:51563"
 L 02/15/2013 - 00:18:14: "v.slap | qwarK<16><STEAM_0:1:16788708><>" STEAM USERID validated
 L 02/15/2013 - 00:18:15: "Signs.<13><STEAM_0:1:12884608><>" entered the game
 L 02/15/2013 - 00:18:16: "]ρтqяσx[ Psycho Killer<3><STEAM_0:1:22371670><Blue>" picked up item "tf_ammo_pack"
@@ -226,7 +226,7 @@ L 02/15/2013 - 00:18:49: "ser mais "leve"<6><STEAM_0:0:41722710><Red>" picked up
 L 02/15/2013 - 00:18:49: "TreV.avi<9><STEAM_0:0:47199579><Blue>" triggered "damage" (damage "106")
 L 02/15/2013 - 00:18:49: "TreV.avi<9><STEAM_0:0:47199579><Blue>" killed "ser mais "leve"<6><STEAM_0:0:41722710><Red>" with "tf_projectile_rocket" (attacker_position "3719 -397 246") (victim_position "3590 -259 391")
 L 02/15/2013 - 00:18:50: "Λϟ ϟλϟ ϟIИØ™<15><STEAM_0:1:15383925><>" entered the game
-L 02/15/2013 - 00:18:50: "Diogo Rajadas<17><STEAM_0:1:17244603><>" connected, address "89.181.196.31:53332"
+L 02/15/2013 - 00:18:50: "Diogo Rajadas<17><STEAM_0:1:17244603><>" connected, address "0.0.0.0:53332"
 L 02/15/2013 - 00:18:50: "Aka Game<4><STEAM_0:0:5253998><Red>" picked up item "tf_ammo_pack"
 L 02/15/2013 - 00:18:51: "Diogo Rajadas<17><STEAM_0:1:17244603><>" STEAM USERID validated
 L 02/15/2013 - 00:18:51: "TreV.avi<9><STEAM_0:0:47199579><Blue>" picked up item "tf_ammo_pack"
@@ -591,7 +591,7 @@ L 02/15/2013 - 00:22:04: "Λϟ ϟλϟ ϟIИØ™<15><STEAM_0:1:15383925><Blue>" 
 L 02/15/2013 - 00:22:04: "Diogo Rajadas<17><STEAM_0:1:17244603><Red>" triggered "damage" (damage "26")
 L 02/15/2013 - 00:22:05: "TreV.avi<9><STEAM_0:0:47199579><Blue>" triggered "damage" (damage "54")
 L 02/15/2013 - 00:22:05: "Diogo Rajadas<17><STEAM_0:1:17244603><Red>" triggered "damage" (damage "18")
-L 02/15/2013 - 00:22:05: "STARVED buying backpacks<18><STEAM_0:0:34888375><>" connected, address "82.155.54.49:49302"
+L 02/15/2013 - 00:22:05: "STARVED buying backpacks<18><STEAM_0:0:34888375><>" connected, address "0.0.0.0:49302"
 L 02/15/2013 - 00:22:05: "STARVED buying backpacks<18><STEAM_0:0:34888375><>" STEAM USERID validated
 L 02/15/2013 - 00:22:05: "Diogo Rajadas<17><STEAM_0:1:17244603><Red>" triggered "damage" (damage "31")
 L 02/15/2013 - 00:22:05: "Diogo Rajadas<17><STEAM_0:1:17244603><Red>" killed "TreV.avi<9><STEAM_0:0:47199579><Blue>" with "scattergun" (attacker_position "442 -1152 300") (victim_position "938 -1208 320")
@@ -761,7 +761,7 @@ L 02/15/2013 - 00:23:19: "Aka Game<4><STEAM_0:0:5253998><Red>" triggered "damage
 L 02/15/2013 - 00:23:20: "CคpTคiИ★Lucky<7><STEAM_0:1:9411550><Blue>" triggered "damage" (damage "10")
 L 02/15/2013 - 00:23:20: "v.slap | qwarK<16><STEAM_0:1:16788708><Red>" triggered "damage" (damage "63")
 L 02/15/2013 - 00:23:20: "CคpTคiИ★Lucky<7><STEAM_0:1:9411550><Blue>" triggered "damage" (damage "10")
-L 02/15/2013 - 00:23:20: rcon from "176.9.138.143:48545": command "stats"
+L 02/15/2013 - 00:23:20: rcon from "0.0.0.0:48545": command "stats"
 L 02/15/2013 - 00:23:20: "Λϟ ϟλϟ ϟIИØ™<15><STEAM_0:1:15383925><Blue>" picked up item "medkit_medium"
 L 02/15/2013 - 00:23:20: "Signs.<13><STEAM_0:1:12884608><Red>" picked up item "medkit_small"
 L 02/15/2013 - 00:23:21: "Kaneco.avi<14><STEAM_0:0:15527555><Red>" say "rup niiggas"
@@ -996,7 +996,7 @@ L 02/15/2013 - 00:58:00: "Λϟ ϟλϟ ϟIИØ™<15><STEAM_0:1:15383925><Blue>" 
 L 02/15/2013 - 00:58:00: "Λϟ ϟλϟ ϟIИØ™<15><STEAM_0:1:15383925><Blue>" killed "ser mais "leve"<6><STEAM_0:0:41722710><Red>" with "holy_mackerel" (attacker_position "-1713 635 296") (victim_position "-1776 674 297")
 L 02/15/2013 - 00:58:01: "Kaneco.avi<14><STEAM_0:0:15527555><Red>" picked up item "ammopack_small"
 L 02/15/2013 - 00:58:01: "Kaneco.avi<14><STEAM_0:0:15527555><Red>" picked up item "medkit_small"
-L 02/15/2013 - 00:58:01: rcon from "79.168.158.214:64078": command "changelevel cp_process_rc2"
+L 02/15/2013 - 00:58:01: rcon from "0.0.0.0:64078": command "changelevel cp_process_rc2"
 L 02/15/2013 - 00:58:02: "Λϟ ϟλϟ ϟIИØ™<15><STEAM_0:1:15383925><Blue>" picked up item "ammopack_small"
 L 02/15/2013 - 00:58:05: "TreV.avi<9><STEAM_0:0:47199579><Blue>" picked up item "ammopack_medium"
 L 02/15/2013 - 00:58:05: "TreV.avi<9><STEAM_0:0:47199579><Blue>" picked up item "medkit_medium"
@@ -1007,7 +1007,7 @@ L 02/15/2013 - 00:58:09: "Λϟ ϟλϟ ϟIИØ™<15><STEAM_0:1:15383925><Blue>" 
 L 02/15/2013 - 00:58:09: "Λϟ ϟλϟ ϟIИØ™<15><STEAM_0:1:15383925><Blue>" picked up item "tf_ammo_pack"
 L 02/15/2013 - 00:58:11: "Kaneco.avi<14><STEAM_0:0:15527555><Red>" triggered "damage" (damage "38")
 L 02/15/2013 - 00:58:11: "TreV.avi<9><STEAM_0:0:47199579><Blue>" triggered "damage" (damage "65")
-L 02/15/2013 - 00:58:13: rcon from "79.168.158.214:64078": command "changelevel cp_process_rc2"
+L 02/15/2013 - 00:58:13: rcon from "0.0.0.0:64078": command "changelevel cp_process_rc2"
 L 02/15/2013 - 00:58:14: "Kaneco.avi<14><STEAM_0:0:15527555><Red>" triggered "damage" (damage "109")
 L 02/15/2013 - 00:58:14: "Kaneco.avi<14><STEAM_0:0:15527555><Red>" killed "TreV.avi<9><STEAM_0:0:47199579><Blue>" with "tf_projectile_rocket" (attacker_position "-136 649 435") (victim_position "-42 804 435")
 L 02/15/2013 - 00:58:15: "Kaneco.avi<14><STEAM_0:0:15527555><Red>" triggered "damage" (damage "13")

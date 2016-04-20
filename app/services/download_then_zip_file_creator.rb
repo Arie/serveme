@@ -15,7 +15,7 @@ class DownloadThenZipFileCreator < ZipFileCreator
   end
 
   def strip_ips_from_log_files(tmp_dir)
-    system("LANG=ALL LC_ALL=C sed -i -r 's/([0-9]{1,3}\.){3}[0-9]{1,3}/0.0.0.0/' #{tmp_dir}/*.log")
+    system("LANG=ALL LC_ALL=C sed -i -r 's/\b([0-9]{1,3}\.){3}[0-9]{1,3}\b/0.0.0.0/g' #{tmp_dir}/*.log")
   end
 
   def zip(tmp_dir)

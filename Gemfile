@@ -59,8 +59,9 @@ gem 'oily_png'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
+end
 
-  #Deployment
+group :deployment do
   gem 'capistrano-ext'
   gem 'capistrano_colors'
   gem 'capistrano'
@@ -106,7 +107,7 @@ group :test do
   gem "minitest"
   gem 'shoulda-matchers'
   gem 'vcr'
-  gem 'webmock'
+  gem 'webmock', "~> 1.0"
   gem 'delorean'
   gem 'json_expressions'
 end

@@ -114,6 +114,7 @@ Serveme::Application.routes.draw do
   get   '/private-servers',               :to => "pages#private_servers",     :as => "private_server_info"
   get   '/player_statistics/reservation/:reservation_id'                  => 'player_statistics#show_for_reservation',             :as => "show_reservation_statistic"
   get   '/player_statistics/steam/:steam_uid'                             => 'player_statistics#show_for_player',                  :as => "show_player_statistic"
+  get   '/player_statistics/ip/:ip'                                       => 'player_statistics#show_for_ip',                      :as => "show_ip_statistic"
   get   '/player_statistics/reservation/:reservation_id/steam/:steam_uid' => 'player_statistics#show_for_reservation_and_player',  :as => "show_reservation_and_player_statistic"
   get   '/player_statistics/server/:server_id'                            => 'player_statistics#show_for_server',                  :as => "show_server_player_statistic"
 

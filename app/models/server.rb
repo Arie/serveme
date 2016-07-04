@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 class Server < ActiveRecord::Base
 
-  attr_accessible :name, :path, :ip, :port
-
   has_many :groups, :through => :group_servers
   has_many :group_servers
   has_many :reservations

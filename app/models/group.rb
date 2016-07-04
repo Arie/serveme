@@ -12,8 +12,6 @@ class Group < ActiveRecord::Base
   has_many :servers,  :through => :group_servers
   has_many :group_servers, :dependent => :destroy
 
-  attr_accessible :name
-
   def self.donator_group
     DONATOR_GROUP
   end

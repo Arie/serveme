@@ -5,7 +5,6 @@ class Voucher < ActiveRecord::Base
   belongs_to :paypal_order
   belongs_to :claimed_by,  class_name: "User"
   belongs_to :created_by,  class_name: "User"
-  attr_accessible :code, :product
 
   def hyphenate
     Base32::Crockford.hypenate(code).upcase

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class ServerDecorator < Draper::Decorator
-  include Draper::LazyHelpers
+class ServerDecorator < Drape::Decorator
+  include Drape::LazyHelpers
   delegate_all
 
   def name

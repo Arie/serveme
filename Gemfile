@@ -1,10 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'rails', "~> 4.2.0"
+gem 'rails', "~> 5.0.0"
 gem 'sprockets'
 gem 'haml'
-gem 'protected_attributes'
-gem "actionpack-action_caching"
 gem 'puma'
 gem 'omniauth-openid'
 gem 'omniauth-steam'
@@ -27,13 +25,13 @@ gem 'dante'
 
 gem 'net-ssh'
 gem 'net-sftp'
-gem 'draper'
+gem 'drape'
 gem 'will_paginate'
 gem 'zeroclipboard-rails'
 gem "google_visualr"
 gem 'rack-cache'
 gem 'paypal-sdk-rest'
-gem 'sidekiq'
+gem 'sidekiq', "~> 4.1.4"
 gem 'sidekiq-cron'
 gem 'geoip'
 gem 'geocoder'
@@ -42,7 +40,7 @@ gem 'rbtrace'
 gem 'dalli'
 gem 'connection_pool'
 
-gem 'sinatra', '>= 1.3.0', :require => nil
+gem 'sinatra', github: "sinatra/sinatra", require: nil
 #NFO server restarts
 gem 'mechanize'
 #Simrai server restarts
@@ -90,7 +88,7 @@ end
 
 group :cucumber do
   gem 'cucumber'
-  gem 'cucumber-rails'
+  gem 'cucumber-rails', github: "olleolleolle/cucumber-rails", branch: "feature/rails-5-railtie"
   gem 'database_cleaner'
   gem 'launchy'
   gem 'capybara'
@@ -110,6 +108,7 @@ group :test do
   gem 'webmock', "~> 1.0"
   gem 'delorean'
   gem 'json_expressions'
+  gem 'rails-controller-testing'
 end
 
 gem 'uglifier'

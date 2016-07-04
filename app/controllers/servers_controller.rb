@@ -2,7 +2,6 @@
 class ServersController < ApplicationController
 
   before_filter :require_donator
-  caches_action :index, :unless => :current_user, expires_in: 1.minute
 
   def index
     SteamCondenser::Servers::Sockets::BaseSocket.timeout = 500

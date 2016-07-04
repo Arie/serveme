@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class UserDecorator < Draper::Decorator
-  include Draper::LazyHelpers
+class UserDecorator < Drape::Decorator
+  include Drape::LazyHelpers
   delegate_all
 
   def nickname

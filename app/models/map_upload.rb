@@ -4,7 +4,6 @@ require 'zip'
 class MapUpload < ActiveRecord::Base
   BLACKLIST = ["pl_badwater_pro_v8.bsp"]
   belongs_to :user
-  attr_accessible :file, :user_id
   attr_accessor :maps
 
   validates_presence_of :user_id

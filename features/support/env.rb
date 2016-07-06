@@ -18,7 +18,7 @@ at_exit do
   Server.delete_all
 end
 
-include Devise::TestHelpers
+#include Devise::Test::ControllerHelpers
 
 Capybara.default_selector = :css
 

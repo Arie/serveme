@@ -35,7 +35,7 @@ When "I upload a new map" do
 end
 
 Then "I see a message that the map upload was succesful" do
-  page.should have_content "Map upload succeeded, it can take a few minute for it to get synced to all servers"
+  page.should have_content "Map upload succeeded."
 end
 
 def generate_fake_map(name, contents = "VBSP")

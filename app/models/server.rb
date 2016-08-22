@@ -157,10 +157,8 @@ class Server < ActiveRecord::Base
 
   def start_reservation(reservation)
     update_configuration(reservation)
-    if reservation.enable_plugins?
-      enable_plugins
-      reservation.status_update("Enabled plugins")
-    end
+    enable_plugins
+    reservation.status_update("Enabled plugins")
     reservation.status_update("Restarting server")
     restart
     reservation.status_update("Restarted server, waiting to boot")

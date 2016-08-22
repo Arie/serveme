@@ -1,9 +1,28 @@
 hostname "<%= server_name %>"
 rcon_password "<%= rcon %>"
 sv_password "<%= password %>"
+
 tv_password "<%= tv_password %>"
 tv_relaypassword "<%= tv_relaypassword %>"
+sv_hibernate_punt_tv_clients 0
+tv_advertise_watchable 1
+tv_allow_camera_man 1
+tv_allow_static_shots 1
+tv_chatgroupsize 0
+tv_chattimelimit 5
+tv_debug 0
+tv_delay 120
+tv_delaymapchange 1
+tv_deltacache 2
+tv_dispatchmode 1
+tv_maxclients 15
+tv_maxrate 20000
+tv_relayvoice 0
+tv_snapshotrate 30
+tv_timeout 120
+tv_transmitall 1
 tv_autorecord 1
+
 sv_logflush 1
 sv_logsecret "<%= logsecret %>"
 logaddress_add <%= "direct.#{SITE_HOST}:40002" %>

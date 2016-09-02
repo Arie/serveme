@@ -30,4 +30,7 @@ tv_delaymapchange 1
   <%= %{tftrue_logs_apikey "#{LOGS_TF_API_KEY}"} %>
 <% end %>
 
+<% if enable_demos_tf? %>
+<%= %{sm_demostf_apikey "#{DEMOS_TF_API_KEY}"} %><% end %>
+
 tf_preround_push_from_damage_enable 1

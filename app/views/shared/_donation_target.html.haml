@@ -14,7 +14,7 @@
     %strong Monthly server bills (#{I18n.t('number.currency.format.unit')}#{PaypalOrder.monthly_goal.round})
 
   .col-md-7
-    .progress.progress-striped.active
+    .progress.progress-striped
       - if goal_percentage <= 100
         - width = goal_percentage
       - else

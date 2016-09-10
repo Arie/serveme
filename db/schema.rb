@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160429094004) do
+ActiveRecord::Schema.define(version: 20160902141018) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,6 +173,7 @@ ActiveRecord::Schema.define(version: 20160429094004) do
     t.string   "logsecret",               limit: 64
     t.boolean  "enable_plugins",                     default: false
     t.boolean  "enable_arena_respawn",               default: false
+    t.boolean  "enable_demos_tf",                    default: false
   end
 
   add_index "reservations", ["auto_end"], name: "index_reservations_on_auto_end", using: :btree

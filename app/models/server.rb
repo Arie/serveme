@@ -155,9 +155,13 @@ class Server < ActiveRecord::Base
 
   def start_reservation(reservation)
     update_configuration(reservation)
-    if reservation.enable_plugins?
+    if reservation.enable_plugins? || reservation.enable_demos_tf?
       enable_plugins
       reservation.status_update("Enabled plugins")
+      if reservation.enable_demos_tf?
+        reservation.status_update("Enabling demos.tf")
+        enable_demos_tf
+      end
     end
     reservation.status_update("Restarting server")
     restart
@@ -172,6 +176,7 @@ class Server < ActiveRecord::Base
     return if reservation.ended?
     remove_configuration
     disable_plugins
+    disable_demos_tf
     rcon_exec("sv_logflush 1; tv_stoprecord; kickall Reservation ended, every player can download the STV demo at http:/​/#{SITE_HOST}")
     sleep 1 # Give server a second to finish the STV demo and write the log
     reservation.status_update("Removing configuration and disabling plugins")
@@ -182,6 +187,15 @@ class Server < ActiveRecord::Base
     rcon_disconnect
     restart
     reservation.status_update("Restarted server")
+  end
+
+  def enable_demos_tf
+    demos_tf_file = "#{Rails.root.join("doc", "demostf.smx")}"
+    copy_to_server([demos_tf_file], "#{tf_dir}/addons/sourcemod/plugins")
+  end
+
+  def disable_demos_tf
+    delete_from_server(["#{tf_dir}/addons/sourcemod/plugins/demostf.smx"])
   end
 
   def zip_demos_and_logs(reservation)

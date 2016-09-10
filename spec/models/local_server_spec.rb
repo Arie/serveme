@@ -110,6 +110,7 @@ describe LocalServer do
       subject.should_receive(:copy_logs)
       subject.should_receive(:zip_demos_and_logs).with(reservation)
       subject.should_receive(:disable_plugins)
+      subject.should_receive(:disable_demos_tf)
       subject.should_receive(:remove_logs_and_demos)
       subject.should_receive(:remove_configuration)
       subject.should_receive(:rcon_exec).once
@@ -370,8 +371,16 @@ describe LocalServer do
     end
   end
 
+  describe "#enable_demos_tf" do
+    it "writes the demostf.smx to the server" do
+      subject.stub(:tf_dir => "tf_dir")
+      subject.should_receive(:copy_to_server).with(anything, "#{subject.tf_dir}/addons/sourcemod/plugins")
+      subject.enable_demos_tf
+    end
+  end
+
   def stubbed_reservation(stubs = {})
-    reservation = double(:reservation, :status_update => true, :enable_plugins? => false)
+    reservation = double(:reservation, :status_update => true, :enable_plugins? => false, :enable_demos_tf? => false)
     stubs.each do |k, v|
       reservation.stub(k) { v }
     end

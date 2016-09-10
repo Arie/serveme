@@ -49,7 +49,7 @@ module ReservationsHelper
   end
 
   def free_servers
-    @free_servers ||= free_server_finder.servers.ordered
+    @free_servers ||= free_server_finder.servers.near(current_user, 50000, order: "distance, position")
   end
 
   def free_server_finder
@@ -83,7 +83,7 @@ module ReservationsHelper
   private
 
   def reservation_params
-    permitted_params = [:id, :password, :tv_password, :tv_relaypassword, :server_config_id, :whitelist_id, :custom_whitelist_id, :first_map, :auto_end, :enable_plugins]
+    permitted_params = [:id, :password, :tv_password, :tv_relaypassword, :server_config_id, :whitelist_id, :custom_whitelist_id, :first_map, :auto_end, :enable_plugins, :enable_demos_tf]
     if reservation.nil? || (reservation && reservation.schedulable?)
       permitted_params += [:rcon, :server_id, :starts_at, :ends_at]
     end

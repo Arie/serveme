@@ -1,4 +1,4 @@
-- if !current_user.donator? && free_servers.count < 3
+- if !current_user.donator? && free_servers.size < 3
   - free_donator_servers_count = Server.for_donators.active.count - used_donator_server_count
   - if free_donator_servers_count > 0
     .row

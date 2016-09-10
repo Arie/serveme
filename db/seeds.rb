@@ -10,22 +10,28 @@ unless Server.all.any?
   fb1 = { :name => 'FakkelBrigade #1',
           :path => '/home/tf2/tf2-1',
           :ip   => 'fakkelbrigade.eu',
-          :port => '27015'
+          :port => '27015',
+          :latitude  => 51,
+          :longitude => 9
         }
   fb2 = { :name => 'FakkelBrigade #2',
           :path => '/home/tf2/tf2-2',
           :ip   => 'fakkelbrigade.eu',
-          :port => '27025'
+          :port => '27025',
+          :latitude  => 51,
+          :longitude => 9
         }
   fb4 = { :name => 'FakkelBrigade #4',
           :path => '/home/tf2/tf2-4',
           :ip   => 'fakkelbrigade.eu',
-          :port => '27045'
+          :port => '27045',
+          :latitude  => 51,
+          :longitude => 9
         }
   servers = [fb1, fb2, fb4]
 
   servers.each do |server|
-    LocalServer.where(:name => server[:name], :path => server[:path], :ip => server[:ip], :port => server[:port]).first_or_create
+    LocalServer.where(:name => server[:name], :path => server[:path], :ip => server[:ip], :port => server[:port], :latitude => server[:latitude], :longitude => server[:longitude]).first_or_create
   end
   puts "Seeded servers #{servers.join(', ')}" unless Rails.env.test?
 end

@@ -49,7 +49,7 @@ module ReservationsHelper
   end
 
   def free_servers
-    @free_servers ||= free_server_finder.servers.ordered
+    @free_servers ||= free_server_finder.servers.near(current_user, 50000, order: "distance, position")
   end
 
   def free_server_finder

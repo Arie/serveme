@@ -5,7 +5,7 @@ class Api::ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound,       :with => :handle_not_found
   rescue_from ActionController::ParameterMissing, :with => :handle_unprocessable_entity
 
-  before_filter :verify_api_key
+  before_action :verify_api_key
 
   def verify_api_key
     current_user

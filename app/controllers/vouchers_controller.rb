@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class VouchersController < ApplicationController
 
-  skip_before_filter :block_users_with_expired_reservations
+  skip_before_action :block_users_with_expired_reservations
 
   def new
     @voucher = Voucher.find_voucher(params[:code]) if params[:code]

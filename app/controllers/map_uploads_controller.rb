@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class MapUploadsController < ApplicationController
 
-  before_filter :require_donator
+  before_action :require_donator
 
   def new
     @map_upload = MapUpload.new

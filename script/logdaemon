@@ -23,10 +23,10 @@ class Handler < EM::Connection
   end
 
   def write_log(secret, line)
-    secret = Integer(secret)
-
-    File.open(File.join(STREAMING_LOG_DIR, "#{secret}.log"), "a") do |f|
-      f.write line
+    if secret =~ /^\d+$/
+      File.open(File.join(STREAMING_LOG_DIR, "#{secret}.log"), "a") do |f|
+        f.puts line
+      end
     end
   end
 

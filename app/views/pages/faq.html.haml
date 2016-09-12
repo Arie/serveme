@@ -79,6 +79,43 @@
 
     .well
       %p.text-success
+        Q: What commands are available inside the server chat?
+      %p
+        %em
+          A: If you are the one that has reserved the server. Here are some handy commands you can use from within the server chat:
+          %table.table
+            %tr
+              %td
+                !rcon
+              %td
+                This runs whatever you placed after the cmd (with a space as rcon) for example you can run "```!rcon changelevel koth_product```" to change the map on the server to koth_product
+            %tr
+              %td
+                !extend
+              %td
+                Extends the time of the reservation by 1 hour. However this will only work if the server is free to reserve.
+            %tr
+              %td
+                !end
+              %td
+                Ends the reservation and kicks all players
+        %p
+          %em
+          These commands are available to everyone:
+          %table.table
+            %tr
+              %td
+                !who
+              %td
+                Returns the name of the user that reserved the server
+            %tr
+              %td
+                !timeleft
+              %td
+                Lists the number of minutes left in the reservation
+
+    .well
+      %p.text-success
         Q: How do I change the map?
       %p
         %em

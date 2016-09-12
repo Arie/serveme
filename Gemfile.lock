@@ -63,7 +63,7 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     american_date (1.1.1)
     arel (6.0.3)
-    autoprefixer-rails (6.4.1)
+    autoprefixer-rails (6.4.1.1)
       execjs
     base32_pure (0.1.0)
     bcrypt (3.1.11)
@@ -544,6 +544,7 @@ DEPENDENCIES
   rspec-activemodel-mocks
   rspec-collection_matchers
   rspec-rails
+  rubyzip
   sass
   sass-rails
   sassc

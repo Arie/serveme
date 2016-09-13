@@ -24,6 +24,7 @@ class PagesController < ApplicationController
   def statistics
     @top_10_users_hash   = Statistic.top_10_users
     @top_10_servers_hash = Statistic.top_10_servers
+    @top_10_maps_hash    = Statistic.top_10_servers
   end
 
   def server_providers

@@ -51,6 +51,31 @@ describe Statistic do
     end
   end
 
+  describe '.top_10_maps' do
+
+    it "returns a hash with 10 most reserved maps" do
+      user_1 = create :user
+      user_1.stub(:donator? => true)
+
+      2.times do |i|
+        starts_at = i.days.from_now
+        create :reservation, :map => 'ctf_meh', :starts_at => starts_at, :ends_at => starts_at + 1.hour, :user => user_1
+      end
+      1.times do |i|
+        starts_at = i.days.from_now
+        create :reservation, :map => 'pl_favorite', :starts_at => starts_at, :ends_at => starts_at + 1.hour, :user => user_1
+      end
+      3.times do |i|
+        starts_at = i.days.from_now
+        create :reservation, :map => 'ctf_pure_cancer', :starts_at => starts_at, :ends_at => starts_at + 1.hour, :user => user_1
+      end
+
+      top_10_hash = Statistic.top_10_maps
+
+      top_10_hash.should eql 'ctf_pure_cancer' => 3, 'ctf_meh' => 2, 'pl_favorite' => 1
+    end
+  end
+
   describe '.reservations_per_day' do
 
     let(:today) {Date.today}

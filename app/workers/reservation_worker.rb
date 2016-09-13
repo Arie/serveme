@@ -2,7 +2,7 @@
 class ReservationWorker
   include Sidekiq::Worker
 
-  sidekiq_options :retry => false
+  sidekiq_options :retry => 3
 
   attr_accessor :reservation, :reservation_id
 

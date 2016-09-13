@@ -54,8 +54,8 @@ describe IAmFeelingLucky do
       fallback_server_on_same_host              = create :server, :ip => previous_reservation.server.ip, :port => 1337
       new_reservation_taking_fallback_server    = create :reservation, :server => fallback_server_on_same_host
 
-      fallback_server_in_same_location  = create(:server, :ip => "2.2.2.2", :location_id => previous_reservation.server.location_id)
-      fallback_server_in_other_location = create(:server, :ip => "3.3.3.3", :location_id => create(:location))
+      fallback_server_in_same_location  = create(:server, :ip => "176.9.138.144", :location_id => previous_reservation.server.location_id)
+      fallback_server_in_other_location = create(:server, :ip => "176.9.138.145", :location_id => create(:location))
 
       reservation = subject.build_reservation
 

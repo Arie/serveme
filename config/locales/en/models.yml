@@ -7,3 +7,4 @@ en:
         whitelist: League whitelist
         tv_relaypassword: Relay password
         tv_password: STV password
+        enable_demos_tf: demos.tf

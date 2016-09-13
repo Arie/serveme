@@ -3,9 +3,11 @@ FactoryGirl.define do
   factory :server, :class => "LocalServer" do
     name "TF2 1"
     path "/home/tf2/tf2-1"
-    ip "fakkelbrigade.eu"
+    ip "176.9.138.143"
     port "27015"
     location
+    latitude 51
+    longitude 9
   end
 
   factory :user do
@@ -13,6 +15,8 @@ FactoryGirl.define do
     nickname "Terminator"
     name "Joe Sixpack"
     provider "steam"
+    latitude 52.5
+    longitude 5.75
   end
 
   factory :admin, :class => "User" do

@@ -19,6 +19,7 @@ gem 'lograge'
 #Map uploads
 gem 'carrierwave'
 gem 'rbzip2', :github => 'koraktor/rbzip2'
+gem 'rubyzip'
 
 #Logdaemon
 gem 'tf2_line_parser'

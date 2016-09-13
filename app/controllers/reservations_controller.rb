@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 class ReservationsController < ApplicationController
 
+  before_filter :require_admin, :only => :streaming
   include ReservationsHelper
 
   def new
@@ -96,6 +97,11 @@ class ReservationsController < ApplicationController
     respond_to do |format|
       format.json
     end
+  end
+
+  def streaming
+    filename = Rails.root.join("log", "streaming", "#{reservation.logsecret}.log")
+    @streaming_log = File.open(filename)
   end
 
   private

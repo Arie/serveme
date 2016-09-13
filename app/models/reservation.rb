@@ -2,7 +2,7 @@
 class Reservation < ActiveRecord::Base
   attr_accessible :server, :user, :server_id, :user_id, :password, :rcon, :tv_password, :tv_relaypassword, :starts_at,
                   :ends_at, :provisioned, :ended, :server_config, :server_config_id, :whitelist, :whitelist_id, :inactive_minute_counter,
-                  :first_map, :custom_whitelist_id, :auto_end, :enable_plugins
+                  :first_map, :custom_whitelist_id, :auto_end, :enable_plugins, :enable_demos_tf
   belongs_to :user
   belongs_to :server
   belongs_to :server_config
@@ -184,7 +184,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def reusable_attributes
-    attributes.slice("server_id", "password", "rcon", "tv_password", "server_config_id", "whitelist_id", "custom_whitelist_id", "first_map", "enable_plugins")
+    attributes.slice("server_id", "password", "rcon", "tv_password", "server_config_id", "whitelist_id", "custom_whitelist_id", "first_map", "enable_plugins", "enable_demos_tf")
   end
 
   def get_binding

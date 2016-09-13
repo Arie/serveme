@@ -3,6 +3,8 @@ require 'coveralls'
 
 SimpleCov.start 'rails'
 
+require File.expand_path("../../../config/environment", __FILE__)
+
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'sidekiq'

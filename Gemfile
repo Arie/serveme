@@ -89,16 +89,6 @@ group :test_tools do
   gem 'fuubar'
 end
 
-group :cucumber do
-  gem 'cucumber'
-  gem 'cucumber-rails'
-  gem 'database_cleaner'
-  gem 'launchy'
-  gem 'capybara'
-  gem 'selenium-webdriver'
-  #gem 'fuubar-cucumber'
-end
-
 group :production do
   gem "sentry-raven"
 end
@@ -111,6 +101,14 @@ group :test do
   gem 'webmock', "~> 1.0"
   gem 'delorean'
   gem 'json_expressions'
+
+  #cucumber
+  gem 'cucumber'
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner'
+  gem 'launchy'
+  gem 'capybara'
+  gem 'selenium-webdriver'
 end
 
 gem 'uglifier'

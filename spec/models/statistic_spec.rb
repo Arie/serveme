@@ -59,15 +59,15 @@ describe Statistic do
 
       2.times do |i|
         starts_at = i.days.from_now
-        create :reservation, :map => 'ctf_meh', :starts_at => starts_at, :ends_at => starts_at + 1.hour, :user => user_1
+        create :reservation, :first_map => 'ctf_meh', :starts_at => starts_at, :ends_at => starts_at + 1.hour, :user => user_1
       end
       1.times do |i|
         starts_at = i.days.from_now
-        create :reservation, :map => 'pl_favorite', :starts_at => starts_at, :ends_at => starts_at + 1.hour, :user => user_1
+        create :reservation, :first_map => 'pl_favorite', :starts_at => starts_at, :ends_at => starts_at + 1.hour, :user => user_1
       end
       3.times do |i|
         starts_at = i.days.from_now
-        create :reservation, :map => 'ctf_pure_cancer', :starts_at => starts_at, :ends_at => starts_at + 1.hour, :user => user_1
+        create :reservation, :first_map => 'ctf_pure_cancer', :starts_at => starts_at, :ends_at => starts_at + 1.hour, :user => user_1
       end
 
       top_10_hash = Statistic.top_10_maps

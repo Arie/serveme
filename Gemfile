@@ -32,7 +32,7 @@ gem 'zeroclipboard-rails'
 gem "google_visualr"
 gem 'rack-cache'
 gem 'paypal-sdk-rest'
-gem 'sidekiq', "~> 4.1.4"
+gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'geoip'
 gem 'geocoder'
@@ -41,7 +41,6 @@ gem 'rbtrace'
 gem 'dalli'
 gem 'connection_pool'
 
-gem 'sinatra', github: "sinatra/sinatra", require: nil
 #NFO server restarts
 gem 'mechanize'
 #Simrai server restarts

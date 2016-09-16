@@ -27,7 +27,7 @@ describe Api::ReservationsController do
   describe "#find_servers" do
 
     it "returns a reservation json to be filled in with available servers" do
-      post :find_servers, reservation: { starts_at: Time.current.to_s, ends_at: (Time.current + 2.hours).to_s }, format: :json
+      post :find_servers, params: { reservation: { starts_at: Time.current.to_s, ends_at: (Time.current + 2.hours).to_s } }, format: :json
       json = {
         reservation: {
           starts_at: String,
@@ -50,7 +50,7 @@ describe Api::ReservationsController do
 
     it "returns a json of a reservation" do
       reservation = create :reservation, :user => @user
-      get :show, :id => reservation.id, format: :json
+      get :show, params: { id: reservation.id }, format: :json
       json = {
         reservation: {
           starts_at: String,
@@ -66,7 +66,7 @@ describe Api::ReservationsController do
 
     it "returns a 404 for an unknown reservation" do
 
-      get :show, :id => -1
+      get :show, params: { id: -1 }
       response.status.should == 404
     end
 
@@ -96,7 +96,7 @@ describe Api::ReservationsController do
         }.ignore_extra_keys!
       }.ignore_extra_keys!
       ReservationWorker.should_receive(:perform_async).with(anything, "start")
-      post :create, format: :json, reservation: { starts_at: Time.current, ends_at: 2.hours.from_now, rcon: 'foo', password: 'bar', server_id: server.id }
+      post :create, format: :json, params: { reservation: { starts_at: Time.current, ends_at: 2.hours.from_now, rcon: 'foo', password: 'bar', server_id: server.id } }
       expect(response.body).to match_json_expression(json)
       response.status.should == 200
     end
@@ -111,13 +111,13 @@ describe Api::ReservationsController do
         server_configs: Array,
         actions: Hash
         }
-      post :create, format: :json, reservation: {rcon: 'foo'}
+      post :create, format: :json, params: { reservation: {rcon: 'foo'} }
       expect(response.body).to match_json_expression(json)
       response.status.should == 400
     end
 
     it "returns a general error if the json was invalid" do
-      post :create, format: :json, something_invalid: {foo: 'bar'}
+      post :create, format: :json, params: { something_invalid: {foo: 'bar'} }
       response.status.should == 422
     end
 
@@ -127,14 +127,14 @@ describe Api::ReservationsController do
 
     it "removes a future reservation" do
       reservation = create :reservation, user: @user, provisioned: false
-      delete :destroy, id: reservation.id, format: :json
+      delete :destroy, params: { id: reservation.id }, format: :json
       response.status.should == 204
     end
 
     it "ends a current reservation" do
       reservation = create :reservation, user: @user, provisioned: true
       ReservationWorker.should_receive(:perform_async).with(reservation.id, "end")
-      delete :destroy, id: reservation.id, format: :json
+      delete :destroy, params: { id: reservation.id }, format: :json
       json = {
         reservation: {
           end_instantly: true
@@ -154,7 +154,7 @@ describe Api::ReservationsController do
         }.ignore_extra_keys!
       }.ignore_extra_keys!
 
-      post :idle_reset, :id => reservation.id, format: :json
+      post :idle_reset, params: { id: reservation.id }, format: :json
 
       response.status.should == 200
       expect(response.body).to match_json_expression(json)

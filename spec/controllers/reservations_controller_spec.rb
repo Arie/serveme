@@ -11,13 +11,13 @@ describe ReservationsController do
   describe '#show' do
 
     it "redirects to new_reservation_path when it cant find the reservation" do
-      get :show, :id => 'foo'
+      get :show, params: { id: 'foo' }
       response.should redirect_to(new_reservation_path)
     end
 
     it "shows any reservation for an admin" do
       reservation = create :reservation
-      get :show, :id => reservation.id
+      get :show, params: { id: reservation.id }
       assigns(:reservation).should == reservation
     end
 
@@ -41,7 +41,7 @@ describe ReservationsController do
       reservation = create :reservation, :user => @user
       reservation.update_attribute(:ends_at, 1.hour.ago)
 
-      put :update, :id => reservation.id
+      put :update, params: { id: reservation.id }
       response.should redirect_to(root_path)
     end
 
@@ -53,7 +53,7 @@ describe ReservationsController do
       reservation = create :reservation, :user => @user
       reservation.update_attribute(:inactive_minute_counter, 25)
 
-      post :idle_reset, :id => reservation.id
+      post :idle_reset, params: { id: reservation.id }
       reservation.reload.inactive_minute_counter.should == 0
     end
 
@@ -65,14 +65,14 @@ describe ReservationsController do
 
     it "returns a list of alternative servers for a reservation " do
       reservation = create :reservation, :user => @user
-      patch :find_servers_for_reservation, format: :json, id: reservation.id
+      patch :find_servers_for_reservation, format: :json, params: { id: reservation.id }
       response.body.should == {servers: Server.active.map { |s| {id: s.id, name: s.name, flag: s.location.flag, ip_and_port: "#{s.ip}:#{s.port}"} } }.to_json
     end
 
     it "doesnt return servers in use" do
       create :reservation
       reservation = create :reservation, :user => @user
-      patch :find_servers_for_reservation, format: :json, id: reservation.id
+      patch :find_servers_for_reservation, format: :json, params: { id: reservation.id }
       free_server = reservation.server
       response.body.should == {servers: [{id: free_server.id, name: free_server.name, flag: free_server.location.flag, ip_and_port: "#{free_server.ip}:#{free_server.port}"}] }.to_json
     end

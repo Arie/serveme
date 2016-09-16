@@ -44,7 +44,7 @@ describe DonatorsController do
     it "renders new again when I forgot to enter a donator" do
       @user.groups << Group.admin_group
 
-      post :create, :group_user => {:user_id => nil}
+      post :create, params: { group_user: { user_id:  nil} }
       response.should render_template(:new)
     end
 

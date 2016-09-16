@@ -16,19 +16,19 @@ describe LogUploadsController do
     describe '#new' do
 
       it "assigns the log_upload variable and links it to the reservation" do
-        get :new, :reservation_id => @reservation.id
+        get :new, params: { reservation_id: @reservation.id }
         assigns(:log_upload).reservation.should eql @reservation
       end
 
       it "finds the file from the params" do
         subject.stub(:logs => [{:file_name => 'foo.log'}])
-        get :new, :reservation_id => @reservation.id, :file_name => "foo.log"
+        get :new, params: { reservation_id: @reservation.id, file_name: "foo.log" }
         assigns(:log_upload).file_name.should eql 'foo.log'
       end
 
       it "sets the file to nil if it wasn't found" do
         subject.stub(:logs => [{:file_name => 'bar.log'}])
-        get :new, :reservation_id => @reservation.id, :file_name => "foo.log"
+        get :new, params: { reservation_id: @reservation.id, file_name: "foo.log" }
         assigns(:log_upload).file_name.should eql nil
       end
 
@@ -51,7 +51,7 @@ describe LogUploadsController do
           subject.should_receive(:find_log_file).with(anything).and_return({:file_name => 'foo.log'})
           @upload.should_receive(:upload)
           LogUpload.should_receive(:new).with(anything).and_return(@upload)
-          post :create, :reservation_id => @reservation.id, :log_upload => { :file_name => 'foo' }
+          post :create, params: { reservation_id: @reservation.id, log_upload: { file_name: 'foo' } }
         end
 
       end
@@ -62,7 +62,7 @@ describe LogUploadsController do
           @upload.should_receive(:save).and_return(false)
           @upload.should_not_receive(:upload)
           LogUpload.should_receive(:new).with(anything).and_return(@upload)
-          post :create, :reservation_id => @reservation.id, :log_upload => { :file_name => 'bar'}
+          post :create, params: { reservation_id: @reservation.id, log_upload: { file_name: 'bar'} }
         end
 
       end
@@ -74,7 +74,7 @@ describe LogUploadsController do
         logs = double
         subject.stub(:logs => logs)
 
-        get :index, :reservation_id => @reservation.id
+        get :index, params: { reservation_id: @reservation.id }
         assigns(:logs).should eql logs
       end
 
@@ -82,7 +82,7 @@ describe LogUploadsController do
         log_uploads = double
         subject.stub(:log_uploads => log_uploads)
 
-        get :index, :reservation_id => @reservation.id
+        get :index, params: { reservation_id: @reservation.id }
         assigns(:log_uploads).should eql log_uploads
       end
     end
@@ -93,7 +93,7 @@ describe LogUploadsController do
         log = double.as_null_object
         subject.stub(:logs => [{:file_name => 'foo.log', :file_name_and_path => 'bar.log'}])
         File.should_receive(:read).with('bar.log').and_return(log)
-        get :show_log, :reservation_id => @reservation.id, :file_name => 'foo.log'
+        get :show_log, params: { reservation_id: @reservation.id, file_name: 'foo.log' }
       end
 
     end
@@ -111,7 +111,7 @@ describe LogUploadsController do
     describe "#index" do
 
       it "shows me the logs even though it's not my reservation" do
-        get :index, :reservation_id => @reservation.id
+        get :index, params: { reservation_id: @reservation.id }
         response.should be_success
       end
 

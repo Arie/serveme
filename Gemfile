@@ -17,6 +17,7 @@ gem 'lograge'
 #Map uploads
 gem 'carrierwave'
 gem 'rbzip2', :github => 'koraktor/rbzip2'
+gem 'rubyzip'
 
 #Logdaemon
 gem 'tf2_line_parser'
@@ -86,16 +87,6 @@ group :test_tools do
   gem 'fuubar'
 end
 
-group :cucumber do
-  gem 'cucumber'
-  gem 'cucumber-rails', github: "olleolleolle/cucumber-rails", branch: "feature/rails-5-railtie"
-  gem 'database_cleaner'
-  gem 'launchy'
-  gem 'capybara'
-  gem 'selenium-webdriver'
-  #gem 'fuubar-cucumber'
-end
-
 group :production do
   gem "sentry-raven"
 end
@@ -109,6 +100,14 @@ group :test do
   gem 'delorean'
   gem 'json_expressions'
   gem 'rails-controller-testing'
+
+  #cucumber
+  gem 'cucumber'
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner'
+  gem 'launchy'
+  gem 'capybara'
+  gem 'selenium-webdriver'
 end
 
 gem 'uglifier'

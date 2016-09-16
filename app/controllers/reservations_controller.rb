@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class ReservationsController < ApplicationController
 
-  before_filter :require_admin, :only => :streaming
+  before_action :require_admin, :only => :streaming
   include ReservationsHelper
 
   def new

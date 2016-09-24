@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   has_many :player_statistics,   :primary_key => :uid, :foreign_key => :steam_uid
   has_many :vouchers,            :foreign_key => :created_by_id
   geocoded_by :current_sign_in_ip
-  before_save :geocode, :if => :current_sign_in_ip_changed?
+  before_save :geocode, :if => :current_sign_in_ip_changed_and_ipv4?
 
   def self.find_for_steam_auth(auth, signed_in_resource=nil)
     user = User.where(:provider => auth.provider, :uid => auth.uid).first
@@ -91,6 +91,10 @@ class User < ActiveRecord::Base
       group_server.server_id = server_id.to_i
       group_server.save!
     end
+  end
+
+  def current_sign_in_ip_changed_and_ipv4?
+    self[:current_sign_in_ip] && current_sign_in_ip_changed? && IPAddr.new(self[:current_sign_in_ip]).ipv4?
   end
 
 end

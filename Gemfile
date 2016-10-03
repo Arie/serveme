@@ -29,7 +29,7 @@ gem 'net-sftp'
 gem 'drape'
 gem 'will_paginate'
 gem 'zeroclipboard-rails'
-gem "google_visualr"
+gem "google_visualr", github: "Arie/google_visualr"
 gem 'rack-cache'
 gem 'paypal-sdk-rest'
 gem 'sidekiq'

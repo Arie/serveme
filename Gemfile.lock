@@ -93,7 +93,7 @@ GEM
     capistrano-harrow (0.5.3)
     capistrano-maintenance (1.0.0)
       capistrano (>= 3.0)
-    capistrano-rails (1.1.8)
+    capistrano-rails (1.2.0)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
     capistrano-rvm (0.1.2)
@@ -188,7 +188,7 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
     docile (1.1.5)
-    domain_name (0.5.20160826)
+    domain_name (0.5.20161021)
       unf (>= 0.0.5, < 1.0.0)
     draper (2.1.0)
       actionpack (>= 3.0)
@@ -290,7 +290,7 @@ GEM
       multi_json
       omniauth-openid
     orm_adapter (0.5.0)
-    paypal-sdk-rest (1.5.0)
+    paypal-sdk-rest (1.6.0)
       multi_json (~> 1.0)
       xml-simple
     pg (0.19.0)
@@ -399,7 +399,7 @@ GEM
       faraday (>= 0.7.6, < 0.10.x)
     shoulda-matchers (3.1.1)
       activesupport (>= 4.0.0)
-    sidekiq (4.2.3)
+    sidekiq (4.2.4)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
@@ -424,7 +424,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sshkit (1.11.3)
+    sshkit (1.11.4)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     term-ansicolor (1.4.0)
@@ -559,4 +559,4 @@ DEPENDENCIES
   zonebie
 
 BUNDLED WITH
-   1.13.2
+   1.13.6

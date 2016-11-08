@@ -27,6 +27,7 @@ class ReservationWorker
   def after_start_reservation_steps
     reservation.provisioned = true
     reservation.save(:validate => false)
+    UpdateSteamNicknameWorker.perform_async(reservation.user.uid)
   end
 
   def after_update_reservation_steps

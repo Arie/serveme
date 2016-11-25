@@ -131,7 +131,7 @@ GEM
     coffee-script (2.4.1)
       coffee-script-source
       execjs
-    coffee-script-source (1.10.0)
+    coffee-script-source (1.11.1)
     compass (1.0.3)
       chunky_png (~> 1.2)
       compass-core (~> 1.0.2)
@@ -220,7 +220,7 @@ GEM
     google_visualr (2.5.1)
     haml (4.0.7)
       tilt
-    hashdiff (0.3.0)
+    hashdiff (0.3.1)
     hashie (3.4.6)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
@@ -304,7 +304,7 @@ GEM
     pry-nav (0.2.4)
       pry (>= 0.9.10, < 0.11.0)
     public_suffix (2.0.4)
-    puma (3.6.1)
+    puma (3.6.2)
     rack (1.6.5)
     rack-cache (1.6.1)
       rack (>= 0.4)
@@ -439,7 +439,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.5)
-    tins (1.12.0)
+    tins (1.13.0)
     trollop (2.1.2)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)

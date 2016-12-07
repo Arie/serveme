@@ -3,8 +3,8 @@ class PagesController < ApplicationController
 
   skip_before_filter :authenticate_user!, :except => :recent_reservations
   skip_before_filter :block_users_with_expired_reservations
-  caches_action :credits, :statistics, :server_providers, :faq, :unless => :current_user, expires_in: 1.minute
-  caches_action :welcome, unless: :current_user, expires_in: 1.minute, cache_path: "welcome_#{Time.zone.to_s}"
+  caches_action :credits, :statistics, :server_providers, :faq, :if => :cacheable?, expires_in: 1.minute
+  caches_action :welcome, if: :cacheable?, expires_in: 1.minute, cache_path: "welcome_#{Time.zone.to_s}"
 
   def welcome
     @most_recently_updated_reservation_time = Reservation.maximum(:updated_at).to_i
@@ -51,5 +51,11 @@ class PagesController < ApplicationController
   def error
     Raven.capture_exception(env["action_dispatch.exception"]) if (Rails.env.production? && env["action_dispatch.exception"])
     render 'error', :status => 500
+  end
+
+  private
+
+  def cacheable?
+    !current_user && flash.empty?
   end
 end

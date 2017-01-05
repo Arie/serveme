@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 class PagesController < ApplicationController
-
-  skip_before_action :authenticate_user!, :except => :recent_reservations
+  skip_before_action :authenticate_user!, except: :recent_reservations
   skip_before_action :block_users_with_expired_reservations
 
   def welcome
@@ -16,7 +15,7 @@ class PagesController < ApplicationController
   end
 
   def recent_reservations
-    @recent_reservations = Reservation.order('starts_at DESC').joins(:server).paginate(:page => params[:page], :per_page => 50)
+    @recent_reservations = Reservation.order('starts_at DESC').joins(:server).paginate(page: params[:page], per_page: 50)
   end
 
   def statistics
@@ -34,20 +33,20 @@ class PagesController < ApplicationController
   end
 
   def switch_theme
-    if white_theme?
-      cookies.permanent[:theme] = "black"
-    else
-      cookies.permanent[:theme] = "white"
-    end
+    cookies.permanent[:theme] = if white_theme?
+                                  'black'
+                                else
+                                  'white'
+                                end
     redirect_to root_path
   end
 
   def not_found
-    render 'not_found', :status => 404
+    render 'not_found', status: 404
   end
 
   def error
-    Raven.capture_exception(env["action_dispatch.exception"]) if (Rails.env.production? && env["action_dispatch.exception"])
-    render 'error', :status => 500
+    Raven.capture_exception(env['action_dispatch.exception']) if Rails.env.production? && env['action_dispatch.exception']
+    render 'error', status: 500
   end
 end

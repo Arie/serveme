@@ -273,6 +273,7 @@ GEM
     net-sftp (2.1.2)
       net-ssh (>= 2.6.5)
     net-ssh (4.0.1)
+    netrc (0.11.0)
     nokogiri (1.7.0.1)
       mini_portile2 (~> 2.1.0)
     ntlm-http (0.1.1)
@@ -351,6 +352,10 @@ GEM
     request_store (1.3.2)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
+    rest-client (2.0.0)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
     rspec-activemodel-mocks (1.0.3)
       activemodel (>= 3.0)
       activesupport (>= 3.0)
@@ -427,6 +432,8 @@ GEM
     sshkit (1.11.5)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    stripe (1.58.0)
+      rest-client (>= 1.4, < 4.0)
     term-ansicolor (1.4.0)
       tins (~> 1.0)
     tf2_line_parser (0.1.6)
@@ -548,6 +555,7 @@ DEPENDENCIES
   simple_form
   sprockets
   steam-condenser!
+  stripe
   tf2_line_parser
   therubyracer
   uglifier
@@ -559,4 +567,4 @@ DEPENDENCIES
   zonebie
 
 BUNDLED WITH
-   1.13.6
+   1.14.2

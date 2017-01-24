@@ -1,0 +1,6 @@
+development: &default
+  api_key: api_key
+  publishable_key: publishable_key
+
+test:
+  <<: *default

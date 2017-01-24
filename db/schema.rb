@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160902141018) do
+ActiveRecord::Schema.define(version: 20170124165159) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 20160902141018) do
     t.datetime "updated_at"
   end
 
-  create_table "paypal_orders", force: :cascade do |t|
+  create_table "orders", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "product_id"
     t.string   "payment_id", limit: 191
@@ -91,12 +91,13 @@ ActiveRecord::Schema.define(version: 20160902141018) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "gift",                   default: false
+    t.string   "type",                   default: "paypal"
   end
 
-  add_index "paypal_orders", ["payer_id"], name: "index_paypal_orders_on_payer_id", using: :btree
-  add_index "paypal_orders", ["payment_id"], name: "index_paypal_orders_on_payment_id", using: :btree
-  add_index "paypal_orders", ["product_id"], name: "index_paypal_orders_on_product_id", using: :btree
-  add_index "paypal_orders", ["user_id"], name: "index_paypal_orders_on_user_id", using: :btree
+  add_index "orders", ["payer_id"], name: "index_orders_on_payer_id", using: :btree
+  add_index "orders", ["payment_id"], name: "index_orders_on_payment_id", using: :btree
+  add_index "orders", ["product_id"], name: "index_orders_on_product_id", using: :btree
+  add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
 
   create_table "player_statistics", force: :cascade do |t|
     t.integer  "ping"
@@ -295,7 +296,7 @@ ActiveRecord::Schema.define(version: 20160902141018) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "created_by_id"
-    t.integer  "paypal_order_id"
+    t.integer  "order_id"
   end
 
   add_index "vouchers", ["claimed_by_id"], name: "index_vouchers_on_claimed_by_id", using: :btree

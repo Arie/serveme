@@ -1,9 +1,32 @@
-= simple_form_for(@paypal_order) do |f|
-  .form-inline
-    = f.input :product_id, :collection => @products, :label_method => :list_name, :label => false, :include_blank => false
+- @products.each do |product|
+  .hidden{id: "product-#{product.id}", data: { product_id: product.id, currency: product.currency, price: product.price * 100 } }
+= simple_form_for(@order) do |f|
+  %a{class: "btn payment-method paypal", href: "#"}
+    PayPal
+  %a{class: "btn payment-method credit-card", href: "#"}
+    Credit Card
+  %a{class: "btn payment-method ideal", href: "#"}
+    iDeal
+  .form.credit-card
+    .input.number
+      %label Number
+      %input{type: "text", size: "20", data: { stripe: "number" } }
+    .input.expiration
+      %label Expiration month/year
+      %input{type: "text", size: "2",  data: { stripe: "exp_month" } }
+      %input{type: "text", size: "2",  data: { stripe: "exp_year" } }
+    .input.cvc
+      %label CVC
+      %input{type: "text", size: "4",  data: { stripe: "cvc" } }
+    .input.zipcode
+      %label Zipcode
+      %input{type: "text", size: "6",  data: { stripe: "address_zip" } }
 
-    %button.btn.btn-success{:type => :submit}
-      Buy with PayPal
+  .form-inline
+    = f.input :product_id, collection: @products, label_method: :list_name, label: false, include_blank: false
+
+    %button.btn.btn-success.submit{:type => :submit}
+      Buy
   .form-horizontal
 
     = f.input :gift, as: "radio_buttons", label: "I'm buying this...", collection: [["For me", false], ["For someone else", true]]

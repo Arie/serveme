@@ -3,6 +3,7 @@ class Order < ActiveRecord::Base
   belongs_to :product
   belongs_to :user
 
+  attr_accessor :source_type
   attr_accessible :product, :product_id, :payment_id, :payer_id, :status, :gift
   delegate :name, to: :product, allow_nil: true, prefix: true
 

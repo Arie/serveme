@@ -75,7 +75,7 @@ Serveme::Application.routes.draw do
 
   resources :servers, :only => :index
 
-  resources :paypal_orders, :only => [:new, :create, :index] do
+  resources :orders, :only => [:new, :create, :index] do
     collection do
       get :redirect
     end
@@ -100,7 +100,7 @@ Serveme::Application.routes.draw do
   end
 
   #Pretty URLs
-  get   '/donate',                        :to => "paypal_orders#new",         :as => "donate"
+  get   '/donate',                        :to => "orders#new",                :as => "donate"
   get   '/voucher(/:code)',               :to => "vouchers#new",              :as => "claim"
   get   '/statistics',                    :to => "pages#statistics",          :as => "statistics"
   get   '/faq',                           :to => "pages#faq",                 :as => "faq"

@@ -46,6 +46,8 @@ GEM
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
     actionview (5.0.1)
       activesupport (= 5.0.1)
+    actionpack-action_caching (1.2.0)
+      actionpack (>= 4.0.0, < 6)
       builder (~> 3.1)
       erubis (~> 2.7.0)
       rails-dom-testing (~> 2.0)

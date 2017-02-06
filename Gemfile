@@ -108,7 +108,6 @@ group :test do
   gem 'database_cleaner'
   gem 'launchy'
   gem 'capybara'
-  gem 'selenium-webdriver'
 end
 
 gem 'uglifier'

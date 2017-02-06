@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 20170124165159) do
     t.datetime "updated_at"
   end
 
-  create_table "orders", force: :cascade do |t|
+  create_table "paypal_orders", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "product_id"
     t.string   "payment_id", limit: 191
@@ -94,10 +94,10 @@ ActiveRecord::Schema.define(version: 20170124165159) do
     t.string   "type",                   default: "paypal"
   end
 
-  add_index "orders", ["payer_id"], name: "index_orders_on_payer_id", using: :btree
-  add_index "orders", ["payment_id"], name: "index_orders_on_payment_id", using: :btree
-  add_index "orders", ["product_id"], name: "index_orders_on_product_id", using: :btree
-  add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
+  add_index "paypal_orders", ["payer_id"], name: "index_paypal_orders_on_payer_id", using: :btree
+  add_index "paypal_orders", ["payment_id"], name: "index_paypal_orders_on_payment_id", using: :btree
+  add_index "paypal_orders", ["product_id"], name: "index_paypal_orders_on_product_id", using: :btree
+  add_index "paypal_orders", ["user_id"], name: "index_paypal_orders_on_user_id", using: :btree
 
   create_table "player_statistics", force: :cascade do |t|
     t.integer  "ping"

@@ -1,6 +1,6 @@
 development: &default
-  api_key: api_key
-  publishable_key: publishable_key
+  api_key: sk_test_CfNvnztTPeApQDW683o5MrbA
+  publishable_key: pk_test_xl6CNnx1VEcWsnJIoqPdWkRw
 
 test:
   <<: *default

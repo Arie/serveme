@@ -9,6 +9,10 @@ class Product < ActiveRecord::Base
     "#{name} - #{price.round.to_i} #{currency}"
   end
 
+  def price_in_cents
+    price.round * 100
+  end
+
   def self.active
     where(active: true)
   end

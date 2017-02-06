@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 class Order < ActiveRecord::Base
+  self.table_name = :paypal_orders
   belongs_to :product
   belongs_to :user
+  has_one :voucher
 
   attr_accessor :source_type
   attr_accessible :product, :product_id, :payment_id, :payer_id, :status, :gift
@@ -28,7 +30,8 @@ class Order < ActiveRecord::Base
   def self.monthly(now = Time.current)
     beginning_of_month = now.beginning_of_month
     end_of_month = now.end_of_month
-    where('orders.created_at > ? AND orders.created_at < ?', beginning_of_month, end_of_month)
+    where(arel_table[:created_at].gt(beginning_of_month)).
+      where(arel_table[:created_at].lt(end_of_month))
   end
 
   def self.leaderboard

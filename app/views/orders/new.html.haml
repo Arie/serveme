@@ -2,52 +2,78 @@
   = javascript_include_tag "https://js.stripe.com/v2/"
   = javascript_tag "if(window.Stripe) { Stripe.setPublishableKey('#{STRIPE_PUBLISHABLE_KEY}'); }"
 
-.row
-  .col-md-12
-    %h2 Get premium
+.stripe-result
+  .row
+    .col-md-8
+      .mine
+        %p.lead
+          Thanks for buying premium, it's been immediately activated, enjoy!
+      .gift
+        .voucher_code{data: { voucher_url: claim_url } }
+        %p.lead
+          Thanks for buying premium, because you've bought it for someone else, they need to activate it.
+        Send
+        = link_to "this link", claim_path, id: "voucher-claim-url"
+        to the person you want to give premium to
 
-    %p
-      Thanks for your interest in our premium service! As a premium user you help to keep this site running. These are the perks:
+.premium-page
+  .row
+    .col-md-12
+      %h2 Buy premium
 
-    = render "shared/perks"
+      %p
+        Thanks for your interest in our premium service! As a premium user you help to keep this site running and get some
+        = link_to "cool perks", "#perks"
+        in return!
 
-    %p
-      We use the money for the following things:
-      %ul
-        %li
-          Pay
-          = link_to("the server providers", server_providers_path)
-          their share, based on minutes played on their servers
-        %li Pay for the hosting of the site
-        %li Fund additional gameservers
-        %li
-          = link_to("Arie's", 'http://steamcommunity.com/id/ariekanarie', :target => "_blank")
-          Bugatti Veyron fund
+  .row
+    .col-md-12.order-form
+      = render 'form'
 
-    %p
-      Premium status is site-specific, so you either pay for serveme.tf or na.serveme.tf, make sure you're on the right site before paying.
-.row
-  .col-md-12
-    %p
-      You can also rent a private server. This gets you all the normal premium perks, but in addition to that you can pick any server and you'll be the only one that can use it. You can change which server is yours anytime you like.
-      Please note that you won't get FTP access to the private server and you'll have to 'book' the server like any other serveme server.
+  .row
+    .col-md-12
 
-.row
-  .col-md-12
-    = render 'form'
+      %p
+        What are the perks?
 
-.row
-  .col-md-12
-    &nbsp;
+      = render "shared/perks"
 
-.row
-  .col-md-12
-    %p
-      If you rent a private server, you can pick which one you want after buying on
-      = link_to "the settings page", settings_path
+      %p#perks
+        We use the money for the following things:
+        %ul
+          %li
+            Pay
+            = link_to("the server providers", server_providers_path)
+            their share, based on minutes played on their servers
+          %li Pay for the hosting of the site
+          %li Fund additional gameservers
+          %li
+            = link_to("Arie's", 'http://steamcommunity.com/id/ariekanarie', :target => "_blank")
+            Bugatti Veyron fund
 
-.row
-  .col-md-12
-    You can also
-    = link_to('send me a TF2 trade offer.', 'http://steamcommunity.com/tradeoffer/new/?partner=231702&token=a3jCFRBO')
-    The current rate is 1 key per month, but you can also send some items just to say thanks.
+      %p
+        Premium status is site-specific, so you either pay for serveme.tf or na.serveme.tf, make sure you're on the right site before paying.
+  .row
+    .col-md-12
+      %p
+        You can also rent a private server. This gets you all the normal premium perks, but in addition to that you can pick any server and you'll be the only one that can use it. You can change which server is yours anytime you like.
+        Please note that you won't get FTP access to the private server and you'll have to 'book' the server like any other serveme server.
+
+  .row.stripe-result
+    .col-md-12
+
+  .row
+    .col-md-12
+      &nbsp;
+
+  .row
+    .col-md-12
+      %p
+        If you rent a private server, you can pick which one you want after buying on
+        = link_to "the settings page", settings_path
+
+  .row.final
+    .col-md-12
+      You can also
+      = link_to('send me a TF2 trade offer.', 'http://steamcommunity.com/tradeoffer/new/?partner=231702&token=a3jCFRBO')
+      The current rate is 1 key per month, but you can also send some items just to say thanks.

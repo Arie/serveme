@@ -78,6 +78,7 @@ Serveme::Application.routes.draw do
   resources :orders, :only => [:new, :create, :index] do
     collection do
       get :redirect
+      post :stripe
     end
   end
 

@@ -7,6 +7,7 @@ gem 'protected_attributes'
 gem "actionpack-action_caching"
 gem 'puma'
 gem 'omniauth-openid'
+gem 'hashie'
 gem 'omniauth-steam'
 gem 'devise'
 gem 'steam-condenser', :git => 'https://github.com/koraktor/steam-condenser-ruby'

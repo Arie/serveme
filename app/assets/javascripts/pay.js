@@ -52,6 +52,7 @@ jQuery(function($) {
 
   function stripeResponseHandler(status, response) {
     if (status === 200) {
+      console.log(gift());
       postOrder(response.id, productId(), gift());
     } else {
       stripeFailed(response);
@@ -101,7 +102,7 @@ jQuery(function($) {
     return $("#order_product_id").val();
   }
   function gift() {
-    return $("#order_gift_true").val();
+    return $("#order_gift_true").is(':checked');
   }
   function amount() {
     return $("#product-" + productId()).data("price");

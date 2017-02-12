@@ -33,6 +33,17 @@ describe ReservationsController do
       response.should redirect_to root_path
     end
 
+    it "makes up an rcon if this is my first reservation" do
+      get :new
+      assigns(:reservation).rcon.should_not be_nil
+    end
+
+    it "forces a new rcon if my previous rcon was poor" do
+      create :reservation, user: @user, rcon: "foo", starts_at: 10.minutes.ago, ended: true
+      get :new
+      assigns(:reservation).rcon.should_not == "foo"
+    end
+
   end
 
   describe "#update" do

@@ -213,6 +213,14 @@ class Reservation < ActiveRecord::Base
     return "waiting_to_start" if status_messages.include?("Waiting to start")
   end
 
+  def poor_rcon_password?
+    rcon.nil? || rcon.size < 8
+  end
+
+  def generate_rcon_password!
+    self.rcon = FriendlyPasswordGenerator.generate
+  end
+
   private
 
   def reservation_manager

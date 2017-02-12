@@ -35,6 +35,7 @@ gem 'zeroclipboard-rails'
 gem "google_visualr"
 gem 'rack-cache'
 gem 'paypal-sdk-rest'
+gem 'stripe'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'geoip'
@@ -108,7 +109,6 @@ group :test do
   gem 'database_cleaner'
   gem 'launchy'
   gem 'capybara'
-  gem 'selenium-webdriver'
 end
 
 gem 'uglifier'

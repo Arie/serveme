@@ -1,61 +1,85 @@
 # frozen_string_literal: true
-class PaypalOrder < ActiveRecord::Base
-  include PaypalPayment
-
-  belongs_to :product
-  belongs_to :user
-
-  attr_accessible :product, :product_id, :payment_id, :payer_id, :status, :gift
-  delegate :name, :to => :product, :allow_nil => true, :prefix => true
-
-  validates_presence_of :user_id, :product_id
+class PaypalOrder < Order
+  include PayPal::SDK::REST
 
   def complete_payment!
-    update_attributes(:status => "Completed")
+    update_attributes(status: 'Completed')
     if gift?
-      GeneratePaypalVoucher.new(self).perform
+      GenerateOrderVoucher.new(self).perform
     else
       GrantPerks.new(product, user).perform
     end
     announce_donator
   end
 
-  def announce_donator
-    AnnounceDonatorWorker.perform_async(self.id)
-  end
+  def prepare
+    set_redirect_urls
+    add_transaction
+    if payment.create
+      update_attributes(status: 'Redirected', payment_id: payment.id)
 
-  def self.monthly_total(now = Time.current)
-    completed.monthly(now).joins(:product).sum('products.price')
-  end
-
-  def self.completed
-    where(:status => "Completed")
-  end
-
-  def self.monthly_goal_percentage(now = Time.current)
-    (monthly_total(now) / monthly_goal) * 100.0
-  end
-
-  def self.monthly(now = Time.current)
-    beginning_of_month = now.beginning_of_month
-    end_of_month = now.end_of_month
-    where('paypal_orders.created_at > ? AND paypal_orders.created_at < ?', beginning_of_month, end_of_month)
-  end
-
-  def self.leaderboard
-    completed.group(:user).joins(:user).joins(:product).sum('products.price').sort_by do |user, amount|
-      amount
-    end.reverse
-  end
-
-  def self.monthly_goal(site_host = SITE_HOST)
-    if site_host == "serveme.tf"
-      300.0
-    elsif site_host == "na.serveme.tf"
-      175.0
     else
-      50.0
+      Raven.capture_exception(payment.error) if Rails.env.production?
+      false
     end
   end
 
+  def charge(payer_id, payment_class = Payment)
+    payment = payment_class.find(payment_id)
+    if payment.execute(payer_id: payer_id)
+      complete_payment!
+    else
+      update_attributes(status: 'Failed')
+      false
+    end
+  end
+
+  def set_redirect_urls
+    payment.redirect_urls = RedirectUrls.new(
+      return_url: "#{SITE_URL}/paypal_orders/redirect/?order_id=#{id}",
+      cancel_url: "#{SITE_URL}/paypal_orders/new"
+    )
+  end
+
+  def checkout_url
+    @checkout_url ||= payment.links.find { |v| v.method == 'REDIRECT' }.href
+  end
+
+  def payment
+    @payment ||= Payment.new(intent: 'sale',
+                             payer: {
+                               payment_method: 'paypal'
+                             })
+  end
+
+  def amount
+    Amount.new(currency: product.currency,
+               total: format_price(product.price))
+  end
+
+  def add_transaction
+    payment.transactions = [
+      Transaction.new(amount: amount,
+                      item_list: item_list)
+    ]
+  end
+
+  def item_list
+    ItemList.new(items: items)
+  end
+
+  def items
+    [
+      Item.new(name: "#{SITE_HOST} - #{product.name}",
+               price: format_price(product.price),
+               quantity: 1,
+               currency: product.currency)
+    ]
+  end
+
+  private
+
+  def format_price(price)
+    sprintf('%.2f' % price.round(2))
+  end
 end

@@ -4,28 +4,29 @@ class User < ActiveRecord::Base
 
   attr_accessible :uid, :nickname, :name, :provider, :logs_tf_api_key, :time_zone
 
-  has_many :log_uploads, :through => :reservations
+  has_many :log_uploads, through: :reservations
   has_many :reservations
-  has_many :group_users, -> { where("group_users.expires_at IS NULL OR group_users.expires_at > ?", Time.current)}
-  has_many :groups,   :through => :group_users
-  has_many :servers,  :through => :groups
+  has_many :group_users, -> { where('group_users.expires_at IS NULL OR group_users.expires_at > ?', Time.current) }
+  has_many :groups,   through: :group_users
+  has_many :servers,  through: :groups
+  has_many :orders
   has_many :paypal_orders
-  has_many :reservation_players, :primary_key => :uid, :foreign_key => :steam_uid
-  has_many :player_statistics,   :primary_key => :uid, :foreign_key => :steam_uid
-  has_many :vouchers,            :foreign_key => :created_by_id
+  has_many :stripe_orders
+  has_many :reservation_players, primary_key: :uid, foreign_key: :steam_uid
+  has_many :player_statistics,   primary_key: :uid, foreign_key: :steam_uid
+  has_many :vouchers,            foreign_key: :created_by_id
   geocoded_by :current_sign_in_ip
-  before_save :geocode, :if => :current_sign_in_ip_changed_and_ipv4?
+  before_save :geocode, if: :current_sign_in_ip_changed_and_ipv4?
 
-  def self.find_for_steam_auth(auth, signed_in_resource=nil)
-    user = User.where(:provider => auth.provider, :uid => auth.uid).first
+  def self.find_for_steam_auth(auth, _signed_in_resource = nil)
+    user = User.where(provider: auth.provider, uid: auth.uid).first
     if user
-      user.update_attributes(:name => auth.info.name, :nickname => auth.info.nickname)
+      user.update_attributes(name: auth.info.name, nickname: auth.info.nickname)
     else
-      user = User.create(  name:      auth.info.name,
-                           nickname:  auth.info.nickname,
-                           provider:  auth.provider,
-                           uid:       auth.uid
-                         )
+      user = User.create(name:      auth.info.name,
+                         nickname:  auth.info.nickname,
+                         provider:  auth.provider,
+                         uid:       auth.uid)
     end
     user
   end
@@ -65,7 +66,7 @@ class User < ActiveRecord::Base
   end
 
   def top10?
-    Statistic.top_10_users.has_key?(self)
+    Statistic.top_10_users.key?(self)
   end
 
   def donator_until
@@ -86,7 +87,7 @@ class User < ActiveRecord::Base
   end
 
   def private_server_id=(server_id)
-    if server_id.to_i > 0
+    if server_id.to_i.positive?
       group_server = Group.private_user(self).group_servers.first_or_initialize
       group_server.server_id = server_id.to_i
       group_server.save!
@@ -96,5 +97,4 @@ class User < ActiveRecord::Base
   def current_sign_in_ip_changed_and_ipv4?
     self[:current_sign_in_ip] && current_sign_in_ip_changed? && IPAddr.new(self[:current_sign_in_ip]).ipv4?
   end
-
 end

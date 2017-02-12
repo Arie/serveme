@@ -1,0 +1,55 @@
+@import card-js
+
+form.paypal-button
+  display: inline-block
+  margin-bottom: 0px
+.paypal
+  margin-bottom: 20px
+
+button.payment-method
+  &.selected
+    color: gold
+
+form#new_order
+  #order_product_id
+    margin-top: 20px
+    width: 350px
+
+.form.credit-card
+  padding: 20px 0px 0px 0px
+  label
+    width: 150px
+  label, input
+    display: inline-block
+  .input
+    display: block
+
+  a.btn.payment-method
+    &:active, &:hover, &:focus
+      background-color: gold
+
+.stripe-error
+  margin-top: 5px
+  color: red
+
+.stripe-logo
+  padding-top: 15px
+  padding-left: 110px
+
+.stripe-result
+  display: none
+  .gift, .mine, .voucher_code
+    display: none
+
+.row.final, .row.submit-row
+  padding-bottom: 50px
+
+.submit-row
+  text-align: center
+
+.order-form
+  .btn-group
+    margin-top: 15px
+  .well
+    .title
+      font-weight: bold

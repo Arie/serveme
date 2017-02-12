@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PaypalOrdersController do
+describe OrdersController do
 
   before do
     @user = create :user
@@ -16,7 +16,7 @@ describe PaypalOrdersController do
       expect(paypal_order).to receive(:prepare).and_return(false)
       subject.stub(:paypal_order => paypal_order)
 
-      post :create, { :paypal_order => {:product_id => 1} }
+      post :create, { :order => {:product_id => 1} }
       expect(response).to render_template(:new)
     end
   end

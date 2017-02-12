@@ -133,7 +133,9 @@ jQuery(function($) {
     }
   }
 
-  togglePluginsAndDemosTf(enableDemosTf());
+  if (enableDemosTf().size > 0) {
+    togglePluginsAndDemosTf(enableDemosTf());
+  }
 
   $("#reservation_starts_at").change(function() {
     findFreeServers();

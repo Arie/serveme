@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(version: 20170124165159) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "gift",                   default: false
-    t.string   "type",                   default: "paypal"
+    t.string   "type",                   default: "PaypalOrder"
   end
 
   add_index "paypal_orders", ["payer_id"], name: "index_paypal_orders_on_payer_id", using: :btree

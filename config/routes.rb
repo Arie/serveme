@@ -89,7 +89,8 @@ Serveme::Application.routes.draw do
   end
 
   namespace :api do
-    resources :users, :only => :show
+    resources :users, only: :show
+    resources :servers, only: :index
     resources :reservations do
       member do
         post :idle_reset

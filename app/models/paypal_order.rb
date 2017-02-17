@@ -36,8 +36,8 @@ class PaypalOrder < Order
 
   def set_redirect_urls
     payment.redirect_urls = RedirectUrls.new(
-      return_url: "#{SITE_URL}/paypal_orders/redirect/?order_id=#{id}",
-      cancel_url: "#{SITE_URL}/paypal_orders/new"
+      return_url: "#{SITE_URL}/orders/redirect/?order_id=#{id}",
+      cancel_url: "#{SITE_URL}/orders/new"
     )
   end
 

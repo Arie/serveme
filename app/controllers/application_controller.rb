@@ -47,11 +47,16 @@ class ApplicationController < ActionController::Base
   helper_method :white_theme?
 
   def current_admin
-    @current_admin ||=  begin
+    if @current_admin.nil?
+      @current_admin =  begin
                           if current_user && current_user.admin?
                             current_user
+                          else
+                            false
                           end
                         end
+    end
+    @current_admin
   end
   helper_method :current_admin
 

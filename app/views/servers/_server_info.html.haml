@@ -14,7 +14,7 @@
       %td= "#{server_info.traffic_in} KB/s"
       %td= "#{server_info.traffic_out} KB/s"
       %td= "#{server_info.uptime} minutes"
-      - if server.current_reservation
+      - if server.current_reservations.any?
         %td
           = "#{server.inactive_minutes} minutes"
           - if admin

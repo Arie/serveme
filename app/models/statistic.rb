@@ -3,7 +3,7 @@ class Statistic
 
   def self.top_10_users
     top_10_user_id_count_hash = Reservation.joins(:user).order("count_all DESC").limit(10).group("users.id").count
-    top_10_users              = User.where(:id => top_10_user_id_count_hash.keys).to_a
+    top_10_users              = User.where(:id => top_10_user_id_count_hash.keys).includes(:groups).to_a
     top_10_hash         = {}
     top_10_user_id_count_hash.map do |user_id, count|
       user = top_10_users.find { |u| u.id == user_id.to_i }

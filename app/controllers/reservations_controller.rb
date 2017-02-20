@@ -45,7 +45,7 @@ class ReservationsController < ApplicationController
   end
 
   def played_in
-    @users_games = Reservation.played_in(current_user.uid)
+    @users_games = Reservation.includes(:user, server: :location).played_in(current_user.uid)
   end
 
   def edit

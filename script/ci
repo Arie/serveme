@@ -12,7 +12,7 @@ echo "--- Starting continuous integration build"
 
 echo "--- Migrate the database from scratch"
 
-run rake db:migrate:reset
+run rake db:environment:set db:migrate
 
 if [[ -d coverage ]]; then
   echo "Removing old coverage report"

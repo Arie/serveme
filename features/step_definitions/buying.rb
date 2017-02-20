@@ -6,6 +6,16 @@ When "I buy 1 month worth of donator status" do
   step "I click the buy button"
 end
 
+When "I buy 1 month worth of donator status with Stripe" do
+  step "I go to donate"
+  click_button "Credit Card"
+  fill_in "card-number", with: "4242 4242 4242 4242"
+  fill_in "expiry", with: "10/18"
+  fill_in "cvc", with: "123"
+  select "1 month - 1 EUR"
+  step "I click the buy button"
+end
+
 When "I buy 1 year worth of donator status" do
   step "I go to donate"
   select "1 year - 9 EUR"
@@ -40,7 +50,7 @@ end
 
 When "I click the buy button" do
   begin
-    click_button "Buy with PayPal"
+    page.find("button.submit").click
   rescue ActionController::RoutingError
   end
 
@@ -57,7 +67,7 @@ Then "my donator status lasts for a year" do
 end
 
 When "I go to donate" do
-  visit new_paypal_order_path
+  visit new_order_path
 end
 
 When "my PayPal payment was successful" do

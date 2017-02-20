@@ -1,15 +1,15 @@
 # frozen_string_literal: true
-class PaypalOrdersController < ApplicationController
+class OrdersController < ApplicationController
 
   skip_before_action :block_users_with_expired_reservations
 
   def new
     @products = Product.active.ordered
-    @paypal_order = PaypalOrder.new(gift: params[:gift], product: Product.find_by_name("1 year"))
+    @order = Order.new(gift: params[:gift], product: Product.find_by_name("1 year"))
   end
 
   def create
-    order_params = params.require(:paypal_order).permit([:product_id, :gift])
+    order_params = params.require(:order).permit([:product_id, :gift])
     paypal_order.product_id = order_params[:product_id].to_i
     paypal_order.gift       = order_params[:gift]
     if paypal_order.save && paypal_order.prepare
@@ -32,6 +32,22 @@ class PaypalOrdersController < ApplicationController
     else
       flash[:alert] = "Something went wrong while trying to activate your donator status, please check if you have sufficient funds in your PayPal account"
       redirect_to root_path
+    end
+  end
+
+  def stripe
+    if params[:stripe_id] && params[:product_id] && params[:gift]
+      order = current_user.stripe_orders.build
+      order.payer_id = params[:stripe_id]
+      order.product = Product.active.find(params[:product_id].to_i)
+      order.gift = (params[:gift] == "true")
+      order.save!
+      charge = order.charge
+      if charge == "succeeded"
+        render text: { charge_status: charge, product_name: order.product_name, gift: order.gift, voucher: order.voucher.try(:code) }.to_json
+      else
+        render text: { charge_status: charge }.to_json, status: 402
+      end
     end
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160902141018) do
+ActiveRecord::Schema.define(version: 20170124165159) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 20160902141018) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "gift",                   default: false
+    t.string   "type",                   default: "PaypalOrder"
   end
 
   add_index "paypal_orders", ["payer_id"], name: "index_paypal_orders_on_payer_id", using: :btree
@@ -295,7 +296,7 @@ ActiveRecord::Schema.define(version: 20160902141018) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "created_by_id"
-    t.integer  "paypal_order_id"
+    t.integer  "order_id"
   end
 
   add_index "vouchers", ["claimed_by_id"], name: "index_vouchers_on_claimed_by_id", using: :btree

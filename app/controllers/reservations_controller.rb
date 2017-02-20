@@ -10,6 +10,9 @@ class ReservationsController < ApplicationController
       redirect_to root_path
     end
     @reservation ||= new_reservation
+    if @reservation.poor_rcon_password?
+      @reservation.generate_rcon_password!
+    end
   end
 
   def create

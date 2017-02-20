@@ -33,6 +33,17 @@ describe ReservationsController do
       response.should redirect_to root_path
     end
 
+    it "makes up an rcon if this is my first reservation" do
+      get :new
+      assigns(:reservation).rcon.should_not be_nil
+    end
+
+    it "forces a new rcon if my previous rcon was poor" do
+      create :reservation, user: @user, rcon: "foo", starts_at: 10.minutes.ago, ended: true
+      get :new
+      assigns(:reservation).rcon.should_not == "foo"
+    end
+
   end
 
   describe "#update" do
@@ -66,7 +77,7 @@ describe ReservationsController do
     it "returns a list of alternative servers for a reservation " do
       reservation = create :reservation, :user => @user
       patch :find_servers_for_reservation, format: :json, params: { id: reservation.id }
-      response.body.should == {servers: Server.active.map { |s| {id: s.id, name: s.name, flag: s.location.flag, ip_and_port: "#{s.ip}:#{s.port}"} } }.to_json
+      response.body.should == {servers: Server.active.map { |s| {id: s.id, name: s.name, flag: s.location.flag, ip: s.ip, port: s.port, ip_and_port: "#{s.ip}:#{s.port}", latitude: s.latitude, longitude: s.longitude} } }.to_json
     end
 
     it "doesnt return servers in use" do
@@ -74,7 +85,7 @@ describe ReservationsController do
       reservation = create :reservation, :user => @user
       patch :find_servers_for_reservation, format: :json, params: { id: reservation.id }
       free_server = reservation.server
-      response.body.should == {servers: [{id: free_server.id, name: free_server.name, flag: free_server.location.flag, ip_and_port: "#{free_server.ip}:#{free_server.port}"}] }.to_json
+      response.body.should == {servers: [{id: free_server.id, name: free_server.name, flag: free_server.location.flag, ip: free_server.ip, port: free_server.port, ip_and_port: "#{free_server.ip}:#{free_server.port}", latitude: free_server.latitude, longitude: free_server.longitude}] }.to_json
     end
 
   end

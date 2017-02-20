@@ -5,6 +5,7 @@ gem 'sprockets'
 gem 'haml'
 gem 'puma'
 gem 'omniauth-openid'
+gem 'hashie'
 gem 'omniauth-steam'
 gem 'devise'
 gem 'steam-condenser', :git => 'https://github.com/koraktor/steam-condenser-ruby'
@@ -29,9 +30,10 @@ gem 'net-sftp'
 gem 'drape'
 gem 'will_paginate'
 gem 'zeroclipboard-rails'
-gem "google_visualr", github: "Arie/google_visualr"
+gem "google_visualr", git: "https://github.com/Arie/google_visualr.git"
 gem 'rack-cache'
 gem 'paypal-sdk-rest'
+gem 'stripe'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'geoip'
@@ -106,7 +108,6 @@ group :test do
   gem 'database_cleaner'
   gem 'launchy'
   gem 'capybara'
-  gem 'selenium-webdriver'
 end
 
 gem 'uglifier'

@@ -28,7 +28,7 @@
   Your vouchers
   = link_to "Buy", donate_path(gift: true), class: "btn btn-success"
 
-- if current_user.vouchers.any?
+- if @vouchers.any?
 
   %table.table.table-condensed
     %thead
@@ -39,7 +39,7 @@
         %th Claimed
         %th Claimed by
 
-    - current_user.vouchers.each do |voucher|
+    - @vouchers.each do |voucher|
       %tr
         %td
           = link_to voucher.hyphenate, claim_path(code: voucher.hyphenate)

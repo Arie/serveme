@@ -6,7 +6,7 @@ class ServersController < ApplicationController
 
   def index
     SteamCondenser::Servers::Sockets::BaseSocket.timeout = 500
-    @servers = Server.active.order(:name)
+    @servers = Server.active.includes([current_reservations: { :user => :groups } ], :location).order(:name)
   end
 
 end

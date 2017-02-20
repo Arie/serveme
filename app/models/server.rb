@@ -6,6 +6,7 @@ class Server < ActiveRecord::Base
   has_many :groups, :through => :group_servers
   has_many :group_servers
   has_many :reservations
+  has_many :current_reservations, -> { where("reservations.starts_at <= ? AND reservations.ends_at >=?", Time.current, Time.current) }, class_name: "Reservation"
   has_many :ratings, :through => :reservations
   belongs_to :location
 
@@ -136,7 +137,7 @@ class Server < ActiveRecord::Base
   end
 
   def current_reservation
-    reservations.current.first
+    current_reservations.first
   end
 
   def inactive_minutes

@@ -9,8 +9,8 @@ class PagesController < ApplicationController
   def welcome
     @most_recently_updated_reservation_time = Reservation.maximum(:updated_at).to_i
     if current_user
-      @users_reservations = current_user.reservations.ordered.first(5)
-      @users_games        = Reservation.played_in(current_user.uid).limit(5)
+      @users_reservations = current_user.reservations.includes(user: :groups, server: :location).ordered.first(5)
+      @users_games        = Reservation.played_in(current_user.uid).includes(user: :groups, server: :location).limit(5)
     end
   end
 
@@ -18,7 +18,7 @@ class PagesController < ApplicationController
   end
 
   def recent_reservations
-    @recent_reservations = Reservation.order('starts_at DESC').joins(:server).paginate(:page => params[:page], :per_page => 50)
+    @recent_reservations = Reservation.order('starts_at DESC').includes(user: :groups, server: :location).paginate(:page => params[:page], :per_page => 50)
   end
 
   def statistics

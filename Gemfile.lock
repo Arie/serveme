@@ -445,7 +445,7 @@ GEM
     vcr (3.0.3)
     warden (1.2.7)
       rack (>= 1.0)
-    webmock (1.24.6)
+    webmock (2.3.2)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
@@ -548,7 +548,7 @@ DEPENDENCIES
   therubyracer
   uglifier
   vcr
-  webmock (~> 1.0)
+  webmock
   will_paginate
   will_paginate-bootstrap
   zeroclipboard-rails

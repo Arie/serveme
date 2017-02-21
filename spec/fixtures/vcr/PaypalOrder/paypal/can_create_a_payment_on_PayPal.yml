@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://foo:bar@api.sandbox.paypal.com/v1/oauth2/token
+    uri: https://api.sandbox.paypal.com/v1/oauth2/token
     body:
       encoding: US-ASCII
       string: grant_type=client_credentials

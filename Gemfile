@@ -97,7 +97,7 @@ group :test do
   gem "minitest"
   gem 'shoulda-matchers'
   gem 'vcr'
-  gem 'webmock', "~> 1.0"
+  gem 'webmock'
   gem 'delorean'
   gem 'json_expressions'
   gem 'rails-controller-testing'

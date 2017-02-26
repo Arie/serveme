@@ -62,6 +62,11 @@ FactoryGirl.define do
     association :user
   end
 
+  factory :stripe_order do
+    association :product
+    association :user
+  end
+
   factory :server_notification do
     message "This is the notification"
     notification_type 'public'

@@ -16,13 +16,7 @@ class StripeOrder < Order
         }
       )
       if stripe_charge.status == "succeeded"
-        update_attributes(status: 'Completed')
-        if gift?
-          GenerateOrderVoucher.new(self).perform
-        else
-          GrantPerks.new(product, user).perform
-        end
-        announce_donator
+        handle_successful_payment!
       end
       stripe_charge.status
     rescue Stripe::CardError => e

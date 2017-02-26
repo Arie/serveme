@@ -2,16 +2,6 @@
 class PaypalOrder < Order
   include PayPal::SDK::REST
 
-  def complete_payment!
-    update_attributes(status: 'Completed')
-    if gift?
-      GenerateOrderVoucher.new(self).perform
-    else
-      GrantPerks.new(product, user).perform
-    end
-    announce_donator
-  end
-
   def prepare
     set_redirect_urls
     add_transaction
@@ -27,7 +17,7 @@ class PaypalOrder < Order
   def charge(payer_id, payment_class = Payment)
     payment = payment_class.find(payment_id)
     if payment.execute(payer_id: payer_id)
-      complete_payment!
+      handle_successful_payment!
     else
       update_attributes(status: 'Failed')
       false

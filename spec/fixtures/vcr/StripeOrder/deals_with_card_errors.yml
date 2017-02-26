@@ -1,0 +1,63 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/charges
+    body:
+      encoding: UTF-8
+      string: capture=true&amount=900&currency=EUR&description=http%3A%2F%2Flocalhost%3A3000+-+1+year&source=src_here&metadata[site_url]=http%3A%2F%2Flocalhost%3A3000&metadata[order_id]=13&metadata[steam_uid]=123456789&metadata[product_name]=1+year
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/2.0.1
+      Authorization:
+      - Bearer sk_test_
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"2.0.1","lang":"ruby","lang_version":"2.3.3 p222 (2016-11-21)","platform":"x86_64-darwin15","engine":"ruby","publisher":"stripe","uname":"Darwin
+        foobar 15.6.0 Darwin Kernel Version 15.6.0: Mon Aug 29
+        20:21:34 PDT 2016; root:xnu-3248.60.11~1/RELEASE_X86_64 x86_64","hostname":"foobar"}'
+  response:
+    status:
+      code: 402
+      message: 
+    headers:
+      server:
+      - nginx
+      date:
+      - Sun, 26 Feb 2017 15:09:36 GMT
+      content-type:
+      - application/json
+      content-length:
+      - '201'
+      connection:
+      - keep-alive
+      access-control-allow-credentials:
+      - 'true'
+      access-control-allow-methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      access-control-allow-origin:
+      - "*"
+      access-control-max-age:
+      - '300'
+      cache-control:
+      - no-cache, no-store
+      request-id:
+      - req_here
+      stripe-version:
+      - '2017-01-27'
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "error": {
+            "message": "Your card was declined.",
+            "type": "card_error",
+            "code": "card_declined",
+            "decline_code": "generic_decline",
+            "charge": "ch_here"
+          }
+        }
+    http_version: 
+  recorded_at: Sun, 26 Feb 2017 15:09:36 GMT
+recorded_with: VCR 3.0.3

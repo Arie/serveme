@@ -72,7 +72,7 @@ end
 
 When "my PayPal payment was successful" do
   AnnounceDonatorWorker.should_receive(:perform_async)
-  @current_user.paypal_orders.last.complete_payment!
+  @current_user.paypal_orders.last.handle_successful_payment!
 end
 
 Given "there are products" do

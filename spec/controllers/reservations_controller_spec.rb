@@ -130,4 +130,29 @@ describe ReservationsController do
 
   end
 
+  describe "#streaming" do
+
+    before do
+      @user.groups << Group.admin_group
+    end
+
+    it "shows the streaming log file for the reservation" do
+      reservation = create :reservation
+
+      expect(File).to receive(:open).with(Rails.root.join("log", "streaming", "#{reservation.logsecret}.log"))
+      get :streaming, id: reservation.id
+    end
+  end
+
+  describe "#status" do
+
+    render_views
+
+    it "returns the reservation status in json" do
+      reservation = create :reservation
+      get :status, id: reservation.id, format: :json
+      expect(response.body).to include "waiting_to_start"
+    end
+  end
+
 end

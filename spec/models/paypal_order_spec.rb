@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe PaypalOrder do
 
-  describe '#complete_payment!' do
+  describe '#handle_successful_payment!' do
 
     let(:order) { create(:paypal_order) }
 
     it "sets the status to completed" do
-      order.complete_payment!
+      order.handle_successful_payment!
       order.status.should == "Completed"
     end
 
@@ -58,7 +58,7 @@ describe PaypalOrder do
       it "complete the payment when it was able to charge paypal" do
         payment.should_receive(:execute).with(:payer_id => "payer_id").and_return(true)
 
-        order.should_receive(:complete_payment!)
+        order.should_receive(:handle_successful_payment!)
         order.charge("payer_id", payment_class)
       end
 

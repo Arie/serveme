@@ -11,6 +11,16 @@ class Order < ActiveRecord::Base
 
   validates_presence_of :user_id, :product_id
 
+  def handle_successful_payment!
+    update_attributes(status: 'Completed')
+    if gift?
+      GenerateOrderVoucher.new(self).perform
+    else
+      GrantPerks.new(product, user).perform
+    end
+    announce_donator
+  end
+
   def announce_donator
     AnnounceDonatorWorker.perform_async(user.nickname, product_name)
   end

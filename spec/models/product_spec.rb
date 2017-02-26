@@ -18,7 +18,7 @@ describe Product do
 
     it "returns only active products" do
       active    = create :product, :active => true
-      inactive  = create :product, :active => false
+      _inactive  = create :product, :active => false
       Product.active.should == [active]
     end
 
@@ -32,6 +32,14 @@ describe Product do
       first   = create :product, :price => 5
 
       Product.ordered.should == [first, middle, last]
+    end
+  end
+
+  describe "#price_in_cents" do
+
+    it "returns the price in cents for Stripe" do
+      product = build :product, price: 10
+      expect(product.price_in_cents).to eql(1000)
     end
   end
 

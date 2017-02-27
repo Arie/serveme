@@ -223,7 +223,7 @@ class Reservation < ActiveRecord::Base
 
   def whitelist_ip
     return user.reservation_players.last.ip if user.reservation_players.any?
-    return user.current_sign_in_ip if IPAddr.new(user.current_sign_in_ip).ipv4?
+    return user.current_sign_in_ip if user.current_sign_in_ip && IPAddr.new(user.current_sign_in_ip).ipv4?
     SITE_HOST
   end
 

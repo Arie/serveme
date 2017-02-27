@@ -22,7 +22,10 @@
         = render "reservations/actions", reservation: reservation
   - else
     - if reservation
-      %td{colspan: 7} N/A
+      %td{colspan: 6} N/A
+      %td
+        - if admin
+          = render "reservations/actions", reservation: reservation
     - else
       %td{colspan: 7} Idle
 

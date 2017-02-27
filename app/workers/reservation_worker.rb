@@ -8,11 +8,10 @@ class ReservationWorker
 
   def perform(reservation_id, action)
     @reservation_id = reservation_id
+    @reservation = Reservation.includes(:server).find(reservation_id)
     begin
-      $lock.synchronize("#{action}-reservation-#{reservation_id}", retries: 1, expiry: 2.minutes) do
-        @reservation = Reservation.find(reservation_id)
-        server = reservation.server
-        server.send("#{action}_reservation", reservation)
+      $lock.synchronize("server-#{reservation.server_id}", retries: 7, initial_wait: 0.5, expiry: 2.minutes) do
+        reservation.server.send("#{action}_reservation", reservation)
       end
     rescue Exception => exception
       Rails.logger.error "Something went wrong #{action}-ing the server for reservation #{reservation_id} - #{exception}"

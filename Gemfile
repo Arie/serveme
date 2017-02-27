@@ -12,6 +12,7 @@ gem 'steam-condenser', :git => 'https://github.com/koraktor/steam-condenser-ruby
 gem 'logs_tf'
 gem 'base32_pure'
 gem 'remote_lock',     :git => "https://github.com/Arie/remote_lock"
+gem 'rack-attack'
 
 gem 'lograge'
 

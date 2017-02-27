@@ -8,6 +8,8 @@ class Server < ActiveRecord::Base
   has_many :reservations
   has_many :current_reservations, -> { where("reservations.starts_at <= ? AND reservations.ends_at >=?", Time.current, Time.current) }, class_name: "Reservation"
   has_many :ratings, :through => :reservations
+  has_many :recent_server_statistics, -> { where("server_statistics.created_at >= ?", 2.minutes.ago).order("server_statistics.id DESC") }, class_name: "ServerStatistic"
+  has_many :server_statistics
   belongs_to :location
 
   validates_presence_of :name

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class ServerStatisticDecorator < Draper::Decorator
-  include Draper::LazyHelpers
+class ServerStatisticDecorator < Drape::Decorator
+  include Drape::LazyHelpers
   delegate_all
 
   def cpu_usage

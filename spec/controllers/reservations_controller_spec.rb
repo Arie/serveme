@@ -140,7 +140,7 @@ describe ReservationsController do
       reservation = create :reservation
 
       expect(File).to receive(:open).with(Rails.root.join("log", "streaming", "#{reservation.logsecret}.log"))
-      get :streaming, id: reservation.id
+      get :streaming, params: { id: reservation.id }
     end
   end
 
@@ -150,7 +150,7 @@ describe ReservationsController do
 
     it "returns the reservation status in json" do
       reservation = create :reservation
-      get :status, id: reservation.id, format: :json
+      get :status, params: { id: reservation.id }, format: :json
       expect(response.body).to include "waiting_to_start"
     end
   end

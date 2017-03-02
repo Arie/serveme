@@ -4,7 +4,7 @@ class Api::ReservationsController < Api::ApplicationController
   include ReservationsHelper
 
   def new
-    @reservation = Reservation.new
+    @reservation = new_reservation
   end
 
   def show

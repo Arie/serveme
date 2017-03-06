@@ -25,7 +25,7 @@ describe LocalServer do
     end
   end
 
-  describe '.in_groups' do
+  describe '.member_of_groups' do
 
     it 'should find servers belonging to a certain group' do
       group       = create :group, :name => "Great group"
@@ -34,7 +34,7 @@ describe LocalServer do
       server_not_in_group = create :server, :name => "server in no groups"
       server_other_group  = create :server, :name => "server other group", :groups => [other_group]
 
-      Server.in_groups(Group.where(id: group.id)).should eq [server_in_group]
+      Server.member_of_groups(Group.where(id: group.id)).should eq [server_in_group]
     end
 
     it 'should only return servers once even with multiple matching groups' do
@@ -45,7 +45,7 @@ describe LocalServer do
       server_not_in_group = create :server, :name => "server in no groups"
       server_other_group  = create :server, :name => "server other group", :groups => [other_group]
 
-      Server.in_groups(Group.where(id: [group.id, group2.id])).should eq [server_in_group]
+      Server.member_of_groups(Group.where(id: [group.id, group2.id])).should eq [server_in_group]
     end
 
   end

@@ -25,7 +25,7 @@ class Server < ActiveRecord::Base
   end
 
   def self.ids_reservable_by_user(user)
-    without_group.pluck(:id) + in_groups(user.groups).pluck(:id)
+    without_group.pluck(:id) + member_of_groups(user.groups).pluck(:id)
   end
 
   def self.ordered
@@ -48,9 +48,9 @@ class Server < ActiveRecord::Base
     where('servers.active = ?', true)
   end
 
-  def self.in_groups(groups)
+  def self.member_of_groups(groups)
     with_group.
-    where(:groups => { :id => groups.pluck(:id) }).
+    where(groups: { id: groups.pluck(:id) }).
     group('servers.id')
   end
 

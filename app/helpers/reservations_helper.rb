@@ -2,7 +2,7 @@
 module ReservationsHelper
 
   def find_servers_for_user
-    @reservation = current_user.reservations.build(reservation_params)
+    @reservation = new_reservation
     @servers = free_servers
     render :find_servers
   end

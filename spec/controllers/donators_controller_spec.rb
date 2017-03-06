@@ -53,6 +53,7 @@ describe DonatorsController do
   describe "#leaderboard" do
 
     it "shows a top 25 of donators" do
+      @user.groups << Group.donator_group
       user = create :user
       create :paypal_order, :user => user, :status => "Completed"
 

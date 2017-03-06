@@ -63,7 +63,7 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     american_date (1.1.1)
     arel (6.0.4)
-    autoprefixer-rails (6.7.5)
+    autoprefixer-rails (6.7.6)
       execjs
     base32_pure (0.1.0)
     bcrypt (3.1.11)
@@ -93,7 +93,7 @@ GEM
     capistrano-harrow (0.5.3)
     capistrano-maintenance (1.1.0)
       capistrano (>= 3.0)
-    capistrano-rails (1.2.2)
+    capistrano-rails (1.2.3)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
     capistrano-rvm (0.1.2)
@@ -201,7 +201,7 @@ GEM
       railties (>= 3.0.0)
     faraday (0.11.0)
       multipart-post (>= 1.2, < 3)
-    ffi (1.9.17)
+    ffi (1.9.18)
     font-awesome-rails (4.7.0.1)
       railties (>= 3.2, < 5.1)
     fuubar (2.2.0)
@@ -258,7 +258,7 @@ GEM
     mime-types-data (3.2016.0521)
     mini_portile2 (2.1.0)
     minitest (5.10.1)
-    msgpack (1.0.3)
+    msgpack (1.1.0)
     multi_json (1.12.1)
     multi_test (0.1.2)
     multi_xml (0.6.0)
@@ -438,7 +438,7 @@ GEM
     trollop (2.1.2)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    uglifier (3.1.1)
+    uglifier (3.1.4)
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
@@ -557,4 +557,4 @@ DEPENDENCIES
   zonebie
 
 BUNDLED WITH
-   1.14.3
+   1.14.5

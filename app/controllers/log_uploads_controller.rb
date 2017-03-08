@@ -8,9 +8,9 @@ class LogUploadsController < ApplicationController
   end
 
   def create
-    @log_upload = LogUpload.new(params[:log_upload])
+    @log_upload = LogUpload.new(upload_params)
     link_log_upload_to_reservation
-    log_file = find_log_file(params[:log_upload][:file_name].to_s)
+    log_file = find_log_file(upload_params[:file_name].to_s)
     @log_upload.file_name = log_file.fetch(:file_name)
     if @log_upload.save
       @log_upload.upload
@@ -63,6 +63,10 @@ class LogUploadsController < ApplicationController
 
   def log_uploads
     @log_uploads ||= reservation.log_uploads.order('created_at DESC')
+  end
+
+  def upload_params
+    params.require(:log_upload).permit(:file_name, :title, :map_name)
   end
 
 end

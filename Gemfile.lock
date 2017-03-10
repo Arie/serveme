@@ -89,9 +89,8 @@ GEM
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
     builder (3.2.3)
-    capistrano (3.7.2)
+    capistrano (3.8.0)
       airbrussh (>= 1.0.0)
-      capistrano-harrow
       i18n
       rake (>= 10.0.0)
       sshkit (>= 1.9.0)
@@ -102,8 +101,7 @@ GEM
       capistrano (>= 1.0.0)
     capistrano-faster-assets (1.0.2)
       capistrano (>= 3.1)
-    capistrano-harrow (0.5.3)
-    capistrano-maintenance (1.1.0)
+    capistrano-maintenance (1.2.0)
       capistrano (>= 3.0)
     capistrano-rails (1.2.3)
       capistrano (~> 3.1)
@@ -243,7 +241,7 @@ GEM
     json_expressions (0.8.3)
     launchy (2.4.3)
       addressable (~> 2.3)
-    libv8 (3.16.14.17)
+    libv8 (3.16.14.19)
     lograge (0.4.1)
       actionpack (>= 4, < 5.1)
       activesupport (>= 4, < 5.1)
@@ -301,7 +299,7 @@ GEM
     paypal-sdk-rest (1.6.0)
       multi_json (~> 1.0)
       xml-simple
-    pg (0.19.0)
+    pg (0.20.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -309,7 +307,7 @@ GEM
     pry-nav (0.2.4)
       pry (>= 0.9.10, < 0.11.0)
     public_suffix (2.0.5)
-    puma (3.7.1)
+    puma (3.8.1)
     rack (2.0.1)
     rack-attack (5.0.1)
       rack
@@ -452,7 +450,7 @@ GEM
     trollop (2.1.2)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    uglifier (3.1.4)
+    uglifier (3.1.6)
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext

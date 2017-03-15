@@ -22,8 +22,10 @@ tftrue_restorestats 1
 
 <% if user.logs_tf_api_key.present? %>
   <%= %{tftrue_logs_apikey "#{user.logs_tf_api_key}"} %>
+  <%= %{logstf_apikey "#{user.logs_tf_api_key}"} %>
 <% else %>
   <%= %{tftrue_logs_apikey "#{LOGS_TF_API_KEY}"} %>
+  <%= %{logstf_apikey "#{LOGS_TF_API_KEY}"} %>
 <% end %>
 
 tv_delaymapchange 1

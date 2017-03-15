@@ -201,6 +201,10 @@ class Reservation < ActiveRecord::Base
     tags && (tags.include?("TF2Center") || tags.include?("TF2Stadium")) || tags.include?("TF2Pickup")
   end
 
+  def enable_plugins?
+    true
+  end
+
   def status
     return "ended"            if past?
     return "ready"            if ServerStatistic.where(reservation_id: id, server_id: server_id).any?

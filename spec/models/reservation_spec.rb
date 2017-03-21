@@ -2,6 +2,37 @@ require 'spec_helper'
 
 describe Reservation do
 
+  context "with a custom whitelist" do
+    it "saves a new custom whitelist from whitelist.tf" do
+      request = double(:body => "the whitelist")
+      connection = double
+      connection.should_receive(:get).with(anything).and_return(request)
+      Faraday.should_receive(:new).with(anything).and_return(connection)
+      reservation = build(:reservation, :custom_whitelist_id => 103)
+      reservation.valid?
+      WhitelistTf.find_by_tf_whitelist_id(103).content.should == "the whitelist"
+    end
+
+    it "updates the whitelist" do
+      request = double(:body => "104 the whitelist")
+      connection = double
+      connection.should_receive(:get).with(anything).and_return(request)
+      Faraday.should_receive(:new).with(anything).and_return(connection)
+      reservation = create :reservation
+
+      reservation.custom_whitelist_id = 104
+      reservation.valid?
+
+      WhitelistTf.find_by_tf_whitelist_id(104).content.should == "104 the whitelist"
+    end
+
+    it "sets an error if the whitelist couldn't be downloaded" do
+      reservation = build(:reservation, :custom_whitelist_id => 103)
+      Faraday.should_receive(:new).with(anything).and_raise(Faraday::Error::ClientError.new("foo"))
+      reservation.should have(1).error_on(:custom_whitelist_id)
+    end
+  end
+
   describe "#tv_password" do
 
     it "should have a default tv_password" do
@@ -634,6 +665,19 @@ describe Reservation do
       subject.reusable_attributes.should include "password" => "the_password"
       subject.reusable_attributes.should_not include "starts_at" => subject.starts_at
     end
+
+    describe '#custom_whitelist_content' do
+
+      it "should return the text of the custom whitelist do" do
+        custom_whitelist_id = 1337
+        subject.stub(:custom_whitelist_id => 1337)
+        whitelist_tf = mock_model(WhitelistTf, :content => "whitelist content")
+        WhitelistTf.should_receive(:find_by_tf_whitelist_id).with(custom_whitelist_id).and_return(whitelist_tf)
+        subject.custom_whitelist_content.should == 'whitelist content'
+      end
+
+    end
+
 
   end
 

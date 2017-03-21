@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170220234313) do
+ActiveRecord::Schema.define(version: 20170321122041) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -284,6 +284,14 @@ ActiveRecord::Schema.define(version: 20170220234313) do
     t.index ["claimed_by_id"], name: "index_vouchers_on_claimed_by_id", using: :btree
     t.index ["code"], name: "index_vouchers_on_code", using: :btree
     t.index ["product_id"], name: "index_vouchers_on_product_id", using: :btree
+  end
+
+  create_table "whitelist_tfs", force: :cascade do |t|
+    t.integer  "tf_whitelist_id"
+    t.text     "content"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["tf_whitelist_id"], name: "index_whitelist_tfs_on_tf_whitelist_id", using: :btree
   end
 
   create_table "whitelists", force: :cascade do |t|

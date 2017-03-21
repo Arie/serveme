@@ -129,4 +129,9 @@ FactoryGirl.define do
     status "this is the status"
   end
 
+  factory :whitelist_tf do
+    tf_whitelist_id { rand(1000) }
+    content "whitelist content"
+  end
+
 end

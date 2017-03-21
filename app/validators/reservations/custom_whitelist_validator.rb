@@ -4,10 +4,14 @@ module Reservations
     def validate(record)
       custom_whitelist_id = record.custom_whitelist_id
       if custom_whitelist_id.present? && record.custom_whitelist_id_changed?
-        begin
-          WhitelistTf.download_and_save_whitelist(custom_whitelist_id)
-        rescue ActiveRecord::RecordInvalid, Faraday::Error::ClientError
-          record.errors.add(:custom_whitelist_id, "couldn't download the custom whitelist")
+        if custom_whitelist_id.match(/\A[a-zA-Z0-9_-]*\z/)
+          begin
+            WhitelistTf.download_and_save_whitelist(custom_whitelist_id)
+          rescue ActiveRecord::RecordInvalid, Faraday::Error::ClientError
+            record.errors.add(:custom_whitelist_id, "couldn't download the custom whitelist")
+          end
+        else
+          record.errors.add(:custom_whitelist_id, "invalid whitelist")
         end
       end
     end

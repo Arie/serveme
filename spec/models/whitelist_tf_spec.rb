@@ -24,6 +24,19 @@ describe WhitelistTf do
 
   end
 
+  it "validates the whitelist id" do
+    whitelist = build :whitelist_tf
+
+    whitelist.tf_whitelist_id = "../../../../foobar"
+    expect(whitelist).to_not be_valid
+
+    whitelist.tf_whitelist_id = "~foobar"
+    expect(whitelist).to_not be_valid
+
+    whitelist.tf_whitelist_id = "foobar"
+    expect(whitelist).to be_valid
+  end
+
   describe ".whitelist_content" do
 
     vcr_options = { :cassette_name => "whitelist_tf", :record => :new_episodes, :match_requests_on => [:method, :uri, :body] }

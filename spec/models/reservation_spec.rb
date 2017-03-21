@@ -666,19 +666,27 @@ describe Reservation do
       subject.reusable_attributes.should_not include "starts_at" => subject.starts_at
     end
 
-    describe '#custom_whitelist_content' do
+  end
 
-      it "should return the text of the custom whitelist do" do
-        custom_whitelist_id = 1337
-        subject.stub(:custom_whitelist_id => 1337)
-        whitelist_tf = mock_model(WhitelistTf, :content => "whitelist content")
-        WhitelistTf.should_receive(:find_by_tf_whitelist_id).with(custom_whitelist_id).and_return(whitelist_tf)
-        subject.custom_whitelist_content.should == 'whitelist content'
-      end
+  describe '#custom_whitelist_content' do
 
+    it "should return the text of the custom whitelist do" do
+      custom_whitelist_id = 1337
+      subject.stub(:custom_whitelist_id => 1337)
+      whitelist_tf = mock_model(WhitelistTf, :content => "whitelist content")
+      WhitelistTf.should_receive(:find_by_tf_whitelist_id).with(custom_whitelist_id).and_return(whitelist_tf)
+      subject.custom_whitelist_content.should == 'whitelist content'
     end
 
+  end
 
+  it "validates format of custom_whitelist_id", :vcr do
+    reservation = build(:reservation)
+    reservation.custom_whitelist_id = 10
+    expect(reservation).to be_valid
+
+    reservation.custom_whitelist_id = "~/foobarwidget"
+    expect(reservation).to_not be_valid
   end
 
   describe "#lobby?" do

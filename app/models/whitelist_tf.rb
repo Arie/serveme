@@ -1,10 +1,9 @@
 class WhitelistTf < ActiveRecord::Base
 
   validates_presence_of :tf_whitelist_id, :content
-  validates_numericality_of :tf_whitelist_id, :mininum => 1
+  validates_format_of :tf_whitelist_id, with: /\A[a-zA-Z0-9_-]*\z/
 
   def self.download_and_save_whitelist(tf_whitelist_id)
-    tf_whitelist_id = tf_whitelist_id.to_i
     tf_whitelist    = find_or_initialize_by(tf_whitelist_id: tf_whitelist_id)
     tf_whitelist.content = whitelist_content(tf_whitelist_id)
     tf_whitelist.save!

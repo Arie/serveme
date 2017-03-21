@@ -1,0 +1,1898 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://whitelist.tf/custom_whitelist_10.txt
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.11.0
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      date:
+      - Tue, 21 Mar 2017 17:44:13 GMT
+      server:
+      - Apache/2
+      x-powered-by:
+      - PHP/5.6.30
+      set-cookie:
+      - PHPSESSID=5o8rhpdio8effm0lg4ha6jhmb6; path=/
+      expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      cache-control:
+      - private, public
+      pragma:
+      - no-cache
+      content-disposition:
+      - inline; filename="custom_whitelist_10.txt"
+      last-modified:
+      - Wed, 01 Mar 2017 19:30:05 GMT
+      vary:
+      - Accept-Encoding,User-Agent
+      x-ua-compatible:
+      - IE=Edge,chrome=1
+      content-length:
+      - '24821'
+      content-type:
+      - text/plain; charset=utf-8; name="custom_whitelist_10.txt"
+    body:
+      encoding: ASCII-8BIT
+      string: "// Whitelist generated at Tue, 21 Mar 2017 18:44:13 +0100\r\n// Custom
+        Whitelist ID: 10\r\n\r\n// Share or view this whitelist:\r\n//\thttp://whitelist.tf/10\r\n\r\n//
+        New items added to the game are: NOT allowed\r\n// Hats are: allowed\r\n//
+        Miscs are: allowed\r\n// Pyrovision is: NOT allowed\r\n// Noisemakers are:
+        allowed\r\n// Restricted noisemakers are: allowed\r\n// Halloween/Full Moon
+        items are: allowed\r\n// Noise making miscs are: NOT allowed\r\n// Explosion
+        on death miscs are: NOT allowed\r\n// Festive weapon reskins are: allowed\r\n//
+        Botkiller weapon reskins are: allowed\r\n\r\n// Allowed weapons for Multiple
+        classes\r\n// - Melee\r\n//  * Pain Train\r\n\r\n// Allowed weapons for Scout\r\n//
+        - Melee\r\n//  * Boston Basher\r\n\r\n// Allowed weapons for Soldier\r\n//
+        - Secondary\r\n//  * Gunboats\r\n// - Melee\r\n//  * Escape Plan\r\n\r\n//
+        Allowed weapons for Medic\r\n// - Primary\r\n//  * Blutsauger\r\n//  * Crusader's
+        Crossbow\r\n//  * Overdose\r\n// - Secondary\r\n//  * Kritzkrieg\r\n// - Melee\r\n//
+        \ * Ubersaw\r\n\r\n\"item_whitelist\"\r\n{\r\n\t\"unlisted_items_default_to\"\t\t\"0\"\r\n\r\n\t//-----------------
+        Allowed weapons (Total: 9) ------------------\\\\\r\n\t//______________________
+        Multiple classes _______________________\\\\\r\n\t\"The Pain Train\"\t\t\t\t\t\t\"1\"\r\n\t//____________________________
+        Scout ____________________________\\\\\r\n\t\"The Boston Basher\"\t\t\t\t\t\t\"1\"\r\n\t//___________________________
+        Soldier ___________________________\\\\\r\n\t\"The Escape Plan\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Gunboats\"\t\t\t\t\t\t\t\"1\"\r\n\t//____________________________ Medic ____________________________\\\\\r\n\t\"The
+        Blutsauger\"\t\t\t\t\t\t\"1\"\r\n\t\"The Crusader's Crossbow\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Kritzkrieg\"\t\t\t\t\t\t\"1\"\r\n\t\"The Overdose\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Ubersaw\"\t\t\t\t\t\t\t\"1\"\r\n\r\n\t//------------- Allowed weapon reskins
+        (Total: 281) -------------\\\\\r\n\t//_________________________ All classes
+        _________________________\\\\\r\n\t\"Gold Frying Pan\"\t\t\t\t\t\t\"1\"\r\n\t\"Prinny
+        Machete\"\t\t\t\t\t\t\"1\"\r\n\t\"Saxxy\"\t\t\t\t\t\t\t\t\"1\"\r\n\t//______________________
+        Multiple classes _______________________\\\\\r\n\t\"concealedkiller_pistol_redrockroscoe\"\t\t\t\t\"1\"\r\n\t\"concealedkiller_shotgun_backwoodsboomstick\"\t\t\t\"1\"\r\n\t\"craftsmann_pistol_homemadeheater\"\t\t\t\t\"1\"\r\n\t\"craftsmann_shotgun_rusticruiner\"\t\t\t\t\"1\"\r\n\t\"Festive
+        Shotgun 2014\"\t\t\t\t\t\t\"1\"\r\n\t\"Frying Pan\"\t\t\t\t\t\t\t\"1\"\r\n\t\"gentlemanne_pistol_dressedtokill\"\t\t\t\t\"1\"\r\n\t\"gentlemanne_shotgun_coffinnail\"\t\t\t\t\"1\"\r\n\t\"gentlemanne_shotgun_dressedtokill\"\t\t\t\t\"1\"\r\n\t\"harvest_pistol_macabreweb\"\t\t\t\t\t\"1\"\r\n\t\"harvest_pistol_nutcracker\"\t\t\t\t\t\"1\"\r\n\t\"harvest_shotgun_autumn\"\t\t\t\t\t\"1\"\r\n\t\"Necro
+        Smasher\"\t\t\t\t\t\t\t\"1\"\r\n\t\"powerhouse_pistol_blackdahlia\"\t\t\t\t\t\"1\"\r\n\t\"powerhouse_pistol_sandstonespecial\"\t\t\t\t\"1\"\r\n\t\"powerhouse_shotgun_lightningrod\"\t\t\t\t\"1\"\r\n\t\"pyroland_pistol_bluemew\"\t\t\t\t\t\"1\"\r\n\t\"pyroland_pistol_braincandy\"\t\t\t\t\t\"1\"\r\n\t\"pyroland_pistol_shottohell\"\t\t\t\t\t\"1\"\r\n\t\"pyroland_shotgun_flowerpower\"\t\t\t\t\t\"1\"\r\n\t\"teufort_pistol_hickoryholepuncher\"\t\t\t\t\"1\"\r\n\t\"teufort_pistol_localhero\"\t\t\t\t\t\"1\"\r\n\t\"teufort_shotgun_civicduty\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Bat Outta Hell\"\t\t\t\t\t\t\"1\"\r\n\t\"The C.A.P.P.E.R\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Conscientious Objector\"\t\t\t\t\t\"1\"\r\n\t\"The Crossing Guard\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Freedom Staff\"\t\t\t\t\t\t\"1\"\r\n\t\"The Ham Shank\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Memory Maker\"\t\t\t\t\t\t\"1\"\r\n\t\"TTG Max Pistol\"\t\t\t\t\t\t\"1\"\r\n\t\"TTG
+        Max Pistol - Poker Night\"\t\t\t\t\t\"1\"\r\n\t\"warbird_pistol_blitzkrieg\"\t\t\t\t\t\"1\"\r\n\t\"warbird_shotgun_redbear\"\t\t\t\t\t\"1\"\r\n\t//____________________________
+        Scout ____________________________\\\\\r\n\t\"Batsaber\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Blood
+        Botkiller Scattergun Mk.I\"\t\t\t\t\"1\"\r\n\t\"Carbonado Botkiller Scattergun
+        Mk.I\"\t\t\t\t\"1\"\r\n\t\"concealedkiller_scattergun_nightterror\"\t\t\t\"1\"\r\n\t\"craftsmann_scattergun_backcountryblaster\"\t\t\t\"1\"\r\n\t\"craftsmann_scattergun_countrycrusher\"\t\t\t\t\"1\"\r\n\t\"craftsmann_scattergun_tartantorpedo\"\t\t\t\t\"1\"\r\n\t\"Diamond
+        Botkiller Scattergun Mk.I\"\t\t\t\t\"1\"\r\n\t\"Festive Bat 2011\"\t\t\t\t\t\t\"1\"\r\n\t\"Festive
+        Holy Mackerel\"\t\t\t\t\t\t\"1\"\r\n\t\"Festive Scattergun 2011\"\t\t\t\t\t\"1\"\r\n\t\"gentlemanne_scattergun_coffinnail\"\t\t\t\t\"1\"\r\n\t\"Gold
+        Botkiller Scattergun Mk.I\"\t\t\t\t\"1\"\r\n\t\"Gold Botkiller Scattergun
+        Mk.II\"\t\t\t\t\"1\"\r\n\t\"harvest_scattergun_macabreweb\"\t\t\t\t\t\"1\"\r\n\t\"harvest_scattergun_nutcracker\"\t\t\t\t\t\"1\"\r\n\t\"powerhouse_scattergun_currentevent\"\t\t\t\t\"1\"\r\n\t\"pyroland_scattergun_bluemew\"\t\t\t\t\t\"1\"\r\n\t\"pyroland_scattergun_flowerpower\"\t\t\t\t\"1\"\r\n\t\"pyroland_scattergun_shottohell\"\t\t\t\t\"1\"\r\n\t\"Rust
+        Botkiller Scattergun Mk.I\"\t\t\t\t\"1\"\r\n\t\"Silver Botkiller Scattergun
+        Mk.I\"\t\t\t\t\"1\"\r\n\t\"Silver Botkiller Scattergun Mk.II\"\t\t\t\t\"1\"\r\n\t\"teufort_scattergun_sprucedeuce\"\t\t\t\t\"1\"\r\n\t\"The
+        Holy Mackerel\"\t\t\t\t\t\t\"1\"\r\n\t\"Three-Rune Blade\"\t\t\t\t\t\t\"1\"\r\n\t\"Unarmed
+        Combat\"\t\t\t\t\t\t\"1\"\r\n\t\"warbird_scattergun_corsair\"\t\t\t\t\t\"1\"\r\n\t\"warbird_scattergun_killerbee\"\t\t\t\t\t\"1\"\r\n\t//___________________________
+        Soldier ___________________________\\\\\r\n\t\"Blood Botkiller Rocket Launcher
+        Mk.I\"\t\t\t\t\"1\"\r\n\t\"Carbonado Botkiller Rocket Launcher Mk.I\"\t\t\t\"1\"\r\n\t\"concealedkiller_rocketlauncher_sandcannon\"\t\t\t\"1\"\r\n\t\"concealedkiller_rocketlauncher_woodlandwarrior\"\t\t\"1\"\r\n\t\"craftsmann_rocketlauncher_americanpastoral\"\t\t\t\"1\"\r\n\t\"Diamond
+        Botkiller Rocket Launcher Mk.I\"\t\t\t\"1\"\r\n\t\"Festive Rocket Launcher
+        2011\"\t\t\t\t\t\"1\"\r\n\t\"gentlemanne_rocketlauncher_coffinnail\"\t\t\t\t\"1\"\r\n\t\"gentlemanne_rocketlauncher_highrollers\"\t\t\t\"1\"\r\n\t\"Gold
+        Botkiller Rocket Launcher Mk.I\"\t\t\t\t\"1\"\r\n\t\"Gold Botkiller Rocket
+        Launcher Mk.II\"\t\t\t\t\"1\"\r\n\t\"harvest_rocketlauncher_autumn\"\t\t\t\t\t\"1\"\r\n\t\"powerhouse_rocketlauncher_aquamarine\"\t\t\t\t\"1\"\r\n\t\"powerhouse_rocketlauncher_shellshocker\"\t\t\t\"1\"\r\n\t\"pyroland_rocketlauncher_bluemew\"\t\t\t\t\"1\"\r\n\t\"pyroland_rocketlauncher_braincandy\"\t\t\t\t\"1\"\r\n\t\"Rust
+        Botkiller Rocket Launcher Mk.I\"\t\t\t\t\"1\"\r\n\t\"Silver Botkiller Rocket
+        Launcher Mk.I\"\t\t\t\t\"1\"\r\n\t\"Silver Botkiller Rocket Launcher Mk.II\"\t\t\t\"1\"\r\n\t\"teufort_rocketlauncher_smalltownbringdown\"\t\t\t\"1\"\r\n\t\"The
+        Original\"\t\t\t\t\t\t\t\"1\"\r\n\t\"warbird_rocketlauncher_warhawk\"\t\t\t\t\"1\"\r\n\t//____________________________
+        Pyro _____________________________\\\\\r\n\t\"Blood Botkiller Flame Thrower
+        Mk.I\"\t\t\t\t\"1\"\r\n\t\"Carbonado Botkiller Flame Thrower Mk.I\"\t\t\t\"1\"\r\n\t\"concealedkiller_flamethrower_forestfire\"\t\t\t\"1\"\r\n\t\"craftsmann_flamethrower_barnburner\"\t\t\t\t\"1\"\r\n\t\"Diamond
+        Botkiller Flame Thrower Mk.I\"\t\t\t\t\"1\"\r\n\t\"Festive Flamethrower 2011\"\t\t\t\t\t\"1\"\r\n\t\"gentlemanne_flamethrower_coffinnail\"\t\t\t\t\"1\"\r\n\t\"Gold
+        Botkiller Flame Thrower Mk.I\"\t\t\t\t\"1\"\r\n\t\"Gold Botkiller Flame Thrower
+        Mk.II\"\t\t\t\t\"1\"\r\n\t\"harvest_flamethrower_autumn\"\t\t\t\t\t\"1\"\r\n\t\"harvest_flamethrower_nutcracker\"\t\t\t\t\"1\"\r\n\t\"harvest_flamethrower_pumpkinpatch\"\t\t\t\t\"1\"\r\n\t\"powerhouse_flamethrower_flashfryer\"\t\t\t\t\"1\"\r\n\t\"powerhouse_flamethrower_turbinetorcher\"\t\t\t\"1\"\r\n\t\"pyroland_flamethrower_balloonicorn\"\t\t\t\t\"1\"\r\n\t\"pyroland_flamethrower_rainbow\"\t\t\t\t\t\"1\"\r\n\t\"Rust
+        Botkiller Flame Thrower Mk.I\"\t\t\t\t\"1\"\r\n\t\"Silver Botkiller Flame
+        Thrower Mk.I\"\t\t\t\t\"1\"\r\n\t\"Silver Botkiller Flame Thrower Mk.II\"\t\t\t\t\"1\"\r\n\t\"teufort_flamethrower_bovineblazemaker\"\t\t\t\t\"1\"\r\n\t\"teufort_flamethrower_earthskyandfire\"\t\t\t\t\"1\"\r\n\t\"The
+        Nostromo Napalmer\"\t\t\t\t\t\t\"1\"\r\n\t\"warbird_flamethrower_warhawk\"\t\t\t\t\t\"1\"\r\n\t//___________________________
+        Demoman ___________________________\\\\\r\n\t\"Blood Botkiller Stickybomb
+        Launcher Mk.I\"\t\t\t\"1\"\r\n\t\"Carbonado Botkiller Stickybomb Launcher
+        Mk.I\"\t\t\t\"1\"\r\n\t\"concealedkiller_stickybomblauncher_carpetbomber\"\t\t\"1\"\r\n\t\"concealedkiller_stickybomblauncher_suddenflurry\"\t\t\"1\"\r\n\t\"craftsmann_stickybomblauncher_blastedbombardier\"\t\t\"1\"\r\n\t\"Diamond
+        Botkiller Stickybomb Launcher Mk.I\"\t\t\t\"1\"\r\n\t\"Festive Grenade Launcher\"\t\t\t\t\t\"1\"\r\n\t\"Festive
+        Stickybomb Launcher 2011\"\t\t\t\t\"1\"\r\n\t\"gentlemanne_grenadelauncher_coffinnail\"\t\t\t\"1\"\r\n\t\"gentlemanne_grenadelauncher_topshelf\"\t\t\t\t\"1\"\r\n\t\"gentlemanne_stickybomblauncher_coffinnail\"\t\t\t\"1\"\r\n\t\"gentlemanne_stickybomblauncher_dressedtokill\"\t\t\t\"1\"\r\n\t\"Gold
+        Botkiller Stickybomb Launcher Mk.I\"\t\t\t\"1\"\r\n\t\"Gold Botkiller Stickybomb
+        Launcher Mk.II\"\t\t\t\"1\"\r\n\t\"harvest_grenadelauncher_autumn\"\t\t\t\t\"1\"\r\n\t\"harvest_grenadelauncher_macabreweb\"\t\t\t\t\"1\"\r\n\t\"harvest_stickybomblauncher_autumn\"\t\t\t\t\"1\"\r\n\t\"harvest_stickybomblauncher_macabreweb\"\t\t\t\t\"1\"\r\n\t\"harvest_stickybomblauncher_pumpkinpatch\"\t\t\t\"1\"\r\n\t\"powerhouse_stickybomblauncher_liquidasset\"\t\t\t\"1\"\r\n\t\"powerhouse_stickybomblauncher_pinkelephant\"\t\t\t\"1\"\r\n\t\"pyroland_grenadelauncher_rainbow\"\t\t\t\t\"1\"\r\n\t\"pyroland_grenadelauncher_sweetdreams\"\t\t\t\t\"1\"\r\n\t\"pyroland_stickybomblauncher_sweetdreams\"\t\t\t\"1\"\r\n\t\"Rust
+        Botkiller Stickybomb Launcher Mk.I\"\t\t\t\"1\"\r\n\t\"Silver Botkiller Stickybomb
+        Launcher Mk.I\"\t\t\t\"1\"\r\n\t\"Silver Botkiller Stickybomb Launcher Mk.II\"\t\t\t\"1\"\r\n\t\"teufort_stickybomblauncher_rooftopwrangler\"\t\t\t\"1\"\r\n\t\"The
+        Scottish Handshake\"\t\t\t\t\t\"1\"\r\n\t\"warbird_grenadelauncher_butcherbird\"\t\t\t\t\"1\"\r\n\t\"warbird_grenadelauncher_warhawk\"\t\t\t\t\"1\"\r\n\t\"warbird_stickybomblauncher_blitzkrieg\"\t\t\t\t\"1\"\r\n\t//____________________________
+        Heavy ____________________________\\\\\r\n\t\"Apoco-Fists\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Blood
+        Botkiller Minigun Mk.I\"\t\t\t\t\t\"1\"\r\n\t\"Carbonado Botkiller Minigun
+        Mk.I\"\t\t\t\t\"1\"\r\n\t\"concealedkiller_minigun_kingofthejungle\"\t\t\t\"1\"\r\n\t\"craftsmann_minigun_antiqueannihilator\"\t\t\t\t\"1\"\r\n\t\"craftsmann_minigun_ironwood\"\t\t\t\t\t\"1\"\r\n\t\"Diamond
+        Botkiller Minigun Mk.I\"\t\t\t\t\"1\"\r\n\t\"Festive Minigun 2011\"\t\t\t\t\t\t\"1\"\r\n\t\"gentlemanne_minigun_coffinnail\"\t\t\t\t\"1\"\r\n\t\"gentlemanne_minigun_dressedtokill\"\t\t\t\t\"1\"\r\n\t\"gentlemanne_minigun_topshelf\"\t\t\t\t\t\"1\"\r\n\t\"Gold
+        Botkiller Minigun Mk.I\"\t\t\t\t\t\"1\"\r\n\t\"Gold Botkiller Minigun Mk.II\"\t\t\t\t\t\"1\"\r\n\t\"harvest_minigun_macabreweb\"\t\t\t\t\t\"1\"\r\n\t\"harvest_minigun_nutcracker\"\t\t\t\t\t\"1\"\r\n\t\"harvest_minigun_pumpkinpatch\"\t\t\t\t\t\"1\"\r\n\t\"Iron
+        Curtain\"\t\t\t\t\t\t\t\"1\"\r\n\t\"powerhouse_minigun_brickhouse\"\t\t\t\t\t\"1\"\r\n\t\"pyroland_minigun_braincandy\"\t\t\t\t\t\"1\"\r\n\t\"pyroland_minigun_mistercuddles\"\t\t\t\t\"1\"\r\n\t\"Rust
+        Botkiller Minigun Mk.I\"\t\t\t\t\t\"1\"\r\n\t\"Silver Botkiller Minigun Mk.I\"\t\t\t\t\t\"1\"\r\n\t\"Silver
+        Botkiller Minigun Mk.II\"\t\t\t\t\"1\"\r\n\t\"teufort_minigun_citizenpain\"\t\t\t\t\t\"1\"\r\n\t\"teufort_minigun_warroom\"\t\t\t\t\t\"1\"\r\n\t\"warbird_minigun_butcherbird\"\t\t\t\t\t\"1\"\r\n\t//__________________________
+        Engineer ___________________________\\\\\r\n\t\"Blood Botkiller Wrench Mk.I\"\t\t\t\t\t\"1\"\r\n\t\"Carbonado
+        Botkiller Wrench Mk.I\"\t\t\t\t\"1\"\r\n\t\"Diamond Botkiller Wrench Mk.I\"\t\t\t\t\t\"1\"\r\n\t\"Festive
+        Wrench 2011\"\t\t\t\t\t\t\"1\"\r\n\t\"gentlemanne_wrench_dressedtokill\"\t\t\t\t\"1\"\r\n\t\"gentlemanne_wrench_topshelf\"\t\t\t\t\t\"1\"\r\n\t\"Gold
+        Botkiller Wrench Mk.I\"\t\t\t\t\t\"1\"\r\n\t\"Gold Botkiller Wrench Mk.II\"\t\t\t\t\t\"1\"\r\n\t\"Golden
+        Wrench\"\t\t\t\t\t\t\t\"1\"\r\n\t\"harvest_wrench_autumn\"\t\t\t\t\t\t\"1\"\r\n\t\"harvest_wrench_boneyard\"\t\t\t\t\t\"1\"\r\n\t\"harvest_wrench_nutcracker\"\t\t\t\t\t\"1\"\r\n\t\"pyroland_wrench_torquedtohell\"\t\t\t\t\t\"1\"\r\n\t\"Rust
+        Botkiller Wrench Mk.I\"\t\t\t\t\t\"1\"\r\n\t\"Silver Botkiller Wrench Mk.I\"\t\t\t\t\t\"1\"\r\n\t\"Silver
+        Botkiller Wrench Mk.II\"\t\t\t\t\t\"1\"\r\n\t\"warbird_wrench_airwolf\"\t\t\t\t\t\"1\"\r\n\t//____________________________
+        Medic ____________________________\\\\\r\n\t\"Blood Botkiller Medi Gun Mk.I\"\t\t\t\t\t\"1\"\r\n\t\"Carbonado
+        Botkiller Medi Gun Mk.I\"\t\t\t\t\"1\"\r\n\t\"concealedkiller_medigun_maskedmender\"\t\t\t\t\"1\"\r\n\t\"concealedkiller_medigun_wrappedreviver\"\t\t\t\"1\"\r\n\t\"craftsmann_medigun_reclaimedreanimator\"\t\t\t\"1\"\r\n\t\"Diamond
+        Botkiller Medi Gun Mk.I\"\t\t\t\t\"1\"\r\n\t\"Festive Bonesaw 2014\"\t\t\t\t\t\t\"1\"\r\n\t\"Festive
+        Crusader's Crossbow\"\t\t\t\t\t\"1\"\r\n\t\"Festive Medigun 2011\"\t\t\t\t\t\t\"1\"\r\n\t\"Festive
+        Ubersaw\"\t\t\t\t\t\t\"1\"\r\n\t\"gentlemanne_medigun_coffinnail\"\t\t\t\t\"1\"\r\n\t\"gentlemanne_medigun_dressedtokill\"\t\t\t\t\"1\"\r\n\t\"gentlemanne_medigun_highrollers\"\t\t\t\t\"1\"\r\n\t\"Gold
+        Botkiller Medi Gun Mk.I\"\t\t\t\t\t\"1\"\r\n\t\"Gold Botkiller Medi Gun Mk.II\"\t\t\t\t\t\"1\"\r\n\t\"harvest_medigun_wildwood\"\t\t\t\t\t\"1\"\r\n\t\"powerhouse_medigun_sparkoflife\"\t\t\t\t\"1\"\r\n\t\"pyroland_medigun_flowerpower\"\t\t\t\t\t\"1\"\r\n\t\"Rust
+        Botkiller Medi Gun Mk.I\"\t\t\t\t\t\"1\"\r\n\t\"Silver Botkiller Medi Gun
+        Mk.I\"\t\t\t\t\"1\"\r\n\t\"Silver Botkiller Medi Gun Mk.II\"\t\t\t\t\"1\"\r\n\t\"teufort_medigun_civilservant\"\t\t\t\t\t\"1\"\r\n\t\"warbird_medigun_blitzkrieg\"\t\t\t\t\t\"1\"\r\n\t\"warbird_medigun_corsair\"\t\t\t\t\t\"1\"\r\n\t//___________________________
+        Sniper ____________________________\\\\\r\n\t\"Blood Botkiller Sniper Rifle
+        Mk.I\"\t\t\t\t\"1\"\r\n\t\"Carbonado Botkiller Sniper Rifle Mk.I\"\t\t\t\t\"1\"\r\n\t\"concealedkiller_smg_woodsywidowmaker\"\t\t\t\t\"1\"\r\n\t\"concealedkiller_sniperrifle_nightowl\"\t\t\t\t\"1\"\r\n\t\"concealedkiller_sniperrifle_purplerange\"\t\t\t\"1\"\r\n\t\"craftsmann_smg_plaidpotshotter\"\t\t\t\t\"1\"\r\n\t\"craftsmann_sniperrifle_lumberfromdownunder\"\t\t\t\"1\"\r\n\t\"craftsmann_sniperrifle_shotinthedark\"\t\t\t\t\"1\"\r\n\t\"Diamond
+        Botkiller Sniper Rifle Mk.I\"\t\t\t\t\"1\"\r\n\t\"Festive SMG 2014\"\t\t\t\t\t\t\"1\"\r\n\t\"Festive
+        Sniper Rifle 2011\"\t\t\t\t\t\"1\"\r\n\t\"gentlemanne_smg_highrollers\"\t\t\t\t\t\"1\"\r\n\t\"gentlemanne_sniperrifle_coffinnail\"\t\t\t\t\"1\"\r\n\t\"gentlemanne_sniperrifle_dressedtokill\"\t\t\t\t\"1\"\r\n\t\"Gold
+        Botkiller Sniper Rifle Mk.I\"\t\t\t\t\"1\"\r\n\t\"Gold Botkiller Sniper Rifle
+        Mk.II\"\t\t\t\t\"1\"\r\n\t\"harvest_smg_wildwood\"\t\t\t\t\t\t\"1\"\r\n\t\"harvest_sniperrifle_boneyard\"\t\t\t\t\t\"1\"\r\n\t\"harvest_sniperrifle_pumpkinpatch\"\t\t\t\t\"1\"\r\n\t\"harvest_sniperrifle_wildwood\"\t\t\t\t\t\"1\"\r\n\t\"powerhouse_smg_lowprofile\"\t\t\t\t\t\"1\"\r\n\t\"powerhouse_sniperrifle_thunderbolt\"\t\t\t\t\"1\"\r\n\t\"pyroland_smg_bluemew\"\t\t\t\t\t\t\"1\"\r\n\t\"pyroland_sniperrifle_balloonicorn\"\t\t\t\t\"1\"\r\n\t\"pyroland_sniperrifle_rainbow\"\t\t\t\t\t\"1\"\r\n\t\"Rust
+        Botkiller Sniper Rifle Mk.I\"\t\t\t\t\"1\"\r\n\t\"Silver Botkiller Sniper
+        Rifle Mk.I\"\t\t\t\t\"1\"\r\n\t\"Silver Botkiller Sniper Rifle Mk.II\"\t\t\t\t\"1\"\r\n\t\"teufort_smg_teamsprayer\"\t\t\t\t\t\"1\"\r\n\t\"teufort_smg_treadplatetormenter\"\t\t\t\t\"1\"\r\n\t\"teufort_sniperrifle_bogtrotter\"\t\t\t\t\"1\"\r\n\t\"The
+        AWPer Hand\"\t\t\t\t\t\t\"1\"\r\n\t\"warbird_smg_blitzkrieg\"\t\t\t\t\t\"1\"\r\n\t\"warbird_sniperrifle_airwolf\"\t\t\t\t\t\"1\"\r\n\t//_____________________________
+        Spy _____________________________\\\\\r\n\t\"Blood Botkiller Knife Mk.I\"\t\t\t\t\t\"1\"\r\n\t\"Carbonado
+        Botkiller Knife Mk.I\"\t\t\t\t\"1\"\r\n\t\"concealedkiller_revolver_psychedelicslugger\"\t\t\t\"1\"\r\n\t\"craftsmann_revolver_oldcountry\"\t\t\t\t\"1\"\r\n\t\"Diamond
+        Botkiller Knife Mk.I\"\t\t\t\t\t\"1\"\r\n\t\"Festive Knife 2011\"\t\t\t\t\t\t\"1\"\r\n\t\"Festive
+        Revolver 2014\"\t\t\t\t\t\t\"1\"\r\n\t\"Festive Sapper\"\t\t\t\t\t\t\"1\"\r\n\t\"gentlemanne_knife_dressedtokill\"\t\t\t\t\"1\"\r\n\t\"gentlemanne_knife_topshelf\"\t\t\t\t\t\"1\"\r\n\t\"gentlemanne_revolver_coffinnail\"\t\t\t\t\"1\"\r\n\t\"gentlemanne_revolver_topshelf\"\t\t\t\t\t\"1\"\r\n\t\"Gold
+        Botkiller Knife Mk.I\"\t\t\t\t\t\"1\"\r\n\t\"Gold Botkiller Knife Mk.II\"\t\t\t\t\t\"1\"\r\n\t\"harvest_knife_boneyard\"\t\t\t\t\t\"1\"\r\n\t\"harvest_revolver_boneyard\"\t\t\t\t\t\"1\"\r\n\t\"harvest_revolver_macabreweb\"\t\t\t\t\t\"1\"\r\n\t\"harvest_revolver_wildwood\"\t\t\t\t\t\"1\"\r\n\t\"powerhouse_revolver_deadreckoner\"\t\t\t\t\"1\"\r\n\t\"pyroland_knife_bluemew\"\t\t\t\t\t\"1\"\r\n\t\"pyroland_knife_braincandy\"\t\t\t\t\t\"1\"\r\n\t\"pyroland_knife_stabbedtohell\"\t\t\t\t\t\"1\"\r\n\t\"pyroland_revolver_flowerpower\"\t\t\t\t\t\"1\"\r\n\t\"Rust
+        Botkiller Knife Mk.I\"\t\t\t\t\t\"1\"\r\n\t\"Silver Botkiller Knife Mk.I\"\t\t\t\t\t\"1\"\r\n\t\"Silver
+        Botkiller Knife Mk.II\"\t\t\t\t\t\"1\"\r\n\t\"teufort_revolver_mayor\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Ap-Sap\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Black Rose\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Quackenbirdt\"\t\t\t\t\t\t\"1\"\r\n\t\"The Sharp Dresser\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Snack Attack\"\t\t\t\t\t\t\"1\"\r\n\t\"TTG Sam Revolver\"\t\t\t\t\t\t\"1\"\r\n\t\"TTG
+        Watch\"\t\t\t\t\t\t\t\"1\"\r\n\t\"warbird_knife_airwolf\"\t\t\t\t\t\t\"1\"\r\n\t\"warbird_knife_blitzkrieg\"\t\t\t\t\t\"1\"\r\n\t\"warbird_revolver_blitzkrieg\"\t\t\t\t\t\"1\"\r\n\r\n\t//------------
+        Blocked weapons/reskins (Total: 154) -------------\\\\\r\n\t//______________________
+        Multiple classes _______________________\\\\\r\n\t\"Panic Attack Shotgun\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        B.A.S.E. Jumper\"\t\t\t\t\t\t\"0\"\r\n\t\"The Half-Zatoichi\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Reserve Shooter\"\t\t\t\t\t\t\"0\"\r\n\t//____________________________ Scout
+        ____________________________\\\\\r\n\t\"Baby Face's Blaster\"\t\t\t\t\t\t\"0\"\r\n\t\"Bonk!
+        Atomic Punch\"\t\t\t\t\t\t\"0\"\r\n\t\"Crit-a-Cola\"\t\t\t\t\t\t\t\"0\"\r\n\t\"Festive
+        Bonk 2014\"\t\t\t\t\t\t\"0\"\r\n\t\"Festive Force-a-Nature\"\t\t\t\t\t\"0\"\r\n\t\"Mad
+        Milk\"\t\t\t\t\t\t\t\"0\"\r\n\t\"Mutated Milk\"\t\t\t\t\t\t\t\"0\"\r\n\t\"Pretty
+        Boy's Pocket Pistol\"\t\t\t\t\t\"0\"\r\n\t\"Promo Flying Guillotine\"\t\t\t\t\t\"0\"\r\n\t\"Sun-on-a-Stick\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Atomizer\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The Back Scatter\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Candy Cane\"\t\t\t\t\t\t\"0\"\r\n\t\"The Fan O'War\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Flying Guillotine\"\t\t\t\t\t\t\"0\"\r\n\t\"The Force-a-Nature\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Sandman\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The Shortstop\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Soda Popper\"\t\t\t\t\t\t\"0\"\r\n\t\"The Winger\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Wrap Assassin\"\t\t\t\t\t\t\"0\"\r\n\t//___________________________ Soldier
+        ___________________________\\\\\r\n\t\"Festive Black Box\"\t\t\t\t\t\t\"0\"\r\n\t\"Festive
+        Buff Banner\"\t\t\t\t\t\t\"0\"\r\n\t\"Rocket Jumper\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Air Strike\"\t\t\t\t\t\t\"0\"\r\n\t\"The Battalion's Backup\"\t\t\t\t\t\"0\"\r\n\t\"The
+        Beggar's Bazooka\"\t\t\t\t\t\t\"0\"\r\n\t\"The Black Box\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Buff Banner\"\t\t\t\t\t\t\"0\"\r\n\t\"The Concheror\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Cow Mangler 5000\"\t\t\t\t\t\t\"0\"\r\n\t\"The Direct Hit\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Disciplinary Action\"\t\t\t\t\t\"0\"\r\n\t\"The Equalizer\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Liberty Launcher\"\t\t\t\t\t\t\"0\"\r\n\t\"The Mantreads\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Market Gardener\"\t\t\t\t\t\t\"0\"\r\n\t\"The Righteous Bison\"\t\t\t\t\t\t\"0\"\r\n\t//____________________________
+        Pyro _____________________________\\\\\r\n\t\"Festive Axtinguisher\"\t\t\t\t\t\t\"0\"\r\n\t\"Festive
+        Backburner 2014\"\t\t\t\t\t\"0\"\r\n\t\"Festive Flare Gun\"\t\t\t\t\t\t\"0\"\r\n\t\"Promo
+        Neon Annihilator\"\t\t\t\t\t\"0\"\r\n\t\"Sharpened Volcano Fragment\"\t\t\t\t\t\"0\"\r\n\t\"The
+        Axtinguisher\"\t\t\t\t\t\t\"0\"\r\n\t\"The Back Scratcher\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Backburner\"\t\t\t\t\t\t\"0\"\r\n\t\"The Degreaser\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Detonator\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The Flare Gun\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Homewrecker\"\t\t\t\t\t\t\"0\"\r\n\t\"The Manmelter\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Maul\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The Neon Annihilator\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Phlogistinator\"\t\t\t\t\t\t\"0\"\r\n\t\"The Postal Pummeler\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Powerjack\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The Scorch Shot\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Third Degree\"\t\t\t\t\t\t\"0\"\r\n\t//___________________________ Demoman
+        ___________________________\\\\\r\n\t\"Ali Baba's Wee Booties\"\t\t\t\t\t\"0\"\r\n\t\"Festive
+        Eyelander\"\t\t\t\t\t\t\"0\"\r\n\t\"Festive Targe 2014\"\t\t\t\t\t\t\"0\"\r\n\t\"Nessie's
+        Nine Iron\"\t\t\t\t\t\t\"0\"\r\n\t\"Stickybomb Jumper\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Bootlegger\"\t\t\t\t\t\t\"0\"\r\n\t\"The Chargin' Targe\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Claidheamohmor\"\t\t\t\t\t\t\"0\"\r\n\t\"The Eyelander\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Horseless Headless Horseman's Headtaker\"\t\t\t\"0\"\r\n\t\"The Iron Bomber\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Loch-n-Load\"\t\t\t\t\t\t\"0\"\r\n\t\"The Loose Cannon\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Persian Persuader\"\t\t\t\t\t\t\"0\"\r\n\t\"The Quickiebomb Launcher\"\t\t\t\t\t\"0\"\r\n\t\"The
+        Scotsman's Skullcutter\"\t\t\t\t\t\"0\"\r\n\t\"The Scottish Resistance\"\t\t\t\t\t\"0\"\r\n\t\"The
+        Splendid Screen\"\t\t\t\t\t\t\"0\"\r\n\t\"The Tide Turner\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Ullapool Caber\"\t\t\t\t\t\t\"0\"\r\n\t//____________________________ Heavy
+        ____________________________\\\\\r\n\t\"Deflector\"\t\t\t\t\t\t\t\"0\"\r\n\t\"Festive
+        Gloves of Running Urgently\"\t\t\t\t\"0\"\r\n\t\"Festive Sandvich\"\t\t\t\t\t\t\"0\"\r\n\t\"Fishcake\"\t\t\t\t\t\t\t\"0\"\r\n\t\"Fists
+        of Steel\"\t\t\t\t\t\t\"0\"\r\n\t\"Gloves of Running Urgently\"\t\t\t\t\t\"0\"\r\n\t\"Natascha\"\t\t\t\t\t\t\t\"0\"\r\n\t\"Promo
+        Huo Long Heatmaker\"\t\t\t\t\t\"0\"\r\n\t\"The Brass Beast\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Bread Bite\"\t\t\t\t\t\t\"0\"\r\n\t\"The Buffalo Steak Sandvich\"\t\t\t\t\t\"0\"\r\n\t\"The
+        Dalokohs Bar\"\t\t\t\t\t\t\"0\"\r\n\t\"The Eviction Notice\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Family Business\"\t\t\t\t\t\t\"0\"\r\n\t\"The Holiday Punch\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Huo Long Heatmaker\"\t\t\t\t\t\"0\"\r\n\t\"The Killing Gloves of Boxing\"\t\t\t\t\t\"0\"\r\n\t\"The
+        Robo-Sandvich\"\t\t\t\t\t\t\"0\"\r\n\t\"The Sandvich\"\t\t\t\t\t\t\t\"0\"\r\n\t\"Tomislav\"\t\t\t\t\t\t\t\"0\"\r\n\t\"Warrior's
+        Spirit\"\t\t\t\t\t\t\"0\"\r\n\t//__________________________ Engineer ___________________________\\\\\r\n\t\"Festive
+        Frontier Justice\"\t\t\t\t\t\"0\"\r\n\t\"Festive Wrangler\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Eureka Effect\"\t\t\t\t\t\t\"0\"\r\n\t\"The Frontier Justice\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Giger Counter\"\t\t\t\t\t\t\"0\"\r\n\t\"The Gunslinger\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Jag\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The Pomson 6000\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Rescue Ranger\"\t\t\t\t\t\t\"0\"\r\n\t\"The Short Circuit\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Southern Hospitality\"\t\t\t\t\t\"0\"\r\n\t\"The Widowmaker\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Wrangler\"\t\t\t\t\t\t\t\"0\"\r\n\t//____________________________ Medic ____________________________\\\\\r\n\t\"The
+        Amputator\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The Quick-Fix\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Solemn Vow\"\t\t\t\t\t\t\"0\"\r\n\t\"The Vaccinator\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Vita-Saw\"\t\t\t\t\t\t\t\"0\"\r\n\t//___________________________ Sniper ____________________________\\\\\r\n\t\"Darwin's
+        Danger Shield\"\t\t\t\t\t\"0\"\r\n\t\"Festive Huntsman\"\t\t\t\t\t\t\"0\"\r\n\t\"Festive
+        Jarate\"\t\t\t\t\t\t\"0\"\r\n\t\"Jarate\"\t\t\t\t\t\t\t\"0\"\r\n\t\"Shooting
+        Star\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The Bazaar Bargain\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Bushwacka\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The Classic\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Cleaner's Carbine\"\t\t\t\t\t\t\"0\"\r\n\t\"The Cozy Camper\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Fortified Compound\"\t\t\t\t\t\"0\"\r\n\t\"The Hitman's Heatmaker\"\t\t\t\t\t\"0\"\r\n\t\"The
+        Huntsman\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The Machina\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Razorback\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The Self-Aware Beauty Mark\"\t\t\t\t\t\"0\"\r\n\t\"The
+        Shahanshah\"\t\t\t\t\t\t\"0\"\r\n\t\"The Sydney Sleeper\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Tribalman's Shiv\"\t\t\t\t\t\t\"0\"\r\n\t//_____________________________ Spy
+        _____________________________\\\\\r\n\t\"Conniver's Kunai\"\t\t\t\t\t\t\"0\"\r\n\t\"Festive
+        Ambassador\"\t\t\t\t\t\t\"0\"\r\n\t\"L'Etranger\"\t\t\t\t\t\t\t\"0\"\r\n\t\"Promo
+        Red-Tape Recorder\"\t\t\t\t\t\"0\"\r\n\t\"The Ambassador\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Big Earner\"\t\t\t\t\t\t\"0\"\r\n\t\"The Cloak and Dagger\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Dead Ringer\"\t\t\t\t\t\t\"0\"\r\n\t\"The Diamondback\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Enforcer\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The Red-Tape Recorder\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Spy-cicle\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The Wanga Prick\"\t\t\t\t\t\t\"0\"\r\n\t\"Your
+        Eternal Reward\"\t\t\t\t\t\t\"0\"\r\n\r\n\t//------------------ Gifting items
+        (Total: 23) ------------------\\\\\r\n\t\"Companion Square Promo Package\"\t\t\t\t\"1\"\r\n\t\"Gift
+        - 1 Duck Token\"\t\t\t\t\t\t\"1\"\r\n\t\"Gift - 1 EOTL Key\"\t\t\t\t\t\t\"1\"\r\n\t\"Gift
+        - 1 Player\"\t\t\t\t\t\t\"1\"\r\n\t\"Gift - 1 RoboKey 2013\"\t\t\t\t\t\t\"1\"\r\n\t\"Gift
+        - 1 SummerKey 2013\"\t\t\t\t\t\"1\"\r\n\t\"Gift - 23 Duck Tokens\"\t\t\t\t\t\t\"1\"\r\n\t\"Gift
+        - 23 EOTL Keys\"\t\t\t\t\t\t\"1\"\r\n\t\"Gift - 23 RoboKeys 2013\"\t\t\t\t\t\"1\"\r\n\t\"Gift
+        - 23 SummerKeys 2013\"\t\t\t\t\t\"1\"\r\n\t\"Gift - 24 Players\"\t\t\t\t\t\t\"1\"\r\n\t\"Halloween
+        Giveaway Cauldron 2014 (Achievement)\"\t\t\"1\"\r\n\t\"Halloween Giveaway
+        Cauldron 2014 (Base)\"\t\t\t\"1\"\r\n\t\"Halloween Giveaway Package 2011 (Cauldron)\"\t\t\t\"1\"\r\n\t\"Manniversary
+        Giveaway Package\"\t\t\t\t\t\"1\"\r\n\t\"Pallet of Crates\"\t\t\t\t\t\t\"1\"\r\n\t\"Portal
+        2 Soundtrack Promo Package\"\t\t\t\t\"1\"\r\n\t\"Random Droppable Paints Package\"\t\t\t\t\"1\"\r\n\t\"Sandvich
+        Promo Package\"\t\t\t\t\t\"1\"\r\n\t\"Self Gift - Mutated Bread Box\"\t\t\t\t\t\"1\"\r\n\t\"Self
+        Gift - Stocking Stuffer 2013\"\t\t\t\t\"1\"\r\n\t\"Steam Translation Package\"\t\t\t\t\t\"1\"\r\n\t\"Store
+        Purchase Promotion Package\"\t\t\t\t\"1\"\r\n\r\n\t//----------- Halloween/Full
+        Moon items (Total: 228) ------------\\\\\r\n\t//_________________________
+        All classes _________________________\\\\\r\n\t\"Cursed Cruise\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Ghost
+        of Spies Checked Past\"\t\t\t\t\t\"1\"\r\n\t\"Guano\"\t\t\t\t\t\t\t\t\"1\"\r\n\t\"Halloween
+        Mask - Demoman\"\t\t\t\t\t\"1\"\r\n\t\"Halloween Mask - Engineer\"\t\t\t\t\t\"1\"\r\n\t\"Halloween
+        Mask - Heavy\"\t\t\t\t\t\"1\"\r\n\t\"Halloween Mask - Medic\"\t\t\t\t\t\"1\"\r\n\t\"Halloween
+        Mask - Pyro\"\t\t\t\t\t\t\"1\"\r\n\t\"Halloween Mask - Scout\"\t\t\t\t\t\"1\"\r\n\t\"Halloween
+        Mask - Sniper\"\t\t\t\t\t\"1\"\r\n\t\"Halloween Mask - Soldier\"\t\t\t\t\t\"1\"\r\n\t\"Halloween
+        Mask - Spy\"\t\t\t\t\t\t\"1\"\r\n\t\"Horseless Headless Horseman's Head\"\t\t\t\t\"1\"\r\n\t\"Kritz
+        Or Treat Canteen\"\t\t\t\t\t\"1\"\r\n\t\"Mildly Disturbing Halloween Mask\"\t\t\t\t\"1\"\r\n\t\"MONOCULUS!\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Quoth\"\t\t\t\t\t\t\t\t\"1\"\r\n\t\"Seal
+        Mask\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Accursed Apparition\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Beacon from Beyond\"\t\t\t\t\t\"1\"\r\n\t\"The Birdie Bonnet\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Boo Balloon\"\t\t\t\t\t\t\"1\"\r\n\t\"The Cryptic Keepsake\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Dadliest Catch\"\t\t\t\t\t\t\"1\"\r\n\t\"The Dark Helm\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Dead Little Buddy\"\t\t\t\t\t\t\"1\"\r\n\t\"The Haunted Hat\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Hooded Haunter\"\t\t\t\t\t\t\"1\"\r\n\t\"The Magical Mercenary\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Manneater\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The One-Way Ticket\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Pocket Horsemann\"\t\t\t\t\t\t\"1\"\r\n\t\"The Sackcloth Spook\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Tuque or Treat\"\t\t\t\t\t\t\"1\"\r\n\t\"The Unknown Monkeynaut\"\t\t\t\t\t\"1\"\r\n\t\"Unidentified
+        Following Object\"\t\t\t\t\t\"1\"\r\n\t\"Voodoo-Cursed Soul (Armory)\"\t\t\t\t\t\"1\"\r\n\t//______________________
+        Multiple classes _______________________\\\\\r\n\t\"Ethereal Hood\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Pin
+        Pals\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Baphomet Trotters\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Candleer\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Snaggletoothed Stetson\"\t\t\t\t\t\"1\"\r\n\t//____________________________
+        Scout ____________________________\\\\\r\n\t\"B-ankh!\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Claws
+        And Infect\"\t\t\t\t\t\t\"1\"\r\n\t\"Crazy Legs\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Faun
+        Feet\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Fowl Fists\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Futankhamun\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Head
+        Hunter\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Nugget Noggin\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Talon
+        Trotters\"\t\t\t\t\t\t\"1\"\r\n\t\"The Alien Cranium\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Biomech Backpack\"\t\t\t\t\t\t\"1\"\r\n\t\"The Face Plante\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Halloweiner\"\t\t\t\t\t\t\"1\"\r\n\t\"The Horrific Head of Hare\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Hound's Hood\"\t\t\t\t\t\t\"1\"\r\n\t\"The Sprinting Cephalopod\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Terrier Trousers\"\t\t\t\t\t\t\"1\"\r\n\t\"The Xeno Suit\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Wrap
+        Battler\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Zombie Scout\"\t\t\t\t\t\t\t\"1\"\r\n\t//___________________________
+        Soldier ___________________________\\\\\r\n\t\"Battle Bird\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Ghoul
+        Gibbin' Gear\"\t\t\t\t\t\t\"1\"\r\n\t\"Grub Grenades\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Hellhunter's
+        Headpiece\"\t\t\t\t\t\"1\"\r\n\t\"Idiot Box\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Lieutenant
+        Bites the Dust\"\t\t\t\t\t\"1\"\r\n\t\"Shoestring Budget\"\t\t\t\t\t\t\"1\"\r\n\t\"Steel
+        Pipes\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Supernatural Stalker\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Cadaver's Capper\"\t\t\t\t\t\t\"1\"\r\n\t\"The Faux Manchu\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Freedom Feathers\"\t\t\t\t\t\t\"1\"\r\n\t\"The Hardium Helm\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Hidden Dragon\"\t\t\t\t\t\t\"1\"\r\n\t\"The Jupiter Jumpers\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Larval Lid\"\t\t\t\t\t\t\"1\"\r\n\t\"The Shaolin Sash\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Space Bracers\"\t\t\t\t\t\t\"1\"\r\n\t\"The Spellbinder's Bonnet\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Zipperface\"\t\t\t\t\t\t\"1\"\r\n\t\"Zombie Soldier\"\t\t\t\t\t\t\"1\"\r\n\t//____________________________
+        Pyro _____________________________\\\\\r\n\t\"Arsonist Apparatus\"\t\t\t\t\t\t\"1\"\r\n\t\"Blazing
+        Bull\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Bozo's Bouffant\"\t\t\t\t\t\t\"1\"\r\n\t\"Burny's
+        Boney Bonnet\"\t\t\t\t\t\t\"1\"\r\n\t\"Carrion Companion\"\t\t\t\t\t\t\"1\"\r\n\t\"Creature's
+        Grin\"\t\t\t\t\t\t\"1\"\r\n\t\"Fallen Angel\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Hard-Headed
+        Hardware\"\t\t\t\t\t\t\"1\"\r\n\t\"Hovering Hotshot\"\t\t\t\t\t\t\"1\"\r\n\t\"Lollichop
+        Licker\"\t\t\t\t\t\t\"1\"\r\n\t\"Moccasin Machinery\"\t\t\t\t\t\t\"1\"\r\n\t\"Mr.
+        Juice\"\t\t\t\t\t\t\t\"1\"\r\n\t\"PY-40 Incinibot\"\t\t\t\t\t\t\"1\"\r\n\t\"Tail
+        From the Crypt\"\t\t\t\t\t\t\"1\"\r\n\t\"The Abhorrent Appendages\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Beast From Below\"\t\t\t\t\t\t\"1\"\r\n\t\"The Cauterizer's Caudal Appendage\"\t\t\t\t\"1\"\r\n\t\"The
+        Corpsemopolitan\"\t\t\t\t\t\t\"1\"\r\n\t\"The Creature From The Heap\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Crispy Golden Locks\"\t\t\t\t\t\"1\"\r\n\t\"The Death Support Pack\"\t\t\t\t\t\"1\"\r\n\t\"The
+        External Organ\"\t\t\t\t\t\t\"1\"\r\n\t\"The Glob\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Gothic Guise\"\t\t\t\t\t\t\"1\"\r\n\t\"The Grisly Gumbo\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Handhunter\"\t\t\t\t\t\t\"1\"\r\n\t\"The Hollowhead\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Macabre Mask\"\t\t\t\t\t\t\"1\"\r\n\t\"The Maniac's Manacles\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Monster's Stompers\"\t\t\t\t\t\"1\"\r\n\t\"The Mucous Membrain\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Plutonidome\"\t\t\t\t\t\t\"1\"\r\n\t\"The Raven's Visage\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Rugged Respirator\"\t\t\t\t\t\t\"1\"\r\n\t\"The Scorched Skirt\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Spectralnaut\"\t\t\t\t\t\t\"1\"\r\n\t\"The Vicious Visage\"\t\t\t\t\t\t\"1\"\r\n\t\"Up
+        Pyroscopes\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Vampyro\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Zombie
+        Pyro\"\t\t\t\t\t\t\t\"1\"\r\n\t//___________________________ Demoman ___________________________\\\\\r\n\t\"Aerobatics
+        Demonstrator\"\t\t\t\t\t\"1\"\r\n\t\"Cap'n Calamari\"\t\t\t\t\t\t\"1\"\r\n\t\"Explosive
+        Mind\"\t\t\t\t\t\t\"1\"\r\n\t\"Eyeborg\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Forgotten
+        King's Pauldrons\"\t\t\t\t\t\"1\"\r\n\t\"Forgotten King's Restless Head\"\t\t\t\t\"1\"\r\n\t\"Hair
+        of the Dog\"\t\t\t\t\t\t\"1\"\r\n\t\"Pickled Paws\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Polly
+        Putrid\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Scottish Snarl\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Headtaker's Hood\"\t\t\t\t\t\t\"1\"\r\n\t\"The Horsemann's Hand-Me-Down\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Lordly Lapels\"\t\t\t\t\t\t\"1\"\r\n\t\"The Mann-Bird of Aberdeen\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Parasight\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Squid's Lid\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Transylvania Top\"\t\t\t\t\t\t\"1\"\r\n\t\"Zombie Demo\"\t\t\t\t\t\t\t\"1\"\r\n\t//____________________________
+        Heavy ____________________________\\\\\r\n\t\"Bone-Cut Belt\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Bull
+        Locks\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Can Opener\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Immobile
+        Suit\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Ivan The Inedible\"\t\t\t\t\t\t\"1\"\r\n\t\"Minsk
+        Beef\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Soviet Stitch-Up\"\t\t\t\t\t\t\"1\"\r\n\t\"Steel-Toed
+        Stompers\"\t\t\t\t\t\t\"1\"\r\n\t\"The Chicken Kiev\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Grand Duchess Fairy Wings\"\t\t\t\t\t\"1\"\r\n\t\"The Grand Duchess Tiara\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Grand Duchess Tutu\"\t\t\t\t\t\"1\"\r\n\t\"The Horned Honcho\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Last Bite\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Monstrous Mandible\"\t\t\t\t\t\"1\"\r\n\t\"Zombie
+        Heavy\"\t\t\t\t\t\t\t\"1\"\r\n\t//__________________________ Engineer ___________________________\\\\\r\n\t\"Beep
+        Man\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Buzz Killer\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Final
+        Frontier Freighter\"\t\t\t\t\t\"1\"\r\n\t\"Frontier Flyboy\"\t\t\t\t\t\t\"1\"\r\n\t\"Garden
+        Bristles\"\t\t\t\t\t\t\"1\"\r\n\t\"Iron Fist\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Legend
+        of Bugfoot\"\t\t\t\t\t\t\"1\"\r\n\t\"Soul of 'Spenser's Past\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Grease Monkey\"\t\t\t\t\t\t\"1\"\r\n\t\"The Master Mind\"\t\t\t\t\t\t\"1\"\r\n\t\"Tiny
+        Texan\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Zombie Engineer\"\t\t\t\t\t\t\"1\"\r\n\t//____________________________
+        Medic ____________________________\\\\\r\n\t\"Archimedes the Undying\"\t\t\t\t\t\"1\"\r\n\t\"Das
+        Blutliebhaber\"\t\t\t\t\t\t\"1\"\r\n\t\"Dr. Gogglestache\"\t\t\t\t\t\t\"1\"\r\n\t\"Einstein\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Emerald
+        Jarate\"\t\t\t\t\t\t\"1\"\r\n\t\"Herzensbrecher\"\t\t\t\t\t\t\"1\"\r\n\t\"Hundekopf\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Kriegsmaschine-9000\"\t\t\t\t\t\t\"1\"\r\n\t\"Medimedes\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Ramses'
+        Regalia\"\t\t\t\t\t\t\"1\"\r\n\t\"Templar's Spirit\"\t\t\t\t\t\t\"1\"\r\n\t\"Teutonkahmun\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Alternative Medicine Mann\"\t\t\t\t\t\"1\"\r\n\t\"The Lo-Grav Loafers\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Second Opinion\"\t\t\t\t\t\t\"1\"\r\n\t\"The Shaman's Skull\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Surgeon's Space Suit\"\t\t\t\t\t\"1\"\r\n\t\"The Trepanabotomizer\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Vicar's Vestments\"\t\t\t\t\t\t\"1\"\r\n\t\"Transylvanian Toupe\"\t\t\t\t\t\t\"1\"\r\n\t\"Vampiric
+        Vesture\"\t\t\t\t\t\t\"1\"\r\n\t\"Wings of Purity\"\t\t\t\t\t\t\"1\"\r\n\t\"Zombie
+        Medic\"\t\t\t\t\t\t\t\"1\"\r\n\t//___________________________ Sniper ____________________________\\\\\r\n\t\"Conspiratorial
+        Cut\"\t\t\t\t\t\t\"1\"\r\n\t\"Garlic Flank Stake\"\t\t\t\t\t\t\"1\"\r\n\t\"Holy
+        Hunter\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Kanga Kickers\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Marsupial
+        Man\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Marsupial Muzzle\"\t\t\t\t\t\t\"1\"\r\n\t\"Mr.
+        Mundee's Wild Ride\"\t\t\t\t\t\"1\"\r\n\t\"Roo Rippers\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Silver
+        Bullets\"\t\t\t\t\t\t\"1\"\r\n\t\"Sir Shootsalot\"\t\t\t\t\t\t\"1\"\r\n\t\"Skinless
+        Slashers\"\t\t\t\t\t\t\"1\"\r\n\t\"The Carious Chameleon\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Hallowed Headcase\"\t\t\t\t\t\t\"1\"\r\n\t\"Zombie Sniper\"\t\t\t\t\t\t\t\"1\"\r\n\t//_____________________________
+        Spy _____________________________\\\\\r\n\t\"Bozo's Brogues\"\t\t\t\t\t\t\"1\"\r\n\t\"Facepeeler\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Griffin's
+        Gog\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Intangible Ascot\"\t\t\t\t\t\t\"1\"\r\n\t\"Nightmare
+        Hunter\"\t\t\t\t\t\t\"1\"\r\n\t\"Rogue's Rabbit\"\t\t\t\t\t\t\"1\"\r\n\t\"Shadowman's
+        Shade\"\t\t\t\t\t\t\"1\"\r\n\t\"The Bountiful Bow\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Candyman's Cap\"\t\t\t\t\t\t\"1\"\r\n\t\"The Foul Cowl\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Hyperbaric Bowler\"\t\t\t\t\t\t\"1\"\r\n\t\"Under Cover\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Zombie
+        Spy\"\t\t\t\t\t\t\t\"1\"\r\n\r\n\t//---------------------- Hats (Total: 544)
+        ----------------------\\\\\r\n\t//_________________________ All classes _________________________\\\\\r\n\t\"A
+        Rather Festive Tree\"\t\t\t\t\t\t\"1\"\r\n\t\"A Well Wrapped Hat\"\t\t\t\t\t\t\"1\"\r\n\t\"Arkham
+        Cowl\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Bedouin Bandana\"\t\t\t\t\t\t\"1\"\r\n\t\"Benefactor's
+        Kanmuri\"\t\t\t\t\t\t\"1\"\r\n\t\"Camera Helm\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Captain
+        Cardbeard Cutthroat\"\t\t\t\t\t\"1\"\r\n\t\"Civilian Grade JACK Hat\"\t\t\t\t\t\"1\"\r\n\t\"Class
+        Crown\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Daily Duel Winner Reward Hat\"\t\t\t\t\t\"1\"\r\n\t\"Daily
+        Gift Giver Reward Hat\"\t\t\t\t\t\"1\"\r\n\t\"Daily Map Stamp Reward Hat\"\t\t\t\t\t\"1\"\r\n\t\"dec2014
+        CoPilot_2014\"\t\t\t\t\t\t\"1\"\r\n\t\"Dr's Dapper Topper\"\t\t\t\t\t\t\"1\"\r\n\t\"Duck
+        Billed Hatypus\"\t\t\t\t\t\t\"1\"\r\n\t\"Ellis Hat\"\t\t\t\t\t\t\t\"1\"\r\n\t\"EOTL_Brisk-weather
+        Beanie\"\t\t\t\t\t\"1\"\r\n\t\"EOTL_FURCAP\"\t\t\t\t\t\t\t\"1\"\r\n\t\"EOTL_hiphunter_hat\"\t\t\t\t\t\t\"1\"\r\n\t\"Friendly
+        Item\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Ghastly Gibus\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Ghastly
+        Gibus 2010\"\t\t\t\t\t\t\"1\"\r\n\t\"Ghastly Gibus 2011\"\t\t\t\t\t\t\"1\"\r\n\t\"Ghostly
+        Gibus\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Halloween Mask - Saxton Hale\"\t\t\t\t\t\"1\"\r\n\t\"Honest
+        Halo\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Hong Kong Cone\"\t\t\t\t\t\t\"1\"\r\n\t\"Horace\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Horrific
+        Headsplitter\"\t\t\t\t\t\t\"1\"\r\n\t\"Humanitarian's Hachimaki\"\t\t\t\t\t\"1\"\r\n\t\"Killer
+        Exclusive\"\t\t\t\t\t\t\"1\"\r\n\t\"L4D Hat\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Lil'
+        Bitey\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Lo-Fi Longwave\"\t\t\t\t\t\t\"1\"\r\n\t\"Loyalty
+        Reward\"\t\t\t\t\t\t\"1\"\r\n\t\"Mangnanimous Monarch\"\t\t\t\t\t\t\"1\"\r\n\t\"Mann
+        Co. Cap\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Mann Co. Online Cap\"\t\t\t\t\t\t\"1\"\r\n\t\"Manniversary
+        Paper Hat\"\t\t\t\t\t\"1\"\r\n\t\"Military Grade JACK Hat\"\t\t\t\t\t\"1\"\r\n\t\"MNC
+        Hat\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Modest Metal Pile of Scrap\"\t\t\t\t\t\"1\"\r\n\t\"Modest
+        Pile of Hat\"\t\t\t\t\t\t\"1\"\r\n\t\"Nasty Norsemann\"\t\t\t\t\t\t\"1\"\r\n\t\"Neckwear
+        Headwear\"\t\t\t\t\t\t\"1\"\r\n\t\"Noble Amassment of Hats\"\t\t\t\t\t\"1\"\r\n\t\"Noble
+        Nickel Amassment of Hats\"\t\t\t\t\"1\"\r\n\t\"OSX Item\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Parasite
+        Hat\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Phononaut\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Point
+        and Shoot\"\t\t\t\t\t\t\"1\"\r\n\t\"Potassium Bonnett\"\t\t\t\t\t\t\"1\"\r\n\t\"Potato
+        Hat\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Prehistoric Pullover\"\t\t\t\t\t\t\"1\"\r\n\t\"Prinny
+        Hat\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Promo Arkham Cowl\"\t\t\t\t\t\t\"1\"\r\n\t\"Promo
+        Human Cannonball\"\t\t\t\t\t\"1\"\r\n\t\"Propaganda Contest First Place\"\t\t\t\t\"1\"\r\n\t\"Propaganda
+        Contest Second Place\"\t\t\t\t\"1\"\r\n\t\"Propaganda Contest Third Place\"\t\t\t\t\"1\"\r\n\t\"Robot
+        Chicken Hat\"\t\t\t\t\t\t\"1\"\r\n\t\"Spine-Chilling Skull\"\t\t\t\t\t\t\"1\"\r\n\t\"Spine-Chilling
+        Skull 2011\"\t\t\t\t\t\"1\"\r\n\t\"Spine-Chilling Skull 2011 Style 1\"\t\t\t\t\"1\"\r\n\t\"Spine-Chilling
+        Skull 2011 Style 2\"\t\t\t\t\"1\"\r\n\t\"Spine-Chilling Skull 2011 Style 3\"\t\t\t\t\"1\"\r\n\t\"Spiral
+        Sallet\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Spooktacles\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Summer
+        Hat\"\t\t\t\t\t\t\t\"1\"\r\n\t\"TF Birthday Hat 2011\"\t\t\t\t\t\t\"1\"\r\n\t\"That
+        '70s Chapeau\"\t\t\t\t\t\t\"1\"\r\n\t\"The B.M.O.C.\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Bolt Action Blitzer\"\t\t\t\t\t\"1\"\r\n\t\"The Bot Dogger\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Brotherhood of Arms\"\t\t\t\t\t\"1\"\r\n\t\"The Brown Bomber\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Brutal Bouffant\"\t\t\t\t\t\t\"1\"\r\n\t\"The Chill Chullo\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Cockfighter\"\t\t\t\t\t\t\"1\"\r\n\t\"The Conspiracy Cap\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Cotton Head\"\t\t\t\t\t\t\"1\"\r\n\t\"The Crone's Dome\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Crosslinker's Coil\"\t\t\t\t\t\"1\"\r\n\t\"The Crown of the Old Kingdom\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Dark Falkirk Helm\"\t\t\t\t\t\t\"1\"\r\n\t\"The Ebenezer\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Executioner\"\t\t\t\t\t\t\"1\"\r\n\t\"The Federal Casemaker\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Finder's Fee\"\t\t\t\t\t\t\"1\"\r\n\t\"The Full Head of Steam\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Galvanized Gibus\"\t\t\t\t\t\t\"1\"\r\n\t\"The Gentle Munitionne of Leisure\"\t\t\t\t\"1\"\r\n\t\"The
+        Grandmaster\"\t\t\t\t\t\t\"1\"\r\n\t\"The Head Prize\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Holiday Headcase\"\t\t\t\t\t\t\"1\"\r\n\t\"The Hot Dogger\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Human Cannonball\"\t\t\t\t\t\t\"1\"\r\n\t\"The Kiss King\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Law\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Merc's Mohawk\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Patriot Peak\"\t\t\t\t\t\t\"1\"\r\n\t\"The Polar Pullover\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Public Accessor\"\t\t\t\t\t\t\"1\"\r\n\t\"The Rotation Sensation\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Salty Dog\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Sarif Cap\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Skull Island Topper\"\t\t\t\t\t\"1\"\r\n\t\"The Snowmann\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        TF2VRH\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Toadstool Topper\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Top Notch\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Virtual Viewfinder\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Warsworn Helmet\"\t\t\t\t\t\t\"1\"\r\n\t\"The Well-Rounded Rifleman\"\t\t\t\t\t\"1\"\r\n\t\"Tipped
+        Lid\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Tough Stuff Muffs\"\t\t\t\t\t\t\"1\"\r\n\t\"Towering
+        Pillar of Hats\"\t\t\t\t\t\"1\"\r\n\t\"Towering Titanium Pillar of Hats\"\t\t\t\t\"1\"\r\n\t\"Treasure
+        Hat 1\"\t\t\t\t\t\t\"1\"\r\n\t\"Treasure Hat 2\"\t\t\t\t\t\t\"1\"\r\n\t\"Treasure
+        Hat 3\"\t\t\t\t\t\t\"1\"\r\n\t\"TTG Max Hat\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Universal
+        Translator\"\t\t\t\t\t\t\"1\"\r\n\t\"Unusual Cap\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Vive
+        La France\"\t\t\t\t\t\t\"1\"\r\n\t\"Voodoo Juju\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Wiki
+        Cap\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Woolen Warmer\"\t\t\t\t\t\t\t\"1\"\r\n\t\"World
+        Traveler\"\t\t\t\t\t\t\"1\"\r\n\t//______________________ Multiple classes
+        _______________________\\\\\r\n\t\"Pestering Jester\"\t\t\t\t\t\t\"1\"\r\n\t\"Private
+        Eye\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Teufort Knight\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Bloodhound\"\t\t\t\t\t\t\"1\"\r\n\t\"The Crafty Hair\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Deep Cover Operator\"\t\t\t\t\t\"1\"\r\n\t\"The Hat With No Name\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        HazMat Headcase\"\t\t\t\t\t\t\"1\"\r\n\t\"The Menpo\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Mutton Mann\"\t\t\t\t\t\t\"1\"\r\n\t\"The Powdered Practitioner\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Team Captain\"\t\t\t\t\t\t\"1\"\r\n\t\"The Toy Soldier\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Wilson Weave\"\t\t\t\t\t\t\"1\"\r\n\t//____________________________ Scout
+        ____________________________\\\\\r\n\t\"B'aaarrgh-n-Bicorne\"\t\t\t\t\t\t\"1\"\r\n\t\"Baseball
+        Bill's Sports Shine\"\t\t\t\t\t\"1\"\r\n\t\"Batter's Helmet\"\t\t\t\t\t\t\"1\"\r\n\t\"Bombing
+        Run\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Bonk Boy\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Bonk
+        Helm\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Bonk Leadwear\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Death
+        Racer's Helmet\"\t\t\t\t\t\t\"1\"\r\n\t\"dec2014 Marauders Mask\"\t\t\t\t\t\"1\"\r\n\t\"Flipped
+        Trilby\"\t\t\t\t\t\t\"1\"\r\n\t\"Fortunate Son\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Greased
+        Lightning\"\t\t\t\t\t\t\"1\"\r\n\t\"Herald's Helm\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Hero's
+        Tail\"\t\t\t\t\t\t\t\"1\"\r\n\t\"MNC Mascot Hat\"\t\t\t\t\t\t\"1\"\r\n\t\"MvM
+        GateBot Light Scout\"\t\t\t\t\t\"1\"\r\n\t\"Runner's Warm-Up\"\t\t\t\t\t\t\"1\"\r\n\t\"Scout
+        Beanie\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Scout MtG Hat\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Scout
+        Whoopee Cap\"\t\t\t\t\t\t\"1\"\r\n\t\"Sidekick's Side Slick\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Airdog\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Backwards Ballcap\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Bacteria Blocker\"\t\t\t\t\t\t\"1\"\r\n\t\"The Beastly Bonnet\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Big Elfin Deal\"\t\t\t\t\t\t\"1\"\r\n\t\"The Bolt Boy\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Cross-Comm Express\"\t\t\t\t\t\"1\"\r\n\t\"The El Jefe\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Fed-Fightin' Fedora\"\t\t\t\t\t\"1\"\r\n\t\"The Front Runner\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Hanger-On Hood\"\t\t\t\t\t\t\"1\"\r\n\t\"The Hermes\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Milkman\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Pomade Prince\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Robot Running Man\"\t\t\t\t\t\t\"1\"\r\n\t\"The Scout Shako\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Void Monk Hair\"\t\t\t\t\t\t\"1\"\r\n\t\"The Wing Mann\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Thirst
+        Blood\"\t\t\t\t\t\t\t\"1\"\r\n\t\"tw_scoutbot_hat\"\t\t\t\t\t\t\"1\"\r\n\t\"Ye
+        Oiled Baker Boy\"\t\t\t\t\t\t\"1\"\r\n\t\"Ye Olde Baker Boy\"\t\t\t\t\t\t\"1\"\r\n\t//___________________________
+        Soldier ___________________________\\\\\r\n\t\"Armored Authority\"\t\t\t\t\t\t\"1\"\r\n\t\"Bucket
+        Hat\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Chieftain's Challenge\"\t\t\t\t\t\t\"1\"\r\n\t\"dec2014
+        Skullcap\"\t\t\t\t\t\t\"1\"\r\n\t\"Defiant Spartan\"\t\t\t\t\t\t\"1\"\r\n\t\"EOTL_soldier_garrison\"\t\t\t\t\t\t\"1\"\r\n\t\"EOTL_soldierhat\"\t\t\t\t\t\t\"1\"\r\n\t\"Full
+        Metal Drill Hat\"\t\t\t\t\t\t\"1\"\r\n\t\"Furious Fukaamigasa\"\t\t\t\t\t\t\"1\"\r\n\t\"Ground
+        Control\"\t\t\t\t\t\t\"1\"\r\n\t\"Hero's Hachimaki\"\t\t\t\t\t\t\"1\"\r\n\t\"Honcho's
+        Headgear\"\t\t\t\t\t\t\"1\"\r\n\t\"Jumper's Jeepcap\"\t\t\t\t\t\t\"1\"\r\n\t\"Lord
+        Cockswain's Pith Helmet\"\t\t\t\t\t\"1\"\r\n\t\"MvM GateBot Light Soldier\"\t\t\t\t\t\"1\"\r\n\t\"Soldier
+        Drill Hat\"\t\t\t\t\t\t\"1\"\r\n\t\"Soldier Samurai Hat\"\t\t\t\t\t\t\"1\"\r\n\t\"Soldier's
+        Slope Scopers\"\t\t\t\t\t\"1\"\r\n\t\"Stahlhelm\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Stainless
+        Pot\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Steel Shako\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Stout
+        Shako\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Battle Bob\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Big Daddy\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Caribbean Conqueror\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Chief Constable\"\t\t\t\t\t\t\"1\"\r\n\t\"The Cloud Crasher\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Conquistador\"\t\t\t\t\t\t\"1\"\r\n\t\"The Cross-Comm Crash Helmet\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Doe-Boy\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The First American\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Gilded Guard\"\t\t\t\t\t\t\"1\"\r\n\t\"The Grenadier's Softcap\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Hellmet\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Helmet Without a Home\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Infernal Impaler\"\t\t\t\t\t\t\"1\"\r\n\t\"The Lucky Shot\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Rebel Rouser\"\t\t\t\t\t\t\"1\"\r\n\t\"The Slo-Poke\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Spook Specs\"\t\t\t\t\t\t\"1\"\r\n\t\"The Tin Pot\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Valley Forge\"\t\t\t\t\t\t\"1\"\r\n\t\"The War on Smissmas Battle Hood\"\t\t\t\t\"1\"\r\n\t\"The
+        War Pig\"\t\t\t\t\t\t\t\"1\"\r\n\t\"tw_soldierbot_helmet\"\t\t\t\t\t\t\"1\"\r\n\t\"Tyrant's
+        Helm\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Tyrantium Helmet\"\t\t\t\t\t\t\"1\"\r\n\t\"Worms
+        Gear\"\t\t\t\t\t\t\t\"1\"\r\n\t//____________________________ Pyro _____________________________\\\\\r\n\t\"A
+        Head Full of Hot Air\"\t\t\t\t\t\"1\"\r\n\t\"Apparition's Aspect\"\t\t\t\t\t\t\"1\"\r\n\t\"Area
+        451\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Brigade Helm\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Combustible
+        Cutie\"\t\t\t\t\t\t\"1\"\r\n\t\"Connoisseur's Cap\"\t\t\t\t\t\t\"1\"\r\n\t\"dec2014
+        2014_pyromancer_hood\"\t\t\t\t\t\"1\"\r\n\t\"Employee of the Mmmph\"\t\t\t\t\t\t\"1\"\r\n\t\"EOTL_Skier\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Fear
+        Monger\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Firewall Helmet\"\t\t\t\t\t\t\"1\"\r\n\t\"Handyman's
+        Handle\"\t\t\t\t\t\t\"1\"\r\n\t\"Hottie's Hoodie\"\t\t\t\t\t\t\"1\"\r\n\t\"KF
+        Pyro Mask\"\t\t\t\t\t\t\t\"1\"\r\n\t\"KF Pyro Tie\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Madame
+        Dixie\"\t\t\t\t\t\t\t\"1\"\r\n\t\"MvM GateBot Light Pyro\"\t\t\t\t\t\"1\"\r\n\t\"Napper's
+        Respite\"\t\t\t\t\t\t\"1\"\r\n\t\"Nose Candy\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Old
+        Guadalajara\"\t\t\t\t\t\t\"1\"\r\n\t\"Plumber's Pipe\"\t\t\t\t\t\t\"1\"\r\n\t\"Prancer's
+        Pride\"\t\t\t\t\t\t\"1\"\r\n\t\"Promo Fear Monger\"\t\t\t\t\t\t\"1\"\r\n\t\"Promo
+        The Firefly\"\t\t\t\t\t\t\"1\"\r\n\t\"Pyro Brain Sucker\"\t\t\t\t\t\t\"1\"\r\n\t\"Pyro
+        Helm\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Pyro the Flamedeer\"\t\t\t\t\t\t\"1\"\r\n\t\"Pyro's
+        Beanie\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Pyro's Boron Beanie\"\t\t\t\t\t\t\"1\"\r\n\t\"Pyromancer's
+        Mask\"\t\t\t\t\t\t\"1\"\r\n\t\"Respectless Robo-Glove\"\t\t\t\t\t\"1\"\r\n\t\"Respectless
+        Rubber Glove\"\t\t\t\t\t\"1\"\r\n\t\"Sight for Sore Eyes\"\t\t\t\t\t\t\"1\"\r\n\t\"Sole
+        Mate\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Stately Steel Toe\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Air Raider\"\t\t\t\t\t\t\"1\"\r\n\t\"The Attendant\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Birdcage\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Bolted Birdcage\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Bone Dome\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Breather Bag\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Bubble Pipe\"\t\t\t\t\t\t\"1\"\r\n\t\"The Centurion\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Combustible Kabuto\"\t\t\t\t\t\"1\"\r\n\t\"The Cranial Carcharodon\"\t\t\t\t\t\"1\"\r\n\t\"The
+        DethKapp\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Electric Escorter\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Face of Mercy\"\t\t\t\t\t\t\"1\"\r\n\t\"The Filamental\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Firefly\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Flamboyant Flamenco\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Googol Glass Eyes\"\t\t\t\t\t\t\"1\"\r\n\t\"The Head Warmer\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Hive Minder\"\t\t\t\t\t\t\"1\"\r\n\t\"The Last Breath\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Little Buddy\"\t\t\t\t\t\t\"1\"\r\n\t\"The Mair Mask\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Metal Slug\"\t\t\t\t\t\t\"1\"\r\n\t\"The Mishap Mercenary\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Nabler\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Necronomicrown\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Person in the Iron Mask\"\t\t\t\t\t\"1\"\r\n\t\"The Rusty Reaper\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Smoking Skid Lid\"\t\t\t\t\t\t\"1\"\r\n\t\"The Toy Tailor\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Triclops\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Waxy Wayfinder\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Winter Wonderland Wrap\"\t\t\t\t\t\"1\"\r\n\t\"Traffic Cone\"\t\t\t\t\t\t\t\"1\"\r\n\t\"tw_pyrobot_helmet\"\t\t\t\t\t\t\"1\"\r\n\t//___________________________
+        Demoman ___________________________\\\\\r\n\t\"Bomb Beanie\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Bruce's
+        Bonnet\"\t\t\t\t\t\t\"1\"\r\n\t\"Carouser's Capotain\"\t\t\t\t\t\t\"1\"\r\n\t\"Conjurer's
+        Cowl\"\t\t\t\t\t\t\"1\"\r\n\t\"dec2014 Comforter\"\t\t\t\t\t\t\"1\"\r\n\t\"dec2014
+        Viking Helmet\"\t\t\t\t\t\t\"1\"\r\n\t\"Demo Kabuto\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Demoman
+        Hallmark\"\t\t\t\t\t\t\"1\"\r\n\t\"Demoman Tricorne\"\t\t\t\t\t\t\"1\"\r\n\t\"Demoman's
+        Fro\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Elf Esteem\"\t\t\t\t\t\t\t\"1\"\r\n\t\"EOTL_summerhat\"\t\t\t\t\t\t\"1\"\r\n\t\"Glengarry
+        Bonnet\"\t\t\t\t\t\t\"1\"\r\n\t\"Mask of the Shaman\"\t\t\t\t\t\t\"1\"\r\n\t\"MvM
+        GateBot Light Demoman\"\t\t\t\t\t\"1\"\r\n\t\"Outta' Sight\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Pirate
+        Bandana\"\t\t\t\t\t\t\"1\"\r\n\t\"Prince Tavish's Crown\"\t\t\t\t\t\t\"1\"\r\n\t\"Reggaelator\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Rimmed
+        Raincatcher\"\t\t\t\t\t\t\"1\"\r\n\t\"Scotch Bonnet\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Scotsman's
+        Stove Pipe\"\t\t\t\t\t\t\"1\"\r\n\t\"Sober Stuntman\"\t\t\t\t\t\t\"1\"\r\n\t\"Spirit
+        of the Bombing Past\"\t\t\t\t\t\"1\"\r\n\t\"Stylish DeGroot\"\t\t\t\t\t\t\"1\"\r\n\t\"Sultan's
+        Ceremonial\"\t\t\t\t\t\t\"1\"\r\n\t\"Tam O'Shanter\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Tartan
+        Tyrolean\"\t\t\t\t\t\t\"1\"\r\n\t\"The Allbrero\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Black Watch\"\t\t\t\t\t\t\"1\"\r\n\t\"The Bolgan\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Bolted Bicorne\"\t\t\t\t\t\t\"1\"\r\n\t\"The Bomber Knight\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Broadband Bonnet\"\t\t\t\t\t\t\"1\"\r\n\t\"The Buccaneer's Bicorne\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Cyborg Stunt Helmet\"\t\t\t\t\t\"1\"\r\n\t\"The Dayjogger\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        FR-0\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Frontier Djustice\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Grenadier Helm\"\t\t\t\t\t\t\"1\"\r\n\t\"The Hood of Sorrows\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Pure Tin Capotain\"\t\t\t\t\t\t\"1\"\r\n\t\"The Razor Cut\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Strontium Stove Pipe\"\t\t\t\t\t\"1\"\r\n\t\"The Tartan Shade\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Tavish DeGroot Experience\"\t\t\t\t\t\"1\"\r\n\t\"The Voodoo Juju (Slight
+        Return)\"\t\t\t\t\"1\"\r\n\t\"tw_demobot_helmet\"\t\t\t\t\t\t\"1\"\r\n\t//____________________________
+        Heavy ____________________________\\\\\r\n\t\"Big Chief\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Big
+        Steel Jaw of Summer Fun\"\t\t\t\t\t\"1\"\r\n\t\"Brock's Locks\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Bullet
+        Buzz\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Cadaver's Cranium\"\t\t\t\t\t\t\"1\"\r\n\t\"Capone's
+        Capper\"\t\t\t\t\t\t\"1\"\r\n\t\"Cold War Luchador\"\t\t\t\t\t\t\"1\"\r\n\t\"Copper's
+        Hard Top\"\t\t\t\t\t\t\"1\"\r\n\t\"Coupe D'isaster\"\t\t\t\t\t\t\"1\"\r\n\t\"dec2014
+        heavy_parka\"\t\t\t\t\t\t\"1\"\r\n\t\"dec2014 The Big Papa\"\t\t\t\t\t\t\"1\"\r\n\t\"Dragonborn
+        Helmet\"\t\t\t\t\t\t\"1\"\r\n\t\"EOTL_Flat_cap\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Football
+        Helmet\"\t\t\t\t\t\t\"1\"\r\n\t\"Hard Counter\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Heavy
+        Do-rag\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Heavy Hair\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Heavy
+        Topknot\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Heavy's Hockey Hair\"\t\t\t\t\t\t\"1\"\r\n\t\"Large
+        Luchadore\"\t\t\t\t\t\t\"1\"\r\n\t\"Mad Mask\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Magnificent
+        Mongolian\"\t\t\t\t\t\t\"1\"\r\n\t\"Minnesota Slick\"\t\t\t\t\t\t\"1\"\r\n\t\"Mo'Horn\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Officer's
+        Ushanka\"\t\t\t\t\t\t\"1\"\r\n\t\"Pilotka\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Poker
+        Visor\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Pugilist's Protector\"\t\t\t\t\t\t\"1\"\r\n\t\"Security
+        Shades\"\t\t\t\t\t\t\"1\"\r\n\t\"Storm Spirit's Jolly Hat\"\t\t\t\t\t\"1\"\r\n\t\"Sucker
+        Slug\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Bunsen Brave\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Carl\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Eliminators Safeguard\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Gridiron Guardian\"\t\t\t\t\t\t\"1\"\r\n\t\"The Gym Rat\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Heavy Artillery Officer's Cap\"\t\t\t\t\"1\"\r\n\t\"The Katyusha\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        One-Man Army\"\t\t\t\t\t\t\"1\"\r\n\t\"The Outdoorsman\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Pounding Father\"\t\t\t\t\t\t\"1\"\r\n\t\"The Sammy Cap\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Soviet Gentleman\"\t\t\t\t\t\t\"1\"\r\n\t\"The Trash Man\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Tsarboosh\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Tungsten Toque\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        U-clank-a\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Tough Guy's Toque\"\t\t\t\t\t\t\"1\"\r\n\t\"tw_heavybot_helmet\"\t\t\t\t\t\t\"1\"\r\n\t\"War
+        Head\"\t\t\t\t\t\t\t\"1\"\r\n\t\"White Russian\"\t\t\t\t\t\t\t\"1\"\r\n\t//__________________________
+        Engineer ___________________________\\\\\r\n\t\"Big Country\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Buckaroos
+        Hat\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Clockwerk's Helm\"\t\t\t\t\t\t\"1\"\r\n\t\"dec2014
+        engineer_detectiveglasses\"\t\t\t\t\"1\"\r\n\t\"Engineer Earmuffs\"\t\t\t\t\t\t\"1\"\r\n\t\"Engineer
+        Welding Mask\"\t\t\t\t\t\t\"1\"\r\n\t\"Engineer's Cap\"\t\t\t\t\t\t\"1\"\r\n\t\"Industrial
+        Festivizer\"\t\t\t\t\t\t\"1\"\r\n\t\"MvM GateBot Light Engineer\"\t\t\t\t\t\"1\"\r\n\t\"Ol'
+        Geezer\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Polish War Babushka\"\t\t\t\t\t\t\"1\"\r\n\t\"Professor's
+        Peculiarity\"\t\t\t\t\t\"1\"\r\n\t\"Sheriff's Stetson\"\t\t\t\t\t\t\"1\"\r\n\t\"Smokey
+        Sombrero\"\t\t\t\t\t\t\"1\"\r\n\t\"Texas Slim's Dome Shine\"\t\t\t\t\t\"1\"\r\n\t\"Texas
+        Ten Gallon\"\t\t\t\t\t\t\"1\"\r\n\t\"Texas Tin-Gallon\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Barnstormer\"\t\t\t\t\t\t\"1\"\r\n\t\"The Corpus Christi Cranium\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Data Mining Light\"\t\t\t\t\t\t\"1\"\r\n\t\"The Last Straw\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Pardner's Pompadour\"\t\t\t\t\t\"1\"\r\n\t\"The Peacenik's Ponytail\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Plug-In Prospector\"\t\t\t\t\t\"1\"\r\n\t\"The Timeless Topper\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Tin-1000\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Trencher's Topper\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Virtual Reality Headset\"\t\t\t\t\t\"1\"\r\n\t\"The Wide-Brimmed Bandito\"\t\t\t\t\t\"1\"\r\n\t\"tw_engineerbot_helmet\"\t\t\t\t\t\t\"1\"\r\n\t\"Vox
+        Diabolus\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Western Wear\"\t\t\t\t\t\t\t\"1\"\r\n\t//____________________________
+        Medic ____________________________\\\\\r\n\t\"Baron von Havenaplane\"\t\t\t\t\t\t\"1\"\r\n\t\"Berlin
+        Brain Bowl\"\t\t\t\t\t\t\"1\"\r\n\t\"Berliner's Bucket Helm\"\t\t\t\t\t\"1\"\r\n\t\"Blighted
+        Beak\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Colossal Cranium\"\t\t\t\t\t\t\"1\"\r\n\t\"Das
+        Gutenkutteharen\"\t\t\t\t\t\t\"1\"\r\n\t\"Das Maddendoktor\"\t\t\t\t\t\t\"1\"\r\n\t\"Das
+        Naggenvatcher\"\t\t\t\t\t\t\"1\"\r\n\t\"Das Ubersternmann\"\t\t\t\t\t\t\"1\"\r\n\t\"dec2014
+        Surgeon's Shako\"\t\t\t\t\t\"1\"\r\n\t\"Doctor's Sack\"\t\t\t\t\t\t\t\"1\"\r\n\t\"German
+        Gonzila\"\t\t\t\t\t\t\"1\"\r\n\t\"Grimm Hatte\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Halogen
+        Head Lamp\"\t\t\t\t\t\t\"1\"\r\n\t\"Heer's Helmet\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Medi-Mask\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Medic
+        Gatsby\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Medic Geisha Hair\"\t\t\t\t\t\t\"1\"\r\n\t\"Medic
+        Mask\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Medic MtG Hat\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Medic's
+        Mountain Cap\"\t\t\t\t\t\t\"1\"\r\n\t\"MvM GateBot Light Medic\"\t\t\t\t\t\"1\"\r\n\t\"Otolaryngologist's
+        Mirror\"\t\t\t\t\t\"1\"\r\n\t\"Platinum Pickelhaube\"\t\t\t\t\t\t\"1\"\r\n\t\"Practitioner's
+        Processing Mask\"\t\t\t\t\"1\"\r\n\t\"Prussian Pickelhaube\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Byte'd Beak\"\t\t\t\t\t\t\"1\"\r\n\t\"The Combat Medic's Crusher Cap\"\t\t\t\t\"1\"\r\n\t\"The
+        Gauzed Gaze\"\t\t\t\t\t\t\"1\"\r\n\t\"The Gentleman's Ushanka\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Mann of Reason\"\t\t\t\t\t\t\"1\"\r\n\t\"The Nunhood\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Physician's Protector\"\t\t\t\t\t\"1\"\r\n\t\"The Slick Cut\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Surgeon's Stahlhelm\"\t\t\t\t\t\"1\"\r\n\t\"The Teutonic Toque\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Virus Doctor\"\t\t\t\t\t\t\"1\"\r\n\t\"The Weather Master\"\t\t\t\t\t\t\"1\"\r\n\t\"Titanium
+        Tyrolean\"\t\t\t\t\t\t\"1\"\r\n\t\"tw_medibot_hat\"\t\t\t\t\t\t\"1\"\r\n\t\"Vintage
+        Tyrolean\"\t\t\t\t\t\t\"1\"\r\n\t//___________________________ Sniper ____________________________\\\\\r\n\t\"Brim-Full
+        Of Bullets\"\t\t\t\t\t\t\"1\"\r\n\t\"Crocleather Slouch\"\t\t\t\t\t\t\"1\"\r\n\t\"Desert
+        Marauder\"\t\t\t\t\t\t\"1\"\r\n\t\"Larrikin Robin\"\t\t\t\t\t\t\"1\"\r\n\t\"Letch's
+        LED\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Liquidator's Lid\"\t\t\t\t\t\t\"1\"\r\n\t\"Master's
+        Yellow Belt\"\t\t\t\t\t\t\"1\"\r\n\t\"MvM GateBot Light Sniper\"\t\t\t\t\t\"1\"\r\n\t\"Ol'
+        Snaggletooth\"\t\t\t\t\t\t\"1\"\r\n\t\"Professional's Panama\"\t\t\t\t\t\t\"1\"\r\n\t\"Randolph
+        the Blood-Nosed Caribou\"\t\t\t\t\"1\"\r\n\t\"Ritzy Rick's Hair Fixative\"\t\t\t\t\t\"1\"\r\n\t\"Shooter's
+        Tin Topi\"\t\t\t\t\t\t\"1\"\r\n\t\"Sniper Fishing Hat\"\t\t\t\t\t\t\"1\"\r\n\t\"Sniper
+        Pith Helmet\"\t\t\t\t\t\t\"1\"\r\n\t\"Sniper's Snipin' Glass\"\t\t\t\t\t\"1\"\r\n\t\"Soldered
+        Sensei\"\t\t\t\t\t\t\"1\"\r\n\t\"The Anger\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Bolted Bushman\"\t\t\t\t\t\t\"1\"\r\n\t\"The Bushman's Boonie\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Cold Killer\"\t\t\t\t\t\t\"1\"\r\n\t\"The Dread Hiding Hood\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Flamingo Kid\"\t\t\t\t\t\t\"1\"\r\n\t\"The Fruit Shoot\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Lone Star\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Smissmas Caribou\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Stovepipe Sniper Shako\"\t\t\t\t\t\"1\"\r\n\t\"The Swagman's Swatter\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Sydney Straw Boat\"\t\t\t\t\t\t\"1\"\r\n\t\"Trophy Belt\"\t\t\t\t\t\t\t\"1\"\r\n\t\"tw_sniperbot_helmet\"\t\t\t\t\t\t\"1\"\r\n\t\"Villain's
+        Veil\"\t\t\t\t\t\t\"1\"\r\n\t\"Wet Works\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Your
+        Worst Nightmare\"\t\t\t\t\t\t\"1\"\r\n\t//_____________________________ Spy
+        _____________________________\\\\\r\n\t\"A Hat to Kill For\"\t\t\t\t\t\t\"1\"\r\n\t\"Backbiter's
+        Billycock\"\t\t\t\t\t\t\"1\"\r\n\t\"Base Metal Billycock\"\t\t\t\t\t\t\"1\"\r\n\t\"Belltower
+        Spec Ops\"\t\t\t\t\t\t\"1\"\r\n\t\"Big Topper\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Bootleg
+        Base Metal Billycock\"\t\t\t\t\t\"1\"\r\n\t\"Brain-Warming Wear\"\t\t\t\t\t\t\"1\"\r\n\t\"Charmer's
+        Chapeau\"\t\t\t\t\t\t\"1\"\r\n\t\"Cosa Nostra Cap\"\t\t\t\t\t\t\"1\"\r\n\t\"Detective
+        Noir\"\t\t\t\t\t\t\"1\"\r\n\t\"Fancy Fedora\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Hat
+        of Cards\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Janissary Hat\"\t\t\t\t\t\t\t\"1\"\r\n\t\"L'homme
+        Burglerre\"\t\t\t\t\t\t\"1\"\r\n\t\"L'Inspecteur\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Le
+        Party Phantom\"\t\t\t\t\t\t\"1\"\r\n\t\"MvM GateBot Light Spy\"\t\t\t\t\t\t\"1\"\r\n\t\"Spy
+        Beret\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Spy Noble Hair\"\t\t\t\t\t\t\"1\"\r\n\t\"Spy
+        Oni Mask\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Aviator Assassin\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Belgian Detective\"\t\t\t\t\t\t\"1\"\r\n\t\"The Counterfeit Billycock\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Dapper Disguise\"\t\t\t\t\t\t\"1\"\r\n\t\"The Dashin' Hashshashin\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Familiar Fez\"\t\t\t\t\t\t\"1\"\r\n\t\"The Harmburg\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Lacking Moral Fiber Mask\"\t\t\t\t\t\"1\"\r\n\t\"The Napoleon Complex\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Ninja Cowl\"\t\t\t\t\t\t\"1\"\r\n\t\"The Pom-Pommed Provocateur\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Scarecrow\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Stealth Steeler\"\t\t\t\t\t\t\"1\"\r\n\t\"tw_spybot_hood\"\t\t\t\t\t\t\"1\"\r\n\r\n\t//---------------------
+        Miscs (Total: 1776) ---------------------\\\\\r\n\t//_________________________
+        All classes _________________________\\\\\r\n\t\"Altruist's Adornment\"\t\t\t\t\t\t\"1\"\r\n\t\"Antlers\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Arms
+        Race I 1st Place\"\t\t\t\t\t\t\"1\"\r\n\t\"Arms Race I 2nd Place\"\t\t\t\t\t\t\"1\"\r\n\t\"Arms
+        Race I 3rd Place\"\t\t\t\t\t\t\"1\"\r\n\t\"Arms Race I Participant\"\t\t\t\t\t\"1\"\r\n\t\"Arms
+        Race II 1st Place\"\t\t\t\t\t\"1\"\r\n\t\"Arms Race II 2nd Place\"\t\t\t\t\t\"1\"\r\n\t\"Arms
+        Race II 3rd Place\"\t\t\t\t\t\"1\"\r\n\t\"Arms Race II Participant\"\t\t\t\t\t\"1\"\r\n\t\"AsiaFortress
+        Cup Division 1 1st Place Season 10\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division
+        1 1st Place Season 7\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 1 1st Place
+        Season 8\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 1 1st Place Season 9\"\t\t\"1\"\r\n\t\"AsiaFortress
+        Cup Division 1 2nd Place Season 10\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division
+        1 2nd Place Season 7\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 1 2nd Place
+        Season 8\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 1 2nd Place Season 9\"\t\t\"1\"\r\n\t\"AsiaFortress
+        Cup Division 1 3rd Place Season 10\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division
+        1 3rd Place Season 7\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 1 3rd Place
+        Season 8\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 1 3rd Place Season 9\"\t\t\"1\"\r\n\t\"AsiaFortress
+        Cup Division 1 Participant Season 10\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division
+        1 Participant Season 7\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 1 Participant
+        Season 8\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 1 Participant Season
+        9\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 2 1st Place Season 10\"\t\t\"1\"\r\n\t\"AsiaFortress
+        Cup Division 2 1st Place Season 7\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division
+        2 1st Place Season 8\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 2 1st Place
+        Season 9\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 2 2nd Place Season 10\"\t\t\"1\"\r\n\t\"AsiaFortress
+        Cup Division 2 2nd Place Season 7\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division
+        2 2nd Place Season 8\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 2 2nd Place
+        Season 9\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 2 3rd Place Season 10\"\t\t\"1\"\r\n\t\"AsiaFortress
+        Cup Division 2 3rd Place Season 7\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division
+        2 3rd Place Season 8\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 2 3rd Place
+        Season 9\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 2 Participant Season
+        10\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 2 Participant Season 7\"\t\t\"1\"\r\n\t\"AsiaFortress
+        Cup Division 2 Participant Season 8\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division
+        2 Participant Season 9\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 3 1st Place
+        Season 10\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 3 1st Place Season 7\"\t\t\"1\"\r\n\t\"AsiaFortress
+        Cup Division 3 1st Place Season 8\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division
+        3 1st Place Season 9\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 3 2nd Place
+        Season 10\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 3 2nd Place Season 7\"\t\t\"1\"\r\n\t\"AsiaFortress
+        Cup Division 3 2nd Place Season 8\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division
+        3 2nd Place Season 9\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 3 3rd Place
+        Season 10\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 3 3rd Place Season 7\"\t\t\"1\"\r\n\t\"AsiaFortress
+        Cup Division 3 3rd Place Season 8\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division
+        3 3rd Place Season 9\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 3 Participant
+        Season 10\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 3 Participant Season
+        7\"\t\t\"1\"\r\n\t\"AsiaFortress Cup Division 3 Participant Season 8\"\t\t\"1\"\r\n\t\"AsiaFortress
+        Cup Division 3 Participant Season 9\"\t\t\"1\"\r\n\t\"AsiaFortress Mercenaries
+        Cup 1st Place Season 7\"\t\t\"1\"\r\n\t\"AsiaFortress Mercenaries Cup 2nd
+        Place Season 7\"\t\t\"1\"\r\n\t\"AsiaFortress Mercenaries Cup 3rd Place Season
+        7\"\t\t\"1\"\r\n\t\"AsiaFortress Mercenaries Cup Participant Season 7\"\t\t\"1\"\r\n\t\"Asymmetric
+        Accolade\"\t\t\t\t\t\t\"1\"\r\n\t\"AU Highlander Community League First Place
+        Season 1\"\t\t\"1\"\r\n\t\"AU Highlander Community League Participant Season
+        1\"\t\t\"1\"\r\n\t\"AU Highlander Community League Second Place Season 1\"\t\t\"1\"\r\n\t\"AU
+        Highlander Community League Third Place Season 1\"\t\t\"1\"\r\n\t\"Awesomenauts
+        Badge\"\t\t\t\t\t\t\"1\"\r\n\t\"Batbelt\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Batter's
+        Bracers\"\t\t\t\t\t\t\"1\"\r\n\t\"BETA LAN 1st Place Medal 2014\"\t\t\t\t\t\"1\"\r\n\t\"BETA
+        LAN 2nd Place Medal 2014\"\t\t\t\t\t\"1\"\r\n\t\"BETA LAN 3rd Place Medal
+        2014\"\t\t\t\t\t\"1\"\r\n\t\"BETA LAN Participant Medal 2014\"\t\t\t\t\"1\"\r\n\t\"Brimstone\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Captain
+        Space Mann\"\t\t\t\t\t\t\"1\"\r\n\t\"Catastrophic Companions\"\t\t\t\t\t\"1\"\r\n\t\"Chapelaria
+        6v6 1st Place Season 1\"\t\t\t\t\"1\"\r\n\t\"Chapelaria 6v6 2nd Place Season
+        1\"\t\t\t\t\"1\"\r\n\t\"Chapelaria 6v6 3rd Place Season 1\"\t\t\t\t\"1\"\r\n\t\"Chapelaria
+        6v6 Participant Season 1\"\t\t\t\t\"1\"\r\n\t\"Clan Pride\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Croft's
+        Crest\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Damaged Capacitor\"\t\t\t\t\t\t\"1\"\r\n\t\"Dead
+        of Night\"\t\t\t\t\t\t\t\"1\"\r\n\t\"DeutschLAN 1st Place 2015\"\t\t\t\t\t\"1\"\r\n\t\"DeutschLAN
+        2nd Place 2015\"\t\t\t\t\t\"1\"\r\n\t\"DeutschLAN 3rd Place 2015\"\t\t\t\t\t\"1\"\r\n\t\"DeutschLAN
+        Participant 2015\"\t\t\t\t\t\"1\"\r\n\t\"DeutschLAN Supporter 2015\"\t\t\t\t\t\"1\"\r\n\t\"Dr.
+        Grordbort's Copper Crest\"\t\t\t\t\t\"1\"\r\n\t\"Dr. Grordbort's Crest\"\t\t\t\t\t\t\"1\"\r\n\t\"Dr.
+        Grordbort's Silver Crest\"\t\t\t\t\t\"1\"\r\n\t\"Duel Medal Bronze\"\t\t\t\t\t\t\"1\"\r\n\t\"Duel
+        Medal Gold\"\t\t\t\t\t\t\"1\"\r\n\t\"Duel Medal Plat\"\t\t\t\t\t\t\"1\"\r\n\t\"Duel
+        Medal Silver\"\t\t\t\t\t\t\"1\"\r\n\t\"Duncan's Kindhearted Kisser\"\t\t\t\t\t\"1\"\r\n\t\"EdgeGamers
+        UltiDuo Participant 2015\"\t\t\t\t\"1\"\r\n\t\"Employee Badge A\"\t\t\t\t\t\t\"1\"\r\n\t\"Employee
+        Badge B\"\t\t\t\t\t\t\"1\"\r\n\t\"Employee Badge C\"\t\t\t\t\t\t\"1\"\r\n\t\"Employee
+        Badge Plat\"\t\t\t\t\t\t\"1\"\r\n\t\"End of the Line Community Update Medal\"\t\t\t\"1\"\r\n\t\"EOTL_hiphunter_boots\"\t\t\t\t\t\t\"1\"\r\n\t\"ESA
+        Rewind 1st Place 2017\"\t\t\t\t\t\"1\"\r\n\t\"ESA Rewind 2nd Place 2017\"\t\t\t\t\t\"1\"\r\n\t\"ESA
+        Rewind 3rd Place 2017\"\t\t\t\t\t\"1\"\r\n\t\"ESA Rewind Participant 2017\"\t\t\t\t\t\"1\"\r\n\t\"ESH
+        Ultiduo 1 Gold Medal\"\t\t\t\t\t\"1\"\r\n\t\"ESH Ultiduo 2 Gold Medal\"\t\t\t\t\t\"1\"\r\n\t\"ESH
+        Ultiduo 3 Gold Medal\"\t\t\t\t\t\"1\"\r\n\t\"ESH Ultiduo 4 Gold Medal\"\t\t\t\t\t\"1\"\r\n\t\"ESH
+        Ultiduo 5 Gold Medal\"\t\t\t\t\t\"1\"\r\n\t\"ESH Ultiduo 6 Gold Medal\"\t\t\t\t\t\"1\"\r\n\t\"ESH
+        Ultiduo 7 Gold Medal\"\t\t\t\t\t\"1\"\r\n\t\"ESL Season VI Division 1 1st
+        Place\"\t\t\t\t\"1\"\r\n\t\"ESL Season VI Division 1 2nd Place\"\t\t\t\t\"1\"\r\n\t\"ESL
+        Season VI Division 1 3rd Place\"\t\t\t\t\"1\"\r\n\t\"ESL Season VI Division
+        1 Participant\"\t\t\t\t\"1\"\r\n\t\"ESL Season VI Division 2 1st Place\"\t\t\t\t\"1\"\r\n\t\"ESL
+        Season VI Division 2 2nd Place\"\t\t\t\t\"1\"\r\n\t\"ESL Season VI Division
+        2 3rd Place\"\t\t\t\t\"1\"\r\n\t\"ESL Season VI Division 2 Participant\"\t\t\t\t\"1\"\r\n\t\"ESL
+        Season VI Division 3 1st Place\"\t\t\t\t\"1\"\r\n\t\"ESL Season VI Division
+        3 2nd Place\"\t\t\t\t\"1\"\r\n\t\"ESL Season VI Division 3 3rd Place\"\t\t\t\t\"1\"\r\n\t\"ESL
+        Season VI Division 3 Participant\"\t\t\t\t\"1\"\r\n\t\"ESL Season VI Division
+        4 1st Place\"\t\t\t\t\"1\"\r\n\t\"ESL Season VI Division 4 2nd Place\"\t\t\t\t\"1\"\r\n\t\"ESL
+        Season VI Division 4 3rd Place\"\t\t\t\t\"1\"\r\n\t\"ESL Season VI Division
+        4 Participant\"\t\t\t\t\"1\"\r\n\t\"ESL Season VI Division 5 1st Place\"\t\t\t\t\"1\"\r\n\t\"ESL
+        Season VI Division 5 2nd Place\"\t\t\t\t\"1\"\r\n\t\"ESL Season VI Division
+        5 3rd Place\"\t\t\t\t\"1\"\r\n\t\"ESL Season VI Division 5 Participant\"\t\t\t\t\"1\"\r\n\t\"ESL
+        Season VI Premier Division 1st Place\"\t\t\t\"1\"\r\n\t\"ESL Season VI Premier
+        Division 2nd Place\"\t\t\t\"1\"\r\n\t\"ESL Season VI Premier Division 3rd
+        Place\"\t\t\t\"1\"\r\n\t\"ESL Season VI Premier Division Participant\"\t\t\t\"1\"\r\n\t\"ESL
+        Season VII Division 1 1st Place\"\t\t\t\t\"1\"\r\n\t\"ESL Season VII Division
+        1 2nd Place\"\t\t\t\t\"1\"\r\n\t\"ESL Season VII Division 1 3rd Place\"\t\t\t\t\"1\"\r\n\t\"ESL
+        Season VII Division 2 1st Place\"\t\t\t\t\"1\"\r\n\t\"ESL Season VII Division
+        2 2nd Place\"\t\t\t\t\"1\"\r\n\t\"ESL Season VII Division 2 Participant\"\t\t\t\t\"1\"\r\n\t\"ESL
+        Season VII Division 3 Participant\"\t\t\t\t\"1\"\r\n\t\"ESL Season VII Division
+        4 1st Place\"\t\t\t\t\"1\"\r\n\t\"ESL Season VII Division 4 2nd Place\"\t\t\t\t\"1\"\r\n\t\"ESL
+        Season VII Division 4 3rd Place\"\t\t\t\t\"1\"\r\n\t\"ESL Season VII Division
+        4 Participant\"\t\t\t\t\"1\"\r\n\t\"ESL Season VII Division 5 1st Place\"\t\t\t\t\"1\"\r\n\t\"ESL
+        Season VII Division 5 2nd Place\"\t\t\t\t\"1\"\r\n\t\"ESL Season VII Division
+        5 3rd Place\"\t\t\t\t\"1\"\r\n\t\"ESL Season VII Division 5 Participant\"\t\t\t\t\"1\"\r\n\t\"ESL
+        Season VII Premiership Division 1st Place\"\t\t\t\"1\"\r\n\t\"ESL Season VII
+        Premiership Division 2nd Place\"\t\t\t\"1\"\r\n\t\"ESL Season VII Premiership
+        Division 3rd Place\"\t\t\t\"1\"\r\n\t\"ESL Season VII Premiership Division
+        Participant\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 1 Group Winner Season 10\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 1 Group Winner Season 11\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        1 Group Winner Season 12\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 1 Group Winner
+        Season 13\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 1 Group Winner Season 14\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 1 Group Winner Season 15\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        1 Group Winner Season 16\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 1 Group Winner
+        Season 17\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 1 Group Winner Season 18\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 1 Group Winner Season 19\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        1 Group Winner Season 8\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 1 Group Winner
+        Season 9\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 1 Participation Medal Season
+        10\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 1 Participation Medal Season 11\"\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 1 Participation Medal Season 12\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        1 Participation Medal Season 13\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 1 Participation
+        Medal Season 14\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 1 Participation Medal
+        Season 15\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 1 Participation Medal Season
+        16\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 1 Participation Medal Season 17\"\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 1 Participation Medal Season 18\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        1 Participation Medal Season 19\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 1 Participation
+        Medal Season 8\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 1 Participation Medal
+        Season 9\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 2 Group Winner Season 10\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 2 Group Winner Season 11\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        2 Group Winner Season 12\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 2 Group Winner
+        Season 13\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 2 Group Winner Season 14\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 2 Group Winner Season 15\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        2 Group Winner Season 16\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 2 Group Winner
+        Season 17\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 2 Group Winner Season 18\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 2 Group Winner Season 19\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        2 Group Winner Season 8\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 2 Group Winner
+        Season 9\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 2 Participation Medal Season
+        10\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 2 Participation Medal Season 11\"\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 2 Participation Medal Season 12\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        2 Participation Medal Season 13\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 2 Participation
+        Medal Season 14\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 2 Participation Medal
+        Season 15\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 2 Participation Medal Season
+        16\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 2 Participation Medal Season 17\"\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 2 Participation Medal Season 18\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        2 Participation Medal Season 19\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 2 Participation
+        Medal Season 8\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 2 Participation Medal
+        Season 9\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 3 Group Winner Season 10\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 3 Group Winner Season 11\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        3 Group Winner Season 12\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 3 Group Winner
+        Season 13\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 3 Group Winner Season 14\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 3 Group Winner Season 15\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        3 Group Winner Season 16\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 3 Group Winner
+        Season 17\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 3 Group Winner Season 18\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 3 Group Winner Season 19\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        3 Group Winner Season 8\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 3 Group Winner
+        Season 9\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 3 Participation Medal Season
+        10\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 3 Participation Medal Season 11\"\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 3 Participation Medal Season 12\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        3 Participation Medal Season 13\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 3 Participation
+        Medal Season 14\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 3 Participation Medal
+        Season 15\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 3 Participation Medal Season
+        16\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 3 Participation Medal Season 17\"\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 3 Participation Medal Season 18\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        3 Participation Medal Season 19\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 3 Participation
+        Medal Season 8\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 3 Participation Medal
+        Season 9\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 4 Group Winner Season 10\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 4 Group Winner Season 11\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        4 Group Winner Season 12\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 4 Group Winner
+        Season 13\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 4 Group Winner Season 14\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 4 Group Winner Season 15\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        4 Group Winner Season 16\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 4 Group Winner
+        Season 17\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 4 Group Winner Season 18\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 4 Group Winner Season 19\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        4 Group Winner Season 8\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 4 Group Winner
+        Season 9\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 4 Participation Medal Season
+        10\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 4 Participation Medal Season 11\"\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 4 Participation Medal Season 12\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        4 Participation Medal Season 13\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 4 Participation
+        Medal Season 14\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 4 Participation Medal
+        Season 15\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 4 Participation Medal Season
+        16\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 4 Participation Medal Season 17\"\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 4 Participation Medal Season 18\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        4 Participation Medal Season 19\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 4 Participation
+        Medal Season 8\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 4 Participation Medal
+        Season 9\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 5 Group Winner Season 10\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 5 Group Winner Season 11\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        5 Group Winner Season 12\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 5 Group Winner
+        Season 13\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 5 Group Winner Season 14\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 5 Group Winner Season 15\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        5 Group Winner Season 16\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 5 Group Winner
+        Season 17\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 5 Group Winner Season 18\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 5 Group Winner Season 19\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        5 Group Winner Season 8\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 5 Group Winner
+        Season 9\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 5 Participation Medal Season
+        10\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 5 Participation Medal Season 11\"\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 5 Participation Medal Season 12\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        5 Participation Medal Season 13\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 5 Participation
+        Medal Season 14\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 5 Participation Medal
+        Season 15\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 5 Participation Medal Season
+        16\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 5 Participation Medal Season 17\"\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 5 Participation Medal Season 18\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        5 Participation Medal Season 19\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 5 Participation
+        Medal Season 8\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 5 Participation Medal
+        Season 9\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 6 Group Winner Season 10\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 6 Group Winner Season 11\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        6 Group Winner Season 12\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 6 Group Winner
+        Season 13\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 6 Group Winner Season 14\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 6 Group Winner Season 15\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        6 Group Winner Season 16\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 6 Group Winner
+        Season 17\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 6 Group Winner Season 18\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 6 Group Winner Season 19\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        6 Group Winner Season 8\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 6 Group Winner
+        Season 9\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 6 Participation Medal Season
+        10\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 6 Participation Medal Season 11\"\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 6 Participation Medal Season 12\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        6 Participation Medal Season 13\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 6 Participation
+        Medal Season 14\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 6 Participation Medal
+        Season 15\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 6 Participation Medal Season
+        16\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 6 Participation Medal Season 17\"\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Division 6 Participation Medal Season 18\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division
+        6 Participation Medal Season 19\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 6 Participation
+        Medal Season 8\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Division 6 Participation Medal
+        Season 9\"\t\t\"1\"\r\n\t\"ETF2L 6v6 High Bronze Medal Season 20\"\t\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 High Bronze Medal Season 21\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 High Bronze
+        Medal Season 22\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 High Bronze Medal Season 23\"\t\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 High Gold Medal Season 20\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 High Gold Medal
+        Season 21\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 High Gold Medal Season 22\"\t\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 High Gold Medal Season 23\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 High Participation
+        Medal Season 20\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 High Participation Medal Season
+        21\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 High Participation Medal Season 22\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 High Participation Medal Season 23\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 High
+        Playoff Medal Season 20\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 High Playoff Medal Season
+        21\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 High Playoff Medal Season 22\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 High Playoff Medal Season 23\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 High Silver
+        Medal Season 20\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 High Silver Medal Season 21\"\t\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 High Silver Medal Season 22\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 High Silver
+        Medal Season 23\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Mid Bronze Medal Season 20\"\t\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Mid Bronze Medal Season 21\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Mid Bronze
+        Medal Season 22\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Mid Bronze Medal Season 23\"\t\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Mid Gold Medal Season 20\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Mid Gold Medal
+        Season 21\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Mid Gold Medal Season 22\"\t\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Mid Gold Medal Season 23\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Mid Participation
+        Medal Season 20\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Mid Participation Medal Season
+        21\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Mid Participation Medal Season 22\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Mid Participation Medal Season 23\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Mid Playoff
+        Medal Season 20\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Mid Playoff Medal Season 21\"\t\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Mid Playoff Medal Season 22\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Mid Playoff
+        Medal Season 23\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Mid Silver Medal Season 20\"\t\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Mid Silver Medal Season 21\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Mid Silver
+        Medal Season 22\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Mid Silver Medal Season 23\"\t\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Open Bronze Medal Season 20\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Open Bronze
+        Medal Season 21\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Open Bronze Medal Season 22\"\t\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Open Bronze Medal Season 23\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Open Gold
+        Medal Season 20\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Open Gold Medal Season 21\"\t\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Open Gold Medal Season 22\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Open Gold Medal
+        Season 23\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Open Participation Medal Season
+        20\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Open Participation Medal Season 21\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Open Participation Medal Season 22\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Open
+        Participation Medal Season 23\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Open Playoff Medal
+        Season 20\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Open Playoff Medal Season 21\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Open Playoff Medal Season 22\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Open Playoff
+        Medal Season 23\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Open Silver Medal Season 20\"\t\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Open Silver Medal Season 21\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Open Silver
+        Medal Season 22\"\t\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Open Silver Medal Season 23\"\t\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Premier Division Bronze Medal Season 10\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier
+        Division Bronze Medal Season 11\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division
+        Bronze Medal Season 12\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Bronze
+        Medal Season 13\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Bronze Medal
+        Season 14\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Bronze Medal Season
+        15\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Bronze Medal Season 16\"\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Premier Division Bronze Medal Season 17\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier
+        Division Bronze Medal Season 18\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division
+        Bronze Medal Season 19\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Bronze
+        Medal Season 8\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Bronze Medal Season
+        9\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Gold Medal Season 10\"\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Premier Division Gold Medal Season 11\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier
+        Division Gold Medal Season 12\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division
+        Gold Medal Season 13\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Gold Medal
+        Season 14\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Gold Medal Season 15\"\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Premier Division Gold Medal Season 16\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier
+        Division Gold Medal Season 17\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division
+        Gold Medal Season 18\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Gold Medal
+        Season 19\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Gold Medal Season 8\"\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Premier Division Gold Medal Season 9\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier
+        Division Participation Medal Season 10\"\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division
+        Participation Medal Season 11\"\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Participation
+        Medal Season 12\"\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Participation Medal
+        Season 13\"\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Participation Medal Season
+        14\"\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Participation Medal Season 15\"\t\"1\"\r\n\t\"ETF2L
+        6v6 Premier Division Participation Medal Season 16\"\t\"1\"\r\n\t\"ETF2L 6v6
+        Premier Division Participation Medal Season 17\"\t\"1\"\r\n\t\"ETF2L 6v6 Premier
+        Division Participation Medal Season 18\"\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division
+        Participation Medal Season 19\"\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Participation
+        Medal Season 8\"\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Participation Medal
+        Season 9\"\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Silver Medal Season 10\"\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Premier Division Silver Medal Season 11\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier
+        Division Silver Medal Season 12\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division
+        Silver Medal Season 13\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Silver
+        Medal Season 14\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Silver Medal
+        Season 15\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Silver Medal Season
+        16\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Silver Medal Season 17\"\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Premier Division Silver Medal Season 18\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier
+        Division Silver Medal Season 19\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division
+        Silver Medal Season 8\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premier Division Silver
+        Medal Season 9\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premiership Bronze Medal Season
+        20\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Premiership Bronze Medal Season 21\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Premiership Bronze Medal Season 22\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Premiership
+        Bronze Medal Season 23\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Premiership Gold Medal
+        Season 20\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Premiership Gold Medal Season 21\"\t\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Premiership Gold Medal Season 22\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Premiership
+        Gold Medal Season 23\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Premiership Participation
+        Medal Season 20\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premiership Participation Medal
+        Season 21\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premiership Participation Medal Season
+        22\"\t\t\"1\"\r\n\t\"ETF2L 6v6 Premiership Participation Medal Season 23\"\t\t\"1\"\r\n\t\"ETF2L
+        6v6 Premiership Silver Medal Season 20\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Premiership
+        Silver Medal Season 21\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Premiership Silver Medal
+        Season 22\"\t\t\t\"1\"\r\n\t\"ETF2L 6v6 Premiership Silver Medal Season 23\"\t\t\t\"1\"\r\n\t\"ETF2L
+        Highlander Division 1 Bronze Medal Season 1\"\t\t\"1\"\r\n\t\"ETF2L Highlander
+        Division 1 Bronze Medal Season 2\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division
+        1 Gold Medal Season 1\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 1 Gold Medal
+        Season 2\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 1 Group Winner Season
+        3\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 1 Group Winner Season 4\"\t\t\"1\"\r\n\t\"ETF2L
+        Highlander Division 1 Group Winner Season 5\"\t\t\"1\"\r\n\t\"ETF2L Highlander
+        Division 1 Group Winner Season 6\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division
+        1 Group Winner Season 7\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 1 Participation
+        Medal Season 1\"\t\"1\"\r\n\t\"ETF2L Highlander Division 1 Participation Medal
+        Season 2\"\t\"1\"\r\n\t\"ETF2L Highlander Division 1 Participation Medal Season
+        3\"\t\"1\"\r\n\t\"ETF2L Highlander Division 1 Participation Medal Season 4\"\t\"1\"\r\n\t\"ETF2L
+        Highlander Division 1 Participation Medal Season 5\"\t\"1\"\r\n\t\"ETF2L Highlander
+        Division 1 Participation Medal Season 6\"\t\"1\"\r\n\t\"ETF2L Highlander Division
+        1 Participation Medal Season 7\"\t\"1\"\r\n\t\"ETF2L Highlander Division 1
+        Silver Medal Season 1\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 1 Silver
+        Medal Season 2\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 2 Group Winner
+        Season 1\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 2 Group Winner Season
+        2\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 2 Group Winner Season 3\"\t\t\"1\"\r\n\t\"ETF2L
+        Highlander Division 2 Group Winner Season 4\"\t\t\"1\"\r\n\t\"ETF2L Highlander
+        Division 2 Group Winner Season 5\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division
+        2 Group Winner Season 6\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 2 Group
+        Winner Season 7\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 2 Participation
+        Medal Season 1\"\t\"1\"\r\n\t\"ETF2L Highlander Division 2 Participation Medal
+        Season 2\"\t\"1\"\r\n\t\"ETF2L Highlander Division 2 Participation Medal Season
+        3\"\t\"1\"\r\n\t\"ETF2L Highlander Division 2 Participation Medal Season 4\"\t\"1\"\r\n\t\"ETF2L
+        Highlander Division 2 Participation Medal Season 5\"\t\"1\"\r\n\t\"ETF2L Highlander
+        Division 2 Participation Medal Season 6\"\t\"1\"\r\n\t\"ETF2L Highlander Division
+        2 Participation Medal Season 7\"\t\"1\"\r\n\t\"ETF2L Highlander Division 3
+        Group Winner Season 1\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 3 Group
+        Winner Season 2\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 3 Group Winner
+        Season 3\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 3 Group Winner Season
+        4\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 3 Group Winner Season 5\"\t\t\"1\"\r\n\t\"ETF2L
+        Highlander Division 3 Group Winner Season 6\"\t\t\"1\"\r\n\t\"ETF2L Highlander
+        Division 3 Group Winner Season 7\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division
+        3 Participation Medal Season 1\"\t\"1\"\r\n\t\"ETF2L Highlander Division 3
+        Participation Medal Season 2\"\t\"1\"\r\n\t\"ETF2L Highlander Division 3 Participation
+        Medal Season 3\"\t\"1\"\r\n\t\"ETF2L Highlander Division 3 Participation Medal
+        Season 4\"\t\"1\"\r\n\t\"ETF2L Highlander Division 3 Participation Medal Season
+        5\"\t\"1\"\r\n\t\"ETF2L Highlander Division 3 Participation Medal Season 6\"\t\"1\"\r\n\t\"ETF2L
+        Highlander Division 3 Participation Medal Season 7\"\t\"1\"\r\n\t\"ETF2L Highlander
+        Division 4 Group Winner Season 1\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division
+        4 Group Winner Season 2\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 4 Group
+        Winner Season 3\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 4 Group Winner
+        Season 4\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 4 Group Winner Season
+        5\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 4 Group Winner Season 6\"\t\t\"1\"\r\n\t\"ETF2L
+        Highlander Division 4 Group Winner Season 7\"\t\t\"1\"\r\n\t\"ETF2L Highlander
+        Division 4 Participation Medal Season 1\"\t\"1\"\r\n\t\"ETF2L Highlander Division
+        4 Participation Medal Season 2\"\t\"1\"\r\n\t\"ETF2L Highlander Division 4
+        Participation Medal Season 3\"\t\"1\"\r\n\t\"ETF2L Highlander Division 4 Participation
+        Medal Season 4\"\t\"1\"\r\n\t\"ETF2L Highlander Division 4 Participation Medal
+        Season 5\"\t\"1\"\r\n\t\"ETF2L Highlander Division 4 Participation Medal Season
+        6\"\t\"1\"\r\n\t\"ETF2L Highlander Division 4 Participation Medal Season 7\"\t\"1\"\r\n\t\"ETF2L
+        Highlander Division 5 Group Winner Season 1\"\t\t\"1\"\r\n\t\"ETF2L Highlander
+        Division 5 Group Winner Season 2\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division
+        5 Group Winner Season 3\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 5 Group
+        Winner Season 4\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 5 Group Winner
+        Season 5\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 5 Group Winner Season
+        6\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 5 Group Winner Season 7\"\t\t\"1\"\r\n\t\"ETF2L
+        Highlander Division 5 Participation Medal Season 1\"\t\"1\"\r\n\t\"ETF2L Highlander
+        Division 5 Participation Medal Season 2\"\t\"1\"\r\n\t\"ETF2L Highlander Division
+        5 Participation Medal Season 3\"\t\"1\"\r\n\t\"ETF2L Highlander Division 5
+        Participation Medal Season 4\"\t\"1\"\r\n\t\"ETF2L Highlander Division 5 Participation
+        Medal Season 5\"\t\"1\"\r\n\t\"ETF2L Highlander Division 5 Participation Medal
+        Season 6\"\t\"1\"\r\n\t\"ETF2L Highlander Division 5 Participation Medal Season
+        7\"\t\"1\"\r\n\t\"ETF2L Highlander Division 6 Group Winner Season 1\"\t\t\"1\"\r\n\t\"ETF2L
+        Highlander Division 6 Group Winner Season 2\"\t\t\"1\"\r\n\t\"ETF2L Highlander
+        Division 6 Group Winner Season 3\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division
+        6 Group Winner Season 4\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 6 Group
+        Winner Season 5\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 6 Group Winner
+        Season 6\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 6 Group Winner Season
+        7\"\t\t\"1\"\r\n\t\"ETF2L Highlander Division 6 Participation Medal Season
+        1\"\t\"1\"\r\n\t\"ETF2L Highlander Division 6 Participation Medal Season 2\"\t\"1\"\r\n\t\"ETF2L
+        Highlander Division 6 Participation Medal Season 3\"\t\"1\"\r\n\t\"ETF2L Highlander
+        Division 6 Participation Medal Season 4\"\t\"1\"\r\n\t\"ETF2L Highlander Division
+        6 Participation Medal Season 5\"\t\"1\"\r\n\t\"ETF2L Highlander Division 6
+        Participation Medal Season 6\"\t\"1\"\r\n\t\"ETF2L Highlander Division 6 Participation
+        Medal Season 7\"\t\"1\"\r\n\t\"ETF2L Highlander High Bronze Medal Season 10\"\t\t\t\"1\"\r\n\t\"ETF2L
+        Highlander High Bronze Medal Season 8\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander
+        High Bronze Medal Season 9\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander High Gold
+        Medal Season 10\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander High Gold Medal Season
+        8\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander High Gold Medal Season 9\"\t\t\t\"1\"\r\n\t\"ETF2L
+        Highlander High Participation Medal Season 10\"\t\t\"1\"\r\n\t\"ETF2L Highlander
+        High Participation Medal Season 8\"\t\t\"1\"\r\n\t\"ETF2L Highlander High
+        Participation Medal Season 9\"\t\t\"1\"\r\n\t\"ETF2L Highlander High Playoff
+        Medal Season 10\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander High Playoff Medal Season
+        8\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander High Playoff Medal Season 9\"\t\t\t\"1\"\r\n\t\"ETF2L
+        Highlander High Silver Medal Season 10\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander
+        High Silver Medal Season 8\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander High Silver
+        Medal Season 9\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander Mid Bronze Medal Season
+        10\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander Mid Bronze Medal Season 8\"\t\t\t\"1\"\r\n\t\"ETF2L
+        Highlander Mid Bronze Medal Season 9\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander
+        Mid Gold Medal Season 10\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander Mid Gold Medal
+        Season 8\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander Mid Gold Medal Season 9\"\t\t\t\"1\"\r\n\t\"ETF2L
+        Highlander Mid Participation Medal Season 10\"\t\t\"1\"\r\n\t\"ETF2L Highlander
+        Mid Participation Medal Season 8\"\t\t\"1\"\r\n\t\"ETF2L Highlander Mid Participation
+        Medal Season 9\"\t\t\"1\"\r\n\t\"ETF2L Highlander Mid Playoff Medal Season
+        10\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander Mid Playoff Medal Season 8\"\t\t\t\"1\"\r\n\t\"ETF2L
+        Highlander Mid Playoff Medal Season 9\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander
+        Mid Silver Medal Season 10\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander Mid Silver
+        Medal Season 8\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander Mid Silver Medal Season
+        9\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander Open 1st Place Medal Season 1\"\t\t\"1\"\r\n\t\"ETF2L
+        Highlander Open 2nd Place Medal Season 1\"\t\t\"1\"\r\n\t\"ETF2L Highlander
+        Open 3rd Place Medal Season 1\"\t\t\"1\"\r\n\t\"ETF2L Highlander Open Bronze
+        Medal Season 10\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander Open Bronze Medal Season
+        8\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander Open Bronze Medal Season 9\"\t\t\t\"1\"\r\n\t\"ETF2L
+        Highlander Open Gold Medal Season 10\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander
+        Open Gold Medal Season 8\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander Open Gold Medal
+        Season 9\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander Open Participant Medal Season
+        1\"\t\t\"1\"\r\n\t\"ETF2L Highlander Open Participation Medal Season 10\"\t\t\"1\"\r\n\t\"ETF2L
+        Highlander Open Participation Medal Season 8\"\t\t\"1\"\r\n\t\"ETF2L Highlander
+        Open Participation Medal Season 9\"\t\t\"1\"\r\n\t\"ETF2L Highlander Open
+        Playoff Medal Season 10\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander Open Playoff
+        Medal Season 8\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander Open Playoff Medal Season
+        9\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander Open Silver Medal Season 10\"\t\t\t\"1\"\r\n\t\"ETF2L
+        Highlander Open Silver Medal Season 8\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander
+        Open Silver Medal Season 9\"\t\t\t\"1\"\r\n\t\"ETF2L Highlander Premier Division
+        Bronze Medal Season 3\"\t\"1\"\r\n\t\"ETF2L Highlander Premier Division Bronze
+        Medal Season 4\"\t\"1\"\r\n\t\"ETF2L Highlander Premier Division Bronze Medal
+        Season 5\"\t\"1\"\r\n\t\"ETF2L Highlander Premier Division Bronze Medal Season
+        6\"\t\"1\"\r\n\t\"ETF2L Highlander Premier Division Bronze Medal Season 7\"\t\"1\"\r\n\t\"ETF2L
+        Highlander Premier Division Gold Medal Season 3\"\t\t\"1\"\r\n\t\"ETF2L Highlander
+        Premier Division Gold Medal Season 4\"\t\t\"1\"\r\n\t\"ETF2L Highlander Premier
+        Division Gold Medal Season 5\"\t\t\"1\"\r\n\t\"ETF2L Highlander Premier Division
+        Gold Medal Season 6\"\t\t\"1\"\r\n\t\"ETF2L Highlander Premier Division Gold
+        Medal Season 7\"\t\t\"1\"\r\n\t\"ETF2L Highlander Premier Division Participation
+        Medal Season 3\"\t\"1\"\r\n\t\"ETF2L Highlander Premier Division Participation
+        Medal Season 4\"\t\"1\"\r\n\t\"ETF2L Highlander Premier Division Participation
+        Medal Season 5\"\t\"1\"\r\n\t\"ETF2L Highlander Premier Division Participation
+        Medal Season 6\"\t\"1\"\r\n\t\"ETF2L Highlander Premier Division Participation
+        Medal Season 7\"\t\"1\"\r\n\t\"ETF2L Highlander Premier Division Silver Medal
+        Season 3\"\t\"1\"\r\n\t\"ETF2L Highlander Premier Division Silver Medal Season
+        4\"\t\"1\"\r\n\t\"ETF2L Highlander Premier Division Silver Medal Season 5\"\t\"1\"\r\n\t\"ETF2L
+        Highlander Premier Division Silver Medal Season 6\"\t\"1\"\r\n\t\"ETF2L Highlander
+        Premier Division Silver Medal Season 7\"\t\"1\"\r\n\t\"ETF2L Highlander Premiership
+        Bronze Medal Season 10\"\t\t\"1\"\r\n\t\"ETF2L Highlander Premiership Bronze
+        Medal Season 8\"\t\t\"1\"\r\n\t\"ETF2L Highlander Premiership Bronze Medal
+        Season 9\"\t\t\"1\"\r\n\t\"ETF2L Highlander Premiership Gold Medal Season
+        10\"\t\t\"1\"\r\n\t\"ETF2L Highlander Premiership Gold Medal Season 8\"\t\t\"1\"\r\n\t\"ETF2L
+        Highlander Premiership Gold Medal Season 9\"\t\t\"1\"\r\n\t\"ETF2L Highlander
+        Premiership Participation Medal Season 10\"\t\"1\"\r\n\t\"ETF2L Highlander
+        Premiership Participation Medal Season 8\"\t\"1\"\r\n\t\"ETF2L Highlander
+        Premiership Participation Medal Season 9\"\t\"1\"\r\n\t\"ETF2L Highlander
+        Premiership Silver Medal Season 10\"\t\t\"1\"\r\n\t\"ETF2L Highlander Premiership
+        Silver Medal Season 8\"\t\t\"1\"\r\n\t\"ETF2L Highlander Premiership Silver
+        Medal Season 9\"\t\t\"1\"\r\n\t\"ETF2L Ultiduo 1 Gold Medal\"\t\t\t\t\t\"1\"\r\n\t\"ETF2L
+        Ultiduo 2 Gold Medal\"\t\t\t\t\t\"1\"\r\n\t\"ETF2L Ultiduo 3 Gold Medal\"\t\t\t\t\t\"1\"\r\n\t\"ETF2L
+        Ultiduo 4 Gold Medal\"\t\t\t\t\t\"1\"\r\n\t\"ETF2L Ultiduo 5 Bronze Medal\"\t\t\t\t\t\"1\"\r\n\t\"ETF2L
+        Ultiduo 5 Gold Medal\"\t\t\t\t\t\"1\"\r\n\t\"ETF2L Ultiduo 5 Participation
+        Medal\"\t\t\t\t\"1\"\r\n\t\"ETF2L Ultiduo 5 Silver Medal\"\t\t\t\t\t\"1\"\r\n\t\"Faerie
+        Solitaire Pin\"\t\t\t\t\t\t\"1\"\r\n\t\"FBTF Cup 6v6 Barts Rimet 1st Place
+        Season 3\"\t\t\t\"1\"\r\n\t\"FBTF Cup 6v6 Barts Rimet 2nd Place Season 3\"\t\t\t\"1\"\r\n\t\"FBTF
+        Cup 6v6 Barts Rimet 3rd Place Season 3\"\t\t\t\"1\"\r\n\t\"FBTF Cup 6v6 Barts
+        Rimet Participant Season 3\"\t\t\t\"1\"\r\n\t\"FBTF Cup 6v6 Vic Basten 1st
+        Place Season 3\"\t\t\t\"1\"\r\n\t\"FBTF Cup 6v6 Vic Basten 2nd Place Season
+        3\"\t\t\t\"1\"\r\n\t\"FBTF Cup 6v6 Vic Basten 3rd Place Season 3\"\t\t\t\"1\"\r\n\t\"FBTF
+        Cup 6v6 Vic Basten Participant Season 3\"\t\t\t\"1\"\r\n\t\"FBTF Cup 6v6 Wastex
+        Miller 1st Place Season 3\"\t\t\t\"1\"\r\n\t\"FBTF Cup 6v6 Wastex Miller 2nd
+        Place Season 3\"\t\t\t\"1\"\r\n\t\"FBTF Cup 6v6 Wastex Miller 3rd Place Season
+        3\"\t\t\t\"1\"\r\n\t\"FBTF Cup 6v6 Wastex Miller Participant Season 3\"\t\t\"1\"\r\n\t\"Flair!\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Florida
+        LAN Medal 2014\"\t\t\t\t\t\"1\"\r\n\t\"Florida LAN Medal 2015\"\t\t\t\t\t\"1\"\r\n\t\"Florida
+        LAN Medal 2016\"\t\t\t\t\t\"1\"\r\n\t\"GAlloween Bronze Medal 2013\"\t\t\t\t\t\"1\"\r\n\t\"GAlloween
+        Bronze Medal 2014\"\t\t\t\t\t\"1\"\r\n\t\"GAlloween Bronze Medal 2015\"\t\t\t\t\t\"1\"\r\n\t\"GAlloween
+        Bronze Medal 2016\"\t\t\t\t\t\"1\"\r\n\t\"GAlloween Gold Medal 2013\"\t\t\t\t\t\"1\"\r\n\t\"GAlloween
+        Gold Medal 2014\"\t\t\t\t\t\"1\"\r\n\t\"GAlloween Gold Medal 2015\"\t\t\t\t\t\"1\"\r\n\t\"GAlloween
+        Gold Medal 2016\"\t\t\t\t\t\"1\"\r\n\t\"GAlloween Participant Badge 2013\"\t\t\t\t\"1\"\r\n\t\"GAlloween
+        Participant Badge 2014\"\t\t\t\t\"1\"\r\n\t\"GAlloween Participant Badge 2015\"\t\t\t\t\"1\"\r\n\t\"GAlloween
+        Participant Badge 2016\"\t\t\t\t\"1\"\r\n\t\"GAlloween Silver Medal 2013\"\t\t\t\t\t\"1\"\r\n\t\"GAlloween
+        Silver Medal 2014\"\t\t\t\t\t\"1\"\r\n\t\"GAlloween Silver Medal 2015\"\t\t\t\t\t\"1\"\r\n\t\"GAlloween
+        Silver Medal 2016\"\t\t\t\t\t\"1\"\r\n\t\"Gamers Assembly Bronze Medal 2013\"\t\t\t\t\"1\"\r\n\t\"Gamers
+        Assembly Bronze Medal 2014\"\t\t\t\t\"1\"\r\n\t\"Gamers Assembly Bronze Medal
+        2015\"\t\t\t\t\"1\"\r\n\t\"Gamers Assembly Bronze Medal 2016\"\t\t\t\t\"1\"\r\n\t\"Gamers
+        Assembly Gold Medal 2013\"\t\t\t\t\"1\"\r\n\t\"Gamers Assembly Gold Medal
+        2014\"\t\t\t\t\"1\"\r\n\t\"Gamers Assembly Gold Medal 2015\"\t\t\t\t\"1\"\r\n\t\"Gamers
+        Assembly Gold Medal 2016\"\t\t\t\t\"1\"\r\n\t\"Gamers Assembly Participant
+        Badge 2013\"\t\t\t\"1\"\r\n\t\"Gamers Assembly Participant Badge 2014\"\t\t\t\"1\"\r\n\t\"Gamers
+        Assembly Participant Badge 2015\"\t\t\t\"1\"\r\n\t\"Gamers Assembly Participant
+        Badge 2016\"\t\t\t\"1\"\r\n\t\"Gamers Assembly Silver Medal 2013\"\t\t\t\t\"1\"\r\n\t\"Gamers
+        Assembly Silver Medal 2014\"\t\t\t\t\"1\"\r\n\t\"Gamers Assembly Silver Medal
+        2015\"\t\t\t\t\"1\"\r\n\t\"Gamers Assembly Silver Medal 2016\"\t\t\t\t\"1\"\r\n\t\"Gift
+        of Giving\"\t\t\t\t\t\t\"1\"\r\n\t\"Gift of Giving 2016\"\t\t\t\t\t\t\"1\"\r\n\t\"Glitched
+        Circuit Board\"\t\t\t\t\t\"1\"\r\n\t\"Graybanns\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Grim
+        Tweeter\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Hannah's Altruistic Aspect\"\t\t\t\t\t\"1\"\r\n\t\"Heart
+        of Gold\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Honeydew's Charitable Countenance\"\t\t\t\t\"1\"\r\n\t\"InfoShow
+        LAN Party 2014 Participant\"\t\t\t\t\"1\"\r\n\t\"Invasion Community Update
+        Medal\"\t\t\t\t\"1\"\r\n\t\"Jaunty Benefactor 2016\"\t\t\t\t\t\"1\"\r\n\t\"Jaunty
+        Camper 2016\"\t\t\t\t\t\t\"1\"\r\n\t\"Jaunty Trailblazer 2016\"\t\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Access 1st Place Season 10\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Access 1st
+        Place Season 11\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Access 1st Place Season 12\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Access 1st Place Season 13\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Access 1st
+        Place Season 14\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Access 1st Place Season 9\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Access 2nd Place Season 10\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Access 2nd
+        Place Season 11\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Access 2nd Place Season 12\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Access 2nd Place Season 13\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Access 2nd
+        Place Season 14\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Access 2nd Place Season 9\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Access 3rd Place Season 10\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Access 3rd
+        Place Season 11\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Access 3rd Place Season 12\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Access 3rd Place Season 13\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Access 3rd
+        Place Season 14\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Access 3rd Place Season 9\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Access Participant Season 10\"\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Access Participant
+        Season 11\"\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Access Participant Season 12\"\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Access Participant Season 13\"\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Access Participant
+        Season 14\"\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Access Participant Season 9\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Central 1st Place Season 10\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Central 1st
+        Place Season 11\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Central 1st Place Season 12\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Central 1st Place Season 13\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Central 1st
+        Place Season 9\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Central 2nd Place Season 10\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Central 2nd Place Season 11\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Central 2nd
+        Place Season 12\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Central 2nd Place Season 13\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Central 2nd Place Season 9\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Central 3rd
+        Place Season 10\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Central 3rd Place Season 11\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Central 3rd Place Season 12\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Central 3rd
+        Place Season 13\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Central 3rd Place Season 9\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Central Participant Season 10\"\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Central Participant
+        Season 11\"\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Central Participant Season 12\"\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Central Participant Season 13\"\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Central Participant
+        Season 14\"\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Central Participant Season 9\"\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Elite 1st Place Season 10\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Elite 1st Place
+        Season 11\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Elite 1st Place Season 12\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Elite 1st Place Season 13\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Elite 1st Place
+        Season 14\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Elite 1st Place Season 9\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Elite 2nd Place Season 10\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Elite 2nd Place
+        Season 11\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Elite 2nd Place Season 12\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Elite 2nd Place Season 13\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Elite 2nd Place
+        Season 14\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Elite 2nd Place Season 9\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Elite 3rd Place Season 10\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Elite 3rd Place
+        Season 11\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Elite 3rd Place Season 12\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Elite 3rd Place Season 13\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Elite 3rd Place
+        Season 14\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Elite 3rd Place Season 9\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Elite Participant Season 10\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Elite Participant
+        Season 11\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Elite Participant Season 12\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Elite Participant Season 13\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Elite Participant
+        Season 14\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Elite Participant Season 9\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Open 1st Place Season 10\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Open 1st Place
+        Season 11\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Open 1st Place Season 12\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Open 1st Place Season 13\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Open 1st Place
+        Season 14\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Open 1st Place Season 9\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Open 2nd Place Season 10\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Open 2nd Place
+        Season 11\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Open 2nd Place Season 12\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Open 2nd Place Season 13\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Open 2nd Place
+        Season 14\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Open 2nd Place Season 9\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Open 3rd Place Season 10\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Open 3rd Place
+        Season 11\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Open 3rd Place Season 12\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Open 3rd Place Season 13\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Open 3rd Place
+        Season 14\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Open 3rd Place Season 9\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Open Participant Season 10\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Open Participant
+        Season 11\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Open Participant Season 12\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        6v6 Open Participant Season 13\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Open Participant
+        Season 14\"\t\t\t\t\"1\"\r\n\t\"LBTF2 6v6 Open Participant Season 9\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        Highlander 1st Place Season 1\"\t\t\t\t\"1\"\r\n\t\"LBTF2 Highlander 2nd Place
+        Season 1\"\t\t\t\t\"1\"\r\n\t\"LBTF2 Highlander 3rd Place Season 1\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        Highlander Access 1st Place Season 2\"\t\t\t\"1\"\r\n\t\"LBTF2 Highlander
+        Access 1st Place Season 3\"\t\t\t\"1\"\r\n\t\"LBTF2 Highlander Access 2nd
+        Place Season 2\"\t\t\t\"1\"\r\n\t\"LBTF2 Highlander Access 2nd Place Season
+        3\"\t\t\t\"1\"\r\n\t\"LBTF2 Highlander Access 3rd Place Season 2\"\t\t\t\"1\"\r\n\t\"LBTF2
+        Highlander Access 3rd Place Season 3\"\t\t\t\"1\"\r\n\t\"LBTF2 Highlander
+        Access Participant Season 2\"\t\t\t\"1\"\r\n\t\"LBTF2 Highlander Access Participant
+        Season 3\"\t\t\t\"1\"\r\n\t\"LBTF2 Highlander Participant Season 1\"\t\t\t\t\"1\"\r\n\t\"LBTF2
+        Highlander Principal 1st Place Season 2\"\t\t\t\"1\"\r\n\t\"LBTF2 Highlander
+        Principal 1st Place Season 3\"\t\t\t\"1\"\r\n\t\"LBTF2 Highlander Principal
+        2nd Place Season 2\"\t\t\t\"1\"\r\n\t\"LBTF2 Highlander Principal 2nd Place
+        Season 3\"\t\t\t\"1\"\r\n\t\"LBTF2 Highlander Principal 3rd Place Season 2\"\t\t\t\"1\"\r\n\t\"LBTF2
+        Highlander Principal 3rd Place Season 3\"\t\t\t\"1\"\r\n\t\"LBTF2 Highlander
+        Principal Participant Season 2\"\t\t\"1\"\r\n\t\"LBTF2 Highlander Principal
+        Participant Season 3\"\t\t\"1\"\r\n\t\"Mark of the Saint\"\t\t\t\t\t\t\"1\"\r\n\t\"Merc's
+        Pride Scarf\"\t\t\t\t\t\t\"1\"\r\n\t\"OSL.tf First Place Cup #1\"\t\t\t\t\t\"1\"\r\n\t\"OSL.tf
+        Participant Cup #1\"\t\t\t\t\t\"1\"\r\n\t\"OSL.tf Second Place Cup #1\"\t\t\t\t\t\"1\"\r\n\t\"OSL.tf
+        Third Place Cup #1\"\t\t\t\t\t\"1\"\r\n\t\"OWL 10 Division 2 First Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        10 Division 2 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL 10 Division 2 Second
+        Place\"\t\t\t\t\"1\"\r\n\t\"OWL 10 Division 2 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        10 Division 3 First Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 10 Division 3 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        10 Division 3 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 10 Division 3 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        10 Division 4 First Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 10 Division 4 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        10 Division 4 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 10 Division 4 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        10 Division 5 First Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 10 Division 5 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        10 Division 5 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 10 Division 5 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        10 Division 6 First Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 10 Division 6 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        10 Division 6 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 10 Division 6 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        10 Premier Division First Place\"\t\t\t\t\"1\"\r\n\t\"OWL 10 Premier Division
+        Participant\"\t\t\t\t\"1\"\r\n\t\"OWL 10 Premier Division Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL
+        10 Premier Division Third Place\"\t\t\t\t\"1\"\r\n\t\"OWL 11 Division 2 First
+        Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 11 Division 2 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        11 Division 2 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 11 Division 2 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        11 Division 3 First Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 11 Division 3 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        11 Division 3 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 11 Division 3 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        11 Division 4 First Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 11 Division 4 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        11 Division 4 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 11 Division 4 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        11 Division 5 First Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 11 Division 5 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        11 Division 5 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 11 Division 5 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        11 Premier Division First Place\"\t\t\t\t\"1\"\r\n\t\"OWL 11 Premier Division
+        Participant\"\t\t\t\t\"1\"\r\n\t\"OWL 11 Premier Division Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL
+        11 Premier Division Third Place\"\t\t\t\t\"1\"\r\n\t\"OWL 12 Division 2 First
+        Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 12 Division 2 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        12 Division 2 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 12 Division 2 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        12 Division 3 First Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 12 Division 3 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        12 Division 3 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 12 Division 3 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        12 Division 4 First Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 12 Division 4 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        12 Division 4 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 12 Division 4 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        12 Division 5 First Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 12 Division 5 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        12 Division 5 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 12 Division 5 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        12 Premier Division First Place\"\t\t\t\t\"1\"\r\n\t\"OWL 12 Premier Division
+        Participant\"\t\t\t\t\"1\"\r\n\t\"OWL 12 Premier Division Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL
+        12 Premier Division Third Place\"\t\t\t\t\"1\"\r\n\t\"OWL 13 Division 2 First
+        Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 13 Division 2 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        13 Division 2 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 13 Division 2 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        13 Division 3 First Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 13 Division 3 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        13 Division 3 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 13 Division 3 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        13 Division 4 First Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 13 Division 4 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        13 Division 4 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 13 Division 4 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        13 Division 5 First Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 13 Division 5 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        13 Division 5 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 13 Division 5 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        13 Premier Division First Place\"\t\t\t\t\"1\"\r\n\t\"OWL 13 Premier Division
+        Participant\"\t\t\t\t\"1\"\r\n\t\"OWL 13 Premier Division Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL
+        13 Premier Division Third Place\"\t\t\t\t\"1\"\r\n\t\"OWL 14 Division 2 First
+        Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 14 Division 2 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        14 Division 2 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 14 Division 2 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        14 Division 3 First Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 14 Division 3 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        14 Division 3 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 14 Division 3 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        14 Division 4 First Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 14 Division 4 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        14 Division 4 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 14 Division 4 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        14 Division 5 First Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 14 Division 5 Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        14 Division 5 Second Place\"\t\t\t\t\"1\"\r\n\t\"OWL 14 Division 5 Third Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        14 Premier First Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 14 Premier Participant\"\t\t\t\t\t\"1\"\r\n\t\"OWL
+        14 Premier Second Place\"\t\t\t\t\t\"1\"\r\n\t\"OWL 14 Premier Third Place\"\t\t\t\t\t\"1\"\r\n\t\"ozfortress
+        Intermediate 1st Place Season 15\"\t\t\t\"1\"\r\n\t\"ozfortress Intermediate
+        1st Place Season 16\"\t\t\t\"1\"\r\n\t\"ozfortress Intermediate 1st Place
+        Season 17\"\t\t\t\"1\"\r\n\t\"ozfortress Intermediate 1st Place Season 18\"\t\t\t\"1\"\r\n\t\"ozfortress
+        Intermediate 2nd Place Season 15\"\t\t\t\"1\"\r\n\t\"ozfortress Intermediate
+        2nd Place Season 16\"\t\t\t\"1\"\r\n\t\"ozfortress Intermediate 2nd Place
+        Season 17\"\t\t\t\"1\"\r\n\t\"ozfortress Intermediate 2nd Place Season 18\"\t\t\t\"1\"\r\n\t\"ozfortress
+        Intermediate 3rd Place Season 15\"\t\t\t\"1\"\r\n\t\"ozfortress Intermediate
+        3rd Place Season 16\"\t\t\t\"1\"\r\n\t\"ozfortress Intermediate 3rd Place
+        Season 17\"\t\t\t\"1\"\r\n\t\"ozfortress Intermediate 3rd Place Season 18\"\t\t\t\"1\"\r\n\t\"ozfortress
+        Intermediate Participant Season 15\"\t\t\t\"1\"\r\n\t\"ozfortress Intermediate
+        Participant Season 16\"\t\t\t\"1\"\r\n\t\"ozfortress Intermediate Participant
+        Season 17\"\t\t\t\"1\"\r\n\t\"ozfortress Intermediate Participant Season 18\"\t\t\t\"1\"\r\n\t\"ozfortress
+        Open 1st Place Season 15\"\t\t\t\t\"1\"\r\n\t\"ozfortress Open 1st Place Season
+        16\"\t\t\t\t\"1\"\r\n\t\"ozfortress Open 1st Place Season 17\"\t\t\t\t\"1\"\r\n\t\"ozfortress
+        Open 1st Place Season 18\"\t\t\t\t\"1\"\r\n\t\"ozfortress Open 2nd Place Season
+        15\"\t\t\t\t\"1\"\r\n\t\"ozfortress Open 2nd Place Season 16\"\t\t\t\t\"1\"\r\n\t\"ozfortress
+        Open 2nd Place Season 17\"\t\t\t\t\"1\"\r\n\t\"ozfortress Open 2nd Place Season
+        18\"\t\t\t\t\"1\"\r\n\t\"ozfortress Open 3rd Place Season 15\"\t\t\t\t\"1\"\r\n\t\"ozfortress
+        Open 3rd Place Season 16\"\t\t\t\t\"1\"\r\n\t\"ozfortress Open 3rd Place Season
+        17\"\t\t\t\t\"1\"\r\n\t\"ozfortress Open 3rd Place Season 18\"\t\t\t\t\"1\"\r\n\t\"ozfortress
+        Open Participant Season 15\"\t\t\t\t\"1\"\r\n\t\"ozfortress Open Participant
+        Season 16\"\t\t\t\t\"1\"\r\n\t\"ozfortress Open Participant Season 17\"\t\t\t\t\"1\"\r\n\t\"ozfortress
+        Open Participant Season 18\"\t\t\t\t\"1\"\r\n\t\"ozfortress Premier 1st Place
+        Season 15\"\t\t\t\"1\"\r\n\t\"ozfortress Premier 1st Place Season 16\"\t\t\t\"1\"\r\n\t\"ozfortress
+        Premier 1st Place Season 17\"\t\t\t\"1\"\r\n\t\"ozfortress Premier 1st Place
+        Season 18\"\t\t\t\"1\"\r\n\t\"ozfortress Premier 2nd Place Season 15\"\t\t\t\"1\"\r\n\t\"ozfortress
+        Premier 2nd Place Season 16\"\t\t\t\"1\"\r\n\t\"ozfortress Premier 2nd Place
+        Season 17\"\t\t\t\"1\"\r\n\t\"ozfortress Premier 2nd Place Season 18\"\t\t\t\"1\"\r\n\t\"ozfortress
+        Premier 3rd Place Season 15\"\t\t\t\"1\"\r\n\t\"ozfortress Premier 3rd Place
+        Season 16\"\t\t\t\"1\"\r\n\t\"ozfortress Premier 3rd Place Season 17\"\t\t\t\"1\"\r\n\t\"ozfortress
+        Premier 3rd Place Season 18\"\t\t\t\"1\"\r\n\t\"ozfortress Premier Participant
+        Season 15\"\t\t\t\"1\"\r\n\t\"ozfortress Premier Participant Season 16\"\t\t\t\"1\"\r\n\t\"ozfortress
+        Premier Participant Season 17\"\t\t\t\"1\"\r\n\t\"ozfortress Premier Participant
+        Season 18\"\t\t\t\"1\"\r\n\t\"ozfortress Summer Cup 1st Place 2016\"\t\t\t\t\"1\"\r\n\t\"ozfortress
+        Summer Cup 2nd Place 2016\"\t\t\t\t\"1\"\r\n\t\"ozfortress Summer Cup 3rd
+        Place 2016\"\t\t\t\t\"1\"\r\n\t\"ozfortress Summer Cup Participant 2016\"\t\t\t\"1\"\r\n\t\"PASS
+        Time Early Participation Pin\"\t\t\t\t\"1\"\r\n\t\"PASS Time Miniature Half
+        JACK\"\t\t\t\t\t\"1\"\r\n\t\"PASS Time Tournament Bronze Medal Season 1\"\t\t\t\"1\"\r\n\t\"PASS
+        Time Tournament Gold Medal Season 1\"\t\t\t\"1\"\r\n\t\"PASS Time Tournament
+        Silver Medal Season 1\"\t\t\t\"1\"\r\n\t\"Pet Robro\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Photo
+        Badge\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Pocket Villains\"\t\t\t\t\t\t\"1\"\r\n\t\"Polycount
+        Pin\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Portal 2 Pin\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Prinny
+        Pouch\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Promo Marxman\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Rally
+        Call 2017 - 1st place Medal\"\t\t\t\t\"1\"\r\n\t\"Rally Call 2017 - 2nd Place
+        Medal\"\t\t\t\t\"1\"\r\n\t\"Rally Call 2017 Donator Medal\"\t\t\t\t\t\"1\"\r\n\t\"Rally
+        Call 2017 Participant/Helper Medal\"\t\t\t\"1\"\r\n\t\"Ready Steady Pan First
+        Place Season 2\"\t\t\t\t\"1\"\r\n\t\"Ready Steady Pan Helper Season 1\"\t\t\t\t\"1\"\r\n\t\"Ready
+        Steady Pan Helper Season 2\"\t\t\t\t\"1\"\r\n\t\"Ready Steady Pan Participant
+        Season 1\"\t\t\t\t\"1\"\r\n\t\"Ready Steady Pan Participant Season 2\"\t\t\t\t\"1\"\r\n\t\"Ready
+        Steady Pan Second Place Season 2\"\t\t\t\"1\"\r\n\t\"Ready Steady Pan Third
+        Place Season 2\"\t\t\t\t\"1\"\r\n\t\"Resurrection Associate Pin\"\t\t\t\t\t\"1\"\r\n\t\"RETF2
+        EE22 4v4 Participant Medal Season 1\"\t\t\t\"1\"\r\n\t\"RETF2 EE22 4v4 Winner
+        Medal Season 1\"\t\t\t\t\"1\"\r\n\t\"RETF2 EE22 6v6 Participant Medal Season
+        1\"\t\t\t\"1\"\r\n\t\"RETF2 EE22 6v6 Winner Medal Season 1\"\t\t\t\t\"1\"\r\n\t\"RETF2
+        EE22 Contributor Medal Season 1\"\t\t\t\t\"1\"\r\n\t\"RETF2 EE22 Dodgeball
+        Participant Medal Season 1\"\t\t\"1\"\r\n\t\"RETF2 EE22 Dodgeball Winner Medal
+        Season 1\"\t\t\t\"1\"\r\n\t\"RETF2 EE22 Pan Tournament Participant Medal Season
+        1\"\t\t\"1\"\r\n\t\"RETF2 EE22 Pan Tournament Winner Medal Season 1\"\t\t\"1\"\r\n\t\"Sips'
+        Selfless Simulacrum\"\t\t\t\t\t\"1\"\r\n\t\"Sjin's Generous Guise\"\t\t\t\t\t\t\"1\"\r\n\t\"Smissmas
+        Wreath\"\t\t\t\t\t\t\"1\"\r\n\t\"Something Special For Someone Special (Wearable)\"\t\t\"1\"\r\n\t\"Space
+        Hamster Hammy\"\t\t\t\t\t\t\"1\"\r\n\t\"SpaceChem Pin\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Special
+        Snowflake\"\t\t\t\t\t\t\"1\"\r\n\t\"Special Snowflake 2016\"\t\t\t\t\t\"1\"\r\n\t\"Spirit
+        Of Giving\"\t\t\t\t\t\t\"1\"\r\n\t\"Summer Shades\"\t\t\t\t\t\t\t\"1\"\r\n\t\"TF2Connexion
+        Division 1 Bronze Medal Season 14\"\t\t\"1\"\r\n\t\"TF2Connexion Division
+        1 Bronze Medal Season 15\"\t\t\"1\"\r\n\t\"TF2Connexion Division 1 Gold Medal
+        Season 14\"\t\t\t\"1\"\r\n\t\"TF2Connexion Division 1 Gold Medal Season 15\"\t\t\t\"1\"\r\n\t\"TF2Connexion
+        Division 1 Participant Season 14\"\t\t\t\"1\"\r\n\t\"TF2Connexion Division
+        1 Participant Season 15\"\t\t\t\"1\"\r\n\t\"TF2Connexion Division 1 Silver
+        Medal Season 14\"\t\t\"1\"\r\n\t\"TF2Connexion Division 1 Silver Medal Season
+        15\"\t\t\"1\"\r\n\t\"TF2Connexion Division 2 Bronze Medal Season 14\"\t\t\"1\"\r\n\t\"TF2Connexion
+        Division 2 Bronze Medal Season 15\"\t\t\"1\"\r\n\t\"TF2Connexion Division
+        2 Gold Medal Season 14\"\t\t\t\"1\"\r\n\t\"TF2Connexion Division 2 Gold Medal
+        Season 15\"\t\t\t\"1\"\r\n\t\"TF2Connexion Division 2 Participant Season 14\"\t\t\t\"1\"\r\n\t\"TF2Connexion
+        Division 2 Participant Season 15\"\t\t\t\"1\"\r\n\t\"TF2Connexion Division
+        2 Silver Medal Season 14\"\t\t\"1\"\r\n\t\"TF2Connexion Division 2 Silver
+        Medal Season 15\"\t\t\"1\"\r\n\t\"TF2Connexion Division 3 Bronze Medal Season
+        14\"\t\t\"1\"\r\n\t\"TF2Connexion Division 3 Bronze Medal Season 15\"\t\t\"1\"\r\n\t\"TF2Connexion
+        Division 3 Gold Medal Season 14\"\t\t\t\"1\"\r\n\t\"TF2Connexion Division
+        3 Gold Medal Season 15\"\t\t\t\"1\"\r\n\t\"TF2Connexion Division 3 Participant
+        Season 14\"\t\t\t\"1\"\r\n\t\"TF2Connexion Division 3 Participant Season 15\"\t\t\t\"1\"\r\n\t\"TF2Connexion
+        Division 3 Silver Medal Season 14\"\t\t\"1\"\r\n\t\"TF2Connexion Division
+        3 Silver Medal Season 15\"\t\t\"1\"\r\n\t\"TF2Connexion Division 4 Bronze
+        Medal Season 14\"\t\t\"1\"\r\n\t\"TF2Connexion Division 4 Gold Medal Season
+        14\"\t\t\t\"1\"\r\n\t\"TF2Connexion Division 4 Participant Season 14\"\t\t\t\"1\"\r\n\t\"TF2Connexion
+        Division 4 Silver Medal Season 14\"\t\t\"1\"\r\n\t\"TF2Maps 72hr TF2Jam Summer
+        Participant 2016\"\t\t\t\"1\"\r\n\t\"TF2Maps 72hr TF2Jam Winter Participant
+        2017\"\t\t\t\"1\"\r\n\t\"The Atomic Accolade\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Baronial Badge\"\t\t\t\t\t\t\"1\"\r\n\t\"The Bolgan Family Crest\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Breakneck Baggies\"\t\t\t\t\t\t\"1\"\r\n\t\"The Bruiser's Bandanna\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Deus Specs\"\t\t\t\t\t\t\"1\"\r\n\t\"The Dictator\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Electric Badge-aloo\"\t\t\t\t\t\"1\"\r\n\t\"The Eye-Catcher\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Fortune Hunter\"\t\t\t\t\t\t\"1\"\r\n\t\"The Friends Forever Companion Square
+        Badge\"\t\t\t\"1\"\r\n\t\"The Heroic Companion Badge\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Hitt Mann Badge\"\t\t\t\t\t\t\"1\"\r\n\t\"The Map Maker's Medallion\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Marxman\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Merc Medal\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Merc's Muffler\"\t\t\t\t\t\t\"1\"\r\n\t\"The MK 50\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Mustachioed Mann\"\t\t\t\t\t\t\"1\"\r\n\t\"The Pocket Raiders\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Rump-o'-Lantern\"\t\t\t\t\t\t\"1\"\r\n\t\"The Saxxy Clapper Badge\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Tomb Readers\"\t\t\t\t\t\t\"1\"\r\n\t\"The Triple A Badge\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Tuxxy\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Vigilant Pin\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Whale Bone Charm\"\t\t\t\t\t\t\"1\"\r\n\t\"Thought that Counts\"\t\t\t\t\t\t\"1\"\r\n\t\"Tip
+        of the Hats 2015 Medal\"\t\t\t\t\t\"1\"\r\n\t\"Tour of Duty Badge Advanced
+        1\"\t\t\t\t\t\"1\"\r\n\t\"Tour of Duty Badge Advanced 2\"\t\t\t\t\t\"1\"\r\n\t\"Tour
+        of Duty Badge Advanced 3\"\t\t\t\t\t\"1\"\r\n\t\"Tour of Duty Badge Expert
+        1\"\t\t\t\t\t\"1\"\r\n\t\"Tour of Duty Badge Intermediate 1\"\t\t\t\t\"1\"\r\n\t\"Tournament
+        Medal (Armory)\"\t\t\t\t\t\"1\"\r\n\t\"TournamentMedal - ETF2LHL 2nd\"\t\t\t\t\t\"1\"\r\n\t\"TournamentMedal
+        - ETF2LHL 3rd\"\t\t\t\t\t\"1\"\r\n\t\"TournamentMedal - ETF2LHL Participants\"\t\t\t\"1\"\r\n\t\"TournamentMedal
+        - ETF2LHL Winners\"\t\t\t\t\"1\"\r\n\t\"TournamentMedal - GWJ Participants\"\t\t\t\t\"1\"\r\n\t\"TournamentMedal
+        - GWJ Runnerups\"\t\t\t\t\"1\"\r\n\t\"TournamentMedal - GWJ Winners\"\t\t\t\t\t\"1\"\r\n\t\"TournamentMedal
+        - UGCHL Participants\"\t\t\t\t\"1\"\r\n\t\"TournamentMedal - UGCHLDiv1 2nd\"\t\t\t\t\"1\"\r\n\t\"TournamentMedal
+        - UGCHLDiv1 3rd\"\t\t\t\t\"1\"\r\n\t\"TournamentMedal - UGCHLDiv1 Winners\"\t\t\t\t\"1\"\r\n\t\"TournamentMedal
+        - UGCHLDiv2 2nd\"\t\t\t\t\"1\"\r\n\t\"TournamentMedal - UGCHLDiv2 3rd\"\t\t\t\t\"1\"\r\n\t\"TournamentMedal
+        - UGCHLDiv2 Winners\"\t\t\t\t\"1\"\r\n\t\"TournamentMedal - UGCHLDiv3 2nd\"\t\t\t\t\"1\"\r\n\t\"TournamentMedal
+        - UGCHLDiv3 3rd\"\t\t\t\t\"1\"\r\n\t\"TournamentMedal - UGCHLDiv3 Winners\"\t\t\t\t\"1\"\r\n\t\"Towering
+        Pillar of Summer Shades\"\t\t\t\t\"1\"\r\n\t\"TTG Badge\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Tumblr
+        Vs Reddit Participant Season 1\"\t\t\t\t\"1\"\r\n\t\"Tumblr Vs Reddit Participant
+        Season 2\"\t\t\t\t\"1\"\r\n\t\"Tux\"\t\t\t\t\t\t\t\t\"1\"\r\n\t\"UGC 4vs4
+        1st Place Gold Season 2\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 1st Place Gold Season
+        3\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 1st Place Gold Season 4\"\t\t\t\t\"1\"\r\n\t\"UGC
+        4vs4 1st Place Gold Season 5\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 1st Place Gold
+        Season 7\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 2nd Place Gold Season 2\"\t\t\t\t\"1\"\r\n\t\"UGC
+        4vs4 2nd Place Gold Season 3\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 2nd Place Gold
+        Season 4\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 2nd Place Gold Season 5\"\t\t\t\t\"1\"\r\n\t\"UGC
+        4vs4 2nd Place Gold Season 7\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 3rd Place Gold
+        Season 2\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 3rd Place Gold Season 3\"\t\t\t\t\"1\"\r\n\t\"UGC
+        4vs4 3rd Place Gold Season 4\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 3rd Place Gold
+        Season 5\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 3rd Place Gold Season 7\"\t\t\t\t\"1\"\r\n\t\"UGC
+        4vs4 Gold Participant Season 2\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 Gold Participant
+        Season 3\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 Gold Participant Season 4\"\t\t\t\t\"1\"\r\n\t\"UGC
+        4vs4 Gold Participant Season 5\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 Gold Participant
+        Season 6\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 Gold Participant Season 7\"\t\t\t\t\"1\"\r\n\t\"UGC
+        4vs4 Iron Participant Season 2\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 Iron Participant
+        Season 3\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 Iron Participant Season 4\"\t\t\t\t\"1\"\r\n\t\"UGC
+        4vs4 Iron Participant Season 5\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 Iron Participant
+        Season 6\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 Iron Participant Season 7\"\t\t\t\t\"1\"\r\n\t\"UGC
+        4vs4 Silver Participant Season 1\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 Silver Participant
+        Season 2\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 Silver Participant Season 3\"\t\t\t\t\"1\"\r\n\t\"UGC
+        4vs4 Silver Participant Season 4\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 Silver Participant
+        Season 5\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 Silver Participant Season 6\"\t\t\t\t\"1\"\r\n\t\"UGC
+        4vs4 Silver Participant Season 7\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 Steel Participant
+        Season 1\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 Steel Participant Season 2\"\t\t\t\t\"1\"\r\n\t\"UGC
+        4vs4 Steel Participant Season 3\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 Steel Participant
+        Season 4\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 Steel Participant Season 5\"\t\t\t\t\"1\"\r\n\t\"UGC
+        4vs4 Steel Participant Season 6\"\t\t\t\t\"1\"\r\n\t\"UGC 4vs4 Steel Participant
+        Season 7\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 1st Place Gold Season 20\"\t\t\t\t\"1\"\r\n\t\"UGC
+        6vs6 1st Place Platinum Season 13\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 1st Place
+        Platinum Season 14\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 1st Place Platinum Season
+        15\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 1st Place Platinum Season 16\"\t\t\t\t\"1\"\r\n\t\"UGC
+        6vs6 1st Place Platinum Season 17\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 1st Place
+        Platinum Season 18\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 2nd Place Gold Season 20\"\t\t\t\t\"1\"\r\n\t\"UGC
+        6vs6 2nd Place Platinum Season 13\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 2nd Place
+        Platinum Season 14\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 2nd Place Platinum Season
+        15\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 2nd Place Platinum Season 16\"\t\t\t\t\"1\"\r\n\t\"UGC
+        6vs6 2nd Place Platinum Season 17\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 2nd Place
+        Platinum Season 18\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 3rd Place Gold Season 20\"\t\t\t\t\"1\"\r\n\t\"UGC
+        6vs6 3rd Place Platinum Season 13\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 3rd Place
+        Platinum Season 14\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 3rd Place Platinum Season
+        15\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 3rd Place Platinum Season 16\"\t\t\t\t\"1\"\r\n\t\"UGC
+        6vs6 3rd Place Platinum Season 17\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 3rd Place
+        Platinum Season 18\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 European Participant Season
+        11\"\t\t\t\"1\"\r\n\t\"UGC 6vs6 Gold Participant Season 14\"\t\t\t\t\"1\"\r\n\t\"UGC
+        6vs6 Gold Participant Season 15\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Gold Participant
+        Season 16\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Gold Participant Season 17\"\t\t\t\t\"1\"\r\n\t\"UGC
+        6vs6 Gold Participant Season 18\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Gold Participant
+        Season 19\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Gold Participant Season 20\"\t\t\t\t\"1\"\r\n\t\"UGC
+        6vs6 Iron Participant Season 13\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Iron Participant
+        Season 14\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Iron Participant Season 15\"\t\t\t\t\"1\"\r\n\t\"UGC
+        6vs6 Iron Participant Season 16\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Iron Participant
+        Season 17\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Iron Participant Season 18\"\t\t\t\t\"1\"\r\n\t\"UGC
+        6vs6 Iron Participant Season 19\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Iron Participant
+        Season 20\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Platinum Participant Season 11\"\t\t\t\"1\"\r\n\t\"UGC
+        6vs6 Platinum Participant Season 13\"\t\t\t\"1\"\r\n\t\"UGC 6vs6 Platinum
+        Participant Season 14\"\t\t\t\"1\"\r\n\t\"UGC 6vs6 Platinum Participant Season
+        15\"\t\t\t\"1\"\r\n\t\"UGC 6vs6 Platinum Participant Season 16\"\t\t\t\"1\"\r\n\t\"UGC
+        6vs6 Platinum Participant Season 17\"\t\t\t\"1\"\r\n\t\"UGC 6vs6 Platinum
+        Participant Season 18\"\t\t\t\"1\"\r\n\t\"UGC 6vs6 Platinum Participant Season
+        19\"\t\t\t\"1\"\r\n\t\"UGC 6vs6 Silver Participant Season 11\"\t\t\t\t\"1\"\r\n\t\"UGC
+        6vs6 Silver Participant Season 13\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Silver Participant
+        Season 14\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Silver Participant Season 15\"\t\t\t\t\"1\"\r\n\t\"UGC
+        6vs6 Silver Participant Season 16\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Silver Participant
+        Season 17\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Silver Participant Season 18\"\t\t\t\t\"1\"\r\n\t\"UGC
+        6vs6 Silver Participant Season 19\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Silver Participant
+        Season 20\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Steel Participant Season 11\"\t\t\t\t\"1\"\r\n\t\"UGC
+        6vs6 Steel Participant Season 13\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Steel Participant
+        Season 14\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Steel Participant Season 15\"\t\t\t\t\"1\"\r\n\t\"UGC
+        6vs6 Steel Participant Season 16\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Steel Participant
+        Season 17\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Steel Participant Season 18\"\t\t\t\t\"1\"\r\n\t\"UGC
+        6vs6 Steel Participant Season 19\"\t\t\t\t\"1\"\r\n\t\"UGC 6vs6 Steel Participant
+        Season 20\"\t\t\t\t\"1\"\r\n\t\"UGC Highlander 1st Place European Platinum
+        Season 6\"\t\t\"1\"\r\n\t\"UGC Highlander 1st Place European Silver Season
+        6\"\t\t\"1\"\r\n\t\"UGC Highlander 1st Place European Steel Season 6\"\t\t\"1\"\r\n\t\"UGC
+        Highlander 1st Place Gold Season 11\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st
+        Place Gold Season 12\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st Place Gold Season
+        13\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st Place Gold Season 14\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 1st Place Gold Season 15\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st
+        Place Gold Season 16\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st Place Gold Season
+        18\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st Place Gold Season 9\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 1st Place Iron Season 11\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st
+        Place Iron Season 15\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st Place Iron Season
+        16\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st Place Iron Season 8\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 1st Place Iron Season 9\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st
+        Place North American Platinum Season 6\"\t\"1\"\r\n\t\"UGC Highlander 1st
+        Place North American Silver Season 6\"\t\"1\"\r\n\t\"UGC Highlander 1st Place
+        North American Steel Season 6\"\t\"1\"\r\n\t\"UGC Highlander 1st Place Platinum
+        Season 11\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st Place Platinum Season 12\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 1st Place Platinum Season 13\"\t\t\t\"1\"\r\n\t\"UGC Highlander
+        1st Place Platinum Season 14\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st Place
+        Platinum Season 15\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st Place Platinum Season
+        16\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st Place Platinum Season 18\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 1st Place Platinum Season 8\"\t\t\t\"1\"\r\n\t\"UGC Highlander
+        1st Place Platinum Season 9\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st Place Season
+        8\"\t\t\t\t\"1\"\r\n\t\"UGC Highlander 1st Place Season 9\"\t\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 1st Place Silver Season 11\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st
+        Place Silver Season 12\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st Place Silver
+        Season 13\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st Place Silver Season 14\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 1st Place Silver Season 15\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st
+        Place Silver Season 16\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st Place Silver
+        Season 18\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st Place Silver Season 8\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 1st Place Silver Season 9\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st
+        Place South American Platinum Season 6\"\t\"1\"\r\n\t\"UGC Highlander 1st
+        Place South American Steel Season 6\"\t\"1\"\r\n\t\"UGC Highlander 1st Place
+        Steel Season 11\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st Place Steel Season
+        15\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st Place Steel Season 16\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 1st Place Steel Season 8\"\t\t\t\"1\"\r\n\t\"UGC Highlander 1st
+        Place Steel Season 9\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place European
+        Platinum Season 6\"\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place European Silver
+        Season 6\"\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place European Steel Season
+        6\"\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place Gold Season 11\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 2nd Place Gold Season 12\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd
+        Place Gold Season 13\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place Gold Season
+        14\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place Gold Season 15\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 2nd Place Gold Season 16\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd
+        Place Gold Season 18\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place Gold Season
+        9\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place Iron Season 11\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 2nd Place Iron Season 15\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd
+        Place Iron Season 16\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place Iron Season
+        8\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place Iron Season 9\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 2nd Place North American Platinum Season 6\"\t\"1\"\r\n\t\"UGC
+        Highlander 2nd Place North American Silver Season 6\"\t\"1\"\r\n\t\"UGC Highlander
+        2nd Place North American Steel Season 6\"\t\"1\"\r\n\t\"UGC Highlander 2nd
+        Place Platinum Season 11\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place Platinum
+        Season 12\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place Platinum Season 13\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 2nd Place Platinum Season 14\"\t\t\t\"1\"\r\n\t\"UGC Highlander
+        2nd Place Platinum Season 15\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place
+        Platinum Season 16\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place Platinum Season
+        18\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place Platinum Season 8\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 2nd Place Platinum Season 9\"\t\t\t\"1\"\r\n\t\"UGC Highlander
+        2nd Place Season 8\"\t\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place Season 9\"\t\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 2nd Place Silver Season 11\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd
+        Place Silver Season 12\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place Silver
+        Season 13\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place Silver Season 14\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 2nd Place Silver Season 15\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd
+        Place Silver Season 16\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place Silver
+        Season 18\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place Silver Season 8\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 2nd Place Silver Season 9\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd
+        Place South American Platinum Season 6\"\t\"1\"\r\n\t\"UGC Highlander 2nd
+        Place South American Steel Season 6\"\t\"1\"\r\n\t\"UGC Highlander 2nd Place
+        Steel Season 11\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place Steel Season
+        15\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd Place Steel Season 16\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 2nd Place Steel Season 8\"\t\t\t\"1\"\r\n\t\"UGC Highlander 2nd
+        Place Steel Season 9\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place European
+        Platinum Season 6\"\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place European Silver
+        Season 6\"\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place European Steel Season
+        6\"\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place Gold Season 11\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 3rd Place Gold Season 12\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd
+        Place Gold Season 13\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place Gold Season
+        14\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place Gold Season 15\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 3rd Place Gold Season 16\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd
+        Place Gold Season 18\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place Gold Season
+        9\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place Iron Season 11\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 3rd Place Iron Season 15\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd
+        Place Iron Season 16\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place Iron Season
+        8\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place Iron Season 9\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 3rd Place North American Platinum Season 6\"\t\"1\"\r\n\t\"UGC
+        Highlander 3rd Place North American Silver Season 6\"\t\"1\"\r\n\t\"UGC Highlander
+        3rd Place North American Steel Season 6\"\t\"1\"\r\n\t\"UGC Highlander 3rd
+        Place Platinum Season 11\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place Platinum
+        Season 12\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place Platinum Season 13\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 3rd Place Platinum Season 14\"\t\t\t\"1\"\r\n\t\"UGC Highlander
+        3rd Place Platinum Season 15\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place
+        Platinum Season 16\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place Platinum Season
+        18\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place Platinum Season 8\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 3rd Place Platinum Season 9\"\t\t\t\"1\"\r\n\t\"UGC Highlander
+        3rd Place Season 8\"\t\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place Season 9\"\t\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 3rd Place Silver Season 11\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd
+        Place Silver Season 12\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place Silver
+        Season 13\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place Silver Season 14\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 3rd Place Silver Season 15\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd
+        Place Silver Season 16\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place Silver
+        Season 18\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place Silver Season 8\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 3rd Place Silver Season 9\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd
+        Place South American Platinum Season 6\"\t\"1\"\r\n\t\"UGC Highlander 3rd
+        Place South American Steel Season 6\"\t\"1\"\r\n\t\"UGC Highlander 3rd Place
+        Steel Season 11\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place Steel Season
+        15\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd Place Steel Season 16\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander 3rd Place Steel Season 8\"\t\t\t\"1\"\r\n\t\"UGC Highlander 3rd
+        Place Steel Season 9\"\t\t\t\"1\"\r\n\t\"UGC Highlander Gold Participant Season
+        11\"\t\t\t\"1\"\r\n\t\"UGC Highlander Gold Participant Season 12\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander Gold Participant Season 13\"\t\t\t\"1\"\r\n\t\"UGC Highlander Gold
+        Participant Season 14\"\t\t\t\"1\"\r\n\t\"UGC Highlander Gold Participant
+        Season 15\"\t\t\t\"1\"\r\n\t\"UGC Highlander Gold Participant Season 16\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander Gold Participant Season 17\"\t\t\t\"1\"\r\n\t\"UGC Highlander Gold
+        Participant Season 18\"\t\t\t\"1\"\r\n\t\"UGC Highlander Gold Participant
+        Season 9\"\t\t\t\"1\"\r\n\t\"UGC Highlander Iron Participant Season 11\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander Iron Participant Season 12\"\t\t\t\"1\"\r\n\t\"UGC Highlander Iron
+        Participant Season 13\"\t\t\t\"1\"\r\n\t\"UGC Highlander Iron Participant
+        Season 14\"\t\t\t\"1\"\r\n\t\"UGC Highlander Iron Participant Season 15\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander Iron Participant Season 16\"\t\t\t\"1\"\r\n\t\"UGC Highlander Iron
+        Participant Season 17\"\t\t\t\"1\"\r\n\t\"UGC Highlander Iron Participant
+        Season 18\"\t\t\t\"1\"\r\n\t\"UGC Highlander Iron Participant Season 9\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander Participant Season 8\"\t\t\t\t\"1\"\r\n\t\"UGC Highlander Platinum
+        Participant Season 11\"\t\t\t\"1\"\r\n\t\"UGC Highlander Platinum Participant
+        Season 12\"\t\t\t\"1\"\r\n\t\"UGC Highlander Platinum Participant Season 13\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander Platinum Participant Season 14\"\t\t\t\"1\"\r\n\t\"UGC Highlander
+        Platinum Participant Season 15\"\t\t\t\"1\"\r\n\t\"UGC Highlander Platinum
+        Participant Season 16\"\t\t\t\"1\"\r\n\t\"UGC Highlander Platinum Participant
+        Season 17\"\t\t\t\"1\"\r\n\t\"UGC Highlander Platinum Participant Season 18\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander Platinum Participant Season 6\"\t\t\t\"1\"\r\n\t\"UGC Highlander
+        Platinum Participant Season 8\"\t\t\t\"1\"\r\n\t\"UGC Highlander Platinum
+        Participant Season 9\"\t\t\t\"1\"\r\n\t\"UGC Highlander Silver Participant
+        Season 11\"\t\t\t\"1\"\r\n\t\"UGC Highlander Silver Participant Season 12\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander Silver Participant Season 13\"\t\t\t\"1\"\r\n\t\"UGC Highlander
+        Silver Participant Season 14\"\t\t\t\"1\"\r\n\t\"UGC Highlander Silver Participant
+        Season 15\"\t\t\t\"1\"\r\n\t\"UGC Highlander Silver Participant Season 16\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander Silver Participant Season 17\"\t\t\t\"1\"\r\n\t\"UGC Highlander
+        Silver Participant Season 18\"\t\t\t\"1\"\r\n\t\"UGC Highlander Silver Participant
+        Season 6\"\t\t\t\"1\"\r\n\t\"UGC Highlander Silver Participant Season 8\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander Silver Participant Season 9\"\t\t\t\"1\"\r\n\t\"UGC Highlander
+        Steel Participant Season 11\"\t\t\t\"1\"\r\n\t\"UGC Highlander Steel Participant
+        Season 12\"\t\t\t\"1\"\r\n\t\"UGC Highlander Steel Participant Season 13\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander Steel Participant Season 14\"\t\t\t\"1\"\r\n\t\"UGC Highlander
+        Steel Participant Season 15\"\t\t\t\"1\"\r\n\t\"UGC Highlander Steel Participant
+        Season 16\"\t\t\t\"1\"\r\n\t\"UGC Highlander Steel Participant Season 17\"\t\t\t\"1\"\r\n\t\"UGC
+        Highlander Steel Participant Season 18\"\t\t\t\"1\"\r\n\t\"UGC Highlander
+        Steel Participant Season 6\"\t\t\t\"1\"\r\n\t\"UGC Highlander Steel Participant
+        Season 8\"\t\t\t\"1\"\r\n\t\"UGC Highlander Steel Participant Season 9\"\t\t\t\"1\"\r\n\t\"UGC
+        Tournament Autumn 2011 - Euro Iron\"\t\t\t\"1\"\r\n\t\"UGC Tournament Autumn
+        2011 - Euro Participant\"\t\t\t\"1\"\r\n\t\"UGC Tournament Autumn 2011 - Euro
+        Platinum\"\t\t\t\"1\"\r\n\t\"UGC Tournament Autumn 2011 - Euro Silver\"\t\t\t\"1\"\r\n\t\"UGC
+        Tournament Fall 2011 - Iron 1st Place\"\t\t\t\"1\"\r\n\t\"UGC Tournament Fall
+        2011 - Iron 2nd Place\"\t\t\t\"1\"\r\n\t\"UGC Tournament Fall 2011 - Iron
+        3rd Place\"\t\t\t\"1\"\r\n\t\"UGC Tournament Fall 2011 - Participant\"\t\t\t\"1\"\r\n\t\"UGC
+        Tournament Fall 2011 - Platinum 1st Place\"\t\t\t\"1\"\r\n\t\"UGC Tournament
+        Fall 2011 - Platinum 2nd Place\"\t\t\t\"1\"\r\n\t\"UGC Tournament Fall 2011
+        - Platinum 3rd Place\"\t\t\t\"1\"\r\n\t\"UGC Tournament Fall 2011 - Platinum
+        Participant\"\t\t\"1\"\r\n\t\"UGC Tournament Fall 2011 - Silver 1st Place\"\t\t\t\"1\"\r\n\t\"UGC
+        Tournament Fall 2011 - Silver 2nd Place\"\t\t\t\"1\"\r\n\t\"UGC Tournament
+        Fall 2011 - Silver 3rd Place\"\t\t\t\"1\"\r\n\t\"UGC Tournament Fall 2011
+        - Silver Participant\"\t\t\t\"1\"\r\n\t\"UGC Tournament Fall 2011 - Tin 1st
+        Place\"\t\t\t\"1\"\r\n\t\"UGC Tournament Fall 2011 - Tin 2nd Place\"\t\t\t\"1\"\r\n\t\"UGC
+        Tournament Fall 2011 - Tin 3rd Place\"\t\t\t\"1\"\r\n\t\"Xephos' Philanthropic
+        Physiognomy\"\t\t\t\t\"1\"\r\n\t//______________________ Multiple classes
+        _______________________\\\\\r\n\t\"Bowtie\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Buck
+        Turner All-Stars\"\t\t\t\t\t\t\"1\"\r\n\t\"Buttler\"\t\t\t\t\t\t\t\"1\"\r\n\t\"EOTL_hiphunter_jacket\"\t\t\t\t\t\t\"1\"\r\n\t\"Handy
+        Canes\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Hillbilly Speed-Bump\"\t\t\t\t\t\t\"1\"\r\n\t\"Pocket
+        Medic\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Promo Champ Stamp\"\t\t\t\t\t\t\"1\"\r\n\t\"Promo
+        Triad Trinket\"\t\t\t\t\t\t\"1\"\r\n\t\"Reader's Choice\"\t\t\t\t\t\t\"1\"\r\n\t\"Socked
+        and Loaded\"\t\t\t\t\t\t\"1\"\r\n\t\"Support Spurs\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        All-Father\"\t\t\t\t\t\t\"1\"\r\n\t\"The Beep Boy\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Bonedolier\"\t\t\t\t\t\t\"1\"\r\n\t\"The Champ Stamp\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Cuban Bristle Crisis\"\t\t\t\t\t\"1\"\r\n\t\"The Cute Suit\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Deadliest Duckling\"\t\t\t\t\t\"1\"\r\n\t\"The Doublecross-Comm\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Dual-Core Devil Doll\"\t\t\t\t\t\"1\"\r\n\t\"The Exorcizor\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Frenchman's Formals\"\t\t\t\t\t\"1\"\r\n\t\"The Gift Bringer\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Itsy Bitsy Spyer\"\t\t\t\t\t\t\"1\"\r\n\t\"The K-9 Mane\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Macho Mann\"\t\t\t\t\t\t\"1\"\r\n\t\"The Ornament Armament\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Professor's Pineapple\"\t\t\t\t\t\"1\"\r\n\t\"The Scrap Pack\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Sole Saviors\"\t\t\t\t\t\t\"1\"\r\n\t\"The Special Eyes\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Spooky Sleeves\"\t\t\t\t\t\t\"1\"\r\n\t\"The Sub Zero Suit\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Teufort Tooth Kicker\"\t\t\t\t\t\"1\"\r\n\t\"The Toowoomba Tunic\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Triad Trinket\"\t\t\t\t\t\t\"1\"\r\n\t\"The Viking Braider\"\t\t\t\t\t\t\"1\"\r\n\t\"Weight
+        Room Warmer\"\t\t\t\t\t\t\"1\"\r\n\t//____________________________ Scout ____________________________\\\\\r\n\t\"B'aaarrgh-n-Britches\"\t\t\t\t\t\t\"1\"\r\n\t\"Ball-Kicking
+        Boots\"\t\t\t\t\t\t\"1\"\r\n\t\"Bonk Batter's Backup\"\t\t\t\t\t\t\"1\"\r\n\t\"Cadet
+        Visor\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Chucklenuts\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Courtly
+        Cuirass\"\t\t\t\t\t\t\"1\"\r\n\t\"Crook Combatant\"\t\t\t\t\t\t\"1\"\r\n\t\"dec2014
+        Fools Footwear\"\t\t\t\t\t\"1\"\r\n\t\"dec2014 Truands Tunic\"\t\t\t\t\t\t\"1\"\r\n\t\"Dillinger's
+        Duffel\"\t\t\t\t\t\t\"1\"\r\n\t\"EOTL_blinks_breeches\"\t\t\t\t\t\t\"1\"\r\n\t\"EOTL_thermal_sleeves\"\t\t\t\t\t\t\"1\"\r\n\t\"Flak
+        Jack\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Flunkyware\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Hot
+        Heels\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Lucky No. 42\"\t\t\t\t\t\t\t\"1\"\r\n\t\"MNC
+        Mascot Outfit\"\t\t\t\t\t\t\"1\"\r\n\t\"Orion's Belt\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Scout
+        Flip-Flops\"\t\t\t\t\t\t\"1\"\r\n\t\"Sign of the Wolf's School\"\t\t\t\t\t\"1\"\r\n\t\"Snowwing\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Squire's
+        Sabatons\"\t\t\t\t\t\t\"1\"\r\n\t\"The Argyle Ace\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Bat Backup\"\t\t\t\t\t\t\"1\"\r\n\t\"The Bigg Mann on Campus\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Bootenkhamuns\"\t\t\t\t\t\t\"1\"\r\n\t\"The Boston Boom-Bringer\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Caffeine Cooler\"\t\t\t\t\t\t\"1\"\r\n\t\"The Cheet Sheet\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Cool Cat Cardigan\"\t\t\t\t\t\t\"1\"\r\n\t\"The Delinquent's Down Vest\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Digit Divulger\"\t\t\t\t\t\t\"1\"\r\n\t\"The Electric Twanger\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Fast Learner\"\t\t\t\t\t\t\"1\"\r\n\t\"The Flapjack\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Flight of the Monarch\"\t\t\t\t\t\"1\"\r\n\t\"The Frickin' Sweet Ninja Hood\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Half-Pipe Hurdler\"\t\t\t\t\t\t\"1\"\r\n\t\"The Little Drummer Mann\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Long Fall Loafers\"\t\t\t\t\t\t\"1\"\r\n\t\"The Paisley Pro\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Red Socks\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Sack Fulla Smissmas\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Southie Shinobi\"\t\t\t\t\t\t\"1\"\r\n\t\"The Spooky Shoes\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Stereoscopic Shades\"\t\t\t\t\t\"1\"\r\n\t\"The Ticket Boy\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Tomb Wrapper\"\t\t\t\t\t\t\"1\"\r\n\t\"The Track Terrorizer\"\t\t\t\t\t\t\"1\"\r\n\t\"Thrilling
+        Tracksuit\"\t\t\t\t\t\t\"1\"\r\n\t\"tw_scoutbot_armor\"\t\t\t\t\t\t\"1\"\r\n\t//___________________________
+        Soldier ___________________________\\\\\r\n\t\"Antarctic Parka\"\t\t\t\t\t\t\"1\"\r\n\t\"EOTL_beard\"\t\t\t\t\t\t\t\"1\"\r\n\t\"EOTL_Coldfront
+        Curbstompers\"\t\t\t\t\t\"1\"\r\n\t\"eotl_winter_coat\"\t\t\t\t\t\t\"1\"\r\n\t\"Exquisite
+        Rack\"\t\t\t\t\t\t\"1\"\r\n\t\"Fancy Dress Uniform\"\t\t\t\t\t\t\"1\"\r\n\t\"Lieutenant
+        Bites\"\t\t\t\t\t\t\"1\"\r\n\t\"Lord Cockswain's Novelty Mutton Chops and
+        Pipe\"\t\t\"1\"\r\n\t\"Marshall's Mutton Chops\"\t\t\t\t\t\"1\"\r\n\t\"Soldier's
+        Sparkplug\"\t\t\t\t\t\t\"1\"\r\n\t\"Soldier's Stash\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Brawling Buccaneer\"\t\t\t\t\t\"1\"\r\n\t\"The Caped Crusader\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Captain's Cocktails\"\t\t\t\t\t\"1\"\r\n\t\"The Classified Coif\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Colonial Clogs\"\t\t\t\t\t\t\"1\"\r\n\t\"The Compatriot\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Diplomat\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Founding Father\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Hornblower\"\t\t\t\t\t\t\"1\"\r\n\t\"The Killer's Kit\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Kringle Collection\"\t\t\t\t\t\"1\"\r\n\t\"The Lone Survivor\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Man in Slacks\"\t\t\t\t\t\t\"1\"\r\n\t\"The Patriot's Pouches\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Shogun's Shoulder Guard\"\t\t\t\t\t\"1\"\r\n\t\"The Soldier's Stogie\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        War on Smissmas Battle Socks\"\t\t\t\t\"1\"\r\n\t\"The Whirly Warrior\"\t\t\t\t\t\t\"1\"\r\n\t\"tw_soldierbot_armor\"\t\t\t\t\t\t\"1\"\r\n\t\"Web
+        Easteregg Medal\"\t\t\t\t\t\t\"1\"\r\n\t//____________________________ Pyro
+        _____________________________\\\\\r\n\t\"Arthropod's Aspect\"\t\t\t\t\t\t\"1\"\r\n\t\"Crusader's
+        Getup\"\t\t\t\t\t\t\"1\"\r\n\t\"dec2014 Armoured Appendages\"\t\t\t\t\t\"1\"\r\n\t\"dec2014
+        Black Knights Bascinet\"\t\t\t\t\"1\"\r\n\t\"dec2014 Pyromancer's Raiments\"\t\t\t\t\t\"1\"\r\n\t\"dec2014
+        Torchers Tabard\"\t\t\t\t\t\"1\"\r\n\t\"El Muchacho\"\t\t\t\t\t\t\t\"1\"\r\n\t\"EOTL_pyro_sweater\"\t\t\t\t\t\t\"1\"\r\n\t\"Flammable
+        Favor\"\t\t\t\t\t\t\"1\"\r\n\t\"Jupiter Jetpack\"\t\t\t\t\t\t\"1\"\r\n\t\"Neptune's
+        Nightmare\"\t\t\t\t\t\t\"1\"\r\n\t\"Phobos Filter\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Pop-eyes\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Pyro
+        Monocle\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Rail Spikes\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Sweet
+        Smissmas Sweater\"\t\t\t\t\t\"1\"\r\n\t\"The Backpack Broiler\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Blizzard Breather\"\t\t\t\t\t\t\"1\"\r\n\t\"The Burning Bandana\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Coffin Kit\"\t\t\t\t\t\t\"1\"\r\n\t\"The Cremator's Conscience\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Frymaster\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Gas Guzzler\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Lunatic's Leathers\"\t\t\t\t\t\"1\"\r\n\t\"The Moonman Backpack\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Pampered Pyro\"\t\t\t\t\t\t\"1\"\r\n\t\"The Portable Smissmas Spirit Dispenser\"\t\t\t\"1\"\r\n\t\"The
+        Pyrobotics Pack\"\t\t\t\t\t\t\"1\"\r\n\t\"The Pyrotechnic Tote\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Russian Rocketeer\"\t\t\t\t\t\t\"1\"\r\n\t\"The Scrap Sack\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Sengoku Scorcher\"\t\t\t\t\t\t\"1\"\r\n\t\"The Soot Suit\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Space Diver\"\t\t\t\t\t\t\"1\"\r\n\t\"The Steel Sixpack\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Trail-Blazer\"\t\t\t\t\t\t\"1\"\r\n\t\"The Tribal Bones\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Wraith Wrap\"\t\t\t\t\t\t\"1\"\r\n\t\"Tiny Timber\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Trickster's
+        Turnout Gear\"\t\t\t\t\t\"1\"\r\n\t\"tw_pyrobot_armor\"\t\t\t\t\t\t\"1\"\r\n\t//___________________________
+        Demoman ___________________________\\\\\r\n\t\"A Whiff of the Old Brimstone\"\t\t\t\t\t\"1\"\r\n\t\"Aladdin's
+        Private Reserve\"\t\t\t\t\t\"1\"\r\n\t\"Blind Justice\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Bushi-Dou\"\t\t\t\t\t\t\t\"1\"\r\n\t\"dec2014
+        Viking Boots\"\t\t\t\t\t\t\"1\"\r\n\t\"EOTL_demo_dynamite\"\t\t\t\t\t\t\"1\"\r\n\t\"EOTL_demopants\"\t\t\t\t\t\t\"1\"\r\n\t\"Highland
+        High Heels\"\t\t\t\t\t\t\"1\"\r\n\t\"Mann of the Seven Sees\"\t\t\t\t\t\"1\"\r\n\t\"Seeing
+        Double\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Shin Shredders\"\t\t\t\t\t\t\"1\"\r\n\t\"Six
+        Pack Abs\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Battery Bandolier\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Bearded Bombardier\"\t\t\t\t\t\"1\"\r\n\t\"The Bird-Man of Aberdeen\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Bolted Bombardier\"\t\t\t\t\t\t\"1\"\r\n\t\"The Cool Breeze\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Dark Age Defender\"\t\t\t\t\t\t\"1\"\r\n\t\"The Demo's Dustcatcher\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Gaelic Garb\"\t\t\t\t\t\t\"1\"\r\n\t\"The Gaelic Golf Bag\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Glasgow Great Helm\"\t\t\t\t\t\"1\"\r\n\t\"The HDMI Patch\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Hurt Locher\"\t\t\t\t\t\t\"1\"\r\n\t\"The Juggernaut Jacket\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        King of Scotland Cape\"\t\t\t\t\t\"1\"\r\n\t\"The Liquor Locker\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Sangu Sleeves\"\t\t\t\t\t\t\"1\"\r\n\t\"The Scrumpy Strongbox\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Snapped Pupil\"\t\t\t\t\t\t\"1\"\r\n\t\"The Stormin' Norman\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Tartan Spartan\"\t\t\t\t\t\t\"1\"\r\n\t\"The Tartantaloons\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Whiskey Bib\"\t\t\t\t\t\t\"1\"\r\n\t\"TTG Glasses\"\t\t\t\t\t\t\t\"1\"\r\n\t\"tw_demobot_armor\"\t\t\t\t\t\t\"1\"\r\n\t\"tw_sentrybuster\"\t\t\t\t\t\t\"1\"\r\n\t//____________________________
+        Heavy ____________________________\\\\\r\n\t\"Aqua Flops\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Combat
+        Slacks\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Commissar's Coat\"\t\t\t\t\t\t\"1\"\r\n\t\"Der
+        Maschinensoldaten-Helm\"\t\t\t\t\t\"1\"\r\n\t\"Die Regime-Panzerung\"\t\t\t\t\t\t\"1\"\r\n\t\"El
+        Duderino\"\t\t\t\t\t\t\t\"1\"\r\n\t\"EOTL_sheavyshirt\"\t\t\t\t\t\t\"1\"\r\n\t\"EOTL_Ursa
+        Major\"\t\t\t\t\t\t\"1\"\r\n\t\"Gone Commando\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Heavy
+        Tourism\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Jungle Booty\"\t\t\t\t\t\t\t\"1\"\r\n\t\"MvM
+        GateBot Light Heavy\"\t\t\t\t\t\"1\"\r\n\t\"Siberian Sweater\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Apparatchik's Apparel\"\t\t\t\t\t\"1\"\r\n\t\"The Bear Necessities\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Bolshevik Biker\"\t\t\t\t\t\t\"1\"\r\n\t\"The Borscht Belt\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Gabe Glasses\"\t\t\t\t\t\t\"1\"\r\n\t\"The Heavy Lifter\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Heavy-Weight Champ\"\t\t\t\t\t\"1\"\r\n\t\"The Hunger Force\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Leftover Trap\"\t\t\t\t\t\t\"1\"\r\n\t\"The Little Bear\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Mann of the House\"\t\t\t\t\t\t\"1\"\r\n\t\"The Purity Fist\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Rat Stompers\"\t\t\t\t\t\t\"1\"\r\n\t\"The Red Army Robin\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Samson Skewer\"\t\t\t\t\t\t\"1\"\r\n\t\"The Sandvich Safe\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Siberian Sophisticate\"\t\t\t\t\t\"1\"\r\n\t\"The Titanium Towel\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Toss-Proof Towel\"\t\t\t\t\t\t\"1\"\r\n\t\"The Tyurtlenek\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Unshaved Bear\"\t\t\t\t\t\t\"1\"\r\n\t\"The War Goggles\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Warmth Preserver\"\t\t\t\t\t\t\"1\"\r\n\t\"tw_heavybot_armor\"\t\t\t\t\t\t\"1\"\r\n\t\"Yuri's
+        Revenge\"\t\t\t\t\t\t\"1\"\r\n\t//__________________________ Engineer ___________________________\\\\\r\n\t\"Dad
+        Duds\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Dead'er Alive\"\t\t\t\t\t\t\t\"1\"\r\n\t\"dec2014
+        engineer_detectiveholster\"\t\t\t\t\"1\"\r\n\t\"dec2014 engineer_detectiveradio\"\t\t\t\t\"1\"\r\n\t\"dec2014
+        engineer_seal\"\t\t\t\t\t\t\"1\"\r\n\t\"dec2014 Thermal Insulation Layer\"\t\t\t\t\"1\"\r\n\t\"Ein\"\t\t\t\t\t\t\t\t\"1\"\r\n\t\"El
+        Caballero\"\t\t\t\t\t\t\t\"1\"\r\n\t\"El Patron\"\t\t\t\t\t\t\t\"1\"\r\n\t\"EOTL_Insulated_innovator\"\t\t\t\t\t\"1\"\r\n\t\"EOTL_winter_pants\"\t\t\t\t\t\t\"1\"\r\n\t\"Face
+        Full of Festive\"\t\t\t\t\t\t\"1\"\r\n\t\"Googly Gazer\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Iron
+        Lung\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Life Support System\"\t\t\t\t\t\t\"1\"\r\n\t\"Mining
+        Light\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Mister Bubbles\"\t\t\t\t\t\t\"1\"\r\n\t\"Packable
+        Provisions\"\t\t\t\t\t\t\"1\"\r\n\t\"Pip-Boy\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Prairie
+        Heel Biters\"\t\t\t\t\t\t\"1\"\r\n\t\"Roboot\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Rocket
+        Operator\"\t\t\t\t\t\t\"1\"\r\n\t\"Teddy Robobelt\"\t\t\t\t\t\t\"1\"\r\n\t\"Teddy
+        Roosebelt\"\t\t\t\t\t\t\"1\"\r\n\t\"The Antarctic Researcher\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Brainiac Goggles\"\t\t\t\t\t\t\"1\"\r\n\t\"The Brainiac Hairpiece\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Builder's Blueprints\"\t\t\t\t\t\"1\"\r\n\t\"The Danger\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Dogfighter\"\t\t\t\t\t\t\"1\"\r\n\t\"The Dry Gulch Gulp\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Egghead's Overalls\"\t\t\t\t\t\"1\"\r\n\t\"The El Paso Poncho\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Endothermic Exowear\"\t\t\t\t\t\"1\"\r\n\t\"The Flared Frontiersman\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Gold Digger\"\t\t\t\t\t\t\"1\"\r\n\t\"The Grizzled Growth\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Idea Tube\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Joe-on-the-Go\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Level Three Chin\"\t\t\t\t\t\t\"1\"\r\n\t\"The Lonesome Loafers\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Pencil Pusher\"\t\t\t\t\t\t\"1\"\r\n\t\"The Pocket Purrer\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Pocket Pyro\"\t\t\t\t\t\t\"1\"\r\n\t\"The Prize Plushy\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Scotch Saver\"\t\t\t\t\t\t\"1\"\r\n\t\"The Stocking Stuffer\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Texas Half-Pants\"\t\t\t\t\t\t\"1\"\r\n\t\"The Tools of the Trade\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Trash Toter\"\t\t\t\t\t\t\"1\"\r\n\t\"The Trencher's Tunic\"\t\t\t\t\t\t\"1\"\r\n\t\"tw_engineerbot_armor\"\t\t\t\t\t\t\"1\"\r\n\t\"Wild
+        West Waistcoat\"\t\t\t\t\t\t\"1\"\r\n\t\"Wingstick\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Winter
+        Backup\"\t\t\t\t\t\t\t\"1\"\r\n\t//____________________________ Medic ____________________________\\\\\r\n\t\"A
+        Brush with Death\"\t\t\t\t\t\t\"1\"\r\n\t\"Archimedes\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Bunnyhopper's
+        Ballistics Vest\"\t\t\t\t\t\"1\"\r\n\t\"Burly Beast\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Couvre
+        Corner\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Das Fantzipantzen\"\t\t\t\t\t\t\"1\"\r\n\t\"Das
+        Feelinbeterbager\"\t\t\t\t\t\t\"1\"\r\n\t\"Das Hazmattenhatten\"\t\t\t\t\t\t\"1\"\r\n\t\"Das
+        Metalmeatencasen\"\t\t\t\t\t\t\"1\"\r\n\t\"dec2014 medic_unknown_mann\"\t\t\t\t\t\"1\"\r\n\t\"Der
+        Wintermantel\"\t\t\t\t\t\t\"1\"\r\n\t\"Doc's Holiday\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Mecha-Medes\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Medic
+        Goggles\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Medical Monarch\"\t\t\t\t\t\t\"1\"\r\n\t\"Pocket
+        Heavy\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Santarchimedes\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Angel of Death\"\t\t\t\t\t\t\"1\"\r\n\t\"The Chronoscarf\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Colonel's Coat\"\t\t\t\t\t\t\"1\"\r\n\t\"The Dough Puncher\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Fashionable Megalomaniac\"\t\t\t\t\t\"1\"\r\n\t\"The Foppish Physician\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Gaiter Guards\"\t\t\t\t\t\t\"1\"\r\n\t\"The Heat of Winter\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Medic Mech-bag\"\t\t\t\t\t\t\"1\"\r\n\t\"The Medical Mystery\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Medicine Manpurse\"\t\t\t\t\t\t\"1\"\r\n\t\"The Nine-Pipe Problem\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Quadwrangler\"\t\t\t\t\t\t\"1\"\r\n\t\"The Ruffled Ruprecht\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Smock Surgeon\"\t\t\t\t\t\t\"1\"\r\n\t\"The Steam Pipe\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Surgeon's Side Satchel\"\t\t\t\t\t\"1\"\r\n\t\"The Surgeon's Sidearms\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Surgeon's Stethoscope\"\t\t\t\t\t\"1\"\r\n\t\"The Surgical Survivalist\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Vascular Vestment\"\t\t\t\t\t\t\"1\"\r\n\t\"The Ward\"\t\t\t\t\t\t\t\"1\"\r\n\t\"tw_medibot_chariot\"\t\t\t\t\t\t\"1\"\r\n\t\"Ze
+        Ubermensch\"\t\t\t\t\t\t\t\"1\"\r\n\t//___________________________ Sniper
+        ____________________________\\\\\r\n\t\"Corona Australis\"\t\t\t\t\t\t\"1\"\r\n\t\"dec2014
+        hunter_beard\"\t\t\t\t\t\t\"1\"\r\n\t\"dec2014 hunter_ushanka\"\t\t\t\t\t\"1\"\r\n\t\"dec2014
+        hunter_vest\"\t\t\t\t\t\t\"1\"\r\n\t\"dec2014 Wally Pocket\"\t\t\t\t\t\t\"1\"\r\n\t\"Final
+        Frontiersman\"\t\t\t\t\t\t\"1\"\r\n\t\"Li'l Snaggletooth\"\t\t\t\t\t\t\"1\"\r\n\t\"Poacher's
+        Safari Jacket\"\t\t\t\t\t\"1\"\r\n\t\"Sir Hootsalot\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Starduster\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Archers Groundings\"\t\t\t\t\t\"1\"\r\n\t\"The Birdman of Australiacatraz\"\t\t\t\t\"1\"\r\n\t\"The
+        Chronomancer\"\t\t\t\t\t\t\"1\"\r\n\t\"The Cobber Chameleon\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Criminal Cloak\"\t\t\t\t\t\t\"1\"\r\n\t\"The Crocodile Smile\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Extra Layer\"\t\t\t\t\t\t\"1\"\r\n\t\"The Falconer\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Five-Month Shadow\"\t\t\t\t\t\t\"1\"\r\n\t\"The Golden Garment\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Huntsman's Essentials\"\t\t\t\t\t\"1\"\r\n\t\"The Koala Compact\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Outback Intellectual\"\t\t\t\t\t\"1\"\r\n\t\"The Scoped Spartan\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Scoper's Smoke\"\t\t\t\t\t\t\"1\"\r\n\t\"The Snow Scoper\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Steel Songbird\"\t\t\t\t\t\t\"1\"\r\n\t\"The Triggerman's Tacticals\"\t\t\t\t\t\"1\"\r\n\t\"tw_sniperbot_armor\"\t\t\t\t\t\t\"1\"\r\n\t//_____________________________
+        Spy _____________________________\\\\\r\n\t\"Camera Beard\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Chicago
+        Overcoat\"\t\t\t\t\t\t\"1\"\r\n\t\"dec2014 Pocket Momma\"\t\t\t\t\t\t\"1\"\r\n\t\"dec2014
+        Stealthy Scarf\"\t\t\t\t\t\"1\"\r\n\t\"dec2014 The Puffy Provocateur\"\t\t\t\t\t\"1\"\r\n\t\"Escapist\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Lurker's
+        Leathers\"\t\t\t\t\t\t\"1\"\r\n\t\"Rogue's Col Roule\"\t\t\t\t\t\t\"1\"\r\n\t\"Showstopper\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        After Dark\"\t\t\t\t\t\t\"1\"\r\n\t\"The Au Courant Assassin\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Backstabber's Boomslang\"\t\t\t\t\t\"1\"\r\n\t\"The Blood Banker\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Business Casual\"\t\t\t\t\t\t\"1\"\r\n\t\"The Cut-Throat Concierge\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Dead Head\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Distinguished Rogue\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Graylien\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The Lady Killer\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Lurking Legionnaire\"\t\t\t\t\t\"1\"\r\n\t\"The Made Man\"\t\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Megapixel Beard\"\t\t\t\t\t\t\"1\"\r\n\t\"The Rogue's Brogues\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Rogue's Robe\"\t\t\t\t\t\t\"1\"\r\n\t\"The Sky Captain\"\t\t\t\t\t\t\"1\"\r\n\t\"The
+        Sneaky Spats of Sneaking\"\t\t\t\t\t\"1\"\r\n\t\"The Spectre's Spectacles\"\t\t\t\t\t\"1\"\r\n\t\"The
+        Spycrab\"\t\t\t\t\t\t\t\"1\"\r\n\t\"tw_spybot_armor\"\t\t\t\t\t\t\"1\"\r\n\r\n\t//-------------------
+        Noisemakers (Total: 14) -------------------\\\\\r\n\t\"Charity Noise Maker
+        - Bell\"\t\t\t\t\t\"1\"\r\n\t\"Charity Noise Maker - Tingsha\"\t\t\t\t\t\"1\"\r\n\t\"Halloween
+        Noise Maker - Banshee\"\t\t\t\t\"1\"\r\n\t\"Halloween Noise Maker - Black
+        Cat\"\t\t\t\t\"1\"\r\n\t\"Halloween Noise Maker - Crazy Laugh\"\t\t\t\t\"1\"\r\n\t\"Halloween
+        Noise Maker - Gremlin\"\t\t\t\t\"1\"\r\n\t\"Halloween Noise Maker - Stabby\"\t\t\t\t\"1\"\r\n\t\"Halloween
+        Noise Maker - Werewolf\"\t\t\t\t\"1\"\r\n\t\"Halloween Noise Maker - Witch\"\t\t\t\t\t\"1\"\r\n\t\"Noise
+        Maker - TF Birthday\"\t\t\t\t\t\"1\"\r\n\t\"Noise Maker - Vuvuzela\"\t\t\t\t\t\"1\"\r\n\t\"Noise
+        Maker - Winter 2011\"\t\t\t\t\t\"1\"\r\n\t\"Promotional Noise Maker - Fireworks\"\t\t\t\t\"1\"\r\n\t\"Promotional
+        Noise Maker - Koto\"\t\t\t\t\"1\"\r\n\r\n\t//---------------------- Other
+        (Total: 26) ----------------------\\\\\r\n\t//_________________________ All
+        classes _________________________\\\\\r\n\t\"Basic Spellbook\"\t\t\t\t\t\t\"1\"\r\n\t\"Duck
+        Badge\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Halloween Spellbook\"\t\t\t\t\t\t\"1\"\r\n\t\"Secret
+        Diary\"\t\t\t\t\t\t\t\"1\"\r\n\t\"TF_WEAPON_GRAPPLINGHOOK\"\t\t\t\t\t\"1\"\r\n\t\"TF_WEAPON_PASSTIME_GUN\"\t\t\t\t\t\"0\"\r\n\t\"TF_WEAPON_SPELLBOOK\"\t\t\t\t\t\t\"1\"\r\n\t\"CheatDetectedHonesty\"\t\t\t\t\t\t\"1\"\r\n\t\"CheatDetectedMajor\"\t\t\t\t\t\t\"1\"\r\n\t\"CheatDetectedMinor\"\t\t\t\t\t\t\"1\"\r\n\t\"July
+        2013 Claim Check\"\t\t\t\t\t\t\"1\"\r\n\t\"Keyless Cosmetic Crate Demoman\"\t\t\t\t\"1\"\r\n\t\"Keyless
+        Cosmetic Crate Engineer\"\t\t\t\t\"1\"\r\n\t\"Keyless Cosmetic Crate Heavy\"\t\t\t\t\t\"1\"\r\n\t\"Keyless
+        Cosmetic Crate Medic\"\t\t\t\t\t\"1\"\r\n\t\"Keyless Cosmetic Crate MultiClass\"\t\t\t\t\"1\"\r\n\t\"Keyless
+        Cosmetic Crate Pyro\"\t\t\t\t\t\"1\"\r\n\t\"Keyless Cosmetic Crate Scout\"\t\t\t\t\t\"1\"\r\n\t\"Keyless
+        Cosmetic Crate Sniper\"\t\t\t\t\t\"1\"\r\n\t\"Keyless Cosmetic Crate Soldier\"\t\t\t\t\"1\"\r\n\t\"Keyless
+        Cosmetic Crate Spy\"\t\t\t\t\t\"1\"\r\n\t\"Keyless Winter 2016 Case\"\t\t\t\t\t\"1\"\r\n\t\"Pile
+        Of Ash\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Pile Of Curses\"\t\t\t\t\t\t\"1\"\r\n\t\"Summer
+        Adventure Pack\"\t\t\t\t\t\t\"1\"\r\n\t\"Summer Starter Kit\"\t\t\t\t\t\t\"1\"\r\n\r\n\t//--------------
+        Pyro/Romevision items (Total: 9) ---------------\\\\\r\n\t//_________________________
+        All classes _________________________\\\\\r\n\t\"Autogrant Pyrovision Goggles\"\t\t\t\t\t\"0\"\r\n\t\"Pet
+        Balloonicorn\"\t\t\t\t\t\t\"0\"\r\n\t\"Pet Reindoonicorn\"\t\t\t\t\t\t\"0\"\r\n\t\"Pyrovision
+        Goggles\"\t\t\t\t\t\t\"0\"\r\n\t\"The Hardy Laurel\"\t\t\t\t\t\t\"1\"\r\n\t//____________________________
+        Pyro _____________________________\\\\\r\n\t\"The Burning Bongos\"\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Infernal Orchestrina\"\t\t\t\t\t\"0\"\r\n\t\"The Lollichop\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Rainblower\"\t\t\t\t\t\t\"0\"\r\n\r\n\t//------ Noise making/Explosion on
+        death miscs (Total: 3) -------\\\\\r\n\t\"Bombinomicon\"\t\t\t\t\t\t\t\"0\"\r\n\t\"The
+        Bootie Time\"\t\t\t\t\t\t\"0\"\r\n\t\"The Jingle Belt\"\t\t\t\t\t\t\"0\"\r\n\r\n\t//------------------
+        Stock weapons (Total: 25) ------------------\\\\\r\n\t\"Upgradeable TF_WEAPON_PISTOL\"\t\t\t\t\t\"1\"\r\n\t\"Upgradeable
+        TF_WEAPON_SHOTGUN_PRIMARY\"\t\t\t\t\"1\"\r\n\t\"Upgradeable TF_WEAPON_BAT\"\t\t\t\t\t\"1\"\r\n\t\"Upgradeable
+        TF_WEAPON_SCATTERGUN\"\t\t\t\t\"1\"\r\n\t\"Upgradeable TF_WEAPON_ROCKETLAUNCHER\"\t\t\t\t\"1\"\r\n\t\"Upgradeable
+        TF_WEAPON_SHOVEL\"\t\t\t\t\t\"1\"\r\n\t\"Upgradeable TF_WEAPON_FIREAXE\"\t\t\t\t\t\"1\"\r\n\t\"Upgradeable
+        TF_WEAPON_FLAMETHROWER\"\t\t\t\t\"1\"\r\n\t\"Upgradeable TF_WEAPON_BOTTLE\"\t\t\t\t\t\"1\"\r\n\t\"Upgradeable
+        TF_WEAPON_GRENADELAUNCHER\"\t\t\t\t\"1\"\r\n\t\"Upgradeable TF_WEAPON_PIPEBOMBLAUNCHER\"\t\t\t\"1\"\r\n\t\"Upgradeable
+        TF_WEAPON_FISTS\"\t\t\t\t\t\"1\"\r\n\t\"Upgradeable TF_WEAPON_MINIGUN\"\t\t\t\t\t\"1\"\r\n\t\"Upgradeable
+        TF_WEAPON_PDA_ENGINEER_BUILD\"\t\t\t\"1\"\r\n\t\"Upgradeable TF_WEAPON_WRENCH\"\t\t\t\t\t\"1\"\r\n\t\"Upgradeable
+        TF_WEAPON_BONESAW\"\t\t\t\t\t\"1\"\r\n\t\"Upgradeable TF_WEAPON_MEDIGUN\"\t\t\t\t\t\"1\"\r\n\t\"Upgradeable
+        TF_WEAPON_SYRINGEGUN_MEDIC\"\t\t\t\"1\"\r\n\t\"Upgradeable TF_WEAPON_CLUB\"\t\t\t\t\t\"1\"\r\n\t\"Upgradeable
+        TF_WEAPON_SMG\"\t\t\t\t\t\"1\"\r\n\t\"Upgradeable TF_WEAPON_SNIPERRIFLE\"\t\t\t\t\"1\"\r\n\t\"Upgradeable
+        TF_WEAPON_BUILDER_SPY\"\t\t\t\t\"1\"\r\n\t\"Upgradeable TF_WEAPON_INVIS\"\t\t\t\t\t\"1\"\r\n\t\"Upgradeable
+        TF_WEAPON_KNIFE\"\t\t\t\t\t\"1\"\r\n\t\"Upgradeable TF_WEAPON_REVOLVER\"\t\t\t\t\"1\"\r\n\r\n\t//---------------------
+        Taunts (Total: 43) ----------------------\\\\\r\n\t//_________________________
+        All classes _________________________\\\\\r\n\t\"Conga Taunt\"\t\t\t\t\t\t\t\"0\"\r\n\t\"Flippin'
+        Awesome Taunt\"\t\t\t\t\t\"0\"\r\n\t\"High Five Taunt\"\t\t\t\t\t\t\"0\"\r\n\t\"Laugh
+        Taunt\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Replay Taunt\"\t\t\t\t\t\t\t\"1\"\r\n\t\"RPS
+        Taunt\"\t\t\t\t\t\t\t\"0\"\r\n\t\"Skullcracker Taunt\"\t\t\t\t\t\t\"0\"\r\n\t\"Square
+        Dance Taunt\"\t\t\t\t\t\t\"0\"\r\n\t\"Taunt: Burstchester\"\t\t\t\t\t\t\"0\"\r\n\t\"Taunt:
+        Kazotsky Kick\"\t\t\t\t\t\t\"0\"\r\n\t\"Taunt: Mannrobics\"\t\t\t\t\t\t\"0\"\r\n\t\"Taunt:
+        Second Rate Sorcery\"\t\t\t\t\t\"0\"\r\n\t\"Taunt: The Victory Lap\"\t\t\t\t\t\"0\"\r\n\t\"Taunt:
+        Zoomin' Broom\"\t\t\t\t\t\t\"0\"\r\n\t\"The Shred Alert\"\t\t\t\t\t\t\"1\"\r\n\t//____________________________
+        Scout ____________________________\\\\\r\n\t\"Battin' a Thousand Taunt\"\t\t\t\t\t\"0\"\r\n\t\"Deep
+        Fried Desire Taunt\"\t\t\t\t\t\"0\"\r\n\t\"Taunt: The Boston Breakdance\"\t\t\t\t\t\"0\"\r\n\t\"Taunt:
+        The Carlton\"\t\t\t\t\t\t\"0\"\r\n\t//___________________________ Soldier
+        ___________________________\\\\\r\n\t\"Fresh Brewed Victory Taunt\"\t\t\t\t\t\"0\"\r\n\t\"Taunt:
+        Soldier's Requiem\"\t\t\t\t\t\"0\"\r\n\t\"Taunt: The Fubar Fanfare\"\t\t\t\t\t\"0\"\r\n\t//____________________________
+        Pyro _____________________________\\\\\r\n\t\"Party Trick Taunt\"\t\t\t\t\t\t\"0\"\r\n\t\"Pool
+        Party Taunt\"\t\t\t\t\t\t\"0\"\r\n\t\"Taunt: The Balloonibouncer\"\t\t\t\t\t\"0\"\r\n\t//___________________________
+        Demoman ___________________________\\\\\r\n\t\"Oblooterated Taunt\"\t\t\t\t\t\t\"0\"\r\n\t\"Spent
+        Well Spirits Taunt\"\t\t\t\t\t\"0\"\r\n\t\"Taunt: Scotsmann's Stagger\"\t\t\t\t\t\"0\"\r\n\t\"Taunt:
+        True Scotsman's Call\"\t\t\t\t\t\"0\"\r\n\t//____________________________
+        Heavy ____________________________\\\\\r\n\t\"Taunt: The Boiling Point\"\t\t\t\t\t\"0\"\r\n\t\"Taunt:
+        The Proletariat Showoff\"\t\t\t\t\"0\"\r\n\t\"Taunt: The Table Tantrum\"\t\t\t\t\t\"0\"\r\n\t//__________________________
+        Engineer ___________________________\\\\\r\n\t\"Rancho Relaxo Taunt\"\t\t\t\t\t\t\"0\"\r\n\t\"Taunt:
+        Bucking Bronco\"\t\t\t\t\t\t\"0\"\r\n\t//____________________________ Medic
+        ____________________________\\\\\r\n\t\"Meet the Medic Heroic Taunt\"\t\t\t\t\t\"1\"\r\n\t\"Results
+        Are In Taunt\"\t\t\t\t\t\t\"0\"\r\n\t//___________________________ Sniper
+        ____________________________\\\\\r\n\t\"I See You Taunt\"\t\t\t\t\t\t\"0\"\r\n\t\"Taunt:
+        Didgeridrongo\"\t\t\t\t\t\t\"0\"\r\n\t\"Taunt: Most Wanted\"\t\t\t\t\t\t\"0\"\r\n\t\"Taunt:
+        The Killer Solo\"\t\t\t\t\t\"0\"\r\n\t//_____________________________ Spy
+        _____________________________\\\\\r\n\t\"Buy A Life Taunt\"\t\t\t\t\t\t\"0\"\r\n\t\"Taunt:
+        Disco Fever\"\t\t\t\t\t\t\"0\"\r\n\t\"Taunt: The Boxtrot\"\t\t\t\t\t\t\"0\"\r\n\r\n\t//---------
+        Usable action items/MvM canteens (Total: 4) ---------\\\\\r\n\t\"Battery Canteens\"\t\t\t\t\t\t\"1\"\r\n\t\"Default
+        Power Up Canteen (MvM)\"\t\t\t\t\"1\"\r\n\t\"Duel MiniGame\"\t\t\t\t\t\t\t\"1\"\r\n\t\"Power
+        Up Canteen (MvM)\"\t\t\t\t\t\"1\"\r\n}"
+    http_version: 
+  recorded_at: Tue, 21 Mar 2017 17:47:20 GMT
+recorded_with: VCR 3.0.3

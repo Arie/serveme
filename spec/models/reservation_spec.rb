@@ -4,7 +4,7 @@ describe Reservation do
 
   context "with a custom whitelist" do
     it "saves a new custom whitelist from whitelist.tf" do
-      request = double(:body => "the whitelist")
+      request = double(body: "the whitelist", success?: true)
       connection = double
       connection.should_receive(:get).with(anything).and_return(request)
       Faraday.should_receive(:new).with(anything).and_return(connection)
@@ -14,7 +14,7 @@ describe Reservation do
     end
 
     it "updates the whitelist" do
-      request = double(:body => "104 the whitelist")
+      request = double(body: "104 the whitelist", success?: true)
       connection = double
       connection.should_receive(:get).with(anything).and_return(request)
       Faraday.should_receive(:new).with(anything).and_return(connection)

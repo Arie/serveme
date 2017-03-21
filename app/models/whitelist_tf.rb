@@ -5,12 +5,23 @@ class WhitelistTf < ActiveRecord::Base
 
   def self.download_and_save_whitelist(tf_whitelist_id)
     tf_whitelist    = find_or_initialize_by(tf_whitelist_id: tf_whitelist_id)
-    tf_whitelist.content = whitelist_content(tf_whitelist_id)
+    tf_whitelist.content = whitelist_content(tf_whitelist_id.to_s)
     tf_whitelist.save!
   end
 
   def self.whitelist_content(tf_whitelist_id)
-    whitelist_connection.get("custom_whitelist_#{tf_whitelist_id}.txt").body
+    if tf_whitelist_id.match(/\A[0-9]*\z/)
+      fetch_whitelist("custom_whitelist_#{tf_whitelist_id}")
+    else
+      fetch_whitelist(tf_whitelist_id)
+    end
+  end
+
+  def self.fetch_whitelist(tf_whitelist_id)
+    response = whitelist_connection.get("#{tf_whitelist_id}.txt")
+    if response.success?
+      response.body
+    end
   end
 
   def self.whitelist_connection

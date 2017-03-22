@@ -211,7 +211,7 @@ class Reservation < ActiveRecord::Base
 
   def status
     return "ended"            if past?
-    return "ready"            if ServerStatistic.where(reservation_id: id, server_id: server_id).any?
+    return "ready"            if ServerStatistic.where(reservation_id: id, server_id: server_id).exists?
     status_messages = reservation_statuses.pluck(:status)
     return "ready"            if status_messages.grep(/Server finished loading map/).any?
     return "starting"         if status_messages.include?("Starting")
@@ -227,7 +227,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def whitelist_ip
-    return user.reservation_players.last.ip if user.reservation_players.any?
+    return user.reservation_players.last.ip if user.reservation_players.exists?
     return user.current_sign_in_ip if user.current_sign_in_ip && IPAddr.new(user.current_sign_in_ip).ipv4?
     SITE_HOST
   end

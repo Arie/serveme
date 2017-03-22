@@ -33,7 +33,7 @@ class Server < ActiveRecord::Base
   end
 
   def self.without_group
-    if with_group.any?
+    if with_group.exists?
       where('servers.id NOT IN (?)', with_group.pluck(:id))
     else
       all

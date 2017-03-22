@@ -9,7 +9,7 @@
 
 %h3 Uploads
 
-- if @log_uploads.any?
+- if @log_uploads.exists?
   = render 'log_uploads_list'
 - else
   None yet!

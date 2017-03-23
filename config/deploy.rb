@@ -11,6 +11,7 @@ set :use_sudo,          false
 set :user,              'csgo'
 set :rvm_ruby_string,   '2.4.0'
 set :rvm_type,          :user
+set :branch,            'csgo'
 
 set :maintenance_template_path, 'app/views/pages/maintenance.html.erb'
 

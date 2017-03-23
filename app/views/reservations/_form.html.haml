@@ -49,5 +49,5 @@
     = render "datepicker_javascript_options"
 
     :javascript
+      var canEnablePlugins = #{(!current_user.donator? || !@reservation.schedulable? )};
       $("#reservation_server_id").select2("enable", #{@reservation.schedulable?});
-

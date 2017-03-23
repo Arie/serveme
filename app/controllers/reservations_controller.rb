@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 class ReservationsController < ApplicationController
 
+  before_action :require_admin, :only => :streaming
   include ReservationsHelper
 
   def new
@@ -9,6 +10,9 @@ class ReservationsController < ApplicationController
       redirect_to root_path
     end
     @reservation ||= new_reservation
+    if @reservation.poor_rcon_password?
+      @reservation.generate_rcon_password!
+    end
   end
 
   def create
@@ -41,7 +45,7 @@ class ReservationsController < ApplicationController
   end
 
   def played_in
-    @users_games = Reservation.played_in(current_user.uid)
+    @users_games = Reservation.includes(:user, server: :location).played_in(current_user.uid)
   end
 
   def edit
@@ -96,6 +100,11 @@ class ReservationsController < ApplicationController
     respond_to do |format|
       format.json
     end
+  end
+
+  def streaming
+    filename = Rails.root.join("log", "streaming", "#{reservation.logsecret}.log")
+    @streaming_log = File.open(filename)
   end
 
   private

@@ -22,5 +22,5 @@
           %tr[donator]
             %td= link_to(donator.nickname, donator.steam_profile_url)
             %td= link_to(donator.donator_until, edit_donator_path(donator))
-            %td= donator.paypal_orders.completed.map(&:product_name).join(",")
+            %td= donator.orders.completed.map(&:product_name).join(",")
 

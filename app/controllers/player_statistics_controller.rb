@@ -25,6 +25,11 @@ class PlayerStatisticsController < ApplicationController
     render :index
   end
 
+  def show_for_ip
+    @player_statistics = paginate(player_statistics.joins(:reservation_player).where('reservation_players.ip = ?', IPAddr.new(params[:ip].to_i, Socket::AF_INET).to_s))
+    render :index
+  end
+
   private
 
   def player_statistics

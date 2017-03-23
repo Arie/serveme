@@ -33,7 +33,7 @@
               = link_to(time, show_reservation_statistic_path(:reservation_id => player_statistic.reservation.id), :class => "player_reservation_statistics")
             %td= link_to(player_statistic.name, show_player_statistic_path(:steam_uid => player_statistic.reservation_player.steam_uid))
             - if admin?
-              %td= player_statistic.reservation_player.ip
+              %td= link_to(player_statistic.reservation_player.ip, show_ip_statistic_path(:ip => IPAddr.new(player_statistic.reservation_player.ip).to_i))
             %td= link_to player_statistic.ping, show_reservation_and_player_statistic_path(:reservation_id => player_statistic.reservation.id, :steam_uid => player_statistic.reservation_player.steam_uid)
             %td= player_statistic.loss
             %td= player_statistic.minutes_connected

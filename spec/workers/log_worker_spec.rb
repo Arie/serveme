@@ -15,6 +15,7 @@ describe LogWorker do
   let(:timeleft_line)         { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!timeleft"' }
   let(:cs_assault_start_line) { '1234567L 02/07/2015 - 20:39:40: Started map "cs_assault" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
   let(:de_dust2_start_line)   { '1234567L 02/07/2015 - 20:39:40: Started map "de_dust2" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
+  let(:who_line)              { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!who"' }
   subject(:logworker) { LogWorker.perform_async(line) }
 
   before do
@@ -99,6 +100,15 @@ describe LogWorker do
     it "returns the time left in words for the reservation" do
       server.should_receive(:rcon_say).with(/Reservation time left: \d+ minutes/)
       LogWorker.perform_async(timeleft_line)
+    end
+
+  end
+
+  describe "who" do
+
+    it "returns the name of the reserver for the reservation" do
+      server.should_receive(:rcon_say).with("Reservation created by: '#{reservation.user.name}'")
+      LogWorker.perform_async(who_line)
     end
 
   end

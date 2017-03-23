@@ -2,7 +2,7 @@
 module ReservationsHelper
 
   def find_servers_for_user
-    @reservation = current_user.reservations.build(reservation_params)
+    @reservation = new_reservation
     @servers = free_servers
     render :find_servers
   end
@@ -49,7 +49,13 @@ module ReservationsHelper
   end
 
   def free_servers
-    @free_servers ||= free_server_finder.servers.ordered
+    @free_servers ||= begin
+                        if current_user.geocoded?
+                          free_server_finder.servers.near(current_user, 50000, order: "distance, position, name")
+                        else
+                          free_server_finder.servers.order("position, name")
+                        end
+                      end
   end
 
   def free_server_finder

@@ -22,6 +22,9 @@ if reservation.persisted?
     json.partial! "servers/server", server: reservation.server
   end
 end
+if reservation.ended?
+  json.zipfile_url reservation.zipfile_url
+end
 
 json.errors do
   reservation.errors.to_hash.each do |attribute, errors|

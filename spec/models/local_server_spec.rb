@@ -25,7 +25,7 @@ describe LocalServer do
     end
   end
 
-  describe '.in_groups' do
+  describe '.member_of_groups' do
 
     it 'should find servers belonging to a certain group' do
       group       = create :group, :name => "Great group"
@@ -34,7 +34,7 @@ describe LocalServer do
       server_not_in_group = create :server, :name => "server in no groups"
       server_other_group  = create :server, :name => "server other group", :groups => [other_group]
 
-      Server.in_groups(Group.where(id: group.id)).should eq [server_in_group]
+      Server.member_of_groups(Group.where(id: group.id)).should eq [server_in_group]
     end
 
     it 'should only return servers once even with multiple matching groups' do
@@ -45,7 +45,7 @@ describe LocalServer do
       server_not_in_group = create :server, :name => "server in no groups"
       server_other_group  = create :server, :name => "server other group", :groups => [other_group]
 
-      Server.in_groups(Group.where(id: [group.id, group2.id])).should eq [server_in_group]
+      Server.member_of_groups(Group.where(id: [group.id, group2.id])).should eq [server_in_group]
     end
 
   end
@@ -95,8 +95,8 @@ describe LocalServer do
       subject.should_receive(:restart)
       file = double
       subject.stub(:game_dir => '/tmp')
-      File.should_receive(:open).with(anything, 'w').twice.and_yield(file)
-      file.should_receive(:write).with(anything).twice
+      File.should_receive(:open).with(anything, 'w').at_least(:twice).and_yield(file)
+      file.should_receive(:write).with(anything).at_least(:twice)
       subject.should_receive(:generate_config_file).twice.with(reservation, anything).and_return("config file contents")
       subject.start_reservation(reservation)
     end
@@ -110,6 +110,7 @@ describe LocalServer do
       subject.should_receive(:copy_logs)
       subject.should_receive(:zip_demos_and_logs).with(reservation)
       subject.should_receive(:disable_plugins)
+      subject.should_receive(:disable_demos_tf)
       subject.should_receive(:remove_logs_and_demos)
       subject.should_receive(:remove_configuration)
       subject.should_receive(:rcon_exec).once
@@ -366,8 +367,16 @@ describe LocalServer do
     end
   end
 
+  describe "#enable_demos_tf" do
+    it "writes the demostf.smx to the server" do
+      subject.stub(:tf_dir => "tf_dir")
+      subject.should_receive(:copy_to_server).with(anything, "#{subject.tf_dir}/addons/sourcemod/plugins")
+      subject.enable_demos_tf
+    end
+  end
+
   def stubbed_reservation(stubs = {})
-    reservation = double(:reservation, :status_update => true, :enable_plugins? => false)
+    reservation = double(:reservation, :status_update => true, :enable_plugins? => false, :enable_demos_tf? => false)
     stubs.each do |k, v|
       reservation.stub(k) { v }
     end

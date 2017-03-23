@@ -44,7 +44,7 @@ describe DonatorsController do
     it "renders new again when I forgot to enter a donator" do
       @user.groups << Group.admin_group
 
-      post :create, :group_user => {}
+      post :create, params: { group_user: { user_id:  nil} }
       response.should render_template(:new)
     end
 
@@ -53,6 +53,7 @@ describe DonatorsController do
   describe "#leaderboard" do
 
     it "shows a top 25 of donators" do
+      @user.groups << Group.donator_group
       user = create :user
       create :paypal_order, :user => user, :status => "Completed"
 

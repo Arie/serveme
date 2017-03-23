@@ -60,7 +60,7 @@ class SshServer < RemoteServer
   end
 
   def zip_file_creator_class
-    SshZipFileCreator
+    DownloadThenZipFileCreator
   end
 
   def kill_process

@@ -1,0 +1,16 @@
+- content_for(:title) { "logs" }
+
+%h2 Logs available for upload to logs.tf
+
+- if @logs.any?
+  = render 'log_list'
+- else
+  None :(
+
+%h3 Uploads
+
+- if @log_uploads.exists?
+  = render 'log_uploads_list'
+- else
+  None yet!
+

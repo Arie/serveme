@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class PrivateServersController < ApplicationController
 
-  before_filter :require_private_server_option
+  before_action :require_private_server_option
 
   def require_private_server_option
     unless current_user && current_user.has_private_server_option?

@@ -1,31 +1,31 @@
-- begin
-  - server_info = ServerInfo.new(server)
-  - admin = !!current_admin
-  - cache "server_info_#{server.id}_#{server_info.uptime.to_i}_#{admin}", expires_in: 1.minute do
-    %tr
-      %td
-        = link_to show_server_player_statistic_path(:server_id => server.id) do
-          = server.flag
-          = server_info.server_name
-      %td= server_info.map_name
-      %td= "#{server_info.number_of_players} / #{server_info.max_players}"
-      %td= server_info.fps
-      %td= server_info.cpu
-      %td= "#{server_info.traffic_in} KB/s"
-      %td= "#{server_info.traffic_out} KB/s"
-      %td= "#{server_info.uptime} minutes"
-      - if server.current_reservation
-        %td
-          = "#{server.inactive_minutes} minutes"
-          - if admin
-            = render "reservations/actions", :reservation => server.current_reservation
-
+- reservation = server.current_reservation
+- statistic = server.recent_server_statistics.last&.decorate
+- admin = !!current_admin
+%tr
+  %td
+    = link_to show_server_player_statistic_path(server_id: server.id) do
+      - if reservation
+        = "#{server.name} (#{reservation.id})".html_safe
       - else
-        %td N/A
-- rescue
-  %tr
+        = server.name.html_safe
+
+  - if statistic
+    %td= statistic.map_name
+    %td= statistic.number_of_players
+    %td= statistic.fps
+    %td= statistic.cpu_usage
+    %td= statistic.traffic_in
+    %td= statistic.traffic_out
     %td
-      = link_to show_server_player_statistic_path(:server_id => server.id) do
-        = server.name
-    %td{:colspan => 8}
-      N/A
+      = "#{server.inactive_minutes} minutes"
+      - if admin && reservation
+        = render "reservations/actions", reservation: reservation
+  - else
+    - if reservation
+      %td{colspan: 6} N/A
+      %td
+        - if admin
+          = render "reservations/actions", reservation: reservation
+    - else
+      %td{colspan: 7} Idle
+

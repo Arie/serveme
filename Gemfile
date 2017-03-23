@@ -1,23 +1,24 @@
 source 'https://rubygems.org'
 
-gem 'rails', "~> 4.2.0"
+gem 'rails', "~> 5.0.0"
 gem 'sprockets'
 gem 'haml'
-gem 'protected_attributes'
-gem "actionpack-action_caching"
 gem 'puma'
 gem 'omniauth-openid'
+gem 'hashie'
 gem 'omniauth-steam'
 gem 'devise'
-gem 'steam-condenser', :github => 'koraktor/steam-condenser-ruby'
+gem 'steam-condenser', :git => 'https://github.com/koraktor/steam-condenser-ruby'
 gem 'base32_pure'
-gem 'remote_lock',     :github => "Arie/remote_lock"
+gem 'remote_lock',     :git => "https://github.com/Arie/remote_lock"
+gem 'rack-attack'
 
 gem 'lograge'
 
 #Map uploads
 gem 'carrierwave'
-gem 'rbzip2', :github => 'koraktor/rbzip2'
+gem 'rbzip2', :git => 'https://github.com/koraktor/rbzip2'
+gem 'rubyzip', require: 'zip'
 
 #Logdaemon
 gem 'tf2_line_parser'
@@ -26,12 +27,13 @@ gem 'dante'
 
 gem 'net-ssh'
 gem 'net-sftp'
-gem 'draper'
+gem 'drape'
 gem 'will_paginate'
 gem 'zeroclipboard-rails'
-gem "google_visualr"
+gem "google_visualr", git: "https://github.com/Arie/google_visualr.git"
 gem 'rack-cache'
 gem 'paypal-sdk-rest'
+gem 'stripe'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'geoip'
@@ -41,7 +43,6 @@ gem 'rbtrace'
 gem 'dalli'
 gem 'connection_pool'
 
-gem 'sinatra', '>= 1.3.0', :require => nil
 #NFO server restarts
 gem 'mechanize'
 #Simrai server restarts
@@ -58,14 +59,19 @@ gem 'oily_png'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
+end
 
-  #Deployment
+group :deployment do
   gem 'capistrano-ext'
   gem 'capistrano_colors'
-  gem 'capistrano', "~> 2.0"
+  gem 'capistrano'
   gem 'capistrano-maintenance'
   gem 'capistrano-sidekiq'
-  gem 'rvm-capistrano', :require => false
+  gem 'capistrano-rvm'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
+  gem 'capistrano-faster-assets'
+  gem 'capistrano3-puma'
 end
 
 group :test, :development do
@@ -82,16 +88,6 @@ group :test_tools do
   gem 'fuubar'
 end
 
-group :cucumber do
-  gem 'cucumber'
-  gem 'cucumber-rails'
-  gem 'database_cleaner'
-  gem 'launchy'
-  gem 'capybara'
-  gem 'selenium-webdriver'
-  #gem 'fuubar-cucumber'
-end
-
 group :production do
   gem "sentry-raven"
 end
@@ -104,6 +100,14 @@ group :test do
   gem 'webmock'
   gem 'delorean'
   gem 'json_expressions'
+  gem 'rails-controller-testing'
+
+  #cucumber
+  gem 'cucumber'
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner'
+  gem 'launchy'
+  gem 'capybara'
 end
 
 gem 'uglifier'

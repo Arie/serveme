@@ -6,6 +6,8 @@ FactoryGirl.define do
     ip "fakkelbrigade.eu"
     port "27015"
     location
+    latitude 51
+    longitude 9
   end
 
   factory :user do
@@ -13,6 +15,8 @@ FactoryGirl.define do
     nickname "Terminator"
     name "Joe Sixpack"
     provider "steam"
+    latitude 52.5
+    longitude 5.75
   end
 
   factory :admin, :class => "User" do
@@ -54,6 +58,11 @@ FactoryGirl.define do
   end
 
   factory :paypal_order do
+    association :product
+    association :user
+  end
+
+  factory :stripe_order do
     association :product
     association :user
   end
@@ -119,5 +128,4 @@ FactoryGirl.define do
   factory :reservation_status do
     status "this is the status"
   end
-
 end

@@ -1,16 +1,19 @@
 set :main_server,       "csna.serveme.tf"
 set :user,              'arie'
-set :puma_flags,        '-w 2 -t 1:4'
+set :puma_threads,      [0,4]
+set :puma_workers,      2
 set :sidekiq_processes,  1
 set :rvm_type,           :user
 
-server "#{main_server}", :web, :app, :db, :primary => true
+server "direct.na.serveme.tf", user: "arie", roles: ["web", "app", "db"]
 
 namespace :app do
   desc "symlinks the tragicservers login information"
-  task :symlink_tragicservers, :roles => [:web, :app] do
-    run "ln -sf #{shared_path}/config/initializers/tragicservers.rb #{release_path}/config/initializers/tragicservers.rb"
+  task :symlink_tragicservers do
+    on roles(:web, :app) do
+      execute "ln -sf #{shared_path}/config/initializers/tragicservers.rb #{release_path}/config/initializers/tragicservers.rb"
+    end
   end
 end
 
-after "app:symlink", "app:symlink_tragicservers"
+after "deploy:symlink:linked_files", "app:symlink_tragicservers"

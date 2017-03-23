@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 class Reservation < ActiveRecord::Base
-  attr_accessible :server, :user, :server_id, :user_id, :password, :rcon, :tv_password, :tv_relaypassword, :starts_at,
-                  :ends_at, :provisioned, :ended, :server_config, :server_config_id, :inactive_minute_counter,
-                  :first_map, :auto_end, :enable_plugins
   belongs_to :user
   belongs_to :server
   belongs_to :server_config
@@ -197,14 +194,31 @@ class Reservation < ActiveRecord::Base
     reservation_statuses.create!(:status => status)
   end
 
+  def enable_plugins?
+    true
+  end
 
   def status
     return "ended"            if past?
-    return "ready"            if ServerStatistic.where(reservation_id: id, server_id: server_id).any?
+    return "ready"            if ServerStatistic.where(reservation_id: id, server_id: server_id).exists?
     status_messages = reservation_statuses.pluck(:status)
     return "ready"            if status_messages.grep(/Server finished loading map/).any?
     return "starting"         if status_messages.include?("Starting")
     return "waiting_to_start" if status_messages.include?("Waiting to start")
+  end
+
+  def poor_rcon_password?
+    rcon.nil? || rcon.size < 8
+  end
+
+  def generate_rcon_password!
+    self.rcon = FriendlyPasswordGenerator.generate
+  end
+
+  def whitelist_ip
+    return user.reservation_players.last.ip if user.reservation_players.exists?
+    return user.current_sign_in_ip if user.current_sign_in_ip && IPAddr.new(user.current_sign_in_ip).ipv4?
+    SITE_HOST
   end
 
   private

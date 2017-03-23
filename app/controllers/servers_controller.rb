@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 class ServersController < ApplicationController
 
-  before_filter :require_donator
-  caches_action :index, :unless => :current_user, expires_in: 1.minute
+  skip_before_action :authenticate_user!
 
   def index
     SteamCondenser::Servers::Sockets::BaseSocket.timeout = 500
-    @servers = Server.active.order(:name)
+    @servers = Server.active.includes([current_reservations: { :user => :groups } ], :location, :recent_server_statistics).order(:name)
   end
 
 end

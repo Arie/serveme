@@ -1,0 +1,45 @@
+- @products.each do |product|
+  .hidden{id: "product-#{product.id}", data: { product_id: product.id, currency: product.currency, price: (product.price * 100).round } }
+.row
+  .col-md-4.well
+    .title Payment method
+    .row
+      .col-md-12
+        .btn-group{role: "group"}
+          %button{type: "button", class: "btn btn-default payment-method paypal-button selected"}
+            PayPal
+          %button{type: "button", class: "btn btn-default payment-method credit-card-button"}
+            Credit Card
+
+= simple_form_for(@order) do |f|
+  .row.credit-card-row
+    .col-md-4.well
+      .title Card details
+      .row
+        .col-md-12
+          .form.credit-card.card-js{data: { stripe: "true" }}
+            %input.card-number{ name: "card-number" }
+            %input.card-holders-name{ name: "card-holders-name", placeholder: "Name on card" }
+            %input.expiry-month{ name: "expiry-month" }
+            %input.expiry-year{ name: "expiry-year" }
+            %input.cvc{ name: "cvc" }
+
+          .row.col-md-12.stripe-error
+
+          .row.col-md-12
+            .stripe-logo= image_tag "powered_by_stripe.png"
+
+  = f.input :payer_id, as: :hidden
+
+  .row
+    .col-md-4.well
+      .title Product
+      = f.input :product_id, collection: @products, label_method: :list_name, label: false, include_blank: false
+
+      .row
+        = f.input :gift, as: "radio_buttons", label: "For", collection: [["For me", false], ["For someone else (gift)", true]]
+
+  .row.submit-row
+    .col-md-4.well
+      %button.btn.btn-success.submit{:type => :submit}
+        Buy

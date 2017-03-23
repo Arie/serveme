@@ -9,6 +9,7 @@ class LogWorker
   EXTEND_COMMAND    = /!extend.*/
   RCON_COMMAND      = /!rcon.*/
   TIMELEFT_COMMAND  = /!timeleft.*/
+  WHOIS_RESERVER    = /!who.*/
   LOG_LINE_REGEX    = '(?\'secret\'\d*)(?\'line\'.*)'
 
   def perform(raw_line)
@@ -75,6 +76,10 @@ class LogWorker
     reservation.server.rcon_say "Reservation time left: #{timeleft}"
   end
 
+  def handle_whois_reserver
+    reservation.server.rcon_say "Reservation created by: '#{reserver.name}'"
+  end
+
   def action_for_message_said_by_reserver
     case message
     when END_COMMAND
@@ -90,6 +95,8 @@ class LogWorker
     case message
     when TIMELEFT_COMMAND
       :handle_timeleft
+    when WHOIS_RESERVER
+      :handle_whois_reserver
     end
   end
 

@@ -7,12 +7,26 @@ require 'socket'
 require 'sidekiq'
 require File.expand_path("../../app/workers/log_worker", __FILE__)
 
+STREAMING_LOG_DIR = File.expand_path("../../log/streaming", __FILE__)
+
 class Handler < EM::Connection
 
   def receive_data(data)
     log_line = ActiveSupport::Multibyte::Chars.new(data).tidy_bytes[5..-1]
-    if log_line.match(/(!timeleft|!extend|!end|!rcon.*|!rate.*|Started map\ "\w+\")/)
+    if log_line.match(/(!timeleft|!extend|!end|!rcon.*|!rate.*|!who|Started map\ "\w+\")/)
       LogWorker.perform_async(log_line)
+    end
+    matches = log_line.match(LogWorker::LOG_LINE_REGEX)
+    if matches && matches[:line] && matches[:secret].present?
+      write_log(matches[:secret], matches[:line])
+    end
+  end
+
+  def write_log(secret, line)
+    if secret =~ /^\d+$/
+      File.open(File.join(STREAMING_LOG_DIR, "#{secret}.log"), "a") do |f|
+        f.puts line
+      end
     end
   end
 
@@ -30,6 +44,7 @@ runner.execute do |opts|
   ip    = opts[:ip]
   port  = opts[:port]
   puts "Listening on #{ip}:#{port}..."
+  FileUtils.mkdir_p(STREAMING_LOG_DIR)
   EM.run {
     EM::open_datagram_socket(ip, port, Handler)
   }

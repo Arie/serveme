@@ -12,7 +12,7 @@ describe Api::UsersController do
   describe "#show" do
 
     it "renders a json describing the user" do
-      get :show, :id => @user.uid, :format => :json
+      get :show, params: { id: @user.uid, format: :json }
 
       json = {
         user: {

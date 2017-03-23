@@ -16,14 +16,14 @@ describe UsersController do
 
   describe '#update' do
     it 'allows the user to update the time zone key' do
-      post :update, :user => { :time_zone => 'Europe/Amsterdam' }
+      post :update, params: { user: { time_zone: 'Europe/Amsterdam' } }
       @user.reload.time_zone.should eql 'Europe/Amsterdam'
       get :edit
       Time.zone.to_s.should include(@user.time_zone)
     end
 
     it "ignores other parameters" do
-      post :update, :user => { :nickname => 'foobar' }
+      post :update, params: { user: { nickname: 'foobar' } }
       @user.reload.nickname.should_not eql 'abc'
     end
   end

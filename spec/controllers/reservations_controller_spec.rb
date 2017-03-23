@@ -11,13 +11,13 @@ describe ReservationsController do
   describe '#show' do
 
     it "redirects to new_reservation_path when it cant find the reservation" do
-      get :show, :id => 'foo'
+      get :show, params: { id: 'foo' }
       response.should redirect_to(new_reservation_path)
     end
 
     it "shows any reservation for an admin" do
       reservation = create :reservation
-      get :show, :id => reservation.id
+      get :show, params: { id: reservation.id }
       assigns(:reservation).should == reservation
     end
 
@@ -33,6 +33,17 @@ describe ReservationsController do
       response.should redirect_to root_path
     end
 
+    it "makes up an rcon if this is my first reservation" do
+      get :new
+      assigns(:reservation).rcon.should_not be_nil
+    end
+
+    it "forces a new rcon if my previous rcon was poor" do
+      create :reservation, user: @user, rcon: "foo", starts_at: 10.minutes.ago, ended: true
+      get :new
+      assigns(:reservation).rcon.should_not == "foo"
+    end
+
   end
 
   describe "#update" do
@@ -41,7 +52,7 @@ describe ReservationsController do
       reservation = create :reservation, :user => @user
       reservation.update_attribute(:ends_at, 1.hour.ago)
 
-      put :update, :id => reservation.id
+      put :update, params: { id: reservation.id }
       response.should redirect_to(root_path)
     end
 
@@ -53,7 +64,7 @@ describe ReservationsController do
       reservation = create :reservation, :user => @user
       reservation.update_attribute(:inactive_minute_counter, 25)
 
-      post :idle_reset, :id => reservation.id
+      post :idle_reset, params: { id: reservation.id }
       reservation.reload.inactive_minute_counter.should == 0
     end
 
@@ -65,16 +76,16 @@ describe ReservationsController do
 
     it "returns a list of alternative servers for a reservation " do
       reservation = create :reservation, :user => @user
-      patch :find_servers_for_reservation, format: :json, id: reservation.id
-      response.body.should == {servers: Server.active.map { |s| {id: s.id, name: s.name, flag: s.location.flag, ip_and_port: "#{s.ip}:#{s.port}"} } }.to_json
+      patch :find_servers_for_reservation, format: :json, params: { id: reservation.id }
+      response.body.should == {servers: Server.active.map { |s| {id: s.id, name: s.name, flag: s.location.flag, ip: s.ip, port: s.port, ip_and_port: "#{s.ip}:#{s.port}", latitude: s.latitude, longitude: s.longitude} } }.to_json
     end
 
     it "doesnt return servers in use" do
       create :reservation
       reservation = create :reservation, :user => @user
-      patch :find_servers_for_reservation, format: :json, id: reservation.id
+      patch :find_servers_for_reservation, format: :json, params: { id: reservation.id }
       free_server = reservation.server
-      response.body.should == {servers: [{id: free_server.id, name: free_server.name, flag: free_server.location.flag, ip_and_port: "#{free_server.ip}:#{free_server.port}"}] }.to_json
+      response.body.should == {servers: [{id: free_server.id, name: free_server.name, flag: free_server.location.flag, ip: free_server.ip, port: free_server.port, ip_and_port: "#{free_server.ip}:#{free_server.port}", latitude: free_server.latitude, longitude: free_server.longitude}] }.to_json
     end
 
   end
@@ -117,6 +128,31 @@ describe ReservationsController do
       assigns(:users_games).should == [reservation]
     end
 
+  end
+
+  describe "#streaming" do
+
+    before do
+      @user.groups << Group.admin_group
+    end
+
+    it "shows the streaming log file for the reservation" do
+      reservation = create :reservation
+
+      expect(File).to receive(:open).with(Rails.root.join("log", "streaming", "#{reservation.logsecret}.log"))
+      get :streaming, params: { id: reservation.id }
+    end
+  end
+
+  describe "#status" do
+
+    render_views
+
+    it "returns the reservation status in json" do
+      reservation = create :reservation
+      get :status, params: { id: reservation.id }, format: :json
+      expect(response.body).to include "waiting_to_start"
+    end
   end
 
 end

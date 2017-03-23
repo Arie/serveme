@@ -35,6 +35,7 @@ Serveme::Application.routes.draw do
       post :extend_reservation, :as => :extend
       match :idle_reset,        :via => [:get, :post], :as => :idle_reset
       get :status,              :as => :status
+      get :streaming,           :as => :streaming
     end
     collection do
       post :find_servers_for_user
@@ -69,9 +70,10 @@ Serveme::Application.routes.draw do
 
   resources :servers, :only => :index
 
-  resources :paypal_orders, :only => [:new, :create, :index] do
+  resources :orders, :only => [:new, :create, :index] do
     collection do
       get :redirect
+      post :stripe
     end
   end
 
@@ -82,7 +84,8 @@ Serveme::Application.routes.draw do
   end
 
   namespace :api do
-    resources :users, :only => :show
+    resources :users, only: :show
+    resources :servers, only: :index
     resources :reservations do
       member do
         post :idle_reset
@@ -94,7 +97,7 @@ Serveme::Application.routes.draw do
   end
 
   #Pretty URLs
-  get   '/donate',                        :to => "paypal_orders#new",         :as => "donate"
+  get   '/donate',                        :to => "orders#new",                :as => "donate"
   get   '/voucher(/:code)',               :to => "vouchers#new",              :as => "claim"
   get   '/statistics',                    :to => "pages#statistics",          :as => "statistics"
   get   '/faq',                           :to => "pages#faq",                 :as => "faq"
@@ -109,6 +112,7 @@ Serveme::Application.routes.draw do
   get   '/private-servers',               :to => "pages#private_servers",     :as => "private_server_info"
   get   '/player_statistics/reservation/:reservation_id'                  => 'player_statistics#show_for_reservation',             :as => "show_reservation_statistic"
   get   '/player_statistics/steam/:steam_uid'                             => 'player_statistics#show_for_player',                  :as => "show_player_statistic"
+  get   '/player_statistics/ip/:ip'                                       => 'player_statistics#show_for_ip',                      :as => "show_ip_statistic"
   get   '/player_statistics/reservation/:reservation_id/steam/:steam_uid' => 'player_statistics#show_for_reservation_and_player',  :as => "show_reservation_and_player_statistic"
   get   '/player_statistics/server/:server_id'                            => 'player_statistics#show_for_server',                  :as => "show_server_player_statistic"
 

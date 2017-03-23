@@ -73,7 +73,7 @@ module FtpAccess
   end
 
   def zip_file_creator_class
-    FtpZipFileCreator
+    DownloadThenZipFileCreator
   end
 
   def ftp

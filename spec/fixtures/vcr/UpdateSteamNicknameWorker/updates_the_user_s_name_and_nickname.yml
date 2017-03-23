@@ -1,0 +1,102 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://steamcommunity.com/profiles/76561197960497430?xml=1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache
+      Content-Security-Policy:
+      - script-src 'self' 'unsafe-inline' 'unsafe-eval' http://steamcommunity-a.akamaihd.net/
+        https://api.steampowered.com/ *.google-analytics.com https://www.google.com
+        https://www.gstatic.com https://apis.google.com; object-src 'none'; connect-src
+        'self' http://steamcommunity.com https://steamcommunity.com https://api.steampowered.com/;
+        frame-src 'self' http://store.steampowered.com/ https://store.steampowered.com/
+        http://www.youtube.com https://www.youtube.com https://www.google.com https://sketchfab.com;
+      Cache-Control:
+      - public,max-age=3600
+      Expires:
+      - Tue, 08 Nov 2016 21:08:50 GMT
+      Last-Modified:
+      - Tue, 08 Nov 2016 20:00:00 GMT
+      Content-Type:
+      - text/xml; charset=utf-8
+      X-Varnish:
+      - '2009465757'
+      Vary:
+      - Accept-Encoding
+      Date:
+      - Tue, 08 Nov 2016 20:08:50 GMT
+      Content-Length:
+      - '10052'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - steamCountry=NL%7C43dcf87b829d585e30b515286c585ec5; path=/
+    body:
+      encoding: UTF-8
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><profile>\r\n\t<steamID64>76561197960497430</steamID64>\r\n\t<steamID><![CDATA[Arie
+        - serveme.tf]]></steamID>\r\n\t<onlineState>online</onlineState>\r\n\t<stateMessage><![CDATA[Online]]></stateMessage>\r\n\t<privacyState>public</privacyState>\r\n\t<visibilityState>3</visibilityState>\r\n\t<avatarIcon><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/5f/5fee4d76e58e4dcf81a11cdbcddb6300ebd97421.jpg]]></avatarIcon>\r\n\t<avatarMedium><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/5f/5fee4d76e58e4dcf81a11cdbcddb6300ebd97421_medium.jpg]]></avatarMedium>\r\n\t<avatarFull><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/5f/5fee4d76e58e4dcf81a11cdbcddb6300ebd97421_full.jpg]]></avatarFull>\r\n\t<vacBanned>0</vacBanned>\r\n\t<tradeBanState>None</tradeBanState>\r\n\t<isLimitedAccount>0</isLimitedAccount>\r\n\t<customURL><![CDATA[ariekanarie]]></customURL>\r\n\t<memberSince>September
+        13th, 2003</memberSince>\r\n\t<steamRating></steamRating>\r\n\t<hoursPlayed2Wk>0.0</hoursPlayed2Wk>\r\n\t<headline><![CDATA[]]></headline>\r\n\t<location><![CDATA[Netherlands]]></location>\r\n\t<realname><![CDATA[Arie]]></realname>\r\n\t<summary><![CDATA[
+        <a class=\"bb_link\" href=\"https://steamcommunity.com/linkfilter/?url=http://serveme.tf\"
+        target=\"_blank\" rel=\"noreferrer\" >http://serveme.tf</a> \r<br> <a class=\"bb_link\"
+        href=\"https://steamcommunity.com/linkfilter/?url=http://fakkelbrigade.eu\"
+        target=\"_blank\" rel=\"noreferrer\" >FakkelBrigade</a> <span class=\"bb_link_host\">[fakkelbrigade.eu]</span>\r<br>
+        <a class=\"bb_link\" href=\"https://steamcommunity.com/linkfilter/?url=http://www.vanillatf2.org\"
+        target=\"_blank\" rel=\"noreferrer\" >VanillaTF2</a> <span class=\"bb_link_host\">[www.vanillatf2.org]</span>]]></summary>\r\n
+        \t<mostPlayedGames>\r\n\t\t<mostPlayedGame>\r\n\t\t\t<gameName><![CDATA[Team
+        Fortress 2]]></gameName>\r\n\t\t\t<gameLink><![CDATA[http://steamcommunity.com/app/440]]></gameLink>\r\n\t\t\t<gameIcon><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/440/e3f595a92552da3d664ad00277fad2107345f743.jpg]]></gameIcon>\r\n\t\t\t<gameLogo><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/440/07385eb55b5ba974aebbe74d3c99626bda7920b8.jpg]]></gameLogo>\r\n\t\t\t<gameLogoSmall><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/440/07385eb55b5ba974aebbe74d3c99626bda7920b8.jpg]]></gameLogoSmall>\r\n\t\t\t<hoursPlayed>0.2</hoursPlayed>\r\n\t\t\t<hoursOnRecord>2,659</hoursOnRecord>\r\n\t\t\t<statsName><![CDATA[TF2]]></statsName>\r\n\t\t</mostPlayedGame>\r\n\t\t<mostPlayedGame>\r\n\t\t\t<gameName><![CDATA[Paddle
+        Up]]></gameName>\r\n\t\t\t<gameLink><![CDATA[http://steamcommunity.com/app/496250]]></gameLink>\r\n\t\t\t<gameIcon><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/496250/c6b13c0facde3c5d0ae1deed13c606fa6c00eb99.jpg]]></gameIcon>\r\n\t\t\t<gameLogo><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/496250/45575c125b99fa2de6c9fb2f7ac52de0a203d056.jpg]]></gameLogo>\r\n\t\t\t<gameLogoSmall><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/496250/45575c125b99fa2de6c9fb2f7ac52de0a203d056.jpg]]></gameLogoSmall>\r\n\t\t\t<hoursPlayed>0.2</hoursPlayed>\r\n\t\t\t<hoursOnRecord>2.1</hoursOnRecord>\r\n\t\t\t<statsName><![CDATA[496250]]></statsName>\r\n\t\t</mostPlayedGame>\r\n\t\t<mostPlayedGame>\r\n\t\t\t<gameName><![CDATA[Final
+        Approach]]></gameName>\r\n\t\t\t<gameLink><![CDATA[http://steamcommunity.com/app/380670]]></gameLink>\r\n\t\t\t<gameIcon><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/380670/9db9593a1045251655195bd603f6ecbe73914a5e.jpg]]></gameIcon>\r\n\t\t\t<gameLogo><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/380670/c9dbfd95a88707204dbeb23e85bde25f6c89508c.jpg]]></gameLogo>\r\n\t\t\t<gameLogoSmall><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/380670/c9dbfd95a88707204dbeb23e85bde25f6c89508c.jpg]]></gameLogoSmall>\r\n\t\t\t<hoursPlayed>0.1</hoursPlayed>\r\n\t\t\t<hoursOnRecord>1.0</hoursOnRecord>\r\n\t\t\t<statsName><![CDATA[380670]]></statsName>\r\n\t\t</mostPlayedGame>\r\n\t\t<mostPlayedGame>\r\n\t\t\t<gameName><![CDATA[Space
+        Pirate Trainer]]></gameName>\r\n\t\t\t<gameLink><![CDATA[http://steamcommunity.com/app/418650]]></gameLink>\r\n\t\t\t<gameIcon><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/418650/77771ac82d2ca2d4e2e958cacfa7f8092eb216c2.jpg]]></gameIcon>\r\n\t\t\t<gameLogo><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/418650/303c70c2ba6842a0603a9df28443fb570edade0c.jpg]]></gameLogo>\r\n\t\t\t<gameLogoSmall><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/418650/303c70c2ba6842a0603a9df28443fb570edade0c.jpg]]></gameLogoSmall>\r\n\t\t\t<hoursPlayed>0.1</hoursPlayed>\r\n\t\t\t<hoursOnRecord>10.3</hoursOnRecord>\r\n\t\t\t<statsName><![CDATA[418650]]></statsName>\r\n\t\t</mostPlayedGame>\r\n\t</mostPlayedGames>\r\n\r\n\r\n\t<groups>\r\n\t\t<group
+        isPrimary=\"1\">\r\n\t\t\t<groupID64>103582791429664165</groupID64>\r\n\t\t\t<groupName><![CDATA[FakkelBrigade]]></groupName>\r\n\t\t\t<groupURL><![CDATA[fakkelbrigade]]></groupURL>\r\n\t\t\t<headline><![CDATA[FakkelBrigade]]></headline>\r\n\t\t\t<summary><![CDATA[FakkelBrigade,
+        FakkelBrigade....wat...zeg ik het te vaak? FakkelBrigade!]]></summary>\r\n\t\t\t<avatarIcon><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/5f/5fee4d76e58e4dcf81a11cdbcddb6300ebd97421.jpg]]></avatarIcon>\r\n\t\t\t<avatarMedium><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/5f/5fee4d76e58e4dcf81a11cdbcddb6300ebd97421_medium.jpg]]></avatarMedium>\r\n\t\t\t<avatarFull><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/5f/5fee4d76e58e4dcf81a11cdbcddb6300ebd97421_full.jpg]]></avatarFull>\r\n\t\t\t<memberCount>427</memberCount>\r\n\t\t\t<membersInChat>0</membersInChat>\r\n\t\t\t<membersInGame>47</membersInGame>\r\n\t\t\t<membersOnline>136</membersOnline>\r\n\t\t</group>\r\n\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t<groupID64>103582791429625217</groupID64>\r\n\t\t\t<groupName><![CDATA[[GoT]
+        TF2]]></groupName>\r\n\t\t\t<groupURL><![CDATA[gottf2]]></groupURL>\r\n\t\t\t<headline><![CDATA[]]></headline>\r\n\t\t\t<summary><![CDATA[No
+        information given.]]></summary>\r\n\t\t\t<avatarIcon><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/ff/ffe69cf91e50120f60e4abcb70feb2502fdae8db.jpg]]></avatarIcon>\r\n\t\t\t<avatarMedium><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/ff/ffe69cf91e50120f60e4abcb70feb2502fdae8db_medium.jpg]]></avatarMedium>\r\n\t\t\t<avatarFull><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/ff/ffe69cf91e50120f60e4abcb70feb2502fdae8db_full.jpg]]></avatarFull>\r\n\t\t\t<memberCount>127</memberCount>\r\n\t\t\t<membersInChat>0</membersInChat>\r\n\t\t\t<membersInGame>9</membersInGame>\r\n\t\t\t<membersOnline>38</membersOnline>\r\n\t\t</group>\r\n\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t<groupID64>103582791429717360</groupID64>\r\n\t\t\t<groupName><![CDATA[Razer
+        Blueprints]]></groupName>\r\n\t\t\t<groupURL><![CDATA[blueprints]]></groupURL>\r\n\t\t\t<headline><![CDATA[]]></headline>\r\n\t\t\t<summary><![CDATA[No
+        information given.]]></summary>\r\n\t\t\t<avatarIcon><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/04/04e671ef5d4a45627f583362bca9ad4d3af2a8af.jpg]]></avatarIcon>\r\n\t\t\t<avatarMedium><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/04/04e671ef5d4a45627f583362bca9ad4d3af2a8af_medium.jpg]]></avatarMedium>\r\n\t\t\t<avatarFull><![CDATA[http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/04/04e671ef5d4a45627f583362bca9ad4d3af2a8af_full.jpg]]></avatarFull>\r\n\t\t\t<memberCount>16</memberCount>\r\n\t\t\t<membersInChat>0</membersInChat>\r\n\t\t\t<membersInGame>1</membersInGame>\r\n\t\t\t<membersOnline>3</membersOnline>\r\n\t\t</group>\r\n\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791430010811</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791430256887</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791430259586</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791430727878</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791431833974</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791432082469</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791432498790</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791432567876</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791432888344</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791433167290</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791433986458</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791434095453</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791434356577</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791434604978</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791434638573</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791435211523</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791435544501</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791436634168</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791438914790</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791439368210</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791440221700</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791440822472</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791441227082</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791454235546</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791455468623</groupID64>\r\n\t\t\t</group>\r\n\t\t\t\t\t<group
+        isPrimary=\"0\">\r\n\t\t\t\t<groupID64>103582791455520350</groupID64>\r\n\t\t\t</group>\r\n\t\t\t</groups>\r\n</profile>"
+    http_version: 
+  recorded_at: Tue, 08 Nov 2016 20:08:52 GMT
+recorded_with: VCR 3.0.3

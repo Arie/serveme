@@ -1,0 +1,86 @@
+# frozen_string_literal: true
+class FriendlyPasswordGenerator
+  def self.generate
+    "#{left.sample}-#{right.sample}"
+  end
+
+  def self.left
+    [
+      "australium",
+      "blood",
+      "collectors",
+      "community",
+      "decorated",
+      "diamond",
+      "festive",
+      "genuine",
+      "grizzled",
+      "gold",
+      "haunted",
+      "horseless",
+      "lethal",
+      "rust",
+      "silver",
+      "stock",
+      "strange",
+      "unique",
+      "unusual",
+      "vintage",
+    ]
+  end
+
+  def self.right
+    [
+      "admirable",
+      "arx",
+      "banny",
+      "beta",
+      "blaze",
+      "bones",
+      "byte",
+      "canfo",
+      "clockwork",
+      "coleman",
+      "cookye",
+      "dave",
+      "david",
+      "darn",
+      "enigma",
+      "exfane",
+      "fragga",
+      "geel",
+      "harbleu",
+      "jon",
+      "kaidus",
+      "kkaltuu",
+      "lange",
+      "lansky",
+      "luke",
+      "mana",
+      "mike",
+      "mirelin",
+      "numlocked",
+      "paulsen",
+      "permzilla",
+      "platinum",
+      "reptile",
+      "ruwin",
+      "ryb",
+      "seagull",
+      "shade",
+      "sheep",
+      "sideshow",
+      "slin",
+      "squid",
+      "star",
+      "starkie",
+      "tek",
+      "termo",
+      "torden",
+      "yuki",
+      "war",
+      "weqo",
+      "zebbosai",
+    ]
+  end
+end

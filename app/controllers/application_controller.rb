@@ -4,10 +4,10 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
 
   protect_from_forgery
-  before_filter :authenticate_user!
-  before_filter :set_time_zone
-  before_filter :check_expired_reservations
-  before_filter :block_users_with_expired_reservations
+  before_action :authenticate_user!
+  before_action :set_time_zone
+  before_action :check_expired_reservations
+  before_action :block_users_with_expired_reservations
 
   def set_time_zone
     set_time_zone_from_current_user || set_time_zone_from_cookie || set_default_time_zone
@@ -47,11 +47,16 @@ class ApplicationController < ActionController::Base
   helper_method :white_theme?
 
   def current_admin
-    @current_admin ||=  begin
+    if @current_admin.nil?
+      @current_admin =  begin
                           if current_user && current_user.admin?
                             current_user
+                          else
+                            false
                           end
                         end
+    end
+    @current_admin
   end
   helper_method :current_admin
 

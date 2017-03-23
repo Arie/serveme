@@ -4,7 +4,7 @@ describe ApplicationController do
 
   controller(PagesController) do
     def index
-      render :text => "foo"
+      render :plain => "foo"
     end
   end
 

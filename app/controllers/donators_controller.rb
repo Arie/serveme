@@ -1,16 +1,15 @@
 # frozen_string_literal: true
 class DonatorsController < ApplicationController
 
-  before_filter :require_admin
-  skip_before_filter :require_admin, only: :leaderboard
-  skip_before_filter :authenticate_user!, only: :leaderboard
+  before_action :require_admin, except: :leaderboard
+  before_action :require_donator, only: :leaderboard
 
   def index
     @donators = Group.donator_group.users.order('group_users.id DESC').paginate(:page => params[:page], :per_page => 20)
   end
 
   def leaderboard
-    @donators = PaypalOrder.leaderboard.first(25)
+    @donators = Order.leaderboard.first(25)
   end
 
   def new

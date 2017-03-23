@@ -270,14 +270,14 @@ describe Reservation do
       reservation.should have(1).errors_on(:server_id)
     end
 
-    it "doesn't allow plugins for non donators" do
-      reservation = build :reservation
-      reservation.enable_plugins = true
-      reservation.should have(1).errors_on(:enable_plugins)
+    # it "doesn't allow plugins for non donators" do
+    #   reservation = build :reservation
+    #   reservation.enable_plugins = true
+    #   reservation.should have(1).errors_on(:enable_plugins)
 
-      reservation.user.stub(:donator? => true)
-      reservation.should have(:no).errors_on(:enable_plugins)
-    end
+    #   reservation.user.stub(:donator? => true)
+    #   reservation.should have(:no).errors_on(:enable_plugins)
+    # end
 
     context "for non-donators" do
 
@@ -637,4 +637,20 @@ describe Reservation do
 
   end
 
+  describe "#whitelist_ip" do
+    subject { build(:reservation) }
+    it "returns the user's most recent game IP" do
+      subject.user = create(:user, current_sign_in_ip: "127.0.0.1")
+      create(:reservation_player, steam_uid: subject.user.uid, ip: "10.0.0.1")
+      expect(subject.whitelist_ip).to eql("10.0.0.1")
+    end
+    it "returns the user's web IP if it's IPv4" do
+      subject.user = build(:user, current_sign_in_ip: "127.0.0.1")
+      expect(subject.whitelist_ip).to eql("127.0.0.1")
+    end
+    it "falls back to the site's hosting IP" do
+      subject.user = create(:user, current_sign_in_ip: "2a00:23c4:3cfd:c00:000:1b84:6fb8:bf21")
+      expect(subject.whitelist_ip).to eql(SITE_HOST)
+    end
+  end
 end

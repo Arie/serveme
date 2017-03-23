@@ -22,8 +22,10 @@ tv_snapshotrate 30
 tv_timeout 120
 tv_transmitall 1
 tv_autorecord 1
+tv_enable 1
 
-sv_logflush 1
+sv_logflush 0
+sv_logbans 1
 sv_logsecret "<%= logsecret %>"
 logaddress_add <%= "direct.#{SITE_HOST}:40002" %>
 sv_rcon_whitelist_address <%= "direct.#{SITE_HOST}" %>
@@ -32,4 +34,3 @@ sv_hibernate_postgame_delay "0"
 
 <% if server_config %>
 <%= "exec #{server_config}" %><% end %>
-

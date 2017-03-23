@@ -134,8 +134,8 @@ describe RconFtpServer do
 
   describe '#zip_file_creator_class' do
 
-    it "returns the class used to create SshServer zipfiles" do
-      subject.zip_file_creator_class.should == FtpZipFileCreator
+    it "returns the class used to create FTP server zipfiles" do
+      subject.zip_file_creator_class.should == DownloadThenZipFileCreator
     end
 
   end

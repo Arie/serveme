@@ -17,14 +17,6 @@
               = link_to('http://csgo.serveme.tf') do
                 %span{:class => ["flags", "flags-eu"]}
                 csgo.serveme.tf (Europe)
-            %li
-              = link_to('http://csna.serveme.tf') do
-                %span{:class => ["flags", "flags-us"]}
-                csna.serveme.tf (North-America)
-            -# %li
-            -#   = link_to('http://au.serveme.tf') do
-            -#     %span{:class => ["flags", "flags-au"]}
-            -#     au.serveme.tf (Australia)
 
     .navbar-inner
       %ul.nav.navbar-nav
@@ -56,11 +48,11 @@
                 = link_to i_am_feeling_lucky_reservations_path, :method => :post, :title => "Make a reservation in 1 click" do
                   %i.fa.fa-warning
                   1-click reservation
+        %li
+          = link_to servers_path do
+            %i.fa.fa-tasks
+            Servers
         - if current_user && current_user.donator?
-          %li
-            = link_to servers_path do
-              %i.fa.fa-tasks
-              Servers
           %li
             = link_to upload_map_path do
               %i.fa.fa-upload

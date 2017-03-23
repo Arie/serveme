@@ -71,6 +71,34 @@ jQuery(function($) {
     $("#" + field).select2("enable", true);
   };
 
+  $("#reservation_enable_demos_tf").change(function(event) {
+    togglePluginsAndDemosTf($(event.currentTarget));
+  });
+
+  function togglePluginsAndDemosTf(target) {
+    if (target.prop("checked") == true) {
+      if (canEnablePlugins == true) {
+        enablePlugins().prop("disabled", false);
+        enablePlugins().prop("checked", true)
+      } else {
+        enablePlugins().prop("disabled", true);
+        enablePlugins().prop("checked", true);
+      }
+    } else {
+      if (canEnablePlugins == false) {
+        enablePlugins().prop("disabled", false);
+        enablePlugins().prop("checked", false);
+      } else {
+        enablePlugins().prop("disabled", true);
+        enablePlugins().prop("checked", false);
+      }
+
+    }
+  }
+
+  if (enableDemosTf().size > 0) {
+    togglePluginsAndDemosTf(enableDemosTf());
+  }
 
   $("#reservation_starts_at").change(function() {
     findFreeServers();
@@ -135,6 +163,14 @@ jQuery(function($) {
 
   function endsAt() {
     return $("#reservation_ends_at");
+  };
+
+  function enablePlugins() {
+    return $("#reservation_enable_plugins");
+  };
+
+  function enableDemosTf() {
+    return $("#reservation_enable_demos_tf");
   };
 
   function loadServers() {

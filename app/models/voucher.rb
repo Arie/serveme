@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 class Voucher < ActiveRecord::Base
-
   belongs_to :product
-  belongs_to :paypal_order
-  belongs_to :claimed_by,  class_name: "User"
-  belongs_to :created_by,  class_name: "User"
-  attr_accessible :code, :product
+  belongs_to :order
+  belongs_to :claimed_by,  class_name: 'User'
+  belongs_to :created_by,  class_name: 'User'
 
   def hyphenate
     Base32::Crockford.hypenate(code).upcase
@@ -28,12 +26,10 @@ class Voucher < ActiveRecord::Base
   end
 
   def self.find_voucher(code)
-    begin
-      code = encode(Base32::Crockford.decode(code, :integer))
-      where(code: code).first
-    rescue
-      nil
-    end
+    code = encode(Base32::Crockford.decode(code, :integer))
+    where(code: code).first
+  rescue
+    nil
   end
 
   def claim!(user)
@@ -52,5 +48,4 @@ class Voucher < ActiveRecord::Base
   end
 
   AlreadyClaimed = Class.new(RuntimeError)
-
 end

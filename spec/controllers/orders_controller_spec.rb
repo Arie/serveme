@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PaypalOrdersController do
+describe OrdersController do
 
   before do
     @user = create :user
@@ -16,7 +16,7 @@ describe PaypalOrdersController do
       expect(paypal_order).to receive(:prepare).and_return(false)
       subject.stub(:paypal_order => paypal_order)
 
-      post :create, { :paypal_order => {:product_id => 1} }
+      post :create, params: { :order => {:product_id => 1} }
       expect(response).to render_template(:new)
     end
   end
@@ -27,7 +27,7 @@ describe PaypalOrdersController do
       order.should_receive(:charge).with("PayerID").and_return(true)
       subject.stub(:order).and_return(order)
 
-      get :redirect, :order_id => order.id, :PayerID => "PayerID"
+      get :redirect, params: { order_id: order.id, PayerID: "PayerID" }
 
       response.should redirect_to(root_path)
       flash[:notice].should == "Your donation has been received and your donator perks are now activated, thanks! <3"
@@ -37,7 +37,7 @@ describe PaypalOrdersController do
       order.should_receive(:charge).with("PayerID").and_return(false)
       subject.stub(:order).and_return(order)
 
-      get :redirect, :order_id => order.id, :PayerID => "PayerID"
+      get :redirect, params: { order_id: order.id, PayerID: "PayerID" }
 
       response.should redirect_to(root_path)
       flash[:alert].should == "Something went wrong while trying to activate your donator status, please check if you have sufficient funds in your PayPal account"
@@ -48,7 +48,7 @@ describe PaypalOrdersController do
       order.should_receive(:charge).with("PayerID").and_return(true)
       subject.stub(:order).and_return(order)
 
-      get :redirect, :order_id => order.id, :PayerID => "PayerID"
+      get :redirect, params: { order_id: order.id, PayerID: "PayerID" }
 
       response.should redirect_to(settings_path("#your-vouchers"))
       flash[:notice].should == "Your donation has been received and we've made a voucher code that you can give away"

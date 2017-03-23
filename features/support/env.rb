@@ -18,8 +18,6 @@ at_exit do
   Server.delete_all
 end
 
-include Devise::TestHelpers
-
 Capybara.default_selector = :css
 
 ActionController::Base.allow_rescue = false

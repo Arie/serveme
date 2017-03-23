@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 class Server < ActiveRecord::Base
 
-  attr_accessible :name, :path, :ip, :port
-
   has_many :groups, :through => :group_servers
   has_many :group_servers
   has_many :reservations
+  has_many :current_reservations, -> { where("reservations.starts_at <= ? AND reservations.ends_at >=?", Time.current, Time.current) }, class_name: "Reservation"
   has_many :ratings, :through => :reservations
+  has_many :recent_server_statistics, -> { where("server_statistics.created_at >= ?", 2.minutes.ago).order("server_statistics.id DESC") }, class_name: "ServerStatistic"
+  has_many :server_statistics
   belongs_to :location
 
   validates_presence_of :name
@@ -24,7 +25,7 @@ class Server < ActiveRecord::Base
   end
 
   def self.ids_reservable_by_user(user)
-    without_group.pluck(:id) + in_groups(user.groups).pluck(:id)
+    without_group.pluck(:id) + member_of_groups(user.groups).pluck(:id)
   end
 
   def self.ordered
@@ -32,7 +33,7 @@ class Server < ActiveRecord::Base
   end
 
   def self.without_group
-    if with_group.any?
+    if with_group.exists?
       where('servers.id NOT IN (?)', with_group.pluck(:id))
     else
       all
@@ -47,9 +48,9 @@ class Server < ActiveRecord::Base
     where('servers.active = ?', true)
   end
 
-  def self.in_groups(groups)
+  def self.member_of_groups(groups)
     with_group.
-    where(:groups => { :id => groups.pluck(:id) }).
+    where(groups: { id: groups.pluck(:id) }).
     group('servers.id')
   end
 
@@ -113,7 +114,6 @@ class Server < ActiveRecord::Base
     renderer.result(reservation.get_binding)
   end
 
-
   def process_id
     @process_id ||= begin
                       pid = find_process_id.to_i
@@ -136,7 +136,7 @@ class Server < ActiveRecord::Base
   end
 
   def current_reservation
-    reservations.current.first
+    current_reservations.first
   end
 
   def inactive_minutes
@@ -170,11 +170,12 @@ class Server < ActiveRecord::Base
 
   def end_reservation(reservation)
     return if reservation.ended?
+    remove_configuration
+    disable_plugins
+    disable_demos_tf
     rcon_exec("sv_logflush 1; tv_stoprecord; kickall Reservation ended, every player can download the STV demo at http:/​/#{SITE_HOST}")
     sleep 1 # Give server a second to finish the STV demo and write the log
     reservation.status_update("Removing configuration and disabling plugins")
-    remove_configuration
-    disable_plugins
     zip_demos_and_logs(reservation)
     copy_logs(reservation)
     remove_logs_and_demos
@@ -182,6 +183,16 @@ class Server < ActiveRecord::Base
     rcon_disconnect
     restart
     reservation.status_update("Restarted server")
+  end
+
+  def enable_demos_tf
+    demos_tf_file = "#{Rails.root.join("doc", "demostf.smx")}"
+    record_stv_file = "#{Rails.root.join("doc", "recordstv.smx")}"
+    copy_to_server([demos_tf_file, record_stv_file], "#{tf_dir}/addons/sourcemod/plugins")
+  end
+
+  def disable_demos_tf
+    delete_from_server(["#{tf_dir}/addons/sourcemod/plugins/demostf.smx", "#{tf_dir}/addons/sourcemod/plugins/recordstv.smx"])
   end
 
   def zip_demos_and_logs(reservation)

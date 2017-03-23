@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class PlayerStatisticDecorator < Draper::Decorator
-  include Draper::LazyHelpers
+class PlayerStatisticDecorator < Drape::Decorator
+  include Drape::LazyHelpers
   delegate_all
 
   def name

@@ -1,7 +1,5 @@
 class CreateProducts < ActiveRecord::Migration
-  class Product < ActiveRecord::Base
-    attr_accessible :name, :price, :days
-  end
+  class Product < ActiveRecord::Base; end
 
   def up
     create_table :products do |t|

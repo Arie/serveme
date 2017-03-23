@@ -1,4 +1,4 @@
-- goal_percentage = PaypalOrder.monthly_goal_percentage.round
+- goal_percentage = Order.monthly_goal_percentage.round
 
 - if goal_percentage.between?(0, 30)
   - bar_class = "danger"
@@ -11,10 +11,10 @@
 
 .donation_target
   .col-md-3
-    %strong Monthly server bills (#{I18n.t('number.currency.format.unit')}#{PaypalOrder.monthly_goal.round})
+    %strong Monthly server bills (#{I18n.t('number.currency.format.unit')}#{Order.monthly_goal.round})
 
   .col-md-7
-    .progress.progress-striped.active
+    .progress.progress-striped
       - if goal_percentage <= 100
         - width = goal_percentage
       - else

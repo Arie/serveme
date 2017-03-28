@@ -52,7 +52,6 @@ jQuery(function($) {
 
   function stripeResponseHandler(status, response) {
     if (status === 200) {
-      console.log(gift());
       postOrder(response.id, productId(), gift());
     } else {
       stripeFailed(response);

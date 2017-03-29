@@ -44,9 +44,9 @@ class OrdersController < ApplicationController
       order.save!
       charge = order.charge
       if charge == "succeeded"
-        render text: { charge_status: charge, product_name: order.product_name, gift: order.gift, voucher: order.voucher.try(:code) }.to_json
+        render plain: { charge_status: charge, product_name: order.product_name, gift: order.gift, voucher: order.voucher.try(:code) }.to_json
       else
-        render text: { charge_status: charge }.to_json, status: 402
+        render plain: { charge_status: charge }.to_json, status: 402
       end
     end
   end

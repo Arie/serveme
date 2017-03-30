@@ -36,9 +36,9 @@ class OrdersController < ApplicationController
   end
 
   def stripe
-    if params[:stripe_id] && params[:product_id] && params[:gift]
+    if params[:stripe_token] && params[:product_id] && params[:gift]
       order = current_user.stripe_orders.build
-      order.payer_id = params[:stripe_id]
+      order.payer_id = params[:stripe_token]
       order.product = Product.active.find(params[:product_id].to_i)
       order.gift = (params[:gift] == "true")
       order.save!

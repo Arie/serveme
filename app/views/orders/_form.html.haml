@@ -9,25 +9,18 @@
           %button{type: "button", class: "btn btn-default payment-method paypal-button selected"}
             PayPal
           %button{type: "button", class: "btn btn-default payment-method credit-card-button"}
-            Credit Card
+            Credit or Debit Card
 
 = simple_form_for(@order) do |f|
   .row.credit-card-row
-    .col-md-4.well
-      .title Card details
-      .row
-        .col-md-12
-          .form.credit-card.card-js{data: { stripe: "true" }}
-            %input.card-number{ name: "card-number" }
-            %input.card-holders-name{ name: "card-holders-name", placeholder: "Name on card" }
-            %input.expiry-month{ name: "expiry-month" }
-            %input.expiry-year{ name: "expiry-year" }
-            %input.cvc{ name: "cvc" }
+    .col-md-4.well.form-row
+      %label{for: "stripe-card"}
+        Credit or debit card
+      #stripe-card
+      #stripe-errors
 
-          .row.col-md-12.stripe-error
-
-          .row.col-md-12
-            .stripe-logo= image_tag "powered_by_stripe.png"
+      .row.col-md-12
+        .stripe-logo= image_tag "powered_by_stripe.png"
 
   = f.input :payer_id, as: :hidden
 

@@ -1,3 +1,5 @@
+var card;
+
 jQuery(function($) {
   enablePaypal(false);
   paypalButton().click(function() {
@@ -6,6 +8,28 @@ jQuery(function($) {
   creditCardButton().click(function() {
     enableStripe();
   });
+  setupStripe();
+
+  function setupStripe() {
+    style = {
+      base: {
+        // Add your base input styles here. For example:
+        fontSize: '18px',
+        lineHeight: '24px'
+      }
+    };
+    card = elements.create('card', {style: style});
+    card.mount("#stripe-card");
+
+    card.addEventListener('change', function(event) {
+      var displayError = document.getElementById('stripe-errors');
+      if (event.error) {
+        displayError.textContent = event.error.message;
+      } else {
+        displayError.textContent = '';
+      }
+    });
+  }
 
   function enablePaypal(slide) {
     paypalButton().addClass("selected");
@@ -26,23 +50,19 @@ jQuery(function($) {
 
   form().submit(function(event) {
     if (payingWithStripe()) {
-      $(".stripe-error").html("");
+      $("#stripe-errors").html("");
       // Disable the submit button to prevent repeated clicks:
       formSubmit().prop('disabled', true);
       formSubmit().html("<i class='fa fa-spinner fa-spin' '></i> Working...");
 
-      // Request a token from Stripe:
-      Stripe.source.create({
-        type: 'card',
-        amount: amount(),
-        currency: currency(),
-        card: {
-          number: card().CardJs('cardNumber'),
-          cvc: card().CardJs('cvc'),
-          exp_month: card().CardJs('expiryMonth'),
-          exp_year: card().CardJs('expiryYear')
+      stripe.createToken(card).then(function(result) {
+        if (result.error) {
+          var errorElement = document.getElementById('stripe-errors');
+          errorElement.textContent = result.error.message;
+        } else {
+          stripeResponseHandler(result.token.id);
         }
-      }, stripeResponseHandler);
+      });
 
       // Prevent the form from being submitted:
       event.preventDefault();
@@ -50,16 +70,12 @@ jQuery(function($) {
     }
   });
 
-  function stripeResponseHandler(status, response) {
-    if (status === 200) {
-      postOrder(response.id, productId(), gift());
-    } else {
-      stripeFailed(response);
-    }
+  function stripeResponseHandler(token) {
+    postOrder(token, productId(), gift());
   }
 
-  function postOrder(stripeId, productId, gift) {
-    $.post("orders/stripe", { stripe_id: stripeId, product_id: productId, gift: gift}).
+  function postOrder(stripeToken, productId, gift) {
+    $.post("orders/stripe", { stripe_token: stripeToken, product_id: productId, gift: gift}).
       done(function( data ) {
         $(".premium-page").hide();
         json = JSON.parse(data);
@@ -80,13 +96,7 @@ jQuery(function($) {
 
   function orderFailed(response) {
     json = JSON.parse(response.responseText);
-    $(".stripe-error").html(json["charge_status"]);
-    formSubmit().prop('disabled', false);
-    enableStripe();
-  }
-
-  function stripeFailed(response) {
-    $(".stripe-error").html(response.error.message);
+    $("#stripe-errors").html(json["charge_status"]);
     formSubmit().prop('disabled', false);
     enableStripe();
   }

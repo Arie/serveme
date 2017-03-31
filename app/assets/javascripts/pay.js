@@ -8,7 +8,10 @@ jQuery(function($) {
   creditCardButton().click(function() {
     enableStripe();
   });
-  setupStripe();
+  if (orderForm().length > 0) {
+    setupStripe();
+  }
+
 
   function setupStripe() {
     style = {
@@ -39,21 +42,21 @@ jQuery(function($) {
     } else {
       creditCardRow().hide();
     }
-    formSubmit().html("Pay with PayPal");
+    orderFormSubmit().html("Pay with PayPal");
   }
   function enableStripe() {
     paypalButton().removeClass("selected");
     creditCardButton().addClass("selected");
     creditCardRow().slideDown();
-    formSubmit().html("Secure checkout with Stripe");
+    orderFormSubmit().html("Secure checkout with Stripe");
   }
 
-  form().submit(function(event) {
+  orderForm().submit(function(event) {
     if (payingWithStripe()) {
       $("#stripe-errors").html("");
       // Disable the submit button to prevent repeated clicks:
-      formSubmit().prop('disabled', true);
-      formSubmit().html("<i class='fa fa-spinner fa-spin' '></i> Working...");
+      orderFormSubmit().prop('disabled', true);
+      orderFormSubmit().html("<i class='fa fa-spinner fa-spin' '></i> Working...");
 
       stripe.createToken(card).then(function(result) {
         if (result.error) {
@@ -97,15 +100,15 @@ jQuery(function($) {
   function orderFailed(response) {
     json = JSON.parse(response.responseText);
     $("#stripe-errors").html(json["charge_status"]);
-    formSubmit().prop('disabled', false);
+    orderFormSubmit().prop('disabled', false);
     enableStripe();
   }
 
-  function form() {
+  function orderForm() {
     return $('form.new_order');
   }
-  function formSubmit() {
-    return form().find(".submit");
+  function orderFormSubmit() {
+    return orderForm().find(".submit");
   }
   function productId() {
     return $("#order_product_id").val();
@@ -130,8 +133,5 @@ jQuery(function($) {
   }
   function payingWithStripe() {
     return creditCardButton().hasClass("selected");
-  }
-  function card() {
-    return $(".credit-card.card-js");
   }
 })

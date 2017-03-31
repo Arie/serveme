@@ -8,12 +8,13 @@
       = stylesheet_link_tag    "themes/white", :media => "all"
     - else
       = stylesheet_link_tag    "themes/black", :media => "all"
+    = javascript_include_tag "https://js.stripe.com/v3/"
+    = content_for(:stripe)
     = javascript_include_tag "application"
     = csrf_meta_tags
     = render 'shared/google_analytics'
     %meta{:name => "viewport",    :content => "width=device-width, initial-scale=1.0"}
     %meta{:name => "description", :content => "Free TF2 servers, ready for action in 60 seconds!"}
-    = javascript_include_tag "https://js.stripe.com/v3/"
     = content_for(:head)
   %body
 

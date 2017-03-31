@@ -1,7 +1,5 @@
-- content_for :head do
-  = javascript_tag "var stripe = Stripe('#{STRIPE_PUBLISHABLE_KEY}');"
-  = javascript_tag "var elements = stripe.elements();"
-
+- content_for(:stripe) do
+  = javascript_tag "var stripe = Stripe('#{STRIPE_PUBLISHABLE_KEY}'); var elements = stripe.elements();"
 
 .stripe-result
   .row

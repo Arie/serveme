@@ -70,4 +70,22 @@ describe OrdersController do
 
   end
 
+  describe "#stripe", :vcr do
+    let!(:product) { create(:product, active: true) }
+
+    it "returns the order information on a succesful charge" do
+      post :stripe, params: { stripe_token: 'stripe-id', product_id: product.id, gift: false }
+
+      json = { charge_status: "succeeded", product_name: product.name, gift: false, voucher: nil }
+
+      expect(response.status).to eql(200)
+      expect(response.body).to match_json_expression(json)
+    end
+
+    it "returns a 402 if charging failed" do
+      post :stripe, params: { stripe_token: 'stripe-id', product_id: product.id, gift: false }
+
+      expect(response.status).to eql(402)
+    end
+  end
 end

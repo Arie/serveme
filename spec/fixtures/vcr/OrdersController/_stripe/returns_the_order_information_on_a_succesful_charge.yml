@@ -1,0 +1,147 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/charges
+    body:
+      encoding: UTF-8
+      string: capture=true&amount=900&currency=EUR&description=http%3A%2F%2Flocalhost%3A3000+-+1+year&source=src_here&metadata[site_url]=http%3A%2F%2Flocalhost%3A3000&metadata[order_id]=11&metadata[steam_uid]=123456789&metadata[product_name]=1+year
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/2.0.1
+      Authorization:
+      - Bearer sk_test_
+      Content-Type:
+      - application/x-www-form-urlencoded
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"2.0.1","lang":"ruby","lang_version":"2.3.3 p222 (2016-11-21)","platform":"x86_64-darwin15","engine":"ruby","publisher":"stripe","uname":"Darwin
+        foobar 15.6.0 Darwin Kernel Version 15.6.0: Mon Aug 29
+        20:21:34 PDT 2016; root:xnu-3248.60.11~1/RELEASE_X86_64 x86_64","hostname":"foobar"}'
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      server:
+      - nginx
+      date:
+      - Sun, 26 Feb 2017 15:00:05 GMT
+      content-type:
+      - application/json
+      content-length:
+      - '2211'
+      connection:
+      - keep-alive
+      access-control-allow-credentials:
+      - 'true'
+      access-control-allow-methods:
+      - GET, POST, HEAD, OPTIONS, DELETE
+      access-control-allow-origin:
+      - "*"
+      access-control-max-age:
+      - '300'
+      cache-control:
+      - no-cache, no-store
+      request-id:
+      - req_ABrD9UADoHgP4W
+      stripe-version:
+      - '2017-01-27'
+      strict-transport-security:
+      - max-age=31556926; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: |
+        {
+          "id": "ch_here",
+          "object": "charge",
+          "amount": 900,
+          "amount_refunded": 0,
+          "application": null,
+          "application_fee": null,
+          "balance_transaction": "txn_here",
+          "captured": true,
+          "created": 1488121205,
+          "currency": "eur",
+          "customer": null,
+          "description": "http://localhost:3000 - 1 year",
+          "destination": null,
+          "dispute": null,
+          "failure_code": null,
+          "failure_message": null,
+          "fraud_details": {},
+          "invoice": null,
+          "livemode": false,
+          "metadata": {
+            "site_url": "http://localhost:3000",
+            "order_id": "11",
+            "steam_uid": "123456789",
+            "product_name": "1 year"
+          },
+          "on_behalf_of": null,
+          "order": null,
+          "outcome": {
+            "network_status": "approved_by_network",
+            "reason": null,
+            "risk_level": "normal",
+            "seller_message": "Payment complete.",
+            "type": "authorized"
+          },
+          "paid": true,
+          "receipt_email": null,
+          "receipt_number": null,
+          "refunded": false,
+          "refunds": {
+            "object": "list",
+            "data": [],
+            "has_more": false,
+            "total_count": 0,
+            "url": "/v1/charges/ch_here/refunds"
+          },
+          "review": null,
+          "shipping": null,
+          "source": {
+            "id": "src_here",
+            "object": "source",
+            "amount": 500,
+            "client_secret": "src_client_secret_here",
+            "created": 1488121205,
+            "currency": "eur",
+            "flow": "none",
+            "livemode": false,
+            "metadata": {},
+            "owner": {
+              "address": null,
+              "email": null,
+              "name": null,
+              "phone": null,
+              "verified_address": null,
+              "verified_email": null,
+              "verified_name": null,
+              "verified_phone": null
+            },
+            "status": "chargeable",
+            "type": "card",
+            "usage": "reusable",
+            "card": {
+              "exp_month": 10,
+              "exp_year": 2017,
+              "brand": "Visa",
+              "country": "US",
+              "cvc_check": "pass",
+              "funding": "credit",
+              "last4": "4242",
+              "three_d_secure": "optional",
+              "address_line1_check": null,
+              "address_zip_check": null,
+              "tokenization_method": null,
+              "dynamic_last4": null
+            }
+          },
+          "source_transfer": null,
+          "statement_descriptor": null,
+          "status": "succeeded",
+          "transfer_group": null
+        }
+    http_version: 
+  recorded_at: Sun, 26 Feb 2017 15:00:05 GMT
+recorded_with: VCR 3.0.3

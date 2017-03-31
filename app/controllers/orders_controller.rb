@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 class OrdersController < ApplicationController
 
+  force_ssl if: :ssl_required?
+
   skip_before_action :block_users_with_expired_reservations
 
   def new
@@ -36,17 +38,17 @@ class OrdersController < ApplicationController
   end
 
   def stripe
-    if params[:stripe_id] && params[:product_id] && params[:gift]
+    if params[:stripe_token] && params[:product_id] && params[:gift]
       order = current_user.stripe_orders.build
-      order.payer_id = params[:stripe_id]
+      order.payer_id = params[:stripe_token]
       order.product = Product.active.find(params[:product_id].to_i)
       order.gift = (params[:gift] == "true")
       order.save!
       charge = order.charge
       if charge == "succeeded"
-        render text: { charge_status: charge, product_name: order.product_name, gift: order.gift, voucher: order.voucher.try(:code) }.to_json
+        render plain: { charge_status: charge, product_name: order.product_name, gift: order.gift, voucher: order.voucher.try(:code) }.to_json
       else
-        render text: { charge_status: charge }.to_json, status: 402
+        render plain: { charge_status: charge }.to_json, status: 402
       end
     end
   end
@@ -57,6 +59,12 @@ class OrdersController < ApplicationController
 
   def paypal_order
     @paypal_order ||= current_user.paypal_orders.build
+  end
+
+  private
+
+  def ssl_required?
+    Rails.env.production?
   end
 
 end

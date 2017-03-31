@@ -15,6 +15,9 @@ require 'capistrano/rails'
 require 'capistrano/faster_assets'
 
 require 'capistrano/puma'
+require 'capistrano/puma'
+install_plugin Capistrano::Puma
+install_plugin Capistrano::Puma::Workers
 require 'capistrano/sidekiq'
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined

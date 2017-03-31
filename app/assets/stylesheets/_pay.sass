@@ -1,5 +1,3 @@
-@import card-js
-
 form.paypal-button
   display: inline-block
   margin-bottom: 0px
@@ -28,10 +26,6 @@ form#new_order
     &:active, &:hover, &:focus
       background-color: gold
 
-.stripe-error
-  margin-top: 5px
-  color: red
-
 .stripe-logo
   padding-top: 15px
   padding-left: 110px
@@ -53,3 +47,13 @@ form#new_order
   .well
     .title
       font-weight: bold
+
+#stripe-card
+  background-color: #fff
+  padding: 2px 5px
+  border-radius: 5px
+  font-family: 'Helvetica Neue', Helvetica, sans-serif
+
+#stripe-errors
+  color: red
+  margin-top: 5px

@@ -67,7 +67,7 @@ group :deployment do
   gem 'capistrano'
   gem 'capistrano-maintenance'
   gem 'capistrano-sidekiq'
-  gem 'capistrano-rvm'
+  gem 'capistrano-rbenv', '~> 2.0'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   gem 'capistrano-faster-assets'

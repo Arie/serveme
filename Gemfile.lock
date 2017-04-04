@@ -106,9 +106,9 @@ GEM
     capistrano-rails (1.2.3)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
-    capistrano-rvm (0.1.2)
-      capistrano (~> 3.0)
-      sshkit (~> 1.2)
+    capistrano-rbenv (2.1.0)
+      capistrano (~> 3.1)
+      sshkit (~> 1.3)
     capistrano-sidekiq (0.10.0)
       capistrano
       sidekiq (>= 3.4)
@@ -491,7 +491,7 @@ DEPENDENCIES
   capistrano-faster-assets
   capistrano-maintenance
   capistrano-rails
-  capistrano-rvm
+  capistrano-rbenv (~> 2.0)
   capistrano-sidekiq
   capistrano3-puma
   capistrano_colors
@@ -570,4 +570,4 @@ DEPENDENCIES
   zonebie
 
 BUNDLED WITH
-   1.14.5
+   1.14.6

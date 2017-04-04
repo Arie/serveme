@@ -9,7 +9,7 @@ install_plugin Capistrano::SCM::Git
 
 require 'capistrano/maintenance'
 
-require 'capistrano/rvm'
+require 'capistrano/rbenv'
 require 'capistrano/bundler'
 require 'capistrano/rails'
 require 'capistrano/faster_assets'

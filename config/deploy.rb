@@ -9,9 +9,11 @@ set :deploy_to,         '/var/www/serveme'
 set :copy_compression,  :gzip
 set :use_sudo,          false
 set :user,              'csgo'
-set :rvm_ruby_string,   '2.4.0'
-set :rvm_type,          :user
 set :branch,            'csgo'
+set :rbenv_type, :user
+set :rbenv_ruby, '2.4.1'
+set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
+set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 
 set :maintenance_template_path, 'app/views/pages/maintenance.html.erb'
 

@@ -124,4 +124,7 @@ Serveme::Application.routes.draw do
   post  '/users/auth/failure',            :to => 'sessions#failure'
 
   root :to => "pages#welcome"
+  unless Rails.env.test?
+    match '*path', via: :all, to: 'pages#not_found'
+  end
 end

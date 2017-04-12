@@ -9,6 +9,10 @@ class NfoControlPanel
 
   def restart
     page          = agent.get(control_url)
+    if page.code == "302"
+      login
+      page = agent.get(control_url)
+    end
 
     control_form  = page.form("controlform")
     selects = control_form.field_with(:name => 'selection')
@@ -34,6 +38,7 @@ class NfoControlPanel
                 signin_form.email     = NFO_EMAIL
                 signin_form.password  = NFO_PASSWORD
                 agent.submit(signin_form, signin_form.buttons.first)
+                agent.cookie_jar.save_as(cookie_jar_file)
                end
   end
 
@@ -44,12 +49,17 @@ class NfoControlPanel
   def agent
     @agent ||= Mechanize.new do |agent|
       agent.user_agent_alias = 'Windows Chrome'
-      agent.cookie_jar.load(File.open(Rails.root.join("config", "cookie_jar.yml")))
+      agent.redirect_ok = false
+      agent.cookie_jar.load(cookie_jar_file) if File.exists?(cookie_jar_file)
     end
   end
 
   def login_url
     "https://#{NFO_DOMAIN}/control/login.html"
+  end
+
+  def cookie_jar_file
+    Rails.root.join("config", "cookie_jar.yml").to_s
   end
 
 end

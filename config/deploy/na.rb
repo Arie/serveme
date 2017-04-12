@@ -12,6 +12,7 @@ namespace :app do
   task :symlink_tragicservers do
     on roles(:web, :app) do
       execute "ln -sf #{shared_path}/config/initializers/tragicservers.rb #{release_path}/config/initializers/tragicservers.rb"
+      execute "ln -sf #{shared_path}/config/cookie_jar.yml #{release_path}/config/cookie_jar.yml"
     end
   end
 end

@@ -8,8 +8,6 @@ class NfoControlPanel
   end
 
   def restart
-    login
-
     page          = agent.get(control_url)
 
     control_form  = page.form("controlform")
@@ -40,15 +38,18 @@ class NfoControlPanel
   end
 
   def control_url
-    "https://www.nfoservers.com/control/control.pl?loadpage=Server%20control&name=#{server_name}&typeofserver=game"
+    "https://#{NFO_DOMAIN}/control/control.pl?loadpage=Server%20control&name=#{server_name}&typeofserver=game"
   end
 
   def agent
-    @agent ||= Mechanize.new
+    @agent ||= Mechanize.new do |agent|
+      agent.user_agent_alias = 'Windows Chrome'
+      agent.cookie_jar.load(File.open(Rails.root.join("config", "cookie_jar.yml")))
+    end
   end
 
   def login_url
-    'https://www.nfoservers.com/control/login.html'
+    "https://#{NFO_DOMAIN}/control/login.html"
   end
 
 end

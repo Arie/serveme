@@ -1,0 +1,51 @@
+---
+www.nfoservers.com:
+  "/":
+    email: !ruby/object:Mechanize::Cookie
+      name: email
+      value: foo@bar.com
+      domain: www.nfoservers.com
+      for_domain: false
+      path: "/"
+      secure: true
+      httponly: true
+      expires: Tue, 11 Jul 2017 09:35:21 GMT
+      max_age: 
+      created_at: &1 2017-04-12 11:35:24.065293000 +02:00
+      accessed_at: *1
+    password: !ruby/object:Mechanize::Cookie
+      name: password
+      value: passwordhere
+      domain: www.nfoservers.com
+      for_domain: false
+      path: "/"
+      secure: true
+      httponly: true
+      expires: Tue, 11 Jul 2017 09:35:21 GMT
+      max_age: 
+      created_at: &2 2017-04-12 11:35:24.065510000 +02:00
+      accessed_at: *2
+    logged_in: !ruby/object:Mechanize::Cookie
+      name: logged_in
+      value: '1'
+      domain: www.nfoservers.com
+      for_domain: false
+      path: "/"
+      secure: false
+      httponly: false
+      expires: Tue, 11 Jul 2017 09:35:21 GMT
+      max_age: 
+      created_at: &3 2017-04-12 11:35:24.065611000 +02:00
+      accessed_at: *3
+    cookietoken: !ruby/object:Mechanize::Cookie
+      name: cookietoken
+      value: cookietokenhere
+      domain: www.nfoservers.com
+      for_domain: false
+      path: "/"
+      secure: true
+      httponly: true
+      expires: Tue, 11 Jul 2017 09:35:21 GMT
+      max_age: 
+      created_at: &4 2017-04-12 11:35:24.065735000 +02:00
+      accessed_at: *4

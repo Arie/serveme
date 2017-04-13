@@ -12,7 +12,7 @@ describe NfoControlPanel do
 
     it "does not explode with a bad form" do
       form = double(:form, field_with: nil)
-      page = double(:page, form: form)
+      page = double(:page, code: "200", form: form)
       agent = double(:agent)
       allow(agent).to receive(:get).and_return(page)
       subject.stub(:agent => agent, :login => nil)

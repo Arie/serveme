@@ -38,8 +38,8 @@ module ReservationsHelper
   end
 
   def new_reservation
-    new_reservation_attributes = { :starts_at => params[:starts_at] || Time.current,
-                                   :ends_at   => params[:ends_at] || 2.hours.from_now }
+    new_reservation_attributes = { :starts_at => starts_at,
+                                   :ends_at   => ends_at }
     if previous_reservation
       previous_reservation_attributes = previous_reservation.reusable_attributes
       new_reservation_attributes.merge!(previous_reservation_attributes)
@@ -94,6 +94,14 @@ module ReservationsHelper
       permitted_params += [:rcon, :server_id, :starts_at, :ends_at]
     end
     params.require(:reservation).permit(permitted_params)
+  end
+
+  def starts_at
+    (params[:reservation] && params[:reservation][:starts_at].presence) || params[:starts_at].presence || Time.current
+  end
+
+  def ends_at
+    (params[:reservation] && params[:reservation][:ends_at].presence) || params[:ends_at].presence || 2.hours.from_now
   end
 
 end

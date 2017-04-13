@@ -169,6 +169,7 @@ class Server < ActiveRecord::Base
   end
 
   def end_reservation(reservation)
+    reservation.reload
     return if reservation.ended?
     remove_configuration
     disable_plugins

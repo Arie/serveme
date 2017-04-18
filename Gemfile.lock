@@ -130,6 +130,7 @@ GEM
       mime-types (>= 1.16)
     chronic (0.10.2)
     chunky_png (1.3.8)
+    clipboard-rails (1.6.1)
     coderay (1.1.1)
     coffee-rails (4.2.1)
       coffee-script (>= 2.2.0)
@@ -475,8 +476,6 @@ GEM
     xml-simple (1.1.5)
     xpath (2.0.0)
       nokogiri (~> 1.3)
-    zeroclipboard-rails (0.1.2)
-      railties (>= 3.1)
     zonebie (0.6.1)
 
 PLATFORMS
@@ -500,6 +499,7 @@ DEPENDENCIES
   capistrano_colors
   capybara
   carrierwave
+  clipboard-rails
   coffee-rails
   compass-rails
   connection_pool
@@ -570,7 +570,6 @@ DEPENDENCIES
   webmock
   will_paginate
   will_paginate-bootstrap
-  zeroclipboard-rails
   zonebie
 
 BUNDLED WITH

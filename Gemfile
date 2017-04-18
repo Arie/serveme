@@ -30,7 +30,7 @@ gem 'net-ssh'
 gem 'net-sftp'
 gem 'drape'
 gem 'will_paginate'
-gem 'zeroclipboard-rails'
+gem 'clipboard-rails'
 gem "google_visualr", git: "https://github.com/Arie/google_visualr.git"
 gem 'rack-cache'
 gem 'paypal-sdk-rest'

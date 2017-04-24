@@ -8,7 +8,7 @@ class Api::ApplicationController < ActionController::Base
   before_action :verify_api_key
 
   def verify_api_key
-    current_user
+    api_user
   end
 
   def api_user

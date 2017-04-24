@@ -25,7 +25,7 @@ class Api::ApplicationController < ActionController::Base
 
   def current_user
     @current_user ||= begin
-                        if api_user && uid_user
+                        if api_user && api_user.admin? && uid_user
                           uid_user
                         else
                           api_user

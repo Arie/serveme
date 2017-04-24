@@ -11,7 +11,7 @@ class Api::ReservationsController < Api::ApplicationController
     end
     limit = params[:limit] || 10
     limit = [limit.to_i, 500].min
-    @reservations = reservations.includes(:user, server: :location).order(id: :desc).limit(limit).offset(params[:offset].to_i)
+    @reservations = reservations.includes(:user, :reservation_statuses, :server_statistics, server: :location).order(id: :desc).limit(limit).offset(params[:offset].to_i)
   end
 
   def new

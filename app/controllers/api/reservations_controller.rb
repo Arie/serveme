@@ -3,6 +3,17 @@ class Api::ReservationsController < Api::ApplicationController
 
   include ReservationsHelper
 
+  def index
+    if api_user.admin?
+      reservations = Reservation.all
+    else
+      reservations = current_user.reservations
+    end
+    limit = params[:limit] || 10
+    limit = [limit.to_i, 500].min
+    @reservations = reservations.includes(:user, server: :location).order(id: :desc).limit(limit).offset(params[:offset].to_i)
+  end
+
   def new
     @reservation = new_reservation
   end

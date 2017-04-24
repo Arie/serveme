@@ -161,4 +161,29 @@ describe Api::ReservationsController do
     end
   end
 
+  describe "#index" do
+    before do
+      @api_user = create :user
+      controller.stub(:api_user => @api_user)
+    end
+    it "returns all reservations for admins" do
+      @api_user.groups << Group.admin_group
+
+      reservation = create :reservation, :inactive_minute_counter => 20, :user => @user
+      other_reservation = create :reservation, :inactive_minute_counter => 20, :user => create(:user)
+      get :index, params: { limit: 10, offset: 0 }, format: :json
+
+      response.status.should == 200
+      expect(JSON.parse(response.body)["reservations"].size).to eql(2)
+    end
+
+    it "returns user's reservations for users" do
+      reservation = create :reservation, :inactive_minute_counter => 20, :user => @user
+      other_reservation = create :reservation, :inactive_minute_counter => 20, :user => create(:user)
+      get :index, params: { limit: 10, offset: 0 }, format: :json
+
+      response.status.should == 200
+      expect(JSON.parse(response.body)["reservations"].size).to eql(1)
+    end
+  end
 end

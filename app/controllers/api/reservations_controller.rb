@@ -70,7 +70,7 @@ class Api::ReservationsController < Api::ApplicationController
   end
 
   def reservation
-    @reservation ||= current_user.reservations.find(params[:id])
+    @reservation ||= reservations_scope.find(params[:id])
   end
 
   def reservation_params

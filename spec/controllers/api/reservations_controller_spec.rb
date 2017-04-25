@@ -162,24 +162,38 @@ describe Api::ReservationsController do
   end
 
   describe "#index" do
+
     before do
       @api_user = create :user
       controller.stub(:api_user => @api_user)
     end
+
     it "returns all reservations for admins" do
       @api_user.groups << Group.admin_group
 
-      reservation = create :reservation, :inactive_minute_counter => 20, :user => @user
-      other_reservation = create :reservation, :inactive_minute_counter => 20, :user => create(:user)
+      _reservation = create :reservation, :inactive_minute_counter => 20, :user => @user
+      _other_reservation = create :reservation, :inactive_minute_counter => 20, :user => create(:user)
       get :index, params: { limit: 10, offset: 0 }, format: :json
 
       response.status.should == 200
       expect(JSON.parse(response.body)["reservations"].size).to eql(2)
     end
 
+    it "returns filtered results for admin" do
+      @api_user.groups << Group.admin_group
+
+      _reservation = create :reservation, :inactive_minute_counter => 20, :user => @user
+      other_user = create(:user, uid: "foo-bar-widget")
+      _other_reservation = create :reservation, :inactive_minute_counter => 20, :user => other_user
+      get :index, params: { limit: 10, offset: 0, steam_uid: other_user.uid }, format: :json
+
+      response.status.should == 200
+      expect(JSON.parse(response.body)["reservations"].size).to eql(1)
+    end
+
     it "returns user's reservations for users" do
-      reservation = create :reservation, :inactive_minute_counter => 20, :user => @user
-      other_reservation = create :reservation, :inactive_minute_counter => 20, :user => create(:user)
+      _reservation = create :reservation, :inactive_minute_counter => 20, :user => @user
+      _other_reservation = create :reservation, :inactive_minute_counter => 20, :user => create(:user)
       get :index, params: { limit: 10, offset: 0 }, format: :json
 
       response.status.should == 200

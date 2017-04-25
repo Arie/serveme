@@ -16,6 +16,7 @@ class Api::ApplicationController < ActionController::Base
       @api_key_user ||= User.find_by_api_key!(params[:api_key])
     rescue ActiveRecord::RecordNotFound
       head :unauthorized
+      nil
     end
   end
 

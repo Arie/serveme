@@ -8,20 +8,24 @@ sv_logbans 1
 logaddress_add <%= "direct.#{SITE_HOST}:40001" %>
 sv_rcon_whitelist_address "<%= whitelist_ip %>"
 
+tftrue_no_hats 0
+tftrue_logs_prefix "serveme.tf"
+tftrue_logs_roundend 0
+tftrue_restorestats 1
+
 <% if server_config %>
 <%= "exec #{server_config}" %><% end %>
 <% if custom_whitelist_id.present? %>
-<%= %{mp_tournament_whitelist "cfg/custom_whitelist_#{custom_whitelist_id}.txt"} %>
+<%= %{tftrue_whitelist_id #{custom_whitelist_id}} %>
 <%= %{say "Whitelist: http://whitelist.tf/#{custom_whitelist_id}"} %>
 <% elsif whitelist %>
 <%= %{mp_tournament_whitelist "cfg/#{whitelist}"} %><% end %>
 
 <% if user.logs_tf_api_key.present? %>
-  <%= %{logstf_apikey "#{user.logs_tf_api_key}"} %>
+<%= %{tftrue_logs_apikey "#{user.logs_tf_api_key}"} %>
 <% else %>
-  <%= %{logstf_apikey "#{LOGS_TF_API_KEY}"} %>
+<%= %{tftrue_logs_apikey "#{LOGS_TF_API_KEY}"} %>
 <% end %>
-logstf_title "serveme.tf - {red} vs {blu}"
 
 tv_delaymapchange 1
 tv_enable 1

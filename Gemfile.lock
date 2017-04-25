@@ -435,7 +435,7 @@ GEM
     sshkit (1.13.1)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
-    stripe (2.4.0)
+    stripe (2.5.0)
       faraday (~> 0.9)
     term-ansicolor (1.6.0)
       tins (~> 1.0)

@@ -18,6 +18,7 @@ if reservation.persisted?
   json.end_instantly reservation.end_instantly
   json.provisioned reservation.provisioned
   json.ended reservation.ended
+  json.steam_uid reservation.user.uid
   json.server do
     json.partial! "servers/server", server: reservation.server
   end

@@ -3,6 +3,12 @@ class Api::ReservationsController < Api::ApplicationController
 
   include ReservationsHelper
 
+  def index
+    limit = params[:limit] || 10
+    limit = [limit.to_i, 500].min
+    @reservations = reservations_scope.includes(:reservation_statuses, :server_statistics, server: :location).order(id: :desc).limit(limit).offset(params[:offset].to_i)
+  end
+
   def new
     @reservation = new_reservation
   end
@@ -51,8 +57,20 @@ class Api::ReservationsController < Api::ApplicationController
 
   private
 
+  def reservations_scope
+    if api_user.admin?
+      if params[:steam_uid]
+        reservations = Reservation.joins(:user).where(users: { uid: params[:steam_uid] })
+      else
+        reservations = Reservation.joins(:user)
+      end
+    else
+      reservations = current_user.reservations.joins(:user)
+    end
+  end
+
   def reservation
-    @reservation ||= current_user.reservations.find(params[:id])
+    @reservation ||= reservations_scope.find(params[:id])
   end
 
   def reservation_params

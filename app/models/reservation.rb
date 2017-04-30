@@ -6,6 +6,7 @@ class Reservation < ActiveRecord::Base
   has_many :reservation_players
   has_many :ratings
   has_many :reservation_statuses
+  has_many :server_statistics
 
   before_validation :calculate_duration
   before_create :generate_logsecret
@@ -200,8 +201,8 @@ class Reservation < ActiveRecord::Base
 
   def status
     return "ended"            if past?
-    return "ready"            if ServerStatistic.where(reservation_id: id, server_id: server_id).exists?
-    status_messages = reservation_statuses.pluck(:status)
+    return "ready"            if server_statistics.any?
+    status_messages = reservation_statuses.map(&:status)
     return "ready"            if status_messages.grep(/Server finished loading map/).any?
     return "starting"         if status_messages.include?("Starting")
     return "waiting_to_start" if status_messages.include?("Waiting to start")

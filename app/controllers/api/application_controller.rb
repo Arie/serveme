@@ -8,7 +8,7 @@ class Api::ApplicationController < ActionController::Base
   before_action :verify_api_key
 
   def verify_api_key
-    current_user
+    api_user
   end
 
   def api_user
@@ -16,6 +16,7 @@ class Api::ApplicationController < ActionController::Base
       @api_key_user ||= User.find_by_api_key!(params[:api_key])
     rescue ActiveRecord::RecordNotFound
       head :unauthorized
+      nil
     end
   end
 
@@ -25,7 +26,7 @@ class Api::ApplicationController < ActionController::Base
 
   def current_user
     @current_user ||= begin
-                        if api_user && uid_user
+                        if api_user && api_user.admin? && uid_user
                           uid_user
                         else
                           api_user

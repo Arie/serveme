@@ -20,6 +20,16 @@
         find_server_url = "#{@reservation.persisted? ? find_servers_for_reservation_reservations_path(id: @reservation.id) : find_servers_for_user_reservations_path}";
 
       = f.input :server_id, :label => "Server", :required => true, :disabled => !@reservation.schedulable?
+      - if @reservation.schedulable? && !current_user.donator?
+        - free_donator_servers_count = Server.for_donators.active.count - used_donator_server_count
+        - if free_donator_servers_count > 0
+          .buy_premium.form-group
+            .col-lg-10.col-lg-offset-2
+              .alert.alert-warning
+                No servers available for you during the selected times.
+                Premium users have #{I18n.t(:available, :count => free_donator_servers_count, :scope => :server)} right now.
+                = link_to("Buy premium and get instant access!", donate_path)
+
       .form-group.string.optional.readonly.disabled.reservation_ping
         %label.string.optional.col-lg-2.control-label{for: 'reservation_ping'}
           Ping

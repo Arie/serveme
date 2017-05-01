@@ -1,4 +1,4 @@
-set :main_server,       "fakkelbrigade.eu"
+set :main_server,       "wilhelm.fakkelbrigade.eu"
 set :puma_bind,         'tcp://127.0.0.1:3010'
 set :puma_bind,         'unix:///var/www/serveme/shared/sockets/puma.sock'
 set :puma_threads,      [1,4]

@@ -69,6 +69,11 @@ jQuery(function($) {
       $.each(data.servers, function(idx, server) {
         free_servers.push({id: server.id, text: server.name, flag: server.flag, ip_and_port: server.ip_and_port});
       });
+      if (data.servers.length == 0) {
+        $(".buy_premium").slideDown();
+      } else {
+        $(".buy_premium").slideUp();
+      };
       selectCurrentServer();
       disableSpinner("reservation_server_id");
     });

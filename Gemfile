@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', "~> 5.0.0"
 gem 'sprockets'
-gem 'haml'
+gem 'haml', '~> 4.0.5'
 gem 'puma'
 gem 'omniauth-openid'
 gem 'hashie'

@@ -227,8 +227,7 @@ GEM
     gherkin (4.1.1)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
-    haml (5.0.0)
-      temple (>= 0.8.0)
+    haml (4.0.7)
       tilt
     hashdiff (0.3.4)
     hashie (3.5.5)
@@ -439,7 +438,6 @@ GEM
       net-ssh (>= 2.8.0)
     stripe (2.8.0)
       faraday (~> 0.9)
-    temple (0.8.0)
     term-ansicolor (1.6.0)
       tins (~> 1.0)
     tf2_line_parser (0.1.6)
@@ -522,7 +520,7 @@ DEPENDENCIES
   geocoder
   geoip
   google_visualr!
-  haml
+  haml (~> 4.0.5)
   hashie
   jbuilder
   jquery-rails

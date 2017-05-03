@@ -243,11 +243,11 @@ class Server < ActiveRecord::Base
   end
 
   def log_match
-    File.join(game_dir, 'logfiles', "*.log")
+    "#{game_dir}/warmod/*.log"
   end
 
   def demo_match
-    File.join(game_dir, "*.dem")
+    "#{game_dir}/warmod/*.dem"
   end
 
   def connect_string(ip, port, password)

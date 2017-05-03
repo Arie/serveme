@@ -38,7 +38,7 @@ describe SshServer do
     it 'finds the demo files' do
       subject.stub(:shell_output_to_array)
       subject.stub(:game_dir => "foo")
-      subject.should_receive(:execute).with("ls #{subject.game_dir}/*.dem")
+      subject.should_receive(:execute).with("ls #{subject.game_dir}/warmod/*.dem")
       subject.demos
     end
 
@@ -49,7 +49,7 @@ describe SshServer do
     it 'finds the log files' do
       subject.stub(:shell_output_to_array)
       subject.stub(:game_dir => "foo")
-      subject.should_receive(:execute).with("ls #{subject.game_dir}/logs/*.log")
+      subject.should_receive(:execute).with("ls #{subject.game_dir}/warmod/*.log")
       subject.logs
     end
 

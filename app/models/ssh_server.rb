@@ -6,11 +6,11 @@ class SshServer < RemoteServer
   end
 
   def demos
-    @demos ||= shell_output_to_array(execute("ls #{game_dir}/*.dem"))
+    @demos ||= shell_output_to_array(execute("ls #{demo_match}"))
   end
 
   def logs
-    @logs ||= shell_output_to_array(execute("ls #{game_dir}/logs/*.log"))
+    @logs ||= shell_output_to_array(execute("ls #{log_match}"))
   end
 
   def list_files(dir)

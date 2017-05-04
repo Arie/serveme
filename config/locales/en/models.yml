@@ -3,6 +3,7 @@ en:
     attributes:
       user:
         logs_tf_api_key: logs.tf API key
+        demos_tf_api_key: demos.tf API key
       reservation:
         whitelist: League whitelist
         tv_relaypassword: Relay password

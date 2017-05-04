@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:logs_tf_api_key, :time_zone)
+    params.require(:user).permit(:logs_tf_api_key, :demos_tf_api_key, :time_zone)
   end
 
 end

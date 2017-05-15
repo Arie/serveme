@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 class ApplicationController < ActionController::Base
 
+  force_ssl if: :ssl_required?
+
   include ApplicationHelper
 
   protect_from_forgery
@@ -96,6 +98,12 @@ class ApplicationController < ActionController::Base
     if expired_reservation
       redirect_to root_path
     end
+  end
+
+  private
+
+  def ssl_required?
+    Rails.env.production?
   end
 
 end

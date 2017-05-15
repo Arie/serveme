@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 class OrdersController < ApplicationController
 
-  force_ssl if: :ssl_required?
-
   skip_before_action :block_users_with_expired_reservations
 
   def new
@@ -59,12 +57,6 @@ class OrdersController < ApplicationController
 
   def paypal_order
     @paypal_order ||= current_user.paypal_orders.build
-  end
-
-  private
-
-  def ssl_required?
-    Rails.env.production?
   end
 
 end

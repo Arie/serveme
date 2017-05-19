@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'rails', "~> 5.0.0"
+gem 'rails', "~> 5.1.0"
 gem 'sprockets'
-gem 'haml', '~> 4.0.5'
+gem 'haml'
 gem 'puma'
 gem 'omniauth-openid'
 gem 'hashie'
@@ -27,7 +27,7 @@ gem 'dante'
 
 gem 'net-ssh'
 gem 'net-sftp'
-gem 'drape'
+gem 'draper'
 gem 'will_paginate'
 gem 'clipboard-rails'
 gem "google_visualr", git: "https://github.com/Arie/google_visualr.git"

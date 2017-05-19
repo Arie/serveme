@@ -1,15 +1,15 @@
 # frozen_string_literal: true
-class ServerDecorator < Draper::Decorator
-  include Draper::LazyHelpers
+class ServerDecorator < Drape::Decorator
+  include Drape::LazyHelpers
   delegate_all
 
   def name
-    flag + object.name
+    flag + source.name
   end
 
   def flag
     if flag_abbreviation
-      tag.span "", class: "flags flags-#{location.flag}", title: location.name
+      h.content_tag(:span, "", :class => "flags flags-#{location.flag}", :title => location.name)
     else
       ""
     end

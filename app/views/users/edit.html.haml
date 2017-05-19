@@ -18,7 +18,7 @@
   %h2 Your private server
 
   :javascript
-    free_servers = #{(Server.active.without_group.ordered + Server.active.member_of_groups(Group.where(id: Group.private_user(current_user).id))).map { |s| {id: s.id, text: s.name, flag: s.location_flag, ip_and_port: "#{s.ip}:#{s.port}"} }.to_json.html_safe};
+    free_servers = #{(Server.active.without_group.ordered + Server.active.member_of_groups(Group.where(id: Group.private_user(current_user).id))).map { |s| {id: s.id, text: s.name, flag: s.location_flag, ip_and_port: "#{s.ip}:#{s.port}"} }.to_json};
   = simple_form_for(@private_server, url: url_for(controller: "private_servers", action: "create"), :html => { :class => 'form' }) do |f|
     = f.input :server_id, :label => "Private server", :required => true, :input_html => { :value => (current_user.private_server && current_user.private_server.id) }
 

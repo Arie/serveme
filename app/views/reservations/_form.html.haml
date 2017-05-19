@@ -16,7 +16,7 @@
         = f.input :ends_at,         :as => :string, :input_html => { :value => I18n.l(@reservation.ends_at,   :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Ends at"
 
       :javascript
-        free_servers = #{free_servers.map { |s| {id: s.id, text: s.name, flag: s.location_flag, ip_and_port: "#{s.ip}:#{s.port}"} }.to_json};
+        free_servers = #{free_servers.map { |s| {id: s.id, text: s.name, flag: s.location_flag, ip_and_port: "#{s.ip}:#{s.port}"} }.to_json.html_safe};
         find_server_url = "#{@reservation.persisted? ? find_servers_for_reservation_reservations_path(id: @reservation.id) : find_servers_for_user_reservations_path}";
 
       = f.input :server_id, :label => "Server", :required => true, :disabled => !@reservation.schedulable?

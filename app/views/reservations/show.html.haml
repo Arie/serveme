@@ -71,7 +71,7 @@
             = render 'shared/copy_button', :copy_button_id => "stv_connect_string", :copy_text => reservation.stv_connect_string
             - ip_and_port = "#{reservation.server.ip}:#{reservation.server.tv_port}"
             - password_for_relay = reservation.tv_relaypassword.presence || reservation.tv_password
-            - if current_admin
+            - if current_admin || current_streamer
               = link_to "http://relay.fakkelbrigade.eu/new?ip_port=#{ip_and_port}&password=#{password_for_relay}", :title => "create relay", :class => "btn btn-xs btn-warning", :target => "_blank" do
                 Create relay
                 %i.fa.fa-share-alt

@@ -3,6 +3,7 @@ class Group < ActiveRecord::Base
 
   DONATOR_GROUP  = find_or_create_by(:name => "Donators").freeze
   ADMIN_GROUP    = find_or_create_by(:name => "Admins").freeze
+  STREAMER_GROUP = find_or_create_by(:name => "Streamers").freeze
 
   validates_presence_of :name
 
@@ -18,6 +19,10 @@ class Group < ActiveRecord::Base
 
   def self.admin_group
     ADMIN_GROUP
+  end
+
+  def self.streamer_group
+    STREAMER_GROUP
   end
 
   def self.private_user(user)

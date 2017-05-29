@@ -237,8 +237,20 @@ When "I go to the reservations listing" do
   visit '/reservations'
 end
 
+When "I go to the recent reservations listing" do
+  visit '/recent-reservations'
+end
+
 Then "I see the details of my reservations" do
   @current_user.reservations.reload.each do |reservation|
+    within "#reservation_#{reservation.id}" do
+      find('a.btn-success')[:href].should include(reservation.id.to_s)
+    end
+  end
+end
+
+Then "I see the action buttons of all reservations" do
+  Reservation.all.each do |reservation|
     within "#reservation_#{reservation.id}" do
       find('a.btn-success')[:href].should include(reservation.id.to_s)
     end

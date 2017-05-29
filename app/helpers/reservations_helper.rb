@@ -29,7 +29,7 @@ module ReservationsHelper
 
   def find_reservation
     if params[:id].to_i > 0
-      if current_admin
+      if current_admin || current_streamer
         Reservation.find(params[:id].to_i)
       else
         current_user.reservations.find(params[:id].to_i)

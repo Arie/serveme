@@ -50,17 +50,31 @@ class ApplicationController < ActionController::Base
 
   def current_admin
     if @current_admin.nil?
-      @current_admin =  begin
-                          if current_user && current_user.admin?
-                            current_user
-                          else
-                            false
-                          end
-                        end
+      @current_admin = begin
+                         if current_user && current_user.admin?
+                           current_user
+                         else
+                           false
+                         end
+                       end
     end
     @current_admin
   end
   helper_method :current_admin
+
+  def current_streamer
+    if @current_streamer.nil?
+      @current_streamer =  begin
+                             if current_user && current_user.streamer?
+                               current_user
+                             else
+                               false
+                             end
+                           end
+    end
+    @current_streamer
+  end
+  helper_method :current_streamer
 
   def require_admin
     unless current_admin

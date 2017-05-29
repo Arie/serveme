@@ -16,18 +16,18 @@
           %th Reserved by
           %th Reserved from
           %th Reserved until
-          - if current_admin
+          - if current_admin || current_streamer
             %th Actions
       %tbody
         - @recent_reservations.each do |reservation|
           - klass = 'success' if reservation.active?
           - klass = 'info'    if reservation.future?
-          %tr{:class => klass}
+          %tr[reservation]{:class => klass}
             - server = reservation.server.decorate
             - user = reservation.user.decorate
             %td= server.name
             %td= link_to(user.nickname, user.steam_profile_url, :target => "_blank")
             %td= I18n.l(reservation.starts_at,  :format => :short)
             %td= I18n.l(reservation.ends_at,    :format => :short)
-            - if current_admin
+            - if current_admin || current_streamer
               %td.actions= render 'reservations/actions', :reservation => reservation

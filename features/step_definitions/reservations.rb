@@ -237,12 +237,56 @@ When "I go to the reservations listing" do
   visit '/reservations'
 end
 
+When "I go to the recent reservations listing" do
+  visit '/recent-reservations'
+end
+
 Then "I see the details of my reservations" do
   @current_user.reservations.reload.each do |reservation|
     within "#reservation_#{reservation.id}" do
       find('a.btn-success')[:href].should include(reservation.id.to_s)
     end
   end
+end
+
+Then "I see the action buttons of all reservations" do
+  Reservation.all.each do |reservation|
+    within "#reservation_#{reservation.id}" do
+      find('a.btn-success')[:href].should include(reservation.id.to_s)
+    end
+  end
+end
+
+Then "I can open the logs page" do
+  click_link "logs.tf"
+end
+
+When "I go to the logs page for the reservation" do
+  visit reservation_log_uploads_path(@reservation)
+end
+
+When "I check a log" do
+  click_link "Read log"
+end
+
+When "I choose to upload the log" do
+  click_link "Send to logs.tf"
+end
+
+Then "I get a notice that I didn't enter my API key yet" do
+  page.should have_content "You haven't entered your logs.tf API key yet"
+end
+
+Given "I have a logs.tf API key" do
+  @current_user.update_attributes(:logs_tf_api_key => 'foobar')
+end
+
+Then "I don't get the API key notice" do
+  page.should_not have_content "You haven't entered your logs.tf API key yet"
+end
+
+Then "I can see if it's the log file I want to upload" do
+  page.should have_content("Please check that the settings are correct for this game mode")
 end
 
 Given "my reservation had a log" do

@@ -10,3 +10,7 @@ end
 Given "I am an admin" do
   @current_user.group_ids += [Group.admin_group.id]
 end
+
+Given "I am a streamer" do
+  @current_user.group_ids += [Group.streamer_group.id]
+end

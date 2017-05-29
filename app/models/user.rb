@@ -41,6 +41,11 @@ class User < ActiveRecord::Base
     @admin ||= group_ids.include?(Group.admin_group.id)
   end
 
+  def streamer?
+    @streamer ||= group_ids.include?(Group.streamer_group.id)
+  end
+
+
   def maximum_reservation_length
     if admin?
       10.hours

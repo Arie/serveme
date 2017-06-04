@@ -16,6 +16,10 @@ class Statistic
     Reservation.joins(:server).order("count_all DESC").limit(10).group("servers.name").count
   end
 
+  def self.top_10_maps
+    Reservation.group(:first_map).order('count_id DESC').limit(10).count(:id)
+  end
+
   def self.total_reservations
     Reservation.count
   end
@@ -67,6 +71,4 @@ class Statistic
       end
    end
   end
-
-
 end

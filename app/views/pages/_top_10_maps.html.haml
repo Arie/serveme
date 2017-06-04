@@ -1,0 +1,9 @@
+%table.table.table-hover.table-bordered.table-striped
+  %thead
+    %tr
+      %th Map name
+      %th Reservation count
+  - @top_10_maps_hash.each do |map_name, count|
+    %tr
+      %td= map_name
+      %td= count

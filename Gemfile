@@ -8,16 +8,16 @@ gem 'omniauth-openid'
 gem 'hashie'
 gem 'omniauth-steam'
 gem 'devise'
-gem 'steam-condenser', :git => 'https://github.com/koraktor/steam-condenser-ruby'
+gem 'steam-condenser', git: 'https://github.com/koraktor/steam-condenser-ruby'
 gem 'base32_pure'
-gem 'remote_lock',     :git => "https://github.com/Arie/remote_lock"
+gem 'remote_lock', git: 'https://github.com/Arie/remote_lock'
 gem 'rack-attack'
 
 gem 'lograge'
 
 #Map uploads
 gem 'carrierwave'
-gem 'rbzip2', :git => 'https://github.com/koraktor/rbzip2'
+gem 'rbzip2', git: 'https://github.com/koraktor/rbzip2'
 gem 'rubyzip', require: 'zip'
 
 #Logdaemon

@@ -75,7 +75,7 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     american_date (1.1.1)
     arel (8.0.0)
-    autoprefixer-rails (7.1.1)
+    autoprefixer-rails (7.1.1.2)
       execjs
     base32_pure (0.1.0)
     bcrypt (3.1.11)
@@ -305,7 +305,7 @@ GEM
     paypal-sdk-rest (1.6.0)
       multi_json (~> 1.0)
       xml-simple
-    pg (0.20.0)
+    pg (0.21.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)

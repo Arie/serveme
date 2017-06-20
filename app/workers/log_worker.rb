@@ -37,7 +37,7 @@ class LogWorker
   end
 
   def handle_message
-    action = action_by_reserver || action_for_message_said_by_anyone
+    action = action_by_reserver || action_for_message_said_by_anyone || action_for_message_said_by_lobby_player
     if action
       reservation.status_update("#{event.player.name} (#{sayer_steam_uid}): #{event.message}")
       send(action)
@@ -100,8 +100,21 @@ class LogWorker
     end
   end
 
+  def action_for_message_said_by_lobby_player
+    if lobby?
+      case message
+      when EXTEND_COMMAND
+        :handle_extend
+      end
+    end
+  end
+
   def said_by_reserver?
     event.player.steam_id == reserver_steam_id
+  end
+
+  def lobby?
+    reservation.lobby?
   end
 
   def action_by_reserver

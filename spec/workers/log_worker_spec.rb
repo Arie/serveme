@@ -7,6 +7,7 @@ describe LogWorker do
   let(:condenser)             { double.as_null_object }
   let(:reservation)           { create :reservation, :user => user, :logsecret => '1234567' }
   let(:extend_line)           { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!extend"' }
+  let(:lobby_extend_line)     { '1234567L 03/29/2014 - 13:15:53: "Lobby player<3><[U:1:1337]><Red>" say "!extend"' }
   let(:troll_line)            { '1234567L 03/29/2014 - 13:15:53: "TRoll<3><[U:0:1337]><Red>" say "!end"' }
   let(:end_line)              { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!end"' }
   let(:rcon_changelevel_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!rcon changelevel cp_badlands"' }
@@ -46,8 +47,15 @@ describe LogWorker do
 
     it "triggers extension directly and notifies the server" do
       reservation.should_receive(:extend!).and_return(true)
-      server.should_receive(:rcon_say)
+      server.should_receive(:rcon_say).with(/Extended/)
       LogWorker.perform_async(extend_line)
+    end
+
+    it "allows any player in a lobby to extend" do
+      reservation.should_receive(:extend!).and_return(true)
+      reservation.stub(:lobby? => true)
+      server.should_receive(:rcon_say).with(/Extended/)
+      LogWorker.perform_async(lobby_extend_line)
     end
 
     it "notifies when extension wasn't possible" do

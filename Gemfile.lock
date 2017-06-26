@@ -206,7 +206,7 @@ GEM
       request_store (~> 1.0)
     erubi (1.6.0)
     erubis (2.7.0)
-    et-orbi (1.0.4)
+    et-orbi (1.0.5)
       tzinfo
     eventmachine (1.2.3)
     execjs (2.7.0)
@@ -438,7 +438,7 @@ GEM
     sshkit (1.13.1)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
-    stripe (2.11.0)
+    stripe (2.12.0)
       faraday (~> 0.9)
     temple (0.8.0)
     term-ansicolor (1.6.0)
@@ -574,4 +574,4 @@ DEPENDENCIES
   zonebie
 
 BUNDLED WITH
-   1.14.5
+   1.14.6

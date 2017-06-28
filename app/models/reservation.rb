@@ -195,10 +195,6 @@ class Reservation < ActiveRecord::Base
     reservation_statuses.create!(:status => status)
   end
 
-  def enable_plugins?
-    true
-  end
-
   def status
     return "ended"            if past?
     return "ready"            if server_statistics.any?

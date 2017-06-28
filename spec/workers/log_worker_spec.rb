@@ -46,7 +46,7 @@ describe LogWorker do
 
     it "triggers extension directly and notifies the server" do
       reservation.should_receive(:extend!).and_return(true)
-      server.should_receive(:rcon_say)
+      server.should_receive(:rcon_say).with(/Extended/)
       LogWorker.perform_async(extend_line)
     end
 

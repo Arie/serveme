@@ -101,7 +101,7 @@ class LogWorker
   end
 
   def said_by_reserver?
-    event.player.steam_id == reserver_steam_id
+    sayer_steam_uid == reserver.uid.to_i
   end
 
   def action_by_reserver
@@ -113,7 +113,7 @@ class LogWorker
   end
 
   def reserver_steam_id
-    @reserver_steam_id ||= SteamCondenser::Community::SteamId.community_id_to_steam_id3(reserver.uid.to_i)
+    @reserver_steam_id ||= SteamCondenser::Community::SteamId.community_id_to_steam_id(reserver.uid.to_i)
   end
 
   def sayer_steam_uid

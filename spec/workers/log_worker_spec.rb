@@ -16,6 +16,7 @@ describe LogWorker do
   let(:cs_assault_start_line) { '1234567L 02/07/2015 - 20:39:40: Started map "cs_assault" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
   let(:de_dust2_start_line)   { '1234567L 02/07/2015 - 20:39:40: Started map "de_dust2" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
   let(:who_line)              { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!who"' }
+  let(:csgo_rcon_line)        { '1234567L 07/03/2017 - 21:38:39: "Arie - serveme.tf<3><STEAM_1:0:115851><TERRORIST>" say "!rcon say hi"' }
   subject(:logworker) { LogWorker.perform_async(line) }
 
   before do
@@ -111,6 +112,14 @@ describe LogWorker do
       LogWorker.perform_async(who_line)
     end
 
+  end
+
+  describe "csgo" do
+
+    it "understands CS:GO !rcon commands" do
+      server.should_receive(:rcon_exec).with("say hi")
+      LogWorker.perform_async(csgo_rcon_line)
+    end
   end
 
 end

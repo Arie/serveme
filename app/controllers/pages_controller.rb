@@ -42,11 +42,11 @@ class PagesController < ApplicationController
   end
 
   def not_found
-    render 'not_found', status: 404
+    render 'not_found', status: 404, formats: :html
   end
 
   def error
     Raven.capture_exception(env['action_dispatch.exception']) if Rails.env.production? && env['action_dispatch.exception']
-    render 'error', status: 500
+    render 'error', status: 500, formats: :html
   end
 end

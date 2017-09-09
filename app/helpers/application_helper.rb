@@ -18,7 +18,7 @@ module ApplicationHelper
   end
 
   ['au', 'na'].each do |subdomain|
-    define_method("#{subdomain}_system?") { SITE_URL == "http://#{subdomain}.serveme.tf" }
+    define_method("#{subdomain}_system?") { SITE_URL == "https://#{subdomain}.serveme.tf" }
   end
 
 end

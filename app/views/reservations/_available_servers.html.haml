@@ -1,10 +1,25 @@
-%h4 Servers in use
-.row
-  .col-md-6
-    %h5 Everyone
-    = "#{used_free_server_count} / #{Server.active.without_group.count}"
-    servers
-  .col-md-6
-    %h5 Premium
-    = "#{used_donator_server_count} / #{Server.for_donators.active.count}"
-    servers
+- if current_user
+  %h4
+    Servers available
+    (#{I18n.l(Time.current, :format => :time_without_seconds)} - #{I18n.l(1.hour.from_now, :format => :time_without_seconds)})
+  - available_server_count = ServerForUserFinder.new(current_user, Time.current, 1.hour.from_now).servers.size
+  .row
+    .col-md-6
+      %h5 For you
+      = "#{available_server_count} / #{Server.active.count}"
+    - if !current_user.donator?
+      .col-md-6
+        %h5 Premium
+        = "#{Server.for_donators.active.count - used_donator_server_count} / #{Server.for_donators.active.count}"
+
+- else
+  %h4 Servers in use
+  .row
+    .col-md-6
+      %h5 Everyone
+      = "#{used_free_server_count} / #{Server.active.without_group.count}"
+      servers
+    .col-md-6
+      %h5 Premium
+      = "#{used_donator_server_count} / #{Server.for_donators.active.count}"
+      servers

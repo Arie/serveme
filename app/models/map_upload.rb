@@ -82,10 +82,7 @@ class MapUpload < ActiveRecord::Base
   def bzip2_uploaded_maps
     maps_with_full_path.each do |map_with_path|
       Rails.logger.info "Bzipping #{map_with_path}"
-      target_file   = File.new("#{map_with_path}.bz2", "wb+")
-      bz2           = RBzip2.default_adapter::Compressor.new(target_file)
-      bz2.write(file.read)
-      bz2.close
+      `bzip2 -k #{map_with_path}`
     end
   end
 

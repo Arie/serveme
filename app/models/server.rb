@@ -80,7 +80,7 @@ class Server < ActiveRecord::Base
 
   def update_configuration(reservation)
     reservation.status_update("Sending reservation config files")
-    ['reservation.cfg', 'autoexec.cfg'].each do |config_file|
+    ['reservation.cfg', 'mapconfig/maps/training1.cfg'].each do |config_file|
       config_body = generate_config_file(reservation, config_file)
       write_configuration(server_config_file(config_file), config_body)
     end
@@ -267,7 +267,7 @@ class Server < ActiveRecord::Base
   end
 
   def initial_map_config_file
-    server_config_file('autoexec.cfg')
+    server_config_file('mapconfig/maps/training1.cfg')
   end
 
   def host_to_ip

@@ -4,8 +4,8 @@ sv_hibernate_when_empty "1"
 sv_hibernate_postgame_delay "5"
 sv_logsdir logfiles
 
-<% if first_map.present? && first_map != "cs_assault" %>
+<% if first_map.present? && first_map != "training1" %>
 map <%= first_map %>
 <% else %>
-map cs_assault
+map training1
 <% end %>

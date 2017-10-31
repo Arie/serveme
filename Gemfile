@@ -76,7 +76,7 @@ group :deployment do
 end
 
 group :test, :development do
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'rspec-rails'
   gem 'rspec-collection_matchers'
   gem 'rspec-activemodel-mocks'

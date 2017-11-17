@@ -30,5 +30,5 @@ end
 
 Cucumber::Rails::Database.javascript_strategy = :truncation
 
-# No need to type FactoryGirl all the time
-World(FactoryGirl::Syntax::Methods)
+# No need to type FactoryBot all the time
+World(FactoryBot::Syntax::Methods)

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
 
   factory :server, :class => "LocalServer" do
     name "CS:GO 1"

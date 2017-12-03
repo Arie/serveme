@@ -9,7 +9,7 @@ class LogWorker
   EXTEND_COMMAND    = /!extend.*/
   RCON_COMMAND      = /!rcon.*/
   TIMELEFT_COMMAND  = /!timeleft.*/
-  WHOIS_RESERVER    = /!who.*/
+  WHOIS_RESERVER    = /^!who$/
   LOG_LINE_REGEX    = '(?\'secret\'\d*)(?\'line\'.*)'
 
   def perform(raw_line)

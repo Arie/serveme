@@ -120,7 +120,7 @@ describe LogWorker do
       LogWorker.perform_async(who_line)
     end
     
-    it "should not return if there is text before or afterthe command" do
+    it "should not return if there is text before or after the command" do
       server.should_not_receive(:rcon_say)
       ReservationWorker.should_not_receive(:perform_async).with("Reservation created by: '#{reservation.user.name}'")
       LogWorker.perform_async(who_troll)

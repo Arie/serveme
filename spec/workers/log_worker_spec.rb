@@ -17,6 +17,7 @@ describe LogWorker do
   let(:de_dust2_start_line)   { '1234567L 02/07/2015 - 20:39:40: Started map "de_dust2" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
   let(:who_line)              { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!who"' }
   let(:csgo_rcon_line)        { '1234567L 07/03/2017 - 21:38:39: "Arie - serveme.tf<3><STEAM_1:0:115851><TERRORIST>" say "!rcon say hi"' }
+  let(:who_troll)             { '1234567L 03/29/2014 - 19:15:53: "BindTroll<3><[U:1:12344]><Red>" say "!who is the best"' }
   subject(:logworker) { LogWorker.perform_async(line) }
 
   before do
@@ -110,6 +111,12 @@ describe LogWorker do
     it "returns the name of the reserver for the reservation" do
       server.should_receive(:rcon_say).with("Reservation created by: '#{reservation.user.name}'")
       LogWorker.perform_async(who_line)
+    end
+
+    it "should not return if there is text before or after the command" do
+      server.should_not_receive(:rcon_say)
+      ReservationWorker.should_not_receive(:perform_async).with("Reservation created by: '#{reservation.user.name}'")
+      LogWorker.perform_async(who_troll)
     end
 
   end

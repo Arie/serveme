@@ -23,6 +23,7 @@ describe LogWorker do
   before do
     allow(Server).to receive(:find).with(anything).and_return(server)
     Rails.cache.clear
+    Reservation.should_receive(:current).at_least(:once).and_return(Reservation)
     Reservation.should_receive(:includes).at_least(:once).with(:user).and_return(Reservation)
     Reservation.should_receive(:find).at_least(:once).with(reservation.id).and_return(reservation)
     reservation.stub(:server => server)

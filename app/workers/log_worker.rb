@@ -139,7 +139,7 @@ class LogWorker
 
   def reservation
     if reservation_id
-      @reservation ||= Reservation.includes(:user).find(reservation_id)
+      @reservation ||= Reservation.current.includes(:user).find(reservation_id)
     end
   end
 

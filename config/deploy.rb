@@ -7,7 +7,7 @@ set :deploy_to,         '/var/www/serveme'
 set :copy_compression,  :gzip
 set :use_sudo,          false
 set :user,              'tf2'
-set :rvm_ruby_string,   '2.3.0'
+set :rvm_ruby_string,   '2.5.0'
 set :rvm_type,          :system
 
 set :maintenance_template_path, 'app/views/pages/maintenance.html.erb'

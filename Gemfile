@@ -52,7 +52,7 @@ gem 'american_date'
 gem 'jbuilder'
 
 gem 'ffi'
-gem 'pg'
+gem "pg", "~> 0.18"
 gem 'therubyracer'
 gem 'oily_png'
 

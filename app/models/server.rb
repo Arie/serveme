@@ -92,8 +92,12 @@ class Server < ActiveRecord::Base
     write_configuration(metamod_file, metamod_body)
   end
 
+  def add_sourcemod_admin(user)
+    write_configuration(sourcemod_admin_file, sourcemod_admin_body(user))
+  end
+
   def disable_plugins
-    delete_from_server([metamod_file])
+    delete_from_server([metamod_file, sourcemod_admin_file])
   end
 
   def metamod_file
@@ -107,6 +111,17 @@ class Server < ActiveRecord::Base
       "file"	"../tf/addons/metamod/bin/server"
     }
     VDF
+  end
+
+  def sourcemod_admin_file
+    "#{tf_dir}/addons/sourcemod/configs/admins_simple.ini"
+  end
+
+  def sourcemod_admin_body(user)
+    uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(user.uid.to_i)
+    <<-INI
+    "#{uid3}" "99:z"
+    INI
   end
 
   def write_custom_whitelist(reservation)
@@ -165,6 +180,7 @@ class Server < ActiveRecord::Base
     update_configuration(reservation)
     if reservation.enable_plugins? || reservation.enable_demos_tf?
       enable_plugins
+      add_sourcemod_admin(reservation.user)
       reservation.status_update("Enabled plugins")
       if reservation.enable_demos_tf?
         reservation.status_update("Enabling demos.tf")

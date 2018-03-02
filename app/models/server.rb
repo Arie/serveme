@@ -91,8 +91,12 @@ class Server < ActiveRecord::Base
     write_configuration(metamod_file, metamod_body)
   end
 
+  def add_sourcemod_admin(user)
+    write_configuration(sourcemod_admin_file, sourcemod_admin_body(user))
+  end
+
   def disable_plugins
-    delete_from_server([metamod_file])
+    delete_from_server([metamod_file, sourcemod_admin_file])
   end
 
   def metamod_file
@@ -106,6 +110,21 @@ class Server < ActiveRecord::Base
       "file"	"../csgo/addons/metamod/bin/server"
     }
     VDF
+  end
+
+  def sourcemod_admin_file
+    "#{game_dir}/addons/sourcemod/configs/admins_simple.ini"
+  end
+
+  def sourcemod_admin_body(user)
+    uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(user.uid.to_i)
+    <<-INI
+    "#{uid3}" "99:z"
+    INI
+  end
+
+  def write_custom_whitelist(reservation)
+    write_configuration(server_config_file("custom_whitelist_#{reservation.custom_whitelist_id}.txt"), reservation.custom_whitelist_content)
   end
 
   def generate_config_file(reservation, config_file)
@@ -159,6 +178,7 @@ class Server < ActiveRecord::Base
     update_configuration(reservation)
     enable_plugins
     reservation.status_update("Enabled plugins")
+    add_sourcemod_admin(reservation.user)
     reservation.status_update("Restarting server")
     restart
     reservation.status_update("Restarted server, waiting to boot")
@@ -260,6 +280,10 @@ class Server < ActiveRecord::Base
 
   def server_config_file(config_file)
     "#{game_dir}/cfg/#{config_file}"
+  end
+
+  def configuration_files
+    [reservation_config_file, initial_map_config_file]
   end
 
   def reservation_config_file

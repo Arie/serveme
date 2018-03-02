@@ -86,6 +86,7 @@ describe LocalServer do
       reservation = stubbed_reservation(:enable_plugins? => true)
       subject.should_receive(:restart)
       subject.should_receive(:enable_plugins)
+      subject.should_receive(:add_sourcemod_admin)
       subject.should_receive(:update_configuration).with(reservation)
       subject.start_reservation(reservation)
     end
@@ -242,18 +243,24 @@ describe LocalServer do
     before do
       @game_dir       = Rails.root.join('tmp')
       @config_file  = @game_dir.join('cfg', 'reservation.cfg').to_s
-      @map_file     = @game_dir.join('cfg', 'maps', 'training1.cfg').to_s
+      @map_file     = @game_dir.join('cfg', 'mapconfig', 'maps', 'training1.cfg').to_s
     end
-    it 'deletes the reservation.cfg if its available' do
+    it 'deletes the reservation files' do
       subject.stub(:game_dir => @game_dir)
 
       File.should_receive(:exists?).with(@config_file).and_return(true)
       File.should_receive(:delete).with(@config_file)
+
+      File.should_receive(:exists?).with(@map_file).and_return(true)
+      File.should_receive(:delete).with(@map_file)
       subject.remove_configuration
     end
 
     it 'does not explode when there is no reservation.cfg' do
       subject.stub(:game_dir => @game_dir)
+
+      File.should_receive(:exists?).with(@map_file).and_return(false)
+      File.should_not_receive(:delete).with(@map_file)
 
       File.should_receive(:exists?).with(@config_file).and_return(false)
       File.should_not_receive(:delete).with(@config_file)
@@ -367,7 +374,7 @@ describe LocalServer do
   end
 
   def stubbed_reservation(stubs = {})
-    reservation = double(:reservation, :status_update => true, :enable_plugins? => false)
+    reservation = double(:reservation, :status_update => true, :enable_plugins? => false, :user => build(:user, uid: "76561197960497430"))
     stubs.each do |k, v|
       reservation.stub(k) { v }
     end

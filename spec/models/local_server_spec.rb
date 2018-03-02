@@ -86,6 +86,7 @@ describe LocalServer do
       reservation = stubbed_reservation(:enable_plugins? => true)
       subject.should_receive(:restart)
       subject.should_receive(:enable_plugins)
+      subject.should_receive(:add_sourcemod_admin)
       subject.should_receive(:update_configuration).with(reservation)
       subject.start_reservation(reservation)
     end
@@ -393,7 +394,7 @@ describe LocalServer do
   end
 
   def stubbed_reservation(stubs = {})
-    reservation = double(:reservation, :status_update => true, :enable_plugins? => false, :enable_demos_tf? => false)
+    reservation = double(:reservation, :status_update => true, :enable_plugins? => false, :enable_demos_tf? => false, :user => build(:user))
     stubs.each do |k, v|
       reservation.stub(k) { v }
     end

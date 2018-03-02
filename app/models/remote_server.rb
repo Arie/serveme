@@ -25,10 +25,6 @@ class RemoteServer < Server
     delete_from_server(logs_and_demos)
   end
 
-  def configuration_files
-    [reservation_config_file, initial_map_config_file]
-  end
-
   def log_copier_class
     RemoteLogCopier
   end

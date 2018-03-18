@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module ReservationServerInformation
   def server_name
-    "#{server.name} (##{id})"
+    "#{SITE_HOST} (##{id})"
   end
 
   def connect_string

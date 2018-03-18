@@ -39,7 +39,7 @@
                 = link_to played_in_path do
                   %i.fa.fa-child
                   Reservations you played in
-              - if current_user && current_user.admin?
+              - if current_user && (current_user.admin? || current_user.streamer?)
                 %li
                   = link_to recent_reservations_path do
                     %i.fa.fa-clock-o

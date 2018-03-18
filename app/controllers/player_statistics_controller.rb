@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 class PlayerStatisticsController < ApplicationController
 
+  before_action :require_admin
+
   def index
     @player_statistics = paginate(player_statistics)
   end

@@ -74,7 +74,7 @@ describe Reservation do
     it "has the nickname in it" do
       subject.stub(:server).and_return(mock_model(Server, :name => "Server Name"))
       subject.stub(:id).and_return(1337)
-      subject.server_name.should eql 'Server Name (#1337)'
+      subject.server_name.should eql "#{SITE_HOST} (#1337)"
     end
 
   end

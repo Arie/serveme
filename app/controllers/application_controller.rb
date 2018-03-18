@@ -82,6 +82,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def require_admin_or_streamer
+    unless current_admin || current_streamer
+      redirect_to root_path
+    end
+  end
+
   def require_donator
     unless current_user && current_user.donator?
       flash[:alert] = "Only donators can do that..."

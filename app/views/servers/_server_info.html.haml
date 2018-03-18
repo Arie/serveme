@@ -3,11 +3,14 @@
 - admin = !!current_admin
 %tr
   %td
-    = link_to show_server_player_statistic_path(server_id: server.id) do
-      - if reservation
-        = "#{server.name} (#{reservation.id})".html_safe
-      - else
-        = server.name.html_safe
+    - if admin
+      = link_to show_server_player_statistic_path(server_id: server.id) do
+        - if reservation
+          = "#{server.name} (#{reservation.id})".html_safe
+        - else
+          = server.name.html_safe
+    - else
+      = server.name.html_safe
 
   - if statistic
     %td= statistic.map_name

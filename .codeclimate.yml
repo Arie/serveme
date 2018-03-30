@@ -1,2 +1,8 @@
 exclude_patterns:
 - "app/assets/javascripts/*.js"
+- "tests/"
+- "spec/"
+- "features/"
+- "config/"
+- "db/"
+- "**/vendor/"

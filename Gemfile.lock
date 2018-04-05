@@ -6,7 +6,7 @@ GIT
 
 GIT
   remote: https://github.com/Arie/omniauth-steam
-  revision: 0a1766ca54fc6305fb38f8cdfdb4a9d70368630a
+  revision: 29f09e7aa5b5d6b796a2c7aed8760eb2854788f6
   specs:
     omniauth-steam (1.0.5)
       multi_json

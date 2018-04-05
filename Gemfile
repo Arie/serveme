@@ -6,7 +6,7 @@ gem 'haml'
 gem 'puma'
 gem 'omniauth-openid'
 gem 'hashie'
-gem 'omniauth-steam'
+gem 'omniauth-steam', git: "https://github.com/Arie/omniauth-steam"
 gem 'devise'
 gem 'steam-condenser', git: 'https://github.com/koraktor/steam-condenser-ruby'
 gem 'logs_tf'

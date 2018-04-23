@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 
-gem 'rails', "~> 5.1.0"
+gem 'rails', "~> 5.2.0"
 gem 'sprockets'
 gem 'haml'
 gem 'puma'
 gem 'omniauth-openid'
 gem 'hashie'
-gem 'omniauth-steam', git: "https://github.com/Arie/omniauth-steam"
+gem 'omniauth-steam', git: "https://github.com/reu/omniauth-steam.git"
 gem 'devise'
 gem 'steam-condenser', git: 'https://github.com/koraktor/steam-condenser-ruby'
 gem 'logs_tf'
@@ -105,7 +105,7 @@ group :test do
 
   #cucumber
   gem 'cucumber'
-  gem 'cucumber-rails', require: false
+  gem 'cucumber-rails', require: false, git: 'https://github.com/cucumber/cucumber-rails.git'
   gem 'database_cleaner'
   gem 'launchy'
   gem 'capybara'

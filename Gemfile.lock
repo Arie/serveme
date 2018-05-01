@@ -23,7 +23,7 @@ GIT
 
 GIT
   remote: https://github.com/koraktor/rbzip2
-  revision: 58b9cd53ad3674d6ece78d7557dcdcd59e84f3cb
+  revision: f9544ca605ff5ab602192d1dca821f4414a382ef
   specs:
     rbzip2 (0.3.0)
 
@@ -97,7 +97,7 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     american_date (1.1.1)
     arel (9.0.0)
-    autoprefixer-rails (8.3.0)
+    autoprefixer-rails (8.4.1)
       execjs
     backports (3.11.3)
     base32_pure (0.1.0)
@@ -140,7 +140,7 @@ GEM
       capistrano-bundler
       puma (~> 3.4)
     capistrano_colors (0.5.5)
-    capybara (3.0.2)
+    capybara (3.0.3)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -174,7 +174,7 @@ GEM
       sass (>= 3.3.0, < 3.5)
     compass-import-once (1.0.5)
       sass (>= 3.2, < 3.5)
-    compass-rails (3.0.2)
+    compass-rails (3.1.0)
       compass (~> 1.0.0)
       sass-rails (< 5.1)
       sprockets (< 4.0)
@@ -230,7 +230,7 @@ GEM
     erubi (1.7.1)
     et-orbi (1.1.0)
       tzinfo
-    eventmachine (1.2.5)
+    eventmachine (1.2.6)
     execjs (2.7.0)
     factory_bot (4.8.2)
       activesupport (>= 3.0.0)
@@ -340,7 +340,7 @@ GEM
       pry (>= 0.9.10, < 0.11.0)
     public_suffix (3.0.2)
     puma (3.11.4)
-    rack (2.0.4)
+    rack (2.0.5)
     rack-attack (5.2.0)
       rack
     rack-cache (1.7.1)
@@ -435,7 +435,7 @@ GEM
       bundler
       ffi (~> 1.9.6)
       sass (>= 3.3.0)
-    sentry-raven (2.7.2)
+    sentry-raven (2.7.3)
       faraday (>= 0.7.6, < 1.0)
     shoulda-matchers (3.1.2)
       activesupport (>= 4.0.0)
@@ -491,7 +491,7 @@ GEM
     vcr (4.0.0)
     warden (1.2.7)
       rack (>= 1.0)
-    webmock (3.3.0)
+    webmock (3.4.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff

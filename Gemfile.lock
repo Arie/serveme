@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: https://github.com/cucumber/cucumber-rails.git
-  revision: 574c56d24c7736b80fb8f64d2cbe1a1f5556953e
+  revision: 4e072c30fe18ac43a25146092870d8a054dc7265
   specs:
     cucumber-rails (1.6.0)
       capybara (>= 1.1.2, < 4)
@@ -101,7 +101,7 @@ GEM
       execjs
     backports (3.11.3)
     base32_pure (0.1.0)
-    bcrypt (3.1.11)
+    bcrypt (3.1.12)
     better_errors (2.4.0)
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
@@ -242,6 +242,9 @@ GEM
     ffi (1.9.23)
     font-awesome-rails (4.7.0.4)
       railties (>= 3.2, < 6.0)
+    fugit (1.1.1)
+      et-orbi (~> 1.1, >= 1.1.1)
+      raabro (~> 1.1)
     fuubar (2.3.1)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
@@ -340,6 +343,7 @@ GEM
       pry (>= 0.9.10, < 0.11.0)
     public_suffix (3.0.2)
     puma (3.11.4)
+    raabro (1.1.5)
     rack (2.0.5)
     rack-attack (5.2.0)
       rack
@@ -421,8 +425,8 @@ GEM
     ruby-openid (2.7.0)
     ruby-progressbar (1.9.0)
     rubyzip (1.2.1)
-    rufus-scheduler (3.4.2)
-      et-orbi (~> 1.0)
+    rufus-scheduler (3.5.0)
+      fugit (~> 1.1, >= 1.1.1)
     safe_yaml (1.0.4)
     sass (3.4.25)
     sass-rails (5.0.7)

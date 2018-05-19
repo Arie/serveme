@@ -242,9 +242,6 @@ GEM
     ffi (1.9.23)
     font-awesome-rails (4.7.0.4)
       railties (>= 3.2, < 6.0)
-    fugit (1.1.1)
-      et-orbi (~> 1.1, >= 1.1.1)
-      raabro (~> 1.1)
     fuubar (2.3.1)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
@@ -343,7 +340,6 @@ GEM
       pry (>= 0.9.10, < 0.11.0)
     public_suffix (3.0.2)
     puma (3.11.4)
-    raabro (1.1.5)
     rack (2.0.5)
     rack-attack (5.2.0)
       rack
@@ -425,8 +421,8 @@ GEM
     ruby-openid (2.7.0)
     ruby-progressbar (1.9.0)
     rubyzip (1.2.1)
-    rufus-scheduler (3.5.0)
-      fugit (~> 1.1, >= 1.1.1)
+    rufus-scheduler (3.4.2)
+      et-orbi (~> 1.0)
     safe_yaml (1.0.4)
     sass (3.4.25)
     sass-rails (5.0.7)
@@ -586,6 +582,7 @@ DEPENDENCIES
   rspec-collection_matchers
   rspec-rails
   rubyzip
+  rufus-scheduler (~> 3.4.2)
   sass
   sass-rails
   sassc

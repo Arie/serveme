@@ -4,11 +4,12 @@ if Rails.env.test?
   )
 else
   Geocoder.configure(
-    lookup:           :test,
-    ip_lookup:        :maxmind_local,
-    maxmind_local: {file: Rails.root.join('doc', 'GeoLiteCity.dat') },
-    units:            :km,
-    cache:            Rails.cache,
+    ip_lookup: :geoip2,
+    cache: Rails.cache,
+    geoip2: {
+      lib: 'hive_geoip2',
+      file: File.join(Rails.root, 'doc', 'GeoLite2-City.mmdb')
+    }
   )
 end
 Geocoder::Lookup::Test.set_default_stub(

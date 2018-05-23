@@ -246,7 +246,6 @@ GEM
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
     geocoder (1.4.8)
-    geoip (1.6.4)
     gherkin (5.0.0)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
@@ -255,6 +254,7 @@ GEM
       tilt
     hashdiff (0.3.7)
     hashie (3.5.7)
+    hive_geoip2 (0.1.2)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (1.0.1)
@@ -550,10 +550,10 @@ DEPENDENCIES
   font-awesome-rails
   fuubar
   geocoder
-  geoip
   google_visualr!
   haml
   hashie
+  hive_geoip2
   jbuilder
   jquery-rails
   json_expressions

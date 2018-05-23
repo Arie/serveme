@@ -38,7 +38,7 @@ gem 'stripe'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'rufus-scheduler', '~> 3.4.2'
-gem 'geoip'
+gem 'hive_geoip2'
 gem 'geocoder'
 gem 'rbtrace'
 

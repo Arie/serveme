@@ -38,7 +38,6 @@ gem 'stripe'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'rufus-scheduler', '~> 3.4.2'
-gem 'hive_geoip2'
 gem 'geocoder'
 gem 'rbtrace'
 
@@ -90,6 +89,10 @@ group :test_tools do
   gem 'fuubar'
 end
 
+group :development, :production do
+  gem 'hive_geoip2'
+end
+
 group :production do
   gem "sentry-raven"
 end
@@ -110,6 +113,7 @@ group :test do
   gem 'database_cleaner'
   gem 'launchy'
   gem 'capybara'
+  gem 'maxminddb'
 end
 
 gem 'uglifier'

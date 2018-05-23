@@ -7,12 +7,19 @@ rvm:
 addons:
   postgresql: "9.3"
 before_script:
+  - git submodule update --init --recursive
+  - git clone --recursive git://github.com/maxmind/libmaxminddb
+  - cd libmaxminddb
+  - ./bootstrap
+  - ./configure
+  - make
+  - sudo make install
+  - sudo ldconfig
   - psql -c 'create database serveme_test;' -U postgres
   - cp config/database.yml.travis config/database.yml
   - mkdir tmp/cache
   - mkdir public/uploads
 script: ./script/ci
-sudo: false
 services:
   - memcached
   - redis-server

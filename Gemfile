@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 
-gem 'rails', "~> 5.1.0"
+gem 'rails', "~> 5.2.0"
 gem 'sprockets'
 gem 'haml'
 gem 'puma'
 gem 'omniauth-openid'
 gem 'hashie'
-gem 'omniauth-steam', git: 'https://github.com/Arie/omniauth-steam'
+gem 'omniauth-steam', git: "https://github.com/reu/omniauth-steam.git"
 gem 'devise'
 gem 'steam-condenser', git: 'https://github.com/koraktor/steam-condenser-ruby'
 gem 'base32_pure'
@@ -36,7 +36,7 @@ gem 'paypal-sdk-rest'
 gem 'stripe'
 gem 'sidekiq'
 gem 'sidekiq-cron'
-gem 'geoip'
+gem 'rufus-scheduler', '~> 3.4.2'
 gem 'geocoder'
 gem 'rbtrace'
 
@@ -51,7 +51,7 @@ gem 'american_date'
 gem 'jbuilder'
 
 gem 'ffi'
-gem 'pg'
+gem "pg"
 gem 'therubyracer'
 gem 'oily_png'
 
@@ -88,6 +88,10 @@ group :test_tools do
   gem 'fuubar'
 end
 
+group :development, :production do
+  gem 'hive_geoip2'
+end
+
 group :production do
   gem "sentry-raven"
 end
@@ -104,15 +108,17 @@ group :test do
 
   #cucumber
   gem 'cucumber'
-  gem 'cucumber-rails', require: false
+  gem 'cucumber-rails', require: false, git: 'https://github.com/cucumber/cucumber-rails.git'
   gem 'database_cleaner'
   gem 'launchy'
   gem 'capybara'
+  gem 'maxminddb'
 end
 
 gem 'uglifier'
 gem 'jquery-rails'
-gem 'compass-rails'
+gem 'compass', '> 1.0'
+gem 'compass-rails', '>= 2.0.0'
 gem 'sass'
 gem 'sass-rails'
 gem 'sassc'

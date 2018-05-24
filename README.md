@@ -1,5 +1,5 @@
 # [FakkelBrigade server reservations](http://serveme.tf)
-[![Build Status](https://secure.travis-ci.org/Arie/serveme.png)](http://travis-ci.org/Arie/serveme) [![Dependency Status](https://gemnasium.com/Arie/serveme.png)](https://gemnasium.com/Arie/serveme) [![Code Climate](https://codeclimate.com/github/Arie/serveme.png)](https://codeclimate.com/github/Arie/serveme) [![Coverage Status](https://coveralls.io/repos/Arie/serveme/badge.png?branch=master)](https://coveralls.io/r/Arie/serveme)
+[![Build Status](https://secure.travis-ci.org/Arie/serveme.png)](http://travis-ci.org/Arie/serveme) [![Code Climate](https://codeclimate.com/github/Arie/serveme.png)](https://codeclimate.com/github/Arie/serveme) [![Coverage Status](https://coveralls.io/repos/Arie/serveme/badge.png?branch=master)](https://coveralls.io/r/Arie/serveme)
 
 A web-interface to reserve CS:GO gameservers
 
@@ -44,7 +44,7 @@ SshServer.create(:name => "Name",
                  :path => "/absolute/path/on/file/system")
 ```
 
-The user running the web application needs to be able to ssh to the remote server, you should use passwordless key-based authorization for this, add an entry in ~/.ssh/config for each remote machine. 
+The user running the web application needs to be able to ssh to the remote server, you should use passwordless key-based authorization for this, add an entry in ~/.ssh/config for each remote machine.
 ```
 Host server_ip_or_hostname
   Hostname server_ip_or_hostname

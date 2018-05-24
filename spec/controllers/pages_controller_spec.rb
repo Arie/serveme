@@ -5,6 +5,7 @@ describe PagesController do
   before do
     @user         = create :user
     @user.groups << Group.donator_group
+    @user.groups << Group.admin_group
     sign_in @user
   end
 

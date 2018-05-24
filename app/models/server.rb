@@ -286,6 +286,10 @@ class Server < ActiveRecord::Base
     [reservation_config_file, initial_map_config_file]
   end
 
+  def configuration_files
+    [reservation_config_file, initial_map_config_file]
+  end
+
   def reservation_config_file
     server_config_file('reservation.cfg')
   end

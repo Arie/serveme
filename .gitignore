@@ -10,7 +10,7 @@ capybara-*.html
 /vendor/bundle
 /log/*
 /tmp/*
-/doc/GeoLiteCity.dat
+/doc/GeoLite2-City.mmdb
 /db/*.sqlite3
 /public/system/*
 /public/uploads/*

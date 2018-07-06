@@ -258,6 +258,8 @@ describe LocalServer do
       @tf_dir       = Rails.root.join('tmp')
       @config_file  = @tf_dir.join('cfg', 'reservation.cfg').to_s
       @map_file     = @tf_dir.join('cfg', 'ctf_turbine.cfg').to_s
+      @ban_id_file  = @tf_dir.join('cfg', 'banned_user.cfg').to_s
+      @ban_ip_file  = @tf_dir.join('cfg', 'banned_ip.cfg').to_s
     end
     it 'deletes the reservation.cfg if its available' do
       subject.stub(:tf_dir => @tf_dir)
@@ -266,6 +268,10 @@ describe LocalServer do
       File.should_receive(:delete).with(@config_file)
       File.should_receive(:exists?).with(@map_file).and_return(true)
       File.should_receive(:delete).with(@map_file)
+      File.should_receive(:exists?).with(@ban_id_file).and_return(true)
+      File.should_receive(:delete).with(@ban_id_file)
+      File.should_receive(:exists?).with(@ban_ip_file).and_return(true)
+      File.should_receive(:delete).with(@ban_ip_file)
       subject.remove_configuration
     end
 
@@ -276,6 +282,10 @@ describe LocalServer do
       File.should_not_receive(:delete).with(@config_file)
       File.should_receive(:exists?).with(@map_file).and_return(false)
       File.should_not_receive(:delete).with(@map_file)
+      File.should_receive(:exists?).with(@ban_id_file).and_return(false)
+      File.should_not_receive(:delete).with(@ban_id_file)
+      File.should_receive(:exists?).with(@ban_ip_file).and_return(false)
+      File.should_not_receive(:delete).with(@ban_ip_file)
       subject.remove_configuration
     end
   end

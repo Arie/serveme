@@ -8,19 +8,26 @@ A web-interface to reserve TF2 gameservers
 * Ruby, preferbly 2.2, but other versions might work. You should use [ruby-build](https://github.com/sstephenson/ruby-build/) to install Ruby.
 * A Steam API key for user sign in
 * Memcached
+* Redis
+
+### Server Requirements
 * A Source game dedicated server installation, only tested with TF2 on linux for now.
 * Gameserver started with `-port PORTNUMBER -autoupdate` in the startup line
 
-## Installation
+## Running localy
 1. Make sure you've installed the requirements.
 2. Review the yaml files in the `config` directory.
-3. Enter your Steam API key in config/initializers/steam.rb: `STEAM_WEB_API_KEY = your_api_key_here`
-4. Install the required gems using bundler: `gem install bundler && bundle`
-5. Edit the seed data in db/seeds.rb
-6. Change the value of variable `chdir` in config/thin.yml to the path to your app: `chdir: /path/to/the/application`
-7. Setup and migrate the databases: rake db:create db:migrate db:seed RAILS_ENV=production
-8. Start the webserver: `rails s`
-9. Add `exec reservation.cfg` to the server.cfg of the gameserver
+3. Get a steam api key https://steamcommunity.com/dev/apikey
+4. Create a new file at `config/initializers/steam.rb` with the folowing: 
+```ruby
+STEAM_WEB_API_KEY = '<your_api_key_here>'
+```
+5. Install required librarys for nokogiri [(doc can be found here)](http://www.nokogiri.org/tutorials/installing_nokogiri.html#install_with_included_libraries__recommended_)
+6. Install the required gems using bundler: `gem install bundler && bundle` Hint you may need to install some header files for  for 
+7. Edit the seed data in db/seeds.rb i.e the servers list
+9. Setup and migrate the databases: rake db:create db:migrate db:seed RAILS_ENV=development
+10. Start the webserver: `rails s`
+11. Add `exec reservation.cfg` to the server.cfg of the gameserver
 
 
 ## Servers

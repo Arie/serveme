@@ -242,9 +242,6 @@ GEM
     ffi (1.9.25)
     font-awesome-rails (4.7.0.4)
       railties (>= 3.2, < 6.0)
-    fugit (1.1.3)
-      et-orbi (~> 1.1, >= 1.1.1)
-      raabro (~> 1.1)
     fuubar (2.3.1)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
@@ -289,7 +286,7 @@ GEM
       mini_mime (>= 0.1.1)
     marcel (0.3.2)
       mimemagic (~> 0.3.2)
-    maxminddb (0.1.20)
+    maxminddb (0.1.19)
     mechanize (2.7.6)
       domain_name (~> 0.5, >= 0.5.1)
       http-cookie (~> 1.0)
@@ -345,7 +342,6 @@ GEM
       pry (>= 0.9.10, < 0.11.0)
     public_suffix (3.0.2)
     puma (3.11.4)
-    raabro (1.1.6)
     rack (2.0.5)
     rack-attack (5.4.0)
       rack (>= 1.0, < 3)
@@ -427,8 +423,8 @@ GEM
     ruby-openid (2.7.0)
     ruby-progressbar (1.9.0)
     rubyzip (1.2.1)
-    rufus-scheduler (3.5.0)
-      fugit (~> 1.1, >= 1.1.1)
+    rufus-scheduler (3.4.2)
+      et-orbi (~> 1.0)
     safe_yaml (1.0.4)
     sass (3.4.25)
     sass-rails (5.0.7)
@@ -449,8 +445,8 @@ GEM
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
       redis (>= 3.3.5, < 5)
-    sidekiq-cron (1.0.0)
-      fugit (~> 1.1)
+    sidekiq-cron (0.6.3)
+      rufus-scheduler (>= 3.3.0)
       sidekiq (>= 4.2.1)
     simple_form (4.0.1)
       actionpack (>= 5.0)
@@ -468,7 +464,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sshkit (1.17.0)
+    sshkit (1.16.1)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     stripe (3.17.0)
@@ -485,7 +481,7 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.8)
     tins (1.16.3)
-    trollop (2.1.3)
+    trollop (2.1.2)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     uglifier (4.1.14)
@@ -588,7 +584,7 @@ DEPENDENCIES
   rspec-collection_matchers
   rspec-rails
   rubyzip
-  rufus-scheduler
+  rufus-scheduler (~> 3.4.2)
   sass
   sass-rails
   sassc

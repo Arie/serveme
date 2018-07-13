@@ -584,7 +584,7 @@ DEPENDENCIES
   rspec-collection_matchers
   rspec-rails
   rubyzip
-  rufus-scheduler (~> 3.4.2)
+  rufus-scheduler (= 3.4.2)
   sass
   sass-rails
   sassc

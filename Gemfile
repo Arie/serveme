@@ -37,7 +37,7 @@ gem 'paypal-sdk-rest'
 gem 'stripe'
 gem 'sidekiq'
 gem 'sidekiq-cron'
-gem 'rufus-scheduler'
+gem 'rufus-scheduler', '~> 3.4.2'
 gem 'geocoder'
 gem 'rbtrace'
 

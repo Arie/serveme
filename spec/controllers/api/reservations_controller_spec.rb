@@ -6,7 +6,7 @@ describe Api::ReservationsController do
 
   before do
     @user = create :user
-    controller.stub(:current_user => @user)
+    controller.stub(:api_user => @user)
   end
 
   describe "#new" do
@@ -192,7 +192,7 @@ describe Api::ReservationsController do
     end
 
     it "returns user's reservations for users" do
-      _reservation = create :reservation, :inactive_minute_counter => 20, :user => @user
+      _reservation = create :reservation, :inactive_minute_counter => 20, :user => @api_user
       _other_reservation = create :reservation, :inactive_minute_counter => 20, :user => create(:user)
       get :index, params: { limit: 10, offset: 0 }, format: :json
 

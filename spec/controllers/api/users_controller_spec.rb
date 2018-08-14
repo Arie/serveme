@@ -6,7 +6,7 @@ describe Api::UsersController do
 
   before do
     @user = create :user, :uid => 12345, :nickname => "the-nickname", :name => "the-name"
-    controller.stub(:current_user => @user)
+    controller.stub(:api_user => @user)
   end
 
   describe "#show" do

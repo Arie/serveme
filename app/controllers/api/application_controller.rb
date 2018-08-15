@@ -36,12 +36,12 @@ class Api::ApplicationController < ActionController::Base
   private
 
   def authenticate_params
-    User.find_by_api_key(params[:api_key]) if params[:api_key]
+    User.find_by(api_key: params[:api_key]) if params[:api_key]
   end
 
   def authenticate_token
     authenticate_with_http_token do |token, options|
-      User.find_by_api_key(token)
+      User.find_by(api_key: token)
     end
   end
 

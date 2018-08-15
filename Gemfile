@@ -82,6 +82,7 @@ group :test, :development do
   gem 'rspec-activemodel-mocks'
   gem 'pry-nav'
   gem 'zonebie'
+  gem 'parallel_tests'
 end
 
 group :test_tools do

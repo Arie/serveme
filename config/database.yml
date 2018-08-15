@@ -16,7 +16,7 @@ development:
 # Do not set this db to the same as development or production.
 test: &test
   adapter: postgresql
-  database: serveme_test
+  database: serveme_test<%= ENV['TEST_ENV_NUMBER'] %>
   username: serveme
   encoding: unicode
   pool: 5

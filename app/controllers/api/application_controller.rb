@@ -6,6 +6,7 @@ class Api::ApplicationController < ActionController::Base
   rescue_from ActionController::ParameterMissing, :with => :handle_unprocessable_entity
 
   before_action :verify_api_key
+  before_action :set_default_response_format
 
   def verify_api_key
     api_user
@@ -47,5 +48,9 @@ class Api::ApplicationController < ActionController::Base
   def unauthorized
     head :unauthorized
     nil
+  end
+
+  def set_default_response_format
+    request.format = :json
   end
 end

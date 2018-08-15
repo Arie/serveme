@@ -46,5 +46,6 @@ class Api::ApplicationController < ActionController::Base
 
   def unauthorized
     head :unauthorized
+    nil
   end
 end

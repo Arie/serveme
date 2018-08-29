@@ -99,10 +99,10 @@ GEM
     arel (9.0.0)
     autoprefixer-rails (9.1.3)
       execjs
-    backports (3.11.3)
+    backports (3.11.4)
     base32_pure (0.1.0)
     bcrypt (3.1.12)
-    better_errors (2.4.0)
+    better_errors (2.5.0)
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
@@ -228,7 +228,7 @@ GEM
       activesupport (~> 5.0)
       request_store (~> 1.0)
     erubi (1.7.1)
-    et-orbi (1.1.4)
+    et-orbi (1.1.5)
       tzinfo
     eventmachine (1.2.7)
     execjs (2.7.0)
@@ -336,7 +336,7 @@ GEM
     paypal-sdk-rest (1.7.2)
       multi_json (~> 1.0)
       xml-simple
-    pg (1.0.0)
+    pg (1.1.2)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -469,7 +469,7 @@ GEM
     sshkit (1.17.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
-    stripe (3.22.0)
+    stripe (3.25.0)
       faraday (~> 0.10)
     temple (0.8.0)
     term-ansicolor (1.6.0)
@@ -483,7 +483,7 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.8)
     tins (1.16.3)
-    trollop (2.1.3)
+    trollop (2.9.9)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     uglifier (4.1.18)
@@ -609,4 +609,4 @@ DEPENDENCIES
   zonebie
 
 BUNDLED WITH
-   1.16.3
+   1.16.4

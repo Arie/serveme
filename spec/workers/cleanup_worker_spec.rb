@@ -6,6 +6,8 @@ describe CleanupWorker do
   let!(:old_player_statistic)    { create :player_statistic, created_at: 40.days.ago }
   let!(:old_server_statistic)    { create :server_statistic, created_at: 40.days.ago }
   let!(:young_reservation)       { create :reservation, :starts_at => Time.current }
+  let!(:young_user)              { create :user, :api_key => nil, created_at: 1.day.ago }
+  let!(:old_user)                { create :user, :api_key => nil, created_at: 8.days.ago }
 
 
   before do
@@ -31,6 +33,13 @@ describe CleanupWorker do
 
     PlayerStatistic.count.should == 0
     ServerStatistic.count.should == 0
+  end
+
+  it "gives API keys to week old users" do
+    described_class.perform_async
+
+    expect(old_user.reload.api_key).to be_present
+    expect(young_user.reload.api_key).not_to be_present
   end
 end
 

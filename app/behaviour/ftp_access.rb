@@ -51,7 +51,7 @@ module FtpAccess
         end
       end
     end
-    threads.map { |t| t.join(30) }
+    threads.map { |t| t.join(60) }
   end
 
   def delete_from_server(files)

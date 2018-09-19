@@ -59,7 +59,7 @@ Host server_ip_or_hostname
 There's a simple JSON API to create and stop reservations. It typically returns a prefilled JSON response, which you can edit and send to one of the URLs listed in the "actions".
 
 ### Authentication
-All requests should have the API key as the HTTP parameter api_key. Donators can find the API key in their settings page, or you can contact me to get yours.
+All requests should have the API key as the HTTP request parameter api_key or as a request header `Authorization: Token token=api-token-here`. Donators can find the API key in their settings page, or you can contact me to get yours.
 
 ### Step 1
 ```shell

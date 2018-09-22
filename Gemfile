@@ -119,8 +119,6 @@ end
 
 gem 'uglifier'
 gem 'jquery-rails'
-gem 'compass', '> 1.0'
-gem 'compass-rails', '>= 2.0.0'
 gem 'sass'
 gem 'sass-rails'
 gem 'sassc'

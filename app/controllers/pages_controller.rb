@@ -33,15 +33,6 @@ class PagesController < ApplicationController
   def private_servers
   end
 
-  def switch_theme
-    cookies.permanent[:theme] = if white_theme?
-                                  'black'
-                                else
-                                  'white'
-                                end
-    redirect_to root_path
-  end
-
   def not_found
     render 'not_found', status: 404, formats: :html
   end

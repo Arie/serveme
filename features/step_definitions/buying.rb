@@ -31,7 +31,7 @@ end
 When "I buy 1 month worth of donator status for someone else" do
   step "I go to donate"
   select "1 month - 1 EUR"
-  choose "For someone else"
+  choose "Gift, give me a sharable premium code"
   step "I click the buy button"
 end
 

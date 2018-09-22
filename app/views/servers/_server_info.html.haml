@@ -19,14 +19,14 @@
     %td= statistic.cpu_usage
     %td= statistic.traffic_in
     %td= statistic.traffic_out
-    %td
+    %td.actions
       = "#{server.inactive_minutes} minutes"
       - if admin && reservation
         = render "reservations/actions", reservation: reservation
   - else
     - if reservation
       %td{colspan: 6} N/A
-      %td
+      %td.actions
         - if admin
           = render "reservations/actions", reservation: reservation
     - else

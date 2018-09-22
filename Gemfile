@@ -53,7 +53,7 @@ gem 'jbuilder'
 
 gem 'ffi'
 gem "pg"
-gem 'therubyracer'
+gem 'mini_racer'
 gem 'oily_png'
 
 
@@ -122,9 +122,9 @@ gem 'jquery-rails'
 gem 'sass'
 gem 'sass-rails'
 gem 'sassc'
-gem 'bootstrap-sass'
+gem 'bootstrap', '~> 4.1.3'
+gem 'will_paginate-bootstrap4'
 gem 'simple_form'
-gem 'will_paginate-bootstrap'
 gem 'execjs'
 gem 'font-awesome-rails'
 gem 'coffee-rails'

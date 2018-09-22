@@ -4,7 +4,7 @@
 
 .row
   .col-md-10
-    = will_paginate @donators, :renderer => BootstrapPagination::Rails
+    = will_paginate @donators
   .col-md-2
     = link_to("Add donator", new_donator_path)
 

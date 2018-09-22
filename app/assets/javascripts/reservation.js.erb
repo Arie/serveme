@@ -1,6 +1,6 @@
 var free_servers;
 
-jQuery(function($) {
+$(document).ready(function() {
 
   function formatServer(server) {
     return "<span class='flags flags-" + server.flag + "'></span>" + server.text;
@@ -104,13 +104,11 @@ jQuery(function($) {
   };
 
   function enableSpinner(field) {
-    $("." + field + " label").prepend("<i class='fa fa-spinner fa-spin " + field + "_spinner' '></i>");
-    $("#" + field).select2("enable", false);
+    $("." + field + ' .icon-spinner').show();
   };
 
   function disableSpinner(field) {
-    $("." + field + '_spinner').remove();
-    $("#" + field).select2("enable", true);
+    $("." + field + ' .icon-spinner').hide();
   };
 
   $("#reservation_enable_demos_tf").change(function(event) {
@@ -164,7 +162,7 @@ jQuery(function($) {
     starts = ele.data('next-start');
     ends   = ele.data('next-end');
     server_id  = ele.data('server-id');
-    $('html body').animate({
+    $('html, body').animate({
       scrollTop: startsAt().offset().top
       }, {
         duration: 100,
@@ -180,7 +178,7 @@ jQuery(function($) {
   $(".server_name").click(function(event) {
     ele = $(event.target);
     server_id  = ele.data('server-id');
-    $('html body').animate({
+    $('html, body').animate({
       scrollTop: serverId().offset().top
       }, {
         duration: 100,
@@ -224,7 +222,6 @@ jQuery(function($) {
       };
     };
   };
-
 
   loadServers();
 

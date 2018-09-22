@@ -1,122 +1,104 @@
-.navbar.navbar-inverse{:role => "navigation"}
-  %ul.nav.navbar-nav.navbar-left.octocat
-    = link_to "http://github.com/Arie/serveme", :title => "Fork me on GitHub"  do
-      = image_tag "octocat.png", :alt => "Fork me on GitHub", :class => "octocat"
-  %ul.nav.navbar-nav.navbar-left.twitter
-    = link_to "https://twitter.com/servemetf", :title => "serveme.tf on twitter"  do
-      %i.fa.fa-twitter.fa-2x
-  .container
-    .navbar-header
-      %ul.nav.navbar-nav
-        %li.dropdown
-          %a.navbar-brand.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#"}
-            %i.fa.fa-globe
+%nav.navbar.navbar-expand-xl.navbar-dark.bg-primary
+  .navbar-brand{href: "#"}
+    %ul.nav.navbar-nav
+      %li.dropdown
+        = link_to(SITE_HOST, root_url)
+        %a.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#"}
+        .dropdown-menu#serveme_links
+          = link_to('http://serveme.tf', class: "dropdown-item") do
+            %span{:class => ["flags", "flags-eu"]}
+            serveme.tf (Europe)
+          = link_to('http://na.serveme.tf', class: "dropdown-item") do
+            %span{:class => ["flags", "flags-us"]}
+            na.serveme.tf (North-America)
+
+  %button.navbar-toggler{type: "button", data: { toggle: "collapse", target: "#serveme-navbar" }}
+    %span.navbar-toggler-icon
+
+  #serveme-navbar.collapse.navbar-collapse
+    %ul.navbar-nav.mr-auto
+      - if current_user
+        %li.nav-item.dropdown
+          %a.nav-link.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#"}
+            %i.fa.fa-list
+            Reservations
             %b.caret>
-          %ul.dropdown-menu#serveme_links
-            %li
-              = link_to('http://serveme.tf') do
-                %span{:class => ["flags", "flags-eu"]}
-                serveme.tf (Europe)
-            %li
-              = link_to('http://na.serveme.tf') do
-                %span{:class => ["flags", "flags-us"]}
-                na.serveme.tf (North-America)
+          .dropdown-menu
+            = link_to your_reservations_path, class: "dropdown-item" do
+              %i.fa.fa-user
+              Your reservations
+            = link_to played_in_path, class: "dropdown-item" do
+              %i.fa.fa-child
+              Reservations you played in
+            - if current_user && (current_user.admin? || current_user.streamer?)
+              = link_to recent_reservations_path, class: "dropdown-item" do
+                %i.fa.fa-clock-o
+                Recent reservations
+            = link_to new_reservation_path, class: "dropdown-item" do
+              %i.fa.fa-edit
+              Make reservation
+            = link_to i_am_feeling_lucky_reservations_path, method: :post, title: "Make a reservation in 1 click", class: "dropdown-item" do
+              %i.fa.fa-warning
+              1-click reservation
+      - if current_user && current_user.donator?
+        %li.nav-item
+          = link_to servers_path, class: "nav-link" do
+            %i.fa.fa-tasks
+            Servers
+        %li.nav-item
+          = link_to upload_map_path, class: "nav-link" do
+            %i.fa.fa-upload
+            Upload map
+      %li.nav-item
+        = link_to faq_path, class: "nav-link" do
+          %i.fa.fa-question
+          FAQ
+      %li.nav-item
+        = link_to statistics_path, class: "nav-link" do
+          %i.fa.fa-bar-chart-o
+          Stats
 
-    .navbar-inner
-      %ul.nav.navbar-nav
-        - if current_user
-          %li.dropdown
-            %a.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#"}
-              %i.fa.fa-list
-              Reservations
-              %b.caret>
-            %ul.dropdown-menu
-              %li
-                = link_to your_reservations_path do
-                  %i.fa.fa-user
-                  Your reservations
-              %li
-                = link_to played_in_path do
-                  %i.fa.fa-child
-                  Reservations you played in
-              - if current_user && (current_user.admin? || current_user.streamer?)
-                %li
-                  = link_to recent_reservations_path do
-                    %i.fa.fa-clock-o
-                    Recent reservations
-              %li
-                = link_to new_reservation_path do
-                  %i.fa.fa-edit
-                  Make reservation
-              %li
-                = link_to i_am_feeling_lucky_reservations_path, :method => :post, :title => "Make a reservation in 1 click" do
-                  %i.fa.fa-warning
-                  1-click reservation
-        - if current_user && current_user.donator?
-          %li
-            = link_to servers_path do
-              %i.fa.fa-tasks
-              Servers
-          %li
-            = link_to upload_map_path do
-              %i.fa.fa-upload
-              Upload map
-        %li
-          = link_to faq_path do
-            %i.fa.fa-question
-            FAQ
-        %li
-          = link_to statistics_path do
-            %i.fa.fa-bar-chart-o
-            Stats
-
-        %li.dropdown
-          %a.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#"}
-            %i.fa.fa-trophy
+      %li.dropdown.nav-item
+        %a.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#", :class => "nav-link"}
+          %i.fa.fa-trophy
+          Credits
+          %b.caret>
+        .dropdown-menu
+          = link_to server_providers_path, class: "dropdown-item" do
+            %i.fa.fa-heart
+            Sponsors
+          = link_to credits_path, class: "dropdown-item" do
+            %i.fa.fa-thumbs-up
             Credits
-            %b.caret>
-          %ul.dropdown-menu
-            %li
-              = link_to server_providers_path do
-                %i.fa.fa-heart
-                Sponsors
-            %li
-              = link_to credits_path do
-                %i.fa.fa-thumbs-up
-                Credits
-        %li.dropdown
-          %a.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#"}
-            %i.fa.fa-star
-            Premium
-            %b.caret>
-          %ul.dropdown-menu
-            %li
-              = link_to donate_path do
-                %i.fa.fa-paypal
-                Buy
-            %li
-              = link_to leaderboard_donators_path do
-                %i.fa.fa-money
-                Leaderboard
+      %li.dropdown.nav-item
+        %a.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#", :class => "nav-link"}
+          %i.fa.fa-star
+          Premium
+          %b.caret>
+        .dropdown-menu
+          = link_to donate_path, class: "dropdown-item" do
+            %i.fa.fa-paypal
+            Buy
+          = link_to leaderboard_donators_path, class: "dropdown-item" do
+            %i.fa.fa-money
+            Leaderboard
+      - if current_user
+        %li.nav-item
+          = link_to settings_path, class: "nav-link" do
+            %i.fa.fa-cogs
+            Settings
+    %ul.nav.navbar-nav.navbar-right
+      %span
+        = link_to "http://github.com/Arie/serveme", :title => "Fork me on GitHub", :class => "nav-item octocat"  do
+          = image_tag "octocat.png", :alt => "Fork me on GitHub"
+        = link_to "https://twitter.com/servemetf", :title => "serveme.tf on twitter", :class => "nav-item twitter" do
+          %i.fa.fa-twitter.fa-2x
+      .account
         - if current_user
-          %li
-            = link_to settings_path do
-              %i.fa.fa-cogs
-              Settings
-      %ul.nav.navbar-nav.navbar-right
-        .account
-          - if current_user
-            = link_to current_user.decorate.nickname, settings_path
-            |
-            = link_to users_logout_path, :method => :delete do
-              %i.fa.fa-sign-out
-          - else
-            = link_to '/users/auth/steam' do
-              = image_tag 'sits_small.png', :alt => "Sign in with Steam"
-          = link_to switch_theme_path do
-            .theme_switcher
-              - if white_theme?
-                - switch_to_color = "black"
-              - else
-                - switch_to_color = "white"
-              .color{:class => switch_to_color}
+          = link_to current_user.decorate.nickname, settings_path
+          |
+          = link_to users_logout_path, :method => :delete do
+            %i.fa.fa-sign-out
+        - else
+          = link_to '/users/auth/steam' do
+            = image_tag 'sits_small.png', :alt => "Sign in with Steam"

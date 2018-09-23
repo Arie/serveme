@@ -1,7 +1,7 @@
 .row
   .col-md-12
     %h2
-      Claim voucher code
+      Claim premium code
     - if @voucher.product
       %h3
         #{@voucher.product.name}
@@ -9,14 +9,16 @@
 .row
   .col-md-12
 
-    %p With a voucher code you can get premium status, here are the perks:
+    %p With a premium code you can get premium status, here are the perks:
 
     = render "shared/perks"
 
 .row
   .col-md-12.form-inline
-    = simple_form_for(Voucher.new) do |f|
+    = simple_form_for(Voucher.new, wrapper: :horizontal_form, html: { class: "form-horizontal voucher" }) do |f|
       = f.input :code, :input_html => { value: @voucher.code }, :class => "col-md-10 form-control required", autofocus: true
 
-      %button.btn.btn-warning{:type => :submit}
-        Claim
+      .row.submit-row
+        .col-lg-2.offset-lg-3
+          %button.btn.btn-warning{:type => :submit}
+            Claim

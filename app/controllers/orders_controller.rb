@@ -23,10 +23,10 @@ class OrdersController < ApplicationController
   def redirect
     if order.charge(params[:PayerID])
       if order.gift?
-        flash[:notice] = "Your donation has been received and we've made a voucher code that you can give away"
+        flash[:notice] = "Your payment has been received and we've given you a premium code that you can give away"
         redirect_to settings_path("#your-vouchers")
       else
-        flash[:notice] = "Your donation has been received and your donator perks are now activated, thanks! <3"
+        flash[:notice] = "Your payment has been received and your donator perks are now activated, thanks! <3"
         redirect_to root_path
       end
     else

@@ -31,4 +31,4 @@ Feature: Buying donator status
   Scenario: Buying for someone else
     When I buy 1 month worth of donator status for someone else
     And my PayPal payment was successful
-    Then I see a voucher code on my settings page
+    Then I see a premium code on my settings page

@@ -9,8 +9,8 @@
 = render "server_reservations_table"
 
 .row
-  .col-md-7.col-md-offset-2
-    = simple_form_for(@reservation, :html => { :class => 'form-horizontal reservation' }) do |f|
+  .col-md-12.col-lg-6.offset-lg-2
+    = simple_form_for(@reservation, wrapper: :horizontal_form, :html => { :class => 'form-horizontal reservation' }) do |f|
       - if @reservation.schedulable?
         = f.input :starts_at,       :as => :string, :input_html => { :value => I18n.l(@reservation.starts_at, :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Starts at"
         = f.input :ends_at,         :as => :string, :input_html => { :value => I18n.l(@reservation.ends_at,   :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Ends at"
@@ -19,21 +19,23 @@
         free_servers = #{free_servers.map { |s| {id: s.id, text: s.name, flag: s.location_flag, ip_and_port: "#{s.ip}:#{s.port}"} }.to_json.html_safe};
         find_server_url = "#{@reservation.persisted? ? find_servers_for_reservation_reservations_path(id: @reservation.id) : find_servers_for_user_reservations_path}";
 
-      = f.input :server_id, :label => "Server", :required => true, :disabled => !@reservation.schedulable?
+      = f.input :server_id, :label => "Server", :required => true, :disabled => !@reservation.schedulable?, label: "<span class='icon-spinner'><i class='fa fa-spinner fa-spin'></i></span>Server".html_safe
       - if @reservation.schedulable? && !current_user.donator?
         - free_donator_servers_count = Server.for_donators.active.count - used_donator_server_count
         - if free_donator_servers_count > 0
           .buy_premium.form-group
-            .col-lg-10.col-lg-offset-2
+            .col
               .alert.alert-warning
                 No servers available for you during the selected times.
                 Premium users have #{I18n.t(:available, :count => free_donator_servers_count, :scope => :server)} right now.
                 = link_to("Buy premium and get instant access!", donate_path)
 
-      .form-group.string.optional.readonly.disabled.reservation_ping
-        %label.string.optional.col-lg-2.control-label{for: 'reservation_ping'}
+      .form-group.row.string.readonly.reservation_ping.form-group-valid
+        %label.col-sm-4.col-md-3.col-form-label.string{for: 'reservation_ping'}
+          %span.icon-spinner
+            %i.fa.fa-spinner.fa-spin
           Ping
-        .col-lg-2
+        .col-sm-4.col-md-3
           %input#reservation_ping.string.optional.readonly.disabled.form-control{disabled: "disabled", type: "text"}
 
       = f.input :password,            :as => :string, :placeholder => "The server password to join the game"
@@ -63,12 +65,13 @@
         - readonly = false
       = f.input :auto_end, :as => :boolean, :hint => hint, :readonly => readonly, :disabled => readonly, :input_html => { :value => true }
 
-      .col-md-offset-2
-        %button.btn.btn-primary{:type => :submit}
-          Save
+      .row.submit-row
+        .col-sm-2.offset-sm-4.col-lg-2.offset-lg-5
+          %button.btn.btn-success{:type => :submit}
+            Save
 
     = render "datepicker_javascript_options"
 
     :javascript
       var canEnablePlugins = #{(!current_user.donator? || !@reservation.schedulable? )};
-      $("#reservation_server_id").select2("enable", #{@reservation.schedulable?});
+      var reservationSchedulable = #{@reservation.schedulable?}

@@ -5,13 +5,13 @@
   = f.input :time_zone, :include_blank => true, :hint => "Auto detection thinks you're in time zone: #{time_zone_from_cookie}", :required => true, :input_html => {:class => "select2"}, :collection => ActiveSupport::TimeZone.all, :value_method => lambda { |atz| atz.tzinfo.identifier }, :label_method => lambda { |atz| "(UTC#{atz.now.formatted_offset}) #{atz.name}" }
   - logs_tf_hint = "#{link_to('Get or generate your logs.tf API key', 'http://logs.tf/uploader', :target => '_blank')} on the logs.tf website, and enter it here".html_safe
   - demos_tf_hint = "#{link_to('Get your demos.tf API key', 'https://demos.tf/about', :target => '_blank')} on the demos.tf website, and enter it here".html_safe
-  = f.input :logs_tf_api_key, :placeholder => "logs.tf API key", :hint => logs_tf_hint
+  = f.input :logs_tf_api_key, :placeholder => "logs.tf API key", :hint => logs_tf_hint, :as => "string"
   = f.input :demos_tf_api_key, :placeholder => "demos.tf API key", :hint => demos_tf_hint
   - if @user.donator?
-    = f.input :api_key, label: "serveme.tf API key", :disabled => true, :readonly => true
+    = f.input :api_key, label: "serveme.tf API key", :disabled => true, :readonly => true, :as => "string"
 
   .col-md-offset-2
-    %button.btn.btn-default{:type => :submit}
+    %button.btn.btn-primary{:type => :submit}
       Save
 
 - if current_user.has_private_server_option?
@@ -23,7 +23,7 @@
     = f.input :server_id, :label => "Private server", :required => true, :input_html => { :value => (current_user.private_server && current_user.private_server.id) }
 
     .col-md-offset-2
-      %button.btn.btn-default{:type => :submit}
+      %button.btn.btn-primary{:type => :submit}
         Save private server
 
 %h2#your-vouchers
@@ -57,12 +57,19 @@
 = render 'statistics', :user => @user
 
 :javascript
-  $("#user_time_zone").select2();
-  $("#private_server_server_id").select2("enable", #{current_user.has_private_server_option?});
-  $("#private_server_server_id").select2({
-    formatResult: function(server) { return "<span class='flags flags-" + server.flag + "'></span>" + server.text; },
-    formatSelection: function(server) { return "<span class='flags flags-" + server.flag + "'></span>" + server.text; },
-    data: function() { return {results: free_servers}; },
-    escapeMarkup: function(m) { return m }
+  $(document).ready(function() {
+    $("#user_time_zone").select2();
+    $("#private_server_server_id").select2("enable", #{current_user.has_private_server_option?});
+    $("#private_server_server_id").select2("val", $("#private_server_server_id").val());
   });
-  $("#private_server_server_id").select2("val", $("#private_server_server_id").val());
+
+= if current_user.has_private_server_option?
+  :javascript
+    $(document).ready(function() {
+      $("#private_server_server_id").select2({
+        formatResult: function(server) { return "<span class='flags flags-" + server.flag + "'></span>" + server.text; },
+        formatSelection: function(server) { return "<span class='flags flags-" + server.flag + "'></span>" + server.text; },
+        data: function() { return {results: free_servers}; },
+        escapeMarkup: function(m) { return m }
+      });
+    });

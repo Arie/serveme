@@ -64,7 +64,7 @@
           %td STV connect info
           %td
             - if reservation.active?
-              = link_to reservation.stv_connect_url, :class => 'btn btn-xs btn-primary' do
+              = link_to reservation.stv_connect_url, :class => 'btn btn-sm btn-primary' do
                 Join STV
                 %i.fa.fa-film
             = reservation.stv_connect_string
@@ -72,7 +72,7 @@
             - ip_and_port = "#{reservation.server.ip}:#{reservation.server.tv_port}"
             - password_for_relay = reservation.tv_relaypassword.presence || reservation.tv_password
             - if current_admin || current_streamer
-              = link_to "http://relay.fakkelbrigade.eu/new?ip_port=#{ip_and_port}&password=#{password_for_relay}", :title => "create relay", :class => "btn btn-xs btn-warning", :target => "_blank" do
+              = link_to "http://relay.fakkelbrigade.eu/new?ip_port=#{ip_and_port}&password=#{password_for_relay}", :title => "create relay", :class => "btn btn-sm btn-warning", :target => "_blank" do
                 Create relay
                 %i.fa.fa-share-alt
 
@@ -97,16 +97,16 @@
             = reservation.logsecret
             = render 'shared/copy_button', :copy_button_id => "logsecret_string", :copy_text => reservation.logsecret
             - ip_and_port = "#{reservation.server.ip}:#{reservation.server.port}"
-            = link_to "http://live.fakkelbrigade.eu/matches/new?host=#{ip_and_port}&rcon=#{reservation.rcon}&logsecret=#{reservation.logsecret}", :title => "create livestats", :class => "btn btn-xs btn-warning", :target => "_blank" do
+            = link_to "http://live.fakkelbrigade.eu/matches/new?host=#{ip_and_port}&rcon=#{reservation.rcon}&logsecret=#{reservation.logsecret}", :title => "create livestats", :class => "btn btn-sm btn-warning", :target => "_blank" do
               Livestats
               %i.fa.fa-bar-chart
         %tr
           %td Stats
           %td
-            = link_to show_reservation_statistic_path(reservation),         :title => "Player stats", :class => "btn btn-xs btn-info" do
+            = link_to show_reservation_statistic_path(reservation),         :title => "Player stats", :class => "btn btn-sm btn-info" do
               Player stats
               %i.fa.fa-bar-chart
-            = link_to show_reservation_server_statistic_path(reservation),  :title => "Server stats", :class => "btn btn-xs btn-primary" do
+            = link_to show_reservation_server_statistic_path(reservation),  :title => "Server stats", :class => "btn btn-sm btn-primary" do
               Server stats
               %i.fa.fa-bar-chart
 

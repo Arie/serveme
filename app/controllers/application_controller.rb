@@ -43,11 +43,6 @@ class ApplicationController < ActionController::Base
   end
   helper_method :time_zone_from_cookie
 
-  def white_theme?
-    @white_theme ||= cookies[:theme] == "white"
-  end
-  helper_method :white_theme?
-
   def current_admin
     if @current_admin.nil?
       @current_admin = begin

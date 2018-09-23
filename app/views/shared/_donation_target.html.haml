@@ -9,19 +9,20 @@
 - if goal_percentage >= 100
   - bar_class = "info"
 
-.donation_target
-  .col-md-3
-    %strong Monthly server bills (#{I18n.t('number.currency.format.unit')}#{Order.monthly_goal.round})
+.donation_target.container
+  .row
+    .col-lg-3
+      %strong Monthly server bills (#{I18n.t('number.currency.format.unit')}#{Order.monthly_goal.round})
 
-  .col-md-7
-    .progress.progress-striped
-      - if goal_percentage <= 100
-        - width = goal_percentage
-      - else
-        - width = 100
-      .progress-bar{:class => "progress-bar-#{bar_class}", :role => "progressbar", :style => "width: #{width}%"}
-        %strong #{goal_percentage} %
+    .col-lg-7
+      .progress.progress-striped
+        - if goal_percentage <= 100
+          - width = goal_percentage
+        - else
+          - width = 100
+        .progress-bar{:class => "progress-bar progress-bar-striped bg-#{bar_class}", :role => "progressbar", :style => "width: #{width}%"}
+          %strong #{goal_percentage} %
 
-  .col-md-2
-    .center-block
-      = render 'shared/paypal_button'
+    .col-lg-2
+      .center-block
+        = render 'shared/paypal_button'

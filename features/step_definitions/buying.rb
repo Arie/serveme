@@ -35,9 +35,9 @@ When "I buy 1 month worth of donator status for someone else" do
   step "I click the buy button"
 end
 
-Then "I see a voucher code on my settings page" do
+Then "I see a premium code on my settings page" do
   visit settings_path
-  page.should have_content "Your vouchers"
+  page.should have_content "Your premium codes"
 end
 
 Then "I get to choose a private server in my settings" do

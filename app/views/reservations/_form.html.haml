@@ -31,11 +31,11 @@
                 = link_to("Buy premium and get instant access!", donate_path)
 
       .form-group.row.string.readonly.reservation_ping.form-group-valid
-        %label.col-sm-4.col-md-3.col-form-label.string{for: 'reservation_ping'}
+        %label.col-sm-3.col-md-3.col-form-label.string{for: 'reservation_ping'}
           %span.icon-spinner
             %i.fa.fa-spinner.fa-spin
           Ping
-        .col-sm-4.col-md-3
+        .col-sm-3.col-md-3
           %input#reservation_ping.string.optional.readonly.disabled.form-control{disabled: "disabled", type: "text"}
 
       = f.input :password,            :as => :string, :placeholder => "The server password to join the game"

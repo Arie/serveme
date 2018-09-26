@@ -227,6 +227,9 @@ GEM
     ffi (1.9.25)
     font-awesome-rails (4.7.0.4)
       railties (>= 3.2, < 6.0)
+    fugit (1.1.6)
+      et-orbi (~> 1.1, >= 1.1.6)
+      raabro (~> 1.1)
     fuubar (2.3.2)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
@@ -334,6 +337,7 @@ GEM
       pry (>= 0.9.10, < 0.11.0)
     public_suffix (3.0.3)
     puma (3.12.0)
+    raabro (1.1.6)
     rack (2.0.5)
     rack-attack (5.4.0)
       rack (>= 1.0, < 3)
@@ -414,8 +418,8 @@ GEM
     ruby-openid (2.7.0)
     ruby-progressbar (1.10.0)
     rubyzip (1.2.2)
-    rufus-scheduler (3.4.2)
-      et-orbi (~> 1.0)
+    rufus-scheduler (3.5.2)
+      fugit (~> 1.1, >= 1.1.5)
     safe_yaml (1.0.4)
     sass (3.6.0)
       sass-listen (~> 4.0.0)
@@ -439,8 +443,8 @@ GEM
       connection_pool (~> 2.2, >= 2.2.2)
       rack-protection (>= 1.5.0)
       redis (>= 3.3.5, < 5)
-    sidekiq-cron (0.6.3)
-      rufus-scheduler (>= 3.3.0)
+    sidekiq-cron (1.0.4)
+      fugit (~> 1.1)
       sidekiq (>= 4.2.1)
     simple_form (4.0.1)
       actionpack (>= 5.0)
@@ -574,14 +578,14 @@ DEPENDENCIES
   rspec-collection_matchers
   rspec-rails
   rubyzip
-  rufus-scheduler (= 3.4.2)
+  rufus-scheduler
   sass
   sass-rails
   sassc
   sentry-raven
   shoulda-matchers
   sidekiq
-  sidekiq-cron (~> 0.6.3)
+  sidekiq-cron
   simple_form
   sprockets
   steam-condenser!

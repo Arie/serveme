@@ -4,7 +4,7 @@
 
 .row
   .col-md-12
-    = will_paginate @recent_reservations, :renderer => BootstrapPagination::Rails
+    = will_paginate @recent_reservations
 
 .row
   .col-md-12
@@ -20,8 +20,8 @@
             %th Actions
       %tbody
         - @recent_reservations.each do |reservation|
-          - klass = 'success' if reservation.active?
-          - klass = 'info'    if reservation.future?
+          - klass = 'table-success' if reservation.active?
+          - klass = 'table-info'    if reservation.future?
           %tr[reservation]{:class => klass}
             - server = reservation.server.decorate
             - user = reservation.user.decorate

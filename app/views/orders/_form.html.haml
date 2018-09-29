@@ -1,38 +1,36 @@
 - @products.each do |product|
   .hidden{id: "product-#{product.id}", data: { product_id: product.id, currency: product.currency, price: (product.price * 100).round } }
-.row
-  .col-md-4.well
-    .title Payment method
-    .row
-      .col-md-12
-        .btn-group{role: "group"}
-          %button{type: "button", class: "btn btn-default payment-method paypal-button selected"}
-            PayPal
-          %button{type: "button", class: "btn btn-default payment-method credit-card-button"}
-            Credit or Debit Card
 
-= simple_form_for(@order) do |f|
-  .row.credit-card-row
-    .col-md-4.well.form-row
-      %label{for: "stripe-card"}
-        Credit or debit card
-      #stripe-card
-      #stripe-errors
+.card.text-white.bg-primary
+  .card-body
+    %h5 Payment method
+    .btn-group{role: "group"}
+      %button{type: "button", class: "btn btn-primary payment-method paypal-button selected"}
+        PayPal
+      %button{type: "button", class: "btn btn-primary payment-method credit-card-button"}
+        Credit or Debit Card
 
-      .row.col-md-12
-        .stripe-logo= image_tag "powered_by_stripe.png"
+    = simple_form_for(@order) do |f|
+      .row.credit-card-row
+        .col-md-12
+          #stripe-card
+          #stripe-errors
 
-  = f.input :payer_id, as: :hidden
+          .row
+            .col-md-12.offset-md-4
+              .stripe-logo= image_tag "powered_by_stripe.png"
 
-  .row
-    .col-md-4.well
-      .title Product
-      = f.input :product_id, collection: @products, label_method: :list_name, label: false, include_blank: false
+      = f.input :payer_id, as: :hidden
 
       .row
-        = f.input :gift, as: "radio_buttons", label: "For", collection: [["For me", false], ["For someone else (gift)", true]]
+        .col-md-12
+          %h5 Product
+          = f.input :product_id, collection: @products, label_method: :list_name, label: false, include_blank: false
 
-  .row.submit-row
-    .col-md-4.well
-      %button.btn.btn-success.submit{:type => :submit}
-        Buy
+          %h5 Gift or personal
+          = f.input :gift, as: "radio_buttons", label: "", collection: [["Personal, add premium to my account", false], ["Gift, give me a sharable premium code", true]]
+
+      .row
+        .col-md-12.text-center
+          %button.btn.btn-success.submit{:type => :submit}
+            Buy

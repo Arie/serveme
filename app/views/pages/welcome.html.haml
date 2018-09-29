@@ -20,13 +20,12 @@
           = link_to i_am_feeling_lucky_reservations_path, :class => 'btn btn-lg btn-warning', :method => :post, :title => "Make a reservation in 1 click" do
             I'm feeling lucky
             %i.fa.fa-bolt
-        .col-md-4
+        .col-md-4.align-self-end
           - if na_system?
-            .sponsor
-              = render 'shared/na_sponsor'
-              .available_servers= render 'reservations/available_servers'
+            .sponsor= render 'shared/na_sponsor'
+            = render 'reservations/available_servers'
           - else
-            .available_servers= render 'reservations/available_servers'
+            = render 'reservations/available_servers'
 
 - if na_system?
   .row

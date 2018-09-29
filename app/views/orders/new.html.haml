@@ -26,11 +26,10 @@
         in return!
 
   .row
-    .col-md-12.order-form
+    .col-md-6.col-xs-12.order-form
       = render 'form'
 
-  .row
-    .col-md-12
+    .col-md-6.col-xs-12
 
       %p
         What are the perks?
@@ -52,11 +51,19 @@
 
       %p
         Premium status is site-specific, so you either pay for serveme.tf or na.serveme.tf, make sure you're on the right site before paying.
-  .row
-    .col-md-12
+
       %p
         You can also rent a private server. This gets you all the normal premium perks, but in addition to that you can pick any server and you'll be the only one that can use it. You can change which server is yours anytime you like.
         Please note that you won't get FTP access to the private server and you'll have to 'book' the server like any other serveme server.
+
+      %p
+        If you rent a private server, you can pick which one you want after buying on
+        = link_to "the settings page", settings_path
+
+      %p
+        You can also
+        = link_to('send me a CS:GO trade offer.', 'https://steamcommunity.com/tradeoffer/new/?partner=231702&token=POpKIGaL')
+        The current rate is 1 key per month, but you can also send some items just to say thanks.
 
   .row.stripe-result
     .col-md-12
@@ -64,15 +71,3 @@
   .row
     .col-md-12
       &nbsp;
-
-  .row
-    .col-md-12
-      %p
-        If you rent a private server, you can pick which one you want after buying on
-        = link_to "the settings page", settings_path
-
-  .row.final
-    .col-md-12
-      You can also
-      = link_to('send me a CS:GO trade offer.', 'https://steamcommunity.com/tradeoffer/new/?partner=231702&token=POpKIGaL')
-      The current rate is 1 key per month, but you can also send some items just to say thanks.

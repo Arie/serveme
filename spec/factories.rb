@@ -1,43 +1,43 @@
 FactoryBot.define do
 
   factory :server, :class => "LocalServer" do
-    name "CS:GO 1"
-    path "/home/csgo/csgo-1"
-    ip "fakkelbrigade.eu"
-    port "27015"
+    name { "CS:GO 1" }
+    path { "/home/csgo/csgo-1" }
+    ip { "fakkelbrigade.eu" }
+    port { "27015" }
     location
-    latitude 51
-    longitude 9
+    latitude { 51 }
+    longitude { 9 }
   end
 
   factory :user do
-    uid "123456789"
-    nickname "Terminator"
-    name "Joe Sixpack"
-    provider "steam"
-    latitude 52.5
-    longitude 5.75
+    uid { "123456789" }
+    nickname { "Terminator" }
+    name { "Joe Sixpack" }
+    provider { "steam" }
+    latitude { 52.5 }
+    longitude { 5.75 }
   end
 
   factory :admin, :class => "User" do
-    uid "1337"
-    nickname "Admin"
-    name "Admin Abuse"
-    provider "steam"
+    uid { "1337" }
+    nickname { "Admin" }
+    name { "Admin Abuse" }
+    provider { "steam" }
     groups { [ Group.donator_group ] }
   end
 
   factory :reservation do
     association :server
     association :user
-    password "secret"
-    rcon "supersecret"
-    starts_at 1.minute.ago
+    password { "secret" }
+    rcon { "supersecret" }
+    starts_at { 1.minute.ago }
     ends_at { starts_at + 1.hour }
   end
 
   factory :group do
-    name "Super Secret Servers"
+    name { "Super Secret Servers" }
   end
 
   factory :group_user do
@@ -51,10 +51,10 @@ FactoryBot.define do
   end
 
   factory :product do
-    name "1 year"
-    days 366
-    price 9.00
-    currency "EUR"
+    name { "1 year" }
+    days { 366 }
+    price { 9.00 }
+    currency { "EUR" }
   end
 
   factory :paypal_order do
@@ -68,8 +68,8 @@ FactoryBot.define do
   end
 
   factory :server_notification do
-    message "This is the notification"
-    notification_type 'public'
+    message { "This is the notification" }
+    notification_type { 'public' }
   end
 
   factory :map_upload do
@@ -83,49 +83,49 @@ FactoryBot.define do
   end
 
   factory :location do
-    name "Netherlands"
-    flag "nl"
+    name { "Netherlands" }
+    flag { "nl" }
   end
 
   factory :reservation_player do
     association :reservation
     association :user
-    name "reservation player"
-    ip "127.0.0.1"
+    name { "reservation player" }
+    ip { "127.0.0.1" }
   end
 
   factory :rating do
     association :reservation
     association :user
-    nickname "my nickname"
-    opinion "good"
-    reason "this server is aimaaiizing"
+    nickname { "my nickname" }
+    opinion { "good" }
+    reason { "this server is aimaaiizing" }
   end
 
   factory :player_statistic do
     association :reservation_player
-    ping 100
-    loss 0
-    minutes_connected 11
+    ping { 100 }
+    loss { 0 }
+    minutes_connected { 11 }
   end
 
   factory :server_statistic do
     association :reservation
     association :server
-    cpu_usage 10
-    fps 66
-    traffic_in 51
-    traffic_out 241
+    cpu_usage { 10 }
+    fps { 66 }
+    traffic_in { 51 }
+    traffic_out { 241 }
   end
 
   factory :voucher do
     association :product
     association :created_by,    factory: :user
     association :claimed_by,    factory: :user
-    code "foobar"
+    code { "foobar" }
   end
 
   factory :reservation_status do
-    status "this is the status"
+    status { "this is the status" }
   end
 end

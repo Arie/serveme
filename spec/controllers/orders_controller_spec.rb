@@ -30,7 +30,7 @@ describe OrdersController do
       get :redirect, params: { order_id: order.id, PayerID: "PayerID" }
 
       response.should redirect_to(root_path)
-      flash[:notice].should == "Your donation has been received and your donator perks are now activated, thanks! <3"
+      flash[:notice].should == "Your payment has been received and your donator perks are now activated, thanks! <3"
     end
 
     it "redirects back to root and sets the problem message on unsuccessful payment" do
@@ -51,7 +51,7 @@ describe OrdersController do
       get :redirect, params: { order_id: order.id, PayerID: "PayerID" }
 
       response.should redirect_to(settings_path("#your-vouchers"))
-      flash[:notice].should == "Your donation has been received and we've made a voucher code that you can give away"
+      flash[:notice].should == "Your payment has been received and we've given you a premium code that you can give away"
     end
 
   end

@@ -287,7 +287,7 @@ class Server < ActiveRecord::Base
   end
 
   def configuration_files
-    [reservation_config_file, initial_map_config_file]
+    [reservation_config_file, initial_map_config_file, banned_user_file, banned_ip_file]
   end
 
   def reservation_config_file
@@ -296,6 +296,14 @@ class Server < ActiveRecord::Base
 
   def initial_map_config_file
     server_config_file('mapconfig/maps/training1.cfg')
+  end
+
+  def banned_user_file
+    server_config_file('banned_user.cfg')
+  end
+
+  def banned_ip_file
+    server_config_file('banned_ip.cfg')
   end
 
   def host_to_ip

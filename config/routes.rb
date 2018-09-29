@@ -107,7 +107,6 @@ Serveme::Application.routes.draw do
   get   '/reservations-played',           :to => "reservations#played_in",    :as => "played_in"
   get   '/recent-reservations',           :to => "pages#recent_reservations", :as => "recent_reservations"
   get   '/settings',                      :to => "users#edit",                :as => "settings"
-  get   '/switch-theme',                  :to => "pages#switch_theme",        :as => "switch_theme"
   get   '/upload-map',                    :to => "map_uploads#new",           :as => "upload_map"
   get   '/private-servers',               :to => "pages#private_servers",     :as => "private_server_info"
   get   '/player_statistics/reservation/:reservation_id'                  => 'player_statistics#show_for_reservation',             :as => "show_reservation_statistic"

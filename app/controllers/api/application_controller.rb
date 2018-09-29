@@ -6,18 +6,14 @@ class Api::ApplicationController < ActionController::Base
   rescue_from ActionController::ParameterMissing, :with => :handle_unprocessable_entity
 
   before_action :verify_api_key
+  before_action :set_default_response_format
 
   def verify_api_key
     api_user
   end
 
   def api_user
-    begin
-      @api_key_user ||= User.find_by_api_key!(params[:api_key])
-    rescue ActiveRecord::RecordNotFound
-      head :unauthorized
-      nil
-    end
+    @api_user ||= authenticate_params || authenticate_token || unauthorized
   end
 
   def uid_user
@@ -25,13 +21,7 @@ class Api::ApplicationController < ActionController::Base
   end
 
   def current_user
-    @current_user ||= begin
-                        if api_user && api_user.admin? && uid_user
-                          uid_user
-                        else
-                          api_user
-                        end
-                      end
+    @current_user ||= (api_user && api_user.admin? && uid_user) || api_user
   end
 
   def handle_not_found
@@ -43,4 +33,24 @@ class Api::ApplicationController < ActionController::Base
     head :unprocessable_entity
   end
 
+  private
+
+  def authenticate_params
+    User.find_by(api_key: params[:api_key]) if params[:api_key]
+  end
+
+  def authenticate_token
+    authenticate_with_http_token do |token, options|
+      User.find_by(api_key: token)
+    end
+  end
+
+  def unauthorized
+    head :unauthorized
+    nil
+  end
+
+  def set_default_response_format
+    request.format = :json
+  end
 end

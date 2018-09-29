@@ -5,6 +5,7 @@ class CleanupWorker
   def perform
     remove_old_reservation_logs_and_zips
     remove_old_statistics
+    grant_api_keys_to_week_old_users
   end
 
   def remove_old_reservation_logs_and_zips
@@ -24,6 +25,15 @@ class CleanupWorker
     old_player_statistics.delete_all
     old_server_statistics.delete_all
     old_reservation_statuses.delete_all
+  end
+
+  def grant_api_keys_to_week_old_users
+    User.where('created_at < ?', 7.days.ago).where(api_key: nil).find_in_batches do |group|
+      group.each do |u|
+        u.api_key = SecureRandom.hex(16)
+        u.save
+      end
+    end
   end
 
   def old_reservations

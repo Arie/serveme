@@ -36,7 +36,7 @@ gem 'paypal-sdk-rest'
 gem 'stripe'
 gem 'sidekiq'
 gem 'sidekiq-cron'
-gem 'rufus-scheduler', '~> 3.4.2'
+gem 'rufus-scheduler'
 gem 'geocoder'
 gem 'rbtrace'
 
@@ -52,7 +52,7 @@ gem 'jbuilder'
 
 gem 'ffi'
 gem "pg"
-gem 'therubyracer'
+gem 'mini_racer'
 gem 'oily_png'
 
 
@@ -81,6 +81,7 @@ group :test, :development do
   gem 'rspec-activemodel-mocks'
   gem 'pry-nav'
   gem 'zonebie'
+  gem 'parallel_tests'
 end
 
 group :test_tools do
@@ -117,14 +118,12 @@ end
 
 gem 'uglifier'
 gem 'jquery-rails'
-gem 'compass', '> 1.0'
-gem 'compass-rails', '>= 2.0.0'
 gem 'sass'
 gem 'sass-rails'
 gem 'sassc'
-gem 'bootstrap-sass'
+gem 'bootstrap', '~> 4.1.3'
+gem 'will_paginate-bootstrap4'
 gem 'simple_form'
-gem 'will_paginate-bootstrap'
 gem 'execjs'
 gem 'font-awesome-rails'
 gem 'coffee-rails'

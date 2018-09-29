@@ -7,7 +7,7 @@ describe Api::ServersController do
   before do
     @user = create :user
     @server = create :server, name: "The Server"
-    controller.stub(:current_user => @user)
+    controller.stub(:api_user => @user)
   end
 
   describe "#index" do

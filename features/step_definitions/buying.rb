@@ -31,13 +31,13 @@ end
 When "I buy 1 month worth of donator status for someone else" do
   step "I go to donate"
   select "1 month - 1 EUR"
-  choose "For someone else"
+  choose "Gift, give me a sharable premium code"
   step "I click the buy button"
 end
 
-Then "I see a voucher code on my settings page" do
+Then "I see a premium code on my settings page" do
   visit settings_path
-  page.should have_content "Your vouchers"
+  page.should have_content "Your premium codes"
 end
 
 Then "I get to choose a private server in my settings" do

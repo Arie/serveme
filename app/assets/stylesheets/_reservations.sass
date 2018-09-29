@@ -6,6 +6,21 @@ form#new_reservation
     input
       width: 161px
 
+form.reservation
+  .form-check-input.is-valid.boolean.optional ~ .form-check-label
+    color: #aaa
+  .icon-spinner
+    display: none
+
+  .submit-row
+    padding-bottom: 2rem
+
+  .form-control.whitelist
+    padding-left: 0rem
+    background: 0
+    border: 0 none
+    color: #aaa
+
 #reservation_status_spinner, #reservation_status_message
   display: inline-block
 
@@ -18,14 +33,13 @@ form#new_reservation
     padding-left: 3px
     padding-right: 15px
 
-input#reservation_auto_end
-  margin-top: 10px
-
-input#reservation_enable_plugins
-  margin-top: 20px
+table
+  td.actions
+    .btn-sm
+      font-size: 0.7rem
 
 table.servers
-  td.actions, td.actions
+  td.actions
     width: 150px
     text-align: center
   td
@@ -36,11 +50,6 @@ table.servers
 
   td.server_name
     padding-top: 15px
-
-table
-  tr.info
-    td
-      background-color: #d9edf7
 
 .select2-container
   width: 100%
@@ -60,6 +69,7 @@ table
   display: none
 
 .server_reservations
+  padding-left: 1rem
   .server
     margin-bottom: 2px
     .name

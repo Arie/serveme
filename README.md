@@ -5,11 +5,13 @@ A web-interface to reserve CS:GO gameservers
 
 ## Requirements
 
-* Ruby, preferbly 2.2, but other versions might work. You should use [ruby-build](https://github.com/sstephenson/ruby-build/) to install Ruby.
+* Ruby, preferbly 2.5, but other versions might work. You should use [ruby-build](https://github.com/sstephenson/ruby-build/) to install Ruby.
 * A Steam API key for user sign in
 * Memcached
 * A Source game dedicated server installation, only tested with CS:GO on linux for now.
 * Gameserver started with `-port PORTNUMBER -autoupdate` in the startup line
+* [libmaxminddb](https://github.com/maxmind/libmaxminddb), for GeoIP lookups. Or you can configure another one in the
+  [geocoder initializer](https://github.com/alexreisner/geocoder)
 
 ## Installation
 1. Make sure you've installed the requirements.
@@ -57,7 +59,7 @@ Host server_ip_or_hostname
 There's a simple JSON API to create and stop reservations. It typically returns a prefilled JSON response, which you can edit and send to one of the URLs listed in the "actions".
 
 ### Authentication
-All requests should have the API key as the HTTP parameter api_key. Donators can find the API key in their settings page, or you can contact me to get yours.
+All requests should have the API key as the HTTP request parameter api_key or as a request header `Authorization: Token token=api-token-here`. Donators can find the API key in their settings page, or you can contact me to get yours.
 
 ### Step 1
 ```shell

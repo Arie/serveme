@@ -244,6 +244,8 @@ describe LocalServer do
       @game_dir       = Rails.root.join('tmp')
       @config_file  = @game_dir.join('cfg', 'reservation.cfg').to_s
       @map_file     = @game_dir.join('cfg', 'mapconfig', 'maps', 'training1.cfg').to_s
+      @ban_id_file  = @game_dir.join('cfg', 'banned_user.cfg').to_s
+      @ban_ip_file  = @game_dir.join('cfg', 'banned_ip.cfg').to_s
     end
     it 'deletes the reservation files' do
       subject.stub(:game_dir => @game_dir)
@@ -253,6 +255,10 @@ describe LocalServer do
 
       File.should_receive(:exists?).with(@map_file).and_return(true)
       File.should_receive(:delete).with(@map_file)
+      File.should_receive(:exists?).with(@ban_id_file).and_return(true)
+      File.should_receive(:delete).with(@ban_id_file)
+      File.should_receive(:exists?).with(@ban_ip_file).and_return(true)
+      File.should_receive(:delete).with(@ban_ip_file)
       subject.remove_configuration
     end
 
@@ -264,6 +270,11 @@ describe LocalServer do
 
       File.should_receive(:exists?).with(@config_file).and_return(false)
       File.should_not_receive(:delete).with(@config_file)
+
+      File.should_receive(:exists?).with(@ban_id_file).and_return(false)
+      File.should_not_receive(:delete).with(@ban_id_file)
+      File.should_receive(:exists?).with(@ban_ip_file).and_return(false)
+      File.should_not_receive(:delete).with(@ban_ip_file)
       subject.remove_configuration
     end
   end

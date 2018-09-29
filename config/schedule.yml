@@ -1,24 +1,24 @@
-clean_up:
-  cron: "0 5 * * *"
+clean_up_tz:
+  cron: "0 5 * * * Europe/Amsterdam"
   class: "CleanupWorker"
   queue: default
 
-minutely:
-  cron: "* * * * *"
+minutely_tz:
+  cron: "* * * * * Europe/Amsterdam"
   class: "CronWorker"
   queue: default
 
-monthly_donations:
-  cron: "15 2,21 * * *"
+monthly_donations_tz:
+  cron: "15 2,21 * * * Europe/Amsterdam"
   class: "MonthlyDonationProgressAnnouncerWorker"
   queue: default
 
-private_server_cleanup:
-  cron: "0 */6 * * *"
+private_server_cleanup_tz:
+  cron: "0 */6 * * * Europe/Amsterdam"
   class: "PrivateServerCleanupWorker"
   queue: default
 
-notifications:
-  cron: "*/20 * * * *"
+notifications_tz:
+  cron: "*/20 * * * * Europe/Amsterdam"
   class: "ServersNotificationWorker"
   queue: default

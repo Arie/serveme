@@ -31,6 +31,13 @@ describe TestApiController do
     response.status.should == 200
   end
 
+  it 'responds with a 200 if the token is valid' do
+    create :user, :api_key => "foobar"
+    request.headers.merge!({"Authorization" => "Token token=foobar"})
+    get :index
+    response.status.should == 200
+  end
+
   it 'allows the api user to send a steam uid' do
     api_user    = create :user, :api_key => "foobar"
     api_user.groups << Group.admin_group

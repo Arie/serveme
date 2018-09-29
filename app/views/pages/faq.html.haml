@@ -4,25 +4,25 @@
   .col-md-12
     %h2 FAQ
 
-    %p.lead
+    .card-body.lead.text-white
       Hey there, we hope you're enjoying serveme.tf. Here we'll try to answer your questions :)
 
-    .well
-      %p.text-success
+    .card.bg-faded
+      .card-header.text-white
         Q: What is this?
-      %p
+      .card-body
         %em A: This is the easiest way to borrow a CS:GO server!
 
-    .well
-      %p.text-success
+    .card.bg-faded
+      .card-header.text-white
         Q: Is this completely free?
-      %p
+      .card-body
         %em A: Yep, but there are perks for those who help us pay the bills by donating.
 
-    .well
-      %p.text-success
+    .card.bg-faded
+      .card-header.text-white
         Q: Free huh? I guess these servers run on toasters with 3rd world internet!
-      %p
+      .card-body
         - unless na_system?
           %em A: Our servers are provided by community members with years of experience running CS:GO servers. And we're not tied to one location or country, so if you have a bad routing to one server, you can try another in a different location/country.
         - else
@@ -31,19 +31,19 @@
             = link_to("TragicServers", "http://tragicservers.com/link.php?id=3")
             , no toasters allowed! With 4 locations to choose from, we're sure you'll find one that pings well for you.
 
-    .well
-      %p.text-success
+    .card.bg-faded
+      .card-header.text-white
         Q: What can I use this for?
-      %p
+      .card-body
         %em
           A: You're allowed to use serveme for anything vaguely related to competitive CS:GO.
           1v1 practice, private clan practice, pcw's, scrims, mixes, lobbies or officials.
           Basically anything that's not a pub.
 
-    .well
-      %p.text-success
+    .card.bg-faded
+      .card-header.text-white
         Q: What do I get for donating?
-      %p
+      .card-body
         %em
           A: Premium users get these benefits:
           %ul
@@ -54,27 +54,38 @@
             %li More than 1 future reservation allowed
             %li Allowed to make reservations more than 3 hours in the future
             %li No ads
-      = render "shared/paypal_button"
+        = render "shared/paypal_button"
 
-    .well
-      %p.text-success
+    .card.bg-faded
+      .card-header.text-white
         Q: Noone can connect to my server, what do I do?
-      %p
+      .card-body
+        %em A: It can take a couple of minutes for the server to start (and update to the latest CS:GO version), please be patient. If the server isn't up after 5 minutes, try another one.
+    .card.bg-faded
+      .card-header.text-white
+        Q: Can I use serveme for MvM?
+      .card-body
+        %em A: Nope, sorry. MvM is about twice as resource intensive as a highlander match, and that might cause other games on the same server to lag.
+
+    .card.bg-faded
+      .card-header.text-white
+        Q: Noone can connect to my server, what do I do?
+      .card-body
         %em A: It can take a couple of minutes for the server to start (and update to the latest CS:GO version), please be patient. If the server isn't up after 5 minutes, try another one.
 
 
-    .well
-      %p.text-success
+    .card.bg-faded
+      .card-header.text-white
         Q: How do I manage the server?
-      %p
+      .card-body
         %em
           A: The RCON password is your "admin password", if you have it, you can do all the server commands with it that normal users without it can't.
           To use it, type "rcon_password PASSWORD" in console, and if you aren't in the server, you must also do "rcon_address IP:PORT".
 
-    .well
-      %p.text-success
+    .card.bg-faded
+      .card-header.text-white
         Q: What commands are available inside the server chat?
-      %p
+      .card-body
         %em
           A: If you are the one that has reserved the server. Here are some handy commands you can use from within the server chat:
           %table.table
@@ -93,85 +104,85 @@
                 !end
               %td
                 Ends the reservation and kicks all players
-        %p
-          %em
-          These commands are available to everyone:
-          %table.table
-            %tr
-              %td
-                !who
-              %td
-                Returns the name of the user that reserved the server
-            %tr
-              %td
-                !timeleft
-              %td
-                Lists the number of minutes left in the reservation
+      .card-body
+        %em
+        These commands are available to everyone:
+        %table.table
+          %tr
+            %td
+              !who
+            %td
+              Returns the name of the user that reserved the server
+          %tr
+            %td
+              !timeleft
+            %td
+              Lists the number of minutes left in the reservation
 
-    .well
-      %p.text-success
+    .card.bg-faded
+      .card-header.text-white
         Q: How do I change the map?
-      %p
+      .card-body
         %em
           A: Assuming you don't want to play on cs_assault, you'll want to change the map:
           "rcon changelevel MAPNAME"
 
-    .well
-      %p.text-success
+    .card.bg-faded
+      .card-header.text-white
         Q: What maps are there?
-      %p
+      .card-body
         %em
           A: You can simply type "rcon maps *" for the console to list you all the maps installed on the server. There are quite a few, and premium users can add new maps.
 
-    .well
-      %p.text-success
+    .card.bg-faded
+      .card-header.text-white
         Q: I want to change my config.
-      %p
+      .card-body
         %em
-          A: The command is "rcon exec CONFIGNAME", some of the available configs: 
+          A: The command is "rcon exec CONFIGNAME", some of the available configs:
           %table.table
             %tr
               %td
-                %span.label.label-info ESL:
+                %span.badge.badge-info ESL:
               %td
                 TODO
             %tr
               %td
-                %span.label.label-danger ESEA:
+                %span.badge.badge-danger ESEA:
               %td
                 TODO
             %tr
               %td
-                %span.label.label-success FACEIT:
+                %span.badge.badge-success FACEIT:
               %td
                 TODO
-    .well
-      %p.text-success
+    .card.bg-faded
+      .card-header.text-white
         Q: I want to use serveme.tf in one of my own projects, is there an API?
-      %p
+      .card-body
         %em
           A: Yep! You can read how to use it
           = link_to("here.", "https://github.com/Arie/serveme/blob/master/README.md")
           Contact me for an API key, or get premium and look in your settings.
 
-    .well
-      %p.text-success
+    .card.bg-faded
+      .card-header.text-white
         Q: What does "I'm feeling lucky" mean?
-      %p
+      .card-body
         %em
           A: When you press this button, we try to make a reservation based on your previous one with just 1 click. Same settings, same server, 2 hour reservation starting now. If your previous server is in use, we'll try a server on the same machine. If all servers on the machine are busy, we'll try a server in the same country. If all those are busy we try any server that's free and available for you.
 
-    .well
-      %p.text-success
+    .card.bg-faded
+      .card-header.text-white
         Q: How long do you store the demos/logs for a match?
-      %p
+      .card-body
         %em
           A: You can download the demos/logs zip for a reservation you created or played in for 28 days.
 
-    .well
-      %p.text-success
+    .card.bg-faded
+      .card-header.text-white
         Q: I can't find my question in this FAQ
-      %p
+      .card-body
         %em
           A: Leave a comment at the bottom of this page with your question and we'll get it answered ASAP.
 

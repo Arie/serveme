@@ -11,6 +11,14 @@ GIT
     remote_lock (1.2.0)
 
 GIT
+  remote: https://github.com/Arie/steam-condenser-ruby
+  revision: e3bb0640a6c09e367503ba40a3425205525d7aa6
+  specs:
+    steam-condenser (1.3.11)
+      multi_json (~> 1.6)
+      multi_xml (~> 0.5)
+
+GIT
   remote: https://github.com/cucumber/cucumber-rails.git
   revision: 4e072c30fe18ac43a25146092870d8a054dc7265
   specs:
@@ -26,14 +34,6 @@ GIT
   revision: f9544ca605ff5ab602192d1dca821f4414a382ef
   specs:
     rbzip2 (0.3.0)
-
-GIT
-  remote: https://github.com/koraktor/steam-condenser-ruby
-  revision: 5795d15152995cc6bada5265fa379cfc57103618
-  specs:
-    steam-condenser (1.3.11)
-      multi_json (~> 1.6)
-      multi_xml (~> 0.5)
 
 GIT
   remote: https://github.com/reu/omniauth-steam.git
@@ -108,6 +108,8 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
+    bootsnap (1.3.2)
+      msgpack (~> 1.0)
     bootstrap (4.1.3)
       autoprefixer-rails (>= 6.0.3)
       popper_js (>= 1.12.9, < 2)
@@ -510,6 +512,7 @@ DEPENDENCIES
   base32_pure
   better_errors
   binding_of_caller
+  bootsnap
   bootstrap (~> 4.1.3)
   capistrano
   capistrano-bundler

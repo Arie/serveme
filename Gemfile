@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', "~> 5.2.0"
+gem 'bootsnap', require: false
 gem 'sprockets'
 gem 'haml'
 gem 'puma'
@@ -8,7 +9,7 @@ gem 'omniauth-openid'
 gem 'hashie'
 gem 'omniauth-steam', git: "https://github.com/reu/omniauth-steam.git"
 gem 'devise'
-gem 'steam-condenser', git: 'https://github.com/koraktor/steam-condenser-ruby'
+gem 'steam-condenser', git: 'https://github.com/Arie/steam-condenser-ruby'
 gem 'logs_tf'
 gem 'base32_pure'
 gem 'remote_lock', git: 'https://github.com/Arie/remote_lock'

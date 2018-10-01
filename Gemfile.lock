@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: https://github.com/Arie/steam-condenser-ruby
-  revision: e3bb0640a6c09e367503ba40a3425205525d7aa6
+  revision: 142d5a253fb66db566a7e854e0a03e24796d03d4
   specs:
     steam-condenser (1.3.11)
       multi_json (~> 1.6)
@@ -341,7 +341,7 @@ GEM
     puma (3.12.0)
     raabro (1.1.6)
     rack (2.0.5)
-    rack-attack (5.4.0)
+    rack-attack (5.4.1)
       rack (>= 1.0, < 3)
     rack-cache (1.8.0)
       rack (>= 0.4)

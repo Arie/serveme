@@ -112,7 +112,7 @@ describe LogUploadsController do
 
       it "shows me the logs even though it's not my reservation" do
         get :index, params: { reservation_id: @reservation.id }
-        response.should be_success
+        response.should be_successful
       end
 
     end

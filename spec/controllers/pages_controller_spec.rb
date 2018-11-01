@@ -34,7 +34,7 @@ describe PagesController do
     it "renders" do
       get :faq
 
-      response.should be_success
+      response.should be_successful
     end
 
   end

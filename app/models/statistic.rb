@@ -2,7 +2,7 @@
 class Statistic
 
   def self.top_10_users
-    top_10_user_id_count_hash = Reservation.joins(:user).order("count_all DESC").limit(10).group("users.id").count
+    top_10_user_id_count_hash = Reservation.joins(:user).order(Arel.sql("count_all DESC")).limit(10).group("users.id").count
     top_10_users              = User.where(:id => top_10_user_id_count_hash.keys).includes(:groups).to_a
     top_10_hash         = {}
     top_10_user_id_count_hash.map do |user_id, count|
@@ -13,7 +13,7 @@ class Statistic
   end
 
   def self.top_10_servers
-    Reservation.joins(:server).order("count_all DESC").limit(10).group("servers.name").count
+    Reservation.joins(:server).order(Arel.sql("count_all DESC")).limit(10).group("servers.name").count
   end
 
   def self.total_reservations
@@ -43,7 +43,7 @@ class Statistic
 
   def self.reservations_per_day
     Rails.cache.fetch "reservations_per_day_#{Date.current}", :expires_in => 1.hour do
-      Reservation.order('DATE(starts_at) DESC').group("DATE(starts_at)").limit(50).count(:id).collect do |date, count|
+      Reservation.order(Arel.sql('DATE(starts_at) DESC')).group(Arel.sql("DATE(starts_at)")).limit(50).count(:id).collect do |date, count|
         [date.to_s, count]
       end.reverse
     end

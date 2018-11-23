@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 class LogWorker
   include Sidekiq::Worker
+  sidekiq_options retry: 1
 
   attr_accessor :raw_line, :line, :event, :reservation_id, :message
 

@@ -36,17 +36,19 @@ class OrdersController < ApplicationController
   end
 
   def stripe
-    if params[:stripe_token] && params[:product_id] && params[:gift]
-      order = current_user.stripe_orders.build
-      order.payer_id = params[:stripe_token]
-      order.product = Product.active.find(params[:product_id].to_i)
-      order.gift = (params[:gift] == "true")
-      order.save!
-      charge = order.charge
-      if charge == "succeeded"
-        render plain: { charge_status: charge, product_name: order.product_name, gift: order.gift, voucher: order.voucher.try(:code) }.to_json
-      else
-        render plain: { charge_status: charge }.to_json, status: 402
+    $lock.synchronize("stripe-charge-#{current_user.id}") do
+      if params[:stripe_token] && params[:product_id] && params[:gift]
+        order = current_user.stripe_orders.build
+        order.payer_id = params[:stripe_token]
+        order.product = Product.active.find(params[:product_id].to_i)
+        order.gift = (params[:gift] == "true")
+        order.save!
+        charge = order.charge
+        if charge == "succeeded"
+          render plain: { charge_status: charge, product_name: order.product_name, gift: order.gift, voucher: order.voucher.try(:code) }.to_json
+        else
+          render plain: { charge_status: charge }.to_json, status: 402
+        end
       end
     end
   end

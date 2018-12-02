@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 class ReservationsController < ApplicationController
 
-  before_action :require_admin, :only => :streaming
+  before_action :require_admin, only: :streaming
+  skip_before_action :block_users_with_expired_reservations, except: [:new, :create, :i_am_feeling_lucky]
   include ReservationsHelper
 
   def new

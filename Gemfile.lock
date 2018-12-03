@@ -20,7 +20,7 @@ GIT
 
 GIT
   remote: https://github.com/cucumber/cucumber-rails.git
-  revision: 77c9f27a29283bd57daea16d350151cbe67e8b69
+  revision: c69952092950d2b87ab8baf9a3350bbae1b8d905
   specs:
     cucumber-rails (1.6.0)
       capybara (>= 1.1.2, < 4)
@@ -97,7 +97,7 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     american_date (1.1.1)
     arel (9.0.0)
-    autoprefixer-rails (9.3.1)
+    autoprefixer-rails (9.4.0)
       execjs
     backports (3.11.4)
     base32_pure (0.1.0)

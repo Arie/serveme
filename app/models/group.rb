@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 class Group < ActiveRecord::Base
 
-  DONATOR_GROUP  = find_or_create_by(:name => "Donators").freeze
-  ADMIN_GROUP    = find_or_create_by(:name => "Admins").freeze
-  STREAMER_GROUP = find_or_create_by(:name => "Streamers").freeze
+  DONATOR_GROUP  = find_or_create_by(:name => "Donators")
+  ADMIN_GROUP    = find_or_create_by(:name => "Admins")
+  STREAMER_GROUP = find_or_create_by(:name => "Streamers")
 
   validates_presence_of :name
 

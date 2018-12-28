@@ -17,7 +17,7 @@ module ApplicationHelper
     Reservation.current.where(:server_id => Server.for_donators).count
   end
 
-  ['au', 'na', 'sa'].each do |subdomain|
+  ['au', 'na', 'sa', 'sea'].each do |subdomain|
     define_method("#{subdomain}_system?") { SITE_URL == "https://#{subdomain}.serveme.tf" }
   end
 

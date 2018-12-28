@@ -20,7 +20,7 @@ GIT
 
 GIT
   remote: https://github.com/cucumber/cucumber-rails.git
-  revision: a8e1fdc67a10daf41dafc7595c38a73b0f3527f6
+  revision: 7b47bf1dda3368247bf2d45bcb17a224e80ec6fd
   specs:
     cucumber-rails (1.6.0)
       capybara (>= 1.1.2, < 4)
@@ -308,7 +308,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-sftp (2.1.2)
       net-ssh (>= 2.6.5)
-    net-ssh (5.0.2)
+    net-ssh (5.1.0)
     nio4r (2.3.1)
     nokogiri (1.9.1)
       mini_portile2 (~> 2.4.0)
@@ -490,7 +490,7 @@ GEM
     vcr (4.0.0)
     warden (1.2.8)
       rack (>= 2.0.6)
-    webmock (3.4.2)
+    webmock (3.5.1)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff

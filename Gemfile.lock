@@ -97,7 +97,7 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     american_date (1.1.1)
     arel (9.0.0)
-    autoprefixer-rails (9.4.3)
+    autoprefixer-rails (9.4.4)
       execjs
     backports (3.11.4)
     base32_pure (0.1.0)
@@ -468,7 +468,7 @@ GEM
     sshkit (1.18.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
-    stripe (4.4.1)
+    stripe (4.5.0)
       faraday (~> 0.13)
       net-http-persistent (~> 3.0)
     temple (0.8.0)

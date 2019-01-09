@@ -91,6 +91,7 @@ Serveme::Application.routes.draw do
   namespace :api do
     resources :users, only: :show
     resources :servers, only: :index
+    resources :donators, except: [:edit, :update]
     resources :reservations do
       member do
         post :idle_reset

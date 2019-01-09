@@ -53,9 +53,14 @@ describe Api::DonatorsController do
       expect(response.status).to eql 404
     end
 
-    it 'returns 404 if not donator' do
+    it 'returns a 401 if not an admin' do
+      @user.group_users.delete_all
+      @user.reload
+      controller.stub(:api_user => @user)
+
       get :show, params: { id: "foobar" }, format: :json
-      expect(response.status).to eql 404
+
+      expect(response.status).to eql 401
     end
   end
 

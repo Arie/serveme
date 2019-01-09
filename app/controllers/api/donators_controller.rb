@@ -4,10 +4,17 @@ class Api::DonatorsController < Api::ApplicationController
   before_action :require_admin
 
   def show
-    Group.donator_group.users.where(uid: params[:id])
+    @user = Group.donator_group.users.find_by(uid: params[:id])
+    if @user
+      @donator = @user.group_users.find_by(group_id: Group.donator_group.id)
+      render :show
+    else
+      head :not_found
+    end
   end
 
   def new
+    @user = GroupUser.new
     render :new
   end
 

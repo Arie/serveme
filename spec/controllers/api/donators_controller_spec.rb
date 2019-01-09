@@ -25,6 +25,40 @@ describe Api::DonatorsController do
     end
   end
 
+  describe "#shows" do
+
+    it 'renders a json of a current donator' do
+      create :group_user, user_id: @user.id, group_id: Group.donator_group.id, expires_at: 1.month.from_now
+      Group.donator_group.users.reload
+
+      get :show, params: { id: @user.uid }, format: :json
+      json = {
+        donator: {
+          steam_uid: @user.uid,
+          expires_at: String
+        }.ignore_extra_keys!,
+        actions: Hash
+        }
+
+      expect(response.body).to match_json_expression(json)
+    end
+
+    it 'returns 404 if not donator' do
+      get :show, params: { id: @user.uid }, format: :json
+      expect(response.status).to eql 404
+    end
+
+    it 'returns 404 if not found' do
+      get :show, params: { id: "foobar" }, format: :json
+      expect(response.status).to eql 404
+    end
+
+    it 'returns 404 if not donator' do
+      get :show, params: { id: "foobar" }, format: :json
+      expect(response.status).to eql 404
+    end
+  end
+
   describe "#create" do
 
     it "saves a valid donator and shows the results" do
@@ -34,6 +68,7 @@ describe Api::DonatorsController do
           steam_uid: @user.uid,
           expires_at: String,
         }.ignore_extra_keys!,
+        actions: Hash
       }
       expect(response.body).to match_json_expression(json)
       expect(Group.donator_group.group_users.where(user_id: @user.id).size).to eql 1

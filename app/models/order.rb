@@ -54,6 +54,8 @@ class Order < ActiveRecord::Base
       250.0
     elsif site_host == 'na.serveme.tf'
       175.0
+    elsif site_host == 'sea.serveme.tf'
+      60.0
     else
       50.0
     end

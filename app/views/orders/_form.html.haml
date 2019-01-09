@@ -7,18 +7,20 @@
     .btn-group{role: "group"}
       %button{type: "button", class: "btn btn-primary payment-method paypal-button selected"}
         PayPal
-      %button{type: "button", class: "btn btn-primary payment-method credit-card-button"}
-        Credit or Debit Card
+      = if eu_system? || na_system?
+        %button{type: "button", class: "btn btn-primary payment-method credit-card-button"}
+          Credit or Debit Card
 
     = simple_form_for(@order) do |f|
-      .row.credit-card-row
-        .col-md-12
-          #stripe-card
-          #stripe-errors
+      = if eu_system? || na_system?
+        .row.credit-card-row
+          .col-md-12
+            #stripe-card
+            #stripe-errors
 
-          .row
-            .col-md-12.offset-md-4
-              .stripe-logo= image_tag "powered_by_stripe.png"
+            .row
+              .col-md-12.offset-md-4
+                .stripe-logo= image_tag "powered_by_stripe.png"
 
       = f.input :payer_id, as: :hidden
 

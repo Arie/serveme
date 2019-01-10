@@ -5,8 +5,7 @@ class Api::DonatorsController < Api::ApplicationController
 
   def show
     @user = Group.donator_group.users.find_by(uid: params[:id])
-    if @user
-      @donator = @user.group_users.find_by(group_id: Group.donator_group.id)
+    if @user && @donator = @user.group_users.find_by(group_id: Group.donator_group.id)
       render :show
     else
       head :not_found
@@ -20,10 +19,14 @@ class Api::DonatorsController < Api::ApplicationController
 
   def create
     @user = User.find_by_uid(donator_params[:steam_uid])
-    @donator = Group.donator_group.group_users.find_or_initialize_by(user_id: @user.id)
-    @donator.expires_at = donator_params[:expires_at]
-    @donator.save
-    render :show
+    if @user
+      @donator = Group.donator_group.group_users.find_or_initialize_by(user_id: @user.id)
+      @donator.expires_at = donator_params[:expires_at]
+      @donator.save
+      render :show
+    else
+      head :not_found
+    end
   end
 
   def destroy

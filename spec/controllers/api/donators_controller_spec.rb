@@ -43,6 +43,11 @@ describe Api::DonatorsController do
       expect(response.body).to match_json_expression(json)
     end
 
+    it 'returns 404 if user does not exist' do
+      get :show, params: { id: "54321" }, format: :json
+      expect(response.status).to eql 404
+    end
+
     it 'returns 404 if not donator' do
       get :show, params: { id: @user.uid }, format: :json
       expect(response.status).to eql 404
@@ -77,6 +82,11 @@ describe Api::DonatorsController do
       }
       expect(response.body).to match_json_expression(json)
       expect(Group.donator_group.group_users.where(user_id: @user.id).size).to eql 1
+    end
+
+    it "returns a 404 if the user doesnt exist" do
+      post :create, params: { donator: { steam_uid: "54321", expires_at: (Time.current + 1.month).to_s } }, format: :json
+      expect(response.status).to eql 404
     end
   end
 

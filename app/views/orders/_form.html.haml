@@ -7,12 +7,12 @@
     .btn-group{role: "group"}
       %button{type: "button", class: "btn btn-primary payment-method paypal-button selected"}
         PayPal
-      = if eu_system? || na_system?
+      - if eu_system? || na_system?
         %button{type: "button", class: "btn btn-primary payment-method credit-card-button"}
           Credit or Debit Card
 
     = simple_form_for(@order) do |f|
-      = if eu_system? || na_system?
+      - if eu_system? || na_system?
         .row.credit-card-row
           .col-md-12
             #stripe-card

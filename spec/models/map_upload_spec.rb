@@ -13,7 +13,7 @@ describe MapUpload do
     bad_map.close
     upload = build :map_upload, :file => bad_map
     upload.valid?
-    upload.errors.full_messages.should == ["File not a map (bsp) file"]
+    expect(upload.errors.full_messages).to include("File not a map (bsp) file")
   end
 
   it "rejects blacklisted (crashing) maps" do

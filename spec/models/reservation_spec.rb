@@ -392,8 +392,9 @@ describe Reservation do
       it 'allows multiple future reservations' do
         user = create :user
         user.stub(:donator? => true)
-        first_future_reservation  = create :reservation, :starts_at => 10.hours.from_now, :ends_at => 11.hours.from_now, :user => user
-        second_future_reservation = build  :reservation, :starts_at => 12.hours.from_now, :ends_at => 13.hours.from_now, :user => user
+        second_server = create :server
+        _first_future_reservation  = create :reservation, starts_at: 10.hours.from_now, ends_at: 11.hours.from_now, user: user
+        second_future_reservation = build  :reservation, starts_at: 12.hours.from_now, ends_at: 13.hours.from_now, user: user, server: second_server
 
         second_future_reservation.should be_valid
       end
@@ -681,7 +682,8 @@ describe Reservation do
   end
 
   it "validates format of custom_whitelist_id", :vcr do
-    reservation = build(:reservation)
+    server = create(:server)
+    reservation = build(:reservation, server_id: server.id)
     reservation.custom_whitelist_id = 10
     expect(reservation).to be_valid
 

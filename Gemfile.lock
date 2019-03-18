@@ -569,7 +569,6 @@ DEPENDENCIES
   mechanize
   mini_racer
   minitest
-  net-scp
   net-sftp
   net-ssh
   oily_png

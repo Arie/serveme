@@ -8,6 +8,7 @@ sv_logbans 1
 logaddress_add <%= "direct.#{SITE_HOST}:40001" %>
 sv_rcon_whitelist_address "<%= whitelist_ip %>"
 sv_quota_stringcmdspersecond 200
+sv_max_queries_sec_global 60
 
 tftrue_no_hats 0
 <%= %{tftrue_logs_prefix "#{SITE_HOST} ##{id}"} %>

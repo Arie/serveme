@@ -192,7 +192,7 @@ GEM
     cucumber-expressions (6.0.1)
     cucumber-tag_expressions (1.1.1)
     cucumber-wire (0.0.1)
-    dalli (2.7.9)
+    dalli (2.7.10)
     dante (0.2.0)
     database_cleaner (1.7.0)
     debug_inspector (0.0.3)

@@ -131,8 +131,11 @@ describe SshServer do
     it "uses scp to copy files to the server" do
       files = [File.join('foo')]
       destination = 'bar'
+      scp = double(:scp)
+      scp_upload = double(:scp_upload, :wait => true)
 
-      subject.should_receive("system").with("scp foo #{subject.ip}:bar")
+      Net::SCP.should_receive(:start).with(subject.ip, nil).and_yield(scp)
+      scp.should_receive(:upload).with('foo', 'bar').and_return(scp_upload)
       subject.copy_to_server(files, destination)
     end
   end

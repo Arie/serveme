@@ -132,7 +132,7 @@ describe SshServer do
       files = [File.join('foo')]
       destination = 'bar'
 
-      subject.should_receive("system").with("scp foo #{subject.ip}:bar")
+      subject.should_receive("system").with("scp -T foo #{subject.ip}:bar")
       subject.copy_to_server(files, destination)
     end
   end
@@ -159,7 +159,7 @@ describe SshServer do
       files = [File.join('foo')]
       destination = 'bar'
 
-      subject.should_receive(:system).with("scp #{subject.ip}:\"foo\" bar")
+      subject.should_receive(:system).with("scp -T #{subject.ip}:\"foo\" bar")
 
       subject.copy_from_server(files, destination)
     end

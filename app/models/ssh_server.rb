@@ -51,12 +51,12 @@ class SshServer < RemoteServer
 
   def copy_to_server(files, destination)
     logger.info "SCP PUT, FILES: #{files} DESTINATION: #{destination}"
-    system("scp #{files.map(&:shellescape).join(" ")} #{ip}:#{destination}")
+    system("#{scp_command} #{files.map(&:shellescape).join(" ")} #{ip}:#{destination}")
   end
 
   def copy_from_server(files, destination)
     logger.info "SCP GET, FILES: #{files.join(", ")} DESTINATION: #{destination}"
-    system("scp #{ip}:\"#{files.map(&:shellescape).join(" ")}\" #{destination}")
+    system("#{scp_command} #{ip}:\"#{files.map(&:shellescape).join(" ")}\" #{destination}")
   end
 
   def zip_file_creator_class
@@ -90,4 +90,9 @@ class SshServer < RemoteServer
     @ssh = nil
   end
 
+  private
+
+  def scp_command
+    "scp -T"
+  end
 end

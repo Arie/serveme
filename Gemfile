@@ -28,7 +28,6 @@ gem 'eventmachine'
 gem 'dante'
 
 gem 'net-ssh'
-gem 'net-scp'
 gem 'net-sftp'
 gem 'draper'
 gem 'will_paginate'

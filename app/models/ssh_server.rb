@@ -51,27 +51,12 @@ class SshServer < RemoteServer
 
   def copy_to_server(files, destination)
     logger.info "SCP PUT, FILES: #{files} DESTINATION: #{destination}"
-    Net::SCP.start(ip, nil) do |scp|
-      files.collect do |f|
-        scp.upload(f, destination)
-      end.map(&:wait)
-    end
+    system("#{scp_command} #{files.map(&:shellescape).join(" ")} #{ip}:#{destination}")
   end
 
   def copy_from_server(files, destination)
-    if File.directory?(destination)
-      destination_dir = destination
-      destination_is_directory = true
-    else
-      destination_is_directory = false
-    end
-    Net::SFTP.start(ip, nil) do |sftp|
-      if destination_is_directory
-        files.map { |file| sftp.download(file, File.join(destination_dir, File.basename(file))) }.each { |d| d.wait }
-      else
-        files.map { |file| sftp.download(file, File.new(destination, 'wb').path) }.each { |d| d.wait }
-      end
-    end
+    logger.info "SCP GET, FILES: #{files.join(", ")} DESTINATION: #{destination}"
+    system("#{scp_command} #{ip}:\"#{files.map(&:shellescape).join(" ")}\" #{destination}")
   end
 
   def zip_file_creator_class
@@ -105,4 +90,13 @@ class SshServer < RemoteServer
     @ssh = nil
   end
 
+  private
+
+  def scp_command
+    if SITE_HOST == "sa.serveme.tf"
+      "scp"
+    else
+      "scp -T"
+    end
+  end
 end

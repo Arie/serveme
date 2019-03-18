@@ -131,11 +131,8 @@ describe SshServer do
     it "uses scp to copy files to the server" do
       files = [File.join('foo')]
       destination = 'bar'
-      scp = double(:scp)
-      scp_upload = double(:scp_upload, :wait => true)
 
-      Net::SCP.should_receive(:start).with(subject.ip, nil).and_yield(scp)
-      scp.should_receive(:upload).with('foo', 'bar').and_return(scp_upload)
+      subject.should_receive("system").with("scp -T foo #{subject.ip}:bar")
       subject.copy_to_server(files, destination)
     end
   end
@@ -161,24 +158,10 @@ describe SshServer do
     it "uses the sftp instance to copy files from the server" do
       files = [File.join('foo')]
       destination = 'bar'
-      sftp = double :file
-      sftp_download = double :sftp_download, wait: true
 
-      Net::SFTP.should_receive(:start).with(subject.ip, nil).and_yield(sftp)
-      sftp.should_receive(:download).with(files.first, "bar").and_return sftp_download
+      subject.should_receive(:system).with("scp -T #{subject.ip}:\"foo\" bar")
+
       subject.copy_from_server(files, destination)
-    end
-
-    it "can copy files to a destination dir" do
-      files = [File.join('foo')]
-      Dir.mktmpdir do |dir|
-        sftp = double :file
-        sftp_download = double :sftp_download, wait: true
-
-        Net::SFTP.should_receive(:start).with(subject.ip, nil).and_yield(sftp)
-        sftp.should_receive(:download).with(files.first, "bar").and_return sftp_download
-        subject.copy_from_server(files, "bar")
-      end
     end
 
   end

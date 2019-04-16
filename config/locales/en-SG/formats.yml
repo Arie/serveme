@@ -1,0 +1,5 @@
+"en-SG":
+  number:
+    currency:
+      format:
+        unit: "$"

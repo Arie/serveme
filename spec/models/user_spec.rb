@@ -86,7 +86,7 @@ describe User do
       user.groups << Group.donator_group
 
       user.group_users.last.update_attribute(:expires_at, 1.day.ago)
-      user.should_not be_donator
+      user.reload.should_not be_donator
     end
 
     it "is a donator when the membership is eternal" do
@@ -94,7 +94,7 @@ describe User do
       user.groups << Group.donator_group
 
       user.group_users.last.update_attribute(:expires_at, nil)
-      user.should be_donator
+      user.reload.should be_donator
     end
 
     it "is a donator when the membership expires in future" do
@@ -102,7 +102,7 @@ describe User do
       user.groups << Group.donator_group
 
       user.group_users.last.update_attribute(:expires_at, 1.day.from_now)
-      user.should be_donator
+      user.reload.should be_donator
     end
 
   end

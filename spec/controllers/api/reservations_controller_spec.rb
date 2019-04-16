@@ -85,8 +85,8 @@ describe Api::ReservationsController do
           tv_password: wildcard_matcher,
           tv_relaypassword: wildcard_matcher,
           logsecret: wildcard_matcher,
-          last_number_of_players: Fixnum,
-          inactive_minute_counter: Fixnum,
+          last_number_of_players: Integer,
+          inactive_minute_counter: Integer,
           start_instantly: true,
           end_instantly: false,
           server: {

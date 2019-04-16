@@ -32,10 +32,7 @@ sv_hibernate_when_empty "0"
 sv_hibernate_postgame_delay "0"
 sv_rcon_whitelist_address "<%= whitelist_ip %>"
 sv_quota_stringcmdspersecond 200
+sv_max_queries_sec_global 60
 
 <% if server_config %>
 <%= "exec #{server_config}" %><% end %>
-
-tf_preround_push_from_damage_enable 1
-
-addip 0 76.30.11.29

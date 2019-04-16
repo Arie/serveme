@@ -51,9 +51,11 @@ class Order < ActiveRecord::Base
 
   def self.monthly_goal(site_host = SITE_HOST)
     if site_host == 'serveme.tf'
-      300.0
+      250.0
     elsif site_host == 'na.serveme.tf'
       175.0
+    elsif site_host == 'sea.serveme.tf'
+      60.0
     else
       50.0
     end

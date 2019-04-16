@@ -28,7 +28,7 @@ describe ApplicationController do
 
   context "with expired reservations" do
 
-    controller(ReservationsController) do
+    controller(ServersController) do
       def index
         render :text => "foo"
       end

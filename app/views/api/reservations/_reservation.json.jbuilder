@@ -12,6 +12,7 @@ json.whitelist_id reservation.whitelist_id
 json.custom_whitelist_id reservation.custom_whitelist_id
 json.auto_end reservation.auto_end
 json.enable_plugins reservation.enable_plugins
+json.enable_demos_tf reservation.enable_demos_tf
 if reservation.persisted?
   json.id reservation.id
   json.last_number_of_players reservation.last_number_of_players

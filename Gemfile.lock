@@ -235,6 +235,8 @@ GEM
     fuubar (2.3.2)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
+    gameye (0.0.3)
+      faraday (~> 0.8)
     geocoder (1.5.1)
     gherkin (5.1.0)
     globalid (0.4.2)
@@ -552,6 +554,7 @@ DEPENDENCIES
   ffi
   font-awesome-rails
   fuubar
+  gameye
   geocoder
   google_visualr!
   haml

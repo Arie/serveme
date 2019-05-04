@@ -13,7 +13,7 @@ class Server < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :ip
   validates_presence_of :port
-  validates_presence_of :path
+  validates_presence_of :path, unless: :gameye?
 
   geocoded_by :host_to_ip
   before_save :geocode, :if => :ip_changed?
@@ -323,6 +323,10 @@ class Server < ActiveRecord::Base
 
   def host_to_ip
     Resolv.getaddress(ip) unless Rails.env.test?
+  end
+
+  def gameye?
+    self.class == GameyeServer
   end
 
 end

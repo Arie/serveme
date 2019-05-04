@@ -41,6 +41,7 @@ gem 'sidekiq-cron'
 gem 'rufus-scheduler'
 gem 'geocoder'
 gem 'rbtrace'
+gem 'gameye'
 
 gem 'dalli'
 gem 'connection_pool'

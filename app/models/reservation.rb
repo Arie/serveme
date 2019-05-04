@@ -245,4 +245,7 @@ class Reservation < ActiveRecord::Base
     status_update("Waiting to start")
   end
 
+  def gameye?
+    server && server.class == GameyeServer
+  end
 end

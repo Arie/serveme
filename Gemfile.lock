@@ -229,7 +229,7 @@ GEM
     ffi (1.10.0)
     font-awesome-rails (4.7.0.5)
       railties (>= 3.2, < 6.1)
-    fugit (1.2.0)
+    fugit (1.2.1)
       et-orbi (~> 1.1, >= 1.1.8)
       raabro (~> 1.1)
     fuubar (2.3.2)

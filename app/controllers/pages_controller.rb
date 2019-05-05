@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class PagesController < ApplicationController
-  skip_before_action :authenticate_user!, except: :recent_reservations
+  #skip_before_action :authenticate_user!, except: :recent_reservations
   skip_before_action :block_users_with_expired_reservations
   before_action :require_admin_or_streamer, only: :recent_reservations
 

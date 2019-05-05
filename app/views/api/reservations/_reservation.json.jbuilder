@@ -13,6 +13,7 @@ json.custom_whitelist_id reservation.custom_whitelist_id
 json.auto_end reservation.auto_end
 json.enable_plugins reservation.enable_plugins
 json.enable_demos_tf reservation.enable_demos_tf
+json.gameye_location reservation.gameye_location if reservation.gameye_location
 if reservation.persisted?
   json.id reservation.id
   json.last_number_of_players reservation.last_number_of_players
@@ -23,8 +24,10 @@ if reservation.persisted?
   json.provisioned reservation.provisioned
   json.ended reservation.ended
   json.steam_uid reservation.user.uid
-  json.server do
-    json.partial! "servers/server", server: reservation.server
+  if reservation.server
+    json.server do
+      json.partial! "servers/server", server: reservation.server
+    end
   end
 end
 if reservation.ended?

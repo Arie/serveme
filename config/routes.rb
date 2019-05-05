@@ -50,6 +50,10 @@ Serveme::Application.routes.draw do
     end
   end
 
+  get 'gameye/reservations/new', to: "reservations#new_gameye"
+  post 'gameye/reservations/create', to: "reservations#create_gameye"
+  get 'gameye/reservations/:id', to: "reservations#show_gameye", as: :gameye
+
   resources :map_uploads, :only => [:new, :create]
 
   resources :pages do

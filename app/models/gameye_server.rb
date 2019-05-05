@@ -1,27 +1,34 @@
 # frozen_string_literal: true
 class GameyeServer < Server
 
-  def self.start(reservation)
+  def self.start_reservation(reservation)
     Rails.logger.info("Starting Gameye server")
     if launch_gameye(reservation)
       create_temporary_server(reservation)
     end
   end
 
+  def self.update_reservation(reservation)
+  end
+
   def self.create_temporary_server(reservation)
     match = fetch_match(gameye_id(reservation))
     if match
-      GameyeServer.create(
+      server = GameyeServer.create(
         name: "Gameye ##{reservation.id}",
         ip: match.host,
-        port: match.port
+        port: match.port,
+        rcon: reservation.rcon
       )
+      reservation.update_attribute(:server_id, server.id)
+      reservation.status_update("Created Gameye match connect #{match.host}:#{match.port}; password #{reservation.password}")
     end
   end
 
-  def self.stop(reservation)
+  def self.stop_reservation(reservation)
     Rails.logger.info("Stopping Gameye server")
     Gameye::Match.stop(match_key: gameye_id(reservation))
+    reservation.server.update_attribute(:active, :false)
   end
 
   def self.matches
@@ -37,10 +44,10 @@ class GameyeServer < Server
   def self.locations
     #Gameye::Location.fetch(game_key: "tf2-serveme").locations
     #["washington_dc", "frankfurt", "chicago", "amsterdam", "phoenix"]
-    ["amsterdam", "frankfurt"].map(&:capitalize)
+    ["amsterdam", "frankfurt"]
   end
 
-  def launch_gameye(reservation)
+  def self.launch_gameye(reservation)
     Gameye::Match.start(
       game_key: "tf2-serveme",
       template_key: "serveme",
@@ -53,7 +60,7 @@ class GameyeServer < Server
         stvPassword: reservation.tv_password,
         motd: "This is a serveme.tf test",
         whitelist: reservation.custom_whitelist_id,
-        config: reservation.config.file
+        config: reservation.server_config.file
       }
     )
   end

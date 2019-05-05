@@ -10,8 +10,14 @@ class ReservationWorker
     @reservation_id = reservation_id
     @reservation = Reservation.includes(:server).find(reservation_id)
     begin
-      $lock.synchronize("server-#{reservation.server_id}", retries: 7, initial_wait: 0.5, expiry: 2.minutes) do
-        reservation.server.send("#{action}_reservation", reservation)
+      if @reservation.server_id
+        $lock.synchronize("server-#{reservation.server_id}", retries: 7, initial_wait: 0.5, expiry: 2.minutes) do
+          reservation.server.send("#{action}_reservation", reservation)
+        end
+      else
+        $lock.synchronize("server-gameye-#{reservation.id}", retries: 7, initial_wait: 0.5, expiry: 2.minutes) do
+          GameyeServer.send("#{action}_reservation", reservation)
+        end
       end
     rescue Exception => exception
       Rails.logger.error "Something went wrong #{action}-ing the server for reservation #{reservation_id} - #{exception}"

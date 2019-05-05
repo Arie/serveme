@@ -275,6 +275,10 @@ class Server < ActiveRecord::Base
     @server_info ||= ServerInfo.new(self)
   end
 
+  def gameye?
+    self.class == GameyeServer
+  end
+
   private
 
   def logs_and_demos
@@ -324,9 +328,4 @@ class Server < ActiveRecord::Base
   def host_to_ip
     Resolv.getaddress(ip) unless Rails.env.test?
   end
-
-  def gameye?
-    self.class == GameyeServer
-  end
-
 end

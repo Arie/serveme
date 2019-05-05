@@ -13,7 +13,11 @@ module ReservationServerInformation
   end
 
   def rcon_string
-    "rcon_address #{server.ip}:#{server.port}; rcon_password #{rcon}"
+    if server
+      "rcon_address #{server.ip}:#{server.port}; rcon_password #{rcon}"
+    else
+      "rcon_password #{rcon}"
+    end
   end
 
   def server_connect_url

@@ -60,7 +60,7 @@ class GameyeServer < Server
         stvPassword: reservation.tv_password,
         motd: "This is a serveme.tf test",
         whitelist: reservation.custom_whitelist_id,
-        config: reservation.server_config.file
+        config: (reservation.server_config && reservation.server_config.file)
       }
     )
   end

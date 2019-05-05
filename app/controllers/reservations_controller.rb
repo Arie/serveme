@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class ReservationsController < ApplicationController
 
-  before_action :require_admin, only: :streaming
+  before_action :require_admin, only: [:streaming, :new_gameye, :create_gameye]
   skip_before_action :block_users_with_expired_reservations, except: [:new, :create, :i_am_feeling_lucky]
   include ReservationsHelper
 
@@ -13,6 +13,31 @@ class ReservationsController < ApplicationController
     @reservation ||= new_reservation
     if @reservation.poor_rcon_password?
       @reservation.generate_rcon_password!
+    end
+  end
+
+  def new_gameye
+    @gameye_locations = GameyeServer.locations
+    if user_made_two_very_short_reservations_in_last_ten_minutes?
+      flash[:alert] = "You made 2 very short reservations in the last ten minutes, please wait a bit before making another one. If there was a problem with your server, let us know in the comments below"
+      redirect_to root_path
+    end
+    @reservation ||= new_reservation
+    if @reservation.poor_rcon_password?
+      @reservation.generate_rcon_password!
+    end
+  end
+
+  def create_gameye
+    @reservation = current_user.reservations.build(reservation_params)
+    if @reservation.valid?
+        $lock.synchronize("save-reservation-server-gameye") do
+          @reservation.save!
+        end
+      reservation_saved if @reservation.persisted?
+    else
+      @gameye_locations = GameyeServer.locations
+      render :new_gameye
     end
   end
 
@@ -79,6 +104,14 @@ class ReservationsController < ApplicationController
     end
   end
 
+  def gameye
+    if reservation
+      render :show_gameye
+    else
+      redirect_to new_reservation_path
+    end
+  end
+
   def destroy
     if reservation.cancellable?
       cancel_reservation
@@ -119,8 +152,13 @@ class ReservationsController < ApplicationController
     if @reservation.now?
       @reservation.update_attribute(:start_instantly, true)
       @reservation.start_reservation
-      flash[:notice] = "Reservation created for #{@reservation.server_name}. The server is now being configured, give it a minute to (re)boot/update and <a href='#{@reservation.server_connect_url}'>click here to join</a> or enter in console: #{@reservation.connect_string}".html_safe
-      redirect_to reservation_path(@reservation)
+      if @reservation.gameye?
+        flash[:notice] = "Match started on Gameye. The server is now being configured, give it a minute to boot"
+        redirect_to gameye_path(@reservation)
+      else
+        flash[:notice] = "Reservation created for #{@reservation.server_name}. The server is now being configured, give it a minute to (re)boot/update and <a href='#{@reservation.server_connect_url}'>click here to join</a> or enter in console: #{@reservation.connect_string}".html_safe
+        redirect_to reservation_path(@reservation)
+      end
     else
       flash[:notice] = "Reservation created for #{@reservation}"
       redirect_to root_path

@@ -1,5 +1,7 @@
 json.id server.id
 json.name server.name
-json.location do
-  json.partial! 'locations/location', location: server.location
+if server.location_id
+  json.location do
+    json.partial! 'locations/location', location: server.location
+  end
 end

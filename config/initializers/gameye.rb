@@ -1,1 +1,1 @@
-Gameye.token = 'gameye-token'
+Gameye.token = nil

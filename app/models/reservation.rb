@@ -235,6 +235,10 @@ class Reservation < ActiveRecord::Base
     SITE_HOST
   end
 
+  def gameye?
+    gameye_location.present? || (server && server.gameye?)
+  end
+
   private
 
   def reservation_manager
@@ -243,9 +247,5 @@ class Reservation < ActiveRecord::Base
 
   def generate_initial_status
     status_update("Waiting to start")
-  end
-
-  def gameye?
-    server && server.class == GameyeServer
   end
 end

@@ -1,0 +1,122 @@
+:javascript
+  reservation_status_url = "#{status_reservation_path(reservation)}";
+  getReservationStatus();
+
+%h3
+  Reservation:
+  = reservation.to_s
+
+.row
+  .col-md-10
+
+    %table.table.table-hover.table-bordered.table-striped
+      %tr
+        %td Status
+        %td
+          #reservation_status
+            #reservation_status_spinner
+              %i.fa.fa-spinner.fa-spin.reservation_status_spinner
+            #reservation_status_message= reservation.status.titleize
+
+      - if reservation.server
+        %tr
+          %td Actions
+          %td.actions= render 'actions'
+        %tr
+          %td Connect info
+          %td
+            = reservation.connect_string
+            = render 'shared/copy_button', :copy_button_id => "connect_string", :copy_text => reservation.connect_string
+
+        %tr
+          %td TF2Center info
+          %td
+            Server Address:
+            - ip_and_port = "#{reservation.server.ip}:#{reservation.server.port}"
+            = ip_and_port
+            = render 'shared/copy_button', :copy_button_id => "server_address", :copy_text => ip_and_port
+            %br
+            Rcon Password:
+            = reservation.rcon
+            = render 'shared/copy_button', :copy_button_id => "rcon_password", :copy_text => reservation.rcon
+
+      %tr
+        %td Password
+        %td= reservation.password
+
+      %tr
+        %td RCON
+        %td
+          = reservation.rcon_string
+          = render 'shared/copy_button', :copy_button_id => "rcon_string", :copy_text => reservation.rcon_string
+
+        %tr
+          %td STV
+          %td Enabled
+
+        %tr
+          %td TV password
+          %td= reservation.tv_password
+
+        %tr
+          %td Relay password
+          %td= reservation.tv_relaypassword
+
+        - if reservation.server
+          %tr
+            %td STV connect info
+            %td
+              - if reservation.active?
+                = link_to reservation.stv_connect_url, :class => 'btn btn-sm btn-primary' do
+                  Join STV
+                  %i.fa.fa-film
+              = reservation.stv_connect_string
+              = render 'shared/copy_button', :copy_button_id => "stv_connect_string", :copy_text => reservation.stv_connect_string
+              - ip_and_port = "#{reservation.server.ip}:#{reservation.server.tv_port}"
+              - password_for_relay = reservation.tv_relaypassword.presence || reservation.tv_password
+              - if current_admin || current_streamer
+                = link_to "http://relay.fakkelbrigade.eu/new?ip_port=#{ip_and_port}&password=#{password_for_relay}", :title => "create relay", :class => "btn btn-sm btn-warning", :target => "_blank" do
+                  Create relay
+                  %i.fa.fa-share-alt
+
+      - if reservation.server_config
+        %tr
+          %td Server config
+          %td= reservation.server_config
+
+      - if reservation.custom_whitelist_id.present?
+        %tr
+          %td Whitelist
+          %td= link_to("Custom whitelist", "http://whitelist.tf/#{reservation.custom_whitelist_id}")
+      - elsif reservation.whitelist
+        %tr
+          %td Whitelist
+          %td= reservation.whitelist
+
+      - if reservation.server && (current_admin || current_streamer)
+        %tr
+          %td Logsecret
+          %td
+            = reservation.logsecret
+            = render 'shared/copy_button', :copy_button_id => "logsecret_string", :copy_text => reservation.logsecret
+            - ip_and_port = "#{reservation.server.ip}:#{reservation.server.port}"
+            = link_to "http://live.fakkelbrigade.eu/matches/new?host=#{ip_and_port}&rcon=#{reservation.rcon}&logsecret=#{reservation.logsecret}", :title => "create livestats", :class => "btn btn-sm btn-warning", :target => "_blank" do
+              Livestats
+              %i.fa.fa-bar-chart
+        %tr
+          %td Stats
+          %td
+            = link_to show_reservation_statistic_path(reservation),         :title => "Player stats", :class => "btn btn-sm btn-info" do
+              Player stats
+              %i.fa.fa-bar-chart
+            = link_to show_reservation_server_statistic_path(reservation),  :title => "Server stats", :class => "btn btn-sm btn-primary" do
+              Server stats
+              %i.fa.fa-bar-chart
+
+
+    - if current_admin
+      %table.table.table-hover.table-bordered.table-striped
+        - reservation.reservation_statuses.ordered.each do |su|
+          %tr
+            %td= I18n.l(su.created_at, :format => :time)
+            %td= su.status

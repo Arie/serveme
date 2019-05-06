@@ -41,7 +41,7 @@
       Cancel
       %i.fa.fa-trash-o
 
-  - if reservation.past? && reservation.younger_than_cleanup_age?
+  - if reservation.past? && reservation.younger_than_cleanup_age? && !reservation.gameye?
     = render 'reservations/zip_file_link', :reservation => reservation
     = link_to reservation_log_uploads_path(reservation),  :class => 'btn btn-sm btn-success', :title => 'Upload the match logs to logs.tf' do
       logs.tf

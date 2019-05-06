@@ -12,6 +12,9 @@ class ActiveReservationCheckerWorker
       server_info.status
       server_info.get_stats
       server_info.get_rcon_status
+      if reservation.gameye?
+        reservation.server.rcon_exec "sv_logsecret #{reservation.logsecret}"
+      end
       ServerMetric.new(server_info)
     rescue SteamCondenser::Error, Errno::ECONNREFUSED
       Rails.logger.warn "Couldn't update #{reservation.server.name}"

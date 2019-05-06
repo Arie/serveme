@@ -44,7 +44,7 @@ class GameyeServer < Server
   def self.locations
     #Gameye::Location.fetch(game_key: "tf2-serveme").locations
     #["washington_dc", "frankfurt", "chicago", "amsterdam", "phoenix"]
-    ["amsterdam", "frankfurt"]
+    ["london", "frankfurt"]
   end
 
   def self.launch_gameye(reservation)

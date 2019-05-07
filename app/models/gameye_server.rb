@@ -52,6 +52,12 @@ class GameyeServer < Server
     [["London", "londen"], ["Frankfurt", "frankfurt"]]
   end
 
+  def self.location_keys
+    locations.map do |name, key|
+      key
+    end
+  end
+
   def self.launch_gameye(reservation)
     Gameye::Match.start(
       game_key: "tf2-serveme",

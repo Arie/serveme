@@ -21,7 +21,7 @@ class Server < ActiveRecord::Base
   delegate :flag, :to => :location, :prefix => true, :allow_nil => true
 
   def self.reservable_by_user(user)
-    where(:id => ids_reservable_by_user(user))
+    where(:id => ids_reservable_by_user(user)).where('servers.type != ?', 'GameyeServer')
   end
 
   def self.ids_reservable_by_user(user)
@@ -42,6 +42,10 @@ class Server < ActiveRecord::Base
 
   def self.with_group
     joins(:groups)
+  end
+
+  def self.gameye
+    where('servers.type = ?', 'GameyeServer')
   end
 
   def self.active

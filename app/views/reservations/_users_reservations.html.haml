@@ -8,11 +8,14 @@
   %tbody
     - @users_reservations.each do |reservation|
       %tr[reservation]
-        - server = reservation.server.decorate
-        - if reservation.active?
-          %td= "#{server.name} (#{pluralize(reservation.last_number_of_players, 'player')})".html_safe
+        -if reservation.server
+          - server = reservation.server.decorate
+          - if reservation.active?
+            %td= "#{server.name} (#{pluralize(reservation.last_number_of_players, 'player')})".html_safe
+          - else
+            %td= server.name
         - else
-          %td= server.name
+          %td &nbsp;
         %td= I18n.l(reservation.starts_at,  :format => :short)
         %td= I18n.l(reservation.ends_at,    :format => :short)
         %td.actions= render 'reservations/actions', :reservation => reservation

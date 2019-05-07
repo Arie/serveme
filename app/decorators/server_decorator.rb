@@ -9,7 +9,7 @@ class ServerDecorator < Draper::Decorator
 
   def flag
     if flag_abbreviation
-      tag.span "", class: "flags flags-#{location.flag}", title: location.name
+      tag.span "", class: "flags flags-#{flag_abbreviation}", title: location.name
     else
       ""
     end

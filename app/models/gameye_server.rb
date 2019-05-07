@@ -32,7 +32,7 @@ class GameyeServer < Server
 
   def self.stop_reservation(reservation)
     Rails.logger.info("Stopping Gameye server")
-    reservation.server.update_attribute(:active, :false)
+    reservation.server.update_attribute(:active, false)
     Gameye::Match.stop(match_key: gameye_id(reservation))
   end
 

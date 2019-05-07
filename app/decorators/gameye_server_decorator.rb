@@ -21,8 +21,17 @@ class GameyeServerDecorator < ServerDecorator
   end
 
   def locations
-    { "londen" => {name: "London", flag: "en"},
-      "frankfurt" => {name: "Frankfurt", flag: "de"} }
+    {
+      "amsterdam"     => {name: "Amsterdam",        flag: "nl"},
+      "chicago"       => {name: "Chicago",          flag: "us"},
+      "frankfurt"     => {name: "Frankfurt",        flag: "de"},
+      "londen"        => {name: "London",           flag: "en"},
+      "moscow"        => {name: "Frankfurt",        flag: "de"},
+      "phoenix"       => {name: "Phoenix",          flag: "us"},
+      "sao_paulo"     => {name: "Frankfurt",        flag: "br"},
+      "warsaw"        => {name: "Warsaw",           flag: "pl"},
+      "washington_dc" => {name: "Washington D.C.",  flag: "us"}
+    }
   end
 
 end

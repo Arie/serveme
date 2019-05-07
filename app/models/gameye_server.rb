@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 class GameyeServer < Server
 
+  has_one :reservation, foreign_key: :server_id
+
   def self.start_reservation(reservation)
     Rails.logger.info("Starting Gameye server")
     launch = launch_gameye(reservation)

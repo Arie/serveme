@@ -32,7 +32,7 @@ class GameyeServer < Server
   end
 
   def self.matches
-    Gameye::Match.all
+    Gameye::Match.all.reject(&:nil?)
   end
 
   def self.fetch_match(match_key)
@@ -82,6 +82,9 @@ class GameyeServer < Server
     #noop
   end
   def remove_logs_and_demos
+    #noop
+  end
+  def restart
     #noop
   end
 end

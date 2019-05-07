@@ -6,10 +6,7 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper
 
   protect_from_forgery
-  #before_action :authenticate_user!
-  def current_user
-    User.first
-  end
+  before_action :authenticate_user!
   before_action :set_time_zone
   before_action :check_expired_reservations
   before_action :block_users_with_expired_reservations

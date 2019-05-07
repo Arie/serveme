@@ -90,4 +90,11 @@ class GameyeServer < Server
   def restart
     #noop
   end
+  def end_reservation(reservation)
+    reservation.reload
+    return if reservation.ended?
+    rcon_exec("sv_logflush 1; tv_stoprecord; kickall Reservation ended, every player can download the STV demo at http:/​/#{SITE_HOST}")
+    sleep 1 # Give server a second to finish the STV demo and write the log
+    GameyeServer.stop_reservation(reservation)
+  end
 end

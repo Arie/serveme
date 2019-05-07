@@ -20,7 +20,7 @@
           = link_to i_am_feeling_lucky_reservations_path, :class => 'btn btn-lg btn-warning', :method => :post, :title => "Make a reservation in 1 click" do
             I'm feeling lucky
             %i.fa.fa-bolt
-          - if eu_system? && donator?
+          - if eu_system? && admin?
             = link_to gameye_reservations_new_path, :class => 'btn btn-lg btn-info', :title => "Launch an on-demand cloud server" do
               cloud (alpha)
               %i.fa.fa-cloud

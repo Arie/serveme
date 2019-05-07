@@ -28,13 +28,15 @@
         End
         %i.fa.fa-stop
 
-      = link_to  reservation.server_connect_url,            :class => 'btn btn-sm btn-warning' do
-        Join game
-        %i.fa.fa-play
+      - if reservation.server
 
-      = link_to reservation.stv_connect_url,              :class => 'btn btn-sm btn-primary' do
-        Join STV
-        %i.fa.fa-film
+        = link_to  reservation.server_connect_url,            :class => 'btn btn-sm btn-warning' do
+          Join game
+          %i.fa.fa-play
+
+        = link_to reservation.stv_connect_url,              :class => 'btn btn-sm btn-primary' do
+          Join STV
+          %i.fa.fa-film
 
   - if reservation.cancellable?
     = link_to reservation_path(reservation),              :class => 'btn btn-sm btn-warning', :title => 'Cancel reservation',  :method => :delete do

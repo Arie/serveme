@@ -3,8 +3,11 @@ class GameyeServer < Server
 
   def self.start_reservation(reservation)
     Rails.logger.info("Starting Gameye server")
-    if launch_gameye(reservation)
+    launch = launch_gameye(reservation)
+    if launch == true
       create_temporary_server(reservation)
+    else
+      reservation.status_update("Failed to launch Gameye server, got #{launch}")
     end
   end
 

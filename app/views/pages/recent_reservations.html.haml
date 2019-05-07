@@ -23,9 +23,12 @@
           - klass = 'table-success' if reservation.active?
           - klass = 'table-info'    if reservation.future?
           %tr[reservation]{:class => klass}
-            - server = reservation.server.decorate
             - user = reservation.user.decorate
-            %td= server.name
+            - if reservation.server
+              - server = reservation.server.decorate
+              %td= server.name
+            - else
+              %td &nbsp;
             %td= link_to(user.nickname, user.steam_profile_url, :target => "_blank")
             %td= I18n.l(reservation.starts_at,  :format => :short)
             %td= I18n.l(reservation.ends_at,    :format => :short)

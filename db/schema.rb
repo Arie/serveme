@@ -292,11 +292,4 @@ ActiveRecord::Schema.define(version: 2019_05_05_172900) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "zip_uploads", force: :cascade do |t|
-    t.string "file"
-    t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
 end

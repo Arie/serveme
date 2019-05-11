@@ -13,8 +13,7 @@ class GameyeServer < Server
     end
   end
 
-  def self.update_reservation(reservation)
-  end
+  def self.update_reservation(reservation); end
 
   def self.create_temporary_server(reservation)
     match = fetch_match(gameye_id(reservation))
@@ -81,24 +80,6 @@ class GameyeServer < Server
     "#{SITE_HOST}-#{reservation.id}"
   end
 
-  def update_configuration(_reservation)
-    #noop
-  end
-  def write_configuration(_output_filename, _output_content)
-    #noop
-  end
-  def upload_configuration(_configuration_file, _upload_file)
-    #noop
-  end
-  def remove_configuration
-    #noop
-  end
-  def remove_logs_and_demos
-    #noop
-  end
-  def restart
-    #noop
-  end
   def end_reservation(reservation)
     reservation.reload
     return if reservation.ended?
@@ -106,4 +87,11 @@ class GameyeServer < Server
     sleep 1 # Give server a second to finish the STV demo and write the log
     GameyeServer.stop_reservation(reservation)
   end
+
+  def update_configuration(_reservation); end
+  def write_configuration(_output_filename, _output_content); end
+  def upload_configuration(_configuration_file, _upload_file); end
+  def remove_configuration; end
+  def remove_logs_and_demos; end
+  def restart; end
 end

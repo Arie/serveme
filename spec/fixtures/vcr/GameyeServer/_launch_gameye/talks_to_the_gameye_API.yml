@@ -1,0 +1,31 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.gameye.com/action/start-match
+    body:
+      encoding: UTF-8
+      string: '{"gameKey":"tf2-serveme","locationKeys":["frankfurt"],"templateKey":"serveme","matchKey":"localhost-12345","config":{"map":"cp_badlands","rconPassword":"the-rcon","serverPassword":"sv-password","maxPlayers":24,"stvPassword":"stv-password","motd":"This
+        is a serveme.tf test","whitelist":"whitelist-id","config":"server-config-file"}}'
+    headers:
+      User-Agent:
+      - Faraday v0.15.4
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer api-token
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      date:
+      - Sat, 11 May 2019 14:36:11 GMT
+      connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version:
+  recorded_at: Sat, 11 May 2019 14:36:11 GMT
+recorded_with: VCR 4.0.0

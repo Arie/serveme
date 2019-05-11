@@ -719,4 +719,13 @@ describe Reservation do
       expect(subject.whitelist_ip).to eql(SITE_HOST)
     end
   end
+
+  it "validates a gameye reservation do" do
+    reservation = build(:reservation)
+    reservation.gameye_location = "frankfurt"
+    expect(reservation).to be_valid
+
+    reservation.gameye_location = "lutjebroek"
+    expect(reservation).to_not be_valid
+  end
 end

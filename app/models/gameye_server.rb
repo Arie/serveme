@@ -93,5 +93,7 @@ class GameyeServer < Server
   def upload_configuration(_configuration_file, _upload_file); end
   def remove_configuration; end
   def remove_logs_and_demos; end
+  def list_files(_destination); [] end
+  def copy_to_server(_files, destionation); end
   def restart; end
 end

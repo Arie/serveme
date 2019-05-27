@@ -93,10 +93,6 @@ class SshServer < RemoteServer
   private
 
   def scp_command
-    if SITE_HOST == "sa.serveme.tf"
-      "scp"
-    else
-      "scp -T"
-    end
+    "scp -T"
   end
 end

@@ -14,7 +14,10 @@
         = f.input :starts_at,       :as => :string, :input_html => { :value => I18n.l(@reservation.starts_at, :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Starts at"
         = f.input :ends_at,         :as => :string, :input_html => { :value => I18n.l(@reservation.ends_at,   :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Ends at"
 
-      = f.input :gameye_location, :label => "Location", :required => true, :disabled => !@reservation.schedulable?, :collection => @gameye_locations
+      :javascript
+        gameye_locations = #{@gameye_locations.map { |s| {id: s[:id], text: s[:name], flag: s[:flag]} }.to_json.html_safe};
+
+      = f.input :gameye_location, :label => "Location", :required => true, :disabled => !@reservation.schedulable?
 
       = f.input :password,            :as => :string, :placeholder => "The server password to join the game"
       = f.input :rcon,                :as => :string, :placeholder => "The RCON password to control the server",        :disabled => !@reservation.schedulable?

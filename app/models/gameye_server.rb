@@ -46,14 +46,14 @@ class GameyeServer < Server
   end
 
   def self.locations
-    #Gameye::Location.fetch(game_key: "tf2-serveme").locations
-    #["washington_dc", "frankfurt", "chicago", "amsterdam", "phoenix"]
-    [["London, England", "london"], ["Frankfurt, Germany", "frankfurt"], ["Warsaw, Poland", "warsaw"]]
+    [ {id: "london", name: "London", flag: "en"},
+      {id: "frankfurt", name: "Frankfurt", flag: "de"},
+      {id: "warsaw", name: "Warsaw", flag: "pl"} ]
   end
 
   def self.location_keys
-    locations.map do |name, key|
-      key
+    locations.map do |location|
+      location[:id]
     end
   end
 

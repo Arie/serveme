@@ -39,6 +39,13 @@ $(document).ready(function() {
     allowClear: true
   });
 
+  $("#reservation_gameye_location").select2({
+    formatResult: formatServer,
+    formatSelection: formatServer,
+    data: function() { return {results: gameye_locations}; },
+    escapeMarkup: function(m) { return m }
+  });
+
   $("#reservation_server_id").select2({
     formatResult: formatServer,
     formatSelection: formatServer,

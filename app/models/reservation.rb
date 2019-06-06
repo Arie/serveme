@@ -98,7 +98,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def extend!
-    if less_than_1_hour_left?
+    if less_than_1_hour_left? && !gameye?
       self.extending  = true
       self.ends_at    = ends_at + user.reservation_extension_time
       self.inactive_minute_counter = 0
@@ -125,7 +125,8 @@ class Reservation < ActiveRecord::Base
   def warn_nearly_over
     time_left_in_minutes  = (time_left / 60.0).ceil
     time_left_text        = I18n.t(:timeleft, :count => time_left_in_minutes)
-    server.rcon_say("This reservation will end in less than #{time_left_text}, if this server is not yet booked by someone else, you can say !extend for more time")
+    server.rcon_say("This reservation will end in less than #{time_left_text}, it cannot be extended") if gameye?
+    server.rcon_say("This reservation will end in less than #{time_left_text}, if this server is not yet booked by someone else, you can say !extend for more time") if !gameye?
     server.rcon_disconnect
   end
 

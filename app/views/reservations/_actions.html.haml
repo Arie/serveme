@@ -8,7 +8,7 @@
       %i.fa.fa-edit
 
   - if reservation.active? || (reservation.now? && reservation.start_instantly?)
-    - if reservation.less_than_1_hour_left?
+    - if reservation.less_than_1_hour_left? && !reservation.gameye?
       = link_to extend_reservation_path(reservation),     :class => 'btn btn-sm btn-primary', :title => 'Extend reservation',  :method => :post,   :data => { :confirm => "This will extend your reservation if possible" } do
         Extend
         %i.fa.fa-clock-o

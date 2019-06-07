@@ -67,6 +67,7 @@ class GameyeServer < Server
         map: reservation.first_map,
         rconPassword: reservation.rcon,
         serverPassword: reservation.password,
+        logAddress: "direct.#{SITE_HOST}:40001",
         maxPlayers: 24,
         stvPassword: reservation.tv_password,
         motd: "This is a serveme.tf test",

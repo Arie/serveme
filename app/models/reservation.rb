@@ -219,6 +219,7 @@ class Reservation < ActiveRecord::Base
     status_messages = reservation_statuses.map(&:status)
     return "ready"            if status_messages.grep(/Server finished loading map/).any?
     return "starting"         if status_messages.include?("Starting")
+    return "starting"         if status_messages.grep(/Created Gameye match/).any?
     return "waiting_to_start" if status_messages.include?("Waiting to start")
   end
 

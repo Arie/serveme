@@ -49,7 +49,7 @@ class GameyeServer < Server
     [
       {id: "london", name: "London", flag: "en", concurrency_limit: 10},
       {id: "frankfurt", name: "Frankfurt", flag: "de", concurrency_limit: 10},
-      {id: "moscow", name: "Moscow", flag: "ru", concurrency_limit: 5},
+      #{id: "moscow", name: "Moscow", flag: "ru", concurrency_limit: 5},
       {id: "warsaw", name: "Warsaw", flag: "pl", concurrency_limit: 10},
     ]
   end

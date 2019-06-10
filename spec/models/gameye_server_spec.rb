@@ -26,7 +26,7 @@ describe GameyeServer do
 
   describe ".location_keys" do
     it "knows the valid Gameye location keys" do
-      expect(GameyeServer.location_keys).to eql ["london", "frankfurt", "moscow", "warsaw"]
+      expect(GameyeServer.location_keys).to eql ["london", "frankfurt", "warsaw"]
     end
   end
 

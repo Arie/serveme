@@ -5,11 +5,11 @@ module ReservationServerInformation
   end
 
   def connect_string
-    server.server_connect_string(password)
+    server && server.server_connect_string(password)
   end
 
   def stv_connect_string
-    server.stv_connect_string(tv_password)
+    server && server.stv_connect_string(tv_password)
   end
 
   def rcon_string
@@ -21,11 +21,11 @@ module ReservationServerInformation
   end
 
   def server_connect_url
-    server.server_connect_url(password)
+    server && server.server_connect_url(password)
   end
 
   def stv_connect_url
-    server.stv_connect_url(tv_password)
+    server && server.stv_connect_url(tv_password)
   end
 
   def zipfile_name

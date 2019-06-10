@@ -1,7 +1,12 @@
 %span
-  = link_to reservation_path(reservation),              :class => 'btn btn-sm btn-success' do
-    Details
-    %i.fa.fa-list
+  - if reservation.gameye?
+    = link_to gameye_path(reservation), :class => 'btn btn-sm btn-success' do
+      Details
+      %i.fa.fa-list
+  - else
+    = link_to reservation_path(reservation), :class => 'btn btn-sm btn-success' do
+      Details
+      %i.fa.fa-list
   - unless reservation.past?
     = link_to edit_reservation_path(reservation),         :class => 'btn btn-sm btn-info',    :title => 'Edit reservation' do
       Edit

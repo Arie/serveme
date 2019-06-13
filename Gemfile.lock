@@ -11,37 +11,12 @@ GIT
     remote_lock (1.2.0)
 
 GIT
-  remote: https://github.com/Arie/steam-condenser-ruby
-  revision: 142d5a253fb66db566a7e854e0a03e24796d03d4
+  remote: https://github.com/koraktor/steam-condenser-ruby
+  revision: 2cb441f0518a0b8d20a017dfcc42783ae878311a
   specs:
     steam-condenser (1.3.11)
       multi_json (~> 1.6)
       multi_xml (~> 0.5)
-
-GIT
-  remote: https://github.com/cucumber/cucumber-rails.git
-  revision: 33c2c77a68b0020a01675b5ccf71ecd59cfb8f49
-  specs:
-    cucumber-rails (1.7.0)
-      capybara (>= 2.3.0, < 4)
-      cucumber (>= 3.0.2, < 4)
-      mime-types (>= 1.17, < 4)
-      nokogiri (~> 1.8)
-      railties (>= 4.2, < 7)
-
-GIT
-  remote: https://github.com/koraktor/rbzip2
-  revision: f9544ca605ff5ab602192d1dca821f4414a382ef
-  specs:
-    rbzip2 (0.3.0)
-
-GIT
-  remote: https://github.com/reu/omniauth-steam.git
-  revision: a82860209efbb219375de85082e71b52df1d0a6a
-  specs:
-    omniauth-steam (1.0.6)
-      multi_json
-      omniauth-openid
 
 GEM
   remote: https://rubygems.org/
@@ -190,6 +165,12 @@ GEM
       cucumber-tag_expressions (~> 1.1.0)
       gherkin (~> 5.0)
     cucumber-expressions (6.0.1)
+    cucumber-rails (1.7.0)
+      capybara (>= 2.3.0, < 4)
+      cucumber (>= 3.0.2, < 4)
+      mime-types (>= 1.17, < 4)
+      nokogiri (~> 1.8)
+      railties (>= 4.2, < 7)
     cucumber-tag_expressions (1.1.1)
     cucumber-wire (0.0.1)
     dalli (2.7.10)
@@ -322,10 +303,13 @@ GEM
     omniauth-openid (1.0.1)
       omniauth (~> 1.0)
       rack-openid (~> 1.3.1)
+    omniauth-steam (1.0.6)
+      multi_json
+      omniauth-openid
     optimist (3.0.0)
     orm_adapter (0.5.0)
     parallel (1.17.0)
-    parallel_tests (2.29.0)
+    parallel_tests (2.29.1)
       parallel
     paypal-sdk-rest (1.7.3)
       multi_json (~> 1.0)
@@ -388,6 +372,7 @@ GEM
       ffi (>= 1.0.6)
       msgpack (>= 0.4.3)
       optimist (>= 3.0.0)
+    rbzip2 (0.3.0)
     redis (4.1.2)
     regexp_parser (1.5.1)
     request_store (1.4.1)
@@ -539,7 +524,7 @@ DEPENDENCIES
   connection_pool
   coveralls
   cucumber
-  cucumber-rails!
+  cucumber-rails
   dalli
   dante
   database_cleaner
@@ -573,7 +558,7 @@ DEPENDENCIES
   net-ssh
   oily_png
   omniauth-openid
-  omniauth-steam!
+  omniauth-steam
   parallel_tests
   paypal-sdk-rest
   pg
@@ -584,7 +569,7 @@ DEPENDENCIES
   rails (~> 5.2.0)
   rails-controller-testing
   rbtrace
-  rbzip2!
+  rbzip2
   remote_lock!
   rspec-activemodel-mocks
   rspec-collection_matchers

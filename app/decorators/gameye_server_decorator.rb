@@ -26,10 +26,9 @@ class GameyeServerDecorator < ServerDecorator
       "chicago"       => {name: "Chicago",          flag: "us"},
       "frankfurt"     => {name: "Frankfurt",        flag: "de"},
       "london"        => {name: "London",           flag: "en"},
-      "londen"        => {name: "London",           flag: "en"},
       "moscow"        => {name: "Moscow",           flag: "ru"},
       "phoenix"       => {name: "Phoenix",          flag: "us"},
-      "sao_paulo"     => {name: "Frankfurt",        flag: "br"},
+      "sao_paulo"     => {name: "São Paulo",        flag: "br"},
       "warsaw"        => {name: "Warsaw",           flag: "pl"},
       "washington_dc" => {name: "Washington D.C.",  flag: "us"}
     }

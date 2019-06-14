@@ -8,6 +8,7 @@
   %tbody
     - @users_reservations.each do |reservation|
       %tr[reservation]
+        - reservation = reservation.decorate
         - server_name = reservation.server_name
         - if reservation.active?
           %td= "#{server_name} (#{pluralize(reservation.last_number_of_players, 'player')})".html_safe

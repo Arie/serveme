@@ -26,7 +26,7 @@ module ApplicationHelper
   end
 
   def logs_tf_url(user)
-    "http://logs.tf/profile/"#{user.uid}"
+    "http://logs.tf/profile/#{user.uid}"
   end
 
   def demos_tf_url(user)

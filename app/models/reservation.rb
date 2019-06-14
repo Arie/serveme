@@ -241,6 +241,18 @@ class Reservation < ActiveRecord::Base
     gameye_location.present? || (server && server.gameye?)
   end
 
+  def logs_tf_url
+    "http://logs.tf/search/log?s=#{SITE_HOST}+%23#{id}"
+  end
+
+  def demos_tf_url(current_user)
+    if current_user
+      "https://demos.tf/profiles/#{current_user.uid}"
+    else
+      "https://demos.tf"
+    end
+  end
+
   private
 
   def reservation_manager

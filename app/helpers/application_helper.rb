@@ -25,4 +25,15 @@ module ApplicationHelper
     define_method("#{subdomain}_system?") { SITE_URL == "https://#{subdomain}.serveme.tf" }
   end
 
+  def logs_tf_url(user)
+    "http://logs.tf/profile/"#{user.uid}"
+  end
+
+  def demos_tf_url(user)
+    if user
+      "https://demos.tf/profiles/#{user.uid}"
+    else
+      "https://demos.tf"
+    end
+  end
 end

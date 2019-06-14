@@ -50,10 +50,10 @@
 
   - if reservation.past?
     - if reservation.gameye?
-      = link_to logs_tf_url(user), :class => 'btn btn-sm btn-info', :title => 'Search on logs.tf' do
+      = link_to logs_tf_url(reservation.user), :class => 'btn btn-sm btn-info', :title => 'Search on logs.tf' do
         Logs.tf
         %i.fa.fa-search
-      = link_to demos_tf_url(user), :class => 'btn btn-sm btn-info', :title => 'Search on demos.tf' do
+      = link_to demos_tf_url(reservation.user), :class => 'btn btn-sm btn-info', :title => 'Search on demos.tf' do
         Demos.tf
         %i.fa.fa-search
 
@@ -68,6 +68,6 @@
         = link_to reservation.logs_tf_url, :class => 'btn btn-sm btn-info', :title => 'Search on logs.tf' do
           Logs.tf
           %i.fa.fa-search
-        = link_to demos_tf_url(user), :class => 'btn btn-sm btn-info', :title => 'Search on demos.tf' do
+        = link_to demos_tf_url(reservation.user), :class => 'btn btn-sm btn-info', :title => 'Search on demos.tf' do
           Demos.tf
           %i.fa.fa-search

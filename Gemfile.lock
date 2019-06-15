@@ -243,7 +243,7 @@ GEM
     launchy (2.4.3)
       addressable (~> 2.3)
     libv8 (7.3.492.27.1)
-    lograge (0.11.1)
+    lograge (0.11.2)
       actionpack (>= 4)
       activesupport (>= 4)
       railties (>= 4)

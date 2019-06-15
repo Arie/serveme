@@ -3,7 +3,7 @@ require 'spec_helper'
 describe GameyeServer do
 
   let(:server_config) { double(:server_config, file: "server-config-file") }
-  let(:reservation) { double(:reservation, id: 12345, gameye_location: "frankfurt", first_map: "cp_badlands", rcon: "the-rcon", password: "sv-password", tv_password: "stv-password", custom_whitelist_id: "whitelist-id", server_config: server_config) }
+  let(:reservation) { double(:reservation, id: 12345, logsecret: "abc", gameye_location: "frankfurt", first_map: "cp_badlands", rcon: "the-rcon", password: "sv-password", tv_password: "stv-password", custom_whitelist_id: "whitelist-id", server_config: server_config) }
   describe ".start_reservation" do
     it "takes reservation details and sends it to gameye" do
       GameyeServer.should_receive(:launch_gameye).with(reservation).and_return(true)

@@ -68,10 +68,12 @@ class GameyeServer < Server
       match_key: gameye_id(reservation),
       location_keys: [reservation.gameye_location],
       options: {
+        hostname: "Gameye ##{reservation.id}",
         map: reservation.first_map,
         rconPassword: reservation.rcon,
         serverPassword: reservation.password,
         logAddress: "direct.#{SITE_HOST}:40001",
+        logSecret: "#{reservation.logsecret}",
         maxPlayers: 24,
         stvPassword: reservation.tv_password,
         motd: "This is a serveme.tf test",

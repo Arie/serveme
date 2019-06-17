@@ -21,7 +21,7 @@
 
       = f.input :password,            :as => :string, :placeholder => "The server password to join the game"
       = f.input :rcon,                :as => :string, :placeholder => "The RCON password to control the server",        :disabled => !@reservation.schedulable?
-      = f.input :first_map,           :collection => MapUpload.available_maps, :input_html => { :class => "select2" },  :disabled => !@reservation.schedulable?
+      = f.input :first_map,           :collection => MapUpload.available_cloud_maps, :input_html => { :class => "select2" },  :disabled => !@reservation.schedulable?
       = f.input :tv_password,         :as => :string,   :placeholder => "Password for STV, default tv"
       = f.association :server_config, :collection => ServerConfig.ordered, :hint => "Specify a league config to run on each map start", :input_html => { :class => "select2" }
       = f.input :custom_whitelist_id, :hint => "Enter the whitelist ID or preset name (e.g. etf2l_6v6_s22) from <a href='http://whitelist.tf/configure' target='_blank'>whitelist.tf</a>".html_safe

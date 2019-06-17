@@ -78,10 +78,6 @@ class Server < ActiveRecord::Base
     steam_connect_url(ip, tv_port, password)
   end
 
-  def tv_port
-    port.to_i + 5
-  end
-
   def update_configuration(reservation)
     reservation.status_update("Sending reservation config files")
     ['reservation.cfg', 'ctf_turbine.cfg'].each do |config_file|

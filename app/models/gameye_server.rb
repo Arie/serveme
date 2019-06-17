@@ -22,6 +22,7 @@ class GameyeServer < Server
         name: "Gameye ##{reservation.id}",
         ip: match.host,
         port: match.port,
+        tv_port: match.tv_port,
         rcon: reservation.rcon
       )
       reservation.update_attribute(:server_id, server.id)

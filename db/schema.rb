@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_05_172900) do
+ActiveRecord::Schema.define(version: 2019_06_17_085355) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -228,6 +228,7 @@ ActiveRecord::Schema.define(version: 2019_05_05_172900) do
     t.float "latitude"
     t.float "longitude"
     t.string "billing_id"
+    t.string "tv_port"
     t.index ["active"], name: "idx_17217_index_servers_on_active"
     t.index ["latitude", "longitude"], name: "idx_17217_index_servers_on_latitude_and_longitude"
     t.index ["location_id"], name: "idx_17217_index_servers_on_location_id"

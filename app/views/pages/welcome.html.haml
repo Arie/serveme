@@ -1,16 +1,9 @@
 .row
   .col-md-12
-    - unless eu_system?
-      .flash.alert.alert-success
-        We've opened a
-        = link_to("discord", "https://discord.gg/0s38RdItLiCmARMm", target: "_blank")
-        for any questions, complaints, praise or just to say hi
-    - else
-      .flash.alert.alert-success
-        We've added Warsaw and Moscow to
-        = link_to("serveme.tf cloud", "https://serveme.tf/gameye/reservations/new")
-        Give our cloud beta a try and let us know what you think on
-        = link_to("discord", "https://discord.gg/0s38RdItLiCmARMm", target: "_blank")
+    .flash.alert.alert-success
+      We've opened a
+      = link_to("discord", "https://discord.gg/0s38RdItLiCmARMm", target: "_blank")
+      for any questions, complaints, praise or just to say hi
 
 = render 'shared/nag_message' if current_user
 
@@ -24,7 +17,7 @@
           = link_to new_reservation_path, :class => 'btn btn-lg btn-primary', :title => "Get a server right now, or make a reservation" do
             Let's play!
             %i.fa.fa-crosshairs
-          - if eu_system?
+          - if eu_system? || na_system?
             = link_to gameye_reservations_new_path, :class => 'btn btn-lg btn-info', :title => "Launch an on-demand cloud server" do
               cloud (beta)
               %i.fa.fa-cloud

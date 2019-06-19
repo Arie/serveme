@@ -47,13 +47,20 @@ class GameyeServer < Server
   end
 
   def self.locations
-    [
-      {id: "london", name: "London", flag: "en", concurrency_limit: 10},
-      {id: "frankfurt", name: "Frankfurt", flag: "de", concurrency_limit: 10},
-      {id: "moscow", name: "Moscow", flag: "ru", concurrency_limit: 5},
-      {id: "sao_paulo", name: "São Paulo", flag: "br", concurrency_limit: 5},
-      {id: "warsaw", name: "Warsaw", flag: "pl", concurrency_limit: 10},
-    ]
+    if SITE_HOST == "na.serveme.tf"
+      [
+        {id: "new_york", name: "New York", flag: "us", concurrency_limit: 10},
+        {id: "san_francisco", name: "San Francisco", flag: "us", concurrency_limit: 10}
+      ]
+    else
+      [
+        {id: "london", name: "London", flag: "en", concurrency_limit: 10},
+        {id: "frankfurt", name: "Frankfurt", flag: "de", concurrency_limit: 10},
+        {id: "moscow", name: "Moscow", flag: "ru", concurrency_limit: 5},
+        {id: "sao_paulo", name: "São Paulo", flag: "br", concurrency_limit: 5},
+        {id: "warsaw", name: "Warsaw", flag: "pl", concurrency_limit: 10}
+      ]
+    end
   end
 
   def self.location_keys
@@ -77,7 +84,7 @@ class GameyeServer < Server
         logSecret: "#{reservation.logsecret}",
         maxPlayers: 24,
         stvPassword: reservation.tv_password,
-        motd: "This is a serveme.tf test",
+        motd: "This is a #{SITE_HOST} cloud server",
         whitelist: reservation.custom_whitelist_id,
         config: (reservation.server_config && reservation.server_config.file)
       }

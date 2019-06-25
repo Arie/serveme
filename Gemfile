@@ -74,7 +74,7 @@ group :deployment do
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   gem 'capistrano-faster-assets'
-  gem 'capistrano3-puma'
+  gem 'capistrano3-puma', git: "https://github.com/Arie/capistrano-puma.git"
 end
 
 group :test, :development do

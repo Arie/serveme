@@ -36,11 +36,11 @@ class MapUpload < ActiveRecord::Base
   end
 
   def self.available_cloud_maps
-    ['achievement_duel', 'achievement_faggots', 'bball_tf_v2', 'cp_alloy_rc3',
+    ['achievement_duel', 'bball_tf_v2', 'cp_alloy_rc3',
     'cp_badlands', 'cp_badlands_pro', 'cp_dustbowl', 'cp_granary_pro',
     'cp_granary_pro_rc10', 'cp_granary_pro_rc8', 'cp_granary_pro_rc9', 'cp_gullywash',
     'cp_gullywash_final1', 'cp_gullywash_pro', 'cp_kalinka_rc5', 'cp_logjam_rc10a',
-    'cp_logjam_rc10', 'cp_logjam_rc8', 'cp_logjam_rc9', 'cp_metalworks_rc7',
+    'cp_logjam_rc11', 'cp_logjam_rc10', 'cp_logjam_rc8', 'cp_logjam_rc9', 'cp_metalworks_rc7',
     'cp_mojave_b2', 'cp_orange_x3', 'cp_process_a1', 'cp_process_final',
     'cp_prolands_b5', 'cp_prolands_b6', 'cp_prolands_rc1', 'cp_prolands_rc2p',
     'cp_prolands_rc2t', 'cp_propaganda_b15', 'cp_snakewater', 'cp_snakewater_final1',

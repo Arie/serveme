@@ -84,6 +84,7 @@ class GameyeServer < Server
         logSecret: "#{reservation.logsecret}",
         maxPlayers: 24,
         stvPassword: reservation.tv_password,
+        sourceTvDelay: 90,
         motd: "This is a #{SITE_HOST} cloud server",
         whitelist: reservation.custom_whitelist_id,
         config: (reservation.server_config && reservation.server_config.file)

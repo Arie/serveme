@@ -193,7 +193,7 @@ class Server < ActiveRecord::Base
     return if reservation.ended?
     remove_configuration
     disable_plugins
-    rcon_exec("sv_logflush 1; tv_stoprecord; kickall Reservation ended, every player can download the STV demo at http:/​/#{SITE_HOST}")
+    rcon_exec("sv_logflush 1; tv_stoprecord; sm_kick @all Reservation ended, every player can download the STV demo at http:/​/#{SITE_HOST}")
     sleep 1 # Give server a second to finish the STV demo and write the log
     reservation.status_update("Removing configuration and disabling plugins")
     zip_demos_and_logs(reservation)

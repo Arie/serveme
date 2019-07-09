@@ -62,7 +62,11 @@
 
       %p
         You can also
-        = link_to('send me a TF2 trade offer.', 'https://steamcommunity.com/tradeoffer/new/?partner=231702&token=POpKIGaL')
+        - if !sea_system?
+          = link_to('send me a TF2 trade offer.', 'https://steamcommunity.com/tradeoffer/new/?partner=231702&token=POpKIGaL')
+        - else
+          = link_to('send the tradebot a trade offer.', 'https://steamcommunity.com/tradeoffer/new/?partner=328658734&token=3vDIZUwa')
+
         The current rate is 1 key per month, but you can also send some items just to say thanks.
 
   .row.stripe-result

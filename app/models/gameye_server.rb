@@ -110,6 +110,6 @@ class GameyeServer < Server
   def remove_configuration; end
   def remove_logs_and_demos; end
   def list_files(_destination); [] end
-  def copy_to_server(_files, destionation); end
+  def copy_to_server(_files, destination); end
   def restart; end
 end

@@ -7,7 +7,7 @@ class UploadFilesToServersWorker
     destination = options['destination']
     overwrite = options.fetch('overwrite') { true }
 
-    Server.active.each do |s|
+    self.class.servers.each do |s|
       if overwrite == false
         files_already_present = s.list_files(destination)
         files_to_copy = files.reject do |f|
@@ -23,4 +23,7 @@ class UploadFilesToServersWorker
     end
   end
 
+  def self.servers
+    Server.active.where("type != ?", "GameyeServer")
+  end
 end

@@ -9,7 +9,7 @@ describe UploadFilesToServersWorker do
       existing_files = ["foo"]
       destination = "tmp"
 
-      Server.should_receive(:active).and_return([server])
+      UploadFilesToServersWorker.should_receive(:servers).and_return([server])
       server.should_receive(:list_files).with(destination).and_return(existing_files)
       server.should_receive(:copy_to_server).with(["bar"], File.join(server.tf_dir, destination))
 
@@ -24,12 +24,21 @@ describe UploadFilesToServersWorker do
       files = ["foo", "bar"]
       destination = "tmp"
 
-      Server.should_receive(:active).and_return([server])
+      UploadFilesToServersWorker.should_receive(:servers).and_return([server])
       server.should_receive(:copy_to_server).with(files, File.join(server.tf_dir, destination))
 
       UploadFilesToServersWorker.perform_async('files' => files, 'destination' => destination, 'overwrite' => true)
     end
 
+  end
+
+  describe ".servers" do
+    it "doesnt try to copy to GameyeServers" do
+      server = create :server, active: true
+      _gameye_server = create :server, active: true, type: "GameyeServer"
+
+      described_class.servers.should == [server]
+    end
   end
 
 end

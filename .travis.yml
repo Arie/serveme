@@ -6,13 +6,14 @@ rvm:
   - 2.6.3
 bundler_args: --without development production
 addons:
-  postgresql: "9.3"
+  postgresql: "9.6"
 before_script:
-  - psql -c 'create database serveme_test;' -U postgres
   - cp config/database.yml.travis config/database.yml
   - mkdir tmp/cache
   - mkdir public/uploads
-script: ./script/ci
+script:
+  - bundle exec rails db:reset db:setup RAILS_ENV=test
+  - ./script/ci
 sudo: false
 services:
   - postgresql

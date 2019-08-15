@@ -9,10 +9,11 @@ addons:
   postgresql: "9.6"
 before_script:
   - cp config/database.yml.travis config/database.yml
+  - echo "STEAM_WEB_API_KEY = 'foo'" > config/initializers/steam.rb
   - mkdir tmp/cache
   - mkdir public/uploads
 script:
-  - bundle exec rails db:reset db:setup RAILS_ENV=test
+  - bundle exec rails db:create RAILS_ENV=test
   - ./script/ci
 sudo: false
 services:

@@ -11,7 +11,7 @@ class UpdateSteamNicknameWorker
       @steam_uid = steam_uid
       begin
         nickname = SteamCondenser::Community::SteamId.new(steam_uid.to_i).nickname
-        User.find_by(uid: steam_uid).update_attributes(nickname: nickname, name: nickname)
+        User.find_by(uid: steam_uid).update(nickname: nickname, name: nickname)
       rescue SteamCondenser::Error => exception
         Rails.logger.info "Couldn't query Steam community: #{exception}"
       end

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 class ApplicationController < ActionController::Base
 
-  force_ssl if: :ssl_required?
-
   include ApplicationHelper
 
   protect_from_forgery
@@ -27,7 +25,7 @@ class ApplicationController < ActionController::Base
     begin
       Time.zone = time_zone_from_cookie
       if current_user
-        current_user.update_attributes(:time_zone => time_zone_from_cookie)
+        current_user.update(:time_zone => time_zone_from_cookie)
       end
     rescue ArgumentError
       set_default_time_zone
@@ -114,11 +112,4 @@ class ApplicationController < ActionController::Base
       redirect_to root_path
     end
   end
-
-  private
-
-  def ssl_required?
-    Rails.env.production?
-  end
-
 end

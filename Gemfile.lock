@@ -27,61 +27,133 @@ GIT
       multi_json (~> 1.6)
       multi_xml (~> 0.5)
 
+GIT
+  remote: https://github.com/rspec/rspec-activemodel-mocks.git
+  revision: 0338d50039cad672bbe695fff5591da1ba849308
+  specs:
+    rspec-activemodel-mocks (1.1.0)
+      activemodel (>= 3.0)
+      activesupport (>= 3.0)
+      rspec-mocks (>= 2.99, < 4.0)
+
+GIT
+  remote: https://github.com/rspec/rspec-collection_matchers.git
+  revision: 24844b4eb4d7487b7757eb76f5bd4e2a3e0e39d0
+  specs:
+    rspec-collection_matchers (1.1.3)
+      rspec-expectations (>= 2.99.0.beta1)
+
+GIT
+  remote: https://github.com/rspec/rspec-core.git
+  revision: 77dbc84657c5dc45e07a7fe0f5b02b4caeb6c9ad
+  specs:
+    rspec-core (3.9.0.pre)
+      rspec-support (= 3.9.0.pre)
+
+GIT
+  remote: https://github.com/rspec/rspec-expectations.git
+  revision: 75f5cc9cab09fd0728bcf95e26d2c4b46f73c466
+  specs:
+    rspec-expectations (3.9.0.pre)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (= 3.9.0.pre)
+
+GIT
+  remote: https://github.com/rspec/rspec-mocks.git
+  revision: 2aab10d3e7a9c1c500acd1e88a7a408670f8cc48
+  specs:
+    rspec-mocks (3.9.0.pre)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (= 3.9.0.pre)
+
+GIT
+  remote: https://github.com/rspec/rspec-rails.git
+  revision: 9c6d8f3eaa8049f940691b9489e7a7862cd912b0
+  branch: 4-0-dev
+  specs:
+    rspec-rails (4.0.0.beta2)
+      actionpack (>= 4.2)
+      activesupport (>= 4.2)
+      railties (>= 4.2)
+      rspec-core (~> 3.8)
+      rspec-expectations (~> 3.8)
+      rspec-mocks (~> 3.8)
+      rspec-support (~> 3.8)
+
+GIT
+  remote: https://github.com/rspec/rspec-support.git
+  revision: c69a231d7369dd165ad7ce4742e1a2e21e3462b5
+  specs:
+    rspec-support (3.9.0.pre)
+
 GEM
   remote: https://rubygems.org/
   specs:
-    actioncable (5.2.3)
-      actionpack (= 5.2.3)
+    actioncable (6.0.0)
+      actionpack (= 6.0.0)
       nio4r (~> 2.0)
       websocket-driver (>= 0.6.1)
-    actionmailer (5.2.3)
-      actionpack (= 5.2.3)
-      actionview (= 5.2.3)
-      activejob (= 5.2.3)
+    actionmailbox (6.0.0)
+      actionpack (= 6.0.0)
+      activejob (= 6.0.0)
+      activerecord (= 6.0.0)
+      activestorage (= 6.0.0)
+      activesupport (= 6.0.0)
+      mail (>= 2.7.1)
+    actionmailer (6.0.0)
+      actionpack (= 6.0.0)
+      actionview (= 6.0.0)
+      activejob (= 6.0.0)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 2.0)
-    actionpack (5.2.3)
-      actionview (= 5.2.3)
-      activesupport (= 5.2.3)
+    actionpack (6.0.0)
+      actionview (= 6.0.0)
+      activesupport (= 6.0.0)
       rack (~> 2.0)
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
-      rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    actionview (5.2.3)
-      activesupport (= 5.2.3)
+      rails-html-sanitizer (~> 1.0, >= 1.2.0)
+    actiontext (6.0.0)
+      actionpack (= 6.0.0)
+      activerecord (= 6.0.0)
+      activestorage (= 6.0.0)
+      activesupport (= 6.0.0)
+      nokogiri (>= 1.8.5)
+    actionview (6.0.0)
+      activesupport (= 6.0.0)
       builder (~> 3.1)
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
-      rails-html-sanitizer (~> 1.0, >= 1.0.3)
-    activejob (5.2.3)
-      activesupport (= 5.2.3)
+      rails-html-sanitizer (~> 1.1, >= 1.2.0)
+    activejob (6.0.0)
+      activesupport (= 6.0.0)
       globalid (>= 0.3.6)
-    activemodel (5.2.3)
-      activesupport (= 5.2.3)
+    activemodel (6.0.0)
+      activesupport (= 6.0.0)
     activemodel-serializers-xml (1.0.2)
       activemodel (> 5.x)
       activesupport (> 5.x)
       builder (~> 3.1)
-    activerecord (5.2.3)
-      activemodel (= 5.2.3)
-      activesupport (= 5.2.3)
-      arel (>= 9.0)
-    activestorage (5.2.3)
-      actionpack (= 5.2.3)
-      activerecord (= 5.2.3)
+    activerecord (6.0.0)
+      activemodel (= 6.0.0)
+      activesupport (= 6.0.0)
+    activestorage (6.0.0)
+      actionpack (= 6.0.0)
+      activejob (= 6.0.0)
+      activerecord (= 6.0.0)
       marcel (~> 0.3.1)
-    activesupport (5.2.3)
+    activesupport (6.0.0)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+      zeitwerk (~> 2.1, >= 2.1.8)
     addressable (2.6.0)
       public_suffix (>= 2.0.2, < 4.0)
     airbrussh (1.3.3)
       sshkit (>= 1.6.1, != 1.7.0)
     american_date (1.1.1)
-    arel (9.0.0)
-    autoprefixer-rails (9.6.1)
+    autoprefixer-rails (9.6.1.1)
       execjs
     backports (3.15.0)
     base32_pure (0.1.0)
@@ -221,9 +293,6 @@ GEM
     fugit (1.3.2)
       et-orbi (~> 1.1, >= 1.1.8)
       raabro (~> 1.1)
-    fuubar (2.4.1)
-      rspec-core (~> 3.0)
-      ruby-progressbar (~> 1.4)
     gameye (0.0.3)
       faraday (~> 0.8)
     geocoder (1.5.1)
@@ -349,18 +418,20 @@ GEM
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
-    rails (5.2.3)
-      actioncable (= 5.2.3)
-      actionmailer (= 5.2.3)
-      actionpack (= 5.2.3)
-      actionview (= 5.2.3)
-      activejob (= 5.2.3)
-      activemodel (= 5.2.3)
-      activerecord (= 5.2.3)
-      activestorage (= 5.2.3)
-      activesupport (= 5.2.3)
+    rails (6.0.0)
+      actioncable (= 6.0.0)
+      actionmailbox (= 6.0.0)
+      actionmailer (= 6.0.0)
+      actionpack (= 6.0.0)
+      actiontext (= 6.0.0)
+      actionview (= 6.0.0)
+      activejob (= 6.0.0)
+      activemodel (= 6.0.0)
+      activerecord (= 6.0.0)
+      activestorage (= 6.0.0)
+      activesupport (= 6.0.0)
       bundler (>= 1.3.0)
-      railties (= 5.2.3)
+      railties (= 6.0.0)
       sprockets-rails (>= 2.0.0)
     rails-controller-testing (1.0.4)
       actionpack (>= 5.0.1.x)
@@ -371,12 +442,12 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.2.0)
       loofah (~> 2.2, >= 2.2.2)
-    railties (5.2.3)
-      actionpack (= 5.2.3)
-      activesupport (= 5.2.3)
+    railties (6.0.0)
+      actionpack (= 6.0.0)
+      activesupport (= 6.0.0)
       method_source
       rake (>= 0.8.7)
-      thor (>= 0.19.0, < 2.0)
+      thor (>= 0.20.3, < 2.0)
     rake (12.3.3)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
@@ -393,31 +464,7 @@ GEM
     responders (3.0.0)
       actionpack (>= 5.0)
       railties (>= 5.0)
-    rspec-activemodel-mocks (1.1.0)
-      activemodel (>= 3.0)
-      activesupport (>= 3.0)
-      rspec-mocks (>= 2.99, < 4.0)
-    rspec-collection_matchers (1.1.3)
-      rspec-expectations (>= 2.99.0.beta1)
-    rspec-core (3.8.2)
-      rspec-support (~> 3.8.0)
-    rspec-expectations (3.8.4)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.8.0)
-    rspec-mocks (3.8.1)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.8.0)
-    rspec-rails (3.8.2)
-      actionpack (>= 3.0)
-      activesupport (>= 3.0)
-      railties (>= 3.0)
-      rspec-core (~> 3.8.0)
-      rspec-expectations (~> 3.8.0)
-      rspec-mocks (~> 3.8.0)
-      rspec-support (~> 3.8.0)
-    rspec-support (3.8.2)
     ruby-openid (2.7.0)
-    ruby-progressbar (1.10.1)
     ruby-vips (2.0.14)
       ffi (~> 1.9)
     rubyzip (1.2.3)
@@ -503,6 +550,7 @@ GEM
     xml-simple (1.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    zeitwerk (2.1.9)
     zonebie (0.6.1)
 
 PLATFORMS
@@ -545,7 +593,6 @@ DEPENDENCIES
   faraday
   ffi
   font-awesome-rails
-  fuubar
   gameye
   geocoder
   google_visualr!
@@ -574,14 +621,18 @@ DEPENDENCIES
   puma
   rack-attack
   rack-cache
-  rails (~> 5.2.0)
+  rails (~> 6.0.0)
   rails-controller-testing
   rbtrace
   rbzip2
   remote_lock!
-  rspec-activemodel-mocks
-  rspec-collection_matchers
-  rspec-rails
+  rspec-activemodel-mocks!
+  rspec-collection_matchers!
+  rspec-core!
+  rspec-expectations!
+  rspec-mocks!
+  rspec-rails!
+  rspec-support!
   rubyzip
   rufus-scheduler
   sass

@@ -6,7 +6,7 @@ class PaypalOrder < Order
     set_redirect_urls
     add_transaction
     if payment.create
-      update_attributes(status: 'Redirected', payment_id: payment.id)
+      update(status: 'Redirected', payment_id: payment.id)
 
     else
       Raven.capture_exception(payment.error) if Rails.env.production?
@@ -19,7 +19,7 @@ class PaypalOrder < Order
     if payment.execute(payer_id: payer_id)
       handle_successful_payment!
     else
-      update_attributes(status: 'Failed')
+      update(status: 'Failed')
       false
     end
   end

@@ -66,7 +66,7 @@ describe PaypalOrder do
         payment.should_receive(:execute).with(:payer_id => "payer_id").and_return(false)
 
         order.should_not_receive(:complete_payment!)
-        order.should_receive(:update_attributes).with(:status => "Failed")
+        order.should_receive(:update).with(:status => "Failed")
         order.charge("payer_id", payment_class)
       end
 

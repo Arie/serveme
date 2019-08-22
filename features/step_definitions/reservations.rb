@@ -278,7 +278,7 @@ Then "I get a notice that I didn't enter my API key yet" do
 end
 
 Given "I have a logs.tf API key" do
-  @current_user.update_attributes(:logs_tf_api_key => 'foobar')
+  @current_user.update(:logs_tf_api_key => 'foobar')
 end
 
 Then "I don't get the API key notice" do

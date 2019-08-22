@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 class Group < ActiveRecord::Base
 
-  DONATOR_GROUP  = find_or_create_by(:name => "Donators")
-  ADMIN_GROUP    = find_or_create_by(:name => "Admins")
-  STREAMER_GROUP = find_or_create_by(:name => "Streamers")
-
   validates_presence_of :name
 
   has_many :group_users, -> { where("group_users.expires_at IS NULL OR group_users.expires_at > ?", Time.current)}, :dependent => :destroy
@@ -14,15 +10,15 @@ class Group < ActiveRecord::Base
   has_many :servers, through: :group_servers
 
   def self.donator_group
-    DONATOR_GROUP
+    @donator_group ||= find_or_create_by(:name => "Donators")
   end
 
   def self.admin_group
-    ADMIN_GROUP
+    @admin_group ||= find_or_create_by(:name => "Admins")
   end
 
   def self.streamer_group
-    STREAMER_GROUP
+    @streamer_group ||= find_or_create_by(:name => "Streamers")
   end
 
   def self.private_user(user)

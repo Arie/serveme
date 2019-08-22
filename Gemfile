@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', "~> 5.2.0"
+gem 'rails', "~> 6.0.0"
 gem 'bootsnap', require: false
 gem 'sprockets'
 gem 'haml'
@@ -79,9 +79,13 @@ end
 
 group :test, :development do
   gem 'factory_bot_rails'
-  gem 'rspec-rails'
-  gem 'rspec-collection_matchers'
-  gem 'rspec-activemodel-mocks'
+  gem 'rspec-core', git: "https://github.com/rspec/rspec-core.git"
+  gem 'rspec-rails', git: "https://github.com/rspec/rspec-rails.git", branch: '4-0-dev'
+  gem 'rspec-mocks', git: "https://github.com/rspec/rspec-mocks.git"
+  gem 'rspec-expectations', git: "https://github.com/rspec/rspec-expectations.git"
+  gem 'rspec-support', git: "https://github.com/rspec/rspec-support.git"
+  gem 'rspec-collection_matchers', git: "https://github.com/rspec/rspec-collection_matchers.git"
+  gem 'rspec-activemodel-mocks', git: "https://github.com/rspec/rspec-activemodel-mocks.git"
   gem 'pry-nav'
   gem 'zonebie'
   gem 'parallel_tests'
@@ -89,7 +93,6 @@ end
 
 group :test_tools do
   gem 'coveralls', require: false
-  gem 'fuubar'
 end
 
 group :development, :production do

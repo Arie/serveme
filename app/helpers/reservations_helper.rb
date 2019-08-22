@@ -14,7 +14,7 @@ module ReservationsHelper
   end
 
   def update_reservation
-    if reservation.update_attributes(reservation_params)
+    if reservation.update(reservation_params)
       if reservation.now?
         reservation.update_reservation
         flash[:notice] = "Reservation updated for #{reservation}, your changes will be active after a mapchange."

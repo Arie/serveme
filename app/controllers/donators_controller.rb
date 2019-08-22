@@ -34,7 +34,7 @@ class DonatorsController < ApplicationController
   def update
     find_donator
     expires_at = params[:group_user][:expires_at]
-    @donator.update_attributes(expires_at: expires_at)
+    @donator.update(expires_at: expires_at)
     flash[:notice] = "Donator updated, new expiration date: #{expires_at}"
     redirect_to donators_path
   end

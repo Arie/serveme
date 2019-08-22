@@ -11,7 +11,7 @@ class Order < ActiveRecord::Base
   validates_presence_of :user_id, :product_id
 
   def handle_successful_payment!
-    update_attributes(status: 'Completed')
+    update(status: 'Completed')
     if gift?
       GenerateOrderVoucher.new(self).perform
     else

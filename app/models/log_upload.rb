@@ -36,7 +36,7 @@ class LogUpload < ActiveRecord::Base
     rescue Exception => e
       message = e.message
     ensure
-      update_attributes(:status => message, :url => url.to_s)
+      update(:status => message, :url => url.to_s)
     end
   end
 

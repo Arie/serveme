@@ -10,15 +10,15 @@ class Group < ActiveRecord::Base
   has_many :servers, through: :group_servers
 
   def self.donator_group
-    Thread.current[:donator_group] ||= find_or_create_by(:name => "Donators")
+    find_or_create_by(:name => "Donators")
   end
 
   def self.admin_group
-    Thread.current[:admin_group] ||= find_or_create_by(:name => "Admins")
+    find_or_create_by(:name => "Admins")
   end
 
   def self.streamer_group
-    Thread.current[:streamer_group] ||= find_or_create_by(:name => "Streamers")
+    find_or_create_by(:name => "Streamers")
   end
 
   def self.private_user(user)

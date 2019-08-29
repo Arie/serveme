@@ -26,14 +26,7 @@
       = f.association :server_config, :collection => ServerConfig.ordered, :hint => "Specify a league config to run on each map start", :input_html => { :class => "select2" }
       = f.input :custom_whitelist_id, :hint => "Enter the whitelist ID or preset name (e.g. etf2l_6v6_s22) from <a href='http://whitelist.tf/configure' target='_blank'>whitelist.tf</a>".html_safe
 
-      - users_last_reservation = current_user.reservations.last
-      - if users_last_reservation && users_last_reservation.past? && users_last_reservation.inactive_too_long?
-        - hint = "Auto-ending is forced on for your next reservation, because you didn't end your last one"
-        - readonly = true
-      - else
-        - hint = "Automatically end the reservation once everyone has left the server"
-        - readonly = false
-      = f.input :auto_end, :as => :boolean, :hint => hint, :readonly => readonly, :disabled => readonly, :input_html => { :value => true }
+      = f.input :auto_end, :as => :boolean, :hint => "Automatically end the reservation once everyone has left the server", :readonly => readonly, :disabled => readonly, :input_html => { :value => true }
 
       .row.submit-row
         .col-sm-2.offset-sm-4.col-lg-2.offset-lg-5

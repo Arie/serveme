@@ -2,7 +2,6 @@
 class ReservationsController < ApplicationController
 
   before_action :require_admin, only: [:streaming]
-  skip_before_action :block_users_with_expired_reservations, except: [:new, :create, :i_am_feeling_lucky]
   include ReservationsHelper
 
   def new
@@ -121,12 +120,6 @@ class ReservationsController < ApplicationController
       end_reservation
     end
     redirect_to root_path
-  end
-
-  def idle_reset
-    flash[:notice] = "Reservation idle timer reset"
-    reservation.update_attribute(:inactive_minute_counter, 0)
-    redirect_to reservation_path(reservation)
   end
 
   def status

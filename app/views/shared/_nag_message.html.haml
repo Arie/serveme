@@ -1,13 +1,3 @@
-- users_last_reservation = current_user.reservations.last
-- if users_last_reservation && users_last_reservation.past?
-  - if users_last_reservation.inactive_too_long?
-    .row
-      .col-md-12
-        .alert.alert-danger
-          %h4
-            = link_to("Your previous reservation", reservation_path(users_last_reservation))
-            expired due to inactivity. If you need more than #{users_last_reservation.inactive_minute_limit} minutes to get people on your server, press the "idle reset" button to keep your reservation open.
-
 - if !donator?
   - if current_user.reservations.count.between?(10, 100)
     .row

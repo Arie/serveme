@@ -146,18 +146,6 @@ class Reservation < ActiveRecord::Base
     starts_at.utc.strftime("%Y%m%d")
   end
 
-  def inactive_too_long?
-    inactive_minute_counter >= inactive_minute_limit
-  end
-
-  def inactive_minute_limit
-    if user
-      return 240  if user.admin?
-      return 60   if user.donator?
-    end
-    30
-  end
-
   def custom_whitelist_content
     WhitelistTf.find_by_tf_whitelist_id(custom_whitelist_id).try(:content)
   end

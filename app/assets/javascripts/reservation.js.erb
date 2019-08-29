@@ -108,6 +108,7 @@ $(document).ready(function() {
   function selectCurrentServer() {
     $("#reservation_server_id").select2("val", $("#reservation_server_id").val());
     pingCurrentServer();
+    pingCurrentServer();
   };
 
   function enableSpinner(field) {
@@ -156,6 +157,7 @@ $(document).ready(function() {
   });
 
   $("#reservation_server_id").change(function() {
+    pingCurrentServer();
     pingCurrentServer();
   });
 

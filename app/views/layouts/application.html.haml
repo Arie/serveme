@@ -22,29 +22,12 @@
 
     .container
 
-      - if !donator?
-        %main{role: "main"}
-          - if notice || alert
-            .row
-              .col-md-11
-                = render 'shared/flash'
-
+      %main{role: "main"}
+        - if notice || alert
           .row
-            .col-md-11
-              = render 'shared/adsense_responsive'
+            .col-md-12
+              = render 'shared/flash'
 
-          .row
-            .col-md-11
-              = yield
-            .col-md-1
-              = render 'shared/adsense_sidebar'
-      - else
-        %main{role: "main"}
-          - if notice || alert
-            .row
-              .col-md-12
-                = render 'shared/flash'
-
-          = yield
+        = yield
 
       = render 'shared/timezone'

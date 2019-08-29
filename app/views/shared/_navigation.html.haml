@@ -73,19 +73,19 @@
           = link_to credits_path, class: "dropdown-item" do
             %i.fa.fa-thumbs-up
             Credits
-      %li.dropdown.nav-item
-        %a.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#", :class => "nav-link"}
-          %i.fa.fa-star
-          Premium
-          %b.caret>
-        .dropdown-menu
-          = link_to donate_path, class: "dropdown-item" do
-            %i.fa.fa-paypal
-            Buy
-          = link_to leaderboard_donators_path, class: "dropdown-item" do
-            %i.fa.fa-money
-            Leaderboard
       - if current_user
+        %li.dropdown.nav-item
+          %a.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#", :class => "nav-link"}
+            %i.fa.fa-star
+            Premium
+            %b.caret>
+          .dropdown-menu
+            = link_to donate_path, class: "dropdown-item" do
+              %i.fa.fa-paypal
+              Buy
+            = link_to leaderboard_donators_path, class: "dropdown-item" do
+              %i.fa.fa-money
+              Leaderboard
         %li.nav-item
           = link_to settings_path, class: "nav-link" do
             %i.fa.fa-cogs

@@ -15,3 +15,10 @@
       g.identifyAccount=function(i,v){o='account';v=v||{};v.acctId=i;g(o,v)};
       g.clearUserCookie=function(){};
   })(window,document,window['_fs_namespace'],'script','user');
+
+- if current_user
+  :javascript
+    FS.identify('#{current_user.uid}', {
+      displayName: '#{current_user.nickname}',
+      steam_uid: '#{current_user.uid}',
+    });

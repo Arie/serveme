@@ -108,7 +108,9 @@ $(document).ready(function() {
   function selectCurrentServer() {
     $("#reservation_server_id").select2("val", $("#reservation_server_id").val());
     pingCurrentServer();
-    pingCurrentServer();
+    setTimeout(function(){
+      pingCurrentServer();
+    }, 200);
   };
 
   function enableSpinner(field) {
@@ -158,7 +160,9 @@ $(document).ready(function() {
 
   $("#reservation_server_id").change(function() {
     pingCurrentServer();
-    pingCurrentServer();
+    setTimeout(function(){
+      pingCurrentServer();
+    }, 200);
   });
 
   $("#toggle_reservations_list").click(function() {
@@ -235,5 +239,4 @@ $(document).ready(function() {
   loadServers();
 
   $('.gantt').tooltip();
-
 });

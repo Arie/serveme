@@ -92,10 +92,12 @@
             Settings
     %ul.nav.navbar-nav.navbar-right
       %span
-        = link_to "http://github.com/Arie/serveme", :title => "Fork me on GitHub", :class => "nav-item octocat"  do
-          = image_tag "octocat.png", :alt => "Fork me on GitHub"
+        = link_to("https://discord.gg/0s38RdItLiCmARMm", title: "serveme.tf on discord", class: "nav-item discord", target: "_blank") do
+          = image_tag "discord.png", :alt => "Join our Discord server"
         = link_to "https://twitter.com/servemetf", :title => "serveme.tf on twitter", :class => "nav-item twitter" do
           %i.fa.fa-twitter.fa-2x
+        = link_to "http://github.com/Arie/serveme", :title => "serveme.tf source code", :class => "nav-item octocat"  do
+          = image_tag "octocat.png", :alt => "Fork me on GitHub"
       .account
         - if current_user
           = link_to current_user.decorate.nickname, settings_path

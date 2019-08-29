@@ -139,7 +139,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def tv_relaypassword
-    self[:tv_relaypassword].presence || 'tv'
+    self[:tv_relaypassword].presence || self[:tv_password].presence || 'tv'
   end
 
   def formatted_starts_at

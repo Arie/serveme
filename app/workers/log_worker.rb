@@ -96,6 +96,8 @@ class LogWorker
     case message
     when TIMELEFT_COMMAND
       :handle_timeleft
+    when EXTEND_COMMAND
+      :handle_extend if reserver_is_donator?
     when WHOIS_RESERVER
       :handle_whois_reserver
     end
@@ -120,6 +122,10 @@ class LogWorker
 
   def action_by_reserver
     said_by_reserver? && action_for_message_said_by_reserver
+  end
+
+  def reserver_is_donator?
+    reserver && reserver.donator?
   end
 
   def reserver

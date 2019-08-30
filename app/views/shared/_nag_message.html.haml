@@ -4,7 +4,7 @@
       .col-md-12
         .donate.alert.alert-danger
           - duration = (current_user.total_reservation_seconds / 3600.0).round
-          %h4
+          %h3
             Hi there! You've made #{duration} hours worth of reservations so far, have you considered buying premium to keep this service running?
             = render "shared/paypal_button"
 
@@ -12,6 +12,6 @@
     .row
       .col-md-12
         .donate.alert.alert-danger
-          %h4
+          %h3
             Wow, you've made more than 100 reservations! Please buy PREMIUM to help us keep this service alive!
             = render "shared/paypal_button"

@@ -90,12 +90,17 @@ $(document).ready(function() {
     currentServerId = serverId();
     $.each(free_servers, function(idx, server) {
       if (server.id == serverId().val()) {
+        showSpinner("reservation_ping");
         enableSpinner("reservation_ping");
         new pingServer(server.ip_and_port, function(ping, e) {;
           setPing(ping, server.id);
         });
       };
     });
+  };
+
+  function clearPing() {
+    $("#reservation_ping").val(null);
   };
 
   function setPing(ping, server_id) {
@@ -113,12 +118,20 @@ $(document).ready(function() {
     }, 200);
   };
 
+  function showSpinner(field) {
+    $("." + field + ' .fa-refresh').css('display', 'inline-block')
+  };
+
+  function hideSpinner(field) {
+    $("." + field + ' .fa-refresh').css('display', 'none')
+  };
+
   function enableSpinner(field) {
-    $("." + field + ' .icon-spinner').show();
+    $("." + field + ' .fa-refresh').addClass('fast-spin');
   };
 
   function disableSpinner(field) {
-    $("." + field + ' .icon-spinner').hide();
+    $("." + field + ' .fa-refresh').removeClass('fast-spin');
   };
 
   $("#reservation_enable_demos_tf").change(function(event) {
@@ -159,10 +172,15 @@ $(document).ready(function() {
   });
 
   $("#reservation_server_id").change(function() {
+    clearPing();
     pingCurrentServer();
     setTimeout(function(){
       pingCurrentServer();
     }, 200);
+  });
+
+  $("#refresh-ping").click(function() {
+    pingCurrentServer();
   });
 
   $("#toggle_reservations_list").click(function() {

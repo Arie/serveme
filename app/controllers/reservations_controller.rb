@@ -164,7 +164,7 @@ class ReservationsController < ApplicationController
       where('starts_at > ?', 10.minutes.ago).
       where('ended = ?', true).
       count
-    count >= 2
+    !current_user.admin? && count >= 2
   end
 
 end

@@ -26,6 +26,7 @@ describe ReservationsController do
   describe "#new" do
 
     it "redirects to root if 2 short reservations were made recently" do
+      @user.group_ids = nil
       @user.groups << Group.donator_group
       create :reservation, :user => @user, :starts_at => 9.minutes.ago, :ended => true
       create :reservation, :user => @user, :starts_at => 4.minutes.ago, :ended => true

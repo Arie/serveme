@@ -187,9 +187,20 @@ class Server < ActiveRecord::Base
         enable_demos_tf
       end
     end
-    reservation.status_update("Restarting server")
-    restart
-    reservation.status_update("Restarted server, waiting to boot")
+    if reservation.user.admin?
+      reservation.status_update("Attempting fast start")
+      if rcon_exec("changelevel #{reservation.first_map}")
+        reservation.status_update("Fast start attempted, waiting to boot")
+      else
+        reservation.status_update("Restarting server normally")
+        restart
+        reservation.status_update("Restarted server, waiting to boot")
+      end
+    else
+      reservation.status_update("Restarting server")
+      restart
+      reservation.status_update("Restarted server, waiting to boot")
+    end
   end
 
   def update_reservation(reservation)

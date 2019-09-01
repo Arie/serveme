@@ -188,7 +188,7 @@ class Server < ActiveRecord::Base
         enable_demos_tf
       end
     end
-    if reservation.user.donator?
+    if !reservation.server.outdated?
       reservation.status_update("Attempting fast start")
       if rcon_exec("sv_logsecret #{reservation.logsecret}; logaddress_add direct.#{SITE_HOST}:40001")
         rcon_exec("changelevel #{reservation.first_map}")
@@ -273,6 +273,30 @@ class Server < ActiveRecord::Base
       Rails.logger.error "Couldn't disconnect RCON of server #{id} - #{name}, exception: #{exception}"
     ensure
       @condenser = nil
+    end
+  end
+
+  def version
+    @version ||= begin
+                   /Network\ PatchVersion:\s+(\d+)/ =~ rcon_exec("version") && $1.to_i
+                 end
+  end
+
+  def outdated?
+    version != Server.latest_version
+  end
+
+  def self.latest_version
+    Rails.cache.fetch("latest_server_version", expires_in: 5.minutes) do
+      get_latest_version
+    end
+  end
+
+  def self.get_latest_version
+    response = Faraday.new(:url => "http://api.steampowered.com").get("ISteamApps/UpToDateCheck/v1?appid=440&version=0")
+    if response.success?
+      json = JSON.parse(response.body)
+      json["response"]["required_version"].to_i
     end
   end
 

@@ -1,6 +1,8 @@
 - content_for(:stripe) do
   = javascript_tag "var stripe = Stripe('#{STRIPE_PUBLISHABLE_KEY}'); var elements = stripe.elements();"
 
+= render 'shared/point_to_na'
+
 .stripe-result
   .row
     .col-md-8

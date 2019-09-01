@@ -82,7 +82,7 @@ describe LocalServer do
   end
 
   describe '#start_reservation' do
-    it 'updates the configuration and triggers a restart' do
+    it 'updates the configuration and triggers a restart', :vcr do
       reservation = stubbed_reservation(enable_plugins?: true)
       subject.should_receive(:restart)
       subject.should_receive(:enable_plugins)

@@ -65,8 +65,12 @@ class LogWorker
   def handle_rcon
     rcon_command = message.split(" ")[1..-1].join(" ")
     if !rcon_command.empty?
-      Rails.logger.info "Sending rcon command #{rcon_command} from chat for reservation #{reservation}"
-      reservation.server.rcon_exec(rcon_command)
+      if !reservation.gameye? && (reservation.enable_plugins? || reservation.enable_demos_tf?)
+        Rails.logger.info "Ignoring rcon command #{rcon_command} from chat for reservation #{reservation}"
+      else
+        Rails.logger.info "Sending rcon command #{rcon_command} from chat for reservation #{reservation}"
+        reservation.server.rcon_exec(rcon_command)
+      end
     end
   end
 

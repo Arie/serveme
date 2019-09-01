@@ -191,7 +191,8 @@ class Server < ActiveRecord::Base
     if !reservation.server.outdated?
       reservation.status_update("Attempting fast start")
       if rcon_exec("sv_logsecret #{reservation.logsecret}; logaddress_add direct.#{SITE_HOST}:40001")
-        rcon_exec("changelevel #{reservation.first_map}")
+        first_map = reservation.first_map || "ctf_turbine"
+        rcon_exec("changelevel #{first_map}")
         reservation.status_update("Fast start attempted, waiting to boot")
       else
         reservation.status_update("Restarting server normally")

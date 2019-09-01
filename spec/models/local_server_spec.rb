@@ -388,9 +388,9 @@ describe LocalServer do
 
   describe "#enable_plugins" do
 
-    it "writes the metamod.vdf to the server" do
+    it "writes the sourcemod.vdf to the server" do
       subject.should_receive(:path).at_least(:once).and_return("foo")
-      subject.should_receive(:write_configuration).with(subject.metamod_file, anything)
+      subject.should_receive(:write_configuration).with(subject.sourcemod_file, anything)
       subject.enable_plugins
     end
   end

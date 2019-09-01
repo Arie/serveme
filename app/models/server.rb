@@ -89,7 +89,7 @@ class Server < ActiveRecord::Base
   end
 
   def enable_plugins
-    write_configuration(metamod_file, metamod_body)
+    write_configuration(sourcemod_file, sourcemod_body)
   end
 
   def add_sourcemod_admin(user)
@@ -97,18 +97,19 @@ class Server < ActiveRecord::Base
   end
 
   def disable_plugins
-    delete_from_server([metamod_file, sourcemod_admin_file])
+    delete_from_server([sourcemod_file, sourcemod_admin_file])
   end
 
-  def metamod_file
-    "#{tf_dir}/addons/metamod.vdf"
+  def sourcemod_file
+    "#{tf_dir}/addons/metamod/sourcemod.vdf"
   end
 
-  def metamod_body
+  def sourcemod_body
     <<-VDF
-    "Plugin"
+    "Metamod Plugin"
     {
-      "file"	"../tf/addons/metamod/bin/server"
+      "alias"		"sourcemod"
+      "file"		"addons/sourcemod/bin/sourcemod_mm"
     }
     VDF
   end

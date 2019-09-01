@@ -48,16 +48,16 @@ Loaded plugins:
   it "creates server and player statistics" do
     ServerMetric.new(server_info)
 
-    expect(PlayerStatistic.count).to eql 1
+    expect(PlayerStatistic.count).to eql 2
     expect(ServerStatistic.count).to eql 1
     server_statistic = ServerStatistic.last
     server_statistic.cpu_usage.should == 25
     server_statistic.fps.should == 67
 
     player_statistic = PlayerStatistic.last
-    player_statistic.ping.should == 57
-    player_statistic.loss.should == 0
-    player_statistic.reservation_player.ip.should == "111.111.111.111"
+    player_statistic.ping.should == 76
+    player_statistic.loss.should == 1
+    player_statistic.reservation_player.ip.should == "222.222.222.222"
   end
 
 end

@@ -37,7 +37,7 @@ class RconStatusParser
     end
 
     def relevant?
-      active? && connected_over_a_minute_ago?
+      active?
     end
 
     def active?
@@ -46,10 +46,6 @@ class RconStatusParser
 
     def steam_uid
       SteamCondenser::Community::SteamId.steam_id_to_community_id(steam_id)
-    end
-
-    def connected_over_a_minute_ago?
-      minutes_connected > 1
     end
 
     def minutes_connected

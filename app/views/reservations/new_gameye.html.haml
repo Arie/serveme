@@ -7,6 +7,8 @@
 
 = render "donator_nag"
 
+= render 'shared/point_to_na'
+
 .row
   .col-md-12.col-lg-6.offset-lg-2
     = simple_form_for(@reservation, url: url_for(controller: "reservations", action: "create_gameye"), wrapper: :horizontal_form, :html => { :class => 'form-horizontal reservation' }) do |f|

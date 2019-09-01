@@ -1,0 +1,35 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.steampowered.com/ISteamApps/UpToDateCheck/v1?appid=440&version=0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.15.4
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - application/json; charset=UTF-8
+      vary:
+      - Accept-Encoding
+      expires:
+      - Sun, 01 Sep 2019 14:42:35 GMT
+      date:
+      - Sun, 01 Sep 2019 14:42:35 GMT
+      content-length:
+      - '158'
+      connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"success":true,"up_to_date":false,"version_is_listable":false,"required_version":5257084,"message":"Your
+        server is out of date, please upgrade"}}'
+    http_version: 
+  recorded_at: Sun, 01 Sep 2019 14:42:35 GMT
+recorded_with: VCR 5.0.0

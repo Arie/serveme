@@ -98,6 +98,32 @@ class User < ActiveRecord::Base
   end
 
   def current_sign_in_ip_changed_and_ipv4?
-    self[:current_sign_in_ip] && current_sign_in_ip_changed? && IPAddr.new(self[:current_sign_in_ip]).ipv4?
+    current_sign_in_ip_ipv4? && current_sign_in_ip_changed?
+  end
+
+  def current_sign_in_ip_ipv4?
+    self[:current_sign_in_ip] && IPAddr.new(self[:current_sign_in_ip]).ipv4?
+  end
+
+  def geocoded
+    @geocoded ||= Geocoder.search(current_sign_in_ip).try(:first) if current_sign_in_ip_ipv4?
+  end
+
+  def from_na?
+    na_timezone? || na_sign_in_ip?
+  end
+
+  private
+
+  def na_timezone?
+    if time_zone
+      ["US & Canada", "Canada", "Chicago", "New_York", "Los_Angeles", "Denver", "Phoenix", "Halifax", "Goose_Bay", "St_Johns", "Anchorage"].any? do |zone|
+        time_zone.match(/#{zone}/)
+      end
+    end
+  end
+
+  def na_sign_in_ip?
+    geocoded && (geocoded.data["continent"]["code"] == "NA")
   end
 end

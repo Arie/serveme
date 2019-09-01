@@ -3,8 +3,8 @@
   - if free_donator_servers_count > 0
     .row
       .col-md-12
-        .donate.alert.alert-info
+        .donate.alert.alert-info.donator-nag
           %h4
+            = render "shared/paypal_button"
             Premium users have #{I18n.t(:available, :count => free_donator_servers_count, :scope => :server)} right now.
             Buy premium and get instant access!
-            =render "shared/paypal_button"

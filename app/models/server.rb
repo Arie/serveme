@@ -188,7 +188,7 @@ class Server < ActiveRecord::Base
         enable_demos_tf
       end
     end
-    if reservation.user.admin?
+    if reservation.user.donator?
       reservation.status_update("Attempting fast start")
       if rcon_exec("sv_logsecret #{reservation.logsecret}; logaddress_add direct.#{SITE_HOST}:40001")
         rcon_exec("changelevel #{reservation.first_map}")

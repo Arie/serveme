@@ -189,7 +189,7 @@ class Server < ActiveRecord::Base
     end
     if reservation.user.admin?
       reservation.status_update("Attempting fast start")
-      if rcon_exec("logaddress_delall; sv_logsecret #{reservation.logsecret}; logaddress_add direct.#{SITE_HOST}:40001")
+      if rcon_exec("sv_logsecret #{reservation.logsecret}; logaddress_add direct.#{SITE_HOST}:40001")
         rcon_exec("changelevel #{reservation.first_map}")
         reservation.status_update("Fast start attempted, waiting to boot")
       else

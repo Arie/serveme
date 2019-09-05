@@ -36,7 +36,7 @@ gem "google_visualr", git: "https://github.com/Arie/google_visualr.git"
 gem 'rack-cache'
 gem 'paypal-sdk-rest'
 gem 'stripe'
-gem 'sidekiq'
+gem 'sidekiq', '< 6'
 gem 'sidekiq-cron'
 gem 'rufus-scheduler'
 gem 'geocoder'

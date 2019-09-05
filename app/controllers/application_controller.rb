@@ -94,4 +94,13 @@ class ApplicationController < ActionController::Base
     Rails.env.production?
   end
 
+  protected
+
+  def authenticate_user!
+    if user_signed_in?
+      super
+    else
+      redirect_to '/users/auth/steam'
+    end
+  end
 end

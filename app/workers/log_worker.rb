@@ -6,10 +6,10 @@ class LogWorker
   attr_accessor :raw_line, :line, :event, :reservation_id, :message
 
   MAP_START         = /(Started map\ "(\w+)")/
-  END_COMMAND       = /!end.*/
-  EXTEND_COMMAND    = /!extend.*/
-  RCON_COMMAND      = /!rcon.*/
-  TIMELEFT_COMMAND  = /!timeleft.*/
+  END_COMMAND       = /^!end.*/
+  EXTEND_COMMAND    = /^!extend.*/
+  RCON_COMMAND      = /^!rcon.*/
+  TIMELEFT_COMMAND  = /^!timeleft.*/
   WHOIS_RESERVER    = /^!who$/
   LOG_LINE_REGEX    = '(?\'secret\'\d*)(?\'line\'.*)'
 

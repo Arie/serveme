@@ -15,6 +15,9 @@ tftrue_no_hats 0
 tftrue_logs_roundend 0
 tftrue_restorestats 1
 tftrue_tv_autorecord 0
+<% if user.donator? %>
+<%= "tftrue_logs_accuracy 1" %>
+<% end %>
 
 <% if server_config %>
 <%= "exec #{server_config}" %><% end %>

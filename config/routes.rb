@@ -55,6 +55,9 @@ Serveme::Application.routes.draw do
 
   resources :map_uploads, :only => [:new, :create]
 
+  get 'league-request', to: "league_requests#new"
+  post 'league-request', to: "league_requests#create"
+
   resources :pages do
     collection do
       get :credits

@@ -24,6 +24,6 @@
               = link_to(result.ip, league_request_path(ip: result.ip))
           %td= result.name
           %td= link_to(result.steam_uid, league_request_path(steam_uid: result.steam_uid))
-          %td= link_to("ETF2L search", "http://etf2l.org/search/#{result.steam_uid}/")
-          %td= link_to("RGL profile", "http://rgl.gg/Public/PlayerProfile.aspx?p=#{result.steam_uid}")
+          %td= link_to("ETF2L", "http://etf2l.org/search/#{result.steam_uid}/")
+          %td= link_to("RGL", "http://rgl.gg/Public/PlayerProfile.aspx?p=#{result.steam_uid}")
           %td= link_to("logs.tf", "http://logs.tf/profile/#{result.steam_uid}")

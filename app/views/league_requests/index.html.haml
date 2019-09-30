@@ -16,7 +16,9 @@
           %td= link_to(result.reservation_id, player_statistics_path(reservation_id: result.reservation_id))
           %td= I18n.l(result.reservation.starts_at,  :format => :long)
           %td= I18n.l(result.reservation.ends_at,  :format => :long)
-          %td= link_to(result.ip, league_request_path(ip: result.ip))
+          %td
+            - if result.ip.present?
+              = link_to(result.ip, league_request_path(ip: result.ip))
           %td= result.name
           %td= link_to(result.steam_uid, league_request_path(steam_uid: result.steam_uid))
 

@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', "~> 5.2.0"
 gem 'bootsnap', require: false
-gem 'sprockets'
+gem 'sprockets', '~> 3.7'
 gem 'haml'
 gem 'puma', '~> 4.0.1'
 gem 'omniauth-openid'

@@ -25,6 +25,8 @@ tftrue_tv_autorecord 0
 <%= %{tftrue_logs_apikey "#{LOGS_TF_API_KEY}"} %>
 <% end %>
 
+tv_delaymapchange 1
+tv_enable 1
 <% if enable_demos_tf? %>
 <%= "tv_autorecord 0" %>
 <% if user.demos_tf_api_key.present? %>
@@ -35,9 +37,6 @@ tftrue_tv_autorecord 0
 <% else %>
 <%= "tv_autorecord 1" %>
 <% end %>
-
-tv_delaymapchange 1
-tv_enable 1
 
 tf_preround_push_from_damage_enable 1
 

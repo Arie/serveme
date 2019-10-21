@@ -1,22 +1,4 @@
 sv_logsecret "<%= logsecret %>"
-
-<% if user.logs_tf_api_key.present? %>
-<%= %{tftrue_logs_apikey "#{user.logs_tf_api_key}"} %>
-<% else %>
-<%= %{tftrue_logs_apikey "#{LOGS_TF_API_KEY}"} %>
-<% end %>
-
-<% if enable_demos_tf? %>
-<%= "tv_autorecord 0" %>
-<% if user.demos_tf_api_key.present? %>
-<%= %{sm_demostf_apikey "#{user.demos_tf_api_key}"} %>
-<% else %>
-<%= %{sm_demostf_apikey "#{DEMOS_TF_API_KEY}"} %>
-<% end %>
-<% else %>
-<%= "tv_autorecord 1" %>
-<% end %>
-
 <% if first_map.present? && first_map != "ctf_turbine" %>
 changelevel <%= first_map %>
 <% end %>

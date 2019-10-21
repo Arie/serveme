@@ -201,6 +201,10 @@ class Reservation < ActiveRecord::Base
     end
   end
 
+  def apply_api_keys
+    server.rcon_exec("tftrue_logs_api_key \"#{user.logs_tf_api_key.presence || LOGS_TF_API_KEY}\"; sm_demostf_apikey \"#{user.demos_tf_api_key.presence || DEMOS_TF_API_KEY}\"")
+  end
+
   def status
     return "ended"            if past?
     return "ready"            if server_statistics.any?

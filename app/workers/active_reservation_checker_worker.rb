@@ -22,6 +22,7 @@ class ActiveReservationCheckerWorker
         reservation.update_column(:last_number_of_players, server_info.number_of_players)
         reservation.update_column(:inactive_minute_counter, 0)
         reservation.warn_nearly_over if reservation.nearly_over?
+        reservation.apply_api_keys if reservation.enable_demos_tf?
       else
         previous_number_of_players = reservation.last_number_of_players.to_i
         reservation.update_column(:last_number_of_players, 0)

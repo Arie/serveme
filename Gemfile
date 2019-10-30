@@ -41,7 +41,7 @@ gem 'sidekiq-cron'
 gem 'rufus-scheduler'
 gem 'geocoder'
 gem 'rbtrace'
-gem 'gameye', git: 'https://github.com/Arie/gameye'
+gem 'gameye'
 
 gem 'dalli'
 gem 'connection_pool'

@@ -8,13 +8,6 @@ GIT
       puma (>= 3.4, < 5.0)
 
 GIT
-  remote: https://github.com/Arie/gameye
-  revision: b96414912251e047eabd6fdd090d337db9b6d83b
-  specs:
-    gameye (0.0.4)
-      faraday (~> 0.8)
-
-GIT
   remote: https://github.com/Arie/google_visualr.git
   revision: c6d34b87721639cb79235a6828585d604a49ced0
   specs:
@@ -231,6 +224,8 @@ GEM
     fuubar (2.5.0)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
+    gameye (0.0.4)
+      faraday (~> 0.8)
     geocoder (1.5.2)
     gherkin (5.1.0)
     globalid (0.4.2)
@@ -551,7 +546,7 @@ DEPENDENCIES
   ffi
   font-awesome-rails
   fuubar
-  gameye!
+  gameye
   geocoder
   google_visualr!
   haml

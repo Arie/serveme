@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.gameye.com/fetch/match
+    uri: https://api.gameye.com/query/match
     body:
       encoding: US-ASCII
       string: ''

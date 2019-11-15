@@ -215,7 +215,7 @@ GEM
       railties (>= 4.2.0)
     faraday (0.17.0)
       multipart-post (>= 1.2, < 3)
-    ffi (1.11.1)
+    ffi (1.11.2)
     font-awesome-rails (4.7.0.5)
       railties (>= 3.2, < 6.1)
     fugit (1.3.3)
@@ -287,7 +287,7 @@ GEM
     mini_magick (4.9.5)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
-    mini_racer (0.2.6)
+    mini_racer (0.2.8)
       libv8 (>= 6.9.411)
     minitest (5.13.0)
     msgpack (1.3.1)
@@ -320,7 +320,7 @@ GEM
       omniauth-openid
     optimist (3.0.0)
     orm_adapter (0.5.0)
-    parallel (1.18.0)
+    parallel (1.19.0)
     parallel_tests (2.29.2)
       parallel
     paypal-sdk-rest (1.7.3)
@@ -377,7 +377,7 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.19.0, < 2.0)
-    rake (13.0.0)
+    rake (13.0.1)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
@@ -439,7 +439,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    sentry-raven (2.12.2)
+    sentry-raven (2.12.3)
       faraday (>= 0.7.6, < 1.0)
     shoulda-matchers (4.1.2)
       activesupport (>= 4.2.0)
@@ -478,7 +478,7 @@ GEM
     thor (0.20.3)
     thread_safe (0.3.6)
     tilt (2.0.10)
-    tins (1.22.0)
+    tins (1.22.2)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     uglifier (4.2.0)

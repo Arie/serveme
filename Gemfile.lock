@@ -81,7 +81,7 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     american_date (1.1.1)
     arel (9.0.0)
-    autoprefixer-rails (9.7.1)
+    autoprefixer-rails (9.7.2)
       execjs
     backports (3.15.0)
     base32_pure (0.1.0)
@@ -334,7 +334,7 @@ GEM
     pry-nav (0.3.0)
       pry (>= 0.9.10, < 0.13.0)
     public_suffix (4.0.1)
-    puma (4.0.1)
+    puma (4.3.0)
       nio4r (~> 2.0)
     raabro (1.1.6)
     rack (2.0.7)
@@ -571,7 +571,7 @@ DEPENDENCIES
   paypal-sdk-rest
   pg
   pry-nav
-  puma (~> 4.0.1)
+  puma
   rack-attack
   rack-cache
   rails (~> 5.2.0)

@@ -4,7 +4,7 @@ gem 'rails', "~> 5.2.0"
 gem 'bootsnap', require: false
 gem 'sprockets', '~> 3.7'
 gem 'haml'
-gem 'puma', '~> 4.0.1'
+gem 'puma'
 gem 'omniauth-openid'
 gem 'hashie'
 gem 'omniauth-steam'

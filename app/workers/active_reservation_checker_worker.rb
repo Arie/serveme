@@ -6,14 +6,16 @@ class ActiveReservationCheckerWorker
 
   def perform(reservation_id)
     reservation = Reservation.find(reservation_id)
+    server = reservation.server
 
-    if reservation.server
+    if server
       server_info = reservation.server.server_info
       begin
         server_info.status
         server_info.get_stats
         server_info.get_rcon_status
         ServerMetric.new(server_info)
+        server.rcon_exec "sv_logsecret #{reservation.logsecret}"
       rescue SteamCondenser::Error, Errno::ECONNREFUSED
         Rails.logger.warn "Couldn't update #{reservation.server.name}"
       end

@@ -4,7 +4,7 @@ describe ActiveReservationCheckerWorker do
 
   let(:reservation) { create :reservation }
   let(:server_info) { double(:server_info, number_of_players: 1).as_null_object }
-  let(:server)      { double(:server, server_info: server_info, name: "Server name", gameye?: false) }
+  let(:server)      { double(:server, server_info: server_info, name: "Server name", gameye?: false, rcon_exec: true) }
   before do
     reservation.stub(:server => server)
     allow(ServerMetric).to receive(:new)

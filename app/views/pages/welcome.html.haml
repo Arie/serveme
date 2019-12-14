@@ -19,11 +19,7 @@
             %i.fa.fa-bolt
 
         .col-md-4.align-self-end
-          - if na_system?
-            .sponsor= render 'shared/na_sponsor'
-            = render 'reservations/available_servers'
-          - else
-            = render 'reservations/available_servers'
+          = render 'reservations/available_servers'
 
 = render 'shared/point_to_na'
 

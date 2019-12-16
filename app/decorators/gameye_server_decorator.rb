@@ -9,15 +9,11 @@ class GameyeServerDecorator < ServerDecorator
   end
 
   def location_name
-    if reservation && reservation.gameye_location
-      locations[reservation.gameye_location][:name]
-    end
+    reservation_gameye_location && reservation_gameye_location[:name]
   end
 
   def location_flag
-    if reservation && reservation.gameye_location
-      locations[reservation.gameye_location][:flag]
-    end
+    reservation_gameye_location && reservation_gameye_location[:flag]
   end
 
   def locations
@@ -36,4 +32,7 @@ class GameyeServerDecorator < ServerDecorator
     }
   end
 
+  def reservation_gameye_location
+    reservation && reservation.gameye_location && locations[reservation.gameye_location]
+  end
 end

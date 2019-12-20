@@ -317,6 +317,10 @@ class Server < ActiveRecord::Base
     self.class == GameyeServer
   end
 
+  def tv_port
+    self[:tv_port]&.to_i || port&.to_i + 5
+  end
+
   private
 
   def logs_and_demos

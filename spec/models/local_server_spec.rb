@@ -428,6 +428,17 @@ Server AppID:           232250%| }
     end
   end
 
+  describe "#tv_port" do
+    it "defaults to the server port + 5" do
+      subject.stub(port: 1000)
+      subject.tv_port.should eql 1005
+    end
+    it "uses its own value if it is set" do
+      subject.tv_port = 1001
+      subject.tv_port.should eql 1001
+    end
+  end
+
   def stubbed_reservation(stubs = {})
     reservation = double(:reservation, :custom_whitelist_id => false, :status_update => true, :enable_plugins? => false, :enable_demos_tf? => false, :user => build(:user), :server => build(:server))
     stubs.each do |k, v|

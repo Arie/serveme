@@ -1,13 +1,4 @@
 GIT
-  remote: https://github.com/Arie/capistrano-puma.git
-  revision: e17fbd1724e7fb02a6712ce22b5c7c2573ec1b3d
-  specs:
-    capistrano3-puma (3.1.1)
-      capistrano (~> 3.7)
-      capistrano-bundler
-      puma (>= 3.4, < 5.0)
-
-GIT
   remote: https://github.com/Arie/google_visualr.git
   revision: c6d34b87721639cb79235a6828585d604a49ced0
   specs:
@@ -121,8 +112,12 @@ GEM
     capistrano-sidekiq (1.0.3)
       capistrano (>= 3.9.0)
       sidekiq (>= 3.4, < 6.0)
+    capistrano3-puma (4.0.0)
+      capistrano (~> 3.7)
+      capistrano-bundler
+      puma (~> 4.0)
     capistrano_colors (0.5.5)
-    capybara (3.29.0)
+    capybara (3.30.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -326,7 +321,7 @@ GEM
     paypal-sdk-rest (1.7.3)
       multi_json (~> 1.0)
       xml-simple
-    pg (1.1.4)
+    pg (1.2.0)
     popper_js (1.14.5)
     pry (0.12.2)
       coderay (~> 1.1.0)
@@ -479,7 +474,7 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.10)
     tins (1.22.2)
-    tzinfo (1.2.5)
+    tzinfo (1.2.6)
       thread_safe (~> 0.1)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
@@ -523,7 +518,7 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rvm
   capistrano-sidekiq
-  capistrano3-puma!
+  capistrano3-puma
   capistrano_colors
   capybara
   carrierwave

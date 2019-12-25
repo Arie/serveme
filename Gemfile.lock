@@ -379,7 +379,7 @@ GEM
       thor (>= 0.19.0, < 2.0)
     rake (13.0.1)
     rb-fsevent (0.10.3)
-    rb-inotify (0.10.0)
+    rb-inotify (0.10.1)
       ffi (~> 1.0)
     rbtrace (0.4.11)
       ffi (>= 1.0.6)
@@ -604,4 +604,4 @@ DEPENDENCIES
   zonebie
 
 BUNDLED WITH
-   1.17.2
+   2.1.2

@@ -79,7 +79,6 @@ end
 
 group :test, :development do
   gem 'factory_bot_rails'
-  gem 'rspec-core'
   gem 'rspec-rails', '~> 4.0.0.beta3'
   gem 'rspec-mocks'
   gem 'rspec-expectations'

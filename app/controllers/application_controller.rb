@@ -98,7 +98,6 @@ class ApplicationController < ActionController::Base
       super
     else
       redirect_to '/users/auth/steam'
->>>>>>> master
     end
   end
 end

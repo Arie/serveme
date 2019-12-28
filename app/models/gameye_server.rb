@@ -49,9 +49,9 @@ class GameyeServer < Server
   def self.locations
     if SITE_HOST == "na.serveme.tf"
       [
-        {id: "new_york", name: "New York", flag: "us", concurrency_limit: 0}
+        {id: "new_york", name: "New York", flag: "us", concurrency_limit: 0},
         {id: "washington_dc", name: "Washington D.C.", flag: "us", concurrency_limit: 10},
-        {id: "san_francisco", name: "San Francisco", flag: "us", concurrency_limit: 0}
+        {id: "san_francisco", name: "San Francisco", flag: "us", concurrency_limit: 0},
         {id: "san_jose", name: "San Jose", flag: "us", concurrency_limit: 10},
         {id: "dallas", name: "Dallas", flag: "us", concurrency_limit: 10}
       ]

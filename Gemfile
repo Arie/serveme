@@ -79,13 +79,13 @@ end
 
 group :test, :development do
   gem 'factory_bot_rails'
-  gem 'rspec-core', git: "https://github.com/rspec/rspec-core.git"
-  gem 'rspec-rails', git: "https://github.com/rspec/rspec-rails.git", branch: '4-0-dev'
-  gem 'rspec-mocks', git: "https://github.com/rspec/rspec-mocks.git"
-  gem 'rspec-expectations', git: "https://github.com/rspec/rspec-expectations.git"
-  gem 'rspec-support', git: "https://github.com/rspec/rspec-support.git"
-  gem 'rspec-collection_matchers', git: "https://github.com/rspec/rspec-collection_matchers.git"
-  gem 'rspec-activemodel-mocks', git: "https://github.com/rspec/rspec-activemodel-mocks.git"
+  gem 'rspec-core'
+  gem 'rspec-rails', '~> 4.0.0.beta3'
+  gem 'rspec-mocks'
+  gem 'rspec-expectations'
+  gem 'rspec-support'
+  gem 'rspec-collection_matchers'
+  gem 'rspec-activemodel-mocks'
   gem 'pry-nav'
   gem 'zonebie'
   gem 'parallel_tests'

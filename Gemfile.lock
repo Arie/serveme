@@ -587,7 +587,6 @@ DEPENDENCIES
   remote_lock!
   rspec-activemodel-mocks
   rspec-collection_matchers
-  rspec-core
   rspec-expectations
   rspec-mocks
   rspec-rails (~> 4.0.0.beta3)

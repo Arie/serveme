@@ -26,6 +26,7 @@ describe ReservationsController do
   describe "#new" do
 
     it "redirects to root if 2 short reservations were made recently" do
+      @user.group_ids = nil
       @user.groups << Group.donator_group
       create :reservation, :user => @user, :starts_at => 9.minutes.ago, :ended => true
       create :reservation, :user => @user, :starts_at => 4.minutes.ago, :ended => true
@@ -54,18 +55,6 @@ describe ReservationsController do
 
       put :update, params: { id: reservation.id }
       response.should redirect_to(root_path)
-    end
-
-  end
-
-  describe "#idle_reset" do
-
-    it "sets the idle timer back to 0" do
-      reservation = create :reservation, :user => @user
-      reservation.update_attribute(:inactive_minute_counter, 25)
-
-      post :idle_reset, params: { id: reservation.id }
-      reservation.reload.inactive_minute_counter.should == 0
     end
 
   end

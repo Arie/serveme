@@ -23,13 +23,7 @@
       .card-header.text-white
         Q: Free huh? I guess these servers run on toasters with 3rd world internet!
       .card-body
-        - unless na_system?
-          %em A: Our servers are provided by community members with years of experience running TF2 servers. And we're not tied to one location or country, so if you have a bad routing to one server, you can try another in a different location/country.
-        - else
-          %em
-            A: All our servers are provided by
-            = link_to("TragicServers", "http://tragicservers.com/link.php?id=3")
-            , no toasters allowed! With 4 locations to choose from, we're sure you'll find one that pings well for you.
+        %em A: Our servers are provided by community members with years of experience running TF2 servers. And we're not tied to one location or country, so if you have a bad routing to one server, you can try another in a different location/country.
 
     .card.bg-faded
       .card-header.text-white
@@ -48,7 +42,6 @@
           A: Premium users get these benefits:
           %ul
             %li Longer reservations (5h instead of 2h)
-            %li Longer idle time allowed (60m instead of 30m)
             %li Ability to upload maps
             %li Easier extension of reservations (1h at a time instead of 20m)
             %li More than 1 future reservation allowed
@@ -164,7 +157,7 @@
 
     .card.bg-faded
       .card-header.text-white
-        Q: What does "I'm feeling lucky" mean?
+        Q: What does "1-click-server" mean?
       .card-body
         %em
           A: When you press this button, we try to make a reservation based on your previous one with just 1 click. Same settings, same server, 2 hour reservation starting now. If your previous server is in use, we'll try a server on the same machine. If all servers on the machine are busy, we'll try a server in the same country. If all those are busy we try any server that's free and available for you.

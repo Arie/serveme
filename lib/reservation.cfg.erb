@@ -10,19 +10,18 @@ sv_rcon_whitelist_address "<%= whitelist_ip %>"
 sv_quota_stringcmdspersecond 200
 sv_max_queries_sec_global 60
 
+<% if SITE_HOST == "na.serveme.tf" %>
+<%= %{sv_downloadurl "http://kansas.serveme.tf"%} %>
+<% end %>
+
 tftrue_no_hats 0
 <%= %{tftrue_logs_prefix "#{SITE_HOST} ##{id}"} %>
 tftrue_logs_roundend 0
 tftrue_restorestats 1
 tftrue_tv_autorecord 0
-
-<% if server_config %>
-<%= "exec #{server_config}" %><% end %>
-<% if custom_whitelist_id.present? %>
-<%= %{tftrue_whitelist_id #{custom_whitelist_id}} %>
-<%= %{say "Whitelist: http://whitelist.tf/#{custom_whitelist_id}"} %>
-<% elsif whitelist %>
-<%= %{mp_tournament_whitelist "cfg/#{whitelist}"} %><% end %>
+<% if user.donator? %>
+<%= "tftrue_logs_accuracy 1" %>
+<% end %>
 
 <% if user.logs_tf_api_key.present? %>
 <%= %{tftrue_logs_apikey "#{user.logs_tf_api_key}"} %>
@@ -44,3 +43,14 @@ tv_enable 1
 <% end %>
 
 tf_preround_push_from_damage_enable 1
+
+tf_birthday 0
+tf_birthday_ball_chance 0
+
+<% if server_config %>
+<%= "exec #{server_config}" %><% end %>
+<% if custom_whitelist_id.present? %>
+<%= %{tftrue_whitelist_id #{custom_whitelist_id}} %>
+<%= %{say "Whitelist: http://whitelist.tf/#{custom_whitelist_id}"} %>
+<% elsif whitelist %>
+<%= %{mp_tournament_whitelist "cfg/#{whitelist}"} %><% end %>

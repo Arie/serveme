@@ -31,7 +31,7 @@ class GameyeServer < Server
   end
 
   def self.stop_reservation(reservation)
-    Rails.logger.info("Stopping Gameye server")
+    Rails.logger.info("Stopping Gameye server ##{reservation.id}")
     reservation.server.update_attribute(:active, false)
     Gameye::Match.stop(match_key: gameye_id(reservation))
   end
@@ -56,6 +56,7 @@ class GameyeServer < Server
       [
         {id: "london", name: "London", flag: "en", concurrency_limit: 10},
         {id: "frankfurt", name: "Frankfurt", flag: "de", concurrency_limit: 10},
+        {id: "madrid", name: "Madrid", flag: "es", concurrency_limit: 10},
         {id: "moscow", name: "Moscow", flag: "ru", concurrency_limit: 10},
         {id: "sao_paulo", name: "São Paulo", flag: "br", concurrency_limit: 5},
         {id: "warsaw", name: "Warsaw", flag: "pl", concurrency_limit: 10}

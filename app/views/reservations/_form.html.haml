@@ -1,10 +1,13 @@
-.row
-  .col-md-12
-    %p.alert.alert-warning
-      Please pick your start and end time carefully, reservations that have no players for 30 minutes (60 minutes for premium users) get ended automatically and you will receive a 24h temp ban. Use the "idle reset" button if you need more time before you start (e.g. your lobby takes a long time to fill). All times are in timezone:
-      = link_to(Time.zone, edit_users_path)
+- unless @reservation.persisted?
+  .row
+    .col-md-12
+      %p.alert.alert-warning
+        Please pick your start and end time carefully, we don't like to see reserved servers go unused. All times are in timezone:
+        = link_to(Time.zone.name, edit_users_path)
 
 = render "donator_nag"
+
+= render 'shared/point_to_na'
 
 = render "server_reservations_table"
 
@@ -19,7 +22,7 @@
         free_servers = #{free_servers.map { |s| {id: s.id, text: s.name, flag: s.location_flag, ip_and_port: "#{s.ip}:#{s.port}"} }.to_json.html_safe};
         find_server_url = "#{@reservation.persisted? ? find_servers_for_reservation_reservations_path(id: @reservation.id) : find_servers_for_user_reservations_path}";
 
-      = f.input :server_id, :label => "Server", :required => true, :disabled => !@reservation.schedulable?, label: "<span class='icon-spinner'><i class='fa fa-spinner fa-spin'></i></span>Server".html_safe
+      = f.input :server_id, :label => "Server", :required => true, :disabled => !@reservation.schedulable?
       - if @reservation.schedulable? && !current_user.donator?
         - free_donator_servers_count = Server.for_donators.active.count - used_donator_server_count
         - if free_donator_servers_count > 0
@@ -30,22 +33,20 @@
                 Premium users have #{I18n.t(:available, :count => free_donator_servers_count, :scope => :server)} right now.
                 = link_to("Buy premium and get instant access!", donate_path)
 
-      .form-group.row.string.readonly.reservation_ping.form-group-valid
+      #refresh-ping.form-group.row.string.readonly.reservation_ping.form-group-valid
         %label.col-sm-3.col-md-3.col-form-label.string{for: 'reservation_ping'}
-          %span.icon-spinner
-            %i.fa.fa-spinner.fa-spin
           Ping
+          %i.fa.fa-refresh
         .col-sm-3.col-md-3
           %input#reservation_ping.string.optional.readonly.disabled.form-control{disabled: "disabled", type: "text"}
 
-      = f.input :password,            :as => :string, :placeholder => "The server password to join the game"
-      = f.input :rcon,                :as => :string, :placeholder => "The RCON password to control the server",        :disabled => !@reservation.schedulable?
-      = f.input :first_map,           :collection => MapUpload.available_maps, :input_html => { :class => "select2" },  :disabled => !@reservation.schedulable?
-      = f.input :tv_password,         :as => :string,   :placeholder => "Password for STV, default tv"
-      = f.input :tv_relaypassword,    :as => :string,   :placeholder => "Password for STV (relay), default tv"
-      = f.input :enable_plugins,      :as => :boolean,  :hint => "Enable SOAP DM and MGE (premium only)",               :disabled => (!current_user.donator? || !@reservation.schedulable? )
-      = f.input :enable_demos_tf,     :as => :boolean,  :hint => "Enable uploading STVs to demos.tf (and get SOAP+MGE too for free)"
-      = f.association :server_config, :collection => ServerConfig.ordered, :hint => "Specify a league config to run on each map start", :input_html => { :class => "select2" }
+      = f.input :password,            as: :string, placeholder: "The server password to join the game"
+      = f.input :rcon,                as: :string, placeholder: "The RCON password to control the server",          disabled: !@reservation.schedulable?
+      = f.input :first_map,           collection: MapUpload.available_maps, :input_html => { :class => "select2" }, disabled: !@reservation.schedulable?
+      = f.input :tv_password,         as: :string,   placeholder: "Password for STV, default tv",                   disabled: !@reservation.schedulable?
+      = f.input :enable_plugins,      as: :boolean,  hint: "Enable SOAP DM and MGE (premium only)",                 disabled: (!current_user.donator? || !@reservation.schedulable? )
+      = f.input :enable_demos_tf,     as: :boolean,  hint: "Enable uploading STVs to demos.tf (and get SOAP+MGE too for free)", disabled: !@reservation.schedulable?
+      = f.association :server_config, collection: ServerConfig.ordered, hint: "Specify a league config to run on each map start", input_html: { class: "select2" }
       = f.input :whitelist_type, :label => "Item whitelist" do
         .form-control.whitelist
           .form-check.form-check-inline
@@ -63,14 +64,7 @@
       = f.association :whitelist,     :collection => Whitelist.ordered,    :hint => "Some configs have a default whitelist, but you can still override that here. 6v6 with 9v9 unlocks? No problem!"
       = f.input :custom_whitelist_id, :hint => "Enter the whitelist ID or preset name (e.g. etf2l_6v6_s22) from <a href='http://whitelist.tf/configure' target='_blank'>whitelist.tf</a>".html_safe
 
-      - users_last_reservation = current_user.reservations.last
-      - if users_last_reservation && users_last_reservation.past? && users_last_reservation.inactive_too_long?
-        - hint = "Auto-ending is forced on for your next reservation, because you didn't end your last one"
-        - readonly = true
-      - else
-        - hint = "Automatically end the reservation once everyone has left the server"
-        - readonly = false
-      = f.input :auto_end, :as => :boolean, :hint => hint, :readonly => readonly, :disabled => readonly, :input_html => { :value => true }
+      = f.input :auto_end, :as => :boolean, :hint => "Automatically end the reservation once everyone has left the server", :input_html => { :value => true }
 
       .row.submit-row
         .col-sm-2.offset-sm-4.col-lg-2.offset-lg-5

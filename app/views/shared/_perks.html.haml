@@ -1,10 +1,11 @@
 %ul
-  %li More servers to choose from
+  - premium_server_count = Group.donator_group.servers.active.count
+  - if premium_server_count == 1
+    %li An extra server
+  - if premium_server_count > 1
+    %li More servers (#{premium_server_count} premium-only servers)
+  %li More than 1 reservation at a time
   %li Longer reservations (5h instead of 2h)
-  %li Longer idle time allowed (60m instead of 30m)
-  %li Ability to upload maps
-  %li Easier extension of reservations (1h at a time instead of 20m)
-  %li More than 1 future reservation allowed
-  %li Allowed to make reservations more than 3 hours in the future
-  %li No ads
-
+  %li Reservations more than 3 hours ahead of time
+  %li Weapon accuracy stats
+  %li Map uploads

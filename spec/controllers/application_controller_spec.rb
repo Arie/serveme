@@ -25,30 +25,4 @@ describe ApplicationController do
       get :index
     end
   end
-
-  context "with expired reservations" do
-
-    controller(ServersController) do
-      def index
-        render :text => "foo"
-      end
-    end
-
-    it "forces the user to the root page" do
-      current_user = create :user
-      reservation = create :reservation, user: current_user
-      reservation.update_attribute(:starts_at, 1.hour.ago)
-      reservation.update_attribute(:inactive_minute_counter, 30)
-      reservation.update_attribute(:duration, 30.minutes)
-      sign_in current_user
-
-      get :index
-
-      flash[:alert].should_not be_nil
-      response.should redirect_to "/"
-    end
-
-  end
-
-
 end

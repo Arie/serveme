@@ -139,23 +139,11 @@ class Reservation < ActiveRecord::Base
   end
 
   def tv_relaypassword
-    self[:tv_relaypassword].presence || 'tv'
+    self[:tv_relaypassword].presence || self[:tv_password].presence || 'tv'
   end
 
   def formatted_starts_at
     starts_at.utc.strftime("%Y%m%d")
-  end
-
-  def inactive_too_long?
-    inactive_minute_counter >= inactive_minute_limit
-  end
-
-  def inactive_minute_limit
-    if user
-      return 240  if user.admin?
-      return 60   if user.donator?
-    end
-    30
   end
 
   def custom_whitelist_content
@@ -211,6 +199,10 @@ class Reservation < ActiveRecord::Base
         nil
       end
     end
+  end
+
+  def apply_api_keys
+    server.rcon_exec("sm_demostf_apikey \"#{user.demos_tf_api_key.presence || DEMOS_TF_API_KEY}\"")
   end
 
   def status

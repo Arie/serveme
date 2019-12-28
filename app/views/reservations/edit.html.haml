@@ -1,1 +1,7 @@
+- if !@reservation.schedulable?
+  .row
+    .col-md-12
+      %p.alert.alert-warning
+        Changes to an active reservation won't take effect until a map change
+
 = render 'form'

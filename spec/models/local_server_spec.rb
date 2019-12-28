@@ -82,8 +82,8 @@ describe LocalServer do
   end
 
   describe '#start_reservation' do
-    it 'updates the configuration and triggers a restart' do
-      reservation = stubbed_reservation(:enable_plugins? => true)
+    it 'updates the configuration and triggers a restart', :vcr do
+      reservation = stubbed_reservation(enable_plugins?: true)
       subject.should_receive(:restart)
       subject.should_receive(:enable_plugins)
       subject.should_receive(:add_sourcemod_admin)
@@ -91,14 +91,14 @@ describe LocalServer do
       subject.start_reservation(reservation)
     end
 
-    it 'writes a config file' do
-      reservation = stubbed_reservation(:custom_whitelist_id => nil)
+    it 'writes a config file', :vcr do
+      reservation = stubbed_reservation(enable_plugins?: false)
       subject.should_receive(:restart)
       file = double
       subject.stub(:tf_dir => '/tmp')
-      File.should_receive(:open).with(anything, 'w').twice.and_yield(file)
-      file.should_receive(:write).with(anything).twice
-      subject.should_receive(:generate_config_file).twice.with(reservation, anything).and_return("config file contents")
+      File.should_receive(:open).with(anything, 'w').exactly(2).times.and_yield(file)
+      file.should_receive(:write).with(anything).exactly(2).times
+      subject.should_receive(:generate_config_file).exactly(2).times.with(reservation, anything).and_return("config file contents")
       subject.start_reservation(reservation)
     end
 
@@ -386,11 +386,36 @@ describe LocalServer do
     end
   end
 
+  describe "server version" do
+    let(:condenser)     { double }
+    let(:current_rcon)  { double }
+    let(:version_info)  { %|Build Label:           5257084   # Uniquely identifies each build
+Network PatchVersion:  5257083   # Determines client and server compatibility
+Protocol version:           24   # High level network protocol version
+Server version:        5257084
+Server AppID:           232250%| }
+
+    before do
+      subject.stub(:condenser => condenser, :current_rcon => current_rcon)
+      condenser.should_receive(:rcon_auth).with(current_rcon).and_return(true)
+    end
+
+    it "parses the server version from the rcon response" do
+      condenser.should_receive(:rcon_exec).with("version").and_return(version_info)
+      subject.version.should == 5257083
+    end
+
+    it "knows if the server is outdated", :vcr do
+      condenser.should_receive(:rcon_exec).with("version").and_return(version_info)
+      subject.should be_outdated
+    end
+  end
+
   describe "#enable_plugins" do
 
-    it "writes the metamod.vdf to the server" do
+    it "writes the sourcemod.vdf to the server" do
       subject.should_receive(:path).at_least(:once).and_return("foo")
-      subject.should_receive(:write_configuration).with(subject.metamod_file, anything)
+      subject.should_receive(:write_configuration).with(subject.sourcemod_file, anything)
       subject.enable_plugins
     end
   end
@@ -403,8 +428,19 @@ describe LocalServer do
     end
   end
 
+  describe "#tv_port" do
+    it "defaults to the server port + 5" do
+      subject.stub(port: 1000)
+      subject.tv_port.should eql 1005
+    end
+    it "uses its own value if it is set" do
+      subject.tv_port = 1001
+      subject.tv_port.should eql 1001
+    end
+  end
+
   def stubbed_reservation(stubs = {})
-    reservation = double(:reservation, :status_update => true, :enable_plugins? => false, :enable_demos_tf? => false, :user => build(:user))
+    reservation = double(:reservation, :custom_whitelist_id => false, :status_update => true, :enable_plugins? => false, :enable_demos_tf? => false, :user => build(:user), :server => build(:server))
     stubs.each do |k, v|
       reservation.stub(k) { v }
     end

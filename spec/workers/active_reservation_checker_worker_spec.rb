@@ -4,7 +4,7 @@ describe ActiveReservationCheckerWorker do
 
   let(:reservation) { create :reservation }
   let(:server_info) { double(:server_info, number_of_players: 1).as_null_object }
-  let(:server)      { double(:server, server_info: server_info, name: "Server name", gameye?: false) }
+  let(:server)      { double(:server, server_info: server_info, name: "Server name", gameye?: false, rcon_exec: true) }
   before do
     reservation.stub(:server => server)
     allow(ServerMetric).to receive(:new)
@@ -53,25 +53,6 @@ describe ActiveReservationCheckerWorker do
       reservation.should_receive(:update_column).with(:last_number_of_players, 0)
       reservation.should_receive(:increment!).with(:inactive_minute_counter)
       ActiveReservationCheckerWorker.perform_async(reservation.id)
-    end
-
-    context "inactive too long" do
-
-      context "not a lobby" do
-
-        it "ends the reservation and increases the user's expired reservations counter" do
-          user = double(:user)
-          user.should_receive(:increment!).with(:expired_reservations)
-          reservation.stub(:server => server)
-          reservation.stub(:user   => user)
-          reservation.stub(:inactive_too_long? => true)
-          reservation.stub(:lobby? => false)
-          reservation.should_receive(:end_reservation)
-          ActiveReservationCheckerWorker.perform_async(reservation.id)
-        end
-
-      end
-
     end
 
     context "auto end reservation" do

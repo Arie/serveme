@@ -1,10 +1,3 @@
-.row
-  .col-md-12
-    .flash.alert.alert-success
-      We've opened a
-      = link_to("discord", "https://discord.gg/0s38RdItLiCmARMm", target: "_blank")
-      for any questions, complaints, praise or just to say hi
-
 = render 'shared/nag_message' if current_user
 
 - content_for :jumbotron do
@@ -22,30 +15,19 @@
               cloud (beta)
               %i.fa.fa-cloud
           = link_to i_am_feeling_lucky_reservations_path, :class => 'btn btn-lg btn-warning', :method => :post, :title => "Make a reservation in 1 click" do
-            I'm feeling lucky
+            1-click-server
             %i.fa.fa-bolt
 
         .col-md-4.align-self-end
-          - if na_system?
-            .sponsor= render 'shared/na_sponsor'
-            = render 'reservations/available_servers'
-          - else
-            = render 'reservations/available_servers'
+          = render 'reservations/available_servers'
 
-- if na_system?
-  .row
-    .col-md-12
-      .alert.alert-success
-        %h4
-          Exclusive 30% off your next game, voice and VPS server at tragicservers.com.
-        = link_to('Order today', "http://www.tragicservers.com/link.php?id=15")
-        using "SERVEME30" at checkout
+= render 'shared/point_to_na'
 
 .row
   .col-md-12
     %p.lead
       = link_to("Book a server", new_reservation_path)
-      and within a few minutes your server will be ready and yours to use.
+      and within a few seconds your server will be ready and yours to use.
       Feel free to use the server for any kind of match you want.
 
 .row

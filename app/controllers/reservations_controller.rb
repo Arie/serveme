@@ -2,7 +2,6 @@
 class ReservationsController < ApplicationController
 
   before_action :require_admin, only: [:streaming]
-  skip_before_action :block_users_with_expired_reservations, except: [:new, :create, :i_am_feeling_lucky]
   include ReservationsHelper
 
   def new
@@ -123,12 +122,6 @@ class ReservationsController < ApplicationController
     redirect_to root_path
   end
 
-  def idle_reset
-    flash[:notice] = "Reservation idle timer reset"
-    reservation.update_attribute(:inactive_minute_counter, 0)
-    redirect_to reservation_path(reservation)
-  end
-
   def status
     reservation
     respond_to do |format|
@@ -157,7 +150,7 @@ class ReservationsController < ApplicationController
         redirect_to gameye_path(@reservation)
       else
         @reservation.start_reservation
-        flash[:notice] = "Reservation created for #{@reservation.server_name}. The server is now being configured, give it a minute to (re)boot/update and <a href='#{@reservation.server_connect_url}'>click here to join</a> or enter in console: #{@reservation.connect_string}".html_safe
+        flash[:notice] = "Reservation created for #{@reservation.server_name}. The server is now being configured, give it a minute to start and <a href='#{@reservation.server_connect_url}'>click here to join</a> or enter in console: #{@reservation.connect_string}".html_safe
         redirect_to reservation_path(@reservation)
       end
     else
@@ -171,7 +164,7 @@ class ReservationsController < ApplicationController
       where('starts_at > ?', 10.minutes.ago).
       where('ended = ?', true).
       count
-    count >= 2
+    !current_user.admin? && count >= 2
   end
 
 end

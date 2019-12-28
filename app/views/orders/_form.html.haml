@@ -28,7 +28,7 @@
           = f.input :product_id, collection: @products, label_method: :list_name, label: false, include_blank: false
 
           %h5 Gift or personal
-          = f.input :gift, as: "radio_buttons", label: "", collection: [["Personal, add premium to my account", false], ["Gift, give me a sharable premium code", true]]
+          = f.input :gift, as: "radio_buttons", label: "", collection: [["Personal, add premium to my account", false], ["Gift, receive a sharable premium code", true]], checked: false
 
       .row
         .col-md-12.text-center

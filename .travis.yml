@@ -2,7 +2,8 @@ language: ruby
 cache: bundler
 rvm:
   - 2.5.5
-  - 2.6.3
+  - 2.6.5
+  - 2.7.0
 bundler_args: --without development production
 addons:
   postgresql: "9.6"

@@ -73,29 +73,31 @@
           = link_to credits_path, class: "dropdown-item" do
             %i.fa.fa-thumbs-up
             Credits
-      %li.dropdown.nav-item
-        %a.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#", :class => "nav-link"}
-          %i.fa.fa-star
-          Premium
-          %b.caret>
-        .dropdown-menu
-          = link_to donate_path, class: "dropdown-item" do
-            %i.fa.fa-paypal
-            Buy
-          = link_to leaderboard_donators_path, class: "dropdown-item" do
-            %i.fa.fa-money
-            Leaderboard
       - if current_user
+        %li.dropdown.nav-item
+          %a.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#", :class => "nav-link"}
+            %i.fa.fa-star
+            Premium
+            %b.caret>
+          .dropdown-menu
+            = link_to donate_path, class: "dropdown-item" do
+              %i.fa.fa-paypal
+              Buy
+            = link_to leaderboard_donators_path, class: "dropdown-item" do
+              %i.fa.fa-money
+              Leaderboard
         %li.nav-item
           = link_to settings_path, class: "nav-link" do
             %i.fa.fa-cogs
             Settings
     %ul.nav.navbar-nav.navbar-right
       %span
-        = link_to "http://github.com/Arie/serveme", :title => "Fork me on GitHub", :class => "nav-item octocat"  do
-          = image_tag "octocat.png", :alt => "Fork me on GitHub"
+        = link_to("https://discord.gg/0s38RdItLiCmARMm", title: "serveme.tf on discord", class: "nav-item discord", target: "_blank") do
+          = image_tag "discord.png", :alt => "Join our Discord server"
         = link_to "https://twitter.com/servemetf", :title => "serveme.tf on twitter", :class => "nav-item twitter" do
           %i.fa.fa-twitter.fa-2x
+        = link_to "http://github.com/Arie/serveme", :title => "serveme.tf source code", :class => "nav-item octocat"  do
+          = image_tag "octocat.png", :alt => "Fork me on GitHub"
       .account
         - if current_user
           = link_to current_user.decorate.nickname, settings_path

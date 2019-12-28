@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 class OrdersController < ApplicationController
 
-  skip_before_action :block_users_with_expired_reservations
-
   def new
     @products = Product.active.ordered
     @order = Order.new(gift: params[:gift], product: Product.find_by_name("1 year"))

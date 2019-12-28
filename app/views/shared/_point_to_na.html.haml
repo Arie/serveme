@@ -1,0 +1,21 @@
+- if eu_system? && current_user && current_user.from_na?
+  .row
+    .col-md-12
+      .flash_message.flash.alert.alert-success
+        %h5
+          - if current_user.geocoded
+            %span.flags{class: "flags-#{current_user.geocoded.country_code.downcase}"}
+            - if current_user.geocoded.country_code == "US"
+              - country_name = "the United States"
+            - else
+              - country_name = current_user.geocoded.country
+            Howdy! It looks like you're not from Europe, but from #{country_name}, perhaps you're looking for
+            = link_to("na.serveme.tf", "https://na.serveme.tf")
+            ?
+          - else
+            %span.flags.flags-ca
+            %span.flags.flags-us
+            %span.flags.flags-mx
+            Howdy! It looks like you're not from Europe, but from North-America, perhaps you're looking for
+            = link_to("na.serveme.tf", "https://na.serveme.tf")
+            ?

@@ -60,6 +60,13 @@ describe LogWorker do
       LogWorker.perform_async(lobby_extend_line)
     end
 
+    it "allows any player in premium reservation to extend" do
+      reservation.should_receive(:extend!).and_return(true)
+      user.stub(:donator? => true)
+      server.should_receive(:rcon_say).with(/Extended/)
+      LogWorker.perform_async(lobby_extend_line)
+    end
+
     it "notifies when extension wasn't possible" do
       reservation.should_receive(:extend!).and_return(false)
       server.should_receive(:rcon_say).with("Couldn't extend your reservation: you can only extend when there's less than 1 hour left and no one else has booked the server.")
@@ -120,7 +127,7 @@ describe LogWorker do
       server.should_receive(:rcon_say).with("Reservation created by: '#{reservation.user.name}'")
       LogWorker.perform_async(who_line)
     end
-    
+
     it "should not return if there is text before or after the command" do
       server.should_not_receive(:rcon_say)
       ReservationWorker.should_not_receive(:perform_async).with("Reservation created by: '#{reservation.user.name}'")

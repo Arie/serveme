@@ -6,10 +6,10 @@ class LogWorker
   attr_accessor :raw_line, :line, :event, :reservation_id, :message
 
   MAP_START         = /(Started map\ "(\w+)")/
-  END_COMMAND       = /!end.*/
-  EXTEND_COMMAND    = /!extend.*/
-  RCON_COMMAND      = /!rcon.*/
-  TIMELEFT_COMMAND  = /!timeleft.*/
+  END_COMMAND       = /^!end.*/
+  EXTEND_COMMAND    = /^!extend.*/
+  RCON_COMMAND      = /^!rcon.*/
+  TIMELEFT_COMMAND  = /^!timeleft.*/
   WHOIS_RESERVER    = /^!who$/
   LOG_LINE_REGEX    = '(?\'secret\'\d*)(?\'line\'.*)'
 
@@ -32,6 +32,7 @@ class LogWorker
           reservation.status_update("Server startup complete, switching map")
         else
           reservation.status_update("Server finished loading map \"#{map}\"")
+          reservation.apply_api_keys
         end
       end
     end
@@ -65,8 +66,12 @@ class LogWorker
   def handle_rcon
     rcon_command = message.split(" ")[1..-1].join(" ")
     if !rcon_command.empty?
-      Rails.logger.info "Sending rcon command #{rcon_command} from chat for reservation #{reservation}"
-      reservation.server.rcon_exec(rcon_command)
+      if !reservation.gameye? && (reservation.enable_plugins? || reservation.enable_demos_tf?)
+        Rails.logger.info "Ignoring rcon command #{rcon_command} from chat for reservation #{reservation}"
+      else
+        Rails.logger.info "Sending rcon command #{rcon_command} from chat for reservation #{reservation}"
+        reservation.server.rcon_exec(rcon_command)
+      end
     end
   end
 
@@ -96,6 +101,8 @@ class LogWorker
     case message
     when TIMELEFT_COMMAND
       :handle_timeleft
+    when EXTEND_COMMAND
+      :handle_extend if reserver_is_donator?
     when WHOIS_RESERVER
       :handle_whois_reserver
     end
@@ -120,6 +127,10 @@ class LogWorker
 
   def action_by_reserver
     said_by_reserver? && action_for_message_said_by_reserver
+  end
+
+  def reserver_is_donator?
+    reserver && reserver.donator?
   end
 
   def reserver

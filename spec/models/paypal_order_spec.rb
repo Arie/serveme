@@ -86,8 +86,8 @@ describe PaypalOrder do
         PaypalOrder.monthly_goal("serveme.tf").should == 250.0
       end
 
-      it "is 175 for NA" do
-        PaypalOrder.monthly_goal("na.serveme.tf").should == 175.0
+      it "is 250 for NA" do
+        PaypalOrder.monthly_goal("na.serveme.tf").should == 250.0
       end
 
     end

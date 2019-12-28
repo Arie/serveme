@@ -2,6 +2,7 @@
 class SessionsController < Devise::OmniauthCallbacksController
 
   skip_before_action :verify_authenticity_token
+  skip_before_action :authenticate_user!
 
   include Devise::Controllers::Rememberable#
 
@@ -21,5 +22,4 @@ class SessionsController < Devise::OmniauthCallbacksController
   def passthru
     render :template => 'pages/not_found', :status => 404
   end
-
 end

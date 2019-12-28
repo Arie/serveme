@@ -89,7 +89,7 @@ class Server < ActiveRecord::Base
   end
 
   def enable_plugins
-    write_configuration(metamod_file, metamod_body)
+    write_configuration(sourcemod_file, sourcemod_body)
   end
 
   def add_sourcemod_admin(user)
@@ -97,18 +97,19 @@ class Server < ActiveRecord::Base
   end
 
   def disable_plugins
-    delete_from_server([metamod_file, sourcemod_admin_file])
+    delete_from_server([sourcemod_file, sourcemod_admin_file])
   end
 
-  def metamod_file
-    "#{tf_dir}/addons/metamod.vdf"
+  def sourcemod_file
+    "#{tf_dir}/addons/metamod/sourcemod.vdf"
   end
 
-  def metamod_body
+  def sourcemod_body
     <<-VDF
-    "Plugin"
+    "Metamod Plugin"
     {
-      "file"	"../tf/addons/metamod/bin/server"
+      "alias"		"sourcemod"
+      "file"		"addons/sourcemod/bin/sourcemod_mm"
     }
     VDF
   end
@@ -187,9 +188,22 @@ class Server < ActiveRecord::Base
         enable_demos_tf
       end
     end
-    reservation.status_update("Restarting server")
-    restart
-    reservation.status_update("Restarted server, waiting to boot")
+    if !reservation.server.outdated?
+      reservation.status_update("Attempting fast start")
+      if rcon_exec("removeip 1; removeip 1; removeip 1; sv_logsecret #{reservation.logsecret}; logaddress_add direct.#{SITE_HOST}:40001")
+        first_map = reservation.first_map.presence || "ctf_turbine"
+        rcon_exec("changelevel #{first_map}; exec reservation.cfg")
+        reservation.status_update("Fast start attempted, waiting to boot")
+      else
+        reservation.status_update("Restarting server normally")
+        restart
+        reservation.status_update("Restarted server, waiting to boot")
+      end
+    else
+      reservation.status_update("Restarting server")
+      restart
+      reservation.status_update("Restarted server, waiting to boot")
+    end
   end
 
   def update_reservation(reservation)
@@ -263,6 +277,30 @@ class Server < ActiveRecord::Base
     end
   end
 
+  def version
+    @version ||= begin
+                   /Network\ PatchVersion:\s+(\d+)/ =~ rcon_exec("version") && $1.to_i
+                 end
+  end
+
+  def outdated?
+    version != Server.latest_version
+  end
+
+  def self.latest_version
+    Rails.cache.fetch("latest_server_version", expires_in: 5.minutes) do
+      get_latest_version
+    end
+  end
+
+  def self.get_latest_version
+    response = Faraday.new(:url => "http://api.steampowered.com").get("ISteamApps/UpToDateCheck/v1?appid=440&version=0")
+    if response.success?
+      json = JSON.parse(response.body)
+      json["response"]["required_version"].to_i
+    end
+  end
+
   def number_of_players
     begin
       @number_of_players ||= server_info.number_of_players
@@ -277,6 +315,10 @@ class Server < ActiveRecord::Base
 
   def gameye?
     self.class == GameyeServer
+  end
+
+  def tv_port
+    self[:tv_port]&.to_i || port&.to_i + 5
   end
 
   private

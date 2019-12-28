@@ -33,7 +33,6 @@ Serveme::Application.routes.draw do
   resources :reservations do
     member do
       post :extend_reservation, :as => :extend
-      match :idle_reset,        :via => [:get, :post], :as => :idle_reset
       get :status,              :as => :status
       get :streaming,           :as => :streaming
     end
@@ -55,6 +54,9 @@ Serveme::Application.routes.draw do
   get 'gameye/reservations/:id', to: "reservations#show_gameye", as: :gameye
 
   resources :map_uploads, :only => [:new, :create]
+
+  get 'league-request', to: "league_requests#new"
+  post 'league-request', to: "league_requests#create"
 
   resources :pages do
     collection do
@@ -94,6 +96,7 @@ Serveme::Application.routes.draw do
 
   namespace :api do
     resources :users, only: :show
+    resources :maps, only: :index
     resources :servers, only: :index
     resources :donators, except: [:edit, :update]
     resources :reservations do

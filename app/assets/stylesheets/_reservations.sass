@@ -9,8 +9,6 @@ form#new_reservation
 form.reservation
   .form-check-input.is-valid.boolean.optional ~ .form-check-label
     color: #aaa
-  .icon-spinner
-    display: none
 
   .submit-row
     padding-bottom: 2rem
@@ -20,6 +18,9 @@ form.reservation
     background: 0
     border: 0 none
     color: #aaa
+
+  i.fa-refresh
+    display: none
 
 #reservation_status_spinner, #reservation_status_message
   display: inline-block
@@ -95,3 +96,11 @@ table.servers
           font-size: 10px
 .buy_premium
   display: none
+
+#refresh-ping
+  i
+    cursor: pointer
+
+.donator-nag
+  img
+    float: left

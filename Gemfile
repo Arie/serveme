@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', "~> 6.0.0"
 gem 'bootsnap', require: false
-gem 'sprockets'
+gem 'sprockets', '~> 3.7'
 gem 'haml'
 gem 'puma'
 gem 'omniauth-openid'
@@ -36,7 +36,7 @@ gem "google_visualr", git: "https://github.com/Arie/google_visualr.git"
 gem 'rack-cache'
 gem 'paypal-sdk-rest'
 gem 'stripe'
-gem 'sidekiq'
+gem 'sidekiq', '< 6'
 gem 'sidekiq-cron'
 gem 'rufus-scheduler'
 gem 'geocoder'
@@ -74,7 +74,7 @@ group :deployment do
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   gem 'capistrano-faster-assets'
-  gem 'capistrano3-puma', git: "https://github.com/Arie/capistrano-puma.git"
+  gem 'capistrano3-puma'
 end
 
 group :test, :development do

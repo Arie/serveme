@@ -64,7 +64,7 @@
       = f.association :whitelist,     :collection => Whitelist.ordered,    :hint => "Some configs have a default whitelist, but you can still override that here. 6v6 with 9v9 unlocks? No problem!"
       = f.input :custom_whitelist_id, :hint => "Enter the whitelist ID or preset name (e.g. etf2l_6v6_s22) from <a href='http://whitelist.tf/configure' target='_blank'>whitelist.tf</a>".html_safe
 
-      = f.input :auto_end, :as => :boolean, :hint => "Automatically end the reservation once everyone has left the server", :input_html => { :value => true }
+      = f.input :auto_end, as: :boolean, hint: "Automatically end the reservation once everyone has left the server", disabled: !current_user.donator?, input_html: { value: true }
 
       .row.submit-row
         .col-sm-2.offset-sm-4.col-lg-2.offset-lg-5

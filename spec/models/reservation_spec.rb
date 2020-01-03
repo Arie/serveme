@@ -240,7 +240,7 @@ describe Reservation do
     it "verifies the server is reservable by the user" do
       users_group                 = create :group,  :name => "User's group"
       other_group                 = create :group,  :name => "Not User's group"
-      _user                        = create :user,   :groups => [users_group]
+      user                        = create :user,   :groups => [users_group]
       free_server_other_group     = create :server, :groups => [other_group], :name => "free server not in user's group"
 
       reservation = build :reservation, :server => free_server_other_group
@@ -336,7 +336,7 @@ describe Reservation do
         user.stub(:donator? => false)
 
         now_reservation           = create :reservation, :starts_at => 5.minutes.ago,       :ends_at => 1.hour.from_now,    :user => user
-        _first_future_reservation  = create :reservation, :starts_at => 90.minutes.from_now, :ends_at => 2.hours.from_now,   :user => user
+        first_future_reservation  = create :reservation, :starts_at => 90.minutes.from_now, :ends_at => 2.hours.from_now,   :user => user
         second_future_reservation = build  :reservation, :starts_at => 12.hours.from_now,   :ends_at => 13.hours.from_now,  :user => user
 
         second_future_reservation.should_not be_valid
@@ -540,6 +540,64 @@ describe Reservation do
 
     end
 
+    describe "#inactive_too_long?" do
+
+      context "for admins" do
+        before do
+          subject.stub(:user).and_return(mock_model(User, :admin? => true, :donator? => true))
+        end
+
+        it "has been inactive too long when the inactive_minute_counter reaches 240" do
+          subject.inactive_minute_counter = 239
+          subject.should_not be_inactive_too_long
+
+          subject.inactive_minute_counter = 240
+          subject.should be_inactive_too_long
+
+          subject.inactive_minute_counter = 241
+          subject.should be_inactive_too_long
+        end
+      end
+
+      context "for donators" do
+
+        before do
+          subject.stub(:user).and_return(mock_model(User, :donator? => true, :admin? => false))
+        end
+
+        it "has been inactive too long when the inactive_minute_counter reaches 240" do
+          subject.inactive_minute_counter = 239
+          subject.should_not be_inactive_too_long
+
+          subject.inactive_minute_counter = 240
+          subject.should be_inactive_too_long
+
+          subject.inactive_minute_counter = 241
+          subject.should be_inactive_too_long
+        end
+
+      end
+
+      context "for non-donators" do
+
+        before do
+          subject.stub(:user).and_return(mock_model(User, :donator? => false, :admin? => false))
+        end
+
+        it "has been inactive too long when the inactive_minute_counter reaches 45" do
+          subject.inactive_minute_counter = 44
+          subject.should_not be_inactive_too_long
+
+          subject.inactive_minute_counter = 45
+          subject.should be_inactive_too_long
+
+          subject.inactive_minute_counter = 46
+          subject.should be_inactive_too_long
+        end
+
+      end
+
+    end
   end
 
   describe '#just_started?' do
@@ -562,20 +620,20 @@ describe Reservation do
 
     it "is schedulable when it was saved but not active yet or in the past" do
       subject.stub(:persisted?  => true,
-                   :active?     => false,
-                   :past?       => false
+                    :active?     => false,
+                    :past?       => false
                   )
       subject.should be_schedulable
 
       subject.stub(:persisted?  => true,
-                   :active?     => true,
-                   :past?       => false,
+                    :active?     => true,
+                    :past?       => false,
                   )
       subject.should_not be_schedulable
 
       subject.stub(:persisted?  => true,
-                   :active?     => false,
-                   :past?       => true
+                    :active?     => false,
+                    :past?       => true
                   )
       subject.should_not be_schedulable
     end

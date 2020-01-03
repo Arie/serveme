@@ -88,6 +88,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def expired_reservation
+    @expired_reservation ||= begin
+                              if current_user && !(current_user.donator? || current_user.admin?)
+                                current_user.
+                                  reservations.where('starts_at > ?', 24.hours.ago).
+                                  where('inactive_minute_counter = ?', 45).
+                                  where('duration < ?', 47.minutes).
+                                  last
+                              end
+                             end
+  end
+
   private
 
   def ssl_required?

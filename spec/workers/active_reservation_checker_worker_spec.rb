@@ -55,6 +55,25 @@ describe ActiveReservationCheckerWorker do
       ActiveReservationCheckerWorker.perform_async(reservation.id)
     end
 
+    context "inactive too long" do
+
+      context "not a lobby" do
+
+        it "ends the reservation and increases the user's expired reservations counter" do
+          user = double(:user)
+          user.should_receive(:increment!).with(:expired_reservations)
+          reservation.stub(:server => server)
+          reservation.stub(:user   => user)
+          reservation.stub(:inactive_too_long? => true)
+          reservation.stub(:lobby? => false)
+          reservation.should_receive(:end_reservation)
+          ActiveReservationCheckerWorker.perform_async(reservation.id)
+        end
+
+      end
+
+    end
+
     context "auto end reservation" do
 
       it "ends the reservation if server becomes empty after 30 minutes" do

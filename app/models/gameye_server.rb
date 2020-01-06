@@ -5,29 +5,26 @@ class GameyeServer < Server
 
   def self.start_reservation(reservation)
     Rails.logger.info("Starting Gameye server")
-    launch = launch_gameye(reservation)
-    if launch == true
-      create_temporary_server(reservation)
+    launched = launch_gameye(reservation)
+    if launched.is_a?(Hash)
+      create_temporary_server(reservation, launched)
     else
-      reservation.status_update("Failed to launch Gameye server, got #{launch}")
+      reservation.status_update("Failed to launch Gameye server, got #{launched}")
     end
   end
 
   def self.update_reservation(reservation); end
 
-  def self.create_temporary_server(reservation)
-    match = fetch_match(gameye_id(reservation))
-    if match
-      server = GameyeServer.create(
-        name: "Gameye ##{reservation.id}",
-        ip: match.host,
-        port: match.port,
-        tv_port: match.tv_port,
-        rcon: reservation.rcon
-      )
-      reservation.update_attribute(:server_id, server.id)
-      reservation.status_update("Created Gameye match connect #{match.host}:#{match.port}; password #{reservation.password}")
-    end
+  def self.create_temporary_server(reservation, launched)
+    server = GameyeServer.create(
+      name: "Gameye ##{reservation.id}",
+      ip: launched["host"],
+      port: launched["port"]["game"],
+      tv_port: launched["port"]["hltv"],
+      rcon: reservation.rcon
+    )
+    reservation.update_attribute(:server_id, server.id)
+    reservation.status_update("Created Gameye match connect #{server.ip}:#{server.port}; password #{reservation.password}")
   end
 
   def self.stop_reservation(reservation)

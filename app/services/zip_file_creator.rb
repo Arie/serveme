@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class ZipFileCreator
 
+class ZipFileCreator
   attr_accessor :reservation, :files_to_zip
 
   def initialize(reservation, files_to_zip)
@@ -14,7 +14,7 @@ class ZipFileCreator
   end
 
   def chmod
-    File.chmod(0755, zipfile_name_and_path)
+    File.chmod(0o755, zipfile_name_and_path)
   end
 
   def zipfile_name
@@ -22,11 +22,11 @@ class ZipFileCreator
   end
 
   def zipfile_name_and_path
-    Rails.root.join("public", "uploads", zipfile_name)
+    Rails.root.join('public', 'uploads', zipfile_name)
   end
 
   def shell_escaped_files_to_zip
-    files_to_zip.collect { |file| file.shellescape }
+    files_to_zip.collect(&:shellescape)
   end
 
   private
@@ -34,5 +34,4 @@ class ZipFileCreator
   def server
     reservation.server
   end
-
 end

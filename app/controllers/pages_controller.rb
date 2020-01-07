@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!, except: :recent_reservations
   before_action :require_admin_or_streamer, only: :recent_reservations
@@ -11,8 +12,7 @@ class PagesController < ApplicationController
     end
   end
 
-  def credits
-  end
+  def credits; end
 
   def recent_reservations
     @recent_reservations = Reservation.order('starts_at DESC').includes(user: :groups, server: :location).paginate(page: params[:page], per_page: 50)
@@ -23,21 +23,20 @@ class PagesController < ApplicationController
     @top_10_servers_hash = Statistic.top_10_servers
   end
 
-  def server_providers
-  end
+  def server_providers; end
 
-  def faq
-  end
+  def faq; end
 
-  def private_servers
-  end
+  def private_servers; end
 
   def not_found
     render 'not_found', status: 404, formats: :html
   end
 
   def error
-    Raven.capture_exception(env['action_dispatch.exception']) if Rails.env.production? && env['action_dispatch.exception']
+    if Rails.env.production? && env['action_dispatch.exception']
+      Raven.capture_exception(env['action_dispatch.exception'])
+    end
     render 'error', status: 500, formats: :html
   end
 end

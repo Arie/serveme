@@ -1,20 +1,20 @@
 # frozen_string_literal: true
-class LogUpload < ActiveRecord::Base
 
+class LogUpload < ActiveRecord::Base
   belongs_to :reservation
 
   validates_presence_of :reservation_id
-  validates_presence_of :file_name,   :unless => :tftrue_upload?
-  validate :validate_log_file_exists, :unless => :tftrue_upload?
+  validates_presence_of :file_name,   unless: :tftrue_upload?
+  validate :validate_log_file_exists, unless: :tftrue_upload?
 
   def self.find_log_files(reservation_id)
     log_files = Dir.glob(log_matcher(reservation_id))
     log_files.collect! do |log_file|
       {
-        :file_name_and_path   => log_file,
-        :file_name            => File.basename(log_file),
-        :last_modified        => File.mtime(log_file),
-        :size                 => File.size(log_file)
+        file_name_and_path: log_file,
+        file_name: File.basename(log_file),
+        last_modified: File.mtime(log_file),
+        size: File.size(log_file)
       }
     end
     log_files.select do |log_file|
@@ -23,7 +23,7 @@ class LogUpload < ActiveRecord::Base
   end
 
   def self.log_matcher(reservation_id)
-    File.join(Rails.root.join, 'server_logs', "#{reservation_id}", "*.log")
+    File.join(Rails.root.join, 'server_logs', reservation_id.to_s, '*.log')
   end
 
   def upload
@@ -36,14 +36,12 @@ class LogUpload < ActiveRecord::Base
     rescue Exception => e
       message = e.message
     ensure
-      update_attributes(:status => message, :url => url.to_s)
+      update_attributes(status: message, url: url.to_s)
     end
   end
 
   def log_file
-    if log_file_exists?(file_name)
-      File.open(log_file_name_and_path)
-    end
+    File.open(log_file_name_and_path) if log_file_exists?(file_name)
   end
 
   def logs_tf_api_key
@@ -55,7 +53,7 @@ class LogUpload < ActiveRecord::Base
   end
 
   def log_file_name_and_path
-    Rails.root.join("server_logs", "#{reservation_id}", file_name)
+    Rails.root.join('server_logs', reservation_id.to_s, file_name)
   end
 
   private
@@ -74,12 +72,11 @@ class LogUpload < ActiveRecord::Base
 
   def validate_log_file_exists
     unless log_file_exists?(file_name)
-      errors.add(:file_name, "file does not exist")
+      errors.add(:file_name, 'file does not exist')
     end
   end
 
   def tftrue_upload?
-    status == "TFTrue upload"
+    status == 'TFTrue upload'
   end
-
 end

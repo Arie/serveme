@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Voucher < ActiveRecord::Base
   belongs_to :product
   belongs_to :order
@@ -28,7 +29,7 @@ class Voucher < ActiveRecord::Base
   def self.find_voucher(code)
     code = encode(Base32::Crockford.decode(code, :integer))
     where(code: code).first
-  rescue
+  rescue StandardError
     nil
   end
 
@@ -36,6 +37,7 @@ class Voucher < ActiveRecord::Base
     with_lock do
       reload
       raise AlreadyClaimed if claimed?
+
       self.claimed_by = user
       self.claimed_at = Time.current
       GrantPerks.new(product, user).perform

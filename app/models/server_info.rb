@@ -1,9 +1,9 @@
 # frozen_string_literal: true
-class ServerInfo
 
+class ServerInfo
   attr_accessor :server, :server_connection
 
-  delegate :condenser, :to => :server, :prefix => false
+  delegate :condenser, to: :server, prefix: false
 
   def initialize(server)
     @server            = server
@@ -15,7 +15,7 @@ class ServerInfo
   end
 
   def server_name
-    ActiveSupport::Multibyte::Chars.new(status.fetch(:server_name, 'unknown'.freeze)).tidy_bytes.to_s
+    ActiveSupport::Multibyte::Chars.new(status.fetch(:server_name, 'unknown')).tidy_bytes.to_s
   end
 
   def number_of_players
@@ -23,46 +23,44 @@ class ServerInfo
   end
 
   def max_players
-    status.fetch(:max_players,        '0'.freeze).freeze
+    status.fetch(:max_players,        '0').freeze
   end
 
   def map_name
-    status.fetch(:map_name,           'unknown'.freeze).freeze
+    status.fetch(:map_name,           'unknown').freeze
   end
 
   def status
     Rails.cache.fetch "server_info_#{server.id}", expires_in: 1.minute do
-      begin
-        out = {}
-        get_rcon_status.lines.each do |line|
-          case line
-          when /^hostname\W+(.*)$/
-            out[:server_name] ||= $1
-          when /^map\W+(\S+)/
-            out[:map_name] ||= $1
-          when /^players\W+(\S+).+\((\d+)/
-            out[:number_of_players] ||= $1.to_i
-            out[:max_players] ||= $2
-          end
+      out = {}
+      get_rcon_status.lines.each do |line|
+        case line
+        when /^hostname\W+(.*)$/
+          out[:server_name] ||= Regexp.last_match(1)
+        when /^map\W+(\S+)/
+          out[:map_name] ||= Regexp.last_match(1)
+        when /^players\W+(\S+).+\((\d+)/
+          out[:number_of_players] ||= Regexp.last_match(1).to_i
+          out[:max_players] ||= Regexp.last_match(2)
         end
-        out
-      rescue SteamCondenser::Error, Errno::ECONNREFUSED
-        {}
       end
+      out
+    rescue SteamCondenser::Error, Errno::ECONNREFUSED
+      {}
     end
   end
 
   def get_stats
     Rails.cache.fetch "stats_#{server.id}", expires_in: 1.minute do
       auth
-      server_connection.rcon_exec('stats'.freeze).freeze
+      server_connection.rcon_exec('stats').freeze
     end
   end
 
   def get_rcon_status
     Rails.cache.fetch "rcon_status_#{server.id}", expires_in: 1.minute do
       auth
-      ActiveSupport::Multibyte::Chars.new(server_connection.rcon_exec('status'.freeze)).tidy_bytes.to_s
+      ActiveSupport::Multibyte::Chars.new(server_connection.rcon_exec('status')).tidy_bytes.to_s
     end
   end
 
@@ -95,22 +93,21 @@ class ServerInfo
   end
 
   def stats
-    stats_line = ""
-    #CPU    In (KB/s)  Out (KB/s)  Uptime  Map changes  FPS      Players  Connects
-    #24.88  35.29      54.48       6       2            66.67    9        12
+    stats_line = ''
+    # CPU    In (KB/s)  Out (KB/s)  Uptime  Map changes  FPS      Players  Connects
+    # 24.88  35.29      54.48       6       2            66.67    9        12
     get_stats.each_line do |line|
       stats_line = line
     end
-    items = stats_line.split(" ")
+    items = stats_line.split(' ')
     {
-      :cpu          => items[-8].freeze,
-      :in           => items[-7].freeze,
-      :out          => items[-6].freeze,
-      :uptime       => items[-5].freeze,
-      :map_changes  => items[-4].freeze,
-      :fps          => items[-3].freeze,
-      :connects     => items[-1].freeze
+      cpu: items[-8].freeze,
+      in: items[-7].freeze,
+      out: items[-6].freeze,
+      uptime: items[-5].freeze,
+      map_changes: items[-4].freeze,
+      fps: items[-3].freeze,
+      connects: items[-1].freeze
     }
   end
-
 end

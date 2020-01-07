@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CronWorker
   include Sidekiq::Worker
 
@@ -9,9 +10,7 @@ class CronWorker
   end
 
   def end_past_reservations
-    unended_past_normal_reservations.map do |reservation|
-      reservation.end_reservation
-    end
+    unended_past_normal_reservations.map(&:end_reservation)
   end
 
   def unended_past_normal_reservations
@@ -23,7 +22,7 @@ class CronWorker
   end
 
   def start_active_reservations
-    unstarted_now_reservations  = now_reservations.where('provisioned = ? AND start_instantly = ?', false, false)
+    unstarted_now_reservations = now_reservations.where('provisioned = ? AND start_instantly = ?', false, false)
     start_reservations(unstarted_now_reservations)
   end
 
@@ -32,9 +31,7 @@ class CronWorker
   end
 
   def start_reservations(reservations)
-    reservations.map do |reservation|
-      reservation.start_reservation
-    end
+    reservations.map(&:start_reservation)
   end
 
   def check_active_reservations
@@ -42,5 +39,4 @@ class CronWorker
     provisioned_now_reservations  = unended_now_reservations.where('provisioned = ?', true)
     ActiveReservationsCheckerWorker.perform_async(provisioned_now_reservations.pluck(:id))
   end
-
 end

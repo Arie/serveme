@@ -1,16 +1,14 @@
 # frozen_string_literal: true
-class RemoteServer < Server
 
+class RemoteServer < Server
   def write_configuration(output_filename, output_content)
-    begin
-      file = Tempfile.new('config_file')
-      file.sync = true
-      file.write(output_content)
-      upload_configuration(file.path, output_filename)
-    ensure
-      file.close
-      file.unlink
-    end
+    file = Tempfile.new('config_file')
+    file.sync = true
+    file.write(output_content)
+    upload_configuration(file.path, output_filename)
+  ensure
+    file.close
+    file.unlink
   end
 
   def upload_configuration(configuration_file, upload_file)
@@ -28,5 +26,4 @@ class RemoteServer < Server
   def log_copier_class
     RemoteLogCopier
   end
-
 end

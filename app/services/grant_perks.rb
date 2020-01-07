@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class GrantPerks
 
+class GrantPerks
   attr_accessor :product, :user
 
   def initialize(product, user)
@@ -14,5 +14,4 @@ class GrantPerks
       AddGroupMembership.new(product.days, user, Group.private_user(user)).perform
     end
   end
-
 end

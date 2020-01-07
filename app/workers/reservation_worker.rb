@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 class ReservationWorker
   include Sidekiq::Worker
 
-  sidekiq_options :retry => 3
+  sidekiq_options retry: 3
 
   attr_accessor :reservation, :reservation_id
 
@@ -19,9 +20,9 @@ class ReservationWorker
           GameyeServer.send("#{action}_reservation", reservation)
         end
       end
-    rescue Exception => exception
-      Rails.logger.error "Something went wrong #{action}-ing the server for reservation #{reservation_id} - #{exception}"
-      Raven.capture_exception(exception) if Rails.env.production?
+    rescue Exception => e
+      Rails.logger.error "Something went wrong #{action}-ing the server for reservation #{reservation_id} - #{e}"
+      Raven.capture_exception(e) if Rails.env.production?
     ensure
       send("after_#{action}_reservation_steps") if reservation
       Rails.logger.info "#{action.capitalize}ed reservation: #{reservation}"
@@ -31,21 +32,20 @@ class ReservationWorker
 
   def after_start_reservation_steps
     reservation.provisioned = true
-    reservation.save(:validate => false)
+    reservation.save(validate: false)
     UpdateSteamNicknameWorker.perform_async(reservation.user.uid)
   end
 
   def after_update_reservation_steps
     reservation.inactive_minute_counter = 0
-    reservation.save(:validate => false)
+    reservation.save(validate: false)
   end
 
   def after_end_reservation_steps
     reservation.ends_at  = Time.current
     reservation.ended    = true
     reservation.duration = reservation.ends_at.to_i - reservation.starts_at.to_i
-    reservation.save(:validate => false)
+    reservation.save(validate: false)
     LogScanWorker.perform_async(reservation_id)
   end
-
 end

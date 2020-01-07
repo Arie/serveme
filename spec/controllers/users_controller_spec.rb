@@ -1,14 +1,15 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe UsersController do
-
   before do
     @user = create :user
     sign_in @user
   end
 
-  describe "#edit" do
-    it "should assign the user variable" do
+  describe '#edit' do
+    it 'should assign the user variable' do
       get :edit
       assigns(:user).should eql @user
     end
@@ -27,7 +28,7 @@ describe UsersController do
       Time.zone.to_s.should include(@user.time_zone)
     end
 
-    it "ignores other parameters" do
+    it 'ignores other parameters' do
       post :update, params: { user: { nickname: 'foobar' } }
       @user.reload.nickname.should_not eql 'abc'
     end

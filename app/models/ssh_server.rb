@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class SshServer < RemoteServer
 
+class SshServer < RemoteServer
   def find_process_id
     execute("ps ux | grep port | grep #{port} | grep srcds_linux | grep -v grep | grep -v ruby | awk '{print \$2}'")
   end
@@ -43,7 +43,7 @@ class SshServer < RemoteServer
 
   def ssh_exec(command)
     out = []
-    ssh.exec!(command) do |channel, stream, data|
+    ssh.exec!(command) do |_channel, stream, data|
       out << data if stream == :stdout
     end
     out.join("\n")
@@ -51,12 +51,12 @@ class SshServer < RemoteServer
 
   def copy_to_server(files, destination)
     logger.info "SCP PUT, FILES: #{files} DESTINATION: #{destination}"
-    system("#{scp_command} #{files.map(&:shellescape).join(" ")} #{ip}:#{destination}")
+    system("#{scp_command} #{files.map(&:shellescape).join(' ')} #{ip}:#{destination}")
   end
 
   def copy_from_server(files, destination)
-    logger.info "SCP GET, FILES: #{files.join(", ")} DESTINATION: #{destination}"
-    system("#{scp_command} #{ip}:\"#{files.map(&:shellescape).join(" ")}\" #{destination}")
+    logger.info "SCP GET, FILES: #{files.join(', ')} DESTINATION: #{destination}"
+    system("#{scp_command} #{ip}:\"#{files.map(&:shellescape).join(' ')}\" #{destination}")
   end
 
   def zip_file_creator_class
@@ -93,6 +93,6 @@ class SshServer < RemoteServer
   private
 
   def scp_command
-    "scp -T"
+    'scp -T'
   end
 end

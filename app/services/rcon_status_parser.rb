@@ -1,9 +1,9 @@
 # frozen_string_literal: true
-class RconStatusParser
 
+class RconStatusParser
   attr_accessor :rcon_status_output
 
-  PLAYER_REGEX = /\#\s+\d+\s+\"(.*)"\s+(\[.*\])\s+(\d+:?\d+:\d+)\s+(\d+)\s+(\d+)\s(\w+)\s+(\d+.\d+.\d+.\d+)/
+  PLAYER_REGEX = /\#\s+\d+\s+\"(.*)"\s+(\[.*\])\s+(\d+:?\d+:\d+)\s+(\d+)\s+(\d+)\s(\w+)\s+(\d+.\d+.\d+.\d+)/.freeze
 
   def initialize(rcon_status_output)
     @rcon_status_output = rcon_status_output
@@ -14,16 +14,14 @@ class RconStatusParser
   end
 
   def players
-    @players ||=  begin
+    @players ||= begin
                     scan.collect do |player_array|
                       Player.new(*player_array)
                     end
                   end
   end
 
-
   class Player
-
     attr_reader :name, :steam_id, :connect_duration, :ping, :loss, :state, :ip
 
     def initialize(name, steam_id, connect_duration, ping, loss, state, ip)
@@ -41,7 +39,7 @@ class RconStatusParser
     end
 
     def active?
-      state == "active"
+      state == 'active'
     end
 
     def steam_uid
@@ -49,14 +47,12 @@ class RconStatusParser
     end
 
     def minutes_connected
-      splitted_time = connect_duration.split(":").map(&:to_i)
+      splitted_time = connect_duration.split(':').map(&:to_i)
       if splitted_time.size == 2
         splitted_time.first
       elsif splitted_time.size == 3
         splitted_time.first * 60 + splitted_time.second
       end
     end
-
   end
-
 end

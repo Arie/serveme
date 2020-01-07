@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class ApplicationController < ActionController::Base
 
+class ApplicationController < ActionController::Base
   force_ssl if: :ssl_required?
 
   include ApplicationHelper
@@ -22,14 +22,10 @@ class ApplicationController < ActionController::Base
   end
 
   def set_time_zone_from_cookie
-    begin
-      Time.zone = time_zone_from_cookie
-      if current_user
-        current_user.update_attributes(:time_zone => time_zone_from_cookie)
-      end
-    rescue ArgumentError
-      set_default_time_zone
-    end
+    Time.zone = time_zone_from_cookie
+    current_user&.update_attributes(time_zone: time_zone_from_cookie)
+  rescue ArgumentError
+    set_default_time_zone
   end
 
   def set_default_time_zone
@@ -44,7 +40,7 @@ class ApplicationController < ActionController::Base
   def current_admin
     if @current_admin.nil?
       @current_admin = begin
-                         if current_user && current_user.admin?
+                         if current_user&.admin?
                            current_user
                          else
                            false
@@ -57,8 +53,8 @@ class ApplicationController < ActionController::Base
 
   def current_streamer
     if @current_streamer.nil?
-      @current_streamer =  begin
-                             if current_user && current_user.streamer?
+      @current_streamer = begin
+                             if current_user&.streamer?
                                current_user
                              else
                                false
@@ -70,33 +66,29 @@ class ApplicationController < ActionController::Base
   helper_method :current_streamer
 
   def require_admin
-    unless current_admin
-      redirect_to root_path
-    end
+    redirect_to root_path unless current_admin
   end
 
   def require_admin_or_streamer
-    unless current_admin || current_streamer
-      redirect_to root_path
-    end
+    redirect_to root_path unless current_admin || current_streamer
   end
 
   def require_donator
-    unless current_user && current_user.donator?
-      flash[:alert] = "Only donators can do that..."
+    unless current_user&.donator?
+      flash[:alert] = 'Only donators can do that...'
       redirect_to root_path
     end
   end
 
   def expired_reservation
     @expired_reservation ||= begin
-                              if current_user && !(current_user.donator? || current_user.admin?)
-                                current_user.
-                                  reservations.where('starts_at > ?', 24.hours.ago).
-                                  where('inactive_minute_counter = ?', 45).
-                                  where('duration < ?', 47.minutes).
-                                  last
-                              end
+                               if current_user && !(current_user.donator? || current_user.admin?)
+                                 current_user
+                                   .reservations.where('starts_at > ?', 24.hours.ago)
+                                   .where('inactive_minute_counter = ?', 45)
+                                   .where('duration < ?', 47.minutes)
+                                   .last
+                               end
                              end
   end
 

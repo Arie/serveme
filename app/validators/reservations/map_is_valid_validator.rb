@@ -1,7 +1,7 @@
 # frozen_string_literal: true
+
 module Reservations
   class MapIsValidValidator < ActiveModel::Validator
-
     def validate(record)
       if record.first_map
         if record.first_map.match(/mvm_.*/)
@@ -9,6 +9,5 @@ module Reservations
         end
       end
     end
-
   end
 end

@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe RconStatusParser do
-
-  let(:rcon_status_output)  { %q{hostname: BlackOut Gaming #5 (Jakov)
+  let(:rcon_status_output) do
+    'hostname: BlackOut Gaming #5 (Jakov)
 version : 2406664/24 2406664 secure
 udp/ip  : 109.70.149.21:27055  (public ip: 109.70.149.21)
 steamid : [A:1:251166723:4677] (90092080360620035)
@@ -29,8 +31,10 @@ Engineer      0      0     0      0       0
 Loaded plugins:
 ---------------------
 0:      "TFTrue v4.63, AnAkkk"
----------------------} }
-  let(:rcon_status_output_with_many_players) { %q{hostname: FakkelBrigade #3 (haNfa)
+---------------------'
+  end
+  let(:rcon_status_output_with_many_players) do
+    'hostname: FakkelBrigade #3 (haNfa)
 version : 2420080/24 2420080 secure
 udp/ip  : 176.9.138.143:27035  (public ip: 176.9.138.143)
 steamid : [A:1:3982508037:4686] (90092122746667013)
@@ -67,9 +71,11 @@ Engineer      0      0     0      0       0
 Loaded plugins:
 ---------------------
 0:	"TFTrue v4.63, AnAkkk"
----------------------} }
+---------------------'
+  end
 
-  let(:playing_over_an_hour) { %q{
+  let(:playing_over_an_hour) do
+    '
 hostname: FromageBrigade #4 (Buttnose)
 version : 2560108/24 2560108 secure
 udp/ip  : 188.165.226.226:27045  (public ip: 188.165.226.226)
@@ -107,39 +113,37 @@ Loaded plugins:
 ---------------------
 0:      "TFTrue v4.68, AnAkkk"
 ---------------------
-
-              } }
-  describe "#players" do
-
-    it "creates player objects" do
+              '
+  end
+  describe '#players' do
+    it 'creates player objects' do
       r = RconStatusParser.new(rcon_status_output)
       r.players.size.should == 2
 
       p1 = r.players.first
-      p1.name.should == "TNT-DEAD"
+      p1.name.should == 'TNT-DEAD'
       p1.ping.should == 57
       p1.loss.should == 0
       p1.should be_active
       p1.should be_relevant
 
       p2 = r.players.last
-      p2.name.should == "Bloodyyy"
+      p2.name.should == 'Bloodyyy'
       p2.ping.should == 76
       p2.loss.should == 1
       p2.should_not be_active
       p2.should_not be_relevant
     end
 
-    it "creates many player objects" do
+    it 'creates many player objects' do
       r = RconStatusParser.new(rcon_status_output_with_many_players)
       r.players.size.should == 12
     end
 
-    it "handles players that have been connected for over an hour" do
+    it 'handles players that have been connected for over an hour' do
       r = RconStatusParser.new(playing_over_an_hour)
       r.players.size.should == 11
       r.players.map(&:minutes_connected).should eql [14, 7, 98, 109, 108, 106, 2, 94, 92, 91, 80]
     end
-
   end
 end

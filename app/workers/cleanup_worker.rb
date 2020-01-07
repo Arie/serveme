@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CleanupWorker
   include Sidekiq::Worker
 
@@ -10,10 +11,10 @@ class CleanupWorker
 
   def remove_old_reservation_logs_and_zips
     old_reservations.find_each do |reservation|
-      logs_dir = Rails.root.join("server_logs", "#{reservation.id}")
-      streaming_log = Rails.root.join("log", "streaming", "#{reservation.logsecret}.log")
-      zip = Rails.root.join("public", "uploads", "#{reservation.zipfile_name}")
-      if Dir.exists?(logs_dir)
+      logs_dir = Rails.root.join('server_logs', reservation.id.to_s)
+      streaming_log = Rails.root.join('log', 'streaming', "#{reservation.logsecret}.log")
+      zip = Rails.root.join('public', 'uploads', reservation.zipfile_name.to_s)
+      if Dir.exist?(logs_dir)
         Rails.logger.info "Remove files for old reservation #{reservation.id} #{reservation}"
         FileUtils.rm_rf([logs_dir, zip])
         FileUtils.rm_f([streaming_log])
@@ -51,6 +52,4 @@ class CleanupWorker
   def old_server_statistics
     ServerStatistic.where('created_at < ?', 35.days.ago)
   end
-
 end
-

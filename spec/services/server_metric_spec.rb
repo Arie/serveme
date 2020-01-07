@@ -1,11 +1,15 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe ServerMetric do
+  let(:rcon_stats_output) do
+    %|CPU    In (KB/s)  Out (KB/s)  Uptime  Map changes  FPS      Players  Connects
+24.88  35.29      54.48       6       2            66.67    17        21|
+  end
 
-  let(:rcon_stats_output) { %|CPU    In (KB/s)  Out (KB/s)  Uptime  Map changes  FPS      Players  Connects
-24.88  35.29      54.48       6       2            66.67    17        21|}
-
-  let(:rcon_status_output)  { %q{hostname: BlackOut Gaming #5 (Jakov)
+  let(:rcon_status_output) do
+    'hostname: BlackOut Gaming #5 (Jakov)
 version : 2406664/24 2406664 secure
 udp/ip  : 109.70.149.21:27055  (public ip: 109.70.149.21)
 steamid : [A:1:251166723:4677] (90092080360620035)
@@ -32,20 +36,21 @@ Engineer      0      0     0      0       0
 Loaded plugins:
 ---------------------
 0:      "TFTrue v4.63, AnAkkk"
----------------------} }
+---------------------'
+  end
 
   let(:reservation) { create :reservation }
-  let(:server) { double :server, :id => reservation.server_id, :current_reservation => reservation, :condenser => double }
-  let(:server_info_hash) { { :number_of_players => 1, :map_name => "cp_granlands" } }
+  let(:server) { double :server, id: reservation.server_id, current_reservation: reservation, condenser: double }
+  let(:server_info_hash) { { number_of_players: 1, map_name: 'cp_granlands' } }
   let(:server_info) { ServerInfo.new(server) }
 
   before do
-    server_info.stub( :status => server_info_hash,
-                      :get_stats => rcon_stats_output,
-                      :get_rcon_status => rcon_status_output)
+    server_info.stub(status: server_info_hash,
+                     get_stats: rcon_stats_output,
+                     get_rcon_status: rcon_status_output)
   end
 
-  it "creates server and player statistics" do
+  it 'creates server and player statistics' do
     ServerMetric.new(server_info)
 
     expect(PlayerStatistic.count).to eql 2
@@ -57,7 +62,6 @@ Loaded plugins:
     player_statistic = PlayerStatistic.last
     player_statistic.ping.should == 76
     player_statistic.loss.should == 1
-    player_statistic.reservation_player.ip.should == "222.222.222.222"
+    player_statistic.reservation_player.ip.should == '222.222.222.222'
   end
-
 end

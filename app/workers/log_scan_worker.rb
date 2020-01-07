@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 class LogScanWorker
   include Sidekiq::Worker
 
-  sidekiq_options :retry => false
+  sidekiq_options retry: false
 
   attr_accessor :reservation_id, :players, :logs_tf_uploads
 
@@ -39,14 +40,13 @@ class LogScanWorker
       l = LogUpload.new
       l.reservation_id = reservation_id
       l.url = "http://logs.tf/#{id}"
-      l.status = "TFTrue upload"
+      l.status = 'TFTrue upload'
       l.save!
     end
   end
 
   def logs
-    log_pattern = Rails.root.join("server_logs", "#{reservation_id}", "*.log")
+    log_pattern = Rails.root.join('server_logs', reservation_id.to_s, '*.log')
     Dir.glob(log_pattern)
   end
-
 end

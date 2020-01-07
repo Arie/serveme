@@ -1,12 +1,12 @@
 # frozen_string_literal: true
-class Server < ActiveRecord::Base
 
+class Server < ActiveRecord::Base
   has_many :group_servers
   has_many :groups, through: :group_servers
   has_many :reservations
-  has_many :current_reservations, -> { where("reservations.starts_at <= ? AND reservations.ends_at >=?", Time.current, Time.current) }, class_name: "Reservation"
-  has_many :ratings, :through => :reservations
-  has_many :recent_server_statistics, -> { where("server_statistics.created_at >= ?", 2.minutes.ago).order("server_statistics.id DESC") }, class_name: "ServerStatistic"
+  has_many :current_reservations, -> { where('reservations.starts_at <= ? AND reservations.ends_at >=?', Time.current, Time.current) }, class_name: 'Reservation'
+  has_many :ratings, through: :reservations
+  has_many :recent_server_statistics, -> { where('server_statistics.created_at >= ?', 2.minutes.ago).order('server_statistics.id DESC') }, class_name: 'ServerStatistic'
   has_many :server_statistics
   belongs_to :location
 
@@ -16,12 +16,12 @@ class Server < ActiveRecord::Base
   validates_presence_of :path, unless: :gameye?
 
   geocoded_by :host_to_ip
-  before_save :geocode, :if => :ip_changed?
+  before_save :geocode, if: :ip_changed?
 
-  delegate :flag, :to => :location, :prefix => true, :allow_nil => true
+  delegate :flag, to: :location, prefix: true, allow_nil: true
 
   def self.reservable_by_user(user)
-    where(:id => ids_reservable_by_user(user)).where('servers.type != ?', 'GameyeServer')
+    where(id: ids_reservable_by_user(user)).where('servers.type != ?', 'GameyeServer')
   end
 
   def self.ids_reservable_by_user(user)
@@ -53,9 +53,9 @@ class Server < ActiveRecord::Base
   end
 
   def self.member_of_groups(groups)
-    with_group.
-    where(groups: { id: groups.pluck(:id) }).
-    group('servers.id')
+    with_group
+      .where(groups: { id: groups.pluck(:id) })
+      .group('servers.id')
   end
 
   def self.for_donators
@@ -79,13 +79,15 @@ class Server < ActiveRecord::Base
   end
 
   def update_configuration(reservation)
-    reservation.status_update("Sending reservation config files")
+    reservation.status_update('Sending reservation config files')
     ['reservation.cfg', 'ctf_turbine.cfg'].each do |config_file|
       config_body = generate_config_file(reservation, config_file)
       write_configuration(server_config_file(config_file), config_body)
     end
-    write_custom_whitelist(reservation) if reservation.custom_whitelist_id.present?
-    reservation.status_update("Finished sending reservation config files")
+    if reservation.custom_whitelist_id.present?
+      write_custom_whitelist(reservation)
+    end
+    reservation.status_update('Finished sending reservation config files')
   end
 
   def enable_plugins
@@ -135,13 +137,10 @@ class Server < ActiveRecord::Base
     renderer.result(reservation.get_binding)
   end
 
-
   def process_id
     @process_id ||= begin
                       pid = find_process_id.to_i
-                      if pid > 0
-                        pid
-                      end
+                      pid if pid > 0
                     end
   end
 
@@ -150,7 +149,7 @@ class Server < ActiveRecord::Base
   end
 
   def current_rcon
-    if current_reservation && current_reservation.provisioned?
+    if current_reservation&.provisioned?
       current_reservation.rcon
     else
       rcon
@@ -182,27 +181,27 @@ class Server < ActiveRecord::Base
     if reservation.enable_plugins? || reservation.enable_demos_tf?
       enable_plugins
       add_sourcemod_admin(reservation.user)
-      reservation.status_update("Enabled plugins")
+      reservation.status_update('Enabled plugins')
       if reservation.enable_demos_tf?
-        reservation.status_update("Enabling demos.tf")
+        reservation.status_update('Enabling demos.tf')
         enable_demos_tf
       end
     end
     if !reservation.server.outdated?
-      reservation.status_update("Attempting fast start")
+      reservation.status_update('Attempting fast start')
       if rcon_exec("removeip 1; removeip 1; removeip 1; sv_logsecret #{reservation.logsecret}; logaddress_add direct.#{SITE_HOST}:40001")
-        first_map = reservation.first_map.presence || "ctf_turbine"
+        first_map = reservation.first_map.presence || 'ctf_turbine'
         rcon_exec("changelevel #{first_map}; exec reservation.cfg")
-        reservation.status_update("Fast start attempted, waiting to boot")
+        reservation.status_update('Fast start attempted, waiting to boot')
       else
-        reservation.status_update("Restarting server normally")
+        reservation.status_update('Restarting server normally')
         restart
-        reservation.status_update("Restarted server, waiting to boot")
+        reservation.status_update('Restarted server, waiting to boot')
       end
     else
-      reservation.status_update("Restarting server")
+      reservation.status_update('Restarting server')
       restart
-      reservation.status_update("Restarted server, waiting to boot")
+      reservation.status_update('Restarted server, waiting to boot')
     end
   end
 
@@ -213,24 +212,25 @@ class Server < ActiveRecord::Base
   def end_reservation(reservation)
     reservation.reload
     return if reservation.ended?
+
     remove_configuration
     disable_plugins
     disable_demos_tf
     rcon_exec("sv_logflush 1; tv_stoprecord; kickall Reservation ended, every player can download the STV demo at http:/​/#{SITE_HOST}")
     sleep 1 # Give server a second to finish the STV demo and write the log
-    reservation.status_update("Removing configuration and disabling plugins")
+    reservation.status_update('Removing configuration and disabling plugins')
     zip_demos_and_logs(reservation)
     copy_logs(reservation)
     remove_logs_and_demos
-    reservation.status_update("Restarting server")
+    reservation.status_update('Restarting server')
     rcon_disconnect
     restart
-    reservation.status_update("Restarted server")
+    reservation.status_update('Restarted server')
   end
 
   def enable_demos_tf
-    demos_tf_file = "#{Rails.root.join("doc", "demostf.smx")}"
-    record_stv_file = "#{Rails.root.join("doc", "recordstv.smx")}"
+    demos_tf_file = Rails.root.join('doc', 'demostf.smx').to_s
+    record_stv_file = Rails.root.join('doc', 'recordstv.smx').to_s
     copy_to_server([demos_tf_file, record_stv_file], "#{tf_dir}/addons/sourcemod/plugins")
   end
 
@@ -259,27 +259,23 @@ class Server < ActiveRecord::Base
   end
 
   def rcon_exec(command)
-    begin
-      condenser.rcon_exec(command) if rcon_auth
-    rescue Errno::ECONNREFUSED, SteamCondenser::Error::Timeout, SteamCondenser::Error::RCONNoAuth, SteamCondenser::Error::RCONBan => exception
-      Rails.logger.error "Couldn't deliver command to server #{id} - #{name}, command: #{command}, exception: #{exception}"
-      nil
-    end
+    condenser.rcon_exec(command) if rcon_auth
+  rescue Errno::ECONNREFUSED, SteamCondenser::Error::Timeout, SteamCondenser::Error::RCONNoAuth, SteamCondenser::Error::RCONBan => e
+    Rails.logger.error "Couldn't deliver command to server #{id} - #{name}, command: #{command}, exception: #{e}"
+    nil
   end
 
   def rcon_disconnect
-    begin
-      condenser.disconnect
-    rescue Exception => exception
-      Rails.logger.error "Couldn't disconnect RCON of server #{id} - #{name}, exception: #{exception}"
-    ensure
-      @condenser = nil
-    end
+    condenser.disconnect
+  rescue Exception => e
+    Rails.logger.error "Couldn't disconnect RCON of server #{id} - #{name}, exception: #{e}"
+  ensure
+    @condenser = nil
   end
 
   def version
     @version ||= begin
-                   /Network\ PatchVersion:\s+(\d+)/ =~ rcon_exec("version") && $1.to_i
+                   /Network\ PatchVersion:\s+(\d+)/ =~ rcon_exec('version') && Regexp.last_match(1).to_i
                  end
   end
 
@@ -288,25 +284,23 @@ class Server < ActiveRecord::Base
   end
 
   def self.latest_version
-    Rails.cache.fetch("latest_server_version", expires_in: 5.minutes) do
+    Rails.cache.fetch('latest_server_version', expires_in: 5.minutes) do
       get_latest_version
     end
   end
 
   def self.get_latest_version
-    response = Faraday.new(:url => "http://api.steampowered.com").get("ISteamApps/UpToDateCheck/v1?appid=440&version=0")
+    response = Faraday.new(url: 'http://api.steampowered.com').get('ISteamApps/UpToDateCheck/v1?appid=440&version=0')
     if response.success?
       json = JSON.parse(response.body)
-      json["response"]["required_version"].to_i
+      json['response']['required_version'].to_i
     end
   end
 
   def number_of_players
-    begin
-      @number_of_players ||= server_info.number_of_players
-    rescue Errno::ECONNREFUSED, SteamCondenser::Error::Timeout
-      nil
-    end
+    @number_of_players ||= server_info.number_of_players
+  rescue Errno::ECONNREFUSED, SteamCondenser::Error::Timeout
+    nil
   end
 
   def server_info
@@ -328,11 +322,11 @@ class Server < ActiveRecord::Base
   end
 
   def log_match
-    File.join(tf_dir, 'logs', "*.log")
+    File.join(tf_dir, 'logs', '*.log')
   end
 
   def demo_match
-    File.join(tf_dir, "*.dem")
+    File.join(tf_dir, '*.dem')
   end
 
   def connect_string(ip, port, password)

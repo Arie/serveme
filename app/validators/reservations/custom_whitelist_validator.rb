@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 module Reservations
   class CustomWhitelistValidator < ActiveModel::Validator
-
     def validate(record)
       custom_whitelist_id = record.custom_whitelist_id
       if custom_whitelist_id.present? && record.custom_whitelist_id_changed?
@@ -15,6 +16,5 @@ module Reservations
         end
       end
     end
-
   end
 end

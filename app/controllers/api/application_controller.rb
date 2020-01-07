@@ -1,9 +1,9 @@
 # frozen_string_literal: true
-class Api::ApplicationController < ActionController::Base
 
+class Api::ApplicationController < ActionController::Base
   respond_to :json
-  rescue_from ActiveRecord::RecordNotFound,       :with => :handle_not_found
-  rescue_from ActionController::ParameterMissing, :with => :handle_unprocessable_entity
+  rescue_from ActiveRecord::RecordNotFound,       with: :handle_not_found
+  rescue_from ActionController::ParameterMissing, with: :handle_unprocessable_entity
 
   before_action :verify_api_key
   before_action :set_default_response_format
@@ -21,7 +21,7 @@ class Api::ApplicationController < ActionController::Base
   end
 
   def current_user
-    @current_user ||= (api_user && api_user.admin? && uid_user) || api_user
+    @current_user ||= (api_user&.admin? && uid_user) || api_user
   end
 
   def handle_not_found
@@ -40,7 +40,7 @@ class Api::ApplicationController < ActionController::Base
   end
 
   def authenticate_token
-    authenticate_with_http_token do |token, options|
+    authenticate_with_http_token do |token, _options|
       User.find_by(api_key: token)
     end
   end

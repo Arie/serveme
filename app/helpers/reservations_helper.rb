@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-module ReservationsHelper
 
+module ReservationsHelper
   def find_servers_for_user
     @reservation = new_reservation
     @servers = free_servers
@@ -38,8 +38,8 @@ module ReservationsHelper
   end
 
   def new_reservation
-    new_reservation_attributes = { :starts_at => starts_at,
-                                   :ends_at   => ends_at }
+    new_reservation_attributes = { starts_at: starts_at,
+                                   ends_at: ends_at }
     if previous_reservation
       previous_reservation_attributes = previous_reservation.reusable_attributes
       new_reservation_attributes.merge!(previous_reservation_attributes)
@@ -51,9 +51,9 @@ module ReservationsHelper
   def free_servers
     @free_servers ||= begin
                         if current_user.geocoded?
-                          free_server_finder.servers.near(current_user, 50000, order: "distance, position, name")
+                          free_server_finder.servers.near(current_user, 50_000, order: 'distance, position, name')
                         else
-                          free_server_finder.servers.order("position, name")
+                          free_server_finder.servers.order('position, name')
                         end
                       end
   end
@@ -89,9 +89,9 @@ module ReservationsHelper
   private
 
   def reservation_params
-    permitted_params = [:id, :password, :tv_password, :tv_relaypassword, :server_config_id, :whitelist_id, :custom_whitelist_id, :first_map, :auto_end, :enable_plugins, :enable_demos_tf, :gameye_location]
-    if reservation.nil? || (reservation && reservation.schedulable?)
-      permitted_params += [:rcon, :server_id, :starts_at, :ends_at]
+    permitted_params = %i[id password tv_password tv_relaypassword server_config_id whitelist_id custom_whitelist_id first_map auto_end enable_plugins enable_demos_tf gameye_location]
+    if reservation.nil? || reservation&.schedulable?
+      permitted_params += %i[rcon server_id starts_at ends_at]
     end
     params.require(:reservation).permit(permitted_params)
   end
@@ -103,5 +103,4 @@ module ReservationsHelper
   def ends_at
     (params[:reservation] && params[:reservation][:ends_at].presence) || params[:ends_at].presence || 2.hours.from_now
   end
-
 end

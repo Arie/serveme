@@ -1,7 +1,7 @@
 # frozen_string_literal: true
+
 module Reservations
   class OnlyOneFutureReservationPerUserValidator < ActiveModel::Validator
-
     def validate(record)
       if record.user
         future_reservations = record.user.reservations.future
@@ -10,6 +10,5 @@ module Reservations
         end
       end
     end
-
   end
 end

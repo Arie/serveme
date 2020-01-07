@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class Api::DonatorsController < Api::ApplicationController
 
+class Api::DonatorsController < Api::ApplicationController
   before_action :require_admin
 
   def show
@@ -46,6 +46,6 @@ class Api::DonatorsController < Api::ApplicationController
   private
 
   def require_admin
-    api_user && api_user.admin? || unauthorized
+    api_user&.admin? || unauthorized
   end
 end

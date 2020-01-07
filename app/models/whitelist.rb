@@ -1,6 +1,7 @@
 # frozen_string_literal: true
+
 class Whitelist < ActiveRecord::Base
-  has_many :reservations, :dependent => :nullify
+  has_many :reservations, dependent: :nullify
 
   def self.ordered
     order(:file)
@@ -9,5 +10,4 @@ class Whitelist < ActiveRecord::Base
   def to_s
     file
   end
-
 end

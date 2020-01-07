@@ -1,11 +1,11 @@
 # frozen_string_literal: true
-class DonatorsController < ApplicationController
 
+class DonatorsController < ApplicationController
   before_action :require_admin, except: :leaderboard
   before_action :require_donator, only: :leaderboard
 
   def index
-    @donators = Group.donator_group.users.order('group_users.id DESC').paginate(:page => params[:page], :per_page => 20)
+    @donators = Group.donator_group.users.order('group_users.id DESC').paginate(page: params[:page], per_page: 20)
   end
 
   def leaderboard
@@ -19,8 +19,8 @@ class DonatorsController < ApplicationController
 
   def create
     user = User.where(uid: params[:group_user][:user_id]).first
-    if user && user.group_users.create(group_id: Group.donator_group.id, expires_at: params[:group_user][:expires_at])
-      flash[:notice] = "New donator added"
+    if user&.group_users&.create(group_id: Group.donator_group.id, expires_at: params[:group_user][:expires_at])
+      flash[:notice] = 'New donator added'
       redirect_to donators_path
     else
       new
@@ -42,12 +42,11 @@ class DonatorsController < ApplicationController
   private
 
   def find_donator
-    @donator = GroupUser.where(user_id:  params[:id],
+    @donator = GroupUser.where(user_id: params[:id],
                                group_id: Group.donator_group).last
   end
 
   def new_donator
     @donator = GroupUser.new(expires_at: 31.days.from_now)
   end
-
 end

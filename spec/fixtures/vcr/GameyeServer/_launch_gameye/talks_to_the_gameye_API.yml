@@ -16,8 +16,8 @@ http_interactions:
       - Bearer api-token
   response:
     status:
-      code: 204
-      message: No Content
+      code: 200
+      message: OK
     headers:
       date:
       - Sat, 11 May 2019 14:36:11 GMT
@@ -25,7 +25,7 @@ http_interactions:
       - keep-alive
     body:
       encoding: UTF-8
-      string: ''
+      string: '{"id":"serveme-test-123","image":"tf2","location":"frankfurt","host":"178.162.194.76","created":1578337196780,"port":{"game":62382,"hltv":58616}}'
     http_version:
   recorded_at: Sat, 11 May 2019 14:36:11 GMT
 recorded_with: VCR 4.0.0

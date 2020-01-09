@@ -7,7 +7,7 @@ describe GameyeServer do
   let(:reservation) { double(:reservation, id: 12_345, logsecret: 'abc', gameye_location: 'frankfurt', first_map: 'cp_badlands', rcon: 'the-rcon', password: 'sv-password', tv_password: 'stv-password', custom_whitelist_id: 'whitelist-id', server_config: server_config) }
   describe '.start_reservation' do
     it 'takes reservation details and sends it to gameye' do
-      gameye_response = { 'id' => 'serveme-test-123', 'host' => '127.0.0.1', 'port' => { 'game' => 1337, 'hltv' => 1338 } }
+      gameye_response = { 'id' => 'serveme-test-124', 'host' => '127.0.0.1', 'port' => { 'game' => 1337, 'hltv' => 1338 } }
       GameyeServer.should_receive(:launch_gameye).with(reservation).and_return(gameye_response)
       GameyeServer.should_receive(:create_temporary_server).with(reservation, gameye_response)
       GameyeServer.start_reservation(reservation)
@@ -22,7 +22,7 @@ describe GameyeServer do
 
   describe '.launch_gameye' do
     it 'talks to the Gameye API', :vcr do
-      expect(GameyeServer.launch_gameye(reservation)).to be_truthy
+      expect(GameyeServer.launch_gameye(reservation)["id"]).to eql "serveme-test-123"
     end
   end
 

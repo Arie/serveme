@@ -1,8 +1,8 @@
 # frozen_string_literal: true
-class HiperzServer < RemoteServer
 
-  has_one :hiperz_server_information, :foreign_key => :server_id
-  delegate :hiperz_id, :to => :hiperz_server_information
+class HiperzServer < RemoteServer
+  has_one :hiperz_server_information, foreign_key: :server_id
+  delegate :hiperz_id, to: :hiperz_server_information
 
   include FtpAccess
 
@@ -20,5 +20,4 @@ class HiperzServer < RemoteServer
   def ftp_connection_pool_size
     1
   end
-
 end

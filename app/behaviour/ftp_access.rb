@@ -1,21 +1,21 @@
 # frozen_string_literal: true
-module FtpAccess
 
+module FtpAccess
   require 'net/ftp'
 
   def demos
     @demos ||= begin
-                 list_files("/", "*.dem").map { |file| "#{tf_dir}/#{file}" }
+                 list_files('/', '*.dem').map { |file| "#{tf_dir}/#{file}" }
                end
   end
 
   def logs
     @logs ||=  begin
-                 list_files("logs", "*.log").map { |file| "#{tf_dir}/logs/#{file}" }
+                 list_files('logs', '*.log').map { |file| "#{tf_dir}/logs/#{file}" }
                end
   end
 
-  def list_files(dir, pattern = "*")
+  def list_files(dir, pattern = '*')
     ftp.nlst(File.join(tf_dir, dir, pattern)).collect do |f|
       File.basename(f)
     end
@@ -36,18 +36,17 @@ module FtpAccess
 
   def copy_from_server(files, destination)
     return if files.none?
+
     logger.info "FTP GET, FILES: #{files} DESTINATION: #{destination}"
     threads = []
     files.each_slice(file_count_per_thread(files)).to_a.each do |files_for_thread|
       threads << Thread.new do
         ftp = make_ftp_connection
         files_for_thread.each do |file|
-          begin
-            ftp.getbinaryfile(file, File.join(destination, File.basename(file)))
-          rescue Exception => exception
-            Rails.logger.error "couldn't download file: #{file} - #{exception}"
-            Raven.capture_exception(exception) if Rails.env.production?
-          end
+          ftp.getbinaryfile(file, File.join(destination, File.basename(file)))
+        rescue Exception => e
+          Rails.logger.error "couldn't download file: #{file} - #{e}"
+          Raven.capture_exception(e) if Rails.env.production?
         end
       end
     end
@@ -56,16 +55,15 @@ module FtpAccess
 
   def delete_from_server(files)
     return if files.none?
+
     threads = []
     files.each_slice(file_count_per_thread(files)).to_a.each do |files_for_thread|
       threads << Thread.new do
         ftp = make_ftp_connection
         files_for_thread.each do |file|
-          begin
-            ftp.send(:delete, file.shellescape)
-          rescue
-            Rails.logger.error "couldn't delete file: #{file.shellescape}"
-          end
+          ftp.send(:delete, file.shellescape)
+        rescue StandardError
+          Rails.logger.error "couldn't delete file: #{file.shellescape}"
         end
       end
     end
@@ -81,15 +79,13 @@ module FtpAccess
   end
 
   def make_ftp_connection
-    begin
-      ftp = Net::FTP.new
-      ftp.passive = true
-      ftp.connect(ip, ftp_port.presence || 21)
-      ftp.login(ftp_username, ftp_password)
-      ftp
-    rescue EOFError
-      Rails.logger.error "Got an EOF error on server #{id.to_s}: #{name}"
-    end
+    ftp = Net::FTP.new
+    ftp.passive = true
+    ftp.connect(ip, ftp_port.presence || 21)
+    ftp.login(ftp_username, ftp_password)
+    ftp
+  rescue EOFError
+    Rails.logger.error "Got an EOF error on server #{id}: #{name}"
   end
 
   def ftp_connection_pool_size
@@ -99,5 +95,4 @@ module FtpAccess
   def file_count_per_thread(files)
     (files.size / ftp_connection_pool_size.to_f).ceil
   end
-
 end

@@ -17,7 +17,7 @@
         = f.input :ends_at,         :as => :string, :input_html => { :value => I18n.l(@reservation.ends_at,   :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Ends at"
 
       :javascript
-        gameye_locations = #{@gameye_locations.map { |s| {id: s[:id], text: s[:name], flag: s[:flag]} }.to_json.html_safe};
+        gameye_locations = #{@gameye_locations.reject { |l| l[:concurrency_limit] == 0 }.map { |s| {id: s[:id], text: s[:name], flag: s[:flag]} }.to_json.html_safe};
 
       = f.input :gameye_location, :label => "Location", :required => true, :disabled => !@reservation.schedulable?
 

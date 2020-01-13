@@ -1,15 +1,13 @@
 # frozen_string_literal: true
-class LocalServer < Server
 
+class LocalServer < Server
   def remove_configuration
     delete_from_server(configuration_files)
   end
 
   def delete_from_server(files)
     files.each do |file|
-      if File.exists?(file)
-        File.delete(file)
-      end
+      File.delete(file) if File.exist?(file)
     end
   end
 
@@ -35,13 +33,13 @@ class LocalServer < Server
   end
 
   def list_files(dir)
-    Dir.glob(File.join(tf_dir, dir, "*")).map do |f|
+    Dir.glob(File.join(tf_dir, dir, '*')).map do |f|
       File.basename(f)
     end
   end
 
   def copy_to_server(files, destination)
-    system("cp #{files.map(&:shellescape).join(" ")} #{destination}")
+    system("cp #{files.map(&:shellescape).join(' ')} #{destination}")
   end
 
   def remove_logs_and_demos
@@ -67,5 +65,4 @@ class LocalServer < Server
       f.write(output_content)
     end
   end
-
 end

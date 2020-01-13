@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Reservation < ActiveRecord::Base
   belongs_to :user
   belongs_to :server
@@ -14,14 +15,15 @@ class Reservation < ActiveRecord::Base
   before_create :generate_logsecret
   after_create :generate_initial_status
 
-  delegate :donator?, :to => :user, :prefix => false
+  delegate :donator?, to: :user, prefix: false
 
-  include ReservationValidations, ReservationServerInformation
+  include ReservationServerInformation
+  include ReservationValidations
 
   attr_accessor :extending
 
   def self.with_user_and_server
-    includes(:user => :groups).includes(:server => :location)
+    includes(user: :groups).includes(server: :location)
   end
 
   def self.ordered
@@ -29,8 +31,8 @@ class Reservation < ActiveRecord::Base
   end
 
   def self.within_time_range(start_time, end_time)
-    (where(:starts_at => start_time...end_time).ordered +
-     where(:ends_at => start_time...end_time).ordered)
+    (where(starts_at: start_time...end_time).ordered +
+     where(ends_at: start_time...end_time).ordered)
   end
 
   def self.future
@@ -46,7 +48,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def human_timerange
-    "#{I18n.l(starts_at, :format => :datepicker)} - #{I18n.l(ends_at, :format => :time)}"
+    "#{I18n.l(starts_at, format: :datepicker)} - #{I18n.l(ends_at, format: :time)}"
   end
 
   def now?
@@ -82,11 +84,11 @@ class Reservation < ActiveRecord::Base
   end
 
   def own_colliding_reservations
-    @own_colliding_reservations ||= CollisionFinder.new(Reservation.where(:user_id => user.id), self).colliding_reservations
+    @own_colliding_reservations ||= CollisionFinder.new(Reservation.where(user_id: user.id), self).colliding_reservations
   end
 
   def other_users_colliding_reservations
-    @other_users_colliding_reservations ||= CollisionFinder.new(Reservation.where(:server_id => server.id), self).colliding_reservations
+    @other_users_colliding_reservations ||= CollisionFinder.new(Reservation.where(server_id: server.id), self).colliding_reservations
   end
 
   def collides_with_own_reservation?
@@ -124,9 +126,13 @@ class Reservation < ActiveRecord::Base
 
   def warn_nearly_over
     time_left_in_minutes  = (time_left / 60.0).ceil
-    time_left_text        = I18n.t(:timeleft, :count => time_left_in_minutes)
-    server.rcon_say("This reservation will end in less than #{time_left_text}, it cannot be extended") if gameye?
-    server.rcon_say("This reservation will end in less than #{time_left_text}, if this server is not yet booked by someone else, you can say !extend for more time") if !gameye?
+    time_left_text        = I18n.t(:timeleft, count: time_left_in_minutes)
+    if gameye?
+      server.rcon_say("This reservation will end in less than #{time_left_text}, it cannot be extended")
+    end
+    unless gameye?
+      server.rcon_say("This reservation will end in less than #{time_left_text}, if this server is not yet booked by someone else, you can say !extend for more time")
+    end
     server.rcon_disconnect
   end
 
@@ -143,7 +149,18 @@ class Reservation < ActiveRecord::Base
   end
 
   def formatted_starts_at
-    starts_at.utc.strftime("%Y%m%d")
+    starts_at.utc.strftime('%Y%m%d')
+  end
+
+  def inactive_too_long?
+    inactive_minute_counter >= inactive_minute_limit
+  end
+
+  def inactive_minute_limit
+    if user
+      return 240 if user.admin? || user.donator?
+    end
+    45
   end
 
   def custom_whitelist_content
@@ -175,7 +192,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def reusable_attributes
-    attributes.slice("server_id", "password", "rcon", "tv_password", "server_config_id", "whitelist_id", "custom_whitelist_id", "first_map", "enable_plugins", "enable_demos_tf")
+    attributes.slice('server_id', 'password', 'rcon', 'tv_password', 'server_config_id', 'whitelist_id', 'custom_whitelist_id', 'first_map', 'enable_plugins', 'enable_demos_tf')
   end
 
   def get_binding
@@ -187,16 +204,14 @@ class Reservation < ActiveRecord::Base
   end
 
   def status_update(status)
-    reservation_statuses.create!(:status => status)
+    reservation_statuses.create!(status: status)
   end
 
   def lobby?
     Rails.cache.fetch("reservation_#{id}_lobby") do
-      tags = server.rcon_exec("sv_tags").to_s
-      if tags && (tags.include?("TF2Center") || tags.include?("TF2Stadium")) || tags.include?("TF2Pickup")
+      tags = server.rcon_exec('sv_tags').to_s
+      if tags && (tags.include?('TF2Center') || tags.include?('TF2Stadium')) || tags.include?('TF2Pickup')
         true
-      else
-        nil
       end
     end
   end
@@ -206,13 +221,14 @@ class Reservation < ActiveRecord::Base
   end
 
   def status
-    return "ended"            if past?
-    return "ready"            if server_statistics.any?
+    return 'ended'            if past?
+    return 'ready'            if server_statistics.any?
+
     status_messages = reservation_statuses.map(&:status)
-    return "ready"            if status_messages.grep(/Server finished loading map/).any?
-    return "starting"         if status_messages.include?("Starting")
-    return "starting"         if status_messages.grep(/Created Gameye match/).any?
-    return "waiting_to_start" if status_messages.include?("Waiting to start")
+    return 'ready' if status_messages.grep(/Server finished loading map/).any?
+    return 'starting' if status_messages.include?('Starting')
+    return 'starting' if status_messages.grep(/Created Gameye match/).any?
+    return 'waiting_to_start' if status_messages.include?('Waiting to start')
   end
 
   def poor_rcon_password?
@@ -225,12 +241,15 @@ class Reservation < ActiveRecord::Base
 
   def whitelist_ip
     return user.reservation_players.last.ip if user.reservation_players.exists?
-    return user.current_sign_in_ip if user.current_sign_in_ip && IPAddr.new(user.current_sign_in_ip).ipv4?
+    if user.current_sign_in_ip && IPAddr.new(user.current_sign_in_ip).ipv4?
+      return user.current_sign_in_ip
+    end
+
     SITE_HOST
   end
 
   def gameye?
-    gameye_location.present? || (server && server.gameye?)
+    gameye_location.present? || server&.gameye?
   end
 
   def logs_tf_url
@@ -244,6 +263,6 @@ class Reservation < ActiveRecord::Base
   end
 
   def generate_initial_status
-    status_update("Waiting to start")
+    status_update('Waiting to start')
   end
 end

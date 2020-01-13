@@ -1,20 +1,20 @@
 # frozen_string_literal: true
-class ReservationManager
 
+class ReservationManager
   attr_reader :reservation
-  delegate :server, :to => :reservation, :prefix => false
+  delegate :server, to: :reservation, prefix: false
 
   def initialize(reservation)
     @reservation = reservation
   end
 
   def start_reservation
-    reservation.reservation_statuses.create!(:status => "Starting")
+    reservation.reservation_statuses.create!(status: 'Starting')
     manage_reservation(:start)
   end
 
   def end_reservation
-    reservation.reservation_statuses.create!(:status => "Ending")
+    reservation.reservation_statuses.create!(status: 'Ending')
     manage_reservation(:end) unless reservation.ended?
   end
 
@@ -26,4 +26,3 @@ class ReservationManager
     ReservationWorker.perform_async(reservation.id, action.to_s)
   end
 end
-

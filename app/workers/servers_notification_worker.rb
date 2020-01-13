@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ServersNotificationWorker
   include Sidekiq::Worker
 
@@ -11,5 +12,4 @@ class ServersNotificationWorker
   def reservation_ids
     Reservation.current.pluck(:id)
   end
-
 end

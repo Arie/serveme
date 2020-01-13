@@ -1,43 +1,44 @@
-FactoryBot.define do
+# frozen_string_literal: true
 
-  factory :server, :class => "LocalServer" do
-    name { "TF2 1" }
-    path { "/home/tf2/tf2-1" }
-    ip { "176.9.138.143" }
-    port { "27015" }
+FactoryBot.define do
+  factory :server, class: 'LocalServer' do
+    name { 'TF2 1' }
+    path { '/home/tf2/tf2-1' }
+    ip { '176.9.138.143' }
+    port { '27015' }
     location
     latitude { 51 }
     longitude { 9 }
   end
 
   factory :user do
-    uid { "123456789" }
-    nickname { "Terminator" }
-    name { "Joe Sixpack" }
-    provider { "steam" }
+    uid { '123456789' }
+    nickname { 'Terminator' }
+    name { 'Joe Sixpack' }
+    provider { 'steam' }
     latitude { 52.5 }
     longitude { 5.75 }
   end
 
-  factory :admin, :class => "User" do
-    uid { "1337" }
-    nickname { "Admin" }
-    name { "Admin Abuse" }
-    provider { "steam" }
-    groups { [ Group.donator_group ] }
+  factory :admin, class: 'User' do
+    uid { '1337' }
+    nickname { 'Admin' }
+    name { 'Admin Abuse' }
+    provider { 'steam' }
+    groups { [Group.donator_group] }
   end
 
   factory :reservation do
     association :server
     association :user
-    password { "secret" }
-    rcon { "supersecret" }
+    password { 'secret' }
+    rcon { 'supersecret' }
     starts_at { 1.minute.ago }
     ends_at { starts_at + 1.hour }
   end
 
   factory :group do
-    name { "Super Secret Servers" }
+    name { 'Super Secret Servers' }
   end
 
   factory :group_user do
@@ -51,10 +52,10 @@ FactoryBot.define do
   end
 
   factory :product do
-    name { "1 year" }
+    name { '1 year' }
     days { 366 }
     price { 9.00 }
-    currency { "EUR" }
+    currency { 'EUR' }
   end
 
   factory :paypal_order do
@@ -68,38 +69,38 @@ FactoryBot.define do
   end
 
   factory :server_notification do
-    message { "This is the notification" }
+    message { 'This is the notification' }
     notification_type { 'public' }
   end
 
   factory :map_upload do
     association :user
     file do
-      temp = Tempfile.new(["map", ".bsp"], MAPS_DIR)
-      temp.write("VBSP foobar")
+      temp = Tempfile.new(['map', '.bsp'], MAPS_DIR)
+      temp.write('VBSP foobar')
       temp.close
       temp
     end
   end
 
   factory :location do
-    name { "Netherlands" }
-    flag { "nl" }
+    name { 'Netherlands' }
+    flag { 'nl' }
   end
 
   factory :reservation_player do
     association :reservation
     association :user
-    name { "reservation player" }
-    ip { "127.0.0.1" }
+    name { 'reservation player' }
+    ip { '127.0.0.1' }
   end
 
   factory :rating do
     association :reservation
     association :user
-    nickname { "my nickname" }
-    opinion { "good" }
-    reason { "this server is aimaaiizing" }
+    nickname { 'my nickname' }
+    opinion { 'good' }
+    reason { 'this server is aimaaiizing' }
   end
 
   factory :player_statistic do
@@ -122,16 +123,15 @@ FactoryBot.define do
     association :product
     association :created_by,    factory: :user
     association :claimed_by,    factory: :user
-    code { "foobar" }
+    code { 'foobar' }
   end
 
   factory :reservation_status do
-    status { "this is the status" }
+    status { 'this is the status' }
   end
 
   factory :whitelist_tf do
     tf_whitelist_id { rand(1000) }
-    content { "whitelist content" }
+    content { 'whitelist content' }
   end
-
 end

@@ -13,8 +13,9 @@ set :rvm_type,          :system
 set :maintenance_template_path, 'app/views/pages/maintenance.html.erb'
 
 # Rails
-set :rails_env, 'production'
 set :conditionally_migrate, true
+set :rails_env, 'production'
+set :default_env, { 'RAILS_ENV' => "production"}
 
 # Puma
 set :puma_conf,         "#{release_path}/config/puma/production.rb"

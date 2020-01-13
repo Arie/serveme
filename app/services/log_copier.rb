@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class LogCopier
 
+class LogCopier
   attr_accessor :reservation, :server, :logs
 
   def initialize(reservation, server)
@@ -10,7 +10,7 @@ class LogCopier
   end
 
   def self.copy(reservation, server)
-    reservation.status_update("Getting logs from server")
+    reservation.status_update('Getting logs from server')
     server.log_copier_class.new(reservation, server).copy
   end
 
@@ -21,7 +21,7 @@ class LogCopier
   end
 
   def directory_to_copy_to
-    Rails.root.join("server_logs", "#{reservation.id}")
+    Rails.root.join('server_logs', reservation.id.to_s)
   end
 
   def make_directory
@@ -29,7 +29,6 @@ class LogCopier
   end
 
   def set_directory_permissions
-    FileUtils.chmod_R(0775, directory_to_copy_to)
+    FileUtils.chmod_R(0o775, directory_to_copy_to)
   end
-
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class AddGroupMembership
 
+class AddGroupMembership
   attr_accessor :duration, :user, :group
 
   def initialize(days, user, group = Group.donator_group)
@@ -23,7 +23,7 @@ class AddGroupMembership
   end
 
   def group_membership
-    @group_membership ||= user.group_users.where(:group_id => group).first_or_initialize
+    @group_membership ||= user.group_users.where(group_id: group).first_or_initialize
   end
 
   def first_time_member?
@@ -33,6 +33,4 @@ class AddGroupMembership
   def former_member?
     group_membership.expires_at < Time.current
   end
-
 end
-

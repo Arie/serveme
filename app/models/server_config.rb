@@ -1,6 +1,7 @@
 # frozen_string_literal: true
+
 class ServerConfig < ActiveRecord::Base
-  has_many :reservations, :dependent => :nullify
+  has_many :reservations, dependent: :nullify
 
   def self.ordered
     order(:file)

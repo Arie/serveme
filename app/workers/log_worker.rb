@@ -1,23 +1,22 @@
 # frozen_string_literal: true
+
 class LogWorker
   include Sidekiq::Worker
   sidekiq_options retry: 1
 
   attr_accessor :raw_line, :line, :event, :reservation_id, :message
 
-  MAP_START         = /(Started map\ "(\w+)")/
-  END_COMMAND       = /^!end.*/
-  EXTEND_COMMAND    = /^!extend.*/
-  RCON_COMMAND      = /^!rcon.*/
-  TIMELEFT_COMMAND  = /^!timeleft.*/
-  WHOIS_RESERVER    = /^!who$/
+  MAP_START         = /(Started map\ "(\w+)")/.freeze
+  END_COMMAND       = /^!end.*/.freeze
+  EXTEND_COMMAND    = /^!extend.*/.freeze
+  RCON_COMMAND      = /^!rcon.*/.freeze
+  TIMELEFT_COMMAND  = /^!timeleft.*/.freeze
+  WHOIS_RESERVER    = /^!who$/.freeze
   LOG_LINE_REGEX    = '(?\'secret\'\d*)(?\'line\'.*)'
 
   def perform(raw_line)
-    @raw_line         = raw_line
-    if reservation
-      handle_event
-    end
+    @raw_line = raw_line
+    handle_event if reservation
   end
 
   def handle_event
@@ -28,8 +27,8 @@ class LogWorker
       mapstart = event.unknown.match(MAP_START)
       if mapstart
         map = mapstart[2]
-        if map == "ctf_turbine"
-          reservation.status_update("Server startup complete, switching map")
+        if map == 'ctf_turbine'
+          reservation.status_update('Server startup complete, switching map')
         else
           reservation.status_update("Server finished loading map \"#{map}\"")
           reservation.apply_api_keys
@@ -49,8 +48,8 @@ class LogWorker
 
   def handle_end
     Rails.logger.info "Ending #{reservation} from chat"
-    reservation.server.rcon_say "Ending your reservation..."
-    ReservationWorker.perform_async(reservation.id, "end")
+    reservation.server.rcon_say 'Ending your reservation...'
+    ReservationWorker.perform_async(reservation.id, 'end')
   end
 
   def handle_extend
@@ -64,8 +63,8 @@ class LogWorker
   end
 
   def handle_rcon
-    rcon_command = message.split(" ")[1..-1].join(" ")
-    if !rcon_command.empty?
+    rcon_command = message.split(' ')[1..-1].join(' ')
+    unless rcon_command.empty?
       if !reservation.gameye? && (reservation.enable_plugins? || reservation.enable_demos_tf?)
         Rails.logger.info "Ignoring rcon command #{rcon_command} from chat for reservation #{reservation}"
       else
@@ -78,7 +77,7 @@ class LogWorker
   def handle_timeleft
     minutes_until_reservation_ends = ((reservation.ends_at - Time.current) / 60).round
     minutes = [minutes_until_reservation_ends, 0].max
-    timeleft = (minutes > 0) ? "#{minutes} minutes" : "#{minutes} minutes"
+    timeleft = minutes > 0 ? "#{minutes} minutes" : "#{minutes} minutes"
     reservation.server.rcon_say "Reservation time left: #{timeleft}"
   end
 
@@ -130,7 +129,7 @@ class LogWorker
   end
 
   def reserver_is_donator?
-    reserver && reserver.donator?
+    reserver&.donator?
   end
 
   def reserver
@@ -158,15 +157,12 @@ class LogWorker
   def reservation_id
     matches = raw_line.match(LOG_LINE_REGEX)
     if matches
-      if matches[:line]
-        @line = matches[:line]
-      end
+      @line = matches[:line] if matches[:line]
       if matches[:secret].present?
         Rails.cache.fetch("reservation_secret_#{matches[:secret]}", expires_in: 1.minute) do
-          @reservation_id = Reservation.where(:logsecret => matches[:secret]).pluck(:id).last
+          @reservation_id = Reservation.where(logsecret: matches[:secret]).pluck(:id).last
         end
       end
     end
   end
-
 end

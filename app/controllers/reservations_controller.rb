@@ -1,38 +1,34 @@
 # frozen_string_literal: true
-class ReservationsController < ApplicationController
 
+class ReservationsController < ApplicationController
   before_action :require_admin, only: [:streaming]
   include ReservationsHelper
 
   def new
     if user_made_two_very_short_reservations_in_last_ten_minutes?
-      flash[:alert] = "You made 2 very short reservations in the last ten minutes, please wait a bit before making another one. If there was a problem with your server, let us know in the comments below"
+      flash[:alert] = 'You made 2 very short reservations in the last ten minutes, please wait a bit before making another one. If there was a problem with your server, let us know in the comments below'
       redirect_to root_path
     end
     @reservation ||= new_reservation
-    if @reservation.poor_rcon_password?
-      @reservation.generate_rcon_password!
-    end
+    @reservation.generate_rcon_password! if @reservation.poor_rcon_password?
   end
 
   def new_gameye
     @gameye_locations = GameyeServer.locations
     if user_made_two_very_short_reservations_in_last_ten_minutes?
-      flash[:alert] = "You made 2 very short reservations in the last ten minutes, please wait a bit before making another one. If there was a problem with your server, let us know in the comments below"
+      flash[:alert] = 'You made 2 very short reservations in the last ten minutes, please wait a bit before making another one. If there was a problem with your server, let us know in the comments below'
       redirect_to root_path
     end
     @reservation ||= new_reservation
-    if @reservation.poor_rcon_password?
-      @reservation.generate_rcon_password!
-    end
+    @reservation.generate_rcon_password! if @reservation.poor_rcon_password?
   end
 
   def create_gameye
     @reservation = current_user.reservations.build(reservation_params)
     if @reservation.valid?
-        $lock.synchronize("save-reservation-server-gameye") do
-          @reservation.save!
-        end
+      $lock.synchronize('save-reservation-server-gameye') do
+        @reservation.save!
+      end
       reservation_saved if @reservation.persisted?
     else
       @gameye_locations = GameyeServer.locations
@@ -43,9 +39,9 @@ class ReservationsController < ApplicationController
   def create
     @reservation = current_user.reservations.build(reservation_params)
     if @reservation.valid?
-        $lock.synchronize("save-reservation-server-#{@reservation.server_id}") do
-          @reservation.save!
-        end
+      $lock.synchronize("save-reservation-server-#{@reservation.server_id}") do
+        @reservation.save!
+      end
       reservation_saved if @reservation.persisted?
     else
       render :new
@@ -66,7 +62,7 @@ class ReservationsController < ApplicationController
   end
 
   def index
-    @users_reservations = current_user.reservations.ordered.paginate(:page => params[:page], :per_page => 20)
+    @users_reservations = current_user.reservations.ordered.paginate(page: params[:page], per_page: 20)
   end
 
   def played_in
@@ -86,14 +82,14 @@ class ReservationsController < ApplicationController
     end
   end
 
- def extend_reservation
-   if reservation.extend!
-     flash[:notice] = "Reservation extended to #{I18n.l(reservation.ends_at, :format => :datepicker)}"
-   else
-     flash[:alert] = "Could not extend, conflicting reservation"
-   end
-   redirect_to root_path
- end
+  def extend_reservation
+    if reservation.extend!
+      flash[:notice] = "Reservation extended to #{I18n.l(reservation.ends_at, format: :datepicker)}"
+    else
+      flash[:alert] = 'Could not extend, conflicting reservation'
+    end
+    redirect_to root_path
+  end
 
   def show
     if reservation
@@ -115,7 +111,7 @@ class ReservationsController < ApplicationController
     if reservation.cancellable?
       cancel_reservation
     elsif reservation.just_started?
-      flash[:alert] = "Your reservation was started in the last 2 minutes. Please give the server some time to start before ending your reservation"
+      flash[:alert] = 'Your reservation was started in the last 2 minutes. Please give the server some time to start before ending your reservation'
     else
       end_reservation
     end
@@ -130,7 +126,7 @@ class ReservationsController < ApplicationController
   end
 
   def streaming
-    filename = Rails.root.join("log", "streaming", "#{reservation.logsecret}.log")
+    filename = Rails.root.join('log', 'streaming', "#{reservation.logsecret}.log")
     @streaming_log = File.open(filename)
   end
 
@@ -145,8 +141,8 @@ class ReservationsController < ApplicationController
     if @reservation.now?
       @reservation.update_attribute(:start_instantly, true)
       if @reservation.gameye?
-        ReservationWorker.new.perform(reservation.id, "start")
-        flash[:notice] = "Match started on Gameye. The server is now being configured, give it a minute to boot"
+        ReservationWorker.new.perform(reservation.id, 'start')
+        flash[:notice] = 'Match started on Gameye. The server is now being configured, give it a minute to boot'
         redirect_to gameye_path(@reservation)
       else
         @reservation.start_reservation
@@ -160,11 +156,10 @@ class ReservationsController < ApplicationController
   end
 
   def user_made_two_very_short_reservations_in_last_ten_minutes?
-    count = current_user.reservations.
-      where('starts_at > ?', 10.minutes.ago).
-      where('ended = ?', true).
-      count
+    count = current_user.reservations
+                        .where('starts_at > ?', 10.minutes.ago)
+                        .where('ended = ?', true)
+                        .count
     !current_user.admin? && count >= 2
   end
-
 end

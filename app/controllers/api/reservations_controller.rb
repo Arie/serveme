@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class Api::ReservationsController < Api::ApplicationController
 
+class Api::ReservationsController < Api::ApplicationController
   include ReservationsHelper
 
   def index
@@ -33,9 +33,9 @@ class Api::ReservationsController < Api::ApplicationController
       end
       render :show
     else
-      Rails.logger.warn "API: User: #{api_user.nickname} - Validation errors: #{@reservation.errors.full_messages.join(", ")}"
+      Rails.logger.warn "API: User: #{api_user.nickname} - Validation errors: #{@reservation.errors.full_messages.join(', ')}"
       @servers = free_servers
-      render :find_servers, :status => :bad_request
+      render :find_servers, status: :bad_request
     end
   end
 
@@ -76,5 +76,4 @@ class Api::ReservationsController < Api::ApplicationController
   def reservation_params
     params.require(:reservation).permit(:starts_at, :ends_at, :server_id, :rcon, :password, :first_map, :tv_password, :tv_relaypassword, :server_config_id, :whitelist_id, :custom_whitelist_id, :auto_end, :enable_plugins, :enable_demos_tf)
   end
-
 end

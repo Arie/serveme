@@ -1,9 +1,9 @@
 # frozen_string_literal: true
-class FindPlayersInLog
 
+class FindPlayersInLog
   attr_accessor :log, :players
 
-  PLAYER_JOINED_REGEX = /L (?'time'.*): "(?'player_nick'.+)<(?'player_uid'\d+)><(?'player_steamid'(\[\S+\]|STEAM_\S+))><>" STEAM USERID validated/
+  PLAYER_JOINED_REGEX = /L (?'time'.*): "(?'player_nick'.+)<(?'player_uid'\d+)><(?'player_steamid'(\[\S+\]|STEAM_\S+))><>" STEAM USERID validated/.freeze
 
   def self.perform(log)
     finder = new(log)
@@ -33,9 +33,7 @@ class FindPlayersInLog
       tidied_line = ActiveSupport::Multibyte::Chars.new(line).tidy_bytes
       match = tidied_line.match(PLAYER_JOINED_REGEX)
     end
-    if match
-      convert_steam_id_to_community_id(match[:player_steamid])
-    end
+    convert_steam_id_to_community_id(match[:player_steamid]) if match
   end
 
   def convert_steam_id_to_community_id(steam_id)

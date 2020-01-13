@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.status reservation.status
 json.starts_at reservation.starts_at
 json.ends_at reservation.ends_at
@@ -26,7 +28,7 @@ if reservation.persisted?
   json.steam_uid reservation.user.uid
   if reservation.server
     json.server do
-      json.partial! "servers/server", server: reservation.server
+      json.partial! 'servers/server', server: reservation.server
     end
   end
 end

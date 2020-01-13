@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class LogUploadsController < ApplicationController
 
+class LogUploadsController < ApplicationController
   def new
     @log_upload = link_log_upload_to_reservation
     log_file = find_log_file(params[:file_name].to_s)
@@ -14,7 +14,7 @@ class LogUploadsController < ApplicationController
     @log_upload.file_name = log_file.fetch(:file_name)
     if @log_upload.save
       @log_upload.upload
-      flash[:notice] = "Logfile uploaded to logs.tf"
+      flash[:notice] = 'Logfile uploaded to logs.tf'
       redirect_to(reservation_log_uploads_path(reservation))
     else
       render :new
@@ -36,12 +36,12 @@ class LogUploadsController < ApplicationController
 
   def link_log_upload_to_reservation
     @log_upload ||= LogUpload.new
-    @log_upload.reservation_id  = reservation.id
+    @log_upload.reservation_id = reservation.id
     @log_upload
   end
 
   def reservation
-    @reservation ||=  begin
+    @reservation ||= begin
                         if params[:reservation_id].to_i > 0
                           if current_admin
                             Reservation.find(params[:reservation_id].to_i)
@@ -58,7 +58,7 @@ class LogUploadsController < ApplicationController
   end
 
   def find_log_file(file_name)
-    logs.find { |log| log[:file_name] == file_name } || {:file_name => nil}
+    logs.find { |log| log[:file_name] == file_name } || { file_name: nil }
   end
 
   def log_uploads
@@ -68,5 +68,4 @@ class LogUploadsController < ApplicationController
   def upload_params
     params.require(:log_upload).permit(:file_name, :title, :map_name)
   end
-
 end

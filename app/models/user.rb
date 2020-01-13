@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class User < ActiveRecord::Base
   devise :omniauthable, :rememberable, :trackable
 
@@ -21,10 +22,10 @@ class User < ActiveRecord::Base
     if user
       user.update(name: auth.info.name, nickname: auth.info.nickname)
     else
-      user = User.create(name:      auth.info.name,
-                         nickname:  auth.info.nickname,
-                         provider:  auth.provider,
-                         uid:       auth.uid)
+      user = User.create(name: auth.info.name,
+                         nickname: auth.info.nickname,
+                         provider: auth.provider,
+                         uid: auth.uid)
     end
     user
   end
@@ -44,7 +45,6 @@ class User < ActiveRecord::Base
   def streamer?
     @streamer ||= group_ids.include?(Group.streamer_group.id)
   end
-
 
   def maximum_reservation_length
     if admin?
@@ -106,7 +106,9 @@ class User < ActiveRecord::Base
   end
 
   def geocoded
-    @geocoded ||= Geocoder.search(current_sign_in_ip).try(:first) if current_sign_in_ip_ipv4?
+    if current_sign_in_ip_ipv4?
+      @geocoded ||= Geocoder.search(current_sign_in_ip).try(:first)
+    end
   end
 
   def from_na?
@@ -117,13 +119,13 @@ class User < ActiveRecord::Base
 
   def na_timezone?
     if time_zone
-      ["US & Canada", "Canada", "Chicago", "New_York", "Los_Angeles", "Denver", "Phoenix", "Halifax", "Goose_Bay", "St_Johns", "Anchorage"].any? do |zone|
+      ['US & Canada', 'Canada', 'Chicago', 'New_York', 'Los_Angeles', 'Denver', 'Phoenix', 'Halifax', 'Goose_Bay', 'St_Johns', 'Anchorage'].any? do |zone|
         time_zone.match(/#{zone}/)
       end
     end
   end
 
   def na_sign_in_ip?
-    geocoded && (geocoded.data["continent"]["code"] == "NA")
+    geocoded && (geocoded.data['continent']['code'] == 'NA')
   end
 end

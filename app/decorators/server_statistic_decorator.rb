@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ServerStatisticDecorator < Draper::Decorator
   include Draper::LazyHelpers
   delegate_all

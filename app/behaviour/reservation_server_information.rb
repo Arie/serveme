@@ -1,15 +1,16 @@
 # frozen_string_literal: true
+
 module ReservationServerInformation
   def server_name
     "#{SITE_HOST} (##{id})"
   end
 
   def connect_string
-    server && server.server_connect_string(password)
+    server&.server_connect_string(password)
   end
 
   def stv_connect_string
-    server && server.stv_connect_string(tv_password)
+    server&.stv_connect_string(tv_password)
   end
 
   def rcon_string
@@ -21,11 +22,11 @@ module ReservationServerInformation
   end
 
   def server_connect_url
-    server && server.server_connect_url(password)
+    server&.server_connect_url(password)
   end
 
   def stv_connect_url
-    server && server.stv_connect_url(tv_password)
+    server&.stv_connect_url(tv_password)
   end
 
   def zipfile_name
@@ -39,5 +40,4 @@ module ReservationServerInformation
   def has_players?
     last_number_of_players.to_i > 0
   end
-
 end

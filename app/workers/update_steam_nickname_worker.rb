@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 class UpdateSteamNicknameWorker
   include Sidekiq::Worker
 
-  sidekiq_options :retry => false
+  sidekiq_options retry: false
 
   attr_accessor :steam_uid
 

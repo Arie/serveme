@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.donator do
   json.steam_uid nil
   json.expires_at nil

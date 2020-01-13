@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ServerDecorator < Draper::Decorator
   include Draper::LazyHelpers
   delegate_all
@@ -9,16 +10,13 @@ class ServerDecorator < Draper::Decorator
 
   def flag
     if flag_abbreviation
-      tag.span "", class: "flags flags-#{flag_abbreviation}", title: location.name
+      tag.span '', class: "flags flags-#{flag_abbreviation}", title: location.name
     else
-      ""
+      ''
     end
   end
 
   def flag_abbreviation
-    if location
-      location.flag
-    end
+    location&.flag
   end
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.id server.id
 json.name server.name
 if server.location_id

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class ApplicationController < ActionController::Base
 
+class ApplicationController < ActionController::Base
   include ApplicationHelper
 
   protect_from_forgery
@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
     begin
       Time.zone = time_zone_from_cookie
       if current_user
-        current_user.update(:time_zone => time_zone_from_cookie)
+        current_user&.update(time_zone: time_zone_from_cookie)
       end
     rescue ArgumentError
       set_default_time_zone
@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
   def current_admin
     if @current_admin.nil?
       @current_admin = begin
-                         if current_user && current_user.admin?
+                         if current_user&.admin?
                            current_user
                          else
                            false
@@ -55,8 +55,8 @@ class ApplicationController < ActionController::Base
 
   def current_streamer
     if @current_streamer.nil?
-      @current_streamer =  begin
-                             if current_user && current_user.streamer?
+      @current_streamer = begin
+                             if current_user&.streamer?
                                current_user
                              else
                                false
@@ -68,27 +68,18 @@ class ApplicationController < ActionController::Base
   helper_method :current_streamer
 
   def require_admin
-    unless current_admin
-      redirect_to root_path
-    end
+    redirect_to root_path unless current_admin
   end
 
   def require_admin_or_streamer
-    unless current_admin || current_streamer
-      redirect_to root_path
-    end
+    redirect_to root_path unless current_admin || current_streamer
   end
 
   def require_donator
-    unless current_user && current_user.donator?
-      flash[:alert] = "Only donators can do that..."
+    unless current_user&.donator?
+      flash[:alert] = 'Only donators can do that...'
       redirect_to root_path
     end
-  end
-
-  private def ssl_required?
-
-    Rails.env.production?
   end
 
   protected

@@ -1,16 +1,17 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe PagesController do
-
   before do
-    @user         = create :user
+    @user = create :user
     @user.groups << Group.donator_group
     @user.groups << Group.admin_group
     sign_in @user
   end
 
-  describe "#recent_reservations" do
-    it "should assign the recent reservations variable" do
+  describe '#recent_reservations' do
+    it 'should assign the recent reservations variable' do
       reservation = create :reservation
       get :recent_reservations
       assigns(:recent_reservations).should include(reservation)
@@ -18,7 +19,7 @@ describe PagesController do
   end
 
   describe '#statistics' do
-    it "should assign the top 10 hash" do
+    it 'should assign the top 10 hash' do
       Statistic.should_receive(:top_10_users).and_return(:foo)
       Statistic.should_receive(:top_10_servers).and_return(:bar)
       get :statistics
@@ -27,36 +28,29 @@ describe PagesController do
     end
   end
 
-  describe "#faq" do
-
+  describe '#faq' do
     render_views
 
-    it "renders" do
+    it 'renders' do
       get :faq
 
       response.should be_successful
     end
-
   end
 
   describe '#not_found' do
-
-    it "should show the not found page" do
+    it 'should show the not found page' do
       get :not_found
-      response.should render_template("pages/not_found")
+      response.should render_template('pages/not_found')
       response.status.should == 404
     end
-
   end
-
 
   describe '#error' do
-    it "should show the error page" do
+    it 'should show the error page' do
       get :error
-      response.should render_template("pages/error")
+      response.should render_template('pages/error')
       response.status.should == 500
     end
-
   end
-
 end

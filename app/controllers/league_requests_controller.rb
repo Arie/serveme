@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class LeagueRequestsController < ApplicationController
   before_action :require_admin_or_streamer
 
@@ -18,7 +19,8 @@ class LeagueRequestsController < ApplicationController
   end
 
   private
+
   def request_params
-    params[:league_request].permit([:ip, :steam_uid, :cross_reference])
+    params[:league_request].permit(%i[ip steam_uid cross_reference])
   end
 end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class UploadFilesToServersWorker
   include Sidekiq::Worker
 
@@ -16,7 +17,7 @@ class UploadFilesToServersWorker
       else
         files_to_copy = files
       end
-      Rails.logger.info "Copying to server #{s.name}: #{files_to_copy.join(", ")}"
+      Rails.logger.info "Copying to server #{s.name}: #{files_to_copy.join(', ')}"
       if files_to_copy.any?
         s.copy_to_server(files_to_copy, File.join(s.tf_dir, destination))
       end
@@ -24,6 +25,6 @@ class UploadFilesToServersWorker
   end
 
   def self.servers
-    Server.active.where("type != ?", "GameyeServer")
+    Server.active.where('type != ?', 'GameyeServer')
   end
 end

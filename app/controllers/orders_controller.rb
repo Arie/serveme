@@ -1,19 +1,19 @@
 # frozen_string_literal: true
-class OrdersController < ApplicationController
 
+class OrdersController < ApplicationController
   def new
     @products = Product.active.ordered
-    @order = Order.new(gift: params[:gift], product: Product.find_by_name("1 year"))
+    @order = Order.new(gift: params[:gift], product: Product.find_by_name('1 year'))
   end
 
   def create
-    order_params = params.require(:order).permit([:product_id, :gift])
+    order_params = params.require(:order).permit(%i[product_id gift])
     paypal_order.product_id = order_params[:product_id].to_i
     paypal_order.gift       = order_params[:gift]
     if paypal_order.save && paypal_order.prepare
       redirect_to paypal_order.checkout_url
     else
-      flash[:alert] = "Something went wrong creating your order, please try again"
+      flash[:alert] = 'Something went wrong creating your order, please try again'
       render :new
     end
   end
@@ -22,13 +22,13 @@ class OrdersController < ApplicationController
     if order.charge(params[:PayerID])
       if order.gift?
         flash[:notice] = "Your payment has been received and we've given you a premium code that you can give away"
-        redirect_to settings_path("#your-vouchers")
+        redirect_to settings_path('#your-vouchers')
       else
-        flash[:notice] = "Your payment has been received and your donator perks are now activated, thanks! <3"
+        flash[:notice] = 'Your payment has been received and your donator perks are now activated, thanks! <3'
         redirect_to root_path
       end
     else
-      flash[:alert] = "Something went wrong while trying to activate your donator status, please check if you have sufficient funds in your PayPal account"
+      flash[:alert] = 'Something went wrong while trying to activate your donator status, please check if you have sufficient funds in your PayPal account'
       redirect_to root_path
     end
   end
@@ -39,10 +39,10 @@ class OrdersController < ApplicationController
         order = current_user.stripe_orders.build
         order.payer_id = params[:stripe_token]
         order.product = Product.active.find(params[:product_id].to_i)
-        order.gift = (params[:gift] == "true")
+        order.gift = (params[:gift] == 'true')
         order.save!
         charge = order.charge
-        if charge == "succeeded"
+        if charge == 'succeeded'
           render plain: { charge_status: charge, product_name: order.product_name, gift: order.gift, voucher: order.voucher.try(:code) }.to_json
         else
           render plain: { charge_status: charge }.to_json, status: 402
@@ -58,5 +58,4 @@ class OrdersController < ApplicationController
   def paypal_order
     @paypal_order ||= current_user.paypal_orders.build
   end
-
 end

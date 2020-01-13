@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-class NfoServer < RemoteServer
 
+class NfoServer < RemoteServer
   include FtpAccess
 
   def restart
@@ -27,5 +27,4 @@ class NfoServer < RemoteServer
       raise
     end
   end
-
 end

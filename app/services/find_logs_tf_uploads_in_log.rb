@@ -1,9 +1,9 @@
 # frozen_string_literal: true
-class FindLogsTfUploadsInLog
 
+class FindLogsTfUploadsInLog
   attr_accessor :log, :logs_tf_upload_ids
 
-  LOGS_TF_UPLOADED_REGEX = /L (?'time'.*): \[TFTrue\] The log is available here: http:\/\/logs.tf\/(?'logs_tf_id'\d+). Type !log to view it./
+  LOGS_TF_UPLOADED_REGEX = %r{L (?'time'.*): \[TFTrue\] The log is available here: http://logs.tf/(?'logs_tf_id'\d+). Type !log to view it.}.freeze
 
   def self.perform(log)
     finder = new(log)
@@ -33,9 +33,6 @@ class FindLogsTfUploadsInLog
       tidied_line = ActiveSupport::Multibyte::Chars.new(line).tidy_bytes
       match = tidied_line.match(LOGS_TF_UPLOADED_REGEX)
     end
-    if match
-      match[:logs_tf_id]
-    end
+    match[:logs_tf_id] if match
   end
-
 end

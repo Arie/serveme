@@ -1,13 +1,12 @@
 # frozen_string_literal: true
-class CollisionFinder
 
+class CollisionFinder
   attr_reader :colliding_with, :collider
 
   def initialize(colliding_with, collider)
     @colliding_with = colliding_with
     @collider       = collider
   end
-
 
   def colliding_reservations
     colliding = (front_rear_and_internal_collisions + overlap_collisions).uniq
@@ -50,5 +49,4 @@ class CollisionFinder
   def ends_at
     collider.ends_at
   end
-
 end

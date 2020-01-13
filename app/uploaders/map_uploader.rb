@@ -1,7 +1,7 @@
 # frozen_string_literal: true
-class MapUploader < CarrierWave::Uploader::Base
 
-  permissions 0755
+class MapUploader < CarrierWave::Uploader::Base
+  permissions 0o755
 
   def store_dir
     MAPS_DIR
@@ -16,7 +16,6 @@ class MapUploader < CarrierWave::Uploader::Base
   end
 
   def extension_white_list
-    %w(bsp zip bz2)
+    %w[bsp zip bz2]
   end
-
 end

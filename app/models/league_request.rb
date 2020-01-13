@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class LeagueRequest
   include ActiveModel::Model
   validates :ip, format: { with: /\A(?:[0-9]{1,3}\.){3}[0-9]{1,3}\Z/ }
@@ -8,13 +9,13 @@ class LeagueRequest
 
   def initialize(user, ip: nil, steam_uid: nil, cross_reference: nil)
     @user = user
-    @ip = ip && ip.gsub(/[[:space:]]/, '').split(",")
-    @steam_uid = steam_uid && steam_uid.gsub(/[[:space:]]/, '').split(",")
-    @cross_reference = (cross_reference == "1")
+    @ip = ip&.gsub(/[[:space:]]/, '')&.split(',')
+    @steam_uid = steam_uid&.gsub(/[[:space:]]/, '')&.split(',')
+    @cross_reference = (cross_reference == '1')
   end
 
   def search
-    @target = [@ip, @steam_uid].reject(&:blank?).join(", ")
+    @target = [@ip, @steam_uid].reject(&:blank?).join(', ')
     if @cross_reference
       Rails.logger.info("Cross reference search started by #{@user.name} (#{@user.uid}) for #{@target}")
       find_with_cross_reference(ip: @ip, steam_uid: @steam_uid)
@@ -54,6 +55,6 @@ class LeagueRequest
   private
 
   def players_query
-    ReservationPlayer.joins(:reservation).where("reservations.starts_at > ?", 1.year.ago).order("reservations.starts_at DESC")
+    ReservationPlayer.joins(:reservation).where('reservations.starts_at > ?', 1.year.ago).order('reservations.starts_at DESC')
   end
 end

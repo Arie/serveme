@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', "~> 6.0.0"
 gem 'bootsnap', require: false
-gem 'sprockets', '~> 3.7'
+gem 'sprockets'
 gem 'haml'
 gem 'puma'
 gem 'omniauth-openid'
@@ -126,7 +126,7 @@ gem 'jquery-rails'
 gem 'sass'
 gem 'sass-rails'
 gem 'sassc'
-gem 'bootstrap', '~> 4.3.1'
+gem 'bootstrap'
 gem 'will_paginate-bootstrap4'
 gem 'simple_form'
 gem 'execjs'

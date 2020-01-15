@@ -34,8 +34,8 @@ class PagesController < ApplicationController
   end
 
   def error
-    if Rails.env.production? && env['action_dispatch.exception']
-      Raven.capture_exception(env['action_dispatch.exception'])
+    if Rails.env.production? && request.env['action_dispatch.exception']
+      Raven.capture_exception(request.env['action_dispatch.exception'])
     end
     render 'error', status: 500, formats: :html
   end

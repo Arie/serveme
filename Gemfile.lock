@@ -328,7 +328,7 @@ GEM
     parallel (1.19.1)
     parallel_tests (2.30.1)
       parallel
-    paypal-sdk-rest (1.7.3)
+    paypal-sdk-rest (1.7.4)
       multi_json (~> 1.0)
       xml-simple
     pg (1.2.2)
@@ -497,7 +497,7 @@ GEM
     vcr (5.0.0)
     warden (1.2.8)
       rack (>= 2.0.6)
-    webmock (3.7.6)
+    webmock (3.8.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)

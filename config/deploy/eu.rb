@@ -1,9 +1,9 @@
-set :main_server,       "fakkelbrigade.eu"
-set :puma_bind,         'tcp://127.0.0.1:3010'
+set :main_server,       "new.fakkelbrigade.eu"
 set :puma_threads,      [0,8]
 set :puma_workers,      2
 set :sidekiq_processes, 2
-server "fakkelbrigade.eu", user: "tf2", roles: ["web", "app", "db"]
+set :rvm_type,          :user
+server "new.fakkelbrigade.eu", user: "tf2", roles: ["web", "app", "db"]
 
 namespace :app do
   desc "symlinks the NFO servers login information"

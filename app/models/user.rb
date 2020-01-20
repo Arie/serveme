@@ -73,9 +73,7 @@ class User < ActiveRecord::Base
   end
 
   def donator_until
-    if donator?
-      group_users.find_by_group_id(Group.donator_group).try(:expires_at)
-    end
+    group_users.find_by_group_id(Group.donator_group)&.expires_at
   end
 
   def has_private_server_option?
@@ -90,11 +88,11 @@ class User < ActiveRecord::Base
   end
 
   def private_server_id=(server_id)
-    if server_id.to_i.positive?
-      group_server = Group.private_user(self).group_servers.first_or_initialize
-      group_server.server_id = server_id.to_i
-      group_server.save!
-    end
+    return unless server_id.to_i.positive?
+
+    group_server = Group.private_user(self).group_servers.first_or_initialize
+    group_server.server_id = server_id.to_i
+    group_server.save!
   end
 
   def current_sign_in_ip_changed_and_ipv4?
@@ -106,9 +104,9 @@ class User < ActiveRecord::Base
   end
 
   def geocoded
-    if current_sign_in_ip_ipv4?
-      @geocoded ||= Geocoder.search(current_sign_in_ip).try(:first)
-    end
+    return unless current_sign_in_ip_ipv4?
+
+    @geocoded ||= Geocoder.search(current_sign_in_ip).try(:first)
   end
 
   def from_na?
@@ -118,10 +116,10 @@ class User < ActiveRecord::Base
   private
 
   def na_timezone?
-    if time_zone
-      ['US & Canada', 'Canada', 'Chicago', 'New_York', 'Los_Angeles', 'Denver', 'Phoenix', 'Halifax', 'Goose_Bay', 'St_Johns', 'Anchorage'].any? do |zone|
-        time_zone.match(/#{zone}/)
-      end
+    return unless time_zone
+
+    ['US & Canada', 'Canada', 'Chicago', 'New_York', 'Los_Angeles', 'Denver', 'Phoenix', 'Halifax', 'Goose_Bay', 'St_Johns', 'Anchorage'].any? do |zone|
+      time_zone.match(/#{zone}/)
     end
   end
 

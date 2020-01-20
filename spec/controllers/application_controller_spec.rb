@@ -21,9 +21,19 @@ describe ApplicationController do
   context 'with a valid time zone' do
     it 'changes the time zone' do
       time_zone_before_request = Time.zone
-      cookies[:time_zone] = 'Europe/Amsterdam'
+
+      new_time_zone =
+        if time_zone_before_request == 'Europe/Amsterdam'
+          'Europe/London'
+        else
+          'Europe/Amsterdam'
+        end
+
+      cookies[:time_zone] = new_time_zone
       Time.should_receive(:zone=).with('Europe/Amsterdam').twice
       get :index
+
+      Time.zone.to_s.should_not eql(time_zone_before_request)
     end
   end
 end

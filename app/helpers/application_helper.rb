@@ -2,11 +2,11 @@
 
 module ApplicationHelper
   def donator?
-    @current_user_is_donator ||= current_user&.donator?
+    @donator ||= current_user&.donator?
   end
 
   def admin?
-    @current_user_is_admin ||= current_user&.admin?
+    @admin ||= current_user&.admin?
   end
 
   def used_free_server_count

@@ -58,7 +58,6 @@ gem "pg"
 gem 'mini_racer'
 gem 'oily_png'
 
-
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
@@ -88,6 +87,8 @@ group :test, :development do
   gem 'pry-nav'
   gem 'zonebie'
   gem 'parallel_tests'
+  gem 'solargraph'
+  gem 'irb'
 end
 
 group :test_tools do

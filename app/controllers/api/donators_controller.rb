@@ -5,7 +5,7 @@ class Api::DonatorsController < Api::ApplicationController
 
   def show
     @user = Group.donator_group.users.find_by(uid: params[:id])
-    if @user && @donator = @user.group_users.find_by(group_id: Group.donator_group.id)
+    if @user && (@donator = @user.group_users.find_by(group_id: Group.donator_group.id))
       render :show
     else
       head :not_found

@@ -71,9 +71,9 @@ class LogUpload < ActiveRecord::Base
   end
 
   def validate_log_file_exists
-    unless log_file_exists?(file_name)
-      errors.add(:file_name, 'file does not exist')
-    end
+    return if log_file_exists?(file_name)
+
+    errors.add(:file_name, 'file does not exist')
   end
 
   def tftrue_upload?

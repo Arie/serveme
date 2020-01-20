@@ -65,21 +65,21 @@ class MapUpload < ActiveRecord::Base
   end
 
   def validate_not_already_present
-    if file.filename && self.class.map_exists?(file.filename)
-      errors.add(:file, 'already available')
-    end
+    return unless file.filename && self.class.map_exists?(file.filename)
+
+    errors.add(:file, 'already available')
   end
 
   def validate_file_is_a_bsp
-    if file.file && File.open(file.file.file).read(4) != 'VBSP'
-      errors.add(:file, 'not a map (bsp) file')
-    end
+    return unless file.file && File.open(file.file.file).read(4) != 'VBSP'
+
+    errors.add(:file, 'not a map (bsp) file')
   end
 
   def validate_not_blacklisted
-    if file.filename && self.class.blacklisted?(file.filename)
-      errors.add(:file, 'map blacklisted, causes server instability')
-    end
+    return unless file.filename && self.class.blacklisted?(file.filename)
+
+    errors.add(:file, 'map blacklisted, causes server instability')
   end
 
   def maps_with_full_path
@@ -89,18 +89,18 @@ class MapUpload < ActiveRecord::Base
   end
 
   def upload_maps_to_servers
-    if maps_with_full_path.any?
-      UploadFilesToServersWorker.perform_async(files: maps_with_full_path,
-                                               destination: 'maps',
-                                               overwrite: false)
-    end
+    return unless maps_with_full_path.any?
+
+    UploadFilesToServersWorker.perform_async(files: maps_with_full_path,
+                                              destination: 'maps',
+                                              overwrite: false)
   end
 
   def self.map_exists?(filename)
-    if File.exist?(File.join(MAPS_DIR, filename.split('/').last))
-      Rails.logger.info "File #{filename} already exists in #{MAPS_DIR}"
-      true
-    end
+    return unless File.exist?(File.join(MAPS_DIR, filename.split('/').last))
+
+    Rails.logger.info "File #{filename} already exists in #{MAPS_DIR}"
+    true
   end
 
   def self.blacklisted?(filename)
@@ -143,15 +143,14 @@ class MapUpload < ActiveRecord::Base
     target_filename = filename.match(/(^.*\.bsp)\.bz2/)[1]
     maps = []
 
-    if !self.class.map_exists?(target_filename) && !self.class.blacklisted?(target_filename)
-      Rails.logger.info "Extracting #{target_filename} from #{filename} upload ##{id} (BZ2)"
-      data = RBzip2.default_adapter::Decompressor.new(File.new(source_file)).read
+    return if self.class.map_exists?(target_filename) || self.class.blacklisted?(target_filename)
 
-      Rails.logger.info "Writing uncompressed #{target_filename}"
-      File.open(File.join(MAPS_DIR, target_filename), 'wb+') { |f| f.write(data) }
-      maps << target_filename
-    end
-    maps
+    Rails.logger.info "Extracting #{target_filename} from #{filename} upload ##{id} (BZ2)"
+    data = RBzip2.default_adapter::Decompressor.new(File.new(source_file)).read
+
+    Rails.logger.info "Writing uncompressed #{target_filename}"
+    File.open(File.join(MAPS_DIR, target_filename), 'wb+') { |f| f.write(data) }
+    maps << target_filename
   end
 
   def archive_type

@@ -19,14 +19,12 @@ class LeagueRequest
     if @cross_reference
       Rails.logger.info("Cross reference search started by #{@user.name} (#{@user.uid}) for #{@target}")
       find_with_cross_reference(ip: @ip, steam_uid: @steam_uid)
+    elsif @ip.present?
+      Rails.logger.info("IP search started by #{@user.name} (#{@user.uid}) for #{@target}")
+      find_by_ip(@ip)
     else
-      if @ip.present?
-        Rails.logger.info("IP search started by #{@user.name} (#{@user.uid}) for #{@target}")
-        find_by_ip(@ip)
-      else
-        Rails.logger.info("Steam ID search started by #{@user.name} (#{@user.uid}) for #{@target}")
-        find_by_steam_uid(@steam_uid)
-      end
+      Rails.logger.info("Steam ID search started by #{@user.name} (#{@user.uid}) for #{@target}")
+      find_by_steam_uid(@steam_uid)
     end
   end
 
@@ -40,19 +38,23 @@ class LeagueRequest
 
   def find_with_cross_reference(ip: nil, steam_uid: nil)
     if ip.present? && steam_uid.present?
-      ips = find_by_steam_uid(steam_uid).pluck(:ip).uniq.reject(&:nil?)
-      steam_uids = find_by_ip(ip).pluck(:steam_uid).uniq.reject(&:nil?)
+      ips = pluck_uniques(find_by_steam_uid(steam_uid), :ip)
+      steam_uids = pluck_uniques(find_by_ip(ip), :steam_uid)
       find_by_steam_uid(steam_uids).or(find_by_ip(ips))
     elsif ip.present?
-      steam_uids = find_by_ip(ip).pluck(:steam_uid).uniq.reject(&:nil?)
+      steam_uids = pluck_uniques(find_by_ip(ip), :steam_uid)
       find_by_steam_uid(steam_uids)
     else
-      ips = find_by_steam_uid(steam_uid).pluck(:ip).uniq.reject(&:nil?)
+      ips = pluck_uniques(find_by_steam_uid(steam_uid), :ip)
       find_by_ip(ips)
     end
   end
 
   private
+
+  def pluck_uniques(query, to_pluck)
+    query.pluck(to_pluck).uniq.reject(&:nil?)
+  end
 
   def players_query
     ReservationPlayer.joins(:reservation).where('reservations.starts_at > ?', 1.year.ago).order('reservations.starts_at DESC')

@@ -140,7 +140,7 @@ class Server < ActiveRecord::Base
   def process_id
     @process_id ||= begin
                       pid = find_process_id.to_i
-                      pid if pid > 0
+                      pid.positive? && pid
                     end
   end
 
@@ -161,16 +161,12 @@ class Server < ActiveRecord::Base
   end
 
   def inactive_minutes
-    if current_reservation
-      current_reservation.inactive_minute_counter
-    else
-      0
-    end
+    current_reservation&.inactive_minute_counter || 0
   end
 
   def occupied?
     if number_of_players
-      number_of_players > 0
+      number_of_players.positive?
     else
       true
     end
@@ -291,10 +287,10 @@ class Server < ActiveRecord::Base
 
   def self.get_latest_version
     response = Faraday.new(url: 'http://api.steampowered.com').get('ISteamApps/UpToDateCheck/v1?appid=440&version=0')
-    if response.success?
-      json = JSON.parse(response.body)
-      json['response']['required_version'].to_i
-    end
+    return unless response.success?
+
+    json = JSON.parse(response.body)
+    json['response']['required_version'].to_i
   end
 
   def number_of_players

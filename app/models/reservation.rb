@@ -100,12 +100,12 @@ class Reservation < ActiveRecord::Base
   end
 
   def extend!
-    if less_than_1_hour_left? && !gameye?
-      self.extending  = true
-      self.ends_at    = ends_at + user.reservation_extension_time
-      self.inactive_minute_counter = 0
-      save
-    end
+    return unless less_than_1_hour_left? && !gameye?
+
+    self.extending  = true
+    self.ends_at    = ends_at + user.reservation_extension_time
+    self.inactive_minute_counter = 0
+    save
   end
 
   def less_than_1_hour_left?
@@ -129,8 +129,7 @@ class Reservation < ActiveRecord::Base
     time_left_text        = I18n.t(:timeleft, count: time_left_in_minutes)
     if gameye?
       server.rcon_say("This reservation will end in less than #{time_left_text}, it cannot be extended")
-    end
-    unless gameye?
+    else
       server.rcon_say("This reservation will end in less than #{time_left_text}, if this server is not yet booked by someone else, you can say !extend for more time")
     end
     server.rcon_disconnect
@@ -221,8 +220,8 @@ class Reservation < ActiveRecord::Base
   end
 
   def status
-    return 'ended'            if past?
-    return 'ready'            if server_statistics.any?
+    return 'ended' if past?
+    return 'ready' if server_statistics.any?
 
     status_messages = reservation_statuses.map(&:status)
     return 'ready' if status_messages.grep(/Server finished loading map/).any?
@@ -241,6 +240,7 @@ class Reservation < ActiveRecord::Base
 
   def whitelist_ip
     return user.reservation_players.last.ip if user.reservation_players.exists?
+
     if user.current_sign_in_ip && IPAddr.new(user.current_sign_in_ip).ipv4?
       return user.current_sign_in_ip
     end

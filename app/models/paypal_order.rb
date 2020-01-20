@@ -8,7 +8,6 @@ class PaypalOrder < Order
     add_transaction
     if payment.create
       update(status: 'Redirected', payment_id: payment.id)
-
     else
       Raven.capture_exception(payment.error) if Rails.env.production?
       false

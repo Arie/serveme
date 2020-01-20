@@ -9,13 +9,14 @@ class SessionsController < Devise::OmniauthCallbacksController
   def steam
     user = User.find_for_steam_auth(request.env['omniauth.auth'])
 
-    if user
-      remember_me(user)
-      sign_in_and_redirect(user, event: :authentication)
-      if is_navigational_format?
-        set_flash_message(:notice, :success, kind: 'Steam')
-      end
-    end
+    return unless user
+
+    remember_me(user)
+    sign_in_and_redirect(user, event: :authentication)
+
+    return unless is_navigational_format?
+
+    set_flash_message(:notice, :success, kind: 'Steam')
   end
 
   def failure; end

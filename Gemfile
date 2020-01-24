@@ -62,16 +62,16 @@ gem 'will_paginate-bootstrap4'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'capistrano'
-  gem 'capistrano-bundler'
-  gem 'capistrano-ext'
-  gem 'capistrano-faster-assets'
-  gem 'capistrano-maintenance'
-  gem 'capistrano-rails'
-  gem 'capistrano-rvm'
-  gem 'capistrano-sidekiq'
-  gem 'capistrano3-puma'
-  gem 'capistrano_colors'
+  gem 'capistrano', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-ext', require: false
+  gem 'capistrano-faster-assets', require: false
+  gem 'capistrano-maintenance', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rvm', require: false
+  gem 'capistrano-sidekiq', require: false
+  gem 'capistrano3-puma', require: false
+  gem 'capistrano_colors', require: false
 end
 
 group :test, :development do

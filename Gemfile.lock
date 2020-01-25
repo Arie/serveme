@@ -640,7 +640,6 @@ DEPENDENCIES
   simple_form
   solargraph
   sprockets
-  sshkit
   steam-condenser!
   stripe
   tf2_line_parser

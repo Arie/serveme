@@ -44,7 +44,13 @@ class GameyeServer < Server
   end
 
   def self.locations
-    if SITE_HOST == 'na.serveme.tf'
+    case SITE_HOST
+    when 'sea.serveme.tf'
+      [
+        { id: 'hong_kong', name: 'Hong Kong', flag: 'hk', concurrency_limit: 10 },
+        { id: 'singapore', name: 'Singapore', flag: 'sg', concurrency_limit: 10 },
+      ]
+    when 'na.serveme.tf'
       [
         { id: 'new_york', name: 'New York', flag: 'us', concurrency_limit: 0 },
         { id: 'washington_dc', name: 'Washington D.C.', flag: 'us', concurrency_limit: 10 },

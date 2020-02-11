@@ -20,9 +20,9 @@ GIT
 
 GIT
   remote: https://github.com/rails/jbuilder.git
-  revision: bec0d6c840c3486ee589d5de0ba9c348ccbc27ee
+  revision: e0ac4a1f2fa3d22f9f3bb94194ed499ca91cf40e
   specs:
-    jbuilder (2.9.1)
+    jbuilder (2.10.0)
       activesupport (>= 5.0.0)
 
 GEM
@@ -113,7 +113,7 @@ GEM
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
     builder (3.2.4)
-    capistrano (3.11.2)
+    capistrano (3.12.0)
       airbrussh (>= 1.0.0)
       i18n
       rake (>= 10.0.0)
@@ -166,7 +166,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.1.5)
+    concurrent-ruby (1.1.6)
     connection_pool (2.2.2)
     coveralls (0.8.23)
       json (>= 1.8, < 3)
@@ -323,7 +323,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (5.2.0)
     nio4r (2.5.2)
-    nokogiri (1.10.7)
+    nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
     ntlm-http (0.1.1)
     oily_png (1.2.1)
@@ -357,7 +357,7 @@ GEM
     puma (4.3.1)
       nio4r (~> 2.0)
     raabro (1.1.6)
-    rack (2.1.2)
+    rack (2.2.2)
     rack-attack (6.2.2)
       rack (>= 1.0, < 3)
     rack-cache (1.11.0)
@@ -513,7 +513,7 @@ GEM
     sshkit (1.20.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
-    stripe (5.14.0)
+    stripe (5.15.0)
     sync (0.5.0)
     temple (0.8.2)
     term-ansicolor (1.7.1)
@@ -523,7 +523,7 @@ GEM
     thor (1.0.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
-    tins (1.24.0)
+    tins (1.24.1)
       sync
     tzinfo (1.2.6)
       thread_safe (~> 0.1)

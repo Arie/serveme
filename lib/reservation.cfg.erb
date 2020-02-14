@@ -22,7 +22,6 @@ tftrue_no_hats 0
 <%= %{tftrue_logs_prefix "#{SITE_HOST} ##{id}"} %>
 tftrue_logs_roundend 0
 tftrue_restorestats 1
-tftrue_tv_autorecord 0
 <% if user.donator? %>
 <%= "tftrue_logs_accuracy 1" %>
 <% end %>
@@ -37,13 +36,15 @@ tv_delaymapchange 1
 tv_enable 1
 <% if enable_demos_tf? %>
 <%= "tv_autorecord 0" %>
+<%= "tftrue_tv_autorecord 0" %>
 <% if user.demos_tf_api_key.present? %>
 <%= %{sm_demostf_apikey "#{user.demos_tf_api_key}"} %>
 <% else %>
 <%= %{sm_demostf_apikey "#{DEMOS_TF_API_KEY}"} %>
 <% end %>
 <% else %>
-<%= "tv_autorecord 1" %>
+<%= "tv_autorecord 0" %>
+<%= "tftrue_tv_autorecord 1" %>
 <% end %>
 
 tf_preround_push_from_damage_enable 1

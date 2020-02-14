@@ -76,7 +76,7 @@ end
 
 group :test, :development do
   gem 'factory_bot_rails'
-  gem 'irb'
+  gem 'irb', '1.2.1'
   gem 'parallel_tests'
   gem 'pry-nav'
   gem 'rspec-activemodel-mocks'

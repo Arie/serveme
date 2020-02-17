@@ -96,7 +96,7 @@ GEM
     autoprefixer-rails (9.7.4)
       execjs
     backport (1.1.2)
-    backports (3.16.0)
+    backports (3.16.1)
     base32_pure (0.1.0)
     bcrypt (3.1.13)
     benchmark (0.1.0)
@@ -148,7 +148,7 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
-    carrierwave (2.0.2)
+    carrierwave (2.1.0)
       activemodel (>= 5.0.0)
       activesupport (>= 5.0.0)
       addressable (~> 2.6)

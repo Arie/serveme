@@ -96,7 +96,7 @@ GEM
     autoprefixer-rails (9.7.4)
       execjs
     backport (1.1.2)
-    backports (3.16.1)
+    backports (3.17.0)
     base32_pure (0.1.0)
     bcrypt (3.1.13)
     benchmark (0.1.0)
@@ -223,7 +223,7 @@ GEM
       request_store (>= 1.0)
     e2mmap (0.1.0)
     erubi (1.9.0)
-    et-orbi (1.2.2)
+    et-orbi (1.2.3)
       tzinfo
     eventmachine (1.2.7)
     execjs (2.7.0)
@@ -512,7 +512,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sshkit (1.20.0)
+    sshkit (1.21.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     stripe (5.17.0)

@@ -64,7 +64,7 @@ class GameyeServer < Server
         { id: 'frankfurt', name: 'Frankfurt', flag: 'de', concurrency_limit: 10 },
         { id: 'madrid', name: 'Madrid', flag: 'es', concurrency_limit: 10 },
         { id: 'moscow', name: 'Moscow', flag: 'ru', concurrency_limit: 10 },
-        { id: 'sao_paulo', name: 'São Paulo', flag: 'br', concurrency_limit: 0 },
+        { id: 'sao_paulo', name: 'São Paulo', flag: 'br', concurrency_limit: 5 },
         { id: 'warsaw', name: 'Warsaw', flag: 'pl', concurrency_limit: 10 }
       ]
     end

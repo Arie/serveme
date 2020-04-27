@@ -4,6 +4,12 @@ class PagesController < ApplicationController
   skip_before_action :authenticate_user!, except: :recent_reservations
   before_action :require_admin_or_streamer, only: :recent_reservations
 
+  caches_action :welcome,           unless: :current_user, cache_path: -> { "welcome_#{Time.zone}" },           expires_in: 1.minute
+  caches_action :statistics,        unless: :current_user, cache_path: -> { "stats_#{Time.zone}" },             expires_in: 1.minute
+  caches_action :faq,               unless: :current_user, cache_path: -> { "faq_#{Time.zone}" },               expires_in: 1.minute
+  caches_action :server_providers,  unless: :current_user, cache_path: -> { "server_providers_#{Time.zone}" },  expires_in: 1.minute
+  caches_action :credits,           unless: :current_user, cache_path: -> { "credits_#{Time.zone}" },           expires_in: 1.minute
+
   def welcome
     if current_user
       @users_reservations = current_user.reservations.includes(user: :groups, server: :location).ordered.first(5)

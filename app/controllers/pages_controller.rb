@@ -5,7 +5,6 @@ class PagesController < ApplicationController
   before_action :require_admin_or_streamer, only: :recent_reservations
 
   def welcome
-    @most_recently_updated_reservation_time = Reservation.maximum(:updated_at).to_i
     if current_user
       @users_reservations = current_user.reservations.includes(user: :groups, server: :location).ordered.first(5)
       @users_games        = Reservation.played_in(current_user.uid).includes(user: :groups, server: :location).limit(5)

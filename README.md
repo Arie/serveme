@@ -71,7 +71,7 @@ All requests should have the API key as the HTTP request parameter api_key or as
 
 ### Step 1
 ```shell
-curl -X GET -H "Content-Type: application/json" 'http://serveme.tf/api/reservations/new?api_key=your_api_key'
+curl -X GET -H "Content-Type: application/json" 'https://serveme.tf/api/reservations/new?api_key=your_api_key'
 ```
 
 This will return a prefilled JSON response, which you can POST to the action "find_servers"
@@ -82,7 +82,7 @@ This will return a prefilled JSON response, which you can POST to the action "fi
     "ends_at":"2014-04-13T20:00:20.415+02:00"
   },
   "actions": {
-    "find_servers": "http://serveme.tf/api/reservations/find_servers"
+    "find_servers": "https://serveme.tf/api/reservations/find_servers"
   }
 }
 ```
@@ -90,7 +90,7 @@ This will return a prefilled JSON response, which you can POST to the action "fi
 ### Step 2
 POST a reservation with starts_at and ends_at filled in to find_servers.
 ```shell
-curl -X POST -H "Content-Type: application/json" -d '{"reservation":{"starts_at":"2014-04-13T18:00:20.415+02:00","ends_at":"2014-04-13T20:00:20.415+02:00"}}' 'http://serveme.tf/api/reservations/find_servers?api_key=your_api_key'
+curl -X POST -H "Content-Type: application/json" -d '{"reservation":{"starts_at":"2014-04-13T18:00:20.415+02:00","ends_at":"2014-04-13T20:00:20.415+02:00"}}' 'https://serveme.tf/api/reservations/find_servers?api_key=your_api_key'
 ```
 
 This will return a prefilled JSON response with available servers, whitelists and server configs included:
@@ -142,7 +142,7 @@ This will return a prefilled JSON response with available servers, whitelists an
     }
   ],
   "actions": {
-    "create": "http://serveme.tf/api/reservations"
+    "create": "https://serveme.tf/api/reservations"
   }
 }
 ```
@@ -150,7 +150,7 @@ This will return a prefilled JSON response with available servers, whitelists an
 ### Step 3
 POST a complete reservation to the "create" action
 ```shell
-curl -X POST -H "Content-Type: application/json" -d '{"reservation":{"starts_at":"2014-04-13T18:00:20.415+02:00","ends_at":"2014-04-13T20:00:20.415+02:00","rcon":"foo","password":"bar","server_id":1337}}' 'http://serveme.tf/api/reservations?api_key=your_api_key'
+curl -X POST -H "Content-Type: application/json" -d '{"reservation":{"starts_at":"2014-04-13T18:00:20.415+02:00","ends_at":"2014-04-13T20:00:20.415+02:00","rcon":"foo","password":"bar","server_id":1337}}' 'https://serveme.tf/api/reservations?api_key=your_api_key'
 ```
 
 If there's any errors, you'll get a HTTP 400 and a new prefilled reservation JSON with errors:
@@ -179,7 +179,7 @@ If there's any errors, you'll get a HTTP 400 and a new prefilled reservation JSO
     }
   },
   "actions": {
-    "create": "http://serveme.tf/api/reservations"
+    "create": "https://serveme.tf/api/reservations"
   },
   "servers": [
     {
@@ -232,7 +232,7 @@ If everything went alright, you'll get a HTTP 200 and shown your reservation det
     "errors": {}
   },
   "actions": {
-    "delete": "http://serveme.tf/api/reservations/12345"
+    "delete": "https://serveme.tf/api/reservations/12345"
   }
 }
 ```
@@ -242,13 +242,13 @@ After the match is over, you can end your reservation
 
 First, you can check your reservation details:
 ```shell
-curl -X GET -H "Content-Type: application/json" 'http://serveme.tf/api/reservations/12345?api_key=your_api_key'
+curl -X GET -H "Content-Type: application/json" 'https://serveme.tf/api/reservations/12345?api_key=your_api_key'
 ```
 
 This JSON response will tell you if the reservation hasn't ended by itself already with the "ended" boolean. If you want to end it yourself, you need to send a HTTP DELETE to the "delete" action URL:
 
 ```shell
-curl -X DELETE -H "Content-Type: application/json" 'http://serveme.tf/api/reservations/12345?api_key=your_api_key'
+curl -X DELETE -H "Content-Type: application/json" 'https://serveme.tf/api/reservations/12345?api_key=your_api_key'
 ```
 
 The "delete" action will respond with a 204 if the reservation was deleted before it was started, else it will respond with a 200 and the reservation's information.

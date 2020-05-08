@@ -14,8 +14,10 @@ class ReservationManager
   end
 
   def end_reservation
+    return if reservation.ended?
+
     reservation.reservation_statuses.create!(status: 'Ending')
-    manage_reservation(:end) unless reservation.ended?
+    manage_reservation(:end)
   end
 
   def update_reservation

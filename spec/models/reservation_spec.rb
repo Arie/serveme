@@ -269,12 +269,9 @@ describe Reservation do
       reservation.should have(1).errors_on(:server_id)
     end
 
-    it "doesn't allow plugins for non donators" do
+    it "allows plugins for non donators" do
       reservation = build :reservation
       reservation.enable_plugins = true
-      reservation.should have(1).errors_on(:enable_plugins)
-
-      reservation.user.stub(donator?: true)
       reservation.should have(:no).errors_on(:enable_plugins)
     end
 

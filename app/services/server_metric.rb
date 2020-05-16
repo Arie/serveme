@@ -31,7 +31,8 @@ class ServerMetric
       parser.players.each do |player|
         next unless player.relevant?
 
-        rp = ReservationPlayer.where(reservation: current_reservation, steam_uid: player.steam_uid).first_or_create(name: player.name, ip: player.ip)
+        name = sanitize_name(player.name)
+        rp = ReservationPlayer.where(reservation: current_reservation, steam_uid: player.steam_uid).first_or_create(name: name, ip: player.ip)
         PlayerStatistic.create!(reservation_player: rp,
                                 ping: player.ping,
                                 loss: player.loss,
@@ -50,5 +51,11 @@ class ServerMetric
 
   def players_playing?
     number_of_players > 0
+  end
+
+  def sanitize_name(name)
+    return "idiot" if ReservationPlayer.idiotic_name?(name)
+
+    name
   end
 end

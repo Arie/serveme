@@ -52,7 +52,7 @@
           .form-check.form-check-inline
             = radio_button_tag :whitelist_type, "default_whitelist", (!@reservation.custom_whitelist_id.present? && !@reservation.whitelist.present?), class: "form-check-input"
             %label.form-check-label{for: "whitelist_type_default_whitelist"}
-              Default
+              From config
           .form-check.form-check-inline
             = radio_button_tag :whitelist_type, "league_whitelist", (@reservation.whitelist_id.present?), class: "form-check-input"
             %label.form-check-label{for: "whitelist_type_league_whitelist"}

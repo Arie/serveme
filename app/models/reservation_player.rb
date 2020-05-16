@@ -7,4 +7,8 @@ class ReservationPlayer < ActiveRecord::Base
 
   geocoded_by :ip
   before_save :geocode, if: :ip_changed?
+
+  def self.idiotic_name?(name)
+    name.include?("﷽")
+  end
 end

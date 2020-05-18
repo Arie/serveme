@@ -57,6 +57,6 @@ class LeagueRequest
   end
 
   def players_query
-    ReservationPlayer.joins(:reservation).where('reservations.starts_at > ?', 1.year.ago).order('reservations.starts_at DESC')
+    ReservationPlayer.joins(:reservation).order('reservations.starts_at DESC')
   end
 end

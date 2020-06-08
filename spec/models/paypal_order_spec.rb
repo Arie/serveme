@@ -73,12 +73,12 @@ describe PaypalOrder do
         PaypalOrder.monthly_goal.should == 50.0
       end
 
-      it 'is 250 for EU' do
-        PaypalOrder.monthly_goal('serveme.tf').should == 250.0
+      it 'is 270 for EU' do
+        PaypalOrder.monthly_goal('serveme.tf').should == 270.0
       end
 
-      it 'is 250 for NA' do
-        PaypalOrder.monthly_goal('na.serveme.tf').should == 250.0
+      it 'is 400 for NA' do
+        PaypalOrder.monthly_goal('na.serveme.tf').should == 400.0
       end
     end
 

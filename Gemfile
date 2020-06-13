@@ -93,7 +93,7 @@ end
 group :test do
   gem 'capybara'
   gem 'cucumber'
-  gem 'cucumber-rails', require: false
+  gem 'cucumber-rails', '~> 2.0', require: false
   gem 'database_cleaner'
   gem 'delorean'
   gem 'json_expressions'

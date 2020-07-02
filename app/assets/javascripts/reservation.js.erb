@@ -161,6 +161,16 @@ $(document).ready(function() {
   }
 
   $("#reservation_starts_at").change(function() {
+
+    startDate = getDateFromDatePicker($(this));
+    endDate = getDateFromDatePicker($("#reservation_ends_at"));
+
+    if(endDate < startDate){
+      newDate = new Date(startDate.getTime() + 7200000);
+      $("#reservation_ends_at").datetimepicker("setUTCDate", newDate)
+    }
+    $("#reservation_ends_at").datetimepicker("setStartDate", $(this).val())
+
     findFreeServers();
   });
 
@@ -213,6 +223,15 @@ $(document).ready(function() {
         }
       })
   });
+
+  function getDateFromDatePicker(element){
+    return $.fn.datetimepicker.DPGlobal.parseDate(
+      element.val(),
+      $.fn.datetimepicker.DPGlobal.parseFormat(datepicker_options.format, 'standard'),
+      "en",
+      'standard'
+    );
+  }
 
   function updateStartsAt() {
     startsAt().change();

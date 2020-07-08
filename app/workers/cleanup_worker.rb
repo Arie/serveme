@@ -10,9 +10,9 @@ class CleanupWorker
   end
 
   def remove_old_reservation_logs_and_zips
-    `find #{Rails.root}/../shared/server_logs/ -type d -ctime +30 -exec rm -rf {} \\;`
-    `find #{Rails.root}/../shared/log/streaming/*.log -type f -mtime +30 -exec rm -f {} \\;`
-    `find #{Rails.root}/../shared/public/uploads/*.zip -type f -mtime +30 -exec rm -f {} \\;`
+    `find /var/www/serveme/shared/server_logs/ -type d -ctime +30 -exec rm -rf {} \\;`
+    `find /var/www/serveme/shared/log/streaming/*.log -type f -mtime +30 -exec rm -f {} \\;`
+    `find /var/www/serveme/shared/public/uploads/*.zip -type f -mtime +30 -exec rm -f {} \\;`
   end
 
   def remove_old_statistics

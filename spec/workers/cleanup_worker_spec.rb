@@ -27,8 +27,6 @@ describe CleanupWorker do
   end
 
   it 'deletes the logs and zip of old reservations and removes server/player stats' do
-    Dir.should_receive(:exist?).with(Rails.root.join('server_logs', old_reservation.id.to_s)).and_return(true)
-    FileUtils.should_receive(:rm_rf).with([Rails.root.join('server_logs', old_reservation.id.to_s), Rails.root.join('public', 'uploads', old_reservation.zipfile_name.to_s)])
     described_class.perform_async
 
     PlayerStatistic.count.should == 0

@@ -262,7 +262,7 @@ GEM
     hive_geoip2 (0.1.2)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
-    i18n (1.8.4)
+    i18n (1.8.5)
       concurrent-ruby (~> 1.0)
     image_processing (1.11.0)
       mini_magick (>= 4.9.5, < 5)
@@ -350,7 +350,7 @@ GEM
       omniauth-openid
     orm_adapter (0.5.0)
     parallel (1.19.2)
-    parallel_tests (3.0.0)
+    parallel_tests (3.1.0)
       parallel
     parser (2.7.1.4)
       ast (~> 2.4.1)

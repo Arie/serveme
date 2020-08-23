@@ -84,9 +84,7 @@ class Server < ActiveRecord::Base
       config_body = generate_config_file(reservation, config_file)
       write_configuration(server_config_file(config_file), config_body)
     end
-    if reservation.custom_whitelist_id.present?
-      write_custom_whitelist(reservation)
-    end
+    write_custom_whitelist(reservation) if reservation.custom_whitelist_id.present?
     reservation.status_update('Finished sending reservation config files')
   end
 
@@ -212,7 +210,7 @@ class Server < ActiveRecord::Base
     remove_configuration
     disable_plugins
     disable_demos_tf
-    rcon_exec("sv_logflush 1; tv_stoprecord; kickall Reservation ended, every player can download the STV demo at http:/​/#{SITE_HOST}")
+    rcon_exec("sv_logflush 1; tv_stoprecord; kickall Reservation ended, every player can download the STV demo at https:/​/#{SITE_HOST}")
     sleep 1 # Give server a second to finish the STV demo and write the log
     reservation.status_update('Removing configuration and disabling plugins')
     zip_demos_and_logs(reservation)
@@ -263,7 +261,7 @@ class Server < ActiveRecord::Base
 
   def rcon_disconnect
     condenser.disconnect
-  rescue Exception => e
+  rescue StandardError => e
     Rails.logger.error "Couldn't disconnect RCON of server #{id} - #{name}, exception: #{e}"
   ensure
     @condenser = nil

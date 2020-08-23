@@ -48,7 +48,7 @@ class GameyeServer < Server
     when 'sea.serveme.tf'
       [
         { id: 'hong_kong', name: 'Hong Kong', flag: 'hk', concurrency_limit: 10 },
-        { id: 'singapore', name: 'Singapore', flag: 'sg', concurrency_limit: 10 },
+        { id: 'singapore', name: 'Singapore', flag: 'sg', concurrency_limit: 10 }
       ]
     when 'na.serveme.tf'
       [

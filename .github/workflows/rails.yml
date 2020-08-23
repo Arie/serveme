@@ -7,7 +7,7 @@
 
 name: Ruby
 on: [push]
-
+jobs:
   tests:
     name: Tests
     runs-on: ubuntu-latest

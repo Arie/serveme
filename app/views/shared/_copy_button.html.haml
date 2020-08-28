@@ -1,5 +1,6 @@
 .clip_container.clipboard-btn{:id => "#{copy_button_id}_container", :data => { :"clipboard-text" => copy_text } }
   .clip_button{:id => copy_button_id, :title => "Copy to clipboard"}
-    %i.fa.fa-copy{:id => "#{copy_button_id}_icon"}>
+    %btn.btn-sm.btn-secondary{id: "#{copy_button_id}_icon"}
+      %i.fa.fa-copy
 :javascript
   new Clipboard("##{copy_button_id}_container");

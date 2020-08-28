@@ -23,6 +23,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Dummy API key
+        run: |
+          echo "STEAM_WEB_API_KEY = 'foo'" > config/initializers/steam.rb
       - name: Install dependencies
         run: |
          sudo add-apt-repository ppa:maxmind/ppa

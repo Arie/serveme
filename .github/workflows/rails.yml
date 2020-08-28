@@ -53,7 +53,7 @@ jobs:
           PGUSER: serveme
           PGPASSWORD: secret
         run: |
-          bin/rails db:setup
+          bin/rails db:create db:migrate
 
       - name: Run tests
         env:

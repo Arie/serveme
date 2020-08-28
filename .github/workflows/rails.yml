@@ -27,7 +27,7 @@ jobs:
         run: |
          sudo add-apt-repository ppa:maxmind/ppa
          sudo apt update
-         sudo apt install libmaxminddb0 libmaxminddb-dev
+         sudo apt install libmaxminddb0 libmaxminddb-dev redis-server
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
       - name: Ruby gem cache

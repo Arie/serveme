@@ -48,7 +48,7 @@ jobs:
       - name: Setup test database
         env:
           RAILS_ENV: test
-          PGHOST: postgres
+          PGHOST: localhost
           PGUSER: serveme
         run: |
           bin/rails db:setup

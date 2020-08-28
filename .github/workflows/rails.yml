@@ -51,11 +51,14 @@ jobs:
           RAILS_ENV: test
           PGHOST: localhost
           PGUSER: serveme
+          PGPASSWORD: secret
         run: |
           bin/rails db:setup
 
       - name: Run tests
         env:
+          RAILS_ENV: test
           PGHOST: localhost
           PGUSER: serveme
+          PGPASSWORD: secret
         run: rake test_with_coveralls

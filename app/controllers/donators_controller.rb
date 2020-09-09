@@ -18,13 +18,7 @@ class DonatorsController < ApplicationController
   end
 
   def create
-    user = User.where(uid: params[:group_user][:user_id]).first
-    if user&.group_users&.create(group_id: Group.donator_group.id, expires_at: params[:group_user][:expires_at])
-      flash[:notice] = 'New donator added'
-      redirect_to donators_path
-    else
-      new
-    end
+    add_or_extend_donator || new
   end
 
   def edit
@@ -48,5 +42,25 @@ class DonatorsController < ApplicationController
 
   def new_donator
     @donator = GroupUser.new(expires_at: 31.days.from_now)
+  end
+
+  def add_or_extend_donator
+    user = User.where(uid: params[:group_user][:user_id]).first
+
+    return false unless user
+
+    if user.donator?
+      gu = user.group_users.where(group_id: Group.donator_group).last
+      duration = (Time.parse(params[:group_user][:expires_at]) - Time.current).to_i
+      old_expires_at = gu.expires_at
+      gu.expires_at = gu.expires_at + duration
+      gu.save
+      puts "Extended donator from #{I18n.l(old_expires_at, format: :long)} to #{I18n.l(gu.expires_at, format: :long)}"
+      flash[:notice] = "Extended donator from #{I18n.l(old_expires_at, format: :long)} to #{I18n.l(gu.expires_at, format: :long)}"
+    else
+      user.group_users&.create(group_id: Group.donator_group.id, expires_at: params[:group_user][:expires_at])
+      flash[:notice] = 'New donator added'
+    end
+    redirect_to donators_path
   end
 end

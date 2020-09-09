@@ -19,28 +19,51 @@ describe DonatorsController do
       end
     end
 
-    context 'for admins'
+    context 'for admins' do
+      it 'assigns the donators variable' do
+        @user.groups << Group.admin_group
 
-    it 'assigns the donators variable' do
-      @user.groups << Group.admin_group
+        donator = create :user
+        donator.groups << Group.donator_group
+        non_donator = create :user
 
-      donator = create :user
-      donator.groups << Group.donator_group
-      non_donator = create :user
+        get :index
 
-      get :index
-
-      assigns(:donators).should     include(donator)
-      assigns(:donators).should_not include(non_donator)
+        assigns(:donators).should     include(donator)
+        assigns(:donators).should_not include(non_donator)
+      end
     end
   end
 
   describe '#create' do
-    it 'renders new again when I forgot to enter a donator' do
+    before do
       @user.groups << Group.admin_group
+    end
 
+    it 'renders new again when I forgot to enter a donator' do
       post :create, params: { group_user: { user_id: nil } }
       response.should render_template(:new)
+    end
+
+    it 'activates a new donator' do
+      non_donator = create :user, uid: 'foobarwidget', name: 'Future', nickname: 'Donator'
+
+      post :create, params: { group_user: { user_id: non_donator.uid, expires_at: 3.months.from_now } }
+
+      expect(non_donator.reload).to be_donator
+    end
+
+    it 'extends an existing donator' do
+      donator = create :user, uid: 'widget', name: 'Existing', nickname: 'Donator'
+      donator.groups << Group.donator_group
+      gu = GroupUser.last
+      gu.expires_at = 10.days.from_now
+      gu.save
+
+      post :create, params: { group_user: { user_id: donator.uid, expires_at: 20.days.from_now } }
+
+      expect(donator.reload).to be_donator
+      expect(gu.reload.expires_at).to be > 29.days.from_now
     end
   end
 

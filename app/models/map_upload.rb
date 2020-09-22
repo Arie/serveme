@@ -52,7 +52,7 @@ class MapUpload < ActiveRecord::Base
        jump_iT_final jump_QuBA koth_airfield_b7 koth_ashville_rc1 koth_badlands
        koth_brazil_rc1 koth_cascade_rc1a koth_clearcut_b9a koth_clearcut_b10a koth_coalplant_b7
        koth_coalplant_b8 koth_harvest koth_harvest_final koth_highpass
-       koth_isla_b14 koth_lakeside_final koth_maple_ridge_b6 koth_nucleus
+       koth_isla_b14 koth_lakeside_final koth_lakeside_r koth_maple_ridge_b6 koth_nucleus
        koth_ordinance_b5 koth_product_pro_rc1 koth_product_rc8 koth_product_rc9
        koth_product_rcx koth_product_ugc koth_pro_viaduct_rc4 koth_stallone_b2
        koth_ultiduo koth_ultiduo_r_b7 koth_viaduct_pro7 koth_warmtic_b6

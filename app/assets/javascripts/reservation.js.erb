@@ -137,13 +137,8 @@ $(document).ready(function() {
 
   function togglePluginsAndDemosTf(target) {
     if (target.prop("checked") == true) {
-      if (canEnablePlugins == true) {
-        enablePlugins().prop("disabled", false);
-        enablePlugins().prop("checked", true)
-      } else {
-        enablePlugins().prop("disabled", true);
-        enablePlugins().prop("checked", true);
-      }
+      enablePlugins().prop("disabled", true);
+      enablePlugins().prop("checked", true);
     } else {
       if (canEnablePlugins == false) {
         enablePlugins().prop("disabled", false);

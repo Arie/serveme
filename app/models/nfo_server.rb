@@ -3,6 +3,10 @@
 class NfoServer < RemoteServer
   include FtpAccess
 
+  def tf_dir
+    '/'
+  end
+
   def restart
     retryable do
       Rails.logger.info("Attempting web control restart of server #{name}")

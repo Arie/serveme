@@ -9,7 +9,7 @@ class NfoServer < RemoteServer
 
   def demos
     @demos ||= begin
-                 list_files(tf_dir, '').select { |file| file.match?(/\.dem$/)}.map { |file| "#{tf_dir}/#{file}" }
+                 list_files('').select { |file| file.match?(/\.dem$/)}.map { |file| "#{tf_dir}/#{file}" }
                end
   end
 

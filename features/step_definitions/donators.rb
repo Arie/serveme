@@ -18,13 +18,13 @@ When "I edit the donator" do
 end
 
 When "I change the expiration date" do
-  fill_in "Expires at", :with => "10-10-2020 10:10"
+  fill_in "Expires at", :with => "10-10-2100 10:10"
   click_button "Update"
 end
 
 Then "I can see the new expiration date" do
   within "tr#user_#{@donator.id}" do
-    page.should have_content "2020-10-10 10:10"
+    page.should have_content "2100-10-10 10:10"
   end
 end
 

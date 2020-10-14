@@ -4,7 +4,19 @@ class NfoServer < RemoteServer
   include FtpAccess
 
   def tf_dir
-    '/'
+    '/tf'
+  end
+
+  def demos
+    @demos ||= begin
+                 list_files(tf_dir, '').select { |file| file.match?(/\.dem$/)}.map { |file| "#{tf_dir}/#{file}" }
+               end
+  end
+
+  def logs
+    @logs ||=  begin
+                 list_files('logs', '').map { |file| "#{tf_dir}/logs/#{file}" }
+               end
   end
 
   def restart

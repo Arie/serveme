@@ -24,6 +24,28 @@ describe MapUpload do
     subject.errors.full_messages.should == ['File map blacklisted, causes server instability']
   end
 
+  it 'rejects blacklisted game types' do
+    filenames = [
+      'trade_foobarwidget.bsp',
+      'vsh_foobarwidget.bsp',
+      'mvm_foobarwidget.bsp',
+      'jail_foobarwidget.bsp',
+      'achievement_foobarwidget.bsp',
+      'TRADE_foobarwidget.bsp',
+      'VSH_foobarwidget.bsp',
+      'MVM_foobarwidget.bsp',
+      'JAIL_foobarwidget.bsp',
+      'ACHIEVEMENT_foobarwidget.bsp',
+    ]
+    filenames.each do |filename|
+      file = double(:file, filename: filename)
+      map_upload = described_class.new
+      map_upload.stub(file: file)
+      map_upload.validate_not_blacklisted_type
+      map_upload.errors.full_messages.should == ['File game type not allowed']
+    end
+  end
+
   context 'archives', :map_archive do
     context 'zip' do
       it 'extracts the zip when uploading a zip' do

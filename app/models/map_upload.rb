@@ -11,6 +11,7 @@ class MapUpload < ActiveRecord::Base
   validate :validate_not_already_present,   unless: :archive?
   validate :validate_file_is_a_bsp,         unless: :archive?
   validate :validate_not_blacklisted,       unless: :archive?
+  validate :validate_not_blacklisted_type,  unless: :archive?
 
   after_create :process_maps
   after_create :remove_uploaded_file, if: :zip?
@@ -82,6 +83,13 @@ class MapUpload < ActiveRecord::Base
     errors.add(:file, 'map blacklisted, causes server instability')
   end
 
+  def validate_not_blacklisted_type
+    return unless file.filename && self.class.blacklisted_type?(file.filename)
+
+    errors.add(:file, 'game type not allowed')
+  end
+
+
   def maps_with_full_path
     maps.collect do |map|
       File.join(MAPS_DIR, map)
@@ -106,6 +114,11 @@ class MapUpload < ActiveRecord::Base
   def self.blacklisted?(filename)
     target_filename = filename.match(/(^.*\.bsp)/)[1]
     BLACKLIST.include?(target_filename)
+  end
+
+  def self.blacklisted_type?(filename)
+    target_filename = filename.match(/(^.*\.bsp)/)[1]
+    target_filename && target_filename =~ /^(trade_.*|vsh_.*|mvm_.*|jail_.*|achievement_.*)/i
   end
 
   def bzip2_uploaded_maps
@@ -143,7 +156,7 @@ class MapUpload < ActiveRecord::Base
     target_filename = filename.match(/(^.*\.bsp)\.bz2/)[1]
     maps = []
 
-    return if self.class.map_exists?(target_filename) || self.class.blacklisted?(target_filename)
+    return if self.class.map_exists?(target_filename) || self.class.blacklisted?(target_filename) || self.class.blacklisted_type?(target_filename)
 
     Rails.logger.info "Extracting #{target_filename} from #{filename} upload ##{id} (BZ2)"
     data = RBzip2.default_adapter::Decompressor.new(File.new(source_file)).read

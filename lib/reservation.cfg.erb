@@ -49,16 +49,7 @@ tf_birthday 0
 tf_birthday_ball_chance 0
 
 <% if server_config %>
-<% if server_config.to_s.start_with?("etf2l_6v6") %>
-<%= "tftrue_tournament_config 1" %>
-<% elsif server_config.to_s.start_with?("etf2l_9v9") %>
-<%= "tftrue_tournament_config 2" %>
-<% else %>
-<%= "tftrue_tournament_config 0" %>
-<% end %>
 <%= "exec #{server_config}" %>
-<% else %>
-<%= "tftrue_tournament_config 0" %>
 <% end %>
 <% if custom_whitelist_id.present? %>
 <%= %{tftrue_whitelist_id #{custom_whitelist_id}} %>

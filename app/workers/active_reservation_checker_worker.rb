@@ -16,7 +16,7 @@ class ActiveReservationCheckerWorker
         server_info.get_stats
         server_info.get_rcon_status
         ServerMetric.new(server_info)
-        server.rcon_exec "sv_logsecret #{reservation.logsecret}"
+        server.rcon_exec "sv_logsecret #{reservation.logsecret}; banid 0 [U:1:887597958] kick"
       rescue SteamCondenser::Error, Errno::ECONNREFUSED
         Rails.logger.warn "Couldn't update #{reservation.server.name}"
       end

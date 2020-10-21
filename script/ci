@@ -1,6 +1,7 @@
 #!/bin/bash
 `echo "STEAM_WEB_API_KEY = 'foo'" > config/initializers/steam.rb`
 export RAILS_ENV=test
+export CUCUMBER_PUBLISH_QUIET=true
 
 run() {
   time bundle exec $*

@@ -10,6 +10,11 @@
   .col-md-12
 
     %table.table.table-hover.table-bordered.table-striped
+      - if current_user.admin? || current_user.streamer?
+        %tr
+          %td Reserved by
+          %td
+            = link_to(reservation.user.nickname, reservation.user.steam_profile_url, target: "_blank")
       %tr
         %td Status
         %td

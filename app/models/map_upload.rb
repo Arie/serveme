@@ -43,7 +43,7 @@ class MapUpload < ActiveRecord::Base
        cp_granary_pro_rc10 cp_granary_pro_rc8 cp_granary_pro_rc9 cp_gullywash
        cp_gullywash_final1 cp_gullywash_pro cp_kalinka_rc5 cp_logjam_rc10a
        cp_logjam_rc11 cp_logjam_rc10 cp_logjam_rc8 cp_logjam_rc9 cp_metalworks_rc7
-       cp_mojave_b2 cp_orange_x3 cp_process_a1 cp_process_final
+       cp_mojave_b2 cp_orange_x3 cp_process_a1 cp_process_f5 cp_process_final
        cp_prolands_b5 cp_prolands_b6 cp_prolands_rc1 cp_prolands_rc2p cp_prolands_rc2t
        cp_propaganda_b15 cp_propaganda_b16 cp_reckoner_rc2 cp_snakewater cp_snakewater_final1
        cp_snakewater_u14 cp_snakewater_u18 cp_steel cp_sunshine cp_sunshine_event
@@ -89,7 +89,6 @@ class MapUpload < ActiveRecord::Base
     errors.add(:file, 'game type not allowed')
   end
 
-
   def maps_with_full_path
     maps.collect do |map|
       File.join(MAPS_DIR, map)
@@ -100,8 +99,8 @@ class MapUpload < ActiveRecord::Base
     return unless maps_with_full_path.any?
 
     UploadFilesToServersWorker.perform_async(files: maps_with_full_path,
-                                              destination: 'maps',
-                                              overwrite: false)
+                                             destination: 'maps',
+                                             overwrite: false)
   end
 
   def self.map_exists?(filename)
@@ -156,7 +155,9 @@ class MapUpload < ActiveRecord::Base
     target_filename = filename.match(/(^.*\.bsp)\.bz2/)[1]
     maps = []
 
-    return if self.class.map_exists?(target_filename) || self.class.blacklisted?(target_filename) || self.class.blacklisted_type?(target_filename)
+    if self.class.map_exists?(target_filename) || self.class.blacklisted?(target_filename) || self.class.blacklisted_type?(target_filename)
+      return
+    end
 
     Rails.logger.info "Extracting #{target_filename} from #{filename} upload ##{id} (BZ2)"
     data = RBzip2.default_adapter::Decompressor.new(File.new(source_file)).read

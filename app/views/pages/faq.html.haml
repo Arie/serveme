@@ -23,7 +23,7 @@
       .card-header.text-white
         Q: Free huh? I guess these servers run on toasters with 3rd world internet!
       .card-body
-        %em A: Our servers are provided by community members with years of experience running TF2 servers. And we're not tied to one location or country, so if you have a bad routing to one server, you can try another in a different location/country.
+        %em A: Our servers are provided by community members with years of experience running TF2 servers. And we're not tied to one location or country, so if you have lag or bad routing to a server, you can try another in a different location/country.
 
     .card.bg-faded
       .card-header.text-white
@@ -45,15 +45,15 @@
             %li Longer reservations (5h instead of 2h)
             %li Ability to upload maps
             %li Easier extension of reservations (1h at a time instead of 20m)
-            %li More than 1 future reservation allowed
-            %li Allowed to make reservations more than 3 hours in the future
+            %li More than 1 reservation at a time allowed
+            %li Make reservations more than 3 hours in advance
         = render "shared/paypal_button"
 
     .card.bg-faded
       .card-header.text-white
-        Q: Can I use serveme for MvM?
+        Q: Can I use serveme for MvM or to play by myself against a lot of bots?
       .card-body
-        %em A: Nope, sorry. MvM is about twice as resource intensive as a highlander match, and that might cause other games on the same server to lag.
+        %em A: Nope, sorry. MvM and lots of TF2 bots are too resource intensive.
 
     .card.bg-faded
       .card-header.text-white
@@ -67,21 +67,21 @@
         Q: How do I manage the server?
       .card-body
         %em
-          A: The RCON password is your "admin password", if you have it, you can do all the server commands with it that normal users without it can't.
-          To use it, type "rcon_password PASSWORD" in console, and if you aren't in the server, you must also do "rcon_address IP:PORT".
+          A: The RCON password is the server admin password, with it, you can execute commands on the server.
+          To use it, type "rcon_password THE-RCON-PASSWORD-OF-YOUR-RESERVATION" in console while connected to the server.
 
     .card.bg-faded
       .card-header.text-white
         Q: What commands are available inside the server chat?
       .card-body
         %em
-          A: If you are the one that has reserved the server. Here are some handy commands you can use from within the server chat:
+          A: If you booked the server, here are some handy admin commands you can use in chat:
           %table.table
             %tr
               %td
-                !rcon
+                !rcon command-goes-here
               %td
-                This runs whatever you placed after the cmd (with a space as rcon) for example you can run "```!rcon changelevel koth_product```" to change the map on the server to koth_product
+                This runs a command on the server, for example you can run "```!rcon changelevel koth_product```" to change the map on the server to koth_product
             %tr
               %td
                 !extend
@@ -100,12 +100,12 @@
             %td
               !who
             %td
-              Returns the name of the user that reserved the server
+              Steam nickname of the person that reserved the server
           %tr
             %td
               !timeleft
             %td
-              Lists the number of minutes left in the reservation
+              Minutes left in the reservation
 
     .card.bg-faded
       .card-header.text-white
@@ -120,7 +120,7 @@
         Q: What maps are there?
       .card-body
         %em
-          A: You can simply type "rcon maps *" for the console to list you all the maps installed on the server. There are quite a few, and premium users can add new maps.
+          A: You can simply type "rcon maps *" for the console to list you all the maps installed on the server. There are quite a few, and with premium you can upload new maps.
 
     .card.bg-faded
       .card-header.text-white
@@ -143,9 +143,9 @@
                 ugc_6v_stopwatch, ugc_HL_ctf, ugc_HL_dom, ugc_HL_koth, ugc_HL_standard, ugc_HL_stopwatch, ugc_HL_tugofwar
             %tr
               %td
-                %span.badge.badge-success ESEA:
+                %span.badge.badge-success RGL:
               %td
-                esea/ctf, esea/koth, esea/push, esea/stopwatch
+                rgl_6s_5cp_scrim, rgl_7s_koth_bo5, rgl_HL_stopwatch
     .card.bg-faded
       .card-header.text-white
         Q: I want to use serveme.tf in one of my own projects, is there an API?
@@ -160,7 +160,7 @@
         Q: What does "1-click-server" mean?
       .card-body
         %em
-          A: When you press this button, we try to make a reservation based on your previous one with just 1 click. Same settings, same server, 2 hour reservation starting now. If your previous server is in use, we'll try a server on the same machine. If all servers on the machine are busy, we'll try a server in the same country. If all those are busy we try any server that's free and available for you.
+          A: When you press this button, we try to make a reservation based on your previous one. Same settings, same server, 2 hour reservation starting now. If your previous server is in use, we'll try a server on the same machine. If all servers on the machine are busy, we'll try a server in the same country. If all those are busy we try any server that's free and available for you.
 
     .card.bg-faded
       .card-header.text-white

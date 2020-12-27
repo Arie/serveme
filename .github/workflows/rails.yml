@@ -61,4 +61,4 @@ jobs:
           PGHOST: localhost
           PGUSER: serveme
           PGPASSWORD: secret
-        run: rake test_with_coveralls
+        run: bundle exec rake test_with_coveralls

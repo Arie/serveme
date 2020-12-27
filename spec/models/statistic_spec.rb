@@ -62,7 +62,9 @@ describe Statistic do
     end
 
     it 'returns an array with reservations per date' do
-      Statistic.reservations_per_day.should == [[tomorrow.to_date.to_s, 3]]
+      stats = Statistic.reservations_per_day
+      count = stats.first.last
+      count.should == 3
     end
   end
 

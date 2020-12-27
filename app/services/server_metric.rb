@@ -54,7 +54,7 @@ class ServerMetric
   end
 
   def sanitize_name(name)
-    return "idiot" if ReservationPlayer.idiotic_name?(name)
+    return "banned" if ReservationPlayer.banned_name?(name)
 
     name
   end

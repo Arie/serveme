@@ -9,7 +9,10 @@ class ServerMetric
     @server_info = server_info
     if current_reservation
       save_server_statistics
-      save_player_statistics if players_playing?
+      if players_playing?
+        save_player_statistics
+        remove_banned_players
+      end
     end
     nil
   end
@@ -26,7 +29,6 @@ class ServerMetric
   end
 
   def save_player_statistics
-    parser = RconStatusParser.new(server_info.get_rcon_status)
     PlayerStatistic.transaction do
       parser.players.each do |player|
         next unless player.relevant?
@@ -39,6 +41,19 @@ class ServerMetric
                                 minutes_connected: player.minutes_connected)
       end
     end
+  end
+
+  def remove_banned_players
+    parser.players.each do |player|
+      if ReservationPlayer.banned_uid?(player.steam_uid)
+        uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(player.steam_uid.to_i)
+        server.rcon_exec "banid 0 #{uid3} kick"
+      end
+    end
+  end
+
+  def parser
+    @parser ||= RconStatusParser.new(server_info.get_rcon_status)
   end
 
   def current_reservation

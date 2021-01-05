@@ -36,7 +36,6 @@ jobs:
   rubocop:
     name: Rubocop
     runs-on: ubuntu-latest
-    needs: [ruby-dependencies]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2

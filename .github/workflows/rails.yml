@@ -8,30 +8,18 @@
 name: Ruby
 on: [push]
 jobs:
-  tests:
-    name: Tests
+  ruby_dependencies:
+    name: Ruby dependencies
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:11
-        env:
-          POSTGRES_USER: serveme
-          POSTGRES_DB: serveme_test
-          POSTGRES_PASSWORD: secret
-        ports: ["5432:5432"]
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Dummy API key
-        run: |
-          echo "STEAM_WEB_API_KEY = 'foo'" > config/initializers/steam.rb
       - name: Install dependencies
         run: |
-         sudo add-apt-repository ppa:maxmind/ppa
-         sudo apt update
-         sudo apt install libmaxminddb0 libmaxminddb-dev redis-server memcached
+          sudo add-apt-repository ppa:maxmind/ppa
+          sudo apt update
+          sudo apt install libmaxminddb0 libmaxminddb-dev redis-server memcached
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
       - name: Ruby gem cache
@@ -45,7 +33,46 @@ jobs:
         run: |
           bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
+  rubocop:
+    name: Rubocop
+    runs-on: ubuntu-latest
+    needs: [ruby-dependencies]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+      - name: Install Rubocop
+        run: gem install rubocop
+      - name: Check code
+        run: rubocop
+  rspec:
+    name: RSpec
+    runs-on: ubuntu-latest
+    needs: [ruby-dependencies]
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_USER: serveme
+          POSTGRES_DB: serveme_test
+          POSTGRES_PASSWORD: secret
+        ports: ["5432:5432"]
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+      - name: Install dependencies
+        run: |
+          sudo add-apt-repository ppa:maxmind/ppa
+          sudo apt update
+          sudo apt install libmaxminddb0 libmaxminddb-dev redis-server memcached
+      - name: Dummy API key
+        run: |
+          echo "STEAM_WEB_API_KEY = 'foo'" > config/initializers/steam.rb
       - name: Setup test database
         env:
           RAILS_ENV: test
@@ -55,10 +82,54 @@ jobs:
         run: |
           bin/rails db:create db:migrate
 
-      - name: Run tests
+      - name: Run RSpec tests
         env:
           RAILS_ENV: test
           PGHOST: localhost
           PGUSER: serveme
           PGPASSWORD: secret
-        run: bundle exec rake test_with_coveralls
+        run: bundle exec rspec spec
+
+  cucumber:
+    name: Cucumber
+    runs-on: ubuntu-latest
+    needs: [ruby-dependencies]
+
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_USER: serveme
+          POSTGRES_DB: serveme_test
+          POSTGRES_PASSWORD: secret
+        ports: ["5432:5432"]
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+      - name: Install dependencies
+        run: |
+          sudo add-apt-repository ppa:maxmind/ppa
+          sudo apt update
+          sudo apt install libmaxminddb0 libmaxminddb-dev redis-server memcached
+      - name: Dummy API key
+        run: |
+          echo "STEAM_WEB_API_KEY = 'foo'" > config/initializers/steam.rb
+      - name: Setup test database
+        env:
+          RAILS_ENV: test
+          PGHOST: localhost
+          PGUSER: serveme
+          PGPASSWORD: secret
+        run: |
+          bin/rails db:create db:migrate
+      - name: Run Cucumber features
+        env:
+          RAILS_ENV: test
+          PGHOST: localhost
+          PGUSER: serveme
+          PGPASSWORD: secret
+        run: bundle exec cucumber features

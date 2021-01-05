@@ -1,4 +1,4 @@
-default:  --strict
+default:  --strict --publish-quiet  
 wip: --tags @wip --wip --format pretty
 ci: COVERAGE=on --format progress --strict
 todo: --tags @todo --wip --format pretty

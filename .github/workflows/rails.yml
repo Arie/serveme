@@ -69,9 +69,10 @@ jobs:
           sudo add-apt-repository ppa:maxmind/ppa
           sudo apt update
           sudo apt install libmaxminddb0 libmaxminddb-dev redis-server memcached
-      - name: Dummy API key
+      - name: Install gems
         run: |
-          echo "STEAM_WEB_API_KEY = 'foo'" > config/initializers/steam.rb
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
       - name: Setup test database
         env:
           RAILS_ENV: test
@@ -114,9 +115,10 @@ jobs:
           sudo add-apt-repository ppa:maxmind/ppa
           sudo apt update
           sudo apt install libmaxminddb0 libmaxminddb-dev redis-server memcached
-      - name: Dummy API key
+      - name: Install gems
         run: |
-          echo "STEAM_WEB_API_KEY = 'foo'" > config/initializers/steam.rb
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
       - name: Setup test database
         env:
           RAILS_ENV: test

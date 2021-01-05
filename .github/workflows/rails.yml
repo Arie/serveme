@@ -8,7 +8,7 @@
 name: Ruby
 on: [push]
 jobs:
-  ruby_dependencies:
+  ruby-dependencies:
     name: Ruby dependencies
     runs-on: ubuntu-latest
 

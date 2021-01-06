@@ -50,6 +50,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Dummy API key
+        run: echo "STEAM_WEB_API_KEY = 'foo'" > config/initializers/steam.rb
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
       - name: Install dependencies
@@ -96,6 +98,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Dummy API key
+        run: echo "STEAM_WEB_API_KEY = 'foo'" > config/initializers/steam.rb
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
       - name: Install dependencies

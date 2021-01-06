@@ -22,13 +22,8 @@ jobs:
           sudo apt install libmaxminddb0 libmaxminddb-dev redis-server memcached
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
-      - name: Ruby gem cache
-        uses: actions/cache@v1
         with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
+          bundler-cache: true
       - name: Install gems
         run: |
           bundle config path vendor/bundle
@@ -54,6 +49,8 @@ jobs:
         run: echo "STEAM_WEB_API_KEY = 'foo'" > config/initializers/steam.rb
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
       - name: Install dependencies
         run: |
           sudo add-apt-repository ppa:maxmind/ppa
@@ -102,6 +99,8 @@ jobs:
         run: echo "STEAM_WEB_API_KEY = 'foo'" > config/initializers/steam.rb
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
       - name: Install dependencies
         run: |
           sudo add-apt-repository ppa:maxmind/ppa

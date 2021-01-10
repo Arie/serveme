@@ -42,14 +42,14 @@ class LogUploadsController < ApplicationController
 
   def reservation
     @reservation ||= begin
-                        if params[:reservation_id].to_i > 0
-                          if current_admin
-                            Reservation.find(params[:reservation_id].to_i)
-                          else
-                            current_user.reservations.find(params[:reservation_id].to_i)
-                          end
-                        end
-                      end
+      if params[:reservation_id].to_i.positive?
+        if current_admin
+          Reservation.find(params[:reservation_id].to_i)
+        else
+          current_user.reservations.find(params[:reservation_id].to_i)
+        end
+      end
+    end
   end
   helper_method :reservation
 

@@ -76,8 +76,8 @@ class User < ActiveRecord::Base
     group_users.find_by_group_id(Group.donator_group)&.expires_at
   end
 
-  def has_private_server_option?
-    @has_private_server_option ||=
+  def private_server_option?
+    @private_server_option ||=
       begin
         groups.include?(Group.private_user(self))
       end

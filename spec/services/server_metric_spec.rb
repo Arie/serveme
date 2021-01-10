@@ -46,8 +46,8 @@ Loaded plugins:
 
   before do
     server_info.stub(status: server_info_hash,
-                     get_stats: rcon_stats_output,
-                     get_rcon_status: rcon_status_output)
+                     fetch_stats: rcon_stats_output,
+                     fetch_rcon_status: rcon_status_output)
   end
 
   it 'creates server and player statistics' do

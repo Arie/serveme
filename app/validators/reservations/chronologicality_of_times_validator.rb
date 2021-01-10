@@ -3,9 +3,7 @@
 module Reservations
   class ChronologicalityOfTimesValidator < ActiveModel::Validator
     def validate(record)
-      if validatable?(record) && (record.starts_at + 30.minutes) > record.ends_at
-        record.errors.add(:ends_at, 'needs to be at least 30 minutes after start time')
-      end
+      record.errors.add(:ends_at, 'needs to be at least 30 minutes after start time') if validatable?(record) && (record.starts_at + 30.minutes) > record.ends_at
     end
 
     def validatable?(record)

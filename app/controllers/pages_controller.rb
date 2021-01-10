@@ -11,10 +11,10 @@ class PagesController < ApplicationController
   caches_action :credits,           unless: :current_user, cache_path: -> { "credits_#{Time.zone}" },           expires_in: 1.minute
 
   def welcome
-    if current_user
-      @users_reservations = current_user.reservations.includes(user: :groups, server: :location).ordered.first(5)
-      @users_games        = Reservation.played_in(current_user.uid).includes(user: :groups, server: :location).limit(5)
-    end
+    return unless current_user
+
+    @users_reservations = current_user.reservations.includes(user: :groups, server: :location).ordered.first(5)
+    @users_games        = Reservation.played_in(current_user.uid).includes(user: :groups, server: :location).limit(5)
   end
 
   def credits; end
@@ -39,9 +39,7 @@ class PagesController < ApplicationController
   end
 
   def error
-    if Rails.env.production? && request.env['action_dispatch.exception']
-      Raven.capture_exception(request.env['action_dispatch.exception'])
-    end
+    Raven.capture_exception(request.env['action_dispatch.exception']) if Rails.env.production? && request.env['action_dispatch.exception']
     render 'error', status: 500, formats: :html
   end
 end

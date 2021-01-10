@@ -20,7 +20,7 @@
 
     - if !reservation.end_instantly?
 
-      - if reservation.has_players?
+      - if reservation.players_playing?
         - end_message = "Are you sure you want to end your reservation? There #{I18n.t(:were_x_players_left, :count => reservation.last_number_of_players, :scope => :server)} left on the server at #{I18n.l(Time.zone.now, :format => :time_without_seconds)}"
       - else
         - end_message = "Are you sure you want to end your reservation?"

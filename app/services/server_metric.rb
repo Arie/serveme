@@ -7,14 +7,15 @@ class ServerMetric
 
   def initialize(server_info)
     @server_info = server_info
-    if current_reservation
-      save_server_statistics
-      if players_playing?
-        save_player_statistics
-        remove_banned_players
-      end
-    end
-    nil
+
+    return unless current_reservation
+
+    save_server_statistics
+
+    return unless players_playing?
+
+    save_player_statistics
+    remove_banned_players
   end
 
   def save_server_statistics
@@ -53,7 +54,7 @@ class ServerMetric
   end
 
   def parser
-    @parser ||= RconStatusParser.new(server_info.get_rcon_status)
+    @parser ||= RconStatusParser.new(server_info.fetch_rcon_status)
   end
 
   def current_reservation
@@ -65,11 +66,11 @@ class ServerMetric
   end
 
   def players_playing?
-    number_of_players > 0
+    number_of_players.positive?
   end
 
   def sanitize_name(name)
-    return "banned" if ReservationPlayer.banned_name?(name)
+    return 'banned' if ReservationPlayer.banned_name?(name)
 
     name
   end

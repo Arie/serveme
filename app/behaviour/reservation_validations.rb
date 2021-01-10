@@ -14,7 +14,7 @@ module ReservationValidations
       validates_with Reservations::OnlyOneFutureReservationPerUserValidator,  unless: :donator?
       validates_with Reservations::StartsNotTooFarInFutureValidator,          unless: :donator?
       validates_with Reservations::MapIsValidValidator
-      validates_with Reservations::GameyeLocationSelectedValidator,           if: :gameye?
+      validates_with Reservations::GameyeLocationSelectedValidator, if: :gameye?
       validates_with Reservations::CustomWhitelistValidator
 
       def check_server_available?

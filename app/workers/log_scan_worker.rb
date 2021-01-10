@@ -5,7 +5,7 @@ class LogScanWorker
 
   sidekiq_options retry: false
 
-  attr_accessor :reservation_id, :players, :logs_tf_uploads
+  attr_accessor :reservation_id
 
   def perform(reservation_id)
     @reservation_id = reservation_id

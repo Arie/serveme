@@ -72,14 +72,14 @@ describe ServerInfo do
     end
   end
 
-  describe '#get_rcon_status' do
+  describe '#fetch_rcon_status' do
     it 'auths and uses rcon to get the status' do
       subject.should_receive(:auth)
       server_connection = double
       subject.stub(server_connection: server_connection)
       server_connection.should_receive(:rcon_exec).with('status').and_return ''
 
-      subject.get_rcon_status
+      subject.fetch_rcon_status
     end
   end
 
@@ -87,7 +87,7 @@ describe ServerInfo do
     before do
       rcon_stats_output = %|CPU    In (KB/s)  Out (KB/s)  Uptime  Map changes  FPS      Players  Connects
                             24.88  35.29      54.48       6       2            66.67    9        12|
-      subject.stub(get_stats: rcon_stats_output)
+      subject.stub(fetch_stats: rcon_stats_output)
     end
 
     describe '#stats' do
@@ -172,7 +172,7 @@ Loaded plugins:
 ---------------------
 0:	"TFTrue v4.75, AnAkkk"
 ---------------------|
-      subject.stub(get_rcon_status: rcon_status_output)
+      subject.stub(fetch_rcon_status: rcon_status_output)
       subject.server_name.should eql 'FakkelBrigade #1'
       subject.map_name.should eql 'ctf_turbine'
       subject.max_players.should eql '33'
@@ -180,13 +180,13 @@ Loaded plugins:
     end
 
     it 'returns an empty hash if something went wrong' do
-      subject.stub(:get_rcon_status).and_raise(SteamCondenser::Error.new('BOOM'))
+      subject.stub(:fetch_rcon_status).and_raise(SteamCondenser::Error.new('BOOM'))
 
       expect(subject.status).to eql({})
     end
   end
 
-  describe '#get_stats' do
+  describe '#fetch_stats' do
     before { Rails.cache.clear }
 
     it 'gets server info from the rcon based server information' do
@@ -194,7 +194,7 @@ Loaded plugins:
       subject.stub(server_connection: server_connection)
       server.stub(:rcon_auth)
       server_connection.should_receive(:rcon_exec).with('stats')
-      subject.get_stats
+      subject.fetch_stats
     end
   end
 end

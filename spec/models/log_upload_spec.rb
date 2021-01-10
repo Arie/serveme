@@ -22,6 +22,7 @@ describe LogUpload do
       LogsTF::Log.should_receive(:new).with(nil, nil, nil, 'api_key').and_return(log)
       LogsTF::Upload.should_receive(:new).with(log).and_return(upload)
       upload.should_receive(:send)
+      upload.should_receive(:url)
       subject.upload
     end
   end

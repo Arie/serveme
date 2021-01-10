@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class FindPlayersInLog
-  attr_accessor :log, :players
+  attr_accessor :log
 
   PLAYER_JOINED_REGEX = /L (?'time'.*): "(?'player_nick'.+)<(?'player_uid'\d+)><(?'player_steamid'(\[\S+\]|STEAM_\S+))><>" STEAM USERID validated/.freeze
 

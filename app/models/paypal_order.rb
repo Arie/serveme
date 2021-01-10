@@ -70,6 +70,6 @@ class PaypalOrder < Order
   private
 
   def format_price(price)
-    sprintf('%.2f' % price.round(2))
+    format('%.2f', price.round(2))
   end
 end

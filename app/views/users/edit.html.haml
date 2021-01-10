@@ -14,7 +14,7 @@
     %button.btn.btn-primary{:type => :submit}
       Save
 
-- if current_user.has_private_server_option?
+- if current_user.private_server_option?
   %h2 Your private server
 
   :javascript
@@ -59,11 +59,11 @@
 :javascript
   $(document).ready(function() {
     $("#user_time_zone").select2();
-    $("#private_server_server_id").select2("enable", #{current_user.has_private_server_option?});
+    $("#private_server_server_id").select2("enable", #{current_user.private_server_option?});
     $("#private_server_server_id").select2("val", $("#private_server_server_id").val());
   });
 
-= if current_user.has_private_server_option?
+= if current_user.private_server_option?
   :javascript
     $(document).ready(function() {
       $("#private_server_server_id").select2({

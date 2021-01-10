@@ -33,7 +33,7 @@ class ServerInfo
   def status
     Rails.cache.fetch "server_info_#{server.id}", expires_in: 1.minute do
       out = {}
-      get_rcon_status.lines.each do |line|
+      fetch_rcon_status.lines.each do |line|
         case line
         when /^hostname\W+(.*)$/
           out[:server_name] ||= Regexp.last_match(1)
@@ -50,14 +50,14 @@ class ServerInfo
     end
   end
 
-  def get_stats
+  def fetch_stats
     Rails.cache.fetch "stats_#{server.id}", expires_in: 1.minute do
       auth
       server_connection.rcon_exec('stats').freeze
     end
   end
 
-  def get_rcon_status
+  def fetch_rcon_status
     Rails.cache.fetch "rcon_status_#{server.id}", expires_in: 1.minute do
       auth
       ActiveSupport::Multibyte::Chars.new(server_connection.rcon_exec('status')).tidy_bytes.to_s
@@ -96,7 +96,7 @@ class ServerInfo
     stats_line = ''
     # CPU    In (KB/s)  Out (KB/s)  Uptime  Map changes  FPS      Players  Connects
     # 24.88  35.29      54.48       6       2            66.67    9        12
-    get_stats.each_line do |line|
+    fetch_stats.each_line do |line|
       stats_line = line
     end
     items = stats_line.split(' ')

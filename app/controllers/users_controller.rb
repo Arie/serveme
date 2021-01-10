@@ -4,13 +4,11 @@ class UsersController < ApplicationController
   def edit
     @user = current_user
     @vouchers = current_user.vouchers.includes(:product, :claimed_by)
-    @private_server = PrivateServer.new if @user.has_private_server_option?
+    @private_server = PrivateServer.new if @user.private_server_option?
   end
 
   def update
-    if current_user.update(user_params)
-      flash[:notice] = 'Settings saved'
-    end
+    flash[:notice] = 'Settings saved' if current_user.update(user_params)
     redirect_to root_path
   end
 

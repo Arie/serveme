@@ -155,9 +155,7 @@ class MapUpload < ActiveRecord::Base
     target_filename = filename.match(/(^.*\.bsp)\.bz2/)[1]
     maps = []
 
-    if self.class.map_exists?(target_filename) || self.class.blacklisted?(target_filename) || self.class.blacklisted_type?(target_filename)
-      return
-    end
+    return if self.class.map_exists?(target_filename) || self.class.blacklisted?(target_filename) || self.class.blacklisted_type?(target_filename)
 
     Rails.logger.info "Extracting #{target_filename} from #{filename} upload ##{id} (BZ2)"
     data = RBzip2.default_adapter::Decompressor.new(File.new(source_file)).read

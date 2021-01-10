@@ -2,6 +2,7 @@
 
 class ReservationManager
   attr_reader :reservation
+
   delegate :server, to: :reservation, prefix: false
 
   def initialize(reservation)

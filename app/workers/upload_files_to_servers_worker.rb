@@ -6,7 +6,7 @@ class UploadFilesToServersWorker
   def perform(options)
     files = options['files']
     destination = options['destination']
-    overwrite = options.fetch('overwrite') { true }
+    overwrite = options.fetch('overwrite', true)
 
     self.class.servers.each do |s|
       if overwrite == false
@@ -18,9 +18,7 @@ class UploadFilesToServersWorker
         files_to_copy = files
       end
       Rails.logger.info "Copying to server #{s.name}: #{files_to_copy.join(', ')}"
-      if files_to_copy.any?
-        s.copy_to_server(files_to_copy, File.join(s.tf_dir, destination))
-      end
+      s.copy_to_server(files_to_copy, File.join(s.tf_dir, destination)) if files_to_copy.any?
     end
   end
 

@@ -33,7 +33,7 @@ class LogUpload < ActiveRecord::Base
       logs_tf_upload.send
       message = 'success'
       url     = logs_tf_upload.url
-    rescue Exception => e
+    rescue StandardError => e
       message = e.message
     ensure
       update_attributes(status: message, url: url.to_s)

@@ -37,7 +37,7 @@ module ReservationServerInformation
     "#{SITE_URL}/uploads/#{zipfile_name}"
   end
 
-  def has_players?
-    last_number_of_players.to_i > 0
+  def players_playing?
+    last_number_of_players.to_i.positive?
   end
 end

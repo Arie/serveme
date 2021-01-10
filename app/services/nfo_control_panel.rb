@@ -21,15 +21,11 @@ class NfoControlPanel
       if select
         select.click
         agent.submit(control_form, control_form.buttons.first)
-      else
-        if Rails.env.production?
-          Raven.capture_message("NFO restart error, couldn't find server restart option in page", extra: { page: page.inspect })
-        end
+      elsif Rails.env.production?
+        Raven.capture_message("NFO restart error, couldn't find server restart option in page", extra: { page: page.inspect })
       end
-    else
-      if Rails.env.production?
-        Raven.capture_message('NFO restart error', extra: { page: page.inspect })
-      end
+    elsif Rails.env.production?
+      Raven.capture_message('NFO restart error', extra: { page: page.inspect })
     end
   end
 
@@ -37,13 +33,13 @@ class NfoControlPanel
 
   def login
     @login ||= begin
-                 page = agent.get(login_url)
-                 signin_form = page.form('form')
-                 signin_form.email     = NFO_EMAIL
-                 signin_form.password  = NFO_PASSWORD
-                 agent.submit(signin_form, signin_form.buttons.first)
-                 agent.cookie_jar.save_as(cookie_jar_file)
-               end
+      page = agent.get(login_url)
+      signin_form = page.form('form')
+      signin_form.email     = NFO_EMAIL
+      signin_form.password  = NFO_PASSWORD
+      agent.submit(signin_form, signin_form.buttons.first)
+      agent.cookie_jar.save_as(cookie_jar_file)
+    end
   end
 
   def control_url

@@ -4,7 +4,7 @@ class LogWorker
   include Sidekiq::Worker
   sidekiq_options retry: 1
 
-  attr_accessor :raw_line, :line, :event, :reservation_id, :message
+  attr_accessor :raw_line, :line, :message
 
   MAP_START         = /(Started map\ "(\w+)")/.freeze
   END_COMMAND       = /^!end.*/.freeze
@@ -20,10 +20,11 @@ class LogWorker
   end
 
   def handle_event
-    if event.is_a?(TF2LineParser::Events::Say)
+    case event
+    when TF2LineParser::Events::Say
       @message = event.message
       handle_message
-    elsif event.is_a?(TF2LineParser::Events::Unknown)
+    when TF2LineParser::Events::Unknown
       mapstart = event.unknown.match(MAP_START)
       if mapstart
         map = mapstart[2]
@@ -39,11 +40,11 @@ class LogWorker
 
   def handle_message
     action = action_by_reserver || action_for_message_said_by_anyone || action_for_message_said_by_lobby_player
-    if action
-      reservation.status_update("#{event.player.name} (#{sayer_steam_uid}): #{event.message}")
-      send(action)
-      reservation.server.rcon_disconnect
-    end
+    return unless action
+
+    reservation.status_update("#{event.player.name} (#{sayer_steam_uid}): #{event.message}")
+    send(action)
+    reservation.server.rcon_disconnect
   end
 
   def handle_end
@@ -63,21 +64,21 @@ class LogWorker
   end
 
   def handle_rcon
-    rcon_command = message.split(' ')[1..-1].join(' ')
-    unless rcon_command.empty?
-      if !reservation.gameye? && (reservation.enable_plugins? || reservation.enable_demos_tf?)
-        Rails.logger.info "Ignoring rcon command #{rcon_command} from chat for reservation #{reservation}"
-      else
-        Rails.logger.info "Sending rcon command #{rcon_command} from chat for reservation #{reservation}"
-        reservation.server.rcon_exec(rcon_command)
-      end
+    rcon_command = message.split(' ')[1..].join(' ')
+    return if rcon_command.empty?
+
+    if !reservation.gameye? && (reservation.enable_plugins? || reservation.enable_demos_tf?)
+      Rails.logger.info "Ignoring rcon command #{rcon_command} from chat for reservation #{reservation}"
+    else
+      Rails.logger.info "Sending rcon command #{rcon_command} from chat for reservation #{reservation}"
+      reservation.server.rcon_exec(rcon_command)
     end
   end
 
   def handle_timeleft
     minutes_until_reservation_ends = ((reservation.ends_at - Time.current) / 60).round
     minutes = [minutes_until_reservation_ends, 0].max
-    timeleft = minutes > 0 ? "#{minutes} minutes" : "#{minutes} minutes"
+    timeleft = minutes.positive? ? "#{minutes} minutes" : "#{minutes} minute"
     reservation.server.rcon_say "Reservation time left: #{timeleft}"
   end
 
@@ -108,11 +109,11 @@ class LogWorker
   end
 
   def action_for_message_said_by_lobby_player
-    if lobby?
-      case message
-      when EXTEND_COMMAND
-        :handle_extend
-      end
+    return unless lobby?
+
+    case message
+    when EXTEND_COMMAND
+      :handle_extend
     end
   end
 
@@ -149,20 +150,18 @@ class LogWorker
   end
 
   def reservation
-    if reservation_id
-      @reservation ||= Reservation.current.includes(:user).find(reservation_id)
-    end
+    @reservation ||= Reservation.current.includes(:user).find(reservation_id) if reservation_id
   end
 
   def reservation_id
     matches = raw_line.match(LOG_LINE_REGEX)
-    if matches
-      @line = matches[:line] if matches[:line]
-      if matches[:secret].present?
-        Rails.cache.fetch("reservation_secret_#{matches[:secret]}", expires_in: 1.minute) do
-          @reservation_id = Reservation.where(logsecret: matches[:secret]).pluck(:id).last
-        end
-      end
+    return unless matches
+
+    @line = matches[:line] if matches[:line]
+    return unless matches[:secret].present?
+
+    Rails.cache.fetch("reservation_secret_#{matches[:secret]}", expires_in: 1.minute) do
+      @reservation_id = Reservation.where(logsecret: matches[:secret]).pluck(:id).last
     end
   end
 end

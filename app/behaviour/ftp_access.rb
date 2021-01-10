@@ -5,14 +5,14 @@ module FtpAccess
 
   def demos
     @demos ||= begin
-                 list_files('/', '*.dem').map { |file| "#{tf_dir}/#{file}" }
-               end
+      list_files('/', '*.dem').map { |file| "#{tf_dir}/#{file}" }
+    end
   end
 
   def logs
-    @logs ||=  begin
-                 list_files('logs', '*.log').map { |file| "#{tf_dir}/logs/#{file}" }
-               end
+    @logs ||= begin
+      list_files('logs', '*.log').map { |file| "#{tf_dir}/logs/#{file}" }
+    end
   end
 
   def list_files(dir, pattern = '*')
@@ -44,7 +44,7 @@ module FtpAccess
         ftp = make_ftp_connection
         files_for_thread.each do |file|
           ftp.getbinaryfile(file, File.join(destination, File.basename(file)))
-        rescue Exception => e
+        rescue StandardError => e
           Rails.logger.error "couldn't download file: #{file} - #{e}"
           Raven.capture_exception(e) if Rails.env.production?
         end

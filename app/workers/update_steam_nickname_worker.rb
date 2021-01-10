@@ -8,19 +8,19 @@ class UpdateSteamNicknameWorker
   attr_accessor :steam_uid
 
   def perform(steam_uid)
-    if steam_uid =~ /^7656\d+$/
-      @steam_uid = steam_uid
-      begin
-        steam_profile = SteamCondenser::Community::SteamId.new(steam_uid.to_i)
-        if ReservationPlayer.banned?(steam_profile)
-          ban_user(steam_uid)
-          rename_user(steam_uid)
-        else
-          User.find_by(uid: steam_uid).update(nickname: steam_profile&.nickname, name: steam_profile&.nickname)
-        end
-      rescue SteamCondenser::Error => exception
-        Rails.logger.info "Couldn't query Steam community: #{exception}"
+    return unless steam_uid =~ /^7656\d+$/
+
+    @steam_uid = steam_uid
+    begin
+      steam_profile = SteamCondenser::Community::SteamId.new(steam_uid.to_i)
+      if ReservationPlayer.banned?(steam_profile)
+        ban_user(steam_uid)
+        rename_user(steam_uid)
+      else
+        User.find_by(uid: steam_uid).update(nickname: steam_profile&.nickname, name: steam_profile&.nickname)
       end
+    rescue SteamCondenser::Error => e
+      Rails.logger.info "Couldn't query Steam community: #{e}"
     end
   end
 
@@ -32,6 +32,6 @@ class UpdateSteamNicknameWorker
   end
 
   def rename_user(steam_uid)
-    User.find_by_uid(steam_uid)&.update(nickname: "idiot", name: "idiot")
+    User.find_by_uid(steam_uid)&.update(nickname: 'idiot', name: 'idiot')
   end
 end

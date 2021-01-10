@@ -7,6 +7,7 @@ class Order < ActiveRecord::Base
   has_one :voucher
 
   attr_accessor :source_type
+
   delegate :name, to: :product, allow_nil: true, prefix: true
 
   validates_presence_of :user_id, :product_id
@@ -51,11 +52,12 @@ class Order < ActiveRecord::Base
   end
 
   def self.monthly_goal(site_host = SITE_HOST)
-    if site_host == 'serveme.tf'
+    case site_host
+    when 'serveme.tf'
       270.0
-    elsif site_host == 'na.serveme.tf'
+    when 'na.serveme.tf'
       350.0
-    elsif site_host == 'sea.serveme.tf'
+    when 'sea.serveme.tf'
       60.0
     else
       50.0

@@ -156,9 +156,8 @@ class Reservation < ActiveRecord::Base
   end
 
   def inactive_minute_limit
-    if user
-      return 240 if user.admin? || user.donator?
-    end
+    return 240 if user && (user.admin? || user.donator?)
+
     45
   end
 
@@ -194,9 +193,11 @@ class Reservation < ActiveRecord::Base
     attributes.slice('server_id', 'password', 'rcon', 'tv_password', 'server_config_id', 'whitelist_id', 'custom_whitelist_id', 'first_map', 'enable_plugins', 'enable_demos_tf')
   end
 
+  # rubocop:disable Naming/AccessorMethodName
   def get_binding
     binding
   end
+  # rubocop:enable Naming/AccessorMethodName
 
   def times_entered?
     starts_at && ends_at
@@ -209,9 +210,7 @@ class Reservation < ActiveRecord::Base
   def lobby?
     Rails.cache.fetch("reservation_#{id}_lobby") do
       tags = server.rcon_exec('sv_tags').to_s
-      if tags && (tags.include?('TF2Center') || tags.include?('TF2Stadium')) || tags.include?('TF2Pickup')
-        true
-      end
+      true if tags && (tags.include?('TF2Center') || tags.include?('TF2Stadium')) || tags.include?('TF2Pickup')
     end
   end
 
@@ -241,9 +240,7 @@ class Reservation < ActiveRecord::Base
   def whitelist_ip
     return user.reservation_players.last.ip if user.reservation_players.exists?
 
-    if user.current_sign_in_ip && IPAddr.new(user.current_sign_in_ip).ipv4?
-      return user.current_sign_in_ip
-    end
+    return user.current_sign_in_ip if user.current_sign_in_ip && IPAddr.new(user.current_sign_in_ip).ipv4?
 
     SITE_HOST
   end

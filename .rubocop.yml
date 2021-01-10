@@ -16,6 +16,14 @@ Metrics/ClassLength:
 Metrics/AbcSize:
    Enabled: false
 
+Metrics/PerceivedComplexity:
+   Enabled: false
+   Max: 10
+
+Metrics/CyclomaticComplexity:
+   Enabled: false
+   Max: 12
+
 Style/GlobalVars:
    Enabled: false
 

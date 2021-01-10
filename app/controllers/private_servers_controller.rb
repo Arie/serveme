@@ -4,7 +4,7 @@ class PrivateServersController < ApplicationController
   before_action :require_private_server_option
 
   def require_private_server_option
-    redirect_to root_path unless current_user&.has_private_server_option?
+    redirect_to root_path unless current_user&.private_server_option?
   end
 
   def create

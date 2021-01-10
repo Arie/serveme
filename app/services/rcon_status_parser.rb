@@ -3,7 +3,7 @@
 class RconStatusParser
   attr_accessor :rcon_status_output
 
-  PLAYER_REGEX = /\#\s+\d+\s+\"(.*)"\s+(\[.*\])\s+(\d+:?\d+:\d+)\s+(\d+)\s+(\d+)\s(\w+)\s+(\d+.\d+.\d+.\d+)/.freeze
+  PLAYER_REGEX = /\#\s+\d+\s+"(.*)"\s+(\[.*\])\s+(\d+:?\d+:\d+)\s+(\d+)\s+(\d+)\s(\w+)\s+(\d+.\d+.\d+.\d+)/.freeze
 
   def initialize(rcon_status_output)
     @rcon_status_output = rcon_status_output
@@ -15,15 +15,16 @@ class RconStatusParser
 
   def players
     @players ||= begin
-                    scan.collect do |player_array|
-                      Player.new(*player_array)
-                    end
-                  end
+      scan.collect do |player_array|
+        Player.new(*player_array)
+      end
+    end
   end
 
   class Player
     attr_reader :name, :steam_id, :connect_duration, :ping, :loss, :state, :ip
 
+    # rubocop:disable Metrics/ParameterLists
     def initialize(name, steam_id, connect_duration, ping, loss, state, ip)
       @name             = name
       @steam_id         = steam_id
@@ -33,6 +34,7 @@ class RconStatusParser
       @state            = state
       @ip               = ip
     end
+    # rubocop:enable Metrics/ParameterLists
 
     def relevant?
       active?
@@ -48,9 +50,10 @@ class RconStatusParser
 
     def minutes_connected
       splitted_time = connect_duration.split(':').map(&:to_i)
-      if splitted_time.size == 2
+      case splitted_time.size
+      when 2
         splitted_time.first
-      elsif splitted_time.size == 3
+      when 3
         splitted_time.first * 60 + splitted_time.second
       end
     end

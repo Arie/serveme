@@ -20,7 +20,7 @@ class ReservationWorker
           GameyeServer.send("#{action}_reservation", reservation)
         end
       end
-    rescue Exception => e
+    rescue StandardError => e
       Rails.logger.error "Something went wrong #{action}-ing the server for reservation #{reservation_id} - #{e}"
       Raven.capture_exception(e) if Rails.env.production?
     ensure

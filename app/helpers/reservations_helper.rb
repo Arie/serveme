@@ -50,12 +50,12 @@ module ReservationsHelper
 
   def free_servers
     @free_servers ||= begin
-                        if current_user.geocoded?
-                          free_server_finder.servers.near(current_user, 50_000, order: 'distance, position, name')
-                        else
-                          free_server_finder.servers.order('position, name')
-                        end
-                      end
+      if current_user.geocoded?
+        free_server_finder.servers.near(current_user, 50_000, order: 'distance, position, name')
+      else
+        free_server_finder.servers.order('position, name')
+      end
+    end
   end
 
   def free_server_finder
@@ -90,9 +90,7 @@ module ReservationsHelper
 
   def reservation_params
     permitted_params = %i[id password tv_password tv_relaypassword server_config_id whitelist_id custom_whitelist_id first_map auto_end enable_plugins enable_demos_tf gameye_location]
-    if reservation.nil? || reservation&.schedulable?
-      permitted_params += %i[rcon server_id starts_at ends_at]
-    end
+    permitted_params += %i[rcon server_id starts_at ends_at] if reservation.nil? || reservation&.schedulable?
     params.require(:reservation).permit(permitted_params)
   end
 

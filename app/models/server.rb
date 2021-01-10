@@ -137,9 +137,9 @@ class Server < ActiveRecord::Base
 
   def process_id
     @process_id ||= begin
-                      pid = find_process_id.to_i
-                      pid.positive? && pid
-                    end
+      pid = find_process_id.to_i
+      pid.positive? && pid
+    end
   end
 
   def tf_dir
@@ -269,8 +269,8 @@ class Server < ActiveRecord::Base
 
   def version
     @version ||= begin
-                   /Network\ PatchVersion:\s+(\d+)/ =~ rcon_exec('version') && Regexp.last_match(1).to_i
-                 end
+      /Network\ PatchVersion:\s+(\d+)/ =~ rcon_exec('version') && Regexp.last_match(1).to_i
+    end
   end
 
   def outdated?
@@ -279,11 +279,11 @@ class Server < ActiveRecord::Base
 
   def self.latest_version
     Rails.cache.fetch('latest_server_version', expires_in: 5.minutes) do
-      get_latest_version
+      fetch_latest_version
     end
   end
 
-  def self.get_latest_version
+  def self.fetch_latest_version
     response = Faraday.new(url: 'http://api.steampowered.com').get('ISteamApps/UpToDateCheck/v1?appid=440&version=0')
     return unless response.success?
 
@@ -302,11 +302,11 @@ class Server < ActiveRecord::Base
   end
 
   def gameye?
-    self.class == GameyeServer
+    instance_of?(GameyeServer)
   end
 
   def tv_port
-    self[:tv_port]&.to_i || port&.to_i + 5
+    self[:tv_port]&.to_i || port.to_i + 5
   end
 
   private

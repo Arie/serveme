@@ -13,7 +13,7 @@ class ReservationPlayer < ActiveRecord::Base
   end
 
   def self.banned_name?(nickname)
-    nickname.include?("﷽")
+    nickname.include?('﷽')
   end
 
   def self.banned_uid?(steam_id64)

@@ -9,14 +9,14 @@ class NfoServer < RemoteServer
 
   def demos
     @demos ||= begin
-                 list_files('').select { |file| file.match?(/\.dem$/)}.map { |file| "#{tf_dir}/#{file}" }
-               end
+      list_files('').select { |file| file.match?(/\.dem$/) }.map { |file| "#{tf_dir}/#{file}" }
+    end
   end
 
   def logs
-    @logs ||=  begin
-                 list_files('logs', '').map { |file| "#{tf_dir}/logs/#{file}" }
-               end
+    @logs ||= begin
+      list_files('logs', '').map { |file| "#{tf_dir}/logs/#{file}" }
+    end
   end
 
   def restart
@@ -33,7 +33,7 @@ class NfoServer < RemoteServer
   def retryable(tries = 0)
     tries += 1
     yield
-  rescue Exception => e
+  rescue StandardError => e
     if tries < 5
       Rails.logger.warn "Restarting server #{name} failed: #{e}, retrying in 1 second"
       sleep 1

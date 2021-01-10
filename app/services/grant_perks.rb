@@ -10,8 +10,6 @@ class GrantPerks
 
   def perform
     AddGroupMembership.new(product.days, user).perform
-    if product.grants_private_server?
-      AddGroupMembership.new(product.days, user, Group.private_user(user)).perform
-    end
+    AddGroupMembership.new(product.days, user, Group.private_user(user)).perform if product.grants_private_server?
   end
 end

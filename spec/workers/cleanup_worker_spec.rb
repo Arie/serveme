@@ -33,6 +33,15 @@ describe CleanupWorker do
     ServerStatistic.count.should == 0
   end
 
+  it 'deactivates Gameye server that are still active' do
+    create :server, active: true, type: 'GameyeServer'
+    expect(GameyeServer.active.size).to eql 1
+
+    described_class.perform_async
+
+    expect(GameyeServer.active.size).to eql 0
+  end
+
   it 'gives API keys to week old users' do
     described_class.perform_async
 

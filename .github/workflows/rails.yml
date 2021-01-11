@@ -39,7 +39,7 @@ jobs:
       - name: Install Rubocop
         run: gem install rubocop
       - name: Check code
-        run: rubocop
+        run: rubocop app
   rspec:
     name: RSpec
     runs-on: ubuntu-latest

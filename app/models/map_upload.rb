@@ -111,12 +111,16 @@ class MapUpload < ActiveRecord::Base
   end
 
   def self.blacklisted?(filename)
+    return false unless filename.match(/(^.*\.bsp)/)
+
     target_filename = filename.match(/(^.*\.bsp)/)[1]
     BLACKLIST.include?(target_filename)
   end
 
   def self.blacklisted_type?(filename)
-    target_filename = filename.match(/(^.*\.bsp)/)[1]
+    return false unless filename.match(/(^.*\.bsp)/)
+
+    target_filename = filename.match(/(^.*\.bsp)/) && filename.match(/(^.*\.bsp)/)[1]
     target_filename && target_filename =~ /^(trade_.*|vsh_.*|mvm_.*|jail_.*|achievement_.*)/i
   end
 

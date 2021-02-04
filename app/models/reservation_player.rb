@@ -18,7 +18,8 @@ class ReservationPlayer < ActiveRecord::Base
 
   def self.banned_uid?(steam_id64)
     [
-      76_561_198_310_925_535, 76_561_199_116_364_920 # Clx
+      76_561_198_310_925_535, 76_561_199_116_364_920, # Clx
+      76561198248413054, 76561197963634600, 76561197996867869, 76561199111424250 # Gremlin
     ].include?(steam_id64.to_i)
   end
 end

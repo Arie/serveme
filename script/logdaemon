@@ -6,6 +6,7 @@ require 'eventmachine'
 require 'socket'
 require 'sidekiq'
 require 'active_support'
+require 'active_support/core_ext'
 require File.expand_path("../../app/workers/log_worker", __FILE__)
 
 STREAMING_LOG_DIR = File.expand_path("../../log/streaming", __FILE__)

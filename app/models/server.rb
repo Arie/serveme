@@ -324,11 +324,11 @@ class Server < ActiveRecord::Base
   end
 
   def connect_string(ip, port, password)
-    "connect #{ip}:#{port}; password #{password}"
+    "connect #{ip}:#{port}; password \"#{password}\""
   end
 
   def steam_connect_url(ip, port, password)
-    "steam://connect/#{ip}:#{port}/#{password}"
+    "steam://connect/#{ip}:#{port}/#{CGI.escape(password)}"
   end
 
   def server_config_file(config_file)

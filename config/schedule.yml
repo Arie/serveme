@@ -8,12 +8,6 @@ minutely_tz:
   class: "CronWorker"
   queue: default
 
-server_updates_tz:
-  cron: "* * * * * Europe/Amsterdam"
-  class: "ServerUpdatesWorker"
-  queue: default
-
-
 monthly_donations_tz:
   cron: "15 2,21 * * * Europe/Amsterdam"
   class: "MonthlyDonationProgressAnnouncerWorker"

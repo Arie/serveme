@@ -7,6 +7,7 @@ class CronWorker
     end_past_reservations
     start_active_reservations
     check_active_reservations
+    check_server_updates
   end
 
   def end_past_reservations
@@ -38,5 +39,10 @@ class CronWorker
     unended_now_reservations      = now_reservations.where('ended = ?', false)
     provisioned_now_reservations  = unended_now_reservations.where('provisioned = ?', true)
     ActiveReservationsCheckerWorker.perform_async(provisioned_now_reservations.pluck(:id))
+  end
+
+  def check_server_updates
+    latest_version = Server.fetch_latest_version
+    Rails.cache.write('latest_server_version', latest_version) if latest_version
   end
 end

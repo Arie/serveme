@@ -484,8 +484,6 @@ GEM
     ruby-vips (2.1.0)
       ffi (~> 1.12)
     rubyzip (2.3.0)
-    rufus-scheduler (3.7.0)
-      fugit (~> 1.1, >= 1.1.6)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -672,7 +670,6 @@ DEPENDENCIES
   rspec-rails
   rspec-support
   rubyzip
-  rufus-scheduler
   sass
   sass-rails
   sassc

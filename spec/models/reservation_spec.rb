@@ -416,7 +416,7 @@ describe Reservation do
     it 'returns a console connect string' do
       subject.stub(:server).and_return(Server.new(ip: 'fakkelbrigade.eu', port: '27015'))
       subject.stub(:password).and_return('foo')
-      subject.connect_string.should eql 'connect fakkelbrigade.eu:27015; password foo'
+      subject.connect_string.should eql 'connect fakkelbrigade.eu:27015; password "foo"'
     end
   end
 

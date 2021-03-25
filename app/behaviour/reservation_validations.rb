@@ -17,6 +17,7 @@ module ReservationValidations
       validates_with Reservations::MapIsValidValidator
       validates_with Reservations::GameyeLocationSelectedValidator, if: :gameye?
       validates_with Reservations::CustomWhitelistValidator
+      validates_with Reservations::PasswordValidator, fields: [:password, :tv_password, :tv_relaypassword, :rcon]
 
       def check_server_available?
         times_entered? && !gameye?

@@ -34,6 +34,40 @@ describe Reservation do
     end
   end
 
+  describe 'passwords' do
+    it 'wont allow passwords that are too long' do
+      too_long = 'a' * 61
+      just_right = 'b' * 60
+
+      reservation = build(:reservation)
+
+      reservation.password = too_long
+      reservation.should have(1).error_on(:password)
+
+      reservation.password = just_right
+      reservation.should have(:no).error_on(:password)
+    end
+
+    it 'wont allow passwords with invalid characters' do
+      valid_chars = "azAZ!@-\ #$%^&*/()_+}'|\\:<>?,.[]"
+      invalid_chars = ["\"", "💩", ";"]
+
+      reservation = build(:reservation)
+
+      valid_pw = "A" * 10
+
+      valid_chars.chars.each do |char|
+        reservation.password = "#{valid_pw}#{char}"
+        reservation.should have(:no).error_on(:password)
+      end
+
+      invalid_chars.each do |char|
+        reservation.password = "#{valid_pw}#{char}"
+        reservation.should have(1).error_on(:password)
+      end
+    end
+  end
+
   describe '#tv_password' do
     it 'should have a default tv_password' do
       subject.tv_password.should eql 'tv'

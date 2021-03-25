@@ -8,15 +8,11 @@ class NfoServer < RemoteServer
   end
 
   def demos
-    @demos ||= begin
-      list_files('').select { |file| file.match?(/\.dem$/) }.map { |file| "#{tf_dir}/#{file}" }
-    end
+    @demos ||= list_files('').select { |file| file.match?(/\.dem$/) }.map { |file| "#{tf_dir}/#{file}" }
   end
 
   def logs
-    @logs ||= begin
-      list_files('logs', '').map { |file| "#{tf_dir}/logs/#{file}" }
-    end
+    @logs ||= list_files('logs', '').map { |file| "#{tf_dir}/logs/#{file}" }
   end
 
   def restart

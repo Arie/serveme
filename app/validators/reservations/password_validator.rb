@@ -8,7 +8,7 @@ module Reservations
         value = record.send(field)
         next if value.blank? || value.match?(regex)
 
-        record.errors.add(field, 'Invalid characters in password')
+        record.errors.add(field, 'Invalid characters, e.g. ; or "')
       end
     end
   end

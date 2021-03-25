@@ -5,6 +5,7 @@ module ReservationValidations
     mod.class_eval do
       validates_presence_of :user, :password, :rcon, :starts_at, :ends_at
       validates_presence_of :server_id,                                       unless: :gameye?
+      validates :password, :tv_password, :tv_relaypassword, length: { maximum: 60 }
       validates_with Reservations::UserIsAvailableValidator,                  unless: :donator?
       validates_with Reservations::ServerIsAvailableValidator,                if: :check_server_available?
       validates_with Reservations::ReservableByUserValidator,                 if: :check_server_available?

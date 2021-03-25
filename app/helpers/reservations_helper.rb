@@ -49,13 +49,11 @@ module ReservationsHelper
   end
 
   def free_servers
-    @free_servers ||= begin
-      if current_user.geocoded?
-        free_server_finder.servers.near(current_user, 50_000, order: 'distance, position, name')
-      else
-        free_server_finder.servers.order('position, name')
-      end
-    end
+    @free_servers ||= if current_user.geocoded?
+                        free_server_finder.servers.near(current_user, 50_000, order: 'distance, position, name')
+                      else
+                        free_server_finder.servers.order('position, name')
+                      end
   end
 
   def free_server_finder

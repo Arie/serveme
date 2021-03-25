@@ -78,9 +78,7 @@ class User < ActiveRecord::Base
 
   def private_server_option?
     @private_server_option ||=
-      begin
-        groups.include?(Group.private_user(self))
-      end
+      groups.include?(Group.private_user(self))
   end
 
   def private_server

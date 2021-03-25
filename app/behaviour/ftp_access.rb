@@ -4,15 +4,11 @@ module FtpAccess
   require 'net/ftp'
 
   def demos
-    @demos ||= begin
-      list_files('/', '*.dem').map { |file| "#{tf_dir}/#{file}" }
-    end
+    @demos ||= list_files('/', '*.dem').map { |file| "#{tf_dir}/#{file}" }
   end
 
   def logs
-    @logs ||= begin
-      list_files('logs', '*.log').map { |file| "#{tf_dir}/logs/#{file}" }
-    end
+    @logs ||= list_files('logs', '*.log').map { |file| "#{tf_dir}/logs/#{file}" }
   end
 
   def list_files(dir, pattern = '*')

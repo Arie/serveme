@@ -14,10 +14,8 @@ class RconStatusParser
   end
 
   def players
-    @players ||= begin
-      scan.collect do |player_array|
-        Player.new(*player_array)
-      end
+    @players ||= scan.collect do |player_array|
+      Player.new(*player_array)
     end
   end
 

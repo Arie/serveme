@@ -49,12 +49,12 @@ describe Reservation do
     end
 
     it 'wont allow passwords with invalid characters' do
-      valid_chars = "azAZ!@-\ #$%^&*/()_+}'|\\:<>?,.[]"
-      invalid_chars = ["\"", "💩", ";"]
+      valid_chars = "azAZ0123456789!@-\ #$%^&*/()_+}'|\\:<>?,.[]"
+      invalid_chars = ['"', '💩', ';']
 
       reservation = build(:reservation)
 
-      valid_pw = "A" * 10
+      valid_pw = 'A' * 10
 
       valid_chars.chars.each do |char|
         reservation.password = "#{valid_pw}#{char}"
@@ -303,7 +303,7 @@ describe Reservation do
       reservation.should have(1).errors_on(:server_id)
     end
 
-    it "allows plugins for non donators" do
+    it 'allows plugins for non donators' do
       reservation = build :reservation
       reservation.enable_plugins = true
       reservation.should have(:no).errors_on(:enable_plugins)

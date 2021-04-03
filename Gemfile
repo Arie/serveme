@@ -34,8 +34,8 @@ gem 'mini_racer'
 gem 'net-sftp'
 gem 'net-ssh'
 gem 'oily_png'
+gem 'omniauth', '~> 1.9.1' # https://github.com/heartcombo/devise/pull/5327
 gem 'omniauth-steam'
-gem "omniauth", "~> 1.9.1" # https://github.com/heartcombo/devise/pull/5327
 gem 'paypal-sdk-rest'
 gem 'pg'
 gem 'puma'
@@ -47,8 +47,8 @@ gem 'rbzip2'
 gem 'remote_lock', git: 'https://github.com/Arie/remote_lock'
 gem 'rubyzip', require: 'zip'
 gem 'sass'
-gem 'sass-rails'
 gem 'sassc'
+gem 'sass-rails'
 gem 'sidekiq', '< 6'
 gem 'sidekiq-cron'
 gem 'simple_form'
@@ -64,15 +64,15 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'capistrano', require: false
+  gem 'capistrano3-puma', '~> 4.0', require: false
   gem 'capistrano-bundler', require: false
+  gem 'capistrano_colors', require: false
   gem 'capistrano-ext', require: false
   gem 'capistrano-faster-assets', require: false
   gem 'capistrano-maintenance', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-sidekiq', require: false
-  gem 'capistrano3-puma', '~> 4.0', require: false
-  gem 'capistrano_colors', require: false
 end
 
 group :test, :development do

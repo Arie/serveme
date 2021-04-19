@@ -10,7 +10,6 @@ describe CronWorker do
     server = double(:server, id: 1, rcon_auth: true, rcon_disconnect: true, condenser: condenser)
     reservation.stub(server: server)
     allow(ServerMetric).to receive(:new)
-    allow(Server).to receive(:fetch_latest_version)
   end
 
   describe '#end_past_reservations' do

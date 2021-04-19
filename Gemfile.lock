@@ -550,7 +550,7 @@ GEM
     temple (0.8.2)
     term-ansicolor (1.7.1)
       tins (~> 1.0)
-    tf2_line_parser (0.2.0)
+    tf2_line_parser (0.2.1)
       activesupport
     thor (1.1.0)
     thread_safe (0.3.6)

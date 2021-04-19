@@ -19,6 +19,10 @@ describe LogWorker do
   let(:who_troll)             { '1234567L 03/29/2014 - 19:15:53: "BindTroll<3><[U:1:12344]><Red>" say "!who is the best"' }
   let(:turbine_start_line)    { '1234567L 02/07/2015 - 20:39:40: Started map "ctf_turbine" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
   let(:badlands_start_line)   { '1234567L 02/07/2015 - 20:39:40: Started map "cp_badlands" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
+  let(:connect_normal)        { '1234567L 03/29/2014 - 13:15:53: "Normal<3><[U:1:12345]><>" connected, address "127.0.0.1:1234"' }
+  let(:connect_banned_ip)     { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><>" connected, address "82.222.123.123:1234"' }
+  let(:connect_banned_uid)    { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:153029208]><>" connected, address "127.0.0.1:1234"' }
+
   subject(:logworker) { LogWorker.perform_async(line) }
 
   before do
@@ -122,6 +126,21 @@ describe LogWorker do
       server.should_not_receive(:rcon_say)
       ReservationWorker.should_not_receive(:perform_async).with("Reservation created by: '#{reservation.user.name}'")
       LogWorker.perform_async(who_troll)
+    end
+  end
+
+  describe 'connects' do
+    it 'bans banned IPs' do
+      server.should_receive(:rcon_exec).with("banid 0 76561197960278073 kick")
+      LogWorker.perform_async(connect_banned_ip)
+    end
+    it 'bans banned UIDs' do
+      server.should_receive(:rcon_exec).with("banid 0 76561198113294936 kick")
+      LogWorker.perform_async(connect_banned_uid)
+    end
+    it 'doesnt ban others' do
+      server.should_not_receive(:rcon_exec)
+      LogWorker.perform_async(connect_normal)
     end
   end
 end

@@ -290,8 +290,6 @@ class Server < ActiveRecord::Base
 
     json = JSON.parse(response.body)
     json['response']['required_version'].to_i
-  rescue StandardError => e
-    Logger.info("Couldn't fetch latest TF2 version, #{e.inspect}")
   end
 
   def number_of_players

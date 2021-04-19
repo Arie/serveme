@@ -5,8 +5,6 @@ class CronWorker
 
   def perform
     end_past_reservations
-    latest_version = Server.fetch_latest_version
-    Rails.cache.write('latest_server_version', latest_version) if latest_version
     start_active_reservations
     check_active_reservations
   end

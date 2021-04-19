@@ -24,6 +24,8 @@ class LogWorker
     when TF2LineParser::Events::Say
       @message = event.message
       handle_message
+    when TF2LineParser::Events::Connect
+      handle_connect
     when TF2LineParser::Events::Unknown
       mapstart = event.unknown.match(MAP_START)
       if mapstart
@@ -45,6 +47,14 @@ class LogWorker
     reservation.status_update("#{event.player.name} (#{sayer_steam_uid}): #{event.message}")
     send(action)
     reservation.server.rcon_disconnect
+  end
+
+  def handle_connect
+    community_id = SteamCondenser::Community::SteamId.steam_id_to_community_id(event.player.steam_id)
+    if ReservationPlayer.banned_uid?(community_id) || ReservationPlayer.banned_ip?(event.message)
+      reservation.server.rcon_exec "banid 0 #{community_id} kick"
+      Rails.logger.info "Removed banned player with UID #{community_id}, IP #{event.message}, name #{event.player.name}"
+    end
   end
 
   def handle_end

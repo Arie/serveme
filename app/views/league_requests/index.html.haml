@@ -16,7 +16,7 @@
           %th logs.tf
       - @results.each do |result|
         %tr
-          %td= link_to(result.reservation_id, player_statistics_path(reservation_id: result.reservation_id))
+          %td= link_to(result.reservation_id, show_reservation_statistic_path(reservation_id: result.reservation_id))
           %td= I18n.l(result.reservation.starts_at, format: :long)
           %td= I18n.l(result.reservation.ends_at, format: :time_without_seconds)
           %td

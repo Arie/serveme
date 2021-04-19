@@ -282,18 +282,16 @@ class Server < ActiveRecord::Base
   end
 
   def self.fetch_latest_version
-    begin
-      response = Faraday.new(url: 'http://api.steampowered.com').get('ISteamApps/UpToDateCheck/v1?appid=440&version=0') do |req|
-        req.options.timeout = 5
-        req.options.open_timeout = 2
-      end
-      return unless response.success?
-
-      json = JSON.parse(response.body)
-      json['response']['required_version'].to_i
-    rescue StandardError => e
-      Logger.info("Couldn't fetch latest TF2 version, #{e.inspect}")
+    response = Faraday.new(url: 'http://api.steampowered.com').get('ISteamApps/UpToDateCheck/v1?appid=440&version=0') do |req|
+      req.options.timeout = 5
+      req.options.open_timeout = 2
     end
+    return unless response.success?
+
+    json = JSON.parse(response.body)
+    json['response']['required_version'].to_i
+  rescue StandardError => e
+    Logger.info("Couldn't fetch latest TF2 version, #{e.inspect}")
   end
 
   def number_of_players

@@ -22,6 +22,7 @@ describe LogWorker do
   let(:connect_normal)        { '1234567L 03/29/2014 - 13:15:53: "Normal<3><[U:1:12345]><>" connected, address "127.0.0.1:1234"' }
   let(:connect_banned_ip)     { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><>" connected, address "82.222.123.123:1234"' }
   let(:connect_banned_uid)    { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:153029208]><>" connected, address "127.0.0.1:1234"' }
+  let(:connect_allowed_uid)   { '1234567L 03/29/2014 - 13:15:53: "NonTroll<3><[U:1:400545468]><>" connected, address "82.222.123.123:1234"' }
 
   subject(:logworker) { LogWorker.perform_async(line) }
 
@@ -131,11 +132,17 @@ describe LogWorker do
 
   describe 'connects' do
     it 'bans banned IPs' do
-      server.should_receive(:rcon_exec).with("banid 0 76561197960278073 kick")
+      server.should_receive(:rcon_exec).with('banid 0 76561197960278073 kick')
       LogWorker.perform_async(connect_banned_ip)
     end
+
+    it 'doesnt ban banned IPs with whitelisted uid' do
+      server.should_not_receive(:rcon_exec)
+      LogWorker.perform_async(connect_allowed_uid)
+    end
+
     it 'bans banned UIDs' do
-      server.should_receive(:rcon_exec).with("banid 0 76561198113294936 kick")
+      server.should_receive(:rcon_exec).with('banid 0 76561198113294936 kick')
       LogWorker.perform_async(connect_banned_uid)
     end
     it 'doesnt ban others' do

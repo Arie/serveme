@@ -9,11 +9,20 @@ class ReservationPlayer < ActiveRecord::Base
   before_save :geocode, if: :ip_changed?
 
   def self.banned?(steam_profile)
-    banned_name?(steam_profile&.nickname) || banned_uid?(steam_profile&.steam_id64)
+    (banned_name?(steam_profile&.nickname) || banned_uid?(steam_profile&.steam_id64)) && !whitelisted_uid?(steam_profile&.steam_id64)
   end
 
   def self.banned_name?(nickname)
     nickname.include?('﷽')
+  end
+
+  def self.whitelisted_uid?(steam_id64)
+    return true unless steam_id64
+
+    [
+      76_561_198_360_811_196, # Sun Tzu, shares ISP with Clx
+      76_561_198_238_943_688 # Flewvar, shares ISP with Clx
+    ].include?(steam_id64.to_i)
   end
 
   def self.banned_uid?(steam_id64)

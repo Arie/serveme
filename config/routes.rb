@@ -2,17 +2,16 @@ require 'sidekiq/web'
 require 'sidekiq-scheduler/web'
 
 Serveme::Application.routes.draw do
+  get '/404', to: 'pages#not_found'
+  get '/500', to: 'pages#error'
 
-  get "/404", :to => "pages#not_found"
-  get "/500", :to => "pages#error"
-
-  devise_for :users, :controllers => { :omniauth_callbacks => "sessions" }
+  devise_for :users, controllers: { omniauth_callbacks: 'sessions' }
 
   devise_scope :user do
     get '/sessions/auth/:provider' => 'sessions#passthru'
     post '/users/auth/:provider/callback' => 'sessions#steam'
     get '/users/auth/:provider/callback' => 'sessions#steam'
-    delete "/users/logout" => "devise/sessions#destroy"
+    delete '/users/logout' => 'devise/sessions#destroy'
   end
 
   resources :sessions do
@@ -32,9 +31,9 @@ Serveme::Application.routes.draw do
 
   resources :reservations do
     member do
-      post :extend_reservation, :as => :extend
-      get :status,              :as => :status
-      get :streaming,           :as => :streaming
+      post :extend_reservation, as: :extend
+      get :status,              as: :status
+      get :streaming,           as: :streaming
     end
     collection do
       post :find_servers_for_user
@@ -42,21 +41,21 @@ Serveme::Application.routes.draw do
       post :time_selection
       post :i_am_feeling_lucky
     end
-    resources :log_uploads, :only => [:new, :create, :index] do
+    resources :log_uploads, only: %i[new create index] do
       collection do
         get :show_log
       end
     end
   end
 
-  get 'gameye/reservations/new', to: "reservations#new_gameye"
-  post 'gameye/reservations/create', to: "reservations#create_gameye"
-  get 'gameye/reservations/:id', to: "reservations#show_gameye", as: :gameye
+  get 'gameye/reservations/new', to: 'reservations#new_gameye'
+  post 'gameye/reservations/create', to: 'reservations#create_gameye'
+  get 'gameye/reservations/:id', to: 'reservations#show_gameye', as: :gameye
 
-  resources :map_uploads, :only => [:new, :create]
+  resources :map_uploads, only: %i[new create]
 
-  get 'league-request', to: "league_requests#new"
-  post 'league-request', to: "league_requests#create"
+  get 'league-request', to: 'league_requests#new'
+  post 'league-request', to: 'league_requests#create'
 
   resources :pages do
     collection do
@@ -74,14 +73,14 @@ Serveme::Application.routes.draw do
     end
   end
 
-  resources :player_statistics, :only => :index
-  resources :server_statistics, :only => :index
+  resources :player_statistics, only: :index
+  resources :server_statistics, only: :index
 
-  resources :private_servers, :only => :create
+  resources :private_servers, only: :create
 
-  resources :servers, :only => :index
+  resources :servers, only: :index
 
-  resources :orders, :only => [:new, :create, :index] do
+  resources :orders, only: %i[new create index] do
     collection do
       get :redirect
       post :stripe
@@ -90,7 +89,7 @@ Serveme::Application.routes.draw do
 
   resources :vouchers
 
-  authenticate :user, lambda { |u| u.admin? } do
+  authenticate :user, ->(u) { u.admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
 
@@ -98,7 +97,7 @@ Serveme::Application.routes.draw do
     resources :users, only: :show
     resources :maps, only: :index
     resources :servers, only: :index
-    resources :donators, except: [:edit, :update]
+    resources :donators, except: %i[edit update]
     resources :reservations do
       member do
         post :idle_reset
@@ -109,34 +108,32 @@ Serveme::Application.routes.draw do
     end
   end
 
-  #Pretty URLs
-  get   '/donate',                        :to => "orders#new",                :as => "donate"
-  get   '/voucher(/:code)',               :to => "vouchers#new",              :as => "claim"
-  get   '/statistics',                    :to => "pages#statistics",          :as => "statistics"
-  get   '/faq',                           :to => "pages#faq",                 :as => "faq"
-  get   '/credits',                       :to => "pages#credits",             :as => "credits"
-  get   '/server-providers',              :to => "pages#server_providers",    :as => "server_providers"
-  get   '/your-reservations',             :to => "reservations#index",        :as => "your_reservations"
-  get   '/reservations-played',           :to => "reservations#played_in",    :as => "played_in"
-  get   '/recent-reservations',           :to => "pages#recent_reservations", :as => "recent_reservations"
-  get   '/settings',                      :to => "users#edit",                :as => "settings"
-  get   '/upload-map',                    :to => "map_uploads#new",           :as => "upload_map"
-  get   '/private-servers',               :to => "pages#private_servers",     :as => "private_server_info"
-  get   '/player_statistics/reservation/:reservation_id'                  => 'player_statistics#show_for_reservation',             :as => "show_reservation_statistic"
-  get   '/player_statistics/steam/:steam_uid'                             => 'player_statistics#show_for_player',                  :as => "show_player_statistic"
-  get   '/player_statistics/ip/:ip'                                       => 'player_statistics#show_for_ip',                      :as => "show_ip_statistic"
-  get   '/player_statistics/reservation/:reservation_id/steam/:steam_uid' => 'player_statistics#show_for_reservation_and_player',  :as => "show_reservation_and_player_statistic"
-  get   '/player_statistics/server/:server_id'                            => 'player_statistics#show_for_server',                  :as => "show_server_player_statistic"
+  # Pretty URLs
+  get   '/donate',                        to: 'orders#new',                as: 'donate'
+  get   '/voucher(/:code)',               to: 'vouchers#new',              as: 'claim'
+  get   '/statistics',                    to: 'pages#statistics',          as: 'statistics'
+  get   '/faq',                           to: 'pages#faq',                 as: 'faq'
+  get   '/credits',                       to: 'pages#credits',             as: 'credits'
+  get   '/server-providers',              to: 'pages#server_providers',    as: 'server_providers'
+  get   '/your-reservations',             to: 'reservations#index',        as: 'your_reservations'
+  get   '/reservations-played',           to: 'reservations#played_in',    as: 'played_in'
+  get   '/recent-reservations',           to: 'pages#recent_reservations', as: 'recent_reservations'
+  get   '/settings',                      to: 'users#edit',                as: 'settings'
+  get   '/upload-map',                    to: 'map_uploads#new',           as: 'upload_map'
+  get   '/private-servers',               to: 'pages#private_servers',     as: 'private_server_info'
+  get   '/player_statistics/reservation/:reservation_id'                  => 'player_statistics#show_for_reservation',             :as => 'show_reservation_statistic'
+  get   '/player_statistics/steam/:steam_uid'                             => 'player_statistics#show_for_player',                  :as => 'show_player_statistic'
+  get   '/player_statistics/ip/:ip'                                       => 'player_statistics#show_for_ip',                      :as => 'show_ip_statistic'
+  get   '/player_statistics/reservation/:reservation_id/steam/:steam_uid' => 'player_statistics#show_for_reservation_and_player',  :as => 'show_reservation_and_player_statistic'
+  get   '/player_statistics/server/:server_id'                            => 'player_statistics#show_for_server',                  :as => 'show_server_player_statistic'
 
-  get   '/server_statistics/server/:server_id'                            => 'server_statistics#show_for_server',                  :as => "show_server_statistic"
-  get   '/server_statistics/reservation/:reservation_id'                  => 'server_statistics#show_for_reservation',             :as => "show_reservation_server_statistic"
+  get   '/server_statistics/server/:server_id'                            => 'server_statistics#show_for_server',                  :as => 'show_server_statistic'
+  get   '/server_statistics/reservation/:reservation_id'                  => 'server_statistics#show_for_reservation',             :as => 'show_reservation_server_statistic'
 
-  get   '/login',                         :to => 'sessions#new',      :as => :login
-  get   '/users/auth/failure',            :to => 'sessions#failure'
-  post  '/users/auth/failure',            :to => 'sessions#failure'
+  get   '/login',                         to: 'sessions#new', as: :login
+  get   '/users/auth/failure',            to: 'sessions#failure'
+  post  '/users/auth/failure',            to: 'sessions#failure'
 
-  root :to => "pages#welcome"
-  unless Rails.env.test?
-    match '*path', via: :all, to: 'pages#not_found'
-  end
+  root to: 'pages#welcome'
+  match '*path', via: :all, to: 'pages#not_found' unless Rails.env.test?
 end

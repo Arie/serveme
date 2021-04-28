@@ -20,7 +20,7 @@ class GameyeServer < Server
       name: "Gameye ##{reservation.id}",
       ip: launched['host'],
       port: launched['port']['game'],
-      tv_port: launched['port']['hltv'],
+      tv_port: launched['port']['stv'] || launched['port']['hltv'],
       rcon: reservation.rcon
     )
     reservation.update_attribute(:server_id, server.id)

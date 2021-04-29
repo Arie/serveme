@@ -43,11 +43,11 @@ Serveme::Application.configure do
 
   # Use a different cache store in production
   config.cache_store = :dalli_store, '127.0.0.1:11211',
-    { :namespace => 'serveme', :expires_in => 1.hour, :pool_size => 25 }
+                       { namespace: 'serveme', expires_in: 1.hour, pool_size: 25 }
   config.action_dispatch.rack_cache = {
-    :metastore    => Dalli::Client.new,
-    :entitystore  => 'file:tmp/cache/rack/body',
-    :allow_reload => false
+    metastore: Dalli::Client.new,
+    entitystore: 'file:tmp/cache/rack/body',
+    allow_reload: false
   }
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
@@ -59,7 +59,7 @@ Serveme::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  config.eager_load = false
+  config.eager_load = true
   config.log_level = :info
   config.lograge.enabled = true
   config.lograge.custom_options = lambda do |event|

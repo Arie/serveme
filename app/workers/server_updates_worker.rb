@@ -2,6 +2,7 @@
 
 class ServerUpdatesWorker
   include Sidekiq::Worker
+  sidekiq_options retry: false
 
   def perform
     latest_version = Server.fetch_latest_version

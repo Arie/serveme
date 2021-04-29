@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require './config/deploy/logdaemon'
 
 set :application,       'serveme'
@@ -9,13 +10,14 @@ set :use_sudo,          false
 set :user,              'tf2'
 set :rvm_ruby_string,   '2.7.3'
 set :rvm_type,          :system
+set :pty,               false
 
 set :maintenance_template_path, 'app/views/pages/maintenance.html.erb'
 
 # Rails
 set :conditionally_migrate, true
 set :rails_env, 'production'
-set :default_env, { 'RAILS_ENV' => "production"}
+set :default_env, { 'RAILS_ENV' => 'production' }
 
 # Puma
 set :puma_conf,         "#{release_path}/config/puma/production.rb"

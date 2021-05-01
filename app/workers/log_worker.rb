@@ -51,7 +51,7 @@ class LogWorker
 
   def handle_connect
     community_id = SteamCondenser::Community::SteamId.steam_id_to_community_id(event.player.steam_id)
-    return unless ReservationPlayer.banned_uid?(community_id) || ReservationPlayer.banned_ip?(event.message)
+    return unless ReservationPlayer.banned_uid?(community_id) || ReservationPlayer.banned_ip?(event.message.to_s.split(':').first)
     return if ReservationPlayer.whitelisted_uid?(community_id)
 
     reservation.server.rcon_exec "banid 0 #{community_id} kick"

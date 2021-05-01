@@ -1,54 +1,47 @@
 #!/usr/bin/env ruby
 
-require File.expand_path('../../config/boot',  __FILE__)
+require File.expand_path('../config/boot', __dir__)
 require 'dante'
 require 'eventmachine'
 require 'socket'
 require 'sidekiq'
 require 'active_support'
 require 'active_support/core_ext'
-require File.expand_path("../../app/workers/log_worker", __FILE__)
+require File.expand_path('../app/workers/log_worker', __dir__)
 
-STREAMING_LOG_DIR = File.expand_path("../../log/streaming", __FILE__)
+STREAMING_LOG_DIR = File.expand_path('../log/streaming', __dir__)
 
 class Handler < EM::Connection
-
   def receive_data(data)
     log_line = ActiveSupport::Multibyte::Chars.new(data).tidy_bytes[5..-1]
-    if log_line.match(/(!timeleft|!extend|!end|!rcon.*|!rate.*|!who|Started map\ "\w+\")/)
-      LogWorker.perform_async(log_line)
-    end
+    LogWorker.perform_async(log_line) if log_line.match(/(!timeleft|!extend|!end|!rcon.*|!rate.*|!who|Started map\ "\w+")|" connected, address "/)
     matches = log_line.match(LogWorker::LOG_LINE_REGEX)
-    if matches && matches[:line] && matches[:secret].present?
-      write_log(matches[:secret], matches[:line])
-    end
+    write_log(matches[:secret], matches[:line]) if matches && matches[:line] && matches[:secret].present?
   end
 
   def write_log(secret, line)
     if secret =~ /^\d+$/
-      File.open(File.join(STREAMING_LOG_DIR, "#{secret}.log"), "a") do |f|
+      File.open(File.join(STREAMING_LOG_DIR, "#{secret}.log"), 'a') do |f|
         f.puts line
       end
     end
   end
-
 end
 
 runner = Dante::Runner.new('logdaemon')
 runner.with_options do |opts|
-  opts.on("-i", "--ip IP", String, "IP to bind to") do |ip|
+  opts.on('-i', '--ip IP', String, 'IP to bind to') do |ip|
     options[:ip] = ip
   end
 end
-runner.description = "TF2 server logdaemon"
+runner.description = 'TF2 server logdaemon'
 
 runner.execute do |opts|
   ip    = opts[:ip]
   port  = opts[:port]
   puts "Listening on #{ip}:#{port}..."
   FileUtils.mkdir_p(STREAMING_LOG_DIR)
-  EM.run {
-    EM::open_datagram_socket(ip, port, Handler)
-  }
+  EM.run do
+    EM.open_datagram_socket(ip, port, Handler)
+  end
 end
-

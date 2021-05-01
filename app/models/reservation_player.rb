@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ReservationPlayer < ActiveRecord::Base
+  require 'ipaddr'
   belongs_to :reservation
   has_one :server, through: :reservation, autosave: false
   belongs_to :user, primary_key: :uid, foreign_key: :steam_uid
@@ -35,6 +36,9 @@ class ReservationPlayer < ActiveRecord::Base
   end
 
   def self.banned_ip?(ip)
-    ip.start_with?('82.222.')
+    clx_turk = IPAddr.new('82.222.236.0/22')
+    clx_nforce = IPAddr.new('46.166.176.0/21')
+    ip = IPAddr.new(ip.to_s.split(":").first)
+    clx_turk.include?(ip) || clx_nforce.include?(ip)
   end
 end

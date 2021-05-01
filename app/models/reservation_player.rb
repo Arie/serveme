@@ -38,7 +38,7 @@ class ReservationPlayer < ActiveRecord::Base
   def self.banned_ip?(ip)
     clx_turk = IPAddr.new('82.222.236.0/22')
     clx_nforce = IPAddr.new('46.166.176.0/21')
-    ip = IPAddr.new(ip.to_s.split(":").first)
+    ip = IPAddr.new(ip.to_s.split(':').first)
     clx_turk.include?(ip) || clx_nforce.include?(ip)
   end
 end

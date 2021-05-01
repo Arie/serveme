@@ -181,7 +181,11 @@ class Server < ActiveRecord::Base
         enable_demos_tf
       end
     end
-    if !reservation.server.outdated?
+    if reservation.server.outdated?
+      reservation.status_update('Restarting server')
+      restart
+      reservation.status_update('Restarted server, waiting to boot')
+    else
       reservation.status_update('Attempting fast start')
       if rcon_exec("removeip 1; removeip 1; removeip 1; sv_logsecret #{reservation.logsecret}; logaddress_add direct.#{SITE_HOST}:40001")
         first_map = reservation.first_map.presence || 'ctf_turbine'
@@ -192,10 +196,6 @@ class Server < ActiveRecord::Base
         restart
         reservation.status_update('Restarted server, waiting to boot')
       end
-    else
-      reservation.status_update('Restarting server')
-      restart
-      reservation.status_update('Restarted server, waiting to boot')
     end
   end
 

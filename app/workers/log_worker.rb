@@ -75,7 +75,7 @@ class LogWorker
   end
 
   def handle_rcon
-    rcon_command = message.split(' ')[1..].join(' ')
+    rcon_command = message.split[1..].join(' ')
     return if rcon_command.empty?
 
     if !reservation.gameye? && (reservation.enable_plugins? || reservation.enable_demos_tf?)

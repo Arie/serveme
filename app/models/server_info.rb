@@ -99,7 +99,7 @@ class ServerInfo
     fetch_stats.each_line do |line|
       stats_line = line
     end
-    items = stats_line.split(' ')
+    items = stats_line.split
     {
       cpu: items[-8].freeze,
       in: items[-7].freeze,

@@ -46,10 +46,11 @@ class ServerMetric
 
   def remove_banned_players
     parser.players.each do |player|
-      if (ReservationPlayer.banned_uid?(player.steam_uid) || ReservationPlayer.banned_ip?(player.ip)) && !ReservationPlayer.whitelisted_uid?(player.steam_uid)
-        uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(player.steam_uid.to_i)
-        server.rcon_exec "banid 0 #{uid3} kick"
-      end
+      next unless (ReservationPlayer.banned_uid?(player.steam_uid) || ReservationPlayer.banned_ip?(player.ip)) && !ReservationPlayer.whitelisted_uid?(player.steam_uid)
+
+      uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(player.steam_uid.to_i)
+      server.rcon_exec "banid 0 #{uid3} kick"
+      Rails.logger.info "Removed banned player with UID #{player.steam_uid}, IP #{player.ip}, name #{player.name}"
     end
   end
 

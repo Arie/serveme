@@ -50,7 +50,7 @@ class ServerMetric
 
       uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(player.steam_uid.to_i)
       server.rcon_exec "banid 0 #{uid3} kick"
-      Rails.logger.info "Removed banned player with UID #{player.steam_uid}, IP #{player.ip}, name #{player.name}"
+      Rails.logger.info "Removed banned player with UID #{player.steam_uid}, IP #{player.ip}, name #{player.name}, from reservation #{current_reservation.id}"
     end
   end
 

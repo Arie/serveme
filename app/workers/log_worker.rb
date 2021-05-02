@@ -55,7 +55,7 @@ class LogWorker
     return if ReservationPlayer.whitelisted_uid?(community_id)
 
     reservation.server.rcon_exec "banid 0 #{community_id} kick"
-    Rails.logger.info "Removed banned player with UID #{community_id}, IP #{event.message}, name #{event.player.name}"
+    Rails.logger.info "Removed banned player with UID #{community_id}, IP #{event.message}, name #{event.player.name}, from reservation #{reservation_id}"
   end
 
   def handle_end

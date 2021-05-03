@@ -64,7 +64,12 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!
     if user_signed_in?
-      super
+      if current_user.banned?
+        Rails.logger.info "Logging out banned player with uid #{current_user.uid}, IP #{current_user.current_sign_in_ip}, name #{current_user.name}"
+        redirect_to sign_out_and_redirect(current_user)
+      else
+        super
+      end
     else
       redirect_to '/users/auth/steam'
     end

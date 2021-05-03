@@ -46,6 +46,10 @@ class User < ActiveRecord::Base
     @streamer ||= group_ids.include?(Group.streamer_group.id)
   end
 
+  def banned?
+    ReservationPlayer.banned_uid?(uid) || ReservationPlayer.banned_ip?(current_sign_in_ip)
+  end
+
   def maximum_reservation_length
     if admin?
       10.hours

@@ -2,7 +2,6 @@
 
 source 'https://rubygems.org'
 
-gem 'actionpack-action_caching'
 gem 'american_date'
 gem 'base32_pure'
 gem 'bootsnap', require: false

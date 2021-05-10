@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PagesController < ApplicationController
-  skip_before_action :authenticate_user!, except: [:recent_reservations, :statistics]
+  skip_before_action :authenticate_user!, except: %i[recent_reservations statistics]
   before_action :require_admin_or_streamer, only: :recent_reservations
 
   def welcome

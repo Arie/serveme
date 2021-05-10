@@ -105,5 +105,5 @@
           = link_to users_logout_path, :method => :delete do
             %i.fa.fa-sign-out
         - else
-          = link_to '/users/auth/steam' do
+          = link_to '/users/auth/steam', method: :post do
             = image_tag 'sits_small.png', :alt => "Sign in with Steam"

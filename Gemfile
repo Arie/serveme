@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 gem 'american_date'
 gem 'base32_pure'
 gem 'bootsnap', require: false
-gem 'bootstrap', '~> 4.6' #Something in 5 breaks popper, not going to fix that now
+gem 'bootstrap', '~> 4.6' # Something in 5 breaks popper, not going to fix that now
 gem 'carrierwave'
 gem 'clipboard-rails'
 gem 'coffee-rails'
@@ -34,8 +34,8 @@ gem 'net-sftp'
 gem 'net-ssh'
 gem 'oily_png'
 gem 'omniauth'
-gem 'omniauth-steam'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
+gem 'omniauth-steam'
 gem 'paypal-sdk-rest'
 gem 'pg'
 gem 'puma'

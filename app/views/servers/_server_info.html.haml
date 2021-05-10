@@ -7,6 +7,9 @@
       = link_to show_server_player_statistic_path(server_id: server.id) do
         - if reservation
           = "#{server.name} (#{reservation.id})".html_safe
+          %br
+          - user = reservation.user.decorate
+          = link_to(user.nickname, user.steam_profile_url, target: "_blank")
         - else
           = server.name.html_safe
     - else
@@ -21,6 +24,7 @@
     %td= statistic.traffic_out
     %td.actions
       = "#{server.inactive_minutes} minutes"
+      %br
       - if admin && reservation
         = render "reservations/actions", reservation: reservation
   - else

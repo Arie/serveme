@@ -11,8 +11,8 @@
           %th Players
           %th FPS
           %th CPU%
-          %th Traffic in
-          %th Traffic out
+          %th In
+          %th Out
           %th Inactive
       - @servers.each do |server|
         = render 'server_info', :server => server.decorate

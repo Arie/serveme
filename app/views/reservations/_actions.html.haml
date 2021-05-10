@@ -31,11 +31,11 @@
       - if reservation.server
 
         = link_to  reservation.server_connect_url, :class => 'btn btn-sm btn-warning' do
-          Join game
+          Join
           %i.fa.fa-play
 
         = link_to reservation.stv_connect_url, :class => 'btn btn-sm btn-primary' do
-          Join STV
+          STV
           %i.fa.fa-film
 
   - if reservation.cancellable?

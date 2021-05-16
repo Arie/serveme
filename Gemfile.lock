@@ -670,6 +670,7 @@ DEPENDENCIES
   rails-controller-testing
   rbzip2
   remote_lock
+  rexml
   rspec-activemodel-mocks
   rspec-collection_matchers
   rspec-expectations

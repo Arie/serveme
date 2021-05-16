@@ -430,6 +430,11 @@ GEM
       ffi (~> 1.0)
     rbzip2 (0.3.0)
     redis (4.1.4)
+    redis-rack-cache (2.2.1)
+      rack-cache (>= 1.10, < 2)
+      redis-store (>= 1.6, < 2)
+    redis-store (1.9.0)
+      redis (>= 4, < 5)
     regexp_parser (2.1.1)
     reline (0.2.5)
       io-console (~> 0.5)
@@ -669,6 +674,7 @@ DEPENDENCIES
   rails (~> 6.1.2)
   rails-controller-testing
   rbzip2
+  redis-rack-cache
   remote_lock
   rexml
   rspec-activemodel-mocks

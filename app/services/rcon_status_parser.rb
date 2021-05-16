@@ -3,7 +3,7 @@
 class RconStatusParser
   attr_accessor :rcon_status_output
 
-  PLAYER_REGEX = /\#\s+\d+\s+"(.*)"\s+(\[.*\])\s+(\d+:?\d+:\d+)\s+(\d+)\s+(\d+)\s(\w+)\s+(\d+.\d+.\d+.\d+)/.freeze
+  PLAYER_REGEX = /\#\s+\d+\s+"(.*)"\s+(\[.*\])\s+(\d+:?\d+:\d+)\s+(\d+)\s+(\d+)\s(\w+)\s+(\d+.\d+.\d+.\d+)/
 
   def initialize(rcon_status_output)
     @rcon_status_output = rcon_status_output

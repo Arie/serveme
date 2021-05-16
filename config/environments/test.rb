@@ -19,7 +19,7 @@ Serveme::Application.configure do
   config.action_dispatch.show_exceptions = false
 
   # Disable request forgery protection in test environment
-  config.action_controller.allow_forgery_protection    = false
+  config.action_controller.allow_forgery_protection = false
 
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
@@ -31,7 +31,5 @@ Serveme::Application.configure do
 
   config.eager_load = true
 
-  config.cache_store = :dalli_store, '127.0.0.1:11211',
-    { :namespace => 'serveme', :expires_in => 1.second, :pool_size => 25 }
-
+  config.cache_store = :redis_cache_store, { db: 2, expires_in: 1.second }
 end

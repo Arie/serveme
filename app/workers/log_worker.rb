@@ -6,12 +6,12 @@ class LogWorker
 
   attr_accessor :raw_line, :line, :message
 
-  MAP_START         = /(Started map\ "(\w+)")/.freeze
-  END_COMMAND       = /^!end.*/.freeze
-  EXTEND_COMMAND    = /^!extend.*/.freeze
-  RCON_COMMAND      = /^!rcon.*/.freeze
-  TIMELEFT_COMMAND  = /^!timeleft.*/.freeze
-  WHOIS_RESERVER    = /^!who$/.freeze
+  MAP_START         = /(Started map\ "(\w+)")/
+  END_COMMAND       = /^!end.*/
+  EXTEND_COMMAND    = /^!extend.*/
+  RCON_COMMAND      = /^!rcon.*/
+  TIMELEFT_COMMAND  = /^!timeleft.*/
+  WHOIS_RESERVER    = /^!who$/
   LOG_LINE_REGEX    = '(?\'secret\'\d*)(?\'line\'.*)'
 
   def perform(raw_line)

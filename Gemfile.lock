@@ -262,6 +262,7 @@ GEM
       tilt
     hashdiff (1.0.1)
     hashie (4.1.0)
+    hiredis (0.6.3)
     hive_geoip2 (0.1.2)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
@@ -641,6 +642,7 @@ DEPENDENCIES
   google_visualr!
   haml
   hashie
+  hiredis
   hive_geoip2
   irb
   jbuilder

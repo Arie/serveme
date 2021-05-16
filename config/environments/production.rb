@@ -42,10 +42,9 @@ Serveme::Application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Use a different cache store in production
-  config.cache_store = :mem_cache_store, '127.0.0.1:11211',
-                       { namespace: 'serveme', expires_in: 1.hour, pool_size: 25 }
+  config.cache_store = :redis_cache_store, { db: 0, expires_in: 1.hour }
   config.action_dispatch.rack_cache = {
-    metastore: Dalli::Client.new,
+    metastore: Redis.new(db: 4),
     entitystore: 'file:tmp/cache/rack/body',
     allow_reload: false
   }

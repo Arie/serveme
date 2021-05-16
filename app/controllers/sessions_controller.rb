@@ -6,6 +6,8 @@ class SessionsController < Devise::OmniauthCallbacksController
 
   include Devise::Controllers::Rememberable
 
+  def new; end
+
   def steam
     user = User.find_for_steam_auth(request.env['omniauth.auth'])
 

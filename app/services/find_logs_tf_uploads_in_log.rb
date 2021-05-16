@@ -3,7 +3,7 @@
 class FindLogsTfUploadsInLog
   attr_accessor :log
 
-  LOGS_TF_UPLOADED_REGEX = %r{L (?'time'.*): \[TFTrue\] The log is available here: http://logs.tf/(?'logs_tf_id'\d+). Type !log to view it.}.freeze
+  LOGS_TF_UPLOADED_REGEX = %r{L (?'time'.*): \[TFTrue\] The log is available here: http://logs.tf/(?'logs_tf_id'\d+). Type !log to view it.}
 
   def self.perform(log)
     finder = new(log)

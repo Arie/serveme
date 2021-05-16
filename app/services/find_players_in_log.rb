@@ -3,7 +3,7 @@
 class FindPlayersInLog
   attr_accessor :log
 
-  PLAYER_JOINED_REGEX = /L (?'time'.*): "(?'player_nick'.+)<(?'player_uid'\d+)><(?'player_steamid'(\[\S+\]|STEAM_\S+))><>" STEAM USERID validated/.freeze
+  PLAYER_JOINED_REGEX = /L (?'time'.*): "(?'player_nick'.+)<(?'player_uid'\d+)><(?'player_steamid'(\[\S+\]|STEAM_\S+))><>" STEAM USERID validated/
 
   def self.perform(log)
     finder = new(log)

@@ -91,6 +91,7 @@ GEM
     backport (1.1.2)
     base32_pure (0.1.0)
     bcrypt (3.1.16)
+    bcrypt_pbkdf (1.1.0)
     benchmark (0.1.1)
     better_errors (2.9.1)
       coderay (>= 1.0.0)
@@ -604,6 +605,7 @@ PLATFORMS
 DEPENDENCIES
   american_date
   base32_pure
+  bcrypt_pbkdf
   better_errors
   binding_of_caller
   bootsnap

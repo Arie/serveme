@@ -487,8 +487,6 @@ GEM
       ffi (~> 1.12)
     rubyntlm (0.6.3)
     rubyzip (2.3.0)
-    rufus-scheduler (3.7.0)
-      fugit (~> 1.1, >= 1.1.6)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -513,13 +511,9 @@ GEM
       rack (~> 2.0)
       rack-protection (>= 1.5.0)
       redis (>= 3.3.5, < 4.2)
-    sidekiq-scheduler (3.0.1)
-      e2mmap
-      redis (>= 3, < 5)
-      rufus-scheduler (~> 3.2)
-      sidekiq (>= 3)
-      thwait
-      tilt (>= 1.4.0)
+    sidekiq-cron (1.2.0)
+      fugit (~> 1.1)
+      sidekiq (>= 4.2.1)
     simple_form (5.1.0)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
@@ -564,8 +558,6 @@ GEM
       activesupport
     thor (1.1.0)
     thread_safe (0.3.6)
-    thwait (0.2.0)
-      e2mmap
     tilt (2.0.10)
     tins (1.29.0)
       sync
@@ -690,7 +682,7 @@ DEPENDENCIES
   sentry-raven
   shoulda-matchers
   sidekiq (< 6)
-  sidekiq-scheduler
+  sidekiq-cron
   simple_form
   solargraph
   sprockets

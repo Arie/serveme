@@ -1,5 +1,5 @@
 require 'sidekiq/web'
-require 'sidekiq-scheduler/web'
+require 'sidekiq/cron/web'
 
 Serveme::Application.routes.draw do
   get '/404', to: 'pages#not_found'

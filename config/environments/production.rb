@@ -42,7 +42,7 @@ Serveme::Application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Use a different cache store in production
-  config.cache_store = :dalli_store, '127.0.0.1:11211',
+  config.cache_store = :mem_cache_store, '127.0.0.1:11211',
                        { namespace: 'serveme', expires_in: 1.hour, pool_size: 25 }
   config.action_dispatch.rack_cache = {
     metastore: Dalli::Client.new,

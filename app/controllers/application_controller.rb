@@ -71,7 +71,8 @@ class ApplicationController < ActionController::Base
         super
       end
     else
-      redirect_to '/users/auth/steam'
+      flash[:notice] = 'Please log in first'
+      redirect_to new_session_path
     end
   end
 end

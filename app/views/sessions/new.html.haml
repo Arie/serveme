@@ -1,0 +1,8 @@
+.row
+  .col-md-12
+    .steam-sign-in
+      %h1
+        %span
+          Sign in with Steam
+          = link_to '/users/auth/steam', method: :post do
+            = image_tag 'sits_large_border.png', :alt => "Sign in with Steam"

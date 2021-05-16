@@ -9,6 +9,7 @@ Serveme::Application.routes.draw do
 
   devise_scope :user do
     get '/sessions/auth/:provider' => 'sessions#passthru'
+    get '/sessions/new' => 'sessions#new'
     post '/users/auth/:provider/callback' => 'sessions#steam'
     get '/users/auth/:provider/callback' => 'sessions#steam'
     delete '/users/logout' => 'devise/sessions#destroy'

@@ -235,6 +235,7 @@ GEM
       activesupport (>= 5.0)
       request_store (>= 1.0)
     e2mmap (0.1.0)
+    ed25519 (1.2.4)
     erubi (1.10.0)
     et-orbi (1.2.4)
       tzinfo
@@ -631,6 +632,7 @@ DEPENDENCIES
   delorean
   devise
   draper
+  ed25519
   eventmachine
   execjs
   factory_bot_rails

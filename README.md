@@ -5,7 +5,7 @@ A web-interface to reserve TF2 gameservers
 
 ## Requirements
 
-* Ruby, preferbly 2.6, but other versions might work. You should use [ruby-build](https://github.com/sstephenson/ruby-build/) to install Ruby.
+* Ruby, preferbly 2.6+, but other versions might work. You should use [ruby-build](https://github.com/sstephenson/ruby-build/) to install Ruby.
 * A Steam API key for user sign in
 * Redis
 

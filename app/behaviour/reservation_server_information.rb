@@ -30,7 +30,7 @@ module ReservationServerInformation
   end
 
   def zipfile_name
-    "#{user.uid}-#{id}-#{server.id}-#{formatted_starts_at}.zip"
+    "#{user.uid}-#{id}-#{server_id}-#{formatted_starts_at}.zip"
   end
 
   def zipfile_url

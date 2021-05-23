@@ -34,7 +34,7 @@ if reservation.persisted?
 end
 if reservation.ended?
   json.log_uploads reservation.log_uploads.pluck(:url)
-  json.zipfile_url reservation.zipfile_url
+  json.zipfile_url reservation.zipfile_url if reservation.server
 end
 
 json.errors do

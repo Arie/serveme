@@ -112,7 +112,7 @@ describe Reservation do
     it 'generates a unique zipfile name' do
       subject.stub(:user).and_return(mock_model(User, uid: '1234', nickname: 'Nick Name'))
       subject.stub(:id).and_return(1)
-      subject.stub(:server).and_return(double(id: 2))
+      subject.stub(:server_id).and_return(2)
       subject.stub(:formatted_starts_at).and_return('3')
       subject.stub(:starts_at).and_return(Time.now)
       subject.zipfile_name.should eql '1234-1-2-3.zip'

@@ -85,8 +85,8 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     american_date (1.1.1)
     ast (2.4.2)
-    autoprefixer-rails (10.2.4.0)
-      execjs
+    autoprefixer-rails (10.2.5.1)
+      execjs (> 0)
     backport (1.1.2)
     base32_pure (0.1.0)
     bcrypt (3.1.16)

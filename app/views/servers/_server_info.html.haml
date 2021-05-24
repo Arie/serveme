@@ -1,9 +1,10 @@
 - reservation = server.current_reservation
 - statistic = server.recent_server_statistics.last&.decorate
 - admin = !!current_admin
+- streamer = !!current_streamer
 %tr
   %td
-    - if admin
+    - if admin || streamer
       = link_to show_server_player_statistic_path(server_id: server.id) do
         - if reservation
           = "#{server.name} (#{reservation.id})".html_safe

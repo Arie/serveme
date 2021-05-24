@@ -26,13 +26,13 @@
     %td.actions
       = "#{server.inactive_minutes} minutes"
       %br
-      - if admin && reservation
+      - if (admin || streamer) && reservation
         = render "reservations/actions", reservation: reservation
   - else
     - if reservation
       %td{colspan: 6} N/A
       %td.actions
-        - if admin
+        - if admin || streamer
           = render "reservations/actions", reservation: reservation
     - else
       %td{colspan: 7} Idle

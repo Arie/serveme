@@ -39,10 +39,8 @@ describe Statistic do
         starts_at = i.days.from_now
         create :reservation, server: server2, starts_at: starts_at, ends_at: starts_at + 1.hour, user: user_2
       end
-      1.times do |i|
-        starts_at = i.days.from_now
-        create :reservation, server: server3, starts_at: starts_at, ends_at: starts_at + 1.hour, user: user_3
-      end
+      starts_at = 1.days.from_now
+      create :reservation, server: server3, starts_at: starts_at, ends_at: starts_at + 1.hour, user: user_3
 
       top_10_hash = Statistic.top_10_servers
 

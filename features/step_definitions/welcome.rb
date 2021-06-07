@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 When /^I go to the welcome page$/ do
   visit '/'
 end
 
-Given "there are servers" do
+Given 'there are servers' do
   create(:server)
   Group.donator_group.servers << create(:server)
 end
@@ -13,7 +15,7 @@ Then /^I can view a list of current reservations$/ do
 end
 
 Given /^I have made a reservation that is currently active$/ do
-  @reservation = create(:reservation, :user => @current_user, :starts_at => 1.minute.ago, :ends_at => 1.hour.from_now, :provisioned => true, :server => Server.first)
+  @reservation = create(:reservation, user: @current_user, starts_at: 1.minute.ago, ends_at: 1.hour.from_now, provisioned: true, server: Server.first)
 end
 
 Then /^I can view my reservation in the list$/ do
@@ -22,7 +24,7 @@ Then /^I can view my reservation in the list$/ do
   end
 end
 
-Then "I see a count of free and donator-only servers" do
-  page.should have_content "Everyone"
-  page.should have_content "Premium"
+Then 'I see a count of free and donator-only servers' do
+  page.should have_content 'Everyone'
+  page.should have_content 'Premium'
 end

@@ -35,7 +35,7 @@ describe MapUpload do
       'VSH_foobarwidget.bsp',
       'MVM_foobarwidget.bsp',
       'JAIL_foobarwidget.bsp',
-      'ACHIEVEMENT_foobarwidget.bsp',
+      'ACHIEVEMENT_foobarwidget.bsp'
     ]
     filenames.each do |filename|
       file = double(:file, filename: filename)

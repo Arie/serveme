@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'vcr'
 
 VCR.cucumber_tags do |t|
@@ -5,6 +7,6 @@ VCR.cucumber_tags do |t|
 end
 
 VCR.configure do |c|
-  c.cassette_library_dir = "features/fixtures/vcr"
+  c.cassette_library_dir = 'features/fixtures/vcr'
   c.hook_into :webmock
 end

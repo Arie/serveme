@@ -57,7 +57,7 @@ gem 'sidekiq', '< 6'
 gem 'sidekiq-cron'
 gem 'simple_form'
 gem 'sprockets'
-gem 'steam-condenser', git: 'https://github.com/Arie/steam-condenser-ruby'
+gem 'steam-condenser', git: 'https://github.com/koraktor/steam-condenser-ruby.git'
 gem 'stripe'
 gem 'tf2_line_parser'
 gem 'uglifier'
@@ -77,6 +77,7 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-sidekiq', require: false
+  gem 'rubocop', require: false
 end
 
 group :test, :development do

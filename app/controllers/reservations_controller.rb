@@ -93,7 +93,11 @@ class ReservationsController < ApplicationController
 
   def show
     if reservation
-      render :show
+      if reservation.gameye_location.present?
+        render :show_gameye
+      else
+        render :show
+      end
     else
       redirect_to new_reservation_path
     end

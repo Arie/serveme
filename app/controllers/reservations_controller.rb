@@ -131,7 +131,12 @@ class ReservationsController < ApplicationController
 
   def streaming
     filename = Rails.root.join('log', 'streaming', "#{reservation.logsecret}.log")
-    @streaming_log = File.open(filename)
+    begin
+      @streaming_log = File.open(filename)
+    rescue Errno::ENOENT
+      flash[:error] = "No such streaming logfile #{reservation.logsecret}.log"
+      redirect_to reservation_path(reservation)
+    end
   end
 
   private

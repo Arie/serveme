@@ -15,6 +15,10 @@ class GameyeServer < Server
 
   def self.update_reservation(reservation); end
 
+  def self.end_reservation(reservation)
+    reservation.end_reservation
+  end
+
   def self.create_temporary_server(reservation, launched)
     server = GameyeServer.create(
       name: "Gameye ##{reservation.id}",

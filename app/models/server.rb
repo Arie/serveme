@@ -172,15 +172,15 @@ class Server < ActiveRecord::Base
 
   def start_reservation(reservation)
     update_configuration(reservation)
-    if reservation.enable_plugins? || reservation.enable_demos_tf?
-      enable_plugins
-      add_sourcemod_admin(reservation.user)
-      reservation.status_update('Enabled plugins')
-      if reservation.enable_demos_tf?
-        reservation.status_update('Enabling demos.tf')
-        enable_demos_tf
-      end
-    end
+    #if reservation.enable_plugins? || reservation.enable_demos_tf?
+    #  enable_plugins
+    #  add_sourcemod_admin(reservation.user)
+    #  reservation.status_update('Enabled plugins')
+    #  if reservation.enable_demos_tf?
+    #    reservation.status_update('Enabling demos.tf')
+    #    enable_demos_tf
+    #  end
+    #end
     if reservation.server.outdated?
       reservation.status_update('Restarting server')
       restart

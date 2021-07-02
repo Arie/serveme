@@ -25,6 +25,9 @@ Metrics/CyclomaticComplexity:
    Enabled: false
    Max: 12
 
+Naming/InclusiveLanguage:
+   Enabled: false
+
 Style/GlobalVars:
    Enabled: false
 

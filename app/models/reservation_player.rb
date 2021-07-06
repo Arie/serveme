@@ -24,7 +24,8 @@ class ReservationPlayer < ActiveRecord::Base
       76_561_198_194_941_135, # Despair, shares ISP with Gremlin
       76_561_198_253_170_562, # Shock, shares ISP with Gremlin
       76_561_198_360_811_196, # Sun Tzu, shares ISP with Clx
-      76_561_198_238_943_688 # Flewvar, shares ISP with Clx
+      76_561_198_238_943_688, # Flewvar, shares ISP with Clx
+      76_561_198_167_849_935  # Laggy Lanny, shares IP with Gremlin
     ].include?(steam_id64.to_i)
   end
 

@@ -25,7 +25,7 @@ A web-interface to reserve TF2 gameservers
 STEAM_WEB_API_KEY = '<your_api_key_here>'
 ```
 5. Go to https://dev.maxmind.com/geoip/geoip2/geolite2/ and download the `GeoLite2 City` DB file. unzip and place in `/doc/` folder.
-6. Install required librarys for nokogiri [(doc can be found here)](http://www.nokogiri.org/tutorials/installing_nokogiri.html#install_with_included_libraries__recommended_)
+6. Install required libraries for nokogiri [(doc can be found here)](http://www.nokogiri.org/tutorials/installing_nokogiri.html#install_with_included_libraries__recommended_)
 7. Install the required gems using bundler: `gem install bundler && bundle` Hint you may need to install some header files for  for
 8. Edit the seed data in db/seeds.rb i.e the servers list
 9. Setup and migrate the databases: rake db:create db:migrate db:seed RAILS_ENV=development

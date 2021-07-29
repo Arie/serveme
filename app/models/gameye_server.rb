@@ -82,7 +82,7 @@ class GameyeServer < Server
 
   def self.launch_gameye(reservation)
     Gameye::Match.start(
-      game_key: 'tf2-serveme',
+      game_key: 'serveme-tf2-live',
       template_key: 'serveme',
       match_key: gameye_id(reservation),
       location_keys: [reservation.gameye_location],

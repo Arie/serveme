@@ -302,7 +302,7 @@ GEM
     logs_tf (0.0.4)
       faraday (~> 0.8)
       multipart-post (>= 1.2.0)
-    loofah (2.10.0)
+    loofah (2.11.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)

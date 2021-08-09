@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 module Mitigations
-  def anti_dos?
-    [1, 3645, 4738, 35_612].include?(user_id)
-  end
-
   def chain_name
     "serveme-#{id}"
   end

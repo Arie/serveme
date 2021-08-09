@@ -76,7 +76,7 @@ describe LocalServer do
 
   describe '#start_reservation' do
     it 'updates the configuration and triggers a restart', :vcr do
-      reservation = stubbed_reservation(enable_plugins?: true)
+      reservation = stubbed_reservation(enable_plugins?: true, enable_mitigations: true)
       subject.should_receive(:restart)
       subject.should_receive(:enable_plugins)
       subject.should_receive(:add_sourcemod_admin)
@@ -85,7 +85,7 @@ describe LocalServer do
     end
 
     it 'writes a config file', :vcr do
-      reservation = stubbed_reservation(enable_plugins?: false)
+      reservation = stubbed_reservation(enable_plugins?: false, enable_mitigations: true)
       subject.should_receive(:restart)
       file = double
       subject.stub(tf_dir: '/tmp')
@@ -110,7 +110,7 @@ describe LocalServer do
 
   describe '#end_reservation' do
     it 'should zip demos and logs, remove configuration and restart' do
-      reservation = double(rcon: 'foo', status_update: nil, ended?: false, reload: true)
+      reservation = double(rcon: 'foo', status_update: nil, ended?: false, reload: true, disable_mitigations: true)
       subject.should_receive(:copy_logs)
       subject.should_receive(:zip_demos_and_logs).with(reservation)
       subject.should_receive(:disable_plugins)

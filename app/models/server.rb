@@ -171,6 +171,8 @@ class Server < ActiveRecord::Base
   end
 
   def start_reservation(reservation)
+    reservation.anti_dos? && reservation.enable_mitigations
+
     update_configuration(reservation)
     if reservation.enable_plugins? || reservation.enable_demos_tf?
       enable_plugins
@@ -204,6 +206,8 @@ class Server < ActiveRecord::Base
   end
 
   def end_reservation(reservation)
+    reservation.anti_dos? && reservation.disable_mitigations
+
     reservation.reload
     return if reservation.ended?
 

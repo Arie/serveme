@@ -51,11 +51,14 @@ class LogWorker
 
   def handle_connect
     community_id = SteamCondenser::Community::SteamId.steam_id_to_community_id(event.player.steam_id)
-    return unless ReservationPlayer.banned_uid?(community_id) || ReservationPlayer.banned_ip?(event.message.to_s.split(':').first)
-    return if ReservationPlayer.whitelisted_uid?(community_id)
-
-    reservation.server.rcon_exec "banid 0 #{community_id} kick"
-    Rails.logger.info "Removed banned player with UID #{community_id}, IP #{event.message}, name #{event.player.name}, from reservation #{reservation_id}"
+    ip = event.message.to_s.split(':').first
+    if (ReservationPlayer.banned_uid?(community_id) || ReservationPlayer.banned_ip?(ip)) && !ReservationPlayer.whitelisted_uid?(community_id)
+      reservation.server.rcon_exec "banid 0 #{community_id} kick"
+      Rails.logger.info "Removed banned player with UID #{community_id}, IP #{event.message}, name #{event.player.name}, from reservation #{reservation_id}"
+    elsif reservation.anti_dos?
+      reservation.allow_player(ip)
+      Rails.logger.info "Allowing player #{event.player.name} with IP #{ip} in the firewall"
+    end
   end
 
   def handle_end

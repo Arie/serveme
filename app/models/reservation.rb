@@ -19,6 +19,7 @@ class Reservation < ActiveRecord::Base
 
   include ReservationServerInformation
   include ReservationValidations
+  include Mitigations
 
   attr_accessor :extending
 

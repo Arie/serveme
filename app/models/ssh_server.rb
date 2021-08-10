@@ -27,8 +27,8 @@ class SshServer < RemoteServer
     execute("rm -f #{files.map(&:shellescape).join(' ')}")
   end
 
-  def execute(command)
-    logger.info "executing remotely: #{command}"
+  def execute(command, log = true)
+    logger.info "executing remotely: #{command}" if log
     ssh_exec(command)
   end
 
@@ -79,6 +79,10 @@ class SshServer < RemoteServer
   def ssh_close
     ssh.try(:close)
     @ssh = nil
+  end
+
+  def supports_mitigations?
+    true
   end
 
   private

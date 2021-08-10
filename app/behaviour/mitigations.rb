@@ -6,7 +6,8 @@ module Mitigations
   end
 
   def anti_dos?
-    [1, 3645, 4738, 35_612].include?(user_id)
+    #[1, 3645, 4738, 35_612].include?(user_id)
+    true
   end
 
   def enable_mitigations

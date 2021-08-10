@@ -21,7 +21,7 @@ module Mitigations
         sudo iptables -A #{chain_name} -j DROP &&
         sudo iptables -A INPUT -p udp --destination-port #{server.port} -j #{chain_name} &&
         sudo iptables -A INPUT -p tcp --destination-port #{server.port} -j #{chain_name}
-      )
+      ), verbose: true
     )
   end
 
@@ -34,7 +34,7 @@ module Mitigations
         sudo iptables -D INPUT -p tcp --destination-port #{server.port} -j #{chain_name} &&
         sudo iptables --flush #{chain_name} &&
         sudo iptables -X #{chain_name}
-      )
+      ), verbose: true
     )
   end
 
@@ -45,7 +45,7 @@ module Mitigations
     server.ssh_exec(
       %(
         sudo iptables -I #{chain_name} 1 -s #{rp.ip} -j ACCEPT -m comment --comment "#{chain_name}-#{rp.steam_uid}"
-      )
+      ), verbose: true
     )
     rp.update_column(:whitelisted, true)
 

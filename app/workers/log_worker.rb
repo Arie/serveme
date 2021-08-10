@@ -56,8 +56,8 @@ class LogWorker
       reservation.server.rcon_exec "banid 0 #{community_id} kick"
       Rails.logger.info "Removed banned player with UID #{community_id}, IP #{event.message}, name #{event.player.name}, from reservation #{reservation_id}"
     elsif reservation.anti_dos? && reservation.server.supports_mitigations?
-      reservation.allow_player(ip)
-      Rails.logger.info "Allowing player #{event.player.name} with IP #{ip} in the firewall for reservation #{reservation.id}"
+      rp = ReservationPlayer.where(reservation_id: reservation_id, ip: ip, steam_uid: community_id).first_or_create(name: event.player.name)
+      reservation.allow_reservation_player(rp)
     end
   end
 

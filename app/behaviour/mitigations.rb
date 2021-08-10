@@ -9,7 +9,8 @@ module Mitigations
     server.ssh_exec(
       %(
         sudo iptables -N #{chain_name} &&
-        sudo iptables -A #{chain_name} -m limit --limit 300/s --limit-burst 300 -j ACCEPT &&
+        sudo iptables -A #{chain_name} -p tcp -m limit --limit 100/s --limit-burst 100 -j ACCEPT &&
+        sudo iptables -A #{chain_name} -p udp -m limit --limit 300/s --limit-burst 300 -j ACCEPT &&
         sudo iptables -A #{chain_name} -j DROP &&
         sudo iptables -A INPUT -p udp --destination-port #{server.port} -j #{chain_name} &&
         sudo iptables -A INPUT -p tcp --destination-port #{server.port} -j #{chain_name}

@@ -82,7 +82,7 @@ class SshServer < RemoteServer
   end
 
   def supports_mitigations?
-    id == 261
+    true
   end
 
   private

@@ -55,9 +55,9 @@ class LogWorker
     if (ReservationPlayer.banned_uid?(community_id) || ReservationPlayer.banned_ip?(ip)) && !ReservationPlayer.whitelisted_uid?(community_id)
       reservation.server.rcon_exec "banid 0 #{community_id} kick"
       Rails.logger.info "Removed banned player with UID #{community_id}, IP #{event.message}, name #{event.player.name}, from reservation #{reservation_id}"
-    else
+    elsif reservation.server.supports_mitigations?
       reservation.allow_player(ip)
-      Rails.logger.info "Allowing player #{event.player.name} with IP #{ip} in the firewall"
+      Rails.logger.info "Allowing player #{event.player.name} with IP #{ip} in the firewall for reservation #{reservation.id}"
     end
   end
 

@@ -171,7 +171,7 @@ class Server < ActiveRecord::Base
   end
 
   def start_reservation(reservation)
-    reservation.enable_mitigations
+    reservation.enable_mitigations if supports_mitigations?
 
     update_configuration(reservation)
     if reservation.enable_plugins? || reservation.enable_demos_tf?
@@ -206,7 +206,7 @@ class Server < ActiveRecord::Base
   end
 
   def end_reservation(reservation)
-    reservation.disable_mitigations
+    reservation.disable_mitigations if supports_mitigations?
 
     reservation.reload
     return if reservation.ended?
@@ -362,5 +362,9 @@ class Server < ActiveRecord::Base
 
   def host_to_ip
     Resolv.getaddress(ip) unless Rails.env.test?
+  end
+
+  def supports_mitigations?
+    false
   end
 end

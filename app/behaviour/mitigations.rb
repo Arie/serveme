@@ -29,7 +29,7 @@ module Mitigations
   end
 
   def allow_player(ip)
-    server.execute(
+    server.ssh_exec(
       %(
         sudo iptables -I #{chain_name} 1 -p tcp -s #{ip} --destination-port #{server.port} -j ACCEPT &&
         sudo iptables -I #{chain_name} 1 -p udp -s #{ip} --destination-port #{server.port} -j ACCEPT

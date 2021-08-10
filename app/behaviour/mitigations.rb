@@ -5,7 +5,13 @@ module Mitigations
     "serveme-#{id}"
   end
 
+  def anti_dos?
+    [1, 3645, 4738, 35_612].include?(user_id)
+  end
+
   def enable_mitigations
+    return unless anti_dos?
+
     server.ssh_exec(
       %(
         sudo iptables -N #{chain_name} &&
@@ -19,6 +25,8 @@ module Mitigations
   end
 
   def disable_mitigations
+    return unless anti_dos?
+
     server.ssh_exec(
       %(
         sudo iptables -D INPUT -p udp --destination-port #{server.port} -j #{chain_name} &&
@@ -30,6 +38,8 @@ module Mitigations
   end
 
   def allow_player(ip)
+    return unless anti_dos?
+
     server.ssh_exec(
       %(
         sudo iptables -I #{chain_name} 1 -s #{ip} -j ACCEPT

@@ -206,7 +206,7 @@ class Server < ActiveRecord::Base
   end
 
   def end_reservation(reservation)
-    reservation.disable_mitigations # if supports_mitigations?
+    reservation.disable_mitigations if supports_mitigations?
 
     reservation.reload
     return if reservation.ended?

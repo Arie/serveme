@@ -9,6 +9,14 @@ class ReservationPlayer < ActiveRecord::Base
   geocoded_by :ip
   before_save :geocode, if: :ip_changed?
 
+  def duplicates
+    self.class.where(reservation_id: reservation_id).where(steam_uid: steam_uid).where(ip: ip)
+  end
+
+  def self.whitelisted
+    where(whitelisted: true)
+  end
+
   def self.banned?(steam_profile)
     (banned_name?(steam_profile&.nickname) || banned_uid?(steam_profile&.steam_id64)) && !whitelisted_uid?(steam_profile&.steam_id64)
   end

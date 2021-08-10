@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_17_085355) do
+ActiveRecord::Schema.define(version: 2021_08_10_225459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,7 @@ ActiveRecord::Schema.define(version: 2019_06_17_085355) do
     t.string "ip", limit: 191
     t.float "latitude"
     t.float "longitude"
+    t.boolean "whitelisted"
     t.index ["ip"], name: "index_reservation_players_on_ip"
     t.index ["latitude", "longitude"], name: "index_reservation_players_on_latitude_and_longitude"
     t.index ["reservation_id"], name: "index_reservation_players_on_reservation_id"

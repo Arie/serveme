@@ -34,9 +34,12 @@ class SshServer < RemoteServer
 
   def ssh_exec(command)
     out = []
+    err = []
     ssh.exec!(command) do |_channel, stream, data|
       out << data if stream == :stdout
+      err << data if stream == :stderr
     end
+    logger.info "SSH STDERR while executing #{command}:\n#{err.join("\n")}" if err.any?
     out.join("\n")
   end
 

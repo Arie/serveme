@@ -24,7 +24,7 @@ module Mitigations
     )
   end
 
-  def disable_mitigations
+  def disable_mitigations(verbose: true)
     return unless anti_dos?
 
     server.ssh_exec(
@@ -33,7 +33,7 @@ module Mitigations
         sudo iptables -w 1 -D INPUT -p tcp --destination-port #{server.port} -j #{chain_name} &&
         sudo iptables -w 1 --flush #{chain_name} &&
         sudo iptables -w 1 -X #{chain_name}
-      ), verbose: true
+      ), verbose: verbose
     )
   end
 

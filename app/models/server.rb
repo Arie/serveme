@@ -314,6 +314,10 @@ class Server < ActiveRecord::Base
     self[:tv_port]&.to_i || port.to_i + 5
   end
 
+  def supports_mitigations?
+    false
+  end
+
   private
 
   def logs_and_demos
@@ -362,9 +366,5 @@ class Server < ActiveRecord::Base
 
   def host_to_ip
     Resolv.getaddress(ip) unless Rails.env.test?
-  end
-
-  def supports_mitigations?
-    false
   end
 end

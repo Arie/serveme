@@ -37,17 +37,17 @@ module Mitigations
     )
   end
 
-  def allow_reservation_player(rp)
+  def allow_reservation_player(reservation_player)
     return unless anti_dos?
-    return if rp.duplicates.whitelisted.any?
+    return if reservation_player.duplicates.whitelisted.any?
 
     server.ssh_exec(
       %(
-        sudo iptables -w 1 -I #{chain_name} 1 -s #{rp.ip} -j ACCEPT -m comment --comment "#{chain_name}-#{rp.steam_uid}"
+        sudo iptables -w 1 -I #{chain_name} 1 -s #{reservation_player.ip} -j ACCEPT -m comment --comment "#{chain_name}-#{reservation_player.steam_uid}"
       ), verbose: true
     )
-    rp.update_column(:whitelisted, true)
+    reservation_player.update_column(:whitelisted, true)
 
-    Rails.logger.info "Whitelisted player #{rp.name} (#{rp.steam_uid}) with IP #{rp.ip} in the firewall for reservation #{rp.reservation_id}"
+    Rails.logger.info "Whitelisted player #{reservation_player.name} (#{reservation_player.steam_uid}) with IP #{reservation_player.ip} in the firewall for reservation #{reservation_player.reservation_id}"
   end
 end

@@ -27,7 +27,7 @@ class SshServer < RemoteServer
     execute("rm -f #{files.map(&:shellescape).join(' ')}")
   end
 
-  def execute(command, log = true)
+  def execute(command, log: true)
     logger.info "executing remotely: #{command}" if log
     ssh_exec(command)
   end

@@ -6,7 +6,6 @@ module Mitigations
   end
 
   def anti_dos?
-    #[1, 3645, 4738, 35_612].include?(user_id)
     true
   end
 
@@ -15,12 +14,12 @@ module Mitigations
 
     server.ssh_exec(
       %(
-        sudo iptables -N #{chain_name} &&
-        sudo iptables -A #{chain_name} -p tcp -m limit --limit 100/s --limit-burst 100 -j ACCEPT &&
-        sudo iptables -A #{chain_name} -p udp -m limit --limit 300/s --limit-burst 300 -j ACCEPT &&
-        sudo iptables -A #{chain_name} -j DROP &&
-        sudo iptables -A INPUT -p udp --destination-port #{server.port} -j #{chain_name} &&
-        sudo iptables -A INPUT -p tcp --destination-port #{server.port} -j #{chain_name}
+        sudo iptables -w 1 -N #{chain_name} &&
+        sudo iptables -w 1 -A #{chain_name} -p tcp -m limit --limit 100/s --limit-burst 100 -j ACCEPT &&
+        sudo iptables -w 1 -A #{chain_name} -p udp -m limit --limit 300/s --limit-burst 300 -j ACCEPT &&
+        sudo iptables -w 1 -A #{chain_name} -j DROP &&
+        sudo iptables -w 1 -A INPUT -p udp --destination-port #{server.port} -j #{chain_name} &&
+        sudo iptables -w 1 -A INPUT -p tcp --destination-port #{server.port} -j #{chain_name}
       ), verbose: true
     )
   end
@@ -30,10 +29,10 @@ module Mitigations
 
     server.ssh_exec(
       %(
-        sudo iptables -D INPUT -p udp --destination-port #{server.port} -j #{chain_name} &&
-        sudo iptables -D INPUT -p tcp --destination-port #{server.port} -j #{chain_name} &&
-        sudo iptables --flush #{chain_name} &&
-        sudo iptables -X #{chain_name}
+        sudo iptables -w 1 -D INPUT -p udp --destination-port #{server.port} -j #{chain_name} &&
+        sudo iptables -w 1 -D INPUT -p tcp --destination-port #{server.port} -j #{chain_name} &&
+        sudo iptables -w 1 --flush #{chain_name} &&
+        sudo iptables -w 1 -X #{chain_name}
       ), verbose: true
     )
   end
@@ -44,7 +43,7 @@ module Mitigations
 
     server.ssh_exec(
       %(
-        sudo iptables -I #{chain_name} 1 -s #{rp.ip} -j ACCEPT -m comment --comment "#{chain_name}-#{rp.steam_uid}"
+        sudo iptables -w 1 -I #{chain_name} 1 -s #{rp.ip} -j ACCEPT -m comment --comment "#{chain_name}-#{rp.steam_uid}"
       ), verbose: true
     )
     rp.update_column(:whitelisted, true)

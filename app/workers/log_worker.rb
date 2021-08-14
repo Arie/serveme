@@ -57,7 +57,7 @@ class LogWorker
       Rails.logger.info "Removed banned player with UID #{community_id}, IP #{event.message}, name #{event.player.name}, from reservation #{reservation_id}"
     elsif reservation.anti_dos? && reservation.server.supports_mitigations?
       rp = ReservationPlayer.where(reservation_id: reservation_id, ip: ip, steam_uid: community_id).first_or_create(name: event.player.name)
-      reservation.allow_reservation_player(rp)
+      AllowReservationPlayerWorker.perform_async(rp.id)
     end
   end
 

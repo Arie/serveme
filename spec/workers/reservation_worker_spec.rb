@@ -10,16 +10,6 @@ describe ReservationWorker do
       Server.any_instance.should_receive(:start_reservation).with(reservation)
       ReservationWorker.perform_async(reservation.id, 'start')
     end
-
-    it 'logs an error if something goes wrong' do
-      server = double
-      server.stub(:restart).and_raise('foo')
-      subject.stub(server: server)
-      Rails.stub(logger: double.as_null_object)
-
-      Rails.logger.should_receive(:error)
-      ReservationWorker.perform_async(reservation.id, 'start')
-    end
   end
 
   context 'updating' do
@@ -36,14 +26,6 @@ describe ReservationWorker do
 
     it 'should send the end_reservation message to the server' do
       Server.any_instance.should_receive(:end_reservation)
-      ReservationWorker.perform_async(reservation.id, 'end')
-    end
-
-    it 'logs an error if something goes wrong' do
-      Server.any_instance.stub(:restart).and_raise('foo')
-      Rails.stub(logger: double.as_null_object)
-
-      Rails.logger.should_receive(:error)
       ReservationWorker.perform_async(reservation.id, 'end')
     end
   end

@@ -10,24 +10,17 @@ class ReservationWorker
   def perform(reservation_id, action)
     @reservation_id = reservation_id
     @reservation = Reservation.includes(:server).find(reservation_id)
-    begin
-      if @reservation.server_id
-        $lock.synchronize("server-#{reservation.server_id}", retries: 7, initial_wait: 0.5, expiry: 2.minutes) do
-          reservation.server.send("#{action}_reservation", reservation)
-        end
-      else
-        $lock.synchronize("server-gameye-#{reservation.id}", retries: 7, initial_wait: 0.5, expiry: 2.minutes) do
-          GameyeServer.send("#{action}_reservation", reservation)
-        end
+    if @reservation.server_id
+      $lock.synchronize("server-#{reservation.server_id}", retries: 7, initial_wait: 0.5, expiry: 2.minutes) do
+        reservation.server.send("#{action}_reservation", reservation)
       end
-    rescue StandardError => e
-      Rails.logger.error "Something went wrong #{action}-ing the server for reservation #{reservation_id} - #{e}"
-      Raven.capture_exception(e) if Rails.env.production?
-    ensure
-      send("after_#{action}_reservation_steps") if reservation
-      Rails.logger.info "#{action.capitalize}ed reservation: #{reservation}"
-      GC.start
+    else
+      $lock.synchronize("server-gameye-#{reservation.id}", retries: 7, initial_wait: 0.5, expiry: 2.minutes) do
+        GameyeServer.send("#{action}_reservation", reservation)
+      end
     end
+    send("after_#{action}_reservation_steps") if reservation
+    Rails.logger.info "#{action.capitalize}ed reservation: #{reservation}"
   end
 
   def after_start_reservation_steps

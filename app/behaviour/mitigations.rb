@@ -49,7 +49,7 @@ module Mitigations
 
   private
 
-  def xtable_timeout
+  def xtables_timeout
     5
   end
 

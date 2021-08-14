@@ -51,7 +51,7 @@ class ReservationPlayer < ActiveRecord::Base
       76_561_198_096_375_153, 76_561_198_259_219_414, # Gremlin alts
       76_561_198_884_780_390, 76_561_198_382_960_332, 76_561_198_250_136_196, 76_561_198_796_997_107, # Gremlin alts
       76_561_198_415_629_249, 76_561_198_986_847_710, 76_561_199_078_698_004, # Gremlin alts
-      76_561_198_035_013_366, 76_561_198_114_767_457 # Nino
+      76_561_198_035_013_366, 76_561_198_114_767_457, 76_561_198_891_266_744 # Nino - invading casted matches
     ].include?(steam_id64.to_i)
   end
 
@@ -70,7 +70,8 @@ class ReservationPlayer < ActiveRecord::Base
       IPAddr.new('162.253.68.0/22'), # Clx
       IPAddr.new('82.222.236.0/22'), # Clx
       IPAddr.new('46.166.176.0/21'), # Clx
-      IPAddr.new('24.133.100.0/22') # Blead
+      IPAddr.new('24.133.100.0/22'), # Blead
+      IPAddr.new('24.200.212.144/32'), # Nino
     ]
   end
 end

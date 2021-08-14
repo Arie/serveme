@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe LogWorker do
   let(:user)                  { create :user, uid: '76561197960497430' }
-  let(:server)                { double(:server, id: 1, rcon_auth: true, condenser: condenser).as_null_object }
+  let(:server)                { double(:server, id: 1, rcon_auth: true, condenser: condenser, supports_mitigations?: false).as_null_object }
   let(:condenser)             { double.as_null_object }
   let(:reservation)           { create :reservation, user: user, logsecret: '1234567' }
   let(:extend_line)           { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!extend"' }

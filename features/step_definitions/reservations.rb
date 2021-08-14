@@ -88,6 +88,7 @@ When 'I edit my reservation' do
 end
 
 When "I edit my reservation's password" do
+  ReservationManager.should_receive(:new).with(instance_of(Reservation)).and_return(double(:reservation_manager, update_reservation: true))
   step 'I go edit my reservation'
   fill_in 'Password', with: 'newpassword'
   click_button 'Save'
@@ -106,6 +107,7 @@ Then 'I see the new reservation details in the list' do
 end
 
 When 'I save the reservation' do
+  ReservationManager.should_receive(:new).with(instance_of(Reservation)).and_return(double(:reservation, start_reservation: true))
   click_button 'Save'
 end
 
@@ -188,9 +190,11 @@ Given 'I have a future reservation' do
   step 'there is a future reservation'
   @reservation = Reservation.last
 end
+
 Given 'I have a running reservation' do
   start_reservation(10.minutes.ago)
 end
+
 Given 'I have a past reservation' do
   start_reservation(10.minutes.ago)
   @reservation.update_attribute(:ends_at, 1.minute.ago)
@@ -214,6 +218,7 @@ When 'I try to end my reservation' do
 end
 
 When 'I end my reservation' do
+  ReservationManager.should_receive(:new).with(instance_of(Reservation)).and_return(double(:reservation_manager, end_reservation: true))
   step 'I try to end my reservation'
 end
 

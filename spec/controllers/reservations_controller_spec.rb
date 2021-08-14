@@ -79,6 +79,7 @@ describe ReservationsController do
       reservation = create(:reservation, user: @user)
       lucky = double(:lucky, build_reservation: reservation)
       IAmFeelingLucky.should_receive(:new).and_return(lucky)
+      reservation.should_receive(:start_reservation)
 
       post :i_am_feeling_lucky
 

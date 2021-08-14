@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :server, class: 'LocalServer' do
     name { 'TF2 1' }
-    path { '/home/tf2/tf2-1' }
+    path { '/tmp' }
     ip { '176.9.138.143' }
     port { '27015' }
     location

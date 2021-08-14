@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 2021_08_10_225459) do
     t.datetime "updated_at"
     t.boolean "gift", default: false
     t.string "type"
+    t.string "stripe_client_secret"
     t.index ["payer_id"], name: "index_paypal_orders_on_payer_id"
     t.index ["payment_id"], name: "index_paypal_orders_on_payment_id"
     t.index ["product_id"], name: "index_paypal_orders_on_product_id"

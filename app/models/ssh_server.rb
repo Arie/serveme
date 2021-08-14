@@ -32,14 +32,14 @@ class SshServer < RemoteServer
     ssh_exec(command)
   end
 
-  def ssh_exec(command, verbose: false)
+  def ssh_exec(command, log_stderr: false)
     out = []
     err = []
     ssh.exec!(command) do |_channel, stream, data|
       out << data if stream == :stdout
       err << data if stream == :stderr
     end
-    logger.info "SSH STDERR while executing #{command}:\n#{err.join("\n")}" if verbose && err.any?
+    logger.info "SSH STDERR while executing #{command}:\n#{err.join("\n")}" if log_stderr && err.any?
     out.join("\n")
   end
 

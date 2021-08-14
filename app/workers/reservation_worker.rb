@@ -46,7 +46,6 @@ class ReservationWorker
     reservation.ended    = true
     reservation.duration = reservation.ends_at.to_i - reservation.starts_at.to_i
     reservation.save(validate: false)
-    DisableMitigationsWorker.perform_async(reservation_id) if reservation.server.supports_mitigations?
     LogScanWorker.perform_async(reservation_id)
   end
 end

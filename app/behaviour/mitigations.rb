@@ -56,5 +56,4 @@ module Mitigations
   def chain_name
     "serveme-#{id}"
   end
-
 end

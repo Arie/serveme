@@ -90,13 +90,13 @@ class MapUpload < ActiveRecord::Base
   end
 
   def maps_with_full_path
-    maps.collect do |map|
+    maps&.collect do |map|
       File.join(MAPS_DIR, map)
     end
   end
 
   def upload_maps_to_servers
-    return unless maps_with_full_path.any?
+    return unless maps_with_full_path&.any?
 
     UploadFilesToServersWorker.perform_async(files: maps_with_full_path,
                                              destination: 'maps',

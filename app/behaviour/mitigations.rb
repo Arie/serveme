@@ -40,7 +40,7 @@ module Mitigations
 
     server.ssh_exec(
       %(
-        sudo iptables -w 1 -I #{chain_name} 1 -s #{reservation_player.ip} -j ACCEPT -m comment --comment "#{chain_name}-#{reservation_player.steam_uid}"
+        sudo iptables -w #{xtables_timeout} -I #{chain_name} 1 -s #{reservation_player.ip} -j ACCEPT -m comment --comment "#{chain_name}-#{reservation_player.steam_uid}"
       ), log_stderr: true
     )
     reservation_player.update_column(:whitelisted, true)

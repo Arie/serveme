@@ -15,7 +15,8 @@ module Mitigations
         sudo iptables -w #{xtables_timeout} -A #{chain_name} -p udp -m limit --limit 300/s --limit-burst 300 -j ACCEPT &&
         sudo iptables -w #{xtables_timeout} -A #{chain_name} -j DROP &&
         sudo iptables -w #{xtables_timeout} -A INPUT -p udp --destination-port #{server.port} -j #{chain_name} &&
-        sudo iptables -w #{xtables_timeout} -A INPUT -p tcp --destination-port #{server.port} -j #{chain_name}
+        sudo iptables -w #{xtables_timeout} -A INPUT -p tcp --destination-port #{server.port} -j #{chain_name} &&
+        sudo iptables -w #{xtables_timeout} -I #{chain_name} 1 -s direct.#{SITE_HOST} -j ACCEPT -m comment --comment "#{chain_name}-system"
       ), log_stderr: true
     )
   end

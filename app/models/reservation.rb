@@ -137,7 +137,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def cancellable?
-    future? || (now? && !provisioned?)
+    future?
   end
 
   def tv_password

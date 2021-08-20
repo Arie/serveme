@@ -199,11 +199,11 @@ describe Reservation do
       subject.should be_cancellable
     end
 
-    it "should be cancellable when the reservation is supposed to be active, but isn't provisioned yet" do
+    it "should not be cancellable when the reservation is supposed to be active, but isn't provisioned yet" do
       subject.stub(now?: true,
                    future?: false,
                    provisioned?: false)
-      subject.should be_cancellable
+      subject.should_not be_cancellable
     end
 
     it "should not be cancellable when it's active and provisioned" do

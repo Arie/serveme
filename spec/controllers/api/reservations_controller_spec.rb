@@ -118,7 +118,7 @@ describe Api::ReservationsController do
 
   describe '#destroy' do
     it 'removes a future reservation' do
-      reservation = create :reservation, user: @user, provisioned: false
+      reservation = create :reservation, user: @user, starts_at: 1.hour.from_now
       delete :destroy, params: { id: reservation.id }, format: :json
       response.status.should == 204
     end

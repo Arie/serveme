@@ -239,11 +239,11 @@ class Reservation < ActiveRecord::Base
   end
 
   def whitelist_ip
-    return user.reservation_players.last.ip if user.reservation_players.exists?
-
     return user.current_sign_in_ip if user.current_sign_in_ip && IPAddr.new(user.current_sign_in_ip).ipv4?
 
-    SITE_HOST
+    return user.reservation_players.last.ip if user.reservation_players.exists?
+
+    "direct.#{SITE_HOST}"
   end
 
   def gameye?

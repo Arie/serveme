@@ -671,18 +671,19 @@ describe Reservation do
 
   describe '#whitelist_ip' do
     subject { build(:reservation) }
-    it "returns the user's most recent game IP" do
-      subject.user = create(:user, current_sign_in_ip: '127.0.0.1')
+    it "first returns the user's web IP if it's IPv4" do
       create(:reservation_player, steam_uid: subject.user.uid, ip: '10.0.0.1')
-      expect(subject.whitelist_ip).to eql('10.0.0.1')
-    end
-    it "returns the user's web IP if it's IPv4" do
       subject.user = build(:user, current_sign_in_ip: '127.0.0.1')
       expect(subject.whitelist_ip).to eql('127.0.0.1')
     end
+    it "secondly returns the user's most recent game IP" do
+      subject.user = create(:user, current_sign_in_ip: nil)
+      create(:reservation_player, steam_uid: subject.user.uid, ip: '10.0.0.1')
+      expect(subject.whitelist_ip).to eql('10.0.0.1')
+    end
     it "falls back to the site's hosting IP" do
       subject.user = create(:user, current_sign_in_ip: '2a00:23c4:3cfd:c00:000:1b84:6fb8:bf21')
-      expect(subject.whitelist_ip).to eql(SITE_HOST)
+      expect(subject.whitelist_ip).to eql("direct.#{SITE_HOST}")
     end
   end
 

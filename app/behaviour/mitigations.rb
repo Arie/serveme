@@ -1,13 +1,7 @@
 # frozen_string_literal: true
 
 module Mitigations
-  def anti_dos?
-    true
-  end
-
   def enable_mitigations
-    return unless anti_dos?
-
     server.ssh_exec(
       %(
         sudo iptables -w #{xtables_timeout} -N #{chain_name} &&
@@ -22,8 +16,6 @@ module Mitigations
   end
 
   def disable_mitigations(log_stderr: true)
-    return unless anti_dos?
-
     server.ssh_exec(
       %(
         sudo iptables -w #{xtables_timeout} -D INPUT -p udp --destination-port #{server.port} -j #{chain_name} &&
@@ -35,7 +27,6 @@ module Mitigations
   end
 
   def allow_reservation_player(reservation_player)
-    return unless anti_dos?
     return if reservation_player.duplicates.whitelisted.any?
 
     server.ssh_exec(

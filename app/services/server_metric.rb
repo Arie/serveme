@@ -16,6 +16,7 @@ class ServerMetric
 
     save_player_statistics
     remove_banned_players
+    firewall_allow_players if current_reservation&.server&.supports_mitigations?
   end
 
   def save_server_statistics
@@ -51,6 +52,14 @@ class ServerMetric
       uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(player.steam_uid.to_i)
       server.rcon_exec "banid 0 #{uid3} kick"
       Rails.logger.info "Removed banned player with UID #{player.steam_uid}, IP #{player.ip}, name #{player.name}, from reservation #{current_reservation.id}"
+    end
+  end
+
+  def firewall_allow_players
+    steam_uids = parser&.players&.map(&:steam_uid)
+
+    ReservationPlayer.where(reservation: current_reservation, steam_uid: steam_uids).where.not(whitelisted: true).each do |rp|
+      current_reservation.allow_reservation_player(rp)
     end
   end
 

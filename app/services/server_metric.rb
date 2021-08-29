@@ -16,7 +16,7 @@ class ServerMetric
 
     save_player_statistics
     remove_banned_players
-    firewall_allow_players if current_reservation&.server&.supports_mitigations?
+    firewall_allow_players if current_reservation.server.supports_mitigations?
   end
 
   def save_server_statistics
@@ -59,6 +59,7 @@ class ServerMetric
     steam_uids = parser&.players&.map(&:steam_uid)
 
     ReservationPlayer.where(reservation: current_reservation, steam_uid: steam_uids).where.not(whitelisted: true).each do |rp|
+      Rails.logger.info("Found unwhitelisted player with uid #{rp.steam_uid} for reservation #{current_reservation.id}")
       current_reservation.allow_reservation_player(rp)
     end
   end

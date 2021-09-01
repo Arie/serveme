@@ -250,7 +250,7 @@ GEM
       railties (>= 5.0.0)
     faraday (0.17.4)
       multipart-post (>= 1.2, < 3)
-    ffi (1.15.3)
+    ffi (1.15.4)
     font-awesome-rails (4.7.0.7)
       railties (>= 3.2, < 7)
     fugit (1.5.1)

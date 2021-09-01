@@ -33,8 +33,13 @@ class PlayerStatisticsController < ApplicationController
   end
 
   def show_for_server_ip
-    @player_statistics = paginate(player_statistics.joins(:server).where('servers.ip = ?', params[:server_ip].to_s))
-    render :index
+    server = Server.active.find(params[:server_id])
+    if server
+      @player_statistics = paginate(player_statistics.joins(:server).where('servers.ip = ?', server.ip))
+      render :index
+    else
+      render 'not_found', status: 404, formats: :html
+    end
   end
 
   private

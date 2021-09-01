@@ -32,6 +32,11 @@ class PlayerStatisticsController < ApplicationController
     render :index
   end
 
+  def show_for_server_ip
+    @player_statistics = paginate(player_statistics.joins(:server).where('servers.ip = ?', params[:server_ip].to_s))
+    render :index
+  end
+
   private
 
   def player_statistics

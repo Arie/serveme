@@ -127,6 +127,7 @@ Serveme::Application.routes.draw do
   get   '/player_statistics/ip/:ip'                                       => 'player_statistics#show_for_ip',                      :as => 'show_ip_statistic'
   get   '/player_statistics/reservation/:reservation_id/steam/:steam_uid' => 'player_statistics#show_for_reservation_and_player',  :as => 'show_reservation_and_player_statistic'
   get   '/player_statistics/server/:server_id'                            => 'player_statistics#show_for_server',                  :as => 'show_server_player_statistic'
+  get   '/player_statistics/server-ip/:server_ip'                         => 'player_statistics#show_for_server_ip',               :as => 'show_server_ip_player_statistic'
 
   get   '/server_statistics/server/:server_id'                            => 'server_statistics#show_for_server',                  :as => 'show_server_statistic'
   get   '/server_statistics/reservation/:reservation_id'                  => 'server_statistics#show_for_reservation',             :as => 'show_reservation_server_statistic'

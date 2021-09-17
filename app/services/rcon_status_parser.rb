@@ -52,7 +52,7 @@ class RconStatusParser
       when 2
         splitted_time.first
       when 3
-        splitted_time.first * 60 + splitted_time.second
+        (splitted_time.first * 60) + splitted_time.second
       end
     end
   end

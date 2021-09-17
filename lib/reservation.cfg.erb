@@ -31,6 +31,8 @@ sv_max_queries_sec_global 60
 tv_delaymapchange 1
 tv_enable 1
 tv_autorecord 0
+tv_maxrate 0
+tv_snapshotrate 66
 <% if enable_demos_tf? %>
 <% if user.demos_tf_api_key.present? %>
 <%= %{sm_demostf_apikey "#{user.demos_tf_api_key}"} %>

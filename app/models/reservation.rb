@@ -211,7 +211,7 @@ class Reservation < ActiveRecord::Base
   def lobby?
     Rails.cache.fetch("reservation_#{id}_lobby") do
       tags = server.rcon_exec('sv_tags').to_s
-      true if tags && (tags.include?('TF2Center') || tags.include?('TF2Stadium')) || tags.include?('TF2Pickup')
+      true if (tags && (tags.include?('TF2Center') || tags.include?('TF2Stadium'))) || tags.include?('TF2Pickup')
     end
   end
 

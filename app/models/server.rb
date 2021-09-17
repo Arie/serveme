@@ -310,7 +310,7 @@ class Server < ActiveRecord::Base
   end
 
   def tv_port
-    self[:tv_port]&.to_i || port.to_i + 5
+    self[:tv_port]&.to_i || (port.to_i + 5)
   end
 
   def supports_mitigations?

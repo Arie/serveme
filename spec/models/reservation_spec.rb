@@ -49,8 +49,8 @@ describe Reservation do
     end
 
     it 'wont allow passwords with invalid characters' do
-      valid_chars = "azAZ0123456789!@-\ #$%^&*/()_+}'|\\:<>?,.[]"
-      invalid_chars = ['"', '💩', ';']
+      valid_chars = "azAZ0123456789!@-\ #$^&*/()_+}'|\\:<>?,.[]"
+      invalid_chars = ['"', '💩', ';', '%']
 
       reservation = build(:reservation)
 

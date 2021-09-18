@@ -98,7 +98,7 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (1.0.0)
       debug_inspector (>= 0.0.1)
-    bootsnap (1.8.1)
+    bootsnap (1.9.0)
       msgpack (~> 1.0)
     bootstrap (4.6.0)
       autoprefixer-rails (>= 9.1.0)
@@ -195,7 +195,7 @@ GEM
       cucumber-messages (~> 17.0, >= 17.0.1)
     cucumber-html-formatter (16.0.1)
       cucumber-messages (~> 17.0, >= 17.0.1)
-    cucumber-messages (17.1.0)
+    cucumber-messages (17.1.1)
     cucumber-rails (2.4.0)
       capybara (>= 2.18, < 4)
       cucumber (>= 3.2, < 8)
@@ -239,7 +239,7 @@ GEM
     e2mmap (0.1.0)
     ed25519 (1.2.4)
     erubi (1.10.0)
-    et-orbi (1.2.4)
+    et-orbi (1.2.5)
       tzinfo
     eventmachine (1.2.7)
     execjs (2.8.1)
@@ -253,7 +253,7 @@ GEM
     ffi (1.15.4)
     font-awesome-rails (4.7.0.7)
       railties (>= 3.2, < 7)
-    fugit (1.5.1)
+    fugit (1.5.2)
       et-orbi (~> 1.1, >= 1.1.8)
       raabro (~> 1.4)
     gameye (0.0.5)
@@ -362,7 +362,7 @@ GEM
       omniauth-openid
     orm_adapter (0.5.0)
     parallel (1.21.0)
-    parallel_tests (3.7.1)
+    parallel_tests (3.7.3)
       parallel
     parser (3.0.2.0)
       ast (~> 2.4.1)
@@ -581,7 +581,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8)
-    unicode-display_width (2.0.0)
+    unicode-display_width (2.1.0)
     vcr (6.0.0)
     warden (1.2.9)
       rack (>= 2.0.9)

@@ -35,8 +35,6 @@ module Mitigations
       ), log_stderr: true
     )
     reservation_player.update_column(:whitelisted, true)
-
-    Rails.logger.info "Whitelisted player #{reservation_player.name} (#{reservation_player.steam_uid}) with IP #{reservation_player.ip} in the firewall for reservation #{reservation_player.reservation_id}"
   end
 
   private

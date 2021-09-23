@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sidekiq/web'
 require 'sidekiq/cron/web'
 
@@ -8,11 +10,11 @@ Serveme::Application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'sessions' }
 
   devise_scope :user do
-    get '/sessions/auth/:provider' => 'sessions#passthru'
-    get '/sessions/new' => 'sessions#new'
-    post '/users/auth/:provider/callback' => 'sessions#steam'
-    get '/users/auth/:provider/callback' => 'sessions#steam'
-    delete '/users/logout' => 'devise/sessions#destroy'
+    get '/sessions/auth/:provider', to: 'sessions#passthru'
+    get '/sessions/new', to: 'sessions#new'
+    post '/users/auth/:provider/callback', to: 'sessions#steam'
+    get '/users/auth/:provider/callback', to: 'sessions#steam'
+    delete '/users/logout', to: 'devise/sessions#destroy'
   end
 
   resources :sessions do
@@ -91,7 +93,7 @@ Serveme::Application.routes.draw do
   resources :vouchers
 
   authenticate :user, ->(u) { u.admin? } do
-    mount Sidekiq::Web => '/sidekiq'
+    mount Sidekiq::Web, at: '/sidekiq'
   end
 
   namespace :api do
@@ -113,6 +115,7 @@ Serveme::Application.routes.draw do
   get   '/donate',                        to: 'orders#new',                as: 'donate'
   get   '/voucher(/:code)',               to: 'vouchers#new',              as: 'claim'
   get   '/statistics',                    to: 'pages#statistics',          as: 'statistics'
+  get   '/stats',                         to: 'pages#stats',               as: 'stats'
   get   '/faq',                           to: 'pages#faq',                 as: 'faq'
   get   '/credits',                       to: 'pages#credits',             as: 'credits'
   get   '/server-providers',              to: 'pages#server_providers',    as: 'server_providers'
@@ -122,15 +125,16 @@ Serveme::Application.routes.draw do
   get   '/settings',                      to: 'users#edit',                as: 'settings'
   get   '/upload-map',                    to: 'map_uploads#new',           as: 'upload_map'
   get   '/private-servers',               to: 'pages#private_servers',     as: 'private_server_info'
-  get   '/player_statistics/reservation/:reservation_id'                  => 'player_statistics#show_for_reservation',             :as => 'show_reservation_statistic'
-  get   '/player_statistics/steam/:steam_uid'                             => 'player_statistics#show_for_player',                  :as => 'show_player_statistic'
-  get   '/player_statistics/ip/:ip'                                       => 'player_statistics#show_for_ip',                      :as => 'show_ip_statistic'
-  get   '/player_statistics/reservation/:reservation_id/steam/:steam_uid' => 'player_statistics#show_for_reservation_and_player',  :as => 'show_reservation_and_player_statistic'
-  get   '/player_statistics/server/:server_id'                            => 'player_statistics#show_for_server',                  :as => 'show_server_player_statistic'
-  get   '/player_statistics/server-ip/:server_id'                         => 'player_statistics#show_for_server_ip',               :as => 'show_server_ip_player_statistic'
 
-  get   '/server_statistics/server/:server_id'                            => 'server_statistics#show_for_server',                  :as => 'show_server_statistic'
-  get   '/server_statistics/reservation/:reservation_id'                  => 'server_statistics#show_for_reservation',             :as => 'show_reservation_server_statistic'
+  get   '/player_statistics/reservation/:reservation_id',                  to: 'player_statistics#show_for_reservation',             as: 'show_reservation_statistic'
+  get   '/player_statistics/steam/:steam_uid',                             to: 'player_statistics#show_for_player',                  as: 'show_player_statistic'
+  get   '/player_statistics/ip/:ip',                                       to: 'player_statistics#show_for_ip',                      as: 'show_ip_statistic'
+  get   '/player_statistics/reservation/:reservation_id/steam/:steam_uid', to: 'player_statistics#show_for_reservation_and_player',  as: 'show_reservation_and_player_statistic'
+  get   '/player_statistics/server/:server_id',                            to: 'player_statistics#show_for_server',                  as: 'show_server_player_statistic'
+  get   '/player_statistics/server-ip/:server_id',                         to: 'player_statistics#show_for_server_ip',               as: 'show_server_ip_player_statistic'
+
+  get   '/server_statistics/server/:server_id',                            to: 'server_statistics#show_for_server',                  as: 'show_server_statistic'
+  get   '/server_statistics/reservation/:reservation_id',                  to: 'server_statistics#show_for_reservation',             as: 'show_reservation_server_statistic'
 
   get   '/login',                         to: 'sessions#new', as: :login
   get   '/users/auth/failure',            to: 'sessions#failure'

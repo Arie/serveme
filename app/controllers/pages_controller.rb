@@ -22,6 +22,30 @@ class PagesController < ApplicationController
     @top_10_servers_hash = Statistic.top_10_servers
   end
 
+  def stats
+    servers_count = Server.active.count
+    servers_for_non_premium_count = Server.active.without_group.count
+    servers_for_premium_count = Server.for_donators.active.count
+    current_reservations_count = Reservation.current.count
+    servers_for_non_premium_in_use = Reservation.current.where(server_id: Server.without_group).count
+    servers_for_premium_in_use = Reservation.current.where(server_id: Server.for_donators).count
+    last_player_statistic = PlayerStatistic.last
+    current_players_count = 0
+    if last_player_statistic && last_player_statistic.created_at > 2.minutes.ago
+      current_players_count = PlayerStatistic.joins(:reservation_player).where('created_at > ? and created_at < ?', last_player_statistic.created_at - 10.seconds, last_player_statistic.created_at + 10.seconds).pluck("reservation_players.steam_uid").uniq.count
+    end
+
+    render json: {
+      current_reservations: current_reservations_count,
+      current_players: current_players_count,
+      servers: servers_count,
+      servers_for_premium: servers_for_premium_count,
+      servers_for_non_premium: servers_for_non_premium_count,
+      servers_for_premium_in_use: servers_for_premium_in_use,
+      servers_for_non_premium_in_use: servers_for_non_premium_in_use
+    }
+  end
+
   def server_providers; end
 
   def faq; end

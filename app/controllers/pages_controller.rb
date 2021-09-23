@@ -31,9 +31,7 @@ class PagesController < ApplicationController
     servers_for_premium_in_use = Reservation.current.where(server_id: Server.for_donators).count
     last_player_statistic = PlayerStatistic.last
     current_players_count = 0
-    if last_player_statistic && last_player_statistic.created_at > 2.minutes.ago
-      current_players_count = PlayerStatistic.joins(:reservation_player).where('created_at > ? and created_at < ?', last_player_statistic.created_at - 10.seconds, last_player_statistic.created_at + 10.seconds).pluck("reservation_players.steam_uid").uniq.count
-    end
+    current_players_count = PlayerStatistic.joins(:reservation_player).where('created_at > ? and created_at < ?', last_player_statistic.created_at - 10.seconds, last_player_statistic.created_at + 10.seconds).pluck('reservation_players.steam_uid').uniq.count if last_player_statistic && last_player_statistic.created_at > 2.minutes.ago
 
     render json: {
       current_reservations: current_reservations_count,

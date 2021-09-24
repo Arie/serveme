@@ -54,7 +54,7 @@ class Order < ActiveRecord::Base
   def self.monthly_goal(site_host = SITE_HOST)
     case site_host
     when 'serveme.tf'
-      270.0
+      340.0
     when 'na.serveme.tf'
       350.0
     when 'sea.serveme.tf'

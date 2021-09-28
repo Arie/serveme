@@ -27,13 +27,13 @@ module Mitigations
   end
 
   def allow_reservation_player(reservation_player)
-    return if reservation_player.duplicates.whitelisted.any?
-
-    server.ssh_exec(
-      %(
-        sudo iptables -w #{xtables_timeout} -I #{chain_name} 1 -s #{reservation_player.ip} -j ACCEPT -m comment --comment "#{chain_name}-#{reservation_player.steam_uid}"
-      ), log_stderr: true
-    )
+    if reservation_player.duplicates.whitelisted.none?
+      server.ssh_exec(
+        %(
+          sudo iptables -w #{xtables_timeout} -I #{chain_name} 1 -s #{reservation_player.ip} -j ACCEPT -m comment --comment "#{chain_name}-#{reservation_player.steam_uid}"
+        ), log_stderr: true
+      )
+    end
     reservation_player.update_column(:whitelisted, true)
   end
 

@@ -6,7 +6,7 @@ class DownloadThenZipFileCreator < ZipFileCreator
     begin
       reservation.status_update('Downloading logs and demos from server')
       server.copy_from_server(files_to_zip, tmp_dir)
-      strip_ips_from_log_files(tmp_dir)
+      strip_ips_and_api_keys_from_log_files(tmp_dir)
       zip(tmp_dir)
       chmod
     ensure
@@ -14,8 +14,8 @@ class DownloadThenZipFileCreator < ZipFileCreator
     end
   end
 
-  def strip_ips_from_log_files(tmp_dir)
-    strip_command = %q|LANG=ALL LC_ALL=C sed -i -r 's/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/0.0.0.0/g'|
+  def strip_ips_and_api_keys_from_log_files(tmp_dir)
+    strip_command = %q|LANG=ALL LC_ALL=C sed -i -r 's/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/0.0.0.0/g;s/tftrue_logs_apikey \"\S+\"/tftrue_logs_apikey \"apikey\"/g;s/sm_demostf_apikey \"\S+\"/sm_demostf_apikey \"apikey\"/g'|
     strip_files   = "#{tmp_dir}/*.log"
     system("#{strip_command} #{strip_files}")
   end

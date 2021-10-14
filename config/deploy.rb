@@ -3,7 +3,7 @@
 require './config/deploy/logdaemon'
 
 set :application,       'serveme'
-set :repo_url,          'git@github.com:Arie/serveme-private.git'
+set :repo_url,          'https://github.com/Arie/serveme.git'
 set :deploy_to,         '/var/www/serveme'
 set :copy_compression,  :gzip
 set :use_sudo,          false

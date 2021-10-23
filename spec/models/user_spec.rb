@@ -111,4 +111,12 @@ describe User do
       user.should be_admin
     end
   end
+
+  describe '#league_admin?' do
+    it 'is a league admin when in the league admin group' do
+      user = create(:user)
+      user.groups << Group.league_admin_group
+      user.should be_league_admin
+    end
+  end
 end

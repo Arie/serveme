@@ -42,6 +42,10 @@ class User < ActiveRecord::Base
     @admin ||= group_ids.include?(Group.admin_group.id)
   end
 
+  def league_admin?
+    @league_admin ||= group_ids.include?(Group.league_admin_group.id)
+  end
+
   def streamer?
     @streamer ||= group_ids.include?(Group.streamer_group.id)
   end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class LeagueRequestsController < ApplicationController
-  before_action :require_admin_or_streamer
+  before_action :require_site_or_league_admin
 
   def new
     if params[:ip] || params[:steam_uid]

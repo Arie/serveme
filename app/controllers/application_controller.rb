@@ -40,6 +40,11 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_admin
 
+  def current_league_admin
+    @current_league_admin ||= current_user&.league_admin? && current_user
+  end
+  helper_method :current_admin
+
   def current_streamer
     @current_streamer ||= current_user&.streamer? && current_user
   end
@@ -51,6 +56,10 @@ class ApplicationController < ActionController::Base
 
   def require_admin_or_streamer
     redirect_to root_path unless current_admin || current_streamer
+  end
+
+  def require_site_or_league_admin
+    redirect_to root_path unless current_admin || current_league_admin
   end
 
   def require_donator

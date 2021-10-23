@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class Group < ActiveRecord::Base
-  DONATOR_GROUP  = find_or_create_by(name: 'Donators')
-  ADMIN_GROUP    = find_or_create_by(name: 'Admins')
+  DONATOR_GROUP = find_or_create_by(name: 'Donators')
+  ADMIN_GROUP = find_or_create_by(name: 'Admins')
+  LEAGUE_ADMIN_GROUP = find_or_create_by(name: 'League Admins')
   STREAMER_GROUP = find_or_create_by(name: 'Streamers')
 
   validates_presence_of :name
@@ -19,6 +20,10 @@ class Group < ActiveRecord::Base
 
   def self.admin_group
     find_or_create_by(name: 'Admins')
+  end
+
+  def self.league_admin_group
+    find_or_create_by(name: 'League Admins')
   end
 
   def self.streamer_group

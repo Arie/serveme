@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_admin_or_streamer
-    redirect_to root_path unless current_admin || current_streamer
+    redirect_to root_path unless current_admin || current_league_admin || current_streamer
   end
 
   def require_site_or_league_admin

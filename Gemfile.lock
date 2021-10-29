@@ -240,7 +240,7 @@ GEM
     e2mmap (0.1.0)
     ed25519 (1.2.4)
     erubi (1.10.0)
-    et-orbi (1.2.5)
+    et-orbi (1.2.6)
       tzinfo
     eventmachine (1.2.7)
     execjs (2.8.1)
@@ -715,4 +715,4 @@ DEPENDENCIES
   zonebie
 
 BUNDLED WITH
-   2.2.15
+   2.2.28

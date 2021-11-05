@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
   def current_league_admin
     @current_league_admin ||= current_user&.league_admin? && current_user
   end
-  helper_method :current_admin
+  helper_method :current_league_admin
 
   def current_streamer
     @current_streamer ||= current_user&.streamer? && current_user

@@ -10,7 +10,7 @@
   .col-md-12
 
     %table.table.table-hover.table-bordered.table-striped
-      - if current_user.admin? || current_user.streamer?
+      - if current_user.admin? || current_user.league_admin? || current_user.streamer?
         %tr
           %td Reserved by
           %td
@@ -76,7 +76,7 @@
             = render 'shared/copy_button', :copy_button_id => "stv_connect_string", :copy_text => reservation.stv_connect_string
             - ip_and_port = "#{reservation.server.ip}:#{reservation.server.tv_port}"
             - password_for_relay = reservation.tv_relaypassword.presence || reservation.tv_password
-            - if current_admin || current_streamer
+            - if current_admin || current_league_admin || current_streamer
               = link_to "http://relay.fakkelbrigade.eu/new?ip_port=#{ip_and_port}&password=#{password_for_relay}", :title => "create relay", :class => "btn btn-sm btn-warning", :target => "_blank" do
                 Create relay
                 %i.fa.fa-share-alt
@@ -95,7 +95,7 @@
           %td Whitelist
           %td= reservation.whitelist
 
-      - if current_admin || current_streamer
+      - if current_admin || current_league_admin || current_streamer
         %tr
           %td Logsecret
           %td

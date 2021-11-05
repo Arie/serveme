@@ -30,7 +30,7 @@ module ReservationsHelper
   def find_reservation
     return unless params[:id].to_i.positive?
 
-    if current_admin || current_streamer
+    if current_admin || current_league_admin || current_streamer
       Reservation.find(params[:id].to_i)
     else
       current_user.reservations.find(params[:id].to_i)

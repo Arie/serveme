@@ -2,11 +2,11 @@
 
 .row
   .col-md-9
-    = simple_form_for(@donator, url: url_for(controller: "donators", action: "update"), :html => { :class => 'form' }) do |f|
-      = f.input :expires_at, :as => :string, :input_html => { :value => I18n.l(@donator.expires_at, :format => :datepicker), :data => { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, :label => "Expires at"
+    = simple_form_for(@donator, url: url_for(controller: "donators", action: "update"), html: { class: 'form' }) do |f|
+      = f.input :expires_at, as: :string, input_html: { value: @donator.expires_at && I18n.l(@donator.expires_at, format: :datepicker), data: { "datepicker-format": "dd-mm-yyyy hh:ii", "datepicker-nodefault": "false" } }, label: "Expires at"
 
       .col-md-offset-2
-        %button.btn.btn-default{:type => :submit}
+        %button.btn.btn-default{type: :submit}
           Update
 
 = render "datepicker_options"

@@ -45,9 +45,8 @@ class ReservationPlayer < ActiveRecord::Base
       76_561_199_165_871_973, 76_561_199_164_609_965, 76_561_199_164_115_386, 76_561_199_146_255_686, # Clx
       76_561_199_166_660_740, # Clx
       76_561_198_156_399_565, # Possible Clx alt
-      76_561_198_280_266_851,  # Clx leaker Bread
+      76_561_198_280_266_851, # Clx leaker Bread
       76_561_197_964_387_679 # 0x0258deaD DDoSer
-
     ].include?(steam_id64.to_i)
   end
 

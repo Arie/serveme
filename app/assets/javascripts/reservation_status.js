@@ -10,6 +10,9 @@ function getReservationStatus() {
 
 function handleReservationStatus(reservation) {
   switch(reservation.status) {
+    case "ready-sdr":
+      handleReservationReadySdr(reservation);
+      break;
     case "ready":
       handleReservationReady();
       break;
@@ -37,8 +40,18 @@ function reservationStatusMessage() {
   return $("#reservation_status_message");
 }
 
+function connectInfo() {
+  return $("#connect_info");
+}
+
 function handleReservationReady() {
   reservationStatusMessage().html("<i class='fa fa-check'></i>Ready");
+  stopStatusSpinner();
+}
+
+function handleReservationReadySdr(reservation) {
+  reservationStatusMessage().html("<i class='fa fa-check'></i>SDR ready, refresh page for full connect info");
+  connectInfo().html("connect " + reservation.sdr_ip + ":" + reservation.sdr_port + "; password " + reservation.password);
   stopStatusSpinner();
 }
 

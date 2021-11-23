@@ -36,4 +36,8 @@ module ApplicationHelper
       'https://demos.tf'
     end
   end
+
+  def sdr_hidden?(reservation)
+    reservation&.server&.sdr? && !(reservation.sdr_ip && reservation.sdr_port)
+  end
 end

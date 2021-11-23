@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_10_225459) do
+ActiveRecord::Schema.define(version: 2021_11_23_143404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -167,6 +167,9 @@ ActiveRecord::Schema.define(version: 2021_08_10_225459) do
     t.boolean "enable_arena_respawn", default: false
     t.boolean "enable_demos_tf", default: false
     t.string "gameye_location"
+    t.string "sdr_ip"
+    t.string "sdr_port"
+    t.string "sdr_tv_port"
     t.index ["auto_end"], name: "index_reservations_on_auto_end"
     t.index ["custom_whitelist_id"], name: "index_reservations_on_custom_whitelist_id"
     t.index ["end_instantly"], name: "index_reservations_on_end_instantly"
@@ -231,6 +234,10 @@ ActiveRecord::Schema.define(version: 2021_08_10_225459) do
     t.float "longitude"
     t.string "billing_id"
     t.string "tv_port"
+    t.boolean "sdr", default: false
+    t.string "last_sdr_ip"
+    t.string "last_sdr_port"
+    t.string "last_sdr_tv_port"
     t.index ["active"], name: "index_servers_on_active"
     t.index ["latitude", "longitude"], name: "index_servers_on_latitude_and_longitude"
     t.index ["location_id"], name: "index_servers_on_location_id"

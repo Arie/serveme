@@ -221,10 +221,11 @@ class Reservation < ActiveRecord::Base
 
   def status
     return 'ended' if past?
-    return 'ready' if server_statistics.any?
+    return 'ready-sdr' if sdr_ip.present?
+    return 'ready' if server_statistics.any? && !server.sdr?
 
     status_messages = reservation_statuses.map(&:status)
-    return 'ready' if status_messages.grep(/Server finished loading map/).any?
+    return 'ready' if status_messages.grep(/Server finished loading map/).any? && !server.sdr?
     return 'starting' if status_messages.include?('Starting')
     return 'starting' if status_messages.grep(/Created Gameye match/).any?
     return 'waiting_to_start' if status_messages.include?('Waiting to start')

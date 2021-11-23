@@ -81,7 +81,7 @@ class LogWorker
     rcon_command = message.split[1..].join(' ')
     return if rcon_command.empty?
 
-    if !reservation.gameye? && (reservation.enable_plugins? || reservation.enable_demos_tf?)
+    if (!reservation.gameye? && !reservation.server.sdr?) && (reservation.enable_plugins? || reservation.enable_demos_tf?)
       Rails.logger.info "Ignoring rcon command #{rcon_command} from chat for reservation #{reservation}"
     else
       Rails.logger.info "Sending rcon command #{rcon_command} from chat for reservation #{reservation}"

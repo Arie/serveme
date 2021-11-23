@@ -18,6 +18,14 @@ class ServerInfo
     ActiveSupport::Multibyte::Chars.new(status.fetch(:server_name, 'unknown')).tidy_bytes.to_s
   end
 
+  def ip
+    status.fetch(:ip, nil)
+  end
+
+  def port
+    status.fetch(:port, nil)
+  end
+
   def number_of_players
     status.fetch(:number_of_players,  nil).freeze
   end
@@ -35,6 +43,9 @@ class ServerInfo
       out = {}
       fetch_rcon_status.lines.each do |line|
         case line
+        when %r{^udp/ip\s+:\s+(\d+\.\d+\.\d+\.\d+):(\d+)}
+          out[:ip] ||= Regexp.last_match(1)
+          out[:port] ||= Regexp.last_match(2)&.to_i
         when /^hostname\W+(.*)$/
           out[:server_name] ||= Regexp.last_match(1)
         when /^map\W+(\S+)/

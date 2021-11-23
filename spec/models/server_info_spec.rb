@@ -147,7 +147,7 @@ describe ServerInfo do
     it 'gets server info from rcon status' do
       rcon_status_output = %|hostname: FakkelBrigade #1
 version : 3032525/24 3032525 secure
-udp/ip  : 176.9.138.143:27015  (public ip: 176.9.138.143)
+udp/ip  : 169.254.61.158:42992  (local: 123.123.123.123:27205)  (public IP from Steam: 123.123.123.123)
 steamid : [A:1:3175318537:5985] (90097701101995017)
 account : not logged in  (No account specified)
 map     : ctf_turbine at: 0 x, 0 y, 0 z
@@ -177,6 +177,8 @@ Loaded plugins:
       subject.map_name.should eql 'ctf_turbine'
       subject.max_players.should eql '33'
       subject.number_of_players.should eql 12
+      subject.ip.should eql '169.254.61.158'
+      subject.port.should eql 42_992
     end
 
     it 'returns an empty hash if something went wrong' do

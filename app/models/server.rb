@@ -203,6 +203,7 @@ class Server < ActiveRecord::Base
     end
     if reservation.server.outdated?
       reservation.status_update('Restarting server')
+      clear_sdr_info!
       restart
       reservation.status_update('Restarted server, waiting to boot')
     else
@@ -213,6 +214,7 @@ class Server < ActiveRecord::Base
         reservation.status_update('Fast start attempted, waiting to boot')
       else
         reservation.status_update('Restarting server normally')
+        clear_sdr_info!
         restart
         reservation.status_update('Restarted server, waiting to boot')
       end
@@ -239,6 +241,7 @@ class Server < ActiveRecord::Base
     remove_logs_and_demos
     reservation.status_update('Restarting server')
     rcon_disconnect
+    clear_sdr_info!
     restart
     reservation.status_update('Restarted server')
   end
@@ -341,6 +344,10 @@ class Server < ActiveRecord::Base
 
   def steam_connect_url(ip, port, password)
     "steam://connect/#{ip}:#{port}/#{CGI.escape(password)}"
+  end
+
+  def clear_sdr_info!
+    persisted? && sdr? && update_columns(last_sdr_ip: nil, last_sdr_port: nil, last_sdr_tv_port: nil)
   end
 
   private

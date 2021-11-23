@@ -155,7 +155,7 @@ class ReservationsController < ApplicationController
         redirect_to gameye_path(@reservation)
       else
         @reservation.start_reservation
-        flash[:notice] = "Reservation created for #{@reservation.server_name}. The server is now being configured, give it a minute to start and <a href='#{@reservation.server_connect_url}'>click here to join</a> or enter in console: #{@reservation.connect_string}".html_safe
+        flash[:notice] = "Reservation created for #{@reservation.server_name}. The server is now being configured, give it a minute to start".html_safe
         redirect_to reservation_path(@reservation)
       end
     else

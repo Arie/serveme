@@ -22,64 +22,71 @@
             #reservation_status_spinner
               %i.fa.fa-spinner.fa-spin.reservation_status_spinner
             #reservation_status_message= reservation.status.titleize
-      %tr
-        %td Actions
-        %td.actions= render 'actions'
-      %tr
-        %td Connect info
-        %td
-          = reservation.connect_string
-          = render 'shared/copy_button', :copy_button_id => "connect_string", :copy_text => reservation.connect_string
 
-      %tr
-        %td TF2Center info
-        %td
-          Server Address:
-          - ip_and_port = "#{reservation.server.ip}:#{reservation.server.port}"
-          = ip_and_port
-          = render 'shared/copy_button', :copy_button_id => "server_address", :copy_text => ip_and_port
-          %br
-          Rcon Password:
-          = reservation.rcon
-          = render 'shared/copy_button', :copy_button_id => "rcon_password", :copy_text => reservation.rcon
-
-      %tr
-        %td Password
-        %td= reservation.password
-
-      %tr
-        %td RCON
-        %td
-          = reservation.rcon_string
-          = render 'shared/copy_button', :copy_button_id => "rcon_string", :copy_text => reservation.rcon_string
-
+      - if sdr_hidden?(reservation)
         %tr
-          %td STV
-          %td Enabled
-
+          %td Connect info
+          %td#connect_info
+            Refresh the page when the reservation is ready to get the full connect info
+      - else
         %tr
-          %td TV password
-          %td= reservation.tv_password
-
+          %td Actions
+          %td.actions= render 'actions'
         %tr
-          %td Relay password
-          %td= reservation.tv_relaypassword
-
-        %tr
-          %td STV connect info
+          %td Connect info
           %td
-            - if reservation.active?
-              = link_to reservation.stv_connect_url, :class => 'btn btn-sm btn-primary' do
-                Join STV
-                %i.fa.fa-film
-            = reservation.stv_connect_string
-            = render 'shared/copy_button', :copy_button_id => "stv_connect_string", :copy_text => reservation.stv_connect_string
-            - ip_and_port = "#{reservation.server.ip}:#{reservation.server.tv_port}"
-            - password_for_relay = reservation.tv_relaypassword.presence || reservation.tv_password
-            - if current_admin || current_league_admin || current_streamer
-              = link_to "http://relay.fakkelbrigade.eu/new?ip_port=#{ip_and_port}&password=#{password_for_relay}", :title => "create relay", :class => "btn btn-sm btn-warning", :target => "_blank" do
-                Create relay
-                %i.fa.fa-share-alt
+            = reservation.connect_string
+            = render 'shared/copy_button', :copy_button_id => "connect_string", :copy_text => reservation.connect_string
+
+        %tr
+          %td TF2Center info
+          %td
+            Server Address:
+            - ip_and_port = "#{reservation.public_ip}:#{reservation.public_port}"
+            = ip_and_port
+            = render 'shared/copy_button', :copy_button_id => "server_address", :copy_text => ip_and_port
+            %br
+            Rcon Password:
+            = reservation.rcon
+            = render 'shared/copy_button', :copy_button_id => "rcon_password", :copy_text => reservation.rcon
+
+        %tr
+          %td Password
+          %td= reservation.password
+
+        %tr
+          %td RCON
+          %td
+            = reservation.rcon_string
+            = render 'shared/copy_button', :copy_button_id => "rcon_string", :copy_text => reservation.rcon_string
+
+          %tr
+            %td STV
+            %td Enabled
+
+          %tr
+            %td TV password
+            %td= reservation.tv_password
+
+          %tr
+            %td Relay password
+            %td= reservation.tv_relaypassword
+
+          %tr
+            %td STV connect info
+            %td
+              - if reservation.active?
+                = link_to reservation.stv_connect_url, :class => 'btn btn-sm btn-primary' do
+                  Join STV
+                  %i.fa.fa-film
+              = reservation.stv_connect_string
+              = render 'shared/copy_button', :copy_button_id => "stv_connect_string", :copy_text => reservation.stv_connect_string
+              - ip_and_port = "#{reservation.server.public_ip}:#{reservation.server.public_tv_port}"
+              - password_for_relay = reservation.tv_relaypassword.presence || reservation.tv_password
+              - if current_admin || current_league_admin || current_streamer
+                = link_to "http://relay.fakkelbrigade.eu/new?ip_port=#{ip_and_port}&password=#{password_for_relay}", :title => "create relay", :class => "btn btn-sm btn-warning", :target => "_blank" do
+                  Create relay
+                  %i.fa.fa-share-alt
 
       - if reservation.server_config
         %tr

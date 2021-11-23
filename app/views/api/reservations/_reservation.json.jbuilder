@@ -15,6 +15,9 @@ json.custom_whitelist_id reservation.custom_whitelist_id
 json.auto_end reservation.auto_end
 json.enable_plugins reservation.enable_plugins
 json.enable_demos_tf reservation.enable_demos_tf
+json.sdr_ip reservation.sdr_ip
+json.sdr_port reservation.sdr_port
+json.sdr_tv_port reservation.sdr_tv_port
 json.gameye_location reservation.gameye_location if reservation.gameye_location
 if reservation.persisted?
   json.id reservation.id

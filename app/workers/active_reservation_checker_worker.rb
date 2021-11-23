@@ -29,6 +29,7 @@ class ActiveReservationCheckerWorker
       @server_info.status
       @server_info.fetch_stats
       @server_info.fetch_rcon_status
+      save_sdr_info(@server_info) if sdr_info_missing?
       ServerMetric.new(@server_info)
       @server.rcon_exec "sv_logsecret #{@reservation.logsecret}"
     rescue SteamCondenser::Error, Errno::ECONNREFUSED
@@ -55,5 +56,17 @@ class ActiveReservationCheckerWorker
       Rails.logger.warn "Automatically ending #{@reservation} because it went from occupied to empty"
       @reservation.end_reservation
     end
+  end
+
+  def sdr_info_missing?
+    @server.sdr? && @reservation.sdr_ip.nil?
+  end
+
+  def save_sdr_info(server_info)
+    @reservation.update_columns(
+      sdr_ip: server_info.ip,
+      sdr_port: server_info.port,
+      sdr_tv_port: server_info.port + 1
+    )
   end
 end

@@ -5,7 +5,7 @@ require 'spec_helper'
 describe ActiveReservationCheckerWorker do
   let(:reservation) { create :reservation }
   let(:server_info) { double(:server_info, number_of_players: 1).as_null_object }
-  let(:server)      { double(:server, server_info: server_info, name: 'Server name', gameye?: false, rcon_exec: true) }
+  let(:server)      { double(:server, server_info: server_info, name: 'Server name', gameye?: false, sdr?: false, rcon_exec: true) }
   before do
     reservation.stub(server: server)
     allow(ServerMetric).to receive(:new)
@@ -13,7 +13,7 @@ describe ActiveReservationCheckerWorker do
   end
 
   it 'finds the server to check' do
-    server.stub(occupied?: true, number_of_players: 1)
+    server.stub(occupied?: true, number_of_players: 1, sdr?: false)
     reservation.should_receive(:server).at_least(:once).and_return(server)
     ActiveReservationCheckerWorker.perform_async(reservation.id)
   end
@@ -31,7 +31,7 @@ describe ActiveReservationCheckerWorker do
 
   context 'occupied server' do
     it 'saves the number of players and resets the inactive minutes' do
-      server.stub(occupied?: true, number_of_players: 1)
+      server.stub(occupied?: true, number_of_players: 1, sdr: false)
       reservation.stub(server: server)
 
       reservation.should_receive(:update_column).with(:last_number_of_players,  1)

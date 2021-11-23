@@ -62,20 +62,38 @@ class Server < ActiveRecord::Base
     Group.donator_group.servers
   end
 
+  def public_ip
+    return last_sdr_ip if sdr?
+
+    ip
+  end
+
+  def public_port
+    return last_sdr_port if sdr?
+
+    port
+  end
+
+  def public_tv_port
+    return last_sdr_tv_port if sdr?
+
+    tv_port
+  end
+
   def server_connect_string(password)
-    connect_string(ip, port, password)
+    connect_string(public_ip, public_port, password)
   end
 
   def stv_connect_string(tv_password)
-    connect_string(ip, tv_port, tv_password)
+    connect_string(public_ip, public_tv_port, tv_password)
   end
 
   def server_connect_url(password)
-    steam_connect_url(ip, port, password)
+    steam_connect_url(public_ip, public_port, password)
   end
 
   def stv_connect_url(password)
-    steam_connect_url(ip, tv_port, password)
+    steam_connect_url(public_ip, public_tv_port, password)
   end
 
   def update_configuration(reservation)
@@ -176,7 +194,7 @@ class Server < ActiveRecord::Base
     update_configuration(reservation)
     if reservation.enable_plugins? || reservation.enable_demos_tf?
       enable_plugins
-      add_sourcemod_admin(reservation.user)
+      add_sourcemod_admin(reservation.user) unless reservation.server.sdr?
       reservation.status_update('Enabled plugins')
       if reservation.enable_demos_tf?
         reservation.status_update('Enabling demos.tf')
@@ -317,6 +335,14 @@ class Server < ActiveRecord::Base
     false
   end
 
+  def connect_string(ip, port, password)
+    "connect #{ip}:#{port}; password \"#{password}\""
+  end
+
+  def steam_connect_url(ip, port, password)
+    "steam://connect/#{ip}:#{port}/#{CGI.escape(password)}"
+  end
+
   private
 
   def logs_and_demos
@@ -329,14 +355,6 @@ class Server < ActiveRecord::Base
 
   def demo_match
     File.join(tf_dir, '*.dem')
-  end
-
-  def connect_string(ip, port, password)
-    "connect #{ip}:#{port}; password \"#{password}\""
-  end
-
-  def steam_connect_url(ip, port, password)
-    "steam://connect/#{ip}:#{port}/#{CGI.escape(password)}"
   end
 
   def server_config_file(config_file)

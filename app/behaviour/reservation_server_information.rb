@@ -5,28 +5,40 @@ module ReservationServerInformation
     "#{SITE_HOST} (##{id})"
   end
 
+  def public_ip
+    sdr_ip || server&.public_ip
+  end
+
+  def public_port
+    sdr_port || server&.public_port
+  end
+
+  def public_tv_port
+    sdr_tv_port || server&.public_tv_port
+  end
+
   def connect_string
-    server&.server_connect_string(password)
+    server.connect_string(public_ip, public_port, password)
   end
 
   def stv_connect_string
-    server&.stv_connect_string(tv_password)
+    server.connect_string(public_ip, public_tv_port, tv_password)
   end
 
   def rcon_string
     if server
-      "rcon_address #{server.ip}:#{server.port}; rcon_password \"#{rcon}\""
+      "rcon_address #{public_ip}:#{public_port}; rcon_password \"#{rcon}\""
     else
       "rcon_password \"#{rcon}\""
     end
   end
 
   def server_connect_url
-    server&.server_connect_url(password)
+    server&.steam_connect_url(public_ip, public_port, password)
   end
 
   def stv_connect_url
-    server&.stv_connect_url(tv_password)
+    server&.steam_connect_url(public_ip, public_tv_port, tv_password)
   end
 
   def zipfile_name

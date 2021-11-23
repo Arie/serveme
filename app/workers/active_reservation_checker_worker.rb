@@ -68,5 +68,10 @@ class ActiveReservationCheckerWorker
       sdr_port: server_info.port,
       sdr_tv_port: server_info.port + 1
     )
+    @reservation.server.update_columns(
+      last_sdr_ip: server_info.ip,
+      last_sdr_port: server_info.port,
+      last_sdr_tv_port: server_info.port + 1
+    )
   end
 end

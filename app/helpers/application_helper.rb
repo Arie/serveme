@@ -37,7 +37,7 @@ module ApplicationHelper
     end
   end
 
-  def sdr_hidden?(reservation)
+  def preliminary_sdr?(reservation)
     reservation&.server&.sdr? && !(reservation.sdr_ip && reservation.sdr_port)
   end
 end

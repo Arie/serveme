@@ -9,7 +9,7 @@
 - if reservation.server.sdr?
   .row 
     .col-md-12
-      %p
+      %p.alert.alert-warning
         This is a server hosted on Valve's SDR network. A special kind of VPN to improve routing and defend against DDoS attacks.
         %br
         SDR servers can't be used for TF2Center/TF2Stadium and you can only use RCON with the !rcon chat command
@@ -31,78 +31,79 @@
               %i.fa.fa-spinner.fa-spin.reservation_status_spinner
             #reservation_status_message= reservation.status.titleize
 
-      - if sdr_hidden?(reservation)
+      %tr
+        %td Actions
+        %td.actions= render 'actions'
+
+      - if preliminary_sdr?(reservation)
         %tr
           %td Connect info
           %td#connect_info
-            Refresh the page when the reservation is ready to get the full connect info
+            Refresh the page when the server is ready to get the final connect info
             %br
-            Expected connect info
+            Temporary connect info
             %br
             = reservation.connect_string
             = render 'shared/copy_button', :copy_button_id => "connect_string", :copy_text => reservation.connect_string
       - else
         %tr
-          %td Actions
-          %td.actions= render 'actions'
-        %tr
           %td Connect info
           %td
             = reservation.connect_string
             = render 'shared/copy_button', :copy_button_id => "connect_string", :copy_text => reservation.connect_string
 
+      %tr
+        %td TF2Center info
+        %td
+          Server Address:
+          - ip_and_port = "#{reservation.public_ip}:#{reservation.public_port}"
+          = ip_and_port
+          = render 'shared/copy_button', :copy_button_id => "server_address", :copy_text => ip_and_port
+          %br
+          Rcon Password:
+          = reservation.rcon
+          = render 'shared/copy_button', :copy_button_id => "rcon_password", :copy_text => reservation.rcon
+
+      %tr
+        %td Password
+        %td= reservation.password
+
+      %tr
+        %td RCON
+        %td
+          - if reservation.server.sdr?
+            %p RCON is not available for SDR servers, use !rcon in chat
+          - else
+            = reservation.rcon_string
+            = render 'shared/copy_button', :copy_button_id => "rcon_string", :copy_text => reservation.rcon_string
+
         %tr
-          %td TF2Center info
+          %td STV
+          %td Enabled
+
+        %tr
+          %td TV password
+          %td= reservation.tv_password
+
+        %tr
+          %td Relay password
+          %td= reservation.tv_relaypassword
+
+        %tr
+          %td STV connect info
           %td
-            Server Address:
-            - ip_and_port = "#{reservation.public_ip}:#{reservation.public_port}"
-            = ip_and_port
-            = render 'shared/copy_button', :copy_button_id => "server_address", :copy_text => ip_and_port
-            %br
-            Rcon Password:
-            = reservation.rcon
-            = render 'shared/copy_button', :copy_button_id => "rcon_password", :copy_text => reservation.rcon
-
-        %tr
-          %td Password
-          %td= reservation.password
-
-        %tr
-          %td RCON
-          %td
-            - if reservation.server.sdr?
-              %p RCON is not available for SDR servers, use !rcon in chat
-            - else
-              = reservation.rcon_string
-              = render 'shared/copy_button', :copy_button_id => "rcon_string", :copy_text => reservation.rcon_string
-
-          %tr
-            %td STV
-            %td Enabled
-
-          %tr
-            %td TV password
-            %td= reservation.tv_password
-
-          %tr
-            %td Relay password
-            %td= reservation.tv_relaypassword
-
-          %tr
-            %td STV connect info
-            %td
-              - if reservation.active?
-                = link_to reservation.stv_connect_url, :class => 'btn btn-sm btn-primary' do
-                  Join STV
-                  %i.fa.fa-film
-              = reservation.stv_connect_string
-              = render 'shared/copy_button', :copy_button_id => "stv_connect_string", :copy_text => reservation.stv_connect_string
-              - ip_and_port = "#{reservation.server.public_ip}:#{reservation.server.public_tv_port}"
-              - password_for_relay = reservation.tv_relaypassword.presence || reservation.tv_password
-              - if current_admin || current_league_admin || current_streamer
-                = link_to "http://relay.fakkelbrigade.eu/new?ip_port=#{ip_and_port}&password=#{password_for_relay}", :title => "create relay", :class => "btn btn-sm btn-warning", :target => "_blank" do
-                  Create relay
-                  %i.fa.fa-share-alt
+            - if reservation.active?
+              = link_to reservation.stv_connect_url, :class => 'btn btn-sm btn-primary' do
+                Join STV
+                %i.fa.fa-film
+            = reservation.stv_connect_string
+            = render 'shared/copy_button', :copy_button_id => "stv_connect_string", :copy_text => reservation.stv_connect_string
+            - ip_and_port = "#{reservation.server.public_ip}:#{reservation.server.public_tv_port}"
+            - password_for_relay = reservation.tv_relaypassword.presence || reservation.tv_password
+            - if current_admin || current_league_admin || current_streamer
+              = link_to "http://relay.fakkelbrigade.eu/new?ip_port=#{ip_and_port}&password=#{password_for_relay}", :title => "create relay", :class => "btn btn-sm btn-warning", :target => "_blank" do
+                Create relay
+                %i.fa.fa-share-alt
 
       - if reservation.server_config
         %tr

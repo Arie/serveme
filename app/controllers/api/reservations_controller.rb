@@ -19,7 +19,9 @@ module Api
     end
 
     def find_servers
-      find_servers_for_user
+      @reservation = new_reservation
+      @servers = free_servers.where(sdr: false)
+      render :find_servers
     end
 
     def create

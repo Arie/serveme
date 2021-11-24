@@ -15,6 +15,19 @@ module Mitigations
     )
   end
 
+  def enable_sdr_mitigations
+    server.ssh_exec(
+      %(
+        sudo iptables -w #{xtables_timeout} -N #{chain_name} &&
+        sudo iptables -w #{xtables_timeout} -A #{chain_name} -p tcp -m limit --limit 100/s --limit-burst 100 -j ACCEPT &&
+        sudo iptables -w #{xtables_timeout} -A #{chain_name} -j DROP &&
+        sudo iptables -w #{xtables_timeout} -A INPUT -p udp --destination-port #{server.port} -j #{chain_name} &&
+        sudo iptables -w #{xtables_timeout} -A INPUT -p tcp --destination-port #{server.port} -j #{chain_name} &&
+        sudo iptables -w #{xtables_timeout} -I #{chain_name} 1 -s direct.#{SITE_HOST} -j ACCEPT -m comment --comment "#{chain_name}-system"
+      ), log_stderr: true
+    )
+  end
+
   def disable_mitigations(log_stderr: true)
     server.ssh_exec(
       %(

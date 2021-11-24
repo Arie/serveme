@@ -57,6 +57,6 @@ class LeagueRequest
   end
 
   def players_query
-    ReservationPlayer.joins(:reservation).order('reservations.starts_at DESC')
+    ReservationPlayer.joins(reservation: :server).where('servers.sdr = ?', false).order('reservations.starts_at DESC')
   end
 end

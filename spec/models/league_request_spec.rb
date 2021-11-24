@@ -28,6 +28,17 @@ describe LeagueRequest do
       expect(results.first.id).to eql(player.id)
     end
 
+    it 'ignores games played on SDR servers' do
+      sdr_server = create(:server, sdr: true)
+      reservation = create(:reservation, server: sdr_server)
+      create(:reservation_player, reservation: reservation, ip: '8.8.8.8')
+
+      request = LeagueRequest.new(user, ip: '8.8.8.8')
+      results = request.search
+
+      expect(results.size).to eql(0)
+    end
+
     it 'cross references players by IP' do
       player = create(:reservation_player, steam_uid: 'abc', ip: '8.8.8.8')
       alt = create(:reservation_player, steam_uid: 'def', ip: '8.8.8.8')

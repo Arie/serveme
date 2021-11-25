@@ -63,6 +63,8 @@ class ActiveReservationCheckerWorker
   end
 
   def save_sdr_info(server_info)
+    return if server_info.ip.nil?
+
     @reservation.update_columns(
       sdr_ip: server_info.ip,
       sdr_port: server_info.port,

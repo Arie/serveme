@@ -23,7 +23,8 @@ class ActiveReservationCheckerWorker
   private
 
   def fetch_server_stats
-    @server_info = @reservation.server.server_info
+    Rails.cache.delete "server_info_#{@reservation.server_id}"
+    @server_info = @server.server_info
 
     begin
       @server_info.status

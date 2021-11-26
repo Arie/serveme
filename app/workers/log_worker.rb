@@ -30,6 +30,7 @@ class LogWorker
       mapstart = event.unknown.match(MAP_START)
       if mapstart
         map = mapstart[2]
+        ActiveReservationCheckerWorker.perform_async(reservation.id) if reservation&.server&.sdr?
         if map == 'ctf_turbine'
           reservation.status_update('Server startup complete, switching map')
         else

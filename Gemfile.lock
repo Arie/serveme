@@ -369,7 +369,7 @@ GEM
     parallel (1.21.0)
     parallel_tests (3.7.3)
       parallel
-    parser (3.0.3.0)
+    parser (3.0.3.1)
       ast (~> 2.4.1)
     paypal-sdk-rest (1.7.4)
       multi_json (~> 1.0)
@@ -606,7 +606,8 @@ GEM
       rexml
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    yard (0.9.26)
+    yard (0.9.27)
+      webrick (~> 1.7.0)
     zeitwerk (2.5.1)
     zonebie (0.6.1)
 

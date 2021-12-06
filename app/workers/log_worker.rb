@@ -42,7 +42,7 @@ class LogWorker
   end
 
   def handle_message
-    action = action_by_reserver || action_for_message_said_by_anyone || action_for_message_said_by_lobby_player
+    action = action_by_reserver || action_for_message_said_by_anyone
     return unless action
 
     reservation.status_update("#{event.player.name} (#{sayer_steam_uid}): #{event.message}")
@@ -105,8 +105,6 @@ class LogWorker
     case message
     when END_COMMAND
       :handle_end
-    when EXTEND_COMMAND
-      :handle_extend
     when RCON_COMMAND
       :handle_rcon
     end
@@ -117,18 +115,9 @@ class LogWorker
     when TIMELEFT_COMMAND
       :handle_timeleft
     when EXTEND_COMMAND
-      :handle_extend if reserver_is_donator?
+      :handle_extend
     when WHOIS_RESERVER
       :handle_whois_reserver
-    end
-  end
-
-  def action_for_message_said_by_lobby_player
-    return unless lobby?
-
-    case message
-    when EXTEND_COMMAND
-      :handle_extend
     end
   end
 
@@ -136,16 +125,8 @@ class LogWorker
     event.player.steam_id == reserver_steam_id
   end
 
-  def lobby?
-    reservation.lobby?
-  end
-
   def action_by_reserver
     said_by_reserver? && action_for_message_said_by_reserver
-  end
-
-  def reserver_is_donator?
-    reserver&.donator?
   end
 
   def reserver

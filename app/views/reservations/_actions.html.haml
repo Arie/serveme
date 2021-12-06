@@ -28,7 +28,7 @@
         End
         %i.fa.fa-stop
 
-      - if reservation.server
+      - if reservation.server && !reservation.server.sdr?
 
         = link_to  reservation.server_connect_url, :class => 'btn btn-sm btn-warning' do
           Join

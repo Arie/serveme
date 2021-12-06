@@ -98,7 +98,7 @@ class LogWorker
   end
 
   def handle_whois_reserver
-    reservation.server.rcon_say "Reservation created by: '#{reserver.name}'"
+    reservation.server.rcon_say "Reservation created by: '#{reserver.name}' (#{reserver.uid})"
   end
 
   def action_for_message_said_by_reserver

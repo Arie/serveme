@@ -119,7 +119,7 @@ describe LogWorker do
 
   describe 'who' do
     it 'returns the name of the reserver for the reservation' do
-      server.should_receive(:rcon_say).with("Reservation created by: '#{reservation.user.name}'")
+      server.should_receive(:rcon_say).with("Reservation created by: '#{reservation.user.name}' (76561197960497430)")
       LogWorker.perform_async(who_line)
     end
 

@@ -85,7 +85,7 @@
         %tr
           %td STV connect info
           %td
-            - if reservation.active?
+            - if reservation.active? && !reservation&.server&.sdr?
               = link_to reservation.stv_connect_url, :class => 'btn btn-sm btn-primary' do
                 Join STV
                 %i.fa.fa-film

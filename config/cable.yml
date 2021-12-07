@@ -1,0 +1,12 @@
+development:
+  adapter: redis
+  url: redis://localhost:6379
+  channel_prefix: serveme_hotwire_development
+
+test:
+  adapter: async
+
+production:
+  adapter: redis
+  url: redis://localhost:6379
+  channel_prefix: serveme_hotwire_production

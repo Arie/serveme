@@ -26,6 +26,8 @@ gem 'google_visualr', git: 'https://github.com/Arie/google_visualr.git'
 gem 'haml'
 gem 'hashie'
 gem 'hiredis'
+gem 'hotwire-rails'
+gem 'importmap-rails'
 gem 'jbuilder'
 gem 'jquery-rails'
 gem 'lograge'
@@ -123,3 +125,6 @@ end
 group :production do
   gem 'sentry-raven'
 end
+
+# Use Redis for Action Cable
+gem 'redis', '~> 4.0'

@@ -135,9 +135,8 @@
               %i.fa.fa-bar-chart
 
 
+
     - if current_admin
-      %table.table.table-hover.table-bordered.table-striped
-        - reservation.reservation_statuses.ordered.each do |su|
-          %tr
-            %td= I18n.l(su.created_at, :format => :time)
-            %td= su.status
+      = turbo_stream_from @reservation
+      %table#reservation_statuses.table.table-hover.table-bordered.table-striped
+        = render reservation.reservation_statuses.ordered

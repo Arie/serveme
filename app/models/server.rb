@@ -199,16 +199,18 @@ class Server < ActiveRecord::Base
 
     update_configuration(reservation)
     if reservation.enable_plugins? || reservation.enable_demos_tf?
+      reservation.status_update('Enabling plugins')
       enable_plugins
       add_sourcemod_admin(reservation.user) unless reservation.server.sdr?
       reservation.status_update('Enabled plugins')
       if reservation.enable_demos_tf?
         reservation.status_update('Enabling demos.tf')
         enable_demos_tf
+        reservation.status_update('Enabled demos.tf')
       end
     end
     if reservation.server.outdated?
-      reservation.status_update('Restarting server')
+      reservation.status_update('Server outdated, restarting server to update')
       clear_sdr_info!
       restart
       reservation.status_update('Restarted server, waiting to boot')
@@ -219,7 +221,7 @@ class Server < ActiveRecord::Base
         rcon_exec("changelevel #{first_map}; exec reservation.cfg")
         reservation.status_update('Fast start attempted, waiting to boot')
       else
-        reservation.status_update('Restarting server normally')
+        reservation.status_update('Fast start failed, starting server normally')
         clear_sdr_info!
         restart
         reservation.status_update('Restarted server, waiting to boot')
@@ -241,7 +243,6 @@ class Server < ActiveRecord::Base
     disable_demos_tf
     rcon_exec("sv_logflush 1; tv_stoprecord; kickall Reservation ended, every player can download the STV demo at https:/​/#{SITE_HOST}")
     sleep 1 # Give server a second to finish the STV demo and write the log
-    reservation.status_update('Removing configuration and disabling plugins')
     zip_demos_and_logs(reservation)
     copy_logs(reservation)
     remove_logs_and_demos

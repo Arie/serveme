@@ -6,6 +6,7 @@ class DownloadThenZipFileCreator < ZipFileCreator
     begin
       reservation.status_update('Downloading logs and demos from server')
       server.copy_from_server(files_to_zip, tmp_dir)
+      reservation.status_update('Finished downloading logs and demos from server')
       strip_ips_and_api_keys_from_log_files(tmp_dir)
       zip(tmp_dir)
       chmod
@@ -28,6 +29,7 @@ class DownloadThenZipFileCreator < ZipFileCreator
         zipfile.add(filename_without_path, filename_with_path)
       end
     end
+    reservation.status_update('Finished zipping logs and demos')
   end
 
   def files_to_zip_in_dir(dir)

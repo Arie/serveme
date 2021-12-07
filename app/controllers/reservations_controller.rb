@@ -119,7 +119,7 @@ class ReservationsController < ApplicationController
     else
       end_reservation
     end
-    redirect_to root_path
+    redirect_to reservation_path(@reservation)
   end
 
   def status

@@ -76,5 +76,6 @@ class ActiveReservationCheckerWorker
       last_sdr_port: server_info.port,
       last_sdr_tv_port: server_info.port + 1
     )
+    @reservation.status_update("SDR ready, server available at #{server_info.ip}:#{server_info.port}")
   end
 end

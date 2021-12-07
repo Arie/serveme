@@ -10,7 +10,7 @@ module Mitigations
         sudo iptables -w #{xtables_timeout} -A #{chain_name} -t raw -j DROP &&
         sudo iptables -w #{xtables_timeout} -A PREROUTING -t raw -p udp --destination-port #{server.port} -j #{chain_name} &&
         sudo iptables -w #{xtables_timeout} -A PREROUTING -t raw -p tcp --destination-port #{server.port} -j #{chain_name} &&
-        sudo iptables -w #{xtables_timeout} -I #{chain_name} -t raw 1 -s direct.#{SITE_HOST} -j ACCEPT -m comment --comment "#{chain_name}-system"
+        sudo iptables -w #{xtables_timeout} -I #{chain_name} 1 -t raw -s direct.#{SITE_HOST} -j ACCEPT -m comment --comment "#{chain_name}-system"
       ), log_stderr: true
     )
   end

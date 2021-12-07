@@ -134,9 +134,6 @@
               Server stats
               %i.fa.fa-bar-chart
 
-
-
-    - if current_admin
-      = turbo_stream_from @reservation
-      %table#reservation_statuses.table.table-hover.table-bordered.table-striped
-        = render reservation.reservation_statuses.ordered
+    = turbo_stream_from @reservation
+    %table#reservation_statuses.table.table-hover.table-bordered.table-striped
+      = render reservation.reservation_statuses.ordered

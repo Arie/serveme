@@ -58,6 +58,8 @@ Serveme::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
+  config.action_cable.allow_same_origin_as_host = true
+
   config.eager_load = true
   config.log_level = :info
   config.lograge.enabled = true

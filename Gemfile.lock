@@ -581,6 +581,8 @@ GEM
     temple (0.8.2)
     term-ansicolor (1.7.1)
       tins (~> 1.0)
+    terser (1.1.8)
+      execjs (>= 0.3.0, < 3)
     tf2_line_parser (0.2.1)
       activesupport
     thor (1.1.0)
@@ -591,8 +593,6 @@ GEM
       rails (>= 6.0.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
-    uglifier (4.2.0)
-      execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8)
@@ -725,8 +725,8 @@ DEPENDENCIES
   sprockets-rails (~> 3.2.0)
   steam-condenser!
   stripe
+  terser
   tf2_line_parser
-  uglifier
   vcr
   webmock
   will_paginate

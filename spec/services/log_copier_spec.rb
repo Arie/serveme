@@ -10,7 +10,6 @@ describe LogCopier do
       reservation = double(:reservation)
       server      = double(:server, log_copier_class: dummy_log_copier_class)
 
-      reservation.should_receive(:status_update)
       dummy_log_copier_class.should_receive(:new).with(reservation, server).and_return(dummy_log_copier)
       dummy_log_copier.should_receive(:copy)
 

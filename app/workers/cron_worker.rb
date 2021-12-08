@@ -49,8 +49,6 @@ class CronWorker
   end
 
   def update_servers_page
-    servers = Server.active.includes([current_reservations: { user: :groups }], :location, :recent_server_statistics).order(:name)
-    Turbo::StreamsChannel.broadcast_replace_to 'server-list', target: 'server-list', partial: 'servers/list', locals: { servers: servers }
-    Turbo::StreamsChannel.broadcast_replace_to 'admin-server-list', target: 'admin-server-list', partial: 'servers/admin_list', locals: { servers: servers }
+    UpdateServerPageWorker.perform_in(5.seconds)
   end
 end

@@ -7,6 +7,7 @@ require 'socket'
 require 'sidekiq'
 require 'active_support'
 require 'active_support/core_ext'
+require 'tf2_line_parser'
 require File.expand_path('../app/workers/log_worker', __dir__)
 
 STREAMING_LOG_DIR = File.expand_path('../log/streaming', __dir__)
@@ -14,7 +15,7 @@ STREAMING_LOG_DIR = File.expand_path('../log/streaming', __dir__)
 class Handler < EM::Connection
   def receive_data(data)
     log_line = ActiveSupport::Multibyte::Chars.new(data).tidy_bytes[5..-1]
-    LogWorker.perform_async(log_line) if log_line.match(/(!timeleft|!extend|!end|!rcon.*|!rate.*|!who|Started map\ "\w+")|" connected, address "/)
+    LogWorker.perform_async(log_line) if interesting_line?(log_line)
     matches = log_line.match(LogWorker::LOG_LINE_REGEX)
     write_log(matches[:secret], matches[:line]) if matches && matches[:line] && matches[:secret].present?
   end
@@ -25,6 +26,24 @@ class Handler < EM::Connection
         f.puts line
       end
     end
+  end
+
+  private
+
+  def interesting_line?(log_line)
+    chat?(log_line) || map_start?(log_line) || connect?(log_line)
+  end
+
+  def chat_line?(log_line)
+    log_line.match(TF2LineParser::Events::Say.regex)
+  end
+
+  def map_start?(log_line)
+    log_line.match(LogWorker::MAP_START)
+  end
+
+  def connect?(log_line)
+    log_line.match(TF2LineParser::Events::Connect)
   end
 end
 

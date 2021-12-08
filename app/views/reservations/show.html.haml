@@ -1,6 +1,4 @@
-:javascript
-  reservation_status_url = "#{status_reservation_path(reservation)}";
-  getReservationStatus();
+= turbo_stream_from @reservation
 
 %h3
   Reservation:
@@ -28,31 +26,16 @@
       %tr
         %td Status
         %td
-          #reservation_status
-            #reservation_status_spinner
-              %i.fa.fa-spinner.fa-spin.reservation_status_spinner
-            #reservation_status_message= reservation.status.titleize
+          = render "status"
 
       %tr
         %td Actions
         %td.actions= render 'actions'
 
-      - if preliminary_sdr?(reservation)
-        %tr
-          %td Connect info
-          %td#connect_info
-            Refresh the page when the server is ready to get the final connect info
-            %br
-            Temporary connect info
-            %br
-            = reservation.connect_string
-            = render 'shared/copy_button', :copy_button_id => "connect_string", :copy_text => reservation.connect_string
-      - else
-        %tr
-          %td Connect info
-          %td
-            = reservation.connect_string
-            = render 'shared/copy_button', :copy_button_id => "connect_string", :copy_text => reservation.connect_string
+      %tr
+        %td Connect info
+        %td
+          = render "connect_info"
 
       - if !reservation&.server&.sdr?
         %tr
@@ -87,15 +70,10 @@
         %tr
           %td STV connect info
           %td
-            - if reservation.active? && !reservation&.server&.sdr?
-              = link_to reservation.stv_connect_url, :class => 'btn btn-sm btn-primary' do
-                Join STV
-                %i.fa.fa-film
-            = reservation.stv_connect_string
-            = render 'shared/copy_button', :copy_button_id => "stv_connect_string", :copy_text => reservation.stv_connect_string
-            - ip_and_port = "#{reservation.server.public_ip}:#{reservation.server.public_tv_port}"
-            - password_for_relay = reservation.tv_relaypassword.presence || reservation.tv_password
+            = render "stv_connect_info"
             - if current_admin || current_league_admin || current_streamer
+              - ip_and_port = "#{reservation.server.public_ip}:#{reservation.server.public_tv_port}"
+              - password_for_relay = reservation.tv_relaypassword.presence || reservation.tv_password
               = link_to "http://relay.fakkelbrigade.eu/new?ip_port=#{ip_and_port}&password=#{password_for_relay}", :title => "create relay", :class => "btn btn-sm btn-warning", :target => "_blank" do
                 Create relay
                 %i.fa.fa-share-alt
@@ -134,6 +112,5 @@
               Server stats
               %i.fa.fa-bar-chart
 
-    = turbo_stream_from @reservation
-    %table#reservation_statuses.table.table-hover.table-bordered.table-striped
+    %table#reservation_statuses.table.table-hover.table-bordered
       = render reservation.reservation_statuses.ordered

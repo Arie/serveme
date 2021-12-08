@@ -1,68 +1,69 @@
-%span
-  - if reservation.gameye?
-    = link_to gameye_path(reservation), :class => 'btn btn-sm btn-success' do
-      Details
-      %i.fa.fa-list
-  - else
-    = link_to reservation_path(reservation), :class => 'btn btn-sm btn-success' do
-      Details
-      %i.fa.fa-list
-  - unless reservation.past?
-    = link_to edit_reservation_path(reservation), :class => 'btn btn-sm btn-info', :title => 'Edit reservation' do
-      Edit
-      %i.fa.fa-edit
-
-  - if reservation.active? || (reservation.now? && reservation.start_instantly?)
-    - if reservation.less_than_1_hour_left? && !reservation.gameye?
-      = link_to extend_reservation_path(reservation), :class => 'btn btn-sm btn-primary', :title => 'Extend reservation', :method => :post, :data => { :confirm => "This will extend your reservation if possible" } do
-        Extend
-        %i.fa.fa-clock-o
-
-    - if !reservation.end_instantly?
-
-      - if reservation.players_playing?
-        - end_message = "Are you sure you want to end your reservation? There #{I18n.t(:were_x_players_left, :count => reservation.last_number_of_players, :scope => :server)} left on the server at #{I18n.l(Time.zone.now, :format => :time_without_seconds)}"
-      - else
-        - end_message = "Are you sure you want to end your reservation?"
-      = link_to reservation_path(reservation), :class => 'btn btn-sm btn-danger', :title => 'End reservation', :method => :delete, :data => { :confirm => end_message } do
-        End
-        %i.fa.fa-stop
-
-      - if reservation.server && !reservation.server.sdr?
-
-        = link_to  reservation.server_connect_url, :class => 'btn btn-sm btn-warning' do
-          Join
-          %i.fa.fa-play
-
-        = link_to reservation.stv_connect_url, :class => 'btn btn-sm btn-primary' do
-          STV
-          %i.fa.fa-film
-
-  - if reservation.cancellable?
-    = link_to reservation_path(reservation), :class => 'btn btn-sm btn-warning', :title => 'Cancel reservation',  :method => :delete do
-      Cancel
-      %i.fa.fa-trash-o
-
-  - if reservation.past?
+%div{id: "reservation_actions_#{reservation.id}"}
+  %span
     - if reservation.gameye?
-      = link_to logs_tf_url(reservation.user), :class => 'btn btn-sm btn-info', :title => 'Search on logs.tf' do
-        logs.tf
-        %i.fa.fa-search
-      = link_to demos_tf_url(reservation.user), :class => 'btn btn-sm btn-info', :title => 'Search on demos.tf' do
-        demos.tf
-        %i.fa.fa-search
-
+      = link_to gameye_path(reservation), :class => 'btn btn-sm btn-success' do
+        Details
+        %i.fa.fa-list
     - else
-      - if reservation.younger_than_cleanup_age?
-        = render 'reservations/zip_file_link', :reservation => reservation
-        = link_to reservation_log_uploads_path(reservation), :class => 'btn btn-sm btn-success', :title => 'Upload the match logs to logs.tf' do
-          logs.tf
-          %i.fa.fa-upload
+      = link_to reservation_path(reservation), :class => 'btn btn-sm btn-success' do
+        Details
+        %i.fa.fa-list
+    - unless reservation.past?
+      = link_to edit_reservation_path(reservation), :class => 'btn btn-sm btn-info', :title => 'Edit reservation' do
+        Edit
+        %i.fa.fa-edit
 
-      - else
-        = link_to reservation.logs_tf_url, :class => 'btn btn-sm btn-info', :title => 'Search on logs.tf' do
+    - if reservation.active? || (reservation.now? && reservation.start_instantly?)
+      - if reservation.less_than_1_hour_left? && !reservation.gameye?
+        = link_to extend_reservation_path(reservation), :class => 'btn btn-sm btn-primary', :title => 'Extend reservation', :method => :post, :data => { :confirm => "This will extend your reservation if possible" } do
+          Extend
+          %i.fa.fa-clock-o
+
+      - if !reservation.end_instantly?
+
+        - if reservation.players_playing?
+          - end_message = "Are you sure you want to end your reservation? There #{I18n.t(:were_x_players_left, :count => reservation.last_number_of_players, :scope => :server)} left on the server at #{I18n.l(Time.zone.now, :format => :time_without_seconds)}"
+        - else
+          - end_message = "Are you sure you want to end your reservation?"
+        = link_to reservation_path(reservation), :class => 'btn btn-sm btn-danger', :title => 'End reservation', :method => :delete, :data => { :confirm => end_message } do
+          End
+          %i.fa.fa-stop
+
+        - if reservation.server && !reservation.server.sdr?
+
+          = link_to  reservation.server_connect_url, :class => 'btn btn-sm btn-warning' do
+            Join
+            %i.fa.fa-play
+
+          = link_to reservation.stv_connect_url, :class => 'btn btn-sm btn-primary' do
+            STV
+            %i.fa.fa-film
+
+    - if reservation.cancellable?
+      = link_to reservation_path(reservation), :class => 'btn btn-sm btn-warning', :title => 'Cancel reservation',  :method => :delete do
+        Cancel
+        %i.fa.fa-trash-o
+
+    - if reservation.past?
+      - if reservation.gameye?
+        = link_to logs_tf_url(reservation.user), :class => 'btn btn-sm btn-info', :title => 'Search on logs.tf' do
           logs.tf
           %i.fa.fa-search
         = link_to demos_tf_url(reservation.user), :class => 'btn btn-sm btn-info', :title => 'Search on demos.tf' do
           demos.tf
           %i.fa.fa-search
+
+      - else
+        - if reservation.younger_than_cleanup_age?
+          = render 'reservations/zip_file_link', :reservation => reservation
+          = link_to reservation_log_uploads_path(reservation), :class => 'btn btn-sm btn-success', :title => 'Upload the match logs to logs.tf' do
+            logs.tf
+            %i.fa.fa-upload
+
+        - else
+          = link_to reservation.logs_tf_url, :class => 'btn btn-sm btn-info', :title => 'Search on logs.tf' do
+            logs.tf
+            %i.fa.fa-search
+          = link_to demos_tf_url(reservation.user), :class => 'btn btn-sm btn-info', :title => 'Search on demos.tf' do
+            demos.tf
+            %i.fa.fa-search

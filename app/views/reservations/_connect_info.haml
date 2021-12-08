@@ -1,0 +1,7 @@
+%div{id: "reservation_connect_info_#{reservation.id}"}
+  - if preliminary_sdr?(reservation)
+    Temporary connect info
+    %br
+
+  = reservation.connect_string
+  = render 'shared/copy_button', :copy_button_id => "connect_string", :copy_text => reservation.connect_string

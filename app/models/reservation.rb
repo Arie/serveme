@@ -220,17 +220,17 @@ class Reservation < ActiveRecord::Base
   end
 
   def status
-    return 'ended' if past?
-    return 'ready-sdr' if sdr_ip.present?
-    return 'ready' if server_statistics.any? && !server.sdr?
+    return 'Ended' if past?
+    return 'SDR Ready' if sdr_ip.present?
+    return 'Ready' if server_statistics.any? && !server.sdr?
 
     status_messages = reservation_statuses.pluck(:status)
-    return 'ready' if status_messages.grep(/Server finished loading map/).any? && !server.sdr?
-    return 'starting' if status_messages.include?('Starting')
-    return 'starting' if status_messages.grep(/Created Gameye match/).any?
-    return 'waiting_to_start' if status_messages.include?('Waiting to start')
+    return 'Ready' if status_messages.grep(/Server finished loading map/).any? && !server.sdr?
+    return 'Starting' if status_messages.include?('Starting')
+    return 'Starting' if status_messages.grep(/Created Gameye match/).any?
+    return 'Waiting to start' if status_messages.include?('Waiting to start')
 
-    'unknown'
+    'Unknown'
   end
 
   def poor_rcon_password?
@@ -255,6 +255,24 @@ class Reservation < ActiveRecord::Base
 
   def logs_tf_url
     "http://logs.tf/search/log?s=#{SITE_HOST}+%23#{id}"
+  end
+
+  def save_sdr_info(server_info)
+    return if server_info.ip.nil?
+
+    update_columns(
+      sdr_ip: server_info.ip,
+      sdr_port: server_info.port,
+      sdr_tv_port: server_info.port + 1
+    )
+    server.update_columns(
+      last_sdr_ip: server_info.ip,
+      last_sdr_port: server_info.port,
+      last_sdr_tv_port: server_info.port + 1
+    )
+    broadcast_replace_to self, target: "reservation_connect_info_#{id}", partial: 'reservations/connect_info', locals: { reservation: self }
+    broadcast_replace_to self, target: "reservation_stv_connect_info_#{id}", partial: 'reservations/stv_connect_info', locals: { reservation: self }
+    status_update("SDR ready, server available at #{server_info.ip}:#{server_info.port}")
   end
 
   private

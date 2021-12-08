@@ -1,0 +1,19 @@
+- content_for(:title) { "servers" }
+%h2 Servers (updates automatically)
+
+.row
+  .col-md-12
+    %table.table.table-hover.table-bordered.table-striped
+      %thead
+        %tr
+          %th Name
+          %th Map name
+          %th Players
+          %th FPS
+          %th CPU%
+          %th In
+          %th Out
+          %th Inactive
+      - @servers.each do |server|
+        = turbo_stream_from server
+        = render 'server_admin_info', :server => server.decorate

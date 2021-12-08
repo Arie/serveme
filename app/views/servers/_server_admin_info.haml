@@ -1,0 +1,35 @@
+- server = server.decorate
+- reservation = server.current_reservation
+- statistic = server.recent_server_statistics.last&.decorate
+
+%tr{id: dom_id(server)}
+  %td
+    = link_to show_server_player_statistic_path(server_id: server.id) do
+      - if reservation
+        = "#{server.name} (#{reservation.id})".html_safe
+        %br
+        - user = reservation.user.decorate
+        = link_to(user.nickname, user.steam_profile_url, target: "_blank")
+      - else
+        = server.name.html_safe
+
+  - if statistic
+    %td= statistic.map_name
+    %td= statistic.number_of_players
+    %td= statistic.fps
+    %td= statistic.cpu_usage
+    %td= statistic.traffic_in
+    %td= statistic.traffic_out
+    %td.actions
+      = "#{server.inactive_minutes} minutes"
+      %br
+      - if reservation
+        = render "reservations/actions", reservation: reservation
+  - else
+    - if reservation
+      %td{colspan: 6} N/A
+      %td.actions
+        - if reservation
+          = render "reservations/actions", reservation: reservation
+    - else
+      %td{colspan: 7} Idle

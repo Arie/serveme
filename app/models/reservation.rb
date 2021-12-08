@@ -223,14 +223,16 @@ class Reservation < ActiveRecord::Base
     return 'Ended' if past?
 
     status_messages = reservation_statuses.pluck(:status)
-    return 'Ended' if status_messages.grep(/Finished zipping logs and demos/).any?
+    return 'Ended' if status_messages.include?('Finished zipping logs and demos')
+
+    return 'Ending' if status_messages.include?('Ending')
 
     return 'SDR Ready' if sdr_ip.present?
     return 'Ready' if server_statistics.any? && !server.sdr?
-    return 'Ready' if status_messages.grep(/Server finished loading map/).any? && !server.sdr?
+    return 'Ready' if status_messages.grep(/\AServer finished loading map/).any? && !server.sdr?
 
     return 'Starting' if status_messages.include?('Starting')
-    return 'Starting' if status_messages.grep(/Created Gameye match/).any?
+    return 'Starting' if status_messages.grep(/\ACreated Gameye match/).any?
 
     return 'Waiting to start' if status_messages.include?('Waiting to start')
 

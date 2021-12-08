@@ -44,12 +44,12 @@ class SshServer < RemoteServer
   end
 
   def copy_to_server(files, destination)
-    logger.info "SCP PUT, FILES: #{files} DESTINATION: #{destination}"
+    logger.debug "SCP PUT, FILES: #{files} DESTINATION: #{destination}"
     system("#{scp_command} #{files.map(&:shellescape).join(' ')} #{ip}:#{destination}")
   end
 
   def copy_from_server(files, destination)
-    logger.info "SCP GET, FILES: #{files.join(', ')} DESTINATION: #{destination}"
+    logger.debug "SCP GET, FILES: #{files.join(', ')} DESTINATION: #{destination}"
     system("#{scp_command} #{ip}:\"#{files.map(&:shellescape).join(' ')}\" #{destination}")
   end
 

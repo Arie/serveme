@@ -161,8 +161,7 @@ class ReservationsController < ApplicationController
         redirect_to reservation_path(@reservation)
       end
     else
-      flash[:notice] = "Reservation created for #{@reservation}"
-      redirect_to root_path
+      redirect_to reservation_path(@reservation)
     end
   end
 

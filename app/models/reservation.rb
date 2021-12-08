@@ -229,6 +229,8 @@ class Reservation < ActiveRecord::Base
     return 'starting' if status_messages.include?('Starting')
     return 'starting' if status_messages.grep(/Created Gameye match/).any?
     return 'waiting_to_start' if status_messages.include?('Waiting to start')
+
+    'unknown'
   end
 
   def poor_rcon_password?

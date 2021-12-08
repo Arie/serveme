@@ -18,5 +18,6 @@ Feature: Ending reservations
 
   Scenario: Cancelling a future reservation
     Given there is a future reservation
+    And I go to the welcome page
     When I cancel the future reservation
     Then I am notified the reservation was cancelled

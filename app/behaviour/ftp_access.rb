@@ -18,12 +18,12 @@ module FtpAccess
   end
 
   def upload_configuration(configuration_file, upload_file)
-    logger.info "FTP PUT, CONFIG FILE: #{configuration_file} DESTINATION: #{upload_file}"
+    logger.debug "FTP PUT, CONFIG FILE: #{configuration_file} DESTINATION: #{upload_file}"
     ftp.putbinaryfile(configuration_file, upload_file)
   end
 
   def copy_to_server(files, destination_dir)
-    logger.info "FTP PUT, FILES: #{files} DESTINATION: #{destination_dir}"
+    logger.debug "FTP PUT, FILES: #{files} DESTINATION: #{destination_dir}"
     files.each do |file|
       destination_file = File.join(destination_dir, File.basename(file)).to_s
       ftp.putbinaryfile(file, destination_file)
@@ -33,7 +33,7 @@ module FtpAccess
   def copy_from_server(files, destination)
     return if files.none?
 
-    logger.info "FTP GET, FILES: #{files} DESTINATION: #{destination}"
+    logger.debug "FTP GET, FILES: #{files} DESTINATION: #{destination}"
     threads = []
     files.each_slice(file_count_per_thread(files)).to_a.each do |files_for_thread|
       threads << Thread.new do

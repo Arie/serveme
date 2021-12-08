@@ -2,7 +2,7 @@
 - reservation = server.current_reservation
 - statistic = server.recent_server_statistics.last&.decorate
 
-%tr{id: dom_id(server)}
+%tr
   %td
     = link_to show_server_player_statistic_path(server_id: server.id) do
       - if reservation

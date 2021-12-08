@@ -28,16 +28,20 @@ class LogWorker
       handle_connect
     when TF2LineParser::Events::Unknown
       mapstart = event.unknown.match(MAP_START)
-      if mapstart
-        map = mapstart[2]
-        ActiveReservationCheckerWorker.perform_in(5.seconds, reservation.id) if reservation&.server&.sdr?
-        if map == 'ctf_turbine'
-          reservation.status_update('Server startup complete, switching map')
-        else
-          reservation.status_update("Server finished loading map \"#{map}\"")
-          ApplyApiKeysWorker.perform_in(5.seconds, reservation.id)
-        end
-      end
+      handle_mapstart(mapstart[2]) if mapstart
+    end
+  end
+
+  def handle_mapstart(mapname)
+    if reservation&.server&.sdr?
+      ActiveReservationCheckerWorker.perform_in(5.seconds, reservation.id)
+      ActiveReservationCheckerWorker.perform_in(10.seconds, reservation.id)
+    end
+    if mapname == 'ctf_turbine'
+      reservation.status_update('Server startup complete, switching map')
+    else
+      reservation.status_update("Server finished loading map \"#{mapname}\"")
+      ApplyApiKeysWorker.perform_in(5.seconds, reservation.id)
     end
   end
 

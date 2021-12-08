@@ -1,40 +1,41 @@
-- content_for(:title) { "player statistics" }
+= turbo_frame_tag "league-request-results" do
+  - content_for(:title) { "player statistics" }
 
-%h2= link_to "Player statistics", player_statistics_path
+  %h2= link_to "Player statistics", player_statistics_path
 
-.row
-  .col-md-10
-    = will_paginate @player_statistics
+  .row
+    .col-md-10
+      = will_paginate @player_statistics
 
 
-.row
-  .col-md-12
-    %table.table.table-condensed.table-hover
-      %thead
-        %tr
-          %th Server
-          %th Date
-          %th Player
-          - if admin?
-            %th IP
-          %th Ping
-          %th Loss
-          %th Minutes connected
-          %th Distance to server
-      %tbody
-        - @player_statistics.each do |player_statistic|
-          %tr[player_statistic]
-            - player_statistic = player_statistic.decorate
-            - user = player_statistic.user && player_statistic.user.decorate
-            - server = player_statistic.server && player_statistic.server.decorate
-            %td= link_to server.name, show_server_player_statistic_path(:server_id => player_statistic.server)
-            %td
-              - time = I18n.l(player_statistic.created_at, format: :short_with_dayname_and_seconds)
-              = link_to(time, show_reservation_statistic_path(:reservation_id => player_statistic.reservation.id), :class => "player_reservation_statistics")
-            %td= link_to(player_statistic.name, show_player_statistic_path(:steam_uid => player_statistic.reservation_player.steam_uid))
+  .row
+    .col-md-12
+      %table.table.table-condensed.table-hover
+        %thead
+          %tr
+            %th Server
+            %th Date
+            %th Player
             - if admin?
-              %td= link_to(player_statistic.reservation_player.ip, show_ip_statistic_path(:ip => IPAddr.new(player_statistic.reservation_player.ip).to_i))
-            %td= link_to player_statistic.ping, show_reservation_and_player_statistic_path(:reservation_id => player_statistic.reservation.id, :steam_uid => player_statistic.reservation_player.steam_uid)
-            %td= player_statistic.loss
-            %td= player_statistic.minutes_connected
-            %td= player_statistic.maps_link
+              %th IP
+            %th Ping
+            %th Loss
+            %th Minutes connected
+            %th Distance to server
+        %tbody
+          - @player_statistics.each do |player_statistic|
+            %tr[player_statistic]
+              - player_statistic = player_statistic.decorate
+              - user = player_statistic.user && player_statistic.user.decorate
+              - server = player_statistic.server && player_statistic.server.decorate
+              %td= link_to server.name, show_server_player_statistic_path(:server_id => player_statistic.server)
+              %td
+                - time = I18n.l(player_statistic.created_at, format: :short_with_dayname_and_seconds)
+                = link_to(time, show_reservation_statistic_path(:reservation_id => player_statistic.reservation.id), :class => "player_reservation_statistics")
+              %td= link_to(player_statistic.name, show_player_statistic_path(:steam_uid => player_statistic.reservation_player.steam_uid))
+              - if admin?
+                %td= link_to(player_statistic.reservation_player.ip, show_ip_statistic_path(:ip => IPAddr.new(player_statistic.reservation_player.ip).to_i))
+              %td= link_to player_statistic.ping, show_reservation_and_player_statistic_path(:reservation_id => player_statistic.reservation.id, :steam_uid => player_statistic.reservation_player.steam_uid)
+              %td= player_statistic.loss
+              %td= player_statistic.minutes_connected
+              %td= player_statistic.maps_link

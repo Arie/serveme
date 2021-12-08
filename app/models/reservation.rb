@@ -283,7 +283,7 @@ class Reservation < ActiveRecord::Base
   def broadcast_connect_info
     broadcast_replace_to self, target: "reservation_connect_info_#{id}", partial: 'reservations/connect_info', locals: { reservation: self }
     broadcast_replace_to self, target: "reservation_stv_connect_info_#{id}", partial: 'reservations/stv_connect_info', locals: { reservation: self }
-    broadcast_replace_to self, target: "reservation_actions_#{id}", partial: 'reservations/stv_connect_info', locals: { reservation: self }
+    broadcast_replace_to self, target: "reservation_actions_#{id}", partial: 'reservations/actions', locals: { reservation: self }
   end
 
   private

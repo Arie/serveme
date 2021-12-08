@@ -276,9 +276,14 @@ class Reservation < ActiveRecord::Base
       last_sdr_port: server_info.port,
       last_sdr_tv_port: server_info.port + 1
     )
+    broadcast_connect_info
+    status_update("SDR ready, server available at #{server_info.ip}:#{server_info.port}")
+  end
+
+  def broadcast_connect_info
     broadcast_replace_to self, target: "reservation_connect_info_#{id}", partial: 'reservations/connect_info', locals: { reservation: self }
     broadcast_replace_to self, target: "reservation_stv_connect_info_#{id}", partial: 'reservations/stv_connect_info', locals: { reservation: self }
-    status_update("SDR ready, server available at #{server_info.ip}:#{server_info.port}")
+    broadcast_replace_to self, target: "reservation_actions_#{id}", partial: 'reservations/stv_connect_info', locals: { reservation: self }
   end
 
   private

@@ -33,7 +33,8 @@ class LogWorker
   end
 
   def handle_mapstart(mapname)
-    if reservation&.server&.sdr?
+    reservation.broadcast_connect_info
+    if reservation.server&.sdr?
       ActiveReservationCheckerWorker.perform_in(5.seconds, reservation.id)
       ActiveReservationCheckerWorker.perform_in(10.seconds, reservation.id)
     end

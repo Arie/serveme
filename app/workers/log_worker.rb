@@ -42,10 +42,10 @@ class LogWorker
   end
 
   def handle_message
+    reservation.status_update("#{event.player.name} (#{sayer_steam_uid}): #{event.message}")
     action = action_by_reserver || action_for_message_said_by_anyone
     return unless action
 
-    reservation.status_update("#{event.player.name} (#{sayer_steam_uid}): #{event.message}")
     send(action)
     reservation.server.rcon_disconnect
   end

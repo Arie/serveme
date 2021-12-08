@@ -126,7 +126,7 @@ describe ReservationsController do
     render_views
 
     it 'returns the reservation status in json' do
-      reservation = create :reservation
+      reservation = create :reservation, starts_at: 10.seconds.from_now
       get :status, params: { id: reservation.id }, format: :json
       expect(response.body).to include 'waiting_to_start'
     end

@@ -262,6 +262,6 @@ class Reservation < ActiveRecord::Base
   end
 
   def generate_initial_status
-    status_update('Waiting to start')
+    status_update('Waiting to start') if future?
   end
 end

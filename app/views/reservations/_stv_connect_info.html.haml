@@ -1,0 +1,8 @@
+%div{id: "reservation_stv_connect_info_#{reservation.id}"}
+  - if reservation.active? && !reservation&.server&.sdr?
+    = link_to reservation.stv_connect_url, :class => 'btn btn-sm btn-primary' do
+      Join STV
+      %i.fa.fa-film
+
+  = reservation.stv_connect_string
+  = render 'shared/copy_button', :copy_button_id => "stv_connect_string", :copy_text => reservation.stv_connect_string

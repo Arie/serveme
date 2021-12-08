@@ -30,7 +30,7 @@ class ActiveReservationCheckerWorker
       @server_info.status
       @server_info.fetch_stats
       @server_info.fetch_rcon_status
-      save_sdr_info(@server_info) if sdr_info_missing?
+      @reservation.save_sdr_info(@server_info) if sdr_info_missing?
       ServerMetric.new(@server_info)
       @server.rcon_exec "sv_logsecret #{@reservation.logsecret}"
     rescue SteamCondenser::Error, Errno::ECONNREFUSED
@@ -61,21 +61,5 @@ class ActiveReservationCheckerWorker
 
   def sdr_info_missing?
     @server.sdr? && @reservation.sdr_ip.nil?
-  end
-
-  def save_sdr_info(server_info)
-    return if server_info.ip.nil?
-
-    @reservation.update_columns(
-      sdr_ip: server_info.ip,
-      sdr_port: server_info.port,
-      sdr_tv_port: server_info.port + 1
-    )
-    @reservation.server.update_columns(
-      last_sdr_ip: server_info.ip,
-      last_sdr_port: server_info.port,
-      last_sdr_tv_port: server_info.port + 1
-    )
-    @reservation.status_update("SDR ready, server available at #{server_info.ip}:#{server_info.port}")
   end
 end

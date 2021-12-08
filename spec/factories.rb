@@ -127,6 +127,7 @@ FactoryBot.define do
   end
 
   factory :reservation_status do
+    reservation_id { 1 }
     status { 'this is the status' }
   end
 

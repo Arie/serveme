@@ -9,6 +9,7 @@ class CronWorker
     start_active_reservations
     check_active_reservations
     check_inactive_sdr_servers
+    update_servers_page
   end
 
   def end_past_reservations
@@ -45,5 +46,10 @@ class CronWorker
   def check_inactive_sdr_servers
     inactive_servers = Server.active.where(sdr: true).where.not(id: now_reservations.pluck(:server_id))
     InactiveServersCheckerWorker.perform_async(inactive_servers.pluck(:id))
+  end
+
+  def update_servers_page
+    servers = Server.active.includes([current_reservations: { user: :groups }], :location, :recent_server_statistics).order(:name)
+    Turbo::StreamsChannel.broadcast_replace_to 'server-list', target: 'server-list', partial: 'servers/list', locals: { servers: servers }
   end
 end

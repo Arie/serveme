@@ -1,18 +1,7 @@
 - content_for(:title) { "servers" }
-%h2 Servers (updated once per minute)
+%h2 Servers (refreshes every minute)
 
+= turbo_stream_from 'server-list'
 .row
-  .col-md-12
-    %table.table.table-hover.table-bordered.table-striped
-      %thead
-        %tr
-          %th Name
-          %th Map name
-          %th Players
-          %th FPS
-          %th CPU%
-          %th In
-          %th Out
-          %th Inactive
-      - @servers.each do |server|
-        = render 'server_info', :server => server.decorate
+  .col-md-12#server-list
+    = render "list", servers: @servers

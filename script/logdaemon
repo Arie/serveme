@@ -34,7 +34,7 @@ class Handler < EM::Connection
     chat?(log_line) || map_start?(log_line) || connect?(log_line)
   end
 
-  def chat_line?(log_line)
+  def chat?(log_line)
     log_line.match(TF2LineParser::Events::Say.regex)
   end
 
@@ -43,7 +43,7 @@ class Handler < EM::Connection
   end
 
   def connect?(log_line)
-    log_line.match(TF2LineParser::Events::Connect)
+    log_line.match(TF2LineParser::Events::Connect.regex)
   end
 end
 

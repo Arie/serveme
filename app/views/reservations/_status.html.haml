@@ -1,2 +1,3 @@
 %div{id: "reservation_status_message_#{reservation.id}"}
+  %i.fa{class: reservation_status_spinner_class(reservation)}
   = reservation.status

@@ -1,10 +1,11 @@
-.row
-  .col-md-12
-    = simple_form_for(@league_request, url: url_for(controller: "league_requests", action: "create")) do |f|
+= turbo_frame_tag "league-request-results" do
+  .row
+    .col-md-12
+      = simple_form_for(@league_request, url: league_request_path) do |f|
 
-      = f.input :ip,              label: "IP", as: :string,  placeholder: "IPv4 address"
-      = f.input :steam_uid,       label: "Steam ID 64", as: :string,  placeholder: "SteamID64"
-      = f.input :cross_reference, label: "Cross reference results", as: :boolean, placeholder: "Cross reference found matches (can cause loads of results, be careful for false positives)"
+        = f.input :ip,              label: "IP", as: :string,  placeholder: "IPv4 address"
+        = f.input :steam_uid,       label: "Steam ID 64", as: :string,  placeholder: "SteamID64"
+        = f.input :cross_reference, label: "Cross reference results", as: :boolean, placeholder: "Cross reference found matches (can cause loads of results, be careful for false positives)"
 
-      %button.btn.btn-default{type: :submit}
-        Search
+        %button.btn.btn-default{type: :submit}
+          Search

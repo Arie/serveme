@@ -39,6 +39,7 @@ class ReservationWorker
     reservation.ended    = true
     reservation.duration = reservation.ends_at.to_i - reservation.starts_at.to_i
     reservation.save(validate: false)
+    reservation.broadcast_connect_info
     LogScanWorker.perform_async(reservation_id)
   end
 end

@@ -40,4 +40,19 @@ module ApplicationHelper
   def preliminary_sdr?(reservation)
     reservation&.server&.sdr? && !(reservation.sdr_ip && reservation.sdr_port)
   end
+
+  def reservation_status_spinner_class(reservation)
+    case reservation.status
+    when 'Ended'
+      'fa-flag-checkered'
+    when 'Ready'
+      'fa-check'
+    when 'SDR Ready'
+      'fa-lock'
+    when 'Waiting to start'
+      'fa-clock-o'
+    else
+      'fa-spinner fa-spin'
+    end
+  end
 end

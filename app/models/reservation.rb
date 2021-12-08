@@ -224,7 +224,7 @@ class Reservation < ActiveRecord::Base
     return 'ready-sdr' if sdr_ip.present?
     return 'ready' if server_statistics.any? && !server.sdr?
 
-    status_messages = reservation_statuses.map(&:status)
+    status_messages = reservation_statuses.pluck(:status)
     return 'ready' if status_messages.grep(/Server finished loading map/).any? && !server.sdr?
     return 'starting' if status_messages.include?('Starting')
     return 'starting' if status_messages.grep(/Created Gameye match/).any?

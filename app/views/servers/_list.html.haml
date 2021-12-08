@@ -1,13 +1,14 @@
-%table.table.table-hover.table-bordered.table-striped
-  %thead
-    %tr
-      %th Name
-      %th Map name
-      %th Players
-      %th FPS
-      %th CPU%
-      %th In
-      %th Out
-      %th Inactive
-  - servers.each do |server|
-    = render 'servers/server_info', server: server.decorate
+#server-list
+  %table.table.table-hover.table-bordered.table-striped
+    %thead
+      %tr
+        %th Name
+        %th Map name
+        %th Players
+        %th FPS
+        %th CPU%
+        %th In
+        %th Out
+        %th Inactive
+    - servers.each do |server|
+      = render 'servers/server_info', server: server.decorate

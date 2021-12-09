@@ -49,7 +49,7 @@ module ApplicationHelper
       'fa-check'
     when 'SDR Ready'
       'fa-lock'
-    when 'Server updating'
+    when 'Server updating, please be patient'
       'fa-gear fa-spin'
     when 'Waiting to start'
       'fa-clock-o'

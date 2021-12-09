@@ -50,7 +50,7 @@ module ApplicationHelper
     when 'SDR Ready'
       'fa-lock'
     when 'Server updating'
-      'fa-sync-alt fa-spin'
+      'fa-gear fa-spin'
     when 'Waiting to start'
       'fa-clock-o'
     else

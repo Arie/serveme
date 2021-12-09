@@ -231,6 +231,8 @@ class Reservation < ActiveRecord::Base
     return 'Ready' if server_statistics.any? && !server.sdr?
     return 'Ready' if status_messages.grep(/\AServer finished loading map/).any? && !server.sdr?
 
+    return 'Server updating' if status_messages.grep(/\AServer updating'/).any?
+
     return 'Starting' if status_messages.include?('Starting')
     return 'Starting' if status_messages.grep(/\ACreated Gameye match/).any?
 

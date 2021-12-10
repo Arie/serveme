@@ -10,5 +10,10 @@
         %th In
         %th Out
         %th Inactive
-    - servers.each do |server|
+    - active_servers = servers.order(:name).select { |s| s.recent_server_statistics.any? }
+    - inactive_servers = servers.order(:name).select { |s| s.recent_server_statistics.none? }
+
+    - active_servers.each do |server|
+      = render 'servers/server_info', server: server.decorate
+    - inactive_servers.each do |server|
       = render 'servers/server_info', server: server.decorate

@@ -26,9 +26,9 @@
         = render "reservations/actions", reservation: reservation
   - else
     - if reservation
-      %td{colspan: 6} N/A
+      %td{colspan: 5} N/A
       %td.actions
         - if reservation
           = render "reservations/actions", reservation: reservation
     - else
-      %td{colspan: 7} Idle
+      %td{colspan: 6} Idle

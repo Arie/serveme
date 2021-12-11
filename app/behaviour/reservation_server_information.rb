@@ -27,7 +27,7 @@ module ReservationServerInformation
 
   def rcon_string
     if server
-      "rcon_address #{public_ip}:#{public_port}; rcon_password \"#{rcon}\""
+      "rcon_address #{server.ip}:#{server.port}; rcon_password \"#{rcon}\""
     else
       "rcon_password \"#{rcon}\""
     end

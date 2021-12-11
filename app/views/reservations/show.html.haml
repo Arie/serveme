@@ -57,7 +57,7 @@
       %tr
         %td RCON
         %td
-          - if reservation.server.sdr?
+          - if reservation.server.sdr? && !(current_user.admin? || current_user.league_admin? || current_user.streamer?)
             %p RCON is not available for SDR servers, use !rcon in chat
           - else
             = reservation.rcon_string

@@ -1,0 +1,12 @@
+%div{id: "file_uploads_#{@file_upload.id}_server_uploads"}
+  %table.table.table-hover.table-bordered
+    %thead
+      %tr
+        %th Server
+        %th Status
+    - @servers.each do |server|
+      - server_upload = @file_upload.server_uploads.find {|su| su.server_id == server.id }
+      - if server_upload
+        = render 'server_uploads/server_upload', server_upload: server_upload
+      - else 
+        = render 'server_uploads/server', file_upload: @file_upload, server: server.decorate

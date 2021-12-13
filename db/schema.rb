@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_23_143404) do
+ActiveRecord::Schema.define(version: 2021_12_13_121448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "file_uploads", force: :cascade do |t|
+    t.string "file"
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "group_servers", id: :serial, force: :cascade do |t|
     t.integer "server_id"
@@ -213,6 +220,19 @@ ActiveRecord::Schema.define(version: 2021_11_23_143404) do
     t.index ["number_of_players"], name: "index_server_statistics_on_number_of_players"
     t.index ["reservation_id"], name: "index_server_statistics_on_reservation_id"
     t.index ["server_id"], name: "index_server_statistics_on_server_id"
+  end
+
+  create_table "server_uploads", force: :cascade do |t|
+    t.integer "server_id"
+    t.integer "file_upload_id"
+    t.datetime "started_at"
+    t.datetime "uploaded_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["file_upload_id"], name: "index_server_uploads_on_file_upload_id"
+    t.index ["server_id", "file_upload_id"], name: "index_server_uploads_on_server_id_and_file_upload_id", unique: true
+    t.index ["server_id"], name: "index_server_uploads_on_server_id"
+    t.index ["uploaded_at"], name: "index_server_uploads_on_uploaded_at"
   end
 
   create_table "servers", id: :serial, force: :cascade do |t|

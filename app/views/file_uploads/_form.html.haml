@@ -1,0 +1,6 @@
+= simple_form_for(@file_upload, :html => { :class => 'form-inline' }) do |f|
+
+  = f.input :file, :as => :file, :label => false, :placeholder => 'Zip file assuming /tf/ as base directory'
+
+  %button.btn.btn-primary{:type => :submit}
+    Upload

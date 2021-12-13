@@ -83,6 +83,21 @@ FactoryBot.define do
     end
   end
 
+  factory :file_upload do
+    association :user
+    file do
+      temp = Tempfile.new(['map', '.bsp'], MAPS_DIR)
+      temp.write('VBSP foobar')
+      temp.close
+      temp
+    end
+  end
+
+  factory :server_upload do
+    association :server
+    association :file_upload
+  end
+
   factory :location do
     name { 'Netherlands' }
     flag { 'nl' }

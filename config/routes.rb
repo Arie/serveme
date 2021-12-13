@@ -56,6 +56,7 @@ Serveme::Application.routes.draw do
   get 'gameye/reservations/:id', to: 'reservations#show_gameye', as: :gameye
 
   resources :map_uploads, only: %i[new create]
+  resources :file_uploads, only: %i[new create show]
 
   get 'league-request', to: 'league_requests#new'
   post 'league-request', to: 'league_requests#create'
@@ -124,6 +125,7 @@ Serveme::Application.routes.draw do
   get   '/recent-reservations',           to: 'pages#recent_reservations', as: 'recent_reservations'
   get   '/settings',                      to: 'users#edit',                as: 'settings'
   get   '/upload-map',                    to: 'map_uploads#new',           as: 'upload_map'
+  get   '/upload-file',                   to: 'file_uploads#new',          as: 'upload_file'
   get   '/private-servers',               to: 'pages#private_servers',     as: 'private_server_info'
 
   get   '/player_statistics/reservation/:reservation_id',                  to: 'player_statistics#show_for_reservation',             as: 'show_reservation_statistic'

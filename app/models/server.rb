@@ -138,9 +138,15 @@ class Server < ActiveRecord::Base
 
   def sourcemod_admin_body(user)
     uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(user.uid.to_i)
-    <<-INI
-    "#{uid3}" "99:z"
-    INI
+    if sdr?
+      <<-INI
+      "#{uid3}" "99:abcdefghijkln"
+      INI
+    else
+      <<-INI
+      "#{uid3}" "99:z"
+      INI
+    end
   end
 
   def write_custom_whitelist(reservation)

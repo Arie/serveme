@@ -16,6 +16,7 @@ class FileUploadsController < ApplicationController
         @file_upload.user = current_user
 
         if @file_upload.save
+          @file_upload.process_file
           flash[:notice] = 'File upload succeeded. It can take a few minutes for it to get synced to all servers.'
           redirect_to file_upload_path(@file_upload)
         else

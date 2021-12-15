@@ -1,6 +1,6 @@
 var free_servers;
 
-$(document).ready(function() {
+$(document).on('turbo:load', function() {
 
   function formatServer(server) {
     return "<span class='flags flags-" + server.flag + "'></span>" + server.text;

@@ -1,6 +1,6 @@
 var free_servers;
 
-$(document).ready(function() {
+$(document).on('page:change', function() {
 
   function formatServer(server) {
     return "<span class='flags flags-" + server.flag + "'></span>" + server.text;

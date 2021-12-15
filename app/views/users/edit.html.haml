@@ -57,7 +57,7 @@
 = render 'statistics', :user => @user
 
 :javascript
-  $(document).on('turbo:load', function() {
+  $(document).ready(function() {
     $("#user_time_zone").select2();
     $("#private_server_server_id").select2("enable", #{current_user.private_server_option?});
     $("#private_server_server_id").select2("val", $("#private_server_server_id").val());
@@ -65,7 +65,7 @@
 
 = if current_user.private_server_option?
   :javascript
-    $(document).on('turbo:load', function() {
+    $(document).ready(function() {
       $("#private_server_server_id").select2({
         formatResult: function(server) { return "<span class='flags flags-" + server.flag + "'></span>" + server.text; },
         formatSelection: function(server) { return "<span class='flags flags-" + server.flag + "'></span>" + server.text; },

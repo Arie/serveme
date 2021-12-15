@@ -31,7 +31,7 @@
               .alert.alert-warning
                 No servers available for you during the selected times.
                 Premium users have #{I18n.t(:available, :count => free_donator_servers_count, :scope => :server)} right now.
-                = link_to("Buy premium and get instant access!", donate_path)
+                = link_to("Buy premium and get instant access!", donate_path, data: { turbo: false })
 
       #refresh-ping.form-group.row.string.readonly.reservation_ping.form-group-valid
         %label.col-sm-3.col-md-3.col-form-label.string{for: 'reservation_ping'}

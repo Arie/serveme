@@ -12,7 +12,14 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
+//= require datepicker
+//= require jstz
+//= require pay
+//= require ping
+//= require popper
+//= require select2
+//= require sessions
+//= require reservation
 //
 //= require bootstrap
 //= require clipboard

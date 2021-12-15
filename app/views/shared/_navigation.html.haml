@@ -57,7 +57,7 @@
           %i.fa.fa-question
           FAQ
       %li.nav-item
-        = link_to statistics_path, class: "nav-link" do
+        = link_to statistics_path, class: "nav-link", data: { turbo: false } do
           %i.fa.fa-bar-chart-o
           Stats
 
@@ -80,7 +80,7 @@
             Premium
             %b.caret>
           .dropdown-menu
-            = link_to donate_path, class: "dropdown-item" do
+            = link_to donate_path, class: "dropdown-item", data: { turbo: false } do
               %i.fa.fa-paypal
               Buy
             = link_to leaderboard_donators_path, class: "dropdown-item" do

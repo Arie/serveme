@@ -1,6 +1,6 @@
 var card;
 
-jQuery(function($) {
+jQuery(document).on('turbo:load', function() {
   enablePaypal(false);
   paypalButton().click(function() {
     enablePaypal(true);

@@ -29,10 +29,10 @@
     %ol
       %li
         Select the private server option
-        = link_to "when buying premium", donate_path
+        = link_to "when buying premium", donate_path, data: { turbo: false }
       %li Complete your payment
       %li
         Select your private server
         = link_to "on the settings page", settings_path
 
-    = link_to "Rent a private server", donate_path, :class => "btn btn-success"
+    = link_to "Rent a private server", donate_path, :class => "btn btn-success", data: { turbo: false }

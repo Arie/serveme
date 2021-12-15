@@ -28,7 +28,7 @@
 
 %h2#your-vouchers
   Your premium codes
-  = link_to "Buy", donate_path(gift: true), class: "btn btn-success"
+  = link_to "Buy", donate_path(gift: true), class: "btn btn-success", data: { turbo: false }
 
 - if @vouchers.any?
 

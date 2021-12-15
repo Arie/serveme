@@ -93,7 +93,12 @@ module ReservationsHelper
   end
 
   def starts_at
-    (params[:reservation] && params[:reservation][:starts_at].presence) || params[:starts_at].presence || Time.current
+    starts_at = (params[:reservation] && params[:reservation][:starts_at].presence) || params[:starts_at].presence
+    if starts_at && starts_at >= Time.current
+      starts_at
+    else
+      Time.current
+    end
   end
 
   def ends_at

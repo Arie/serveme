@@ -1,4 +1,5 @@
 - content_for(:stripe) do
+  = javascript_include_tag "https://js.stripe.com/v3/"
   = javascript_tag "var stripe = Stripe('#{STRIPE_PUBLISHABLE_KEY}'); var elements = stripe.elements();"
 
 = render 'shared/point_to_na'

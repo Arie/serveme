@@ -4,10 +4,10 @@ module LogLineHelper
   def clean_log_line(line)
     line
       .gsub(ip_regex, '0.0.0.0')
-      .gsub(logs_tf_api_key_regex, 'tftrue_logs_apikey "logs_api_key"')
-      .gsub(sm_demostf_apikey_regex, 'sm_demostf_apikey "demos_api_key"')
-      .gsub(logaddress_regex, 'logaddress_add "logaddress"')
-      .gsub(logsecret_regex, 'sv_logsecret logsecret"')
+      .gsub(logs_tf_api_key_regex, 'tftrue_logs_apikey "*****"')
+      .gsub(sm_demostf_apikey_regex, 'sm_demostf_apikey "*****"')
+      .gsub(logaddress_regex, 'logaddress_add "*****"')
+      .gsub(logsecret_regex, 'sv_logsecret *****"')
   end
 
   private

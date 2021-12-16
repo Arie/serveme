@@ -4,6 +4,9 @@ module LogLineHelper
   def clean_log_line(line)
     line
       .gsub(ip_regex, '0.0.0.0')
+      .gsub(rcon_password_regex, 'rcon_password "*****"')
+      .gsub(sv_password_regex, 'sv_password "*****"')
+      .gsub(tv_password_regex, 'tv_password "*****"')
       .gsub(logs_tf_api_key_regex, 'tftrue_logs_apikey "*****"')
       .gsub(sm_demostf_apikey_regex, 'sm_demostf_apikey "*****"')
       .gsub(logaddress_regex, 'logaddress_add "*****"')
@@ -14,6 +17,18 @@ module LogLineHelper
 
   def ip_regex
     @ip_regex ||= /(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/
+  end
+
+  def rcon_password_regex
+    @rcon_password_regex ||= /rcon_password "\S+"/
+  end
+
+  def sv_password_regex
+    @sv_password_regex ||= /sv_password "\S+"/
+  end
+
+  def tv_password_regex
+    @tv_password_regex ||= /tv_password "\S+"/
   end
 
   def logs_tf_api_key_regex

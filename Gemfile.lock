@@ -584,7 +584,7 @@ GEM
       tins (~> 1.0)
     terser (1.1.8)
       execjs (>= 0.3.0, < 3)
-    tf2_line_parser (0.2.1)
+    tf2_line_parser (0.2.3)
       activesupport
     thor (1.1.0)
     tilt (2.0.10)

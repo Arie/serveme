@@ -38,7 +38,7 @@ Serveme::Application.routes.draw do
       get :status,              as: :status
       get :streaming,           as: :streaming
       get :rcon,                as: :rcon
-      post :rcon_command,       as: :rcon_command
+      patch :rcon_command, as: :rcon_command
     end
     collection do
       post :find_servers_for_user

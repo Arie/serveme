@@ -21,7 +21,7 @@ class Reservation < ActiveRecord::Base
   include ReservationValidations
   include Mitigations
 
-  attr_accessor :extending
+  attr_accessor :extending, :rcon_command
 
   def self.with_user_and_server
     includes(user: :groups).includes(server: :location)

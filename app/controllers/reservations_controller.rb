@@ -157,7 +157,9 @@ class ReservationsController < ApplicationController
     end
   end
 
-  def rcon_command; end
+  def rcon_command
+    reservation&.now? && reservation.server.rcon_exec(params[:rcon_command])
+  end
 
   private
 

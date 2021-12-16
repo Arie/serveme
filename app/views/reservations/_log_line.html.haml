@@ -1,0 +1,6 @@
+- ip_regex = /(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/
+- logs_tf_api_keys_regex = /tftrue_logs_apikey \"\S+\"/
+- sm_demostf_apikey = /sm_demostf_apikey \"\S+\"/
+- logaddress_regex = /logaddress_add \S+\"/
+= log_line.gsub(ip_regex, '0.0.0.0').gsub(logs_tf_api_keys_regex, 'tftrue_logs_apikey "logs_api_key"').gsub(sm_demostf_apikey, 'sm_demostf_apikey "demos_api_key"').gsub(logaddress_regex, 'logaddress_add "logaddress"')
+%br

@@ -1,0 +1,6 @@
+= turbo_stream_from "reservation_#{@logsecret}_log_lines"
+.row
+  .col-md-12
+    %div{id: "reservation_#{@logsecret}_log_lines"}
+      - @log_lines.each do |line|
+        = render "reservations/log_line", log_line: line

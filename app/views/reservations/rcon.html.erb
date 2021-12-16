@@ -1,9 +1,11 @@
 <%= turbo_stream_from "reservation_#{@logsecret}_log_lines" %>
 <div class="row">
   <div class="col-md-12">
-    <%= simple_form_for(@reservation, url: url_for(controller: "reservations", action: "rcon_command"), html: { class: "form-inline rcon-command"}, data: { controller: "reset_form", action: "turbo:submit-end->reset_form#reset"}) do |f| %>
-      <%= f.input :rcon_command, label: false, class: "col-md-12 form-control required", autofocus: true %>
-      <%= submit_tag "Send", name: "commit", class: "btn btn-primary" %>
+    <% if @reservation.now? %>
+      <%= simple_form_for(@reservation, url: url_for(controller: "reservations", action: "rcon_command"), html: { class: "form-inline rcon-command"}, data: { controller: "reset_form", action: "turbo:submit-end->reset_form#reset"}) do |f| %>
+        <%= f.input :rcon_command, label: false, class: "col-md-12 form-control required", autofocus: true %>
+        <%= submit_tag "Send", name: "commit", class: "btn btn-primary" %>
+      <% end %>
     <% end %>
     <br />
     <pre id="<%= "reservation_#{@logsecret}_log_lines" %>">

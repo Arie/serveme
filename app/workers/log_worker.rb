@@ -30,6 +30,7 @@ class LogWorker
       mapstart = event.unknown.match(MAP_START)
       handle_mapstart(mapstart[2]) if mapstart
     end
+    Turbo::StreamsChannel.broadcast_prepend_to "reservation_#{reservation.logsecret}_log_lines", target: "reservation_#{reservation.logsecret}_log_lines", partial: 'reservations/log_line', locals: { log_line: line }
   end
 
   def handle_mapstart(mapname)

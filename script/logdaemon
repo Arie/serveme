@@ -31,7 +31,7 @@ class Handler < EM::Connection
   private
 
   def interesting_line?(log_line)
-    chat?(log_line) || map_start?(log_line) || connect?(log_line)
+    chat?(log_line) || map_start?(log_line) || connect?(log_line) || disconnect?(log_line) || rcon_command?(log_line)
   end
 
   def chat?(log_line)
@@ -44,6 +44,14 @@ class Handler < EM::Connection
 
   def connect?(log_line)
     log_line.match(TF2LineParser::Events::Connect.regex)
+  end
+
+  def disconnect?(log_line)
+    log_line.match(TF2LineParser::Events::Disconnect.regex)
+  end
+
+  def rcon_command?(log_line)
+    log_line.match(TF2LineParser::Events::RconCommand.regex)
   end
 end
 

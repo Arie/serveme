@@ -1,1 +1,1 @@
-<%= clean_log_line(log_line) %>
+<% clean = clean_log_line(log_line) %><%= clean %><%= !clean.end_with?("\n") ? "\n" : "" %>

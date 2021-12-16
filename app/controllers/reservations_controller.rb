@@ -158,6 +158,7 @@ class ReservationsController < ApplicationController
   end
 
   def rcon_command
+    puts params.require(:reservation).permit(:rcon_command).inspect
     reservation&.now? && reservation.server.rcon_exec(params[:rcon_command])
   end
 

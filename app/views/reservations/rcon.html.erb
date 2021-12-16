@@ -1,6 +1,10 @@
 <%= turbo_stream_from "reservation_#{@logsecret}_log_lines" %>
 <div class="row">
   <div class="col-md-12">
+    <%= simple_form_for(@reservation, url: url_for(controller: "reservations", action: "rcon_command"), html: { class: "form-inline rcon-command"}) do |f| %>
+      <%= f.input :rcon_command, label: false, class: "col-md-10 form-control required", autofocus: true %>
+      <%= submit_tag "Send", name: "commit" %>
+    <% end %>
     <pre id="<%= "reservation_#{@logsecret}_log_lines" %>">
 <% @log_lines.each do |line| %><%= render "reservations/log_line", log_line: line %><% end %>
     </pre>

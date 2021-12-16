@@ -37,6 +37,8 @@ Serveme::Application.routes.draw do
       post :extend_reservation, as: :extend
       get :status,              as: :status
       get :streaming,           as: :streaming
+      get :rcon,                as: :rcon
+      post :rcon_command,       as: :rcon_command
     end
     collection do
       post :find_servers_for_user

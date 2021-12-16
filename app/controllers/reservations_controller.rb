@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class ReservationsController < ApplicationController
-  before_action :require_admin, only: [:streaming]
+  before_action :require_admin, only: %i[streaming rcon rcon_command]
+  layout 'rcon', only: [:rcon]
   include ReservationsHelper
 
   def new
@@ -140,6 +141,22 @@ class ReservationsController < ApplicationController
       redirect_to reservation_path(reservation)
     end
   end
+
+  def rcon
+    @logsecret = reservation.logsecret
+    filename = Rails.root.join('log', 'streaming', "#{@logsecret}.log")
+    begin
+      seek = [File.size(filename), 10_000].min
+      @log_lines = File.open(filename) do |f|
+        f.seek(-seek, IO::SEEK_END)
+        f.readlines.last(50).reverse
+      end
+    rescue Errno::ENOENT
+      @log_lines = []
+    end
+  end
+
+  def rcon_command; end
 
   private
 

@@ -219,12 +219,6 @@ $(document).on('turbo:load', function() {
       })
   });
 
-  $(".rcon-command").submit(function(e) {
-    e.submit();
-    $('#reservation_rcon_command').val('');
-  });
-
-
   function getDateFromDatePicker(element){
     return $.fn.datetimepicker.DPGlobal.parseDate(
       element.val(),

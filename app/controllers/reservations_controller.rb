@@ -158,8 +158,15 @@ class ReservationsController < ApplicationController
   end
 
   def rcon_command
-    puts params.require(:reservation).permit(:rcon_command).inspect
-    reservation&.now? && reservation.server.rcon_exec(params[:rcon_command])
+    if reservation&.now?
+      result = reservation.server.rcon_exec(params[:reservation][:rcon_command])
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.prepend("reservation_#{reservation.logsecret}_log_lines", target: "reservation_#{reservation.logsecret}_log_lines", partial: 'reservations/log_line', locals: { log_line: result }) }
+        format.html { redirect_to rcon_reservation_path(reservation) }
+      end
+    else
+      render 'pages/not_found', status: 404
+    end
   end
 
   private

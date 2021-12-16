@@ -2,7 +2,7 @@
 <div class="row">
   <div class="col-md-12">
     <pre id="<%= "reservation_#{@logsecret}_log_lines" %>">
-<% @log_lines.each_with_index do |line, idx| %><%= render "reservations/log_line", log_line: line %><%= (idx == 0 && !line.end_with?("\n")) ? "\n" : "" %><% end %>
+<% @log_lines.each do |line| %><%= render "reservations/log_line", log_line: line %><% end %>
     </pre>
   </div>
 </div>

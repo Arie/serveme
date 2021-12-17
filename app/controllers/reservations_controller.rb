@@ -5,6 +5,7 @@ class ReservationsController < ApplicationController
   helper LogLineHelper
   layout 'rcon', only: [:rcon]
   include RconHelper
+  include LogLineHelper
   include ReservationsHelper
 
   def new
@@ -148,10 +149,10 @@ class ReservationsController < ApplicationController
     @logsecret = reservation.logsecret
     filename = Rails.root.join('log', 'streaming', "#{@logsecret}.log")
     begin
-      seek = [File.size(filename), 10_000].min
+      seek = [File.size(filename), 20_000].min
       @log_lines = File.open(filename) do |f|
         f.seek(-seek, IO::SEEK_END)
-        f.readlines.last(50).reverse
+        f.readlines.last(100).reverse.select { |l| interesting_line?(l) }
       end
     rescue Errno::ENOENT
       @log_lines = []

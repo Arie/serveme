@@ -36,14 +36,18 @@ class FriendlyPasswordGenerator
       alba
       admirable
       adysky
+      agro
       arx
+      ash
       banny
       beta
       blaze
       bones
       botmode
+      buud
       byte
       canfo
+      captvk
       clockwork
       coleman
       connor
@@ -52,13 +56,18 @@ class FriendlyPasswordGenerator
       dave
       david
       darn
+      dmoule
+      eemes
       enigma
       exfane
       extine
       fragga
       geel
       grumpykoi
+      habib
       harbleu
+      jan
+      jay
       jon
       kaidus
       kaptain
@@ -70,7 +79,9 @@ class FriendlyPasswordGenerator
       laz
       lukas
       luke
+      mak
       mana
+      miggy
       mike
       mirelin
       numlocked
@@ -87,9 +98,11 @@ class FriendlyPasswordGenerator
       ryb
       seagull
       seeds
+      seriouscat
       shade
       sheep
       sideshow
+      sigafoo
       silentes
       sim
       skeej
@@ -100,13 +113,19 @@ class FriendlyPasswordGenerator
       squid
       star
       starkie
+      tapley
       tek
       termo
       thalash
       toemas
       torden
+      tragic
       turbotabs
+      uncledane
+      vis
+      yeehaw
       yight
+      yomps
       yuki
       war
       weqo

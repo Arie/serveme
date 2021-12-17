@@ -4,6 +4,7 @@ class ReservationsController < ApplicationController
   before_action :require_admin, only: %i[streaming]
   helper LogLineHelper
   layout 'rcon', only: [:rcon]
+  include RconHelper
   include ReservationsHelper
 
   def new
@@ -159,7 +160,7 @@ class ReservationsController < ApplicationController
 
   def rcon_command
     if reservation&.now?
-      rcon_command = params[:reservation][:rcon_command]
+      rcon_command = clean_rcon(params[:reservation][:rcon_command])
       Rails.logger.info("User #{current_user.name} (#{current_user.uid}) executed rcon command \"#{rcon_command}\" for reservation #{reservation.id}")
       result = reservation.server.rcon_exec(rcon_command).to_s
       respond_to do |format|

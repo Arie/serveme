@@ -55,10 +55,8 @@ class User < ActiveRecord::Base
   end
 
   def maximum_reservation_length
-    if admin?
+    if admin? || donator?
       10.hours
-    elsif donator?
-      5.hours
     else
       2.hours
     end

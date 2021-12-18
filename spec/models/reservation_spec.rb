@@ -366,12 +366,12 @@ describe Reservation do
         user.stub(donator?: true)
       end
 
-      it 'has an initial duration of no more than 5 hours' do
-        reservation = build :reservation, starts_at: Time.current, ends_at: 301.minutes.from_now, user: user
+      it 'has an initial duration of no more than 10 hours' do
+        reservation = build :reservation, starts_at: Time.current, ends_at: 601.minutes.from_now, user: user
         reservation.should have(1).error_on(:ends_at)
-        reservation.errors.full_messages.should include 'Ends at maximum reservation time is 5 hours, you can extend if you run out of time'
+        reservation.errors.full_messages.should include 'Ends at maximum reservation time is 10 hours, you can extend if you run out of time'
 
-        reservation.ends_at = reservation.starts_at + 5.hours
+        reservation.ends_at = reservation.starts_at + 10.hours
         reservation.should have(:no).errors_on(:ends_at)
       end
 

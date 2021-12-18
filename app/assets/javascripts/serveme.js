@@ -12,14 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require datepicker
 //= require jstz
 //= require pay
 //= require ping
-//= require popper
-//= require select2
-//= require sessions
 //= require reservation
-//
-//= require bootstrap
-//= require clipboard
+//= require alpine
+//= require alpine-turbo-drive-adapter.min

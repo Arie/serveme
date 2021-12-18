@@ -5,8 +5,6 @@ source 'https://rubygems.org'
 gem 'american_date'
 gem 'base32_pure'
 gem 'bcrypt_pbkdf'
-gem 'bootsnap', require: false
-gem 'bootstrap', '~> 4.6' # Something in 5 breaks popper, not going to fix that now
 gem 'carrierwave'
 gem 'clipboard-rails'
 gem 'coffee-rails'
@@ -52,20 +50,15 @@ gem 'redis-rails'
 gem 'remote_lock'
 gem 'rexml'
 gem 'rubyzip', require: 'zip'
-gem 'sass'
-gem 'sassc'
-gem 'sass-rails'
 gem 'sidekiq', '< 6'
 gem 'sidekiq-cron'
-gem 'simple_form'
-gem 'sprockets'
-gem 'sprockets-rails', '~> 3.2.0'
+gem 'simple_form', git: 'https://github.com/heartcombo/simple_form.git'
 gem 'steam-condenser', git: 'https://github.com/koraktor/steam-condenser-ruby.git'
 gem 'stripe'
+gem 'tailwindcss-rails'
 gem 'terser'
 gem 'tf2_line_parser'
 gem 'will_paginate'
-gem 'will_paginate-bootstrap4'
 
 group :development do
   gem 'better_errors'
@@ -101,7 +94,7 @@ end
 group :test do
   gem 'capybara'
   gem 'cucumber'
-  gem 'cucumber-rails', '~> 2.0', require: false
+  gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'delorean'
   gem 'json_expressions'
@@ -127,4 +120,4 @@ group :production do
 end
 
 # Use Redis for Action Cable
-gem 'redis', '~> 4.0'
+gem 'redis', '~> 4.1.4'

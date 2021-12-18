@@ -1,77 +1,89 @@
 = render 'shared/nag_message' if current_user
 
 - content_for :jumbotron do
-  .jumbotron
-    .container
-      .row
-        .col-md-8.buttons
-          %h1 Welcome to #{SITE_HOST}!
-          %p The easiest way to get a TF2 server
-          = link_to new_reservation_path, :class => 'btn btn-lg btn-primary', :title => "Get a server right now, or make a reservation" do
-            Get server
-            %i.fa.fa-crosshairs
-          = link_to i_am_feeling_lucky_reservations_path, :class => 'btn btn-lg btn-warning', :method => :post, :title => "Make a reservation in 1 click" do
-            1-click-server
-            %i.fa.fa-bolt
+  .max-w-7xl.mx-auto
+    .relative.z-10.pb-8.bg-black.sm:pb-16.md:pb-20.lg:max-w-2xl.lg:w-full.lg:pb-28.xl:pb-32
+      %main.mt-10.mx-auto.max-w-7xl.px-4.sm:mt-12.sm:px-6.md:mt-16.lg:mt-20.lg:px-8.xl:mt-28
 
-        .col-md-4.align-self-end
-          = render 'reservations/available_servers'
+        .sm:text-center.lg:text-left
+          %h1.text-4xl.tracking-tight.font-extrabold.text-gray-900.sm:text-5xl.md:text-6xl
+            %span.block.text-gray-400.xl:block Welcome to #{SITE_HOST}
+            %span.block.text-sky-500.xl:block TF2 gameservers
 
-= render 'shared/point_to_na'
+          %p.mt-3.text-base.text-gray-500.sm:mt-5.sm:text-lg.sm:max-w-xl.sm:mx-auto.md:mt-5.md:text-xl.lg:mx-0
+            = link_to("Book a server", new_reservation_path)
+            and within a few seconds your server will be ready and yours to use.
+            Feel free to use the server for any kind of match you want.
 
-.row
-  .col-md-12
-    %p.lead
-      = link_to("Book a server", new_reservation_path)
-      and within a few seconds your server will be ready and yours to use.
-      Feel free to use the server for any kind of match you want.
+          .mt-5.sm:mt-8.sm:flex.sm:justify-center.lg:justify-start
+            .rounded-md.shadow
+              = link_to new_reservation_path, title: "Get a server right now, or make a reservation", class: "w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-sky-600 hover:bg-sky-700 md:py-4 md:text-lg md:px-10" do
+                Get server
+            .mt-3.sm:mt-0.sm:ml-3
+              = link_to i_am_feeling_lucky_reservations_path, method: :post, title: "Make a reservation in 1 click", class: "w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10" do
+                1-click-server
 
-.row
-  .col-md-12
-    %p
-      Please
-      = link_to('consider contributing to the operating costs by donating.', donate_path)
-      All donations get divided between the server providers based on time played on their servers.
+    .lg:absolute.lg:inset-y-0.lg:right-0{class: "lg:w-1/2"}
+      = render 'reservations/available_servers'
 
-      You can also
-      - if !sea_system?
-        = link_to('send me a TF2 trade offer.', 'https://steamcommunity.com/tradeoffer/new/?partner=231702&token=POpKIGaL')
-      - else
-        = link_to('send the tradebot a trade offer.', 'https://steamcommunity.com/tradeoffer/new/?partner=328658734&token=3vDIZUwa')
-
-      The current rate is 2 keys per month, but you can also send some items just to say thanks.
-
-
-.row
-  = render "shared/donation_target"
-
-.row &nbsp;
-
-.row
-  .col-md-12
-    = link_to("Leave a comment", "#leave-a-comment")
-    if you like this service, had a problem or suggestion, I'd really appreciate it!
-    Alternatively, you could leave a comment on the
-    = link_to "ETF2L forums", 'http://etf2l.org/forum/community/topic-23191/?recent=427024', :target => '_blank'
-
-.row &nbsp;
-
-
-- if @users_games && @users_games.any?
-  %h3 Reservations you played in
-  .row
-    .col-md-12
-      = render 'reservations/users_games'
-
-- if @users_reservations && @users_reservations.any?
-  %h3 Your most recent reservations
-  .row
-    .col-md-12
-      = render 'reservations/users_reservations'
-
-.row
-  .col-md-12
-    %h3 Comments
-
-    #leave-a-comment
-      = render 'shared/disqus'
+-#  .jumbotron
+-#    .container
+-#      .row
+-#        .col-md-8.buttons
+-#
+-#
+-#= render 'shared/point_to_na'
+-#
+-#.row
+-#  .col-md-12
+-#
+-#.row
+-#  .col-md-12
+-#    %p
+-#      Please
+-#      = link_to('consider contributing to the operating costs by donating.', donate_path)
+-#      All donations get divided between the server providers based on time played on their servers.
+-#
+-#      You can also
+-#      - if !sea_system?
+-#        = link_to('send me a TF2 trade offer.', 'https://steamcommunity.com/tradeoffer/new/?partner=231702&token=POpKIGaL')
+-#      - else
+-#        = link_to('send the tradebot a trade offer.', 'https://steamcommunity.com/tradeoffer/new/?partner=328658734&token=3vDIZUwa')
+-#
+-#      The current rate is 2 keys per month, but you can also send some items just to say thanks.
+-#
+-#
+-#.row
+-#  = render "shared/donation_target"
+-#
+-#.row &nbsp;
+-#
+-#.row
+-#  .col-md-12
+-#    = link_to("Leave a comment", "#leave-a-comment")
+-#    if you like this service, had a problem or suggestion, I'd really appreciate it!
+-#    Alternatively, you could leave a comment on the
+-#    = link_to "ETF2L forums", 'http://etf2l.org/forum/community/topic-23191/?recent=427024', :target => '_blank'
+-#
+-#.row &nbsp;
+-#
+-#
+-#- if @users_games && @users_games.any?
+-#  %h3 Reservations you played in
+-#  .row
+-#    .col-md-12
+-#      = render 'reservations/users_games'
+-#
+-#- if @users_reservations && @users_reservations.any?
+-#  %h3 Your most recent reservations
+-#  .row
+-#    .col-md-12
+-#      = render 'reservations/users_reservations'
+-#
+-#.row
+-#  .col-md-12
+-#    %h3 Comments
+-#
+-#    #leave-a-comment
+-#      = render 'shared/disqus'
+-#

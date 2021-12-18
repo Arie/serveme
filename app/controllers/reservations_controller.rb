@@ -3,7 +3,6 @@
 class ReservationsController < ApplicationController
   before_action :require_admin, only: %i[streaming]
   helper LogLineHelper
-  layout 'rcon', only: [:rcon]
   include RconHelper
   include LogLineHelper
   include ReservationsHelper

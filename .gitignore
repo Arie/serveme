@@ -22,3 +22,6 @@ rerun.txt
 pickle-email-*.html
 rspec.html
 cucumber.html
+
+/app/assets/builds/*
+!/app/assets/builds/.keep

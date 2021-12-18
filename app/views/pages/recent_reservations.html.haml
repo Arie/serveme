@@ -2,32 +2,28 @@
 
 %h2 Recent reservations
 
-.row
-  .col-md-12
-    = will_paginate @recent_reservations
+= will_paginate @recent_reservations
 
-.row
-  .col-md-12
-
-    %table.table.table-condensed.table-hover
-      %thead
-        %tr
-          %th Server
-          %th Reserved by
-          %th Reserved from
-          %th Reserved until
+.shadow.overflow-hidden.border-gray-200
+  %table.min-w-full.dividy-y.divide-gray-200
+    %thead.bg-gray-700
+      %tr
+        %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Server
+        %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Reserved by
+        %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Reserved from
+        %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Reserved until
+        - if current_admin || current_league_admin || current_streamer
+          %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Actions
+    %tbody.divide-gray-800.divide-y
+      - @recent_reservations.each do |reservation|
+        - klass = 'bg-lime-800' if reservation.active?
+        - klass = 'bg-sky-700' if reservation.future?
+        %tr[reservation]{:class => klass}
+          - user = reservation.user.decorate
+          - reservation = reservation.decorate
+          %td.px-2.py-4.whitespace-nowrap= reservation.server_name
+          %td.px-2.py-4.whitespace-nowrap= link_to(user.nickname, user.steam_profile_url, :target => "_blank")
+          %td.px-2.py-4.whitespace-nowrap= I18n.l(reservation.starts_at,  :format => :short)
+          %td.px-2.py-4.whitespace-nowrap= I18n.l(reservation.ends_at,    :format => :short)
           - if current_admin || current_league_admin || current_streamer
-            %th Actions
-      %tbody
-        - @recent_reservations.each do |reservation|
-          - klass = 'table-success' if reservation.active?
-          - klass = 'table-info'    if reservation.future?
-          %tr[reservation]{:class => klass}
-            - user = reservation.user.decorate
-            - reservation = reservation.decorate
-            %td= reservation.server_name
-            %td= link_to(user.nickname, user.steam_profile_url, :target => "_blank")
-            %td= I18n.l(reservation.starts_at,  :format => :short)
-            %td= I18n.l(reservation.ends_at,    :format => :short)
-            - if current_admin || current_league_admin || current_streamer
-              %td.actions= render 'reservations/actions', :reservation => reservation
+            %td.px-2.py-4.whitespace-nowrap.actions= render 'reservations/actions', :reservation => reservation

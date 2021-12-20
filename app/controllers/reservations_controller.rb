@@ -152,7 +152,9 @@ class ReservationsController < ApplicationController
       seek = [File.size(filename), 50_000].min
       @log_lines = File.open(filename) do |f|
         f.seek(-seek, IO::SEEK_END)
-        f.readlines.last(500).reverse.select { |l| interesting_line?(l) }.first(100)
+        f.readlines.last(500).reverse.select do |line|
+          interesting_line?(ActiveSupport::Multibyte::Chars.new(line).tidy_bytes.to_s)
+        end.first(100)
       end
     rescue Errno::ENOENT
       @log_lines = []

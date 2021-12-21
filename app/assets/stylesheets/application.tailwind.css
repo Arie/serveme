@@ -7,11 +7,15 @@
 }
 
 .pagination * {
-  @apply z-10 bg-slate-900 border-slate-700 text-white relative px-4 py-2 border text-sm font-medium hover:bg-red-500 ;
+  @apply z-10 bg-slate-900 border-slate-700 text-white relative px-4 py-2 border text-sm font-medium hover:bg-red-700 ;
 }
 
 .pagination .current {
-  @apply z-10 bg-red-700 border-sky-700 text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium hover:bg-red-700;
+  @apply z-10 bg-red-500 border-sky-700 text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium hover:bg-red-500;
 }
+
+@import datepicker;
+@import font-awesome;
+@import select2;
 
 @tailwind utilities;

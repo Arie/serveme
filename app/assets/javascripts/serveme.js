@@ -16,5 +16,5 @@
 //= require pay
 //= require ping
 //= require reservation
-//= require alpine
 //= require alpine-turbo-drive-adapter.min
+//= require alpine

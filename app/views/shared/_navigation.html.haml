@@ -18,18 +18,8 @@
     = link_to "Sign out", users_logout_path, class: "group border-l pl-6 border-gray-700 hover:text-teal-400 flex items-center", method: :delete
 
   - else
-    = link_to '/users/auth/steam', class: "group border-l pl-6 border-gray-700 hover:text-teal-400 flex items-center", method: :post do
-      Sign in with Steam
--#            - if current_user && (current_user.admin? || current_user.league_admin? || current_user.streamer?)
--#              = link_to recent_reservations_path, class: "dropdown-item" do
--#                %i.fa.fa-clock-o
--#                Recent reservations
--#            = link_to new_reservation_path, class: "dropdown-item" do
--#              %i.fa.fa-edit
--#              Make reservation
--#            = link_to i_am_feeling_lucky_reservations_path, method: :post, title: "Make a reservation in 1 click", class: "dropdown-item" do
--#              %i.fa.fa-warning
--#              1-click reservation
+    = link_to "Sign in", '/users/auth/steam', class: "group border-l pl-6 border-gray-700 hover:text-teal-400 flex items-center", method: :post
+
 -#      - if current_user && current_user.donator?
 -#        %li.nav-item
 -#          = link_to servers_path, class: "nav-link" do

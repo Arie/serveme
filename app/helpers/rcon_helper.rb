@@ -14,6 +14,6 @@ module RconHelper
   end
 
   def clean_rcon(rcon_command)
-    rcon_command.gsub(/^\s*rcon\ /, '').gsub(/^\s*map\ /, 'changelevel ')
+    rcon_command.gsub(/^\s*!?rcon\ /, '').gsub(/^\s*map\ /, 'changelevel ')
   end
 end

@@ -165,7 +165,7 @@ class ReservationsController < ApplicationController
     if reservation&.now?
       rcon_command = clean_rcon(params[:reservation][:rcon_command])
       Rails.logger.info("User #{current_user.name} (#{current_user.uid}) executed rcon command \"#{rcon_command}\" for reservation #{reservation.id}")
-      result = reservation.server.rcon_exec(rcon_command).to_s
+      result = ActiveSupport::Multibyte::Chars.new(reservation.server.rcon_exec(rcon_command)).tidy_bytes.to_s
       respond_to do |format|
         format.turbo_stream { render turbo_stream: turbo_stream.prepend("reservation_#{reservation.logsecret}_log_lines", target: "reservation_#{reservation.logsecret}_log_lines", partial: 'reservations/log_line', locals: { log_line: result }) }
         format.html { redirect_to rcon_reservation_path(reservation) }

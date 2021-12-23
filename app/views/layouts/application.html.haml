@@ -3,7 +3,7 @@
   %head
     - subtitle = content_for(:title) || "free TF2 server reservations"
     %title #{SITE_HOST} - #{subtitle}
-    = stylesheet_link_tag "tailwind", "serveme", "inter-font", "data-turbo-track": "reload"
+    = stylesheet_link_tag "tailwind", "serveme", "flags", "datepicker", "select2", "select2-tailwind", "reservations", "inter-font", "data-turbo-track": "reload"
     = content_for(:stripe)
     = javascript_include_tag "serveme"
     = javascript_importmap_tags
@@ -13,7 +13,7 @@
     %meta{:name => "description", :content => "Free TF2 servers, ready for action in 60 seconds!"}
     = content_for(:head)
   %body.font-sans.antialiased.text-gray-600.min-h-full.flex.flex-col 
-    %header.flex-none.relative.z-50.text-sm.leading-6.font-medium.text-gray-200.pt-5
+    %header.container.mx-auto.flex-none.relative.z-50.text-sm.leading-6.font-medium.text-gray-200.pt-5
       %nav.max-w-container.mx-auto.px-4.sm:px-6.lg:px-8{"aria-label" => "Global"}
         .flex.items-center.flex-wrap.sm:flex-nowrap
           = link_to root_path, class: "flex-none text-xl font-extrabold tracking-tight text-red-400 md-4" do
@@ -21,5 +21,5 @@
           = render 'shared/navigation'
     %main.flex-auto.bg-gray-900
       .overflow-hidden.bg-gray-900.text-gray-300.-mt-32.pt-32
-        .max-w-container.mx-auto.px-4.sm:px-6.lg:px-8.pt-16.lg:pt-9.xl:pt-20.pb-16
+        .container.mx-auto.px-4.sm:px-6.lg:px-8.pt-16.lg:pt-9.xl:pt-20.pb-16
           = yield

@@ -1,16 +1,16 @@
 %div{id: "reservation_actions_#{reservation.id}"}
-  %span.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-lime-600.text-white
+  %span.button.details
     = link_to reservation_path(reservation) do
       details
 
   - if reservation.past?
-    %span.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-orange-400.text-white
+    %span.button.edit
       = link_to edit_reservation_path(reservation), title: 'Edit reservation' do
         edit
 
     - if reservation.active? || (reservation.now? && reservation.start_instantly?)
       - if reservation.less_than_1_hour_left?
-        %span.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-blue-400.text-white
+        %span.button.extend
           = link_to extend_reservation_path(reservation), title: 'Extend reservation', method: :post, data: { confirm: "This will extend your reservation if possible" } do
             extend
 
@@ -20,36 +20,36 @@
           - end_message = "Are you sure you want to end your reservation? There #{I18n.t(:were_x_players_left, :count => reservation.last_number_of_players, :scope => :server)} left on the server at #{I18n.l(Time.zone.now, :format => :time_without_seconds)}"
         - else
           - end_message = "Are you sure you want to end your reservation?"
-          %span.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-red-900.text-white
+          %span.button.end
             = link_to reservation_path(reservation), title: 'End reservation', method: :delete, data: { confirm: end_message } do
               end
 
         - if reservation.server && !reservation.server.sdr?
 
-          %span.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-red-900.text-white
+          %span.button.join
             = link_to  reservation.server_connect_url do
               Join
 
-          %span.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-red-900.text-white
+          %span.button.stv
             = link_to reservation.stv_connect_url do
               STV
 
     - if reservation.cancellable?
-      %span.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-red-900.text-white
+      %span.button.cancel
         = link_to reservation_path(reservation), title: 'Cancel reservation',  method: :delete do
           Cancel
 
     - if reservation.past?
       - if reservation.younger_than_cleanup_age?
         = render 'reservations/zip_file_link', reservation: reservation
-        %span.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-red-900.text-white
+        %span.button.logs
           = link_to reservation_log_uploads_path(reservation), title: 'Upload the match logs to logs.tf' do
             logs.tf
 
       - else
-        %span.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-red-900.text-white
+        %span.button.logs
           = link_to reservation.logs_tf_url, title: 'Search on logs.tf' do
             logs.tf
-        %span.px-2.inline-flex.text-xs.leading-5.font-semibold.rounded-full.bg-red-900.text-white
+        %span.button.demos
           = link_to demos_tf_url(reservation.user), title: 'Search on demos.tf' do
             demos.tf

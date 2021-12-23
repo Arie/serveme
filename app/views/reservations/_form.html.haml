@@ -1,78 +1,102 @@
-- unless @reservation.persisted?
-  .row
-    .col-md-12
-      %p.alert.alert-warning
-        Please pick your start and end time carefully, we don't like to see reserved servers go unused. All times are in timezone:
-        = link_to(Time.zone.name, edit_users_path)
+.max-w-3xl.mx-auto
+  - unless @reservation.persisted?
+    .bg-red-700.rounded-lg.pb-2
+      .flex.items-center.justify-between.flex-wrap
+        .w-0.flex-1.flex.items-center
+          %p.ml-3.font-medium.text-white
+            %span
+              Please pick your start and end time carefully, we don't like to see reserved servers go unused. All times are in timezone:
+              = link_to(Time.zone.name, edit_users_path)
 
-= render "donator_nag"
+  = render "donator_nag"
 
-= render 'shared/point_to_na'
+  = render 'shared/point_to_na'
 
-= render "server_reservations_table"
+  = render "server_reservations_table"
 
-.row
-  .col-md-12.col-lg-6.offset-lg-2
-    = simple_form_for(@reservation, wrapper: :horizontal_form, :html => { :class => 'form-horizontal reservation' }) do |f|
-      - if @reservation.schedulable?
-        = f.input :starts_at, as: :string, input_html: { value: I18n.l(@reservation.starts_at || Time.now, format: :datepicker), data: { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, label: "Starts at"
-        = f.input :ends_at, as: :string, input_html: { value: I18n.l(@reservation.ends_at || 2.hours.from_now, format: :datepicker), data: { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, label: "Ends at"
+  = form_with(model: @reservation, class: "space-y-8 divide-y divide-black") do |f|
+    .space-y-8.divide-y.divide-gray-200.max-w-3xl
+      .mt-6.grid.grid-cols-1.gap-y-6.gap-x-4.sm:grid-cols-6
+        - if @reservation.schedulable?
+          .sm:col-span-3
+            %label.block.text-sm.font-medium.text-white{for: "reservation_starts_at"}
+              Starts at
+            .mt-1
+              = f.text_field :starts_at, as: :string, id: "reservation_starts_at", class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md", value: I18n.l(@reservation.starts_at || Time.now, format: :datepicker), data: { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" }
+          .sm:col-span-3
+            %label.block.text-sm.font-medium.text-white{for: "reservation_ends_at"}
+              Ends at
+            .mt-1
+              = f.text_field :ends_at, as: :string, id: "reservation_ends_at", class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md", value: I18n.l(@reservation.ends_at || 2.hours.from_now, format: :datepicker), data: { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" }
+
+        :javascript
+          free_servers = #{free_servers.map { |s| {id: s.id, text: s.name, flag: s.location_flag, ip_and_port: "#{s.public_ip}:#{s.public_port}"} }.to_json.html_safe};
+          find_server_url = "#{@reservation.persisted? ? find_servers_for_reservation_reservations_path(id: @reservation.id) : find_servers_for_user_reservations_path}";
+
+        .sm:col-span-6
+          %label.block.text-sm.font-medium.text-white{for: "reservation_server_id"}
+            Server
+          = f.text_field :server_id, required: true, disabled: !@reservation.schedulable?, id: "reservation_server_id"
+        - if @reservation.schedulable? && !current_user.donator?
+          - free_donator_servers_count = Server.for_donators.active.count - used_donator_server_count
+          - if free_donator_servers_count > 0
+            .sm:col-span-6
+              .buy_premium
+                .alert.alert-warning
+                  No servers available for you during the selected times.
+                  Premium users have #{I18n.t(:available, :count => free_donator_servers_count, :scope => :server)} right now.
+                  = link_to("Buy premium and get instant access!", donate_path, data: { turbo: false })
+
+        .sm:col-span-6
+          %label.block.text-sm.font-medium.text-white{for: "reservation_server_password"}
+            Password
+          = f.text_field :password, as: :string, placeholder: "The server password to join the game"
+        .sm:col-span-6
+          %label.block.text-sm.font-medium.text-white{for: "reservation_server_rcon_password"}
+            RCON Password
+          = f.text_field :rcon, as: :string, placeholder: "The RCON password to control the server", disabled: !@reservation.schedulable?
+        .sm:col-span-6
+          %label.block.text-sm.font-medium.text-white{for: "reservation_server_rcon_password"}
+            First map
+          = f.select :first_map, MapUpload.available_maps.collect { |m| [ m, m ] }, {}, { class: "select2", id: "reservation_first_map", disabled: !@reservation.schedulable? }
+        .sm:col-span-6
+          %label.block.text-sm.font-medium.text-white{for: "reservation_server_rcon_password"}
+            STV password
+          = f.text_field :tv_password, as: :string,   placeholder: "Password for STV, default tv", disabled: !@reservation.schedulable?
+        .sm:col-span-3
+          %label.block.text-sm.font-medium.text-white{for: "reservation_server_rcon_password"}
+            Enable plugins
+          = f.check_box :enable_plugins, as: :boolean,  hint: "Enable plugins", disabled: !@reservation.schedulable?
+        .sm:col-span-2
+          %label.block.text-sm.font-medium.text-white{for: "reservation_server_rcon_password"}
+            Enable demos.tf
+          = f.check_box :enable_demos_tf, as: :boolean,  hint: "Enable uploading STVs to demos.tf", disabled: !@reservation.schedulable?
+        .sm:col-span-4
+          = f.collection_select :server_config, ServerConfig.ordered, :id, :file, {}, { id: "reservation_server_config_id", class: "select2" }
+        -#hint: "Specify a league config to run on each map start"
+        .sm:col-span-6
+          = radio_button_tag :whitelist_type, "default_whitelist", (!@reservation.custom_whitelist_id.present? && !@reservation.whitelist.present?)
+          %label{for: "whitelist_type_default_whitelist"} From config
+          = radio_button_tag :whitelist_type, "league_whitelist", (@reservation.whitelist_id.present?)
+          %label{for: "whitelist_type_league_whitelist"}
+          League
+          = radio_button_tag :whitelist_type, "custom_whitelist", (@reservation.custom_whitelist_id.present?)
+          %label{for: "whitelist_type_custom_whitelist"}
+          Whitelist.tf
+          = f.select :whitelist, Whitelist.ordered.collect { |w| [ w, w ] }, {}, { id: "reservation_whitelist_id" }
+          -#:hint => "Some configs have a default whitelist, but you can still override that here. 6v6 with 9v9 unlocks? No problem!"
+          = f.text_field :custom_whitelist_id, class: "reservation_custom_whitelist_id"
+          -# hint => "Enter the whitelist ID or preset name (e.g. etf2l_6v6_s22) from <a href='http://whitelist.tf/configure' target='_blank'>whitelist.tf</a>".html_safe
+
+        .sm:col-span-6
+          = f.check_box :auto_end, as: :boolean, disabled: !current_user.donator?, input_html: { value: true }
+          -# hint: "Automatically end the reservation once everyone has left the server"
+
+        %button.ml-3.inline-flex.justify-center.py-2.px-4.border.border-transparent.shadow-sm.text-sm.font-medium.rounded-md.text-white.bg-red-600.hover:bg-red-700.focus:outline-none.focus:ring-2.focus:ring-offset-2.focus:ring-red-500{type: :submit}
+          Save
+
+      = render "datepicker_javascript_options"
 
       :javascript
-        free_servers = #{free_servers.map { |s| {id: s.id, text: s.name, flag: s.location_flag, ip_and_port: "#{s.public_ip}:#{s.public_port}"} }.to_json.html_safe};
-        find_server_url = "#{@reservation.persisted? ? find_servers_for_reservation_reservations_path(id: @reservation.id) : find_servers_for_user_reservations_path}";
-
-      = f.input :server_id, :label => "Server", :required => true, :disabled => !@reservation.schedulable?
-      - if @reservation.schedulable? && !current_user.donator?
-        - free_donator_servers_count = Server.for_donators.active.count - used_donator_server_count
-        - if free_donator_servers_count > 0
-          .buy_premium.form-group
-            .col
-              .alert.alert-warning
-                No servers available for you during the selected times.
-                Premium users have #{I18n.t(:available, :count => free_donator_servers_count, :scope => :server)} right now.
-                = link_to("Buy premium and get instant access!", donate_path, data: { turbo: false })
-
-      #refresh-ping.form-group.row.string.readonly.reservation_ping.form-group-valid
-        %label.col-sm-3.col-md-3.col-form-label.string{for: 'reservation_ping'}
-          Ping
-          %i.fa.fa-refresh
-        .col-sm-3.col-md-3
-          %input#reservation_ping.string.optional.readonly.disabled.form-control{disabled: "disabled", type: "text"}
-
-      = f.input :password,            as: :string, placeholder: "The server password to join the game"
-      = f.input :rcon,                as: :string, placeholder: "The RCON password to control the server",          disabled: !@reservation.schedulable?
-      = f.input :first_map,           collection: MapUpload.available_maps, :input_html => { :class => "select2" }, disabled: !@reservation.schedulable?
-      = f.input :tv_password,         as: :string,   placeholder: "Password for STV, default tv",                   disabled: !@reservation.schedulable?
-      = f.input :enable_plugins,      as: :boolean,  hint: "Enable plugins",                                        disabled: !@reservation.schedulable?
-      = f.input :enable_demos_tf,     as: :boolean,  hint: "Enable uploading STVs to demos.tf",                     disabled: !@reservation.schedulable?
-      = f.association :server_config, collection: ServerConfig.ordered, hint: "Specify a league config to run on each map start", input_html: { class: "select2" }
-      = f.input :whitelist_type, :label => "Item whitelist" do
-        .form-control.whitelist
-          .form-check.form-check-inline
-            = radio_button_tag :whitelist_type, "default_whitelist", (!@reservation.custom_whitelist_id.present? && !@reservation.whitelist.present?), class: "form-check-input"
-            %label.form-check-label{for: "whitelist_type_default_whitelist"}
-              From config
-          .form-check.form-check-inline
-            = radio_button_tag :whitelist_type, "league_whitelist", (@reservation.whitelist_id.present?), class: "form-check-input"
-            %label.form-check-label{for: "whitelist_type_league_whitelist"}
-              League
-          .form-check.form-check-inline
-            = radio_button_tag :whitelist_type, "custom_whitelist", (@reservation.custom_whitelist_id.present?), class: "form-check-input"
-            %label.form-check-label{for: "whitelist_type_custom_whitelist"}
-              Whitelist.tf
-      = f.association :whitelist,     :collection => Whitelist.ordered,    :hint => "Some configs have a default whitelist, but you can still override that here. 6v6 with 9v9 unlocks? No problem!"
-      = f.input :custom_whitelist_id, :hint => "Enter the whitelist ID or preset name (e.g. etf2l_6v6_s22) from <a href='http://whitelist.tf/configure' target='_blank'>whitelist.tf</a>".html_safe
-
-      = f.input :auto_end, as: :boolean, hint: "Automatically end the reservation once everyone has left the server", disabled: !current_user.donator?, input_html: { value: true }
-
-      .row.submit-row
-        .col-sm-2.offset-sm-4.col-lg-2.offset-lg-5
-          %button.btn.btn-success{:type => :submit}
-            Save
-
-    = render "datepicker_javascript_options"
-
-    :javascript
-      var canEnablePlugins = #{@reservation.schedulable?};
-      var reservationSchedulable = #{@reservation.schedulable?}
+        var canEnablePlugins = #{@reservation.schedulable?};
+        var reservationSchedulable = #{@reservation.schedulable?}

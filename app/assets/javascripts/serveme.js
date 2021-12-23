@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require jstz
 //= require pay
-//= require ping
 //= require reservation
-//= require alpine-turbo-drive-adapter.min
-//= require alpine
+//= require datepicker
+//= require select2

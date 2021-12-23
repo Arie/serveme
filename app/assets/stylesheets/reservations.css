@@ -1,0 +1,101 @@
+form#new_reservation label.checkbox {
+  display: inline-block;
+  padding-top: 0px; }
+
+form#new_reservation.time_selection input {
+  width: 161px; }
+
+form.reservation .form-check-input.is-valid.boolean.optional ~ .form-check-label {
+  color: #aaa; }
+
+form.reservation .submit-row {
+  padding-bottom: 2rem; }
+
+form.reservation .form-control.whitelist {
+  padding-left: 0rem;
+  background: 0;
+  border: 0 none;
+  color: #aaa; }
+
+form.reservation i.fa-refresh {
+  display: none; }
+
+#reservation_status_message {
+  display: inline-block; }
+
+.reservation_whitelist_type .controls {
+  margin-top: 5px; }
+
+.reservation_whitelist_type input {
+  margin-top: -1px; }
+
+.reservation_whitelist_type span {
+  padding-left: 3px;
+  padding-right: 15px; }
+
+table td.actions .btn-sm {
+  font-size: 0.7rem; }
+
+table.servers td.actions {
+  width: 150px;
+  text-align: center; }
+
+table.servers td {
+  vertical-align: middle; }
+  table.servers td ul.unstyled {
+    padding: 0;
+    margin: 0; }
+
+table.servers td.server_name {
+  padding-top: 15px; }
+
+.select2-container {
+  width: 100%; }
+  .select2-container .select2-choice span.flags {
+    display: inline-block;
+    margin-right: 5px; }
+
+.servers_selection {
+  margin-top: 20px; }
+
+.donate h4 {
+  margin-bottom: 0px; }
+
+#server_reservations_table {
+  display: none; }
+
+.server_reservations .server {
+  margin-bottom: 2px; }
+  .server_reservations .server .name {
+    display: inline-block;
+    cursor: pointer; }
+    .server_reservations .server .name:hover {
+      text-decoration: underline; }
+  .server_reservations .server .reservations {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    height: 20px; }
+    .server_reservations .server .reservations .gantt {
+      cursor: pointer;
+      display: inline-block;
+      position: absolute;
+      overflow: hidden;
+      text-align: center;
+      height: 20px;
+      background-color: #428bca;
+      border-left: 1px white; }
+      .server_reservations .server .reservations .gantt .progress-bar {
+        font-size: 10px; }
+
+.buy_premium {
+  display: none; }
+
+#refresh-ping i {
+  cursor: pointer; }
+
+.donator-nag img {
+  float: left; }
+
+.form-inline.rcon-command .reservation_rcon_command input {
+  width: 400px; }

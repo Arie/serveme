@@ -61,8 +61,6 @@ class LocalServer < Server
   end
 
   def write_configuration(output_filename, output_content)
-    File.open(output_filename, 'w') do |f|
-      f.write(output_content)
-    end
+    File.write(output_filename, output_content)
   end
 end

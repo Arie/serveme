@@ -53,7 +53,7 @@ class LeagueRequest
   private
 
   def pluck_uniques(query, to_pluck)
-    query.pluck(to_pluck).uniq.reject(&:nil?)
+    query.pluck(to_pluck).uniq.compact
   end
 
   def players_query

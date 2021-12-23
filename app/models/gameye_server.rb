@@ -38,7 +38,7 @@ class GameyeServer < Server
   end
 
   def self.matches
-    Gameye::Match.all.reject(&:nil?)
+    Gameye::Match.all.compact
   end
 
   def self.fetch_match(match_key)

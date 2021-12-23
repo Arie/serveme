@@ -89,8 +89,8 @@ describe LocalServer do
       subject.should_receive(:restart)
       file = double
       subject.stub(tf_dir: '/tmp')
-      File.should_receive(:open).with(anything, 'w').exactly(2).times.and_yield(file)
-      file.should_receive(:write).with(anything).exactly(2).times
+      File.should_receive(:write).with('/tmp/cfg/ctf_turbine.cfg', 'config file contents').and_return(file)
+      File.should_receive(:write).with('/tmp/cfg/reservation.cfg', 'config file contents').and_return(file)
       subject.should_receive(:generate_config_file).exactly(2).times.with(reservation, anything).and_return('config file contents')
       subject.start_reservation(reservation)
     end

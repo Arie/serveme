@@ -17,3 +17,4 @@
 //= require reservation
 //= require datepicker
 //= require select2
+//= require clipboard

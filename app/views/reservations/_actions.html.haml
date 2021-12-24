@@ -39,17 +39,17 @@
         = link_to reservation_path(reservation), title: 'Cancel reservation',  method: :delete do
           Cancel
 
-    - if reservation.past?
-      - if reservation.younger_than_cleanup_age?
-        = render 'reservations/zip_file_link', reservation: reservation
-        %span.button.logs
-          = link_to reservation_log_uploads_path(reservation), title: 'Upload the match logs to logs.tf' do
-            logs.tf
+  - if reservation.past?
+    - if reservation.younger_than_cleanup_age?
+      = render 'reservations/zip_file_link', reservation: reservation
+      %span.button.logs
+        = link_to reservation_log_uploads_path(reservation), title: 'Upload the match logs to logs.tf' do
+          logs.tf
 
-      - else
-        %span.button.logs
-          = link_to reservation.logs_tf_url, title: 'Search on logs.tf' do
-            logs.tf
-        %span.button.demos
-          = link_to demos_tf_url(reservation.user), title: 'Search on demos.tf' do
-            demos.tf
+    - else
+      %span.button.logs
+        = link_to reservation.logs_tf_url, title: 'Search on logs.tf' do
+          logs.tf
+      %span.button.demos
+        = link_to demos_tf_url(reservation.user), title: 'Search on demos.tf' do
+          demos.tf

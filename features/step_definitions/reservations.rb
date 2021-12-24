@@ -248,7 +248,7 @@ end
 Then 'I see the details of my reservations' do
   @current_user.reservations.reload.each do |reservation|
     within "#reservation_#{reservation.id}" do
-      find('a.btn-success')[:href].should include(reservation.id.to_s)
+      find('span.details a')[:href].should include(reservation.id.to_s)
     end
   end
 end
@@ -256,7 +256,7 @@ end
 Then 'I see the action buttons of all reservations' do
   Reservation.all.each do |reservation|
     within "#reservation_#{reservation.id}" do
-      find('a.details')[:href].should include(reservation.id.to_s)
+      find('span.details a')[:href].should include(reservation.id.to_s)
     end
   end
 end

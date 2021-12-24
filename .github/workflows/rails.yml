@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Dummy API key
+        run: echo "STEAM_WEB_API_KEY = 'foo'" > config/initializers/steam.rb
       - name: Install dependencies
         run: |
           sudo add-apt-repository ppa:maxmind/ppa
@@ -29,7 +31,7 @@ jobs:
           bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
 
-      - name: asset cache
+      - name: Asset cache
         uses: actions/cache@v2.1.7
         with:
           path: |
@@ -40,7 +42,7 @@ jobs:
             asset-cache-${{ runner.os }}-${{ github.ref }}-${{ github.sha }}
             asset-cache-${{ runner.os }}-${{ github.ref }}-
             asset-cache-${{ runner.os }}-
-      - name: assets precompile
+      - name: Assets precompile
         run: bundle exec rake assets:precompile --trace
 
   rubocop:
@@ -95,8 +97,8 @@ jobs:
           PGPASSWORD: secret
         run: |
           bin/rails db:create db:migrate
-      - name: asset cache
-        uses: actions/cache@v2.1.5
+      - name: Asset cache
+        uses: actions/cache@v2.1.7
         with:
           path: |
             public/assets
@@ -152,8 +154,8 @@ jobs:
           PGPASSWORD: secret
         run: |
           bin/rails db:create db:migrate
-      - name: asset cache
-        uses: actions/cache@v2.1.5
+      - name: Asset cache
+        uses: actions/cache@v2.1.7
         with:
           path: |
             public/assets

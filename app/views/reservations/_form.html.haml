@@ -1,6 +1,6 @@
 .max-w-3xl.mx-auto
   - unless @reservation.persisted?
-    .bg-red-700.rounded-lg.pb-2
+    .bg-red-700.rounded-lg.px-2.py-2
       .flex.items-center.justify-between.flex-wrap
         .w-0.flex-1.flex.items-center
           %p.ml-3.font-medium.text-white
@@ -11,8 +11,6 @@
   = render "donator_nag"
 
   = render 'shared/point_to_na'
-
-  = render "server_reservations_table"
 
   = form_with(model: @reservation, class: "space-y-8 divide-y divide-black") do |f|
     .space-y-8.divide-y.divide-gray-200.max-w-3xl

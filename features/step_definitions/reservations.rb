@@ -46,8 +46,8 @@ When "I don't enter any reservation details" do
 end
 
 When 'I leave important reservation fields blank' do
-  fill_in 'Password',       with: ''
-  fill_in 'Rcon',           with: ''
+  fill_in 'Password', with: ''
+  fill_in 'RCON Password', with: ''
   click_button 'Save'
 end
 
@@ -232,7 +232,7 @@ end
 
 Then 'I get a notice and a link with the demos and logs' do
   page.should have_content 'Reservation removed'
-  within '.flash_message' do
+  within '.flash-message' do
     find('a')[:href].should include(@reservation_zipfile_name)
   end
 end
@@ -248,7 +248,7 @@ end
 Then 'I see the details of my reservations' do
   @current_user.reservations.reload.each do |reservation|
     within "#reservation_#{reservation.id}" do
-      find('span.details a')[:href].should include(reservation.id.to_s)
+      find('a.details')[:href].should include(reservation.id.to_s)
     end
   end
 end
@@ -256,7 +256,7 @@ end
 Then 'I see the action buttons of all reservations' do
   Reservation.all.each do |reservation|
     within "#reservation_#{reservation.id}" do
-      find('span.details a')[:href].should include(reservation.id.to_s)
+      find('a.details')[:href].should include(reservation.id.to_s)
     end
   end
 end

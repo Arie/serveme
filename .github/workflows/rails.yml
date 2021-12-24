@@ -28,6 +28,21 @@ jobs:
         run: |
           bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
+
+      - name: asset cache
+        uses: actions/cache@v2.1.7
+        with:
+          path: |
+            public/assets
+            tmp/cache/assets/sprockets
+          key: asset-cache-${{ runner.os }}-${{ github.ref }}-${{ github.sha }}
+          restore-keys: |
+            asset-cache-${{ runner.os }}-${{ github.ref }}-${{ github.sha }}
+            asset-cache-${{ runner.os }}-${{ github.ref }}-
+            asset-cache-${{ runner.os }}-
+      - name: assets precompile
+        run: bundle exec rake assets:precompile --trace
+
   rubocop:
     name: Rubocop
     runs-on: ubuntu-latest
@@ -80,6 +95,13 @@ jobs:
           PGPASSWORD: secret
         run: |
           bin/rails db:create db:migrate
+      - name: asset cache
+        uses: actions/cache@v2.1.5
+        with:
+          path: |
+            public/assets
+            tmp/cache/assets/sprockets
+          key: asset-cache-${{ runner.os }}-${{ github.ref }}-${{ github.sha }}
 
       - name: Run RSpec tests
         env:
@@ -130,6 +152,13 @@ jobs:
           PGPASSWORD: secret
         run: |
           bin/rails db:create db:migrate
+      - name: asset cache
+        uses: actions/cache@v2.1.5
+        with:
+          path: |
+            public/assets
+            tmp/cache/assets/sprockets
+          key: asset-cache-${{ runner.os }}-${{ github.ref }}-${{ github.sha }}
       - name: Run Cucumber features
         env:
           RAILS_ENV: test

@@ -121,3 +121,5 @@ end
 
 # Use Redis for Action Cable
 gem 'redis', '~> 4.1.4'
+
+gem "simple_form-tailwind", "~> 0.1.0"

@@ -57,4 +57,8 @@ module ApplicationHelper
       'fa-spinner fa-spin'
     end
   end
+
+  def error_messages_for(object, field)
+    object.errors.full_messages_for(field).join(', ')
+  end
 end

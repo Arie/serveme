@@ -3,7 +3,7 @@
     = link_to reservation_path(reservation) do
       details
 
-  - if reservation.past?
+  - if !reservation.past?
     %span.button.edit
       = link_to edit_reservation_path(reservation), title: 'Edit reservation' do
         edit
@@ -28,16 +28,16 @@
 
         %span.button.join
           = link_to  reservation.server_connect_url do
-            Join
+            join
 
         %span.button.stv
           = link_to reservation.stv_connect_url do
             STV
 
-    - if reservation.cancellable?
-      %span.button.cancel
-        = link_to reservation_path(reservation), title: 'Cancel reservation',  method: :delete do
-          Cancel
+  - if reservation.cancellable?
+    %span.button.cancel
+      = link_to reservation_path(reservation), title: 'Cancel reservation',  method: :delete do
+        cancel
 
   - if reservation.past?
     - if reservation.younger_than_cleanup_age?

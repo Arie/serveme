@@ -37,7 +37,7 @@ end
 
 Then 'I get to enter the reservation details' do
   page.should have_content 'Password'
-  page.should have_content 'Rcon'
+  page.should have_content 'RCON Password'
   page.should have_content 'Starts at'
 end
 
@@ -56,7 +56,7 @@ When 'I enter the reservation details' do
 
   fill_in 'Server', with: Server.first.id
   fill_in 'Password', with: 'secret'
-  fill_in 'Rcon',     with: 'even more secret'
+  fill_in 'RCON Password', with: 'even more secret'
 end
 
 Then 'I see the errors for the missing reservation fields' do
@@ -117,13 +117,13 @@ end
 
 Then 'I cannot end the reservation' do
   within "#reservation_#{@reservation.id}" do
-    page.should_not have_content 'End reservation'
+    page.should_not have_content 'end'
   end
 end
 
 Then 'I can cancel the reservation' do
   within "#reservation_#{@reservation.id}" do
-    page.should have_content 'Cancel'
+    page.should have_content 'cancel'
   end
 end
 
@@ -176,7 +176,7 @@ end
 Then 'I can open the details of my reservation' do
   step 'I go to the welcome page'
   within 'table.your-reservations' do
-    click_link 'Details'
+    click_link 'details'
   end
 end
 

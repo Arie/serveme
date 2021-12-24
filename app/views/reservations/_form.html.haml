@@ -23,11 +23,13 @@
               Starts at
             .mt-1
               = f.text_field :starts_at, as: :string, id: "reservation_starts_at", class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md", value: I18n.l(@reservation.starts_at || Time.now, format: :datepicker), data: { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" }
+              = error_messages_for(@reservation, :starts_at)
           .sm:col-span-3
             %label.block.text-sm.font-medium.text-white{for: "reservation_ends_at"}
               Ends at
             .mt-1
               = f.text_field :ends_at, as: :string, id: "reservation_ends_at", class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md", value: I18n.l(@reservation.ends_at || 2.hours.from_now, format: :datepicker), data: { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" }
+              = error_messages_for(@reservation, :ends_at)
 
         :javascript
           free_servers = #{free_servers.map { |s| {id: s.id, text: s.name, flag: s.location_flag, ip_and_port: "#{s.public_ip}:#{s.public_port}"} }.to_json.html_safe};
@@ -37,6 +39,7 @@
           %label.block.text-sm.font-medium.text-white{for: "reservation_server_id"}
             Server
           = f.text_field :server_id, required: true, disabled: !@reservation.schedulable?, id: "reservation_server_id"
+          = error_messages_for(@reservation, :server_id)
         - if @reservation.schedulable? && !current_user.donator?
           - free_donator_servers_count = Server.for_donators.active.count - used_donator_server_count
           - if free_donator_servers_count > 0
@@ -48,41 +51,43 @@
                   = link_to("Buy premium and get instant access!", donate_path, data: { turbo: false })
 
         .sm:col-span-6
-          %label.block.text-sm.font-medium.text-white{for: "reservation_server_password"}
+          %label.block.text-sm.font-medium.text-white{for: "reservation_password"}
             Password
-          = f.text_field :password, as: :string, placeholder: "The server password to join the game"
+          = f.text_field :password, as: :string, placeholder: "The server password to join the game", id: "reservation_password"
+          = error_messages_for(@reservation, :password)
         .sm:col-span-6
-          %label.block.text-sm.font-medium.text-white{for: "reservation_server_rcon_password"}
+          %label.block.text-sm.font-medium.text-white{for: "reservation_rcon_password"}
             RCON Password
-          = f.text_field :rcon, as: :string, placeholder: "The RCON password to control the server", disabled: !@reservation.schedulable?
+          = f.text_field :rcon, as: :string, placeholder: "The RCON password to control the server", disabled: !@reservation.schedulable?, id: "reservation_rcon_password"
+          = error_messages_for(@reservation, :rcon_password)
         .sm:col-span-6
-          %label.block.text-sm.font-medium.text-white{for: "reservation_server_rcon_password"}
+          %label.block.text-sm.font-medium.text-white{for: "reservation_first_map"}
             First map
           = f.select :first_map, MapUpload.available_maps.collect { |m| [ m, m ] }, {}, { class: "select2", id: "reservation_first_map", disabled: !@reservation.schedulable? }
+          = error_messages_for(@reservation, :first_map)
         .sm:col-span-6
-          %label.block.text-sm.font-medium.text-white{for: "reservation_server_rcon_password"}
+          %label.block.text-sm.font-medium.text-white{for: "reservation_stv_password"}
             STV password
-          = f.text_field :tv_password, as: :string,   placeholder: "Password for STV, default tv", disabled: !@reservation.schedulable?
+          = f.text_field :tv_password, as: :string, placeholder: "Password for STV, default tv", disabled: !@reservation.schedulable?, id: "reservation_stv_password"
+          = error_messages_for(@reservation, :tv_password)
         .sm:col-span-3
-          %label.block.text-sm.font-medium.text-white{for: "reservation_server_rcon_password"}
+          %label.block.text-sm.font-medium.text-white{for: "reservation_enable_plugins"}
             Enable plugins
-          = f.check_box :enable_plugins, as: :boolean,  hint: "Enable plugins", disabled: !@reservation.schedulable?
+          = f.check_box :enable_plugins, as: :boolean,  hint: "Enable plugins", disabled: !@reservation.schedulable?, id: "reservation_enable_plugins"
         .sm:col-span-2
-          %label.block.text-sm.font-medium.text-white{for: "reservation_server_rcon_password"}
+          %label.block.text-sm.font-medium.text-white{for: "reservation_enable_demos_tf"}
             Enable demos.tf
-          = f.check_box :enable_demos_tf, as: :boolean,  hint: "Enable uploading STVs to demos.tf", disabled: !@reservation.schedulable?
+          = f.check_box :enable_demos_tf, as: :boolean,  hint: "Enable uploading STVs to demos.tf", disabled: !@reservation.schedulable?, id: "reservation_enable_demos_tf"
         .sm:col-span-4
           = f.collection_select :server_config, ServerConfig.ordered, :id, :file, {}, { id: "reservation_server_config_id", class: "select2" }
         -#hint: "Specify a league config to run on each map start"
         .sm:col-span-6
-          = radio_button_tag :whitelist_type, "default_whitelist", (!@reservation.custom_whitelist_id.present? && !@reservation.whitelist.present?)
-          %label{for: "whitelist_type_default_whitelist"} From config
-          = radio_button_tag :whitelist_type, "league_whitelist", (@reservation.whitelist_id.present?)
-          %label{for: "whitelist_type_league_whitelist"}
-          League
-          = radio_button_tag :whitelist_type, "custom_whitelist", (@reservation.custom_whitelist_id.present?)
-          %label{for: "whitelist_type_custom_whitelist"}
-          Whitelist.tf
+          = radio_button_tag :whitelist_type, "default_whitelist", (!@reservation.custom_whitelist_id.present? && !@reservation.whitelist.present?), id: "whitelist_type_default"
+          %label{for: "whitelist_type_default"} From config
+          = radio_button_tag :whitelist_type, "league_whitelist", (@reservation.whitelist_id.present?), id: "whitelist_type_league_whitelist"
+          %label{for: "whitelist_type_league_whitelist"} League
+          = radio_button_tag :whitelist_type, "custom_whitelist", (@reservation.custom_whitelist_id.present?), id: "whitelist_type_custom_whitelist"
+          %label{for: "whitelist_type_custom_whitelist"} Whitelist.tf
           = f.select :whitelist, Whitelist.ordered.collect { |w| [ w, w ] }, {}, { id: "reservation_whitelist_id" }
           -#:hint => "Some configs have a default whitelist, but you can still override that here. 6v6 with 9v9 unlocks? No problem!"
           = f.text_field :custom_whitelist_id, class: "reservation_custom_whitelist_id"

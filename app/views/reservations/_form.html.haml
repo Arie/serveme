@@ -95,7 +95,7 @@
           = f.check_box :auto_end, as: :boolean, disabled: !current_user.donator?, input_html: { value: true }
           -# hint: "Automatically end the reservation once everyone has left the server"
 
-        %button.ml-3.inline-flex.justify-center.py-2.px-4.border.border-transparent.shadow-sm.text-sm.font-medium.rounded-md.text-white.bg-red-600.hover:bg-red-700.focus:outline-none.focus:ring-2.focus:ring-offset-2.focus:ring-red-500{type: :submit}
+        %button.button.submit{type: :submit}
           Save
 
       = render "datepicker_javascript_options"

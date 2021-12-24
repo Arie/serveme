@@ -1,7 +1,8 @@
 - content_for(:title) { "settings" }
 
-%h2 Your settings
-= simple_form_for(@user, :html => { :class => 'form-horizontal' }) do |f|
+%h2.page-title Your settings
+
+= simple_form_for(@user, :html => { :class => 'form-horizontal ' }) do |f|
   = f.input :time_zone, :include_blank => true, :hint => "Auto detection thinks you're in time zone: #{time_zone_from_cookie}", :required => true, :input_html => {:class => "select2"}, :collection => ActiveSupport::TimeZone.all, :value_method => lambda { |atz| atz.tzinfo.identifier }, :label_method => lambda { |atz| "(UTC#{atz.now.formatted_offset}) #{atz.name}" }
   - logs_tf_hint = "#{link_to('Get or generate your logs.tf API key', 'http://logs.tf/uploader', :target => '_blank')} on the logs.tf website, and enter it here".html_safe
   - demos_tf_hint = "#{link_to('Get your demos.tf API key', 'https://demos.tf/upload', :target => '_blank')} on the demos.tf website, and enter it here".html_safe
@@ -10,12 +11,11 @@
   - if @user.donator?
     = f.input :api_key, label: "serveme.tf API key", :disabled => true, :readonly => true, :as => "string"
 
-  .col-md-offset-2
-    %button.btn.btn-primary{:type => :submit}
-      Save
+  %button.button.submit{:type => :submit}
+    Save
 
 - if current_user.private_server_option?
-  %h2 Your private server
+  %h2.page-title Your private server
 
   :javascript
     free_servers = #{(Server.active.without_group.ordered + Server.active.member_of_groups(Group.where(id: Group.private_user(current_user).id))).map { |s| {id: s.id, text: s.name, flag: s.location_flag, ip_and_port: "#{s.public_ip}:#{s.public_port}"} }.to_json.html_safe};
@@ -26,9 +26,11 @@
       %button.btn.btn-primary{:type => :submit}
         Save private server
 
-%h2#your-vouchers
+%h2.page-title#your-vouchers.mt-8
   Your premium codes
-  = link_to "Buy", donate_path(gift: true), class: "btn btn-success", data: { turbo: false }
+  = link_to donate_path(gift: true), class: "btn btn-success", data: { turbo: false }  do
+    %button.button.submit
+      Buy
 
 - if @vouchers.any?
 

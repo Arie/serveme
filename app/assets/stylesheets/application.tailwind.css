@@ -14,17 +14,22 @@
   @apply z-10 bg-red-500 border-sky-700 text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium hover:bg-red-500;
 }
 
-span.button { @apply inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2; }
-span.button.cancel { @apply bg-red-900; }
-span.button.details { @apply bg-lime-600; }
-span.button.edit { @apply bg-orange-400; }
-span.button.end { @apply bg-red-900; }
-span.button.extend { @apply bg-slate-900; }
-span.button.demos { @apply bg-orange-600; }
-span.button.join { @apply bg-orange-900; }
-span.button.logs { @apply bg-blue-900; }
-span.button.stv { @apply bg-blue-900; }
-span.button.zip { @apply bg-sky-400; }
+.page-title { 
+  @apply text-xl sm:text-3xl sm:leading-none font-extrabold tracking-tight text-white mb-4;
+}
 
+.button { @apply inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2; }
+.button.cancel { @apply bg-red-900; }
+.button.clipboard { @apply bg-slate-700 px-2 py-2; }
+.button.details { @apply bg-lime-600; }
+.button.edit { @apply bg-orange-400; }
+.button.end { @apply bg-red-900; }
+.button.extend { @apply bg-slate-700; }
+.button.demos { @apply bg-orange-600; }
+.button.join { @apply bg-orange-900; }
+.button.logs { @apply bg-blue-900; }
+.button.stv { @apply bg-blue-900; }
+.button.submit { @apply inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500; }
+.button.zip { @apply bg-sky-400; }
 
 @tailwind utilities;

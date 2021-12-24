@@ -1,4 +1,19 @@
 - if notice
-  .flash_message.flash.alert.alert-info= notice
+  .py-3
+    .flex.items-center.justify-between.flex-wrap
+      .w-0.flex-1.flex.items-center.bg-orange-500.rounded-lg
+        %span.flex.p-2
+          %svg.h-6.w-6.text-white{:fill => "none", :stroke => "currentColor", :viewbox => "0 0 24 24", :xmlns => "http://www.w3.org/2000/svg"}
+            %path{:d => "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z", "stroke-linecap" => "round", "stroke-linejoin" => "round", "stroke-width" => "2"}
+        %p.ml-3.font-medium.text-white.truncate
+          %span.md:inline= notice
+
 - if alert
-  .flash_message.flash.alert.alert-danger= alert
+  .py-3
+    .flex.items-center.justify-between.flex-wrap
+      .w-0.flex-1.flex.items-center.bg-red-700.rounded-lg
+        %span.flex.p-2
+          %svg.h-6.w-6.text-white{:fill => "none", :stroke => "currentColor", :viewbox => "0 0 24 24", :xmlns => "http://www.w3.org/2000/svg"}
+            %path{:d => "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z", "stroke-linecap" => "round", "stroke-linejoin" => "round", "stroke-width" => "2"}
+        %p.ml-3.font-medium.text-white.truncate
+          %span.md:inline= alert

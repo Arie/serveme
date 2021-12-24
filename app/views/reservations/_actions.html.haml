@@ -8,31 +8,31 @@
       = link_to edit_reservation_path(reservation), title: 'Edit reservation' do
         edit
 
-    - if reservation.active? || (reservation.now? && reservation.start_instantly?)
-      - if reservation.less_than_1_hour_left?
-        %span.button.extend
-          = link_to extend_reservation_path(reservation), title: 'Extend reservation', method: :post, data: { confirm: "This will extend your reservation if possible" } do
-            extend
+  - if reservation.active? || (reservation.now? && reservation.start_instantly?)
+    - if reservation.less_than_1_hour_left?
+      %span.button.extend
+        = link_to extend_reservation_path(reservation), title: 'Extend reservation', method: :post, data: { confirm: "This will extend your reservation if possible" } do
+          extend
 
-      - if !reservation.end_instantly?
+    - if !reservation.end_instantly?
 
-        - if reservation.players_playing?
-          - end_message = "Are you sure you want to end your reservation? There #{I18n.t(:were_x_players_left, :count => reservation.last_number_of_players, :scope => :server)} left on the server at #{I18n.l(Time.zone.now, :format => :time_without_seconds)}"
-        - else
-          - end_message = "Are you sure you want to end your reservation?"
-          %span.button.end
-            = link_to reservation_path(reservation), title: 'End reservation', method: :delete, data: { confirm: end_message } do
-              end
+      - if reservation.players_playing?
+        - end_message = "Are you sure you want to end your reservation? There #{I18n.t(:were_x_players_left, :count => reservation.last_number_of_players, :scope => :server)} left on the server at #{I18n.l(Time.zone.now, :format => :time_without_seconds)}"
+      - else
+        - end_message = "Are you sure you want to end your reservation?"
+      %span.button.end
+        = link_to reservation_path(reservation), title: 'End reservation', method: :delete, data: { confirm: end_message } do
+          end
 
-        - if reservation.server && !reservation.server.sdr?
+      - if reservation.server && !reservation.server.sdr?
 
-          %span.button.join
-            = link_to  reservation.server_connect_url do
-              Join
+        %span.button.join
+          = link_to  reservation.server_connect_url do
+            Join
 
-          %span.button.stv
-            = link_to reservation.stv_connect_url do
-              STV
+        %span.button.stv
+          = link_to reservation.stv_connect_url do
+            STV
 
     - if reservation.cancellable?
       %span.button.cancel

@@ -169,7 +169,7 @@ end
 
 Then 'I can control my reservation' do
   within 'table.your-reservations' do
-    page.should have_content 'End'
+    page.should have_content 'end'
   end
 end
 
@@ -256,7 +256,7 @@ end
 Then 'I see the action buttons of all reservations' do
   Reservation.all.each do |reservation|
     within "#reservation_#{reservation.id}" do
-      find('a.btn-success')[:href].should include(reservation.id.to_s)
+      find('a.details')[:href].should include(reservation.id.to_s)
     end
   end
 end

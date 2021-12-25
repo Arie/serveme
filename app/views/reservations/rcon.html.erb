@@ -8,7 +8,7 @@
       <% end %>
     <% end %>
     <br />
-    <pre id="<%= "reservation_#{@logsecret}_log_lines" %>">
+    <pre class="web-rcon-log-lines" id="<%= "reservation_#{@logsecret}_log_lines" %>">
 <% @log_lines.each do |line| %><%= render "reservations/log_line", log_line: line %><% end %>
     </pre>
   </div>

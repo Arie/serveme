@@ -1,6 +1,6 @@
 .w-full.flex-none.mt-4.sm:mt-0.sm:w-auto.sm:ml-auto.flex.items-center
   - if current_user
-    = link_to your_reservations_path, class: "hover:text-gray-400" do
+    = link_to your_reservations_path, class: "mx-6 hover:text-gray-400" do
       %abbr.sm:hidden{:title => "Your reservations"} Reservations
       %span.hidden.sm:inline Your reservations
 
@@ -13,6 +13,11 @@
         %abbr.sm:hidden{:title => "Recent reservations"} Recent
         %span.hidden.sm:inline Recent reservations
 
+    - if current_user&.donator?
+      = link_to servers_path, class: "mx-6 hover:text-gray-400" do
+        %abbr.sm:hidden{:title => "Servers"} Servers
+        %span.hidden.sm:inline Servers
+
   - if current_user
     = link_to "Settings", settings_path, class: "group border-l pl-6 border-gray-700 hover:text-teal-400 flex items-center"
     = link_to "Sign out", users_logout_path, class: "group pl-6 border-gray-700 hover:text-teal-400 flex items-center", method: :delete
@@ -20,11 +25,6 @@
   - else
     = link_to "Sign in", '/users/auth/steam', class: "group border-l pl-6 border-gray-700 hover:text-teal-400 flex items-center", method: :post
 
--#      - if current_user && current_user.donator?
--#        %li.nav-item
--#          = link_to servers_path, class: "nav-link" do
--#            %i.fa.fa-tasks
--#            Servers
 -#        %li.nav-item
 -#          = link_to upload_map_path, class: "nav-link" do
 -#            %i.fa.fa-upload

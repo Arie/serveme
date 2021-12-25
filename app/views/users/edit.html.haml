@@ -34,29 +34,31 @@
 
 - if @vouchers.any?
 
-  %table.table.table-condensed
-    %thead
-      %tr
-        %th Code
-        %th Product
-        %th Generated
-        %th Claimed
-        %th Claimed by
+  .shadow.overflow-hidden.border-gray-200
+    %table.your-reservations.min-w-full.dividy-y.divide-gray-200
+      %thead.bg-gray-700
+        %tr
+          %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Code
+          %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Product
+          %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Generated
+          %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Claimed
+          %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Claimed by
+      %tbody.divide-gray-800.divide-y
+        - @vouchers.each do |voucher|
+          %tr[voucher]
+            %td.px-2.py-4.whitespace-nowrap
+              = render 'shared/copy_button', :copy_button_id => "voucher_code_#{voucher.id}", :copy_text => claim_url(code: voucher.hyphenate)
+              = link_to voucher.hyphenate, claim_path(code: voucher.hyphenate)
+            %td.px-2.py-4.whitespace-nowrap= voucher.product.name
+            %td.px-2.py-4.whitespace-nowrap= I18n.l(voucher.created_at, format: :short)
+            %td.px-2.py-4.whitespace-nowrap= I18n.l(voucher.claimed_at, format: :short) if voucher.claimed_at
+            %td.px-2.py-4.whitespace-nowrap
+              - if voucher.claimed_by
+                - user = voucher.claimed_by
+                = link_to(user.nickname, user.steam_profile_url, :target => "_blank")
 
-    - @vouchers.each do |voucher|
-      %tr
-        %td
-          = link_to voucher.hyphenate, claim_path(code: voucher.hyphenate)
-          = render 'shared/copy_button', :copy_button_id => "voucher_code_#{voucher.id}", :copy_text => claim_url(code: voucher.hyphenate)
-        %td= voucher.product.name
-        %td= I18n.l(voucher.created_at, format: :short)
-        %td= I18n.l(voucher.claimed_at, format: :short) if voucher.claimed_at
-        %td
-          - if voucher.claimed_by
-            - user = voucher.claimed_by
-            = link_to(user.nickname, user.steam_profile_url, :target => "_blank")
-
-= render 'statistics', :user => @user
+.statistics.py-8
+  = render 'statistics', :user => @user
 
 :javascript
   $(document).on('turbo:load', function() {

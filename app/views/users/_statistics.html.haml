@@ -1,39 +1,38 @@
-.row
-  .col-md-12
-    %h2 Your stats
-    %table.table.table-condensed.table-hover.table-bordered
+%h2.page-title Your stats
+.shadow.overflow-hidden.border-gray-200
+  %table.your-reservations.min-w-full.dividy-y.divide-gray-200
+    %tbody.divide-gray-800.divide-y
+      %tr
+        %td.px-2.py-4.whitespace-nowrap User #
+        %td.px-2.py-4.whitespace-nowrap= user.id
 
       %tr
-        %td User #
-        %td= user.id
+        %td.px-2.py-4.whitespace-nowrap Date joined
+        %td.px-2.py-4.whitespace-nowrap= I18n.l(user.created_at, :format => :datepicker)
 
       %tr
-        %td Date joined
-        %td= I18n.l(user.created_at, :format => :datepicker)
+        %td.px-2.py-4.whitespace-nowrap Login count
+        %td.px-2.py-4.whitespace-nowrap= user.sign_in_count
 
       %tr
-        %td Login count
-        %td= user.sign_in_count
+        %td.px-2.py-4.whitespace-nowrap Reservations made
+        %td.px-2.py-4.whitespace-nowrap= user.reservations.count
 
       %tr
-        %td Reservations made
-        %td= user.reservations.count
-
-      %tr
-        %td Total reservation time
+        %td.px-2.py-4.whitespace-nowrap Total reservation time
         - duration = (user.total_reservation_seconds / 3600.0).round
-        %td= "#{duration} hours"
+        %td.px-2.py-4.whitespace-nowrap= "#{duration} hours"
 
       %tr
-        %td Logs uploaded
-        %td= user.log_uploads.where(:status => "success").count
+        %td.px-2.py-4.whitespace-nowrap Logs uploaded
+        %td.px-2.py-4.whitespace-nowrap= user.log_uploads.where(:status => "success").count
 
       %tr
-        %td Premium
-        %td= t("user.donator.#{!!user.donator?}")
+        %td.px-2.py-4.whitespace-nowrap Premium
+        %td.px-2.py-4.whitespace-nowrap= t("user.donator.#{!!user.donator?}")
 
       - if user.donator_until
         %tr
-          %td Premium until
-          %td= I18n.l(user.donator_until, :format => :datepicker)
+          %td.px-2.py-4.whitespace-nowrap Premium until
+          %td.px-2.py-4.whitespace-nowrap= I18n.l(user.donator_until, :format => :datepicker)
 

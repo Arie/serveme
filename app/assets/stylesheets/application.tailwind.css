@@ -31,5 +31,9 @@
 .button.stv { @apply bg-blue-900; }
 .button.submit { @apply inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500; }
 .button.zip { @apply bg-sky-400; }
+.clip_container { 
+  display: inline-block;
+  @apply pr-2;
+}
 
 @tailwind utilities;

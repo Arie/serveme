@@ -14,7 +14,7 @@
         %span.hidden.sm:inline Recent reservations
 
   - if current_user
-    = link_to current_user.decorate.nickname, settings_path, class: "group border-l pl-6 border-gray-700 hover:text-teal-400 flex items-center"
+    = link_to "Settings", settings_path, class: "group border-l pl-6 border-gray-700 hover:text-teal-400 flex items-center"
     = link_to "Sign out", users_logout_path, class: "group pl-6 border-gray-700 hover:text-teal-400 flex items-center", method: :delete
 
   - else

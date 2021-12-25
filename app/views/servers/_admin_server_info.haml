@@ -3,7 +3,7 @@
 - statistic = server.recent_server_statistics.last&.decorate
 
 %tr
-  %td
+  %td.px-2.whitespace-nowrap
     = link_to show_server_player_statistic_path(server_id: server.id) do
       - if reservation
         = "#{server.name} (#{reservation.id})".html_safe
@@ -14,21 +14,21 @@
         = server.name.html_safe
 
   - if statistic
-    %td= statistic.map_name
-    %td= statistic.number_of_players
-    %td= statistic.fps
-    %td= statistic.traffic_in
-    %td= statistic.traffic_out
-    %td.actions
+    %td.px-2.whitespace-nowrap= statistic.map_name
+    %td.px-2.whitespace-nowrap= statistic.number_of_players
+    %td.px-2.whitespace-nowrap= statistic.fps
+    %td.px-2.whitespace-nowrap= statistic.traffic_in
+    %td.px-2.whitespace-nowrap= statistic.traffic_out
+    %td.px-2.whitespace-nowrap.actions
       = "#{server.inactive_minutes} minutes"
       %br
       - if reservation
         = render "reservations/actions", reservation: reservation
   - else
     - if reservation
-      %td{colspan: 5} N/A
-      %td.actions
+      %td.px-2.whitespace-nowrap{colspan: 5} N/A
+      %td.px-2.whitespace-nowrap.actions
         - if reservation
           = render "reservations/actions", reservation: reservation
     - else
-      %td{colspan: 6} Idle
+      %td.px-2.whitespace-nowrap{colspan: 6} Idle

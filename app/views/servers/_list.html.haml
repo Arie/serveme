@@ -1,18 +1,19 @@
 #server-list
-  %table.table.table-hover.table-bordered.table-striped
-    %thead
-      %tr
-        %th Name
-        %th Map name
-        %th Players
-        %th FPS
-        %th In
-        %th Out
-        %th Inactive
-    - active_servers = servers.order(:name).select { |s| s.recent_server_statistics.any? }
-    - inactive_servers = servers.order(:name).select { |s| s.recent_server_statistics.none? }
+  .shadow.overflow-hidden.border-gray-200
+    %table.your-reservations.min-w-full.dividy-y.divide-gray-200
+      %thead.bg-gray-700
+        %tr
+          %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Name
+          %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Map name
+          %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Players
+          %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} FPS
+          %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} In
+          %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Out
+          %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Inactive
+      - active_servers = servers.order(:name).select { |s| s.recent_server_statistics.any? }
+      - inactive_servers = servers.order(:name).select { |s| s.recent_server_statistics.none? }
 
-    - active_servers.each do |server|
-      = render 'servers/server_info', server: server.decorate
-    - inactive_servers.each do |server|
-      = render 'servers/server_info', server: server.decorate
+      - active_servers.each do |server|
+        = render 'servers/server_info', server: server.decorate
+      - inactive_servers.each do |server|
+        = render 'servers/server_info', server: server.decorate

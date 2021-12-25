@@ -1,7 +1,6 @@
 - content_for(:title) { "servers" }
-%h2 Servers (refreshes every minute)
+%h2.page-title Servers (refreshes every minute)
 
 = turbo_stream_from 'server-list'
-.row
-  .col-md-12
-    = render "list", servers: @servers
+
+= render "list", servers: @servers

@@ -85,7 +85,7 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     american_date (1.2.0)
     ast (2.4.2)
-    autoprefixer-rails (10.3.3.0)
+    autoprefixer-rails (10.4.0.0)
       execjs (~> 2)
     backport (1.2.0)
     base32_pure (0.1.0)
@@ -504,7 +504,7 @@ GEM
       rubocop-ast (>= 1.15.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.15.0)
+    rubocop-ast (1.15.1)
       parser (>= 3.0.1.1)
     ruby-openid (2.9.2)
     ruby-progressbar (1.11.0)
@@ -589,7 +589,7 @@ GEM
       activesupport
     thor (1.1.0)
     tilt (2.0.10)
-    tins (1.29.1)
+    tins (1.30.0)
       sync
     turbo-rails (1.0.0)
       actionpack (>= 6.0.0)
@@ -621,7 +621,7 @@ GEM
       nokogiri (~> 1.8)
     yard (0.9.27)
       webrick (~> 1.7.0)
-    zeitwerk (2.5.1)
+    zeitwerk (2.5.2)
     zonebie (0.6.1)
 
 PLATFORMS

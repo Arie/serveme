@@ -40,9 +40,9 @@
         %tr
           %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Code
           %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Product
-          %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Generated
-          %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Claimed
-          %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Claimed by
+          %th.hidden.lg:table-cell.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Generated
+          %th.hidden.md:table-cell.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Claimed
+          %th.hidden.lg:table-cell.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Claimed by
       %tbody.divide-gray-800.divide-y
         - @vouchers.each do |voucher|
           %tr[voucher]
@@ -50,9 +50,9 @@
               = render 'shared/copy_button', :copy_button_id => "voucher_code_#{voucher.id}", :copy_text => claim_url(code: voucher.hyphenate)
               = link_to voucher.hyphenate, claim_path(code: voucher.hyphenate)
             %td.px-2.py-4.whitespace-nowrap= voucher.product.name
-            %td.px-2.py-4.whitespace-nowrap= I18n.l(voucher.created_at, format: :short)
-            %td.px-2.py-4.whitespace-nowrap= I18n.l(voucher.claimed_at, format: :short) if voucher.claimed_at
-            %td.px-2.py-4.whitespace-nowrap
+            %td.hidden.lg:table-cell.px-2.py-4.whitespace-nowrap= I18n.l(voucher.created_at, format: :short)
+            %td.hidden.md:table-cell.px-2.py-4.whitespace-nowrap= I18n.l(voucher.claimed_at, format: :short) if voucher.claimed_at
+            %td.hidden.lg:table-cell.px-2.py-4.whitespace-nowrap
               - if voucher.claimed_by
                 - user = voucher.claimed_by
                 = link_to(user.nickname, user.steam_profile_url, :target => "_blank")

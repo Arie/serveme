@@ -1,29 +1,28 @@
 .w-full.flex-none.mt-4.sm:mt-0.sm:w-auto.sm:ml-auto.flex.items-center
   - if current_user
     = link_to your_reservations_path, class: "mx-6 hover:text-gray-400" do
-      %abbr.sm:hidden{:title => "Your reservations"} Reservations
-      %span.hidden.sm:inline Your reservations
+      %span Your reservations
 
     = link_to played_in_path, class: "mx-6 hover:text-gray-400" do
-      %abbr.sm:hidden{:title => "Played"} Played
-      %span.hidden.sm:inline Played
+      %span Played
 
     - if current_user.admin? || current_user.league_admin? || current_user.streamer?
       = link_to recent_reservations_path, class: "mx-6 hover:text-gray-400" do
-        %abbr.sm:hidden{:title => "Recent reservations"} Recent
-        %span.hidden.sm:inline Recent reservations
+        %span.hidden.lg:inline Recent reservations
 
     - if current_user&.donator?
       = link_to servers_path, class: "mx-6 hover:text-gray-400" do
-        %abbr.sm:hidden{:title => "Servers"} Servers
-        %span.hidden.sm:inline Servers
+        %span.hidden.lg:inline Servers
 
   - if current_user
-    = link_to "Settings", settings_path, class: "group border-l pl-6 border-gray-700 hover:text-teal-400 flex items-center"
-    = link_to "Sign out", users_logout_path, class: "group pl-6 border-gray-700 hover:text-teal-400 flex items-center", method: :delete
+    = link_to settings_path, class: "group border-l pl-6 border-gray-700 hover:text-teal-400 flex items-center" do
+      %span.hidden.sm:inline Settings
+    = link_to users_logout_path, class: "group pl-6 border-gray-700 hover:text-teal-400 flex items-center", method: :delete do
+      %span Sign out
 
   - else
-    = link_to "Sign in", '/users/auth/steam', class: "group border-l pl-6 border-gray-700 hover:text-teal-400 flex items-center", method: :post
+    = link_to '/users/auth/steam', class: "group border-l pl-6 border-gray-700 hover:text-teal-400 flex items-center", method: :post do
+      %span Sign in
 
 -#        %li.nav-item
 -#          = link_to upload_map_path, class: "nav-link" do

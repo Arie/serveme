@@ -1,7 +1,7 @@
 - without_group_count = Server.active.without_group.count
 - for_donators_count = Server.for_donators.active.count
 - if current_user
-  %h1.text-xl.tracking-tight.font-extrabold.text-white.sm:text-base.md:text-lg
+  %h1.text-xl.tracking-tight.font-extrabold.text-white.sm:text-sm.md:text-lg
     Servers available
     (#{I18n.l(Time.current, :format => :time_without_seconds)} - #{I18n.l(1.hour.from_now, :format => :time_without_seconds)})
   - available_server_count = ServerForUserFinder.new(current_user, Time.current, 1.hour.from_now).servers.size
@@ -15,13 +15,13 @@
     = "#{for_donators_count - used_donator_server_count} / #{for_donators_count}"
 
 - else
-  %h1.text-xl.tracking-tight.font-extrabold.text-white.sm:text-base.md:text-lg
+  %h1.text-xl.tracking-tight.font-extrabold.text-white.sm:text-sm.md:text-lg
     Servers in use
-  %h2.text-lg.tracking-tight.font-extrabold.text-white.sm:text-sm.md:text-base
+  %h2.text-lg.tracking-tight.font-extrabold.text-white.sm:text-sm.md:text-lg
     Free
   = "#{used_free_server_count} / #{without_group_count}"
   servers
-  %h2.text-lg.tracking-tight.font-extrabold.text-gold.sm:text-sm.md:text-base
+  %h2.text-lg.tracking-tight.font-extrabold.text-gold.sm:text-sm.md:text-lg
     Premium
   = "#{used_donator_server_count} / #{for_donators_count}"
   servers

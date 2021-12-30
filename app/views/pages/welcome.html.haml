@@ -14,7 +14,7 @@
   .flex-none.relative.z-10.flex.flex-col.items-start.lg:pt-10.max-w-screen-sm.mx-auto.lg:max-w-2xl.lg:mx-0.mb-12.sm:mb-16.lg:mb-0.xl:pl-80
     = render 'reservations/available_servers'
 .relative.max-w-screen-sm.mx-auto.lg:mx-0.lg:max-w-none.grid.lg:grid-cols-3.gap-10.lg:gap-8.text-sm
-  .flex.space-x-6
+  .flex.space-x-6.hidden.lg:inline
     %div
       %h2.font-semibold.text-white.mb-2 200+ Servers
       %p.leading-normal 
@@ -25,11 +25,11 @@
         = link_to("South East Asia.", "https://sea.serveme.tf")
         Multiple regions, providers and datacenters to get you the best ping.
 
-  .flex.space-x-6
+  .flex.space-x-6.hidden.lg:inline
     %div
       %h2.font-semibold.text-white.mb-2 Community supported
       %p.leading-normal This is a non-profit service, paid for by TF2 community members through their premium memberships. We offer the lowest possible prices, there's also a free tier with a limited amount of servers.
-  .flex.space-x-6
+  .flex.space-x-6.hidden.lg:inline
     %div
       %h2.font-semibold.text-white.mb-2 DDoS protected
       %p.leading-normal DDoS protected (Anti-DDoS) servers, including servers on Valve's SDR network which improves ping and prevents attacks.

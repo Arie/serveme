@@ -2,8 +2,8 @@
   %table.your-reservations.min-w-full.dividy-y.divide-gray-200
     %thead.bg-gray-700
       %tr
-        %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Server
-        %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Reserved from
+        %th.hidden.lg:table-cell.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Server
+        %th.hidden.md:table-cell.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Reserved from
         %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Reserved until
         %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Actions
     %tbody.divide-gray-800.divide-y
@@ -12,9 +12,9 @@
           - reservation = reservation.decorate
           - server_name = reservation.server_name
           - if reservation.active?
-            %td.px-2.py-4.whitespace-nowrap= "#{server_name} (#{pluralize(reservation.last_number_of_players, 'player')})".html_safe
+            %td.hidden.lg:table-cell.px-2.py-4.whitespace-nowrap= "#{server_name} (#{pluralize(reservation.last_number_of_players, 'player')})".html_safe
           - else
-            %td.px-2.py-4.whitespace-nowrap= server_name
-          %td.px-2.py-4.whitespace-nowrap= I18n.l(reservation.starts_at,  :format => :short)
+            %td.hidden.lg:table-cell.px-2.py-4.whitespace-nowrap= server_name
+          %td.hidden.md:table-cell.px-2.py-4.whitespace-nowrap= I18n.l(reservation.starts_at,  :format => :short)
           %td.px-2.py-4.whitespace-nowrap= I18n.l(reservation.ends_at,    :format => :short)
           %td.px-2.py-4.whitespace-nowrap.actions= render 'reservations/actions', :reservation => reservation

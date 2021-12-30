@@ -2,19 +2,19 @@
   %table.min-w-full.dividy-y.divide-gray-200
     %thead.bg-gray-700
       %tr
-        %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Server
-        %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Reserved from
+        %th.hidden.lg:table-cell.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Server
+        %th.hidden.md:table-cell.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Reserved from
         %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Reserved until
-        %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Reserved by
+        %th.hidden.lg:table-cell.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Reserved by
         %th.px-2.py-3.text-left.text-xs.font-medium.text-gray-100.uppercase.tracking-wider{scope: "col"} Logs/demos
     %tbody.divide-gray-800.divide-y
       - @users_games.each do |reservation|
         %tr[reservation]
           - server = reservation.server.decorate
-          %td.px-2.py-4.whitespace-nowrap= server.name
-          %td.px-2.py-4.whitespace-nowrap= I18n.l(reservation.starts_at,  :format => :short)
+          %td.hidden.lg:table-cell.px-2.py-4.whitespace-nowrap= server.name
+          %td.hidden.md:table-cell.px-2.py-4.whitespace-nowrap= I18n.l(reservation.starts_at,  :format => :short)
           %td.px-2.py-4.whitespace-nowrap= I18n.l(reservation.ends_at,    :format => :short)
-          %td.px-2.py-4.whitespace-nowrap= reservation.user.nickname
+          %td.hidden.lg:table-cell.px-2.py-4.whitespace-nowrap= reservation.user.nickname
           %td.px-2.py-4.whitespace-nowrap.actions
             - if reservation.younger_than_cleanup_age?
               = render 'reservations/zip_file_link', :reservation => reservation

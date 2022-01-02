@@ -21,7 +21,7 @@ class LogWorker
 
   def handle_event
     case event
-    when TF2LineParser::Events::Say
+    when TF2LineParser::Events::Say, TF2LineParser::Events::TeamSay
       @message = event.message
       handle_message
     when TF2LineParser::Events::Connect

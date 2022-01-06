@@ -5,7 +5,7 @@ require 'spec_helper'
 describe RconAutocomplete do
   it 'returns a list of suggestions' do
     expect(described_class.autocomplete('ban')).to start_with %w[banid banip]
-    expect(described_class.autocomplete('tf_bot')).to start_with %w[tf_bot_add tf_bot_kick tf_bot_kill tf_bot_quota tf_bot_difficulty]
+    expect(described_class.autocomplete('tf_bot')).to start_with %w[tf_bot_add tf_bot_difficulty tf_bot_kick tf_bot_kill]
   end
 
   it 'limits auto completion to 5 suggestions' do

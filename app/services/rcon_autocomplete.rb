@@ -48,7 +48,7 @@ class RconAutocomplete
       .uniq { |ps| ps.reservation_player.steam_uid }
       .map do |ps|
         uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(ps.reservation_player.steam_uid.to_i)
-        { command: "kickid \"#{uid3}\"", display_text: "kick #{ps.reservation_player.name}", description: "Kick #{ps.reservation_player.name}" }
+        { command: "kickid \"#{uid3}\"", display_text: "kick \"#{ps.reservation_player.name}\"", description: "Kick #{ps.reservation_player.name}" }
       end
   end
 

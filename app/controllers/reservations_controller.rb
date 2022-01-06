@@ -163,7 +163,7 @@ class ReservationsController < ApplicationController
 
   def rcon_command
     if reservation&.now?
-      rcon_command = clean_rcon(params[:reservation][:rcon_command])
+      rcon_command = clean_rcon(params[:query])
       Rails.logger.info("User #{current_user.name} (#{current_user.uid}) executed rcon command \"#{rcon_command}\" for reservation #{reservation.id}")
       result = ActiveSupport::Multibyte::Chars.new(reservation.server.rcon_exec(rcon_command).to_s).tidy_bytes
       respond_to do |format|
@@ -173,6 +173,13 @@ class ReservationsController < ApplicationController
     else
       render 'pages/not_found', status: 404
     end
+  end
+
+  def rcon_autocomplete
+    @query = params[:query]
+    @suggestions = RconAutocomplete.autocomplete(@query)
+    @reservation_id = params[:reservation_id].to_i
+    render layout: false
   end
 
   private

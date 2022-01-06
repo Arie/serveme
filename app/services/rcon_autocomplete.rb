@@ -2,15 +2,17 @@
 
 class RconAutocomplete
   def self.autocomplete(query)
+    query = query.downcase
+
     deep_suggestions = autocomplete_deep_suggestions(query)
 
-    return deep_suggestions.first(5) if deep_suggestions
+    return deep_suggestions if deep_suggestions
 
-    suggestions = autocomplete_exact_start(query)
+    suggestions = autocomplete_exact_start(query).sort
 
     return suggestions.first(5) if suggestions
 
-    autocomplete_best_match(query).first(5)
+    autocomplete_best_match(query).first(5).sort
   end
 
   def self.autocomplete_deep_suggestions(query)
@@ -19,14 +21,14 @@ class RconAutocomplete
 
   def self.autocomplete_deep_changelevel(query)
     autocomplete_maps
-      .select { |map_name| map_name.start_with?(query.join(' ')) }
+      .select { |map_name| map_name.downcase.start_with?(query.join(' ')) }
       .map { |map_name| "changelevel #{map_name}" }
       .sort
   end
 
   def self.autocomplete_deep_exec(query)
     league_configs
-      .select { |config| config.start_with?(query.join(' ')) }
+      .select { |config| config.downcase.start_with?(query.join(' ')) }
       .map { |config| "exec #{config}" }
       .sort
   end

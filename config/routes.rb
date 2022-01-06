@@ -144,6 +144,8 @@ Serveme::Application.routes.draw do
   get   '/users/auth/failure',            to: 'sessions#failure'
   post  '/users/auth/failure',            to: 'sessions#failure'
 
+  get '/rcon-autocomplete/:reservation_id', to: 'reservations#rcon_autocomplete', as: 'rcon_autocomplete'
+
   root to: 'pages#welcome'
   match '*path', via: :all, to: 'pages#not_found' unless Rails.env.test?
 end

@@ -1,6 +1,6 @@
 %ul.rcon-autocomplete{data: { controller: "suggestions-results", "suggestions-results-current-class": "current-result" } }
   - if @suggestions.any?
     - @suggestions.each do |suggestion|
-      - unless @query.strip == suggestion && @suggestions.size == 1
-        %li{data: { action: "click->suggestions#fillInput", suggestion: suggestion, "suggestions-results-target": "result" } }
-          = suggestion
+      - unless @query.strip == suggestion[:command] && @suggestions.size == 1
+        %li{data: { action: "click->suggestions#fillInput", suggestion: suggestion[:command], "suggestions-results-target": "result" } }
+          = suggestion[:display_text] || suggestion[:command]

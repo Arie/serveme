@@ -163,7 +163,7 @@ class ReservationsController < ApplicationController
 
   def rcon_command
     if reservation&.now?
-      rcon_command = clean_rcon(params[:query])
+      rcon_command = clean_rcon(params[:query] || params[:reservation][:rcon_command])
       Rails.logger.info("User #{current_user.name} (#{current_user.uid}) executed rcon command \"#{rcon_command}\" for reservation #{reservation.id}")
       result = ActiveSupport::Multibyte::Chars.new(reservation.server.rcon_exec(rcon_command).to_s).tidy_bytes
       respond_to do |format|

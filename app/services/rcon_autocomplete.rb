@@ -129,8 +129,12 @@ class RconAutocomplete
       kickid
       mp_disable_respawn_times
       mp_friendlyfire
+      mp_restartround
+      mp_scrambleteams
+      mp_timelimit
       mp_tournament_restart
       mp_tournament_whitelist
+      mp_winlimit
       say
       sv_alltalk
       sv_cheats
@@ -142,7 +146,9 @@ class RconAutocomplete
       tf_bot_quota
       tf_forced_holiday
       tf_use_fixed_weaponspreads
+      tf_weapon_criticals
       tv_delay
+      tv_delaymapchange
       tv_delaymapchange_protect
     ]
   end

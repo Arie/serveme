@@ -1,47 +1,53 @@
 # frozen_string_literal: true
 
 class RconAutocomplete
-  def self.autocomplete(query)
-    query = query.downcase
+  attr_accessor :query, :reservation
 
-    deep_suggestions = autocomplete_deep_suggestions(query)
+  def initialize(reservation = nil)
+    @reservation = reservation
+  end
+
+  def autocomplete(query)
+    @query = query.downcase
+
+    deep_suggestions = autocomplete_deep_suggestions
 
     return deep_suggestions if deep_suggestions
 
-    suggestions = autocomplete_exact_start(query).sort
+    suggestions = autocomplete_exact_start.sort
 
     return suggestions.first(5) if suggestions
 
-    autocomplete_best_match(query).first(5).sort
+    autocomplete_best_match.first(5).sort
   end
 
-  def self.autocomplete_deep_suggestions(query)
-    send("autocomplete_deep_#{query.split.first}", query.split[1..]) if deep_complete_commands.any? { |command| query.start_with?(command) }
+  def autocomplete_deep_suggestions
+    send("autocomplete_deep_#{query.split.first}") if self.class.deep_complete_commands.any? { |command| query.start_with?(command) }
   end
 
-  def self.autocomplete_deep_changelevel(query)
-    autocomplete_maps
-      .select { |map_name| map_name.downcase.start_with?(query.join(' ')) }
-      .map { |map_name| "changelevel #{map_name}" }
-      .sort
+  def autocomplete_deep_changelevel
+    self.class.autocomplete_maps
+        .select { |map_name| map_name.downcase.start_with?(query.split[1..].join(' ')) }
+        .map { |map_name| "changelevel #{map_name}" }
+        .sort
   end
 
-  def self.autocomplete_deep_exec(query)
-    league_configs
-      .select { |config| config.downcase.start_with?(query.join(' ')) }
-      .map { |config| "exec #{config}" }
-      .sort
+  def autocomplete_deep_exec
+    self.class.league_configs
+        .select { |config| config.downcase.start_with?(query.split[1..].join(' ')) }
+        .map { |config| "exec #{config}" }
+        .sort
   end
 
-  def self.autocomplete_exact_start(query)
-    commands_to_suggest
-      .select { |command| command.start_with?(query) }
-      .sort_by { |command| Text::Levenshtein.distance(command, query) }
+  def autocomplete_exact_start
+    self.class.commands_to_suggest
+        .select { |command| command.start_with?(query) }
+        .sort_by { |command| Text::Levenshtein.distance(command, query) }
   end
 
-  def self.autocomplete_best_match(query)
-    commands_to_suggest
-      .sort_by { |command| Text::Levenshtein.distance(command, query) }
+  def autocomplete_best_match
+    self.class.commands_to_suggest
+        .sort_by { |command| Text::Levenshtein.distance(command, query) }
   end
 
   def self.deep_complete_commands

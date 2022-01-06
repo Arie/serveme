@@ -177,7 +177,7 @@ class ReservationsController < ApplicationController
 
   def rcon_autocomplete
     @query = params[:query]
-    @suggestions = RconAutocomplete.autocomplete(@query)
+    @suggestions = RconAutocomplete.new(reservation).autocomplete(@query)
     @reservation_id = params[:reservation_id].to_i
     render layout: false
   end

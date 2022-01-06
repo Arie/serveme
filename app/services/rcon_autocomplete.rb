@@ -40,12 +40,16 @@ class RconAutocomplete
   end
 
   def autocomplete_deep_kick
-    names =
-      PlayerStatistic
+    PlayerStatistic
       .joins(:reservation_player)
       .where('reservation_players.reservation_id = ?', reservation.id)
       .where('player_statistics.created_at > ?', 90.seconds.ago)
-      .pluck('reservation_players.steam_uid').uniq
+      .to_a
+      .uniq { |ps| ps.reservation_player.steam_uid }
+      .map do |ps|
+        uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(ps.reservation_player.steam_uid.to_i)
+        { command: "kickid \"#{uid3}\"", display_text: "kick #{ps.reservation_player.name}", description: "Kick #{ps.reservation_player.name}" }
+      end
   end
 
   def autocomplete_exact_start

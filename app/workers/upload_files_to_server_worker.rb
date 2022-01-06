@@ -12,7 +12,6 @@ class UploadFilesToServerWorker
     files_with_path.each do |destination, files|
       s.copy_to_server(files, File.join(s.tf_dir, destination)) if files.any?
     end
-    sleep 1 unless Rails.env.test?
     server_upload.update(uploaded_at: Time.now)
   end
 end

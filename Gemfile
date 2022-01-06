@@ -47,6 +47,8 @@ gem 'rack', '~> 2.1.4'
 gem 'rack-cache'
 gem 'rails', '~> 6.1.2'
 gem 'rbzip2'
+# Use Redis for Action Cable
+gem 'redis', '~> 4.0'
 gem 'redis-rack-cache'
 gem 'redis-rails'
 gem 'remote_lock'
@@ -63,6 +65,7 @@ gem 'sprockets-rails', '~> 3.2.0'
 gem 'steam-condenser', git: 'https://github.com/koraktor/steam-condenser-ruby.git'
 gem 'stripe'
 gem 'terser'
+gem 'text', '~> 1.3'
 gem 'tf2_line_parser'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap4'
@@ -125,6 +128,3 @@ end
 group :production do
   gem 'sentry-raven'
 end
-
-# Use Redis for Action Cable
-gem 'redis', '~> 4.0'

@@ -59,9 +59,10 @@ class LogWorker
     if (ReservationPlayer.banned_uid?(community_id) || ReservationPlayer.banned_ip?(ip)) && !ReservationPlayer.whitelisted_uid?(community_id)
       reservation.server.rcon_exec "banid 0 #{community_id} kick"
       Rails.logger.info "Removed banned player with UID #{community_id}, IP #{event.message}, name #{event.player.name}, from reservation #{reservation_id}"
-    elsif reservation.server.supports_mitigations?
-      rp = ReservationPlayer.where(reservation_id: reservation_id, ip: ip, steam_uid: community_id).first_or_create(name: event.player.name)
-      AllowReservationPlayerWorker.perform_async(rp.id)
+    else
+      rp = ReservationPlayer.where(reservation_id: reservation_id, ip: ip, steam_uid: community_id).first_or_create
+      rp.update(name: event.player.name)
+      AllowReservationPlayerWorker.perform_async(rp.id) if reservation.server.supports_mitigations?
     end
   end
 

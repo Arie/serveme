@@ -1,3 +1,4 @@
+// based on https://github.com/mrhead/stimulus-search
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {

@@ -29,15 +29,15 @@ describe RconAutocomplete do
     expect(subject.autocomplete('exec etf').map { |c| c[:command] }).to start_with ['exec etf2l', 'exec etf2l_6v6']
   end
 
-  xit 'completes kick command with current players' do
+  it 'completes kick command with current players' do
     reservation = create(:reservation)
-    reservation_player = create(:reservation_player, name: 'Arie - serveme.tf', steam_uid: '76561197960497430')
-    _player_statistics = create(:player_statistic, reservation_player_id: reservation_player.id)
+    reservation_player = create(:reservation_player, reservation_id: reservation.id, name: 'Arie - serveme.tf', steam_uid: '76561197960497430')
+    _player_statistic = create(:player_statistic, reservation_player_id: reservation_player.id)
     completer = described_class.new(reservation)
     expect(completer.autocomplete('kick Ar')).to eql [
       {
         command: 'kickid "[U:1:231702]"',
-        description: 'Kick a player by ID',
+        description: 'Kick Arie - serveme.tf',
         display_text: 'kick Arie - serveme.tf'
       }
 

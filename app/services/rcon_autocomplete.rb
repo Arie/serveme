@@ -14,46 +14,56 @@ class RconAutocomplete
 
     return deep_suggestions if deep_suggestions
 
-    suggestions = autocomplete_exact_start.sort
+    suggestions = autocomplete_exact_start.sort_by { |command| command[:command] }
 
     return suggestions.first(5) if suggestions
 
-    autocomplete_best_match.first(5).sort
+    autocomplete_best_match.first(5).sort_by { |command| command[:command] }
   end
 
   def autocomplete_deep_suggestions
-    send("autocomplete_deep_#{query.split.first}") if self.class.deep_complete_commands.any? { |command| query.start_with?(command) }
+    send("autocomplete_deep_#{query.split.first}") if self.class.deep_complete_commands.any? { |command| query.start_with?(command[:command]) }
   end
 
   def autocomplete_deep_changelevel
     self.class.autocomplete_maps
         .select { |map_name| map_name.downcase.start_with?(query.split[1..].join(' ')) }
-        .map { |map_name| "changelevel #{map_name}" }
-        .sort
+        .map { |map_name| { command: "changelevel #{map_name}", description: 'Changes the map' } }
+        .sort_by { |command| command[:command] }
   end
 
   def autocomplete_deep_exec
     self.class.league_configs
         .select { |config| config.downcase.start_with?(query.split[1..].join(' ')) }
-        .map { |config| "exec #{config}" }
-        .sort
+        .map { |config| { command: "exec #{config}", description: 'Executes a config' } }
+        .sort_by { |command| command[:command] }
+  end
+
+  def autocomplete_deep_kick
+    names =
+      PlayerStatistic
+      .joins(:reservation_player)
+      .where('reservation_players.reservation_id = ?', reservation.id)
+      .where('player_statistics.created_at > ?', 90.seconds.ago)
+      .pluck('reservation_players.steam_uid').uniq
   end
 
   def autocomplete_exact_start
     self.class.commands_to_suggest
-        .select { |command| command.start_with?(query) }
-        .sort_by { |command| Text::Levenshtein.distance(command, query) }
+        .select { |command| command[:command].start_with?(query) }
+        .sort_by { |command| Text::Levenshtein.distance(command[:command], query) }
   end
 
   def autocomplete_best_match
     self.class.commands_to_suggest
-        .sort_by { |command| Text::Levenshtein.distance(command, query) }
+        .sort_by { |command| Text::Levenshtein.distance(command[:command], query) }
   end
 
   def self.deep_complete_commands
-    %w[
-      changelevel
-      exec
+    [
+      { command: 'changelevel', description: 'Change the map' },
+      { command: 'exec', description: 'Execute a config' },
+      { command: 'kick', description: 'Kick a player by name' }
     ]
   end
 
@@ -126,55 +136,55 @@ class RconAutocomplete
   end
 
   def self.commands_to_suggest
-    %w[
-      banid
-      banip
-      changelevel
-      exec
-      host_timescale
-      kick
-      kickall
-      kickid
-      mp_autoteambalance
-      mp_disable_respawn_times
-      mp_friendlyfire
-      mp_respawnwavetime
-      mp_restartround
-      mp_scrambleteams
-      mp_teams_unbalance_limit
-      mp_timelimit
-      mp_tournament
-      mp_tournament_restart
-      mp_tournament_whitelist
-      mp_waitingforplayers_cancel
-      mp_winlimit
-      say
-      stats
-      status
-      sv_alltalk
-      sv_cheats
-      sv_gravity
-      tf_bot_add
-      tf_bot_difficulty
-      tf_bot_kick
-      tf_bot_kill
-      tf_bot_quota
-      tf_forced_holiday
-      tf_tournament_classlimit_demoman
-      tf_tournament_classlimit_engineer
-      tf_tournament_classlimit_heavy
-      tf_tournament_classlimit_medic
-      tf_tournament_classlimit_pyro
-      tf_tournament_classlimit_scout
-      tf_tournament_classlimit_sniper
-      tf_tournament_classlimit_soldier
-      tf_tournament_classlimit_spy
-      tf_use_fixed_weaponspreads
-      tf_weapon_criticals
-      tftrue_whitelist_id
-      tv_delay
-      tv_delaymapchange
-      tv_delaymapchange_protect
+    [
+      { command: 'banid', description: 'Ban a player by ID' },
+      { command: 'banip', description: 'Ban an IP address' },
+      { command: 'changelevel', description: 'Change the map' },
+      { command: 'exec', description: 'Execute a config' },
+      { command: 'host_timescale', description: 'Set the timescale' },
+      { command: 'kick', description: 'Kick a player by name' },
+      { command: 'kickall', description: 'Kick all players' },
+      { command: 'kickid', description: 'Kick a player by ID' },
+      { command: 'mp_autoteambalance', description: 'Control autoteambalance' },
+      { command: 'mp_disable_respawn_times', description: 'Disable respawn times' },
+      { command: 'mp_friendlyfire', description: 'Control friendly fire' },
+      { command: 'mp_respawnwavetime', description: 'Set the respawn wave time' },
+      { command: 'mp_restartround', description: 'Restart the round' },
+      { command: 'mp_scrambleteams', description: 'Scramble teams' },
+      { command: 'mp_teams_unbalance_limit', description: 'Set the teams unbalance limit' },
+      { command: 'mp_timelimit', description: 'Set the map time limit' },
+      { command: 'mp_tournament', description: 'Control tournament mode' },
+      { command: 'mp_tournament_restart', description: 'Restart the match' },
+      { command: 'mp_tournament_whitelist', description: 'Set the whitelist' },
+      { command: 'mp_waitingforplayers_cancel', description: 'Cancel the waiting for players' },
+      { command: 'mp_winlimit', description: 'Set the match win limit' },
+      { command: 'say', description: 'Say something' },
+      { command: 'stats', description: 'Show server statistics' },
+      { command: 'status', description: 'Show server status' },
+      { command: 'sv_alltalk', description: 'Control all talk' },
+      { command: 'sv_cheats', description: 'Enable/disable cheats' },
+      { command: 'sv_gravity', description: 'Set the gravity' },
+      { command: 'tf_bot_add', description: 'Add a bot' },
+      { command: 'tf_bot_difficulty', description: 'Set the bot difficulty' },
+      { command: 'tf_bot_kick', description: 'Kick a bot' },
+      { command: 'tf_bot_kill', description: 'Kill a bot' },
+      { command: 'tf_bot_quota', description: 'Set the bot quota' },
+      { command: 'tf_forced_holiday', description: 'Control TF2 holiday mode' },
+      { command: 'tf_tournament_classlimit_demoman', description: 'Set the demoman class limit' },
+      { command: 'tf_tournament_classlimit_engineer', description: 'Set the engineer class limit' },
+      { command: 'tf_tournament_classlimit_heavy', description: 'Set the heavy class limit' },
+      { command: 'tf_tournament_classlimit_medic', description: 'Set the medic class limit' },
+      { command: 'tf_tournament_classlimit_pyro', description: 'Set the pyro class limit' },
+      { command: 'tf_tournament_classlimit_scout', description: 'Set the scout class limit' },
+      { command: 'tf_tournament_classlimit_sniper', description: 'Set the sniper class limit' },
+      { command: 'tf_tournament_classlimit_soldier', description: 'Set the soldier class limit' },
+      { command: 'tf_tournament_classlimit_spy', description: 'Set the spy class limit' },
+      { command: 'tf_use_fixed_weaponspreads', description: 'Control random weapon spread' },
+      { command: 'tf_weapon_criticals', description: 'Toggle critical hits' },
+      { command: 'tftrue_whitelist_id', description: 'Set the whitelist with TFTrue' },
+      { command: 'tv_delay', description: 'Set the STV delay' },
+      { command: 'tv_delaymapchange', description: 'Control map change delay to allow STV to finish broadcasting' },
+      { command: 'tv_delaymapchange_protect', description: 'Protect against doing a manual map change if HLTV is broadcasting and has not caught up with a major game event such as round_end' }
     ]
   end
 end

@@ -38,7 +38,7 @@ describe RconAutocomplete do
       {
         command: 'kickid "[U:1:231702]"',
         description: 'Kick Arie - serveme.tf',
-        display_text: 'kick Arie - serveme.tf'
+        display_text: 'kick "Arie - serveme.tf"'
       }
 
     ]

@@ -129,15 +129,22 @@ class RconAutocomplete
       kick
       kickall
       kickid
+      mp_autoteambalance
       mp_disable_respawn_times
       mp_friendlyfire
+      mp_respawnwavetime
       mp_restartround
       mp_scrambleteams
+      mp_teams_unbalance_limit
       mp_timelimit
+      mp_tournament
       mp_tournament_restart
       mp_tournament_whitelist
+      mp_waitingforplayers_cancel
       mp_winlimit
       say
+      stats
+      status
       sv_alltalk
       sv_cheats
       sv_gravity
@@ -147,8 +154,18 @@ class RconAutocomplete
       tf_bot_kill
       tf_bot_quota
       tf_forced_holiday
+      tf_tournament_classlimit_demoman
+      tf_tournament_classlimit_engineer
+      tf_tournament_classlimit_heavy
+      tf_tournament_classlimit_medic
+      tf_tournament_classlimit_pyro
+      tf_tournament_classlimit_scout
+      tf_tournament_classlimit_sniper
+      tf_tournament_classlimit_soldier
+      tf_tournament_classlimit_spy
       tf_use_fixed_weaponspreads
       tf_weapon_criticals
+      tftrue_whitelist_id
       tv_delay
       tv_delaymapchange
       tv_delaymapchange_protect

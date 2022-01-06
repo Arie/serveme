@@ -3,7 +3,8 @@ import { Controller } from "@hotwired/stimulus"
 const upKey = 38
 const downKey = 40
 const enterKey = 13
-const navigationKeys = [upKey, downKey, enterKey]
+const escapeKey = 27
+const navigationKeys = [upKey, downKey, enterKey, escapeKey]
 
 export default class extends Controller {
   static classes = ["current"]
@@ -27,6 +28,9 @@ export default class extends Controller {
       case upKey:
         event.preventDefault()
         this.selectPreviousResult()
+        break;
+      case escapeKey:
+        this.clearResults()
         break;
       case enterKey:
         if (this.resultTargets.length > 0) {
@@ -57,6 +61,11 @@ export default class extends Controller {
       this.currentResultIndex--
       this.selectCurrentResult()
     }
+  }
+
+  clearResults() {
+    this.element.parentElement.innerHTML = ""
+    this.element.focus()
   }
 
   goToSelectedResult() {

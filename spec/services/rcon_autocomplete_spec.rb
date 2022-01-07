@@ -48,6 +48,10 @@ describe RconAutocomplete do
     ]
   end
 
+  it 'doesnt try to complete different commands' do
+    expect { subject.autocomplete('kick_bot al') }.not_to raise_error
+  end
+
   it 'completes ban command with current players' do
     reservation = create(:reservation)
     reservation_player = create(:reservation_player, reservation_id: reservation.id, name: 'Arie - serveme.tf', steam_uid: '76561197960497430')

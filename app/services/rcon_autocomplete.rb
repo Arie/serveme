@@ -132,6 +132,24 @@ class RconAutocomplete
       rgl_mm_koth
       rgl_mm_stopwatch
       rgl_off
+
+      ugc_HL_koth
+      ugc_HL_standard
+      ugc_HL_stopwatch
+      ugc_6v_golden
+      ugc_6v_koth
+      ugc_6v_koth_overtime
+      ugc_6v_standard
+      ugc_6v_standard_overtime
+      ugc_4v_stopwatch
+      ugc_4v_golden
+      ugc_4v_koth
+      ugc_4v_koth_overtime
+      ugc_4v_standard
+      ugc_4v_standard_overtime
+      ugc_4v_stopwatch
+      ugc_off
+      ugc_UD_ultiduo
     ]
   end
 

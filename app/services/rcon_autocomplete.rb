@@ -40,16 +40,31 @@ class RconAutocomplete
   end
 
   def autocomplete_deep_kick
-    PlayerStatistic
-      .joins(:reservation_player)
-      .where('reservation_players.reservation_id = ?', reservation.id)
-      .where('player_statistics.created_at > ?', 90.seconds.ago)
-      .to_a
-      .uniq { |ps| ps.reservation_player.steam_uid }
+    autocomplete_players
       .map do |ps|
         uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(ps.reservation_player.steam_uid.to_i)
         { command: "kickid \"#{uid3}\"", display_text: "kick \"#{ps.reservation_player.name}\"", description: "Kick #{ps.reservation_player.name}" }
       end
+  end
+
+  def autocomplete_deep_ban
+    autocomplete_players
+      .map do |ps|
+        uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(ps.reservation_player.steam_uid.to_i)
+        { command: "banid 0 \"#{uid3}\" kick", display_text: "ban \"#{ps.reservation_player.name}\"", description: "Ban #{ps.reservation_player.name}" }
+      end
+  end
+
+  def autocomplete_deep_ban_id() = autocomplete_deep_ban
+
+  def autocomplete_players
+    PlayerStatistic
+      .joins(:reservation_player)
+      .order('lower(reservation_players.name) ASC')
+      .where('reservation_players.reservation_id = ?', reservation.id)
+      .where('player_statistics.created_at > ?', 90.seconds.ago)
+      .to_a
+      .uniq { |ps| ps.reservation_player.steam_uid }
   end
 
   def autocomplete_exact_start
@@ -67,7 +82,9 @@ class RconAutocomplete
     [
       { command: 'changelevel', description: 'Change the map' },
       { command: 'exec', description: 'Execute a config' },
-      { command: 'kick', description: 'Kick a player by name' }
+      { command: 'kick', description: 'Kick a player by name' },
+      { command: 'ban', description: 'Ban a player by name' },
+      { command: 'banid', description: 'Ban a player by unique ID' }
     ]
   end
 
@@ -141,6 +158,7 @@ class RconAutocomplete
 
   def self.commands_to_suggest
     [
+      { command: 'ban', description: 'Ban a player' },
       { command: 'banid', description: 'Ban a player by ID' },
       { command: 'banip', description: 'Ban an IP address' },
       { command: 'changelevel', description: 'Change the map' },

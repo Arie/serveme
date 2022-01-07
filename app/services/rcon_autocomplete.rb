@@ -55,7 +55,9 @@ class RconAutocomplete
       end
   end
 
-  def autocomplete_deep_ban_id() = autocomplete_deep_ban
+  def autocomplete_deep_banid
+    autocomplete_deep_ban
+  end
 
   def autocomplete_players
     PlayerStatistic

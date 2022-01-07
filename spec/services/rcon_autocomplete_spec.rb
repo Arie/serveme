@@ -47,7 +47,7 @@ describe RconAutocomplete do
     completer = described_class.new(reservation)
     expect(completer.autocomplete('ban Ar')).to eql [
       {
-        command: 'banid 0 "[U:1:231702]" kick',
+        command: 'banid 0 76561197960497430 kick',
         description: 'Ban Arie - serveme.tf',
         display_text: 'ban "Arie - serveme.tf"'
       }

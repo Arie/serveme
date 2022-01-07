@@ -6,10 +6,6 @@ describe RconAutocomplete do
   subject { described_class.new(nil) }
 
   it 'returns a list of suggestions' do
-    expect(subject.autocomplete('ban')).to start_with [
-      { command: 'banid', description: 'Ban a player by ID' },
-      { command: 'banip', description: 'Ban an IP address' }
-    ]
     expect(subject.autocomplete('tf_bot').map { |c| c[:command] }).to start_with %w[
       tf_bot_add
       tf_bot_difficulty
@@ -41,6 +37,20 @@ describe RconAutocomplete do
         display_text: 'kick "Arie - serveme.tf"'
       }
 
+    ]
+  end
+
+  it 'completes ban command with current players' do
+    reservation = create(:reservation)
+    reservation_player = create(:reservation_player, reservation_id: reservation.id, name: 'Arie - serveme.tf', steam_uid: '76561197960497430')
+    _player_statistic = create(:player_statistic, reservation_player_id: reservation_player.id)
+    completer = described_class.new(reservation)
+    expect(completer.autocomplete('ban Ar')).to eql [
+      {
+        command: 'banid 0 "[U:1:231702]" kick',
+        description: 'Ban Arie - serveme.tf',
+        display_text: 'ban "Arie - serveme.tf"'
+      }
     ]
   end
 end

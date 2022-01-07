@@ -50,8 +50,8 @@ class RconAutocomplete
   def autocomplete_deep_ban
     autocomplete_players
       .map do |ps|
-        uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(ps.reservation_player.steam_uid.to_i)
-        { command: "banid 0 \"#{uid3}\" kick", display_text: "ban \"#{ps.reservation_player.name}\"", description: "Ban #{ps.reservation_player.name}" }
+        community_id = ps.reservation_player.steam_uid
+        { command: "banid 0 #{community_id} kick", display_text: "ban \"#{ps.reservation_player.name}\"", description: "Ban #{ps.reservation_player.name}" }
       end
   end
 

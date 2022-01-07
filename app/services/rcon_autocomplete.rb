@@ -39,6 +39,20 @@ class RconAutocomplete
         .sort_by { |command| command[:command] }
   end
 
+  def autocomplete_deep_mp_tournament_whitelist
+    self.class.league_whitelists
+        .select { |whitelist| whitelist.downcase.start_with?(query.split[1..].join(' ')) }
+        .map { |whitelist| { command: "mp_tournament_whitelist #{whitelist}", description: 'Set the tournament whitelist' } }
+        .sort_by { |command| command[:command] }
+  end
+
+  def autocomplete_deep_tftrue_whitelist_id
+    self.class.whitelist_tf_whitelists
+        .select { |whitelist| whitelist.downcase.start_with?(query.split[1..].join(' ')) }
+        .map { |whitelist| { command: "tftrue_whitelist_id #{whitelist}", description: 'Download and set the latest whitelist from whitelist.tf' } }
+        .sort_by { |command| command[:command] }
+  end
+
   def autocomplete_deep_kick
     autocomplete_players
       .map do |ps|
@@ -86,12 +100,14 @@ class RconAutocomplete
 
   def self.deep_complete_commands
     [
+      { command: 'ban', description: 'Ban a player by name' },
+      { command: 'banid', description: 'Ban a player by unique ID' },
       { command: 'changelevel', description: 'Change the map' },
       { command: 'exec', description: 'Execute a config' },
       { command: 'kick', description: 'Kick a player by name' },
       { command: 'kickid', description: 'Kick a player by unique ID' },
-      { command: 'ban', description: 'Ban a player by name' },
-      { command: 'banid', description: 'Ban a player by unique ID' }
+      { command: 'mp_tournament_whitelist', description: 'Set the item/weapon whitelist' },
+      { command: 'tftrue_whitelist_id', description: 'Set and download the latest whitelist from whitelist.tf' }
     ]
   end
 
@@ -150,6 +166,44 @@ class RconAutocomplete
       ugc_4v_stopwatch
       ugc_off
       ugc_UD_ultiduo
+    ]
+  end
+
+  def self.league_whitelists
+    %w[
+      etf2l_whitelist_6v6.txt
+      etf2l_whitelist_9v9.txt
+      etf2l_whitelist_bball.txt
+      etf2l_whitelist_ultiduo.txt
+
+      rgl_6v6_s7.txt
+      rgl_7v7_s9.txt
+      rgl_9v9_s10.txt
+      rgl_nr6s_s3.txt
+
+      item_whitelist_ugc_4v4.txt
+      item_whitelist_ugc_6v6.txt
+      item_whitelist_ugc_hl.txt
+      item_whitelist_ugc_ud.txt
+    ]
+  end
+
+  def self.whitelist_tf_whitelists
+    %w[
+      etf2l_whitelist_6v6
+      etf2l_whitelist_9v9
+      etf2l_whitelist_bball
+      etf2l_whitelist_ultiduo
+
+      rgl_6v6
+      rgl_7v7
+      rgl_9v9
+      rgl_nr6s
+
+      item_whitelist_ugc_4v4
+      item_whitelist_ugc_6v6
+      item_whitelist_ugc_HL
+      item_whitelist_ugc_UD
     ]
   end
 

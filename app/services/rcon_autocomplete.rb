@@ -22,7 +22,7 @@ class RconAutocomplete
   end
 
   def autocomplete_deep_suggestions
-    send("autocomplete_deep_#{query.split.first}") if self.class.deep_complete_commands.any? { |command| query.start_with?(command[:command]) }
+    send("autocomplete_deep_#{query.split.first}") if self.class.deep_complete_commands.any? { |command| query.split[0] == command[:command] }
   end
 
   def autocomplete_deep_changelevel

@@ -47,6 +47,10 @@ class RconAutocomplete
       end
   end
 
+  def autocomplete_deep_kickid
+    autocomplete_deep_kick
+  end
+
   def autocomplete_deep_ban
     autocomplete_players
       .map do |ps|
@@ -85,6 +89,7 @@ class RconAutocomplete
       { command: 'changelevel', description: 'Change the map' },
       { command: 'exec', description: 'Execute a config' },
       { command: 'kick', description: 'Kick a player by name' },
+      { command: 'kickid', description: 'Kick a player by unique ID' },
       { command: 'ban', description: 'Ban a player by name' },
       { command: 'banid', description: 'Ban a player by unique ID' }
     ]

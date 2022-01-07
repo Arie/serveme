@@ -25,6 +25,14 @@ describe RconAutocomplete do
     expect(subject.autocomplete('exec etf').map { |c| c[:command] }).to start_with ['exec etf2l', 'exec etf2l_6v6']
   end
 
+  it 'completes mp_tournament_whitelist further' do
+    expect(subject.autocomplete('mp_tournament_whitelist etf2l_whitelist_6').map { |c| c[:command] }).to start_with ['mp_tournament_whitelist etf2l_whitelist_6v6.txt']
+  end
+
+  it 'completes tftrue_whitelist_id further' do
+    expect(subject.autocomplete('tftrue_whitelist_id etf').map { |c| c[:command] }).to start_with ['tftrue_whitelist_id etf2l_whitelist_6v6']
+  end
+
   it 'completes kick command with current players' do
     reservation = create(:reservation)
     reservation_player = create(:reservation_player, reservation_id: reservation.id, name: 'Arie - serveme.tf', steam_uid: '76561197960497430')

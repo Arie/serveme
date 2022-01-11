@@ -209,6 +209,7 @@ class RconAutocomplete
 
   def self.autocomplete_maps
     %w[
+      cp_granary_pro_rc8
       cp_gullywash_f4a
       cp_gullywash_f5
       cp_metalworks

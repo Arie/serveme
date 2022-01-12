@@ -11,6 +11,7 @@
         </div>
         <%= submit_tag "Send", name: "commit", class: "btn btn-primary" %>
       <% end %>
+      <small class="form-text text-muted">Type help for example commands. You can also !extend and !end the reservation</small>
     <% end %>
     <br />
     <pre class="web-rcon-log-lines" id="<%= "reservation_#{@logsecret}_log_lines" %>">

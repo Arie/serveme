@@ -165,7 +165,7 @@ class ReservationsController < ApplicationController
     if reservation&.now?
       rcon_command = clean_rcon(params[:query] || params[:reservation][:rcon_command])
       Rails.logger.info("User #{current_user.name} (#{current_user.uid}) executed rcon command \"#{rcon_command}\" for reservation #{reservation.id}")
-      result = ActiveSupport::Multibyte::Chars.new(reservation.server.rcon_exec(rcon_command).to_s).tidy_bytes
+      result = handle_rcon_command(rcon_command)
       respond_to do |format|
         format.turbo_stream { render turbo_stream: turbo_stream.prepend("reservation_#{reservation.logsecret}_log_lines", target: "reservation_#{reservation.logsecret}_log_lines", partial: 'reservations/log_line', locals: { log_line: result }) }
         format.html { redirect_to rcon_reservation_path(reservation) }
@@ -183,6 +183,30 @@ class ReservationsController < ApplicationController
   end
 
   private
+
+  def handle_rcon_command(rcon_command)
+    case rcon_command
+    when '?', 'help', '!help'
+      rcon_help
+    when 'extend', '!extend'
+      if reservation.extend!
+        "Reservation extended to #{I18n.l(reservation.ends_at, format: :datepicker)}"
+      else
+        'Could not extend, conflicting reservation'
+      end
+    when 'end', '!end'
+      end_reservation
+      'Ending reservation'
+    else
+      ActiveSupport::Multibyte::Chars.new(reservation.server.rcon_exec(rcon_command).to_s).tidy_bytes
+    end
+  end
+
+  def rcon_help
+    RconAutocomplete.commands_to_suggest.map do |c|
+      "#{c[:command]} : #{c[:description]}"
+    end.join("\n")
+  end
 
   def reservation
     @reservation ||= find_reservation

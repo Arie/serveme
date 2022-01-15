@@ -45,6 +45,8 @@ gem 'rack', '~> 2.1.4'
 gem 'rack-cache'
 gem 'rails', '~> 6.1.2'
 gem 'rbzip2'
+# Use Redis for Action Cable
+gem 'redis', '~> 4.0'
 gem 'redis-rack-cache'
 gem 'redis-rails'
 gem 'remote_lock'
@@ -53,10 +55,12 @@ gem 'rubyzip', require: 'zip'
 gem 'sidekiq', '< 6'
 gem 'sidekiq-cron'
 gem 'simple_form', git: 'https://github.com/heartcombo/simple_form.git'
+gem 'simple_form-tailwind', '~> 0.1.0'
 gem 'steam-condenser', git: 'https://github.com/koraktor/steam-condenser-ruby.git'
 gem 'stripe'
 gem 'tailwindcss-rails'
 gem 'terser'
+gem 'text', '~> 1.3'
 gem 'tf2_line_parser'
 gem 'will_paginate'
 
@@ -118,8 +122,3 @@ end
 group :production do
   gem 'sentry-raven'
 end
-
-# Use Redis for Action Cable
-gem 'redis', '~> 4.1.4'
-
-gem "simple_form-tailwind", "~> 0.1.0"

@@ -36,7 +36,8 @@ class ServerMetric
         next unless player.relevant?
 
         name = sanitize_name(player.name)
-        rp = ReservationPlayer.where(reservation: current_reservation, steam_uid: player.steam_uid, ip: player.ip).first_or_create(name: name)
+        rp = ReservationPlayer.where(reservation: current_reservation, steam_uid: player.steam_uid, ip: player.ip).first_or_create
+        rp.update(name: name)
         PlayerStatistic.create!(reservation_player: rp,
                                 ping: player.ping,
                                 loss: player.loss,

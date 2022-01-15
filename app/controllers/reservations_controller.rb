@@ -148,10 +148,12 @@ class ReservationsController < ApplicationController
     @logsecret = reservation.logsecret
     filename = Rails.root.join('log', 'streaming', "#{@logsecret}.log")
     begin
-      seek = [File.size(filename), 20_000].min
+      seek = [File.size(filename), 50_000].min
       @log_lines = File.open(filename) do |f|
         f.seek(-seek, IO::SEEK_END)
-        f.readlines.last(100).reverse.select { |l| interesting_line?(l) }
+        f.readlines.last(500).reverse.select do |line|
+          interesting_line?(ActiveSupport::Multibyte::Chars.new(line).tidy_bytes.to_s)
+        end.first(100)
       end
     rescue Errno::ENOENT
       @log_lines = []
@@ -160,9 +162,9 @@ class ReservationsController < ApplicationController
 
   def rcon_command
     if reservation&.now?
-      rcon_command = clean_rcon(params[:reservation][:rcon_command])
+      rcon_command = clean_rcon(params[:query] || params[:reservation][:rcon_command])
       Rails.logger.info("User #{current_user.name} (#{current_user.uid}) executed rcon command \"#{rcon_command}\" for reservation #{reservation.id}")
-      result = reservation.server.rcon_exec(rcon_command).to_s
+      result = handle_rcon_command(rcon_command)
       respond_to do |format|
         format.turbo_stream { render turbo_stream: turbo_stream.prepend("reservation_#{reservation.logsecret}_log_lines", target: "reservation_#{reservation.logsecret}_log_lines", partial: 'reservations/log_line', locals: { log_line: result }) }
         format.html { redirect_to rcon_reservation_path(reservation) }
@@ -172,7 +174,38 @@ class ReservationsController < ApplicationController
     end
   end
 
+  def rcon_autocomplete
+    @query = params[:query]
+    @suggestions = RconAutocomplete.new(reservation).autocomplete(@query)
+    @reservation_id = params[:reservation_id].to_i
+    render layout: false
+  end
+
   private
+
+  def handle_rcon_command(rcon_command)
+    case rcon_command
+    when '?', 'help', '!help'
+      rcon_help
+    when 'extend', '!extend'
+      if reservation.extend!
+        "Reservation extended to #{I18n.l(reservation.ends_at, format: :datepicker)}"
+      else
+        'Could not extend, conflicting reservation'
+      end
+    when 'end', '!end'
+      end_reservation
+      'Ending reservation'
+    else
+      ActiveSupport::Multibyte::Chars.new(reservation.server.rcon_exec(rcon_command).to_s).tidy_bytes
+    end
+  end
+
+  def rcon_help
+    RconAutocomplete.commands_to_suggest.map do |c|
+      "#{c[:command]} : #{c[:description]}"
+    end.join("\n")
+  end
 
   def reservation
     @reservation ||= find_reservation

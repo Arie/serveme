@@ -32,6 +32,11 @@
         %td Actions
         %td.actions= render 'actions'
 
+      - if reservation.now?
+        %tr
+          %td Server control
+          %td= link_to "Web RCON", rcon_reservation_path(reservation), class: "btn btn-sm btn-warning"
+
       %tr
         %td Connect info
         %td
@@ -64,10 +69,6 @@
             = render 'shared/copy_button', :copy_button_id => "rcon_string", :copy_text => reservation.rcon_string
 
       - if reservation.now?
-        %tr
-          %td Web RCON
-          %td= link_to "Web RCON (beta)", rcon_reservation_path(reservation), class: "btn btn-sm btn-warning"
-
         %tr
           %td TV password
           %td= reservation.tv_password

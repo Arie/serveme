@@ -10,7 +10,7 @@
       %button{type: "button", class: "btn btn-primary payment-method credit-card-button"}
         Credit or Debit Card
 
-    = simple_form_for(@order) do |f|
+    = simple_form_for(@order, data: { turbo: false }) do |f|
       .row.credit-card-row
         .col-md-12
           #stripe-card

@@ -9,6 +9,7 @@ describe LogWorker do
   let(:reservation)           { create :reservation, user: user, logsecret: '1234567' }
   let(:extend_line)           { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!extend"' }
   let(:lobby_extend_line)     { '1234567L 03/29/2014 - 13:15:53: "Lobby player<3><[U:1:1337]><Red>" say "!extend"' }
+  let(:extend_team_line)      { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say_team "!extend"' }
   let(:troll_line)            { '1234567L 03/29/2014 - 13:15:53: "TRoll<3><[U:0:1337]><Red>" say "!end"' }
   let(:end_line)              { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!end"' }
   let(:rcon_changelevel_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!rcon changelevel cp_badlands"' }
@@ -68,6 +69,13 @@ describe LogWorker do
       user.stub(donator?: true)
       server.should_receive(:rcon_say).with(/Extended/)
       LogWorker.perform_async(lobby_extend_line)
+    end
+
+    it 'allows extending through team say' do
+      reservation.should_receive(:extend!).and_return(true)
+      user.stub(donator?: true)
+      server.should_receive(:rcon_say).with(/Extended/)
+      LogWorker.perform_async(extend_team_line)
     end
 
     it "notifies when extension wasn't possible" do

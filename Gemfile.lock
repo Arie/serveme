@@ -431,7 +431,7 @@ GEM
     rainbow (3.1.1)
     rake (13.0.6)
     rbzip2 (0.3.0)
-    redis (4.5.1)
+    redis (4.4.0)
     redis-actionpack (5.2.0)
       actionpack (>= 5, < 7)
       redis-rack (>= 2.1.0, < 3)
@@ -676,7 +676,7 @@ DEPENDENCIES
   rails (~> 6.1.2)
   rails-controller-testing
   rbzip2
-  redis (~> 4.0)
+  redis (~> 4.4.0)
   redis-rack-cache
   redis-rails
   remote_lock

@@ -46,7 +46,7 @@ gem 'rack-cache'
 gem 'rails', '~> 6.1.2'
 gem 'rbzip2'
 # Use Redis for Action Cable
-gem 'redis', '~> 4.0'
+gem 'redis', '~> 4.4.0'
 gem 'redis-rack-cache'
 gem 'redis-rails'
 gem 'remote_lock'

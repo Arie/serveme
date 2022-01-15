@@ -3,7 +3,7 @@
   %head
     - subtitle = content_for(:title) || "free TF2 server reservations"
     %title #{SITE_HOST} - #{subtitle}
-    = stylesheet_link_tag "tailwind", "serveme", "flags", "datepicker", "select2", "select2-tailwind", "reservations", "inter-font", "data-turbo-track": "reload"
+    = stylesheet_link_tag "tailwind", "serveme", "flags", "datepicker", "select2", "select2-tailwind", "reservations", "rcon", "inter-font", "data-turbo-track": "reload"
     = content_for(:stripe)
     = javascript_include_tag "serveme"
     = javascript_importmap_tags

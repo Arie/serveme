@@ -49,7 +49,7 @@ tv_snapshotrate 66
 <%= "tftrue_tv_autorecord 1" %>
 <% end %>
 
-<%= "sm_web_rcon_url \"#{SITE_URL}/reservations/#{id}/rcon\"" %>
+<%= %{sm_web_rcon_url "#{SITE_URL}/reservations/#{id}/rcon"}%>
 
 tf_preround_push_from_damage_enable 1
 

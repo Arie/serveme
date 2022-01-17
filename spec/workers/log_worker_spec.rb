@@ -15,6 +15,7 @@ describe LogWorker do
   let(:rcon_changelevel_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!rcon changelevel cp_badlands"' }
   let(:rcon_empty_line)       { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!rcon"' }
   let(:rcon_with_quotes_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!rcon mp_tournament "1""' }
+  let(:web_rcon_line)         { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!webrcon"' }
   let(:timeleft_line)         { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!timeleft"' }
   let(:who_line)              { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!who"' }
   let(:who_troll)             { '1234567L 03/29/2014 - 19:15:53: "BindTroll<3><[U:1:12344]><Red>" say "!who is the best"' }
@@ -99,6 +100,20 @@ describe LogWorker do
     it 'is not afraid of quotes in the commands' do
       server.should_receive(:rcon_exec).with('mp_tournament "1"')
       LogWorker.perform_async(rcon_with_quotes_line)
+    end
+  end
+
+  describe 'web rcon' do
+    it "shows a message if plugins aren't enabled" do
+      reservation.should_receive(:enable_plugins?).and_return(false)
+      server.should_receive(:rcon_say)
+
+      LogWorker.perform_async(web_rcon_line)
+
+      reservation.should_receive(:enable_plugins?).and_return(true)
+      server.should_not_receive(:rcon_say)
+
+      LogWorker.perform_async(web_rcon_line)
     end
   end
 

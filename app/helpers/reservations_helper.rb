@@ -38,8 +38,11 @@ module ReservationsHelper
   end
 
   def new_reservation
-    new_reservation_attributes = { starts_at: starts_at,
-                                   ends_at: ends_at }
+    new_reservation_attributes = {
+      starts_at: starts_at,
+      ends_at: ends_at,
+      enable_plugins: true
+    }
     if previous_reservation
       previous_reservation_attributes = previous_reservation.reusable_attributes
       new_reservation_attributes.merge!(previous_reservation_attributes)

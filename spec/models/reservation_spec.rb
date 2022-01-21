@@ -478,17 +478,11 @@ describe Reservation do
         internal = build(:reservation, user: user, starts_at: 10.minutes.from_now, ends_at: 50.minutes.from_now)
         rear_overlap = build(:reservation,   user: user, starts_at: 55.minutes.from_now, ends_at: 2.hours.from_now)
         complete_overlap = build(:reservation, user: user, starts_at: 10.minutes.ago, ends_at: 2.hours.from_now)
-        identical_times = build(:reservation, user: user, starts_at: reservation.starts_at, ends_at: reservation.ends_at)
-        just_before = build(:reservation, user: user, starts_at: reservation.starts_at - 1.hour, ends_at: reservation.starts_at)
-        just_after = build(:reservation, user: user, starts_at: reservation.ends_at, ends_at: reservation.ends_at + 1.hour)
 
-        expect(front_overlap.own_colliding_reservations).to match_array([reservation])
-        expect(rear_overlap.own_colliding_reservations).to match_array([reservation])
-        expect(complete_overlap.own_colliding_reservations).to match_array([reservation])
-        expect(internal.own_colliding_reservations).to match_array([reservation])
-        expect(identical_times.own_colliding_reservations).to match_array([reservation])
-        expect(just_before.own_colliding_reservations).to match_array([])
-        expect(just_after.own_colliding_reservations).to match_array([])
+        front_overlap.own_colliding_reservations.should eql [reservation]
+        rear_overlap.own_colliding_reservations.should eql [reservation]
+        complete_overlap.own_colliding_reservations.should eql [reservation]
+        internal.own_colliding_reservations.should eql [reservation]
       end
     end
 
@@ -507,17 +501,11 @@ describe Reservation do
         internal = build(:reservation, server: server, starts_at: 10.minutes.from_now, ends_at: 50.minutes.from_now)
         rear_overlap = build(:reservation, server: server, starts_at: 55.minutes.from_now, ends_at: 2.hours.from_now)
         complete_overlap = build(:reservation, server: server, starts_at: 10.minutes.ago, ends_at: 2.hours.from_now)
-        identical_times  = build(:reservation, server: server, starts_at: reservation.starts_at, ends_at: reservation.ends_at)
-        just_before = build(:reservation, server: server, starts_at: reservation.starts_at - 1.hour, ends_at: reservation.starts_at)
-        just_after = build(:reservation, server: server, starts_at: reservation.ends_at, ends_at: reservation.ends_at + 1.hour)
 
-        expect(front_overlap.other_users_colliding_reservations).to match_array([reservation])
-        expect(rear_overlap.other_users_colliding_reservations).to match_array([reservation])
-        expect(complete_overlap.other_users_colliding_reservations).to match_array([reservation])
-        expect(internal.other_users_colliding_reservations).to match_array([reservation])
-        expect(identical_times.other_users_colliding_reservations).to match_array([reservation])
-        expect(just_before.other_users_colliding_reservations).to match_array([])
-        expect(just_after.other_users_colliding_reservations).to match_array([])
+        front_overlap.other_users_colliding_reservations.should eql [reservation]
+        rear_overlap.other_users_colliding_reservations.should eql [reservation]
+        complete_overlap.other_users_colliding_reservations.should eql [reservation]
+        internal.other_users_colliding_reservations.should eql [reservation]
       end
     end
 

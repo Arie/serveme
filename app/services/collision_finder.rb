@@ -9,12 +9,44 @@ class CollisionFinder
   end
 
   def colliding_reservations
-    colliding = colliding_with.where('(?, ?) OVERLAPS (reservations.starts_at, reservations.ends_at)', collider.starts_at, collider.ends_at)
+    colliding = (front_rear_and_internal_collisions + overlap_collisions).uniq
     # You can't collide with yourself.
-    if collider.id
-      colliding.where.not(id: collider.id)
+    if collider.persisted?
+      colliding.reject { |r| r.id == collider.id }
     else
       colliding
     end
+  end
+
+  private
+
+  # ------XXXXXX--------
+  # ----YYYY------------
+  #
+  # ------XXXXXX--------
+  # ---------YYYY-------
+  #
+  # ----XXXXXXXXXXXX----
+  # -------YYYYY--------
+  def front_rear_and_internal_collisions
+    colliding_with.where('reservations.starts_at' => range) + colliding_with.where('reservations.ends_at' => range)
+  end
+
+  # ------XXXXXX--------
+  # ---YYYYYYYYYYYY-----
+  def overlap_collisions
+    colliding_with.where('reservations.starts_at < ? AND reservations.ends_at > ?', starts_at, ends_at)
+  end
+
+  def range
+    @range ||= starts_at..ends_at
+  end
+
+  def starts_at
+    collider.starts_at
+  end
+
+  def ends_at
+    collider.ends_at
   end
 end

@@ -25,8 +25,8 @@ ActiveRecord::Schema.define(version: 2022_01_21_190853) do
   create_table "group_servers", id: :serial, force: :cascade do |t|
     t.integer "server_id"
     t.integer "group_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
     t.index ["group_id"], name: "index_group_servers_on_group_id"
     t.index ["server_id"], name: "index_group_servers_on_server_id"
   end
@@ -34,9 +34,9 @@ ActiveRecord::Schema.define(version: 2022_01_21_190853) do
   create_table "group_users", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "group_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "expires_at"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
+    t.datetime "expires_at", precision: 6
     t.index ["expires_at"], name: "index_group_users_on_expires_at"
     t.index ["group_id"], name: "index_group_users_on_group_id"
     t.index ["user_id"], name: "index_group_users_on_user_id"
@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(version: 2022_01_21_190853) do
 
   create_table "groups", id: :serial, force: :cascade do |t|
     t.string "name", limit: 191
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
     t.index ["name"], name: "index_groups_on_name"
   end
 
@@ -59,8 +59,8 @@ ActiveRecord::Schema.define(version: 2022_01_21_190853) do
   create_table "locations", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "flag"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
   end
 
   create_table "log_uploads", id: :serial, force: :cascade do |t|
@@ -70,8 +70,8 @@ ActiveRecord::Schema.define(version: 2022_01_21_190853) do
     t.string "map_name"
     t.text "status"
     t.string "url"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
     t.index ["reservation_id"], name: "index_log_uploads_on_reservation_id"
   end
 
@@ -79,8 +79,8 @@ ActiveRecord::Schema.define(version: 2022_01_21_190853) do
     t.string "name"
     t.string "file"
     t.integer "user_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
   end
 
   create_table "paypal_orders", id: :serial, force: :cascade do |t|
@@ -89,8 +89,8 @@ ActiveRecord::Schema.define(version: 2022_01_21_190853) do
     t.string "payment_id", limit: 191
     t.string "payer_id", limit: 191
     t.string "status", limit: 191
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
     t.boolean "gift", default: false
     t.string "type"
     t.index ["payer_id"], name: "index_paypal_orders_on_payer_id"
@@ -103,8 +103,8 @@ ActiveRecord::Schema.define(version: 2022_01_21_190853) do
     t.integer "ping"
     t.integer "loss"
     t.integer "minutes_connected"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
     t.integer "reservation_player_id"
     t.index ["created_at"], name: "index_player_statistics_on_created_at"
     t.index ["loss"], name: "index_player_statistics_on_loss"
@@ -139,8 +139,8 @@ ActiveRecord::Schema.define(version: 2022_01_21_190853) do
   create_table "reservation_statuses", id: :serial, force: :cascade do |t|
     t.integer "reservation_id"
     t.string "status", limit: 191
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
     t.index ["created_at"], name: "index_reservation_statuses_on_created_at"
     t.index ["reservation_id"], name: "index_reservation_statuses_on_reservation_id"
   end
@@ -152,10 +152,10 @@ ActiveRecord::Schema.define(version: 2022_01_21_190853) do
     t.string "rcon"
     t.string "tv_password"
     t.string "tv_relaypassword"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "starts_at"
-    t.datetime "ends_at"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
+    t.datetime "starts_at", precision: 6
+    t.datetime "ends_at", precision: 6
     t.boolean "provisioned", default: false
     t.boolean "ended", default: false
     t.integer "server_config_id"
@@ -193,8 +193,8 @@ ActiveRecord::Schema.define(version: 2022_01_21_190853) do
 
   create_table "server_configs", id: :serial, force: :cascade do |t|
     t.string "file"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
   end
 
   create_table "server_notifications", id: :serial, force: :cascade do |t|
@@ -211,8 +211,8 @@ ActiveRecord::Schema.define(version: 2022_01_21_190853) do
     t.string "map_name", limit: 191
     t.integer "traffic_in"
     t.integer "traffic_out"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
     t.index ["cpu_usage"], name: "index_server_statistics_on_cpu_usage"
     t.index ["created_at"], name: "index_server_statistics_on_created_at"
     t.index ["fps"], name: "index_server_statistics_on_fps"
@@ -224,8 +224,8 @@ ActiveRecord::Schema.define(version: 2022_01_21_190853) do
   create_table "server_uploads", force: :cascade do |t|
     t.integer "server_id"
     t.integer "file_upload_id"
-    t.datetime "started_at"
-    t.datetime "uploaded_at"
+    t.datetime "started_at", precision: 6
+    t.datetime "uploaded_at", precision: 6
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["file_upload_id"], name: "index_server_uploads_on_file_upload_id"
@@ -239,8 +239,8 @@ ActiveRecord::Schema.define(version: 2022_01_21_190853) do
     t.string "path"
     t.string "ip"
     t.string "port"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
     t.string "rcon"
     t.string "type", default: "LocalServer"
     t.integer "position", default: 1000
@@ -268,22 +268,22 @@ ActiveRecord::Schema.define(version: 2022_01_21_190853) do
     t.string "provider", limit: 191
     t.string "name", limit: 191
     t.string "nickname", limit: 191
-    t.string "email", limit: 191, default: ""
-    t.string "encrypted_password", limit: 191, default: ""
+    t.string "email", limit: 191, default: "", null: false
+    t.string "encrypted_password", limit: 191, default: "", null: false
     t.string "reset_password_token", limit: 191
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at", precision: 6
+    t.datetime "remember_created_at", precision: 6
     t.integer "sign_in_count", default: 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
+    t.datetime "current_sign_in_at", precision: 6
+    t.datetime "last_sign_in_at", precision: 6
     t.string "current_sign_in_ip", limit: 191
     t.string "last_sign_in_ip", limit: 191
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
     t.string "logs_tf_api_key"
     t.string "remember_token"
     t.string "time_zone"
-    t.string "api_key"
+    t.string "api_key", limit: 32
     t.float "latitude"
     t.float "longitude"
     t.integer "expired_reservations", default: 0
@@ -300,17 +300,17 @@ ActiveRecord::Schema.define(version: 2022_01_21_190853) do
     t.string "event", limit: 191, null: false
     t.string "whodunnit", limit: 191
     t.text "object"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: 6
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
   create_table "vouchers", id: :serial, force: :cascade do |t|
     t.string "code"
     t.integer "product_id"
-    t.datetime "claimed_at"
+    t.datetime "claimed_at", precision: 6
     t.integer "claimed_by_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
     t.integer "created_by_id"
     t.integer "order_id"
     t.index ["claimed_by_id"], name: "index_vouchers_on_claimed_by_id"
@@ -321,15 +321,15 @@ ActiveRecord::Schema.define(version: 2022_01_21_190853) do
   create_table "whitelist_tfs", id: :serial, force: :cascade do |t|
     t.string "tf_whitelist_id"
     t.text "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["tf_whitelist_id"], name: "index_whitelist_tfs_on_tf_whitelist_id"
   end
 
   create_table "whitelists", id: :serial, force: :cascade do |t|
     t.string "file"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: 6
+    t.datetime "updated_at", precision: 6
   end
 
 end

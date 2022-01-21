@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_13_121448) do
+ActiveRecord::Schema.define(version: 2022_01_21_190853) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -260,6 +260,7 @@ ActiveRecord::Schema.define(version: 2021_12_13_121448) do
     t.index ["active"], name: "index_servers_on_active"
     t.index ["latitude", "longitude"], name: "index_servers_on_latitude_and_longitude"
     t.index ["location_id"], name: "index_servers_on_location_id"
+    t.index ["type"], name: "index_servers_on_type"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
@@ -267,8 +268,8 @@ ActiveRecord::Schema.define(version: 2021_12_13_121448) do
     t.string "provider", limit: 191
     t.string "name", limit: 191
     t.string "nickname", limit: 191
-    t.string "email", limit: 191, default: "", null: false
-    t.string "encrypted_password", limit: 191, default: "", null: false
+    t.string "email", limit: 191, default: ""
+    t.string "encrypted_password", limit: 191, default: ""
     t.string "reset_password_token", limit: 191
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -282,7 +283,7 @@ ActiveRecord::Schema.define(version: 2021_12_13_121448) do
     t.string "logs_tf_api_key"
     t.string "remember_token"
     t.string "time_zone"
-    t.string "api_key", limit: 32
+    t.string "api_key"
     t.float "latitude"
     t.float "longitude"
     t.integer "expired_reservations", default: 0

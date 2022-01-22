@@ -64,8 +64,5 @@ module Serveme
 
     # https://guides.rubyonrails.org/active_record_multiple_databases.html#migrate-to-the-new-connection-handling
     config.active_record.legacy_connection_handling = false
-
-    # Enable asyncronous queries with #load_async
-    config.active_record.async_query_executor = :global_thread_pool
   end
 end

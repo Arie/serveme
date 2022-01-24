@@ -5,29 +5,29 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
   before_action :authenticate_user!
-  around_action :use_time_zone
+  before_action :set_time_zone
 
-  def use_time_zone(&block)
-    Time.use_zone(time_zone_from_current_user || set_time_zone_from_cookie || default_time_zone, &block)
-  rescue ArgumentError
-    Time.use_zone(default_time_zone, &block)
+  def set_time_zone
+    set_time_zone_from_current_user || set_time_zone_from_cookie || set_default_time_zone
   end
 
   private
 
-  def time_zone_from_current_user
+  def set_time_zone_from_current_user
     return if current_user&.time_zone.blank?
 
-    current_user.time_zone
+    Time.zone = current_user.time_zone
   end
 
   def set_time_zone_from_cookie
+    Time.zone = time_zone_from_cookie
     current_user&.update(time_zone: time_zone_from_cookie)
-    time_zone_from_cookie
+  rescue ArgumentError
+    set_default_time_zone
   end
 
-  def default_time_zone
-    Rails.configuration.time_zone
+  def set_default_time_zone
+    Time.zone = Rails.configuration.time_zone
   end
 
   def time_zone_from_cookie

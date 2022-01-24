@@ -12,8 +12,8 @@ describe ApplicationController do
   context 'with an invalid time zone cookie' do
     it 'falls back to the default time zone' do
       cookies[:time_zone] = 'Etc/GMT 2'
-      Time.should_receive(:zone=).with('Etc/GMT 2').and_call_original
-      Time.should_receive(:zone=).with(Rails.configuration.time_zone).and_call_original
+      Time.should_receive(:use_zone).with('Etc/GMT 2').and_call_original
+      Time.should_receive(:use_zone).with(Rails.configuration.time_zone).and_call_original
       get :index
     end
   end
@@ -30,7 +30,7 @@ describe ApplicationController do
         end
 
       cookies[:time_zone] = new_time_zone
-      Time.should_receive(:zone=).with('Europe/Amsterdam').twice
+      Time.should_receive(:use_zone).with('Europe/Amsterdam').once
       get :index
 
       Time.zone.to_s.should_not eql(time_zone_before_request)

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Given 'I am logged in' do
-  @current_user = create(:user, uid: '12345')
+  @current_user = create(:user, uid: '12345', time_zone: Time.zone.name)
   login_as(@current_user, scope: :user)
 end
 

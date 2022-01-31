@@ -313,7 +313,7 @@ describe Reservation do
       it 'has an initial duration of no more than 2 hours' do
         reservation = build :reservation, starts_at: Time.current, ends_at: 121.minutes.from_now
         reservation.should have(1).error_on(:ends_at)
-        reservation.errors.full_messages.should include 'Ends at maximum reservation time is 2 hours, you can extend if you run out of time'
+        reservation.errors.full_messages.should include 'Ends at maximum reservation time is 2 hours'
 
         reservation.ends_at = reservation.starts_at + 2.hours
         reservation.should have(:no).errors_on(:ends_at)
@@ -369,7 +369,7 @@ describe Reservation do
       it 'has an initial duration of no more than 10 hours' do
         reservation = build :reservation, starts_at: Time.current, ends_at: 601.minutes.from_now, user: user
         reservation.should have(1).error_on(:ends_at)
-        reservation.errors.full_messages.should include 'Ends at maximum reservation time is 10 hours, you can extend if you run out of time'
+        reservation.errors.full_messages.should include 'Ends at maximum reservation time is 10 hours'
 
         reservation.ends_at = reservation.starts_at + 10.hours
         reservation.should have(:no).errors_on(:ends_at)

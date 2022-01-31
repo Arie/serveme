@@ -210,8 +210,6 @@ class RconAutocomplete
   def self.autocomplete_maps
     %w[
       cp_granary_pro_rc8
-      cp_gullywash_f4a
-      cp_gullywash_f5
       cp_gullywash_f6
       cp_metalworks
       cp_metalworks_f2
@@ -222,7 +220,6 @@ class RconAutocomplete
       koth_clearcut_b15d
 
       cp_granary_pro2
-      cp_steel_f6
       cp_steel_f8
       cp_villa_b18
       koth_ashville_rc2d
@@ -230,7 +227,6 @@ class RconAutocomplete
       koth_cascade_rc2
       koth_lakeside_r2
       koth_product_final
-      pl_vigil_rc7
       pl_vigil_rc8
       pl_swiftwater_final1
       pl_upward

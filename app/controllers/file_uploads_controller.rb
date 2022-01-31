@@ -10,7 +10,7 @@ class FileUploadsController < ApplicationController
   def create
     respond_to do |format|
       format.html do
-        render :new if params[:file_upload].nil? && return
+        render :new, status: :unprocessable_entity if params[:file_upload].nil? && return
 
         @file_upload = FileUpload.new(params[:file_upload].permit(:file))
         @file_upload.user = current_user
@@ -20,7 +20,7 @@ class FileUploadsController < ApplicationController
           flash[:notice] = 'File upload succeeded. It can take a few minutes for it to get synced to all servers.'
           redirect_to file_upload_path(@file_upload)
         else
-          render :new
+          render :new, status: :unprocessable_entity
         end
       end
     end

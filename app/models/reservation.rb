@@ -85,11 +85,11 @@ class Reservation < ActiveRecord::Base
   end
 
   def own_colliding_reservations
-    CollisionFinder.new(Reservation.where(user_id: user.id), self).colliding_reservations
+    @own_colliding_reservations ||= CollisionFinder.new(Reservation.where(user_id: user.id), self).colliding_reservations
   end
 
   def other_users_colliding_reservations
-    CollisionFinder.new(Reservation.where(server_id: server.id), self).colliding_reservations
+    @other_users_colliding_reservations ||= CollisionFinder.new(Reservation.where(server_id: server.id), self).colliding_reservations
   end
 
   def collides_with_own_reservation?
@@ -191,7 +191,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def reusable_attributes
-    attributes.slice('server_id', 'password', 'rcon', 'tv_password', 'server_config_id', 'whitelist_id', 'custom_whitelist_id', 'first_map', 'enable_plugins', 'enable_demos_tf')
+    attributes.slice('server_id', 'password', 'rcon', 'tv_password', 'server_config_id', 'whitelist_id', 'custom_whitelist_id', 'first_map', 'enable_demos_tf')
   end
 
   # rubocop:disable Naming/AccessorMethodName
@@ -216,7 +216,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def apply_api_keys
-    server.rcon_exec("tftrue_logs_apikey \"#{user.logs_tf_api_key.presence || LOGS_TF_API_KEY}\"; sm_demostf_apikey \"#{user.demos_tf_api_key.presence || DEMOS_TF_API_KEY}\"")
+    server.rcon_exec("tftrue_logs_apikey \"#{user.logs_tf_api_key.presence || LOGS_TF_API_KEY}\"; sm_web_rcon_url \"#{SITE_URL}/reservations/#{id}/rcon\"; sm_demostf_apikey \"#{user.demos_tf_api_key.presence || DEMOS_TF_API_KEY}\"")
   end
 
   def status

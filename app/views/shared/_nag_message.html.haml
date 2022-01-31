@@ -1,27 +1,10 @@
 - users_last_reservation = current_user.reservations.last
-- if users_last_reservation && users_last_reservation.past?
-  - if users_last_reservation.inactive_too_long?
-    .row
-      .col-md-12
-        .alert.alert-danger
-          %h4
-            = link_to("Your previous reservation", reservation_path(users_last_reservation))
-            expired due to inactivity. If you need more than #{users_last_reservation.inactive_minute_limit} minutes to get people on your server, consider buying premium.
-
 - if !donator?
-  - if current_user.reservations.count.between?(10, 100)
+  - if current_user.reservations.count > 10
     .row
       .col-md-12
         .donate.alert.alert-danger
           - duration = (current_user.total_reservation_seconds / 3600.0).round
           %h5
             Hi there! You've made #{duration} hours worth of reservations so far, have you considered buying premium to keep this service running?
-            = render "shared/paypal_button"
-
-  - if current_user.reservations.count > 100
-    .row
-      .col-md-12
-        .donate.alert.alert-danger
-          %h5
-            Wow, you've made more than 100 reservations! Please buy PREMIUM to help us keep this service alive!
             = render "shared/paypal_button"

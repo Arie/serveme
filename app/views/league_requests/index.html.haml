@@ -1,34 +1,33 @@
-= turbo_frame_tag "league-request-results" do
-  %h2= "#{@results.size} search results"
+%h2= "#{@results.size} search results"
 
-  .row
-    .col-md-12
-      %table.table.table-condensed
-        %thead
-          %tr
-            %th Reservation ID
-            %th Start time
-            %th End time
-            %th IP
-            %th Name
-            %th Steam ID
-            %th ETF2L
-            %th RGL.gg
-            %th logs.tf
-        - @results.each do |result|
-          %tr
-            %td= link_to(result.reservation_id, show_reservation_statistic_path(reservation_id: result.reservation_id))
-            %td= I18n.l(result.reservation.starts_at, format: :long)
-            %td= I18n.l(result.reservation.ends_at, format: :time_without_seconds)
-            %td
-              - if result.ip.present?
-                = link_to(result.ip, league_request_path(ip: result.ip))
-            %td= result.name
-            %td= link_to(result.steam_uid, league_request_path(steam_uid: result.steam_uid))
-            %td= link_to("ETF2L", "http://etf2l.org/search/#{result.steam_uid}/")
-            %td= link_to("RGL", "http://rgl.gg/Public/PlayerProfile.aspx?p=#{result.steam_uid}")
-            %td= link_to("logs.tf", "http://logs.tf/profile/#{result.steam_uid}")
+.row
+  .col-md-12
+    %table.table.table-condensed
+      %thead
+        %tr
+          %th Reservation ID
+          %th Start time
+          %th End time
+          %th IP
+          %th Name
+          %th Steam ID
+          %th ETF2L
+          %th RGL.gg
+          %th logs.tf
+      - @results.each do |result|
+        %tr
+          %td= link_to(result.reservation_id, show_reservation_statistic_path(reservation_id: result.reservation_id))
+          %td= I18n.l(result.reservation.starts_at, format: :long)
+          %td= I18n.l(result.reservation.ends_at, format: :time_without_seconds)
+          %td
+            - if result.ip.present?
+              = link_to(result.ip, league_request_path(ip: result.ip))
+          %td= result.name
+          %td= link_to(result.steam_uid, league_request_path(steam_uid: result.steam_uid))
+          %td= link_to("ETF2L", "http://etf2l.org/search/#{result.steam_uid}/")
+          %td= link_to("RGL", "http://rgl.gg/Public/PlayerProfile.aspx?p=#{result.steam_uid}")
+          %td= link_to("logs.tf", "http://logs.tf/profile/#{result.steam_uid}")
 
-  = link_to league_request_path do
-    .btn.btn-primary
-      New search
+= link_to league_request_path do
+  .btn.btn-primary
+    New search

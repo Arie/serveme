@@ -8,16 +8,20 @@ class VouchersController < ApplicationController
   end
 
   def create
-    code = params.require(:voucher).require(:code)
-    @voucher = Voucher.unclaimed.find_voucher(code)
-    if @voucher
-      @voucher.claim!(current_user)
-      flash[:notice] = "Code activated: #{@voucher.product.name}"
-      redirect_to root_path
-    else
-      flash[:alert] = 'Invalid code or already used'
-      @voucher = Voucher.new
-      render :new
+    respond_to do |format|
+      format.html do
+        code = params.require(:voucher).require(:code)
+        @voucher = Voucher.unclaimed.find_voucher(code)
+        if @voucher
+          @voucher.claim!(current_user)
+          flash[:notice] = "Code activated: #{@voucher.product.name}"
+          redirect_to root_path
+        else
+          flash[:alert] = 'Invalid code or already used'
+          @voucher = Voucher.new
+          render :new, status: :unprocessable_entity
+        end
+      end
     end
   end
 end

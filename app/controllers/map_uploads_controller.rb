@@ -10,7 +10,7 @@ class MapUploadsController < ApplicationController
   def create
     respond_to do |format|
       format.html do
-        render :new if params[:map_upload].nil? && return
+        render :new, status: :unprocessable_entity if params[:map_upload].nil? && return
 
         @map_upload = MapUpload.new(params[:map_upload].permit(:file))
         @map_upload.user = current_user
@@ -19,7 +19,7 @@ class MapUploadsController < ApplicationController
           flash[:notice] = 'Map upload succeeded. It can take a few minutes for it to get synced to all servers.'
           redirect_to new_map_upload_path
         else
-          render :new
+          render :new, status: :unprocessable_entity
         end
       end
     end

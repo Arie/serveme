@@ -80,6 +80,7 @@ class ApplicationController < ActionController::Base
         super
       end
     else
+      session[:user_return_to] = request.url
       flash[:notice] = 'Please log in first'
       redirect_to new_session_path
     end

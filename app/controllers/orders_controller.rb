@@ -7,14 +7,18 @@ class OrdersController < ApplicationController
   end
 
   def create
-    order_params = params.require(:order).permit(%i[product_id gift])
-    paypal_order.product_id = order_params[:product_id].to_i
-    paypal_order.gift       = order_params[:gift]
-    if paypal_order.save && paypal_order.prepare
-      redirect_to paypal_order.checkout_url
-    else
-      flash[:alert] = 'Something went wrong creating your order, please try again'
-      render :new
+    respond_to do |format|
+      format.html do
+        order_params = params.require(:order).permit(%i[product_id gift])
+        paypal_order.product_id = order_params[:product_id].to_i
+        paypal_order.gift       = order_params[:gift]
+        if paypal_order.save && paypal_order.prepare
+          redirect_to paypal_order.checkout_url
+        else
+          flash[:alert] = 'Something went wrong creating your order, please try again'
+          render :new, status: :unprocessable_entity
+        end
+      end
     end
   end
 

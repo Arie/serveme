@@ -10,6 +10,7 @@ class LogWorker
   END_COMMAND       = /^!end.*/
   EXTEND_COMMAND    = /^!extend.*/
   RCON_COMMAND      = /^!rcon.*/
+  WEB_RCON_COMMAND = /^(\.|!)webrcon.*/
   TIMELEFT_COMMAND  = /^!timeleft.*/
   WHOIS_RESERVER    = /^!who$/
   LOG_LINE_REGEX    = '(?\'secret\'\d*)(?\'line\'.*)'
@@ -94,6 +95,12 @@ class LogWorker
     end
   end
 
+  def handle_web_rcon
+    return if reservation.enable_plugins? || reservation.enable_demos_tf?
+
+    reservation.server.rcon_say "Plugins need to be enabled for us to show you the Web RCON page. Instead, open #{SITE_URL}/reservations/#{reservation.id}/rcon to use Web RCON."
+  end
+
   def handle_timeleft
     minutes_until_reservation_ends = ((reservation.ends_at - Time.current) / 60).round
     minutes = [minutes_until_reservation_ends, 0].max
@@ -111,6 +118,8 @@ class LogWorker
       :handle_end
     when RCON_COMMAND
       :handle_rcon
+    when WEB_RCON_COMMAND
+      :handle_web_rcon
     end
   end
 

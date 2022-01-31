@@ -1,7 +1,6 @@
 var free_servers;
 
-$(document).on('turbo:load', function() {
-
+function loadReservationPage() {
   function formatServer(server) {
     return "<span class='flags flags-" + server.flag + "'></span>" + server.text;
   };
@@ -120,7 +119,7 @@ $(document).on('turbo:load', function() {
         enablePlugins().prop("checked", false);
       } else {
         enablePlugins().prop("disabled", false);
-        enablePlugins().prop("checked", false);
+        enablePlugins().prop("checked", true);
       }
 
     }
@@ -146,15 +145,6 @@ $(document).on('turbo:load', function() {
 
   $("#reservation_ends_at").change(function() {
     findFreeServers();
-  });
-
-  $("#reservation_server_id").change(function() {
-    clearPing();
-    pingCurrentServer();
-  });
-
-  $("#refresh-ping").click(function() {
-    pingCurrentServer();
   });
 
   $("#toggle_reservations_list").click(function() {
@@ -238,4 +228,7 @@ $(document).on('turbo:load', function() {
   };
 
   loadServers();
-});
+};
+
+$(document).on('turbo:load', loadReservationPage);
+$(document).on('turbo:render', loadReservationPage);

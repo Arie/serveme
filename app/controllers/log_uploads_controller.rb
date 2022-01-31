@@ -8,16 +8,21 @@ class LogUploadsController < ApplicationController
   end
 
   def create
-    @log_upload = LogUpload.new(upload_params)
-    link_log_upload_to_reservation
-    log_file = find_log_file(upload_params[:file_name].to_s)
-    @log_upload.file_name = log_file.fetch(:file_name)
-    if @log_upload.save
-      @log_upload.upload
-      flash[:notice] = 'Logfile uploaded to logs.tf'
-      redirect_to(reservation_log_uploads_path(reservation))
-    else
-      render :new
+    respond_to do |format|
+      format.html do
+        @log_upload = LogUpload.new(upload_params)
+        link_log_upload_to_reservation
+        log_file = find_log_file(upload_params[:file_name].to_s)
+        @log_upload.file_name = log_file.fetch(:file_name)
+
+        if @log_upload.save
+          @log_upload.upload
+          flash[:notice] = 'Logfile uploaded to logs.tf'
+          redirect_to(reservation_log_uploads_path(reservation))
+        else
+          render :new, status: :unprocessable_entity
+        end
+      end
     end
   end
 

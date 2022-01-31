@@ -14,17 +14,19 @@ module ReservationsHelper
   end
 
   def update_reservation
-    if reservation.update(reservation_params)
-      if reservation.now?
-        reservation.update_reservation
-        flash[:notice] = "Reservation updated for #{reservation}, your changes will be active after a mapchange."
-      else
-        flash[:notice] = "Reservation updated for #{reservation}"
-      end
-      redirect_to root_path
-    else
-      respond_to do |format|
-        format.html { render :edit, status: :unprocessable_entity }
+    respond_to do |format|
+      format.html do
+        if reservation.update(reservation_params)
+          if reservation.now?
+            reservation.update_reservation
+            flash[:notice] = "Reservation updated for #{reservation}, your changes will be active after a mapchange."
+          else
+            flash[:notice] = "Reservation updated for #{reservation}"
+          end
+          redirect_to root_path
+        else
+          render :edit, status: :unprocessable_entity
+        end
       end
     end
   end

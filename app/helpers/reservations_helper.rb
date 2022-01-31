@@ -23,7 +23,9 @@ module ReservationsHelper
       end
       redirect_to root_path
     else
-      render :edit
+      respond_to do |format|
+        format.html { render :edit, status: :unprocessable_entity }
+      end
     end
   end
 

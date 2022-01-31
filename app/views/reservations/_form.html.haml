@@ -13,7 +13,7 @@
 
 .row
   .col-md-12.col-lg-6.offset-lg-2
-    = simple_form_for(@reservation, wrapper: :horizontal_form,  data: { turbo: false }, html: { class: 'form-horizontal reservation' }) do |f|
+    = simple_form_for(@reservation, wrapper: :horizontal_form, html: { class: 'form-horizontal reservation' }) do |f|
       - if @reservation.schedulable?
         = f.input :starts_at, as: :string, input_html: { value: I18n.l(@reservation.starts_at || Time.now, format: :datepicker), data: { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, label: "Starts at"
         = f.input :ends_at, as: :string, input_html: { value: I18n.l(@reservation.ends_at || 2.hours.from_now, format: :datepicker), data: { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, label: "Ends at"

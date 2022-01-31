@@ -212,6 +212,7 @@ class RconAutocomplete
       cp_granary_pro_rc8
       cp_gullywash_f4a
       cp_gullywash_f5
+      cp_gullywash_f6
       cp_metalworks
       cp_metalworks_f2
       cp_process_f9a

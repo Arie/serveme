@@ -30,7 +30,6 @@ module LogLineHelper
   def interesting_events
     @interesting_events ||= [
       TF2LineParser::Events::Kill,
-      TF2LineParser::Events::Spawn,
       TF2LineParser::Events::PointCapture,
       TF2LineParser::Events::RconCommand,
       TF2LineParser::Events::ConsoleSay,

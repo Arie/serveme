@@ -18,7 +18,11 @@ class DonatorsController < ApplicationController
   end
 
   def create
-    add_or_extend_donator || new
+    respond_to do |format|
+      format.html do
+        add_or_extend_donator || (new_donator && render(:new, status: :unprocessable_entity))
+      end
+    end
   end
 
   def edit

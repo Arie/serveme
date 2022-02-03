@@ -130,9 +130,10 @@ GEM
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
-    capistrano-sidekiq (1.0.3)
+    capistrano-sidekiq (2.0.0)
       capistrano (>= 3.9.0)
-      sidekiq (>= 3.4, < 6.0)
+      capistrano-bundler
+      sidekiq (>= 6.0)
     capistrano3-puma (4.0.0)
       capistrano (~> 3.7)
       capistrano-bundler
@@ -536,11 +537,10 @@ GEM
       faraday (>= 0.7.6, < 1.0)
     shoulda-matchers (5.1.0)
       activesupport (>= 5.2.0)
-    sidekiq (5.2.10)
-      connection_pool (~> 2.2, >= 2.2.2)
+    sidekiq (6.4.0)
+      connection_pool (>= 2.2.2)
       rack (~> 2.0)
-      rack-protection (>= 1.5.0)
-      redis (~> 4.5, < 4.6.0)
+      redis (>= 4.2.0)
     sidekiq-cron (1.2.0)
       fugit (~> 1.1)
       sidekiq (>= 4.2.1)
@@ -725,7 +725,7 @@ DEPENDENCIES
   sassc
   sentry-raven
   shoulda-matchers
-  sidekiq (< 6)
+  sidekiq (< 7)
   sidekiq-cron
   simple_form
   solargraph

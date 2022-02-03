@@ -5,6 +5,12 @@ GIT
     google_visualr (2.1.6)
 
 GIT
+  remote: https://github.com/Arie/remote_lock.git
+  revision: 1378242347e0418a6f91d7e2b0523866588d5785
+  specs:
+    remote_lock (1.2.0)
+
+GIT
   remote: https://github.com/koraktor/steam-condenser-ruby.git
   revision: 3ee580b5c5d390ee3a706357f18f2e9a2949e5c2
   specs:
@@ -98,7 +104,7 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (1.0.0)
       debug_inspector (>= 0.0.1)
-    bootsnap (1.10.2)
+    bootsnap (1.10.3)
       msgpack (~> 1.2)
     bootstrap (4.6.1)
       autoprefixer-rails (>= 9.1.0)
@@ -439,7 +445,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     rbzip2 (0.3.0)
-    redis (4.1.4)
+    redis (4.5.1)
     redis-actionpack (5.3.0)
       actionpack (>= 5, < 8)
       redis-rack (>= 2.1.0, < 3)
@@ -462,7 +468,6 @@ GEM
     regexp_parser (2.2.0)
     reline (0.3.1)
       io-console (~> 0.5)
-    remote_lock (1.1.0)
     request_store (1.5.1)
       rack (>= 1.4)
     responders (3.0.1)
@@ -494,7 +499,7 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.10.3)
-    rubocop (1.25.0)
+    rubocop (1.25.1)
       parallel (~> 1.10)
       parser (>= 3.1.0.0)
       rainbow (>= 2.2.2, < 4.0)
@@ -531,11 +536,11 @@ GEM
       faraday (>= 0.7.6, < 1.0)
     shoulda-matchers (5.1.0)
       activesupport (>= 5.2.0)
-    sidekiq (5.2.9)
+    sidekiq (5.2.10)
       connection_pool (~> 2.2, >= 2.2.2)
       rack (~> 2.0)
       rack-protection (>= 1.5.0)
-      redis (>= 3.3.5, < 4.2)
+      redis (~> 4.5, < 4.6.0)
     sidekiq-cron (1.2.0)
       fugit (~> 1.1)
       sidekiq (>= 4.2.1)
@@ -705,7 +710,7 @@ DEPENDENCIES
   redis (~> 4.0)
   redis-rack-cache
   redis-rails
-  remote_lock
+  remote_lock!
   rexml
   rspec-activemodel-mocks
   rspec-collection_matchers

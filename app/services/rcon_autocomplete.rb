@@ -285,7 +285,9 @@ class RconAutocomplete
       { command: 'tftrue_whitelist_id', description: 'Set the whitelist with TFTrue' },
       { command: 'tv_delay', description: 'Set the STV delay' },
       { command: 'tv_delaymapchange', description: 'Control map change delay to allow STV to finish broadcasting' },
-      { command: 'tv_delaymapchange_protect', description: 'Protect against doing a manual map change if HLTV is broadcasting and has not caught up with a major game event such as round_end' }
+      { command: 'tv_delaymapchange_protect', description: 'Protect against doing a manual map change if HLTV is broadcasting and has not caught up with a major game event such as round_end' },
+      { command: 'tv_record', description: 'Start STV recording' },
+      { command: 'tv_stoprecord', description: 'Stop STV recording' }
     ]
   end
 end

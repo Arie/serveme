@@ -269,8 +269,8 @@ ActiveRecord::Schema.define(version: 2022_02_11_133745) do
     t.string "provider", limit: 191
     t.string "name", limit: 191
     t.string "nickname", limit: 191
-    t.string "email", limit: 191, default: ""
-    t.string "encrypted_password", limit: 191, default: ""
+    t.string "email", limit: 191, default: "", null: false
+    t.string "encrypted_password", limit: 191, default: "", null: false
     t.string "reset_password_token", limit: 191
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -284,7 +284,7 @@ ActiveRecord::Schema.define(version: 2022_02_11_133745) do
     t.string "logs_tf_api_key"
     t.string "remember_token"
     t.string "time_zone"
-    t.string "api_key"
+    t.string "api_key", limit: 32
     t.float "latitude"
     t.float "longitude"
     t.integer "expired_reservations", default: 0

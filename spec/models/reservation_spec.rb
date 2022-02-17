@@ -375,16 +375,6 @@ describe Reservation do
         reservation.should have(:no).errors_on(:ends_at)
       end
 
-      it 'has an intial duration of no more than 3 hours for gameye servers' do
-        server = create(:server, type: 'GameyeServer')
-        reservation = build :reservation, starts_at: Time.current, ends_at: 181.minutes.from_now, user: user, server: server, gameye_location: 'frankfurt'
-        reservation.should have(1).error_on(:ends_at)
-        reservation.errors.full_messages.should include 'Ends at maximum reservation time is 3 hours'
-
-        reservation.ends_at = reservation.starts_at + 3.hours
-        reservation.should have(:no).errors_on(:ends_at)
-      end
-
       it 'gets extended with 1 hour at a time' do
         reservation = build :reservation, starts_at: Time.current, ends_at: 31.minutes.from_now, user: user
         reservation.stub(active?: true)
@@ -619,7 +609,6 @@ describe Reservation do
       server = double
       subject.stub(time_left: 1.minute)
       subject.stub(server: server)
-      subject.stub(gameye?: false)
 
       message = 'This reservation will end in less than 1 minute, if this server is not yet booked by someone else, you can say !extend for more time'
       server.should_receive(:rcon_say).with(message)
@@ -685,14 +674,5 @@ describe Reservation do
       subject.user = create(:user, current_sign_in_ip: '2a00:23c4:3cfd:c00:000:1b84:6fb8:bf21')
       expect(subject.whitelist_ip).to eql("direct.#{SITE_HOST}")
     end
-  end
-
-  it 'validates a gameye reservation do' do
-    reservation = build(:reservation)
-    reservation.gameye_location = 'frankfurt'
-    expect(reservation).to be_valid
-
-    reservation.gameye_location = 'lutjebroek'
-    expect(reservation).to_not be_valid
   end
 end

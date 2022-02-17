@@ -1,1 +1,0 @@
-Gameye.token = 'api-token'

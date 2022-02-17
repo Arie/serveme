@@ -6,7 +6,6 @@ class CleanupWorker
   def perform
     remove_old_reservation_logs_and_zips
     remove_old_statistics
-    deactivate_old_gameye_servers
     grant_api_keys_to_week_old_users
   end
 
@@ -20,12 +19,6 @@ class CleanupWorker
     old_player_statistics.delete_all
     old_server_statistics.delete_all
     old_reservation_statuses.delete_all
-  end
-
-  def deactivate_old_gameye_servers
-    GameyeServer.active.each do |s|
-      s.update_attribute(:active, false) unless s.current_reservation
-    end
   end
 
   def grant_api_keys_to_week_old_users

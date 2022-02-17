@@ -94,7 +94,7 @@ module ReservationsHelper
   private
 
   def reservation_params
-    permitted_params = %i[id password tv_password tv_relaypassword server_config_id whitelist_id custom_whitelist_id first_map auto_end enable_plugins enable_demos_tf gameye_location]
+    permitted_params = %i[id password tv_password tv_relaypassword server_config_id whitelist_id custom_whitelist_id first_map auto_end enable_plugins enable_demos_tf]
     permitted_params += %i[rcon server_id starts_at ends_at] if reservation.nil? || reservation&.schedulable?
     params.require(:reservation).permit(permitted_params)
   end

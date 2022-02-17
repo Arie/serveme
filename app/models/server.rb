@@ -13,7 +13,7 @@ class Server < ActiveRecord::Base
   validates_presence_of :name
   validates_presence_of :ip
   validates_presence_of :port
-  validates_presence_of :path, unless: :gameye?
+  validates_presence_of :path
 
   geocoded_by :host_to_ip
   before_save :geocode, if: :ip_changed?
@@ -21,7 +21,7 @@ class Server < ActiveRecord::Base
   delegate :flag, to: :location, prefix: true, allow_nil: true
 
   def self.reservable_by_user(user)
-    where(id: ids_reservable_by_user(user)).where('servers.type != ?', 'GameyeServer')
+    where(id: ids_reservable_by_user(user))
   end
 
   def self.ids_reservable_by_user(user)
@@ -42,10 +42,6 @@ class Server < ActiveRecord::Base
 
   def self.with_group
     joins(:groups)
-  end
-
-  def self.gameye
-    where('servers.type = ?', 'GameyeServer')
   end
 
   def self.active
@@ -332,10 +328,6 @@ class Server < ActiveRecord::Base
 
   def server_info
     @server_info ||= ServerInfo.new(self)
-  end
-
-  def gameye?
-    instance_of?(GameyeServer)
   end
 
   def tv_port

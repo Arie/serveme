@@ -17,29 +17,6 @@ class ReservationsController < ApplicationController
     @reservation.generate_rcon_password! if @reservation.poor_rcon_password?
   end
 
-  def new_gameye
-    @gameye_locations = GameyeServer.locations
-    if user_made_two_very_short_reservations_in_last_ten_minutes?
-      flash[:alert] = 'You made 2 very short reservations in the last ten minutes, please wait a bit before making another one. If there was a problem with your server, let us know in the comments below'
-      redirect_to root_path
-    end
-    @reservation ||= new_reservation
-    @reservation.generate_rcon_password! if @reservation.poor_rcon_password?
-  end
-
-  def create_gameye
-    @reservation = current_user.reservations.build(reservation_params)
-    if @reservation.valid?
-      $lock.synchronize('save-reservation-server-gameye') do
-        @reservation.save!
-      end
-      reservation_saved if @reservation.persisted?
-    else
-      @gameye_locations = GameyeServer.locations
-      render :new_gameye
-    end
-  end
-
   def create
     @reservation = current_user.reservations.build(reservation_params)
     if @reservation.valid?
@@ -99,19 +76,7 @@ class ReservationsController < ApplicationController
 
   def show
     if reservation
-      if reservation.gameye_location.present?
-        render :show_gameye
-      else
-        render :show
-      end
-    else
-      redirect_to new_reservation_path
-    end
-  end
-
-  def gameye
-    if reservation
-      render :show_gameye
+      render :show
     else
       redirect_to new_reservation_path
     end
@@ -218,18 +183,10 @@ class ReservationsController < ApplicationController
   def reservation_saved
     if @reservation.now?
       @reservation.update_attribute(:start_instantly, true)
-      if @reservation.gameye?
-        ReservationWorker.new.perform(reservation.id, 'start')
-        flash[:notice] = 'Match started on Gameye. The server is now being configured, give it a minute to boot'
-        redirect_to gameye_path(@reservation)
-      else
-        @reservation.start_reservation
-        flash[:notice] = "Reservation created for #{@reservation.server_name}. The server is now being configured, give it a minute to start".html_safe
-        redirect_to reservation_path(@reservation)
-      end
-    else
-      redirect_to reservation_path(@reservation)
+      @reservation.start_reservation
+      flash[:notice] = "Reservation created for #{@reservation.server_name}. The server is now being configured, give it a minute to start".html_safe
     end
+    redirect_to reservation_path(@reservation)
   end
 
   def user_made_two_very_short_reservations_in_last_ten_minutes?

@@ -18,7 +18,6 @@ json.enable_demos_tf reservation.enable_demos_tf
 json.sdr_ip reservation.sdr_ip
 json.sdr_port reservation.sdr_port
 json.sdr_tv_port reservation.sdr_tv_port
-json.gameye_location reservation.gameye_location if reservation.gameye_location
 if reservation.persisted?
   json.id reservation.id
   json.last_number_of_players reservation.last_number_of_players

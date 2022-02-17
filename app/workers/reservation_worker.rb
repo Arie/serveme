@@ -14,10 +14,6 @@ class ReservationWorker
       $lock.synchronize("server-#{reservation.server_id}", retries: 7, initial_wait: 0.5, expiry: 2.minutes) do
         reservation.server.send("#{action}_reservation", reservation)
       end
-    else
-      $lock.synchronize("server-gameye-#{reservation.id}", retries: 7, initial_wait: 0.5, expiry: 2.minutes) do
-        GameyeServer.send("#{action}_reservation", reservation)
-      end
     end
     send("after_#{action}_reservation_steps") if reservation
     Rails.logger.info "#{action.capitalize}ed reservation: #{reservation}"

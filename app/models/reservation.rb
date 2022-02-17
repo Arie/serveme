@@ -101,7 +101,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def extend!
-    return unless less_than_1_hour_left? && !gameye?
+    return unless less_than_1_hour_left?
 
     self.extending  = true
     self.ends_at    = ends_at + user.reservation_extension_time
@@ -128,11 +128,7 @@ class Reservation < ActiveRecord::Base
   def warn_nearly_over
     time_left_in_minutes  = (time_left / 60.0).ceil
     time_left_text        = I18n.t(:timeleft, count: time_left_in_minutes)
-    if gameye?
-      server.rcon_say("This reservation will end in less than #{time_left_text}, it cannot be extended")
-    else
-      server.rcon_say("This reservation will end in less than #{time_left_text}, if this server is not yet booked by someone else, you can say !extend for more time")
-    end
+    server.rcon_say("This reservation will end in less than #{time_left_text}, if this server is not yet booked by someone else, you can say !extend for more time")
     server.rcon_disconnect
   end
 
@@ -234,7 +230,6 @@ class Reservation < ActiveRecord::Base
     return 'Server updating, please be patient' if status_messages.grep(/\AServer outdated/).any?
 
     return 'Starting' if status_messages.include?('Starting')
-    return 'Starting' if status_messages.grep(/\ACreated Gameye match/).any?
 
     return 'Waiting to start' if status_messages.include?('Waiting to start')
 
@@ -255,10 +250,6 @@ class Reservation < ActiveRecord::Base
     return user.reservation_players.last.ip if user.reservation_players.exists?
 
     "direct.#{SITE_HOST}"
-  end
-
-  def gameye?
-    gameye_location.present? || server&.gameye?
   end
 
   def logs_tf_url

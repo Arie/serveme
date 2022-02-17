@@ -29,7 +29,7 @@ describe Reservation do
 
     it "sets an error if the whitelist couldn't be downloaded" do
       reservation = build(:reservation, custom_whitelist_id: 103)
-      Faraday.should_receive(:new).with(anything).and_raise(Faraday::Error::ClientError.new('foo'))
+      Faraday.should_receive(:new).with(anything).and_raise(Faraday::ClientError.new('foo'))
       reservation.should have(1).error_on(:custom_whitelist_id)
     end
   end

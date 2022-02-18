@@ -29,13 +29,13 @@ class CollisionFinder
   # ----XXXXXXXXXXXX----
   # -------YYYYY--------
   def front_rear_and_internal_collisions
-    colliding_with.where('reservations.starts_at' => range) + colliding_with.where('reservations.ends_at' => range)
+    colliding_with.where(ended: false).where('reservations.starts_at' => range) + colliding_with.where('reservations.ends_at' => range)
   end
 
   # ------XXXXXX--------
   # ---YYYYYYYYYYYY-----
   def overlap_collisions
-    colliding_with.where('reservations.starts_at < ? AND reservations.ends_at > ?', starts_at, ends_at)
+    colliding_with.where(ended: false).where('reservations.starts_at < ? AND reservations.ends_at > ?', starts_at, ends_at)
   end
 
   def range

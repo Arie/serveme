@@ -47,7 +47,8 @@ class ReservationPlayer < ActiveRecord::Base
       76_561_198_156_399_565, # Possible Clx alt
       76_561_198_280_266_851, # Clx leaker Bread
       76_561_197_964_387_679, # 0x0258deaD DDoSer
-      76_561_199_186_114_313  # Impersonating serveme.tf personnel
+      76_561_199_186_114_313, # Impersonating serveme.tf personnel
+      76_561_198_115_628_975, 76_561_199_068_844_385 # Match invader thu4der
     ].include?(steam_id64.to_i)
   end
 

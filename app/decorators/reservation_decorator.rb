@@ -5,7 +5,7 @@ class ReservationDecorator < Draper::Decorator
   delegate_all
 
   def server_name
-    flag + server.name
+    (server && (flag + server.name)) || 'Unknown server'
   end
 
   def flag

@@ -6,7 +6,6 @@ module Api
 
     def index
       @maps = MapUpload.available_maps
-      @cloud_maps = MapUpload.available_cloud_maps
     end
   end
 end

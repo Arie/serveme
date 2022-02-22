@@ -148,8 +148,27 @@ describe Api::ReservationsController do
 
       post :idle_reset, params: { id: reservation.id }, format: :json
 
-      response.status.should == 200
+      expect(response.status).to eql 200
       expect(response.body).to match_json_expression(json)
+    end
+  end
+
+  describe '#extends' do
+    it 'extends the reservation' do
+      reservation = create :reservation, user: @user, starts_at: Time.current, ends_at: 50.minutes.from_now, provisioned: true
+
+      post :extend, params: { id: reservation.id }, format: :json
+
+      expect(response.status).to eql 200
+    end
+
+    it 'returns bad request if not extendable' do
+      reservation = create :reservation, user: @user, starts_at: Time.current, ends_at: 50.minutes.from_now, provisioned: true
+      _conflicting_reservation = create :reservation, server_id: reservation.server_id, starts_at: 1.hour.from_now, ends_at: 2.hours.from_now
+
+      post :extend, params: { id: reservation.id }, format: :json
+
+      expect(response.status).to eql 400
     end
   end
 

@@ -103,6 +103,7 @@ Serveme::Application.routes.draw do
     resources :reservations do
       member do
         post :idle_reset
+        post :extend
       end
       collection do
         post :find_servers

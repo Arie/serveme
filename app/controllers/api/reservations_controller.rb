@@ -58,6 +58,14 @@ module Api
       render :show
     end
 
+    def extend
+      if reservation.extend!
+        render :show
+      else
+        render :show, status: :bad_request
+      end
+    end
+
     private
 
     def reservations_scope

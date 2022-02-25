@@ -119,6 +119,7 @@ Serveme::Application.routes.draw do
   get   '/faq',                           to: 'pages#faq',                 as: 'faq'
   get   '/credits',                       to: 'pages#credits',             as: 'credits'
   get   '/server-providers',              to: 'pages#server_providers',    as: 'server_providers'
+  get   '/no-to-war',                     to: 'pages#no_to_war',           as: 'no_to_war'
   get   '/your-reservations',             to: 'reservations#index',        as: 'your_reservations'
   get   '/reservations-played',           to: 'reservations#played_in',    as: 'played_in'
   get   '/recent-reservations',           to: 'pages#recent_reservations', as: 'recent_reservations'

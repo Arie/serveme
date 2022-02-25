@@ -12,7 +12,7 @@
     = render 'shared/google_analytics'
     = render 'shared/fullstory'
     %meta{:name => "viewport",    :content => "width=device-width, initial-scale=1.0, shrink-to-fit=no"}
-    %meta{:name => "description", :content => "Free TF2 servers, ready for action in 60 seconds!"}
+    %meta{:name => "description", :content => content_for(:meta_description) || "Free TF2 servers, ready for action in 60 seconds!"}
     = content_for(:head)
   %body
 

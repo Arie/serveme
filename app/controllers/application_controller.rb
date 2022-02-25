@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_action :authenticate_user!
   before_action :set_time_zone
+  before_action :redirect_if_country_banned
 
   def set_time_zone
     set_time_zone_from_current_user || set_time_zone_from_cookie || set_default_time_zone
@@ -84,5 +85,24 @@ class ApplicationController < ActionController::Base
       flash[:notice] = 'Please log in first'
       redirect_to new_session_path
     end
+  end
+
+  def redirect_if_country_banned
+    return if current_user&.donator?
+
+    redirect_to no_to_war_path if current_user&.banned_country? || ReservationPlayer.banned_country?(request.remote_ip) || recent_banned_country_ips?
+  end
+
+  def recent_banned_country_ips?
+    return false unless current_user
+
+    current_user
+      .reservation_players
+      .joins(:reservation)
+      .where('reservations.created_at > ?', 1.month.ago)
+      .pluck(:ip)
+      .compact
+      .uniq
+      .any? { |ip| ReservationPlayer.banned_country?(ip) }
   end
 end

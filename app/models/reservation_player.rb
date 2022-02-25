@@ -53,9 +53,7 @@ class ReservationPlayer < ActiveRecord::Base
   end
 
   def self.banned_ip?(ip)
-    banned_ranges.any? do |range|
-      range.include?(ip)
-    end
+    banned_ranges.any? { |range| range.include?(ip) }
   end
 
   def self.banned_ranges
@@ -67,5 +65,12 @@ class ReservationPlayer < ActiveRecord::Base
       IPAddr.new('24.133.100.0/22'), # Bread
       IPAddr.new('176.40.96.0/21') # 0x0258deaD DDoSer
     ]
+  end
+
+  def self.banned_country?(ip)
+    geocode_result = Geocoder.search(ip).first
+    return false unless geocode_result
+
+    %w[BY RU].include?(geocode_result.country_code)
   end
 end

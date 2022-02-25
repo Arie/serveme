@@ -117,6 +117,10 @@ class User < ActiveRecord::Base
     na_timezone? || na_sign_in_ip?
   end
 
+  def banned_country?
+    current_sign_in_ip_ipv4? && ReservationPlayer.banned_country?(current_sign_in_ip)
+  end
+
   private
 
   def na_timezone?

@@ -47,7 +47,10 @@ class ReservationPlayer < ActiveRecord::Base
       76_561_198_156_399_565, # Possible Clx alt
       76_561_198_280_266_851, # Clx leaker Bread
       76_561_197_964_387_679, # 0x0258deaD DDoSer
-      76_561_199_186_114_313  # Impersonating serveme.tf personnel
+      76_561_199_186_114_313, # Impersonating serveme.tf personnel
+      76_561_198_097_128_562, 76_561_199_226_136_505, 76_561_199_026_793_931, 76_561_199_141_265_306, 76_561_199_189_559_241, 76_561_199_149_311_904, 76_561_198_403_395_498, 76_561_199_141_265_306, # Elk match invader
+      76_561_199_062_609_974, 76_561_198_238_170_280, 76_561_199_208_354_375, 76_561_198_091_464_403, 76_561_197_962_267_804, 76_561_199_200_781_287, 76_561_199_162_197_644, 76_561_199_132_066_910, # Cheeto match invader
+      76_561_198_010_119_675,	76_561_199_199_088_995, 76_561_199_182_194_444, 76_561_199_129_444_220 # Cheeto match invader
     ].include?(steam_id64.to_i)
   end
 
@@ -62,7 +65,9 @@ class ReservationPlayer < ActiveRecord::Base
       IPAddr.new('82.222.236.0/22'), # Clx
       IPAddr.new('46.166.176.0/21'), # Clx
       IPAddr.new('24.133.100.0/22'), # Bread
-      IPAddr.new('176.40.96.0/21') # 0x0258deaD DDoSer
+      IPAddr.new('176.40.96.0/21'), # 0x0258deaD DDoSer
+      IPAddr.new('69.247.46.46/32'), # Match invader
+      IPAddr.new('65.96.32.73/32') # Match invader
     ]
   end
 

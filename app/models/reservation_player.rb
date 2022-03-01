@@ -43,7 +43,7 @@ class ReservationPlayer < ActiveRecord::Base
     [
       76_561_198_310_925_535, 76_561_199_116_364_920, 76_561_198_113_294_936, # Clx
       76_561_199_165_871_973, 76_561_199_164_609_965, 76_561_199_164_115_386, 76_561_199_146_255_686, # Clx
-      76_561_199_166_660_740, # Clx
+      76_561_199_166_660_740, 76_561_199_135_772_351, # Clx
       76_561_198_156_399_565, # Possible Clx alt
       76_561_198_280_266_851, # Clx leaker Bread
       76_561_197_964_387_679, # 0x0258deaD DDoSer
@@ -64,6 +64,7 @@ class ReservationPlayer < ActiveRecord::Base
       IPAddr.new('162.253.68.0/22'), # Clx
       IPAddr.new('82.222.236.0/22'), # Clx
       IPAddr.new('46.166.176.0/21'), # Clx
+      IPAddr.new('45.89.173.0/24'), # Clx
       IPAddr.new('24.133.100.0/22'), # Bread
       IPAddr.new('176.40.96.0/21'), # 0x0258deaD DDoSer
       IPAddr.new('69.247.46.46/32'), # Match invader

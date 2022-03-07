@@ -8,14 +8,16 @@ class IAmFeelingLucky
   end
 
   def build_reservation
-    new_reservation_attributes = { starts_at: starts_at,
-                                   ends_at: ends_at }
+    new_reservation_attributes = {
+      starts_at: starts_at,
+      ends_at: ends_at
+    }
     user.reservations.build(base_attributes.merge(new_reservation_attributes))
   end
 
   def base_attributes
     if previous_reservation
-      previous_reservation.reusable_attributes.merge('server' => best_matching_server)
+      previous_reservation.reusable_attributes.merge('server' => best_matching_server, 'enable_plugins' => previous_reservation.enable_plugins?)
     else
       new_reservation_attributes
     end

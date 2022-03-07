@@ -37,7 +37,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def self.future
-    where('reservations.starts_at > ?', Time.current)
+    where('reservations.starts_at >= ?', Time.current)
   end
 
   def self.current

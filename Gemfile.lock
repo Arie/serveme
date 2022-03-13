@@ -111,7 +111,7 @@ GEM
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
     builder (3.2.4)
-    capistrano (3.16.0)
+    capistrano (3.17.0)
       airbrussh (>= 1.0.0)
       i18n
       rake (>= 10.0.0)
@@ -622,7 +622,7 @@ GEM
       concurrent-ruby (~> 1.0)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.8)
+    unf_ext (0.0.8.1)
     unicode-display_width (2.1.0)
     vcr (6.0.0)
     warden (1.2.9)

@@ -249,7 +249,7 @@ GEM
       tzinfo
     eventmachine (1.2.7)
     execjs (2.8.1)
-    factory_bot (6.2.0)
+    factory_bot (6.2.1)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
@@ -320,7 +320,7 @@ GEM
       thor (>= 0.14, < 2.0)
     json (2.6.1)
     json_expressions (0.9.0)
-    kramdown (2.3.1)
+    kramdown (2.3.2)
       rexml
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
@@ -398,7 +398,7 @@ GEM
       multi_json
       omniauth-openid
     orm_adapter (0.5.0)
-    parallel (1.21.0)
+    parallel (1.22.0)
     parallel_tests (3.7.3)
       parallel
     parser (3.1.1.0)

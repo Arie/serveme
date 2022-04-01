@@ -53,10 +53,6 @@ Serveme::Application.routes.draw do
     end
   end
 
-  get 'gameye/reservations/new', to: 'reservations#new_gameye'
-  post 'gameye/reservations/create', to: 'reservations#create_gameye'
-  get 'gameye/reservations/:id', to: 'reservations#show_gameye', as: :gameye
-
   resources :map_uploads, only: %i[new create]
   resources :file_uploads, only: %i[new create show]
 
@@ -107,6 +103,7 @@ Serveme::Application.routes.draw do
     resources :reservations do
       member do
         post :idle_reset
+        post :extend
       end
       collection do
         post :find_servers
@@ -122,6 +119,7 @@ Serveme::Application.routes.draw do
   get   '/faq',                           to: 'pages#faq',                 as: 'faq'
   get   '/credits',                       to: 'pages#credits',             as: 'credits'
   get   '/server-providers',              to: 'pages#server_providers',    as: 'server_providers'
+  get   '/no-to-war',                     to: 'pages#no_to_war',           as: 'no_to_war'
   get   '/your-reservations',             to: 'reservations#index',        as: 'your_reservations'
   get   '/reservations-played',           to: 'reservations#played_in',    as: 'played_in'
   get   '/recent-reservations',           to: 'pages#recent_reservations', as: 'recent_reservations'

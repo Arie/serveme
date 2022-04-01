@@ -14,11 +14,7 @@ module Reservations
     private
 
     def maximum_reservation_length(record)
-      if record.gameye?
-        3.hours
-      else
-        record.user.maximum_reservation_length
-      end
+      record.user.maximum_reservation_length
     end
   end
 end

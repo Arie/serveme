@@ -43,17 +43,18 @@ class ReservationPlayer < ActiveRecord::Base
     [
       76_561_198_310_925_535, 76_561_199_116_364_920, 76_561_198_113_294_936, # Clx
       76_561_199_165_871_973, 76_561_199_164_609_965, 76_561_199_164_115_386, 76_561_199_146_255_686, # Clx
-      76_561_199_166_660_740, # Clx
+      76_561_199_166_660_740, 76_561_199_135_772_351, # Clx
       76_561_198_156_399_565, # Possible Clx alt
       76_561_198_280_266_851, # Clx leaker Bread
-      76_561_197_964_387_679 # 0x0258deaD DDoSer
+      76_561_197_964_387_679, # 0x0258deaD DDoSer
+      76_561_199_186_114_313, # Impersonating serveme.tf personnel
+      76_561_199_226_136_505, 76_561_198_097_128_562, 76_561_199_026_793_931, 76_561_199_141_265_306, 76_561_199_189_559_241, 76_561_199_149_311_904, 76_561_198_403_395_498, 76_561_199_141_265_306, # Elk match invader
+      76_561_199_062_609_974, 76_561_198_238_170_280 # Cheeto match invader
     ].include?(steam_id64.to_i)
   end
 
   def self.banned_ip?(ip)
-    banned_ranges.any? do |range|
-      range.include?(ip)
-    end
+    banned_ranges.any? { |range| range.include?(ip) }
   end
 
   def self.banned_ranges
@@ -62,8 +63,18 @@ class ReservationPlayer < ActiveRecord::Base
       IPAddr.new('162.253.68.0/22'), # Clx
       IPAddr.new('82.222.236.0/22'), # Clx
       IPAddr.new('46.166.176.0/21'), # Clx
+      IPAddr.new('45.89.173.0/24'), # Clx
       IPAddr.new('24.133.100.0/22'), # Bread
-      IPAddr.new('176.40.96.0/21') # 0x0258deaD DDoSer
+      IPAddr.new('176.40.96.0/21'), # 0x0258deaD DDoSer
+      IPAddr.new('69.247.46.46/32'), # Match invader
+      IPAddr.new('65.96.32.73/32') # Match invader
     ]
+  end
+
+  def self.banned_country?(ip)
+    geocode_result = Geocoder.search(ip).first
+    return false unless geocode_result
+
+    %w[BY RU].include?(geocode_result.country_code)
   end
 end

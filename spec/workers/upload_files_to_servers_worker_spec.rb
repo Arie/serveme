@@ -30,13 +30,4 @@ describe UploadFilesToServersWorker do
       UploadFilesToServersWorker.perform_async('files' => files, 'destination' => destination, 'overwrite' => true)
     end
   end
-
-  describe '.servers' do
-    it 'doesnt try to copy to GameyeServers' do
-      server = create :server, active: true
-      _gameye_server = create :server, active: true, type: 'GameyeServer'
-
-      described_class.servers.should == [server]
-    end
-  end
 end

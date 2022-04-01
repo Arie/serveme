@@ -23,6 +23,6 @@ class UploadFilesToServersWorker
   end
 
   def self.servers
-    Server.active.where('type != ?', 'GameyeServer')
+    Server.active
   end
 end

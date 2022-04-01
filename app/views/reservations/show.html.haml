@@ -1,5 +1,14 @@
 = turbo_stream_from @reservation
 
+- title = "Reservation: #{reservation.to_s}"
+- content_for :title do
+  = title
+- content_for :meta_description do
+  = title
+
+- content_for :head do
+  = render "shared/meta_tags", title: title, description: title, url: reservation_url(reservation)
+
 %h3
   Reservation:
   = reservation.to_s

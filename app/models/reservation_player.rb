@@ -48,7 +48,8 @@ class ReservationPlayer < ActiveRecord::Base
       76_561_198_280_266_851, # Clx leaker Bread
       76_561_197_964_387_679, # 0x0258deaD DDoSer
       76_561_199_186_114_313, # Impersonating serveme.tf personnel
-      76_561_199_062_609_974, 76_561_198_238_170_280 # Cheeto match invader
+      76_561_199_062_609_974, 76_561_198_238_170_280, 76_561_199_208_354_375, 76_561_199_199_088_995, # Cheeto match invader
+      76_561_198_091_464_403, 76_561_199_132_066_910, 76_561_197_962_267_804 # Cheeto match invader
     ].include?(steam_id64.to_i)
   end
 

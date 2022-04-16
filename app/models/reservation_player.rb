@@ -63,8 +63,7 @@ class ReservationPlayer < ActiveRecord::Base
       IPAddr.new('46.166.176.0/21'), # Clx
       IPAddr.new('45.89.173.0/24'), # Clx
       IPAddr.new('24.133.100.0/22'), # Bread
-      IPAddr.new('176.40.96.0/21'), # 0x0258deaD DDoSer
-      IPAddr.new('69.247.46.46/32') # Match invader
+      IPAddr.new('176.40.96.0/21') # 0x0258deaD DDoSer
     ]
   end
 

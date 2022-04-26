@@ -50,7 +50,9 @@ class ReservationPlayer < ActiveRecord::Base
       76_561_199_186_114_313, # Impersonating serveme.tf personnel
       76_561_199_062_609_974, 76_561_198_238_170_280, 76_561_199_208_354_375, 76_561_199_199_088_995, # Cheeto match invader
       76_561_198_091_464_403, 76_561_199_132_066_910, 76_561_197_962_267_804, 76_561_199_200_781_287, # Cheeto match invader
-      76_561_198_347_491_669 # Cheeto match invader
+      76_561_198_347_491_669, # Cheeto match invader
+      76_561_199_251_574_288, 76_561_198_091_464_403, # semiperf log spammer
+      76_561_198_167_446_102, 76_561_198_081_019_811, 76_561_199_129_719_751 # sandstoner log spammer
     ].include?(steam_id64.to_i)
   end
 
@@ -71,7 +73,9 @@ class ReservationPlayer < ActiveRecord::Base
       IPAddr.new('198.54.128.0/24'), # Cheeto match invader
       IPAddr.new('45.134.142.0/24'), # Cheeto match invader
       IPAddr.new('94.198.42.0/24'), # Cheeto match invader
-      IPAddr.new('193.27.12.0/24') # Cheeto match invader
+      IPAddr.new('193.27.12.0/24'), # Cheeto match invader
+      IPAddr.new('75.131.150.35/32'), # semiperf log spammer
+      IPAddr.new('73.55.161.142/32') # sandstoner log spammer
     ]
   end
 

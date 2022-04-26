@@ -47,7 +47,10 @@ class ReservationPlayer < ActiveRecord::Base
       76_561_198_156_399_565, # Possible Clx alt
       76_561_198_280_266_851, # Clx leaker Bread
       76_561_197_964_387_679, # 0x0258deaD DDoSer
-      76_561_199_186_114_313 # Impersonating serveme.tf personnel
+      76_561_199_186_114_313, # Impersonating serveme.tf personnel
+      76_561_199_062_609_974, 76_561_198_238_170_280, 76_561_199_208_354_375, 76_561_199_199_088_995, # Cheeto match invader
+      76_561_198_091_464_403, 76_561_199_132_066_910, 76_561_197_962_267_804, 76_561_199_200_781_287, # Cheeto match invader
+      76_561_198_347_491_669 # Cheeto match invader
     ].include?(steam_id64.to_i)
   end
 
@@ -63,7 +66,12 @@ class ReservationPlayer < ActiveRecord::Base
       IPAddr.new('46.166.176.0/21'), # Clx
       IPAddr.new('45.89.173.0/24'), # Clx
       IPAddr.new('24.133.100.0/22'), # Bread
-      IPAddr.new('176.40.96.0/21') # 0x0258deaD DDoSer
+      IPAddr.new('176.40.96.0/21'), # 0x0258deaD DDoSer
+      IPAddr.new('69.247.46.46/32'), # Cheeto match invader
+      IPAddr.new('198.54.128.0/24'), # Cheeto match invader
+      IPAddr.new('45.134.142.0/24'), # Cheeto match invader
+      IPAddr.new('94.198.42.0/24'), # Cheeto match invader
+      IPAddr.new('193.27.12.0/24') # Cheeto match invader
     ]
   end
 

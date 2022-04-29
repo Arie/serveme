@@ -75,6 +75,8 @@ class ReservationPlayer < ActiveRecord::Base
       IPAddr.new('94.198.42.0/24'), # Cheeto match invader
       IPAddr.new('193.27.12.0/24'), # Cheeto match invader
       IPAddr.new('75.131.150.35/32'), # semiperf log spammer
+      IPAddr.new('68.116.180.185/32'), # semiperf log spammer
+      IPAddr.new('75.131.148.146/32'), # semiperf log spammer
       IPAddr.new('73.55.161.142/32') # sandstoner log spammer
     ]
   end

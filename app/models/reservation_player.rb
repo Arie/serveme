@@ -29,30 +29,30 @@ class ReservationPlayer < ActiveRecord::Base
     return true unless steam_id64
 
     [
-      76_561_198_194_941_135, # Despair, shares ISP with Gremlin
-      76_561_198_253_170_562, # Shock, shares ISP with Gremlin
-      76_561_198_378_191_199, # Sori666, shares ISP with Gremlin
-      76_561_198_360_811_196, # Sun Tzu, shares ISP with Clx
-      76_561_198_238_943_688, # Flewvar, shares ISP with Clx
-      76_561_198_167_849_935, # Laggy Lanny, shares IP with Gremlin
-      76_561_198_210_526_425  # Still, shares IP with Gremlin
-    ].include?(steam_id64.to_i)
+      76561198194941135, # Despair, shares ISP with Gremlin
+      76561198253170562, # Shock, shares ISP with Gremlin
+      76561198378191199, # Sori666, shares ISP with Gremlin
+      76561198360811196, # Sun Tzu, shares ISP with Clx
+      76561198238943688, # Flewvar, shares ISP with Clx
+      76561198167849935, # Laggy Lanny, shares IP with Gremlin
+      76561198210526425  # Still, shares IP with Gremlin
+    ].include?(steam_id64.toi)
   end
 
-  def self.banned_uid?(steam_id64)
+  def self.banned_uid?(steamid_64)
     [
-      76_561_198_310_925_535, 76_561_199_116_364_920, 76_561_198_113_294_936, # Clx
-      76_561_199_165_871_973, 76_561_199_164_609_965, 76_561_199_164_115_386, 76_561_199_146_255_686, # Clx
-      76_561_199_166_660_740, 76_561_199_135_772_351, # Clx
-      76_561_198_156_399_565, # Possible Clx alt
-      76_561_198_280_266_851, # Clx leaker Bread
-      76_561_197_964_387_679, # 0x0258deaD DDoSer
-      76_561_199_186_114_313, # Impersonating serveme.tf personnel
-      76_561_199_062_609_974, 76_561_198_238_170_280, 76_561_199_208_354_375, 76_561_199_199_088_995, # Cheeto match invader
-      76_561_198_091_464_403, 76_561_199_132_066_910, 76_561_197_962_267_804, 76_561_199_200_781_287, # Cheeto match invader
-      76_561_198_347_491_669, # Cheeto match invader
-      76_561_199_251_574_288, 76_561_198_091_464_403, # semiperf log spammer
-      76_561_198_167_446_102, 76_561_198_081_019_811, 76_561_199_129_719_751 # sandstoner log spammer
+      76561198310925535, 76561199116364920, 76561198113294936, # Clx
+      76561199165871973, 76561199164609965, 76561199164115386, 76561199146255686, # Clx
+      76561199166660740, 76561199135772351, # Clx
+      76561198156399565, # Possible Clx alt
+      76561198280266851, # Clx leaker Bread
+      76561197964387679, # 0x0258deaD DDoSer
+      76561199186114313, # Impersonating serveme.tf personnel
+      76561199062609974, 76561198238170280, 76561199208354375, 76561199199088995, # Cheeto match invader
+      76561198091464403, 76561199132066910, 76561197962267804, 76561199200781287, # Cheeto match invader
+      76561198347491669, # Cheeto match invader
+      76561199251574288, 76561198091464403, # semiperf log spammer
+      76561198167446102, 76561198081019811, 76561199129719751, 76561199178857855, 76561199133700932 # sandstoner log spammer
     ].include?(steam_id64.to_i)
   end
 

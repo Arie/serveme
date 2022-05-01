@@ -36,10 +36,10 @@ class ReservationPlayer < ActiveRecord::Base
       76561198238943688, # Flewvar, shares ISP with Clx
       76561198167849935, # Laggy Lanny, shares IP with Gremlin
       76561198210526425  # Still, shares IP with Gremlin
-    ].include?(steam_id64.toi)
+    ].include?(steam_id64.to_i)
   end
 
-  def self.banned_uid?(steamid_64)
+  def self.banned_uid?(steam_id64)
     [
       76561198310925535, 76561199116364920, 76561198113294936, # Clx
       76561199165871973, 76561199164609965, 76561199164115386, 76561199146255686, # Clx

@@ -36,3 +36,6 @@ Style/FormatStringToken:
 
 Layout/LineLength:
    Enabled: false
+
+NumericLiterals:
+  Enabled: false

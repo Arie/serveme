@@ -30,7 +30,7 @@ set :puma_init_active_record, true
 set :puma_preload_app, false
 
 # Default value for :linked_files is []
-set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/puma/production.rb', 'config/initializers/locale.rb', 'config/initializers/steam_api_key.rb', 'config/paypal.yml', 'config/stripe.yml', 'config/initializers/raven.rb', 'config/initializers/logs_tf_api_key.rb', 'config/initializers/demos_tf_api_key.rb', 'config/initializers/maps_dir.rb', 'config/initializers/secret_token.rb', 'config/initializers/devise.rb', 'config/initializers/site_url.rb', 'doc/GeoLite2-City.mmdb', 'config/cacert.pem')
+set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/puma/production.rb', 'config/initializers/locale.rb', 'config/initializers/steam_api_key.rb', 'config/paypal.yml', 'config/stripe.yml', 'config/initializers/raven.rb', 'config/initializers/logs_tf_api_key.rb', 'config/initializers/demos_tf_api_key.rb', 'config/initializers/maps_dir.rb', 'config/initializers/secret_token.rb', 'config/initializers/devise.rb', 'config/initializers/site_url.rb', 'doc/GeoLite2-City.mmdb', 'doc/GeoLite2-ASN.mmdb', 'config/cacert.pem')
 
 # Default value for linked_dirs is []
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/uploads', 'public/system', 'server_logs')

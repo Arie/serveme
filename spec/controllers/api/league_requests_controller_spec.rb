@@ -17,7 +17,7 @@ describe Api::LeagueRequestsController do
 
   describe '#index' do
     it 'renders a json with leugue request results' do
-      get :index, format: :json, params: { league_request: { ip: @suspect_ip }}
+      get :index, format: :json, params: { league_request: { cross_reference: true, ip: @suspect_ip }}
       expect(response.body).to include(@suspect_uid)
       expect(response.body).to include(@suspect_ip)
       expect(response.body).not_to include(@other_player.steam_uid)

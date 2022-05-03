@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ReservationPlayer < ActiveRecord::Base
+  require 'csv'
   require 'ipaddr'
   belongs_to :reservation
   has_one :server, through: :reservation, autosave: false
@@ -50,9 +51,10 @@ class ReservationPlayer < ActiveRecord::Base
       76561199186114313, # Impersonating serveme.tf personnel
       76561199062609974, 76561198238170280, 76561199208354375, 76561199199088995, # Cheeto match invader
       76561198091464403, 76561199132066910, 76561197962267804, 76561199200781287, # Cheeto match invader
-      76561198347491669, 76561199162197644, # Cheeto match invader
+      76561198347491669, 76561199162197644, 76561199074642692, 76561199275915828, # Cheeto match invader
       76561199251574288, 76561198091464403, # semiperf log spammer
-      76561198167446102, 76561198081019811, 76561199129719751, 76561199178857855, 76561199133700932 # sandstoner log spammer
+      76561198167446102, 76561198081019811, 76561199129719751, 76561199178857855, # sandstoner log spammer
+      76561199133700932, 76561198035013366 # sandstoner log spammer
     ].include?(steam_id64.to_i)
   end
 
@@ -74,11 +76,27 @@ class ReservationPlayer < ActiveRecord::Base
       IPAddr.new('45.134.142.0/24'), # Cheeto match invader
       IPAddr.new('94.198.42.0/24'), # Cheeto match invader
       IPAddr.new('193.27.12.0/24'), # Cheeto match invader
+      IPAddr.new('89.45.224.0/24'), # Cheeto match invader
+      IPAddr.new('87.249.134.0/24'), # Cheeto match invader
       IPAddr.new('75.131.150.35/32'), # semiperf log spammer
       IPAddr.new('68.116.180.185/32'), # semiperf log spammer
       IPAddr.new('75.131.148.146/32'), # semiperf log spammer
-      IPAddr.new('73.55.161.142/32') # sandstoner log spammer
+      IPAddr.new('73.55.161.142/32'), # sandstoner log spammer
+      IPAddr.new('24.200.212.144/32') # sandstoner log spammer
     ]
+  end
+
+  def self.banned_asn?(ip)
+    asn = $maxmind_asn.asn(ip)&.autonomous_system_number
+    (asn && banned_asns.include?(asn)) || custom_banned_asns.include?(asn)
+  end
+
+  def self.banned_asns
+    @banned_asns ||= CSV.read(Rails.root.join('doc', 'bad-asn-list.csv'), headers: true).map { |row| row['ASN'].to_i }
+  end
+
+  def self.custom_banned_asns
+    [212238]
   end
 
   def self.banned_country?(ip)

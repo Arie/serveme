@@ -96,7 +96,10 @@ class ReservationPlayer < ActiveRecord::Base
   end
 
   def self.custom_banned_asns
-    [212238]
+    [
+      212238, # Datacamp
+      397423 # Tier.net
+    ]
   end
 
   def self.banned_country?(ip)

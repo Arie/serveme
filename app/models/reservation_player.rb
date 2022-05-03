@@ -54,7 +54,7 @@ class ReservationPlayer < ActiveRecord::Base
 
   def self.banned_asn?(ip)
     asn = $maxmind_asn.asn(ip)&.autonomous_system_number
-    (asn && banned_asns.include?(asn)) || custom_banned_asns.include?(asn)
+    asn && (banned_asns.include?(asn) || custom_banned_asns.include?(asn))
   end
 
   def self.banned_asns

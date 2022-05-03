@@ -97,6 +97,7 @@ Serveme::Application.routes.draw do
 
   namespace :api do
     resources :users, only: :show
+    resources :league_requests, only: :index
     resources :maps, only: :index
     resources :servers, only: :index
     resources :donators, except: %i[edit update]

@@ -99,7 +99,7 @@ class ApplicationController < ActionController::Base
     current_user
       .reservation_players
       .joins(:reservation)
-      .where('reservations.created_at > ?', 1.month.ago)
+      .where('reservations.created_at > ?', Date.new(2022, 1, 1))
       .pluck(:ip)
       .compact
       .uniq

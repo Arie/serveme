@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ReservationPlayer < ActiveRecord::Base
+  require 'csv'
   require 'ipaddr'
   belongs_to :reservation
   has_one :server, through: :reservation, autosave: false
@@ -28,46 +29,42 @@ class ReservationPlayer < ActiveRecord::Base
   def self.whitelisted_uid?(steam_id64)
     return true unless steam_id64
 
-    [
-      76_561_198_194_941_135, # Despair, shares ISP with Gremlin
-      76_561_198_253_170_562, # Shock, shares ISP with Gremlin
-      76_561_198_378_191_199, # Sori666, shares ISP with Gremlin
-      76_561_198_360_811_196, # Sun Tzu, shares ISP with Clx
-      76_561_198_238_943_688, # Flewvar, shares ISP with Clx
-      76_561_198_167_849_935, # Laggy Lanny, shares IP with Gremlin
-      76_561_198_210_526_425  # Still, shares IP with Gremlin
-    ].include?(steam_id64.to_i)
+    whitelisted_uids.include?(steam_id64.to_i)
+  end
+
+  def self.whitelisted_uids
+    @whitelisted_uids ||= CSV.read(Rails.root.join('doc', 'whitelisted_steam_ids.csv'), headers: true).map { |row| row['steam_id64'].to_i }
   end
 
   def self.banned_uid?(steam_id64)
-    [
-      76_561_198_310_925_535, 76_561_199_116_364_920, 76_561_198_113_294_936, # Clx
-      76_561_199_165_871_973, 76_561_199_164_609_965, 76_561_199_164_115_386, 76_561_199_146_255_686, # Clx
-      76_561_199_166_660_740, 76_561_199_135_772_351, # Clx
-      76_561_198_156_399_565, # Possible Clx alt
-      76_561_198_280_266_851, # Clx leaker Bread
-      76_561_197_964_387_679, # 0x0258deaD DDoSer
-      76_561_199_186_114_313, # Impersonating serveme.tf personnel
-      76_561_199_226_136_505, 76_561_198_097_128_562, 76_561_199_026_793_931, 76_561_199_141_265_306, 76_561_199_189_559_241, 76_561_199_149_311_904, 76_561_198_403_395_498, 76_561_199_141_265_306, # Elk match invader
-      76_561_199_062_609_974, 76_561_198_238_170_280 # Cheeto match invader
-    ].include?(steam_id64.to_i)
+    banned_uids.include?(steam_id64)
   end
 
   def self.banned_ip?(ip)
     banned_ranges.any? { |range| range.include?(ip) }
   end
 
+  def self.banned_uids
+    @banned_uids ||= CSV.read(Rails.root.join('doc', 'banned_steam_ids.csv'), headers: true).map { |row| row['steam_id64'].to_i }
+  end
+
   def self.banned_ranges
-    @banned_ranges ||= [
-      IPAddr.new('107.181.180.0/24'), # Clx
-      IPAddr.new('162.253.68.0/22'), # Clx
-      IPAddr.new('82.222.236.0/22'), # Clx
-      IPAddr.new('46.166.176.0/21'), # Clx
-      IPAddr.new('45.89.173.0/24'), # Clx
-      IPAddr.new('24.133.100.0/22'), # Bread
-      IPAddr.new('176.40.96.0/21'), # 0x0258deaD DDoSer
-      IPAddr.new('69.247.46.46/32'), # Match invader
-      IPAddr.new('65.96.32.73/32') # Match invader
+    @banned_ranges ||= CSV.read(Rails.root.join('doc', 'banned_ips.csv'), headers: true).map { |row| IPAddr.new(row['ip']) }
+  end
+
+  def self.banned_asn?(ip)
+    asn = $maxmind_asn.asn(ip)&.autonomous_system_number
+    asn && (banned_asns.include?(asn) || custom_banned_asns.include?(asn))
+  end
+
+  def self.banned_asns
+    @banned_asns ||= CSV.read(Rails.root.join('doc', 'bad-asn-list.csv'), headers: true).map { |row| row['ASN'].to_i }
+  end
+
+  def self.custom_banned_asns
+    [
+      212238, # Datacamp
+      397423 # Tier.net
     ]
   end
 

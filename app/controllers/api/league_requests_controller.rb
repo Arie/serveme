@@ -6,7 +6,7 @@ module Api
 
     def index
       respond_to do |format|
-        @results = LeagueRequest.new(current_user, ip: request_params[:ip], steam_uid: request_params[:steam_uid], cross_reference: request_params[:cross_reference]).search
+        @results = LeagueRequest.new(current_user, ip: request_params[:ip], steam_uid: request_params[:steam_uid], reservation_ids: request_params[:reservation_ids], cross_reference: request_params[:cross_reference]).search
         format.json { render :index }
       end
     end
@@ -14,7 +14,7 @@ module Api
     private
 
     def request_params
-      params[:league_request].permit(%i[ip steam_uid cross_reference])
+      params[:league_request].permit(%i[ip steam_uid reservation_ids cross_reference])
     end
   end
 end

@@ -64,5 +64,24 @@ describe LeagueRequest do
       expect(results.size).to eql(3)
       expect(results.map(&:id).sort).to eql([player.id, alt.id, other_ip.id])
     end
+
+    it 'can filter by reservation_ids' do
+      reservation = create :reservation
+      other_reservation = create :reservation
+      filtered_reservation = create :reservation
+
+      player = create(:reservation_player, steam_uid: 'abc', ip: '8.8.8.8', reservation_id: reservation.id)
+      alt = create(:reservation_player, steam_uid: 'def', ip: '8.8.8.8', reservation_id: reservation.id)
+      alt_other_reservation = create(:reservation_player, steam_uid: 'def', ip: '8.8.8.8', reservation_id: other_reservation.id)
+      _alt_filtered_reservation = create(:reservation_player, steam_uid: 'def', ip: '8.8.8.8', reservation_id: filtered_reservation.id)
+      other_ip = create(:reservation_player, steam_uid: 'abc', ip: '1.1.1.1', reservation_id: reservation.id)
+      _other_player = create(:reservation_player, steam_uid: 'ghj', ip: '4.4.2.2', reservation_id: reservation.id)
+
+      request = LeagueRequest.new(user, steam_uid: 'abc', reservation_ids: [reservation.id, other_reservation.id], cross_reference: '1')
+      results = request.search
+
+      expect(results.size).to eql(4)
+      expect(results.map(&:id).sort).to eql([player.id, alt.id, alt_other_reservation.id, other_ip.id])
+    end
   end
 end

@@ -252,12 +252,11 @@ class Server < ActiveRecord::Base
 
   def enable_demos_tf
     demos_tf_file = Rails.root.join('doc', 'demostf.smx').to_s
-    record_stv_file = Rails.root.join('doc', 'recordstv.smx').to_s
-    copy_to_server([demos_tf_file, record_stv_file], "#{tf_dir}/addons/sourcemod/plugins")
+    copy_to_server([demos_tf_file], "#{tf_dir}/addons/sourcemod/plugins")
   end
 
   def disable_demos_tf
-    delete_from_server(["#{tf_dir}/addons/sourcemod/plugins/demostf.smx", "#{tf_dir}/addons/sourcemod/plugins/recordstv.smx"])
+    delete_from_server(["#{tf_dir}/addons/sourcemod/plugins/demostf.smx"])
   end
 
   def zip_demos_and_logs(reservation)

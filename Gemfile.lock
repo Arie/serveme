@@ -380,7 +380,7 @@ GEM
     mini_mime (1.1.2)
     mini_racer (0.6.2)
       libv8-node (~> 16.10.0.0)
-    minitest (5.15.0)
+    minitest (5.16.0)
     msgpack (1.5.2)
     multi_json (1.15.0)
     multi_test (0.1.2)
@@ -623,7 +623,7 @@ GEM
     temple (0.8.2)
     term-ansicolor (1.7.1)
       tins (~> 1.0)
-    terser (1.1.9)
+    terser (1.1.10)
       execjs (>= 0.3.0, < 3)
     text (1.3.1)
     tf2_line_parser (0.2.3)
@@ -663,7 +663,7 @@ GEM
       nokogiri (~> 1.8)
     yard (0.9.28)
       webrick (~> 1.7.0)
-    zeitwerk (2.5.4)
+    zeitwerk (2.6.0)
     zonebie (0.6.1)
 
 PLATFORMS

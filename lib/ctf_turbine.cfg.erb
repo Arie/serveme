@@ -1,4 +1,9 @@
 sv_logsecret "<%= logsecret %>"
+tv_delaymapchange 1
+tv_enable 1
+tv_autorecord 0
+tv_maxrate 0
+tv_snapshotrate 66
 <% if first_map.present? && first_map != "ctf_turbine" %>
 changelevel <%= first_map %>
 <% end %>

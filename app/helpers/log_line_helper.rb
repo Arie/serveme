@@ -63,7 +63,7 @@ module LogLineHelper
   end
 
   def logs_tf_api_key_regex
-    @logs_tf_api_key_regex ||= /tftrue_logs_apikey "\S+"/
+    @logs_tf_api_key_regex ||= /logstf_apikey "\S+"/
   end
 
   def sm_demostf_apikey_regex

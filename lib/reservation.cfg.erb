@@ -25,19 +25,15 @@ sv_max_queries_sec_global 60
 <%= %{sv_downloadurl "http://dl.serveme.tf"} %>
 <% end %>
 
-tftrue_no_hats 0
-<%= %{tftrue_logs_prefix "#{SITE_HOST} ##{id}"} %>
-tftrue_logs_roundend 0
-tftrue_restorestats 1
+<%= %{logstf_title "#{SITE_HOST} ##{id}"} %>
 
 <% if user.logs_tf_api_key.present? %>
-<%= %{tftrue_logs_apikey "#{user.logs_tf_api_key}"} %>
+<%= %{logstf_apikey "#{user.logs_tf_api_key}"} %>
 <% else %>
-<%= %{tftrue_logs_apikey "#{LOGS_TF_API_KEY}"} %>
+<%= %{logstf_apikey "#{LOGS_TF_API_KEY}"} %>
 <% end %>
 
 <% if enable_plugins? %>
-<%= "tftrue_tv_autorecord 0" %>
 <% if enable_demos_tf? %>
 <% if user.demos_tf_api_key.present? %>
 <%= %{sm_demostf_apikey "#{user.demos_tf_api_key}"} %>
@@ -45,8 +41,6 @@ tftrue_restorestats 1
 <%= %{sm_demostf_apikey "#{DEMOS_TF_API_KEY}"} %>
 <% end %>
 <% end %>
-<% else %>
-<%= "tftrue_tv_autorecord 1" %>
 <% end %>
 
 <%= %{sm_web_rcon_url "#{SITE_URL}/reservations/#{id}/rcon"}%>
@@ -66,5 +60,3 @@ tf_birthday_ball_chance 0
 
 <% if !custom_whitelist_id && whitelist %>
 <%= %{mp_tournament_whitelist "cfg/#{whitelist}"} %><% end %>
-
-tftrue_logs_accuracy 0

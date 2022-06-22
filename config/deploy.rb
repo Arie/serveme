@@ -8,7 +8,7 @@ set :deploy_to,         '/var/www/serveme'
 set :copy_compression,  :gzip
 set :use_sudo,          false
 set :user,              'tf2'
-set :rvm_ruby_string,   '3.0.2'
+set :rvm_ruby_string,   '3.0.4'
 set :rvm_type,          :system
 set :pty,               false
 

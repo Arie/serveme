@@ -10,7 +10,7 @@ set :use_sudo,          false
 set :user,              'tf2'
 set :rvm_ruby_string,   '3.0.4'
 set :rvm_type,          :system
-set :pty,               false
+set :pty,               true
 
 set :maintenance_template_path, 'app/views/pages/maintenance.html.erb'
 

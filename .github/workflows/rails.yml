@@ -46,7 +46,7 @@ jobs:
     needs: [ruby-dependencies]
     services:
       postgres:
-        image: postgres:11
+        image: postgres:13
         env:
           POSTGRES_USER: serveme
           POSTGRES_DB: serveme_test
@@ -96,7 +96,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:11
+        image: postgres:13
         env:
           POSTGRES_USER: serveme
           POSTGRES_DB: serveme_test

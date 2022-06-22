@@ -7,7 +7,8 @@ module LogLineHelper
       .gsub(rcon_password_regex, 'rcon_password "*****"')
       .gsub(sv_password_regex, 'sv_password "*****"')
       .gsub(tv_password_regex, 'tv_password "*****"')
-      .gsub(logs_tf_api_key_regex, 'tftrue_logs_apikey "*****"')
+      .gsub(tftrue_logs_tf_api_key_regex, 'tftrue_logs_apikey "*****"')
+      .gsub(logs_tf_api_key_regex, 'logstf_apikey "*****"')
       .gsub(sm_demostf_apikey_regex, 'sm_demostf_apikey "*****"')
       .gsub(logaddress_regex, 'logaddress_add "*****"')
       .gsub(logsecret_regex, 'sv_logsecret *****"')
@@ -60,6 +61,10 @@ module LogLineHelper
 
   def tv_password_regex
     @tv_password_regex ||= /tv_password "\S+"/
+  end
+
+  def tftrue_logs_tf_api_key_regex
+    @tftrue_logs_tf_api_key_regex ||= /tftrue_logs_apikey "\S+"/
   end
 
   def logs_tf_api_key_regex

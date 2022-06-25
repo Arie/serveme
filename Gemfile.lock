@@ -379,7 +379,7 @@ GEM
     mini_mime (1.1.2)
     mini_racer (0.6.2)
       libv8-node (~> 16.10.0.0)
-    minitest (5.16.0)
+    minitest (5.16.1)
     multi_json (1.15.0)
     multi_test (0.1.2)
     multi_xml (0.6.0)
@@ -419,7 +419,7 @@ GEM
     paypal-sdk-rest (1.7.4)
       multi_json (~> 1.0)
       xml-simple
-    pg (1.4.0)
+    pg (1.4.1)
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -438,8 +438,8 @@ GEM
       ruby-openid (>= 2.1.8)
     rack-protection (2.2.0)
       rack
-    rack-test (1.1.0)
-      rack (>= 1.0, < 3)
+    rack-test (2.0.0)
+      rack (>= 1.3)
     rails (6.1.6)
       actioncable (= 6.1.6)
       actionmailbox (= 6.1.6)
@@ -580,7 +580,7 @@ GEM
       thor (~> 1.0)
       tilt (~> 2.0)
       yard (~> 0.9, >= 0.9.24)
-    sprockets (4.0.3)
+    sprockets (4.1.0)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
     sprockets-rails (3.4.2)
@@ -620,7 +620,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8.2)
-    unicode-display_width (2.1.0)
+    unicode-display_width (2.2.0)
     vcr (6.1.0)
     warden (1.2.9)
       rack (>= 2.0.9)
@@ -750,4 +750,4 @@ DEPENDENCIES
   zonebie
 
 BUNDLED WITH
-   2.3.7
+   2.3.16

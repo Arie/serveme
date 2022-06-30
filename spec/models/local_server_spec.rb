@@ -236,28 +236,10 @@ describe LocalServer do
     it 'deletes the reservation.cfg if its available' do
       subject.stub(tf_dir: @tf_dir)
 
-      File.should_receive(:exist?).with(@config_file).and_return(true)
-      File.should_receive(:delete).with(@config_file)
-      File.should_receive(:exist?).with(@map_file).and_return(true)
-      File.should_receive(:delete).with(@map_file)
-      File.should_receive(:exist?).with(@ban_id_file).and_return(true)
-      File.should_receive(:delete).with(@ban_id_file)
-      File.should_receive(:exist?).with(@ban_ip_file).and_return(true)
-      File.should_receive(:delete).with(@ban_ip_file)
-      subject.remove_configuration
-    end
-
-    it 'does not explode when there is no reservation.cfg' do
-      subject.stub(tf_dir: @tf_dir)
-
-      File.should_receive(:exist?).with(@config_file).and_return(false)
-      File.should_not_receive(:delete).with(@config_file)
-      File.should_receive(:exist?).with(@map_file).and_return(false)
-      File.should_not_receive(:delete).with(@map_file)
-      File.should_receive(:exist?).with(@ban_id_file).and_return(false)
-      File.should_not_receive(:delete).with(@ban_id_file)
-      File.should_receive(:exist?).with(@ban_ip_file).and_return(false)
-      File.should_not_receive(:delete).with(@ban_ip_file)
+      FileUtils.should_receive(:rm_rf).with(@config_file)
+      FileUtils.should_receive(:rm_rf).with(@map_file)
+      FileUtils.should_receive(:rm_rf).with(@ban_id_file)
+      FileUtils.should_receive(:rm_rf).with(@ban_ip_file)
       subject.remove_configuration
     end
   end

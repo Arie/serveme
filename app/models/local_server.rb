@@ -7,7 +7,7 @@ class LocalServer < Server
 
   def delete_from_server(files)
     files.each do |file|
-      File.delete(file) if File.exist?(file)
+      FileUtils.rm_rf(file)
     end
   end
 

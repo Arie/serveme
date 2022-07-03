@@ -90,6 +90,8 @@ class ServerMetric
   private
 
   def banned_player?(player)
-    (ReservationPlayer.banned_uid?(player.steam_uid) || ReservationPlayer.banned_ip?(player.ip)) && !ReservationPlayer.whitelisted_uid?(player.steam_uid)
+    return false if ReservationPlayer.whitelisted_uid?(player.steam_uid)
+
+    ReservationPlayer.banned_uid?(player.steam_uid) || ReservationPlayer.banned_ip?(player.ip) || ReservationPlayer.banned_asn?(player.ip)
   end
 end

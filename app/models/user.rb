@@ -51,6 +51,8 @@ class User < ActiveRecord::Base
   end
 
   def banned?
+    return false if ReservationPlayer.whitelisted_uid?(uid)
+
     ReservationPlayer.banned_uid?(uid) || ReservationPlayer.banned_ip?(current_sign_in_ip)
   end
 

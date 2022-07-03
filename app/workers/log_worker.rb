@@ -57,13 +57,14 @@ class LogWorker
   def handle_connect
     community_id = SteamCondenser::Community::SteamId.steam_id_to_community_id(event.player.steam_id)
     ip = event.message.to_s.split(':').first
+    rp = ReservationPlayer.where(reservation_id: reservation_id, ip: ip, steam_uid: community_id).first_or_create
+    rp.update(name: event.player.name)
+
     if (ReservationPlayer.banned_uid?(community_id) || ReservationPlayer.banned_ip?(ip) || ReservationPlayer.banned_asn?(ip)) && !ReservationPlayer.whitelisted_uid?(community_id)
       reservation.server.rcon_exec "banid 0 #{community_id} kick"
       Rails.logger.info "Removed banned player with UID #{community_id}, IP #{event.message}, name #{event.player.name}, from reservation #{reservation_id}"
-    else
-      rp = ReservationPlayer.where(reservation_id: reservation_id, ip: ip, steam_uid: community_id).first_or_create
-      rp.update(name: event.player.name)
-      AllowReservationPlayerWorker.perform_async(rp.id) if reservation.server.supports_mitigations?
+    elsif reservation.server.supports_mitigations?
+      AllowReservationPlayerWorker.perform_async(rp.id)
     end
   end
 

@@ -31,8 +31,8 @@ Engineer      0      0     0      0       0
 
 # userid name                uniqueid            connected ping loss state  adr
 #      2 "SourceTV"          BOT                                     active
-#      4 "TNT-DEAD"          [U:1:51245596]      11:49       57    0 active 111.111.111.111:4597
-#      5 "Bloodyyy"          [U:1:50924149]      00:49       76    1 active 222.222.222.222:27005
+#      4 "TNT-DEAD"          [U:1:51245596]      11:49       57    0 active 1.128.0.1:4597
+#      5 "Bloodyyy"          [U:1:50924149]      00:49       76    1 active 1.128.0.2:27005
 Loaded plugins:
 ---------------------
 0:      "TFTrue v4.63, AnAkkk"
@@ -62,6 +62,6 @@ Loaded plugins:
     player_statistic = PlayerStatistic.last
     player_statistic.ping.should == 76
     player_statistic.loss.should == 1
-    player_statistic.reservation_player.ip.should == '222.222.222.222'
+    player_statistic.reservation_player.ip.should == '1.128.0.2'
   end
 end

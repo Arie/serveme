@@ -12,7 +12,7 @@ describe ReservationPlayer do
       expect(described_class.banned_asn?('1.128.0.1')).to be true
     end
 
-    it 'knows SDR ips arent a valid range' do
+    it 'knows SDR ips wont be in the ASN database, so should just return false for those' do
       expect(described_class.banned_asn?('169.254.1.1')).to be false
     end
   end

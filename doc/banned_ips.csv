@@ -1,9 +1,4 @@
 ip,name,reason
-107.181.180.0/24,Clx,match invader
-162.253.68.0/22,Clx,match invader
-82.222.236.0/22,Clx,match invader
-46.166.176.0/21,Clx,match invader
-45.89.173.0/24,Clx,match invader
 24.133.100.0/22,Bread,helping Clx
 176.40.96.0/21,0x0258deaD,DDoSer
 198.54.128.0/24,Cheeto,match invader / fake racist log spammer

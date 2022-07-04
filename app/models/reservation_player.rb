@@ -53,6 +53,8 @@ class ReservationPlayer < ActiveRecord::Base
   end
 
   def self.banned_asn?(ip)
+    return false if IPAddr.new('169.254.0.0/16').include?(ip)
+
     asn = $maxmind_asn.asn(ip)&.autonomous_system_number
     asn && (banned_asns.include?(asn) || custom_banned_asns.include?(asn))
   end

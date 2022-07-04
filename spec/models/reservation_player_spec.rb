@@ -11,6 +11,10 @@ describe ReservationPlayer do
       described_class.stub(:custom_banned_asns).and_return([1221])
       expect(described_class.banned_asn?('1.128.0.1')).to be true
     end
+
+    it 'knows SDR ips arent a valid range' do
+      expect(described_class.banned_asn?('169.254.1.1')).to be false
+    end
   end
 
   context 'banned steam ids' do

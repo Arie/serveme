@@ -28,7 +28,7 @@ describe ReservationPlayer do
 
   context 'whitelisted steam id' do
     it 'recognizes a whitelisted steam id' do
-      expect(described_class.whitelisted_uid?(76561198360811196)).to be true
+      expect(described_class.whitelisted_uid?(76561198350261670)).to be true
     end
 
     it 'doesnt flag an unknown steam id as whitelisted' do
@@ -38,7 +38,7 @@ describe ReservationPlayer do
 
   context 'banned ip' do
     it 'recognizes a banned ip in a range' do
-      expect(described_class.banned_ip?('87.249.134.123')).to be true
+      expect(described_class.banned_ip?('176.40.96.1')).to be true
     end
     it 'doesnt flag a good ip as banned' do
       expect(described_class.banned_ip?('127.0.0.1')).to be false

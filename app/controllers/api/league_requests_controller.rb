@@ -7,6 +7,7 @@ module Api
     def index
       respond_to do |format|
         @results = LeagueRequest.new(current_user, ip: request_params[:ip], steam_uid: request_params[:steam_uid], reservation_ids: request_params[:reservation_ids], cross_reference: request_params[:cross_reference]).search
+        @flagged_ips = LeagueRequest.flag_ips(@results)
         format.json { render :index }
       end
     end

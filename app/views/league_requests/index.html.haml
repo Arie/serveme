@@ -22,6 +22,9 @@
           %td
             - if result.ip.present?
               = link_to(result.ip, league_request_path(ip: result.ip))
+              - if @flagged_ips[result.ip] == true
+                %span.badge.badge-danger{title: "Possible VPN"}
+                  %i.fa.fa-flag
           %td= result.name
           %td= link_to(result.steam_uid, league_request_path(steam_uid: result.steam_uid))
           %td= link_to("ETF2L", "http://etf2l.org/search/#{result.steam_uid}/")

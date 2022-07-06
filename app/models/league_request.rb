@@ -63,6 +63,21 @@ class LeagueRequest
     end
   end
 
+  def self.flag_ips(results)
+    flagged_ips = {}
+
+    results.map(&:ip).uniq.each do |ip|
+      flagged_asn = begin
+        ip.present? && ReservationPlayer.banned_asn?(ip)
+      rescue MaxMind::GeoIP2::AddressNotFoundError
+        false
+      end
+      flagged_ips[ip] = flagged_asn
+    end
+
+    flagged_ips
+  end
+
   private
 
   def maybe_filter_by_reservation_ids(query)
@@ -78,6 +93,6 @@ class LeagueRequest
   end
 
   def players_query
-    ReservationPlayer.joins(reservation: :server).where('servers.sdr = ?', false).order('reservations.starts_at DESC')
+    ReservationPlayer.eager_load(:reservation).joins(reservation: :server).where('servers.sdr = ?', false).order('reservations.starts_at DESC')
   end
 end

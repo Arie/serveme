@@ -51,8 +51,13 @@ class ServerMetric
       next unless banned_player?(player)
 
       uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(player.steam_uid.to_i)
-      server.rcon_exec "banid 0 #{uid3} kick"
-      Rails.logger.info "Removed banned player with UID #{player.steam_uid}, IP #{player.ip}, name #{player.name}, from reservation #{current_reservation.id}"
+      if banned_asn?(player)
+        server.rcon_exec "kickid \"#{uid3}\" Please play without VPN"
+        Rails.logger.info "Removed player on VPN with UID #{player.steam_uid}, IP #{player.ip}, name #{player.name}, from reservation #{current_reservation.id}"
+      else
+        server.rcon_exec "banid 0 #{uid3} kick"
+        Rails.logger.info "Removed banned player with UID #{player.steam_uid}, IP #{player.ip}, name #{player.name}, from reservation #{current_reservation.id}"
+      end
     end
   end
 
@@ -89,9 +94,25 @@ class ServerMetric
 
   private
 
-  def banned_player?(player)
-    return false if ReservationPlayer.whitelisted_uid?(player.steam_uid)
+  def whitelisted_player?(player)
+    ReservationPlayer.whitelisted_uid?(player.steam_uid)
+  end
 
-    ReservationPlayer.banned_uid?(player.steam_uid) || ReservationPlayer.banned_ip?(player.ip) || ReservationPlayer.banned_asn?(player.ip)
+  def banned_player?(player)
+    return false if whitelisted_player?(player)
+
+    banned_uid?(player) || banned_ip?(player) || banned_asn?(player)
+  end
+
+  def banned_asn?(player)
+    ReservationPlayer.banned_asn?(player.ip)
+  end
+
+  def banned_uid?(player)
+    ReservationPlayer.banned_uid?(player.steam_uid)
+  end
+
+  def banned_ip?(player)
+    ReservationPlayer.banned_ip?(player.ip)
   end
 end

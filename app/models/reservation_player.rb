@@ -65,9 +65,10 @@ class ReservationPlayer < ActiveRecord::Base
 
   def self.custom_banned_asns
     [
+      7195, # EdgeUno
+      46844, # Sharktech.net
       212238, # Datacamp
-      397423, # Tier.net
-      46844 # Sharktech.net
+      397423 # Tier.net
     ]
   end
 

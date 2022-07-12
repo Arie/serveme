@@ -67,6 +67,7 @@ class ReservationPlayer < ActiveRecord::Base
     [
       7195, # EdgeUno
       46844, # Sharktech.net
+      136787, # TEFINCOM S.A.
       212238, # Datacamp
       397423 # Tier.net
     ]

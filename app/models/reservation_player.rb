@@ -55,8 +55,12 @@ class ReservationPlayer < ActiveRecord::Base
   def self.banned_asn?(ip)
     return false if IPAddr.new('169.254.0.0/16').include?(ip)
 
-    asn = $maxmind_asn.asn(ip)&.autonomous_system_number
-    asn && (banned_asns.include?(asn) || custom_banned_asns.include?(asn))
+    begin
+      asn = $maxmind_asn.asn(ip)&.autonomous_system_number
+      asn && (banned_asns.include?(asn) || custom_banned_asns.include?(asn))
+    rescue MaxMind::GeoIP2::AddressNotFoundError
+      false
+    end
   end
 
   def self.banned_asns

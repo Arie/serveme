@@ -11,6 +11,15 @@ GIT
     remote_lock (1.2.0)
 
 GIT
+  remote: https://github.com/Pharmony/capistrano-sidekiq.git
+  revision: fc20388544468d7fedbd89d06df9ea8225c8e6a0
+  specs:
+    capistrano-sidekiq (2.3.0)
+      capistrano (>= 3.9.0)
+      capistrano-bundler
+      sidekiq (>= 6.0)
+
+GIT
   remote: https://github.com/koraktor/steam-condenser-ruby.git
   revision: 3ee580b5c5d390ee3a706357f18f2e9a2949e5c2
   specs:
@@ -130,10 +139,6 @@ GEM
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
-    capistrano-sidekiq (2.3.0)
-      capistrano (>= 3.9.0)
-      capistrano-bundler
-      sidekiq (>= 6.0)
     capistrano3-puma (5.2.0)
       capistrano (~> 3.7)
       capistrano-bundler
@@ -686,7 +691,7 @@ DEPENDENCIES
   capistrano-maintenance
   capistrano-rails
   capistrano-rvm
-  capistrano-sidekiq
+  capistrano-sidekiq!
   capistrano3-puma (~> 5.0)
   capistrano_colors
   capybara

@@ -82,7 +82,7 @@ group :development do
   gem 'capistrano-maintenance', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
-  gem 'capistrano-sidekiq', require: false
+  gem 'capistrano-sidekiq', git: 'https://github.com/Pharmony/capistrano-sidekiq.git', require: false
   gem 'rubocop', require: false
 end
 

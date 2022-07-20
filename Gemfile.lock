@@ -130,13 +130,14 @@ GEM
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
-    capistrano-sidekiq (1.0.3)
+    capistrano-sidekiq (2.3.0)
       capistrano (>= 3.9.0)
-      sidekiq (>= 3.4, < 6.0)
-    capistrano3-puma (4.0.0)
+      capistrano-bundler
+      sidekiq (>= 6.0)
+    capistrano3-puma (5.2.0)
       capistrano (~> 3.7)
       capistrano-bundler
-      puma (~> 4.0)
+      puma (>= 4.0, < 6.0)
     capistrano_colors (0.5.5)
     capybara (3.37.1)
       addressable
@@ -431,7 +432,7 @@ GEM
     pry-nav (1.0.0)
       pry (>= 0.9.10, < 0.15)
     public_suffix (4.0.7)
-    puma (4.3.12)
+    puma (5.6.4)
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.6.0)
@@ -481,7 +482,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     rbzip2 (0.3.0)
-    redis (4.5.1)
+    redis (4.7.1)
     redis-actionpack (5.3.0)
       actionpack (>= 5, < 8)
       redis-rack (>= 2.1.0, < 3)
@@ -573,11 +574,10 @@ GEM
       faraday (>= 1.0)
     shoulda-matchers (5.1.0)
       activesupport (>= 5.2.0)
-    sidekiq (5.2.10)
-      connection_pool (~> 2.2, >= 2.2.2)
+    sidekiq (6.5.1)
+      connection_pool (>= 2.2.2)
       rack (~> 2.0)
-      rack-protection (>= 1.5.0)
-      redis (~> 4.5, < 4.6.0)
+      redis (>= 4.2.0)
     sidekiq-cron (1.6.0)
       fugit (~> 1)
       sidekiq (>= 4.2.1)
@@ -687,7 +687,7 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rvm
   capistrano-sidekiq
-  capistrano3-puma (~> 4.0)
+  capistrano3-puma (~> 5.0)
   capistrano_colors
   capybara
   carrierwave
@@ -763,7 +763,7 @@ DEPENDENCIES
   sassc
   sentry-raven
   shoulda-matchers
-  sidekiq (< 6)
+  sidekiq
   sidekiq-cron
   simple_form
   solargraph

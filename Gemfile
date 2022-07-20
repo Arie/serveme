@@ -57,7 +57,7 @@ gem 'rubyzip', require: 'zip'
 gem 'sass'
 gem 'sassc'
 gem 'sass-rails'
-gem 'sidekiq', '< 6'
+gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'simple_form'
 gem 'sprockets'
@@ -74,7 +74,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'capistrano', require: false
-  gem 'capistrano3-puma', '~> 4.0', require: false
+  gem 'capistrano3-puma', '~> 5.0', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano_colors', require: false
   gem 'capistrano-ext', require: false

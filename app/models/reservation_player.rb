@@ -69,6 +69,7 @@ class ReservationPlayer < ActiveRecord::Base
 
   def self.custom_banned_asns
     [
+      3214, # xTom
       7195, # EdgeUno
       46844, # Sharktech.net
       136787, # TEFINCOM S.A.

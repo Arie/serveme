@@ -6,7 +6,7 @@ GIT
 
 GIT
   remote: https://github.com/Arie/remote_lock.git
-  revision: 1378242347e0418a6f91d7e2b0523866588d5785
+  revision: 402bba89168d8259ced331f0c5a6d75f529c06b7
   specs:
     remote_lock (1.2.0)
 
@@ -541,14 +541,14 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.11.0)
-    rubocop (1.31.2)
+    rubocop (1.32.0)
       json (~> 2.3)
       parallel (~> 1.10)
       parser (>= 3.1.0.0)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml (>= 3.2.5, < 4.0)
-      rubocop-ast (>= 1.18.0, < 2.0)
+      rubocop-ast (>= 1.19.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.19.1)
@@ -635,7 +635,7 @@ GEM
     tf2_line_parser (0.2.3)
       activesupport
     thor (1.2.1)
-    tilt (2.0.10)
+    tilt (2.0.11)
     tins (1.31.1)
       sync
     turbo-rails (1.1.1)

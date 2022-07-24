@@ -96,7 +96,7 @@ GEM
       zeitwerk (~> 2.3)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
-    airbrussh (1.4.0)
+    airbrussh (1.4.1)
       sshkit (>= 1.6.1, != 1.7.0)
     american_date (1.2.0)
     ast (2.4.2)
@@ -401,15 +401,15 @@ GEM
       net-ssh (>= 5.0.0, < 7.0.0)
     net-ssh (6.1.0)
     nio4r (2.5.8)
-    nokogiri (1.13.7-arm64-darwin)
+    nokogiri (1.13.8-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.13.7-x86_64-linux)
+    nokogiri (1.13.8-x86_64-linux)
       racc (~> 1.4)
     oily_png (1.2.1)
       chunky_png (~> 1.3.7)
-    omniauth (2.0.4)
+    omniauth (2.1.0)
       hashie (>= 3.4.6)
-      rack (>= 1.6.2, < 3)
+      rack (>= 2.2.3)
       rack-protection
     omniauth-openid (2.0.1)
       omniauth (>= 1.0, < 3.0)
@@ -441,13 +441,13 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.6.0)
-    rack (2.1.4.1)
+    rack (2.2.4)
     rack-cache (1.13.0)
       rack (>= 0.4)
     rack-openid (1.4.2)
       rack (>= 1.1.0)
       ruby-openid (>= 2.1.8)
-    rack-protection (2.2.1)
+    rack-protection (2.2.2)
       rack
     rack-test (2.0.2)
       rack (>= 1.3)
@@ -583,7 +583,7 @@ GEM
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
-    sidekiq-cron (1.6.0)
+    sidekiq-cron (1.7.0)
       fugit (~> 1)
       sidekiq (>= 4.2.1)
     simple_form (5.1.0)
@@ -692,7 +692,7 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rvm
   capistrano-sidekiq!
-  capistrano3-puma (~> 5.0)
+  capistrano3-puma
   capistrano_colors
   capybara
   carrierwave
@@ -701,7 +701,7 @@ DEPENDENCIES
   connection_pool
   coveralls
   cucumber
-  cucumber-rails (~> 2.0)
+  cucumber-rails
   dante
   database_cleaner
   delorean
@@ -738,19 +738,19 @@ DEPENDENCIES
   net-ssh
   oily_png
   omniauth
-  omniauth-rails_csrf_protection (~> 1.0)
+  omniauth-rails_csrf_protection
   omniauth-steam
   parallel_tests
   paypal-sdk-rest
   pg
   pry-nav
   puma
-  rack (~> 2.1.4)
+  rack
   rack-cache
-  rails (~> 6.1.2)
+  rails (~> 6.1)
   rails-controller-testing
   rbzip2
-  redis (~> 4.0)
+  redis
   redis-rack-cache
   redis-rails
   remote_lock!

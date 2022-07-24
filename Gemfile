@@ -38,17 +38,17 @@ gem 'net-sftp'
 gem 'net-ssh'
 gem 'oily_png'
 gem 'omniauth'
-gem 'omniauth-rails_csrf_protection', '~> 1.0'
+gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-steam'
 gem 'paypal-sdk-rest'
 gem 'pg'
 gem 'puma'
-gem 'rack', '~> 2.1.4'
+gem 'rack'
 gem 'rack-cache'
-gem 'rails', '~> 6.1.2'
+gem 'rails', '~> 6.1'
 gem 'rbzip2'
 # Use Redis for Action Cable
-gem 'redis', '~> 4.0'
+gem 'redis'
 gem 'redis-rack-cache'
 gem 'redis-rails'
 gem 'remote_lock', git: 'https://github.com/Arie/remote_lock.git'
@@ -74,7 +74,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'capistrano', require: false
-  gem 'capistrano3-puma', '~> 5.0', require: false
+  gem 'capistrano3-puma', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano_colors', require: false
   gem 'capistrano-ext', require: false
@@ -104,7 +104,7 @@ end
 group :test do
   gem 'capybara'
   gem 'cucumber'
-  gem 'cucumber-rails', '~> 2.0', require: false
+  gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'delorean'
   gem 'json_expressions'

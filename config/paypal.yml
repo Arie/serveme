@@ -1,8 +1,11 @@
-development: &default
+development:
   mode: sandbox
   client_id: foo
   client_secret: bar
   rest_endpoint: https://api.sandbox.paypal.com
 
 test:
-  <<: *default
+  mode: sandbox
+  client_id: foo
+  client_secret: bar
+  rest_endpoint: https://api.sandbox.paypal.com

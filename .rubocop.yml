@@ -39,3 +39,6 @@ Layout/LineLength:
 
 NumericLiterals:
   Enabled: false
+
+Style/HashSyntax:
+  EnforcedShorthandSyntax: either

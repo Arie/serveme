@@ -6,6 +6,7 @@ describe ReservationsController do
   before do
     @user = create :user
     @user.groups << Group.admin_group
+    @user.stub(banned?: false)
     sign_in @user
   end
 

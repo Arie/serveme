@@ -72,6 +72,7 @@ class ReservationPlayer < ActiveRecord::Base
       3214, # xTom
       7195, # EdgeUno
       46844, # Sharktech.net
+      59711, # HZ Hosting Ltd
       136787, # TEFINCOM S.A.
       212238, # Datacamp
       397423 # Tier.net

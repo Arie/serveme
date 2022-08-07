@@ -126,7 +126,7 @@ GEM
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
     builder (3.2.4)
-    capistrano (3.17.0)
+    capistrano (3.17.1)
       airbrussh (>= 1.0.0)
       i18n
       rake (>= 10.0.0)

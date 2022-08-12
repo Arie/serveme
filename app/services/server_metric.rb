@@ -105,7 +105,7 @@ class ServerMetric
   end
 
   def banned_asn?(player)
-    ReservationPlayer.banned_asn?(player.ip)
+    ReservationPlayer.banned_asn_ip?(player.ip)
   end
 
   def banned_uid?(player)

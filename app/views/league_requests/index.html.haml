@@ -21,10 +21,13 @@
           %td= I18n.l(result.reservation.ends_at, format: :time_without_seconds)
           %td
             - if result.ip.present?
-              = link_to(result.ip, league_request_path(ip: result.ip))
-              - if @flagged_ips[result.ip] == true
-                %span.badge.badge-danger{title: "Possible VPN"}
-                  %i.fa.fa-flag
+              - if asn = @asns[result.ip]
+                = link_to(result.ip, league_request_path(ip: result.ip), class: "asn-tooltip", data: {toggle: "tooltip", html: true, placement: "top"}, title: render("asn_tooltip", asn: asn))
+                - if ReservationPlayer.banned_asn?(asn)
+                  %span.badge.badge-danger{title: "Possible VPN"}
+                    %i.fa.fa-flag
+              - else
+                = link_to(result.ip, league_request_path(ip: result.ip))
           %td= result.name
           %td= link_to(result.steam_uid, league_request_path(steam_uid: result.steam_uid))
           %td= link_to("ETF2L", "http://etf2l.org/search/#{result.steam_uid}/")
@@ -34,3 +37,6 @@
 = link_to league_request_path do
   .btn.btn-primary
     New search
+
+:javascript
+  $('.asn-tooltip').tooltip();

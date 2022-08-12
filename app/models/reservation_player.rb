@@ -52,14 +52,21 @@ class ReservationPlayer < ActiveRecord::Base
     @banned_ranges ||= CSV.read(Rails.root.join('doc', 'banned_ips.csv'), headers: true).map { |row| IPAddr.new(row['ip']) }
   end
 
-  def self.banned_asn?(ip)
-    return false if IPAddr.new('169.254.0.0/16').include?(ip)
+  def self.banned_asn_ip?(ip)
+    banned_asn?(asn(ip))
+  end
+
+  def self.banned_asn?(asn)
+    !!asn && (banned_asns.include?(asn&.autonomous_system_number) || custom_banned_asns.include?(asn&.autonomous_system_number))
+  end
+
+  def self.asn(ip)
+    return nil if IPAddr.new('169.254.0.0/16').include?(ip)
 
     begin
-      asn = $maxmind_asn.asn(ip)&.autonomous_system_number
-      asn && (banned_asns.include?(asn) || custom_banned_asns.include?(asn))
+      $maxmind_asn.asn(ip)
     rescue MaxMind::GeoIP2::AddressNotFoundError
-      false
+      nil
     end
   end
 

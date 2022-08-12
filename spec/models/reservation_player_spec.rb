@@ -4,16 +4,16 @@ describe ReservationPlayer do
   context 'banned asns' do
     it 'doesnt flag good ASNs' do
       good_ip = '1.128.0.1'
-      expect(described_class.banned_asn?(good_ip)).to be false
+      expect(described_class.banned_asn_ip?(good_ip)).to be false
     end
 
     it 'recognizes bad ASNs' do
       described_class.stub(:custom_banned_asns).and_return([1221])
-      expect(described_class.banned_asn?('1.128.0.1')).to be true
+      expect(described_class.banned_asn_ip?('1.128.0.1')).to be true
     end
 
     it 'knows SDR ips wont be in the ASN database, so should just return false for those' do
-      expect(described_class.banned_asn?('169.254.1.1')).to be false
+      expect(described_class.banned_asn_ip?('169.254.1.1')).to be false
     end
   end
 

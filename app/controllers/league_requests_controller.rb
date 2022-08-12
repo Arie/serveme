@@ -8,7 +8,7 @@ class LeagueRequestsController < ApplicationController
       if params[:ip] || params[:steam_uid]
         @results = LeagueRequest.new(current_user, ip: params[:ip], steam_uid: params[:steam_uid], reservation_ids: params[:reservation_ids], cross_reference: params[:cross_reference]).search
         if @results
-          @flagged_ips = LeagueRequest.flag_ips(@results)
+          @asns = LeagueRequest.lookup_asns(@results)
           format.html { render :index }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -26,7 +26,7 @@ class LeagueRequestsController < ApplicationController
     respond_to do |format|
       @results = LeagueRequest.new(current_user, ip: request_params[:ip], steam_uid: request_params[:steam_uid], reservation_ids: request_params[:reservation_ids], cross_reference: request_params[:cross_reference]).search
       if @results
-        @flagged_ips = LeagueRequest.flag_ips(@results)
+        @asns = LeagueRequest.lookup_asns(@results)
         format.html { render :index }
       else
         format.html { render :new, status: :unprocessable_entity }

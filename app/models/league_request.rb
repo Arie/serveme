@@ -63,19 +63,19 @@ class LeagueRequest
     end
   end
 
-  def self.flag_ips(results)
-    flagged_ips = {}
+  def self.lookup_asns(results)
+    asns = {}
 
     results.map(&:ip).uniq.each do |ip|
-      flagged_asn = begin
-        ip.present? && ReservationPlayer.banned_asn?(ip)
+      asn = begin
+        ReservationPlayer.asn(ip) if ip.present?
       rescue MaxMind::GeoIP2::AddressNotFoundError
-        false
+        nil
       end
-      flagged_ips[ip] = flagged_asn
+      asns[ip] = asn
     end
 
-    flagged_ips
+    asns
   end
 
   private

@@ -156,7 +156,7 @@ describe LogWorker do
   describe 'connects' do
     it 'bans banned IPs' do
       server.should_receive(:rcon_exec).with('banid 0 76561197960278073 kick')
-      ReservationPlayer.should_receive(:banned_asn?).with('24.200.212.144').and_return(false)
+      ReservationPlayer.should_receive(:banned_asn_ip?).with('24.200.212.144').and_return(false)
 
       LogWorker.perform_async(connect_banned_ip)
     end

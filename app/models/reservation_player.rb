@@ -77,6 +77,7 @@ class ReservationPlayer < ActiveRecord::Base
   def self.custom_banned_asns
     [
       3214, # xTom
+      5631, # Luminet Data Limited
       7195, # EdgeUno
       46844, # Sharktech.net
       59711, # HZ Hosting Ltd

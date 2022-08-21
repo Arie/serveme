@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class VouchersController < ApplicationController
+  skip_before_action :redirect_if_country_banned
+
   def new
     @voucher = Voucher.find_voucher(params[:code]) if params[:code]
     @voucher ||= Voucher.new

@@ -35,13 +35,11 @@ logstf_midgameupload 0
 <%= %{logstf_apikey "#{LOGS_TF_API_KEY}"} %>
 <% end %>
 
-<% if enable_plugins? %>
 <% if enable_demos_tf? %>
 <% if user.demos_tf_api_key.present? %>
 <%= %{sm_demostf_apikey "#{user.demos_tf_api_key}"} %>
 <% else %>
 <%= %{sm_demostf_apikey "#{DEMOS_TF_API_KEY}"} %>
-<% end %>
 <% end %>
 <% end %>
 
@@ -64,4 +62,5 @@ tv_snapshotrate 66
 <%= %{say "Whitelist: http://whitelist.tf/#{custom_whitelist_id}"} %> <% end %>
 
 <% if !custom_whitelist_id && whitelist %>
+tftrue_whitelist_id -1
 <%= %{mp_tournament_whitelist "cfg/#{whitelist}"} %><% end %>

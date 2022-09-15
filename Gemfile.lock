@@ -297,7 +297,7 @@ GEM
       rake
     font-awesome-rails (4.7.0.8)
       railties (>= 3.2, < 8.0)
-    fugit (1.6.0)
+    fugit (1.7.0)
       et-orbi (~> 1, >= 1.2.7)
       raabro (~> 1.4)
     geocoder (1.8.0)
@@ -362,7 +362,7 @@ GEM
     logs_tf (0.0.5)
       faraday (~> 1.0)
       multipart-post (>= 1.2.0)
-    loofah (2.18.0)
+    loofah (2.19.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     mail (2.7.1)
@@ -447,7 +447,7 @@ GEM
       omniauth-openid
     orm_adapter (0.5.0)
     parallel (1.22.1)
-    parallel_tests (3.12.0)
+    parallel_tests (3.12.1)
       parallel
     parser (3.1.2.1)
       ast (~> 2.4.1)
@@ -565,7 +565,7 @@ GEM
       rspec-expectations (~> 3.10)
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
-    rspec-support (3.11.0)
+    rspec-support (3.11.1)
     rubocop (1.36.0)
       json (~> 2.3)
       parallel (~> 1.10)
@@ -676,7 +676,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8.2)
-    unicode-display_width (2.2.0)
+    unicode-display_width (2.3.0)
     vcr (6.1.0)
     warden (1.2.9)
       rack (>= 2.0.9)

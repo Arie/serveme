@@ -63,7 +63,7 @@
     $("#private_server_server_id").select2("val", $("#private_server_server_id").val());
   });
 
-= if current_user.private_server_option?
+- if current_user.private_server_option?
   :javascript
     $(document).on('turbo:load', function() {
       $("#private_server_server_id").select2({

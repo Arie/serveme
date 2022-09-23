@@ -303,7 +303,7 @@ GEM
     geocoder (1.8.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
-    haml (6.0.0)
+    haml (6.0.1)
       temple (>= 0.8.2)
       thor
       tilt

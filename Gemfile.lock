@@ -300,7 +300,7 @@ GEM
     fugit (1.7.1)
       et-orbi (~> 1, >= 1.2.7)
       raabro (~> 1.4)
-    geocoder (1.8.0)
+    geocoder (1.8.1)
     globalid (1.0.0)
       activesupport (>= 5.0)
     haml (6.0.1)
@@ -448,7 +448,7 @@ GEM
       omniauth-openid
     orm_adapter (0.5.0)
     parallel (1.22.1)
-    parallel_tests (3.12.1)
+    parallel_tests (3.13.0)
       parallel
     parser (3.1.2.1)
       ast (~> 2.4.1)

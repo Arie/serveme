@@ -302,7 +302,7 @@ GEM
     geocoder (1.8.1)
     globalid (1.0.0)
       activesupport (>= 5.0)
-    haml (6.0.3)
+    haml (6.0.4)
       temple (>= 0.8.2)
       thor
       tilt
@@ -602,7 +602,7 @@ GEM
       connection_pool (>= 2.2.5)
       rack (~> 2.0)
       redis (>= 4.5.0, < 5)
-    sidekiq-cron (1.7.0)
+    sidekiq-cron (1.8.0)
       fugit (~> 1)
       sidekiq (>= 4.2.1)
     simple_form (5.1.0)

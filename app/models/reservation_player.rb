@@ -93,4 +93,11 @@ class ReservationPlayer < ActiveRecord::Base
 
     %w[BY RU].include?(geocode_result.country_code)
   end
+
+  def self.whitelisted_country?(ip)
+    geocode_result = Geocoder.search(ip).first
+    return false unless geocode_result
+
+    %w[IR].include?(geocode_result.country_code)
+  end
 end

@@ -2,6 +2,7 @@
 
 class ReservationsController < ApplicationController
   before_action :require_admin, only: %i[streaming]
+  skip_before_action :redirect_if_country_banned, only: :played_in
   helper LogLineHelper
   layout 'rcon', only: [:rcon]
   include RconHelper

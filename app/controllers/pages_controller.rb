@@ -2,7 +2,7 @@
 
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!, except: %i[recent_reservations statistics]
-  skip_before_action :redirect_if_country_banned, only: :no_to_war
+  skip_before_action :redirect_if_country_banned, only: %i[no_to_war welcome]
   before_action :require_admin_or_streamer, only: :recent_reservations
 
   def welcome

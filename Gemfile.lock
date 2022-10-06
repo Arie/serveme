@@ -302,7 +302,7 @@ GEM
     geocoder (1.8.1)
     globalid (1.0.0)
       activesupport (>= 5.0)
-    haml (6.0.4)
+    haml (6.0.5)
       temple (>= 0.8.2)
       thor
       tilt
@@ -331,7 +331,7 @@ GEM
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
     io-console (0.5.11)
-    irb (1.4.1)
+    irb (1.4.2)
       reline (>= 0.3.0)
     jaro_winkler (1.5.4)
     jbuilder (2.11.5)

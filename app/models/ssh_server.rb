@@ -2,7 +2,7 @@
 
 class SshServer < RemoteServer
   def find_process_id
-    execute("ps ux | grep port | grep #{port} | grep srcds_linux | grep -v grep | grep -v ruby | awk '{print \$2}'")
+    execute("ps ux | grep port | grep #{port} | grep srcds_linux | grep -v grep | grep -v ruby | awk '{print $2}'")
   end
 
   def demos

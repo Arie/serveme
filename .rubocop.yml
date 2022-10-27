@@ -37,8 +37,8 @@ Style/FormatStringToken:
 Layout/LineLength:
    Enabled: false
 
-NumericLiterals:
-  Enabled: false
+Style/NumericLiterals:
+   Enabled: false
 
 Style/HashSyntax:
-  EnforcedShorthandSyntax: either
+   EnforcedShorthandSyntax: either

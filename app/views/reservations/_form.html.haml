@@ -42,7 +42,7 @@
 
       = f.input :password,            as: :string, placeholder: "The server password to join the game"
       = f.input :rcon,                as: :string, placeholder: "The RCON password to control the server",          disabled: !@reservation.schedulable?
-      = f.input :first_map,           collection: MapUpload.available_maps, :input_html => { :class => "select2" }, disabled: !@reservation.schedulable?
+      = f.input :first_map,           as: :grouped_select, group_method: :maps, group_label_method: :name, collection: LeagueMaps.all, :input_html => { :class => "select2" }, disabled: !@reservation.schedulable?
       = f.input :tv_password,         as: :string,   placeholder: "Password for STV, default tv",                   disabled: !@reservation.schedulable?
       = f.input :enable_plugins,      as: :boolean,  hint: "Enable plugins",                                        disabled: !@reservation.schedulable?
       = f.input :enable_demos_tf,     as: :boolean,  hint: "Enable uploading STVs to demos.tf",                     disabled: !@reservation.schedulable?

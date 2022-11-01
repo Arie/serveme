@@ -46,7 +46,7 @@ gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-steam'
 gem 'paypal-sdk-rest'
 gem 'pg'
-gem 'puma'
+gem 'puma', '< 7.0'
 gem 'rack'
 gem 'rack-cache'
 gem 'rails'
@@ -78,7 +78,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'capistrano', require: false
-  gem 'capistrano3-puma', require: false
+  gem 'capistrano3-puma', '~> 5.2', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano_colors', require: false
   gem 'capistrano-ext', require: false
@@ -88,6 +88,7 @@ group :development do
   gem 'capistrano-rvm', require: false
   gem 'capistrano-sidekiq', git: 'https://github.com/Pharmony/capistrano-sidekiq.git', require: false
   gem 'rubocop', require: false
+  gem 'ruby-lsp', '~> 0.3.5'
 end
 
 group :test, :development do

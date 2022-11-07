@@ -433,7 +433,7 @@ GEM
       omniauth-openid
     orm_adapter (0.5.0)
     parallel (1.22.1)
-    parallel_tests (3.13.0)
+    parallel_tests (4.0.0)
       parallel
     parser (3.1.2.1)
       ast (~> 2.4.1)
@@ -691,7 +691,7 @@ GEM
       nokogiri (~> 1.8)
     yard (0.9.28)
       webrick (~> 1.7.0)
-    zeitwerk (2.6.4)
+    zeitwerk (2.6.5)
     zonebie (0.6.1)
 
 PLATFORMS

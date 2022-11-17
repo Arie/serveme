@@ -288,6 +288,10 @@ class Server < ActiveRecord::Base
     nil
   end
 
+  def rcon_exec!(command)
+    condenser.rcon_exec(command)
+  end
+
   def rcon_disconnect
     condenser.disconnect
   rescue StandardError => e

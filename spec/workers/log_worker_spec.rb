@@ -127,6 +127,7 @@ describe LogWorker do
 
     context 'other map' do
       it 'saves a status indicating the server has started the map' do
+        ApplyApiKeysWorker.should_receive(:perform_in).with(5.seconds, reservation.id).and_return(true)
         LogWorker.perform_async(badlands_start_line)
         ReservationStatus.last.status.should include('cp_badlands')
       end

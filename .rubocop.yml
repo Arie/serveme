@@ -42,3 +42,10 @@ Style/NumericLiterals:
 
 Style/HashSyntax:
    EnforcedShorthandSyntax: either
+
+Metrics/BlockLength:
+   Exclude:
+      - 'Rakefile'
+      - '**/*.rake'
+      - 'factories/**/*.rb'
+      - 'spec/**/*.rb'

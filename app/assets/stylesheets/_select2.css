@@ -635,3 +635,7 @@ disabled look for disabled choices in the results dropdown
       background-position: 100% -21px !important;
   }
 }
+
+.select2-result-unselectable > .select2-result-label {
+  background-color: #ccc;
+}

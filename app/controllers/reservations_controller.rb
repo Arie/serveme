@@ -98,9 +98,7 @@ class ReservationsController < ApplicationController
 
   def status
     reservation
-    respond_to do |format|
-      format.json
-    end
+    respond_to(&:json)
   end
 
   def streaming

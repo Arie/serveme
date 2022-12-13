@@ -81,7 +81,12 @@ Serveme::Application.routes.draw do
 
   resources :private_servers, only: :create
 
-  resources :servers, except: :destroy
+  resources :servers, except: :destroy do
+    member do
+      post :force_update, as: :force_update
+      post :restart, as: :restart
+    end
+  end
 
   resources :orders, only: %i[new create index] do
     collection do

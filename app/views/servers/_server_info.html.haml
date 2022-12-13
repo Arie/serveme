@@ -8,14 +8,12 @@
     %td= statistic.map_name
     %td= statistic.number_of_players
     %td= statistic.fps
-    %td= statistic.traffic_in
-    %td= statistic.traffic_out
     %td.actions
       = "#{server.inactive_minutes} minutes"
   - else
     - if reservation
-      %td{colspan: 5} N/A
+      %td{colspan: 3} N/A
       %td.actions
     - else
-      %td{colspan: 6} Idle
+      %td{colspan: 4} Idle
 

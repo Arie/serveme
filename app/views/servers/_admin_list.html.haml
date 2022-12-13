@@ -6,13 +6,12 @@
         %th Map name
         %th Players
         %th FPS
-        %th In
-        %th Out
         %th Inactive
+        %th Version
     - active_servers = servers.order(:name).select { |s| s.recent_server_statistics.any? }
     - inactive_servers = servers.order(:name).select { |s| s.recent_server_statistics.none? }
 
     - active_servers.each do |server|
-      = render 'servers/admin_server_info', server: server.decorate
+      = render 'servers/admin_server_info', server: server.decorate, latest_server_version: latest_server_version
     - inactive_servers.each do |server|
-      = render 'servers/admin_server_info', server: server.decorate
+      = render 'servers/admin_server_info', server: server.decorate, latest_server_version: latest_server_version

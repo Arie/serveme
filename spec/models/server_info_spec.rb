@@ -179,6 +179,7 @@ Loaded plugins:
       subject.number_of_players.should eql 12
       subject.ip.should eql '169.254.61.158'
       subject.port.should eql 42_992
+      subject.version.should eql 3032525
     end
 
     it 'returns an empty hash if something went wrong' do

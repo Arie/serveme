@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ServersController < ApplicationController
-  before_action :require_admin, only: %i[new create edit update]
+  before_action :require_admin, only: %i[new create edit update restart force_update]
 
   def index
     @servers = Server.active.includes([current_reservations: { user: :groups }], :location, :recent_server_statistics).order(:name)
@@ -48,6 +48,17 @@ class ServersController < ApplicationController
         format.html { render :new, status: :unprocessable_entity }
       end
     end
+  end
+
+  def force_update
+    @server = Server.find(params[:id])
+    @server.update_columns(update_status: 'Updating', update_started_at: Time.current)
+    @server.restart
+  end
+
+  def restart
+    @server = Server.find(params[:id])
+    @server.restart
   end
 
   def permitted_params

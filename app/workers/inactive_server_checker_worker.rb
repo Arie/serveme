@@ -11,6 +11,7 @@ class InactiveServerCheckerWorker
     @server = Server.find(server_id)
 
     server_info = fetch_sdr_info
+    save_version_info(server_info)
     save_sdr_info(server_info)
   end
 
@@ -26,6 +27,14 @@ class InactiveServerCheckerWorker
       Rails.logger.warn "Couldn't get RCON status of #{server.name} - #{server.ip}:#{server.port}"
       nil
     end
+  end
+
+  def save_version_info(server_info)
+    return unless server_info&.version.present?
+
+    server.update_columns(
+      last_known_version: server_info.version
+    )
   end
 
   def save_sdr_info(server_info)

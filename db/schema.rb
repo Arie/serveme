@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_27_191656) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_08_220436) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -256,6 +256,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_27_191656) do
     t.string "last_sdr_ip"
     t.string "last_sdr_port"
     t.string "last_sdr_tv_port"
+    t.integer "last_known_version"
+    t.datetime "update_started_at"
+    t.string "update_status"
     t.index ["active"], name: "index_servers_on_active"
     t.index ["ip"], name: "index_servers_on_ip"
     t.index ["latitude", "longitude"], name: "index_servers_on_latitude_and_longitude"

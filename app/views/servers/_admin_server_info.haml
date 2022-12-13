@@ -17,8 +17,6 @@
     %td= statistic.map_name
     %td= statistic.number_of_players
     %td= statistic.fps
-    %td= statistic.traffic_in
-    %td= statistic.traffic_out
     %td.actions
       = "#{server.inactive_minutes} minutes"
       %br
@@ -26,9 +24,19 @@
         = render "reservations/actions", reservation: reservation
   - else
     - if reservation
-      %td{colspan: 5} N/A
+      %td{colspan: 3} N/A
       %td.actions
         - if reservation
           = render "reservations/actions", reservation: reservation
     - else
-      %td{colspan: 6} Idle
+      %td{colspan: 4} Idle
+    %td
+      = latest_server_version
+      - if server.last_known_version != latest_server_version
+        %i.fa.fa-exclamation-circle.text-danger
+        = server.last_known_version
+        = link_to("Update", force_update_server_path(server), class: 'btn btn-sm btn-danger', method: :post, data: { confirm: "This will force a server restart, regardless if there are players on the servers" })
+      - else
+        %i.fa.fa-check.text-success
+        = server.last_known_version
+        = link_to("Restart", restart_server_path(server), class: 'btn btn-sm btn-danger', method: :post, data: { confirm: "This will force a server restart, regardless if there are players on the servers" })

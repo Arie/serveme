@@ -8,6 +8,6 @@ class UpdateServerPageWorker
   def perform
     servers = Server.active.includes([current_reservations: { user: :groups }], :location, :recent_server_statistics).order(:name)
     Turbo::StreamsChannel.broadcast_replace_to 'server-list', target: 'server-list', partial: 'servers/list', locals: { servers: servers }
-    Turbo::StreamsChannel.broadcast_replace_to 'admin-server-list', target: 'admin-server-list', partial: 'servers/admin_list', locals: { servers: servers }
+    Turbo::StreamsChannel.broadcast_replace_to 'admin-server-list', target: 'admin-server-list', partial: 'servers/admin_list', locals: { servers: servers, latest_server_version: Server.latest_version }
   end
 end

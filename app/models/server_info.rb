@@ -18,6 +18,10 @@ class ServerInfo
     status.fetch(:server_name, 'unknown').to_s
   end
 
+  def version
+    status.fetch(:version, nil)
+  end
+
   def ip
     status.fetch(:ip, nil)
   end
@@ -43,6 +47,8 @@ class ServerInfo
       out = {}
       fetch_rcon_status.lines.each do |line|
         case line
+        when /^version\s+:\s+(\d+)/
+          out[:version] ||= Regexp.last_match(1)&.to_i
         when %r{^udp/ip\s+:\s+(\d+\.\d+\.\d+\.\d+):(\d+)}
           out[:ip] ||= Regexp.last_match(1)
           out[:port] ||= Regexp.last_match(2)&.to_i

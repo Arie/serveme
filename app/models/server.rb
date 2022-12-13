@@ -57,6 +57,22 @@ class Server < ActiveRecord::Base
     Group.donator_group.servers
   end
 
+  def self.outdated(latest_version = nil)
+    latest_version ||= self.latest_version
+
+    where('last_known_version is not null and last_known_version < ?', latest_version)
+  end
+
+  def self.updated(latest_version = nil)
+    latest_version ||= self.latest_version
+
+    where('last_known_version is null or last_known_version = ?', latest_version)
+  end
+
+  def self.updating
+    where('update_status = ?', 'Updating')
+  end
+
   def public_ip
     return last_sdr_ip if sdr?
 
@@ -319,6 +335,8 @@ class Server < ActiveRecord::Base
   end
 
   def self.fetch_latest_version
+    return 100_000_000 if Rails.env.test?
+
     response = Faraday.new(url: 'http://api.steampowered.com').get('ISteamApps/UpToDateCheck/v1?appid=440&version=0') do |req|
       req.options.timeout = 5
       req.options.open_timeout = 2

@@ -31,6 +31,7 @@ class ActiveReservationCheckerWorker
       @server_info.fetch_stats
       @server_info.fetch_rcon_status
       @reservation.save_sdr_info(@server_info) if sdr_info_missing?
+      save_version_info(@server_info)
       ServerMetric.new(@server_info)
       @server.rcon_exec("sv_logsecret #{@reservation.logsecret}; #{@reservation.api_keys_rcon_contents}", allow_blocked: true)
     rescue SteamCondenser::Error, Errno::ECONNREFUSED
@@ -60,5 +61,13 @@ class ActiveReservationCheckerWorker
 
   def sdr_info_missing?
     @reservation.sdr_ip.nil?
+  end
+
+  def save_version_info(server_info)
+    return unless server_info&.version.present?
+
+    @server.update_columns(
+      last_known_version: server_info.version
+    )
   end
 end

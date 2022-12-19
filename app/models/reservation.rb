@@ -211,8 +211,13 @@ class Reservation < ActiveRecord::Base
     end
   end
 
-  def apply_api_keys
-    server.rcon_exec!("logstf_apikey \"#{user.logs_tf_api_key.presence || LOGS_TF_API_KEY}\"; sm_web_rcon_url \"#{SITE_URL}/reservations/#{id}/rcon\"; sm_demostf_apikey \"#{user.demos_tf_api_key.presence || DEMOS_TF_API_KEY}\"")
+  def api_keys_rcon_contents
+    contents = "logstf_apikey \"#{user.logs_tf_api_key.presence || LOGS_TF_API_KEY}\"; sm_web_rcon_url \"#{SITE_URL}/reservations/#{id}/rcon\""
+    if enable_demos_tf?
+      contents + "; sm_demostf_apikey \"#{user.demos_tf_api_key.presence || DEMOS_TF_API_KEY}\""
+    else
+      contents
+    end
   end
 
   def status

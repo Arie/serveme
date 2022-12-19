@@ -61,6 +61,7 @@ describe ActiveReservationCheckerWorker do
           reservation.stub(user: user)
           reservation.stub(inactive_too_long?: true)
           reservation.stub(lobby?: false)
+          reservation.stub(api_keys_rcon_contents: 'api keys rcon commands')
           reservation.should_receive(:end_reservation)
           ActiveReservationCheckerWorker.perform_async(reservation.id)
         end

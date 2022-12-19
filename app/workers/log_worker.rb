@@ -41,7 +41,6 @@ class LogWorker
       reservation.status_update('Server startup complete, switching map')
     else
       reservation.status_update("Server finished loading map \"#{mapname}\"")
-      ApplyApiKeysWorker.perform_in(5.seconds, reservation.id)
     end
   end
 

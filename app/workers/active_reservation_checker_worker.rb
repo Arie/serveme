@@ -32,7 +32,7 @@ class ActiveReservationCheckerWorker
       @server_info.fetch_rcon_status
       @reservation.save_sdr_info(@server_info) if sdr_info_missing?
       ServerMetric.new(@server_info)
-      @server.rcon_exec "sv_logsecret #{@reservation.logsecret}"
+      @server.rcon_exec "sv_logsecret #{@reservation.logsecret}; #{@reservation.api_keys_rcon_contents}"
     rescue SteamCondenser::Error, Errno::ECONNREFUSED
       Rails.logger.warn "Couldn't update #{@reservation.server.name}"
     end
@@ -42,7 +42,6 @@ class ActiveReservationCheckerWorker
     @reservation.update_column(:last_number_of_players, @server_info.number_of_players)
     @reservation.update_column(:inactive_minute_counter, 0)
     @reservation.warn_nearly_over if @reservation.nearly_over?
-    @reservation.apply_api_keys if @reservation.enable_demos_tf?
   end
 
   def handle_empty_server

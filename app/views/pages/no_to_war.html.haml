@@ -28,7 +28,7 @@
 
   %p.lead
     = form_tag do |form|
-      = check_box_tag :not_a_vatnik, 'true', cookies[:not_a_vatnik] == 'true'
+      = check_box_tag :not_a_vatnik, 'true'
       %label{for: 'not_a_vatnik'}
         I am not a vatnik
       %br

@@ -2,7 +2,7 @@
 
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!, except: %i[recent_reservations statistics]
-  skip_before_action :redirect_if_country_banned, only: %i[no_to_war welcome]
+  skip_before_action :redirect_if_country_banned, only: %i[no_to_war welcome no_vatnik]
   before_action :require_admin_or_streamer, only: :recent_reservations
 
   def welcome
@@ -50,7 +50,7 @@ class PagesController < ApplicationController
   def private_servers; end
 
   def no_vatnik
-    cookies.permanent[:not_a_vatnik] = (params[:not_a_vatnik] == '1')
+    cookies.permanent[:not_a_vatnik] = (params[:not_a_vatnik] == 'true')
     redirect_to root_path
   end
 

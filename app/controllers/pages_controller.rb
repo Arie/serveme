@@ -49,6 +49,11 @@ class PagesController < ApplicationController
 
   def private_servers; end
 
+  def no_vatnik
+    cookies.permanent[:not_a_vatnik] = (params[:not_a_vatnik] == '1')
+    redirect_to root_path
+  end
+
   def not_found
     render 'not_found', status: 404, formats: :html
   end

@@ -1,5 +1,5 @@
 - title = "No to war / Нет войне!"
-- description = "My dearest Russian and Belarusian friends, peace be with you and we hope to welcome you again soon"
+- description = "Don't be a vatnik"
 - content_for :title do
   = title
 - content_for :meta_description do
@@ -11,23 +11,25 @@
 .jumbotron
   %h1= title
   %p.lead
-    My dearest 
+    Hello
     %span.flags.flags-ru.ml-1.mr-0
-    Russian and
+    and
     %span.flags.flags-by.ml-1.mr-0
-    Belarusian friends
+    friends, it's been too long.
   %p.lead
-    Due to the unprovoked invasion by the Russian army of the democratic country of 
-    %span.flags.flags-ua.ml-1.mr-0
-    Ukraine, we are no longer willing or able to accept payments from your countries.
-  %p.lead For this reason we have decided to prevent players from your countries from using our website, to stop any new payments. You will still be able to play on our servers, but that might change depending on sanctions.
+    Two rules.
   %p.lead
-    If you have paid for premium, 
+    1. We can't accept payments, so no premium servers. (if you've ever paid for premium,
     %a{href: "https://discord.gg/0s38RdItLiCmARMm"}
       contact us on discord
-    for a refund if you wish.
-  %p.lead Peace be with you and we hope to welcome you again soon
-  %p.small
-    Longer explanation 
-    %a{href: "https://www.teamfortress.tv/15994/serveme-tf-free-server-reservations/?page=5#146"}
-      on teamfortress.tv forum
+    for a free extension)
+    %br
+    2. Don't be a vatnik
+
+  %p.lead
+    = form_tag do |form|
+      = check_box_tag :not_a_vatnik, 'true', cookies[:not_a_vatnik] == 'true'
+      %label{for: 'not_a_vatnik'}
+        I am not a vatnik
+      %br
+      = submit_tag "Submit"

@@ -88,7 +88,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_if_country_banned
-    return if current_user&.donator? || ReservationPlayer.whitelisted_uid?(current_user&.uid)
+    return if cookies[:not_a_vatnik] == 'true' || current_user&.donator? || ReservationPlayer.whitelisted_uid?(current_user&.uid)
 
     redirect_to no_to_war_path if current_user&.banned_country? || ReservationPlayer.banned_country?(request.remote_ip) || recent_banned_country_ips?
   end

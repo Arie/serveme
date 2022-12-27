@@ -459,7 +459,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.6.2)
-    rack (2.2.4)
+    rack (2.2.5)
     rack-cache (1.13.0)
       rack (>= 0.4)
     rack-openid (1.4.2)

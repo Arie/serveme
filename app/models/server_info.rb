@@ -15,7 +15,7 @@ class ServerInfo
   end
 
   def server_name
-    ActiveSupport::Multibyte::Chars.new(status.fetch(:server_name, 'unknown')).tidy_bytes.to_s
+    status.fetch(:server_name, 'unknown').to_s
   end
 
   def ip
@@ -27,15 +27,15 @@ class ServerInfo
   end
 
   def number_of_players
-    status.fetch(:number_of_players,  nil).freeze
+    status.fetch(:number_of_players,  nil)
   end
 
   def max_players
-    status.fetch(:max_players,        '0').freeze
+    status.fetch(:max_players,        '0')
   end
 
   def map_name
-    status.fetch(:map_name,           'unknown').freeze
+    status.fetch(:map_name,           'unknown')
   end
 
   def status
@@ -64,43 +64,43 @@ class ServerInfo
   def fetch_stats
     Rails.cache.fetch "stats_#{server.id}", expires_in: 1.minute do
       auth
-      server_connection.rcon_exec('stats').freeze
+      server_connection.rcon_exec('stats')
     end
   end
 
   def fetch_rcon_status
     Rails.cache.fetch "rcon_status_#{server.id}", expires_in: 1.minute do
       auth
-      ActiveSupport::Multibyte::Chars.new(server_connection.rcon_exec('status')).tidy_bytes.to_s
+      server_connection.rcon_exec('status').to_s
     end
   end
 
   def cpu
-    stats[:cpu].freeze
+    stats[:cpu]
   end
 
   def traffic_in
-    stats[:in].freeze
+    stats[:in]
   end
 
   def traffic_out
-    stats[:out].freeze
+    stats[:out]
   end
 
   def uptime
-    stats[:uptime].freeze
+    stats[:uptime]
   end
 
   def map_changes
-    stats[:map_changes].freeze
+    stats[:map_changes]
   end
 
   def fps
-    stats[:fps].freeze
+    stats[:fps]
   end
 
   def connects
-    stats[:connects].freeze
+    stats[:connects]
   end
 
   def stats
@@ -112,12 +112,12 @@ class ServerInfo
     end
     items = stats_line.split
     {
-      cpu: items[-8].freeze,
-      in: items[-7].freeze,
-      out: items[-6].freeze,
-      uptime: items[-5].freeze,
-      map_changes: items[-4].freeze,
-      fps: items[-3].freeze,
+      cpu: items[-8],
+      in: items[-7],
+      out: items[-6],
+      uptime: items[-5],
+      map_changes: items[-4],
+      fps: items[-3],
       connects: items[-1].freeze
     }
   end

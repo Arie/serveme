@@ -164,7 +164,7 @@ class ReservationsController < ApplicationController
       end_reservation
       'Ending reservation'
     else
-      ActiveSupport::Multibyte::Chars.new(reservation.server.rcon_exec(rcon_command).to_s).tidy_bytes
+      reservation.server.rcon_exec(rcon_command).to_s
     end
   end
 

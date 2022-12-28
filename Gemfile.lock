@@ -11,6 +11,16 @@ GIT
     remote_lock (1.2.0)
 
 GIT
+  remote: https://github.com/Arie/steam-condenser-ruby.git
+  revision: 2d1a1acc2e76631e91cb25a263b3d00373371695
+  specs:
+    steam-condenser (1.3.11)
+      activesupport (>= 4.2)
+      multi_json (~> 1.6)
+      multi_xml (~> 0.5)
+      rexml (~> 3.2)
+
+GIT
   remote: https://github.com/Pharmony/capistrano-sidekiq.git
   revision: fc20388544468d7fedbd89d06df9ea8225c8e6a0
   specs:
@@ -18,15 +28,6 @@ GIT
       capistrano (>= 3.9.0)
       capistrano-bundler
       sidekiq (>= 6.0)
-
-GIT
-  remote: https://github.com/koraktor/steam-condenser-ruby.git
-  revision: 3ee580b5c5d390ee3a706357f18f2e9a2949e5c2
-  specs:
-    steam-condenser (1.3.11)
-      multi_json (~> 1.6)
-      multi_xml (~> 0.5)
-      rexml (~> 3.2)
 
 GEM
   remote: https://rubygems.org/

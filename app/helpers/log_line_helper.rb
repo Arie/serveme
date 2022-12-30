@@ -10,7 +10,8 @@ module LogLineHelper
       .gsub(tftrue_logs_tf_api_key_regex, 'tftrue_logs_apikey "*****"')
       .gsub(logs_tf_api_key_regex, 'logstf_apikey "*****"')
       .gsub(sm_demostf_apikey_regex, 'sm_demostf_apikey "*****"')
-      .gsub(logaddress_regex, 'logaddress_add "*****"')
+      .gsub(logaddress_add_regex, 'logaddress_add "*****"')
+      .gsub(logaddress_del_regex, 'logaddress_del "*****"')
       .gsub(logsecret_regex, 'sv_logsecret *****"')
   end
 
@@ -75,8 +76,12 @@ module LogLineHelper
     @sm_demostf_apikey_regex ||= /sm_demostf_apikey "\S+"/
   end
 
-  def logaddress_regex
-    @logaddress_regex ||= /logaddress_add \S+"/
+  def logaddress_add_regex
+    @logaddress_add_regex ||= /logaddress_add \S+"/
+  end
+
+  def logaddress_del_regex
+    @logaddress_del_regex ||= /logaddress_del \S+"/
   end
 
   def logsecret_regex

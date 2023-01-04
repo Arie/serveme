@@ -632,7 +632,7 @@ GEM
       thor (~> 1.0)
       tilt (~> 2.0)
       yard (~> 0.9, >= 0.9.24)
-    sorbet-runtime (0.5.10600)
+    sorbet-runtime (0.5.10601)
     sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -648,7 +648,7 @@ GEM
       railties (>= 6.0.0)
     stripe (8.0.0)
     sync (0.5.0)
-    syntax_tree (5.1.0)
+    syntax_tree (5.2.0)
       prettier_print (>= 1.2.0)
     sys-uname (1.2.2)
       ffi (~> 1.1)
@@ -676,7 +676,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8.2)
-    unicode-display_width (2.4.0)
+    unicode-display_width (2.4.2)
     vcr (6.1.0)
     warden (1.2.9)
       rack (>= 2.0.9)
@@ -819,4 +819,4 @@ DEPENDENCIES
   zonebie
 
 BUNDLED WITH
-   2.3.12
+   2.4.1

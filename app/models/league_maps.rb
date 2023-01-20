@@ -25,24 +25,26 @@ class LeagueMaps
 
   def self.etf2l_sixes_maps
     %w[
-      cp_process_f11
+      cp_granary_pro_rc8
       cp_gullywash_f9
+      cp_metalworks_f5
+      cp_process_f11
+      cp_reckoner_rc6
       cp_snakewater_final1
-      koth_product_final
       cp_sunshine
       koth_bagel_rc5
-      cp_reckoner_rc6
+      koth_product_final
     ]
   end
 
   def self.etf2l_hl_maps
     %w[
-      pl_upward_f10
-      pl_vigil_rc9
-      cp_steel_f11
+      cp_steel_f12
       koth_product_final
       koth_proplant_v8
       pl_badwater_pro_v12
+      pl_upward_f10
+      pl_vigil_rc9
     ]
   end
 
@@ -50,99 +52,100 @@ class LeagueMaps
     sixes =
       %w[
         cp_gullywash_f9
-        koth_bagel_rc5
-        cp_metalworks_f4
+        cp_metalworks_f5
+        cp_process_f12
         cp_snakewater_final1
-        koth_product_final
-        cp_process_f11
-        koth_clearcut_b15d
+        cp_sultry_b7
         cp_sunshine
+        koth_bagel_b5
+        koth_clearcut_b15d
+        koth_product_final
       ]
     sixes_invite =
       %w[
-        cp_gullywash_f9
-        koth_bagel_rc5
-        cp_metalworks_f4
-        cp_snakewater_final1
-        koth_product_final
-        cp_process_f11
         cp_granary_pro_rc8
+        cp_gullywash_f9
+        cp_process_f12
+        cp_snakewater_final1
+        cp_sultry_b7
         cp_sunshine
+        koth_bagel_rc5
+        koth_product_final
       ]
     sixes + sixes_invite
   end
 
   def self.rgl_hl_maps
     %w[
-      pl_upward_f10
-      koth_ashville_final
-      pl_vigil_rc9
-      koth_proot_b4b
-      pl_swiftwater_final1
-      koth_product_final
       cp_steel_f12
+      koth_ashville_final
+      koth_product_final
+      koth_proot_b5a
+      pl_swiftwater_final1
+      pl_upward_f10
+      pl_vigil_rc9
     ]
   end
 
   def self.rgl_prolander_maps
     %w[
+      cp_steel_f12
+      koth_ashville_final
       koth_product_final
-      koth_ashville_rc2d
+      pl_upward_f10
       pl_vigil_rc9
-      pl_upward_f5
-      cp_steel_f8
     ]
   end
 
   def self.ugc_hl_maps
     %w[
-      koth_ashville_final
-      pl_borneo_f2
-      koth_cascade
-      pl_vigil_rc9
-      koth_product_final
-      pl_upward_f10
-      koth_clearcut_b15d
       cp_steel_f12
+      koth_ashville_final
+      koth_cascade
+      koth_clearcut_b15d
+      koth_product_final
+      pl_borneo_f2
+      pl_upward_f10
+      pl_vigil_rc9
     ]
   end
 
   def self.ugc_sixes_maps
     %w[
       cp_granary_pro_rc8
-      koth_bagel_rc5
       cp_gullywash_f9
-      koth_product_final
-      cp_sunshine
-      koth_clearcut_b15d
-      cp_process_f11
+      cp_process_f12
       cp_snakewater_final1
+      cp_sunshine
+      koth_bagel_rc5
+      koth_clearcut_b15d
+      koth_product_final
     ]
   end
 
   def self.ugc_fours_maps
     %w[
-      koth_maple_ridge_rc1
-      koth_highpass_rc1a
-      koth_brazil_rc3
-      koth_product_final
       cp_warmfrost_rc1
-      koth_bagel_rc5
-      koth_undergrove_rc1
       koth_airfield_b7
+      koth_bagel_rc5
+      koth_brazil
+      koth_highpass
+      koth_maple_ridge_rc1
+      koth_product_final
+      koth_undergrove_rc1
     ]
   end
 
   def self.ugc_ultiduo_maps
     %w[
       koth_ultiduo_r_b7
+      ultiduo_baloo_v2
+      ultiduo_champions_legacy_a7
+      ultiduo_grove_b4
+      ultiduo_gullywash_b2
+      ultiduo_lookout_b1
       ultiduo_obsidian_a10
       ultiduo_spytech_rc1
-      ultiduo_grove_b4
-      ultiduo_baloo_v2
-      ultiduo_lookout_b1
-      ultiduo_champions_legacy_a7
-      ultiduo_gullywash_b2
     ]
   end
 end

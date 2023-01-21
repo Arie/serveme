@@ -57,7 +57,7 @@ class LeagueMaps
         cp_snakewater_final1
         cp_sultry_b7
         cp_sunshine
-        koth_bagel_b5
+        koth_bagel_rc5
         koth_clearcut_b15d
         koth_product_final
       ]

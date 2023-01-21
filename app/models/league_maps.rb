@@ -55,7 +55,7 @@ class LeagueMaps
         cp_metalworks_f5
         cp_process_f12
         cp_snakewater_final1
-        cp_sultry_b7
+        cp_sultry_b8
         cp_sunshine
         koth_bagel_rc5
         koth_clearcut_b15d
@@ -67,7 +67,7 @@ class LeagueMaps
         cp_gullywash_f9
         cp_process_f12
         cp_snakewater_final1
-        cp_sultry_b7
+        cp_sultry_b8
         cp_sunshine
         koth_bagel_rc5
         koth_product_final

@@ -286,6 +286,7 @@ class RconAutocomplete
       { command: 'tf_tournament_classlimit_spy', description: 'Set the spy class limit' },
       { command: 'tf_use_fixed_weaponspreads', description: 'Control random weapon spread' },
       { command: 'tf_weapon_criticals', description: 'Toggle critical hits' },
+      { command: 'tf_avoidteammates_pushaway', description: 'Whether or not teammates push each other away when occupying the same space' },
       { command: 'tftrue_whitelist_id', description: 'Set the whitelist with TFTrue' },
       { command: 'tv_delay', description: 'Set the STV delay' },
       { command: 'tv_delaymapchange', description: 'Control map change delay to allow STV to finish broadcasting' },

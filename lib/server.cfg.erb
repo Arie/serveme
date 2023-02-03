@@ -1,0 +1,30 @@
+hide_server 1
+<% if sdr? %>
+<%= %{alias ip} %>
+<%= %{alias hostip} %>
+<% end %>
+
+hostname "<%= name %>"
+<% if SITE_HOST == "na.serveme.tf" %>
+<%= %{sv_downloadurl "http://kansas.serveme.tf"} %>
+<% else %>
+<%= %{sv_downloadurl "http://dl.serveme.tf"} %>
+<% end %>
+
+rcon_password "<%= rcon %>"
+sv_password "<%= SecureRandom.hex(8) %>"
+
+log on
+
+tv_autorecord 1
+
+sv_logbans 1
+sv_rcon_whitelist_address "<%= "direct.#{SITE_HOST}" %>"
+sv_rcon_minfailuretime 1
+sv_rcon_minfailures 20
+sv_rcon_maxfailures 20
+sv_rcon_banpenalty 1
+sv_quota_stringcmdspersecond 200
+sv_max_queries_sec_global 60
+
+exec reservation.cfg

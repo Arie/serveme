@@ -144,11 +144,17 @@ class Server < ActiveRecord::Base
     write_configuration(server_config_file("custom_whitelist_#{reservation.custom_whitelist_id}.txt"), reservation.custom_whitelist_content)
   end
 
-  def generate_config_file(reservation, config_file)
+  def generate_config_file(object, config_file)
     template         = File.read(Rails.root.join("lib/#{config_file}.erb"))
     renderer         = ERB.new(template)
-    renderer.result(reservation.get_binding)
+    renderer.result(object.get_binding)
   end
+
+  # rubocop:disable Naming/AccessorMethodName
+  def get_binding
+    binding
+  end
+  # rubocop:enable Naming/AccessorMethodName
 
   def process_id
     @process_id ||= begin

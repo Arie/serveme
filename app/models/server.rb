@@ -192,9 +192,7 @@ class Server < ActiveRecord::Base
   end
 
   def start_reservation(reservation)
-    if supports_mitigations?
-      reservation.enable_mitigations
-    end
+    reservation.enable_mitigations if supports_mitigations?
 
     update_configuration(reservation)
     if reservation.enable_plugins? || reservation.enable_demos_tf?

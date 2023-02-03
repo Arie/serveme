@@ -85,8 +85,7 @@ class SshServer < RemoteServer
   end
 
   def supports_mitigations?
-    # SITE_HOST != 'sea.serveme.tf'
-    false
+    SITE_HOST != 'sea.serveme.tf'
   end
 
   private

@@ -193,11 +193,7 @@ class Server < ActiveRecord::Base
 
   def start_reservation(reservation)
     if supports_mitigations?
-      if reservation.server.sdr?
-        reservation.enable_sdr_mitigations
-      else
-        reservation.enable_mitigations
-      end
+      reservation.enable_mitigations
     end
 
     update_configuration(reservation)
@@ -237,7 +233,6 @@ class Server < ActiveRecord::Base
   end
 
   def end_reservation(reservation)
-    DisableMitigationsWorker.perform_async(reservation.id) if supports_mitigations?
     reservation.reload
     return if reservation.ended?
 

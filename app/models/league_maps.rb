@@ -32,7 +32,7 @@ class LeagueMaps
       cp_reckoner_rc6
       cp_snakewater_final1
       cp_sunshine
-      koth_bagel_rc5
+      koth_bagel_rc6
       koth_product_final
     ]
   end
@@ -57,7 +57,7 @@ class LeagueMaps
         cp_snakewater_final1
         cp_sultry_b8
         cp_sunshine
-        koth_bagel_rc5
+        koth_bagel_rc6
         koth_clearcut_b15d
         koth_product_final
       ]
@@ -69,7 +69,7 @@ class LeagueMaps
         cp_snakewater_final1
         cp_sultry_b8
         cp_sunshine
-        koth_bagel_rc5
+        koth_bagel_rc6
         koth_product_final
       ]
     sixes + sixes_invite
@@ -117,7 +117,7 @@ class LeagueMaps
       cp_process_f12
       cp_snakewater_final1
       cp_sunshine
-      koth_bagel_rc5
+      koth_bagel_rc6
       koth_clearcut_b15d
       koth_product_final
     ]
@@ -127,7 +127,7 @@ class LeagueMaps
     %w[
       cp_warmfrost_rc1
       koth_airfield_b7
-      koth_bagel_rc5
+      koth_bagel_rc6
       koth_brazil
       koth_highpass
       koth_maple_ridge_rc1

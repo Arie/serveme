@@ -40,9 +40,10 @@ class LeagueMaps
   def self.etf2l_hl_maps
     %w[
       cp_steel_f12
+      koth_cascade
       koth_product_final
       koth_proplant_v8
-      pl_badwater_pro_v12
+      koth_warmtic_f10
       pl_upward_f10
       pl_vigil_rc9
     ]

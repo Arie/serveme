@@ -12,6 +12,8 @@ class LeagueMaps
     [
       new(name: 'ETF2L 6v6', maps: etf2l_sixes_maps.uniq.sort),
       new(name: 'ETF2L HL', maps: etf2l_hl_maps.uniq.sort),
+      new(name: 'ozfortress 6v6', maps: ozfortress_sixes_maps.uniq.sort),
+      new(name: 'ozfortress HL', maps: ozfortress_hl_maps.uniq.sort),
       new(name: 'RGL 6v6', maps: rgl_sixes_maps.uniq.sort),
       new(name: 'RGL HL', maps: rgl_hl_maps.uniq.sort),
       new(name: 'RGL Prolander', maps: rgl_prolander_maps.uniq.sort),
@@ -147,6 +149,34 @@ class LeagueMaps
       ultiduo_lookout_b1
       ultiduo_obsidian_a10
       ultiduo_spytech_rc1
+    ]
+  end
+
+  def self.ozfortress_sixes_maps
+    %w[
+      cp_granary_pro_rc13f
+      cp_gullywash_f9
+      cp_process_f11
+      cp_proworks_v1
+      cp_reckoner_rc6
+      cp_snakewater_final1
+      cp_sunshine
+      koth_bagel_rc5
+      koth_product_final
+    ]
+  end
+
+  def self.ozfortress_hl_maps
+    %w[
+      cp_steel_f12
+      koth_ashville_rc2d
+      koth_cascade
+      koth_product_final
+      koth_warmtic_f10
+      pl_borneo_f2
+      pl_swiftwater_final1
+      pl_upward_f10
+      pl_vigil_rc9
     ]
   end
 end

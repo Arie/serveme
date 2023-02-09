@@ -3,19 +3,19 @@
     %ul.nav.navbar-nav
       %li.dropdown
         = link_to(SITE_HOST, root_url)
-        %a.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#"}
+        %a.dropdown-toggle{data: {toggle: "dropdown"}, href: "#"}
         .dropdown-menu#serveme_links
-          = link_to('http://serveme.tf', class: "dropdown-item") do
-            %span{:class => ["flags", "flags-eu"]}
+          = link_to('https://serveme.tf', class: "dropdown-item") do
+            %span{class: ["flags", "flags-eu"]}
             serveme.tf (Europe)
-          = link_to('http://au.serveme.tf', class: "dropdown-item") do
-            %span{:class => ["flags", "flags-au"]}
+          = link_to('https://au.serveme.tf', class: "dropdown-item") do
+            %span{class: ["flags", "flags-au"]}
             au.serveme.tf (Australia)
-          = link_to('http://na.serveme.tf', class: "dropdown-item") do
-            %span{:class => ["flags", "flags-us"]}
+          = link_to('https://na.serveme.tf', class: "dropdown-item") do
+            %span{class: ["flags", "flags-us"]}
             na.serveme.tf (North-America)
-          = link_to('http://sea.serveme.tf', class: "dropdown-item") do
-            %span{:class => ["flags", "flags-sg"]}
+          = link_to('https://sea.serveme.tf', class: "dropdown-item") do
+            %span{class: ["flags", "flags-sg"]}
             sea.serveme.tf (South East Asia)
 
   %button.navbar-toggler{type: "button", data: { toggle: "collapse", target: "#serveme-navbar" }}
@@ -25,7 +25,7 @@
     %ul.navbar-nav.mr-auto
       - if current_user
         %li.nav-item.dropdown
-          %a.nav-link.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#"}
+          %a.nav-link.dropdown-toggle{data: {toggle: "dropdown"}, href: "#"}
             %i.fa.fa-list
             Reservations
             %b.caret>
@@ -65,7 +65,7 @@
           Stats
 
       %li.dropdown.nav-item
-        %a.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#", :class => "nav-link"}
+        %a.dropdown-toggle{data: {toggle: "dropdown"}, href: "#", class: "nav-link"}
           %i.fa.fa-trophy
           Credits
           %b.caret>
@@ -78,7 +78,7 @@
             Credits
       - if current_user
         %li.dropdown.nav-item
-          %a.dropdown-toggle{:data => {:toggle => "dropdown"}, :href => "#", :class => "nav-link"}
+          %a.dropdown-toggle{data: {toggle: "dropdown"}, href: "#", class: "nav-link"}
             %i.fa.fa-star
             Premium
             %b.caret>
@@ -96,17 +96,17 @@
     %ul.nav.navbar-nav.navbar-right
       %span
         = link_to("https://discord.gg/0s38RdItLiCmARMm", title: "serveme.tf on discord", class: "nav-item discord", target: "_blank") do
-          = image_tag "discord.png", :alt => "Join our Discord server"
-        = link_to "https://twitter.com/servemetf", :title => "serveme.tf on twitter", :class => "nav-item twitter" do
+          = image_tag "discord.png", alt: "Join our Discord server"
+        = link_to "https://twitter.com/servemetf", title: "serveme.tf on twitter", class: "nav-item twitter" do
           %i.fa.fa-twitter.fa-2x
-        = link_to "http://github.com/Arie/serveme", :title => "serveme.tf source code", :class => "nav-item octocat"  do
-          = image_tag "octocat.png", :alt => "Fork me on GitHub"
+        = link_to "https://github.com/Arie/serveme", title: "serveme.tf source code", class: "nav-item octocat"  do
+          = image_tag "octocat.png", alt: "Fork me on GitHub"
       .account
         - if current_user
           = link_to current_user.decorate.nickname, settings_path
           |
-          = link_to users_logout_path, :method => :delete do
+          = link_to users_logout_path, method: :delete do
             %i.fa.fa-sign-out
         - else
           = link_to '/users/auth/steam', method: :post do
-            = image_tag 'sits_small.png', :alt => "Sign in with Steam"
+            = image_tag 'sits_small.png', alt: "Sign in with Steam"

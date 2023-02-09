@@ -18,7 +18,7 @@ module ApplicationHelper
   end
 
   def eu_system?
-    SITE_URL == ('https://serveme.tf' || 'https://www.serveme.tf')
+    ('https://serveme.tf' || 'https://www.serveme.tf') == SITE_URL
   end
 
   %w[au na sa sea].each do |subdomain|

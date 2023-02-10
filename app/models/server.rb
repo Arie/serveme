@@ -198,7 +198,7 @@ class Server < ActiveRecord::Base
     if reservation.enable_plugins? || reservation.enable_demos_tf?
       reservation.status_update('Enabling plugins')
       enable_plugins
-      add_sourcemod_admin(reservation.user) unless reservation.server.sdr?
+      add_sourcemod_admin(reservation.user)
       reservation.status_update('Enabled plugins')
       if reservation.enable_demos_tf?
         reservation.status_update('Enabling demos.tf')
@@ -281,10 +281,19 @@ class Server < ActiveRecord::Base
   end
 
   def rcon_exec(command)
+    return nil if blocked_command?(command)
+
     condenser.rcon_exec(command) if rcon_auth
   rescue Errno::ECONNREFUSED, SteamCondenser::Error::Timeout, SteamCondenser::Error::RCONNoAuth, SteamCondenser::Error::RCONBan => e
     Rails.logger.error "Couldn't deliver command to server #{id} - #{name}, command: #{command}, exception: #{e}"
     nil
+  end
+
+  def blocked_command?(command)
+    blocked_commands.any? do |c|
+      re = Regexp.new(/#{c}/, Regexp::IGNORECASE)
+      re.match(command)
+    end
   end
 
   def rcon_disconnect
@@ -392,5 +401,9 @@ class Server < ActiveRecord::Base
 
   def host_to_ip
     Resolv.getaddress(ip) unless Rails.env.test?
+  end
+
+  def blocked_commands
+    @blocked_commands ||= %w[logaddress rcon_password sv_downloadurl]
   end
 end

@@ -381,6 +381,16 @@ Server AppID:           232250%)
     end
   end
 
+  describe '#blocked_command?' do
+    it 'knows blocked commands' do
+      subject.blocked_command?('logaddress_add 123.123.123.123:4567').should be true
+    end
+
+    it 'doesnt block allowed commands' do
+      subject.blocked_command?('exec etf2l.cfg').should be false
+    end
+  end
+
   def stubbed_reservation(stubs = {})
     reservation = double(:reservation, custom_whitelist_id: false, status_update: true, enable_plugins?: false, enable_demos_tf?: false, user: build(:user), server: build(:server))
     stubs.each do |k, v|

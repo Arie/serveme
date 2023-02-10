@@ -66,9 +66,14 @@
       .card-header.text-white
         Q: How do I manage the server?
       .card-body
-        %em
-          A: The RCON password is the server admin password, with it, you can execute commands on the server.
-          To use it, type "rcon_password THE-RCON-PASSWORD-OF-YOUR-RESERVATION" in console while connected to the server.
+        - if au_system?
+          %em
+            A: You can use !rcon command-goes-here in the in-game chat to execute commands on servers using Valve SDR.
+            Alternatively, on your booking page, you can use the "Web RCON" button!
+        - else
+          %em
+            A: The RCON password is the server admin password, with it, you can execute commands on the server.
+            To use it, type "rcon_password THE-RCON-PASSWORD-OF-YOUR-RESERVATION" in console while connected to the server.
 
     .card.bg-faded
       .card-header.text-white
@@ -129,23 +134,37 @@
         %em
           A: The command is "rcon exec CONFIGNAME", some of the available configs:
           %table.table
-            %tr
-              %td
-                %span.badge.badge-info ETF2L:
-              %td
-                etf2l, etf2l_6v6, etf2l_9v9, etf2l_6v6_5cp, etf2l_6v6_ctf, etf2l_6v6_stopwatch, etf2l_9v9_5cp, etf2l_9v9_ctf, etf2l_9v9_koth,
-                etf2l_9v9_stopwatch, etf2l_ultiduo, etf2l_bball
-            %tr
-              %td
-                %span.badge.badge-danger UGC:
-              %td
-                ugc_4v_koth, ugc_4v_sd, ugc_4v_standard, ugc_4v_stopwatch, ugc_4v_tugofwar, ugc_6v_ctf, ugc_6v_koth, ugc_6v_standard,
-                ugc_6v_stopwatch, ugc_HL_ctf, ugc_HL_dom, ugc_HL_koth, ugc_HL_standard, ugc_HL_stopwatch, ugc_HL_tugofwar
-            %tr
-              %td
-                %span.badge.badge-success RGL:
-              %td
-                rgl_6s_5cp_scrim, rgl_7s_koth_bo5, rgl_HL_stopwatch
+            - if au_system?
+              %tr
+                %td
+                  %span.badge.badge-info ozfortress:
+                %td
+                  ozfortress.cfg, ozfortress_6v6_5cp.cfg, ozfortress_6v6_golden_cap.cfg, ozfortress_6v6_koth.cfg, ozfortress_6v6_scrim.cfg,
+                  ozfortress_hl_5cp.cfg, ozfortress_hl_golden_cap.cfg, ozfortress_hl_koth.cfg, ozfortress_hl_stopwatch.cfg, ozfortress_ultiduo.cfg
+              %tr
+                %td
+                  %span.badge.badge-danger UGC:
+                %td
+                  ugc_4v_koth, ugc_4v_sd, ugc_4v_standard, ugc_4v_stopwatch, ugc_4v_tugofwar, ugc_6v_ctf, ugc_6v_koth, ugc_6v_standard,
+                  ugc_6v_stopwatch, ugc_HL_ctf, ugc_HL_dom, ugc_HL_koth, ugc_HL_standard, ugc_HL_stopwatch, ugc_HL_tugofwar
+            - else
+              %tr
+                %td
+                  %span.badge.badge-info ETF2L:
+                %td
+                  etf2l, etf2l_6v6, etf2l_9v9, etf2l_6v6_5cp, etf2l_6v6_ctf, etf2l_6v6_stopwatch, etf2l_9v9_5cp, etf2l_9v9_ctf, etf2l_9v9_koth,
+                  etf2l_9v9_stopwatch, etf2l_ultiduo, etf2l_bball
+              %tr
+                %td
+                  %span.badge.badge-danger UGC:
+                %td
+                  ugc_4v_koth, ugc_4v_sd, ugc_4v_standard, ugc_4v_stopwatch, ugc_4v_tugofwar, ugc_6v_ctf, ugc_6v_koth, ugc_6v_standard,
+                  ugc_6v_stopwatch, ugc_HL_ctf, ugc_HL_dom, ugc_HL_koth, ugc_HL_standard, ugc_HL_stopwatch, ugc_HL_tugofwar
+              %tr
+                %td
+                  %span.badge.badge-success RGL:
+                %td
+                  rgl_6s_5cp_scrim, rgl_7s_koth_bo5, rgl_HL_stopwatch
     .card.bg-faded
       .card-header.text-white
         Q: I want to use serveme.tf in one of my own projects, is there an API?

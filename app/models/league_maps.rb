@@ -102,12 +102,12 @@ class LeagueMaps
 
   def self.ugc_hl_maps
     %w[
-      cp_steel_f12
+      cp_caldera_rc2
       koth_ashville_final
-      koth_cascade
       koth_clearcut_b15d
       koth_product_final
-      pl_borneo_f2
+      koth_proot_b5b
+      pl_swiftwater_final1
       pl_upward_f10
       pl_vigil_rc9
     ]
@@ -115,9 +115,9 @@ class LeagueMaps
 
   def self.ugc_sixes_maps
     %w[
-      cp_granary_pro_rc8
       cp_gullywash_f9
       cp_process_f12
+      cp_reckoner_rc6
       cp_snakewater_final1
       cp_sunshine
       koth_bagel_rc6
@@ -128,13 +128,13 @@ class LeagueMaps
 
   def self.ugc_fours_maps
     %w[
-      cp_warmfrost_rc1
       koth_airfield_b7
-      koth_bagel_rc6
       koth_brazil
+      koth_harter_rc1
       koth_highpass
       koth_maple_ridge_rc1
       koth_product_final
+      koth_stallone_b2
       koth_undergrove_rc1
     ]
   end

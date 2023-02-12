@@ -32,7 +32,7 @@ class ActiveReservationCheckerWorker
       @server_info.fetch_rcon_status
       @reservation.save_sdr_info(@server_info) if sdr_info_missing?
       ServerMetric.new(@server_info)
-      @server.rcon_exec "sv_logsecret #{@reservation.logsecret}; #{@reservation.api_keys_rcon_contents}"
+      @server.rcon_exec("sv_logsecret #{@reservation.logsecret}; #{@reservation.api_keys_rcon_contents}", allow_blocked: true)
     rescue SteamCondenser::Error, Errno::ECONNREFUSED
       Rails.logger.warn "Couldn't update #{@reservation.server.name}"
     end

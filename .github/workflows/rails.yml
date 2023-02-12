@@ -6,7 +6,8 @@
 # For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
 
 name: Ruby
-on: [push]
+on: [push, pull_request]
+
 jobs:
   ruby-dependencies:
     name: Ruby dependencies

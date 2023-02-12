@@ -213,7 +213,7 @@ class Server < ActiveRecord::Base
       reservation.status_update('Restarted server, waiting to boot')
     else
       reservation.status_update('Attempting fast start')
-      if rcon_exec("removeip 1; removeip 1; removeip 1; sv_logsecret #{reservation.logsecret}; logaddress_add direct.#{SITE_HOST}:40001")
+      if rcon_exec("removeip 1; removeip 1; removeip 1; sv_logsecret #{reservation.logsecret}; logaddress_add direct.#{SITE_HOST}:40001", allow_blocked: true)
         first_map = reservation.first_map.presence || 'ctf_turbine'
         rcon_exec("changelevel #{first_map}; exec reservation.cfg")
         reservation.status_update('Fast start attempted, waiting to boot')
@@ -280,8 +280,8 @@ class Server < ActiveRecord::Base
     rcon_exec("say #{message}")
   end
 
-  def rcon_exec(command)
-    return nil if blocked_command?(command)
+  def rcon_exec(command, allow_blocked: false)
+    return nil if blocked_command?(command) && !allow_blocked
 
     condenser.rcon_exec(command) if rcon_auth
   rescue Errno::ECONNREFUSED, SteamCondenser::Error::Timeout, SteamCondenser::Error::RCONNoAuth, SteamCondenser::Error::RCONBan => e
@@ -291,8 +291,7 @@ class Server < ActiveRecord::Base
 
   def blocked_command?(command)
     blocked_commands.any? do |c|
-      re = Regexp.new(/#{c}/, Regexp::IGNORECASE)
-      re.match(command)
+      command.downcase.include?(c)
     end
   end
 

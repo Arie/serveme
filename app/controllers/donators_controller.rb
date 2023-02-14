@@ -59,7 +59,6 @@ class DonatorsController < ApplicationController
       old_expires_at = gu.expires_at
       gu.expires_at = gu.expires_at + duration
       gu.save
-      puts "Extended donator from #{I18n.l(old_expires_at, format: :long)} to #{I18n.l(gu.expires_at, format: :long)}"
       flash[:notice] = "Extended donator from #{I18n.l(old_expires_at, format: :long)} to #{I18n.l(gu.expires_at, format: :long)}"
     else
       user.group_users&.create(group_id: Group.donator_group.id, expires_at: params[:group_user][:expires_at])

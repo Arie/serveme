@@ -185,7 +185,7 @@ describe Api::ReservationsController do
       _other_reservation = create :reservation, inactive_minute_counter: 20, user: create(:user)
       get :index, params: { limit: 10, offset: 0 }, format: :json
 
-      response.status.should == 200
+      expect(response.status).to eql 200
       expect(JSON.parse(response.body)['reservations'].size).to eql(2)
     end
 
@@ -197,7 +197,7 @@ describe Api::ReservationsController do
       _other_reservation = create :reservation, inactive_minute_counter: 20, user: other_user
       get :index, params: { limit: 10, offset: 0, steam_uid: other_user.uid }, format: :json
 
-      response.status.should == 200
+      expect(response.status).to eql 200
       expect(JSON.parse(response.body)['reservations'].size).to eql(1)
     end
 
@@ -206,7 +206,7 @@ describe Api::ReservationsController do
       _other_reservation = create :reservation, inactive_minute_counter: 20, user: create(:user)
       get :index, params: { limit: 10, offset: 0 }, format: :json
 
-      response.status.should == 200
+      expect(response.status).to eql 200
       expect(JSON.parse(response.body)['reservations'].size).to eql(1)
     end
   end

@@ -56,13 +56,13 @@ describe LogUpload do
     end
 
     it "returns the LOGS_TF_API_KEY constant if there's no api key for the user" do
-      LOGS_TF_API_KEY = '54321'
       user = double(logs_tf_api_key: nil)
       subject.stub(user: user)
-      subject.logs_tf_api_key.should == '54321'
+      expect(subject.logs_tf_api_key).to eql LOGS_TF_API_KEY
 
       user = double(logs_tf_api_key: '')
-      subject.logs_tf_api_key.should == '54321'
+      subject.stub(user: user)
+      expect(subject.logs_tf_api_key).to eql LOGS_TF_API_KEY
     end
   end
 

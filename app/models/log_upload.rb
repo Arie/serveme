@@ -45,7 +45,7 @@ class LogUpload < ActiveRecord::Base
   end
 
   def logs_tf_api_key
-    user.logs_tf_api_key || LOGS_TF_API_KEY
+    user.logs_tf_api_key.presence || LOGS_TF_API_KEY
   end
 
   def log_file_exists?(file_name)

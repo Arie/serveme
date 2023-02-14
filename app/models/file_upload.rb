@@ -42,6 +42,6 @@ class FileUpload < ActiveRecord::Base
 
   def upload_files_to_server(server, files_with_path)
     server_upload = ServerUpload.where(file_upload_id: id, server_id: server.id).first_or_create!
-    UploadFilesToServerWorker.perform_async(server_upload_id: server_upload.id, files_with_path: files_with_path)
+    UploadFilesToServerWorker.perform_async('server_upload_id' => server_upload.id, 'files_with_path' => files_with_path)
   end
 end

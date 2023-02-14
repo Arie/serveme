@@ -25,7 +25,7 @@ describe FileUpload do
 
         cfgs_with_paths = { 'cfg' => [File.join(file_upload.tmp_dir, 'cfg/etf2l.cfg').to_s, File.join(file_upload.tmp_dir, 'cfg/etf2l_custom.cfg').to_s, File.join(file_upload.tmp_dir, 'cfg/etf2l_whitelist_6v6.txt').to_s] }
 
-        expect(UploadFilesToServerWorker).to have_received(:perform_async).with(server_upload_id: anything, files_with_path: cfgs_with_paths)
+        expect(UploadFilesToServerWorker).to have_received(:perform_async).with('server_upload_id' => anything, 'files_with_path' => cfgs_with_paths)
       end
     end
   end

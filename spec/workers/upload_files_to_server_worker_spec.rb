@@ -14,7 +14,7 @@ describe UploadFilesToServerWorker do
     allow(Server).to receive(:find).with(server.id).and_return(server)
     allow(server).to receive(:copy_to_server)
 
-    described_class.perform_async(server_upload_id: server_upload.id, files_with_path: files_with_path)
+    described_class.perform_async('server_upload_id' => server_upload.id, 'files_with_path' => files_with_path)
 
     expect(server).to have_received(:copy_to_server).with(['foo.cfg', 'item_whitelist.txt'], File.join(server.tf_dir, 'cfg'))
     expect(server).to have_received(:copy_to_server).with(['foo.bsp', 'bar.bsp'], File.join(server.tf_dir, 'maps'))

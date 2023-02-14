@@ -70,9 +70,9 @@ class MapUpload < ActiveRecord::Base
   def upload_maps_to_servers
     return unless maps_with_full_path&.any?
 
-    UploadFilesToServersWorker.perform_async(files: maps_with_full_path,
-                                             destination: 'maps',
-                                             overwrite: false)
+    UploadFilesToServersWorker.perform_async('files' => maps_with_full_path,
+                                             'destination' => 'maps',
+                                             'overwrite' => false)
   end
 
   def self.map_exists?(filename)

@@ -73,9 +73,9 @@ describe MapUpload do
 
         maps_with_paths = [Rails.root.join('tmp', 'achievement_idle.bsp').to_s, Rails.root.join('tmp', 'achievement_idle_foo.bsp').to_s]
 
-        expect(UploadFilesToServersWorker).to have_received(:perform_async).with(files: maps_with_paths,
-                                                                                 destination: 'maps',
-                                                                                 overwrite: false)
+        expect(UploadFilesToServersWorker).to have_received(:perform_async).with('files' => maps_with_paths,
+                                                                                 'destination' => 'maps',
+                                                                                 'overwrite' => false)
       end
     end
 
@@ -103,9 +103,9 @@ describe MapUpload do
 
         maps_with_paths = [Rails.root.join('tmp', 'foo.bsp').to_s]
 
-        expect(UploadFilesToServersWorker).to have_received(:perform_async).with(files: maps_with_paths,
-                                                                                 destination: 'maps',
-                                                                                 overwrite: false)
+        expect(UploadFilesToServersWorker).to have_received(:perform_async).with('files' => maps_with_paths,
+                                                                                 'destination' => 'maps',
+                                                                                 'overwrite' => false)
       end
     end
   end
@@ -115,8 +115,8 @@ describe MapUpload do
     map_upload = create :map_upload
     maps_with_paths = [File.join(MAPS_DIR, map_upload.file.filename)]
 
-    expect(UploadFilesToServersWorker).to have_received(:perform_async).with(files: maps_with_paths,
-                                                                             destination: 'maps',
-                                                                             overwrite: false)
+    expect(UploadFilesToServersWorker).to have_received(:perform_async).with('files' => maps_with_paths,
+                                                                             'destination' => 'maps',
+                                                                             'overwrite' => false)
   end
 end

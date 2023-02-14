@@ -12,6 +12,7 @@ describe CleanupWorker do
 
   before do
     old_reservation.update_column(:ends_at, 32.days.ago)
+    described_class.any_instance.stub(:remove_old_reservation_logs_and_zips)
   end
 
   it 'finds the old reservations' do
@@ -29,8 +30,8 @@ describe CleanupWorker do
   it 'deletes the logs and zip of old reservations and removes server/player stats' do
     described_class.perform_async
 
-    PlayerStatistic.count.should == 0
-    ServerStatistic.count.should == 0
+    expect(PlayerStatistic.count).to eql 0
+    expect(ServerStatistic.count).to eql 0
   end
 
   it 'gives API keys to week old users' do

@@ -3,6 +3,9 @@
 require 'spec_helper'
 
 describe MapUpload do
+  before do
+    described_class.any_instance.stub(:bzip2_uploaded_maps)
+  end
   it 'requires a user' do
     subject.valid?
     subject.should have(1).error_on(:user_id)

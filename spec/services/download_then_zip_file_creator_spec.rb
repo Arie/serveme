@@ -6,6 +6,10 @@ describe DownloadThenZipFileCreator do
   let!(:server)        { double(zip_file_creator_class: DownloadThenZipFileCreator) }
   let!(:reservation)   { double(server: server, status_update: nil) }
 
+  before do
+    described_class.any_instance.stub(:strip_ips_and_api_keys_from_log_files)
+  end
+
   describe '#create_zip' do
     it 'makes a tmpdir locally to store the files to be zipped' do
       zip_file = described_class.new(reservation, ["foo'bar"])

@@ -25,7 +25,6 @@ class SimraiServer < RemoteServer
   def connection
     @connection ||= Faraday.new(url: 'http://eu.simraicontrol.com', headers: { accept_encoding: 'none' }) do |faraday|
       faraday.request  :url_encoded
-      faraday.response :logger
       faraday.adapter  Faraday.default_adapter
     end
   end

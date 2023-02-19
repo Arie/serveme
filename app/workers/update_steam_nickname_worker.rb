@@ -15,7 +15,7 @@ class UpdateSteamNicknameWorker
       steam_profile = SteamCondenser::Community::SteamId.new(steam_uid.to_i)
       if ReservationPlayer.banned?(steam_profile)
         ban_user(steam_uid)
-        rename_user(steam_uid)
+        rename_user(steam_uid) if ReservationPLayer.banned_name?(steam_profile&.nickname)
       else
         User.find_by(uid: steam_uid).update(nickname: steam_profile&.nickname, name: steam_profile&.nickname)
       end

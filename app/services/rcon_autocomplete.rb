@@ -26,10 +26,10 @@ class RconAutocomplete
   end
 
   def autocomplete_deep_changelevel
-    self.class.autocomplete_maps
-        .select { |map_name| map_name.downcase.start_with?(query.split[1..].join(' ')) }
-        .map { |map_name| { command: "changelevel #{map_name}", description: 'Changes the map' } }
-        .sort_by { |command| command[:command] }
+    LeagueMaps.all_league_maps
+              .select { |map_name| map_name.downcase.start_with?(query.split[1..].join(' ')) }
+              .map { |map_name| { command: "changelevel #{map_name}", description: 'Changes the map' } }
+              .sort_by { |command| command[:command] }
   end
 
   def autocomplete_deep_exec

@@ -25,6 +25,13 @@ class LeagueMaps
     ]
   end
 
+  def self.all_league_maps
+    @all_league_maps ||=
+      [
+        etf2l_sixes_maps + etf2l_hl_maps + ozfortress_sixes_maps + ozfortress_hl_maps + rgl_sixes_maps + rgl_hl_maps + rgl_prolander_maps + ugc_sixes_maps + ugc_hl_maps + ugc_fours_maps + ugc_ultiduo_maps
+      ].flatten.uniq.sort
+  end
+
   def self.etf2l_sixes_maps
     %w[
       cp_granary_pro_rc8

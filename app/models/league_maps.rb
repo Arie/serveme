@@ -34,9 +34,9 @@ class LeagueMaps
 
   def self.etf2l_sixes_maps
     %w[
-      cp_granary_pro_rc8
+      cp_granary_pro_rc14
       cp_gullywash_f9
-      cp_metalworks_f5
+      cp_proworks_v1a
       cp_process_f12
       cp_reckoner_rc6
       cp_snakewater_final1
@@ -161,14 +161,14 @@ class LeagueMaps
 
   def self.ozfortress_sixes_maps
     %w[
-      cp_granary_pro_rc13f
+      cp_granary_pro_rc14
       cp_gullywash_f9
-      cp_process_f11
-      cp_proworks_v1
+      cp_process_f12
+      cp_proworks_v1a
       cp_reckoner_rc6
       cp_snakewater_final1
       cp_sunshine
-      koth_bagel_rc5
+      koth_bagel_rc6
       koth_product_final
     ]
   end

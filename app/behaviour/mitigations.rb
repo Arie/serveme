@@ -4,7 +4,7 @@ module Mitigations
   def enable_mitigations
     server.ssh_exec(
       %(
-        #{iptables} -C PREROUTING -p udp -m udp --dport 27015 -j NOTRACK || #{iptables} -I PREROUTING -p udp -m udp --dport 27015 -j NOTRACK;
+        #{iptables} -C PREROUTING -p udp -m udp --dport #{server.port} -j NOTRACK || #{iptables} -I PREROUTING -p udp -m udp --dport #{server.port} -j NOTRACK;
         #{iptables} -t raw --flush #{chain_name};
         #{iptables} -N #{chain_name} -t raw;
         #{iptables} -A #{chain_name} -t raw -p tcp -m limit --limit 100/s --limit-burst 100 -j ACCEPT;

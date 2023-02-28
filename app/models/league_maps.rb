@@ -36,7 +36,7 @@ class LeagueMaps
     %w[
       cp_granary_pro_rc14
       cp_gullywash_f9
-      cp_proworks_v1a
+      cp_metalworks_f5
       cp_process_f12
       cp_reckoner_rc6
       cp_snakewater_final1

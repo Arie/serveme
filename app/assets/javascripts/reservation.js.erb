@@ -78,33 +78,8 @@ function loadReservationPage() {
     });
   };
 
-  function pingCurrentServer() {
-    currentServerId = serverId();
-    $.each(free_servers, function(idx, server) {
-      if (server.id == serverId().val()) {
-        showSpinner("reservation_ping");
-        enableSpinner("reservation_ping");
-        new pingServer(server.ip_and_port, function(ping, e) {;
-          setPing(ping, server.id);
-        });
-      };
-    });
-  };
-
-  function clearPing() {
-    $("#reservation_ping").val(null);
-  };
-
-  function setPing(ping, server_id) {
-    if (serverId().val() == server_id) {
-      disableSpinner("reservation_ping");
-      $("#reservation_ping").val(ping);
-    };
-  };
-
   function selectCurrentServer() {
     $("#reservation_server_id").select2("val", $("#reservation_server_id").val());
-    pingCurrentServer();
   };
 
   function showSpinner(field) {
@@ -163,15 +138,6 @@ function loadReservationPage() {
 
   $("#reservation_ends_at").change(function() {
     findFreeServers();
-  });
-
-  $("#reservation_server_id").change(function() {
-    clearPing();
-    pingCurrentServer();
-  });
-
-  $("#refresh-ping").click(function() {
-    pingCurrentServer();
   });
 
   $("#toggle_reservations_list").click(function() {

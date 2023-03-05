@@ -13,6 +13,7 @@
           %th Steam ID
           %th ETF2L
           %th RGL.gg
+          %th OZF
           %th logs.tf
       - @results.each do |result|
         %tr
@@ -32,6 +33,7 @@
           %td= link_to(result.steam_uid, league_request_path(steam_uid: result.steam_uid))
           %td= link_to("ETF2L", "http://etf2l.org/search/#{result.steam_uid}/")
           %td= link_to("RGL", "http://rgl.gg/Public/PlayerProfile.aspx?p=#{result.steam_uid}")
+          %td= link_to("OZF", "https://ozfortress.com/users/steam_id/#{result.steam_uid}")
           %td= link_to("logs.tf", "http://logs.tf/profile/#{result.steam_uid}")
 
 = link_to league_request_path do

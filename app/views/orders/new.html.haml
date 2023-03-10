@@ -28,45 +28,73 @@
         = link_to "cool perks", "#perks"
         in return!
 
-  .row
-    .col-md-6.col-xs-12.order-form
-      = render 'form'
+  - if au_system?
+    .row
+      .col-md-12
 
-    .col-md-6.col-xs-12
+        %p
+          What do you get with premium?
 
-      %p
-        What do you get with premium?
+        = render "shared/perks"
 
-      = render "shared/perks"
+        %p#perks
+          We use the money for the following things:
+          %ul
+            %li
+              Pay
+              = link_to("the server providers", server_providers_path)
+              their share, based on minutes played on their servers
+            %li Pay for the hosting of the site
+            %li Fund additional gameservers
 
-      %p#perks
-        We use the money for the following things:
-        %ul
-          %li
-            Pay
-            = link_to("the server providers", server_providers_path)
-            their share, based on minutes played on their servers
-          %li Pay for the hosting of the site
-          %li Fund additional gameservers
+        %p
+          Premium status is site-specific, so you either pay for serveme.tf, na.serveme.tf, sea.serveme.tf or au.serveme.tf, make sure you're on the right site before paying.
 
-      %p
-        Premium status is site-specific, so you either pay for serveme.tf, na.serveme.tf or sea.serveme.tf, make sure you're on the right site before paying.
+        %p
+          Get
+            = link_to('au.serveme.tf premium by subscribing to the ozfortress Patreon.', 'https://patreon.com/ozfortress')
+        
+        %p
+          If you don't receive your premium within 24 hours, please reach out to
+            = link_to('core#6440 on Discord.', 'https://discordapp.com/users/226205616773922816')
 
-      %p
-        You can also
-        - if sea_system?
-          = link_to('send the tradebot a trade offer.', 'https://steamcommunity.com/tradeoffer/new/?partner=328658734&token=3vDIZUwa')
+  - else
+    .row
+      .col-md-6.col-xs-12.order-form
+        = render 'form'
 
-          The current rate is 2 keys per month, but you can also send some items just to say thanks.
-        - elsif au_system?
-          = link_to('support ozfortress on Patreon.', 'https://patreon.com/ozfortress')
+      .col-md-6.col-xs-12
 
-          Most of ozfortress' Patreon Tiers include au.serveme.tf premium!
-        - else
+        %p
+          What do you get with premium?
+
+        = render "shared/perks"
+
+        %p#perks
+          We use the money for the following things:
+          %ul
+            %li
+              Pay
+              = link_to("the server providers", server_providers_path)
+              their share, based on minutes played on their servers
+            %li Pay for the hosting of the site
+            %li Fund additional gameservers
+
+        %p
+          Premium status is site-specific, so you either pay for serveme.tf, na.serveme.tf, sea.serveme.tf or au.serveme.tf, make sure you're on the right site before paying.
+
+        %p
           You can also
-          = link_to('send me a TF2 trade offer.', 'https://steamcommunity.com/tradeoffer/new/?partner=231702&token=POpKIGaL')
+          - if sea_system?
+            = link_to('send the tradebot a trade offer.', 'https://steamcommunity.com/tradeoffer/new/?partner=328658734&token=3vDIZUwa')
 
-          The current rate is 2 keys per month, but you can also send some items just to say thanks.
+            The current rate is 2 keys per month, but you can also send some items just to say thanks.
+
+          - else
+            You can also
+            = link_to('send me a TF2 trade offer.', 'https://steamcommunity.com/tradeoffer/new/?partner=231702&token=POpKIGaL')
+
+            The current rate is 2 keys per month, but you can also send some items just to say thanks.
 
   .row.stripe-result
     .col-md-12

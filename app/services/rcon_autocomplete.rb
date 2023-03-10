@@ -132,6 +132,7 @@ class RconAutocomplete
       rgl_6s_5cp_match
       rgl_6s_5cp_match_half1
       rgl_6s_5cp_match_half2
+      rgl_6s_5cp_match_pro
       rgl_6s_5cp_scrim
       rgl_6s_koth_bo5
       rgl_6s_koth

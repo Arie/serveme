@@ -68,7 +68,10 @@
       .card-body
         - if au_system?
           %em
-            A: You can use !rcon command-goes-here in the in-game chat to execute commands on servers using Valve SDR.
+            A: The RCON password is the server admin password, with it, you can execute commands on the server.
+            To use it, type "rcon_password THE-RCON-PASSWORD-OF-YOUR-RESERVATION" in console while connected to the server.
+
+            For SDR servers: You can use !rcon command-goes-here in the in-game chat to execute commands, or !webrcon .
             Alternatively, on your booking page, you can use the "Web RCON" button!
         - else
           %em
@@ -87,6 +90,11 @@
                 !rcon command-goes-here
               %td
                 This runs a command on the server, for example you can run "!rcon changelevel koth_product" to change the map on the server to koth_product
+            %tr
+              %td
+                !webrcon
+              %td
+                This command opens the HTML MOTD (Message of the Day) screen in-game and gives you the Web RCON available also via your booking page
             %tr
               %td
                 !extend
@@ -141,6 +149,7 @@
                 %td
                   ozfortress.cfg, ozfortress_6v6_5cp.cfg, ozfortress_6v6_golden_cap.cfg, ozfortress_6v6_koth.cfg, ozfortress_6v6_scrim.cfg,
                   ozfortress_hl_5cp.cfg, ozfortress_hl_golden_cap.cfg, ozfortress_hl_koth.cfg, ozfortress_hl_stopwatch.cfg, ozfortress_ultiduo.cfg
+                  ozfortress_ultiduo.cfg
               %tr
                 %td
                   %span.badge.badge-danger UGC:

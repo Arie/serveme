@@ -137,6 +137,7 @@ class RconAutocomplete
       rgl_6s_koth_bo5
       rgl_6s_koth
       rgl_6s_koth_match
+      rgl_6s_koth_pro
       rgl_6s_koth_scrim
       rgl_7s_koth_bo5
       rgl_7s_koth

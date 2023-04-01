@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Server < ActiveRecord::Base
+  include ApplicationHelper
+
   has_many :group_servers
   has_many :groups, through: :group_servers
   has_many :reservations
@@ -195,7 +197,7 @@ class Server < ActiveRecord::Base
     reservation.enable_mitigations if supports_mitigations?
 
     update_configuration(reservation)
-    if reservation.enable_plugins? || reservation.enable_demos_tf?
+    if reservation.enable_plugins? || reservation.enable_demos_tf? || au_system?
       reservation.status_update('Enabling plugins')
       enable_plugins
       add_sourcemod_admin(reservation.user)

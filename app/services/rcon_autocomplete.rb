@@ -168,6 +168,17 @@ class RconAutocomplete
       ugc_4v_stopwatch
       ugc_off
       ugc_UD_ultiduo
+
+      ozfortress_6v6_5cp
+      ozfortress_6v6_golden_cap
+      ozfortress_6v6_koth
+      ozfortress_6v6_scrim
+      ozfortress_hl_5cp
+      ozfortress_hl_golden_cap
+      ozfortress_hl_koth
+      ozfortress_hl_stopwatch
+      ozfortress_ultiduo
+      ozfortress_bball
     ]
   end
 

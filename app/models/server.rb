@@ -12,10 +12,7 @@ class Server < ActiveRecord::Base
   has_many :server_statistics
   belongs_to :location
 
-  validates_presence_of :name
-  validates_presence_of :ip
-  validates_presence_of :port
-  validates_presence_of :path
+  validates_presence_of %i[name ip port path rcon]
 
   geocoded_by :host_to_ip
   before_save :geocode, if: :ip_changed?

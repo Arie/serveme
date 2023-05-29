@@ -1,0 +1,12 @@
+.row
+  .col-md-12.col-lg-6.offset-lg-2
+    %h2 Edit server
+.row
+  .col-md-12.col-lg-6.offset-lg-2
+    = simple_form_for(@server, url: url_for(controller: "servers", action: "update"), wrapper: :horizontal_form, html: { class: 'form-horizontal server' }) do |f|
+      = render 'form', f: f
+
+      .row.submit-row
+        .col-lg-2
+          %button.btn.btn-warning{type: :submit, data: { disable_with: "Saving..."}}
+            Edit

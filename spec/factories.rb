@@ -6,6 +6,7 @@ FactoryBot.define do
     path { '/tmp' }
     ip { '176.9.138.143' }
     port { '27015' }
+    rcon { 'secret' }
     location
     latitude { 51 }
     longitude { 9 }

@@ -1,0 +1,7 @@
+= f.input :name
+= f.input :ip, label: "IP"
+= f.input :port
+= f.input :path
+= f.input :rcon, label: "RCON"
+= f.input :active, as: "radio_buttons"
+= f.association :location, collection: Location.all

@@ -22,6 +22,8 @@ sv_max_queries_sec_global 60
 
 <% if SITE_HOST == "na.serveme.tf" %>
 <%= %{sv_downloadurl "http://kansas.serveme.tf"} %>
+<% elsif SITE_HOST == "au.serveme.tf" %>
+<%= %{sv_downloadurl "http://fastdl-au.serveme.tf"} %>
 <% else %>
 <%= %{sv_downloadurl "http://dl.serveme.tf"} %>
 <% end %>

@@ -67,6 +67,7 @@ class LeagueMaps
         cp_snakewater_final1
         cp_sultry_b8
         cp_sunshine
+        cp_villa_b19
         koth_bagel_rc6
         koth_clearcut_b15d
         koth_product_final
@@ -91,9 +92,9 @@ class LeagueMaps
       koth_ashville_final
       koth_product_final
       koth_proot_b5b
+      pl_eruption_b11a
       pl_swiftwater_final1
-      pl_upward_f10
-      pl_vigil_rc9
+      pl_vigil_rc10
     ]
   end
 

@@ -96,6 +96,10 @@ class Reservation < ActiveRecord::Base
     own_colliding_reservations.any?
   end
 
+  def collides_with_own_reservation_on_same_server?
+    own_colliding_reservations.any? { |r| r.server_id == server_id }
+  end
+
   def collides_with_other_users_reservation?
     other_users_colliding_reservations.any?
   end

@@ -49,7 +49,7 @@ describe Reservation do
     end
 
     it 'wont allow passwords with invalid characters' do
-      valid_chars = "azAZ0123456789!@-\ #$^&*/()_+}'|\\:<>?,.[]"
+      valid_chars = "azAZ0123456789!@- #$^&*/()_+}'|\\:<>?,.[]"
       invalid_chars = ['"', '💩', ';', '%']
 
       reservation = build(:reservation)
@@ -170,7 +170,7 @@ describe Reservation do
     it 'allows a user to extend a reservation by 1 hour when the end of the reservation is near' do
       old_reservation_end_time = 40.minutes.from_now
       reservation = create :reservation, starts_at: Time.current, ends_at: old_reservation_end_time, provisioned: true
-      expect { reservation.extend! }.to change { reservation.ends_at }
+      expect { reservation.extend! }.to(change { reservation.ends_at })
     end
 
     it 'resets the idle timer when extending' do
@@ -182,14 +182,14 @@ describe Reservation do
     it 'does not extend a reservation that hasnt been provisioned yet' do
       old_reservation_end_time = 40.minutes.from_now
       reservation = create :reservation, starts_at: Time.current, ends_at: old_reservation_end_time, provisioned: false
-      expect { reservation.extend! }.not_to change { reservation.ends_at }
+      expect { reservation.extend! }.not_to(change { reservation.ends_at })
     end
 
     it "does not extend when there's more than an hour left on the reservation" do
       old_reservation_end_time = 61.minutes.from_now
       reservation = create :reservation, starts_at: Time.current, ends_at: old_reservation_end_time, provisioned: true
 
-      expect { reservation.extend! }.not_to change { reservation.ends_at }
+      expect { reservation.extend! }.not_to(change { reservation.ends_at })
     end
   end
 
@@ -473,6 +473,18 @@ describe Reservation do
         rear_overlap.own_colliding_reservations.should eql [reservation]
         complete_overlap.own_colliding_reservations.should eql [reservation]
         internal.own_colliding_reservations.should eql [reservation]
+      end
+    end
+
+    describe '#collides_with_own_reservation_on_same_server?' do
+      it 'collides when user already has a reservation for that server in that timeframe' do
+        user = create(:user)
+        reservation = create(:reservation, user: user, starts_at: Time.current, ends_at: 1.hour.from_now)
+        colliding = build(:reservation, server: reservation.server, user: user, starts_at: 10.minutes.from_now, ends_at: 50.minutes.from_now)
+        just_after = build(:reservation, server: reservation.server, user: user, starts_at: reservation.ends_at + 1.second, ends_at: 2.hours.from_now)
+
+        expect(colliding.collides_with_own_reservation_on_same_server?).to eql(true)
+        expect(just_after.collides_with_own_reservation_on_same_server?).to eql(false)
       end
     end
 

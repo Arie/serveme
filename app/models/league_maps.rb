@@ -92,7 +92,7 @@ class LeagueMaps
       koth_ashville_final
       koth_product_final
       koth_proot_b5b
-      pl_eruption_b11a
+      pl_eruption_b13
       pl_swiftwater_final1
       pl_vigil_rc10
     ]

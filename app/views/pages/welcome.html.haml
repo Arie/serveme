@@ -10,7 +10,8 @@
           = link_to new_reservation_path, :class => 'btn btn-lg btn-primary', :title => "Get a server right now, or make a reservation" do
             Get server
             %i.fa.fa-crosshairs
-          = link_to i_am_feeling_lucky_reservations_path, :class => 'btn btn-lg btn-warning', :method => :post, :title => "Make a reservation in 1 click" do
+          = link_to i_am_feeling_lucky_reservations_path, :class => 'btn btn-lg btn-warning', :method => :post, :title => "Make a reservation in 1 click", data: { disable_with: "1-click-server <i class='fa fa-refresh fa-spin'></i>"} do
+
             1-click-server
             %i.fa.fa-bolt
 
@@ -50,7 +51,7 @@
 
 - if au_system?
   .row &nbsp;
-    
+
 - else
   .row
     = render "shared/donation_target"

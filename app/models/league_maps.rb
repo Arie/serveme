@@ -110,14 +110,14 @@ class LeagueMaps
 
   def self.ugc_hl_maps
     %w[
-      cp_caldera_rc2
+      cp_steel_f12
       koth_ashville_final
-      koth_clearcut_b15d
       koth_product_final
-      koth_proot_b5b
+      koth_proot_b6b
+      koth_warmtic_f10
       pl_swiftwater_final1
       pl_upward_f10
-      pl_vigil_rc9
+      pl_vigil_rc10
     ]
   end
 

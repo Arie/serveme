@@ -124,26 +124,26 @@ class LeagueMaps
   def self.ugc_sixes_maps
     %w[
       cp_gullywash_f9
+      cp_metalworks_f5
       cp_process_f12
-      cp_reckoner_rc6
       cp_snakewater_final1
+      cp_sultry_b8
       cp_sunshine
       koth_bagel_rc6
-      koth_clearcut_b15d
       koth_product_final
     ]
   end
 
   def self.ugc_fours_maps
     %w[
+      cp_warmfrost_rc1
       koth_airfield_b7
-      koth_brazil
+      koth_bagel_rc6
       koth_harter_rc1
-      koth_highpass
+      koth_jamram_rc1a
       koth_maple_ridge_rc1
       koth_product_final
-      koth_stallone_b2
-      koth_undergrove_rc1
+      koth_proplant_v8
     ]
   end
 
@@ -151,12 +151,12 @@ class LeagueMaps
     %w[
       koth_ultiduo_r_b7
       ultiduo_baloo_v2
-      ultiduo_champions_legacy_a7
+      ultiduo_furnace_b2
       ultiduo_grove_b4
-      ultiduo_gullywash_b2
       ultiduo_lookout_b1
-      ultiduo_obsidian_a10
-      ultiduo_spytech_rc1
+      ultiduo_noodle
+      ultiduo_spytech_rc4
+      utli_fira_b2a
     ]
   end
 

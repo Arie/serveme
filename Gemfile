@@ -88,7 +88,7 @@ group :development do
   gem 'capistrano-rvm', require: false
   gem 'capistrano-sidekiq', git: 'https://github.com/Pharmony/capistrano-sidekiq.git', require: false
   gem 'rubocop', require: false
-  gem 'ruby-lsp', '~> 0.3.5'
+  gem 'ruby-lsp', '~> 0.5.1'
 end
 
 group :test, :development do

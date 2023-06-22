@@ -63,6 +63,7 @@ gem 'sass-rails'
 gem 'sidekiq', '~> 6.5'
 gem 'sidekiq-cron'
 gem 'simple_form'
+gem 'sorbet-runtime'
 gem 'sprockets'
 gem 'sprockets-rails'
 gem 'steam-condenser', git: 'https://github.com/Arie/steam-condenser-ruby.git'
@@ -87,6 +88,8 @@ group :development do
   gem 'capistrano-sidekiq', git: 'https://github.com/Pharmony/capistrano-sidekiq.git', require: false
   gem 'rubocop', require: false
   gem 'ruby-lsp', '~> 0.5.1'
+  gem 'sorbet'
+  gem 'tapioca', require: false
 end
 
 group :test, :development do

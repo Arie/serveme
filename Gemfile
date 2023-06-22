@@ -5,7 +5,6 @@ source 'https://rubygems.org'
 gem 'american_date'
 gem 'base32_pure'
 gem 'bcrypt_pbkdf'
-gem 'bootsnap', require: false
 gem 'bootstrap', '~> 4.6' # Something in 5 breaks popper, not going to fix that now
 gem 'carrierwave'
 gem 'clipboard-rails'

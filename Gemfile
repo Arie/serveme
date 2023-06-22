@@ -79,7 +79,6 @@ group :development do
   gem 'capistrano', require: false
   gem 'capistrano3-puma', '~> 5.2', require: false
   gem 'capistrano-bundler', require: false
-  gem 'capistrano_colors', require: false
   gem 'capistrano-ext', require: false
   gem 'capistrano-faster-assets', require: false
   gem 'capistrano-maintenance', require: false

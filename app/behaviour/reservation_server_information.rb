@@ -26,7 +26,7 @@ module ReservationServerInformation
   end
 
   def public_tv_port
-    sdr_tv_port || server&.public_tv_port
+    (server&.sdr? && sdr_tv_port) || server&.public_tv_port
   end
 
   def connect_string

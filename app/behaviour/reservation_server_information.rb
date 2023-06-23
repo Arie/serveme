@@ -13,6 +13,18 @@ module ReservationServerInformation
     (server&.sdr? && sdr_port) || server&.public_port
   end
 
+  def connect_sdr_ip
+    sdr_ip || server&.last_sdr_ip
+  end
+
+  def connect_sdr_port
+    sdr_port || server&.last_sdr_port
+  end
+
+  def connect_sdr_tv_port
+    sdr_tv_port || server&.last_sdr_tv_port
+  end
+
   def public_tv_port
     sdr_tv_port || server&.public_tv_port
   end
@@ -26,11 +38,11 @@ module ReservationServerInformation
   end
 
   def sdr_connect_string
-    server.connect_string(sdr_ip, sdr_port, password)
+    server.connect_string(connect_sdr_ip, connect_sdr_port, password)
   end
 
   def sdr_stv_connect_string
-    server.connect_string(sdr_ip, sdr_tv_port, tv_password)
+    server.connect_string(connect_sdr_ip, connect_sdr_tv_port, tv_password)
   end
 
   def rcon_string

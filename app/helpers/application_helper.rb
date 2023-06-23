@@ -38,7 +38,7 @@ module ApplicationHelper
   end
 
   def preliminary_sdr?(reservation)
-    reservation&.server&.sdr? && !(reservation.sdr_ip && reservation.sdr_port)
+    !(reservation.sdr_ip && reservation.sdr_port)
   end
 
   def reservation_status_spinner_class(reservation)

@@ -59,6 +59,6 @@ class ActiveReservationCheckerWorker
   end
 
   def sdr_info_missing?
-    @server.sdr? && @reservation.sdr_ip.nil?
+    @reservation.sdr_ip.nil?
   end
 end

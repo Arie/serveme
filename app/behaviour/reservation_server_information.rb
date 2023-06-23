@@ -25,6 +25,14 @@ module ReservationServerInformation
     server.connect_string(public_ip, public_tv_port, tv_password)
   end
 
+  def sdr_connect_string
+    server.connect_string(sdr_ip, sdr_port, password)
+  end
+
+  def sdr_stv_connect_string
+    server.connect_string(sdr_ip, sdr_tv_port, tv_password)
+  end
+
   def rcon_string
     if server
       "rcon_address #{server.ip}:#{server.port}; rcon_password \"#{rcon}\""

@@ -10,8 +10,6 @@ class InactiveServerCheckerWorker
   def perform(server_id)
     @server = Server.find(server_id)
 
-    return unless server.sdr?
-
     server_info = fetch_sdr_info
     save_sdr_info(server_info)
   end

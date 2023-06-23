@@ -8,7 +8,7 @@ class CronWorker
     end_past_reservations
     start_active_reservations
     check_active_reservations
-    check_inactive_sdr_servers
+    check_inactive_servers
     update_servers_page
   end
 
@@ -43,8 +43,8 @@ class CronWorker
     ActiveReservationsCheckerWorker.perform_async(provisioned_now_reservations.pluck(:id))
   end
 
-  def check_inactive_sdr_servers
-    inactive_servers = Server.active.where(sdr: true).where.not(id: now_reservations.pluck(:server_id))
+  def check_inactive_servers
+    inactive_servers = Server.active.where.not(id: now_reservations.pluck(:server_id))
     InactiveServersCheckerWorker.perform_async(inactive_servers.pluck(:id))
   end
 

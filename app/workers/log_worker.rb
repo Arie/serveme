@@ -10,6 +10,7 @@ class LogWorker
   END_COMMAND       = /^!end.*/
   EXTEND_COMMAND    = /^!extend.*/
   RCON_COMMAND      = /^!rcon.*/
+  SDR_INFO_COMMAND  = /^!sdr.*/
   WEB_RCON_COMMAND = /^(\.|!)webrcon.*/
   TIMELEFT_COMMAND  = /^!timeleft.*/
   WHOIS_RESERVER    = /^!who$/
@@ -86,6 +87,16 @@ class LogWorker
     end
   end
 
+  def handle_sdr_connect
+    if reservation.sdr_ip && reservation.sdr_port
+      Rails.logger.info "Sending SDR info for #{reservation} by chat request"
+      reservation.server.rcon_say "SDR info: connect #{reservation.sdr_ip}:#{reservation.sdr_port}"
+    else
+      Rails.logger.info "Couldn't send SDR info #{reservation} by chat request"
+      reservation.server.rcon_say 'SDR currently not available for this server, please try again in a minute or two'
+    end
+  end
+
   def handle_rcon
     rcon_command = message.split[1..].join(' ')
     return if rcon_command.empty?
@@ -134,6 +145,8 @@ class LogWorker
       :handle_extend
     when WHOIS_RESERVER
       :handle_whois_reserver
+    when SDR_INFO_COMMAND
+      :handle_sdr_connect
     end
   end
 

@@ -6,7 +6,7 @@ describe LogWorker do
   let(:user)                  { create :user, uid: '76561197960497430' }
   let(:server)                { double(:server, id: 1, rcon_auth: true, condenser: condenser, supports_mitigations?: false).as_null_object }
   let(:condenser)             { double.as_null_object }
-  let(:reservation)           { create :reservation, user: user, logsecret: '1234567' }
+  let(:reservation)           { create :reservation, user: user, logsecret: '1234567', sdr_ip: '123.123.123.123', sdr_port: '4567' }
   let(:extend_line)           { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!extend"' }
   let(:lobby_extend_line)     { '1234567L 03/29/2014 - 13:15:53: "Lobby player<3><[U:1:1337]><Red>" say "!extend"' }
   let(:extend_team_line)      { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say_team "!extend"' }
@@ -19,6 +19,7 @@ describe LogWorker do
   let(:timeleft_line)         { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!timeleft"' }
   let(:who_line)              { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><Red>" say "!who"' }
   let(:who_troll)             { '1234567L 03/29/2014 - 19:15:53: "BindTroll<3><[U:1:12344]><Red>" say "!who is the best"' }
+  let(:sdr_line)              { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!sdr"' }
   let(:turbine_start_line)    { '1234567L 02/07/2015 - 20:39:40: Started map "ctf_turbine" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
   let(:badlands_start_line)   { '1234567L 02/07/2015 - 20:39:40: Started map "cp_badlands" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
   let(:connect_normal)        { '1234567L 03/29/2014 - 13:15:53: "Normal<3><[U:1:12345]><>" connected, address "1.128.0.1:1234"' }
@@ -173,6 +174,13 @@ describe LogWorker do
     it 'doesnt ban others' do
       server.should_not_receive(:rcon_exec)
       LogWorker.perform_async(connect_normal)
+    end
+  end
+
+  describe 'getting SDR info' do
+    it 'sends the info through rcon' do
+      server.should_receive(:rcon_say).with('SDR info: connect 123.123.123.123:4567')
+      LogWorker.perform_async(sdr_line)
     end
   end
 end

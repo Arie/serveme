@@ -93,6 +93,6 @@ class LeagueRequest
   end
 
   def players_query
-    ReservationPlayer.eager_load(:reservation).joins(reservation: :server).where('servers.sdr = ?', false).order('reservations.starts_at DESC')
+    ReservationPlayer.eager_load(:reservation).joins(reservation: :server).where('servers.sdr = ?', false).where('reservation_players.ip not like ?', '169.254.%').order('reservations.starts_at DESC')
   end
 end

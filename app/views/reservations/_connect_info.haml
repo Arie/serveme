@@ -1,21 +1,7 @@
 %div{id: "reservation_connect_info_#{reservation.id}"}
-  %tr
-    %td Connect info
-    %td
-      - if reservation&.server&.sdr? && preliminary_sdr?(reservation)
-        Temporary connect info
-        %br
+  - if reservation&.server&.sdr? && preliminary_sdr?(reservation)
+    Temporary connect info
+    %br
 
-      = reservation.connect_string
-      = render 'shared/copy_button', :copy_button_id => "connect_string", :copy_text => reservation.connect_string
-
-  - if !reservation&.server&.sdr?
-    %tr
-      %td
-        - if preliminary_sdr?(reservation)
-          Temporary SDR connect info
-        - else
-          SDR connect info
-      %td
-        = reservation.sdr_connect_string
-        = render 'shared/copy_button', :copy_button_id => "sdr_connect_string", :copy_text => reservation.sdr_connect_string
+  = reservation.connect_string
+  = render 'shared/copy_button', :copy_button_id => "connect_string", :copy_text => reservation.connect_string

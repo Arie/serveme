@@ -232,7 +232,7 @@ class Reservation < ActiveRecord::Base
 
     return 'Ending' if status_messages.include?('Ending')
 
-    return 'SDR Ready' if sdr_ip.present?
+    return 'SDR Ready' if server&.sdr? && sdr_ip.present?
     return 'Ready' if server_statistics.any? && !server.sdr?
     return 'Ready' if status_messages.grep(/\AServer finished loading map/).any? && !server.sdr?
 

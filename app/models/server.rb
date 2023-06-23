@@ -356,7 +356,7 @@ class Server < ActiveRecord::Base
   end
 
   def clear_sdr_info!
-    persisted? && sdr? && update_columns(last_sdr_ip: nil, last_sdr_port: nil, last_sdr_tv_port: nil)
+    persisted? && update_columns(last_sdr_ip: nil, last_sdr_port: nil, last_sdr_tv_port: nil)
   end
 
   private

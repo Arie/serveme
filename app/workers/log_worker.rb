@@ -36,7 +36,7 @@ class LogWorker
 
   def handle_mapstart(mapname)
     reservation.broadcast_connect_info
-    ActiveReservationCheckerWorker.perform_in(10.seconds, reservation.id) if reservation.server&.sdr?
+    ActiveReservationCheckerWorker.perform_in(10.seconds, reservation.id)
     if mapname == 'ctf_turbine'
       reservation.status_update('Server startup complete, switching map')
     else

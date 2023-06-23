@@ -6,11 +6,11 @@ module ReservationServerInformation
   end
 
   def public_ip
-    sdr_ip || server&.public_ip
+    (server&.sdr? && sdr_ip) || server&.public_ip
   end
 
   def public_port
-    sdr_port || server&.public_port
+    (server&.sdr? && sdr_port) || server&.public_port
   end
 
   def public_tv_port

@@ -126,7 +126,7 @@ class User < ActiveRecord::Base
   private
 
   def na_timezone?
-    return unless time_zone
+    return false unless time_zone
 
     ['US & Canada', 'Canada', 'Chicago', 'New_York', 'Los_Angeles', 'Denver', 'Phoenix', 'Halifax', 'Goose_Bay', 'St_Johns', 'Anchorage'].any? do |zone|
       time_zone.match(/#{zone}/)

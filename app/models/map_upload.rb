@@ -76,7 +76,7 @@ class MapUpload < ActiveRecord::Base
   end
 
   def self.map_exists?(filename)
-    return unless File.exist?(File.join(MAPS_DIR, filename.split('/').last))
+    return false unless File.exist?(File.join(MAPS_DIR, filename.split('/').last))
 
     Rails.logger.info "File #{filename} already exists in #{MAPS_DIR}"
     true

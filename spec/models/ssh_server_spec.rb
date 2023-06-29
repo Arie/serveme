@@ -23,7 +23,7 @@ describe SshServer do
   describe '#find_process_id' do
     it 'finds correct pid' do
       subject.stub(port: '27015')
-      subject.should_receive(:execute).with("ps ux | grep port | grep #{subject.port} | grep srcds_linux | grep -v grep | grep -v ruby | awk '{print \$2}'")
+      subject.should_receive(:execute).with("ps ux | grep port | grep #{subject.port} | grep srcds_linux | grep -v grep | grep -v ruby | awk '{print $2}'")
       subject.find_process_id
     end
   end
@@ -110,7 +110,7 @@ describe SshServer do
       files = [File.join('foo')]
       destination = 'bar'
 
-      subject.should_receive('system').with("scp -T foo #{subject.ip}:bar")
+      subject.should_receive('system').with("#{scp_command} foo #{subject.ip}:bar")
       subject.copy_to_server(files, destination)
     end
   end
@@ -133,7 +133,7 @@ describe SshServer do
       files = [File.join('foo')]
       destination = 'bar'
 
-      subject.should_receive(:system).with("scp -T #{subject.ip}:\"foo\" bar")
+      subject.should_receive(:system).with("#{scp_command} #{subject.ip}:\"foo\" bar")
 
       subject.copy_from_server(files, destination)
     end
@@ -155,5 +155,9 @@ describe SshServer do
     it 'chomps off line breaks' do
       subject.shell_output_to_array(shell_output).first.should_not include("\n")
     end
+  end
+
+  def scp_command
+    'scp -T -l 200000'
   end
 end

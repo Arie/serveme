@@ -50,6 +50,10 @@ class User < ActiveRecord::Base
     @streamer ||= group_ids.include?(Group.streamer_group.id)
   end
 
+  def trusted_api?
+    @trusted_api ||= group_ids.include?(Group.trusted_api_group.id)
+  end
+
   def banned?
     return false if ReservationPlayer.whitelisted_uid?(uid)
 

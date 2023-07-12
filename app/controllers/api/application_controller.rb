@@ -22,7 +22,7 @@ module Api
     end
 
     def current_user
-      @current_user ||= (api_user&.admin? && uid_user) || api_user
+      @current_user ||= ((api_user&.admin? || api_user&.trusted_api?) && uid_user) || api_user
     end
 
     def handle_not_found

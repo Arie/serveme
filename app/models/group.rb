@@ -30,6 +30,10 @@ class Group < ActiveRecord::Base
     find_or_create_by(name: 'Streamers')
   end
 
+  def self.trusted_api_group
+    find_or_create_by(name: 'Trusted API')
+  end
+
   def self.private_user(user)
     where(name: user.uid).first_or_create!
   end

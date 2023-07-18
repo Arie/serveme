@@ -52,6 +52,8 @@ module ReservationsHelper
       new_reservation_attributes.merge!(previous_reservation_attributes)
     end
 
+    new_reservation_attributes.merge!(template_params) if template_params
+
     current_user.reservations.build(new_reservation_attributes)
   end
 
@@ -110,5 +112,9 @@ module ReservationsHelper
 
   def ends_at
     (params[:reservation] && params[:reservation][:ends_at].presence) || params[:ends_at].presence || 2.hours.from_now
+  end
+
+  def template_params
+    params.permit(*Reservation.template_attribute_names)
   end
 end

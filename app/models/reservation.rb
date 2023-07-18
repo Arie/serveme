@@ -194,6 +194,14 @@ class Reservation < ActiveRecord::Base
     attributes.slice('server_id', 'password', 'rcon', 'tv_password', 'server_config_id', 'whitelist_id', 'custom_whitelist_id', 'first_map', 'enable_demos_tf')
   end
 
+  def template_attributes
+    attributes.slice(*self.class.template_attribute_names)
+  end
+
+  def self.template_attribute_names
+    %w[server_config_id whitelist_id custom_whitelist_id first_map]
+  end
+
   # rubocop:disable Naming/AccessorMethodName
   def get_binding
     binding

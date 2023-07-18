@@ -12,6 +12,9 @@
 %h3
   Reservation:
   = reservation.to_s
+  - clone_identifier = "#{[reservation&.server_config&.file, reservation&.first_map, (reservation&.whitelist&.file || reservation&.custom_whitelist_id)].reject(&:blank?).join(' | ')}"
+  = link_to new_reservation_path(reservation.template_attributes), class: 'btn btn-lg btn-primary', title: "Clone this reservation: #{clone_identifier}", alt: clone_identifier do
+    %i.fa.fa-clone
 
 - if reservation&.server&.sdr?
   .row

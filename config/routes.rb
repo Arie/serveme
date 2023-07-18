@@ -3,6 +3,7 @@
 require 'sidekiq/web'
 require 'sidekiq/cron/web'
 
+# rubocop:disable Metrics/BlockLength
 Serveme::Application.routes.draw do
   get '/404', to: 'pages#not_found'
   get '/500', to: 'pages#error'
@@ -149,3 +150,4 @@ Serveme::Application.routes.draw do
   root to: 'pages#welcome'
   match '*path', via: :all, to: 'pages#not_found' unless Rails.env.test?
 end
+# rubocop:enable Metrics/BlockLength

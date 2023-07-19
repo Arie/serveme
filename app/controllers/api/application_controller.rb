@@ -63,6 +63,10 @@ module Api
       @current_league_admin ||= current_user&.league_admin? && current_user
     end
 
+    def current_trusted_api
+      @current_trusted_api ||= current_user&.trusted_api? && current_user
+    end
+
     def require_site_or_league_admin
       redirect_to root_path unless current_admin || current_league_admin
     end

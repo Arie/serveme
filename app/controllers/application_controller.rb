@@ -51,6 +51,11 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_streamer
 
+  def current_trusted_api
+    @current_trusted_api ||= current_user&.trusted_api? && current_user
+  end
+  helper_method :current_trusted_api
+
   def require_admin
     redirect_to root_path unless current_admin
   end

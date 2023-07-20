@@ -3,7 +3,7 @@
 class UsersController < ApplicationController
   def edit
     @user = current_user
-    @vouchers = current_user.vouchers.includes(:product, :claimed_by)
+    @vouchers = current_user.vouchers.includes(:product, :claimed_by).order(Voucher.arel_table[:claimed_at].not_eq(nil), Voucher.arel_table[:created_at].desc)
     @private_server = PrivateServer.new if @user.private_server_option?
   end
 

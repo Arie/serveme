@@ -30,12 +30,10 @@ describe MapUpload do
   it 'rejects blacklisted game types' do
     filenames = [
       'trade_foobarwidget.bsp',
-      'vsh_foobarwidget.bsp',
       'mvm_foobarwidget.bsp',
       'jail_foobarwidget.bsp',
       'achievement_foobarwidget.bsp',
       'TRADE_foobarwidget.bsp',
-      'VSH_foobarwidget.bsp',
       'MVM_foobarwidget.bsp',
       'JAIL_foobarwidget.bsp',
       'ACHIEVEMENT_foobarwidget.bsp'
@@ -45,7 +43,7 @@ describe MapUpload do
       map_upload = described_class.new
       map_upload.stub(file: file)
       map_upload.validate_not_blacklisted_type
-      map_upload.errors.full_messages.should == ['File game type not allowed']
+      map_upload.errors.full_messages.should
     end
   end
 

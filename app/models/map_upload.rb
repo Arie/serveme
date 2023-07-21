@@ -93,7 +93,7 @@ class MapUpload < ActiveRecord::Base
     return false unless filename.match(/(^.*\.bsp)/)
 
     target_filename = filename.match(/(^.*\.bsp)/) && filename.match(/(^.*\.bsp)/)[1]
-    target_filename && target_filename =~ /^(trade_.*|vsh_.*|mvm_.*|jail_.*|achievement_.*)/i
+    target_filename && target_filename =~ /^(trade_.*|mvm_.*|jail_.*|achievement_.*)/i
   end
 
   def bzip2_uploaded_maps

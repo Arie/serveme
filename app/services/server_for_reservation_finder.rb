@@ -17,6 +17,6 @@ class ServerForReservationFinder
   end
 
   def available_for_user
-    Server.includes(:location).active.reservable_by_user(reservation.user)
+    Server.includes(:location).active.updated.reservable_by_user(reservation.user)
   end
 end

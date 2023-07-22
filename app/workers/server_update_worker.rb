@@ -22,6 +22,8 @@ class ServerUpdateWorker
     to_upgrade_count = MAX_CONCURRENT_UPDATES_PER_IP - currently_upgrading_count
 
     outdated_servers.where(ip: ip).where(update_status: nil).or(outdated_servers.where(ip: ip).where.not(update_status: 'Updating')).all.sample(to_upgrade_count).each do |s|
+      next if s.current_reservation
+
       s.update_columns(update_status: 'Updating', update_started_at: Time.current)
       s.restart
     end

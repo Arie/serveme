@@ -32,7 +32,7 @@
   %td
     - if server.last_known_version != latest_server_version
       - if server.update_status == 'Updating'
-        %i.fa.fa-sync.fa-spin.text-warning{title: "Update started at #{I18n.l(server.update_started_at, format: :short)}. Server version #{server.last_known_version} was older than #{latest_server_version}"}
+        %i.fa.fa-refresh.fa-spin.text-warning{title: "Update started at #{I18n.l(server.update_started_at, format: :short)}. Server version #{server.last_known_version} was older than #{latest_server_version}"}
       - else
         %i.fa.fa-exclamation-circle.text-danger{title: "Server version #{server.last_known_version} is older than #{latest_server_version}"}
 

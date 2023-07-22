@@ -6,6 +6,7 @@ class ServersController < ApplicationController
   def index
     @servers = Server.active.includes([current_reservations: { user: :groups }], :location, :recent_server_statistics).order(:name)
     if current_admin || current_league_admin || current_streamer
+      @latest_server_version = Server.latest_version
       render :admins
     else
       render :index

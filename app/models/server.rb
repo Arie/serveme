@@ -377,6 +377,18 @@ class Server < ActiveRecord::Base
     persisted? && update_columns(last_sdr_ip: nil, last_sdr_port: nil, last_sdr_tv_port: nil)
   end
 
+  def save_version_info(server_info)
+    return unless server_info&.version.present?
+
+    if server_info.version < self.class.latest_version
+      Rails.logger.warn("Server #{name} was updating since #{I18n.l(update_started_at, format: :short)} but is now back online with old version #{server_info.version} instead of latest #{self.class.latest_version}") if update_status == 'Updating'
+
+      update(update_status: 'Outdated', last_known_version: server_info.version)
+    else
+      update(update_status: 'Updated', last_known_version: server_info.version)
+    end
+  end
+
   private
 
   def logs_and_demos

@@ -12,7 +12,7 @@ class InactiveServerCheckerWorker
     @latest_version = latest_version
 
     server_info = fetch_sdr_info
-    save_version_info(server_info)
+    server.save_version_info(server_info)
     save_sdr_info(server_info)
   end
 
@@ -28,17 +28,6 @@ class InactiveServerCheckerWorker
       Rails.logger.warn "Couldn't get RCON status of #{server.name} - #{server.ip}:#{server.port}"
       nil
     end
-  end
-
-  def save_version_info(server_info)
-    return unless server_info&.version.present?
-
-    Rails.logger.warn("Server #{server.name} was updating since #{I18n.l(server.update_started_at, format: :short)} but is now back online with old version #{server_info.version} instead of latest #{@latest_version}") if server.update_status == 'Updating' && server_info.version < @latest_version
-
-    server.update_columns(
-      update_status: nil,
-      last_known_version: server_info.version
-    )
   end
 
   def save_sdr_info(server_info)

@@ -31,9 +31,8 @@
     - else
       %td{colspan: 4} Idle
   %td
-    = latest_server_version
     - if server.last_known_version != latest_server_version
-      %i.fa.fa-exclamation-circle.text-danger
+      %i.fa.fa-exclamation-circle.text-danger{alt: "Server version #{server.last_known_version} is older than #{latest_server_version}"}
       = server.last_known_version
       = link_to("Update", force_update_server_path(server), class: 'btn btn-sm btn-danger', method: :post, data: { confirm: "This will force a server restart, regardless if there are players on the servers" })
     - else

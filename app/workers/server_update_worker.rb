@@ -11,15 +11,15 @@ class ServerUpdateWorker
     @latest_version = latest_version
 
     ips_with_outdated_servers.each do |ip|
-      attempt_upgrade(ip)
+      attempt_update(ip)
     end
   end
 
-  def attempt_upgrade(ip)
-    currently_upgrading_count = currently_updating.where(ip: ip).size
-    return unless currently_upgrading_count < MAX_CONCURRENT_UPDATES_PER_IP
+  def attempt_update(ip)
+    currently_updating_count = currently_updating.where(ip: ip).size
+    return unless currently_updating_count < MAX_CONCURRENT_UPDATES_PER_IP
 
-    to_upgrade_count = MAX_CONCURRENT_UPDATES_PER_IP - currently_upgrading_count
+    to_upgrade_count = MAX_CONCURRENT_UPDATES_PER_IP - currently_updating_count
 
     outdated_servers.where(ip: ip).where(update_status: nil).or(outdated_servers.where(ip: ip).where.not(update_status: 'Updating')).all.sample(to_upgrade_count).each do |s|
       next if s.current_reservation

@@ -16,13 +16,13 @@ class ServerUpdateWorker
   end
 
   def attempt_upgrade(ip)
-    currently_upgrading_count = outdated_servers.where(ip: ip, status: 'Updating').size
+    currently_upgrading_count = outdated_servers.where(ip: ip, update_status: 'Updating').size
     return unless currently_upgrading_count < MAX_CONCURRENT_UPDATES_PER_IP
 
     to_upgrade_count = MAX_CONCURRENT_UPDATES_PER_IP - currently_upgrading_count
 
-    outdated_servers.where(ip: ip).where.not(status: 'Updating').all.sample(to_upgrade_count).each do |s|
-      s.update_columns(upgrade_status: 'Updating', update_started_at: Time.current)
+    outdated_servers.where(ip: ip).where.not(update_status: 'Updating').all.sample(to_upgrade_count).each do |s|
+      s.update_columns(update_status: 'Updating', update_started_at: Time.current)
       s.restart
     end
   end

@@ -5,7 +5,7 @@ class InactiveServersCheckerWorker
 
   def perform(server_ids)
     server_ids.each do |server_id|
-      InactiveServerCheckerWorker.perform_async(server_id)
+      InactiveServerCheckerWorker.perform_async(server_id, Server.latest_version)
     end
   end
 end

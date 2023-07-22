@@ -16,7 +16,7 @@ class ServerUpdateWorker
   end
 
   def attempt_upgrade(ip)
-    currently_upgrading_count = outdated_servers.where(ip: ip, update_status: 'Updating').size
+    currently_upgrading_count = currently_updating.where(ip: ip).size
     return unless currently_upgrading_count < MAX_CONCURRENT_UPDATES_PER_IP
 
     to_upgrade_count = MAX_CONCURRENT_UPDATES_PER_IP - currently_upgrading_count
@@ -35,6 +35,10 @@ class ServerUpdateWorker
 
   def outdated_servers
     Server.active.outdated(latest_version).where.not(id: reserved_server_ids)
+  end
+
+  def currently_updating
+    outdated_servers.where(update_status: 'Updating')
   end
 
   def reserved_server_ids

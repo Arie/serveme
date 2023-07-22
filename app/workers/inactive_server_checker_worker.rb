@@ -7,8 +7,9 @@ class InactiveServerCheckerWorker
 
   sidekiq_options retry: 1
 
-  def perform(server_id)
+  def perform(server_id, latest_version)
     @server = Server.find(server_id)
+    @latest_version = latest_version
 
     server_info = fetch_sdr_info
     save_version_info(server_info)
@@ -32,9 +33,18 @@ class InactiveServerCheckerWorker
   def save_version_info(server_info)
     return unless server_info&.version.present?
 
-    server.update_columns(
-      last_known_version: server_info.version
-    )
+    if server.update_status == 'Updating' && server_info.version < @latest_version
+      Rails.logger.warn("Server #{server.name} was updating since #{I18n.l(server.update_started_at, format: :short)} but is now back online with old version #{server_info.version} instead of latest #{@latest_version}")
+      server.update_columns(
+        update_status: nil,
+        update_started_at: nil,
+        last_known_version: server_info.version
+      )
+    else
+      server.update_columns(
+        last_known_version: server_info.version
+      )
+    end
   end
 
   def save_sdr_info(server_info)

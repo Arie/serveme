@@ -7,8 +7,7 @@
   - demos_tf_hint = "#{link_to('Get your demos.tf API key', 'https://demos.tf/upload', :target => '_blank')} on the demos.tf website, and enter it here".html_safe
   = f.input :logs_tf_api_key, :placeholder => "logs.tf API key", :hint => logs_tf_hint, :as => "string"
   = f.input :demos_tf_api_key, :placeholder => "demos.tf API key", :hint => demos_tf_hint
-  - if @user.donator?
-    = f.input :api_key, label: "serveme.tf API key", :disabled => true, :readonly => true, :as => "string"
+  = f.input :api_key, label: "serveme.tf API key", :disabled => true, :readonly => true, :as => "string"
 
   .col-md-offset-2
     %button.btn.btn-primary{:type => :submit}

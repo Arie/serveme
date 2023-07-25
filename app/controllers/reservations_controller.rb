@@ -4,6 +4,7 @@ class ReservationsController < ApplicationController
   before_action :require_admin, only: %i[streaming]
   skip_before_action :redirect_if_country_banned, only: :played_in
   skip_before_action :authenticate_user!, only: %i[motd]
+  skip_before_action :store_current_location, only: %i[extend_reservation destroy]
   helper LogLineHelper
   layout 'simple', only: %i[rcon motd]
   include RconHelper
@@ -73,7 +74,7 @@ class ReservationsController < ApplicationController
     else
       flash[:alert] = 'Could not extend, conflicting reservation'
     end
-    redirect_to root_path
+    redirect_to stored_location_for(:user) || root_path
   end
 
   def show
@@ -94,7 +95,7 @@ class ReservationsController < ApplicationController
     else
       end_reservation
     end
-    redirect_to reservation_path(@reservation)
+    redirect_to stored_location_for(:user) || reservation_path(@reservation)
   end
 
   def status

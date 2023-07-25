@@ -125,6 +125,10 @@ class Server < ActiveRecord::Base
     write_configuration(sourcemod_admin_file, sourcemod_admin_body(user))
   end
 
+  def add_sourcemod_servers(reservation)
+    write_configuration(sourcemod_servers_file, sourcemod_servers_body(reservation))
+  end
+
   def disable_plugins
     delete_from_server([sourcemod_file, sourcemod_admin_file])
   end
@@ -147,12 +151,34 @@ class Server < ActiveRecord::Base
     "#{tf_dir}/addons/sourcemod/configs/admins_simple.ini"
   end
 
+  def sourcemod_servers_file
+    "#{tf_dir}/addons/sourcemod/configs/serverhop.cfg"
+  end
+
   def sourcemod_admin_body(user)
     uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(user.uid.to_i)
     flags = sdr? ? 'abcdefghijkln' : 'z'
     <<-INI
     "#{uid3}" "99:#{flags}"
     INI
+  end
+
+  def sourcemod_servers_body(reservation)
+    <<-CFG
+    "Servers"
+    {
+            "Direct connection"
+            {
+                    "address"               "#{reservation.server.ip}"
+                    "port"          "#{reservation.server.port}"
+            }
+            "SDR (Valve VPN)"
+            {
+                    "address"               "#{reservation.connect_sdr_ip}"
+                    "port"          "#{reservation.connect_sdr_port}"
+            }
+    }
+    CFG
   end
 
   def write_custom_whitelist(reservation)
@@ -214,6 +240,7 @@ class Server < ActiveRecord::Base
       reservation.status_update('Enabling plugins')
       enable_plugins
       add_sourcemod_admin(reservation.user)
+      add_sourcemod_servers(reservation)
       reservation.status_update('Enabled plugins')
       if reservation.enable_demos_tf?
         reservation.status_update('Enabling demos.tf')

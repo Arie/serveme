@@ -80,6 +80,7 @@ describe LocalServer do
       subject.should_receive(:restart)
       subject.should_receive(:enable_plugins)
       subject.should_receive(:add_sourcemod_admin)
+      subject.should_receive(:add_sourcemod_servers)
       subject.should_receive(:update_configuration).with(reservation)
       subject.start_reservation(reservation)
     end

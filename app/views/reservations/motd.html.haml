@@ -4,7 +4,10 @@
 - if current_user && reservation.user == current_user
   = turbo_stream_from @reservation
 - else
-  %p If this is your reservation, log in for additional information and controls
+  %p
+    If this is your reservation,
+    = link_to 'log in', '/users/auth/steam', method: :post
+    for additional information and controls
 
 - if current_user && reservation.user == current_user
   = turbo_stream_from @reservation

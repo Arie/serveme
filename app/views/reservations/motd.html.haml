@@ -1,26 +1,37 @@
-%h2 Welcome to this #{SITE_HOST} server
 
-%p If this is your reservation, log in for additional information and controls
+%h2 Welcome to this #{SITE_HOST} server
 
 - if current_user && reservation.user == current_user
   = turbo_stream_from @reservation
+- else
+  %p If this is your reservation, log in for additional information and controls
 
+- if current_user && reservation.user == current_user
+  = turbo_stream_from @reservation
 
 .row
   .col-md-12
 
     %table.table.table-hover.table-bordered.table-striped
-      - if current_user && (current_user.admin? || current_user.league_admin? || current_user.streamer?)
-        %tr
-          %td Reserved by
-          %td
-            = link_to(reservation.user.nickname, reservation.user.steam_profile_url, target: "_blank")
+      %tr
+        %td Reserved by
+        %td
+          = link_to(reservation.user.nickname, reservation.user.steam_profile_url, target: "_blank")
 
       - if current_user && reservation.user == current_user
         %tr
           %td Status
           %td
             = render "status"
+
+        %tr
+          %td Actions
+          %td= render "actions"
+
+      %tr
+        %td Time remaining
+        %td
+          %div#countdown
 
       %tr
         %td Connect info
@@ -67,3 +78,26 @@
   .row
     .col-md-12
       = render "rcon", action: "motd_rcon_command"
+
+:javascript
+  jQuery(document).on('turbo:load', function() {
+    // Update the count down every 1 second
+    var countDownDate = #{@reservation.ends_at.to_i * 1000};
+    var countdown = function() {
+      var now = new Date().getTime();
+      var distance = countDownDate - now;
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      document.getElementById("countdown").innerHTML = hours + "h "
+      + minutes + "m " + seconds + "s ";
+
+      if (distance < 0) {
+        clearInterval(countdownTimer);
+        document.getElementById("countdown").innerHTML = "0s";
+      }
+    }
+    var countdownTimer = setInterval(countdown, 1000);
+    countdown();
+  });

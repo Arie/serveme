@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :set_time_zone
   before_action :redirect_if_country_banned
+  before_action :store_current_location, unless: :devise_controller?
 
   def set_time_zone
     set_time_zone_from_current_user || set_time_zone_from_cookie || set_default_time_zone
@@ -109,5 +110,9 @@ class ApplicationController < ActionController::Base
       .compact
       .uniq
       .any? { |ip| ReservationPlayer.banned_country?(ip) }
+  end
+
+  def store_current_location
+    store_location_for(:user, request.url)
   end
 end

@@ -39,7 +39,9 @@ Serveme::Application.routes.draw do
       get :status,              as: :status
       get :streaming,           as: :streaming
       get :rcon,                as: :rcon
+      get :motd,                as: :motd
       patch :rcon_command, as: :rcon_command
+      patch :motd_rcon_command, as: :motd_rcon_command
     end
     collection do
       post :find_servers_for_user

@@ -113,6 +113,7 @@ class Server < ActiveRecord::Base
       config_body = generate_config_file(reservation, config_file)
       write_configuration(server_config_file(config_file), config_body)
     end
+    write_configuration(motd_file, motd_body(reservation))
     write_custom_whitelist(reservation) if reservation.custom_whitelist_id.present?
     reservation.status_update('Finished sending reservation config files')
   end
@@ -127,6 +128,10 @@ class Server < ActiveRecord::Base
 
   def add_sourcemod_servers(reservation)
     write_configuration(sourcemod_servers_file, sourcemod_servers_body(reservation))
+  end
+
+  def add_motd(reservation)
+    write_configuration(motd_file, motd_body(reservation))
   end
 
   def disable_plugins
@@ -145,6 +150,11 @@ class Server < ActiveRecord::Base
       "file"		"addons/sourcemod/bin/sourcemod_mm"
     }
     VDF
+  end
+
+  def motd_body(_reservation)
+    # "#{SITE_URL}/reservations/#{reservation.id}/motd?password=#{URI.encode_uri_component(reservation.password)}"
+    ''
   end
 
   def sourcemod_admin_file
@@ -437,7 +447,7 @@ class Server < ActiveRecord::Base
   end
 
   def configuration_files
-    [reservation_config_file, initial_map_config_file, banned_user_file, banned_ip_file]
+    [reservation_config_file, initial_map_config_file, banned_user_file, banned_ip_file, motd_file]
   end
 
   def reservation_config_file
@@ -454,6 +464,10 @@ class Server < ActiveRecord::Base
 
   def banned_ip_file
     server_config_file('banned_ip.cfg')
+  end
+
+  def motd_file
+    "#{tf_dir}/motd.txt"
   end
 
   def host_to_ip

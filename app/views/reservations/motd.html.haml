@@ -1,0 +1,69 @@
+%h2 Welcome to this #{SITE_HOST} server
+
+%p If this is your reservation, log in for additional information and controls
+
+- if current_user && reservation.user == current_user
+  = turbo_stream_from @reservation
+
+
+.row
+  .col-md-12
+
+    %table.table.table-hover.table-bordered.table-striped
+      - if current_user && (current_user.admin? || current_user.league_admin? || current_user.streamer?)
+        %tr
+          %td Reserved by
+          %td
+            = link_to(reservation.user.nickname, reservation.user.steam_profile_url, target: "_blank")
+
+      - if current_user && reservation.user == current_user
+        %tr
+          %td Status
+          %td
+            = render "status"
+
+      %tr
+        %td Connect info
+        %td
+          %div{id: "reservation_connect_info_#{reservation.id}"}
+            - if reservation&.server&.sdr? && preliminary_sdr?(reservation)
+              Temporary connect info
+              %br
+
+            = render 'shared/copy_button', button_text: "Copy connect", copy_button_id: "connect_string", copy_text: reservation.connect_string
+
+      %tr
+        %td
+          SDR connect info
+        %td
+          %div{id: "reservation_sdr_connect_info_#{reservation.id}"}
+            - if preliminary_sdr?(reservation)
+              Temporary SDR connect info
+              %br
+
+            = render 'shared/copy_button', button_text: "Copy SDR connect", copy_button_id: "sdr_connect_string", copy_text: reservation.sdr_connect_string
+
+      %tr
+        %td STV connect info
+        %td
+          %div{id: "reservation_stv_connect_info_#{reservation.id}"}
+            = render 'shared/copy_button', button_text: "Copy STV connect", copy_button_id: "stv_connect_string", copy_text: reservation.stv_connect_string
+
+      - if reservation.server_config
+        %tr
+          %td Initial server config
+          %td= reservation.server_config
+
+      - if reservation.custom_whitelist_id.present?
+        %tr
+          %td Initial whitelist
+          %td= link_to("Custom whitelist", "http://whitelist.tf/#{reservation.custom_whitelist_id}")
+      - elsif reservation.whitelist
+        %tr
+          %td Initial whitelist
+          %td= reservation.whitelist
+
+- if current_user && reservation.user == current_user
+  .row
+    .col-md-12
+      = render "rcon", action: "motd_rcon_command"

@@ -4,7 +4,7 @@ class ReservationsController < ApplicationController
   before_action :require_admin, only: %i[streaming]
   skip_before_action :redirect_if_country_banned, only: :played_in
   helper LogLineHelper
-  layout 'rcon', only: [:rcon]
+  layout 'simple', only: %i[rcon motd]
   include RconHelper
   include LogLineHelper
   include ReservationsHelper
@@ -128,17 +128,7 @@ class ReservationsController < ApplicationController
   end
 
   def rcon_command
-    if reservation&.now?
-      rcon_command = clean_rcon(params[:query] || params[:reservation][:rcon_command])
-      Rails.logger.info("User #{current_user.name} (#{current_user.uid}) executed rcon command \"#{rcon_command}\" for reservation #{reservation.id}")
-      result = handle_rcon_command(rcon_command)
-      respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.prepend("reservation_#{reservation.logsecret}_log_lines", target: "reservation_#{reservation.logsecret}_log_lines", partial: 'reservations/log_line', locals: { log_line: result }) }
-        format.html { redirect_to rcon_reservation_path(reservation) }
-      end
-    else
-      render 'pages/not_found', status: 404
-    end
+    shared_rcon_command(rcon_reservation_path(reservation))
   end
 
   def rcon_autocomplete
@@ -148,7 +138,33 @@ class ReservationsController < ApplicationController
     render layout: false
   end
 
+  def motd
+    @reservation = Reservation.find(params[:id])
+
+    return head(:unauthorized) unless @reservation.password == params[:password]
+
+    rcon
+  end
+
+  def motd_rcon_command
+    shared_rcon_command(motd_reservation_path(reservation))
+  end
+
   private
+
+  def shared_rcon_command(return_path)
+    if reservation&.now?
+      rcon_command = clean_rcon(params[:query] || params[:reservation][:rcon_command])
+      Rails.logger.info("User #{current_user.name} (#{current_user.uid}) executed rcon command \"#{rcon_command}\" for reservation #{reservation.id}")
+      result = handle_rcon_command(rcon_command)
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.prepend("reservation_#{reservation.logsecret}_log_lines", target: "reservation_#{reservation.logsecret}_log_lines", partial: 'reservations/log_line', locals: { log_line: result }) }
+        format.html { redirect_to return_path }
+      end
+    else
+      render 'pages/not_found', status: 404
+    end
+  end
 
   def handle_rcon_command(rcon_command)
     case rcon_command

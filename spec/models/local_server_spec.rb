@@ -92,6 +92,7 @@ describe LocalServer do
       subject.stub(tf_dir: '/tmp')
       File.should_receive(:write).with('/tmp/cfg/ctf_turbine.cfg', 'config file contents').and_return(file)
       File.should_receive(:write).with('/tmp/cfg/reservation.cfg', 'config file contents').and_return(file)
+      File.should_receive(:write).with('/tmp/motd.txt', '').and_return(file)
       subject.should_receive(:generate_config_file).exactly(2).times.with(reservation, anything).and_return('config file contents')
       subject.start_reservation(reservation)
     end
@@ -233,6 +234,7 @@ describe LocalServer do
       @map_file     = @tf_dir.join('cfg', 'ctf_turbine.cfg').to_s
       @ban_id_file  = @tf_dir.join('cfg', 'banned_user.cfg').to_s
       @ban_ip_file  = @tf_dir.join('cfg', 'banned_ip.cfg').to_s
+      @motd_file    = @tf_dir.join('motd.txt').to_s
     end
     it 'deletes the reservation.cfg if its available' do
       subject.stub(tf_dir: @tf_dir)
@@ -241,6 +243,7 @@ describe LocalServer do
       FileUtils.should_receive(:rm_rf).with(@map_file)
       FileUtils.should_receive(:rm_rf).with(@ban_id_file)
       FileUtils.should_receive(:rm_rf).with(@ban_ip_file)
+      FileUtils.should_receive(:rm_rf).with(@motd_file)
       subject.remove_configuration
     end
   end

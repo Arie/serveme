@@ -6,7 +6,7 @@ describe SshServer do
   describe '#remove_configuration' do
     it 'deletes the reservation configs' do
       subject.stub(tf_dir: '/tmp/foo/tf')
-      subject.should_receive(:execute).with('rm -f /tmp/foo/tf/cfg/reservation.cfg /tmp/foo/tf/cfg/ctf_turbine.cfg /tmp/foo/tf/cfg/banned_user.cfg /tmp/foo/tf/cfg/banned_ip.cfg')
+      subject.should_receive(:execute).with('rm -f /tmp/foo/tf/cfg/reservation.cfg /tmp/foo/tf/cfg/ctf_turbine.cfg /tmp/foo/tf/cfg/banned_user.cfg /tmp/foo/tf/cfg/banned_ip.cfg /tmp/foo/tf/motd.txt')
       subject.remove_configuration
     end
   end

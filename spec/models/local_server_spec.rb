@@ -86,13 +86,13 @@ describe LocalServer do
     end
 
     it 'writes a config file', :vcr do
-      reservation = stubbed_reservation(enable_plugins?: false, enable_mitigations: true)
+      reservation = stubbed_reservation(id: 1337, password: 'secret', enable_plugins?: false, enable_mitigations: true)
       subject.should_receive(:restart)
       file = double
       subject.stub(tf_dir: '/tmp')
       File.should_receive(:write).with('/tmp/cfg/ctf_turbine.cfg', 'config file contents').and_return(file)
       File.should_receive(:write).with('/tmp/cfg/reservation.cfg', 'config file contents').and_return(file)
-      File.should_receive(:write).with('/tmp/motd.txt', '').and_return(file)
+      File.should_receive(:write).with('/tmp/motd.txt', 'http://localhost:3000/reservations/1337/motd?password=secret').and_return(file)
       subject.should_receive(:generate_config_file).exactly(2).times.with(reservation, anything).and_return('config file contents')
       subject.start_reservation(reservation)
     end

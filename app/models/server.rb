@@ -113,7 +113,7 @@ class Server < ActiveRecord::Base
       config_body = generate_config_file(reservation, config_file)
       write_configuration(server_config_file(config_file), config_body)
     end
-    write_configuration(motd_file, motd_body(reservation))
+    add_motd(reservation)
     write_custom_whitelist(reservation) if reservation.custom_whitelist_id.present?
     reservation.status_update('Finished sending reservation config files')
   end
@@ -152,9 +152,8 @@ class Server < ActiveRecord::Base
     VDF
   end
 
-  def motd_body(_reservation)
-    # "#{SITE_URL}/reservations/#{reservation.id}/motd?password=#{URI.encode_uri_component(reservation.password)}"
-    ''
+  def motd_body(reservation)
+    "#{SITE_URL}/reservations/#{reservation.id}/motd?password=#{URI.encode_uri_component(reservation.password)}"
   end
 
   def sourcemod_admin_file

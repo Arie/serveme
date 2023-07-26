@@ -85,6 +85,6 @@ module LogLineHelper
   end
 
   def logsecret_regex
-    @logsecret_regex ||= /sv_logsecret \S+"/
+    @logsecret_regex ||= /sv_logsecret \S+/
   end
 end

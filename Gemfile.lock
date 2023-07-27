@@ -390,7 +390,7 @@ GEM
     mini_mime (1.1.2)
     mini_racer (0.8.0)
       libv8-node (~> 18.16.0.0)
-    minitest (5.18.1)
+    minitest (5.19.0)
     msgpack (1.7.2)
     multi_json (1.15.0)
     multi_test (1.1.0)
@@ -402,7 +402,7 @@ GEM
     net-http-digest_auth (1.4.1)
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
-    net-imap (0.3.6)
+    net-imap (0.3.7)
       date
       net-protocol
     net-pop (0.1.2)
@@ -533,7 +533,7 @@ GEM
     redis-store (1.9.2)
       redis (>= 4, < 6)
     regexp_parser (2.8.1)
-    reline (0.3.6)
+    reline (0.3.7)
       io-console (~> 0.5)
     request_store (1.5.1)
       rack (>= 1.4)
@@ -542,7 +542,7 @@ GEM
       railties (>= 5.2)
     reverse_markdown (2.1.1)
       nokogiri
-    rexml (3.2.5)
+    rexml (3.2.6)
     rouge (4.1.2)
     rspec-activemodel-mocks (1.1.0)
       activemodel (>= 3.0)

@@ -34,7 +34,7 @@ class LeagueMaps
 
   def self.etf2l_sixes_maps
     %w[
-      cp_granary_pro_rc14
+      cp_granary_pro_rc16a
       cp_gullywash_f9
       cp_metalworks_f5
       cp_process_f12

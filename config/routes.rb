@@ -138,6 +138,7 @@ Serveme::Application.routes.draw do
   get   '/upload-file',                   to: 'file_uploads#new',          as: 'upload_file'
   get   '/private-servers',               to: 'pages#private_servers',     as: 'private_server_info'
 
+  get   '/player_statistics/sdr',                                          to: 'player_statistics#show_for_sdr',                     as: 'show_sdr'
   get   '/player_statistics/reservation/:reservation_id',                  to: 'player_statistics#show_for_reservation',             as: 'show_reservation_statistic'
   get   '/player_statistics/steam/:steam_uid',                             to: 'player_statistics#show_for_player',                  as: 'show_player_statistic'
   get   '/player_statistics/ip/:ip',                                       to: 'player_statistics#show_for_ip',                      as: 'show_ip_statistic'

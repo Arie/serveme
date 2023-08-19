@@ -10,6 +10,13 @@ class PlayerStatisticsController < ApplicationController
     end
   end
 
+  def show_for_sdr
+    respond_to do |format|
+      @player_statistics = paginate(player_statistics.joins(:reservation_player).where("reservation_players.ip LIKE '169.254.%'"))
+      render_or_error(format, @player_statistics)
+    end
+  end
+
   def show_for_reservation_and_player
     respond_to do |format|
       @player_statistics = paginate(player_statistics.joins(:reservation_player).where('reservation_players.steam_uid = ? AND reservation_players.reservation_id = ?', params[:steam_uid].to_s, params[:reservation_id].to_i))

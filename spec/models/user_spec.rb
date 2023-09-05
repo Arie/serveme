@@ -32,12 +32,12 @@ describe User do
     context 'existing user' do
       it 'returns an existing user if it could find one by uid' do
         create(:user, uid: '321')
-        expect { User.find_for_steam_auth(@auth) }.not_to change { User.count }
+        expect { User.find_for_steam_auth(@auth) }.not_to(change { User.count })
       end
 
       it 'updates an existing user with new information' do
         user = create(:user, name: 'Karel', uid: '321')
-        expect { User.find_for_steam_auth(@auth) }.not_to change { User.count }
+        expect { User.find_for_steam_auth(@auth) }.not_to(change { User.count })
         user.reload.name.should eql 'Kees'
       end
 
@@ -46,7 +46,7 @@ describe User do
         @auth.stub(uid: '321',
                    provider: 'steam',
                    info: double(name: 'this.XKLL 🎂', nickname: 'this.XKLL 🎂'))
-        expect { User.find_for_steam_auth(@auth) }.not_to change { User.count }
+        expect { User.find_for_steam_auth(@auth) }.not_to(change { User.count })
         user.reload.name.should eql 'this.XKLL 🎂'
       end
     end
@@ -117,6 +117,18 @@ describe User do
       user = create(:user)
       user.groups << Group.league_admin_group
       user.should be_league_admin
+    end
+  end
+
+  describe '#banned?' do
+    it 'is banned with a banned UID' do
+      user = build(:user, uid: '76561199191964771')
+      user.should be_banned
+    end
+
+    it 'is banned with a banned IP' do
+      user = build(:user, current_sign_in_ip: '136.32.118.79')
+      user.should be_banned
     end
   end
 end

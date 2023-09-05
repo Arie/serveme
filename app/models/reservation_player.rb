@@ -37,7 +37,7 @@ class ReservationPlayer < ActiveRecord::Base
   end
 
   def self.banned_uid?(steam_id64)
-    banned_uids.include?(steam_id64)
+    banned_uids.include?(steam_id64.to_i)
   end
 
   def self.banned_ip?(ip)

@@ -64,7 +64,7 @@ class LogWorker
       reservation.server.rcon_exec "kickid \"#{event.player.steam_id}\" Please play without VPN"
       Rails.logger.info "Removed player on VPN with UID #{community_id}, IP #{event.message}, name #{event.player.name}, from reservation #{reservation_id}"
     elsif (ReservationPlayer.banned_uid?(community_id) || ReservationPlayer.banned_ip?(ip)) && !ReservationPlayer.whitelisted_uid?(community_id)
-      reservation.server.rcon_exec "banid 0 #{community_id} kick"
+      reservation.server.rcon_exec "banid 0 #{event.player.steam_id} kick"
       Rails.logger.info "Removed banned player with UID #{community_id}, IP #{event.message}, name #{event.player.name}, from reservation #{reservation_id}"
     elsif reservation.server.supports_mitigations?
       AllowReservationPlayerWorker.perform_async(rp.id)

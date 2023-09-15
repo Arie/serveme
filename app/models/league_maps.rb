@@ -166,10 +166,11 @@ class LeagueMaps
       cp_gullywash_f9
       cp_process_f12
       cp_sultry_b8
-      cp_reckoner_rc6
+      cp_reckoner
       cp_snakewater_final1
       cp_sunshine
-      koth_bagel_rc6
+      koth_bagel_rc7
+      koth_clearcut_b15d
       koth_product_final
     ]
   end
@@ -178,13 +179,14 @@ class LeagueMaps
     %w[
       cp_steel_f12
       koth_ashville_final
-      koth_proot_b5b
+      koth_proot_a6b
       koth_product_final
       koth_warmtic_f10
       pl_cornwater_b8c
+      pl_eruption_b13
       pl_swiftwater_final1
       pl_upward_f10
-      pl_vigil_rc9
+      pl_vigil_rc10
     ]
   end
 end

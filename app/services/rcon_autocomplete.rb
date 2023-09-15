@@ -179,6 +179,7 @@ class RconAutocomplete
       ozfortress_hl_stopwatch
       ozfortress_ultiduo
       ozfortress_bball
+      ozfortress_ec2_5cp
     ]
   end
 

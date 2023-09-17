@@ -18,7 +18,7 @@ describe RconAutocomplete do
   end
 
   it 'completes changelevel further' do
-    expect(subject.autocomplete('changelevel cp_r').map { |c| c[:command] }).to start_with ['changelevel cp_reckoner_rc6']
+    expect(subject.autocomplete('changelevel cp_r').map { |c| c[:command] }).to start_with ['changelevel cp_reckoner']
   end
 
   it 'completes exec further' do

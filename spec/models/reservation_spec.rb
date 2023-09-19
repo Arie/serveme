@@ -424,7 +424,7 @@ describe Reservation do
     it 'returns a steam connect url for the server' do
       subject.stub(:server).and_return(Server.new(ip: 'fakkelbrigade.eu', port: '27015'))
       subject.stub(:password).and_return('foo')
-      subject.server_connect_url.should eql 'steam://connect/fakkelbrigade.eu:27015/foo'
+      subject.server_connect_url.should eql 'steam://connect/176.9.138.143:27015/foo'
     end
   end
 
@@ -432,7 +432,7 @@ describe Reservation do
     it 'returns a steam connect url for the STV' do
       subject.stub(:server).and_return(Server.new(ip: 'fakkelbrigade.eu', port: '27015', tv_port: '27025'))
       subject.stub(:tv_password).and_return('bar')
-      subject.stv_connect_url.should eql 'steam://connect/fakkelbrigade.eu:27025/bar'
+      subject.stv_connect_url.should eql 'steam://connect/176.9.138.143:27025/bar'
     end
   end
 

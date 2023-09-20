@@ -18,6 +18,7 @@ json.enable_demos_tf reservation.enable_demos_tf
 json.sdr_ip reservation.connect_sdr_ip
 json.sdr_port reservation.connect_sdr_port
 json.sdr_tv_port reservation.connect_sdr_tv_port
+json.sdr_final reservation.sdr_ip.present?
 if reservation.persisted?
   json.id reservation.id
   json.last_number_of_players reservation.last_number_of_players

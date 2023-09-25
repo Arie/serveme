@@ -284,7 +284,7 @@ GEM
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
     faraday-retry (1.0.3)
-    ffi (1.15.5)
+    ffi (1.16.2)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
@@ -738,7 +738,7 @@ GEM
       sorbet-runtime (>= 0.5)
       yard (>= 0.9)
     yarp (0.12.0)
-    zeitwerk (2.6.11)
+    zeitwerk (2.6.12)
     zonebie (0.6.1)
 
 PLATFORMS

@@ -4,6 +4,7 @@ require 'simplecov'
 require 'coveralls'
 require 'sidekiq'
 require 'sidekiq/testing'
+require 'factory_bot_rails'
 Sidekiq::Testing.inline!
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
@@ -19,7 +20,7 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   config.include Delorean
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_path = "#{Rails.root}/spec/fixtures"
   config.use_transactional_fixtures = true
   config.infer_base_class_for_anonymous_controllers = false
   config.order = 'random'

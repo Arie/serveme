@@ -3,8 +3,8 @@
 class Reservation < ActiveRecord::Base
   belongs_to :user
   belongs_to :server
-  belongs_to :server_config
-  belongs_to :whitelist
+  belongs_to :server_config, optional: true
+  belongs_to :whitelist, optional: true
   has_many :log_uploads
   has_many :reservation_players
   has_many :ratings

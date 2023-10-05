@@ -9,6 +9,7 @@ When 'I go add a server' do
 end
 
 When 'I go edit a server' do
+  create(:server)
   visit edit_server_path(Server.first.id)
 end
 

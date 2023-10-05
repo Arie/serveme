@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 Given 'there are reservations today' do
-  create(:reservation, server: Server.last, starts_at: 10.minutes.from_now, ends_at: 1.hour.from_now)
-  @reservation = create(:reservation, server: Server.first, starts_at: 130.minutes.from_now, ends_at: 3.hours.from_now)
+  create(:reservation, starts_at: 10.minutes.from_now, ends_at: 1.hour.from_now)
+  @reservation = create(:reservation, starts_at: 130.minutes.from_now, ends_at: 3.hours.from_now)
 end
 
 When 'I go make a reservation' do
@@ -54,7 +54,8 @@ end
 When 'I enter the reservation details' do
   step 'I go make a reservation'
 
-  fill_in 'Server', with: Server.first.id
+  server = create(:server)
+  fill_in 'Server', with: server.id
   fill_in 'Password', with: 'secret'
   fill_in 'Rcon',     with: 'even more secret'
 end

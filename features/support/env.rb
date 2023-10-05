@@ -7,6 +7,7 @@ require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'sidekiq'
 require 'sidekiq/testing'
+require 'factory_bot_rails'
 Sidekiq::Testing.inline!
 
 # Load seed data

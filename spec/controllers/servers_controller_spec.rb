@@ -16,7 +16,8 @@ describe ServersController do
       first   = create :server, name: 'abc'
       third   = create :server, name: 'efg'
       second  = create :server, name: 'bcd'
-      _stat   = create :server_statistic, server: first, reservation_id: 1, created_at: 1.minute.ago
+      reservation = create :reservation, server: first
+      _stat = create :server_statistic, server: first, reservation: reservation, created_at: 1.minute.ago
       get :index
       assigns(:servers).map(&:name).should eql [first.name, second.name, third.name]
     end

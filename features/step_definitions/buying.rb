@@ -41,10 +41,11 @@ Then 'I see a premium code on my settings page' do
 end
 
 Then 'I get to choose a private server in my settings' do
+  server = create(:server)
   visit settings_path
   page.should have_content 'Private server'
 
-  fill_in 'Private server', with: Server.first.id
+  fill_in 'Private server', with: server.id
   click_button 'Save private server'
 end
 

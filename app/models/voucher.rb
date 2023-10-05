@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class Voucher < ActiveRecord::Base
-  belongs_to :product
-  belongs_to :order
-  belongs_to :claimed_by,  class_name: 'User'
-  belongs_to :created_by,  class_name: 'User'
+  belongs_to :product, optional: true
+  belongs_to :order, optional: true
+  belongs_to :claimed_by,  class_name: 'User', optional: true
+  belongs_to :created_by,  class_name: 'User', optional: true
 
   def hyphenate
     Base32::Crockford.hypenate(code).upcase

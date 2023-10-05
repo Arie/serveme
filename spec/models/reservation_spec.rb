@@ -241,10 +241,12 @@ describe Reservation do
 
   context 'validations' do
     it 'verifies the server is reservable by the user' do
-      users_group                 = create :group,  name: "User's group"
-      other_group                 = create :group,  name: "Not User's group"
-      user                        = create :user,   groups: [users_group]
-      free_server_other_group     = create :server, groups: [other_group], name: "free server not in user's group"
+      users_group = create :group,  name: "User's group"
+      other_group = create :group,  name: "Not User's group"
+      user = create :user
+      user.groups << users_group
+      free_server_other_group = create :server, name: "free server not in user's group"
+      free_server_other_group.groups << other_group
 
       reservation = build :reservation, server: free_server_other_group
       reservation.should have(1).error_on(:server_id)

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-When /^I go to the welcome page$/ do
+When(/^I go to the welcome page$/) do
   visit '/'
 end
 
@@ -9,16 +9,16 @@ Given 'there are servers' do
   Group.donator_group.servers << create(:server)
 end
 
-Then /^I can view a list of current reservations$/ do
+Then(/^I can view a list of current reservations$/) do
   page.should have_content @reservation.user.nickname
   page.should have_content @reservation.server.name
 end
 
-Given /^I have made a reservation that is currently active$/ do
-  @reservation = create(:reservation, user: @current_user, starts_at: 1.minute.ago, ends_at: 1.hour.from_now, provisioned: true, server: Server.first)
+Given(/^I have made a reservation that is currently active$/) do
+  @reservation = create(:reservation, user: @current_user, starts_at: 1.minute.ago, ends_at: 1.hour.from_now, provisioned: true)
 end
 
-Then /^I can view my reservation in the list$/ do
+Then(/^I can view my reservation in the list$/) do
   within 'table.your-reservations' do
     page.should have_content @reservation.server.name
   end

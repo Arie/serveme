@@ -32,10 +32,15 @@ FactoryBot.define do
   factory :reservation do
     association :server
     association :user
+    association :server_config
     password { 'secret' }
     rcon { 'supersecret' }
     starts_at { 1.minute.ago }
     ends_at { starts_at + 1.hour }
+  end
+
+  factory :server_config do
+    file { 'etf2l_6v6.cfg' }
   end
 
   factory :group do
@@ -137,6 +142,7 @@ FactoryBot.define do
 
   factory :voucher do
     association :product
+    association :order
     association :created_by,    factory: :user
     association :claimed_by,    factory: :user
     code { 'foobar' }
@@ -150,5 +156,10 @@ FactoryBot.define do
   factory :whitelist_tf do
     tf_whitelist_id { rand(1000) }
     content { 'whitelist content' }
+  end
+
+  factory :order do
+    association :product
+    association :user
   end
 end

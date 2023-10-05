@@ -61,12 +61,16 @@ describe LocalServer do
     it 'returns servers in the users group and servers without groups regardless of reservations' do
       users_group                 = create :group,  name: "User's group"
       other_group                 = create :group,  name: "Not User's group"
-      user                        = create :user,   groups: [users_group]
-      free_server_in_users_group  = create :server, groups: [users_group], name: "free server in user's group"
-      busy_server_in_users_group  = create :server, groups: [users_group], name: "busy server in user's group"
-      free_server_other_group     = create :server, groups: [other_group], name: "free server not in user's group"
-      free_server_no_group        = create :server, groups: []
-      busy_server_no_group        = create :server, groups: []
+      user                        = create :user
+      user.groups << users_group
+      free_server_in_users_group = create :server, name: "free server in user's group"
+      free_server_in_users_group.groups << users_group
+      busy_server_in_users_group = create :server, name: "busy server in user's group"
+      busy_server_in_users_group.groups << users_group
+      free_server_other_group = create :server, name: "free server not in user's group"
+      free_server_other_group.groups << other_group
+      free_server_no_group        = create :server
+      busy_server_no_group        = create :server
       create :reservation, server: busy_server_in_users_group, user: user
       create :reservation, server: busy_server_no_group
 

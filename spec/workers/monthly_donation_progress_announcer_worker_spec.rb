@@ -5,7 +5,8 @@ require 'spec_helper'
 describe MonthlyDonationProgressAnnouncerWorker do
   it 'announces the monthly goal percentage to all non-donators once per day' do
     non_donator = create :user
-    donator = create :user, groups: [Group.donator_group]
+    donator = create :user
+    donator.groups << Group.donator_group
     server = build :server
     non_donator_reservation = build :reservation, server: server, user: non_donator
     donator_server = build :server

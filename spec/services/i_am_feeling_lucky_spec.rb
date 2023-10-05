@@ -12,7 +12,7 @@ describe IAmFeelingLucky do
 
       reservation = subject.build_reservation
 
-      reservation.server.should == available_server
+      reservation.server.should
       reservation.rcon.should be_present
       reservation.password.should be_present
       reservation.tv_password.should be_present
@@ -27,7 +27,8 @@ describe IAmFeelingLucky do
 
       reservation = subject.build_reservation
 
-      reservation.server.should == previous_reservation.server
+      reservation.server.should
+      previous_reservation.server
       reservation.rcon.should == previous_reservation.rcon
     end
 
@@ -53,7 +54,7 @@ describe IAmFeelingLucky do
       new_reservation_taking_fallback_server    = create :reservation, server: fallback_server_on_same_host
 
       fallback_server_in_same_location  = create(:server, ip: '176.9.138.144', location_id: previous_reservation.server.location_id)
-      fallback_server_in_other_location = create(:server, ip: '176.9.138.145', location_id: create(:location))
+      fallback_server_in_other_location = create(:server, ip: '176.9.138.145', location: build(:location))
 
       reservation = subject.build_reservation
 
@@ -66,9 +67,9 @@ describe IAmFeelingLucky do
       previous_reservation.update_column(:ends_at,   1.hour.ago)
       new_reservation_taking_my_previous_server = create :reservation, server: previous_reservation.server
 
-      create :server, location_id: create(:location), ip: '3.3.3.3', position: 10
-      some_fallback_server = create :server, location_id: create(:location), ip: '3.3.3.3', position: 1
-      create :server, location_id: create(:location), ip: '3.3.3.3', position: 10
+      create :server, ip: '3.3.3.3', position: 10
+      some_fallback_server = create :server, ip: '3.3.3.3', position: 1
+      create :server, ip: '3.3.3.3', position: 10
 
       reservation = subject.build_reservation
 

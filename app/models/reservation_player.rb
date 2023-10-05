@@ -3,9 +3,9 @@
 class ReservationPlayer < ActiveRecord::Base
   require 'csv'
   require 'ipaddr'
-  belongs_to :reservation
+  belongs_to :reservation, optional: true
   has_one :server, through: :reservation, autosave: false
-  belongs_to :user, primary_key: :uid, foreign_key: :steam_uid
+  belongs_to :user, primary_key: :uid, foreign_key: :steam_uid, optional: true
 
   geocoded_by :ip
   before_save :geocode, if: :ip_changed?

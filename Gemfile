@@ -12,7 +12,7 @@ gem 'clipboard-rails'
 gem 'coffee-rails'
 gem 'connection_pool'
 gem 'dante'
-gem 'devise'
+gem 'devise', git: 'https://github.com/heartcombo/devise.git'
 gem 'draper'
 gem 'ed25519'
 gem 'eventmachine'
@@ -95,7 +95,7 @@ group :development do
 end
 
 group :test, :development do
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', require: false
   gem 'irb'
   gem 'parallel_tests'
   gem 'pry-nav'

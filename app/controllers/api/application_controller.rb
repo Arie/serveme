@@ -8,6 +8,7 @@ module Api
 
     before_action :verify_api_key
     before_action :set_default_response_format
+    skip_forgery_protection
 
     def verify_api_key
       api_user

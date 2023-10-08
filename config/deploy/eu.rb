@@ -1,12 +1,12 @@
-set :main_server,       "new.fakkelbrigade.eu"
-set :puma_threads,      [0,8]
-set :puma_workers,      2
-set :sidekiq_processes, 2
-set :rvm_type,          :user
-server "new.fakkelbrigade.eu", user: "tf2", roles: ["web", "app", "db"]
+set :main_server,       'new.fakkelbrigade.eu'
+set :puma_threads,      [0, 8]
+set :puma_workers,       2
+set :sidekiq_processes,  2
+set :rvm_type, :user
+server 'new.fakkelbrigade.eu', user: 'tf2', roles: %w[web app db]
 
 namespace :app do
-  desc "symlinks the NFO servers login information"
+  desc 'symlinks the NFO servers login information'
   task :symlink_nfoservers do
     on roles(:web, :app) do
       execute "rm #{release_path}/config/initializers/tragicservers.rb"
@@ -14,14 +14,14 @@ namespace :app do
     end
   end
 end
-after "deploy:symlink:linked_files", "app:symlink_nfoservers"
+after 'deploy:symlink:linked_files', 'app:symlink_nfoservers'
 
 namespace :app do
-  desc "symlinks the simrai api information"
+  desc 'symlinks the simrai api information'
   task :symlink_simrai do
     on roles(:web, :app) do
       execute "ln -sf #{shared_path}/config/initializers/simrai.rb #{release_path}/config/initializers/simrai.rb"
     end
   end
 end
-after "deploy:symlink:linked_files", "app:symlink_simrai"
+after 'deploy:symlink:linked_files', 'app:symlink_simrai'

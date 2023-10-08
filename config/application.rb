@@ -1,6 +1,17 @@
 require File.expand_path('boot', __dir__)
 
-require 'rails/all'
+%w[
+  active_record/railtie
+  action_controller/railtie
+  action_view/railtie
+  action_mailer/railtie
+  active_job/railtie
+  action_cable/engine
+  action_text/engine
+  rails/test_unit/railtie
+].each do |railtie|
+  require railtie
+end
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
@@ -14,6 +25,7 @@ module Serveme
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+    config.active_storage.service = :local
 
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W[#{config.root}/app/services]
@@ -62,6 +74,6 @@ module Serveme
 
     config.exceptions_app = routes
 
-    config.load_defaults 7.0
+    config.load_defaults 7.1
   end
 end

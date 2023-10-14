@@ -422,7 +422,7 @@ class Server < ActiveRecord::Base
 
       update(update_status: 'Outdated', last_known_version: server_info.version)
     else
-      Rails.logger.info("Server #{name} was updating since #{I18n.l(update_started_at, format: :short)} from version #{last_known_version} and is now back online with latest version #{server_info.version}") if update_status == 'Updating'
+      Rails.logger.info("Server #{name} was updating since #{I18n.l(update_started_at, format: :short)} from version #{last_known_version} and is now back online with latest version #{server_info.version}") if %w[Updating Outdated].include?(update_status)
 
       update(update_status: 'Updated', last_known_version: server_info.version)
     end

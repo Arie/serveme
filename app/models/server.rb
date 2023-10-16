@@ -251,7 +251,7 @@ class Server < ActiveRecord::Base
       add_sourcemod_admin(reservation.user)
       add_sourcemod_servers(reservation)
       reservation.status_update('Enabled plugins')
-      if reservation.enable_demos_tf?
+      if reservation.enable_demos_tf? || au_system?
         reservation.status_update('Enabling demos.tf')
         enable_demos_tf
         reservation.status_update('Enabled demos.tf')

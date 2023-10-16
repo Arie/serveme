@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 set :main_server,       'rsl.tf'
 set :user,              'arie'
 set :puma_threads,      [0, 8]

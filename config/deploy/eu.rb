@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 set :main_server,       'new.fakkelbrigade.eu'
 set :puma_threads,      [0, 8]
 set :puma_workers,       2

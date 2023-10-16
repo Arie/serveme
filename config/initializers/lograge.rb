@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module LogrageControllerOverride
   def append_info_to_payload(payload)
     super
@@ -7,6 +9,4 @@ module LogrageControllerOverride
 end
 
 # should probably do this only if Rails.env is production
-if Rails.env.production?
-  ActionController::Base.send :prepend, LogrageControllerOverride
-end
+ActionController::Base.prepend LogrageControllerOverride if Rails.env.production?

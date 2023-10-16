@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'maxmind/geoip2'
 
 $maxmind_asn = if Rails.env.test?

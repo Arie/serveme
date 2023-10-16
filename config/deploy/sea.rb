@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 set :main_server,       '139.99.42.241'
 set :user,              'arie'
 set :puma_threads,      [0, 4]

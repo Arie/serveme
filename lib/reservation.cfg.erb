@@ -33,14 +33,14 @@ logstf_midgameupload 0
 <% if user.logs_tf_api_key.present? %>
 <%= %{logstf_apikey "#{user.logs_tf_api_key}"} %>
 <% else %>
-<%= %{logstf_apikey "#{LOGS_TF_API_KEY}"} %>
+<%= %{logstf_apikey "#{Rails.application.credentials.dig(:logs_tf, :api_key)}"} %>
 <% end %>
 
 <% if enable_demos_tf? %>
 <% if user.demos_tf_api_key.present? %>
 <%= %{sm_demostf_apikey "#{user.demos_tf_api_key}"} %>
 <% else %>
-<%= %{sm_demostf_apikey "#{DEMOS_TF_API_KEY}"} %>
+<%= %{sm_demostf_apikey "#{Rails.application.credentials.dig(:demos_tf, :api_key)}"} %>
 <% end %>
 <% end %>
 

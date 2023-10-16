@@ -9,3 +9,19 @@ test:
   client_id: foo
   client_secret: bar
   rest_endpoint: https://api.sandbox.paypal.com
+
+production:
+  mode: live
+  client_id: <%= Rails.application.credentials.dig(:paypal, :client_id) %>
+  client_secret: <%= Rails.application.credentials.dig(:paypal, :client_secret) %>
+  rest_endpoint: https://api.paypal.com
+  ssl_options:
+    ca_file: config/cacert.pem
+
+sea_production:
+  mode: live
+  client_id: <%= Rails.application.credentials.dig(:paypal, :sea_client_id) %>
+  client_secret: <%= Rails.application.credentials.dig(:paypal, :sea_client_secret) %>
+  rest_endpoint: https://api.paypal.com
+  ssl_options:
+    ca_file: config/cacert.pem

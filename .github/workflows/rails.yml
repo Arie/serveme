@@ -58,8 +58,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Dummy API key
-        run: echo "STEAM_WEB_API_KEY = 'foo'" > config/initializers/steam.rb
       - name: Install dependencies
         run: |
           sudo add-apt-repository ppa:maxmind/ppa
@@ -84,6 +82,7 @@ jobs:
           PGHOST: localhost
           PGUSER: serveme
           PGPASSWORD: secret
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: bundle exec rspec spec
 
   cucumber:
@@ -104,8 +103,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Dummy API key
-        run: echo "STEAM_WEB_API_KEY = 'foo'" > config/initializers/steam.rb
       - name: Install dependencies
         run: |
           sudo add-apt-repository ppa:maxmind/ppa
@@ -129,4 +126,5 @@ jobs:
           PGHOST: localhost
           PGUSER: serveme
           PGPASSWORD: secret
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: bundle exec cucumber features

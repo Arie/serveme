@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :steam, STEAM_WEB_API_KEY
+  provider :steam, Rails.application.credentials.dig(:steam, :api_key)
 end
 
 require 'openid/fetchers'

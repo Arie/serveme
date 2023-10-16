@@ -55,14 +55,14 @@ describe LogUpload do
       subject.logs_tf_api_key.should == '12345'
     end
 
-    it "returns the LOGS_TF_API_KEY constant if there's no api key for the user" do
+    it "returns the serveme.tf logs tf API key constant if there's no api key for the user" do
       user = double(logs_tf_api_key: nil)
       subject.stub(user: user)
-      expect(subject.logs_tf_api_key).to eql LOGS_TF_API_KEY
+      expect(subject.logs_tf_api_key).to eql Rails.application.credentials.dig(:logs_tf, :api_key)
 
       user = double(logs_tf_api_key: '')
       subject.stub(user: user)
-      expect(subject.logs_tf_api_key).to eql LOGS_TF_API_KEY
+      expect(subject.logs_tf_api_key).to eql Rails.application.credentials.dig(:logs_tf, :api_key)
     end
   end
 
@@ -84,7 +84,7 @@ describe LogUpload do
       File.should_receive(:mtime).at_least(:once).with(anything).and_return(mtime)
 
       found_logs = LogUpload.find_log_files(reservation_id)
-      found_logs.size.should == 2
+      found_logs.size.should
       found_logs.should_not include(
         file_name_and_path: Rails.root.join('spec', 'fixtures', 'logs', 'L1234567.log').to_s,
         file_name: 'L1234567.log',

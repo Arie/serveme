@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-stripe_file = 'config/stripe.yml'
-
-if File.exist?(stripe_file)
-  stripe_config = YAML.load_file(stripe_file, aliases: true).fetch(Rails.env.to_s, nil)
-  Stripe.api_key = stripe_config.fetch('api_key', nil)
-  STRIPE_PUBLISHABLE_KEY = stripe_config.fetch('publishable_key')
+if SITE_HOST == 'sea.serveme.tf'
+  Stripe.api_key = Rails.application.credentials.dig(:stripe, :sea_api_key)
+  STRIPE_PUBLISHABLE_KEY = Rails.application.credentials.dig(:stripe, :sea_publishable_key)
+else
+  Stripe.api_key = Rails.application.credentials.dig(:stripe, :api_key)
+  STRIPE_PUBLISHABLE_KEY = Rails.application.credentials.dig(:stripe, :publishable_key)
 end

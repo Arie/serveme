@@ -1,6 +1,3 @@
-/config/initializers/steam.rb
-/config/paypal.yml
-/config/stripe.yml
 *.rbc
 *.sassc
 .sass-cache
@@ -23,3 +20,7 @@ rerun.txt
 pickle-email-*.html
 rspec.html
 cucumber.html
+
+/config/master.key
+
+/config/credentials/production.key

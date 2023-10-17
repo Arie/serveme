@@ -136,6 +136,7 @@ Serveme::Application.routes.draw do
   get   '/settings',                      to: 'users#edit',                as: 'settings'
   get   '/upload-map',                    to: 'map_uploads#new',           as: 'upload_map'
   get   '/upload-file',                   to: 'file_uploads#new',          as: 'upload_file'
+  get   '/maps',                          to: 'map_uploads#index',         as: 'maps'
   get   '/private-servers',               to: 'pages#private_servers',     as: 'private_server_info'
 
   get   '/player_statistics/sdr',                                          to: 'player_statistics#show_for_sdr',                     as: 'show_sdr'

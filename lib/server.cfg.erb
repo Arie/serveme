@@ -5,11 +5,7 @@ hide_server 1
 <% end %>
 
 hostname "<%= name %>"
-<% if SITE_HOST == "na.serveme.tf" %>
-<%= %{sv_downloadurl "http://kansas.serveme.tf"} %>
-<% else %>
-<%= %{sv_downloadurl "http://dl.serveme.tf"} %>
-<% end %>
+sv_downloadurl "https://fastdl.serveme.tf"
 
 rcon_password "<%= rcon %>"
 sv_password "<%= SecureRandom.hex(8) %>"

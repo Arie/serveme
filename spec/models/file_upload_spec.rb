@@ -13,7 +13,7 @@ describe FileUpload do
       it 'sends the files to the servers' do
         create(:server)
 
-        source = File.open(Rails.root.join('spec', 'fixtures', 'cfg.zip'))
+        source = File.open(Rails.root.join('spec', 'fixtures', 'files', 'cfg.zip'))
         zip = Tempfile.new(['foo', '.zip'])
         zip.write source.read
         zip.close

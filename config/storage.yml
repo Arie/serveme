@@ -8,4 +8,5 @@ cloudflare:
   access_key_id: <%= Rails.application.credentials.dig(:cloudflare, :access_key_id) %>
   secret_access_key: <%= Rails.application.credentials.dig(:cloudflare, :secret_access_key) %>
   region: auto
-  bucket: <%= Rails.application.credentials.dig(:cloudflare, :bucket)
+  bucket: <%= Rails.application.credentials.dig(:cloudflare, :bucket) %>
+  public: true

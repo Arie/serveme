@@ -27,3 +27,8 @@ notifications_tz:
   cron: "*/20 * * * * Europe/Amsterdam"
   class: "ServersNotificationWorker"
   queue: default
+
+available_maps_tz:
+  cron: "*/10 * * * * Europe/Amsterdam"
+  class: "AvailableMapsWorker"
+  queue: default

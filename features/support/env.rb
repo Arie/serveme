@@ -15,6 +15,14 @@ require Rails.root.join('db', 'seeds')
 # Set server dir to rails tmp directory so we can write reservation.cfg for tests
 Server.update_all(path: Rails.root.join('tmp').to_s)
 
+Before do
+  include ActionDispatch::TestProcess::FixtureFile
+end
+
+After do
+  FileUtils.rm_rf(ActiveStorage::Blob.service.root)
+end
+
 at_exit do
   Server.delete_all
 end

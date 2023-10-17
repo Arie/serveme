@@ -15,9 +15,9 @@ Then 'I see a message the map file was invalid' do
 end
 
 When 'I try to upload an existing map' do
-  UploadFilesToServersWorker.should_receive(:perform_async)
-  original = create :map_upload
-  attach_file('map_upload_file', original.file.path)
+  file = file_fixture_upload(Rails.root.join('spec', 'fixtures', 'files', 'cp_granlands123.bsp'), 'application/octet-stream')
+  _original = create :map_upload, file: file
+  attach_file('map_upload_file', Rails.root.join('spec', 'fixtures', 'files', 'cp_granlands123.bsp'))
   click_button 'Upload'
 end
 
@@ -30,7 +30,6 @@ Then 'I see a message the map is already available' do
 end
 
 When 'I upload a new map' do
-  UploadFilesToServersWorker.should_receive(:perform_async)
   new_map = generate_fake_map('cp_granlands2k')
   attach_file('map_upload_file', new_map.path)
   click_button('Upload')

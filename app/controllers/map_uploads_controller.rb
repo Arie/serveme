@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class MapUploadsController < ApplicationController
-  before_action :require_donator
+  before_action :require_donator, except: :index
+  skip_before_action :authenticate_user!, only: :index
+
   layout false, only: :index
 
   def new

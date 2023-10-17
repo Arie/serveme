@@ -22,9 +22,7 @@ class MapUpload < ActiveRecord::Base
   end
 
   def self.refresh_available_maps
-    Rails.cache.write('available_maps', expires_in: 11.minutes) do
-      fetch_available_maps
-    end
+    Rails.cache.write('available_maps', fetch_available_maps, expires_in: 11.minutes)
   end
 
   def refresh_available_maps

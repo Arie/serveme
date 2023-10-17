@@ -2,7 +2,7 @@
 
 class MapUploadsController < ApplicationController
   before_action :require_donator
-  layout :false, only: :index
+  layout false, only: :index
 
   def new
     @map_upload = MapUpload.new

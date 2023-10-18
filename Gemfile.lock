@@ -129,7 +129,7 @@ GEM
     autoprefixer-rails (10.4.15.0)
       execjs (~> 2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.835.0)
+    aws-partitions (1.837.0)
     aws-sdk-core (3.185.1)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
@@ -164,7 +164,7 @@ GEM
       popper_js (>= 1.16.1, < 2)
       sassc-rails (>= 2.0.0)
     builder (3.2.4)
-    capistrano (3.17.3)
+    capistrano (3.18.0)
       airbrussh (>= 1.0.0)
       i18n
       rake (>= 10.0.0)
@@ -478,7 +478,7 @@ GEM
     parser (3.2.2.4)
       ast (~> 2.4.1)
       racc
-    paypal-sdk-rest (1.7.4)
+    paypal-sdk-rest (1.7.5)
       multi_json (~> 1.0)
       xml-simple
     pg (1.5.4)
@@ -489,7 +489,7 @@ GEM
       method_source (~> 1.0)
     pry-nav (1.0.0)
       pry (>= 0.9.10, < 0.15)
-    psych (5.1.1)
+    psych (5.1.1.1)
       stringio
     public_suffix (5.0.3)
     puma (5.6.7)
@@ -714,7 +714,7 @@ GEM
     stimulus-rails (1.3.0)
       railties (>= 6.0.0)
     stringio (3.0.8)
-    stripe (9.4.0)
+    stripe (10.0.0)
     sync (0.5.0)
     syntax_tree (6.2.0)
       prettier_print (>= 1.2.0)

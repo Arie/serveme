@@ -265,7 +265,7 @@ class Server < ActiveRecord::Base
     else
       reservation.status_update('Attempting fast start')
       if rcon_exec("removeip 1; removeip 1; removeip 1; sv_logsecret #{reservation.logsecret}; logaddress_add direct.#{SITE_HOST}:40001", allow_blocked: true)
-        first_map = reservation.first_map.presence || 'ctf_turbine'
+        first_map = first_map_present(reservation) || 'ctf_turbine'
         rcon_exec("changelevel #{first_map}; exec reservation.cfg")
         reservation.status_update('Fast start attempted, waiting to boot')
       else
@@ -275,6 +275,14 @@ class Server < ActiveRecord::Base
         reservation.status_update('Restarted server, waiting to boot')
       end
     end
+  end
+
+  def first_map_present(reservation)
+    reservation.first_map.presence && map_present?(reservation.first_map) && reservation.first_map
+  end
+
+  def map_present?(map_name)
+    file_present?("#{tf_dir}/maps/#{map_name}.bsp")
   end
 
   def update_reservation(reservation)

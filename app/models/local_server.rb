@@ -38,6 +38,10 @@ class LocalServer < Server
     end
   end
 
+  def file_present?(file)
+    system("ls #{file.shellescape}")
+  end
+
   def copy_to_server(files, destination)
     system("cp #{files.map(&:shellescape).join(' ')} #{destination}")
   end

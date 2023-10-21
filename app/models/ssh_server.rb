@@ -23,6 +23,16 @@ class SshServer < RemoteServer
     files
   end
 
+  def file_present?(file)
+    Net::SFTP.start(ip, nil) do |sftp|
+      return !!sftp.lstat!(file)
+    end
+  rescue Net::SFTP::StatusException => e
+    return false if e.code == 2
+
+    raise
+  end
+
   def delete_from_server(files)
     execute("rm -f #{files.map(&:shellescape).join(' ')}")
   end

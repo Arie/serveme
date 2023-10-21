@@ -272,6 +272,8 @@ GEM
     docile (1.4.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
+    down (5.4.1)
+      addressable (~> 2.8)
     draper (4.0.2)
       actionpack (>= 5.0)
       activemodel (>= 5.0)
@@ -814,6 +816,7 @@ DEPENDENCIES
   database_cleaner
   delorean
   devise!
+  down (~> 5.0)
   draper
   ed25519
   eventmachine

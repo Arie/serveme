@@ -265,7 +265,8 @@ class Server < ActiveRecord::Base
     else
       reservation.status_update('Attempting fast start')
       if rcon_exec("removeip 1; removeip 1; removeip 1; sv_logsecret #{reservation.logsecret}; logaddress_add direct.#{SITE_HOST}:40001", allow_blocked: true)
-        first_map = first_map_present(reservation) || 'ctf_turbine'
+        ensure_map_on_server(reservation.first_map)
+        first_map = first_map.presence || 'ctf_turbine'
         rcon_exec("changelevel #{first_map}; exec reservation.cfg")
         reservation.status_update('Fast start attempted, waiting to boot')
       else
@@ -277,12 +278,19 @@ class Server < ActiveRecord::Base
     end
   end
 
-  def first_map_present(reservation)
-    reservation.first_map.presence && map_present?(reservation.first_map) && reservation.first_map
+  def ensure_map_on_server(map_name)
+    return if map_name.blank? || map_present?(map_name)
+
+    upload_map_to_server(map_name)
   end
 
   def map_present?(map_name)
     file_present?("#{tf_dir}/maps/#{map_name}.bsp")
+  end
+
+  def upload_map_to_server(map_name)
+    tempfile = Down.download("https://fastdl.serveme.tf/maps/#{map_name}.bsp")
+    copy_to_server([tempfile.path], "#{tf_dir}/maps/#{map_name}.bsp")
   end
 
   def update_reservation(reservation)

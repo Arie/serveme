@@ -64,6 +64,9 @@ gem 'sass'
 gem 'sassc'
 gem 'sass-rails'
 gem 'sd_notify'
+gem 'sentry-rails'
+gem 'sentry-ruby'
+gem 'sentry-sidekiq'
 gem 'sidekiq', '~> 6.5'
 gem 'sidekiq-cron'
 gem 'simple_form'
@@ -133,8 +136,4 @@ end
 
 group :development, :production do
   gem 'hive_geoip2'
-end
-
-group :production do
-  gem 'sentry-raven'
 end

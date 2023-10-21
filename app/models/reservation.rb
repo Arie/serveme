@@ -23,6 +23,10 @@ class Reservation < ActiveRecord::Base
 
   attr_accessor :extending, :rcon_command
 
+  def self.cleanup_age_in_days
+    (SITE_HOST == 'au.serveme.tf' && 7) || 30
+  end
+
   def self.with_user_and_server
     includes(user: :groups).includes(server: :location)
   end
@@ -65,7 +69,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def younger_than_cleanup_age?
-    ends_at > 21.days.ago
+    ends_at > self.class.cleanup_age_in_days.days.ago
   end
 
   def future?

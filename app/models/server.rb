@@ -257,6 +257,7 @@ class Server < ActiveRecord::Base
         reservation.status_update('Enabled demos.tf')
       end
     end
+    ensure_map_on_server(reservation)
     if reservation.server.outdated?
       reservation.status_update('Server outdated, restarting server to update')
       clear_sdr_info!
@@ -265,7 +266,6 @@ class Server < ActiveRecord::Base
     else
       reservation.status_update('Attempting fast start')
       if rcon_exec("removeip 1; removeip 1; removeip 1; sv_logsecret #{reservation.logsecret}; logaddress_add direct.#{SITE_HOST}:40001", allow_blocked: true)
-        ensure_map_on_server(reservation.first_map)
         first_map = first_map.presence || 'ctf_turbine'
         rcon_exec("changelevel #{first_map}; exec reservation.cfg")
         reservation.status_update('Fast start attempted, waiting to boot')
@@ -278,19 +278,22 @@ class Server < ActiveRecord::Base
     end
   end
 
-  def ensure_map_on_server(map_name)
-    return if map_name.blank? || map_present?(map_name)
+  def ensure_map_on_server(reservation)
+    return if reservation.first_map.blank? || map_present?(reservation.first_map)
 
-    upload_map_to_server(map_name)
+    reservation.status_update("Map #{reservation.first_map} not on the server, uploading")
+
+    upload_map_to_server(reservation)
   end
 
   def map_present?(map_name)
     file_present?("#{tf_dir}/maps/#{map_name}.bsp")
   end
 
-  def upload_map_to_server(map_name)
-    tempfile = Down.download("https://fastdl.serveme.tf/maps/#{map_name}.bsp")
-    copy_to_server([tempfile.path], "#{tf_dir}/maps/#{map_name}.bsp")
+  def upload_map_to_server(reservation)
+    tempfile = Down.download("https://fastdl.serveme.tf/maps/#{reservation.first_map}.bsp")
+    copy_to_server([tempfile.path], "#{tf_dir}/maps/#{reservation.first_map}.bsp")
+    reservation.status_update("Uploaded map #{reservation.first_map} to server")
   end
 
   def update_reservation(reservation)

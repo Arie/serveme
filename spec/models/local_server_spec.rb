@@ -400,7 +400,7 @@ Server AppID:           232250%)
   end
 
   def stubbed_reservation(stubs = {})
-    reservation = double(:reservation, custom_whitelist_id: false, status_update: true, enable_plugins?: false, enable_demos_tf?: false, user: build(:user), server: build(:server))
+    reservation = double(:reservation, first_map: nil, custom_whitelist_id: false, status_update: true, enable_plugins?: false, enable_demos_tf?: false, user: build(:user), server: build(:server))
     stubs.each do |k, v|
       reservation.stub(k) { v }
     end

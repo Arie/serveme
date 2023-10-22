@@ -165,12 +165,12 @@ class LeagueMaps
       cp_granary_pro_rc16
       cp_gullywash_f9
       cp_process_f12
-      cp_sultry_b8
+      cp_sultry_b8a
       cp_reckoner
       cp_snakewater_final1
       cp_sunshine
       koth_bagel_rc7
-      koth_clearcut_b15d
+      koth_clearcut_b16a
       koth_product_final
     ]
   end

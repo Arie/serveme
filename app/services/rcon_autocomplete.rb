@@ -173,6 +173,7 @@ class RconAutocomplete
       ozfortress_6v6_golden_cap
       ozfortress_6v6_koth
       ozfortress_6v6_scrim
+      ozfortress_6v6_pug
       ozfortress_hl_5cp
       ozfortress_hl_golden_cap
       ozfortress_hl_koth

@@ -156,7 +156,7 @@ class LeagueMaps
       ultiduo_lookout_b1
       ultiduo_noodle
       ultiduo_spytech_rc4
-      utli_fira_b2a
+      ulti_fira_b2a
     ]
   end
 

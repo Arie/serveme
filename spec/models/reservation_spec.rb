@@ -291,12 +291,23 @@ describe Reservation do
       reservation.should have(:no).errors_on(:ends_at)
     end
 
-    it 'validates a mvm map was not picked as the first map' do
-      reservation = build :reservation
-      reservation.first_map = 'mvm_coaltown'
-      reservation.should have(1).error_on(:first_map)
-      reservation.first_map = 'cp_badlands'
-      reservation.should have(:no).errors_on(:first_map)
+    context 'allowed maps' do
+      before do
+        allow(MapUpload).to receive(:available_maps).and_return(%w[cp_badlands mvm_coaltown])
+      end
+      it 'validates a mvm map was not picked as the first map' do
+        reservation = build :reservation
+        reservation.first_map = 'mvm_coaltown'
+        reservation.should have(1).error_on(:first_map)
+        reservation.first_map = 'cp_badlands'
+        reservation.should have(:no).errors_on(:first_map)
+      end
+
+      it 'validates the map exists' do
+        reservation = build :reservation
+        reservation.first_map = 'cp_goodlands'
+        reservation.should have(1).error_on(:first_map)
+      end
     end
 
     it 'validates the server is active' do

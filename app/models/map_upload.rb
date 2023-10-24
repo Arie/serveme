@@ -30,11 +30,9 @@ class MapUpload < ActiveRecord::Base
   end
 
   def self.fetch_available_maps
-    if ActiveStorage::Blob.service.respond_to?(:bucket)
-      ActiveStorage::Blob.service.bucket.objects(prefix: 'maps/').collect(&:key).filter { |f| f.ends_with?('.bsp') }.map { |filename| filename.match(%r{.*/(.*)\.bsp})[1] }.sort
-    else
-      []
-    end
+    return [] unless ActiveStorage::Blob.service.respond_to?(:bucket)
+
+    ActiveStorage::Blob.service.bucket.objects(prefix: 'maps/').collect(&:key).filter { |f| f.ends_with?('.bsp') }.map { |filename| filename.match(%r{.*/(.*)\.bsp})[1] }.sort
   end
 
   def validate_file_is_a_bsp

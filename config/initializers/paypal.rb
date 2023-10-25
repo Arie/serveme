@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'site_url'
-
 if SITE_HOST == 'sea.serveme.tf'
   PayPal::SDK::Core::Config.load('config/paypal.yml', 'sea_production')
 else

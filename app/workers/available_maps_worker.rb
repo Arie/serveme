@@ -4,6 +4,6 @@ class AvailableMapsWorker
   include Sidekiq::Worker
 
   def perform
-    MapUpload.refresh_available_maps
+    MapUpload.refresh_bucket_objects
   end
 end

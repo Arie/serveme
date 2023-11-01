@@ -16,23 +16,27 @@ class MapUpload < ActiveRecord::Base
   after_save :refresh_available_maps
 
   def self.available_maps
-    Rails.cache.fetch('available_maps', expires_in: 10.minutes) do
-      fetch_available_maps
-    end
-  end
-
-  def self.refresh_available_maps
-    Rails.cache.write('available_maps', fetch_available_maps, expires_in: 11.minutes)
+    bucket_objects.map { |h| h[:map_name] }
   end
 
   def refresh_available_maps
     AvailableMapsWorker.perform_async
   end
 
-  def self.fetch_available_maps
+  def self.bucket_objects
+    Rails.cache.fetch('map_bucket_objects', expires_in: 10.minutes) do
+      fetch_bucket_objects
+    end
+  end
+
+  def self.refresh_bucket_objects
+    Rails.cache.write('map_bucket_objects', fetch_bucket_objects, expire_in: 11.minutes)
+  end
+
+  def self.fetch_bucket_objects
     return [] unless ActiveStorage::Blob.service.respond_to?(:bucket)
 
-    ActiveStorage::Blob.service.bucket.objects(prefix: 'maps/').collect(&:key).filter { |f| f.ends_with?('.bsp') }.map { |filename| filename.match(%r{.*/(.*)\.bsp})[1] }.sort
+    ActiveStorage::Blob.service.bucket.objects(prefix: 'maps/').to_a.filter { |o| o.key.ends_with?('.bsp') }.map { |o| { key: o.key, map_name: o.key.match(%r{.*/(.*)\.bsp})[1], size: o.size } }.sort_by { |h| h[:map_name].downcase }
   end
 
   def validate_file_is_a_bsp

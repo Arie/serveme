@@ -1,5 +1,13 @@
 %h2 Maps
 
-- @maps.each do |map_name|
-  = link_to(map_name, "https://fastdl.serveme.tf/maps/#{map_name}.bsp")
-  %br
+
+
+%table.table.table-condensed.table-hover
+  - @bucket_objects.each do |bucket_object|
+    %tr
+      %td
+        = bucket_object[:map_name]
+      %td
+        = link_to("https://fastdl.serveme.tf/#{bucket_object[:key]}", title: "#{bucket_object[:size]} bytes") do
+          = number_to_human_size(bucket_object[:size])
+          %i.fa.fa-download

@@ -4,14 +4,14 @@ class MapUploadsController < ApplicationController
   before_action :require_donator, except: :index
   skip_before_action :authenticate_user!, only: :index
 
-  layout false, only: :index
+  layout 'maps', only: :index
 
   def new
     @map_upload = MapUpload.new
   end
 
   def index
-    @maps = MapUpload.available_maps
+    @bucket_objects = MapUpload.bucket_objects
   end
 
   def create

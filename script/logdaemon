@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require File.expand_path('../config/boot', __dir__)
 require 'dante'
@@ -17,17 +18,17 @@ class Handler < EM::Connection
   include LogLineHelper
 
   def receive_data(data)
-    log_line = ActiveSupport::Multibyte::Chars.new(data).tidy_bytes[5..-1]
-    LogWorker.perform_async(log_line) if interesting_line?(log_line)
+    log_line = ActiveSupport::Multibyte::Chars.new(data).tidy_bytes[5..]
+    LogWorker.perform_async(log_line.to_s) if interesting_line?(log_line)
     matches = log_line.match(LogWorker::LOG_LINE_REGEX)
     write_log(matches[:secret], matches[:line]) if matches && matches[:line] && matches[:secret].present?
   end
 
   def write_log(secret, line)
-    if secret =~ /^\d+$/
-      File.open(File.join(STREAMING_LOG_DIR, "#{secret}.log"), 'a') do |f|
-        f.puts line
-      end
+    return unless secret =~ /^\d+$/
+
+    File.open(File.join(STREAMING_LOG_DIR, "#{secret}.log"), 'a') do |f|
+      f.puts line
     end
   end
 end

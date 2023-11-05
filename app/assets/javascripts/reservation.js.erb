@@ -78,24 +78,18 @@ function loadReservationPage() {
     });
   };
 
-  <% if SITE_HOST == "au.serveme.tf" || SITE_HOST == "sea.serveme.tf" %>
-  <%= %{function pingCurrentServer() {};} %>
-  <% else %>
-  <%= %{
-    function pingCurrentServer() {
-      currentServerId = serverId();
-      $.each(free_servers, function(idx, server) {
-        if (server.id == serverId().val()) {
-          showSpinner("reservation_ping");
-          enableSpinner("reservation_ping");
-          new pingServer(server.ip, function(ping, e) {;
-            setPing(ping, server.id);
-          });
-        };
-      });
-    };
-    } %>
-  <% end %>
+  function pingCurrentServer() {
+    currentServerId = serverId();
+    $.each(free_servers, function(idx, server) {
+      if (server.id == serverId().val()) {
+        showSpinner("reservation_ping");
+        enableSpinner("reservation_ping");
+        new pingServer(server.ip, function(ping, e) {;
+          setPing(ping, server.id);
+        });
+      };
+    });
+  };
 
   function clearPing() {
     $("#reservation_ping").val(null);

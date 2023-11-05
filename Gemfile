@@ -6,7 +6,7 @@ gem 'american_date'
 gem 'aws-sdk-s3', require: false
 gem 'base32_pure'
 gem 'bcrypt_pbkdf'
-gem 'bootsnap', require: false
+gem 'bootsnap', '~> 1.16.0', require: false
 gem 'bootstrap', '~> 4.6' # Something in 5 breaks popper, not going to fix that now
 gem 'carrierwave'
 gem 'clipboard-rails'
@@ -67,7 +67,7 @@ gem 'sd_notify'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'sentry-sidekiq'
-gem 'sidekiq', '~> 6.5'
+gem 'sidekiq', '~> 6.5.12'
 gem 'sidekiq-cron'
 gem 'simple_form'
 gem 'sorbet-runtime'
@@ -76,7 +76,7 @@ gem 'sprockets-rails'
 gem 'steam-condenser', git: 'https://github.com/Arie/steam-condenser-ruby.git'
 gem 'stripe'
 gem 'terser'
-gem 'text', '~> 1.3'
+gem 'text'
 gem 'tf2_line_parser'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap4'
@@ -94,7 +94,6 @@ group :development do
   gem 'capistrano-rvm', require: false
   gem 'capistrano-sidekiq', git: 'https://github.com/Pharmony/capistrano-sidekiq.git', require: false
   gem 'rubocop', require: false
-  gem 'ruby-lsp', '~> 0.5.1'
   gem 'sorbet'
   gem 'tapioca', require: false
 end

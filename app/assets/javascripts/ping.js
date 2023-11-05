@@ -15,7 +15,7 @@ function pingServer(ip, callback) {
             end = new Date();
             _that.inUse = false;
             ping = end - _that.start;
-            _that.callback(ping);
+            _that.callback(ping + " ms");
         });
     }
 }

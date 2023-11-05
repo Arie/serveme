@@ -6,7 +6,7 @@ function pingServer(ip, callback) {
         this.callback = callback;
         this.ip = ip;
         var _that = this;
-        socket = new WebSocket("wss://" + ip + ":8083");
+        socket = new WebSocket("wss://" + ip + "/ping");
         socket.addEventListener("open", function(event) {
             _that.start = new Date();
             socket.send("Ping!");

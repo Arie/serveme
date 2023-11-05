@@ -94,10 +94,6 @@ class SshServer < RemoteServer
     @ssh = nil
   end
 
-  def supports_mitigations?
-    SITE_HOST != 'sea.serveme.tf'
-  end
-
   private
 
   def scp_command

@@ -94,6 +94,10 @@ class SshServer < RemoteServer
     @ssh = nil
   end
 
+  def supports_mitigations?
+    true
+  end
+
   private
 
   def scp_command

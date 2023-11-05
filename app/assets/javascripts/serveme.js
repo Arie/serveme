@@ -15,6 +15,7 @@
 //= require datepicker
 //= require jstz
 //= require pay
+//= require ping
 //= require popper
 //= require select2
 //= require sessions

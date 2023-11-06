@@ -149,7 +149,7 @@ GEM
     base64 (0.1.1)
     bcrypt (3.1.19)
     bcrypt_pbkdf (1.1.0)
-    benchmark (0.2.1)
+    benchmark (0.3.0)
     better_errors (2.10.1)
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
@@ -157,7 +157,7 @@ GEM
     bigdecimal (3.1.4)
     binding_of_caller (1.0.0)
       debug_inspector (>= 0.0.1)
-    bootsnap (1.16.0)
+    bootsnap (1.17.0)
       msgpack (~> 1.2)
     bootstrap (4.6.2)
       autoprefixer-rails (>= 9.1.0)
@@ -554,7 +554,7 @@ GEM
       sorbet-runtime (>= 0.5.9204)
     rbs (2.8.4)
     rbzip2 (0.3.0)
-    rdoc (6.5.0)
+    rdoc (6.6.0)
       psych (>= 4.0.0)
     redis (5.0.8)
       redis-client (>= 0.17.0)
@@ -795,7 +795,7 @@ DEPENDENCIES
   bcrypt_pbkdf
   better_errors
   binding_of_caller
-  bootsnap (~> 1.16.0)
+  bootsnap
   bootstrap (~> 4.6)
   capistrano
   capistrano-bundler
@@ -818,7 +818,7 @@ DEPENDENCIES
   database_cleaner
   delorean
   devise!
-  down (~> 5.0)
+  down
   draper
   ed25519
   eventmachine
@@ -861,7 +861,7 @@ DEPENDENCIES
   paypal-sdk-rest
   pg
   pry-nav
-  puma (< 7.0)
+  puma
   rack
   rack-cache
   rails

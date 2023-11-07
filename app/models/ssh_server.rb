@@ -101,6 +101,6 @@ class SshServer < RemoteServer
   private
 
   def scp_command
-    'scp -T -l 200000'
+    'scp -O -T -l 200000'
   end
 end

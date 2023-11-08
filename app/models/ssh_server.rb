@@ -101,6 +101,10 @@ class SshServer < RemoteServer
   private
 
   def scp_command
-    'scp -O -T -l 200000'
+    if SITE_HOST == 'au.serveme.tf'
+      'scp -T -l 200000'
+    else
+      'scp -O -T -l 200000'
+    end
   end
 end

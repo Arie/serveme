@@ -38,7 +38,10 @@ logstf_midgameupload 0
 <% end %>
 <% end %>
 
+<% if enable_plugins? %>
 <%= %{sm_web_rcon_url "#{SITE_URL}/reservations/#{id}/rcon"}%>
+<%= "sm_reloadadmins" %>
+<% end %>
 
 tf_preround_push_from_damage_enable 1
 

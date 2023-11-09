@@ -1,13 +1,12 @@
-%h2 Maps
+- cache "map-list-view", expires_in: 1.minute do
+  %h2 Maps
 
-
-
-%table.table.table-condensed.table-hover
-  - @bucket_objects.each do |bucket_object|
-    %tr
-      %td
-        = bucket_object[:map_name]
-      %td
-        = link_to("https://fastdl.serveme.tf/#{bucket_object[:key]}", title: "#{bucket_object[:size]} bytes") do
-          = number_to_human_size(bucket_object[:size])
-          %i.fa.fa-download
+  %table.table.table-condensed.table-hover
+    - @bucket_objects.each do |bucket_object|
+      %tr
+        %td
+          = bucket_object[:map_name]
+        %td
+          = link_to("https://fastdl.serveme.tf/#{bucket_object[:key]}", title: "#{bucket_object[:size]} bytes") do
+            = number_to_human_size(bucket_object[:size])
+            %i.fa.fa-download

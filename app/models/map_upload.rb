@@ -30,6 +30,7 @@ class MapUpload < ActiveRecord::Base
   end
 
   def self.refresh_bucket_objects
+    Rails.cache.delete('map-list-view')
     Rails.cache.write('map_bucket_objects', fetch_bucket_objects, expire_in: 11.minutes)
   end
 

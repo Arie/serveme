@@ -78,6 +78,7 @@ gem 'stripe'
 gem 'terser'
 gem 'text'
 gem 'tf2_line_parser'
+gem 'unf_ext', '~> 0.0.8.2'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap4'
 

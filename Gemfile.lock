@@ -758,7 +758,7 @@ GEM
       concurrent-ruby (~> 1.0)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.9)
+    unf_ext (0.0.8.2)
     unicode-display_width (2.5.0)
     vcr (6.2.0)
     warden (1.2.9)
@@ -903,6 +903,7 @@ DEPENDENCIES
   terser
   text
   tf2_line_parser
+  unf_ext (~> 0.0.8.2)
   vcr
   webmock
   will_paginate

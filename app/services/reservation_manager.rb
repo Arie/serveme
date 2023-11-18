@@ -10,8 +10,13 @@ class ReservationManager
   end
 
   def start_reservation
-    reservation.reservation_statuses.create!(status: 'Starting')
-    manage_reservation(:start)
+    if previous_reservation_ended_fully?
+      reservation.reservation_statuses.create!(status: 'Starting')
+      manage_reservation(:start)
+    else
+      reservation.update_attribute(:start_instantly, false)
+      reservation.reservation_statuses.create!(status: 'Waiting for other reservation on server to end fully')
+    end
   end
 
   def end_reservation
@@ -27,5 +32,11 @@ class ReservationManager
 
   def manage_reservation(action)
     ReservationWorker.perform_async(reservation.id, action.to_s)
+  end
+
+  private
+
+  def previous_reservation_ended_fully?
+    Reservation.where.not(id: reservation.id).where(server_id: reservation.server_id, ended: false).where('reservations.ends_at > ?', 15.minutes.ago).none?
   end
 end

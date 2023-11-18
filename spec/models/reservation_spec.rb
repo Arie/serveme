@@ -222,6 +222,16 @@ describe Reservation do
         ReservationWorker.should_receive(:perform_async).with(reservation.id, 'start')
         reservation.start_reservation
       end
+
+      it 'should wait if a previous reservation is not fully ended' do
+        previous_reservation = create(:reservation)
+        previous_reservation.update_attribute(:server_id, reservation.server_id)
+        previous_reservation.update_attribute(:ends_at, 1.minute.ago)
+
+        reservation.start_reservation
+
+        expect(reservation.reservation_statuses.map(&:status)).to include 'Waiting for other reservation on server to end fully'
+      end
     end
 
     describe '#update_reservation' do

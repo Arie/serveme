@@ -99,7 +99,7 @@ group :development do
 end
 
 group :test, :development do
-  gem 'factory_bot_rails', require: false
+  gem 'factory_bot_rails', '~> 6.2.0', require: false
   gem 'irb'
   gem 'parallel_tests'
   gem 'pry-nav'

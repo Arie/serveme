@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'american_date'
+gem 'appsignal'
 gem 'aws-sdk-s3', require: false
 gem 'base32_pure'
 gem 'bcrypt_pbkdf'

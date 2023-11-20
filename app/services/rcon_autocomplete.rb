@@ -169,6 +169,9 @@ class RconAutocomplete
       ugc_off
       ugc_UD_ultiduo
 
+      pt_pug
+      pt_off
+
       ozfortress_6v6_5cp
       ozfortress_6v6_golden_cap
       ozfortress_6v6_koth

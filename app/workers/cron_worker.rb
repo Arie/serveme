@@ -2,7 +2,7 @@
 
 class CronWorker
   include Sidekiq::Worker
-  sidekiq_options retry: false
+  sidekiq_options retry: false, queue: 'priority'
 
   def perform
     end_past_reservations

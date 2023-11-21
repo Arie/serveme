@@ -3,7 +3,7 @@
 class AllowReservationPlayerWorker
   include Sidekiq::Worker
 
-  sidekiq_options retry: 10
+  sidekiq_options retry: 10, queue: 'priority'
 
   def perform(reservation_player_id)
     reservation_player = ReservationPlayer.includes(reservation: :server).find(reservation_player_id)

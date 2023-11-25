@@ -5,5 +5,6 @@ class AvailableMapsWorker
 
   def perform
     MapUpload.refresh_bucket_objects
+    MapUpload.refresh_map_statistics
   end
 end

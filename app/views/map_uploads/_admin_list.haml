@@ -1,0 +1,23 @@
+- bucket_objects.each do |bucket_object|
+  %tr
+    %td
+      = bucket_object[:map_name]
+    - map_stat = map_statistics[bucket_object[:map_name]]
+    - if map_stat
+      %td
+        = map_stat[:times_played]
+      %td
+        = I18n.l(map_stat[:first_played].to_date)
+      %td
+        = I18n.l(map_stat[:last_played].to_date)
+    - else
+      %td{colspan: 3}
+        0
+    %td
+      = link_to("https://fastdl.serveme.tf/#{bucket_object[:key]}", class: "btn btn-sm btn-primary", title: "#{bucket_object[:size]} bytes") do
+        = number_to_human_size(bucket_object[:size])
+        %i.fa.fa-download
+
+      = link_to(map_upload_path(bucket_object[:map_name]), method: :delete, class: "btn btn-sm btn-danger") do
+        Delete
+        %i.fa.fa-trash

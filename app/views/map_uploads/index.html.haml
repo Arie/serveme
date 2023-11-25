@@ -1,12 +1,38 @@
-- cache "map-list-view", expires_in: 1.minute do
-  %h2 Maps
+- cache "public-map-list", expires_in: 1.minute do
+  %h2
+    Maps
+    = link_to upload_map_path, class: "btn btn-sm btn-primary" do
+      %i.fa.fa-upload
+      Upload
 
   %table.table.table-condensed.table-hover
+    %thead
+      %tr
+        %td
+          Map name
+        %td
+          Times played
+        %td
+          First played
+        %td
+          Last played
     - @bucket_objects.each do |bucket_object|
+      - next if bucket_object[:map_name].starts_with?(MapUpload.invalid_types_regex)
       %tr
         %td
           = bucket_object[:map_name]
+        - map_stat = @map_statistics[bucket_object[:map_name]]
+        - if map_stat
+          %td
+            = map_stat[:times_played]
+          %td
+            = I18n.l(map_stat[:first_played].to_date)
+          %td
+            = I18n.l(map_stat[:last_played].to_date)
+        - else
+          %td{colspan: 3}
+            0
         %td
-          = link_to("https://fastdl.serveme.tf/#{bucket_object[:key]}", title: "#{bucket_object[:size]} bytes") do
+          = link_to("https://fastdl.serveme.tf/#{bucket_object[:key]}", class: "btn btn-sm btn-primary", title: "#{bucket_object[:size]} bytes") do
             = number_to_human_size(bucket_object[:size])
             %i.fa.fa-download

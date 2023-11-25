@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class MapUploadsController < ApplicationController
-  before_action :require_donator, except: :index
   skip_before_action :authenticate_user!, only: :index
+  before_action :require_donator, only: %i[new create]
+  before_action :require_admin, only: :destroy
 
   layout 'maps', only: :index
 
@@ -12,6 +13,12 @@ class MapUploadsController < ApplicationController
 
   def index
     @bucket_objects = MapUpload.bucket_objects
+    @map_statistics = MapUpload.map_statistics
+    if current_admin
+      render :admin_index
+    else
+      render :index
+    end
   end
 
   def create
@@ -29,6 +36,16 @@ class MapUploadsController < ApplicationController
           render :new, status: :unprocessable_entity
         end
       end
+    end
+  end
+
+  def destroy
+    respond_to do |format|
+      MapUpload.delete_bucket_object(params[:id])
+      @bucket_objects = MapUpload.bucket_objects
+      @map_statistics = MapUpload.map_statistics
+      flash[:notice] = "Map #{params[:id]} deleted"
+      format.html { render :index }
     end
   end
 end

@@ -1,0 +1,36 @@
+%h2
+  Maps
+  = link_to upload_map_path, class: "btn btn-sm btn-primary" do
+    %i.fa.fa-upload
+    Upload
+
+%table.table.table-condensed.table-hover
+  %thead
+    %tr
+      %td
+        Map name
+      %td
+        Times played
+      %td
+        First played
+      %td
+        Last played
+  = turbo_stream_from 'admin-maps-list'
+  = render("admin_list", bucket_objects: @bucket_objects, map_statistics: @map_statistics)
+
+:javascript
+  let scrollTop = 0
+
+  addEventListener("turbo:click", ({ target }) => {
+    if (target.hasAttribute("data-turbo-preserve-scroll")) {
+      scrollTop = document.scrollingElement.scrollTop
+    }
+  })
+
+  addEventListener("turbo:load", () => {
+    if (scrollTop) {
+      document.scrollingElement.scrollTo(0, scrollTop)
+    }
+
+    scrollTop = 0
+  })

@@ -56,7 +56,7 @@ Serveme::Application.routes.draw do
     end
   end
 
-  resources :map_uploads, only: %i[new create]
+  resources :map_uploads, only: %i[new create destroy]
   resources :file_uploads, only: %i[new create show]
 
   get 'league-request', to: 'league_requests#new'

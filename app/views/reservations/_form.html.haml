@@ -46,7 +46,7 @@
       = f.input :tv_password,         as: :string,   placeholder: "Password for STV, default tv",                   disabled: !@reservation.schedulable?
       = f.input :enable_plugins,      as: :boolean,  hint: "Enable plugins",                                        disabled: !@reservation.schedulable?
       = f.input :enable_demos_tf,     as: :boolean,  hint: "Enable uploading STVs to demos.tf",                     disabled: !@reservation.schedulable?
-      = f.association :server_config, collection: ServerConfig.ordered, hint: "Specify a league config to run on each map start", input_html: { class: "select2" }
+      = f.association :server_config, collection: ServerConfig.active.ordered, hint: "Specify a league config to run on each map start", input_html: { class: "select2" }
       = f.input :whitelist_type, :label => "Item whitelist" do
         .form-control.whitelist
           .form-check.form-check-inline

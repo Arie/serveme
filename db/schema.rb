@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_10_22_074155) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_30_194248) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -232,6 +232,8 @@ ActiveRecord::Schema[7.1].define(version: 2023_10_22_074155) do
     t.string "file"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
+    t.boolean "hidden", default: false
+    t.index ["hidden"], name: "index_server_configs_on_hidden"
   end
 
   create_table "server_notifications", id: :serial, force: :cascade do |t|

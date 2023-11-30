@@ -10,7 +10,7 @@ json.servers do
   json.partial! 'servers/list', servers: @servers
 end
 json.server_configs do
-  json.partial! 'api/server_configs/list', server_configs: ServerConfig.ordered
+  json.partial! 'api/server_configs/list', server_configs: ServerConfig.active.ordered
 end
 json.whitelists do
   json.partial! 'api/whitelists/list', whitelists: Whitelist.ordered

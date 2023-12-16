@@ -16,6 +16,8 @@
           First played
         %td
           Last played
+        %td
+          Download
     - @bucket_objects.each do |bucket_object|
       - next if bucket_object[:map_name].starts_with?(MapUpload.invalid_types_regex)
       %tr

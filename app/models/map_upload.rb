@@ -48,7 +48,7 @@ class MapUpload < ActiveRecord::Base
   end
 
   def self.refresh_map_statistics
-    Rails.cache.write('map_statistics', map_statistics, expire_in: 11.minutes)
+    Rails.cache.write('map_statistics', fetch_map_statistics, expire_in: 11.minutes)
   end
 
   def self.fetch_map_statistics

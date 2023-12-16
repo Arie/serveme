@@ -12,8 +12,8 @@ class MapUploadsController < ApplicationController
   end
 
   def index
-    @bucket_objects = MapUpload.bucket_objects
     @map_statistics = MapUpload.map_statistics
+    @bucket_objects = sort_bucket_objects(MapUpload.bucket_objects, @map_statistics, params[:sort_by])
     if current_admin
       render :admin_index
     else
@@ -47,5 +47,67 @@ class MapUploadsController < ApplicationController
       flash[:notice] = "Map #{params[:id]} deleted"
       format.html { render :index }
     end
+  end
+
+  private
+
+  def sort_bucket_objects(objects, statistics, sort_by)
+    sort_by_attribute = friendly_sort_name_to_attribute(sort_by)
+    sort_by_object = if %i[map_name size].include?(sort_by_attribute)
+                       :self
+                     else
+                       :statistics
+                     end
+    maybe_reverse(
+      objects.sort do |a, b|
+        if sort_by_object == :self
+          if a[sort_by_attribute] && b[sort_by_attribute]
+            a[sort_by_attribute] <=> b[sort_by_attribute]
+          else
+            a[sort_by_attribute] ? -1 : 1
+          end
+        else
+          stat_a = statistics[a[:map_name]] && statistics[a[:map_name]][sort_by_attribute].to_i
+          stat_b = statistics[b[:map_name]] && statistics[b[:map_name]][sort_by_attribute].to_i
+          if stat_a && stat_b
+            stat_a <=> stat_b
+          else
+            i = (stat_a ? -1 : 1)
+            if reversed_attribute?(sort_by_attribute)
+              i * -1
+            else
+              i
+            end
+          end
+        end
+      end, sort_by_attribute
+    )
+  end
+
+  def friendly_sort_name_to_attribute(sort_by)
+    case sort_by
+    when 'times-played'
+      :times_played
+    when 'first-played'
+      :first_played
+    when 'last-played'
+      :last_played
+    when 'size'
+      :size
+    else
+      :map_name
+    end
+  end
+
+  def maybe_reverse(objects, attribute)
+    if reversed_attribute?(attribute)
+      objects.reverse
+    else
+      objects
+    end
+  end
+
+  def reversed_attribute?(attribute)
+    %i[times_played last_played size].include?(attribute)
   end
 end

@@ -1,4 +1,4 @@
-- cache "public-map-list", expires_in: 1.minute do
+- cache "public-map-list-#{params[:sort_by].to_s}", expires_in: 1.minute do
   %h2
     Maps
     = link_to upload_map_path, class: "btn btn-sm btn-primary" do
@@ -9,15 +9,20 @@
     %thead
       %tr
         %td
-          Map name
+          %strong
+            = link_to('Map name', maps_sorted_path(sort_by: "name"))
         %td
-          Times played
+          %strong
+            = link_to('Times played', maps_sorted_path(sort_by: "times-played"))
         %td
-          First played
+          %strong
+            = link_to('First played', maps_sorted_path(sort_by: "first-played"))
         %td
-          Last played
+          %strong
+            = link_to('Last played', maps_sorted_path(sort_by: "last-played"))
         %td
-          Download
+          %strong
+            = link_to('Download', maps_sorted_path(sort_by: "size"))
     - @bucket_objects.each do |bucket_object|
       - next if bucket_object[:map_name].starts_with?(MapUpload.invalid_types_regex)
       %tr

@@ -8,13 +8,20 @@
   %thead
     %tr
       %td
-        Map name
+        %strong
+          = link_to('Map name', maps_sorted_path(sort_by: "name"))
       %td
-        Times played
+        %strong
+          = link_to('Times played', maps_sorted_path(sort_by: "times-played"))
       %td
-        First played
+        %strong
+          = link_to('First played', maps_sorted_path(sort_by: "first-played"))
       %td
-        Last played
+        %strong
+          = link_to('Last played', maps_sorted_path(sort_by: "last-played"))
+      %td
+        %strong
+          = link_to('Download', maps_sorted_path(sort_by: "size"))
   = turbo_stream_from 'admin-maps-list'
   = render("admin_list", bucket_objects: @bucket_objects, map_statistics: @map_statistics)
 

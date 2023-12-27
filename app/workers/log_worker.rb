@@ -61,7 +61,8 @@ class LogWorker
     rp.update(name: event.player.name)
 
     if ReservationPlayer.banned_asn_ip?(ip) && !ReservationPlayer.whitelisted_uid?(community_id) && !ReservationPlayer.whitelisted_country?(ip)
-      reservation.server.rcon_exec "kickid \"#{event.player.steam_id}\"[#{SITE_HOST}] Please play without VPN\"; addip 0 #{ip}"
+      reservation.server.rcon_exec "kickid \"#{event.player.steam_id}\"[#{SITE_HOST}] Please play without VPN\""
+      reservation.server.rcon_exec "addip 0 #{ip}"
       Rails.logger.info "Removed player on VPN with UID #{community_id}, IP #{event.message}, name #{event.player.name}, from reservation #{reservation_id}"
     elsif (ReservationPlayer.banned_uid?(community_id) || ReservationPlayer.banned_ip?(ip)) && !ReservationPlayer.whitelisted_uid?(community_id)
       reservation.server.rcon_exec "banid 0 #{event.player.steam_id} kick; addip 0 #{ip}"

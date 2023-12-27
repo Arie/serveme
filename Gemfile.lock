@@ -119,7 +119,7 @@ GEM
     autoprefixer-rails (10.4.16.0)
       execjs (~> 2)
     aws-eventstream (1.3.0)
-    aws-partitions (1.873.0)
+    aws-partitions (1.875.0)
     aws-sdk-core (3.190.1)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.651.0)
@@ -709,7 +709,8 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    sshkit (1.21.6)
+    sshkit (1.21.7)
+      mutex_m
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     ssrf_filter (1.1.2)

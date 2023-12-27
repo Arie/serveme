@@ -28,7 +28,7 @@
                   %span.badge.badge-danger{title: "Banned IP"}
                     %i.fa 💀
                 - if ReservationPlayer.banned_asn?(asn)
-                  %span.badge.badge-danger{title: "Possible VPN"}
+                  %span.badge.badge-warning{title: "Possible VPN"}
                     %i.fa.fa-flag
               - else
                 = link_to(result.ip, league_request_path(ip: result.ip))

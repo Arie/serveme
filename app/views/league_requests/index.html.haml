@@ -24,13 +24,20 @@
             - if result.ip.present?
               - if asn = @asns[result.ip]
                 = link_to(result.ip, league_request_path(ip: result.ip), class: "asn-tooltip", data: {toggle: "tooltip", html: true, placement: "top"}, title: render("asn_tooltip", asn: asn))
+                - if ReservationPlayer.banned_ip?(result.ip)
+                  %span.badge.badge-danger{title: "Banned IP"}
+                    %i.fa 💀
                 - if ReservationPlayer.banned_asn?(asn)
                   %span.badge.badge-danger{title: "Possible VPN"}
                     %i.fa.fa-flag
               - else
                 = link_to(result.ip, league_request_path(ip: result.ip))
           %td= result.name
-          %td= link_to(result.steam_uid, league_request_path(steam_uid: result.steam_uid))
+          %td
+            = link_to(result.steam_uid, league_request_path(steam_uid: result.steam_uid))
+            - if ReservationPlayer.banned_uid?(result.steam_uid)
+              %span.badge.badge-danger{title: "Banned Steam ID"}
+                %i.fa 💀
           %td= link_to("ETF2L", "http://etf2l.org/search/#{result.steam_uid}/")
           %td= link_to("RGL", "http://rgl.gg/Public/PlayerProfile.aspx?p=#{result.steam_uid}")
           %td= link_to("OZF", "https://ozfortress.com/users/steam_id/#{result.steam_uid}")

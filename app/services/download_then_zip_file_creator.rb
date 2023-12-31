@@ -26,7 +26,11 @@ class DownloadThenZipFileCreator < ZipFileCreator
     Zip::File.open(zipfile_name_and_path, Zip::File::CREATE) do |zipfile|
       files_to_zip_in_dir(tmp_dir).each do |filename_with_path|
         filename_without_path = File.basename(filename_with_path)
-        zipfile.add(filename_without_path, filename_with_path)
+        begin
+          zipfile.add(filename_without_path, filename_with_path)
+        rescue Zip::EntryExistsError
+          Rails.logger.info("Zipfile for reservation #{reservation.id} already had #{filename_with_path} in it, skipping")
+        end
       end
     end
     reservation.status_update('Finished zipping logs and demos')

@@ -6,7 +6,7 @@
     = stylesheet_link_tag    "application", :media => "all"
     = stylesheet_link_tag    "themes/black", :media => "all"
     = content_for(:stripe)
-    = javascript_importmap_tags("application", shim: false)
+    = javascript_importmap_tags("application")
     = javascript_include_tag "serveme"
     = csrf_meta_tags
     = render 'shared/analytics'

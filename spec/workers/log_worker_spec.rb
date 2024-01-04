@@ -23,7 +23,7 @@ describe LogWorker do
   let(:turbine_start_line)    { '1234567L 02/07/2015 - 20:39:40: Started map "ctf_turbine" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
   let(:badlands_start_line)   { '1234567L 02/07/2015 - 20:39:40: Started map "cp_badlands" (CRC "a7e226a1ff6dd4b8d546d7d341d446dc")' }
   let(:connect_normal)        { '1234567L 03/29/2014 - 13:15:53: "Normal<3><[U:1:12345]><>" connected, address "1.128.0.1:1234"' }
-  let(:connect_banned_ip)     { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><>" connected, address "24.200.212.144:1234"' }
+  let(:connect_banned_ip)     { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><>" connected, address "99.117.33.20:1234"' }
   let(:connect_banned_uid)    { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:153029208]><>" connected, address "1.128.0.1:1234"' }
   let(:connect_allowed_uid)   { '1234567L 03/29/2014 - 13:15:53: "NonTroll<3><[U:1:400545468]><>" connected, address "1.128.0.1:1234"' }
 
@@ -156,8 +156,8 @@ describe LogWorker do
 
   describe 'connects' do
     it 'bans banned IPs' do
-      server.should_receive(:rcon_exec).with('banid 0 [U:1:12345] kick; addip 0 24.200.212.144')
-      ReservationPlayer.should_receive(:banned_asn_ip?).with('24.200.212.144').and_return(false)
+      server.should_receive(:rcon_exec).with('banid 0 [U:1:12345] kick; addip 0 99.117.33.20')
+      ReservationPlayer.should_receive(:banned_asn_ip?).with('99.117.33.20').and_return(false)
 
       LogWorker.perform_async(connect_banned_ip)
     end

@@ -15,9 +15,7 @@ ip,name,reason
 75.132.205.132,bot/cheat dev,bot/cheat dev
 76.14.131.122,bot/cheat dev,bot/cheat dev
 96.248.90.76,bot/cheat dev,bot/cheat dev
-176.234.72.0/21,Clx,match invader
-73.41.129.167,Clx,match invader
-99.117.33.20,Clx,match invader
+109.81.174.0/24,Clx,match invader
 79.118.11.221,Darkiecutie,etf2l blacklist
 69.53.25.41,elk,https://rgl.gg/Public/PlayerProfile.aspx?p=76561198097128562
 24.168.227.213,elk friends,elk friends

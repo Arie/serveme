@@ -89,7 +89,7 @@ class LeagueMaps
   def self.rgl_hl_maps
     %w[
       cp_steel_f12
-      koth_ashville_final
+      koth_ashville_final1
       koth_lakeside_r2
       koth_product_final
       pl_swiftwater_final1
@@ -101,17 +101,17 @@ class LeagueMaps
   def self.rgl_prolander_maps
     %w[
       cp_steel_f12
-      koth_ashville_final
+      koth_ashville_final1
       koth_product_final
       pl_upward_f10
-      pl_vigil_rc9
+      pl_vigil_rc10
     ]
   end
 
   def self.ugc_hl_maps
     %w[
       cp_steel_f12
-      koth_ashville_final
+      koth_ashville_final1
       koth_product_final
       koth_proot_b6b
       koth_warmtic_f10
@@ -179,7 +179,7 @@ class LeagueMaps
     %w[
       cp_gullywash_f9
       cp_steel_f12
-      koth_ashville_final
+      koth_ashville_final1
       koth_proot_b6b
       koth_product_final
       koth_warmtic_f10

@@ -204,7 +204,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.2.2)
+    concurrent-ruby (1.2.3)
     connection_pool (2.4.1)
     coveralls (0.8.23)
       json (>= 1.8, < 3)
@@ -400,7 +400,7 @@ GEM
       http (>= 4.3, < 6.0)
       maxmind-db (~> 1.2)
     maxminddb (0.1.22)
-    mechanize (2.9.1)
+    mechanize (2.9.2)
       addressable (~> 2.8)
       domain_name (~> 0.5, >= 0.5.20190701)
       http-cookie (~> 1.0, >= 1.0.3)
@@ -469,7 +469,7 @@ GEM
     parallel (1.24.0)
     parallel_tests (4.4.0)
       parallel
-    parser (3.3.0.3)
+    parser (3.3.0.4)
       ast (~> 2.4.1)
       racc
     paypal-sdk-rest (1.7.5)
@@ -723,7 +723,7 @@ GEM
       prettier_print (>= 1.2.0)
     sys-uname (1.2.3)
       ffi (~> 1.1)
-    tapioca (0.11.16)
+    tapioca (0.11.17)
       bundler (>= 2.2.25)
       netrc (>= 0.11.0)
       parallel (>= 1.21.0)

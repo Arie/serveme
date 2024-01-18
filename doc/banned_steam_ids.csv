@@ -228,6 +228,8 @@ steam_id64,name,reason
 76561199542461136,bot/cheat dev,bot/cheat dev
 76561199546101120,bot/cheat dev,bot/cheat dev
 76561199546319300,bot/cheat dev,bot/cheat dev
+76561199147731690,Burped,match invader / alts (TF2CC ban wave)
+76561199574951132,Burped,match invader / alts (TF2CC ban wave)
 76561198243248924,cheater / hvh,cheater / hvh
 76561199162678434,cheater / hvh,cheater / hvh
 76561199475479485,cheater / hvh,cheater / hvh
@@ -266,7 +268,6 @@ steam_id64,name,reason
 76561199325229382,cheeto and friends,https://rgl.gg/Public/PlayerProfile.aspx?p=76561198238170280
 76561199572987767,cheeto and friends,https://rgl.gg/Public/PlayerProfile.aspx?p=76561198238170280
 76561199586851859,cheeto and friends,https://rgl.gg/Public/PlayerProfile.aspx?p=76561198238170280
-76561199229312829,Clx,match invader
 76561198043178581,Clx,match invader
 76561198054150260,Clx,match invader
 76561198113294936,Clx,match invader
@@ -281,6 +282,7 @@ steam_id64,name,reason
 76561199165871973,Clx,match invader
 76561199166660740,Clx,match invader
 76561199184539472,Clx,match invader
+76561199229312829,Clx,match invader
 76561199258848645,Clx,match invader
 76561199381647817,Clx,match invader
 76561197996815485,Darkiecutie,etf2l blacklist
@@ -423,6 +425,8 @@ steam_id64,name,reason
 76561198339802451,vexfresh and friends,vexfresh friends
 76561198884541015,vexfresh and friends,vexfresh friends
 76561198978574478,vexfresh and friends,vexfresh friends
+76561199613121753,water,abusing/lagging server for achievement farming
+76561198315362212,water alt,abusing/lagging server for achievement farming
 76561199275738143,wayas94980,fake racist log spammer
 76561198337442090,xarlon,match invader / racist
 76561198798841999,xarlon,match invader / racist
@@ -434,5 +438,3 @@ steam_id64,name,reason
 76561199393657271,xarlon,match invader / racist
 76561199429134466,xarlon,match invader / racist
 76561198875215894,саморазвиваюсь,match invader
-76561199574951132,Burped,match invader / alts (TF2CC ban wave)
-76561199147731690,Burped,match invader / alts (TF2CC ban wave)

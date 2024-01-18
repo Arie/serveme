@@ -181,6 +181,8 @@ class RconAutocomplete
       ozfortress_hl_golden_cap
       ozfortress_hl_koth
       ozfortress_hl_stopwatch
+      ozfortress_4v4_5cp
+      ozfortress_4v4_koth
       ozfortress_ultiduo
       ozfortress_bball
     ]

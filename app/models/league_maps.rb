@@ -166,6 +166,7 @@ class LeagueMaps
       cp_gullywash_f9
       cp_process_f12
       cp_sultry_b8a
+      cp_metalworks_f5
       cp_reckoner
       cp_snakewater_final1
       cp_sunshine
@@ -188,6 +189,17 @@ class LeagueMaps
       pl_swiftwater_final1
       pl_upward_f10
       pl_vigil_rc10
+      pl_borneo_f2
+    ]
+  end
+
+  def self.ozfortress_fours_maps
+    %w[
+      koth_bagel_rc7
+      koth_cornyard_b3a
+      koth_daenam_b12
+      koth_maple_ridge_rc2
+      koth_product_final
     ]
   end
 end

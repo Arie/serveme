@@ -170,7 +170,7 @@ class LeagueMaps
       cp_reckoner
       cp_snakewater_final1
       cp_sunshine
-      koth_bagel_rc7
+      koth_bagel_rc8
       koth_clearcut_b16a
       koth_product_final
     ]
@@ -195,7 +195,7 @@ class LeagueMaps
 
   def self.ozfortress_fours_maps
     %w[
-      koth_bagel_rc7
+      koth_bagel_rc8
       koth_cornyard_b3a
       koth_daenam_b12
       koth_maple_ridge_rc2

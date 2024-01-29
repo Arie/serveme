@@ -41,7 +41,7 @@ class LeagueMaps
       cp_snakewater_final1
       cp_sultry_b8a
       cp_sunshine
-      koth_bagel_rc7
+      koth_bagel_rc8
       koth_product_final
     ]
   end
@@ -64,13 +64,12 @@ class LeagueMaps
         cp_gullywash_f9
         cp_metalworks_f5
         cp_process_f12
+        cp_reckoner
         cp_snakewater_final1
         cp_sultry_b8a
         cp_sunshine
-        cp_villa_b19
-        koth_bagel_rc7
+        koth_bagel_rc8
         koth_clearcut_b16a
-        koth_product_final
       ]
     sixes_invite =
       %w[
@@ -80,7 +79,7 @@ class LeagueMaps
         cp_snakewater_final1
         cp_sultry_b8a
         cp_sunshine
-        koth_bagel_rc7
+        koth_bagel_rc8
         koth_product_final
       ]
     sixes + sixes_invite
@@ -90,10 +89,10 @@ class LeagueMaps
     %w[
       cp_steel_f12
       koth_ashville_final1
-      koth_lakeside_r2
       koth_product_final
+      koth_proot_b6c-alt
       pl_swiftwater_final1
-      pl_upward_f10
+      pl_upward_f11
       pl_vigil_rc10
     ]
   end
@@ -103,7 +102,7 @@ class LeagueMaps
       cp_steel_f12
       koth_ashville_final1
       koth_product_final
-      pl_upward_f10
+      pl_upward_f11
       pl_vigil_rc10
     ]
   end
@@ -116,7 +115,7 @@ class LeagueMaps
       koth_proot_b6b
       koth_warmtic_f10
       pl_swiftwater_final1
-      pl_upward_f10
+      pl_upward_f11
       pl_vigil_rc10
     ]
   end
@@ -128,7 +127,7 @@ class LeagueMaps
       cp_process_f12
       cp_snakewater_final1
       cp_sunshine
-      koth_bagel_rc7
+      koth_bagel_rc8
       koth_clearcut_b16a
       koth_product_final
     ]
@@ -138,7 +137,7 @@ class LeagueMaps
     %w[
       cp_warmfrost_rc1
       koth_badlands
-      koth_bagel_rc7
+      koth_bagel_rc8
       koth_cornyard_b3a
       koth_harter_rc1
       koth_jamram_rc1b
@@ -187,7 +186,7 @@ class LeagueMaps
       pl_cornwater_b8c
       pl_eruption_b13
       pl_swiftwater_final1
-      pl_upward_f10
+      pl_upward_f11
       pl_vigil_rc10
       pl_borneo_f2
     ]

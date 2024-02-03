@@ -58,6 +58,7 @@ Serveme::Application.routes.draw do
 
   resources :map_uploads, only: %i[new create destroy]
   resources :file_uploads, only: %i[new create show]
+  resources :uploads, only: %i[show]
 
   get 'league-request', to: 'league_requests#new'
   post 'league-request', to: 'league_requests#create'

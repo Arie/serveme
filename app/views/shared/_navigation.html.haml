@@ -46,7 +46,7 @@
             = link_to i_am_feeling_lucky_reservations_path, method: :post, title: "Make a reservation in 1 click", class: "dropdown-item" do
               %i.fa.fa-warning
               1-click reservation
-      - if current_user && current_user.donator?
+      - if current_user && (current_user.donator? || current_user.streamer? || current_user.league_admin? || current_user.admin?)
         %li.nav-item
           = link_to servers_path, class: "nav-link" do
             %i.fa.fa-tasks

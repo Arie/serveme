@@ -51,6 +51,7 @@
           = link_to servers_path, class: "nav-link" do
             %i.fa.fa-tasks
             Servers
+      - if current_user && current_user.donator?
         %li.nav-item
           = link_to upload_map_path, class: "nav-link" do
             %i.fa.fa-upload

@@ -23,10 +23,13 @@ class UploadsController < ApplicationController
   private
 
   def find_reservation(reservation_id)
-    if current_user.admin? || current_user.league_admin? || current_user.streamer?
-      Reservation.find(reservation_id)
+    played_in_reservation = Reservation.played_in(current_user.uid).where(id: reservation_id).first
+    if played_in_reservation.nil? && (current_user.admin? || current_user.league_admin? || current_user.streamer?)
+      reservation = Reservation.find(reservation_id)
+      Rails.logger.info("ZIP download by #{current_user.name} (#{current_user.uid}) for reservation #{reservation.id} made by #{reservation&.user&.uid}") if reservation
+      reservation
     else
-      Reservation.played_in(current_user.uid).where(id: reservation_id).first
+      played_in_reservation
     end
   end
 end

@@ -180,7 +180,7 @@ class LeagueMaps
       cp_gullywash_f9
       cp_steel_f12
       koth_ashville_final1
-      koth_proot_b6b
+      koth_proot_b6c-alt2
       koth_product_final
       koth_warmtic_f10
       pl_cornwater_b8c

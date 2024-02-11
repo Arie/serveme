@@ -90,7 +90,7 @@ class LeagueMaps
       cp_steel_f12
       koth_ashville_final1
       koth_product_final
-      koth_proot_b6c-alt
+      koth_proot_b6c-alt2
       pl_swiftwater_final1
       pl_upward_f11
       pl_vigil_rc10

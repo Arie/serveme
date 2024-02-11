@@ -173,6 +173,8 @@ class RconAutocomplete
       pt_off
 
       ozfortress_6v6_5cp
+      ozfortress_6v6_5cp_upper
+      ozfortress_6v6_5cp_lower
       ozfortress_6v6_golden_cap
       ozfortress_6v6_koth
       ozfortress_6v6_scrim

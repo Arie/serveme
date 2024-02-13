@@ -95,7 +95,7 @@ class ReservationsController < ApplicationController
     else
       end_reservation
     end
-    redirect_to stored_location_for(:user) || reservation_path(@reservation)
+    redirect_to reservation_path(@reservation)
   end
 
   def status

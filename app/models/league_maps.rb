@@ -53,7 +53,7 @@ class LeagueMaps
       koth_proot_b5b
       koth_proplant_v8
       koth_warmtic_f10
-      pl_upward_f10
+      pl_upward_f11
       pl_vigil_rc10
     ]
   end

@@ -83,6 +83,9 @@ class ApplicationController < ActionController::Base
       if current_user.banned?
         Rails.logger.info "Logging out banned player with uid #{current_user.uid}, IP #{current_user.current_sign_in_ip}, name #{current_user.name}"
         sign_out_and_redirect(current_user)
+      elsif current_user.current_sign_in_ip && ReservationPlayer.banned_asn_ip?(current_user.current_sign_in_ip)
+        Rails.logger.info "Logging out player on VPN with uid #{current_user.uid}, IP #{current_user.current_sign_in_ip}, name #{current_user.name}"
+        sign_out_and_redirect(current_user)
       else
         super
       end

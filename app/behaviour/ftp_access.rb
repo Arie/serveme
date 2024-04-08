@@ -34,9 +34,8 @@ module FtpAccess
     return if files.none?
 
     logger.debug "FTP GET, FILES: #{files} DESTINATION: #{destination}"
-    threads = []
-    files.each_slice(file_count_per_thread(files)).to_a.each do |files_for_thread|
-      threads << Thread.new do
+    threads = files.each_slice(file_count_per_thread(files)).to_a.map do |files_for_thread|
+      Thread.new do
         ftp = make_ftp_connection
         files_for_thread.each do |file|
           ftp.getbinaryfile(file, File.join(destination, File.basename(file)))
@@ -52,9 +51,8 @@ module FtpAccess
   def delete_from_server(files)
     return if files.none?
 
-    threads = []
-    files.each_slice(file_count_per_thread(files)).to_a.each do |files_for_thread|
-      threads << Thread.new do
+    threads = files.each_slice(file_count_per_thread(files)).to_a.map do |files_for_thread|
+      Thread.new do
         ftp = make_ftp_connection
         files_for_thread.each do |file|
           ftp.send(:delete, file.shellescape)

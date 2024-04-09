@@ -360,6 +360,8 @@ steam_id64,name,reason
 76561198057659794,elk friends,elk friends
 76561198202186637,elk friends,elk friends
 76561199562906800,elk friends,elk friends
+76561198842276700,federat,cheater (hvh)
+76561199043059288,federat alt,cheater (hvh)
 76561199100342013,Felon,match invader / racist spammer
 76561198825658971,Felon alt,match invader / racist spammer
 76561199140909778,Felon alt,match invader / racist spammer
@@ -414,6 +416,7 @@ steam_id64,name,reason
 76561198036166266,screwb,https://rgl.gg/Public/PlayerProfile.aspx?p=76561198036166266
 76561198867749895,screwb alt,https://rgl.gg/Public/PlayerProfile.aspx?p=76561198036166266
 76561199366009537,screwb alt,https://rgl.gg/Public/PlayerProfile.aspx?p=76561198036166266
+76561199152162361,scroll,cheater (hvh)
 76561199232420553,SHADOW_WIZARD,cheater / cheat dev (https://gist.github.com/Arie/732d455e763566e1ad090a3c27300593)
 76561199510933346,table,cheat/bot dev (cmdnum spikes)
 76561197963011162,trolladolla,https://rgl.gg/Public/PlayerProfile.aspx?p=76561199090480674
@@ -496,6 +499,7 @@ steam_id64,name,reason
 76561198339802451,vexfresh and friends,vexfresh friends
 76561198884541015,vexfresh and friends,vexfresh friends
 76561198978574478,vexfresh and friends,vexfresh friends
+76561199128804643,Virbo,cheater (spinbot)
 76561199091217940,WannabeWumpus,client/server crash exploit
 76561199613121753,water,abusing/lagging server for achievement farming
 76561198315362212,water alt,abusing/lagging server for achievement farming
@@ -510,4 +514,3 @@ steam_id64,name,reason
 76561199393657271,xarlon,match invader / racist
 76561199429134466,xarlon,match invader / ragcist
 76561198875215894,саморазвиваюсь,match invader
-76561199128804643,Virbo,cheater (spinbot)

@@ -122,7 +122,7 @@ class LeagueMaps
 
   def self.ugc_sixes_maps
     %w[
-      cp_entropy_b5
+      cp_entropy_b5b
       cp_granary_pro_rc16f
       cp_gullywash_f9
       cp_process_f12

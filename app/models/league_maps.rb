@@ -53,7 +53,7 @@ class LeagueMaps
       koth_proot_b5b
       koth_proplant_v8
       koth_warmtic_f10
-      pl_upward_f11
+      pl_upward_f12
       pl_vigil_rc10
     ]
   end
@@ -92,7 +92,7 @@ class LeagueMaps
       koth_product_final
       koth_proot_b6c-alt2
       pl_swiftwater_final1
-      pl_upward_f11
+      pl_upward_f12
       pl_vigil_rc10
     ]
   end
@@ -102,7 +102,7 @@ class LeagueMaps
       cp_steel_f12
       koth_ashville_final1
       koth_product_final
-      pl_upward_f11
+      pl_upward_f12
       pl_vigil_rc10
     ]
   end
@@ -115,7 +115,7 @@ class LeagueMaps
       koth_warmtic_f10
       pl_divulgence_b4b
       pl_swiftwater_final1
-      pl_upward_f11
+      pl_upward_f12
       pl_vigil_rc10
     ]
   end
@@ -186,7 +186,7 @@ class LeagueMaps
       pl_cornwater_b8c
       pl_eruption_b13
       pl_swiftwater_final1
-      pl_upward_f11
+      pl_upward_f12
       pl_vigil_rc10
       pl_borneo_f2
     ]

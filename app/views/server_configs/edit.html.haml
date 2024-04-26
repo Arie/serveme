@@ -1,0 +1,12 @@
+%h2 Edit server config
+
+.row
+  .col-md-9
+    = simple_form_for(@server_config, url: url_for(controller: "server_configs", action: "update"), html: { class: 'form' }) do |f|
+      = f.input :file, as: :string, label: "File name (without .cfg)"
+      = f.input :hidden, as: :boolean, label: "Hidden"
+
+      .col-md-offset-2
+        %button.btn.btn-default{type: :submit}
+          Update
+

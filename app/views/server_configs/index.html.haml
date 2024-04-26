@@ -1,0 +1,23 @@
+- content_for(:title) { "server configs" }
+
+%h2 Server Configs
+
+.row
+  .col-md-10
+    = will_paginate @server_configs
+  .col-md-2
+    = link_to("Add server config", new_server_config_path)
+
+
+.row
+  .col-md-12
+    %table.table.table-condensed.table-hover
+      %thead
+        %tr
+          %th File
+          %th Hidden
+      %tbody
+        - @server_configs.each do |server_config|
+          %tr[server_config]
+            %td= link_to(server_config.file, edit_server_config_path(server_config))
+            %td= server_config.hidden

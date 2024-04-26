@@ -1,0 +1,12 @@
+%h2 Edit whitelist
+
+.row
+  .col-md-9
+    = simple_form_for(@whitelist, url: url_for(controller: "whitelists", action: "update"), html: { class: 'form' }) do |f|
+      = f.input :file, as: :string, label: "File name (including .txt)"
+      = f.input :hidden, as: :boolean, label: "Hidden"
+
+      .col-md-offset-2
+        %button.btn.btn-default{type: :submit}
+          Update
+

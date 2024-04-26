@@ -3,6 +3,8 @@
 class Whitelist < ActiveRecord::Base
   has_many :reservations, dependent: :nullify
 
+  validates_presence_of :file
+
   def self.active
     where(hidden: false)
   end

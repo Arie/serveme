@@ -79,6 +79,9 @@ Serveme::Application.routes.draw do
     end
   end
 
+  resources :server_configs, except: %i[show destroy]
+  resources :whitelists, except: %i[show destroy]
+
   resources :player_statistics, only: :index
   resources :server_statistics, only: :index
 

@@ -1,0 +1,23 @@
+- content_for(:title) { "whitelists" }
+
+%h2 Whitelists
+
+.row
+  .col-md-10
+    = will_paginate @whitelists
+  .col-md-2
+    = link_to("Add whitelist", new_whitelist_path)
+
+
+.row
+  .col-md-12
+    %table.table.table-condensed.table-hover
+      %thead
+        %tr
+          %th File
+          %th Hidden
+      %tbody
+        - @whitelists.each do |whitelist|
+          %tr[whitelist]
+            %td= link_to(whitelist.file, edit_whitelist_path(whitelist))
+            %td= whitelist.hidden

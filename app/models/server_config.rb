@@ -10,7 +10,7 @@ class ServerConfig < ActiveRecord::Base
   end
 
   def self.ordered
-    order(:file)
+    order('lower(file)')
   end
 
   def to_s

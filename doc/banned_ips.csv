@@ -9,6 +9,7 @@ ip,name,reason
 72.207.185.238,alts,match invader
 96.41.33.25,alts,match invader
 142.120.172.79,alts,match invader / blackmail
+78.19.224.116,Anasia123,cheater /hvh
 136.32.118.79,bot/cheat dev,bot/cheat dev
 208.107.111.42,bot/cheat dev,bot/cheat dev
 64.68.11.206,bot/cheat dev,bot/cheat dev
@@ -35,6 +36,7 @@ ip,name,reason
 154.6.0.0/19,greentv,proxy
 174.55.64.11,Kron,https://rgl.gg/Public/PlayerProfile?p=76561198256844594
 38.95.12.0/22,personalVPN,VPN without own ASN
+188.122.20.74,savemedbots,cheater / hvh
 71.205.209.93,WannabeWumpus,client/server crash exploit
 79.119.18.159,water,abusing/lagging server for achievement farming
 176.77.134.193,xerlon,match invader / racist

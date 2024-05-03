@@ -192,13 +192,12 @@ class LeagueMaps
     ]
   end
 
-  def self.ozfortress_fours_maps
+  def self.ozfortress_ultiduo_maps
     %w[
-      koth_bagel_rc8
-      koth_cornyard_b3a
-      koth_daenam_b12
-      koth_maple_ridge_rc2
-      koth_product_final
+      ultiduo_ozf_r
+      ultiduo_baloo_v2
+      ultiduo_champions_b1
+      ultiduo_swine_b06
     ]
   end
 end

@@ -240,6 +240,7 @@ steam_id64,name,reason
 76561199147731690,Burped,match invader / alts (TF2CC ban wave)
 76561199574951132,Burped,match invader / alts (TF2CC ban wave)
 76561198255546265,Cave Johnson,cheater / cheat dev (https://gist.github.com/Arie/fff389b29e139903a4f29dd2d3640d9f)
+76561198393840168,cheater,cheater
 76561199318671054,cheater,cheater
 76561199130658908,cheater,cheater (tick perfect bunnyhops)
 76561198131588487,cheater / hv/,cheater / hvh (https://gist.github.com/Arie/3088dcd949c97c30580ca054f83d52ab)
@@ -545,6 +546,9 @@ steam_id64,name,reason
 76561199091217940,WannabeWumpus,client/server crash exploit
 76561199613121753,water,abusing/lagging server for achievement farming
 76561198315362212,water alt,abusing/lagging server for achievement farming
+76561197986308598,wave,cheater (cmdnum spikes)
+76561199003473057,wave,cheater (cmdnum spikes)
+76561199079926994,wave,cheater (cmdnum spikes)
 76561199275738143,wayas94980,fake racist log spammer
 76561198337442090,xarlon,match invader / racist
 76561198798841999,xarlon,match invader / racist

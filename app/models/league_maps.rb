@@ -88,10 +88,11 @@ class LeagueMaps
 
   def self.rgl_hl_maps
     %w[
-      cp_steel_f12
+      cp_steel
       koth_ashville_final1
+      koth_cascade_rc1a
+      koth_lakeside_r2
       koth_product_final
-      koth_proot_b6c-alt2
       pl_swiftwater_final1
       pl_upward_f12
       pl_vigil_rc10

@@ -19,20 +19,20 @@ describe ReservationPlayer do
 
   context 'banned steam ids' do
     it 'recognizes a banned steam id' do
-      expect(described_class.banned_uid?(76561198310925535)).to be true
+      expect(described_class.banned_uid?(76561198310925535)).to eql 'match invader'
     end
     it 'doesnt flag a good steam id as banned' do
-      expect(described_class.banned_uid?(76561197960497430)).to be false
+      expect(described_class.banned_uid?(76561197960497430)).to be_falsy
     end
   end
 
   context 'whitelisted steam id' do
     it 'recognizes a whitelisted steam id' do
-      expect(described_class.whitelisted_uid?(76561198350261670)).to be true
+      expect(described_class.whitelisted_uid?(76561198350261670)).to eql 'formerly lived in Russia'
     end
 
     it 'doesnt flag an unknown steam id as whitelisted' do
-      expect(described_class.whitelisted_uid?('foobarwidget')).to be false
+      expect(described_class.whitelisted_uid?('foobarwidget')).to be_falsy
     end
   end
 

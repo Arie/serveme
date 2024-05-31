@@ -29,15 +29,15 @@ class ReservationPlayer < ActiveRecord::Base
   def self.whitelisted_uid?(steam_id64)
     return true unless steam_id64
 
-    whitelisted_uids.include?(steam_id64.to_i)
+    whitelisted_uids[steam_id64.to_i]
   end
 
   def self.whitelisted_uids
-    @whitelisted_uids ||= CSV.read(Rails.root.join('doc', 'whitelisted_steam_ids.csv'), headers: true).map { |row| row['steam_id64'].to_i }
+    @whitelisted_uids ||= CSV.read(Rails.root.join('doc', 'whitelisted_steam_ids.csv'), headers: true).to_h { |row| [row['steam_id64'].to_i, row['reason']] }
   end
 
   def self.banned_uid?(steam_id64)
-    banned_uids.include?(steam_id64.to_i)
+    banned_uids[steam_id64.to_i]
   end
 
   def self.banned_ip?(ip)
@@ -45,7 +45,7 @@ class ReservationPlayer < ActiveRecord::Base
   end
 
   def self.banned_uids
-    @banned_uids ||= CSV.read(Rails.root.join('doc', 'banned_steam_ids.csv'), headers: true).map { |row| row['steam_id64'].to_i }
+    @banned_uids ||= CSV.read(Rails.root.join('doc', 'banned_steam_ids.csv'), headers: true).to_h { |row| [row['steam_id64'].to_i, row['reason']] }
   end
 
   def self.banned_ranges

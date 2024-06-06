@@ -70,7 +70,7 @@ class LeagueMaps
         cp_sultry_b8a
         cp_sunshine
         koth_bagel_rc8
-        koth_clearcut_b15d
+        koth_clearcut_b17
       ]
     sixes_invite =
       %w[

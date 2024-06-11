@@ -1,7 +1,5 @@
 ip,name,reason
-176.40.96.0/21,0x0258deaD,DDoSer
 142.120.172.109,alts,alts
-98.10.162.215,alts,alts
 73.178.195.135,alts,cheater
 174.160.78.58,alts,match invader
 24.184.78.73,alts,match invader
@@ -14,11 +12,8 @@ ip,name,reason
 208.107.111.42,bot/cheat dev,bot/cheat dev
 64.68.11.206,bot/cheat dev,bot/cheat dev
 69.136.165.249,bot/cheat dev,bot/cheat dev
-71.168.215.111,bot/cheat dev,bot/cheat dev
-75.132.205.132,bot/cheat dev,bot/cheat dev
 76.14.131.122,bot/cheat dev,bot/cheat dev
 92.14.38.212,bot/cheat dev,bot/cheat dev
-96.248.90.76,bot/cheat dev,bot/cheat dev
 41.104.127.36,bot/cheat dev,bot/cheat dev (https://gist.github.com/Arie/9417faae1bcf11fc965c812acc500f5e)
 185.191.188.198,Cave Johnson,cheater / cheat dev (https://gist.github.com/Arie/fff389b29e139903a4f29dd2d3640d9f)
 108.6.178.210,cheater / hvh,cheater / hvh
@@ -31,7 +26,6 @@ ip,name,reason
 96.19.11.122,cheater / hvh,cheater / hvh
 109.81.174.0/24,Clx,match invader
 46.217.5.56,Crow,cheater / cheat dev (https://gist.github.com/Arie/fff389b29e139903a4f29dd2d3640d9f)
-79.118.11.221,Darkiecutie,etf2l blacklist
 69.53.25.41,elk,https://rgl.gg/Public/PlayerProfile.aspx?p=76561198097128562
 24.168.227.213,elk friends,elk friends
 98.238.42.58,elk friends,elk friends
@@ -44,6 +38,3 @@ ip,name,reason
 108.174.97.56,Sponge,cheater (bots / cmdnum spikes / psilent / NA #558717)
 71.205.209.93,WannabeWumpus,client/server crash exploit
 86.12.179.140,wave,cheater
-176.77.134.193,xerlon,match invader / racist
-188.36.32.83,xerlon,match invader / racist
-92.39.215.190,саморазвиваюсь,match invader

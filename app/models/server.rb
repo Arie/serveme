@@ -100,11 +100,11 @@ class Server < ActiveRecord::Base
   end
 
   def server_connect_url(password)
-    steam_connect_url(public_ip, public_port, password)
+    steam_connect_url(public_port, password)
   end
 
   def stv_connect_url(password)
-    steam_connect_url(public_ip, public_tv_port, password)
+    steam_connect_url(public_tv_port, password)
   end
 
   def update_configuration(reservation)
@@ -424,7 +424,7 @@ class Server < ActiveRecord::Base
     "connect #{ip}:#{port}; password \"#{password}\""
   end
 
-  def steam_connect_url(ip, port, password)
+  def steam_connect_url(port, password)
     "steam://connect/#{hostname_to_ip}:#{port}/#{CGI.escape(password)}"
   end
 

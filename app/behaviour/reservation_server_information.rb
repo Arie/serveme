@@ -54,11 +54,11 @@ module ReservationServerInformation
   end
 
   def server_connect_url
-    server&.steam_connect_url(public_ip, public_port, password)
+    server&.steam_connect_url(public_port, password)
   end
 
   def stv_connect_url
-    server&.steam_connect_url(public_ip, public_tv_port, tv_password)
+    server&.steam_connect_url(public_tv_port, tv_password)
   end
 
   def zipfile_name

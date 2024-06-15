@@ -429,7 +429,12 @@ class Server < ActiveRecord::Base
   end
 
   def hostname_to_ip
-    @hostname_to_ip ||= Resolv.getaddress(public_ip)
+    @hostname_to_ip ||=
+      begin
+        Resolv.getaddress(public_ip)
+      rescue Resolv::ResolvError
+        public_ip
+      end
   end
 
   def clear_sdr_info!

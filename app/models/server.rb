@@ -425,8 +425,11 @@ class Server < ActiveRecord::Base
   end
 
   def steam_connect_url(ip, port, password)
-    address = Resolv.getaddress(ip)
-    "steam://connect/#{address}:#{port}/#{CGI.escape(password)}"
+    "steam://connect/#{hostname_to_ip}:#{port}/#{CGI.escape(password)}"
+  end
+
+  def hostname_to_ip
+    @hostname_to_ip ||= Resolv.getaddress(public_ip)
   end
 
   def clear_sdr_info!

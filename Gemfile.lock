@@ -125,7 +125,7 @@ GEM
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.8)
       jmespath (~> 1, >= 1.6.1)
-    aws-sdk-kms (1.84.0)
+    aws-sdk-kms (1.85.0)
       aws-sdk-core (~> 3, >= 3.197.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-s3 (1.152.3)
@@ -746,7 +746,7 @@ GEM
       thor (>= 1.2.0)
       yard-sorbet
     temple (0.10.3)
-    term-ansicolor (1.8.0)
+    term-ansicolor (1.9.0)
       tins (~> 1.0)
     terser (1.2.3)
       execjs (>= 0.3.0, < 3)

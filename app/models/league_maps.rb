@@ -163,10 +163,8 @@ class LeagueMaps
 
   def self.ozfortress_sixes_maps
     %w[
-      cp_granary_pro_rc16
       cp_gullywash_f9
       cp_process_f12
-      cp_sultry_b8a
       cp_metalworks_f5
       cp_reckoner
       cp_snakewater_final1
@@ -179,18 +177,13 @@ class LeagueMaps
 
   def self.ozfortress_hl_maps
     %w[
-      cp_gullywash_f9
       cp_steel_f12
       koth_ashville_final1
-      koth_proot_b6c-alt2
       koth_product_final
       koth_warmtic_f10
-      pl_cornwater_b8c
-      pl_eruption_b13
       pl_swiftwater_final1
       pl_upward_f12
       pl_vigil_rc10
-      pl_borneo_f2
     ]
   end
 

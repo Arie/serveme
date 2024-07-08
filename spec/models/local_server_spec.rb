@@ -116,7 +116,9 @@ describe LocalServer do
 
   describe '#end_reservation' do
     it 'should zip demos and logs, remove configuration and restart' do
-      reservation = double(rcon: 'foo', status: 'Ready', status_update: nil, ended?: false, reload: true, user: nil)
+      reservation_id = 1
+      StacLogsDownloaderWorker.should_receive(:perform_async).with(reservation_id).and_return nil
+      reservation = double(id: reservation_id, rcon: 'foo', status: 'Ready', status_update: nil, ended?: false, reload: true, user: nil)
       subject.should_receive(:copy_logs)
       subject.should_receive(:zip_demos_and_logs).with(reservation)
       subject.should_receive(:disable_plugins)

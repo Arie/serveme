@@ -13,6 +13,10 @@ class SshServer < RemoteServer
     @logs ||= shell_output_to_array(execute("ls #{tf_dir}/logs/*.log"))
   end
 
+  def stac_logs
+    @stac_logs ||= shell_output_to_array(execute("ls #{tf_dir}/addons/sourcemod/logs/stac/*.log"))
+  end
+
   def list_files(dir)
     files = []
     Net::SFTP.start(ip, nil) do |sftp|

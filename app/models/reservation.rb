@@ -10,6 +10,7 @@ class Reservation < ActiveRecord::Base
   has_many :ratings
   has_many :reservation_statuses
   has_many :server_statistics
+  has_many :stac_logs
 
   before_validation :calculate_duration
   before_create :generate_logsecret

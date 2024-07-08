@@ -305,6 +305,7 @@ class Server < ActiveRecord::Base
     return if reservation.ended?
 
     remove_configuration
+    download_stac_logs(reservation)
     disable_plugins
     disable_demos_tf
     rcon_exec("sv_logflush 1; tv_stoprecord; kickall Reservation ended, every player can download the STV demo at https:/​/#{SITE_HOST}")
@@ -317,6 +318,10 @@ class Server < ActiveRecord::Base
     clear_sdr_info!
     restart
     reservation.status_update('Restarted server')
+  end
+
+  def download_stac_logs(reservation)
+    StacLogsDownloaderWorker.perform_async(reservation.id)
   end
 
   def enable_demos_tf
@@ -463,6 +468,10 @@ class Server < ActiveRecord::Base
 
   def log_match
     File.join(tf_dir, 'logs', '*.log')
+  end
+
+  def stac_log_match
+    File.join(tf_dir, 'addons', 'sourcemod', 'logs', 'stac', '*.log')
   end
 
   def demo_match

@@ -15,6 +15,10 @@ class NfoServer < RemoteServer
     @logs ||= list_files('logs', '').map { |file| "#{tf_dir}/logs/#{file}" }
   end
 
+  def stac_logs
+    @stac_logs ||= list_files('addons', 'sourcemod', 'logs', 'stac', '').map { |file| "#{tf_dir}/addons/sourcemod/logs/stac/#{file}" }
+  end
+
   def restart
     retryable do
       Rails.logger.info("Attempting web control restart of server #{name}")

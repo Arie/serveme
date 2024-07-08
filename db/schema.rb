@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_25_063808) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_03_131707) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -304,6 +304,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_25_063808) do
     t.index ["latitude", "longitude"], name: "index_servers_on_latitude_and_longitude"
     t.index ["location_id"], name: "index_servers_on_location_id"
     t.index ["type"], name: "index_servers_on_type"
+  end
+
+  create_table "stac_logs", force: :cascade do |t|
+    t.integer "reservation_id"
+    t.string "filename"
+    t.integer "filesize"
+    t.binary "contents"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reservation_id"], name: "index_stac_logs_on_reservation_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|

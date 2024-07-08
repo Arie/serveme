@@ -390,6 +390,7 @@ steam_id64,name,reason
 76561198153119058,Dippi/MORGENSHTERN alt,cheater (cmdnum spikes / EU #1419193)
 76561198161071532,Dippi/MORGENSHTERN alt,cheater (cmdnum spikes / EU #1419193)
 76561198185270495,Dippi/MORGENSHTERN alt,cheater (cmdnum spikes / EU #1419193)
+76561198213831349,Dippi/MORGENSHTERN alt,cheater (cmdnum spikes / EU #1419193)
 76561198263629536,Dippi/MORGENSHTERN alt,cheater (cmdnum spikes / EU #1419193)
 76561198321773349,Dippi/MORGENSHTERN alt,cheater (cmdnum spikes / EU #1419193)
 76561198342370202,Dippi/MORGENSHTERN alt,cheater (cmdnum spikes / EU #1419193)
@@ -401,10 +402,9 @@ steam_id64,name,reason
 76561198884737480,Dippi/MORGENSHTERN alt,cheater (cmdnum spikes / EU #1419193)
 76561199014135437,Dippi/MORGENSHTERN alt,cheater (cmdnum spikes / EU #1419193)
 76561199184947839,Dippi/MORGENSHTERN alt,cheater (cmdnum spikes / EU #1419193)
-76561199548677334,Dippi/MORGENSHTERN alt,cheater (cmdnum spikes / EU #1419193)
-76561199395489032,Dippi/MORGENSHTERN alt,cheater (cmdnum spikes / EU #1419193)
-76561198213831349,Dippi/MORGENSHTERN alt,cheater (cmdnum spikes / EU #1419193)
 76561199242328901,Dippi/MORGENSHTERN alt,cheater (cmdnum spikes / EU #1419193)
+76561199395489032,Dippi/MORGENSHTERN alt,cheater (cmdnum spikes / EU #1419193)
+76561199548677334,Dippi/MORGENSHTERN alt,cheater (cmdnum spikes / EU #1419193)
 76561198407997130,diu,cheater (hvh)
 76561199631054398,diu alt,cheater (hvh)
 76561198169427190,donald,cmdnum spikes / perfect bhops (EU #1418899)
@@ -519,6 +519,7 @@ steam_id64,name,reason
 76561199472548536,Omegaman,cheater (nullcore / triggerbot / EU #1423927)
 76561199196028350,Omegaman alt,cheater (nullcore / triggerbot / EU #1423927)
 76561199099855794,onime666,cheater (cmdnum spikes)
+76561199486724280,onime666 alt,cheater (ETF2L alt ban)
 76561198101264671,onime666 alt,cheater (cmdnum spikes)
 76561198230412288,onime666 alt,cheater (cmdnum spikes)
 76561198967881848,onime666 alt,cheater (cmdnum spikes)
@@ -576,6 +577,8 @@ steam_id64,name,reason
 76561199567552370,Sponge alt,cheater (bots / cmdnum spikes / psilent / NA #558717)
 76561199567985758,Sponge alt,cheater (bots / cmdnum spikes / psilent / NA #558717)
 76561199573142359,superdog,cheater (cmdnum spikes / EU #1419601)
+76561198036267318,svast,cheater (VAC + ETF2L + UGC banned / https://etf2l.org/forum/user/132056/)
+76561197981917399,svast alt,cheater (psilent / EU #1423897)
 76561199510933346,table,cheat/bot dev (cmdnum spikes)
 76561199223274839,Treeay,cheater (psilent / cmdnum spikes / hvh / NA #560103)
 76561197963011162,trolladolla,https://rgl.gg/Public/PlayerProfile.aspx?p=76561199090480674
@@ -616,7 +619,6 @@ steam_id64,name,reason
 76561199400981743,trolladolla,https://rgl.gg/Public/PlayerProfile.aspx?p=76561199090480674
 76561199570016075,trolladolla,https://rgl.gg/Public/PlayerProfile.aspx?p=76561199090480674
 76561199435876131,Utya32,cheater / cheat dev (https://gist.github.com/Arie/fff389b29e139903a4f29dd2d3640d9f)
-76561197981917399,uwa,cheater (psilent / EU #1423897)
 76561199657590255,UwU,cheater (cmdnum spikes / NA #558552)
 76561198839456993,vessel,cheater (cmdnum spikes / AU #7123)
 76561197960974233,vexfresh,match invader / blackmail

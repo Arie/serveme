@@ -1,0 +1,31 @@
+- content_for(:title) { "StAC logs" }
+
+%h2 StAC Logs
+
+.row
+  .col-md-12
+    = will_paginate @stac_logs
+
+.row
+  .col-md-12
+    %table.table.table-condensed.table-hover
+      %thead
+        %tr
+          %th Reservation
+          %th Created
+          %th Filename
+          %th Size
+      %tbody
+        - @stac_logs.each do |log|
+          %tr[log]
+            %td= link_to(log.reservation)
+            %td
+              = link_to(log) do
+                = I18n.l(log.created_at, format: :short_with_dayname_and_seconds)
+            %td
+              = link_to(log) do
+                = log.filename
+            %td
+              = link_to(log) do
+                = number_to_human_size(log.filesize)
+

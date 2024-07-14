@@ -50,6 +50,8 @@ class LeagueMaps
   def self.etf2l_hl_maps
     %w[
       cp_steel_f12
+      koth_ashville_final1
+      koth_lakeside_r2
       koth_product_final
       koth_proot_b5b
       koth_proplant_v8

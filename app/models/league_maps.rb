@@ -12,6 +12,7 @@ class LeagueMaps
     [
       new(name: 'ETF2L 6v6', maps: etf2l_sixes_maps.uniq.sort),
       new(name: 'ETF2L HL', maps: etf2l_hl_maps.uniq.sort),
+      new(name: 'ETF2L HL Prem', maps: etf2l_hl_prem_maps.uniq.sort),
       new(name: 'ozfortress Ultiduo', maps: ozfortress_ultiduo_maps.uniq.sort),
       new(name: 'ozfortress 6v6', maps: ozfortress_sixes_maps.uniq.sort),
       new(name: 'ozfortress HL', maps: ozfortress_hl_maps.uniq.sort),
@@ -56,6 +57,18 @@ class LeagueMaps
       koth_proot_b5b
       koth_proplant_v8
       koth_warmtic_f10
+      pl_upward_f12
+      pl_vigil_rc10
+    ]
+  end
+
+  def self.etf2l_hl_prem_maps
+    %w[
+      cp_steel_f12
+      koth_ashville_final1
+      koth_lakeside_r2
+      koth_product_final
+      koth_proot_b5b
       pl_upward_f12
       pl_vigil_rc10
     ]

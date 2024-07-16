@@ -430,8 +430,7 @@ GEM
     mini_racer (0.12.0)
       libv8-node (~> 21.7.2.0)
     minitest (5.24.1)
-    mize (0.4.1)
-      protocol (~> 2.0)
+    mize (0.5.0)
     msgpack (1.7.2)
     multi_json (1.15.0)
     multi_test (1.1.0)
@@ -492,8 +491,6 @@ GEM
     pg (1.5.6)
     popper_js (1.16.1)
     prism (0.30.0)
-    protocol (2.0.0)
-      ruby_parser (~> 3.0)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -600,7 +597,7 @@ GEM
       railties (>= 5.2)
     reverse_markdown (2.1.1)
       nokogiri
-    rexml (3.3.1)
+    rexml (3.3.2)
       strscan
     rouge (4.3.0)
     rspec-activemodel-mocks (1.2.0)
@@ -644,9 +641,6 @@ GEM
     ruby-vips (2.2.1)
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
-    ruby_parser (3.21.1)
-      racc (~> 1.5)
-      sexp_processor (~> 4.16)
     rubyntlm (0.6.5)
       base64
     rubyzip (2.3.2)
@@ -675,7 +669,6 @@ GEM
     sentry-sidekiq (5.18.1)
       sentry-ruby (~> 5.18.1)
       sidekiq (>= 3.0)
-    sexp_processor (4.17.2)
     shoulda-matchers (6.2.0)
       activesupport (>= 5.2.0)
     sidekiq (7.3.0)
@@ -755,8 +748,8 @@ GEM
       thor (>= 1.2.0)
       yard-sorbet
     temple (0.10.3)
-    term-ansicolor (1.10.2)
-      mize
+    term-ansicolor (1.10.4)
+      mize (~> 0.5)
       tins (~> 1.0)
     terser (1.2.3)
       execjs (>= 0.3.0, < 3)

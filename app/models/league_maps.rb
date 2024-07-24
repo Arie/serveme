@@ -64,7 +64,7 @@ class LeagueMaps
     %w[
       cp_steel_f12
       koth_ashville_final1
-      koth_lakeside_r2
+      koth_lakeside_f2
       koth_product_final
       koth_proot_b5b
       pl_upward_f12

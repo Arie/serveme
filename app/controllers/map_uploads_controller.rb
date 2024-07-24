@@ -41,11 +41,14 @@ class MapUploadsController < ApplicationController
 
   def destroy
     respond_to do |format|
-      MapUpload.delete_bucket_object(params[:id])
-      @bucket_objects = MapUpload.bucket_objects
-      @map_statistics = MapUpload.map_statistics
-      flash[:notice] = "Map #{params[:id]} deleted"
-      format.html { render :index }
+      format.html do
+        MapUpload.delete_bucket_object(params[:id])
+        @bucket_objects = MapUpload.bucket_objects
+        @map_statistics = MapUpload.map_statistics
+        flash[:notice] = "Map #{params[:id]} deleted"
+
+        redirect_to maps_path
+      end
     end
   end
 

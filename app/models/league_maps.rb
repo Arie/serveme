@@ -43,7 +43,7 @@ class LeagueMaps
       cp_snakewater_final1
       cp_sultry_b8a
       cp_sunshine
-      koth_bagel_rc9b
+      koth_bagel_rc10
       koth_product_final
     ]
   end
@@ -143,7 +143,7 @@ class LeagueMaps
       cp_reckoner
       cp_snakewater_final1
       cp_sunshine
-      koth_bagel_rc9b
+      koth_bagel_rc10
       koth_govan_b6
     ]
   end
@@ -154,7 +154,7 @@ class LeagueMaps
       cp_warmfrost_rc1
       koth_airfield_b7
       koth_badlands
-      koth_bagel_rc9b
+      koth_bagel_rc10
       koth_cornyard_b4
       koth_jamram_rc2b
       koth_maple_ridge_rc2
@@ -182,7 +182,7 @@ class LeagueMaps
       cp_reckoner
       cp_snakewater_final1
       cp_sunshine
-      koth_bagel_rc9b
+      koth_bagel_rc10
       koth_clearcut_b16a
       koth_product_final
     ]

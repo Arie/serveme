@@ -126,7 +126,7 @@ class LeagueMaps
     %w[
       cp_steel_f12
       koth_ashville_final1
-      koth_proot_b6c-alt2
+      koth_proot_b5b
       koth_warmtic_f10
       pl_divulgence_b4b
       pl_swiftwater_final1

@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require clipboard
 //= require datepicker
 //= require jstz
 //= require pay
@@ -22,4 +23,3 @@
 //= require reservation
 //
 //= require bootstrap
-//= require clipboard

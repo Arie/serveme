@@ -27,7 +27,7 @@ class UploadsController < ApplicationController
     if played_or_made_reservation.nil? && (current_user.admin? || current_user.league_admin? || current_user.streamer?)
       reservation = Reservation.find(reservation_id)
       Rails.logger.info("ZIP download by #{current_user.name} (#{current_user.uid}) for reservation #{reservation.id} made by #{reservation&.user&.uid}") if reservation
-      reservatio
+      reservation
     else
       played_or_made_reservation
     end

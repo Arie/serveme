@@ -7,4 +7,4 @@
       - else
         %i.fa.fa-copy
 :javascript
-  new Clipboard("##{copy_button_id}_container");
+  $("##{copy_button_id}_container").on("click", function(){ copyToClipboard('#{j(copy_text)}'); });

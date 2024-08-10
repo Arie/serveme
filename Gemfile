@@ -9,7 +9,6 @@ gem 'bcrypt_pbkdf'
 gem 'bootsnap', require: false
 gem 'bootstrap', '~> 4.6' # Something in 5 breaks popper, not going to fix that now
 gem 'carrierwave'
-gem 'clipboard-rails'
 gem 'coffee-rails'
 gem 'connection_pool'
 gem 'dante'
@@ -51,7 +50,7 @@ gem 'pg'
 gem 'puma'
 gem 'rack', '~> 2.2'
 gem 'rack-cache'
-gem 'rails'
+gem 'rails', '7.2.0.rc1'
 gem 'rbzip2'
 # Use Redis for Action Cable
 gem 'redis'
@@ -99,7 +98,7 @@ group :development do
 end
 
 group :test, :development do
-  gem 'factory_bot_rails', '~> 6.2.0', require: false
+  gem 'factory_bot_rails'
   gem 'irb'
   gem 'parallel_tests'
   gem 'pry-nav'

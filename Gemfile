@@ -50,7 +50,7 @@ gem 'pg'
 gem 'puma'
 gem 'rack', '~> 2.2'
 gem 'rack-cache'
-gem 'rails', '7.2.0.rc1'
+gem 'rails', '~> 7.2.0'
 gem 'rbzip2'
 # Use Redis for Action Cable
 gem 'redis'

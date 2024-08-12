@@ -21,7 +21,7 @@ namespace :logdaemon do
   task :stop do
     on roles(:web, :app) do
       within current_path do
-        execute :ruby, "#{logdaemon_command} -k -P #{logdaemon_pid}"
+        execute :ruby, "#{logdaemon_command} -k -P #{logdaemon_pid} > /dev/null"
       end
     end
   end
@@ -30,7 +30,7 @@ namespace :logdaemon do
   task :start do
     on roles(:web, :app) do
       within current_path do
-        execute :ruby, "#{logdaemon_command} -i #{logdaemon_host} -p 40001 -d -l #{logdaemon_log} -P #{logdaemon_pid}"
+        execute :ruby, "#{logdaemon_command} -i #{logdaemon_host} -p 40001 -d -l #{logdaemon_log} -P #{logdaemon_pid} > /dev/null"
       end
     end
   end
@@ -39,8 +39,8 @@ namespace :logdaemon do
   task :restart do
     on roles(:web, :app) do
       within current_path do
-        execute :ruby, "#{logdaemon_command} -k -P #{logdaemon_pid}"
-        execute :ruby, "#{logdaemon_command} -i #{logdaemon_host} -p 40001 -d -l #{logdaemon_log} -P #{logdaemon_pid}"
+        execute :ruby, "#{logdaemon_command} -k -P #{logdaemon_pid} > /dev/null"
+        execute :ruby, "#{logdaemon_command} -i #{logdaemon_host} -p 40001 -d -l #{logdaemon_log} -P #{logdaemon_pid} > /dev/null"
       end
     end
   end

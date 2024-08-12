@@ -28,6 +28,8 @@ set :puma_default_control_app, "unix://#{shared_path}/tmp/sockets/pumactl.sock"
 set :puma_access_log, fetch(:rack_env, fetch(:rails_env, 'production'))
 set :puma_init_active_record, true
 set :puma_preload_app, false
+set :puma_phased_restart, true
+set :puma_enable_socket_service, true
 
 # Default value for :linked_files is []
 set :linked_files, fetch(:linked_files, []).push('config/master.key', 'config/credentials/production.key', 'config/database.yml', 'config/puma/production.rb', 'config/initializers/locale.rb', 'config/initializers/maps_dir.rb', 'config/initializers/01_site_url.rb', 'doc/GeoLite2-City.mmdb', 'doc/GeoLite2-ASN.mmdb', 'config/cacert.pem')

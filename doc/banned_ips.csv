@@ -1,5 +1,6 @@
 ip,name,reason
 142.120.172.109,alts,alts
+73.199.91.0,alts,alts
 73.178.195.135,alts,cheater
 174.160.78.58,alts,match invader
 24.184.78.73,alts,match invader
@@ -35,6 +36,7 @@ ip,name,reason
 174.55.64.11,Kron,https://rgl.gg/Public/PlayerProfile?p=76561198256844594
 76.118.153.126,Monster Energy Twink,cheater (psilent / EU #1416617)
 88.156.136.161,Omegaman,cheater
+98.47.55.44,Perdomy,cheater / alts
 38.95.12.0/22,personalVPN,VPN without own ASN
 188.122.20.74,savemedbots,cheater / hvh
 108.174.97.56,Sponge,cheater (bots / cmdnum spikes / psilent / NA #558717)

@@ -19,6 +19,6 @@ class Etf2lApi
   end
 
   def self.etf2l_connection
-    Faraday.new(url: 'https://api-v2.etf2l.org/')
+    Faraday.new(request: { open_timeout: 5, timeout: 5 }, url: 'https://api-v2.etf2l.org/')
   end
 end

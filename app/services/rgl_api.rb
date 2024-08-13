@@ -19,6 +19,6 @@ class RglApi
   end
 
   def self.rgl_connection
-    Faraday.new(url: 'https://api.rgl.gg/')
+    Faraday.new(request: { open_timeout: 5, timeout: 5 }, url: 'https://api.rgl.gg/')
   end
 end

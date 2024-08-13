@@ -44,6 +44,10 @@ class ReservationPlayer < ActiveRecord::Base
     banned_ranges.any? { |range| range.include?(ip) }
   end
 
+  def self.banned_league_uid?(steam_id64)
+    LeagueBan.fetch(steam_id64)&.banned?
+  end
+
   def self.banned_uids
     @banned_uids ||= CSV.read(Rails.root.join('doc', 'banned_steam_ids.csv'), headers: true).to_h { |row| [row['steam_id64'].to_i, row['reason']] }
   end

@@ -12,5 +12,7 @@ class LeagueBan
 
     profile = klass.fetch(steam_uid)
     profile.banned? && profile
+  rescue Faraday::TimeoutError
+    nil
   end
 end

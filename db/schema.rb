@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_07_03_131707) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_13_083542) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -341,6 +341,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_07_03_131707) do
     t.float "longitude"
     t.integer "expired_reservations", default: 0
     t.string "demos_tf_api_key"
+    t.boolean "enforce_league_bans"
     t.index ["api_key"], name: "index_users_on_api_key", unique: true
     t.index ["latitude", "longitude"], name: "index_users_on_latitude_and_longitude"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

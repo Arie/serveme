@@ -5,11 +5,13 @@
 # typed: false
 
 module Cucumber::Rails::Database; end
-module Devise::OmniauthCallbacksController; end
+module FtpAccess::Raven; end
 module Geocoder::Lookup::MaxmindLocal::GeoIP; end
 module Geocoder::Lookup::MaxmindLocal::JGeoIP; end
+module MapUpload::BLACKLIST; end
+module NfoControlPanel::Raven; end
+module PaypalOrder::Raven; end
 module Sidekiq::Process; end
 module Sidekiq::SortedEntry; end
 module Sidekiq::Testing; end
 module Sidekiq::Web; end
-module UpdateSteamNicknameWorker::ReservationPLayer; end

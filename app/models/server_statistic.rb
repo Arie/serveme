@@ -1,5 +1,5 @@
-# frozen_string_literal: true
 # typed: strict
+# frozen_string_literal: true
 
 class ServerStatistic < ActiveRecord::Base
   belongs_to :reservation

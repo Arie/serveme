@@ -1,5 +1,5 @@
-# frozen_string_literal: true
 # typed: false
+# frozen_string_literal: true
 
 class ServerUpload < ActiveRecord::Base
   extend T::Sig

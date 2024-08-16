@@ -93,6 +93,7 @@ group :development do
   gem 'capistrano-rvm', require: false
   gem 'capistrano-sidekiq', git: 'https://github.com/Pharmony/capistrano-sidekiq.git', require: false
   gem 'rubocop', require: false
+  gem 'rubocop-sorbet', require: false
   gem 'sorbet'
   gem 'tapioca', require: false
 end

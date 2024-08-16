@@ -630,6 +630,8 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.32.0)
       parser (>= 3.3.1.0)
+    rubocop-sorbet (0.8.5)
+      rubocop (>= 1)
     ruby-openid (2.9.2)
     ruby-progressbar (1.13.0)
     ruby-vips (2.2.2)
@@ -896,6 +898,7 @@ DEPENDENCIES
   rspec-sorbet
   rspec-support
   rubocop
+  rubocop-sorbet
   ruby_parser
   rubyzip
   sass

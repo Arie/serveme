@@ -1,3 +1,5 @@
+require: rubocop-sorbet
+
 AllCops:
    SuggestExtensions: false
    NewCops: enable

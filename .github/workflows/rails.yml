@@ -29,18 +29,23 @@ jobs:
         run: |
           bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
-  rubocop:
-    name: Rubocop
+  linters:
+    name: Linters
+    needs: [ruby-dependencies]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
-      - name: Install Rubocop
-        run: gem install rubocop
+        with:
+          bundler-cache: true
       - name: Check code
-        run: rubocop app
+        run: bundle exec rubocop app
+      - name: Run type check
+        run: bundle exec srb tc
+      - name: Verify gem RBIs are up-to-date
+        run: bundle exec tapioca gem --verify
   rspec:
     name: RSpec
     runs-on: ubuntu-latest

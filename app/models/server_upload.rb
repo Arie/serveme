@@ -1,6 +1,9 @@
 # frozen_string_literal: true
+# typed: false
 
 class ServerUpload < ActiveRecord::Base
+  extend T::Sig
+
   belongs_to :server
   belongs_to :file_upload
 
@@ -9,6 +12,7 @@ class ServerUpload < ActiveRecord::Base
 
   after_commit -> { broadcast_replace_to file_upload, target: "file_upload_#{file_upload.id}_server_#{server_id}", partial: 'server_uploads/server_upload', locals: { server_upload: self } }, on: %i[create update]
 
+  sig { returns(String) }
   def status
     return 'Upload complete' if uploaded_at
     return 'Upload started' if started_at

@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 When 'I go view the statistics' do

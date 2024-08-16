@@ -636,6 +636,9 @@ GEM
       ffi (~> 1.12)
       logger
     ruby2_keywords (0.0.5)
+    ruby_parser (3.21.1)
+      racc (~> 1.5)
+      sexp_processor (~> 4.16)
     rubyzip (2.3.2)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
@@ -663,6 +666,7 @@ GEM
     sentry-sidekiq (5.19.0)
       sentry-ruby (~> 5.19.0)
       sidekiq (>= 3.0)
+    sexp_processor (4.17.2)
     shoulda-matchers (6.3.1)
       activesupport (>= 5.2.0)
     sidekiq (7.3.1)
@@ -892,6 +896,7 @@ DEPENDENCIES
   rspec-sorbet
   rspec-support
   rubocop
+  ruby_parser
   rubyzip
   sass
   sass-rails
@@ -922,4 +927,4 @@ DEPENDENCIES
   zonebie
 
 BUNDLED WITH
-   2.5.3
+   2.5.11

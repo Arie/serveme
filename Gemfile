@@ -57,6 +57,7 @@ gem 'redis-rack-cache'
 gem 'redis-rails'
 gem 'remote_lock', git: 'https://github.com/Arie/remote_lock.git'
 gem 'rexml'
+gem 'ruby_parser', require: false
 gem 'rubyzip', require: 'zip'
 gem 'sass'
 gem 'sassc'

@@ -1,3 +1,4 @@
+# typed: true
 class CreateServerUpload < ActiveRecord::Migration[6.1]
   def change
     create_table :server_uploads do |t|

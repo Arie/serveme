@@ -17,10 +17,7 @@ end
 #
 # source://http-cookie//lib/http/cookie/version.rb#2
 class HTTP::Cookie
-  include ::Mechanize::CookieDeprecated
   include ::Comparable
-  extend ::Mechanize::CookieDeprecated
-  extend ::Mechanize::CookieCMethods
 
   # :call-seq:
   #     new(name, value = nil)
@@ -379,8 +376,8 @@ class HTTP::Cookie
     #   cookie definitions containing double-quotes just as naturally
     #   expected.
     #
-    # source://mechanize/2.12.0/lib/mechanize/cookie.rb#32
-    def parse(arg1, arg2, arg3 = T.unsafe(nil), &block); end
+    # source://http-cookie//lib/http/cookie.rb#276
+    def parse(set_cookie, origin, options = T.unsafe(nil), &block); end
 
     # Tests if +target_path+ is under +base_path+ as described in RFC
     # 6265 5.1.4.  +base_path+ must be an absolute path.
@@ -536,7 +533,6 @@ HTTP::Cookie::VERSION = T.let(T.unsafe(nil), String)
 #
 # source://http-cookie//lib/http/cookie_jar.rb#8
 class HTTP::CookieJar
-  include ::Mechanize::CookieDeprecated
   include ::Enumerable
 
   # Generates a new cookie jar.
@@ -611,8 +607,8 @@ class HTTP::CookieJar
   #       jar.origin = origin
   #       jar.add(cookie)     # acceptance check is performed
   #
-  # source://mechanize/2.12.0/lib/mechanize/cookie_jar.rb#12
-  def add(arg1, arg2 = T.unsafe(nil)); end
+  # source://http-cookie//lib/http/cookie_jar.rb#105
+  def add(cookie); end
 
   # Removes expired cookies and returns self.  If `session` is true,
   # all session cookies are removed as well.

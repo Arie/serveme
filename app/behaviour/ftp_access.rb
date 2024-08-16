@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 module FtpAccess
@@ -41,7 +42,7 @@ module FtpAccess
           ftp.getbinaryfile(file, File.join(destination, File.basename(file)))
         rescue StandardError => e
           Rails.logger.error "couldn't download file: #{file} - #{e}"
-          Raven.capture_exception(e) if Rails.env.production?
+          Sentry.capture_exception(e) if Rails.env.production?
         end
       end
     end

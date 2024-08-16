@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 Given 'I am on the donators page' do

@@ -1,3 +1,4 @@
+# typed: true
 # frozen_string_literal: true
 class RenamePaypalOrdersToOrders < ActiveRecord::Migration[4.2]
   def change

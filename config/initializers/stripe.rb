@@ -1,3 +1,4 @@
+# typed: true
 # frozen_string_literal: true
 
 if SITE_HOST == 'sea.serveme.tf'

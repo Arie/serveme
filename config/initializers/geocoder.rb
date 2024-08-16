@@ -38,7 +38,7 @@ module Geocoder
           @cache_hit = true
         else
           if configuration[:file]
-            geoip_class = RUBY_PLATFORM == 'java' ? JGeoIP : GeoIP
+            geoip_class = MaxMind::GeoIP2
             result = geoip_class.new(configuration[:file]).city(query.to_s)
             out = result.nil? ? [] : [result.to_hash]
           elsif configuration[:package] == :city

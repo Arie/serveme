@@ -1,3 +1,4 @@
+# typed: true
 class AddTvPortToServers < ActiveRecord::Migration[5.2]
   class Server < ActiveRecord::Base
     self.inheritance_column = nil

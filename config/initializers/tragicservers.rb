@@ -1,3 +1,4 @@
+# typed: strict
 # frozen_string_literal: true
 
 NFO_EMAIL = 'the_email@serveme.tf'

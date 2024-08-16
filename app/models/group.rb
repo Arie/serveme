@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# typed: true
+# typed: strict
 
 class Group < ActiveRecord::Base
   extend T::Sig

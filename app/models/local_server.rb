@@ -1,3 +1,4 @@
+# typed: true
 # frozen_string_literal: true
 
 class LocalServer < Server
@@ -65,7 +66,7 @@ class LocalServer < Server
   private
 
   def kill_process
-    Process.kill(15, process_id)
+    Process.kill(15, T.must(process_id))
   end
 
   def write_configuration(output_filename, output_content)

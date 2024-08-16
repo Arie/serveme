@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 Given 'I go to upload a map' do

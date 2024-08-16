@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# typed: true
+# typed: false
 
 class Etf2lProfile
   extend T::Sig
@@ -34,7 +34,7 @@ class Etf2lProfile
     active_bans.map { |b| Time.at(b['end']).to_date }.join(', ')
   end
 
-  sig { returns(T.nilable(Etf2lProfile)) }
+  sig { params(steam_uid: String).returns(T.nilable(Etf2lProfile)) }
   def self.fetch(steam_uid)
     response_body = Etf2lApi.profile(steam_uid)
     new(response_body) if response_body

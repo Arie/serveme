@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 class PaypalOrder < Order
@@ -9,7 +10,7 @@ class PaypalOrder < Order
     if payment.create
       update(status: 'Redirected', payment_id: payment.id)
     else
-      Raven.capture_exception(payment.error) if Rails.env.production?
+      Sentry.capture_exception(payment.error) if Rails.env.production?
       false
     end
   end

@@ -1,3 +1,4 @@
+# typed: strict
 # frozen_string_literal: true
 
 schedule_file = 'config/schedule.yml'

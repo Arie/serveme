@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 When 'I enter a date and time on which there is a server available' do

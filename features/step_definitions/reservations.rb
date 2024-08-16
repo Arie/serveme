@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 Given 'there are reservations today' do

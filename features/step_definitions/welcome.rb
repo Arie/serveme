@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 When(/^I go to the welcome page$/) do

@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 When 'I go to activate a premium code' do

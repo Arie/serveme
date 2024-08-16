@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# typed: true
+# typed: false
 
 class User < ActiveRecord::Base
   extend T::Sig

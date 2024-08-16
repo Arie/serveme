@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 When 'I buy 1 month worth of donator status' do

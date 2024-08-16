@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 # Explicitly register the extensions we are interested in compiling

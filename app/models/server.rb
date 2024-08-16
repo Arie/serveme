@@ -1,6 +1,8 @@
+# typed: true
 # frozen_string_literal: true
 
 class Server < ActiveRecord::Base
+  extend T::Sig
   include ApplicationHelper
 
   has_many :group_servers
@@ -12,25 +14,29 @@ class Server < ActiveRecord::Base
   has_many :server_statistics
   belongs_to :location
 
-  validates_presence_of %i[name ip port path rcon]
+  validates_presence_of :name, :ip, :port, :path, :rcon
 
   geocoded_by :host_to_ip
   before_save :geocode, if: :ip_changed?
 
   delegate :flag, to: :location, prefix: true, allow_nil: true
 
+  sig { params(user: User).returns(ActiveRecord::Relation) }
   def self.reservable_by_user(user)
     where(id: ids_reservable_by_user(user))
   end
 
+  sig { params(user: User).returns(T::Array[Integer]) }
   def self.ids_reservable_by_user(user)
     without_group.pluck(:id) + member_of_groups(user.groups).pluck(:id)
   end
 
+  sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.ordered
     order('servers.position ASC, servers.name ASC')
   end
 
+  sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.without_group
     if with_group.exists?
       where('servers.id NOT IN (?)', with_group.pluck(:id))
@@ -39,74 +45,89 @@ class Server < ActiveRecord::Base
     end
   end
 
+  sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.with_group
     joins(:groups)
   end
 
+  sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy, T.untyped)) }
   def self.active
     where('servers.active = ?', true)
   end
 
+  sig { params(groups: T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)).returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.member_of_groups(groups)
     with_group
       .where(groups: { id: groups.pluck(:id) })
       .group('servers.id')
   end
 
+  sig { returns(ActiveRecord::Relation) }
   def self.for_donators
     Group.donator_group.servers
   end
 
+  sig { params(latest_version: T.nilable(Integer)).returns(ActiveRecord::Relation) }
   def self.outdated(latest_version = nil)
     latest_version ||= self.latest_version
 
     where('last_known_version is not null and last_known_version < ?', latest_version)
   end
 
+  sig { params(latest_version: T.nilable(Integer)).returns(ActiveRecord::Relation) }
   def self.updated(latest_version = nil)
     latest_version ||= self.latest_version
 
     where('last_known_version is null or last_known_version = ?', latest_version)
   end
 
+  sig { returns(ActiveRecord::Relation) }
   def self.updating
     where('update_status = ?', 'Updating')
   end
 
+  sig { returns(T.nilable(String)) }
   def public_ip
     return last_sdr_ip if sdr?
 
     ip
   end
 
+  sig { returns(T.nilable(T.any(Integer, String))) }
   def public_port
     return last_sdr_port if sdr?
 
     port
   end
 
+  sig { returns(T.nilable(T.any(Integer, String))) }
   def public_tv_port
     return last_sdr_tv_port if sdr?
 
     tv_port
   end
 
+  sig { params(password: String).returns(T.nilable(String)) }
   def server_connect_string(password)
     connect_string(public_ip, public_port, password)
   end
 
+  sig { params(tv_password: String).returns(T.nilable(String)) }
   def stv_connect_string(tv_password)
     connect_string(public_ip, public_tv_port, tv_password)
   end
 
+  sig { params(password: String).returns(T.nilable(String)) }
   def server_connect_url(password)
     steam_connect_url(public_port, password)
   end
 
+  sig { params(password: String).returns(T.nilable(String)) }
   def stv_connect_url(password)
     steam_connect_url(public_tv_port, password)
   end
 
+  sig { params(reservation: Reservation).returns(T.any(String, T::Boolean)) }
   def update_configuration(reservation)
     reservation.status_update('Sending reservation config files')
     ['reservation.cfg', 'ctf_turbine.cfg'].each do |config_file|
@@ -118,30 +139,37 @@ class Server < ActiveRecord::Base
     reservation.status_update('Finished sending reservation config files')
   end
 
+  sig { returns(T.nilable(T.any(String, T::Boolean))) }
   def enable_plugins
     write_configuration(sourcemod_file, sourcemod_body)
   end
 
+  sig { params(user: User).returns(String) }
   def add_sourcemod_admin(user)
     write_configuration(sourcemod_admin_file, sourcemod_admin_body(user))
   end
 
+  sig { params(reservation: Reservation).returns(String) }
   def add_sourcemod_servers(reservation)
     write_configuration(sourcemod_servers_file, sourcemod_servers_body(reservation))
   end
 
+  sig { params(reservation: Reservation).returns(String) }
   def add_motd(reservation)
     write_configuration(motd_file, motd_body(reservation))
   end
 
+  sig { returns(String) }
   def disable_plugins
     delete_from_server([sourcemod_file, sourcemod_admin_file])
   end
 
+  sig { returns(String) }
   def sourcemod_file
     "#{tf_dir}/addons/metamod/sourcemod.vdf"
   end
 
+  sig { returns(String) }
   def sourcemod_body
     <<-VDF
     "Metamod Plugin"
@@ -152,18 +180,22 @@ class Server < ActiveRecord::Base
     VDF
   end
 
+  sig { params(reservation: Reservation).returns(String) }
   def motd_body(reservation)
     "#{SITE_URL}/reservations/#{reservation.id}/motd?password=#{URI.encode_uri_component(reservation.password)}"
   end
 
+  sig { returns(String) }
   def sourcemod_admin_file
     "#{tf_dir}/addons/sourcemod/configs/admins_simple.ini"
   end
 
+  sig { returns(String) }
   def sourcemod_servers_file
     "#{tf_dir}/addons/sourcemod/configs/serverhop.cfg"
   end
 
+  sig { params(user: User).returns(String) }
   def sourcemod_admin_body(user)
     uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(user.uid.to_i)
     flags = sdr? ? 'abcdefghijkln' : 'z'
@@ -172,14 +204,15 @@ class Server < ActiveRecord::Base
     INI
   end
 
+  sig { params(reservation: Reservation).returns(String) }
   def sourcemod_servers_body(reservation)
     <<-CFG
     "Servers"
     {
             "Direct connection"
             {
-                    "address"               "#{reservation.server.ip}"
-                    "port"          "#{reservation.server.port}"
+                    "address"               "#{T.must(reservation.server).ip}"
+                    "port"          "#{T.must(reservation.server).port}"
             }
             "SDR (Valve VPN)"
             {
@@ -190,10 +223,12 @@ class Server < ActiveRecord::Base
     CFG
   end
 
+  sig { params(reservation: Reservation).returns(T.nilable(String)) }
   def write_custom_whitelist(reservation)
     write_configuration(server_config_file("custom_whitelist_#{reservation.custom_whitelist_id}.txt"), reservation.custom_whitelist_content)
   end
 
+  sig { params(object: Reservation, config_file: String).returns(String) }
   def generate_config_file(object, config_file)
     template         = File.read(Rails.root.join("lib/#{config_file}.erb"))
     renderer         = ERB.new(template)
@@ -206,6 +241,7 @@ class Server < ActiveRecord::Base
   end
   # rubocop:enable Naming/AccessorMethodName
 
+  sig { returns(T.nilable(Integer)) }
   def process_id
     @process_id ||= begin
       pid = find_process_id.to_i
@@ -213,18 +249,21 @@ class Server < ActiveRecord::Base
     end
   end
 
+  sig { returns(String) }
   def tf_dir
     File.join(path, 'tf')
   end
 
+  sig { returns(T.nilable(String)) }
   def current_rcon
     if current_reservation&.provisioned?
-      current_reservation.rcon
+      T.must(current_reservation).rcon
     else
       rcon
     end
   end
 
+  sig { returns(T.nilable(Reservation)) }
   def current_reservation
     current_reservations.first
   end
@@ -266,7 +305,7 @@ class Server < ActiveRecord::Base
     else
       reservation.status_update('Attempting fast start')
       if rcon_exec("removeip 1; removeip 1; removeip 1; sv_logsecret #{reservation.logsecret}; logaddress_add direct.#{SITE_HOST}:40001", allow_blocked: true)
-        first_map = first_map.presence || 'ctf_turbine'
+        first_map = reservation.first_map.presence || 'ctf_turbine'
         rcon_exec("changelevel #{first_map}; exec reservation.cfg")
         reservation.status_update('Fast start attempted, waiting to boot')
       else
@@ -395,7 +434,7 @@ class Server < ActiveRecord::Base
   end
 
   def self.fetch_latest_version
-    return 100_000_000 if Rails.env.test?
+    return 100_000_000 if Rails.env == 'test'
 
     response = Faraday.new(url: 'http://api.steampowered.com').get('ISteamApps/UpToDateCheck/v1?appid=440&version=0') do |req|
       req.options.timeout = 5
@@ -436,7 +475,7 @@ class Server < ActiveRecord::Base
   def hostname_to_ip
     @hostname_to_ip ||=
       begin
-        Resolv.getaddress(public_ip)
+        Resolv.getaddress(T.must(public_ip))
       rescue Resolv::ResolvError
         public_ip
       end
@@ -458,6 +497,49 @@ class Server < ActiveRecord::Base
 
       update(update_status: 'Updated', last_known_version: server_info.version)
     end
+  end
+
+  def write_configuration(_filename, _contents)
+    raise 'not implemented'
+  end
+
+  def remove_configuration
+    raise 'not implemented'
+  end
+
+  def find_process_id
+    raise 'not implemented'
+  end
+
+  def restart
+    raise 'not implemented'
+  end
+
+  sig { params(_files: T::Array[String], _destination: String).returns(String) }
+  def copy_to_server(_files, _destination)
+    raise 'not implemented'
+  end
+
+  sig { params(_files: T::Array[String]).returns(String) }
+  def delete_from_server(_files)
+    raise 'not implemented'
+  end
+
+  def logs
+    raise 'not implemented'
+  end
+
+  def demos
+    raise 'not implemented'
+  end
+
+  def remove_logs_and_demos
+    raise 'not implemented'
+  end
+
+  sig { params(_file: String).returns(T::Boolean) }
+  def file_present?(_file)
+    raise 'not implemented'
   end
 
   private
@@ -506,8 +588,9 @@ class Server < ActiveRecord::Base
     "#{tf_dir}/motd.txt"
   end
 
+  sig { returns(T.nilable(String)) }
   def host_to_ip
-    Resolv.getaddress(ip) unless Rails.env.test?
+    Resolv.getaddress(T.must(ip)) unless Rails.env == 'test'
   end
 
   def blocked_commands

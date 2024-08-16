@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 set :main_server,       '139.99.42.241'

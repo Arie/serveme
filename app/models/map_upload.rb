@@ -1,3 +1,4 @@
+# typed: false
 # frozen_string_literal: true
 
 require 'zip'
@@ -90,11 +91,6 @@ class MapUpload < ActiveRecord::Base
     return unless file&.blob&.key
 
     errors.add(:file, 'already available') if ActiveStorage::Blob.service.exist?(file.blob.key)
-  end
-
-  def self.blacklisted?(filename)
-    target_filename = filename.match(/(^.*\.bsp)/)[1]
-    BLACKLIST.include?(target_filename)
   end
 
   def self.blacklisted_type?(filename)

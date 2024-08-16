@@ -1,16 +1,18 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class LogUpload < ActiveRecord::Base
+  extend T::Sig
   belongs_to :reservation
 
   validates_presence_of :reservation_id
   validates_presence_of :file_name,   unless: :tftrue_upload?
   validate :validate_log_file_exists, unless: :tftrue_upload?
 
+  sig { params(reservation_id: T.any(String, Integer)).returns(T::Array[Hash]) }
   def self.find_log_files(reservation_id)
     log_files = Dir.glob(log_matcher(reservation_id))
-    log_files.collect! do |log_file|
+    files = log_files.collect do |log_file|
       {
         file_name_and_path: log_file,
         file_name: File.basename(log_file),
@@ -18,15 +20,17 @@ class LogUpload < ActiveRecord::Base
         size: File.size(log_file)
       }
     end
-    log_files.select do |log_file|
+    files.select do |log_file|
       log_file[:size] > 15.kilobytes
     end
   end
 
+  sig { params(reservation_id: T.any(String, Integer)).returns(String) }
   def self.log_matcher(reservation_id)
     File.join(Rails.root.join, 'server_logs', reservation_id.to_s, '*.log')
   end
 
+  sig { returns(T::Boolean) }
   def upload
     logs_tf_log     = LogsTF::Log.new(log_file, map_name, title, logs_tf_api_key)
     logs_tf_upload  = LogsTF::Upload.new(logs_tf_log)
@@ -41,26 +45,30 @@ class LogUpload < ActiveRecord::Base
     end
   end
 
+  sig { returns(T.nilable(File)) }
   def log_file
-    File.open(log_file_name_and_path) if log_file_exists?(file_name)
+    File.open(log_file_name_and_path) if log_file_exists?(T.must(file_name))
   end
 
+  sig { returns(T.nilable(String)) }
   def logs_tf_api_key
     user.logs_tf_api_key.presence || Rails.application.credentials.dig(:logs_tf, :api_key)
   end
 
+  sig { params(file_name: String).returns(T::Boolean) }
   def log_file_exists?(file_name)
     filenames.include?(file_name)
   end
 
+  sig { returns(Pathname) }
   def log_file_name_and_path
-    Rails.root.join('server_logs', reservation_id.to_s, file_name)
+    Rails.root.join('server_logs', reservation_id.to_s, T.must(file_name))
   end
 
   private
 
   def user
-    reservation.user
+    reservation&.user
   end
 
   def filenames
@@ -68,11 +76,11 @@ class LogUpload < ActiveRecord::Base
   end
 
   def logs
-    LogUpload.find_log_files(reservation_id)
+    LogUpload.find_log_files(T.must(reservation_id))
   end
 
   def validate_log_file_exists
-    return if log_file_exists?(file_name)
+    return if log_file_exists?(T.must(file_name))
 
     errors.add(:file_name, 'file does not exist')
   end

@@ -31,7 +31,7 @@ class RglProfile
     expires_at && Date.parse(expires_at)
   end
 
-  sig { params(steam_uid: String).returns(T.nilable(RglProfile)) }
+  sig { params(steam_uid: T.any(Integer, String)).returns(T.nilable(RglProfile)) }
   def self.fetch(steam_uid)
     response_body = RglApi.profile(steam_uid)
     new(response_body) if response_body

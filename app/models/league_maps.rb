@@ -2,6 +2,8 @@
 # frozen_string_literal: true
 
 class LeagueMaps
+  extend T::Sig
+
   attr_accessor :name, :maps
 
   def initialize(name:, maps:)
@@ -9,6 +11,7 @@ class LeagueMaps
     @maps = maps
   end
 
+  sig { returns(T::Array[LeagueMaps]) }
   def self.all
     [
       new(name: 'ETF2L 6v6', maps: etf2l_sixes_maps.uniq.sort),

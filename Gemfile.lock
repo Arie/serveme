@@ -634,6 +634,8 @@ GEM
       rspec-expectations (~> 3.13)
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
+    rspec-sorbet (1.9.2)
+      sorbet-runtime
     rspec-support (3.13.1)
     rubocop (1.65.1)
       json (~> 2.3)
@@ -911,6 +913,7 @@ DEPENDENCIES
   rspec-expectations
   rspec-mocks
   rspec-rails
+  rspec-sorbet
   rspec-support
   rubocop
   rubyzip

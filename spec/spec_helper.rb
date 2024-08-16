@@ -4,6 +4,8 @@ require 'simplecov'
 require 'coveralls'
 require 'sidekiq'
 require 'sidekiq/testing'
+require 'rspec/sorbet'
+RSpec::Sorbet.allow_doubles!
 Sidekiq::Testing.inline!
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'

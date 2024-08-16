@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe ServerInfo do
-  let(:server) { double(name: 'Name', ip: 'fakkelbrigade.eu', port: '27015', current_rcon: 'foo', id: 1, condenser: SteamCondenser::Servers::SourceServer.stub(:new)) }
+  let(:server) { instance_double(Server, name: 'Name', ip: 'fakkelbrigade.eu', port: '27015', current_rcon: 'foo', id: 1, condenser: SteamCondenser::Servers::SourceServer.stub(:new)) }
   subject do
     described_class.new(server)
   end
@@ -11,8 +11,8 @@ describe ServerInfo do
   context 'statistics available without rcon' do
     before do
       status = {  server_name: 'Server name',
-                  number_of_players: '10',
-                  max_players: '20',
+                  number_of_players: 10,
+                  max_players: 20,
                   map_name: 'cp_badlands' }
       subject.stub(status: status)
     end
@@ -30,23 +30,23 @@ describe ServerInfo do
 
     describe '#number_of_players' do
       it 'gets the number_of_players from the status hash' do
-        subject.number_of_players.should eql '10'
+        subject.number_of_players.should eql 10
       end
 
-      it 'returns nil if it cant get the number_of_players from the hash' do
+      it 'returns 0 if it cant get the number_of_players from the hash' do
         subject.status.delete_if { |key| key == :number_of_players }
-        subject.number_of_players.should eql nil
+        subject.number_of_players.should eql 0
       end
     end
 
     describe '#max_players' do
       it 'gets the max_players from the status hash' do
-        subject.max_players.should eql '20'
+        subject.max_players.should eql 20
       end
 
       it 'returns 0 if it cant get the max_players from the hash' do
         subject.status.delete_if { |key| key == :max_players }
-        subject.max_players.should eql '0'
+        subject.max_players.should eql 0
       end
     end
 
@@ -175,7 +175,7 @@ Loaded plugins:
       subject.stub(fetch_rcon_status: rcon_status_output)
       subject.server_name.should eql 'FakkelBrigade #1'
       subject.map_name.should eql 'ctf_turbine'
-      subject.max_players.should eql '33'
+      subject.max_players.should eql 33
       subject.number_of_players.should eql 12
       subject.ip.should eql '169.254.61.158'
       subject.port.should eql 42_992

@@ -107,6 +107,7 @@ group :test, :development do
   gem 'rspec-expectations'
   gem 'rspec-mocks'
   gem 'rspec-rails'
+  gem 'rspec-sorbet'
   gem 'rspec-support'
   gem 'solargraph'
   gem 'zonebie'

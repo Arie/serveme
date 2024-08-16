@@ -33,7 +33,7 @@ class Etf2lProfile
   end
 
   def self.league_name
-    "ETF2L"
+    'ETF2L'
   end
 
   private

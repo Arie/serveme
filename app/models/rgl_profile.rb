@@ -31,6 +31,6 @@ class RglProfile
   end
 
   def self.league_name
-    "RGL"
+    'RGL'
   end
 end

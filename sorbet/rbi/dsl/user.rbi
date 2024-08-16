@@ -16,6 +16,11 @@ class User
   sig { returns(NilClass) }
   def to_ary; end
 
+  class << self
+    sig { params(attributes: T.untyped, block: T.nilable(T.proc.params(object: ::User).void)).returns(::User) }
+    def new(attributes = nil, &block); end
+  end
+
   module CommonRelationMethods
     sig { params(block: T.nilable(T.proc.params(record: ::User).returns(T.untyped))).returns(T::Boolean) }
     def any?(&block); end

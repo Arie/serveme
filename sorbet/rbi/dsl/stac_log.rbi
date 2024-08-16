@@ -16,6 +16,11 @@ class StacLog
   sig { returns(NilClass) }
   def to_ary; end
 
+  class << self
+    sig { params(attributes: T.untyped, block: T.nilable(T.proc.params(object: ::StacLog).void)).returns(::StacLog) }
+    def new(attributes = nil, &block); end
+  end
+
   module CommonRelationMethods
     sig { params(block: T.nilable(T.proc.params(record: ::StacLog).returns(T.untyped))).returns(T::Boolean) }
     def any?(&block); end

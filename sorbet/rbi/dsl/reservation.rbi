@@ -16,6 +16,16 @@ class Reservation
   sig { returns(NilClass) }
   def to_ary; end
 
+  class << self
+    sig do
+      params(
+        attributes: T.untyped,
+        block: T.nilable(T.proc.params(object: ::Reservation).void)
+      ).returns(::Reservation)
+    end
+    def new(attributes = nil, &block); end
+  end
+
   module CommonRelationMethods
     sig { params(block: T.nilable(T.proc.params(record: ::Reservation).returns(T.untyped))).returns(T::Boolean) }
     def any?(&block); end

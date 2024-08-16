@@ -16,6 +16,11 @@ class Group
   sig { returns(NilClass) }
   def to_ary; end
 
+  class << self
+    sig { params(attributes: T.untyped, block: T.nilable(T.proc.params(object: ::Group).void)).returns(::Group) }
+    def new(attributes = nil, &block); end
+  end
+
   module CommonRelationMethods
     sig { params(block: T.nilable(T.proc.params(record: ::Group).returns(T.untyped))).returns(T::Boolean) }
     def any?(&block); end

@@ -16,6 +16,16 @@ class ActiveStorage::Attachment
   sig { returns(NilClass) }
   def to_ary; end
 
+  class << self
+    sig do
+      params(
+        attributes: T.untyped,
+        block: T.nilable(T.proc.params(object: ::ActiveStorage::Attachment).void)
+      ).returns(::ActiveStorage::Attachment)
+    end
+    def new(attributes = nil, &block); end
+  end
+
   module CommonRelationMethods
     sig do
       params(

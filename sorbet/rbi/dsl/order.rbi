@@ -16,6 +16,11 @@ class Order
   sig { returns(NilClass) }
   def to_ary; end
 
+  class << self
+    sig { params(attributes: T.untyped, block: T.nilable(T.proc.params(object: ::Order).void)).returns(::Order) }
+    def new(attributes = nil, &block); end
+  end
+
   module CommonRelationMethods
     sig { params(block: T.nilable(T.proc.params(record: ::Order).returns(T.untyped))).returns(T::Boolean) }
     def any?(&block); end

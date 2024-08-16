@@ -16,6 +16,16 @@ class Whitelist
   sig { returns(NilClass) }
   def to_ary; end
 
+  class << self
+    sig do
+      params(
+        attributes: T.untyped,
+        block: T.nilable(T.proc.params(object: ::Whitelist).void)
+      ).returns(::Whitelist)
+    end
+    def new(attributes = nil, &block); end
+  end
+
   module CommonRelationMethods
     sig { params(block: T.nilable(T.proc.params(record: ::Whitelist).returns(T.untyped))).returns(T::Boolean) }
     def any?(&block); end

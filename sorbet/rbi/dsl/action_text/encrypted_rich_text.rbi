@@ -22,6 +22,16 @@ class ActionText::EncryptedRichText
   sig { returns(NilClass) }
   def to_ary; end
 
+  class << self
+    sig do
+      params(
+        attributes: T.untyped,
+        block: T.nilable(T.proc.params(object: ::ActionText::EncryptedRichText).void)
+      ).returns(::ActionText::EncryptedRichText)
+    end
+    def new(attributes = nil, &block); end
+  end
+
   module CommonRelationMethods
     sig do
       params(

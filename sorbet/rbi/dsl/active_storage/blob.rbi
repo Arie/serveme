@@ -24,6 +24,16 @@ class ActiveStorage::Blob
   sig { returns(NilClass) }
   def to_ary; end
 
+  class << self
+    sig do
+      params(
+        attributes: T.untyped,
+        block: T.nilable(T.proc.params(object: ::ActiveStorage::Blob).void)
+      ).returns(::ActiveStorage::Blob)
+    end
+    def new(attributes = nil, &block); end
+  end
+
   module CommonRelationMethods
     sig do
       params(

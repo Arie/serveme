@@ -16,6 +16,16 @@ class NfoServer
   sig { returns(NilClass) }
   def to_ary; end
 
+  class << self
+    sig do
+      params(
+        attributes: T.untyped,
+        block: T.nilable(T.proc.params(object: ::NfoServer).void)
+      ).returns(::NfoServer)
+    end
+    def new(attributes = nil, &block); end
+  end
+
   module CommonRelationMethods
     sig { params(block: T.nilable(T.proc.params(record: ::NfoServer).returns(T.untyped))).returns(T::Boolean) }
     def any?(&block); end

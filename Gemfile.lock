@@ -416,23 +416,7 @@ GEM
       http (>= 4.3, < 6.0)
       maxmind-db (~> 1.2)
     maxminddb (0.1.22)
-    mechanize (2.12.0)
-      addressable (~> 2.8)
-      base64
-      domain_name (~> 0.5, >= 0.5.20190701)
-      http-cookie (~> 1.0, >= 1.0.3)
-      mime-types (~> 3.0)
-      net-http-digest_auth (~> 1.4, >= 1.4.1)
-      net-http-persistent (>= 2.5.2, < 5.0.dev)
-      nkf
-      nokogiri (~> 1.11, >= 1.11.2)
-      rubyntlm (~> 0.6, >= 0.6.3)
-      webrick (~> 1.7)
-      webrobots (~> 0.1.2)
     method_source (1.1.0)
-    mime-types (3.5.2)
-      mime-types-data (~> 3.2015)
-    mime-types-data (3.2024.0806)
     mini_magick (4.13.2)
     mini_mime (1.1.5)
     mini_racer (0.14.1)
@@ -447,9 +431,6 @@ GEM
     net-ftp (0.3.7)
       net-protocol
       time
-    net-http-digest_auth (1.4.1)
-    net-http-persistent (4.0.2)
-      connection_pool (~> 2.2)
     net-imap (0.4.14)
       date
       net-protocol
@@ -466,7 +447,6 @@ GEM
     net-ssh (7.2.3)
     netrc (0.11.0)
     nio4r (2.7.3)
-    nkf (0.2.0)
     nokogiri (1.16.7-aarch64-linux)
       racc (~> 1.4)
     nokogiri (1.16.7-arm64-darwin)
@@ -656,8 +636,6 @@ GEM
       ffi (~> 1.12)
       logger
     ruby2_keywords (0.0.5)
-    rubyntlm (0.6.5)
-      base64
     rubyzip (2.3.2)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
@@ -797,7 +775,6 @@ GEM
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
     webrick (1.8.1)
-    webrobots (0.1.2)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -880,7 +857,6 @@ DEPENDENCIES
   logs_tf
   maxmind-geoip2
   maxminddb
-  mechanize
   mini_racer
   minitest
   net-ftp

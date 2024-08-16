@@ -30,7 +30,6 @@ class LogUpload < ActiveRecord::Base
     File.join(Rails.root.join, 'server_logs', reservation_id.to_s, '*.log')
   end
 
-  sig { returns(T::Boolean) }
   def upload
     logs_tf_log     = LogsTF::Log.new(log_file, map_name, title, logs_tf_api_key)
     logs_tf_upload  = LogsTF::Upload.new(logs_tf_log)
@@ -47,7 +46,7 @@ class LogUpload < ActiveRecord::Base
 
   sig { returns(T.nilable(File)) }
   def log_file
-    File.open(log_file_name_and_path) if log_file_exists?(T.must(file_name))
+    File.open(log_file_name_and_path) if log_file_and_name_present?
   end
 
   sig { returns(T.nilable(String)) }
@@ -67,6 +66,10 @@ class LogUpload < ActiveRecord::Base
 
   private
 
+  def log_file_and_name_present?
+    file_name && log_file_exists?(T.must(file_name))
+  end
+
   def user
     reservation&.user
   end
@@ -80,7 +83,7 @@ class LogUpload < ActiveRecord::Base
   end
 
   def validate_log_file_exists
-    return if log_file_exists?(T.must(file_name))
+    return if log_file_and_name_present?
 
     errors.add(:file_name, 'file does not exist')
   end

@@ -32,6 +32,10 @@ class Etf2lProfile
     new(response_body) if response_body
   end
 
+  def self.league_name
+    "ETF2L"
+  end
+
   private
 
   def active_bans

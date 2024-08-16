@@ -29,4 +29,8 @@ class RglProfile
     response_body = RglApi.profile(steam_uid)
     new(response_body) if response_body
   end
+
+  def self.league_name
+    "RGL"
+  end
 end

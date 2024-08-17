@@ -1,7 +1,10 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class Statistic
+  extend T::Sig
+
+  sig { returns(Hash) }
   def self.top_10_users
     top_10_user_id_count_hash = Reservation.joins(:user).order(Arel.sql('count_all DESC')).limit(10).group('users.id').count
     top_10_users              = User.where(id: top_10_user_id_count_hash.keys).includes(:groups).to_a
@@ -13,26 +16,32 @@ class Statistic
     top_10_hash
   end
 
+  sig { returns(Hash) }
   def self.top_10_servers
     Reservation.joins(:server).order(Arel.sql('count_all DESC')).limit(10).group('servers.name').count
   end
 
+  sig { returns(Integer) }
   def self.total_reservations
     Reservation.count
   end
 
+  sig { returns(T.any(Integer, Float, BigDecimal)) }
   def self.total_playtime_seconds
     Reservation.sum(:duration)
   end
 
+  sig { returns(GoogleVisualr::Interactive::ColumnChart) }
   def self.reservations_per_day_chart
     reservations_per_time_unit('Date', reservations_per_day, 'Reservations in the last 50 days')
   end
 
+  sig { returns(GoogleVisualr::Interactive::ColumnChart) }
   def self.reserved_hours_per_month_chart
     reservations_per_time_unit('Month', reserved_hours_per_month, 'Hours played', 'Hours played')
   end
 
+  sig { params(time_unit: String, statistics_array: Array, title: String, bar_title: String).returns(GoogleVisualr::Interactive::ColumnChart) }
   def self.reservations_per_time_unit(time_unit, statistics_array, title, bar_title = 'Reservation')
     data_table = GoogleVisualr::DataTable.new
     data_table.new_column('string', time_unit)
@@ -42,14 +51,16 @@ class Statistic
     GoogleVisualr::Interactive::ColumnChart.new(data_table, option)
   end
 
+  sig { returns(T::Array[Array]) }
   def self.reservations_per_day
     Rails.cache.fetch "reservations_per_day_#{Date.current}", expires_in: 1.hour do
-      Reservation.order(Arel.sql('DATE(starts_at) DESC')).group(Arel.sql('DATE(starts_at)')).limit(50).count(:id).collect do |date, count|
+      Reservation.order(Arel.sql('DATE(starts_at) DESC')).limit(50).group(Arel.sql('DATE(starts_at)')).count(:id).collect do |date, count|
         [date.to_s, count]
       end.reverse
     end
   end
 
+  sig { returns(T::Array[Array]) }
   def self.reserved_hours_per_month
     Rails.cache.fetch "reserved_hours_per_month_#{Date.current}", expires_in: 1.hour do
       result = ActiveRecord::Base.connection.execute("SELECT TO_CHAR(starts_at, 'YYYY-MM') AS year_month,

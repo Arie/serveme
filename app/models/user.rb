@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class User < ActiveRecord::Base
@@ -99,7 +99,7 @@ class User < ActiveRecord::Base
 
   sig { returns(T.nilable(ActiveSupport::TimeWithZone)) }
   def donator_until
-    group_users.find_by_group_id(Group.donator_group)&.expires_at
+    group_users.find_by(group_id: Group.donator_group)&.expires_at
   end
 
   sig { returns(T::Boolean) }

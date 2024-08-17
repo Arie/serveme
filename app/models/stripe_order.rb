@@ -1,18 +1,21 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class StripeOrder < Order
+  extend T::Sig
+
+  sig { returns(String) }
   def charge
     stripe_charge = Stripe::Charge.create(
       capture: true,
-      amount: product.price_in_cents,
-      currency: product.currency,
+      amount: product&.price_in_cents,
+      currency: product&.currency,
       description: "#{SITE_URL} - #{product_name}",
       source: payer_id,
       metadata: {
         site_url: SITE_URL,
         order_id: id,
-        steam_uid: user.uid,
+        steam_uid: user&.uid,
         product_name: product_name
       }
     )

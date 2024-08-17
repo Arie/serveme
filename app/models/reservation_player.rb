@@ -52,7 +52,7 @@ class ReservationPlayer < ActiveRecord::Base
 
   sig { params(ip: T.nilable(String)).returns(T::Boolean) }
   def self.banned_ip?(ip)
-    banned_ranges.any? { |range| range.include?(ip) }
+    !!ip && banned_ranges.any? { |range| range.include?(ip) }
   end
 
   sig { params(steam_id64: T.any(Integer, String)).returns(T.nilable(T::Boolean)) }

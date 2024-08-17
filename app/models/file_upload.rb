@@ -1,7 +1,9 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class FileUpload < ActiveRecord::Base
+  extend T::Sig
+
   belongs_to :user
   has_many :server_uploads
   has_many :servers, through: :server_uploads
@@ -9,18 +11,20 @@ class FileUpload < ActiveRecord::Base
 
   mount_uploader :file, FileUploader
 
+  sig { returns(T::Array[Server]) }
   def process_file
     files = extract_zip_to_tmp_dir
     upload_files_to_servers(files)
   end
 
+  sig { returns(String) }
   def tmp_dir
     @tmp_dir ||= Dir.mktmpdir
   end
 
   def extract_zip_to_tmp_dir
     files_with_path = {}
-    Zip::File.foreach(file.file.file) do |zipped_file|
+    Zip::File.foreach(T.cast(file, FileUploader).file.file) do |zipped_file|
       filename = File.basename(zipped_file.name)
       Dir.mkdir(File.join(tmp_dir, zipped_file.name)) if zipped_file.directory?
 
@@ -35,6 +39,7 @@ class FileUpload < ActiveRecord::Base
     files_with_path
   end
 
+  sig { params(files: T::Hash[String, T::Array[String]]).returns(T::Array[Server]) }
   def upload_files_to_servers(files)
     Server.active.to_a.shuffle.each do |server|
       upload_files_to_server(server, files)

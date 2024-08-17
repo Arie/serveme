@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
   geocoded_by :current_sign_in_ip
   before_save :geocode, if: :current_sign_in_ip_changed_and_ipv4?
 
+  sig { params(auth: T.untyped, _signed_in_resource: T.nilable(String)).returns(User) }
   def self.find_for_steam_auth(auth, _signed_in_resource = nil)
     user = User.where(provider: auth.provider, uid: auth.uid).first
     if user
@@ -146,7 +147,7 @@ class User < ActiveRecord::Base
 
   sig { returns(T.nilable(T::Boolean)) }
   def banned_country?
-    current_sign_in_ip_ipv4? && ReservationPlayer.banned_country?(current_sign_in_ip)
+    current_sign_in_ip_ipv4? && ReservationPlayer.banned_country?(current_sign_in_ip.to_s)
   end
 
   private

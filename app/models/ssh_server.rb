@@ -73,7 +73,7 @@ class SshServer < RemoteServer
     system("#{scp_command} #{files.map(&:shellescape).join(' ')} #{ip}:#{destination}")
   end
 
-  sig { params(files: [String], destination: String).returns(T.nilable(T::Boolean)) }
+  sig { params(files: T::Array[String], destination: String).returns(T.nilable(T::Boolean)) }
   def copy_from_server(files, destination)
     logger.debug "SCP GET, FILES: #{files.join(', ')} DESTINATION: #{destination}"
     system("#{scp_command} #{ip}:\"#{files.map(&:shellescape).join(' ')}\" #{destination}")

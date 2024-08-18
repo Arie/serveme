@@ -144,22 +144,22 @@ class Server < ActiveRecord::Base
     write_configuration(sourcemod_file, sourcemod_body)
   end
 
-  sig { params(user: User).returns(String) }
+  sig { params(user: User).returns(T.any(String, T::Boolean)) }
   def add_sourcemod_admin(user)
     write_configuration(sourcemod_admin_file, sourcemod_admin_body(user))
   end
 
-  sig { params(reservation: Reservation).returns(String) }
+  sig { params(reservation: Reservation).returns(T.any(String, T::Boolean)) }
   def add_sourcemod_servers(reservation)
     write_configuration(sourcemod_servers_file, sourcemod_servers_body(reservation))
   end
 
-  sig { params(reservation: Reservation).returns(String) }
+  sig { params(reservation: Reservation).returns(T.any(String, T::Boolean)) }
   def add_motd(reservation)
     write_configuration(motd_file, motd_body(reservation))
   end
 
-  sig { returns(T.nilable(T::Boolean)) }
+  sig { returns(T.nilable(T.any(T::Boolean, String))) }
   def disable_plugins
     delete_from_server([sourcemod_file, sourcemod_admin_file])
   end
@@ -245,7 +245,7 @@ class Server < ActiveRecord::Base
   def process_id
     @process_id ||= begin
       pid = find_process_id.to_i
-      pid.positive? && pid
+      pid if pid.positive?
     end
   end
 
@@ -390,12 +390,12 @@ class Server < ActiveRecord::Base
     nil
   end
 
-  sig { params(message: String).returns(T.nilable(String)) }
+  sig { params(message: String).returns(T.nilable(T.any(String, ActiveSupport::Multibyte::Chars))) }
   def rcon_say(message)
     rcon_exec("say #{message}")
   end
 
-  sig { params(command: String, allow_blocked: T::Boolean).returns(T.nilable(String)) }
+  sig { params(command: String, allow_blocked: T::Boolean).returns(T.nilable(T.any(String, ActiveSupport::Multibyte::Chars))) }
   def rcon_exec(command, allow_blocked: false)
     return nil if blocked_command?(command) && !allow_blocked
 
@@ -539,7 +539,7 @@ class Server < ActiveRecord::Base
     raise 'not implemented'
   end
 
-  sig { params(_file: String).returns(T::Boolean) }
+  sig { params(_file: String).returns(T.nilable(T::Boolean)) }
   def file_present?(_file)
     raise 'not implemented'
   end

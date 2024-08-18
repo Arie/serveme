@@ -127,7 +127,7 @@ class Server < ActiveRecord::Base
     steam_connect_url(public_tv_port, password)
   end
 
-  sig { params(reservation: Reservation).returns(T.any(String, T::Boolean)) }
+  sig { params(reservation: Reservation).returns(ReservationStatus) }
   def update_configuration(reservation)
     reservation.status_update('Sending reservation config files')
     ['reservation.cfg', 'ctf_turbine.cfg'].each do |config_file|
@@ -159,7 +159,7 @@ class Server < ActiveRecord::Base
     write_configuration(motd_file, motd_body(reservation))
   end
 
-  sig { returns(String) }
+  sig { returns(T.nilable(T::Boolean)) }
   def disable_plugins
     delete_from_server([sourcemod_file, sourcemod_admin_file])
   end
@@ -390,10 +390,12 @@ class Server < ActiveRecord::Base
     nil
   end
 
+  sig { params(message: String).returns(T.nilable(String)) }
   def rcon_say(message)
     rcon_exec("say #{message}")
   end
 
+  sig { params(command: String, allow_blocked: T::Boolean).returns(T.nilable(String)) }
   def rcon_exec(command, allow_blocked: false)
     return nil if blocked_command?(command) && !allow_blocked
 
@@ -515,12 +517,12 @@ class Server < ActiveRecord::Base
     raise 'not implemented'
   end
 
-  sig { params(_files: T::Array[String], _destination: String).returns(String) }
+  sig { params(_files: T::Array[String], _destination: String).returns(T.nilable(T::Boolean)) }
   def copy_to_server(_files, _destination)
     raise 'not implemented'
   end
 
-  sig { params(_files: T::Array[String]).returns(String) }
+  sig { params(_files: T::Array[String]).returns(T.nilable(T::Boolean)) }
   def delete_from_server(_files)
     raise 'not implemented'
   end

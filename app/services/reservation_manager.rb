@@ -2,6 +2,8 @@
 # frozen_string_literal: true
 
 class ReservationManager
+  extend T::Sig
+
   attr_reader :reservation
 
   delegate :server, to: :reservation, prefix: false
@@ -31,6 +33,7 @@ class ReservationManager
     manage_reservation(:update)
   end
 
+  sig { params(action: Symbol).returns(T.nilable(String)) }
   def manage_reservation(action)
     ReservationWorker.perform_async(reservation.id, action.to_s)
   end

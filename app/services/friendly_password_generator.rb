@@ -2,6 +2,9 @@
 # frozen_string_literal: true
 
 class FriendlyPasswordGenerator
+  extend T::Sig
+
+  sig { returns(String) }
   def self.generate
     "#{left.sample}-#{right.sample}-#{rand(999)}"
   end

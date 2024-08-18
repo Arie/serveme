@@ -90,7 +90,7 @@ When 'I edit my reservation' do
 end
 
 When "I edit my reservation's password" do
-  ReservationManager.should_receive(:new).with(instance_of(Reservation)).and_return(double(:reservation_manager, update_reservation: true))
+  ReservationManager.should_receive(:new).with(instance_of(Reservation)).and_return(instance_double(ReservationManager, update_reservation: true))
   step 'I go edit my reservation'
   fill_in 'Password', with: 'newpassword'
   click_button 'Save'
@@ -109,7 +109,7 @@ Then 'I see the new reservation details in the list' do
 end
 
 When 'I save the reservation' do
-  ReservationManager.should_receive(:new).with(instance_of(Reservation)).and_return(double(:reservation, start_reservation: true))
+  ReservationManager.should_receive(:new).with(instance_of(Reservation)).and_return(instance_double(ReservationManager, start_reservation: true))
   click_button 'Save'
 end
 
@@ -220,7 +220,7 @@ When 'I try to end my reservation' do
 end
 
 When 'I end my reservation' do
-  ReservationManager.should_receive(:new).with(instance_of(Reservation)).and_return(double(:reservation_manager, end_reservation: true))
+  ReservationManager.should_receive(:new).with(instance_of(Reservation)).and_return(instance_double(ReservationManager, end_reservation: true))
   step 'I try to end my reservation'
 end
 

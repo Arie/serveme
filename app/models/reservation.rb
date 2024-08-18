@@ -1,7 +1,9 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class Reservation < ActiveRecord::Base
+  extend T::Sig
+
   belongs_to :user
   belongs_to :server
   belongs_to :server_config, optional: true
@@ -25,27 +27,33 @@ class Reservation < ActiveRecord::Base
 
   attr_accessor :extending, :rcon_command
 
+  sig { returns(Integer) }
   def self.cleanup_age_in_days
     (SITE_HOST == 'au.serveme.tf' && 7) || 30
   end
 
+  sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.with_user_and_server
     includes(user: :groups).includes(server: :location)
   end
 
+  sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.ordered
     with_user_and_server.order('starts_at DESC')
   end
 
+  sig { params(start_time: ActiveSupport::TimeWithZone, end_time: ActiveSupport::TimeWithZone).returns(Array) }
   def self.within_time_range(start_time, end_time)
-    (where(starts_at: start_time...end_time).ordered +
-     where(ends_at: start_time...end_time).ordered)
+    (ordered.where(starts_at: start_time...end_time) +
+     ordered.where(ends_at: start_time...end_time))
   end
 
+  sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.future
     where('reservations.starts_at >= ?', Time.current)
   end
 
+  sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.current
     where('reservations.starts_at <= ? AND reservations.ends_at >= ?', Time.current, Time.current)
   end
@@ -59,7 +67,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def now?
-    times_entered? && (starts_at < Time.current && ends_at > Time.current)
+    times_entered? && (T.must(starts_at) < Time.current && T.must(ends_at) > Time.current)
   end
 
   def active?
@@ -67,15 +75,15 @@ class Reservation < ActiveRecord::Base
   end
 
   def past?
-    ends_at && ends_at <= Time.current
+    ends_at && T.must(ends_at) <= Time.current
   end
 
   def younger_than_cleanup_age?
-    ends_at > self.class.cleanup_age_in_days.days.ago
+    T.must(ends_at) > self.class.cleanup_age_in_days.days.ago
   end
 
   def future?
-    starts_at > Time.current
+    T.must(starts_at) > Time.current
   end
 
   def schedulable?
@@ -91,11 +99,11 @@ class Reservation < ActiveRecord::Base
   end
 
   def own_colliding_reservations
-    @own_colliding_reservations ||= CollisionFinder.new(Reservation.where(user_id: user.id), self).colliding_reservations
+    @own_colliding_reservations ||= CollisionFinder.new(Reservation.where(user_id: user&.id), self).colliding_reservations
   end
 
   def other_users_colliding_reservations
-    @other_users_colliding_reservations ||= CollisionFinder.new(Reservation.where(server_id: server.id), self).colliding_reservations
+    @other_users_colliding_reservations ||= CollisionFinder.new(Reservation.where(server_id: server&.id), self).colliding_reservations
   end
 
   def collides_with_own_reservation?
@@ -114,7 +122,7 @@ class Reservation < ActiveRecord::Base
     return unless less_than_1_hour_left?
 
     self.extending  = true
-    self.ends_at    = ends_at + user.reservation_extension_time
+    self.ends_at    = T.must(ends_at) + user&.reservation_extension_time
     self.inactive_minute_counter = 0
     save
   end
@@ -124,7 +132,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def just_started?
-    starts_at > 1.minute.ago
+    T.must(starts_at) > 1.minute.ago
   end
 
   def nearly_over?
@@ -132,44 +140,50 @@ class Reservation < ActiveRecord::Base
   end
 
   def time_left
-    ends_at - Time.current
+    T.must(ends_at) - Time.current
   end
 
   def warn_nearly_over
     time_left_in_minutes  = (time_left / 60.0).ceil
     time_left_text        = I18n.t(:timeleft, count: time_left_in_minutes)
-    server.rcon_say("This reservation will end in less than #{time_left_text}, if this server is not yet booked by someone else, you can say !extend for more time")
-    server.rcon_disconnect
+    server&.rcon_say("This reservation will end in less than #{time_left_text}, if this server is not yet booked by someone else, you can say !extend for more time")
+    server&.rcon_disconnect
   end
 
   def cancellable?
     future?
   end
 
+  sig { returns(String) }
   def tv_password
     self[:tv_password].presence || 'tv'
   end
 
+  sig { returns(String) }
   def tv_relaypassword
     self[:tv_relaypassword].presence || self[:tv_password].presence || 'tv'
   end
 
+  sig { returns(String) }
   def formatted_starts_at
-    starts_at.utc.strftime('%Y%m%d')
+    T.must(starts_at).utc.strftime('%Y%m%d')
   end
 
+  sig { returns(T::Boolean) }
   def inactive_too_long?
-    inactive_minute_counter >= inactive_minute_limit
+    inactive_minute_counter.to_i >= inactive_minute_limit
   end
 
+  sig { returns(Integer) }
   def inactive_minute_limit
-    return 240 if user && (user.admin? || user.donator?)
+    return 240 if user&.admin? || user&.donator?
 
     45
   end
 
+  sig { returns(T.nilable(String)) }
   def custom_whitelist_content
-    WhitelistTf.find_by_tf_whitelist_id(custom_whitelist_id).try(:content)
+    WhitelistTf.find_by(tf_whitelist_id: custom_whitelist_id).try(:content)
   end
 
   def calculate_duration
@@ -177,11 +191,12 @@ class Reservation < ActiveRecord::Base
   end
 
   def generate_logsecret
-    self.logsecret ||= rand(2**128)
+    self.logsecret ||= rand(2**128).to_s
   end
 
+  sig { params(steam_uid: T.any(String, Integer)).returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.played_in(steam_uid)
-    joins(:reservation_players).where('reservation_players.steam_uid = ? AND reservations.starts_at > ? AND reservations.ended = ?', steam_uid, 31.days.ago, true).ordered
+    ordered.joins(:reservation_players).where('reservation_players.steam_uid = ? AND reservations.starts_at > ? AND reservations.ended = ?', steam_uid, 31.days.ago, true)
   end
 
   def start_reservation
@@ -214,30 +229,35 @@ class Reservation < ActiveRecord::Base
   end
   # rubocop:enable Naming/AccessorMethodName
 
+  sig { returns(T::Boolean) }
   def times_entered?
-    starts_at && ends_at
+    !!(starts_at && ends_at)
   end
 
+  sig { params(status: String).returns(ReservationStatus) }
   def status_update(status)
     reservation_statuses.create!(status: status)
   end
 
+  sig { returns(T::Boolean) }
   def lobby?
     Rails.cache.fetch("reservation_#{id}_lobby") do
-      tags = server.rcon_exec('sv_tags').to_s
-      true if (tags && (tags.include?('TF2Center') || tags.include?('TF2Stadium'))) || tags.include?('TF2Pickup')
+      tags = server&.rcon_exec('sv_tags').to_s
+      tags.include?('TF2Center') || tags.include?('TF2Stadium') || tags.include?('TF2Pickup')
     end
   end
 
+  sig { returns(String) }
   def api_keys_rcon_contents
-    contents = "logstf_apikey \"#{user.logs_tf_api_key.presence || Rails.application.credentials.dig(:logs_tf, :api_key)}\"; sm_web_rcon_url \"#{SITE_URL}/reservations/#{id}/rcon\""
+    contents = "logstf_apikey \"#{user&.logs_tf_api_key.presence || Rails.application.credentials.dig(:logs_tf, :api_key)}\"; sm_web_rcon_url \"#{SITE_URL}/reservations/#{id}/rcon\""
     if enable_demos_tf?
-      contents + "; sm_demostf_apikey \"#{user.demos_tf_api_key.presence || Rails.application.credentials.dig(:demos_tf, :api_key)}\""
+      contents + "; sm_demostf_apikey \"#{user&.demos_tf_api_key.presence || Rails.application.credentials.dig(:demos_tf, :api_key)}\""
     else
       contents
     end
   end
 
+  sig { returns(String) }
   def status
     return 'Ended' if past?
 
@@ -247,8 +267,8 @@ class Reservation < ActiveRecord::Base
     return 'Ending' if status_messages.include?('Ending')
 
     return 'SDR Ready' if server&.sdr? && sdr_ip.present?
-    return 'Ready' if server_statistics.any? && !server.sdr?
-    return 'Ready' if status_messages.grep(/\AServer finished loading map/).any? && !server.sdr?
+    return 'Ready' if server_statistics.any? && !server&.sdr?
+    return 'Ready' if status_messages.grep(/\AServer finished loading map/).any? && !server&.sdr?
 
     return 'Server updating, please be patient' if status_messages.grep(/\AServer outdated/).any?
 
@@ -259,22 +279,26 @@ class Reservation < ActiveRecord::Base
     'Unknown'
   end
 
+  sig { returns(T::Boolean) }
   def poor_rcon_password?
-    rcon.nil? || rcon.size < 8
+    rcon.nil? || rcon.to_s.size < 8
   end
 
+  sig { returns(String) }
   def generate_rcon_password!
     self.rcon = FriendlyPasswordGenerator.generate
   end
 
+  sig { returns(String) }
   def whitelist_ip
-    return user.current_sign_in_ip if user.current_sign_in_ip && IPAddr.new(user.current_sign_in_ip).ipv4?
+    return T.must(user&.current_sign_in_ip) if user&.current_sign_in_ip && IPAddr.new(user&.current_sign_in_ip).ipv4?
 
-    return user.reservation_players.last.ip if user.reservation_players.exists?
+    return T.must(user&.reservation_players&.last&.ip) if user&.reservation_players&.exists?
 
     "direct.#{SITE_HOST}"
   end
 
+  sig { returns(String) }
   def logs_tf_url
     "http://logs.tf/search/log?s=#{SITE_HOST}+%23#{id}"
   end
@@ -282,15 +306,15 @@ class Reservation < ActiveRecord::Base
   def save_sdr_info(server_info)
     return if server_info.ip.nil?
 
-    previous_server_sdr_ip = server.last_sdr_ip
-    previous_server_sdr_port = server.last_sdr_port
+    previous_server_sdr_ip = server&.last_sdr_ip
+    previous_server_sdr_port = server&.last_sdr_port
 
     update_columns(
       sdr_ip: server_info.ip,
       sdr_port: server_info.port,
       sdr_tv_port: server_info.port + 1
     )
-    server.update_columns(
+    server&.update_columns(
       last_sdr_ip: server_info.ip,
       last_sdr_port: server_info.port,
       last_sdr_tv_port: server_info.port + 1
@@ -300,8 +324,8 @@ class Reservation < ActiveRecord::Base
 
     return unless previous_server_sdr_ip != server_info.ip || previous_server_sdr_port != server_info.port
 
-    server.reload.add_sourcemod_servers(self)
-    server.rcon_exec('sm plugins reload serverhop')
+    server&.reload&.add_sourcemod_servers(self)
+    server&.rcon_exec('sm plugins reload serverhop')
   end
 
   def broadcast_connect_info
@@ -313,10 +337,12 @@ class Reservation < ActiveRecord::Base
 
   private
 
+  sig { returns(ReservationManager) }
   def reservation_manager
     ReservationManager.new(self)
   end
 
+  sig { returns(T.nilable(ReservationStatus)) }
   def generate_initial_status
     status_update('Waiting to start') if future?
   end

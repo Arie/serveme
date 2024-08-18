@@ -223,7 +223,7 @@ class Server < ActiveRecord::Base
     CFG
   end
 
-  sig { params(reservation: Reservation).returns(T.nilable(String)) }
+  sig { params(reservation: Reservation).returns(T.nilable(T.any(String, T::Boolean))) }
   def write_custom_whitelist(reservation)
     write_configuration(server_config_file("custom_whitelist_#{reservation.custom_whitelist_id}.txt"), reservation.custom_whitelist_content)
   end

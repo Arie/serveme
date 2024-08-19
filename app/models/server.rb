@@ -420,7 +420,7 @@ class Server < ActiveRecord::Base
   end
 
   def version
-    @version ||= /Network\ PatchVersion:\s+(\d+)/ =~ rcon_exec('version') && Regexp.last_match(1).to_i
+    @version ||= /Network\ PatchVersion:\s+(\d+)/ =~ rcon_exec('version').to_s && Regexp.last_match(1).to_i
   end
 
   def outdated?

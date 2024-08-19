@@ -1134,7 +1134,7 @@ class Minitest::Runnable
     def test_order; end
 
     # source://minitest//lib/minitest.rb#457
-    def with_info_handler(reporter, handler, &block); end
+    def with_info_handler(reporter, &block); end
   end
 end
 

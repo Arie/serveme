@@ -1817,6 +1817,9 @@ class VCR::Errors::UnhandledHTTPRequestError < ::VCR::Errors::Error
   # source://vcr//lib/vcr/errors.rb#118
   def current_matchers; end
 
+  # source://vcr//lib/vcr/errors.rb#77
+  def documentation_version_slug; end
+
   # source://vcr//lib/vcr/errors.rb#183
   def format_bullet_point(lines, index); end
 
@@ -1831,7 +1834,7 @@ class VCR::Errors::UnhandledHTTPRequestError < ::VCR::Errors::Error
 
   # @return [Boolean]
   #
-  # source://vcr//lib/vcr/errors.rb#295
+  # source://vcr//lib/vcr/errors.rb#311
   def has_used_interaction_matching?; end
 
   # @return [Boolean]
@@ -1844,25 +1847,25 @@ class VCR::Errors::UnhandledHTTPRequestError < ::VCR::Errors::Error
   # source://vcr//lib/vcr/errors.rb#110
   def match_request_on_headers?; end
 
-  # source://vcr//lib/vcr/errors.rb#299
+  # source://vcr//lib/vcr/errors.rb#315
   def match_requests_on_suggestion; end
 
-  # source://vcr//lib/vcr/errors.rb#277
+  # source://vcr//lib/vcr/errors.rb#285
   def no_cassette_suggestions; end
 
-  # source://vcr//lib/vcr/errors.rb#283
-  def record_mode_suggestion; end
+  # source://vcr//lib/vcr/errors.rb#303
+  def none_suggestion; end
 
-  # source://vcr//lib/vcr/errors.rb#77
-  def relish_version_slug; end
+  # source://vcr//lib/vcr/errors.rb#291
+  def record_mode_suggestion; end
 
   # source://vcr//lib/vcr/errors.rb#94
   def request_description; end
 
-  # source://vcr//lib/vcr/errors.rb#259
+  # source://vcr//lib/vcr/errors.rb#267
   def suggestion_for(key); end
 
-  # source://vcr//lib/vcr/errors.rb#266
+  # source://vcr//lib/vcr/errors.rb#274
   def suggestions; end
 end
 
@@ -1899,17 +1902,17 @@ class VCR::Errors::UnusedHTTPInteractionError < ::VCR::Errors::Error; end
 # @attr response [Response] the response
 # @attr recorded_at [Time] when this HTTP interaction was recorded
 #
-# source://vcr//lib/vcr/structs.rb#501
+# source://vcr//lib/vcr/structs.rb#504
 class VCR::HTTPInteraction < ::Struct
   # @return [HTTPInteraction] a new instance of HTTPInteraction
   #
-  # source://vcr//lib/vcr/structs.rb#502
+  # source://vcr//lib/vcr/structs.rb#505
   def initialize(*args); end
 
   # @return [HookAware] an instance with additional capabilities
   #   suitable for use in `before_record` and `before_playback` hooks.
   #
-  # source://vcr//lib/vcr/structs.rb#532
+  # source://vcr//lib/vcr/structs.rb#535
   def hook_aware; end
 
   # Builds a serializable hash from the HTTP interaction data.
@@ -1918,7 +1921,7 @@ class VCR::HTTPInteraction < ::Struct
   #   and can be easily serialized.
   # @see HTTPInteraction.from_hash
   #
-  # source://vcr//lib/vcr/structs.rb#512
+  # source://vcr//lib/vcr/structs.rb#515
   def to_hash; end
 
   class << self
@@ -1927,7 +1930,7 @@ class VCR::HTTPInteraction < ::Struct
     # @param hash [Hash] the hash to use to construct the instance.
     # @return [HTTPInteraction] the HTTP interaction
     #
-    # source://vcr//lib/vcr/structs.rb#524
+    # source://vcr//lib/vcr/structs.rb#527
     def from_hash(hash); end
   end
 end
@@ -1935,11 +1938,11 @@ end
 # Decorates an {HTTPInteraction} with additional methods useful
 # for a `before_record` or `before_playback` hook.
 #
-# source://vcr//lib/vcr/structs.rb#538
+# source://vcr//lib/vcr/structs.rb#541
 class VCR::HTTPInteraction::HookAware
   # @return [HookAware] a new instance of HookAware
   #
-  # source://vcr//lib/vcr/structs.rb#539
+  # source://vcr//lib/vcr/structs.rb#542
   def initialize(http_interaction); end
 
   # Replaces a string in any part of the HTTP interaction (headers, request body,
@@ -1948,7 +1951,7 @@ class VCR::HTTPInteraction::HookAware
   # @param text [#to_s] the text to replace
   # @param replacement_text [#to_s] the text to put in its place
   #
-  # source://vcr//lib/vcr/structs.rb#563
+  # source://vcr//lib/vcr/structs.rb#566
   def filter!(text, replacement_text); end
 
   # Flags the HTTP interaction so that VCR ignores it. This is useful in
@@ -1957,21 +1960,21 @@ class VCR::HTTPInteraction::HookAware
   #
   # @see #ignored?
   #
-  # source://vcr//lib/vcr/structs.rb#548
+  # source://vcr//lib/vcr/structs.rb#551
   def ignore!; end
 
   # @return [Boolean] whether or not this HTTP interaction should be ignored.
   # @see #ignore!
   #
-  # source://vcr//lib/vcr/structs.rb#554
+  # source://vcr//lib/vcr/structs.rb#557
   def ignored?; end
 
   private
 
-  # source://vcr//lib/vcr/structs.rb#584
+  # source://vcr//lib/vcr/structs.rb#587
   def filter_hash!(hash, text, replacement_text); end
 
-  # source://vcr//lib/vcr/structs.rb#571
+  # source://vcr//lib/vcr/structs.rb#574
   def filter_object!(object, text, replacement_text); end
 end
 
@@ -2272,7 +2275,7 @@ end
 # @note You can either insert this middleware into the Faraday middleware stack
 #   yourself or configure {VCR::Configuration#hook_into} to hook into `:faraday`.
 #
-# source://vcr//lib/vcr/middleware/faraday.rb#15
+# source://vcr//lib/vcr/middleware/faraday.rb#16
 class VCR::Middleware::Faraday
   include ::VCR::Deprecations::Middleware::Faraday
 
@@ -2281,76 +2284,76 @@ class VCR::Middleware::Faraday
   # @param app [#call] the faraday app
   # @return [Faraday] a new instance of Faraday
   #
-  # source://vcr//lib/vcr/middleware/faraday.rb#21
+  # source://vcr//lib/vcr/middleware/faraday.rb#22
   def initialize(app); end
 
   # Handles the HTTP request being made through Faraday
   #
   # @param env [Hash] the Faraday request env hash
   #
-  # source://vcr//lib/vcr/middleware/faraday.rb#29
+  # source://vcr//lib/vcr/middleware/faraday.rb#30
   def call(env); end
 
   # Close any persistent connections.
   #
-  # source://vcr//lib/vcr/middleware/faraday.rb#35
+  # source://vcr//lib/vcr/middleware/faraday.rb#36
   def close; end
 end
 
 # @private
 #
-# source://vcr//lib/vcr/middleware/faraday.rb#40
+# source://vcr//lib/vcr/middleware/faraday.rb#41
 class VCR::Middleware::Faraday::RequestHandler < ::VCR::RequestHandler
   # @return [RequestHandler] a new instance of RequestHandler
   #
-  # source://vcr//lib/vcr/middleware/faraday.rb#42
+  # source://vcr//lib/vcr/middleware/faraday.rb#43
   def initialize(app, env); end
 
   # Returns the value of attribute app.
   #
-  # source://vcr//lib/vcr/middleware/faraday.rb#41
+  # source://vcr//lib/vcr/middleware/faraday.rb#42
   def app; end
 
   # Returns the value of attribute env.
   #
-  # source://vcr//lib/vcr/middleware/faraday.rb#41
+  # source://vcr//lib/vcr/middleware/faraday.rb#42
   def env; end
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#47
+  # source://vcr//lib/vcr/middleware/faraday.rb#48
   def handle; end
 
   private
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#129
+  # source://vcr//lib/vcr/middleware/faraday.rb#130
   def collect_chunks; end
 
   # @return [Boolean]
   #
-  # source://vcr//lib/vcr/middleware/faraday.rb#61
+  # source://vcr//lib/vcr/middleware/faraday.rb#62
   def delay_finishing?; end
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#124
+  # source://vcr//lib/vcr/middleware/faraday.rb#125
   def invoke_after_request_hook(response); end
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#94
+  # source://vcr//lib/vcr/middleware/faraday.rb#95
   def on_ignored_request; end
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#113
+  # source://vcr//lib/vcr/middleware/faraday.rb#114
   def on_recordable_request; end
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#100
+  # source://vcr//lib/vcr/middleware/faraday.rb#101
   def on_stubbed_by_vcr_request; end
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#73
+  # source://vcr//lib/vcr/middleware/faraday.rb#74
   def raw_body_from(body); end
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#81
+  # source://vcr//lib/vcr/middleware/faraday.rb#82
   def response_for(response); end
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#139
+  # source://vcr//lib/vcr/middleware/faraday.rb#140
   def restore_body_from_chunks(request); end
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#65
+  # source://vcr//lib/vcr/middleware/faraday.rb#66
   def vcr_request; end
 end
 
@@ -2408,15 +2411,15 @@ module VCR::Normalizers; end
 module VCR::Normalizers::Body
   mixes_in_class_methods ::VCR::Normalizers::Body::ClassMethods
 
-  # source://vcr//lib/vcr/structs.rb#61
+  # source://vcr//lib/vcr/structs.rb#64
   def initialize(*args); end
 
   private
 
-  # source://vcr//lib/vcr/structs.rb#92
+  # source://vcr//lib/vcr/structs.rb#95
   def base_body_hash(body); end
 
-  # source://vcr//lib/vcr/structs.rb#78
+  # source://vcr//lib/vcr/structs.rb#81
   def serializable_body; end
 
   class << self
@@ -2438,34 +2441,34 @@ module VCR::Normalizers::Body::ClassMethods
   def force_encode_string(string, encoding); end
 
   # source://vcr//lib/vcr/structs.rb#34
-  def try_encode_string(string, encoding); end
+  def try_encode_string(string, encoding_name); end
 end
 
 # @private
 #
-# source://vcr//lib/vcr/structs.rb#103
+# source://vcr//lib/vcr/structs.rb#106
 module VCR::Normalizers::Header
-  # source://vcr//lib/vcr/structs.rb#104
+  # source://vcr//lib/vcr/structs.rb#107
   def initialize(*args); end
 
   private
 
-  # source://vcr//lib/vcr/structs.rb#153
+  # source://vcr//lib/vcr/structs.rb#156
   def convert_to_raw_strings(array); end
 
-  # source://vcr//lib/vcr/structs.rb#146
+  # source://vcr//lib/vcr/structs.rb#149
   def delete_header(key); end
 
-  # source://vcr//lib/vcr/structs.rb#139
+  # source://vcr//lib/vcr/structs.rb#142
   def edit_header(key, value = T.unsafe(nil)); end
 
-  # source://vcr//lib/vcr/structs.rb#134
+  # source://vcr//lib/vcr/structs.rb#137
   def get_header(key); end
 
-  # source://vcr//lib/vcr/structs.rb#129
+  # source://vcr//lib/vcr/structs.rb#132
   def header_key(key); end
 
-  # source://vcr//lib/vcr/structs.rb#111
+  # source://vcr//lib/vcr/structs.rb#114
   def normalize_headers; end
 end
 
@@ -2509,7 +2512,7 @@ end
 # @attr body [String, nil] the request body
 # @attr headers [Hash{String => Array<String>}] the request headers
 #
-# source://vcr//lib/vcr/structs.rb#176
+# source://vcr//lib/vcr/structs.rb#179
 class VCR::Request < ::Struct
   include ::VCR::Normalizers::Header
   include ::VCR::Normalizers::Body
@@ -2517,21 +2520,21 @@ class VCR::Request < ::Struct
 
   # @return [Request] a new instance of Request
   #
-  # source://vcr//lib/vcr/structs.rb#180
+  # source://vcr//lib/vcr/structs.rb#183
   def initialize(*args); end
 
   # the HTTP method (i.e. :head, :options, :get, :post, :put, :patch or :delete)
   #
   # @return [Symbol] the current value of method
   #
-  # source://vcr//lib/vcr/structs.rb#228
+  # source://vcr//lib/vcr/structs.rb#231
   def method(*args); end
 
   # Parses the URI using the configured `uri_parser`.
   #
   # @return [#schema, #host, #port, #path, #query] A parsed URI object.
   #
-  # source://vcr//lib/vcr/structs.rb#223
+  # source://vcr//lib/vcr/structs.rb#226
   def parsed_uri; end
 
   # Builds a serializable hash from the request data.
@@ -2540,12 +2543,12 @@ class VCR::Request < ::Struct
   #   serialized.
   # @see Request.from_hash
   #
-  # source://vcr//lib/vcr/structs.rb#197
+  # source://vcr//lib/vcr/structs.rb#200
   def to_hash; end
 
   private
 
-  # source://vcr//lib/vcr/structs.rb#315
+  # source://vcr//lib/vcr/structs.rb#318
   def without_standard_port(uri); end
 
   class << self
@@ -2554,20 +2557,20 @@ class VCR::Request < ::Struct
     # @param hash [Hash] the hash to use to construct the instance.
     # @return [Request] the request
     #
-    # source://vcr//lib/vcr/structs.rb#210
+    # source://vcr//lib/vcr/structs.rb#213
     def from_hash(hash); end
   end
 end
 
 # Provides fiber-awareness for the {VCR::Configuration#around_http_request} hook.
 #
-# source://vcr//lib/vcr/structs.rb#293
+# source://vcr//lib/vcr/structs.rb#296
 class VCR::Request::FiberAware
   # Yields the fiber so the request can proceed.
   #
   # @return [VCR::Response] the response from the request
   #
-  # source://vcr//lib/vcr/structs.rb#297
+  # source://vcr//lib/vcr/structs.rb#300
   def proceed; end
 
   # Builds a proc that allows the request to proceed when called.
@@ -2576,19 +2579,19 @@ class VCR::Request::FiberAware
   #
   # @return [Proc] the proc
   #
-  # source://vcr//lib/vcr/structs.rb#306
+  # source://vcr//lib/vcr/structs.rb#309
   def to_proc; end
 end
 
 # Decorates a {Request} with its current type.
 #
-# source://vcr//lib/vcr/structs.rb#234
+# source://vcr//lib/vcr/structs.rb#237
 class VCR::Request::Typed
   # @param request [Request] the request
   # @param type [Symbol] the type. Should be one of `:ignored`, `:stubbed`, `:recordable` or `:unhandled`.
   # @return [Typed] a new instance of Typed
   #
-  # source://vcr//lib/vcr/structs.rb#240
+  # source://vcr//lib/vcr/structs.rb#243
   def initialize(request, type); end
 
   # @return [Boolean] whether or not this request is being stubbed by an
@@ -2596,23 +2599,23 @@ class VCR::Request::Typed
   # @see #stubbed_by_vcr?
   # @see #stubbed?
   #
-  # source://vcr//lib/vcr/structs.rb#261
+  # source://vcr//lib/vcr/structs.rb#264
   def externally_stubbed?; end
 
   # @return [Boolean] whether or not this request is being ignored
   #
-  # source://vcr//lib/vcr/structs.rb#246
+  # source://vcr//lib/vcr/structs.rb#249
   def ignored?; end
 
   # @note VCR allows `:ignored` and `:recordable` requests to be made for real.
   # @return [Boolean] whether or not this request will be made for real.
   #
-  # source://vcr//lib/vcr/structs.rb#277
+  # source://vcr//lib/vcr/structs.rb#280
   def real?; end
 
   # @return [Boolean] whether or not this request will be recorded.
   #
-  # source://vcr//lib/vcr/structs.rb#266
+  # source://vcr//lib/vcr/structs.rb#269
   def recordable?; end
 
   # @return [Boolean] whether or not this request will be stubbed.
@@ -2620,24 +2623,24 @@ class VCR::Request::Typed
   # @see #stubbed_by_vcr?
   # @see #externally_stubbed?
   #
-  # source://vcr//lib/vcr/structs.rb#285
+  # source://vcr//lib/vcr/structs.rb#288
   def stubbed?; end
 
   # @return [Boolean] whether or not this request is being stubbed by VCR
   # @see #externally_stubbed?
   # @see #stubbed?
   #
-  # source://vcr//lib/vcr/structs.rb#253
+  # source://vcr//lib/vcr/structs.rb#256
   def stubbed_by_vcr?; end
 
   # @return [Symbol] One of `:ignored`, `:stubbed`, `:recordable` or `:unhandled`.
   #
-  # source://vcr//lib/vcr/structs.rb#236
+  # source://vcr//lib/vcr/structs.rb#239
   def type; end
 
   # @return [Boolean] whether or not VCR knows how to handle this request.
   #
-  # source://vcr//lib/vcr/structs.rb#271
+  # source://vcr//lib/vcr/structs.rb#274
   def unhandled?; end
 end
 
@@ -2881,7 +2884,7 @@ end
 # @attr http_version [nil, String] the HTTP version
 # @attr adapter_metadata [Hash] Additional metadata used by a specific VCR adapter.
 #
-# source://vcr//lib/vcr/structs.rb#331
+# source://vcr//lib/vcr/structs.rb#334
 class VCR::Response < ::Struct
   include ::VCR::Normalizers::Header
   include ::VCR::Normalizers::Body
@@ -2889,21 +2892,21 @@ class VCR::Response < ::Struct
 
   # @return [Response] a new instance of Response
   #
-  # source://vcr//lib/vcr/structs.rb#335
+  # source://vcr//lib/vcr/structs.rb#338
   def initialize(*args); end
 
   # Checks if the type of encoding is one of "gzip" or "deflate".
   #
   # @return [Boolean]
   #
-  # source://vcr//lib/vcr/structs.rb#382
+  # source://vcr//lib/vcr/structs.rb#385
   def compressed?; end
 
   # The type of encoding.
   #
   # @return [String] encoding type
   #
-  # source://vcr//lib/vcr/structs.rb#377
+  # source://vcr//lib/vcr/structs.rb#380
   def content_encoding; end
 
   # Decodes the compressed body and deletes evidence that it was ever compressed.
@@ -2912,7 +2915,7 @@ class VCR::Response < ::Struct
   #   is not a known encoding.
   # @return self
   #
-  # source://vcr//lib/vcr/structs.rb#396
+  # source://vcr//lib/vcr/structs.rb#399
   def decompress; end
 
   # Recompresses the decompressed body according to adapter metadata.
@@ -2920,7 +2923,7 @@ class VCR::Response < ::Struct
   # @raise [VCR::Errors::UnknownContentEncodingError] if the content encoding
   #   stored in the adapter metadata is unknown
   #
-  # source://vcr//lib/vcr/structs.rb#410
+  # source://vcr//lib/vcr/structs.rb#413
   def recompress; end
 
   # Builds a serializable hash from the response data.
@@ -2929,20 +2932,20 @@ class VCR::Response < ::Struct
   #   and can be easily serialized.
   # @see Response.from_hash
   #
-  # source://vcr//lib/vcr/structs.rb#345
+  # source://vcr//lib/vcr/structs.rb#348
   def to_hash; end
 
   # Updates the Content-Length response header so that it is
   # accurate for the response body.
   #
-  # source://vcr//lib/vcr/structs.rb#370
+  # source://vcr//lib/vcr/structs.rb#373
   def update_content_length_header; end
 
   # Checks if VCR decompressed the response body
   #
   # @return [Boolean]
   #
-  # source://vcr//lib/vcr/structs.rb#387
+  # source://vcr//lib/vcr/structs.rb#390
   def vcr_decompressed?; end
 
   class << self
@@ -2951,7 +2954,7 @@ class VCR::Response < ::Struct
     # @raise [VCR::Errors::UnknownContentEncodingError] if the content encoding
     #   is not a known encoding.
     #
-    # source://vcr//lib/vcr/structs.rb#449
+    # source://vcr//lib/vcr/structs.rb#452
     def decompress(body, type); end
 
     # Constructs a new instance from a hash.
@@ -2959,12 +2962,12 @@ class VCR::Response < ::Struct
     # @param hash [Hash] the hash to use to construct the instance.
     # @return [Response] the response
     #
-    # source://vcr//lib/vcr/structs.rb#360
+    # source://vcr//lib/vcr/structs.rb#363
     def from_hash(hash); end
   end
 end
 
-# source://vcr//lib/vcr/structs.rb#440
+# source://vcr//lib/vcr/structs.rb#443
 VCR::Response::HAVE_ZLIB = T.let(T.unsafe(nil), TrueClass)
 
 # The response status of an {HTTPInteraction}.
@@ -2972,7 +2975,7 @@ VCR::Response::HAVE_ZLIB = T.let(T.unsafe(nil), TrueClass)
 # @attr code [Integer] the HTTP status code
 # @attr message [String] the HTTP status message (e.g. "OK" for a status of 200)
 #
-# source://vcr//lib/vcr/structs.rb#475
+# source://vcr//lib/vcr/structs.rb#478
 class VCR::ResponseStatus < ::Struct
   # Builds a serializable hash from the response status data.
   #
@@ -2980,7 +2983,7 @@ class VCR::ResponseStatus < ::Struct
   #   and can be easily serialized.
   # @see ResponseStatus.from_hash
   #
-  # source://vcr//lib/vcr/structs.rb#481
+  # source://vcr//lib/vcr/structs.rb#484
   def to_hash; end
 
   class << self
@@ -2989,7 +2992,7 @@ class VCR::ResponseStatus < ::Struct
     # @param hash [Hash] the hash to use to construct the instance.
     # @return [ResponseStatus] the response status
     #
-    # source://vcr//lib/vcr/structs.rb#491
+    # source://vcr//lib/vcr/structs.rb#494
     def from_hash(hash); end
   end
 end

@@ -9958,43 +9958,51 @@ class Shoulda::Matchers::ActiveRecord::AssociationMatchers::CounterCacheMatcher
 
   protected
 
+  # @return [Boolean]
+  #
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#34
+  def correct_value?; end
+
   # Returns the value of attribute counter_cache.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#35
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#32
   def counter_cache; end
 
   # Sets the attribute counter_cache
   #
   # @param value the value to set the attribute counter_cache to.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#35
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#32
   def counter_cache=(_arg0); end
 
   # Returns the value of attribute name.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#35
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#32
   def name; end
 
   # Sets the attribute name
   #
   # @param value the value to set the attribute name to.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#35
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#32
   def name=(_arg0); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#37
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#54
+  def normalize_value; end
+
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#50
   def option_verifier; end
 
   # Returns the value of attribute subject.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#35
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#32
   def subject; end
 
   # Sets the attribute subject
   #
   # @param value the value to set the attribute subject to.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#35
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/association_matchers/counter_cache_matcher.rb#32
   def subject=(_arg0); end
 end
 
@@ -10891,7 +10899,7 @@ class Shoulda::Matchers::ActiveRecord::DefineEnumForMatcher
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#743
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#754
   def exclude_scopes?; end
 
   # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#412
@@ -10899,7 +10907,7 @@ class Shoulda::Matchers::ActiveRecord::DefineEnumForMatcher
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#731
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#742
   def expected_allowing_nil?; end
 
   # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#544
@@ -10914,26 +10922,26 @@ class Shoulda::Matchers::ActiveRecord::DefineEnumForMatcher
   # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#495
   def expected_enum_values; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#691
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#702
   def expected_instance_methods; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#703
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#714
   def expected_instance_methods?; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#707
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#718
   def expected_prefix; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#682
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#693
   def expected_singleton_methods; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#717
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#728
   def expected_suffix; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#727
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#738
   def expected_validating?; end
 
   # Returns the value of attribute failure_message_continuation.
@@ -10941,12 +10949,12 @@ class Shoulda::Matchers::ActiveRecord::DefineEnumForMatcher
   # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#409
   def failure_message_continuation; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#735
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#746
   def find_enum_validator; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#676
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#687
   def instance_methods_exist?; end
 
   # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#611
@@ -10984,13 +10992,13 @@ class Shoulda::Matchers::ActiveRecord::DefineEnumForMatcher
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#670
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#681
   def singleton_methods_exist?; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#757
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#768
   def to_array(value); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#747
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/define_enum_for_matcher.rb#758
   def to_hash(value); end
 
   # @return [Boolean]

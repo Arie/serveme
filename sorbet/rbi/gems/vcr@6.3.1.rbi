@@ -2275,7 +2275,7 @@ end
 # @note You can either insert this middleware into the Faraday middleware stack
 #   yourself or configure {VCR::Configuration#hook_into} to hook into `:faraday`.
 #
-# source://vcr//lib/vcr/middleware/faraday.rb#16
+# source://vcr//lib/vcr/middleware/faraday.rb#15
 class VCR::Middleware::Faraday
   include ::VCR::Deprecations::Middleware::Faraday
 
@@ -2284,76 +2284,76 @@ class VCR::Middleware::Faraday
   # @param app [#call] the faraday app
   # @return [Faraday] a new instance of Faraday
   #
-  # source://vcr//lib/vcr/middleware/faraday.rb#22
+  # source://vcr//lib/vcr/middleware/faraday.rb#21
   def initialize(app); end
 
   # Handles the HTTP request being made through Faraday
   #
   # @param env [Hash] the Faraday request env hash
   #
-  # source://vcr//lib/vcr/middleware/faraday.rb#30
+  # source://vcr//lib/vcr/middleware/faraday.rb#29
   def call(env); end
 
   # Close any persistent connections.
   #
-  # source://vcr//lib/vcr/middleware/faraday.rb#36
+  # source://vcr//lib/vcr/middleware/faraday.rb#35
   def close; end
 end
 
 # @private
 #
-# source://vcr//lib/vcr/middleware/faraday.rb#41
+# source://vcr//lib/vcr/middleware/faraday.rb#40
 class VCR::Middleware::Faraday::RequestHandler < ::VCR::RequestHandler
   # @return [RequestHandler] a new instance of RequestHandler
   #
-  # source://vcr//lib/vcr/middleware/faraday.rb#43
+  # source://vcr//lib/vcr/middleware/faraday.rb#42
   def initialize(app, env); end
 
   # Returns the value of attribute app.
   #
-  # source://vcr//lib/vcr/middleware/faraday.rb#42
+  # source://vcr//lib/vcr/middleware/faraday.rb#41
   def app; end
 
   # Returns the value of attribute env.
   #
-  # source://vcr//lib/vcr/middleware/faraday.rb#42
+  # source://vcr//lib/vcr/middleware/faraday.rb#41
   def env; end
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#48
+  # source://vcr//lib/vcr/middleware/faraday.rb#47
   def handle; end
 
   private
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#130
+  # source://vcr//lib/vcr/middleware/faraday.rb#129
   def collect_chunks; end
 
   # @return [Boolean]
   #
-  # source://vcr//lib/vcr/middleware/faraday.rb#62
+  # source://vcr//lib/vcr/middleware/faraday.rb#61
   def delay_finishing?; end
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#125
+  # source://vcr//lib/vcr/middleware/faraday.rb#124
   def invoke_after_request_hook(response); end
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#95
+  # source://vcr//lib/vcr/middleware/faraday.rb#94
   def on_ignored_request; end
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#114
+  # source://vcr//lib/vcr/middleware/faraday.rb#113
   def on_recordable_request; end
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#101
+  # source://vcr//lib/vcr/middleware/faraday.rb#100
   def on_stubbed_by_vcr_request; end
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#74
+  # source://vcr//lib/vcr/middleware/faraday.rb#73
   def raw_body_from(body); end
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#82
+  # source://vcr//lib/vcr/middleware/faraday.rb#81
   def response_for(response); end
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#140
+  # source://vcr//lib/vcr/middleware/faraday.rb#139
   def restore_body_from_chunks(request); end
 
-  # source://vcr//lib/vcr/middleware/faraday.rb#66
+  # source://vcr//lib/vcr/middleware/faraday.rb#65
   def vcr_request; end
 end
 

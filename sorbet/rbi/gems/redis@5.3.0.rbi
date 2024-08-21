@@ -614,6 +614,8 @@ module Redis::Commands::Hashes
 
   # Scan a hash
   #
+  # See the [Redis Server HSCAN documentation](https://redis.io/docs/latest/commands/hscan/) for further details
+  #
   # @example Retrieve the first batch of key/value pairs in a hash
   #   redis.hscan("hash", 0)
   # @param cursor [String, Integer] the cursor of the iteration
@@ -621,10 +623,12 @@ module Redis::Commands::Hashes
   #   - `:count => Integer`: return count keys at most per iteration
   # @return [String, Array<[String, String]>] the next cursor and all found keys
   #
-  # source://redis//lib/redis/commands/hashes.rb#225
+  # source://redis//lib/redis/commands/hashes.rb#227
   def hscan(key, cursor, **options); end
 
   # Scan a hash
+  #
+  # See the [Redis Server HSCAN documentation](https://redis.io/docs/latest/commands/hscan/) for further details
   #
   # @example Retrieve all of the key/value pairs in a hash
   #   redis.hscan_each("hash").to_a
@@ -633,7 +637,7 @@ module Redis::Commands::Hashes
   #   - `:count => Integer`: return count keys at most per iteration
   # @return [Enumerator] an enumerator for all found keys
   #
-  # source://redis//lib/redis/commands/hashes.rb#242
+  # source://redis//lib/redis/commands/hashes.rb#246
   def hscan_each(key, **options, &block); end
 
   # Set one or more hash values.
@@ -788,7 +792,7 @@ module Redis::Commands::Keys
   # @param replace [Boolean] removes the `destination` key before copying value to it
   # @return [Boolean] whether the key was copied or not
   #
-  # source://redis//lib/redis/commands/keys.rb#343
+  # source://redis//lib/redis/commands/keys.rb#349
   def copy(source, destination, db: T.unsafe(nil), replace: T.unsafe(nil)); end
 
   # Delete one or more keys.
@@ -796,7 +800,7 @@ module Redis::Commands::Keys
   # @param keys [String, Array<String>]
   # @return [Integer] number of keys that were deleted
   #
-  # source://redis//lib/redis/commands/keys.rb#248
+  # source://redis//lib/redis/commands/keys.rb#252
   def del(*keys); end
 
   # Return a serialized version of the value stored at a key.
@@ -804,7 +808,7 @@ module Redis::Commands::Keys
   # @param key [String]
   # @return [String] serialized_value
   #
-  # source://redis//lib/redis/commands/keys.rb#199
+  # source://redis//lib/redis/commands/keys.rb#203
   def dump(key); end
 
   # Determine how many of the keys exists.
@@ -812,7 +816,7 @@ module Redis::Commands::Keys
   # @param keys [String, Array<String>]
   # @return [Integer]
   #
-  # source://redis//lib/redis/commands/keys.rb#267
+  # source://redis//lib/redis/commands/keys.rb#271
   def exists(*keys); end
 
   # Determine if any of the keys exists.
@@ -820,7 +824,7 @@ module Redis::Commands::Keys
   # @param keys [String, Array<String>]
   # @return [Boolean]
   #
-  # source://redis//lib/redis/commands/keys.rb#275
+  # source://redis//lib/redis/commands/keys.rb#279
   def exists?(*keys); end
 
   # Set a key's time to live in seconds.
@@ -833,7 +837,7 @@ module Redis::Commands::Keys
   #   - `:lt => true`: Set expiry only when the new expiry is less than current one.
   # @return [Boolean] whether the timeout was set or not
   #
-  # source://redis//lib/redis/commands/keys.rb#78
+  # source://redis//lib/redis/commands/keys.rb#82
   def expire(key, seconds, nx: T.unsafe(nil), xx: T.unsafe(nil), gt: T.unsafe(nil), lt: T.unsafe(nil)); end
 
   # Set the expiration for a key as a UNIX timestamp.
@@ -846,7 +850,7 @@ module Redis::Commands::Keys
   #   - `:lt => true`: Set expiry only when the new expiry is less than current one.
   # @return [Boolean] whether the timeout was set or not
   #
-  # source://redis//lib/redis/commands/keys.rb#98
+  # source://redis//lib/redis/commands/keys.rb#102
   def expireat(key, unix_time, nx: T.unsafe(nil), xx: T.unsafe(nil), gt: T.unsafe(nil), lt: T.unsafe(nil)); end
 
   # Get a key's expiry time specified as number of seconds from UNIX Epoch
@@ -854,15 +858,17 @@ module Redis::Commands::Keys
   # @param key [String]
   # @return [Integer] expiry time specified as number of seconds from UNIX Epoch
   #
-  # source://redis//lib/redis/commands/keys.rb#112
+  # source://redis//lib/redis/commands/keys.rb#116
   def expiretime(key); end
 
   # Find all keys matching the given pattern.
   #
+  # See the [Redis Server KEYS documentation](https://redis.io/docs/latest/commands/keys/) for further details
+  #
   # @param pattern [String]
   # @return [Array<String>]
   #
-  # source://redis//lib/redis/commands/keys.rb#285
+  # source://redis//lib/redis/commands/keys.rb#291
   def keys(pattern = T.unsafe(nil)); end
 
   # Transfer a key from the connected instance to another instance.
@@ -876,7 +882,7 @@ module Redis::Commands::Keys
   #   - `:replace => Boolean`: Replace existing key on the remote instance.
   # @return [String] `"OK"`
   #
-  # source://redis//lib/redis/commands/keys.rb#230
+  # source://redis//lib/redis/commands/keys.rb#234
   def migrate(key, options); end
 
   # Move a key to another database.
@@ -898,10 +904,10 @@ module Redis::Commands::Keys
   # @param db [Integer]
   # @return [Boolean] whether the key was moved or not
   #
-  # source://redis//lib/redis/commands/keys.rb#314
+  # source://redis//lib/redis/commands/keys.rb#320
   def move(key, db); end
 
-  # source://redis//lib/redis/commands/keys.rb#351
+  # source://redis//lib/redis/commands/keys.rb#357
   def object(*args); end
 
   # Remove the expiration from a key.
@@ -909,7 +915,7 @@ module Redis::Commands::Keys
   # @param key [String]
   # @return [Boolean] whether the timeout was removed or not
   #
-  # source://redis//lib/redis/commands/keys.rb#64
+  # source://redis//lib/redis/commands/keys.rb#68
   def persist(key); end
 
   # Set a key's time to live in milliseconds.
@@ -922,7 +928,7 @@ module Redis::Commands::Keys
   #   - `:lt => true`: Set expiry only when the new expiry is less than current one.
   # @return [Boolean] whether the timeout was set or not
   #
-  # source://redis//lib/redis/commands/keys.rb#142
+  # source://redis//lib/redis/commands/keys.rb#146
   def pexpire(key, milliseconds, nx: T.unsafe(nil), xx: T.unsafe(nil), gt: T.unsafe(nil), lt: T.unsafe(nil)); end
 
   # Set the expiration for a key as number of milliseconds from UNIX Epoch.
@@ -935,7 +941,7 @@ module Redis::Commands::Keys
   #   - `:lt => true`: Set expiry only when the new expiry is less than current one.
   # @return [Boolean] whether the timeout was set or not
   #
-  # source://redis//lib/redis/commands/keys.rb#162
+  # source://redis//lib/redis/commands/keys.rb#166
   def pexpireat(key, ms_unix_time, nx: T.unsafe(nil), xx: T.unsafe(nil), gt: T.unsafe(nil), lt: T.unsafe(nil)); end
 
   # Get a key's expiry time specified as number of milliseconds from UNIX Epoch
@@ -943,7 +949,7 @@ module Redis::Commands::Keys
   # @param key [String]
   # @return [Integer] expiry time specified as number of milliseconds from UNIX Epoch
   #
-  # source://redis//lib/redis/commands/keys.rb#176
+  # source://redis//lib/redis/commands/keys.rb#180
   def pexpiretime(key); end
 
   # Get the time to live (in milliseconds) for a key.
@@ -959,14 +965,14 @@ module Redis::Commands::Keys
   # @param key [String]
   # @return [Integer] remaining time to live in milliseconds
   #
-  # source://redis//lib/redis/commands/keys.rb#191
+  # source://redis//lib/redis/commands/keys.rb#195
   def pttl(key); end
 
   # Return a random key from the keyspace.
   #
   # @return [String]
   #
-  # source://redis//lib/redis/commands/keys.rb#358
+  # source://redis//lib/redis/commands/keys.rb#364
   def randomkey; end
 
   # Rename a key. If the new key already exists it is overwritten.
@@ -975,7 +981,7 @@ module Redis::Commands::Keys
   # @param new_name [String]
   # @return [String] `OK`
   #
-  # source://redis//lib/redis/commands/keys.rb#367
+  # source://redis//lib/redis/commands/keys.rb#373
   def rename(old_name, new_name); end
 
   # Rename a key, only if the new key does not exist.
@@ -984,7 +990,7 @@ module Redis::Commands::Keys
   # @param new_name [String]
   # @return [Boolean] whether the key was renamed or not
   #
-  # source://redis//lib/redis/commands/keys.rb#376
+  # source://redis//lib/redis/commands/keys.rb#382
   def renamenx(old_name, new_name); end
 
   # Create a key using the serialized value, previously obtained using DUMP.
@@ -996,10 +1002,12 @@ module Redis::Commands::Keys
   # @raise [Redis::CommandError]
   # @return [String] `"OK"`
   #
-  # source://redis//lib/redis/commands/keys.rb#212
+  # source://redis//lib/redis/commands/keys.rb#216
   def restore(key, ttl, serialized_value, replace: T.unsafe(nil)); end
 
   # Scan the keyspace
+  #
+  # See the [Redis Server SCAN documentation](https://redis.io/docs/latest/commands/scan/) for further details
   #
   # @example Retrieve the first batch of keys
   #   redis.scan(0)
@@ -1016,10 +1024,12 @@ module Redis::Commands::Keys
   #   - `:type => String`: return keys only of the given type
   # @return [String, Array<String>] the next cursor and all found keys
   #
-  # source://redis//lib/redis/commands/keys.rb#25
+  # source://redis//lib/redis/commands/keys.rb#27
   def scan(cursor, **options); end
 
   # Scan the keyspace
+  #
+  # See the [Redis Server SCAN documentation](https://redis.io/docs/latest/commands/scan/) for further details
   #
   # @example Retrieve all of the keys (with possible duplicates)
   #   redis.scan_each.to_a
@@ -1037,7 +1047,7 @@ module Redis::Commands::Keys
   #   - `:type => String`: return keys only of the given type
   # @return [Enumerator] an enumerator for all found keys
   #
-  # source://redis//lib/redis/commands/keys.rb#49
+  # source://redis//lib/redis/commands/keys.rb#53
   def scan_each(**options, &block); end
 
   # Sort the elements in a list, set or sorted set.
@@ -1062,7 +1072,7 @@ module Redis::Commands::Keys
   #   element specified in `:get`
   #   - when `:store` is specified, the number of elements in the stored result
   #
-  # source://redis//lib/redis/commands/keys.rb#405
+  # source://redis//lib/redis/commands/keys.rb#411
   def sort(key, by: T.unsafe(nil), limit: T.unsafe(nil), get: T.unsafe(nil), order: T.unsafe(nil), store: T.unsafe(nil)); end
 
   # Get the time to live (in seconds) for a key.
@@ -1078,7 +1088,7 @@ module Redis::Commands::Keys
   # @param key [String]
   # @return [Integer] remaining time to live in seconds.
   #
-  # source://redis//lib/redis/commands/keys.rb#128
+  # source://redis//lib/redis/commands/keys.rb#132
   def ttl(key); end
 
   # Determine the type stored at key.
@@ -1086,7 +1096,7 @@ module Redis::Commands::Keys
   # @param key [String]
   # @return [String] `string`, `list`, `set`, `zset`, `hash` or `none`
   #
-  # source://redis//lib/redis/commands/keys.rb#435
+  # source://redis//lib/redis/commands/keys.rb#441
   def type(key); end
 
   # Unlink one or more keys.
@@ -1094,12 +1104,12 @@ module Redis::Commands::Keys
   # @param keys [String, Array<String>]
   # @return [Integer] number of keys that were unlinked
   #
-  # source://redis//lib/redis/commands/keys.rb#259
+  # source://redis//lib/redis/commands/keys.rb#263
   def unlink(*keys); end
 
   private
 
-  # source://redis//lib/redis/commands/keys.rb#441
+  # source://redis//lib/redis/commands/keys.rb#447
   def _scan(command, cursor, args, match: T.unsafe(nil), count: T.unsafe(nil), type: T.unsafe(nil), &block); end
 end
 
@@ -1370,14 +1380,18 @@ Redis::Commands::Pairify = T.let(T.unsafe(nil), Proc)
 # source://redis//lib/redis/commands/pubsub.rb#5
 module Redis::Commands::Pubsub
   # Listen for messages published to channels matching the given patterns.
+  # See the [Redis Server PSUBSCRIBE documentation](https://redis.io/docs/latest/commands/psubscribe/)
+  # for further details
   #
-  # source://redis//lib/redis/commands/pubsub.rb#32
+  # source://redis//lib/redis/commands/pubsub.rb#34
   def psubscribe(*channels, &block); end
 
   # Listen for messages published to channels matching the given patterns.
   # Throw a timeout error if there is no messages for a timeout period.
+  # See the [Redis Server PSUBSCRIBE documentation](https://redis.io/docs/latest/commands/psubscribe/)
+  # for further details
   #
-  # source://redis//lib/redis/commands/pubsub.rb#38
+  # source://redis//lib/redis/commands/pubsub.rb#42
   def psubscribe_with_timeout(timeout, *channels, &block); end
 
   # Post a message to a channel.
@@ -1388,28 +1402,30 @@ module Redis::Commands::Pubsub
   # Inspect the state of the Pub/Sub subsystem.
   # Possible subcommands: channels, numsub, numpat.
   #
-  # source://redis//lib/redis/commands/pubsub.rb#49
+  # source://redis//lib/redis/commands/pubsub.rb#55
   def pubsub(subcommand, *args); end
 
   # Stop listening for messages posted to channels matching the given patterns.
+  # See the [Redis Server PUNSUBSCRIBE documentation](https://redis.io/docs/latest/commands/punsubscribe/)
+  # for further details
   #
-  # source://redis//lib/redis/commands/pubsub.rb#43
+  # source://redis//lib/redis/commands/pubsub.rb#49
   def punsubscribe(*channels); end
 
   # Post a message to a channel in a shard.
   #
-  # source://redis//lib/redis/commands/pubsub.rb#54
+  # source://redis//lib/redis/commands/pubsub.rb#60
   def spublish(channel, message); end
 
   # Listen for messages published to the given channels in a shard.
   #
-  # source://redis//lib/redis/commands/pubsub.rb#59
+  # source://redis//lib/redis/commands/pubsub.rb#65
   def ssubscribe(*channels, &block); end
 
   # Listen for messages published to the given channels in a shard.
   # Throw a timeout error if there is no messages for a timeout period.
   #
-  # source://redis//lib/redis/commands/pubsub.rb#65
+  # source://redis//lib/redis/commands/pubsub.rb#71
   def ssubscribe_with_timeout(timeout, *channels, &block); end
 
   # Listen for messages published to the given channels.
@@ -1430,7 +1446,7 @@ module Redis::Commands::Pubsub
 
   # Stop listening for messages posted to the given channels in a shard.
   #
-  # source://redis//lib/redis/commands/pubsub.rb#70
+  # source://redis//lib/redis/commands/pubsub.rb#76
   def sunsubscribe(*channels); end
 
   # Stop listening for messages posted to the given channels.
@@ -1779,6 +1795,8 @@ module Redis::Commands::Sets
 
   # Scan a set
   #
+  # See the [Redis Server SSCAN documentation](https://redis.io/docs/latest/commands/sscan/) for further details
+  #
   # @example Retrieve the first batch of keys in a set
   #   redis.sscan("set", 0)
   # @param cursor [String, Integer] the cursor of the iteration
@@ -1786,10 +1804,12 @@ module Redis::Commands::Sets
   #   - `:count => Integer`: return count keys at most per iteration
   # @return [String, Array<String>] the next cursor and all found members
   #
-  # source://redis//lib/redis/commands/sets.rb#187
+  # source://redis//lib/redis/commands/sets.rb#189
   def sscan(key, cursor, **options); end
 
   # Scan a set
+  #
+  # See the [Redis Server SSCAN documentation](https://redis.io/docs/latest/commands/sscan/) for further details
   #
   # @example Retrieve all of the keys in a set
   #   redis.sscan_each("set").to_a
@@ -1798,7 +1818,7 @@ module Redis::Commands::Sets
   #   - `:count => Integer`: return count keys at most per iteration
   # @return [Enumerator] an enumerator for all keys in the set
   #
-  # source://redis//lib/redis/commands/sets.rb#202
+  # source://redis//lib/redis/commands/sets.rb#206
   def sscan_each(key, **options, &block); end
 
   # Add multiple sets.
@@ -2305,6 +2325,8 @@ module Redis::Commands::SortedSets
 
   # Scan a sorted set
   #
+  # See the [Redis Server ZSCAN documentation](https://redis.io/docs/latest/commands/zscan/) for further details
+  #
   # @example Retrieve the first batch of key/value pairs in a hash
   #   redis.zscan("zset", 0)
   # @param cursor [String, Integer] the cursor of the iteration
@@ -2313,10 +2335,12 @@ module Redis::Commands::SortedSets
   # @return [String, Array<[String, Float]>] the next cursor and all found
   #   members and scores
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#820
+  # source://redis//lib/redis/commands/sorted_sets.rb#822
   def zscan(key, cursor, **options); end
 
   # Scan a sorted set
+  #
+  # See the [Redis Server ZSCAN documentation](https://redis.io/docs/latest/commands/zscan/) for further details
   #
   # @example Retrieve all of the members/scores in a sorted set
   #   redis.zscan_each("zset").to_a
@@ -2325,7 +2349,7 @@ module Redis::Commands::SortedSets
   #   - `:count => Integer`: return count keys at most per iteration
   # @return [Enumerator] an enumerator for all found scores and members
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#837
+  # source://redis//lib/redis/commands/sorted_sets.rb#841
   def zscan_each(key, **options, &block); end
 
   # Get the score associated with the given member in a sorted set.
@@ -2376,10 +2400,10 @@ module Redis::Commands::SortedSets
 
   private
 
-  # source://redis//lib/redis/commands/sorted_sets.rb#850
+  # source://redis//lib/redis/commands/sorted_sets.rb#854
   def _zsets_operation(cmd, *keys, weights: T.unsafe(nil), aggregate: T.unsafe(nil), with_scores: T.unsafe(nil)); end
 
-  # source://redis//lib/redis/commands/sorted_sets.rb#869
+  # source://redis//lib/redis/commands/sorted_sets.rb#873
   def _zsets_operation_store(cmd, destination, keys, weights: T.unsafe(nil), aggregate: T.unsafe(nil)); end
 end
 
@@ -3045,7 +3069,7 @@ class Redis::Distributed
   # source://redis//lib/redis/distributed.rb#476
   def _bpop(cmd, args); end
 
-  # source://redis//lib/redis/distributed.rb#1038
+  # source://redis//lib/redis/distributed.rb#1042
   def _eval(cmd, args); end
 
   # source://redis//lib/redis/distributed.rb#41
@@ -3148,7 +3172,7 @@ class Redis::Distributed
   #
   # @raise [CannotDistribute]
   #
-  # source://redis//lib/redis/distributed.rb#1005
+  # source://redis//lib/redis/distributed.rb#1009
   def discard; end
 
   # Return a serialized version of the value stored at a key.
@@ -3156,7 +3180,7 @@ class Redis::Distributed
   # source://redis//lib/redis/distributed.rb#164
   def dump(key); end
 
-  # source://redis//lib/redis/distributed.rb#1065
+  # source://redis//lib/redis/distributed.rb#1069
   def dup; end
 
   # Echo the given string.
@@ -3166,19 +3190,19 @@ class Redis::Distributed
 
   # Evaluate Lua script.
   #
-  # source://redis//lib/redis/distributed.rb#1052
+  # source://redis//lib/redis/distributed.rb#1056
   def eval(*args); end
 
   # Evaluate Lua script by its SHA.
   #
-  # source://redis//lib/redis/distributed.rb#1057
+  # source://redis//lib/redis/distributed.rb#1061
   def evalsha(*args); end
 
   # Execute all commands issued after MULTI.
   #
   # @raise [CannotDistribute]
   #
-  # source://redis//lib/redis/distributed.rb#996
+  # source://redis//lib/redis/distributed.rb#1000
   def exec; end
 
   # Determine if a key exists.
@@ -3336,7 +3360,7 @@ class Redis::Distributed
   # source://redis//lib/redis/distributed.rb#94
   def info(cmd = T.unsafe(nil)); end
 
-  # source://redis//lib/redis/distributed.rb#1061
+  # source://redis//lib/redis/distributed.rb#1065
   def inspect; end
 
   # Find all keys matching the given pattern.
@@ -3472,7 +3496,7 @@ class Redis::Distributed
   #
   # @raise [CannotDistribute]
   #
-  # source://redis//lib/redis/distributed.rb#989
+  # source://redis//lib/redis/distributed.rb#993
   def multi(&block); end
 
   # @raise [CannotDistribute]
@@ -3505,18 +3529,18 @@ class Redis::Distributed
 
   # Add one or more members to a HyperLogLog structure.
   #
-  # source://redis//lib/redis/distributed.rb#1019
+  # source://redis//lib/redis/distributed.rb#1023
   def pfadd(key, member); end
 
   # Get the approximate cardinality of members added to HyperLogLog structure.
   #
-  # source://redis//lib/redis/distributed.rb#1024
+  # source://redis//lib/redis/distributed.rb#1028
   def pfcount(*keys); end
 
   # Merge multiple HyperLogLog values into an unique value that will approximate the cardinality of the union of
   # the observed Sets of the source HyperLogLog structures.
   #
-  # source://redis//lib/redis/distributed.rb#1032
+  # source://redis//lib/redis/distributed.rb#1036
   def pfmerge(dest_key, *source_key); end
 
   # Ping the server.
@@ -3526,7 +3550,7 @@ class Redis::Distributed
 
   # @raise [CannotDistribute]
   #
-  # source://redis//lib/redis/distributed.rb#984
+  # source://redis//lib/redis/distributed.rb#988
   def pipelined; end
 
   # Set the time to live in milliseconds of a key.
@@ -3535,10 +3559,12 @@ class Redis::Distributed
   def psetex(key, ttl, value); end
 
   # Listen for messages published to channels matching the given patterns.
+  # See the [Redis Server PSUBSCRIBE documentation](https://redis.io/docs/latest/commands/psubscribe/)
+  # for further details
   #
   # @raise [NotImplementedError]
   #
-  # source://redis//lib/redis/distributed.rb#951
+  # source://redis//lib/redis/distributed.rb#953
   def psubscribe(*channels, &block); end
 
   # Get the time to live (in milliseconds) for a key.
@@ -3553,10 +3579,12 @@ class Redis::Distributed
 
   # Stop listening for messages posted to channels matching the given
   # patterns.
+  # See the [Redis Server PUNSUBSCRIBE documentation](https://redis.io/docs/latest/commands/punsubscribe/)
+  # for further details
   #
   # @raise [NotImplementedError]
   #
-  # source://redis//lib/redis/distributed.rb#957
+  # source://redis//lib/redis/distributed.rb#961
   def punsubscribe(*channels); end
 
   # Close the connection.
@@ -3636,7 +3664,7 @@ class Redis::Distributed
 
   # Control remote script registry.
   #
-  # source://redis//lib/redis/distributed.rb#1014
+  # source://redis//lib/redis/distributed.rb#1018
   def script(subcommand, *args); end
 
   # Subtract multiple sets.
@@ -3802,12 +3830,12 @@ class Redis::Distributed
   #
   # @raise [CannotDistribute]
   #
-  # source://redis//lib/redis/distributed.rb#976
+  # source://redis//lib/redis/distributed.rb#980
   def unwatch; end
 
   # Watch the given keys to determine execution of the MULTI/EXEC block.
   #
-  # source://redis//lib/redis/distributed.rb#962
+  # source://redis//lib/redis/distributed.rb#966
   def watch(*keys, &block); end
 
   # Add one or more members to a sorted set, or update the score for members
@@ -3941,16 +3969,16 @@ class Redis::Distributed
 
   # @yield [node_for(keys.first)]
   #
-  # source://redis//lib/redis/distributed.rb#1086
+  # source://redis//lib/redis/distributed.rb#1090
   def ensure_same_node(command, keys); end
 
-  # source://redis//lib/redis/distributed.rb#1081
+  # source://redis//lib/redis/distributed.rb#1085
   def key_tag(key); end
 
-  # source://redis//lib/redis/distributed.rb#1077
+  # source://redis//lib/redis/distributed.rb#1081
   def node_index_for(key); end
 
-  # source://redis//lib/redis/distributed.rb#1071
+  # source://redis//lib/redis/distributed.rb#1075
   def on_each_node(command, *args); end
 end
 
@@ -4079,7 +4107,7 @@ class Redis::InvalidClientOptionError < ::Redis::BaseError; end
 
 # source://redis//lib/redis/pipeline.rb#59
 class Redis::MultiConnection < ::Redis::PipelinedConnection
-  # @raise [Redis::Error]
+  # @raise [Redis::BaseError]
   #
   # source://redis//lib/redis/pipeline.rb#60
   def multi; end

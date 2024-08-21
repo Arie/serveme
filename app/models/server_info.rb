@@ -39,9 +39,9 @@ class ServerInfo
     status.fetch(:port, nil)
   end
 
-  sig { returns(Integer) }
+  sig { returns(T.nilable(Integer)) }
   def number_of_players
-    status.fetch(:number_of_players,  0)
+    status.fetch(:number_of_players,  nil)
   end
 
   sig { returns(Integer) }

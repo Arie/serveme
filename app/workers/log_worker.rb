@@ -70,6 +70,7 @@ class LogWorker
       Rails.logger.info "Removed banned player with UID #{community_id}, IP #{event.message}, name #{event.player.name}, from reservation #{reservation_id}"
     elsif (banned_league_profile = LeagueBan.fetch(community_id))
       Rails.logger.info "League banned player with UID #{community_id}, IP #{event.message}, name #{event.player.name} connected to reservation #{reservation_id}: #{banned_league_profile.ban_reason}"
+      reservation.server.rcon_say "#{banned_league_profile.league_name} banned player #{event.player.name} connected: #{banned_league_profile.ban_reason}"
     elsif reservation.server.supports_mitigations?
       AllowReservationPlayerWorker.perform_async(rp.id)
     end

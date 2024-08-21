@@ -26,7 +26,8 @@ describe LogWorker do
   let(:connect_normal)        { '1234567L 03/29/2014 - 13:15:53: "Normal<3><[U:1:12345]><>" connected, address "1.128.0.1:1234"' }
   let(:connect_banned_ip)     { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:12345]><>" connected, address "109.81.174.1:1234"' }
   let(:connect_banned_uid)    { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:153029208]><>" connected, address "1.128.0.1:1234"' }
-  let(:connect_allowed_uid)   { '1234567L 03/29/2014 - 13:15:53: "NonTroll<3><[U:1:400545468]><>" connected, address "1.128.0.1:1234"' }
+  let(:connect_league_banned_uid) { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:1127291858]><>" connected, address "1.128.0.1:1234"' }
+  let(:connect_allowed_uid) { '1234567L 03/29/2014 - 13:15:53: "NonTroll<3><[U:1:400545468]><>" connected, address "1.128.0.1:1234"' }
 
   subject(:logworker) { LogWorker.perform_async(line) }
 
@@ -172,6 +173,14 @@ describe LogWorker do
       server.should_receive(:rcon_exec).with('banid 0 [U:1:153029208] kick; addip 0 1.128.0.1')
       LogWorker.perform_async(connect_banned_uid)
     end
+
+    it 'shows a server message for league banned UIDs' do
+      profile = instance_double(Etf2lProfile, banned?: true, league_name: 'ETF2L', ban_reason: 'Ban Evasion')
+      LeagueBan.should_receive(:fetch).with(76561199087557586).and_return(profile)
+      server.should_receive(:rcon_say).with('ETF2L banned player Troll connected: Ban Evasion')
+      LogWorker.perform_async(connect_league_banned_uid)
+    end
+
     it 'doesnt ban others' do
       server.should_not_receive(:rcon_exec)
       LogWorker.perform_async(connect_normal)

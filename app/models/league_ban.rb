@@ -20,8 +20,4 @@ class LeagueBan
       RglProfile
     end
   end
-
-  def self.league_name
-    klass&.league_name
-  end
 end

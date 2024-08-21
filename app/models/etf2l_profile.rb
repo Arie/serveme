@@ -10,6 +10,11 @@ class Etf2lProfile
     @json = JSON.parse(profile_body)
   end
 
+  sig { returns(String) }
+  def league_name
+    'ETF2L'
+  end
+
   sig { returns(T.nilable(String)) }
   def name
     json.dig('player', 'name')
@@ -38,11 +43,6 @@ class Etf2lProfile
   def self.fetch(steam_uid)
     response_body = Etf2lApi.profile(steam_uid)
     new(response_body) if response_body
-  end
-
-  sig { returns(String) }
-  def self.league_name
-    'ETF2L'
   end
 
   private

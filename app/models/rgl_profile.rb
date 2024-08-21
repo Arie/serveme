@@ -11,6 +11,11 @@ class RglProfile
   end
 
   sig { returns(String) }
+  def league_name
+    'RGL'
+  end
+
+  sig { returns(String) }
   def name
     json['name']
   end
@@ -35,10 +40,5 @@ class RglProfile
   def self.fetch(steam_uid)
     response_body = RglApi.profile(steam_uid)
     new(response_body) if response_body
-  end
-
-  sig { returns(String) }
-  def self.league_name
-    'RGL'
   end
 end

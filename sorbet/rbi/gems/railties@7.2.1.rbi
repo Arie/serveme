@@ -232,14 +232,14 @@ class Rails::Application < ::Rails::Engine
   # source://railties//lib/rails/engine.rb#516
   def build_middleware_stack; end
 
-  # source://railties//lib/rails/application.rb#439
+  # source://railties//lib/rails/application.rb#446
   def config; end
 
   # Sets the attribute config
   #
   # @param value the value to set the attribute config to.
   #
-  # source://railties//lib/rails/application.rb#443
+  # source://railties//lib/rails/application.rb#450
   def config=(_arg0); end
 
   # Convenience for loading config/foo.yml for the current \Rails env.
@@ -281,13 +281,13 @@ class Rails::Application < ::Rails::Engine
   #     Rails.application.config_for(:example)[:foo][:bar]
   #     # => { baz: 1, qux: 2 }
   #
-  # source://railties//lib/rails/application.rb#276
+  # source://railties//lib/rails/application.rb#283
   def config_for(name, env: T.unsafe(nil)); end
 
   # Sends any console called in the instance of a new application up
   # to the +console+ method defined in Rails::Railtie.
   #
-  # source://railties//lib/rails/application.rb#359
+  # source://railties//lib/rails/application.rb#366
   def console(&blk); end
 
   # Returns an ActiveSupport::EncryptedConfiguration instance for the
@@ -305,14 +305,14 @@ class Rails::Application < ::Rails::Engine
   # <tt>config/credentials/#{environment}.key</tt> for the current
   # environment, or +config/master.key+ if that file does not exist.
   #
-  # source://railties//lib/rails/application.rb#480
+  # source://railties//lib/rails/application.rb#487
   def credentials; end
 
   # Sets the attribute credentials
   #
   # @param value the value to set the attribute credentials to.
   #
-  # source://railties//lib/rails/application.rb#444
+  # source://railties//lib/rails/application.rb#451
   def credentials=(_arg0); end
 
   # source://railties//lib/rails/application.rb#103
@@ -326,12 +326,12 @@ class Rails::Application < ::Rails::Engine
   # collection. Additionally, the collection's +silence+ method silences all
   # deprecators in the collection for the duration of a given block.
   #
-  # source://railties//lib/rails/application.rb#232
+  # source://railties//lib/rails/application.rb#239
   def deprecators; end
 
   # Eager loads the application code.
   #
-  # source://railties//lib/rails/application.rb#538
+  # source://railties//lib/rails/application.rb#545
   def eager_load!; end
 
   # Returns an ActiveSupport::EncryptedConfiguration instance for an encrypted
@@ -350,13 +350,13 @@ class Rails::Application < ::Rails::Engine
   # command. (See the output of <tt>bin/rails encrypted:edit --help</tt> for
   # more information.)
   #
-  # source://railties//lib/rails/application.rb#499
+  # source://railties//lib/rails/application.rb#506
   def encrypted(path, key_path: T.unsafe(nil), env_key: T.unsafe(nil)); end
 
   # Stores some of the \Rails initial environment parameters which
   # will be used by middlewares and engines to configure themselves.
   #
-  # source://railties//lib/rails/application.rb#305
+  # source://railties//lib/rails/application.rb#312
   def env_config; end
 
   # Returns the value of attribute executor.
@@ -367,10 +367,10 @@ class Rails::Application < ::Rails::Engine
   # Sends any generators called in the instance of a new application up
   # to the +generators+ method defined in Rails::Railtie.
   #
-  # source://railties//lib/rails/application.rb#365
+  # source://railties//lib/rails/application.rb#372
   def generators(&blk); end
 
-  # source://railties//lib/rails/application.rb#512
+  # source://railties//lib/rails/application.rb#519
   def helpers_paths; end
 
   # source://importmap-rails/2.0.1/lib/importmap/engine.rb#4
@@ -382,7 +382,7 @@ class Rails::Application < ::Rails::Engine
   # Initialize the application passing the given group. By default, the
   # group is :default
   #
-  # source://railties//lib/rails/application.rb#426
+  # source://railties//lib/rails/application.rb#433
   def initialize!(group = T.unsafe(nil)); end
 
   # Returns true if the application is initialized.
@@ -396,15 +396,15 @@ class Rails::Application < ::Rails::Engine
   # Rails::Initializable module. Each Rails::Application class has its own
   # set of initializers, as defined by the Initializable module.
   #
-  # source://railties//lib/rails/application.rb#347
+  # source://railties//lib/rails/application.rb#354
   def initializer(name, opts = T.unsafe(nil), &block); end
 
-  # source://railties//lib/rails/application.rb#433
+  # source://railties//lib/rails/application.rb#440
   def initializers; end
 
   # Sends the +isolate_namespace+ method up to the class method.
   #
-  # source://railties//lib/rails/application.rb#376
+  # source://railties//lib/rails/application.rb#383
   def isolate_namespace(mod); end
 
   # Returns a key generator (ActiveSupport::CachingKeyGenerator) for a
@@ -412,10 +412,10 @@ class Rails::Application < ::Rails::Engine
   # calls with the same +secret_key_base+ will return the same key generator
   # instance.
   #
-  # source://railties//lib/rails/application.rb#160
+  # source://railties//lib/rails/application.rb#167
   def key_generator(secret_key_base = T.unsafe(nil)); end
 
-  # source://railties//lib/rails/application.rb#532
+  # source://railties//lib/rails/application.rb#539
   def load_generators(app = T.unsafe(nil)); end
 
   # Returns a message verifier object.
@@ -440,7 +440,7 @@ class Rails::Application < ::Rails::Engine
   #     Rails.application.message_verifier('my_purpose').verify(message)
   #     # => 'data to sign against tampering'
   #
-  # source://railties//lib/rails/application.rb#224
+  # source://railties//lib/rails/application.rb#231
   def message_verifier(verifier_name); end
 
   # Returns a message verifier factory (ActiveSupport::MessageVerifiers). This
@@ -471,7 +471,7 @@ class Rails::Application < ::Rails::Engine
   #     app.message_verifiers.rotate(secret_key_base: "old secret_key_base")
   #   end
   #
-  # source://railties//lib/rails/application.rb#196
+  # source://railties//lib/rails/application.rb#203
   def message_verifiers; end
 
   # Return an array of railties respecting the order they're loaded
@@ -481,8 +481,15 @@ class Rails::Application < ::Rails::Engine
   # copying migrations from railties ; we need them in the order given by
   # +railties_order+.
   #
-  # source://railties//lib/rails/application.rb#528
+  # source://railties//lib/rails/application.rb#535
   def migration_railties; end
+
+  # Returns the dasherized application name.
+  #
+  #   MyApp::Application.new.name => "my-app"
+  #
+  # source://railties//lib/rails/application.rb#140
+  def name; end
 
   # source://sprockets-rails/3.5.2/lib/sprockets/railtie.rb#52
   def precompiled_assets(clear_cache = T.unsafe(nil)); end
@@ -490,12 +497,12 @@ class Rails::Application < ::Rails::Engine
   # If you try to define a set of Rake tasks on the instance, these will get
   # passed up to the Rake tasks defined on the application's class.
   #
-  # source://railties//lib/rails/application.rb#340
+  # source://railties//lib/rails/application.rb#347
   def rake_tasks(&block); end
 
   # Reload application routes regardless if they changed or not.
   #
-  # source://railties//lib/rails/application.rb#152
+  # source://railties//lib/rails/application.rb#159
   def reload_routes!; end
 
   # Returns the value of attribute reloader.
@@ -508,19 +515,19 @@ class Rails::Application < ::Rails::Engine
   # source://railties//lib/rails/application.rb#101
   def reloaders; end
 
-  # source://railties//lib/rails/application.rb#402
+  # source://railties//lib/rails/application.rb#409
   def require_environment!; end
 
-  # source://railties//lib/rails/application.rb#407
+  # source://railties//lib/rails/application.rb#414
   def routes_reloader; end
 
-  # source://railties//lib/rails/application.rb#137
+  # source://railties//lib/rails/application.rb#144
   def run_load_hooks!; end
 
   # Sends any runner called in the instance of a new application up
   # to the +runner+ method defined in Rails::Railtie.
   #
-  # source://railties//lib/rails/application.rb#353
+  # source://railties//lib/rails/application.rb#360
   def runner(&blk); end
 
   # Returns the value of attribute sandbox.
@@ -557,68 +564,68 @@ class Rails::Application < ::Rails::Engine
   # then +credentials.secret_key_base+. For most applications, the correct place to store it is in the
   # encrypted credentials file.
   #
-  # source://railties//lib/rails/application.rb#462
+  # source://railties//lib/rails/application.rb#469
   def secret_key_base; end
 
   # Sends any server called in the instance of a new application up
   # to the +server+ method defined in Rails::Railtie.
   #
-  # source://railties//lib/rails/application.rb#371
+  # source://railties//lib/rails/application.rb#378
   def server(&blk); end
 
-  # source://railties//lib/rails/application.rb#508
+  # source://railties//lib/rails/application.rb#515
   def to_app; end
 
   # Returns an array of file paths appended with a hash of
   # directories-extensions suitable for ActiveSupport::FileUpdateChecker
   # API.
   #
-  # source://railties//lib/rails/application.rb#414
+  # source://railties//lib/rails/application.rb#421
   def watchable_args; end
 
   protected
 
-  # source://railties//lib/rails/application.rb#611
+  # source://railties//lib/rails/application.rb#618
   def default_middleware_stack; end
 
-  # source://railties//lib/rails/application.rb#616
+  # source://railties//lib/rails/application.rb#623
   def ensure_generator_templates_added; end
 
   # Returns the ordered railties for this application considering railties_order.
   #
-  # source://railties//lib/rails/application.rb#577
+  # source://railties//lib/rails/application.rb#584
   def ordered_railties; end
 
-  # source://railties//lib/rails/application.rb#599
+  # source://railties//lib/rails/application.rb#606
   def railties_initializers(current); end
 
-  # source://railties//lib/rails/application.rb#566
+  # source://railties//lib/rails/application.rb#573
   def run_console_blocks(app); end
 
-  # source://railties//lib/rails/application.rb#556
+  # source://railties//lib/rails/application.rb#563
   def run_generators_blocks(app); end
 
-  # source://railties//lib/rails/application.rb#561
+  # source://railties//lib/rails/application.rb#568
   def run_runner_blocks(app); end
 
-  # source://railties//lib/rails/application.rb#571
+  # source://railties//lib/rails/application.rb#578
   def run_server_blocks(app); end
 
-  # source://railties//lib/rails/application.rb#545
+  # source://railties//lib/rails/application.rb#552
   def run_tasks_blocks(app); end
 
   private
 
-  # source://railties//lib/rails/application.rb#629
+  # source://railties//lib/rails/application.rb#636
   def build_middleware; end
 
-  # source://railties//lib/rails/application.rb#622
+  # source://railties//lib/rails/application.rb#629
   def build_request(env); end
 
-  # source://railties//lib/rails/application.rb#633
+  # source://railties//lib/rails/application.rb#640
   def coerce_same_site_protection(protection); end
 
-  # source://railties//lib/rails/application.rb#637
+  # source://railties//lib/rails/application.rb#644
   def filter_parameters; end
 
   class << self
@@ -636,7 +643,7 @@ class Rails::Application < ::Rails::Engine
     # Rails application, you will need to add lib to $LOAD_PATH on your own in case
     # you need to load files in lib/ during the application configuration as well.
     #
-    # source://railties//lib/rails/application.rb#395
+    # source://railties//lib/rails/application.rb#402
     def add_lib_to_load_path!(root); end
 
     # source://railties//lib/rails/application.rb#83
@@ -1443,10 +1450,10 @@ class Rails::Application::RoutesReloader
   # source://railties//lib/rails/application/routes_reloader.rb#15
   def initialize; end
 
-  # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+  # source://activesupport/7.2.1/lib/active_support/callbacks.rb#70
   def __callbacks; end
 
-  # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+  # source://activesupport/7.2.1/lib/active_support/callbacks.rb#70
   def __callbacks?; end
 
   # Returns the value of attribute eager_load.
@@ -1512,13 +1519,13 @@ class Rails::Application::RoutesReloader
   def updater; end
 
   class << self
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1/lib/active_support/callbacks.rb#70
     def __callbacks; end
 
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1/lib/active_support/callbacks.rb#70
     def __callbacks=(value); end
 
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1/lib/active_support/callbacks.rb#70
     def __callbacks?; end
   end
 end
@@ -1527,7 +1534,7 @@ end
 class Rails::ApplicationController < ::ActionController::Base
   private
 
-  # source://actionview/7.2.0/lib/action_view/layouts.rb#328
+  # source://actionview/7.2.1/lib/action_view/layouts.rb#328
   def _layout(lookup_context, formats); end
 
   def _layout_from_proc; end
@@ -1544,16 +1551,16 @@ class Rails::ApplicationController < ::ActionController::Base
   def require_local!; end
 
   class << self
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1/lib/active_support/callbacks.rb#70
     def __callbacks; end
 
-    # source://actionview/7.2.0/lib/action_view/layouts.rb#211
+    # source://actionview/7.2.1/lib/action_view/layouts.rb#211
     def _layout; end
 
-    # source://actionview/7.2.0/lib/action_view/layouts.rb#212
+    # source://actionview/7.2.1/lib/action_view/layouts.rb#212
     def _layout_conditions; end
 
-    # source://actionpack/7.2.0/lib/action_controller/metal.rb#288
+    # source://actionpack/7.2.1/lib/action_controller/metal.rb#288
     def middleware_stack; end
   end
 end
@@ -2459,16 +2466,16 @@ class Rails::Engine < ::Rails::Railtie
   # source://railties//lib/rails/engine.rb#439
   def initialize; end
 
-  # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+  # source://activesupport/7.2.1/lib/active_support/callbacks.rb#70
   def __callbacks; end
 
-  # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+  # source://activesupport/7.2.1/lib/active_support/callbacks.rb#70
   def __callbacks?; end
 
-  # source://activesupport/7.2.0/lib/active_support/callbacks.rb#924
+  # source://activesupport/7.2.1/lib/active_support/callbacks.rb#924
   def _load_seed_callbacks; end
 
-  # source://activesupport/7.2.0/lib/active_support/callbacks.rb#912
+  # source://activesupport/7.2.1/lib/active_support/callbacks.rb#912
   def _run_load_seed_callbacks(&block); end
 
   # Returns the underlying Rack application for this engine.
@@ -2616,19 +2623,19 @@ class Rails::Engine < ::Rails::Railtie
   def load_config_initializer(initializer); end
 
   class << self
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1/lib/active_support/callbacks.rb#70
     def __callbacks; end
 
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1/lib/active_support/callbacks.rb#70
     def __callbacks=(value); end
 
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1/lib/active_support/callbacks.rb#70
     def __callbacks?; end
 
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#916
+    # source://activesupport/7.2.1/lib/active_support/callbacks.rb#916
     def _load_seed_callbacks; end
 
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#920
+    # source://activesupport/7.2.1/lib/active_support/callbacks.rb#920
     def _load_seed_callbacks=(value); end
 
     # Returns the value of attribute called_from.
@@ -4944,7 +4951,7 @@ class Rails::HealthController < ::ActionController::Base
 
   private
 
-  # source://actionview/7.2.0/lib/action_view/layouts.rb#328
+  # source://actionview/7.2.1/lib/action_view/layouts.rb#328
   def _layout(lookup_context, formats); end
 
   def _layout_from_proc; end
@@ -4959,10 +4966,10 @@ class Rails::HealthController < ::ActionController::Base
   def render_up; end
 
   class << self
-    # source://actionpack/7.2.0/lib/action_controller/metal.rb#288
+    # source://actionpack/7.2.1/lib/action_controller/metal.rb#288
     def middleware_stack; end
 
-    # source://activesupport/7.2.0/lib/active_support/rescuable.rb#15
+    # source://activesupport/7.2.1/lib/active_support/rescuable.rb#15
     def rescue_handlers; end
   end
 end
@@ -5013,7 +5020,7 @@ class Rails::InfoController < ::Rails::ApplicationController
 
   private
 
-  # source://actionview/7.2.0/lib/action_view/layouts.rb#328
+  # source://actionview/7.2.1/lib/action_view/layouts.rb#328
   def _layout(lookup_context, formats); end
 
   # source://railties//lib/rails/info_controller.rb#8
@@ -5023,16 +5030,16 @@ class Rails::InfoController < ::Rails::ApplicationController
   def matching_routes(query:, exact_match:); end
 
   class << self
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1/lib/active_support/callbacks.rb#70
     def __callbacks; end
 
-    # source://actionview/7.2.0/lib/action_view/layouts.rb#211
+    # source://actionview/7.2.1/lib/action_view/layouts.rb#211
     def _layout; end
 
-    # source://actionview/7.2.0/lib/action_view/layouts.rb#212
+    # source://actionview/7.2.1/lib/action_view/layouts.rb#212
     def _layout_conditions; end
 
-    # source://actionpack/7.2.0/lib/action_controller/metal.rb#288
+    # source://actionpack/7.2.1/lib/action_controller/metal.rb#288
     def middleware_stack; end
   end
 end
@@ -5140,7 +5147,7 @@ class Rails::MailersController < ::Rails::ApplicationController
 
   private
 
-  # source://actionview/7.2.0/lib/action_view/layouts.rb#328
+  # source://actionview/7.2.1/lib/action_view/layouts.rb#328
   def _layout(lookup_context, formats); end
 
   # source://railties//lib/rails/mailers_controller.rb#107
@@ -5173,13 +5180,13 @@ class Rails::MailersController < ::Rails::ApplicationController
   def show_previews?; end
 
   class << self
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1/lib/active_support/callbacks.rb#70
     def __callbacks; end
 
-    # source://actionpack/7.2.0/lib/abstract_controller/helpers.rb#13
+    # source://actionpack/7.2.1/lib/abstract_controller/helpers.rb#13
     def _helper_methods; end
 
-    # source://actionpack/7.2.0/lib/action_controller/metal.rb#288
+    # source://actionpack/7.2.1/lib/action_controller/metal.rb#288
     def middleware_stack; end
   end
 end
@@ -5442,14 +5449,14 @@ class Rails::PwaController < ::Rails::ApplicationController
 
   private
 
-  # source://actionview/7.2.0/lib/action_view/layouts.rb#328
+  # source://actionview/7.2.1/lib/action_view/layouts.rb#328
   def _layout(lookup_context, formats); end
 
   class << self
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1/lib/active_support/callbacks.rb#70
     def __callbacks; end
 
-    # source://actionpack/7.2.0/lib/action_controller/metal.rb#288
+    # source://actionpack/7.2.1/lib/action_controller/metal.rb#288
     def middleware_stack; end
   end
 end
@@ -6169,20 +6176,20 @@ class Rails::WelcomeController < ::Rails::ApplicationController
 
   private
 
-  # source://actionview/7.2.0/lib/action_view/layouts.rb#328
+  # source://actionview/7.2.1/lib/action_view/layouts.rb#328
   def _layout(lookup_context, formats); end
 
   class << self
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1/lib/active_support/callbacks.rb#70
     def __callbacks; end
 
-    # source://actionview/7.2.0/lib/action_view/layouts.rb#211
+    # source://actionview/7.2.1/lib/action_view/layouts.rb#211
     def _layout; end
 
-    # source://actionview/7.2.0/lib/action_view/layouts.rb#212
+    # source://actionview/7.2.1/lib/action_view/layouts.rb#212
     def _layout_conditions; end
 
-    # source://actionpack/7.2.0/lib/action_controller/metal.rb#288
+    # source://actionpack/7.2.1/lib/action_controller/metal.rb#288
     def middleware_stack; end
   end
 end

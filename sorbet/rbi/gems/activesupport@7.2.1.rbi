@@ -4010,7 +4010,7 @@ class ActiveSupport::CurrentAttributes
 
   # @return [CurrentAttributes] a new instance of CurrentAttributes
   #
-  # source://activesupport//lib/active_support/current_attributes.rb#196
+  # source://activesupport//lib/active_support/current_attributes.rb#197
   def initialize; end
 
   # source://activesupport//lib/active_support/callbacks.rb#70
@@ -4027,25 +4027,25 @@ class ActiveSupport::CurrentAttributes
 
   # Returns the value of attribute attributes.
   #
-  # source://activesupport//lib/active_support/current_attributes.rb#194
+  # source://activesupport//lib/active_support/current_attributes.rb#195
   def attributes; end
 
   # Sets the attribute attributes
   #
   # @param value the value to set the attribute attributes to.
   #
-  # source://activesupport//lib/active_support/current_attributes.rb#194
+  # source://activesupport//lib/active_support/current_attributes.rb#195
   def attributes=(_arg0); end
 
-  # source://activesupport//lib/active_support/current_attributes.rb#192
+  # source://activesupport//lib/active_support/current_attributes.rb#193
   def defaults; end
 
-  # source://activesupport//lib/active_support/current_attributes.rb#192
+  # source://activesupport//lib/active_support/current_attributes.rb#193
   def defaults?; end
 
   # Reset all attributes. Should be called before and after actions, when used as a per-request singleton.
   #
-  # source://activesupport//lib/active_support/current_attributes.rb#215
+  # source://activesupport//lib/active_support/current_attributes.rb#216
   def reset; end
 
   # Expose one or more attributes within a block. Old values are returned after the block concludes.
@@ -4059,12 +4059,12 @@ class ActiveSupport::CurrentAttributes
   #     end
   #   end
   #
-  # source://activesupport//lib/active_support/current_attributes.rb#210
+  # source://activesupport//lib/active_support/current_attributes.rb#211
   def set(attributes, &block); end
 
   private
 
-  # source://activesupport//lib/active_support/current_attributes.rb#222
+  # source://activesupport//lib/active_support/current_attributes.rb#223
   def resolve_defaults; end
 
   class << self
@@ -4108,13 +4108,13 @@ class ActiveSupport::CurrentAttributes
     # source://activesupport//lib/active_support/current_attributes.rb#158
     def clear_all; end
 
-    # source://activesupport//lib/active_support/current_attributes.rb#192
+    # source://activesupport//lib/active_support/current_attributes.rb#193
     def defaults; end
 
-    # source://activesupport//lib/active_support/current_attributes.rb#192
+    # source://activesupport//lib/active_support/current_attributes.rb#193
     def defaults=(value); end
 
-    # source://activesupport//lib/active_support/current_attributes.rb#192
+    # source://activesupport//lib/active_support/current_attributes.rb#193
     def defaults?; end
 
     # Returns singleton instance for this class in this thread. If none exists, one is created.
@@ -9553,8 +9553,8 @@ ActiveSupport::Multibyte::Unicode::UNICODE_VERSION = T.let(T.unsafe(nil), String
 #     event.allocations   # => 1826 (objects)
 #   end
 #
-#  +Event+ objects record CPU time and allocations. If you don't need this
-#  it's also possible to pass a block that accepts five arguments:
+# +Event+ objects record CPU time and allocations. If you don't need this
+# it's also possible to pass a block that accepts five arguments:
 #
 #   ActiveSupport::Notifications.subscribe('render') do |name, start, finish, id, payload|
 #     name    # => String, name of the event (such as 'render' from above)
@@ -12161,16 +12161,16 @@ end
 class ActiveSupport::Subscriber
   # @return [Subscriber] a new instance of Subscriber
   #
-  # source://activesupport//lib/active_support/subscriber.rb#130
+  # source://activesupport//lib/active_support/subscriber.rb#131
   def initialize; end
 
-  # source://activesupport//lib/active_support/subscriber.rb#135
+  # source://activesupport//lib/active_support/subscriber.rb#136
   def call(event); end
 
-  # source://activesupport//lib/active_support/subscriber.rb#128
+  # source://activesupport//lib/active_support/subscriber.rb#129
   def patterns; end
 
-  # source://activesupport//lib/active_support/subscriber.rb#140
+  # source://activesupport//lib/active_support/subscriber.rb#141
   def publish_event(event); end
 
   class << self
@@ -12189,49 +12189,49 @@ class ActiveSupport::Subscriber
     # source://activesupport//lib/active_support/subscriber.rb#69
     def method_added(event); end
 
-    # source://activesupport//lib/active_support/subscriber.rb#78
+    # source://activesupport//lib/active_support/subscriber.rb#79
     def subscribers; end
 
     private
 
-    # source://activesupport//lib/active_support/subscriber.rb#85
+    # source://activesupport//lib/active_support/subscriber.rb#86
     def add_event_subscriber(event); end
 
-    # source://activesupport//lib/active_support/subscriber.rb#123
+    # source://activesupport//lib/active_support/subscriber.rb#124
     def fetch_public_methods(subscriber, inherit_all); end
 
-    # source://activesupport//lib/active_support/subscriber.rb#107
+    # source://activesupport//lib/active_support/subscriber.rb#108
     def find_attached_subscriber; end
 
     # @return [Boolean]
     #
-    # source://activesupport//lib/active_support/subscriber.rb#111
+    # source://activesupport//lib/active_support/subscriber.rb#112
     def invalid_event?(event); end
 
     # Returns the value of attribute namespace.
     #
-    # source://activesupport//lib/active_support/subscriber.rb#83
+    # source://activesupport//lib/active_support/subscriber.rb#84
     def namespace; end
 
     # Returns the value of attribute notifier.
     #
-    # source://activesupport//lib/active_support/subscriber.rb#83
+    # source://activesupport//lib/active_support/subscriber.rb#84
     def notifier; end
 
     # @return [Boolean]
     #
-    # source://activesupport//lib/active_support/subscriber.rb#119
+    # source://activesupport//lib/active_support/subscriber.rb#120
     def pattern_subscribed?(pattern); end
 
-    # source://activesupport//lib/active_support/subscriber.rb#115
+    # source://activesupport//lib/active_support/subscriber.rb#116
     def prepare_pattern(event); end
 
-    # source://activesupport//lib/active_support/subscriber.rb#96
+    # source://activesupport//lib/active_support/subscriber.rb#97
     def remove_event_subscriber(event); end
 
     # Returns the value of attribute subscriber.
     #
-    # source://activesupport//lib/active_support/subscriber.rb#83
+    # source://activesupport//lib/active_support/subscriber.rb#84
     def subscriber; end
   end
 end
@@ -12432,43 +12432,43 @@ class ActiveSupport::TestCase < ::Minitest::Test
   # source://activesupport//lib/active_support/callbacks.rb#924
   def _teardown_callbacks; end
 
-  # source://minitest/5.25.0/lib/minitest/assertions.rb#731
+  # source://minitest/5.25.1/lib/minitest/assertions.rb#731
   def assert_no_match(matcher, obj, msg = T.unsafe(nil)); end
 
-  # source://minitest/5.25.0/lib/minitest/assertions.rb#660
+  # source://minitest/5.25.1/lib/minitest/assertions.rb#660
   def assert_not_empty(obj, msg = T.unsafe(nil)); end
 
-  # source://minitest/5.25.0/lib/minitest/assertions.rb#671
+  # source://minitest/5.25.1/lib/minitest/assertions.rb#671
   def assert_not_equal(exp, act, msg = T.unsafe(nil)); end
 
-  # source://minitest/5.25.0/lib/minitest/assertions.rb#683
+  # source://minitest/5.25.1/lib/minitest/assertions.rb#683
   def assert_not_in_delta(exp, act, delta = T.unsafe(nil), msg = T.unsafe(nil)); end
 
-  # source://minitest/5.25.0/lib/minitest/assertions.rb#695
+  # source://minitest/5.25.1/lib/minitest/assertions.rb#695
   def assert_not_in_epsilon(a, b, epsilon = T.unsafe(nil), msg = T.unsafe(nil)); end
 
-  # source://minitest/5.25.0/lib/minitest/assertions.rb#702
+  # source://minitest/5.25.1/lib/minitest/assertions.rb#702
   def assert_not_includes(collection, obj, msg = T.unsafe(nil)); end
 
-  # source://minitest/5.25.0/lib/minitest/assertions.rb#713
+  # source://minitest/5.25.1/lib/minitest/assertions.rb#713
   def assert_not_instance_of(cls, obj, msg = T.unsafe(nil)); end
 
-  # source://minitest/5.25.0/lib/minitest/assertions.rb#723
+  # source://minitest/5.25.1/lib/minitest/assertions.rb#723
   def assert_not_kind_of(cls, obj, msg = T.unsafe(nil)); end
 
-  # source://minitest/5.25.0/lib/minitest/assertions.rb#741
+  # source://minitest/5.25.1/lib/minitest/assertions.rb#741
   def assert_not_nil(obj, msg = T.unsafe(nil)); end
 
-  # source://minitest/5.25.0/lib/minitest/assertions.rb#776
+  # source://minitest/5.25.1/lib/minitest/assertions.rb#776
   def assert_not_operator(o1, op, o2 = T.unsafe(nil), msg = T.unsafe(nil)); end
 
-  # source://minitest/5.25.0/lib/minitest/assertions.rb#799
+  # source://minitest/5.25.1/lib/minitest/assertions.rb#799
   def assert_not_predicate(o1, op, msg = T.unsafe(nil)); end
 
-  # source://minitest/5.25.0/lib/minitest/assertions.rb#808
+  # source://minitest/5.25.1/lib/minitest/assertions.rb#808
   def assert_not_respond_to(obj, meth, msg = T.unsafe(nil), include_all: T.unsafe(nil)); end
 
-  # source://minitest/5.25.0/lib/minitest/assertions.rb#817
+  # source://minitest/5.25.1/lib/minitest/assertions.rb#817
   def assert_not_same(exp, act, msg = T.unsafe(nil)); end
 
   # source://turbo-rails/2.0.6/lib/turbo/test_assertions.rb#7
@@ -12486,7 +12486,7 @@ class ActiveSupport::TestCase < ::Minitest::Test
   # source://activesupport//lib/active_support/test_case.rb#300
   def inspect; end
 
-  # source://minitest/5.25.0/lib/minitest.rb#375
+  # source://minitest/5.25.1/lib/minitest.rb#375
   def method_name; end
 
   class << self

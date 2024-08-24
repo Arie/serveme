@@ -60,13 +60,13 @@ end
 # source://bootstrap//lib/bootstrap/version.rb#5
 Bootstrap::BOOTSTRAP_SHA = T.let(T.unsafe(nil), String)
 
-# source://bootstrap//lib/bootstrap/engine.rb#7
+# source://bootstrap//lib/bootstrap/engine.rb#23
 module Bootstrap::Rails; end
 
-# source://bootstrap//lib/bootstrap/engine.rb#8
+# source://bootstrap//lib/bootstrap/engine.rb#24
 class Bootstrap::Rails::Engine < ::Rails::Engine
   class << self
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1/lib/active_support/callbacks.rb#70
     def __callbacks; end
   end
 end

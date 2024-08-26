@@ -40,6 +40,7 @@ ip,name,reason
 38.95.12.0/22,personalVPN,VPN without own ASN
 181.214.164.0/24,PIA,PIA VPN
 204.93.149.0/24,PIA,PIA VPN
+102.129.232.0/24,PIA VPN,PIA VPN
 188.122.20.74,savemedbots,cheater / hvh
 108.174.97.56,Sponge,cheater (bots / cmdnum spikes / psilent / NA #558717)
 77.175.39.179,Spotify,cheater

@@ -55,7 +55,7 @@ module RBI; end
 
 # source://tapioca//lib/tapioca/rbi_ext/model.rb#5
 class RBI::Tree < ::RBI::NodeWithComments
-  # source://rbi/0.1.14/lib/rbi/model.rb#121
+  # source://rbi/0.2.0/lib/rbi/model.rb#121
   sig do
     params(
       loc: T.nilable(::RBI::Loc),
@@ -65,15 +65,15 @@ class RBI::Tree < ::RBI::NodeWithComments
   end
   def initialize(loc: T.unsafe(nil), comments: T.unsafe(nil), &block); end
 
-  # source://rbi/0.1.14/lib/rbi/model.rb#128
+  # source://rbi/0.2.0/lib/rbi/model.rb#128
   sig { params(node: ::RBI::Node).void }
   def <<(node); end
 
-  # source://rbi/0.1.14/lib/rbi/rewriters/add_sig_templates.rb#66
+  # source://rbi/0.2.0/lib/rbi/rewriters/add_sig_templates.rb#66
   sig { params(with_todo_comment: T::Boolean).void }
   def add_sig_templates!(with_todo_comment: T.unsafe(nil)); end
 
-  # source://rbi/0.1.14/lib/rbi/rewriters/annotate.rb#49
+  # source://rbi/0.2.0/lib/rbi/rewriters/annotate.rb#49
   sig { params(annotation: ::String, annotate_scopes: T::Boolean, annotate_properties: T::Boolean).void }
   def annotate!(annotation, annotate_scopes: T.unsafe(nil), annotate_properties: T.unsafe(nil)); end
 
@@ -138,27 +138,35 @@ class RBI::Tree < ::RBI::NodeWithComments
   end
   def create_type_variable(name, type:, variance: T.unsafe(nil), fixed: T.unsafe(nil), upper: T.unsafe(nil), lower: T.unsafe(nil)); end
 
-  # source://rbi/0.1.14/lib/rbi/rewriters/deannotate.rb#41
+  # source://rbi/0.2.0/lib/rbi/rewriters/deannotate.rb#41
   sig { params(annotation: ::String).void }
   def deannotate!(annotation); end
 
-  # source://rbi/0.1.14/lib/rbi/model.rb#134
+  # source://rbi/0.2.0/lib/rbi/model.rb#134
   sig { returns(T::Boolean) }
   def empty?; end
 
-  # source://rbi/0.1.14/lib/rbi/rewriters/filter_versions.rb#118
+  # source://rbi/0.2.0/lib/rbi/rewriters/filter_versions.rb#118
   sig { params(version: ::Gem::Version).void }
   def filter_versions!(version); end
 
-  # source://rbi/0.1.14/lib/rbi/rewriters/group_nodes.rb#81
+  # source://rbi/0.2.0/lib/rbi/rewriters/flatten_singleton_methods.rb#60
+  sig { void }
+  def flatten_singleton_methods!; end
+
+  # source://rbi/0.2.0/lib/rbi/rewriters/flatten_visibilities.rb#60
+  sig { void }
+  def flatten_visibilities!; end
+
+  # source://rbi/0.2.0/lib/rbi/rewriters/group_nodes.rb#81
   sig { void }
   def group_nodes!; end
 
-  # source://rbi/0.1.14/lib/rbi/index.rb#68
+  # source://rbi/0.2.0/lib/rbi/index.rb#68
   sig { returns(::RBI::Index) }
   def index; end
 
-  # source://rbi/0.1.14/lib/rbi/rewriters/merge_trees.rb#324
+  # source://rbi/0.2.0/lib/rbi/rewriters/merge_trees.rb#324
   sig do
     params(
       other: ::RBI::Tree,
@@ -169,23 +177,27 @@ class RBI::Tree < ::RBI::NodeWithComments
   end
   def merge(other, left_name: T.unsafe(nil), right_name: T.unsafe(nil), keep: T.unsafe(nil)); end
 
-  # source://rbi/0.1.14/lib/rbi/rewriters/nest_non_public_methods.rb#46
+  # source://rbi/0.2.0/lib/rbi/rewriters/nest_non_public_members.rb#46
   sig { void }
-  def nest_non_public_methods!; end
+  def nest_non_public_members!; end
 
-  # source://rbi/0.1.14/lib/rbi/rewriters/nest_singleton_methods.rb#36
+  # source://rbi/0.2.0/lib/rbi/rewriters/nest_singleton_methods.rb#36
   sig { void }
   def nest_singleton_methods!; end
 
-  # source://rbi/0.1.14/lib/rbi/model.rb#112
+  # source://rbi/0.2.0/lib/rbi/rewriters/nest_top_level_members.rb#63
+  sig { void }
+  def nest_top_level_members!; end
+
+  # source://rbi/0.2.0/lib/rbi/model.rb#112
   sig { returns(T::Array[::RBI::Node]) }
   def nodes; end
 
-  # source://rbi/0.1.14/lib/rbi/rewriters/attr_to_methods.rb#53
+  # source://rbi/0.2.0/lib/rbi/rewriters/attr_to_methods.rb#53
   sig { void }
   def replace_attributes_with_methods!; end
 
-  # source://rbi/0.1.14/lib/rbi/rewriters/sort_nodes.rb#119
+  # source://rbi/0.2.0/lib/rbi/rewriters/sort_nodes.rb#119
   sig { void }
   def sort_nodes!; end
 
@@ -206,7 +218,7 @@ class RBI::TypedParam < ::T::Struct
   const :type, ::String
 
   class << self
-    # source://sorbet-runtime/0.5.11525/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.11553/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -867,7 +879,7 @@ class Tapioca::Commands::Command
   sig { void }
   def initialize; end
 
-  # source://thor/1.3.1/lib/thor/base.rb#155
+  # source://thor/1.3.2/lib/thor/base.rb#155
   sig { returns(::Thor::Actions) }
   def file_writer; end
 
@@ -1129,7 +1141,7 @@ class Tapioca::ConfigHelper::ConfigError < ::T::Struct
   const :message_parts, T::Array[::Tapioca::ConfigHelper::ConfigErrorMessagePart]
 
   class << self
-    # source://sorbet-runtime/0.5.11525/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.11553/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -1140,7 +1152,7 @@ class Tapioca::ConfigHelper::ConfigErrorMessagePart < ::T::Struct
   const :colors, T::Array[::Symbol]
 
   class << self
-    # source://sorbet-runtime/0.5.11525/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.11553/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -1691,7 +1703,7 @@ end
 class Tapioca::Gem::Listeners::SorbetEnums < ::Tapioca::Gem::Listeners::Base
   private
 
-  # source://tapioca//lib/tapioca/gem/listeners/sorbet_enums.rb#25
+  # source://tapioca//lib/tapioca/gem/listeners/sorbet_enums.rb#28
   sig { override.params(event: ::Tapioca::Gem::NodeAdded).returns(T::Boolean) }
   def ignore?(event); end
 
@@ -2196,7 +2208,7 @@ class Tapioca::GemInfo < ::T::Struct
     sig { params(spec: ::Bundler::LazySpecification).returns(::Tapioca::GemInfo) }
     def from_spec(spec); end
 
-    # source://sorbet-runtime/0.5.11525/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.11553/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -3257,9 +3269,9 @@ end
 
 class Tapioca::Runtime::Trackers::Mixin::Type < ::T::Enum
   enums do
-    Prepend = new
-    Include = new
     Extend = new
+    Include = new
+    Prepend = new
   end
 end
 
@@ -3511,9 +3523,9 @@ Tapioca::TypeVariableModule::DEFAULT_BOUNDS_PROC = T.let(T.unsafe(nil), Proc)
 # source://tapioca//lib/tapioca/sorbet_ext/generic_name_patch.rb#125
 class Tapioca::TypeVariableModule::Type < ::T::Enum
   enums do
+    HasAttachedClass = new
     Member = new
     Template = new
-    HasAttachedClass = new
   end
 end
 

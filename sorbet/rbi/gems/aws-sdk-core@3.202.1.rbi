@@ -5,25 +5,23 @@
 # Please instead update this file by running `bin/tapioca gem aws-sdk-core`.
 
 
-# plugins - loaded through service clients as needed.
-#
 # source://aws-sdk-core//lib/aws-sdk-core/deprecations.rb#3
 module Aws
   class << self
     # @return [Hash] Returns a hash of default configuration options shared
     #   by all constructed clients.
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#130
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#153
     def config; end
 
     # @param config [Hash]
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#133
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#156
     def config=(config); end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#192
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#215
     def eager_autoload!(*args); end
 
     # Close any long-lived connections maintained by the SDK's internal
@@ -40,22 +38,22 @@ module Aws
     #
     # @return [nil]
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#185
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#208
     def empty_connection_pools!; end
 
     # @see (Aws::Partitions.partition)
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#142
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#165
     def partition(partition_name); end
 
     # @see (Aws::Partitions.partitions)
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#147
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#170
     def partitions; end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#123
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#146
     def shared_config; end
 
     # The SDK ships with a ca certificate bundle to use when verifying SSL
@@ -70,7 +68,7 @@ module Aws
     #
     # @return [String] Returns the path to the bundled cert.
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#162
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#185
     def use_bundled_cert!; end
   end
 end
@@ -597,7 +595,7 @@ class Aws::Binary::EventStreamEncoder
   def serializer_class(protocol); end
 end
 
-# source://aws-sdk-core//lib/aws-sdk-core.rb#116
+# source://aws-sdk-core//lib/aws-sdk-core.rb#139
 Aws::CORE_GEM_VERSION = T.let(T.unsafe(nil), String)
 
 # @api private

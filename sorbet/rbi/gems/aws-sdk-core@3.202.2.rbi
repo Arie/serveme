@@ -11,17 +11,17 @@ module Aws
     # @return [Hash] Returns a hash of default configuration options shared
     #   by all constructed clients.
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#153
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#138
     def config; end
 
     # @param config [Hash]
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#156
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#141
     def config=(config); end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#215
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#200
     def eager_autoload!(*args); end
 
     # Close any long-lived connections maintained by the SDK's internal
@@ -38,22 +38,22 @@ module Aws
     #
     # @return [nil]
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#208
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#193
     def empty_connection_pools!; end
 
     # @see (Aws::Partitions.partition)
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#165
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#150
     def partition(partition_name); end
 
     # @see (Aws::Partitions.partitions)
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#170
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#155
     def partitions; end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#146
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#131
     def shared_config; end
 
     # The SDK ships with a ca certificate bundle to use when verifying SSL
@@ -68,7 +68,7 @@ module Aws
     #
     # @return [String] Returns the path to the bundled cert.
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#185
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#170
     def use_bundled_cert!; end
   end
 end
@@ -595,7 +595,7 @@ class Aws::Binary::EventStreamEncoder
   def serializer_class(protocol); end
 end
 
-# source://aws-sdk-core//lib/aws-sdk-core.rb#139
+# source://aws-sdk-core//lib/aws-sdk-core.rb#124
 Aws::CORE_GEM_VERSION = T.let(T.unsafe(nil), String)
 
 # @api private
@@ -5708,7 +5708,7 @@ end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/protocols/json_rpc.rb#5
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/protocols/query.rb#5
 module Aws::Plugins::Protocols; end
 
 # @api private

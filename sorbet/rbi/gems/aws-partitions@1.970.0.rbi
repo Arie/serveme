@@ -8,28 +8,28 @@
 # source://aws-partitions//lib/aws-partitions/endpoint_provider.rb#3
 module Aws
   class << self
-    # source://aws-sdk-core/3.202.0/lib/aws-sdk-core.rb#130
+    # source://aws-sdk-core/3.202.2/lib/aws-sdk-core.rb#138
     def config; end
 
-    # source://aws-sdk-core/3.202.0/lib/aws-sdk-core.rb#133
+    # source://aws-sdk-core/3.202.2/lib/aws-sdk-core.rb#141
     def config=(config); end
 
-    # source://aws-sdk-core/3.202.0/lib/aws-sdk-core.rb#192
+    # source://aws-sdk-core/3.202.2/lib/aws-sdk-core.rb#200
     def eager_autoload!(*args); end
 
-    # source://aws-sdk-core/3.202.0/lib/aws-sdk-core.rb#185
+    # source://aws-sdk-core/3.202.2/lib/aws-sdk-core.rb#193
     def empty_connection_pools!; end
 
-    # source://aws-sdk-core/3.202.0/lib/aws-sdk-core.rb#142
+    # source://aws-sdk-core/3.202.2/lib/aws-sdk-core.rb#150
     def partition(partition_name); end
 
-    # source://aws-sdk-core/3.202.0/lib/aws-sdk-core.rb#147
+    # source://aws-sdk-core/3.202.2/lib/aws-sdk-core.rb#155
     def partitions; end
 
-    # source://aws-sdk-core/3.202.0/lib/aws-sdk-core.rb#123
+    # source://aws-sdk-core/3.202.2/lib/aws-sdk-core.rb#131
     def shared_config; end
 
-    # source://aws-sdk-core/3.202.0/lib/aws-sdk-core.rb#162
+    # source://aws-sdk-core/3.202.2/lib/aws-sdk-core.rb#170
     def use_bundled_cert!; end
   end
 end

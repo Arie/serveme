@@ -1,4 +1,5 @@
 # typed: false
+
 require 'spec_helper'
 
 describe ReservationPlayer do
@@ -11,6 +12,11 @@ describe ReservationPlayer do
     it 'recognizes bad ASNs' do
       described_class.stub(:custom_banned_asns).and_return([1221])
       expect(described_class.banned_asn_ip?('1.128.0.1')).to be true
+    end
+
+    it 'knows custom range of VPN IPs not from a specific ASN' do
+      described_class.stub(:vpn_ranges).and_return([IPAddr.new('1.129.0.0/24')])
+      expect(described_class.banned_asn_ip?('1.129.0.1')).to be true
     end
 
     it 'knows SDR ips wont be in the ASN database, so should just return false for those' do

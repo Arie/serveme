@@ -70,9 +70,14 @@ class ReservationPlayer < ActiveRecord::Base
     @banned_ranges ||= CSV.read(Rails.root.join('doc', 'banned_ips.csv'), headers: true).map { |row| IPAddr.new(row['ip']) }
   end
 
-  sig { params(ip: T.nilable(String)).returns(T::Boolean) }
+  sig { returns(T::Array[String]) }
+  def self.vpn_ranges
+    @vpn_ranges ||= CSV.read(Rails.root.join('doc', 'vpn_ips.csv'), headers: true).map { |row| IPAddr.new(row['ip']) }
+  end
+
+  sig { params(ip: T.nilable(String)).returns(T.nilable(T::Boolean)) }
   def self.banned_asn_ip?(ip)
-    banned_asn?(asn(ip))
+    banned_asn?(asn(ip)) || (ip && vpn_ranges.any? { |range| range.include?(ip) })
   end
 
   sig { params(asn: T.nilable(MaxMind::GeoIP2::Model::ASN)).returns(T::Boolean) }

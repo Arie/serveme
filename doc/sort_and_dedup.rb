@@ -3,7 +3,7 @@
 
 require 'csv'
 
-files = ['banned_steam_ids.csv', 'banned_ips.csv', 'whitelisted_steam_ids.csv']
+files = ['banned_steam_ids.csv', 'banned_ips.csv', 'vpn_ips.csv', 'whitelisted_steam_ids.csv']
 
 files.each do |file|
   table = CSV.parse(File.read(file), headers: true)

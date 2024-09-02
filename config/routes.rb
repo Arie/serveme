@@ -118,7 +118,6 @@ Serveme::Application.routes.draw do
     resources :donators, except: %i[edit update]
     resources :reservations do
       member do
-        post :idle_reset
         post :extend
       end
       collection do

@@ -54,11 +54,6 @@ module Api
       end
     end
 
-    def idle_reset
-      reservation.update_attribute(:inactive_minute_counter, 0)
-      render :show
-    end
-
     def extend
       if reservation.extend!
         render :show

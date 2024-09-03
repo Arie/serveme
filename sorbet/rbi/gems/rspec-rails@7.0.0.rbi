@@ -184,19 +184,19 @@ end
 class RSpec::Rails::Railtie < ::Rails::Railtie
   private
 
-  # source://rspec-rails//lib/rspec-rails.rb#51
+  # source://rspec-rails//lib/rspec-rails.rb#69
   def config_default_preview_path(options); end
 
   # @return [Boolean]
   #
-  # source://rspec-rails//lib/rspec-rails.rb#40
+  # source://rspec-rails//lib/rspec-rails.rb#58
   def config_preview_path?(options); end
 
-  # source://rspec-rails//lib/rspec-rails.rb#33
+  # source://rspec-rails//lib/rspec-rails.rb#51
   def setup_preview_path(app); end
 
   # @return [Boolean]
   #
-  # source://rspec-rails//lib/rspec-rails.rb#64
+  # source://rspec-rails//lib/rspec-rails.rb#82
   def supports_action_mailer_previews?(config); end
 end

@@ -43,6 +43,17 @@ module Api
       end
     end
 
+    def update
+      reservation.update(reservation_params)
+      if reservation.errors.any?
+        Rails.logger.warn "API: User: #{api_user.nickname} - Validation errors: #{reservation.errors.full_messages.join(', ')}"
+        render :show, status: :bad_request
+      else
+        ReservationChangesWorker.perform_async(reservation.id, reservation.previous_changes.to_json)
+        render :show
+      end
+    end
+
     def destroy
       if reservation.cancellable?
         reservation.destroy

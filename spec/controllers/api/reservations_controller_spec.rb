@@ -117,6 +117,39 @@ describe Api::ReservationsController do
     end
   end
 
+  describe '#update' do
+    it 'updates a reservation and shows the results' do
+      reservation = create(:reservation, ends_at: 1.hour.from_now, user: @user)
+      new_ends_at = 90.minutes.from_now.change(usec: 0)
+      json = {
+        reservation: {
+          starts_at: String,
+          ends_at: new_ends_at.as_json,
+          server_id: reservation.server_id,
+          rcon: wildcard_matcher,
+          password: 'bar',
+          tv_password: wildcard_matcher,
+          tv_relaypassword: wildcard_matcher,
+          logsecret: wildcard_matcher,
+          last_number_of_players: Integer,
+          inactive_minute_counter: Integer,
+          start_instantly: false,
+          end_instantly: false,
+          server: {
+            ip_and_port: String
+          }.ignore_extra_keys!
+        }.ignore_extra_keys!
+      }.ignore_extra_keys!
+
+      Reservation.should_receive(:find).with(reservation.id).and_return(reservation)
+      reservation.server.should_receive(:update_configuration)
+
+      patch :update, format: :json, params: { id: reservation.id, reservation: { ends_at: new_ends_at, password: 'bar' } }
+      expect(response.body).to match_json_expression(json)
+      response.status.should == 200
+    end
+  end
+
   describe '#destroy' do
     it 'removes a future reservation' do
       reservation = create :reservation, user: @user, starts_at: 1.hour.from_now

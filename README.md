@@ -232,12 +232,103 @@ If everything went alright, you'll get a HTTP 200 and shown your reservation det
     "errors": {}
   },
   "actions": {
+    "patch": "https://serveme.tf/api/reservations/12345"
     "delete": "https://serveme.tf/api/reservations/12345"
   }
 }
 ```
 
 ### Step 4
+PATCH an updated reservation to the "update" action
+```shell
+curl -X POST -H "Content-Type: application/json" -d '{"reservation":{"ends_at":"2014-04-13T21:30:20.415+02:00","password":"","first_map":"cp_badlands}}' 'https://serveme.tf/api/reservations/12345?api_key=your_api_key'
+```
+
+If there's any errors, you'll get a HTTP 400 and a prefilled reservation JSON with errors:
+```
+{
+  "reservation": {
+    "starts_at": "2014-04-13T18:00:20.415+02:00",
+    "ends_at": "2014-04-13T20:00:20.415+02:00",
+    "server_id": null,
+    "password": "bar",
+    "rcon": "foo",
+    "first_map": null,
+    "tv_password": "tv",
+    "tv_relaypassword": "tv",
+    "server_config_id": null,
+    "whitelist_id": null,
+    "custom_whitelist_id": null,
+    "auto_end": true,
+    "errors": {
+      "password": {
+        "error": "can't be blank"
+      },
+      "ends_at": {
+        "error": "reservation can't be more than 2h long"
+      }
+    }
+  },
+  "actions": {
+    "create": "https://serveme.tf/api/reservations"
+  },
+  "servers": [
+    {
+      "id": 64,
+      "name": "FritzBrigade #10",
+      "flag": "de"
+    }
+  ],
+  "server_configs": [
+    {
+      "id": 19,
+      "file": "wptf2l"
+    }
+  ],
+  "whitelists": [
+    {
+      "id": 9,
+      "file": "wp9v9_whitelist.txt"
+    }
+  ]
+}
+```
+
+If everything went alright, you'll get a HTTP 200 and shown your updated reservation details:
+```
+{
+  "reservation": {
+    "starts_at": "2014-04-13T19:00:20.415+02:00",
+    "ends_at": "2014-04-13T19:30:20.415+02:00",
+    "server_id": 64,
+    "password": "newpassword",
+    "rcon": "foo",
+    "first_map": "cp_badlands",
+    "tv_password": "tv",
+    "tv_relaypassword": "tv",
+    "server_config_id": null,
+    "whitelist_id": null,
+    "custom_whitelist_id": null,
+    "auto_end": true,
+    "id": 12345,
+    "last_number_of_players": 0,
+    "inactive_minute_counter": 0,
+    "logsecret": 298424416816498481223654962917404607282,
+    "start_instantly": false,
+    "end_instantly": false,
+    "server": {
+      "name": "Server name",
+      "ip_and_port": "127.0.0.1:27015"
+    },
+    "errors": {}
+  },
+  "actions": {
+    "patch": "https://serveme.tf/api/reservations/12345"
+    "delete": "https://serveme.tf/api/reservations/12345"
+  }
+}
+```
+### Step 5
 After the match is over, you can end your reservation
 
 First, you can check your reservation details:

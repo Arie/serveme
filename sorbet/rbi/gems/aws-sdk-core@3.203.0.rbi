@@ -11,17 +11,17 @@ module Aws
     # @return [Hash] Returns a hash of default configuration options shared
     #   by all constructed clients.
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#138
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#128
     def config; end
 
     # @param config [Hash]
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#141
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#131
     def config=(config); end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#200
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#190
     def eager_autoload!(*args); end
 
     # Close any long-lived connections maintained by the SDK's internal
@@ -38,22 +38,22 @@ module Aws
     #
     # @return [nil]
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#193
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#183
     def empty_connection_pools!; end
 
     # @see (Aws::Partitions.partition)
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#150
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#140
     def partition(partition_name); end
 
     # @see (Aws::Partitions.partitions)
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#155
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#145
     def partitions; end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#131
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#121
     def shared_config; end
 
     # The SDK ships with a ca certificate bundle to use when verifying SSL
@@ -68,7 +68,7 @@ module Aws
     #
     # @return [String] Returns the path to the bundled cert.
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#170
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#160
     def use_bundled_cert!; end
   end
 end
@@ -595,7 +595,7 @@ class Aws::Binary::EventStreamEncoder
   def serializer_class(protocol); end
 end
 
-# source://aws-sdk-core//lib/aws-sdk-core.rb#124
+# source://aws-sdk-core//lib/aws-sdk-core.rb#114
 Aws::CORE_GEM_VERSION = T.let(T.unsafe(nil), String)
 
 # @api private
@@ -6764,17 +6764,19 @@ end
 class Aws::Plugins::StubResponses::Handler < ::Seahorse::Client::Handler
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/stub_responses.rb#65
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/stub_responses.rb#51
+  def call(context); end
+
+  private
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/stub_responses.rb#80
   def apply_stub(stub, response, async_mode = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/stub_responses.rb#51
-  def call(context); end
-
-  # @api private
-  #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/stub_responses.rb#74
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/stub_responses.rb#89
   def signal_error(error, http_resp); end
 
   # @api private
@@ -6782,8 +6784,60 @@ class Aws::Plugins::StubResponses::Handler < ::Seahorse::Client::Handler
   # @param http_resp [Seahorse::Client::Http::Response | Seahorse::Client::Http::AsyncResponse]
   # @param async_mode [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/stub_responses.rb#85
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/stub_responses.rb#100
   def signal_http(stub, http_resp, async_mode = T.unsafe(nil)); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/stub_responses.rb#117
+  def span_wrapper(context, &block); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/stub_responses.rb#59
+  def stub_responses(context); end
+end
+
+# @api private
+#
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/telemetry.rb#6
+class Aws::Plugins::Telemetry < ::Seahorse::Client::Plugin
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/telemetry.rb#25
+  def after_initialize(client); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/telemetry.rb#29
+  def validate_telemetry_provider(config); end
+end
+
+# @api private
+#
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/telemetry.rb#37
+class Aws::Plugins::Telemetry::Handler < ::Seahorse::Client::Handler
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/telemetry.rb#38
+  def call(context); end
+
+  private
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/telemetry.rb#67
+  def parent_span_name(context, service_id); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/telemetry.rb#61
+  def service_id(context); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/telemetry.rb#44
+  def span_wrapper(context, &block); end
 end
 
 # For Streaming Input Operations, when `requiresLength` is enabled
@@ -8351,20 +8405,20 @@ module Aws::SSO; end
 #
 # See {#initialize} for a full list of supported configuration options.
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client.rb#53
+# source://aws-sdk-core//lib/aws-sdk-sso/client.rb#54
 class Aws::SSO::Client < ::Seahorse::Client::Base
   include ::Aws::ClientStubs
 
   # @overload initialize
   # @return [Client] a new instance of Client
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#422
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#434
   def initialize(*args); end
 
   # @api private
   # @param params [{}]
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#636
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#648
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Returns the STS short-term credentials for a given role name that is
@@ -8393,7 +8447,7 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   #   * {Types::GetRoleCredentialsResponse#role_credentials #role_credentials} => Types::RoleCredentials
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/GetRoleCredentials AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#469
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#481
   def get_role_credentials(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Lists all roles that are assigned to the user for a given AWS account.
@@ -8426,7 +8480,7 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   #   * {Types::ListAccountRolesResponse#role_list #role_list} => Array&lt;Types::RoleInfo&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/ListAccountRoles AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#522
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#534
   def list_account_roles(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Lists all AWS accounts assigned to the user. These AWS accounts are
@@ -8465,7 +8519,7 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   #   * {Types::ListAccountsResponse#account_list #account_list} => Array&lt;Types::AccountInfo&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/ListAccounts AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#579
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#591
   def list_accounts(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Removes the locally stored SSO tokens from the client-side cache and
@@ -8501,24 +8555,24 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/Logout AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#627
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#639
   def logout(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#651
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#668
   def waiter_names; end
 
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#661
+    # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#678
     def errors_module; end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#658
+    # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#675
     def identifier; end
   end
 end
@@ -9219,20 +9273,20 @@ module Aws::SSOOIDC; end
 #
 # See {#initialize} for a full list of supported configuration options.
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#53
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#54
 class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   include ::Aws::ClientStubs
 
   # @overload initialize
   # @return [Client] a new instance of Client
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#422
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#434
   def initialize(*args); end
 
   # @api private
   # @param params [{}]
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#989
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1001
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Creates and returns access and refresh tokens for clients that are
@@ -9315,7 +9369,7 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   #   * {Types::CreateTokenResponse#id_token #id_token} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/CreateToken AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#564
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#576
   def create_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates and returns access and refresh tokens for clients and
@@ -9467,7 +9521,7 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   #   * {Types::CreateTokenWithIAMResponse#scope #scope} => Array&lt;String&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/CreateTokenWithIAM AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#799
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#811
   def create_token_with_iam(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Registers a client with IAM Identity Center. This allows clients to
@@ -9539,7 +9593,7 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   #   * {Types::RegisterClientResponse#token_endpoint #token_endpoint} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/RegisterClient AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#905
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#917
   def register_client(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Initiates device authorization by requesting a pair of verification
@@ -9592,24 +9646,24 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   #   * {Types::StartDeviceAuthorizationResponse#interval #interval} => Integer
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/StartDeviceAuthorization AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#980
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#992
   def start_device_authorization(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1004
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1021
   def waiter_names; end
 
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1014
+    # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1031
     def errors_module; end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1011
+    # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1028
     def identifier; end
   end
 end
@@ -10761,14 +10815,14 @@ module Aws::STS; end
 #
 # See {#initialize} for a full list of supported configuration options.
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client.rb#54
+# source://aws-sdk-core//lib/aws-sdk-sts/client.rb#55
 class Aws::STS::Client < ::Seahorse::Client::Base
   include ::Aws::ClientStubs
 
   # @overload initialize
   # @return [Client] a new instance of Client
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#429
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#441
   def initialize(*args); end
 
   # Returns a set of temporary security credentials that you can use to
@@ -10986,7 +11040,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::AssumeRoleResponse#source_identity #source_identity} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRole AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#913
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#925
   def assume_role(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary security credentials for users who have
@@ -11219,7 +11273,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::AssumeRoleWithSAMLResponse#source_identity #source_identity} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithSAML AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1265
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1277
   def assume_role_with_saml(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary security credentials for users who have
@@ -11464,13 +11518,13 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::AssumeRoleWithWebIdentityResponse#source_identity #source_identity} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithWebIdentity AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1643
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1655
   def assume_role_with_web_identity(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @param params [{}]
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2383
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2395
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Decodes additional information about the authorization status of a
@@ -11542,7 +11596,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::DecodeAuthorizationMessageResponse#decoded_message #decoded_message} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/DecodeAuthorizationMessage AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1724
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1736
   def decode_authorization_message(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns the account identifier for the specified access key ID.
@@ -11592,7 +11646,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetAccessKeyInfoResponse#account #account} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetAccessKeyInfo AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1785
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1797
   def get_access_key_info(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns details about the IAM user or role whose credentials are used
@@ -11668,7 +11722,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetCallerIdentityResponse#arn #arn} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetCallerIdentity AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1869
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1881
   def get_caller_identity(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary security credentials (consisting of an
@@ -11863,7 +11917,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetFederationTokenResponse#packed_policy_size #packed_policy_size} => Integer
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetFederationToken AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2217
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2229
   def get_federation_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary credentials for an Amazon Web Services
@@ -11981,24 +12035,24 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetSessionTokenResponse#credentials #credentials} => Types::Credentials
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetSessionToken AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2374
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2386
   def get_session_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2398
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2415
   def waiter_names; end
 
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2408
+    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2425
     def errors_module; end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2405
+    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2422
     def identifier; end
   end
 end
@@ -13788,6 +13842,650 @@ class Aws::Stubbing::XmlError
   def to_xml; end
 end
 
+# Observability is the extent to which a system's current state can be
+# inferred from the data it emits. The data emitted is commonly referred
+# as Telemetry. The AWS SDK for Ruby currently supports traces as
+# a telemetry signal.
+#
+# A telemetry provider is used to emit telemetry data. By default, the
+# {NoOpTelemetryProvider} will not record or emit any telemetry data.
+# The SDK currently supports OpenTelemetry (OTel) as a provider. See
+# {OTelProvider} for more information.
+#
+# If a provider isn't supported, you can implement your own provider by
+# inheriting the following base classes and implementing the interfaces
+# defined:
+# * {TelemetryProviderBase}
+# * {ContextManagerBase}
+# * {TracerProviderBase}
+# * {TracerBase}
+# * {SpanBase}
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#4
+module Aws::Telemetry
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-core//lib/aws-sdk-core/telemetry.rb#36
+    def http_request_attrs(context); end
+
+    # @api private
+    #
+    # source://aws-sdk-core//lib/aws-sdk-core/telemetry.rb#61
+    def http_response_attrs(context); end
+
+    # @api private
+    #
+    # source://aws-sdk-core//lib/aws-sdk-core/telemetry.rb#31
+    def module_to_tracer_name(module_name); end
+  end
+end
+
+# Base for all `ContextManager` classes.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#149
+class Aws::Telemetry::ContextManagerBase
+  # Associates a Context with the caller’s current execution unit.
+  # Returns a token to be used with the matching call to detach.
+  #
+  # @param context [Object] The new context
+  # @raise [NotImplementedError]
+  # @return [Object] token A token to be used when detaching
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#162
+  def attach(context); end
+
+  # Returns current context.
+  #
+  # @raise [NotImplementedError]
+  # @return [Context]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#153
+  def current; end
+
+  # Restore the previous Context associated with the current
+  # execution unit to the value it had before attaching a
+  # specified Context.
+  #
+  # @param token [Object] The token provided by matching the call to attach
+  # @raise [NotImplementedError]
+  # @return [Boolean] `True` if the calls matched, `False` otherwise
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#172
+  def detach(token); end
+end
+
+# No-op implementation for {ContextManagerBase}.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#62
+class Aws::Telemetry::NoOpContextManager < ::Aws::Telemetry::ContextManagerBase
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#65
+  def attach(context); end
+
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#63
+  def current; end
+
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#67
+  def detach(token); end
+end
+
+# No-op implementation for {SpanBase}.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#38
+class Aws::Telemetry::NoOpSpan < ::Aws::Telemetry::SpanBase
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#39
+  def []=(key, value); end
+
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#44
+  def add_attributes(attributes); end
+
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#48
+  def add_event(name, attributes: T.unsafe(nil)); end
+
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#54
+  def finish(end_timestamp: T.unsafe(nil)); end
+
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#58
+  def record_exception(exception, attributes: T.unsafe(nil)); end
+
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#39
+  def set_attribute(key, value); end
+
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#52
+  def status=(status); end
+end
+
+# No-op implementation for {TelemetryProviderBase}.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#6
+class Aws::Telemetry::NoOpTelemetryProvider < ::Aws::Telemetry::TelemetryProviderBase
+  # @return [NoOpTelemetryProvider] a new instance of NoOpTelemetryProvider
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#7
+  def initialize; end
+end
+
+# No-op implementation for {TracerBase}.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#23
+class Aws::Telemetry::NoOpTracer < ::Aws::Telemetry::TracerBase
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#32
+  def current_span; end
+
+  # @yield [NoOpSpan.new]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#28
+  def in_span(name, attributes: T.unsafe(nil), kind: T.unsafe(nil)); end
+
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#24
+  def start_span(name, with_parent: T.unsafe(nil), attributes: T.unsafe(nil), kind: T.unsafe(nil)); end
+end
+
+# No-op implementation for {TracerProviderBase}.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#16
+class Aws::Telemetry::NoOpTracerProvider < ::Aws::Telemetry::TracerProviderBase
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/no_op.rb#17
+  def tracer(name = T.unsafe(nil)); end
+end
+
+# OpenTelemetry-based {ContextManagerBase}, manages context and
+# used to return the current context within a trace.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#207
+class Aws::Telemetry::OTelContextManager < ::Aws::Telemetry::ContextManagerBase
+  # Associates a Context with the caller’s current execution unit.
+  # Returns a token to be used with the matching call to detach.
+  #
+  # @param context [Context] The new context
+  # @return [Object] token A token to be used when detaching
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#220
+  def attach(context); end
+
+  # Returns current context.
+  #
+  # @return [Context]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#211
+  def current; end
+
+  # Restore the previous Context associated with the current
+  # execution unit to the value it had before attaching a
+  # specified Context.
+  #
+  # @param token [Object] The token provided by matching the call to attach
+  # @return [Boolean] `True` if the calls matched, `False` otherwise
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#230
+  def detach(token); end
+end
+
+# OTelProvider allows to emit telemetry data based on OpenTelemetry.
+#
+# To use this provider, require the `opentelemetry-sdk` gem and then,
+# pass in an instance of a `Aws::Telemetry::OTelProvider` as the
+# telemetry provider in the client config.
+#
+# OpenTelemetry supports many ways to export your telemetry data.
+# See {https://opentelemetry.io/docs/languages/ruby/exporters here} for
+# more information.
+#
+# @example Configuration
+#   require 'opentelemetry-sdk'
+#
+#   # sets up the OpenTelemetry SDK with their config defaults
+#   OpenTelemetry::SDK.configure
+#
+#   otel_provider = Aws::Telemetry::OTelProvider.new
+#   client = Aws::S3::Client.new(telemetry_provider: otel_provider)
+# @example Exporting via console
+#   require 'opentelemetry-sdk'
+#
+#   ENV['OTEL_TRACES_EXPORTER'] ||= 'console'
+#
+#   # configures the OpenTelemetry SDK with defaults
+#   OpenTelemetry::SDK.configure
+#
+#   otel_provider = Aws::Telemetry::OTelProvider.new
+#   client = Aws::S3::Client.new(telemetry_provider: otel_provider)
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#34
+class Aws::Telemetry::OTelProvider < ::Aws::Telemetry::TelemetryProviderBase
+  # @return [OTelProvider] a new instance of OTelProvider
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#35
+  def initialize; end
+
+  private
+
+  # @return [Boolean]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#48
+  def otel_loaded?; end
+end
+
+# OpenTelemetry-based {SpanBase}, represents a single operation
+# within a trace.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#130
+class Aws::Telemetry::OTelSpan < ::Aws::Telemetry::SpanBase
+  # @return [OTelSpan] a new instance of OTelSpan
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#131
+  def initialize(span); end
+
+  # Set attribute.
+  #
+  # @param key [String]
+  # @param value [String, Boolean, Numeric, Array<String, Numeric, Boolean>] Value must be non-nil and (array of) string, boolean or numeric type.
+  #   Array values must not contain nil elements and all elements must be of
+  #   the same basic type (string, numeric, boolean)
+  # @return [self] returns itself
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#144
+  def []=(key, value); end
+
+  # Add attributes.
+  #
+  # @param attributes [Hash{String => String, Numeric, Boolean, Array<String, Numeric,
+  # Boolean>}] Values must be non-nil and (array of) string,
+  #   boolean or numeric type. Array values must not contain nil elements
+  #   and all elements must be of the same basic type (string, numeric,
+  #   boolean)
+  # @return [self] returns itself
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#157
+  def add_attributes(attributes); end
+
+  # Add event to a Span.
+  #
+  # @param name [String] Name of the event
+  # @param attributes [Hash{String => String, Numeric, Boolean, Array<String,
+  # Numeric, Boolean>}] Values must be non-nil and (array of)
+  #   string, boolean or numeric type. Array values must not contain nil
+  #   elements and all elements must be of the same basic type (string,
+  #   numeric, boolean)
+  # @return [self] returns itself
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#170
+  def add_event(name, attributes: T.unsafe(nil)); end
+
+  # Finishes the Span.
+  #
+  # @param end_timestamp [Time] End timestamp for the span
+  # @return [self] returns itself
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#187
+  def finish(end_timestamp: T.unsafe(nil)); end
+
+  # Record an exception during the execution of this span. Multiple
+  # exceptions can be recorded on a span.
+  #
+  # @param exception [Exception] The exception to be recorded
+  # @param attributes [Hash{String => String, Numeric, Boolean, Array<String,
+  # Numeric, Boolean>}] One or more key:value pairs, where the
+  #   keys must be strings and the values may be (array of) string, boolean
+  #   or numeric type
+  # @return [void]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#200
+  def record_exception(exception, attributes: T.unsafe(nil)); end
+
+  # Set attribute.
+  #
+  # @param key [String]
+  # @param value [String, Boolean, Numeric, Array<String, Numeric, Boolean>] Value must be non-nil and (array of) string, boolean or numeric type.
+  #   Array values must not contain nil elements and all elements must be of
+  #   the same basic type (string, numeric, boolean)
+  # @return [self] returns itself
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#144
+  def set_attribute(key, value); end
+
+  # Sets the Span status.
+  #
+  # @param status [Aws::Telemetry::Status] The new status, which
+  #   overrides the default Span status, which is `OK`
+  # @return [void]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#179
+  def status=(status); end
+end
+
+# OpenTelemetry-based {TracerBase}, responsible for creating spans.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#80
+class Aws::Telemetry::OTelTracer < ::Aws::Telemetry::TracerBase
+  # @return [OTelTracer] a new instance of OTelTracer
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#81
+  def initialize(tracer); end
+
+  # Returns the current active span.
+  #
+  # @return [Aws::Telemetry::OTelSpan]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#123
+  def current_span; end
+
+  # A helper for the default use-case of extending the current trace
+  # with a span.
+  # On exit, the Span that was active before calling this method will
+  # be reactivated. If an exception occurs during the execution of the
+  # provided block, it will be recorded on the span and re-raised.
+  #
+  # @param name [String] Span name
+  # @param attributes [Hash] Attributes to attach to the span
+  # @param kind [Aws::Telemetry::SpanKind] Type of Span
+  # @return [Aws::Telemetry::OTelSpan]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#114
+  def in_span(name, attributes: T.unsafe(nil), kind: T.unsafe(nil), &block); end
+
+  # Used when a caller wants to manage the activation/deactivation and
+  # lifecycle of the Span and its parent manually.
+  #
+  # @param name [String] Span name
+  # @param with_parent [Object] Parent Context
+  # @param attributes [Hash] Attributes to attach to the span
+  # @param kind [Aws::Telemetry::SpanKind] Type of Span
+  # @return [Aws::Telemetry::OTelSpan]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#94
+  def start_span(name, with_parent: T.unsafe(nil), attributes: T.unsafe(nil), kind: T.unsafe(nil)); end
+end
+
+# OpenTelemetry-based {TracerProviderBase}, an entry point for
+# creating Tracer instances.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#64
+class Aws::Telemetry::OTelTracerProvider < ::Aws::Telemetry::TracerProviderBase
+  # @return [OTelTracerProvider] a new instance of OTelTracerProvider
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#65
+  def initialize; end
+
+  # Returns a Tracer instance.
+  #
+  # @param name [optional String] Tracer name
+  # @return [Aws::Telemetry::OTelTracer]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/otel.rb#74
+  def tracer(name = T.unsafe(nil)); end
+end
+
+# Base for `Span` classes.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#78
+class Aws::Telemetry::SpanBase
+  # Set attribute.
+  #
+  # @param key [String]
+  # @param value [String, Boolean, Numeric, Array<String, Numeric, Boolean>] Value must be non-nil and (array of) string, boolean or numeric type.
+  #   Array values must not contain nil elements and all elements must be of
+  #   the same basic type (string, numeric, boolean)
+  # @raise [NotImplementedError]
+  # @return [self] returns itself
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#87
+  def []=(key, value); end
+
+  # Add attributes.
+  #
+  # @param attributes [Hash{String => String, Numeric, Boolean, Array<String, Numeric,
+  # Boolean>}] Values must be non-nil and (array of) string,
+  #   boolean or numeric type. Array values must not contain nil elements
+  #   and all elements must be of the same basic type (string, numeric,
+  #   boolean)
+  # @raise [NotImplementedError]
+  # @return [self] returns itself
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#100
+  def add_attributes(attributes); end
+
+  # Add event to a Span.
+  #
+  # @param name [String] Name of the event
+  # @param attributes [Hash{String => String, Numeric, Boolean, Array<String,
+  # Numeric, Boolean>}] Values must be non-nil and (array of)
+  #   string, boolean or numeric type. Array values must not contain nil
+  #   elements and all elements must be of the same basic type (string,
+  #   numeric, boolean)
+  # @raise [NotImplementedError]
+  # @return [self] returns itself
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#113
+  def add_event(name, attributes: T.unsafe(nil)); end
+
+  # Finishes the Span.
+  #
+  # @param end_timestamp [Time] End timestamp for the span.
+  # @raise [NotImplementedError]
+  # @return [self] returns itself
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#130
+  def finish(end_timestamp: T.unsafe(nil)); end
+
+  # Record an exception during the execution of this span. Multiple
+  # exceptions can be recorded on a span.
+  #
+  # @param exception [Exception] The exception to be recorded
+  # @param attributes [Hash{String => String, Numeric, Boolean, Array<String,
+  # Numeric, Boolean>}] One or more key:value pairs, where the
+  #   keys must be strings and the values may be (array of) string, boolean
+  #   or numeric type.
+  # @raise [NotImplementedError]
+  # @return [void]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#143
+  def record_exception(exception, attributes: T.unsafe(nil)); end
+
+  # Set attribute.
+  #
+  # @param key [String]
+  # @param value [String, Boolean, Numeric, Array<String, Numeric, Boolean>] Value must be non-nil and (array of) string, boolean or numeric type.
+  #   Array values must not contain nil elements and all elements must be of
+  #   the same basic type (string, numeric, boolean)
+  # @raise [NotImplementedError]
+  # @return [self] returns itself
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#87
+  def set_attribute(key, value); end
+
+  # Sets the Span status.
+  #
+  # @param status [Aws::Telemetry::SpanStatus] The new status, which
+  #   overrides the default Span status, which is `OK`
+  # @raise [NotImplementedError]
+  # @return [void]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#122
+  def status=(status); end
+end
+
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/span_kind.rb#5
+module Aws::Telemetry::SpanKind; end
+
+# Represents a request to some remote service.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/span_kind.rb#13
+Aws::Telemetry::SpanKind::CLIENT = T.let(T.unsafe(nil), Symbol)
+
+# Represents a child of an asynchronous `PRODUCER` request.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/span_kind.rb#16
+Aws::Telemetry::SpanKind::CONSUMER = T.let(T.unsafe(nil), Symbol)
+
+# Default. Represents an internal operation within an application.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/span_kind.rb#7
+Aws::Telemetry::SpanKind::INTERNAL = T.let(T.unsafe(nil), Symbol)
+
+# Represents an asynchronous request.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/span_kind.rb#19
+Aws::Telemetry::SpanKind::PRODUCER = T.let(T.unsafe(nil), Symbol)
+
+# Represents handling synchronous network requests.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/span_kind.rb#10
+Aws::Telemetry::SpanKind::SERVER = T.let(T.unsafe(nil), Symbol)
+
+# Represents the status of a finished span.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/span_status.rb#6
+class Aws::Telemetry::SpanStatus
+  # @return [SpanStatus] a new instance of SpanStatus
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/span_status.rb#38
+  def initialize(code, description: T.unsafe(nil)); end
+
+  # @return [Integer] code
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/span_status.rb#44
+  def code; end
+
+  # @return [String] description
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/span_status.rb#47
+  def description; end
+
+  class << self
+    # Returns a newly created {SpanStatus} with code, `ERROR`
+    # and an optional description.
+    #
+    # @param description [optional String]
+    # @return [SpanStatus]
+    #
+    # source://aws-sdk-core//lib/aws-sdk-core/telemetry/span_status.rb#33
+    def error(description = T.unsafe(nil)); end
+
+    # Returns a newly created {SpanStatus} with code, `OK`
+    # and an optional description.
+    #
+    # @param description [optional String]
+    # @return [SpanStatus]
+    #
+    # source://aws-sdk-core//lib/aws-sdk-core/telemetry/span_status.rb#24
+    def ok(description = T.unsafe(nil)); end
+
+    # Returns a newly created {SpanStatus} with code, `UNSET`
+    # and an optional description.
+    #
+    # @param description [optional String]
+    # @return [SpanStatus]
+    #
+    # source://aws-sdk-core//lib/aws-sdk-core/telemetry/span_status.rb#15
+    def unset(description = T.unsafe(nil)); end
+
+    private
+
+    def new(*_arg0); end
+  end
+end
+
+# An error.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/span_status.rb#56
+Aws::Telemetry::SpanStatus::ERROR = T.let(T.unsafe(nil), Integer)
+
+# The operation completed successfully.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/span_status.rb#50
+Aws::Telemetry::SpanStatus::OK = T.let(T.unsafe(nil), Integer)
+
+# The default status.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/span_status.rb#53
+Aws::Telemetry::SpanStatus::UNSET = T.let(T.unsafe(nil), Integer)
+
+# Base for `TelemetryProvider` classes.
+# They are used to emit telemetry data. It needs the
+# following class implementations to function:
+# * {TracerProviderBase} - A provider that returns a tracer
+#   instance. Then, a tracer will create spans and those
+#   spans will contain information in that given moment.
+# * {ContextManagerBase} - Manages context and used to
+#   return the current context within a trace.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#13
+class Aws::Telemetry::TelemetryProviderBase
+  # @param tracer_provider [Aws::Telemetry::TracerBase] A provider
+  #   that returns a tracer instance.
+  # @param context_manager [Aws::Telemetry::ContextManagerBase] Manages
+  #   context and used to return the current context.
+  # @return [TelemetryProviderBase] a new instance of TelemetryProviderBase
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#18
+  def initialize(tracer_provider: T.unsafe(nil), context_manager: T.unsafe(nil)); end
+
+  # @return [Aws::Telemetry::ContextManagerBase]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#27
+  def context_manager; end
+
+  # @return [Aws::Telemetry::TracerProviderBase]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#24
+  def tracer_provider; end
+end
+
+# Base for `Tracer` classes.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#42
+class Aws::Telemetry::TracerBase
+  # Returns the current active span.
+  #
+  # @raise [NotImplementedError]
+  # @return [Aws::Telemetry::SpanBase]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#72
+  def current_span; end
+
+  # A helper for the default use-case of extending the current trace
+  # with a span.
+  # On exit, the Span that was active before calling this method will
+  # be reactivated. If an exception occurs during the execution of the
+  # provided block, it will be recorded on the span and re-raised.
+  #
+  # @param name [String] Span name
+  # @param attributes [Hash] Attributes to attach to the span
+  # @param kind [Aws::Telemetry::SpanKind] Type of Span
+  # @raise [NotImplementedError]
+  # @return [Aws::Telemetry::SpanBase]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#65
+  def in_span(name, attributes: T.unsafe(nil), kind: T.unsafe(nil)); end
+
+  # Used when a caller wants to manage the activation/deactivation and
+  # lifecycle of the Span and its parent manually.
+  #
+  # @param name [String] Span name
+  # @param with_parent [Object] Parent Context
+  # @param attributes [Hash] Attributes to attach to the span
+  # @param kind [Aws::Telemetry::SpanKind] Type of Span
+  # @raise [NotImplementedError]
+  # @return [Aws::Telemetry::SpanBase]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#51
+  def start_span(name, with_parent: T.unsafe(nil), attributes: T.unsafe(nil), kind: T.unsafe(nil)); end
+end
+
+# Base for `TracerProvider` classes.
+#
+# source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#31
+class Aws::Telemetry::TracerProviderBase
+  # Returns a Tracer instance.
+  #
+  # @param name [String] Tracer name
+  # @raise [NotImplementedError]
+  # @return [Aws::Telemetry::TracerBase]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/telemetry/base.rb#36
+  def tracer(name = T.unsafe(nil)); end
+end
+
 # source://aws-sdk-core//lib/aws-sdk-core/token.rb#4
 class Aws::Token
   # @param token [String]
@@ -15497,33 +16195,43 @@ class Seahorse::Client::H2::Handler < ::Seahorse::Client::Handler
 
   private
 
+  # @api private
+  #
+  # source://aws-sdk-core//lib/seahorse/client/h2/handler.rb#35
+  def _call(context); end
+
   # H2 pseudo headers
   # https://http2.github.io/http2-spec/#rfc.section.8.1.2.3
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/seahorse/client/h2/handler.rb#127
+  # source://aws-sdk-core//lib/seahorse/client/h2/handler.rb#131
   def _h2_headers(req); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/seahorse/client/h2/handler.rb#85
+  # source://aws-sdk-core//lib/seahorse/client/h2/handler.rb#89
   def _register_callbacks(resp, stream, stream_mutex, close_condition, sync_queue); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/seahorse/client/h2/handler.rb#115
+  # source://aws-sdk-core//lib/seahorse/client/h2/handler.rb#119
   def _send_initial_data(req, stream); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/seahorse/client/h2/handler.rb#106
+  # source://aws-sdk-core//lib/seahorse/client/h2/handler.rb#110
   def _send_initial_headers(req, stream); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/seahorse/client/h2/handler.rb#140
+  # source://aws-sdk-core//lib/seahorse/client/h2/handler.rb#144
   def error_message(req, error); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/seahorse/client/h2/handler.rb#153
+  def span_wrapper(context, &block); end
 end
 
 # @api private
@@ -16749,7 +17457,7 @@ class Seahorse::Client::NetHttp::Handler < ::Seahorse::Client::Handler
   # @param config [Configuration]
   # @return [ConnectionPool]
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#51
+  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#57
   def pool_for(config); end
 
   private
@@ -16761,24 +17469,24 @@ class Seahorse::Client::NetHttp::Handler < ::Seahorse::Client::Handler
   # @param request [Http::Request]
   # @return [Net::HTTP::Request]
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#146
+  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#152
   def build_net_request(request); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#100
+  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#106
   def complete_response(req, resp, bytes_received); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#57
+  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#63
   def error_message(req, error); end
 
   # @api private
   # @param response [Net::HTTP::Response]
   # @return [Hash<String, String>]
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#188
+  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#194
   def extract_headers(response); end
 
   # @api private
@@ -16786,7 +17494,7 @@ class Seahorse::Client::NetHttp::Handler < ::Seahorse::Client::Handler
   # @return [Hash] Returns a vanilla hash of headers to send with the
   #   HTTP request.
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#172
+  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#178
   def headers(request); end
 
   # @api private
@@ -16795,7 +17503,7 @@ class Seahorse::Client::NetHttp::Handler < ::Seahorse::Client::Handler
   # @return Returns a base `Net::HTTP::Request` class, e.g.,
   #   `Net::HTTP::Get`, `Net::HTTP::Post`, etc.
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#162
+  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#168
   def net_http_request_class(request); end
 
   # Extracts the {ConnectionPool} configuration options.
@@ -16804,19 +17512,24 @@ class Seahorse::Client::NetHttp::Handler < ::Seahorse::Client::Handler
   # @param config [Configuration]
   # @return [Hash]
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#135
+  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#141
   def pool_options(config); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#122
+  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#128
   def session(config, req, &block); end
 
   # @api private
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#108
+  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#114
   def should_verify_bytes?(req, resp); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#201
+  def span_wrapper(context, &block); end
 
   # @api private
   # @param config [Configuration]
@@ -16824,12 +17537,12 @@ class Seahorse::Client::NetHttp::Handler < ::Seahorse::Client::Handler
   # @param resp [Http::Response]
   # @return [void]
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#70
+  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#76
   def transmit(config, req, resp); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#112
+  # source://aws-sdk-core//lib/seahorse/client/net_http/handler.rb#118
   def verify_bytes_received(resp, bytes_received); end
 end
 
@@ -17448,10 +18161,13 @@ class Seahorse::Client::RequestContext
   # @option options
   # @option options
   # @option options
+  # @option options
+  # @option options
+  # @option options
   # @param options [Hash] a customizable set of options
   # @return [RequestContext] a new instance of RequestContext
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#17
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#20
   def initialize(options = T.unsafe(nil)); end
 
   # Returns the metadata for the given `key`.
@@ -17459,7 +18175,7 @@ class Seahorse::Client::RequestContext
   # @param key [Symbol]
   # @return [Object]
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#63
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#70
   def [](key); end
 
   # Sets the request context metadata for the given `key`.  Request metadata
@@ -17469,103 +18185,113 @@ class Seahorse::Client::RequestContext
   # @param key [Symbol]
   # @param value [Object]
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#72
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#79
   def []=(key, value); end
 
   # @return [Model::Authorizer] APIG SDKs only
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#37
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#41
   def authorizer; end
 
   # @return [Model::Authorizer] APIG SDKs only
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#37
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#41
   def authorizer=(_arg0); end
 
   # @return [Seahorse::Client::Base]
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#40
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#44
   def client; end
 
   # @return [Seahorse::Client::Base]
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#40
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#44
   def client=(_arg0); end
 
   # @return [Configuration] The client configuration.
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#46
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#50
   def config; end
 
   # @return [Configuration] The client configuration.
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#46
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#50
   def config=(_arg0); end
 
   # @return [Http::Request]
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#49
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#53
   def http_request; end
 
   # @return [Http::Request]
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#49
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#53
   def http_request=(_arg0); end
 
   # @return [Http::Response]
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#52
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#56
   def http_response; end
 
   # @return [Http::Response]
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#52
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#56
   def http_response=(_arg0); end
 
   # @return [Hash]
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#58
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#65
   def metadata; end
 
   # @return [Model::Operation]
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#34
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#38
   def operation; end
 
   # @return [Model::Operation]
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#34
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#38
   def operation=(_arg0); end
 
   # @return [Symbol] Name of the API operation called.
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#31
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#35
   def operation_name; end
 
   # @return [Symbol] Name of the API operation called.
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#31
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#35
   def operation_name=(_arg0); end
 
   # @return [Hash] The hash of request parameters.
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#43
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#47
   def params; end
 
   # @return [Hash] The hash of request parameters.
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#43
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#47
   def params=(_arg0); end
 
   # @return [Integer]
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#55
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#59
   def retries; end
 
   # @return [Integer]
   #
-  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#55
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#59
   def retries=(_arg0); end
+
+  # @return [Tracer]
+  #
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#62
+  def tracer; end
+
+  # @return [Tracer]
+  #
+  # source://aws-sdk-core//lib/seahorse/client/request_context.rb#62
+  def tracer=(_arg0); end
 end
 
 # source://aws-sdk-core//lib/seahorse/client/response.rb#7

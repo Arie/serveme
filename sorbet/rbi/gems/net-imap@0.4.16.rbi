@@ -4798,12 +4798,12 @@ class Net::IMAP::ResponseParser
   #
   # This advances @pos directly so it's safe before changing @lex_state.
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#2027
+  # source://net-imap//lib/net/imap/response_parser.rb#2028
   def accept_spaces; end
 
   # acl-data        = "ACL" SP mailbox *(SP identifier SP rights)
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1428
+  # source://net-imap//lib/net/imap/response_parser.rb#1429
   def acl_data; end
 
   # nstring         = string / nil
@@ -4833,7 +4833,7 @@ class Net::IMAP::ResponseParser
   #   addr-mailbox    = nstring
   #   addr-name       = nstring
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1896
+  # source://net-imap//lib/net/imap/response_parser.rb#1897
   def address; end
 
   # astring         = 1*ASTRING-CHAR / string
@@ -5013,7 +5013,7 @@ class Net::IMAP::ResponseParser
   # As a workaround for buggy servers, allow a trailing SP:
   #     *(SP capability) [SP]
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1631
+  # source://net-imap//lib/net/imap/response_parser.rb#1632
   def capability__list; end
 
   # The presence of "IMAP4rev1" or "IMAP4rev2" is unenforced here.
@@ -5027,7 +5027,7 @@ class Net::IMAP::ResponseParser
   #   capability-data  = "CAPABILITY" *(SP capability) SP "IMAP4rev2"
   #                      *(SP capability)
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1620
+  # source://net-imap//lib/net/imap/response_parser.rb#1621
   def capability_data__untagged; end
 
   # Returns <tt>atom.upcase</tt>
@@ -5051,12 +5051,12 @@ class Net::IMAP::ResponseParser
   #
   # charset = atom / quoted
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1967
+  # source://net-imap//lib/net/imap/response_parser.rb#1968
   def charset; end
 
   # "(" charset *(SP charset) ")"
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1850
+  # source://net-imap//lib/net/imap/response_parser.rb#1851
   def charset__list; end
 
   # source://net-imap//lib/net/imap/response_parser.rb#751
@@ -5075,7 +5075,7 @@ class Net::IMAP::ResponseParser
 
   # enable-data   = "ENABLED" *(SP capability)
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1625
+  # source://net-imap//lib/net/imap/response_parser.rb#1626
   def enable_data; end
 
   # env-from        = "(" 1*address ")" / nil
@@ -5178,12 +5178,12 @@ class Net::IMAP::ResponseParser
 
   # flag-list       = "(" [flag *(SP flag)] ")"
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1917
+  # source://net-imap//lib/net/imap/response_parser.rb#1918
   def flag_list; end
 
   # "(" [flag-perm *(SP flag-perm)] ")"
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1927
+  # source://net-imap//lib/net/imap/response_parser.rb#1928
   def flag_perm__list; end
 
   # TODO: handle atom, astring_chars, and tag entirely inside the lexer
@@ -5223,7 +5223,7 @@ class Net::IMAP::ResponseParser
   # source://net-imap//lib/net/imap/response_parser.rb#1304
   def header_list; end
 
-  # source://net-imap//lib/net/imap/response_parser.rb#1644
+  # source://net-imap//lib/net/imap/response_parser.rb#1645
   def id_response; end
 
   # Use #label or #label_in to assert specific known labels
@@ -5265,13 +5265,13 @@ class Net::IMAP::ResponseParser
   #                    "STATUS" SP mailbox SP "(" [status-att-list] ")" /
   #                    number SP "EXISTS" / number SP "RECENT"
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1350
+  # source://net-imap//lib/net/imap/response_parser.rb#1351
   def mailbox_data__flags; end
 
-  # source://net-imap//lib/net/imap/response_parser.rb#1356
+  # source://net-imap//lib/net/imap/response_parser.rb#1357
   def mailbox_data__list; end
 
-  # source://net-imap//lib/net/imap/response_parser.rb#1356
+  # source://net-imap//lib/net/imap/response_parser.rb#1357
   def mailbox_data__lsub; end
 
   # source://net-imap//lib/net/imap/response_parser.rb#835
@@ -5292,15 +5292,15 @@ class Net::IMAP::ResponseParser
   #   mailbox-data        = obsolete-search-response / ...
   #   obsolete-search-response = "SEARCH" *(SP nz-number)
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1468
+  # source://net-imap//lib/net/imap/response_parser.rb#1469
   def mailbox_data__search; end
 
   # mailbox-data    =/ "STATUS" SP mailbox SP "(" [status-att-list] ")"
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1534
+  # source://net-imap//lib/net/imap/response_parser.rb#1535
   def mailbox_data__status; end
 
-  # source://net-imap//lib/net/imap/response_parser.rb#1356
+  # source://net-imap//lib/net/imap/response_parser.rb#1357
   def mailbox_data__xlist; end
 
   # mailbox-list    = "(" [mbx-list-flags] ")" SP
@@ -5309,12 +5309,12 @@ class Net::IMAP::ResponseParser
   #             ; This is the list information pointed to by the ABNF
   #             ; item "mailbox-data", which is defined above
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1369
+  # source://net-imap//lib/net/imap/response_parser.rb#1370
   def mailbox_list; end
 
   # See Patterns::MBX_LIST_FLAGS
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1945
+  # source://net-imap//lib/net/imap/response_parser.rb#1946
   def mbx_list_flags; end
 
   # n.b. this handles both type and subtype
@@ -5483,14 +5483,14 @@ class Net::IMAP::ResponseParser
 
   # namespace         = nil / "(" 1*namespace-descr ")"
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1691
+  # source://net-imap//lib/net/imap/response_parser.rb#1692
   def namespace; end
 
   # namespace-descr   = "(" string SP
   #                        (DQUOTE QUOTED-CHAR DQUOTE / nil)
   #                         [namespace-response-extensions] ")"
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1702
+  # source://net-imap//lib/net/imap/response_parser.rb#1703
   def namespace_descr; end
 
   # namespace-response = "NAMESPACE" SP namespace
@@ -5500,23 +5500,23 @@ class Net::IMAP::ResponseParser
   #                  ; Namespace(s).
   #                  ; The third Namespace is the Shared Namespace(s).
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1679
+  # source://net-imap//lib/net/imap/response_parser.rb#1680
   def namespace_response; end
 
   # namespace-response-extensions = *namespace-response-extension
   # namespace-response-extension = SP string SP
   #                   "(" string *(SP string) ")"
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1714
+  # source://net-imap//lib/net/imap/response_parser.rb#1715
   def namespace_response_extensions; end
 
   # source://net-imap//lib/net/imap/response_parser.rb#554
   def ndatetime; end
 
-  # source://net-imap//lib/net/imap/response_parser.rb#2034
+  # source://net-imap//lib/net/imap/response_parser.rb#2035
   def next_token; end
 
-  # source://net-imap//lib/net/imap/response_parser.rb#2016
+  # source://net-imap//lib/net/imap/response_parser.rb#2017
   def nil_atom; end
 
   # env-from        = "(" 1*address ")" / nil
@@ -5529,7 +5529,7 @@ class Net::IMAP::ResponseParser
   # source://net-imap//lib/net/imap/response_parser.rb#986
   def nlist__address; end
 
-  # source://net-imap//lib/net/imap/response_parser.rb#1994
+  # source://net-imap//lib/net/imap/response_parser.rb#1995
   def nparens__objectid; end
 
   # source://net-imap//lib/net/imap/response_parser.rb#554
@@ -5552,22 +5552,22 @@ class Net::IMAP::ResponseParser
   # source://net-imap//lib/net/imap/response_parser.rb#490
   def objectid; end
 
-  # source://net-imap//lib/net/imap/response_parser.rb#1985
+  # source://net-imap//lib/net/imap/response_parser.rb#1986
   def parens__modseq; end
 
-  # source://net-imap//lib/net/imap/response_parser.rb#1993
+  # source://net-imap//lib/net/imap/response_parser.rb#1994
   def parens__objectid; end
 
   # This allows illegal "]" in flag names (Gmail),
   # or "\*" in a FLAGS response (greenmail).
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1938
+  # source://net-imap//lib/net/imap/response_parser.rb#1939
   def quirky__flag_list(name); end
 
-  # source://net-imap//lib/net/imap/response_parser.rb#1377
+  # source://net-imap//lib/net/imap/response_parser.rb#1378
   def quota_response; end
 
-  # source://net-imap//lib/net/imap/response_parser.rb#1410
+  # source://net-imap//lib/net/imap/response_parser.rb#1411
   def quotaroot_response; end
 
   # reads all the way up until CRLF
@@ -5578,7 +5578,7 @@ class Net::IMAP::ResponseParser
   # As a workaround for buggy servers, allow a trailing SP:
   #     *(SP capability) [SP]
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1631
+  # source://net-imap//lib/net/imap/response_parser.rb#1632
   def resp_code__capability; end
 
   # already matched:  "APPENDUID"
@@ -5593,14 +5593,14 @@ class Net::IMAP::ResponseParser
   # n.b, uniqueid ⊂ uid-set.  To avoid inconsistent return types, we always
   # match uid_set even if that returns a single-member array.
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1866
+  # source://net-imap//lib/net/imap/response_parser.rb#1867
   def resp_code_apnd__data; end
 
   # already matched:  "COPYUID"
   #
   # resp-code-copy  = "COPYUID" SP nz-number SP uid-set SP uid-set
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1875
+  # source://net-imap//lib/net/imap/response_parser.rb#1876
   def resp_code_copy__data; end
 
   # resp-cond-auth   = ("OK" / "PREAUTH") SP resp-text
@@ -5659,7 +5659,7 @@ class Net::IMAP::ResponseParser
   # We leniently re-interpret this as
   #   resp-text       = ["[" resp-text-code "]" [SP [text]] / [text]
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1750
+  # source://net-imap//lib/net/imap/response_parser.rb#1751
   def resp_text; end
 
   # RFC3501 (See https://www.rfc-editor.org/errata/rfc3501):
@@ -5718,7 +5718,7 @@ class Net::IMAP::ResponseParser
   # RFC8474: OBJECTID
   #   resp-text-code   =/ "MAILBOXID" SP "(" objectid ")"
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1814
+  # source://net-imap//lib/net/imap/response_parser.rb#1815
   def resp_text_code; end
 
   # Returns <tt>atom.upcase</tt>
@@ -5850,7 +5850,7 @@ class Net::IMAP::ResponseParser
   #   mailbox-data        = obsolete-search-response / ...
   #   obsolete-search-response = "SEARCH" *(SP nz-number)
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1468
+  # source://net-imap//lib/net/imap/response_parser.rb#1469
   def sort_data; end
 
   # RFC3501
@@ -5858,7 +5858,7 @@ class Net::IMAP::ResponseParser
   # RFC4466, RFC9051, and RFC3501 Errata
   #   status-att-list = status-att-val *(SP status-att-val)
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1545
+  # source://net-imap//lib/net/imap/response_parser.rb#1546
   def status_att_list; end
 
   # RFC3501 Errata:
@@ -5901,7 +5901,7 @@ class Net::IMAP::ResponseParser
   # status-att-val =/ "MAILBOXID" SP "(" objectid ")"
   #         ; follows tagged-ext production from [RFC4466]
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1590
+  # source://net-imap//lib/net/imap/response_parser.rb#1591
   def status_att_val; end
 
   # source://net-imap//lib/net/imap/response_parser.rb#492
@@ -5944,43 +5944,43 @@ class Net::IMAP::ResponseParser
   #                     ; Non-ASCII text can only be returned
   #                     ; after ENABLE IMAP4rev2 command
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1734
+  # source://net-imap//lib/net/imap/response_parser.rb#1735
   def text; end
 
   # an "accept" versiun of #text
   #
   # @return [Boolean]
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1739
+  # source://net-imap//lib/net/imap/response_parser.rb#1740
   def text?; end
 
   # 1*<any TEXT-CHAR except "]">
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1845
+  # source://net-imap//lib/net/imap/response_parser.rb#1846
   def text_chars_except_rbra; end
 
   # RFC5256: THREAD
   #   thread-data     = "THREAD" [SP 1*thread-list]
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1484
+  # source://net-imap//lib/net/imap/response_parser.rb#1485
   def thread_data; end
 
   # RFC5256: THREAD
   #   thread-list     = "(" (thread-members / thread-nested) ")"
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1498
+  # source://net-imap//lib/net/imap/response_parser.rb#1499
   def thread_list; end
 
   # RFC5256: THREAD
   #   thread-members  = nz-number *(SP nz-number) [SP thread-nested]
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1511
+  # source://net-imap//lib/net/imap/response_parser.rb#1512
   def thread_members; end
 
   # RFC5256: THREAD
   #   thread-nested   = 2*thread-list
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1527
+  # source://net-imap//lib/net/imap/response_parser.rb#1528
   def thread_nested; end
 
   # RFC-4315 (UIDPLUS) or RFC9051 (IMAP4rev2):
@@ -5992,7 +5992,7 @@ class Net::IMAP::ResponseParser
   #      uniqueid        = nz-number
   #                          ; Strictly ascending
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#2004
+  # source://net-imap//lib/net/imap/response_parser.rb#2005
   def uid_set; end
 
   # source://net-imap//lib/net/imap/response_parser.rb#751
@@ -6000,12 +6000,12 @@ class Net::IMAP::ResponseParser
 
   # See https://developers.google.com/gmail/imap/imap-extensions
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1952
+  # source://net-imap//lib/net/imap/response_parser.rb#1953
   def x_gm_label; end
 
   # See https://developers.google.com/gmail/imap/imap-extensions
   #
-  # source://net-imap//lib/net/imap/response_parser.rb#1955
+  # source://net-imap//lib/net/imap/response_parser.rb#1956
   def x_gm_labels; end
 end
 
@@ -6548,7 +6548,7 @@ Net::IMAP::ResponseParser::ResponseConditions::RESP_DATA_CONDS = T.let(T.unsafe(
 # source://net-imap//lib/net/imap/response_parser.rb#462
 Net::IMAP::ResponseParser::SEQUENCE_SET_TOKENS = T.let(T.unsafe(nil), Array)
 
-# source://net-imap//lib/net/imap/response_parser.rb#2021
+# source://net-imap//lib/net/imap/response_parser.rb#2022
 Net::IMAP::ResponseParser::SPACES_REGEXP = T.let(T.unsafe(nil), Regexp)
 
 # tag             = 1*<any ASTRING-CHAR except "+">

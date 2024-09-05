@@ -50,15 +50,15 @@ class MiniRacer::Context
 
   private
 
-  # source://mini_racer//lib/mini_racer.rb#411
+  # source://mini_racer//lib/mini_racer.rb#412
   def assert_numeric_or_nil(option_name, object, min_value:, max_value: T.unsafe(nil)); end
 
-  # source://mini_racer//lib/mini_racer.rb#425
+  # source://mini_racer//lib/mini_racer.rb#426
   def assert_option_is_nil_or_a(option_name, object, klass); end
 
   def call_unsafe(*_arg0); end
 
-  # source://mini_racer//lib/mini_racer.rb#397
+  # source://mini_racer//lib/mini_racer.rb#398
   def check_init_options!(isolate:, snapshot:, max_memory:, marshal_stack_depth:, ensure_gc_after_idle:, timeout:); end
 
   def create_isolate_value; end
@@ -70,10 +70,10 @@ class MiniRacer::Context
   def init_unsafe(_arg0, _arg1); end
   def isolate_mutex; end
 
-  # source://mini_racer//lib/mini_racer.rb#347
+  # source://mini_racer//lib/mini_racer.rb#348
   def stop_attached; end
 
-  # source://mini_racer//lib/mini_racer.rb#356
+  # source://mini_racer//lib/mini_racer.rb#357
   def timeout(&blk); end
 end
 
@@ -193,17 +193,17 @@ class MiniRacer::ScriptTerminatedError < ::MiniRacer::EvalError; end
 
 # `size` and `warmup!` public methods are defined in the C class
 #
-# source://mini_racer//lib/mini_racer.rb#433
+# source://mini_racer//lib/mini_racer.rb#434
 class MiniRacer::Snapshot
   # @return [Snapshot] a new instance of Snapshot
   #
-  # source://mini_racer//lib/mini_racer.rb#434
+  # source://mini_racer//lib/mini_racer.rb#435
   def initialize(str = T.unsafe(nil)); end
 
   def dump; end
   def size; end
 
-  # source://mini_racer//lib/mini_racer.rb#449
+  # source://mini_racer//lib/mini_racer.rb#450
   def warmup!(src); end
 
   # @raise [TypeError]

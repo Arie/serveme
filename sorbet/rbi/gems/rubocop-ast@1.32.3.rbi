@@ -4564,7 +4564,7 @@ class RuboCop::AST::NodePattern::LexerRex
 
   # The current location in the parse.
   #
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/lexer.rex.rb#103
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/lexer.rex.rb#104
   def location; end
 
   # The StringScanner for this lexer.
@@ -4579,22 +4579,22 @@ class RuboCop::AST::NodePattern::LexerRex
 
   # Lex the next token.
   #
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/lexer.rex.rb#112
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/lexer.rex.rb#113
   def next_token; end
 
   # Parse the given string.
   #
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/lexer.rex.rb#83
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/lexer.rex.rb#84
   def parse(str); end
 
   # Read in and parse the file at +path+.
   #
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/lexer.rex.rb#93
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/lexer.rex.rb#94
   def parse_file(path); end
 
   # The current scanner class. Must be overridden in subclasses.
   #
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/lexer.rex.rb#76
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/lexer.rex.rb#77
   def scanner_class; end
 
   # The StringScanner for this lexer.
@@ -4968,116 +4968,116 @@ class RuboCop::AST::NodePattern::Parser < ::Racc::Parser
   # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.rb#19
   def initialize(builder = T.unsafe(nil)); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#335
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#333
   def _reduce_10(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#339
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#337
   def _reduce_11(val, _values); end
 
   # reduce 12 omitted
   #
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#345
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#343
   def _reduce_13(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#349
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#347
   def _reduce_14(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#353
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#351
   def _reduce_15(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#357
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#355
   def _reduce_16(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#361
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#359
   def _reduce_17(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#365
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#363
   def _reduce_18(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#369
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#367
   def _reduce_19(val, _values); end
 
   # reduce 1 omitted
   #
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#303
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#301
   def _reduce_2(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#373
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#371
   def _reduce_20(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#377
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#375
   def _reduce_21(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#381
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#379
   def _reduce_22(val, _values); end
 
   # reduce 24 omitted
   #
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#389
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#387
   def _reduce_25(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#395
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#393
   def _reduce_26(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#307
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#305
   def _reduce_3(val, _values); end
 
   # reduce 32 omitted
   #
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#415
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#413
   def _reduce_33(val, _values); end
 
   # reduce 36 omitted
   #
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#425
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#423
   def _reduce_37(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#429
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#427
   def _reduce_38(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#433
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#431
   def _reduce_39(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#311
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#309
   def _reduce_4(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#437
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#435
   def _reduce_40(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#441
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#439
   def _reduce_41(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#445
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#443
   def _reduce_42(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#449
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#447
   def _reduce_43(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#453
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#451
   def _reduce_44(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#457
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#455
   def _reduce_45(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#461
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#459
   def _reduce_46(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#315
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#313
   def _reduce_5(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#319
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#317
   def _reduce_6(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#323
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#321
   def _reduce_7(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#327
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#325
   def _reduce_8(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#331
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#329
   def _reduce_9(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#465
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#463
   def _reduce_none(val, _values); end
 
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
@@ -5137,10 +5137,10 @@ RuboCop::AST::NodePattern::Parser::Lexer = RuboCop::AST::NodePattern::Lexer
 # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#227
 RuboCop::AST::NodePattern::Parser::Racc_arg = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#295
+# source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#293
 RuboCop::AST::NodePattern::Parser::Racc_debug_parser = T.let(T.unsafe(nil), FalseClass)
 
-# source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#244
+# source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#243
 RuboCop::AST::NodePattern::Parser::Racc_token_to_s_table = T.let(T.unsafe(nil), Array)
 
 # Overrides Parser to use `WithMeta` variants and provide additional methods
@@ -7175,6 +7175,335 @@ class RuboCop::AST::YieldNode < ::RuboCop::AST::Node
   #
   # source://rubocop-ast//lib/rubocop/ast/node/yield_node.rb#16
   def node_parts; end
+end
+
+class RuboCop::CommentConfig
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#34
+  def initialize(processed_source); end
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#63
+  def comment_only_line?(line_number); end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def config(*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#51
+  def cop_disabled_line_ranges; end
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#39
+  def cop_enabled_at_line?(cop, line_number); end
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#47
+  def cop_opted_in?(cop); end
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#55
+  def extra_enabled_comments; end
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#30
+  def processed_source; end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def registry(*_arg0, **_arg1, &_arg2); end
+
+  private
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#96
+  def analyze; end
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#124
+  def analyze_cop(analysis, directive); end
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#144
+  def analyze_disabled(analysis, directive); end
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#155
+  def analyze_rest(analysis, directive); end
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#135
+  def analyze_single_line(analysis, directive); end
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#164
+  def cop_line_ranges(analysis); end
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#170
+  def each_directive; end
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#69
+  def extra_enabled_comments_with_names(extras:, names:); end
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#190
+  def handle_enable_all(directive, names, extras); end
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#204
+  def handle_switch(directive, names, extras); end
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#115
+  def inject_disabled_cops_directives(analyses); end
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#183
+  def non_comment_token_line_numbers; end
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#83
+  def opt_in_cops; end
+
+  # source://rubocop/1.66.1/lib/rubocop/comment_config.rb#179
+  def qualified_cop_name(cop_name); end
+end
+
+class RuboCop::Config
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#30
+  def initialize(hash = T.unsafe(nil), loaded_path = T.unsafe(nil)); end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def [](*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def []=(*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#170
+  def active_support_extensions_enabled?; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#96
+  def add_excludes_from_higher_level(highest_config); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#197
+  def allowed_camel_case_file?(file); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#241
+  def base_dir_for_path_parameters; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#271
+  def bundler_lock_file_path; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#51
+  def check; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#142
+  def clusivity_config_for_badge?(badge); end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def delete(*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#108
+  def deprecation_check; end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def dig(*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#162
+  def disabled_new_cops?; end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def each(*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def each_key(*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#166
+  def enabled_new_cops?; end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def fetch(*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#219
+  def file_to_exclude?(file); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#178
+  def file_to_include?(file); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#158
+  def for_all_cops; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#128
+  def for_badge(badge); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#122
+  def for_cop(cop); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#153
+  def for_department(department_name); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#296
+  def gem_versions_in_target; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#300
+  def inspect; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#76
+  def internal?; end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def key?(*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def keys(*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#47
+  def loaded_features; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#20
+  def loaded_path; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#81
+  def make_excludes_absolute; end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def map(*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def merge(*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#251
+  def parser_engine; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#232
+  def path_relative_to_config(path); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#228
+  def patterns_to_exclude; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#224
+  def patterns_to_include; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#282
+  def pending_cops; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#211
+  def possibly_include_hidden?; end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def replace(*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#71
+  def signature; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#266
+  def smart_loaded_path; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#174
+  def string_literals_frozen_by_default?; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#255
+  def target_rails_version; end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def target_ruby_version(*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def to_h(*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def to_hash(*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#67
+  def to_s; end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def transform_values(*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def validate(*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#58
+  def validate_after_resolution; end
+
+  private
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#350
+  def department_of(qualified_cop_name); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#338
+  def enable_cop?(qualified_cop_name, cop_options); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#325
+  def gem_version_to_major_minor_float(gem_version); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#331
+  def read_gem_versions_from_target_lockfile; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#312
+  def read_rails_version_from_bundler_lock_file; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config.rb#307
+  def target_rails_version_from_bundler_lock_file; end
+
+  class << self
+    # source://rubocop/1.66.1/lib/rubocop/config.rb#22
+    def create(hash, path, check: T.unsafe(nil)); end
+  end
+end
+
+class RuboCop::ConfigValidator
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#26
+  def initialize(config); end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def for_all_cops(*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
+  def smart_loaded_path(*_arg0, **_arg1, &_arg2); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#62
+  def target_ruby_version; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#32
+  def validate; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#58
+  def validate_after_resolution; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#66
+  def validate_section_presence(name); end
+
+  private
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#103
+  def alert_about_unrecognized_cops(invalid_cop_names); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#253
+  def check_cop_config_value(hash, parent = T.unsafe(nil)); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#76
+  def check_obsoletions; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#83
+  def check_target_ruby; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#194
+  def each_invalid_parameter(cop_name); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#119
+  def list_unknown_cops(invalid_cop_names); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#273
+  def param_error_message(parent, key, value, supposed_values); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#241
+  def reject_conflicting_safe_settings; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#232
+  def reject_mutually_exclusive_defaults; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#141
+  def suggestion(name); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#74
+  def target_ruby; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#206
+  def validate_enforced_styles(valid_cop_names); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#168
+  def validate_new_cops_parameter; end
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#179
+  def validate_parameter_names(valid_cop_names); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#226
+  def validate_support_and_has_list(name, formats, valid); end
+
+  # source://rubocop/1.66.1/lib/rubocop/config_validator.rb#157
+  def validate_syntax_cop; end
 end
 
 # Similar to `Forwardable#def_delegators`, but simpler & faster

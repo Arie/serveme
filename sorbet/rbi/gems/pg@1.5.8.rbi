@@ -477,7 +477,7 @@ class PG::BasicTypeRegistry::CoderMapsBundle
   def init_maps(registry, result); end
 end
 
-# source://pg//lib/pg/basic_type_registry.rb#308
+# source://pg//lib/pg/basic_type_registry.rb#309
 PG::BasicTypeRegistry::DEFAULT_TYPE_REGISTRY = T.let(T.unsafe(nil), PG::BasicTypeRegistry)
 
 # source://pg//lib/pg.rb#76
@@ -831,7 +831,7 @@ class PG::Connection
   # Returns +nil+ on success, or a string containing the
   # error message if a failure occurs.
   #
-  # source://pg//lib/pg/connection.rb#595
+  # source://pg//lib/pg/connection.rb#597
   def async_cancel; end
 
   def async_describe_portal(_arg0); end
@@ -999,7 +999,7 @@ class PG::Connection
   # Returns +nil+ on success, or a string containing the
   # error message if a failure occurs.
   #
-  # source://pg//lib/pg/connection.rb#595
+  # source://pg//lib/pg/connection.rb#597
   def cancel; end
 
   # Read all pending socket input to internal memory and raise an exception in case of errors.
@@ -1403,7 +1403,7 @@ class PG::Connection
 
   private
 
-  # source://pg//lib/pg/connection.rb#650
+  # source://pg//lib/pg/connection.rb#652
   def async_connect_or_reset(poll_meth); end
 
   def flush_data=(_arg0); end
@@ -1426,7 +1426,7 @@ class PG::Connection
     # Do not use this method in production code.
     # Any issues with the default setting of <tt>async_api=true</tt> should be reported to the maintainers instead.
     #
-    # source://pg//lib/pg/connection.rb#954
+    # source://pg//lib/pg/connection.rb#959
     def async_api=(enable); end
 
     # call-seq:
@@ -1481,7 +1481,7 @@ class PG::Connection
     #
     # Raises a PG::Error if the connection fails.
     #
-    # source://pg//lib/pg/connection.rb#771
+    # source://pg//lib/pg/connection.rb#773
     def async_connect(*args); end
 
     # call-seq:
@@ -1508,10 +1508,10 @@ class PG::Connection
     #
     # See also check_socket for a way to check the connection without doing any server communication.
     #
-    # source://pg//lib/pg/connection.rb#875
+    # source://pg//lib/pg/connection.rb#880
     def async_ping(*args); end
 
-    # source://pg//lib/pg/connection.rb#931
+    # source://pg//lib/pg/connection.rb#936
     def async_send_api=(enable); end
 
     def conndefaults; end
@@ -1576,7 +1576,7 @@ class PG::Connection
     #
     # Raises a PG::Error if the connection fails.
     #
-    # source://pg//lib/pg/connection.rb#771
+    # source://pg//lib/pg/connection.rb#773
     def connect(*args); end
 
     # Convert Hash options to connection String
@@ -1646,7 +1646,7 @@ class PG::Connection
     #
     # Raises a PG::Error if the connection fails.
     #
-    # source://pg//lib/pg/connection.rb#771
+    # source://pg//lib/pg/connection.rb#773
     def new(*args); end
 
     # call-seq:
@@ -1701,7 +1701,7 @@ class PG::Connection
     #
     # Raises a PG::Error if the connection fails.
     #
-    # source://pg//lib/pg/connection.rb#771
+    # source://pg//lib/pg/connection.rb#773
     def open(*args); end
 
     # Parse the connection +args+ into a connection-parameter string.
@@ -1744,7 +1744,7 @@ class PG::Connection
     #
     # See also check_socket for a way to check the connection without doing any server communication.
     #
-    # source://pg//lib/pg/connection.rb#875
+    # source://pg//lib/pg/connection.rb#880
     def ping(*args); end
 
     # Quote a single +value+ for use in a connection-parameter string.
@@ -1806,7 +1806,7 @@ class PG::Connection
     #
     # Raises a PG::Error if the connection fails.
     #
-    # source://pg//lib/pg/connection.rb#771
+    # source://pg//lib/pg/connection.rb#773
     def setdb(*args); end
 
     # call-seq:
@@ -1861,7 +1861,7 @@ class PG::Connection
     #
     # Raises a PG::Error if the connection fails.
     #
-    # source://pg//lib/pg/connection.rb#771
+    # source://pg//lib/pg/connection.rb#773
     def setdblogin(*args); end
 
     def sync_connect(*_arg0); end
@@ -1870,13 +1870,13 @@ class PG::Connection
 
     private
 
-    # source://pg//lib/pg/connection.rb#823
+    # source://pg//lib/pg/connection.rb#825
     def connect_to_hosts(*args); end
 
-    # source://pg//lib/pg/connection.rb#845
+    # source://pg//lib/pg/connection.rb#850
     def host_is_named_pipe?(host_string); end
 
-    # source://pg//lib/pg/connection.rb#792
+    # source://pg//lib/pg/connection.rb#794
     def resolve_hosts(iopts); end
   end
 end
@@ -2376,9 +2376,13 @@ end
 
 PG::TextDecoder::CopyRow::CFUNC = T.let(T.unsafe(nil), Object)
 
-# source://pg//lib/pg/text_decoder/date.rb#8
+# This is a decoder class for conversion of PostgreSQL date type to Ruby Date values.
+#
+# As soon as this class is used, it requires the ruby standard library 'date'.
+#
+# source://pg//lib/pg/text_decoder/date.rb#11
 class PG::TextDecoder::Date < ::PG::SimpleDecoder
-  # source://pg//lib/pg/text_decoder/date.rb#9
+  # source://pg//lib/pg/text_decoder/date.rb#12
   def decode(string, tuple = T.unsafe(nil), field = T.unsafe(nil)); end
 end
 
@@ -2413,9 +2417,13 @@ end
 
 PG::TextDecoder::Integer::CFUNC = T.let(T.unsafe(nil), Object)
 
-# source://pg//lib/pg/text_decoder/json.rb#8
+# This is a decoder class for conversion of PostgreSQL JSON/JSONB type to Ruby Hash, Array, String, Numeric, nil values.
+#
+# As soon as this class is used, it requires the ruby standard library 'json'.
+#
+# source://pg//lib/pg/text_decoder/json.rb#11
 class PG::TextDecoder::JSON < ::PG::SimpleDecoder
-  # source://pg//lib/pg/text_decoder/json.rb#9
+  # source://pg//lib/pg/text_decoder/json.rb#12
   def decode(string, tuple = T.unsafe(nil), field = T.unsafe(nil)); end
 end
 
@@ -2513,9 +2521,11 @@ end
 
 PG::TextEncoder::CopyRow::CFUNC = T.let(T.unsafe(nil), Object)
 
-# source://pg//lib/pg/text_encoder/date.rb#6
+# This is a encoder class for conversion of Ruby Date values to PostgreSQL date type.
+#
+# source://pg//lib/pg/text_encoder/date.rb#7
 class PG::TextEncoder::Date < ::PG::SimpleEncoder
-  # source://pg//lib/pg/text_encoder/date.rb#7
+  # source://pg//lib/pg/text_encoder/date.rb#8
   def encode(value); end
 end
 
@@ -2531,9 +2541,13 @@ end
 
 PG::TextEncoder::Identifier::CFUNC = T.let(T.unsafe(nil), Object)
 
-# source://pg//lib/pg/text_encoder/inet.rb#8
+# This is a encoder class for conversion of Ruby IPAddr values to PostgreSQL inet type.
+#
+# As soon as this class is used, it requires the ruby standard library 'ipaddr'.
+#
+# source://pg//lib/pg/text_encoder/inet.rb#11
 class PG::TextEncoder::Inet < ::PG::SimpleEncoder
-  # source://pg//lib/pg/text_encoder/inet.rb#9
+  # source://pg//lib/pg/text_encoder/inet.rb#12
   def encode(value); end
 end
 
@@ -2543,9 +2557,13 @@ end
 
 PG::TextEncoder::Integer::CFUNC = T.let(T.unsafe(nil), Object)
 
-# source://pg//lib/pg/text_encoder/json.rb#8
+# This is a encoder class for conversion of Ruby Hash, Array, String, Numeric, nil values to PostgreSQL JSON/JSONB type.
+#
+# As soon as this class is used, it requires the ruby standard library 'json'.
+#
+# source://pg//lib/pg/text_encoder/json.rb#11
 class PG::TextEncoder::JSON < ::PG::SimpleEncoder
-  # source://pg//lib/pg/text_encoder/json.rb#9
+  # source://pg//lib/pg/text_encoder/json.rb#12
   def encode(value); end
 end
 

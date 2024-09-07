@@ -26,10 +26,10 @@ module FactoryBot
     # source://factory_bot//lib/factory_bot/aliases.rb#11
     def aliases_for(attribute); end
 
-    # source://factory_bot//lib/factory_bot.rb#57
+    # source://factory_bot//lib/factory_bot.rb#58
     def automatically_define_enum_traits; end
 
-    # source://factory_bot//lib/factory_bot.rb#57
+    # source://factory_bot//lib/factory_bot.rb#58
     def automatically_define_enum_traits=(val); end
 
     # Set the starting value for ids when using the build_stubbed strategy
@@ -38,7 +38,7 @@ module FactoryBot
     # * starting_id +Integer+
     #   The new starting id value.
     #
-    # source://factory_bot//lib/factory_bot.rb#78
+    # source://factory_bot//lib/factory_bot.rb#79
     def build_stubbed_starting_id=(starting_id); end
 
     # An Array of strings specifying locations that should be searched for
@@ -57,7 +57,7 @@ module FactoryBot
     # source://factory_bot//lib/factory_bot/find_definitions.rb#7
     def definition_file_paths=(_arg0); end
 
-    # source://factory_bot//lib/factory_bot.rb#83
+    # source://factory_bot//lib/factory_bot.rb#84
     def factories(*_arg0, **_arg1, &_arg2); end
 
     # source://factory_bot//lib/factory_bot/find_definitions.rb#12
@@ -71,25 +71,25 @@ module FactoryBot
     #   strategy: :create - to specify the strategy for linting
     #   verbose: true - to include full backtraces for each linting error
     #
-    # source://factory_bot//lib/factory_bot.rb#67
+    # source://factory_bot//lib/factory_bot.rb#68
     def lint(*args); end
 
-    # source://factory_bot//lib/factory_bot.rb#83
+    # source://factory_bot//lib/factory_bot.rb#84
     def register_strategy(strategy_name, strategy_class, &_arg2); end
 
     # source://factory_bot//lib/factory_bot/reload.rb#2
     def reload; end
 
-    # source://factory_bot//lib/factory_bot.rb#83
+    # source://factory_bot//lib/factory_bot.rb#84
     def rewind_sequences(&_arg0); end
 
-    # source://factory_bot//lib/factory_bot.rb#83
+    # source://factory_bot//lib/factory_bot.rb#84
     def strategy_by_name(name, &_arg1); end
 
-    # source://factory_bot//lib/factory_bot.rb#54
+    # source://factory_bot//lib/factory_bot.rb#55
     def use_parent_strategy; end
 
-    # source://factory_bot//lib/factory_bot.rb#54
+    # source://factory_bot//lib/factory_bot.rb#55
     def use_parent_strategy=(val); end
   end
 end
@@ -1174,7 +1174,7 @@ end
 # source://factory_bot//lib/factory_bot/definition_proxy.rb#3
 FactoryBot::DefinitionProxy::UNPROXIED_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://factory_bot//lib/factory_bot.rb#52
+# source://factory_bot//lib/factory_bot.rb#53
 FactoryBot::Deprecation = T.let(T.unsafe(nil), ActiveSupport::Deprecation)
 
 # Raised when a factory is defined with the same name as a previously-defined factory.
@@ -1343,7 +1343,7 @@ class FactoryBot::Factory
 
   # @api private
   #
-  # source://factory_bot//lib/factory_bot/factory.rb#50
+  # source://factory_bot//lib/factory_bot/factory.rb#52
   def associations; end
 
   # @api private
@@ -1353,7 +1353,7 @@ class FactoryBot::Factory
 
   # @api private
   #
-  # source://factory_bot//lib/factory_bot/factory.rb#83
+  # source://factory_bot//lib/factory_bot/factory.rb#85
   def compile; end
 
   # source://factory_bot//lib/factory_bot/factory.rb#19
@@ -1375,7 +1375,7 @@ class FactoryBot::Factory
 
   # @api private
   #
-  # source://factory_bot//lib/factory_bot/factory.rb#46
+  # source://factory_bot//lib/factory_bot/factory.rb#48
   def human_names; end
 
   # source://factory_bot//lib/factory_bot/factory.rb#19
@@ -1414,12 +1414,12 @@ class FactoryBot::Factory
   #
   # @api private
   #
-  # source://factory_bot//lib/factory_bot/factory.rb#79
+  # source://factory_bot//lib/factory_bot/factory.rb#81
   def names; end
 
   # @api private
   #
-  # source://factory_bot//lib/factory_bot/factory.rb#30
+  # source://factory_bot//lib/factory_bot/factory.rb#32
   def run(build_strategy, overrides, &block); end
 
   # source://factory_bot//lib/factory_bot/factory.rb#19
@@ -1427,71 +1427,71 @@ class FactoryBot::Factory
 
   # @api private
   #
-  # source://factory_bot//lib/factory_bot/factory.rb#93
+  # source://factory_bot//lib/factory_bot/factory.rb#95
   def with_traits(traits); end
 
   protected
 
   # @api private
   #
-  # source://factory_bot//lib/factory_bot/factory.rb#109
+  # source://factory_bot//lib/factory_bot/factory.rb#111
   def attributes; end
 
   # @api private
   #
-  # source://factory_bot//lib/factory_bot/factory.rb#124
+  # source://factory_bot//lib/factory_bot/factory.rb#126
   def build_hierarchy; end
 
   # @api private
   #
-  # source://factory_bot//lib/factory_bot/factory.rb#128
+  # source://factory_bot//lib/factory_bot/factory.rb#130
   def callbacks; end
 
   # @api private
   #
-  # source://factory_bot//lib/factory_bot/factory.rb#101
+  # source://factory_bot//lib/factory_bot/factory.rb#103
   def class_name; end
 
   # @api private
   #
-  # source://factory_bot//lib/factory_bot/factory.rb#136
+  # source://factory_bot//lib/factory_bot/factory.rb#138
   def compiled_constructor; end
 
   # @api private
   #
-  # source://factory_bot//lib/factory_bot/factory.rb#132
+  # source://factory_bot//lib/factory_bot/factory.rb#134
   def compiled_to_create; end
 
   # @api private
   #
-  # source://factory_bot//lib/factory_bot/factory.rb#105
+  # source://factory_bot//lib/factory_bot/factory.rb#107
   def evaluator_class; end
 
   # @api private
   #
-  # source://factory_bot//lib/factory_bot/factory.rb#116
+  # source://factory_bot//lib/factory_bot/factory.rb#118
   def hierarchy_class; end
 
   # @api private
   #
-  # source://factory_bot//lib/factory_bot/factory.rb#120
+  # source://factory_bot//lib/factory_bot/factory.rb#122
   def hierarchy_instance; end
 
   private
 
   # @api private
   #
-  # source://factory_bot//lib/factory_bot/factory.rb#142
+  # source://factory_bot//lib/factory_bot/factory.rb#144
   def assert_valid_options(options); end
 
   # @api private
   #
-  # source://factory_bot//lib/factory_bot/factory.rb#154
+  # source://factory_bot//lib/factory_bot/factory.rb#156
   def initialize_copy(source); end
 
   # @api private
   #
-  # source://factory_bot//lib/factory_bot/factory.rb#146
+  # source://factory_bot//lib/factory_bot/factory.rb#148
   def parent; end
 end
 

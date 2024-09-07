@@ -6,6 +6,8 @@
 
 
 # :startdoc:
+#
+# source://time//lib/time.rb#27
 class Time
   include ::Comparable
 
@@ -23,7 +25,7 @@ class Time
   #
   # You must require 'time' to use this method.
   #
-  # source://time//time.rb#692
+  # source://time//lib/time.rb#694
   def httpdate; end
 
   # Returns a string which represents the time as a dateTime defined by XML
@@ -46,7 +48,7 @@ class Time
   #
   # You must require 'time' to use this method.
   #
-  # source://time//time.rb#717
+  # source://time//lib/time.rb#720
   def iso8601(fraction_digits = T.unsafe(nil)); end
 
   # Returns a string which represents the time as date-time defined by RFC 2822:
@@ -64,10 +66,10 @@ class Time
   #
   # You must require 'time' to use this method.
   #
-  # source://time//time.rb#672
+  # source://time//lib/time.rb#674
   def rfc2822; end
 
-  # source://time//time.rb#717
+  # source://time//lib/time.rb#720
   def rfc3339(fraction_digits = T.unsafe(nil)); end
 
   # Returns a string which represents the time as date-time defined by RFC 2822:
@@ -85,7 +87,7 @@ class Time
   #
   # You must require 'time' to use this method.
   #
-  # source://time//time.rb#672
+  # source://time//lib/time.rb#674
   def rfc822; end
 
   # Returns a string which represents the time as a dateTime defined by XML
@@ -108,7 +110,7 @@ class Time
   #
   # You must require 'time' to use this method.
   #
-  # source://time//time.rb#717
+  # source://time//lib/time.rb#720
   def xmlschema(fraction_digits = T.unsafe(nil)); end
 
   class << self
@@ -127,7 +129,7 @@ class Time
     #
     # You must require 'time' to use this method.
     #
-    # source://time//time.rb#566
+    # source://time//lib/time.rb#568
     def httpdate(date); end
 
     # Parses +time+ as a dateTime defined by the XML Schema and converts it to
@@ -146,7 +148,7 @@ class Time
     #
     # You must require 'time' to use this method.
     #
-    # source://time//time.rb#620
+    # source://time//lib/time.rb#622
     def iso8601(time); end
 
     # Takes a string representation of a Time and attempts to parse it
@@ -252,7 +254,7 @@ class Time
     #
     # You must require 'time' to use this method.
     #
-    # source://time//time.rb#381
+    # source://time//lib/time.rb#381
     def parse(date, now = T.unsafe(nil)); end
 
     # Parses +date+ as date-time defined by RFC 2822 and converts it to a Time
@@ -271,7 +273,7 @@ class Time
     #
     # You must require 'time' to use this method.
     #
-    # source://time//time.rb#508
+    # source://time//lib/time.rb#510
     def rfc2822(date); end
 
     # Parses +date+ as date-time defined by RFC 2822 and converts it to a Time
@@ -290,12 +292,14 @@ class Time
     #
     # You must require 'time' to use this method.
     #
-    # source://time//time.rb#508
+    # source://time//lib/time.rb#510
     def rfc822(date); end
 
     # Works similar to +parse+ except that instead of using a
     # heuristic to detect the format of the input string, you provide
     # a second argument that describes the format of the string.
+    #
+    # Raises `ArgumentError` if the date or format is invalid.
     #
     # If a block is given, the year described in +date+ is converted by the
     # block.  For example:
@@ -361,7 +365,7 @@ class Time
     #
     # @raise [ArgumentError]
     #
-    # source://time//time.rb#456
+    # source://time//lib/time.rb#458
     def strptime(date, format, now = T.unsafe(nil)); end
 
     # Parses +time+ as a dateTime defined by the XML Schema and converts it to
@@ -380,7 +384,7 @@ class Time
     #
     # You must require 'time' to use this method.
     #
-    # source://time//time.rb#620
+    # source://time//lib/time.rb#622
     def xmlschema(time); end
 
     # Return the number of seconds the specified time zone differs
@@ -408,31 +412,31 @@ class Time
     #
     # You must require 'time' to use this method.
     #
-    # source://time//time.rb#82
+    # source://time//lib/time.rb#82
     def zone_offset(zone, year = T.unsafe(nil)); end
 
     private
 
-    # source://time//time.rb#153
+    # source://time//lib/time.rb#153
     def apply_offset(year, mon, day, hour, min, sec, off); end
 
-    # source://time//time.rb#124
+    # source://time//lib/time.rb#124
     def force_zone!(t, zone, offset = T.unsafe(nil)); end
 
-    # source://time//time.rb#197
+    # source://time//lib/time.rb#197
     def make_time(date, year, yday, mon, day, hour, min, sec, sec_fraction, zone, now); end
 
-    # source://time//time.rb#144
+    # source://time//lib/time.rb#144
     def month_days(y, m); end
 
     # :stopdoc:
     #
     # @return [Boolean]
     #
-    # source://time//time.rb#100
+    # source://time//lib/time.rb#100
     def zone_utc?(zone); end
   end
 end
 
-# source://time//time.rb#29
+# source://time//lib/time.rb#29
 Time::VERSION = T.let(T.unsafe(nil), String)

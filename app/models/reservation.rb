@@ -293,7 +293,7 @@ class Reservation < ActiveRecord::Base
   def whitelist_ip
     return T.must(user&.current_sign_in_ip) if user&.current_sign_in_ip && IPAddr.new(user&.current_sign_in_ip).ipv4?
 
-    return T.must(user&.reservation_players&.last&.ip) if user&.reservation_players&.exists?
+    return T.must(user&.reservation_players&.last&.ip) if user&.reservation_players&.last&.ip
 
     "direct.#{SITE_HOST}"
   end

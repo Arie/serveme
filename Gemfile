@@ -47,7 +47,7 @@ gem 'omniauth-steam'
 gem 'paypal-sdk-rest'
 gem 'pg'
 gem 'puma'
-gem 'rack', '~> 2.2'
+gem 'rack'
 gem 'rack-cache'
 gem 'rails', '~> 7.2.0'
 gem 'rbzip2'
@@ -78,13 +78,13 @@ gem 'terser'
 gem 'text'
 gem 'tf2_line_parser'
 gem 'will_paginate'
-gem 'will_paginate-bootstrap4'
+gem 'will_paginate-bootstrap-style'
 
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'capistrano', require: false
-  gem 'capistrano3-puma', '~> 5.2', require: false
+  gem 'capistrano3-puma', git: 'https://github.com/seuros/capistrano-puma.git', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-ext', require: false
   gem 'capistrano-faster-assets', require: false

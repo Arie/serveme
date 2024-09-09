@@ -128,7 +128,7 @@ end
 class WillPaginate::ActionView::LinkRenderer < ::WillPaginate::ViewHelpers::LinkRenderer
   protected
 
-  # source://will_paginate//lib/will_paginate/view_helpers/action_view.rb#133
+  # source://will_paginate//lib/will_paginate/view_helpers/action_view.rb#137
   def add_current_page_param(url_params, page); end
 
   # source://will_paginate//lib/will_paginate/view_helpers/action_view.rb#104
@@ -137,7 +137,7 @@ class WillPaginate::ActionView::LinkRenderer < ::WillPaginate::ViewHelpers::Link
   # source://will_paginate//lib/will_paginate/view_helpers/action_view.rb#121
   def merge_get_params(url_params); end
 
-  # source://will_paginate//lib/will_paginate/view_helpers/action_view.rb#128
+  # source://will_paginate//lib/will_paginate/view_helpers/action_view.rb#132
   def merge_optional_params(url_params); end
 
   # source://will_paginate//lib/will_paginate/view_helpers/action_view.rb#108
@@ -145,7 +145,7 @@ class WillPaginate::ActionView::LinkRenderer < ::WillPaginate::ViewHelpers::Link
 
   private
 
-  # source://will_paginate//lib/will_paginate/view_helpers/action_view.rb#144
+  # source://will_paginate//lib/will_paginate/view_helpers/action_view.rb#148
   def parse_query_parameters(params); end
 end
 
@@ -565,17 +565,17 @@ class WillPaginate::ViewHelpers::LinkRenderer < ::WillPaginate::ViewHelpers::Lin
   # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#55
   def gap; end
 
-  # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#78
+  # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#80
   def html_container(html); end
 
-  # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#65
+  # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#66
   def next_page; end
 
   # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#46
   def page_number(page); end
 
-  # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#70
-  def previous_or_next_page(page, text, classname); end
+  # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#72
+  def previous_or_next_page(page, text, classname, aria_label = T.unsafe(nil)); end
 
   # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#60
   def previous_page; end
@@ -585,24 +585,24 @@ class WillPaginate::ViewHelpers::LinkRenderer < ::WillPaginate::ViewHelpers::Lin
   #
   # @raise [NotImplementedError]
   #
-  # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#84
+  # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#86
   def url(page); end
 
   private
 
-  # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#94
+  # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#96
   def link(text, target, attributes = T.unsafe(nil)); end
 
-  # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#90
+  # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#92
   def param_name; end
 
-  # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#113
+  # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#114
   def rel_value(page); end
 
-  # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#120
+  # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#121
   def symbolized_update(target, other, blacklist = T.unsafe(nil)); end
 
-  # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#103
+  # source://will_paginate//lib/will_paginate/view_helpers/link_renderer.rb#105
   def tag(name, value, attributes = T.unsafe(nil)); end
 end
 

@@ -309,6 +309,8 @@ class Reservation < ActiveRecord::Base
     previous_server_sdr_ip = server&.last_sdr_ip
     previous_server_sdr_port = server&.last_sdr_port
 
+    return unless previous_server_sdr_ip != server_info.ip || previous_server_sdr_port != server_info.port
+
     update_columns(
       sdr_ip: server_info.ip,
       sdr_port: server_info.port,
@@ -319,10 +321,9 @@ class Reservation < ActiveRecord::Base
       last_sdr_port: server_info.port,
       last_sdr_tv_port: server_info.port + 1
     )
+
     broadcast_connect_info
     status_update("SDR ready, server available at #{server_info.ip}:#{server_info.port}")
-
-    return unless previous_server_sdr_ip != server_info.ip || previous_server_sdr_port != server_info.port
 
     server&.reload&.add_sourcemod_servers(self)
     server&.rcon_exec('sm plugins reload serverhop')

@@ -8412,13 +8412,13 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   # @overload initialize
   # @return [Client] a new instance of Client
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#434
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#440
   def initialize(*args); end
 
   # @api private
   # @param params [{}]
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#648
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#654
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Returns the STS short-term credentials for a given role name that is
@@ -8447,7 +8447,7 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   #   * {Types::GetRoleCredentialsResponse#role_credentials #role_credentials} => Types::RoleCredentials
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/GetRoleCredentials AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#481
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#487
   def get_role_credentials(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Lists all roles that are assigned to the user for a given AWS account.
@@ -8480,7 +8480,7 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   #   * {Types::ListAccountRolesResponse#role_list #role_list} => Array&lt;Types::RoleInfo&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/ListAccountRoles AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#534
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#540
   def list_account_roles(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Lists all AWS accounts assigned to the user. These AWS accounts are
@@ -8519,7 +8519,7 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   #   * {Types::ListAccountsResponse#account_list #account_list} => Array&lt;Types::AccountInfo&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/ListAccounts AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#591
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#597
   def list_accounts(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Removes the locally stored SSO tokens from the client-side cache and
@@ -8555,24 +8555,24 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/Logout AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#639
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#645
   def logout(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#668
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#674
   def waiter_names; end
 
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#678
+    # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#684
     def errors_module; end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#675
+    # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#681
     def identifier; end
   end
 end
@@ -9280,13 +9280,13 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   # @overload initialize
   # @return [Client] a new instance of Client
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#434
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#440
   def initialize(*args); end
 
   # @api private
   # @param params [{}]
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1001
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1007
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Creates and returns access and refresh tokens for clients that are
@@ -9369,7 +9369,7 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   #   * {Types::CreateTokenResponse#id_token #id_token} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/CreateToken AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#576
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#582
   def create_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates and returns access and refresh tokens for clients and
@@ -9521,7 +9521,7 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   #   * {Types::CreateTokenWithIAMResponse#scope #scope} => Array&lt;String&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/CreateTokenWithIAM AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#811
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#817
   def create_token_with_iam(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Registers a client with IAM Identity Center. This allows clients to
@@ -9593,7 +9593,7 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   #   * {Types::RegisterClientResponse#token_endpoint #token_endpoint} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/RegisterClient AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#917
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#923
   def register_client(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Initiates device authorization by requesting a pair of verification
@@ -9646,24 +9646,24 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   #   * {Types::StartDeviceAuthorizationResponse#interval #interval} => Integer
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/StartDeviceAuthorization AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#992
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#998
   def start_device_authorization(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1021
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1027
   def waiter_names; end
 
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1031
+    # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1037
     def errors_module; end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1028
+    # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1034
     def identifier; end
   end
 end
@@ -10822,7 +10822,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   # @overload initialize
   # @return [Client] a new instance of Client
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#441
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#447
   def initialize(*args); end
 
   # Returns a set of temporary security credentials that you can use to
@@ -11040,7 +11040,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::AssumeRoleResponse#source_identity #source_identity} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRole AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#925
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#931
   def assume_role(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary security credentials for users who have
@@ -11273,7 +11273,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::AssumeRoleWithSAMLResponse#source_identity #source_identity} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithSAML AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1277
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1283
   def assume_role_with_saml(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary security credentials for users who have
@@ -11518,13 +11518,13 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::AssumeRoleWithWebIdentityResponse#source_identity #source_identity} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithWebIdentity AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1655
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1661
   def assume_role_with_web_identity(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @param params [{}]
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2395
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2401
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Decodes additional information about the authorization status of a
@@ -11596,7 +11596,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::DecodeAuthorizationMessageResponse#decoded_message #decoded_message} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/DecodeAuthorizationMessage AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1736
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1742
   def decode_authorization_message(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns the account identifier for the specified access key ID.
@@ -11646,7 +11646,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetAccessKeyInfoResponse#account #account} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetAccessKeyInfo AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1797
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1803
   def get_access_key_info(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns details about the IAM user or role whose credentials are used
@@ -11722,7 +11722,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetCallerIdentityResponse#arn #arn} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetCallerIdentity AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1881
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1887
   def get_caller_identity(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary security credentials (consisting of an
@@ -11917,7 +11917,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetFederationTokenResponse#packed_policy_size #packed_policy_size} => Integer
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetFederationToken AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2229
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2235
   def get_federation_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary credentials for an Amazon Web Services
@@ -12035,24 +12035,24 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetSessionTokenResponse#credentials #credentials} => Types::Credentials
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetSessionToken AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2386
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2392
   def get_session_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2415
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2421
   def waiter_names; end
 
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2425
+    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2431
     def errors_module; end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2422
+    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2428
     def identifier; end
   end
 end
@@ -17211,7 +17211,7 @@ class Seahorse::Client::NetHttp::ConnectionPool
   # @api private
   # @return [ConnectionPool] a new instance of ConnectionPool
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#41
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#43
   def initialize(options = T.unsafe(nil)); end
 
   # Removes stale http sessions from the pool (that have exceeded
@@ -17220,7 +17220,7 @@ class Seahorse::Client::NetHttp::ConnectionPool
   # @api private
   # @return [nil]
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#129
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#131
   def clean!; end
 
   # Closes and removes all sessions from the pool.
@@ -17231,33 +17231,33 @@ class Seahorse::Client::NetHttp::ConnectionPool
   # @api private
   # @return [nil]
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#139
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#141
   def empty!; end
 
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#51
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#53
   def http_continue_timeout; end
 
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#51
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#53
   def http_idle_timeout; end
 
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#51
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#53
   def http_open_timeout; end
 
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#51
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#53
   def http_proxy; end
 
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#51
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#53
   def http_read_timeout; end
 
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#51
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#53
   def http_wire_trace; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#51
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#53
   def http_wire_trace?; end
 
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#51
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#53
   def logger; end
 
   # Makes an HTTP request, yielding a Net::HTTPResponse object.
@@ -17277,7 +17277,7 @@ class Seahorse::Client::NetHttp::ConnectionPool
   # @return [nil]
   # @yieldparam net_http_response [Net::HTTPResponse]
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#75
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#77
   def request(endpoint, request, &block); end
 
   # @api private
@@ -17286,34 +17286,40 @@ class Seahorse::Client::NetHttp::ConnectionPool
   # @return [nil]
   # @yieldparam session [Net::HTTPSession]
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#87
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#89
   def session_for(endpoint, &block); end
 
   # @api private
   # @return [Integer] Returns the count of sessions currently in the
   #   pool, not counting those currently in use.
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#120
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#122
   def size; end
 
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#51
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#53
   def ssl_ca_bundle; end
 
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#51
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#53
   def ssl_ca_directory; end
 
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#51
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#53
   def ssl_ca_store; end
 
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#51
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#53
+  def ssl_cert; end
+
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#53
+  def ssl_key; end
+
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#53
   def ssl_timeout; end
 
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#51
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#53
   def ssl_verify_peer; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#51
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#53
   def ssl_verify_peer?; end
 
   private
@@ -17323,7 +17329,7 @@ class Seahorse::Client::NetHttp::ConnectionPool
   # @api private
   # @note **Must** be called behind a `@pool_mutex` synchronize block.
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#307
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#313
   def _clean; end
 
   # Extract the parts of the http_proxy URI
@@ -17331,12 +17337,12 @@ class Seahorse::Client::NetHttp::ConnectionPool
   # @api private
   # @return [Array(String)]
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#259
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#263
   def http_proxy_parts; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#149
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#151
   def remove_path_and_query(endpoint); end
 
   # Starts and returns a new HTTP(S) session.
@@ -17345,7 +17351,7 @@ class Seahorse::Client::NetHttp::ConnectionPool
   # @param endpoint [String]
   # @return [Net::HTTPSession]
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#271
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#275
   def start_session(endpoint); end
 
   class << self
@@ -17368,14 +17374,14 @@ class Seahorse::Client::NetHttp::ConnectionPool
     # @param options [Hash] a customizable set of options
     # @return [ConnectionPool]
     #
-    # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#213
+    # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#215
     def for(options = T.unsafe(nil)); end
 
     # @api private
     # @return [Array<ConnectionPool>] Returns a list of the
     #   constructed connection pools.
     #
-    # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#222
+    # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#224
     def pools; end
 
     private
@@ -17385,7 +17391,7 @@ class Seahorse::Client::NetHttp::ConnectionPool
     # @api private
     # @return [Hash]
     #
-    # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#232
+    # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#234
     def pool_options(options); end
   end
 end
@@ -17395,42 +17401,42 @@ end
 #
 # @api private
 #
-# source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#322
+# source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#328
 class Seahorse::Client::NetHttp::ConnectionPool::ExtendedSession
   # @api private
   # @return [ExtendedSession] a new instance of ExtendedSession
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#324
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#330
   def initialize(http); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#332
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#338
   def __getobj__; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#336
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#342
   def __setobj__(obj); end
 
   # Attempts to close/finish the session without raising an error.
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#347
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#353
   def finish; end
 
   # @api private
   # @return [Integer, nil]
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#330
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#336
   def last_used; end
 
   # Sends the request and tracks that this session has been used.
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#341
+  # source://aws-sdk-core//lib/seahorse/client/net_http/connection_pool.rb#347
   def request(*args, &block); end
 end
 
@@ -17954,13 +17960,13 @@ end
 # source://aws-sdk-core//lib/seahorse/client/plugins/net_http.rb#8
 class Seahorse::Client::Plugins::NetHttp < ::Seahorse::Client::Plugin
   class << self
-    # source://aws-sdk-core//lib/seahorse/client/plugins/net_http.rb#77
+    # source://aws-sdk-core//lib/seahorse/client/plugins/net_http.rb#86
     def resolve_http_open_timeout(cfg); end
 
-    # source://aws-sdk-core//lib/seahorse/client/plugins/net_http.rb#85
+    # source://aws-sdk-core//lib/seahorse/client/plugins/net_http.rb#94
     def resolve_http_read_timeout(cfg); end
 
-    # source://aws-sdk-core//lib/seahorse/client/plugins/net_http.rb#93
+    # source://aws-sdk-core//lib/seahorse/client/plugins/net_http.rb#102
     def resolve_ssl_timeout(cfg); end
   end
 end

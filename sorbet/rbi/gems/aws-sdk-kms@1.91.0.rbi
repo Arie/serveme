@@ -8234,120 +8234,156 @@ end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#29
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#26
 class Aws::KMS::Endpoints::ConnectCustomKeyStore
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#30
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#27
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#43
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#37
 class Aws::KMS::Endpoints::CreateAlias
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#44
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#38
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#57
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#48
 class Aws::KMS::Endpoints::CreateCustomKeyStore
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#58
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#49
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#71
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#59
 class Aws::KMS::Endpoints::CreateGrant
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#72
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#60
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#85
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#70
 class Aws::KMS::Endpoints::CreateKey
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#86
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#71
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#99
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#81
 class Aws::KMS::Endpoints::Decrypt
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#100
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#82
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#113
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#92
 class Aws::KMS::Endpoints::DeleteAlias
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#114
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#93
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#127
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#103
 class Aws::KMS::Endpoints::DeleteCustomKeyStore
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#128
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#104
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#141
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#114
 class Aws::KMS::Endpoints::DeleteImportedKeyMaterial
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#142
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#115
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#155
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#125
 class Aws::KMS::Endpoints::DeriveSharedSecret
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#156
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#126
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#136
+class Aws::KMS::Endpoints::DescribeCustomKeyStores
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#137
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#147
+class Aws::KMS::Endpoints::DescribeKey
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#148
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#158
+class Aws::KMS::Endpoints::DisableKey
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#159
     def build(context); end
   end
 end
@@ -8355,7 +8391,7 @@ end
 # @api private
 #
 # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#169
-class Aws::KMS::Endpoints::DescribeCustomKeyStores
+class Aws::KMS::Endpoints::DisableKeyRotation
   class << self
     # @api private
     #
@@ -8366,120 +8402,156 @@ end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#183
-class Aws::KMS::Endpoints::DescribeKey
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#184
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#197
-class Aws::KMS::Endpoints::DisableKey
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#198
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#211
-class Aws::KMS::Endpoints::DisableKeyRotation
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#212
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#225
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#180
 class Aws::KMS::Endpoints::DisconnectCustomKeyStore
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#226
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#181
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#239
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#191
 class Aws::KMS::Endpoints::EnableKey
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#240
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#192
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#253
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#202
 class Aws::KMS::Endpoints::EnableKeyRotation
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#254
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#203
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#267
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#213
 class Aws::KMS::Endpoints::Encrypt
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#268
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#214
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#281
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#224
 class Aws::KMS::Endpoints::GenerateDataKey
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#282
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#225
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#295
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#235
 class Aws::KMS::Endpoints::GenerateDataKeyPair
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#296
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#236
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#309
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#246
 class Aws::KMS::Endpoints::GenerateDataKeyPairWithoutPlaintext
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#310
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#247
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#257
+class Aws::KMS::Endpoints::GenerateDataKeyWithoutPlaintext
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#258
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#268
+class Aws::KMS::Endpoints::GenerateMac
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#269
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#279
+class Aws::KMS::Endpoints::GenerateRandom
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#280
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#290
+class Aws::KMS::Endpoints::GetKeyPolicy
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#291
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#301
+class Aws::KMS::Endpoints::GetKeyRotationStatus
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#302
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#312
+class Aws::KMS::Endpoints::GetParametersForImport
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#313
     def build(context); end
   end
 end
@@ -8487,7 +8559,7 @@ end
 # @api private
 #
 # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#323
-class Aws::KMS::Endpoints::GenerateDataKeyWithoutPlaintext
+class Aws::KMS::Endpoints::GetPublicKey
   class << self
     # @api private
     #
@@ -8498,120 +8570,156 @@ end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#337
-class Aws::KMS::Endpoints::GenerateMac
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#338
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#351
-class Aws::KMS::Endpoints::GenerateRandom
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#352
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#365
-class Aws::KMS::Endpoints::GetKeyPolicy
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#366
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#379
-class Aws::KMS::Endpoints::GetKeyRotationStatus
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#380
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#393
-class Aws::KMS::Endpoints::GetParametersForImport
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#394
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#407
-class Aws::KMS::Endpoints::GetPublicKey
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#408
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#421
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#334
 class Aws::KMS::Endpoints::ImportKeyMaterial
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#422
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#335
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#435
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#345
 class Aws::KMS::Endpoints::ListAliases
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#436
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#346
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#449
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#356
 class Aws::KMS::Endpoints::ListGrants
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#450
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#357
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#463
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#367
 class Aws::KMS::Endpoints::ListKeyPolicies
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#464
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#368
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#378
+class Aws::KMS::Endpoints::ListKeyRotations
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#379
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#389
+class Aws::KMS::Endpoints::ListKeys
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#390
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#400
+class Aws::KMS::Endpoints::ListResourceTags
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#401
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#411
+class Aws::KMS::Endpoints::ListRetirableGrants
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#412
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#422
+class Aws::KMS::Endpoints::PutKeyPolicy
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#423
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#433
+class Aws::KMS::Endpoints::ReEncrypt
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#434
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#444
+class Aws::KMS::Endpoints::ReplicateKey
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#445
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#455
+class Aws::KMS::Endpoints::RetireGrant
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#456
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#466
+class Aws::KMS::Endpoints::RevokeGrant
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#467
     def build(context); end
   end
 end
@@ -8619,7 +8727,7 @@ end
 # @api private
 #
 # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#477
-class Aws::KMS::Endpoints::ListKeyRotations
+class Aws::KMS::Endpoints::RotateKeyOnDemand
   class << self
     # @api private
     #
@@ -8630,228 +8738,120 @@ end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#491
-class Aws::KMS::Endpoints::ListKeys
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#492
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#505
-class Aws::KMS::Endpoints::ListResourceTags
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#506
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#519
-class Aws::KMS::Endpoints::ListRetirableGrants
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#520
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#533
-class Aws::KMS::Endpoints::PutKeyPolicy
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#534
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#547
-class Aws::KMS::Endpoints::ReEncrypt
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#548
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#561
-class Aws::KMS::Endpoints::ReplicateKey
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#562
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#575
-class Aws::KMS::Endpoints::RetireGrant
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#576
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#589
-class Aws::KMS::Endpoints::RevokeGrant
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#590
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#603
-class Aws::KMS::Endpoints::RotateKeyOnDemand
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#604
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#617
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#488
 class Aws::KMS::Endpoints::ScheduleKeyDeletion
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#618
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#489
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#631
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#499
 class Aws::KMS::Endpoints::Sign
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#632
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#500
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#645
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#510
 class Aws::KMS::Endpoints::TagResource
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#646
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#511
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#659
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#521
 class Aws::KMS::Endpoints::UntagResource
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#660
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#522
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#673
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#532
 class Aws::KMS::Endpoints::UpdateAlias
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#674
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#533
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#687
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#543
 class Aws::KMS::Endpoints::UpdateCustomKeyStore
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#688
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#544
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#701
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#554
 class Aws::KMS::Endpoints::UpdateKeyDescription
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#702
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#555
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#715
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#565
 class Aws::KMS::Endpoints::UpdatePrimaryRegion
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#716
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#566
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#729
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#576
 class Aws::KMS::Endpoints::Verify
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#730
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#577
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#743
+# source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#587
 class Aws::KMS::Endpoints::VerifyMac
   class << self
     # @api private
     #
-    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#744
+    # source://aws-sdk-kms//lib/aws-sdk-kms/endpoints.rb#588
     def build(context); end
   end
 end
@@ -9710,7 +9710,7 @@ module Aws::KMS::Plugins; end
 
 # source://aws-sdk-kms//lib/aws-sdk-kms/plugins/endpoints.rb#13
 class Aws::KMS::Plugins::Endpoints < ::Seahorse::Client::Plugin
-  # source://aws-sdk-kms//lib/aws-sdk-kms/plugins/endpoints.rb#171
+  # source://aws-sdk-kms//lib/aws-sdk-kms/plugins/endpoints.rb#180
   def add_handlers(handlers, _config); end
 end
 
@@ -9727,13 +9727,18 @@ class Aws::KMS::Plugins::Endpoints::Handler < ::Seahorse::Client::Handler
 
   # @api private
   #
-  # source://aws-sdk-kms//lib/aws-sdk-kms/plugins/endpoints.rb#48
+  # source://aws-sdk-kms//lib/aws-sdk-kms/plugins/endpoints.rb#57
   def apply_endpoint_headers(context, headers); end
 
   # @api private
   #
-  # source://aws-sdk-kms//lib/aws-sdk-kms/plugins/endpoints.rb#59
+  # source://aws-sdk-kms//lib/aws-sdk-kms/plugins/endpoints.rb#68
   def parameters_for_operation(context); end
+
+  # @api private
+  #
+  # source://aws-sdk-kms//lib/aws-sdk-kms/plugins/endpoints.rb#48
+  def with_metrics(context, &block); end
 end
 
 # source://aws-sdk-kms//lib/aws-sdk-kms/resource.rb#12

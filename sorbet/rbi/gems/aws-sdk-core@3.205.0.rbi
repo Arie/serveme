@@ -5810,7 +5810,7 @@ class Aws::Plugins::RegionalEndpoint < ::Seahorse::Client::Plugin
     #
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#209
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#210
     def resolve_legacy_endpoint(cfg); end
 
     # @api private
@@ -6889,44 +6889,44 @@ class Aws::Plugins::UserAgent < ::Seahorse::Client::Plugin
     #
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#44
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#47
     def feature(_feature, &block); end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#48
-    def metric(metric, &block); end
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#51
+    def metric(*metrics, &block); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#60
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#61
 class Aws::Plugins::UserAgent::Handler < ::Seahorse::Client::Handler
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#61
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#62
   def call(context); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#66
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#67
   def set_user_agent(context); end
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#70
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#71
 class Aws::Plugins::UserAgent::Handler::UserAgent
   # @api private
   # @return [UserAgent] a new instance of UserAgent
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#71
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#72
   def initialize(context); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#75
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#76
   def to_s; end
 
   private
@@ -6935,41 +6935,41 @@ class Aws::Plugins::UserAgent::Handler::UserAgent
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#104
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#105
   def api_metadata; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#143
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#144
   def app_id_metadata; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#137
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#138
   def env_metadata; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#151
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#152
   def framework_metadata; end
 
   # Used to be RUBY_ENGINE/RUBY_VERSION
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#133
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#134
   def language_metadata; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#168
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#169
   def metric_metadata; end
 
   # Used to be RUBY_PLATFORM
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#114
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#115
   def os_metadata; end
 end
 
@@ -8313,25 +8313,28 @@ class Aws::RpcV2::Handler < ::Seahorse::Client::Handler
 
   private
 
-  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#65
+  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#69
   def apply_request_id(context); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#31
+  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#35
   def build_body(context); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#18
+  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#22
   def build_request(context); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#25
+  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#29
   def build_url(context); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#35
+  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#39
   def parse_body(context); end
 
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#69
+  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#73
   def query_compatible?(context); end
+
+  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#18
+  def with_metric(&block); end
 end
 
 # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/parser.rb#7
@@ -8816,36 +8819,36 @@ end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#29
+# source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#26
 class Aws::SSO::Endpoints::ListAccountRoles
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#30
+    # source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#27
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#43
+# source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#37
 class Aws::SSO::Endpoints::ListAccounts
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#44
+    # source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#38
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#57
+# source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#48
 class Aws::SSO::Endpoints::Logout
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#58
+    # source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#49
     def build(context); end
   end
 end
@@ -8956,7 +8959,7 @@ module Aws::SSO::Plugins; end
 
 # source://aws-sdk-core//lib/aws-sdk-sso/plugins/endpoints.rb#13
 class Aws::SSO::Plugins::Endpoints < ::Seahorse::Client::Plugin
-  # source://aws-sdk-core//lib/aws-sdk-sso/plugins/endpoints.rb#73
+  # source://aws-sdk-core//lib/aws-sdk-sso/plugins/endpoints.rb#82
   def add_handlers(handlers, _config); end
 end
 
@@ -8973,13 +8976,18 @@ class Aws::SSO::Plugins::Endpoints::Handler < ::Seahorse::Client::Handler
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/plugins/endpoints.rb#48
+  # source://aws-sdk-core//lib/aws-sdk-sso/plugins/endpoints.rb#57
   def apply_endpoint_headers(context, headers); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/plugins/endpoints.rb#59
+  # source://aws-sdk-core//lib/aws-sdk-sso/plugins/endpoints.rb#68
   def parameters_for_operation(context); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-sso/plugins/endpoints.rb#48
+  def with_metrics(context, &block); end
 end
 
 # source://aws-sdk-core//lib/aws-sdk-sso/resource.rb#12
@@ -10022,36 +10030,36 @@ end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#29
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#26
 class Aws::SSOOIDC::Endpoints::CreateTokenWithIAM
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#30
+    # source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#27
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#43
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#37
 class Aws::SSOOIDC::Endpoints::RegisterClient
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#44
+    # source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#38
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#57
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#48
 class Aws::SSOOIDC::Endpoints::StartDeviceAuthorization
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#58
+    # source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#49
     def build(context); end
   end
 end
@@ -10412,7 +10420,7 @@ module Aws::SSOOIDC::Plugins; end
 
 # source://aws-sdk-core//lib/aws-sdk-ssooidc/plugins/endpoints.rb#13
 class Aws::SSOOIDC::Plugins::Endpoints < ::Seahorse::Client::Plugin
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/plugins/endpoints.rb#73
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/plugins/endpoints.rb#82
   def add_handlers(handlers, _config); end
 end
 
@@ -10429,13 +10437,18 @@ class Aws::SSOOIDC::Plugins::Endpoints::Handler < ::Seahorse::Client::Handler
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/plugins/endpoints.rb#48
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/plugins/endpoints.rb#57
   def apply_endpoint_headers(context, headers); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/plugins/endpoints.rb#59
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/plugins/endpoints.rb#68
   def parameters_for_operation(context); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/plugins/endpoints.rb#48
+  def with_metrics(context, &block); end
 end
 
 # source://aws-sdk-core//lib/aws-sdk-ssooidc/resource.rb#12
@@ -12351,36 +12364,48 @@ end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#30
+# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#27
 class Aws::STS::Endpoints::AssumeRoleWithSAML
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#31
+    # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#28
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#45
+# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#39
 class Aws::STS::Endpoints::AssumeRoleWithWebIdentity
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#46
+    # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#40
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#60
+# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#51
 class Aws::STS::Endpoints::DecodeAuthorizationMessage
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#61
+    # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#52
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#63
+class Aws::STS::Endpoints::GetAccessKeyInfo
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#64
     def build(context); end
   end
 end
@@ -12388,7 +12413,7 @@ end
 # @api private
 #
 # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#75
-class Aws::STS::Endpoints::GetAccessKeyInfo
+class Aws::STS::Endpoints::GetCallerIdentity
   class << self
     # @api private
     #
@@ -12399,36 +12424,24 @@ end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#90
-class Aws::STS::Endpoints::GetCallerIdentity
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#91
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#105
+# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#87
 class Aws::STS::Endpoints::GetFederationToken
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#106
+    # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#88
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#120
+# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#99
 class Aws::STS::Endpoints::GetSessionToken
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#121
+    # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#100
     def build(context); end
   end
 end
@@ -12607,7 +12620,7 @@ module Aws::STS::Plugins; end
 
 # source://aws-sdk-core//lib/aws-sdk-sts/plugins/endpoints.rb#13
 class Aws::STS::Plugins::Endpoints < ::Seahorse::Client::Plugin
-  # source://aws-sdk-core//lib/aws-sdk-sts/plugins/endpoints.rb#81
+  # source://aws-sdk-core//lib/aws-sdk-sts/plugins/endpoints.rb#90
   def add_handlers(handlers, _config); end
 end
 
@@ -12624,13 +12637,18 @@ class Aws::STS::Plugins::Endpoints::Handler < ::Seahorse::Client::Handler
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/plugins/endpoints.rb#48
+  # source://aws-sdk-core//lib/aws-sdk-sts/plugins/endpoints.rb#57
   def apply_endpoint_headers(context, headers); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/plugins/endpoints.rb#59
+  # source://aws-sdk-core//lib/aws-sdk-sts/plugins/endpoints.rb#68
   def parameters_for_operation(context); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-sts/plugins/endpoints.rb#48
+  def with_metrics(context, &block); end
 end
 
 # source://aws-sdk-core//lib/aws-sdk-sts/plugins/sts_regional_endpoints.rb#7

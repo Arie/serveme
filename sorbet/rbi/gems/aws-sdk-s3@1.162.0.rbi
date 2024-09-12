@@ -8,28 +8,28 @@
 # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/accelerate.rb#3
 module Aws
   class << self
-    # source://aws-sdk-core/3.204.0/lib/aws-sdk-core.rb#128
+    # source://aws-sdk-core/3.205.0/lib/aws-sdk-core.rb#128
     def config; end
 
-    # source://aws-sdk-core/3.204.0/lib/aws-sdk-core.rb#131
+    # source://aws-sdk-core/3.205.0/lib/aws-sdk-core.rb#131
     def config=(config); end
 
-    # source://aws-sdk-core/3.204.0/lib/aws-sdk-core.rb#190
+    # source://aws-sdk-core/3.205.0/lib/aws-sdk-core.rb#190
     def eager_autoload!(*args); end
 
-    # source://aws-sdk-core/3.204.0/lib/aws-sdk-core.rb#183
+    # source://aws-sdk-core/3.205.0/lib/aws-sdk-core.rb#183
     def empty_connection_pools!; end
 
-    # source://aws-sdk-core/3.204.0/lib/aws-sdk-core.rb#140
+    # source://aws-sdk-core/3.205.0/lib/aws-sdk-core.rb#140
     def partition(partition_name); end
 
-    # source://aws-sdk-core/3.204.0/lib/aws-sdk-core.rb#145
+    # source://aws-sdk-core/3.205.0/lib/aws-sdk-core.rb#145
     def partitions; end
 
-    # source://aws-sdk-core/3.204.0/lib/aws-sdk-core.rb#121
+    # source://aws-sdk-core/3.205.0/lib/aws-sdk-core.rb#121
     def shared_config; end
 
-    # source://aws-sdk-core/3.204.0/lib/aws-sdk-core.rb#160
+    # source://aws-sdk-core/3.205.0/lib/aws-sdk-core.rb#160
     def use_bundled_cert!; end
   end
 end
@@ -379,7 +379,7 @@ class Aws::S3::Bucket
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # @return [BucketLifecycle]
@@ -855,7 +855,7 @@ class Aws::S3::BucketAcl
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {BucketAcl}.
@@ -1085,7 +1085,7 @@ class Aws::S3::BucketCors
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {BucketCors}.
@@ -1282,7 +1282,7 @@ class Aws::S3::BucketLifecycle
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {BucketLifecycle}.
@@ -1505,7 +1505,7 @@ class Aws::S3::BucketLifecycleConfiguration
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {BucketLifecycleConfiguration}.
@@ -1738,7 +1738,7 @@ class Aws::S3::BucketLogging
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {BucketLogging}.
@@ -1956,7 +1956,7 @@ class Aws::S3::BucketNotification
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Describes the Lambda functions to invoke and the events for which to
@@ -2218,7 +2218,7 @@ class Aws::S3::BucketPolicy
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {BucketPolicy}.
@@ -2472,7 +2472,7 @@ class Aws::S3::BucketRequestPayment
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {BucketRequestPayment}.
@@ -2667,7 +2667,7 @@ class Aws::S3::BucketTagging
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {BucketTagging}.
@@ -2873,7 +2873,7 @@ class Aws::S3::BucketVersioning
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {BucketVersioning}.
@@ -3107,7 +3107,7 @@ class Aws::S3::BucketWebsite
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # The name of the index document for the website (for example
@@ -18706,7 +18706,7 @@ class Aws::S3::Encryption::Client
   # @param options [Hash] a customizable set of options
   # @return [Client] a new instance of Client
   #
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def initialize(*args, &block); end
 
   # source://forwardable/1.3.3/forwardable.rb#231
@@ -20747,84 +20747,96 @@ end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#42
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#39
 class Aws::S3::Endpoints::CompleteMultipartUpload
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#43
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#40
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#69
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#63
 class Aws::S3::Endpoints::CopyObject
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#70
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#64
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#96
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#87
 class Aws::S3::Endpoints::CreateBucket
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#97
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#88
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#123
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#111
 class Aws::S3::Endpoints::CreateMultipartUpload
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#124
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#112
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#150
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#135
 class Aws::S3::Endpoints::CreateSession
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#151
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#136
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#177
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#159
 class Aws::S3::Endpoints::DeleteBucket
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#178
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#160
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#204
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#183
 class Aws::S3::Endpoints::DeleteBucketAnalyticsConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#205
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#184
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#207
+class Aws::S3::Endpoints::DeleteBucketCors
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#208
     def build(context); end
   end
 end
@@ -20832,7 +20844,7 @@ end
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#231
-class Aws::S3::Endpoints::DeleteBucketCors
+class Aws::S3::Endpoints::DeleteBucketEncryption
   class << self
     # @api private
     #
@@ -20843,84 +20855,96 @@ end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#258
-class Aws::S3::Endpoints::DeleteBucketEncryption
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#259
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#285
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#255
 class Aws::S3::Endpoints::DeleteBucketIntelligentTieringConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#286
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#256
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#312
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#279
 class Aws::S3::Endpoints::DeleteBucketInventoryConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#313
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#280
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#339
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#303
 class Aws::S3::Endpoints::DeleteBucketLifecycle
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#340
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#304
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#366
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#327
 class Aws::S3::Endpoints::DeleteBucketMetricsConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#367
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#328
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#393
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#351
 class Aws::S3::Endpoints::DeleteBucketOwnershipControls
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#394
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#352
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#420
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#375
 class Aws::S3::Endpoints::DeleteBucketPolicy
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#421
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#376
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#399
+class Aws::S3::Endpoints::DeleteBucketReplication
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#400
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#423
+class Aws::S3::Endpoints::DeleteBucketTagging
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#424
     def build(context); end
   end
 end
@@ -20928,7 +20952,7 @@ end
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#447
-class Aws::S3::Endpoints::DeleteBucketReplication
+class Aws::S3::Endpoints::DeleteBucketWebsite
   class << self
     # @api private
     #
@@ -20939,84 +20963,96 @@ end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#474
-class Aws::S3::Endpoints::DeleteBucketTagging
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#475
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#501
-class Aws::S3::Endpoints::DeleteBucketWebsite
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#502
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#528
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#471
 class Aws::S3::Endpoints::DeleteObject
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#529
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#472
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#555
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#495
 class Aws::S3::Endpoints::DeleteObjectTagging
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#556
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#496
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#582
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#519
 class Aws::S3::Endpoints::DeleteObjects
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#583
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#520
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#609
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#543
 class Aws::S3::Endpoints::DeletePublicAccessBlock
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#610
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#544
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#636
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#567
 class Aws::S3::Endpoints::GetBucketAccelerateConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#637
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#568
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#591
+class Aws::S3::Endpoints::GetBucketAcl
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#592
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#615
+class Aws::S3::Endpoints::GetBucketAnalyticsConfiguration
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#616
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#639
+class Aws::S3::Endpoints::GetBucketCors
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#640
     def build(context); end
   end
 end
@@ -21024,7 +21060,7 @@ end
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#663
-class Aws::S3::Endpoints::GetBucketAcl
+class Aws::S3::Endpoints::GetBucketEncryption
   class << self
     # @api private
     #
@@ -21035,84 +21071,96 @@ end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#690
-class Aws::S3::Endpoints::GetBucketAnalyticsConfiguration
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#691
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#717
-class Aws::S3::Endpoints::GetBucketCors
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#718
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#744
-class Aws::S3::Endpoints::GetBucketEncryption
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#745
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#771
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#687
 class Aws::S3::Endpoints::GetBucketIntelligentTieringConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#772
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#688
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#798
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#711
 class Aws::S3::Endpoints::GetBucketInventoryConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#799
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#712
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#825
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#735
 class Aws::S3::Endpoints::GetBucketLifecycle
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#826
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#736
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#852
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#759
 class Aws::S3::Endpoints::GetBucketLifecycleConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#853
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#760
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#783
+class Aws::S3::Endpoints::GetBucketLocation
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#784
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#807
+class Aws::S3::Endpoints::GetBucketLogging
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#808
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#831
+class Aws::S3::Endpoints::GetBucketMetricsConfiguration
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#832
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#855
+class Aws::S3::Endpoints::GetBucketNotification
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#856
     def build(context); end
   end
 end
@@ -21120,7 +21168,7 @@ end
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#879
-class Aws::S3::Endpoints::GetBucketLocation
+class Aws::S3::Endpoints::GetBucketNotificationConfiguration
   class << self
     # @api private
     #
@@ -21131,84 +21179,96 @@ end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#906
-class Aws::S3::Endpoints::GetBucketLogging
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#907
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#933
-class Aws::S3::Endpoints::GetBucketMetricsConfiguration
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#934
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#960
-class Aws::S3::Endpoints::GetBucketNotification
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#961
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#987
-class Aws::S3::Endpoints::GetBucketNotificationConfiguration
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#988
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1014
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#903
 class Aws::S3::Endpoints::GetBucketOwnershipControls
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1015
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#904
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1041
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#927
 class Aws::S3::Endpoints::GetBucketPolicy
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1042
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#928
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1068
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#951
 class Aws::S3::Endpoints::GetBucketPolicyStatus
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1069
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#952
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#975
+class Aws::S3::Endpoints::GetBucketReplication
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#976
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#999
+class Aws::S3::Endpoints::GetBucketRequestPayment
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1000
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1023
+class Aws::S3::Endpoints::GetBucketTagging
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1024
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1047
+class Aws::S3::Endpoints::GetBucketVersioning
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1048
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1071
+class Aws::S3::Endpoints::GetBucketWebsite
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1072
     def build(context); end
   end
 end
@@ -21216,7 +21276,7 @@ end
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1095
-class Aws::S3::Endpoints::GetBucketReplication
+class Aws::S3::Endpoints::GetObject
   class << self
     # @api private
     #
@@ -21227,84 +21287,96 @@ end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1122
-class Aws::S3::Endpoints::GetBucketRequestPayment
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1123
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1149
-class Aws::S3::Endpoints::GetBucketTagging
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1150
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1176
-class Aws::S3::Endpoints::GetBucketVersioning
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1177
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1203
-class Aws::S3::Endpoints::GetBucketWebsite
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1204
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1230
-class Aws::S3::Endpoints::GetObject
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1231
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1257
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1119
 class Aws::S3::Endpoints::GetObjectAcl
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1258
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1120
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1284
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1143
 class Aws::S3::Endpoints::GetObjectAttributes
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1285
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1144
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1167
+class Aws::S3::Endpoints::GetObjectLegalHold
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1168
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1191
+class Aws::S3::Endpoints::GetObjectLockConfiguration
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1192
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1215
+class Aws::S3::Endpoints::GetObjectRetention
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1216
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1239
+class Aws::S3::Endpoints::GetObjectTagging
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1240
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1263
+class Aws::S3::Endpoints::GetObjectTorrent
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1264
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1287
+class Aws::S3::Endpoints::GetPublicAccessBlock
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1288
     def build(context); end
   end
 end
@@ -21312,7 +21384,7 @@ end
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1311
-class Aws::S3::Endpoints::GetObjectLegalHold
+class Aws::S3::Endpoints::HeadBucket
   class << self
     # @api private
     #
@@ -21323,84 +21395,96 @@ end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1338
-class Aws::S3::Endpoints::GetObjectLockConfiguration
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1339
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1365
-class Aws::S3::Endpoints::GetObjectRetention
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1366
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1392
-class Aws::S3::Endpoints::GetObjectTagging
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1393
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1419
-class Aws::S3::Endpoints::GetObjectTorrent
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1420
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1446
-class Aws::S3::Endpoints::GetPublicAccessBlock
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1447
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1473
-class Aws::S3::Endpoints::HeadBucket
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1474
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1500
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1335
 class Aws::S3::Endpoints::HeadObject
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1501
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1336
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1359
+class Aws::S3::Endpoints::ListBucketAnalyticsConfigurations
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1360
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1383
+class Aws::S3::Endpoints::ListBucketIntelligentTieringConfigurations
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1384
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1407
+class Aws::S3::Endpoints::ListBucketInventoryConfigurations
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1408
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1431
+class Aws::S3::Endpoints::ListBucketMetricsConfigurations
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1432
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1455
+class Aws::S3::Endpoints::ListBuckets
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1456
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1479
+class Aws::S3::Endpoints::ListDirectoryBuckets
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1480
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1503
+class Aws::S3::Endpoints::ListMultipartUploads
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1504
     def build(context); end
   end
 end
@@ -21408,7 +21492,7 @@ end
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1527
-class Aws::S3::Endpoints::ListBucketAnalyticsConfigurations
+class Aws::S3::Endpoints::ListObjectVersions
   class << self
     # @api private
     #
@@ -21419,84 +21503,96 @@ end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1554
-class Aws::S3::Endpoints::ListBucketIntelligentTieringConfigurations
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1551
+class Aws::S3::Endpoints::ListObjects
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1555
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1552
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1581
-class Aws::S3::Endpoints::ListBucketInventoryConfigurations
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1575
+class Aws::S3::Endpoints::ListObjectsV2
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1582
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1576
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1608
-class Aws::S3::Endpoints::ListBucketMetricsConfigurations
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1599
+class Aws::S3::Endpoints::ListParts
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1609
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1600
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1635
-class Aws::S3::Endpoints::ListBuckets
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1623
+class Aws::S3::Endpoints::PutBucketAccelerateConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1636
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1624
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1662
-class Aws::S3::Endpoints::ListDirectoryBuckets
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1647
+class Aws::S3::Endpoints::PutBucketAcl
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1663
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1648
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1689
-class Aws::S3::Endpoints::ListMultipartUploads
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1671
+class Aws::S3::Endpoints::PutBucketAnalyticsConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1690
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1672
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1716
-class Aws::S3::Endpoints::ListObjectVersions
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1695
+class Aws::S3::Endpoints::PutBucketCors
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1717
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1696
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1719
+class Aws::S3::Endpoints::PutBucketEncryption
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1720
     def build(context); end
   end
 end
@@ -21504,7 +21600,7 @@ end
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1743
-class Aws::S3::Endpoints::ListObjects
+class Aws::S3::Endpoints::PutBucketIntelligentTieringConfiguration
   class << self
     # @api private
     #
@@ -21515,84 +21611,96 @@ end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1770
-class Aws::S3::Endpoints::ListObjectsV2
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1767
+class Aws::S3::Endpoints::PutBucketInventoryConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1771
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1768
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1797
-class Aws::S3::Endpoints::ListParts
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1791
+class Aws::S3::Endpoints::PutBucketLifecycle
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1798
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1792
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1824
-class Aws::S3::Endpoints::PutBucketAccelerateConfiguration
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1815
+class Aws::S3::Endpoints::PutBucketLifecycleConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1825
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1816
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1851
-class Aws::S3::Endpoints::PutBucketAcl
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1839
+class Aws::S3::Endpoints::PutBucketLogging
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1852
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1840
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1878
-class Aws::S3::Endpoints::PutBucketAnalyticsConfiguration
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1863
+class Aws::S3::Endpoints::PutBucketMetricsConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1879
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1864
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1905
-class Aws::S3::Endpoints::PutBucketCors
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1887
+class Aws::S3::Endpoints::PutBucketNotification
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1906
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1888
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1932
-class Aws::S3::Endpoints::PutBucketEncryption
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1911
+class Aws::S3::Endpoints::PutBucketNotificationConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1933
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1912
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1935
+class Aws::S3::Endpoints::PutBucketOwnershipControls
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1936
     def build(context); end
   end
 end
@@ -21600,7 +21708,7 @@ end
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1959
-class Aws::S3::Endpoints::PutBucketIntelligentTieringConfiguration
+class Aws::S3::Endpoints::PutBucketPolicy
   class << self
     # @api private
     #
@@ -21611,84 +21719,96 @@ end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1986
-class Aws::S3::Endpoints::PutBucketInventoryConfiguration
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1983
+class Aws::S3::Endpoints::PutBucketReplication
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1987
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1984
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2013
-class Aws::S3::Endpoints::PutBucketLifecycle
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2007
+class Aws::S3::Endpoints::PutBucketRequestPayment
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2014
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2008
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2040
-class Aws::S3::Endpoints::PutBucketLifecycleConfiguration
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2031
+class Aws::S3::Endpoints::PutBucketTagging
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2041
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2032
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2067
-class Aws::S3::Endpoints::PutBucketLogging
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2055
+class Aws::S3::Endpoints::PutBucketVersioning
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2068
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2056
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2094
-class Aws::S3::Endpoints::PutBucketMetricsConfiguration
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2079
+class Aws::S3::Endpoints::PutBucketWebsite
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2095
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2080
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2121
-class Aws::S3::Endpoints::PutBucketNotification
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2103
+class Aws::S3::Endpoints::PutObject
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2122
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2104
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2148
-class Aws::S3::Endpoints::PutBucketNotificationConfiguration
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2127
+class Aws::S3::Endpoints::PutObjectAcl
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2149
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2128
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2151
+class Aws::S3::Endpoints::PutObjectLegalHold
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2152
     def build(context); end
   end
 end
@@ -21696,7 +21816,7 @@ end
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2175
-class Aws::S3::Endpoints::PutBucketOwnershipControls
+class Aws::S3::Endpoints::PutObjectLockConfiguration
   class << self
     # @api private
     #
@@ -21707,216 +21827,96 @@ end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2202
-class Aws::S3::Endpoints::PutBucketPolicy
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2203
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2229
-class Aws::S3::Endpoints::PutBucketReplication
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2230
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2256
-class Aws::S3::Endpoints::PutBucketRequestPayment
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2257
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2283
-class Aws::S3::Endpoints::PutBucketTagging
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2284
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2310
-class Aws::S3::Endpoints::PutBucketVersioning
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2311
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2337
-class Aws::S3::Endpoints::PutBucketWebsite
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2338
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2364
-class Aws::S3::Endpoints::PutObject
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2365
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2391
-class Aws::S3::Endpoints::PutObjectAcl
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2392
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2418
-class Aws::S3::Endpoints::PutObjectLegalHold
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2419
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2445
-class Aws::S3::Endpoints::PutObjectLockConfiguration
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2446
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2472
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2199
 class Aws::S3::Endpoints::PutObjectRetention
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2473
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2200
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2499
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2223
 class Aws::S3::Endpoints::PutObjectTagging
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2500
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2224
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2526
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2247
 class Aws::S3::Endpoints::PutPublicAccessBlock
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2527
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2248
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2553
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2271
 class Aws::S3::Endpoints::RestoreObject
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2554
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2272
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2580
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2295
 class Aws::S3::Endpoints::SelectObjectContent
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2581
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2296
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2607
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2319
 class Aws::S3::Endpoints::UploadPart
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2608
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2320
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2634
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2343
 class Aws::S3::Endpoints::UploadPartCopy
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2635
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2344
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2661
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2367
 class Aws::S3::Endpoints::WriteGetObjectResponse
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2662
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2368
     def build(context); end
   end
 end
@@ -23025,7 +23025,7 @@ class Aws::S3::MultipartUpload
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Date and time at which the multipart upload was initiated.
@@ -23393,7 +23393,7 @@ class Aws::S3::MultipartUploadPart
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Date and time at which the part was uploaded.
@@ -24105,7 +24105,7 @@ class Aws::S3::Object
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # @example Request syntax with placeholder values
@@ -25087,7 +25087,7 @@ class Aws::S3::Object::Collection < ::Aws::Resources::Collection
   # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3196
   def batch_delete!(options = T.unsafe(nil)); end
 
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def delete(*args, &block); end
 
   # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3196
@@ -25140,7 +25140,7 @@ class Aws::S3::ObjectAcl
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {ObjectAcl}.
@@ -25850,7 +25850,7 @@ class Aws::S3::ObjectSummary
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # @example Request syntax with placeholder values
@@ -26414,7 +26414,7 @@ class Aws::S3::ObjectSummary::Collection < ::Aws::Resources::Collection
   # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2648
   def batch_delete!(options = T.unsafe(nil)); end
 
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def delete(*args, &block); end
 
   # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2648
@@ -26589,7 +26589,7 @@ class Aws::S3::ObjectVersion
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Specifies whether the object is (true) or is not (false) the latest
@@ -26793,7 +26793,7 @@ class Aws::S3::ObjectVersion::Collection < ::Aws::Resources::Collection
   # source://aws-sdk-s3//lib/aws-sdk-s3/object_version.rb#890
   def batch_delete!(options = T.unsafe(nil)); end
 
-  # source://aws-sdk-core/3.204.0/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.205.0/lib/aws-sdk-core/deprecations.rb#65
   def delete(*args, &block); end
 
   # source://aws-sdk-s3//lib/aws-sdk-s3/object_version.rb#890
@@ -26991,7 +26991,7 @@ end
 
 # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/endpoints.rb#13
 class Aws::S3::Plugins::Endpoints < ::Seahorse::Client::Plugin
-  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/endpoints.rb#269
+  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/endpoints.rb#278
   def add_handlers(handlers, _config); end
 end
 
@@ -27008,13 +27008,18 @@ class Aws::S3::Plugins::Endpoints::Handler < ::Seahorse::Client::Handler
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/endpoints.rb#54
+  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/endpoints.rb#63
   def apply_endpoint_headers(context, headers); end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/endpoints.rb#65
+  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/endpoints.rb#74
   def parameters_for_operation(context); end
+
+  # @api private
+  #
+  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/endpoints.rb#54
+  def with_metrics(context, &block); end
 end
 
 # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/expect_100_continue.rb#6

@@ -614,7 +614,7 @@ class Stripe::Account < ::Stripe::APIResource
   #
   # Test-mode accounts can be deleted at any time.
   #
-  # Live-mode accounts where Stripe is responsible for negative account balances cannot be deleted, which includes Standard accounts. Live-mode accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be deleted when all [balances](https://stripe.com/api/balance/balanace_object) are zero.
+  # Live-mode accounts where Stripe is responsible for negative account balances cannot be deleted, which includes Standard accounts. Live-mode accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be deleted when all [balances](https://stripe.com/api/balance/balance_object) are zero.
   #
   # If you want to delete your own account, use the [account information tab in your account settings](https://dashboard.stripe.com/settings/account) instead.
   #
@@ -709,7 +709,7 @@ class Stripe::Account < ::Stripe::APIResource
     #
     # Test-mode accounts can be deleted at any time.
     #
-    # Live-mode accounts where Stripe is responsible for negative account balances cannot be deleted, which includes Standard accounts. Live-mode accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be deleted when all [balances](https://stripe.com/api/balance/balanace_object) are zero.
+    # Live-mode accounts where Stripe is responsible for negative account balances cannot be deleted, which includes Standard accounts. Live-mode accounts where your platform is liable for negative account balances, which includes Custom and Express accounts, can be deleted when all [balances](https://stripe.com/api/balance/balance_object) are zero.
     #
     # If you want to delete your own account, use the [account information tab in your account settings](https://dashboard.stripe.com/settings/account) instead.
     #
@@ -2244,22 +2244,26 @@ Stripe::CustomerCashBalanceTransaction::OBJECT_NAME = T.let(T.unsafe(nil), Strin
 # A Customer Session allows you to grant Stripe's frontend SDKs (like Stripe.js) client-side access
 # control over a Customer.
 #
-# source://stripe//lib/stripe/resources/customer_session.rb#7
+# Related guides: [Customer Session with the Payment Element](https://stripe.com/payments/accept-a-payment-deferred?platform=web&type=payment#save-payment-methods),
+# [Customer Session with the Pricing Table](https://stripe.com/payments/checkout/pricing-table#customer-session),
+# [Customer Session with the Buy Button](https://stripe.com/payment-links/buy-button#pass-an-existing-customer).
+#
+# source://stripe//lib/stripe/resources/customer_session.rb#11
 class Stripe::CustomerSession < ::Stripe::APIResource
   extend ::Stripe::APIOperations::Create
 
   class << self
     # Creates a Customer Session object that includes a single-use client secret that you can use on your front-end to grant client-side API access for certain customer resources.
     #
-    # source://stripe//lib/stripe/resources/customer_session.rb#16
+    # source://stripe//lib/stripe/resources/customer_session.rb#20
     def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-    # source://stripe//lib/stripe/resources/customer_session.rb#11
+    # source://stripe//lib/stripe/resources/customer_session.rb#15
     def object_name; end
   end
 end
 
-# source://stripe//lib/stripe/resources/customer_session.rb#10
+# source://stripe//lib/stripe/resources/customer_session.rb#14
 Stripe::CustomerSession::OBJECT_NAME = T.let(T.unsafe(nil), String)
 
 # source://stripe//lib/stripe.rb#56
@@ -2592,21 +2596,25 @@ class Stripe::File < ::Stripe::APIResource
   extend ::Stripe::APIOperations::List
 
   class << self
-    # source://stripe//lib/stripe/resources/file.rb#39
+    # To upload a file to Stripe, you need to send a request of type multipart/form-data. Include the file you want to upload in the request, and the parameters for creating a file.
+    #
+    # All of Stripe's officially supported Client libraries support sending multipart/form-data.
+    #
+    # source://stripe//lib/stripe/resources/file.rb#24
     def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Returns a list of the files that your account has access to. Stripe sorts and returns the files by their creation dates, placing the most recently created files at the top.
     #
-    # source://stripe//lib/stripe/resources/file.rb#22
+    # source://stripe//lib/stripe/resources/file.rb#39
     def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/file.rb#17
     def object_name; end
 
-    # source://stripe//lib/stripe/resources/file.rb#31
+    # source://stripe//lib/stripe/resources/file.rb#48
     def object_name_alt; end
 
-    # source://stripe//lib/stripe/resources/file.rb#35
+    # source://stripe//lib/stripe/resources/file.rb#52
     def resource_url; end
   end
 end
@@ -2619,7 +2627,7 @@ Stripe::File::OBJECT_NAME = T.let(T.unsafe(nil), String)
 # any API version, we need to support deserializing the older
 # `file_upload` object into the same class.
 #
-# source://stripe//lib/stripe/resources/file.rb#30
+# source://stripe//lib/stripe/resources/file.rb#47
 Stripe::File::OBJECT_NAME_ALT = T.let(T.unsafe(nil), String)
 
 # To share the contents of a `File` object with non-Stripe users, you can
@@ -3493,13 +3501,17 @@ end
 # source://stripe//lib/stripe/resources/invoice_item.rb#22
 Stripe::InvoiceItem::OBJECT_NAME = T.let(T.unsafe(nil), String)
 
-# source://stripe//lib/stripe/resources/invoice_line_item.rb#5
+# Invoice Line Items represent the individual lines within an [invoice](https://stripe.com/docs/api/invoices) and only exist within the context of an invoice.
+#
+# Each line item is backed by either an [invoice item](https://stripe.com/docs/api/invoiceitems) or a [subscription item](https://stripe.com/docs/api/subscription_items).
+#
+# source://stripe//lib/stripe/resources/invoice_line_item.rb#8
 class Stripe::InvoiceLineItem < ::Stripe::StripeObject
   include ::Stripe::APIOperations::Save
   extend ::Stripe::APIOperations::Save::ClassMethods
 
   class << self
-    # source://stripe//lib/stripe/resources/invoice_line_item.rb#9
+    # source://stripe//lib/stripe/resources/invoice_line_item.rb#12
     def object_name; end
 
     # Updates an invoice's line item. Some fields, such as tax_amounts, only live on the invoice line item,
@@ -3507,13 +3519,51 @@ class Stripe::InvoiceLineItem < ::Stripe::StripeObject
     # item and the invoice line item, so updates on this endpoint will propagate to the invoice item as well.
     # Updating an invoice's line item is only possible before the invoice is finalized.
     #
-    # source://stripe//lib/stripe/resources/invoice_line_item.rb#17
+    # source://stripe//lib/stripe/resources/invoice_line_item.rb#20
     def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
-# source://stripe//lib/stripe/resources/invoice_line_item.rb#8
+# source://stripe//lib/stripe/resources/invoice_line_item.rb#11
 Stripe::InvoiceLineItem::OBJECT_NAME = T.let(T.unsafe(nil), String)
+
+# source://stripe//lib/stripe/resources/invoice_rendering_template.rb#5
+class Stripe::InvoiceRenderingTemplate < ::Stripe::APIResource
+  extend ::Stripe::APIOperations::List
+
+  # Updates the status of an invoice rendering template to ‘archived' so no new Stripe objects (customers, invoices, etc.) can reference it. The template can also no longer be updated. However, if the template is already set on a Stripe object, it will continue to be applied on invoices generated by it.
+  #
+  # source://stripe//lib/stripe/resources/invoice_rendering_template.rb#14
+  def archive(params = T.unsafe(nil), opts = T.unsafe(nil)); end
+
+  # Unarchive an invoice rendering template so it can be used on new Stripe objects again.
+  #
+  # source://stripe//lib/stripe/resources/invoice_rendering_template.rb#44
+  def unarchive(params = T.unsafe(nil), opts = T.unsafe(nil)); end
+
+  class << self
+    # Updates the status of an invoice rendering template to ‘archived' so no new Stripe objects (customers, invoices, etc.) can reference it. The template can also no longer be updated. However, if the template is already set on a Stripe object, it will continue to be applied on invoices generated by it.
+    #
+    # source://stripe//lib/stripe/resources/invoice_rendering_template.rb#24
+    def archive(template, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+
+    # List all templates, ordered by creation date, with the most recently created template appearing first.
+    #
+    # source://stripe//lib/stripe/resources/invoice_rendering_template.rb#34
+    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+
+    # source://stripe//lib/stripe/resources/invoice_rendering_template.rb#9
+    def object_name; end
+
+    # Unarchive an invoice rendering template so it can be used on new Stripe objects again.
+    #
+    # source://stripe//lib/stripe/resources/invoice_rendering_template.rb#54
+    def unarchive(template, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+  end
+end
+
+# source://stripe//lib/stripe/resources/invoice_rendering_template.rb#8
+Stripe::InvoiceRenderingTemplate::OBJECT_NAME = T.let(T.unsafe(nil), String)
 
 # source://stripe//lib/stripe/resources/issuing/authorization.rb#5
 module Stripe::Issuing; end
@@ -4413,8 +4463,11 @@ class Stripe::PaymentIntent < ::Stripe::APIResource
   # after those actions are completed. Your server needs to then
   # explicitly re-confirm the PaymentIntent to initiate the next payment
   # attempt.
+  # There is a variable upper limit on how many times a PaymentIntent can be confirmed.
+  # After this limit is reached, any further calls to this endpoint will
+  # transition the PaymentIntent to the canceled state.
   #
-  # source://stripe//lib/stripe/resources/payment_intent.rb#125
+  # source://stripe//lib/stripe/resources/payment_intent.rb#128
   def confirm(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Perform an incremental authorization on an eligible
@@ -4442,12 +4495,12 @@ class Stripe::PaymentIntent < ::Stripe::APIResource
   #
   # Learn more about [incremental authorizations](https://stripe.com/docs/terminal/features/incremental-authorizations).
   #
-  # source://stripe//lib/stripe/resources/payment_intent.rb#203
+  # source://stripe//lib/stripe/resources/payment_intent.rb#209
   def increment_authorization(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Verifies microdeposits on a PaymentIntent object.
   #
-  # source://stripe//lib/stripe/resources/payment_intent.rb#280
+  # source://stripe//lib/stripe/resources/payment_intent.rb#286
   def verify_microdeposits(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   class << self
@@ -4496,8 +4549,11 @@ class Stripe::PaymentIntent < ::Stripe::APIResource
     # after those actions are completed. Your server needs to then
     # explicitly re-confirm the PaymentIntent to initiate the next payment
     # attempt.
+    # There is a variable upper limit on how many times a PaymentIntent can be confirmed.
+    # After this limit is reached, any further calls to this endpoint will
+    # transition the PaymentIntent to the canceled state.
     #
-    # source://stripe//lib/stripe/resources/payment_intent.rb#156
+    # source://stripe//lib/stripe/resources/payment_intent.rb#162
     def confirm(intent, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Creates a PaymentIntent object.
@@ -4511,7 +4567,7 @@ class Stripe::PaymentIntent < ::Stripe::APIResource
     # available in the [confirm API](https://stripe.com/docs/api/payment_intents/confirm) when you supply
     # confirm=true.
     #
-    # source://stripe//lib/stripe/resources/payment_intent.rb#175
+    # source://stripe//lib/stripe/resources/payment_intent.rb#181
     def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Perform an incremental authorization on an eligible
@@ -4539,21 +4595,21 @@ class Stripe::PaymentIntent < ::Stripe::APIResource
     #
     # Learn more about [incremental authorizations](https://stripe.com/docs/terminal/features/incremental-authorizations).
     #
-    # source://stripe//lib/stripe/resources/payment_intent.rb#236
+    # source://stripe//lib/stripe/resources/payment_intent.rb#242
     def increment_authorization(intent, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Returns a list of PaymentIntents.
     #
-    # source://stripe//lib/stripe/resources/payment_intent.rb#246
+    # source://stripe//lib/stripe/resources/payment_intent.rb#252
     def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/payment_intent.rb#23
     def object_name; end
 
-    # source://stripe//lib/stripe/resources/payment_intent.rb#250
+    # source://stripe//lib/stripe/resources/payment_intent.rb#256
     def search(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-    # source://stripe//lib/stripe/resources/payment_intent.rb#259
+    # source://stripe//lib/stripe/resources/payment_intent.rb#265
     def search_auto_paging_each(params = T.unsafe(nil), opts = T.unsafe(nil), &blk); end
 
     # Updates properties on a PaymentIntent object without confirming.
@@ -4564,12 +4620,12 @@ class Stripe::PaymentIntent < ::Stripe::APIResource
     # update and confirm at the same time, we recommend updating properties through
     # the [confirm API](https://stripe.com/docs/api/payment_intents/confirm) instead.
     #
-    # source://stripe//lib/stripe/resources/payment_intent.rb#270
+    # source://stripe//lib/stripe/resources/payment_intent.rb#276
     def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Verifies microdeposits on a PaymentIntent object.
     #
-    # source://stripe//lib/stripe/resources/payment_intent.rb#290
+    # source://stripe//lib/stripe/resources/payment_intent.rb#296
     def verify_microdeposits(intent, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
@@ -5171,7 +5227,7 @@ class Stripe::Quote < ::Stripe::APIResource
   # source://stripe//lib/stripe/resources/quote.rb#108
   def list_line_items(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # Download the PDF for a finalized quote. Explanation for special handling can be found [here](https://docs.corp.stripe.com/quotes/overview#quote_pdf)
+  # Download the PDF for a finalized quote. Explanation for special handling can be found [here](https://docs.stripe.com/quotes/overview#quote_pdf)
   #
   # source://stripe//lib/stripe/resources/quote.rb#128
   def pdf(params = T.unsafe(nil), opts = T.unsafe(nil), &read_body_chunk_block); end
@@ -5215,7 +5271,7 @@ class Stripe::Quote < ::Stripe::APIResource
     # source://stripe//lib/stripe/resources/quote.rb#13
     def object_name; end
 
-    # Download the PDF for a finalized quote. Explanation for special handling can be found [here](https://docs.corp.stripe.com/quotes/overview#quote_pdf)
+    # Download the PDF for a finalized quote. Explanation for special handling can be found [here](https://docs.stripe.com/quotes/overview#quote_pdf)
     #
     # source://stripe//lib/stripe/resources/quote.rb#141
     def pdf(quote, params = T.unsafe(nil), opts = T.unsafe(nil), &read_body_chunk_block); end
@@ -8292,268 +8348,274 @@ end
 # source://stripe//lib/stripe/resources/treasury/financial_account_features.rb#9
 Stripe::Treasury::FinancialAccountFeatures::OBJECT_NAME = T.let(T.unsafe(nil), String)
 
-# Use [InboundTransfers](https://stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers) to add funds to your [FinancialAccount](https://stripe.com/docs/api#financial_accounts) via a PaymentMethod that is owned by you. The funds will be transferred via an ACH debit.
+# Use [InboundTransfers](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers) to add funds to your [FinancialAccount](https://stripe.com/docs/api#financial_accounts) via a PaymentMethod that is owned by you. The funds will be transferred via an ACH debit.
 #
-# source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#7
+# Related guide: [Moving money with Treasury using InboundTransfer objects](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/into/inbound-transfers)
+#
+# source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#9
 class Stripe::Treasury::InboundTransfer < ::Stripe::APIResource
   extend ::Stripe::APIOperations::Create
   extend ::Stripe::APIOperations::List
 
   # Cancels an InboundTransfer.
   #
-  # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#17
+  # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#19
   def cancel(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#56
+  # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#58
   def test_helpers; end
 
   class << self
     # Cancels an InboundTransfer.
     #
-    # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#27
+    # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#29
     def cancel(inbound_transfer, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Creates an InboundTransfer.
     #
-    # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#37
+    # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#39
     def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Returns a list of InboundTransfers sent from the specified FinancialAccount.
     #
-    # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#47
+    # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#49
     def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-    # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#12
+    # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#14
     def object_name; end
   end
 end
 
-# source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#11
+# source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#13
 Stripe::Treasury::InboundTransfer::OBJECT_NAME = T.let(T.unsafe(nil), String)
 
-# source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#60
+# source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#62
 class Stripe::Treasury::InboundTransfer::TestHelpers < ::Stripe::APIResourceTestHelpers
   # Transitions a test mode created InboundTransfer to the failed status. The InboundTransfer must already be in the processing state.
   #
-  # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#77
+  # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#79
   def fail(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Marks the test mode InboundTransfer object as returned and links the InboundTransfer to a ReceivedDebit. The InboundTransfer must already be in the succeeded state.
   #
-  # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#97
+  # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#99
   def return_inbound_transfer(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Transitions a test mode created InboundTransfer to the succeeded status. The InboundTransfer must already be in the processing state.
   #
-  # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#117
+  # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#119
   def succeed(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   class << self
     # Transitions a test mode created InboundTransfer to the failed status. The InboundTransfer must already be in the processing state.
     #
-    # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#67
+    # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#69
     def fail(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-    # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#62
+    # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#64
     def resource_class; end
 
     # Marks the test mode InboundTransfer object as returned and links the InboundTransfer to a ReceivedDebit. The InboundTransfer must already be in the succeeded state.
     #
-    # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#87
+    # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#89
     def return_inbound_transfer(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Transitions a test mode created InboundTransfer to the succeeded status. The InboundTransfer must already be in the processing state.
     #
-    # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#107
+    # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#109
     def succeed(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
-# source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#61
+# source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#63
 Stripe::Treasury::InboundTransfer::TestHelpers::RESOURCE_CLASS = Stripe::Treasury::InboundTransfer
 
-# Use OutboundPayments to send funds to another party's external bank account or [FinancialAccount](https://stripe.com/docs/api#financial_accounts). To send money to an account belonging to the same user, use an [OutboundTransfer](https://stripe.com/docs/api#outbound_transfers).
+# Use [OutboundPayments](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-payments) to send funds to another party's external bank account or [FinancialAccount](https://stripe.com/docs/api#financial_accounts). To send money to an account belonging to the same user, use an [OutboundTransfer](https://stripe.com/docs/api#outbound_transfers).
 #
 # Simulate OutboundPayment state changes with the `/v1/test_helpers/treasury/outbound_payments` endpoints. These methods can only be called on test mode objects.
 #
-# source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#9
+# Related guide: [Moving money with Treasury using OutboundPayment objects](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-payments)
+#
+# source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#11
 class Stripe::Treasury::OutboundPayment < ::Stripe::APIResource
   extend ::Stripe::APIOperations::Create
   extend ::Stripe::APIOperations::List
 
   # Cancel an OutboundPayment.
   #
-  # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#19
+  # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#21
   def cancel(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#58
+  # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#60
   def test_helpers; end
 
   class << self
     # Cancel an OutboundPayment.
     #
-    # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#29
+    # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#31
     def cancel(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Creates an OutboundPayment.
     #
-    # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#39
+    # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#41
     def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Returns a list of OutboundPayments sent from the specified FinancialAccount.
     #
-    # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#49
+    # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#51
     def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-    # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#14
+    # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#16
     def object_name; end
   end
 end
 
-# source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#13
+# source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#15
 Stripe::Treasury::OutboundPayment::OBJECT_NAME = T.let(T.unsafe(nil), String)
 
-# source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#62
+# source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#64
 class Stripe::Treasury::OutboundPayment::TestHelpers < ::Stripe::APIResourceTestHelpers
   # Transitions a test mode created OutboundPayment to the failed status. The OutboundPayment must already be in the processing state.
   #
-  # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#79
+  # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#81
   def fail(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Transitions a test mode created OutboundPayment to the posted status. The OutboundPayment must already be in the processing state.
   #
-  # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#99
+  # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#101
   def post(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Transitions a test mode created OutboundPayment to the returned status. The OutboundPayment must already be in the processing state.
   #
-  # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#119
+  # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#121
   def return_outbound_payment(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Updates a test mode created OutboundPayment with tracking details. The OutboundPayment must not be cancelable, and cannot be in the canceled or failed states.
   #
-  # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#139
+  # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#141
   def update(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   class << self
     # Transitions a test mode created OutboundPayment to the failed status. The OutboundPayment must already be in the processing state.
     #
-    # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#69
+    # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#71
     def fail(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Transitions a test mode created OutboundPayment to the posted status. The OutboundPayment must already be in the processing state.
     #
-    # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#89
+    # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#91
     def post(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-    # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#64
+    # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#66
     def resource_class; end
 
     # Transitions a test mode created OutboundPayment to the returned status. The OutboundPayment must already be in the processing state.
     #
-    # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#109
+    # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#111
     def return_outbound_payment(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Updates a test mode created OutboundPayment with tracking details. The OutboundPayment must not be cancelable, and cannot be in the canceled or failed states.
     #
-    # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#129
+    # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#131
     def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
-# source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#63
+# source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#65
 Stripe::Treasury::OutboundPayment::TestHelpers::RESOURCE_CLASS = Stripe::Treasury::OutboundPayment
 
-# Use OutboundTransfers to transfer funds from a [FinancialAccount](https://stripe.com/docs/api#financial_accounts) to a PaymentMethod belonging to the same entity. To send funds to a different party, use [OutboundPayments](https://stripe.com/docs/api#outbound_payments) instead. You can send funds over ACH rails or through a domestic wire transfer to a user's own external bank account.
+# Use [OutboundTransfers](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-transfers) to transfer funds from a [FinancialAccount](https://stripe.com/docs/api#financial_accounts) to a PaymentMethod belonging to the same entity. To send funds to a different party, use [OutboundPayments](https://stripe.com/docs/api#outbound_payments) instead. You can send funds over ACH rails or through a domestic wire transfer to a user's own external bank account.
 #
 # Simulate OutboundTransfer state changes with the `/v1/test_helpers/treasury/outbound_transfers` endpoints. These methods can only be called on test mode objects.
 #
-# source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#9
+# Related guide: [Moving money with Treasury using OutboundTransfer objects](https://docs.stripe.com/docs/treasury/moving-money/financial-accounts/out-of/outbound-transfers)
+#
+# source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#11
 class Stripe::Treasury::OutboundTransfer < ::Stripe::APIResource
   extend ::Stripe::APIOperations::Create
   extend ::Stripe::APIOperations::List
 
   # An OutboundTransfer can be canceled if the funds have not yet been paid out.
   #
-  # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#19
+  # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#21
   def cancel(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#58
+  # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#60
   def test_helpers; end
 
   class << self
     # An OutboundTransfer can be canceled if the funds have not yet been paid out.
     #
-    # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#29
+    # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#31
     def cancel(outbound_transfer, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Creates an OutboundTransfer.
     #
-    # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#39
+    # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#41
     def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Returns a list of OutboundTransfers sent from the specified FinancialAccount.
     #
-    # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#49
+    # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#51
     def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-    # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#14
+    # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#16
     def object_name; end
   end
 end
 
-# source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#13
+# source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#15
 Stripe::Treasury::OutboundTransfer::OBJECT_NAME = T.let(T.unsafe(nil), String)
 
-# source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#62
+# source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#64
 class Stripe::Treasury::OutboundTransfer::TestHelpers < ::Stripe::APIResourceTestHelpers
   # Transitions a test mode created OutboundTransfer to the failed status. The OutboundTransfer must already be in the processing state.
   #
-  # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#79
+  # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#81
   def fail(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Transitions a test mode created OutboundTransfer to the posted status. The OutboundTransfer must already be in the processing state.
   #
-  # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#99
+  # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#101
   def post(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Transitions a test mode created OutboundTransfer to the returned status. The OutboundTransfer must already be in the processing state.
   #
-  # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#119
+  # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#121
   def return_outbound_transfer(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Updates a test mode created OutboundTransfer with tracking details. The OutboundTransfer must not be cancelable, and cannot be in the canceled or failed states.
   #
-  # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#139
+  # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#141
   def update(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   class << self
     # Transitions a test mode created OutboundTransfer to the failed status. The OutboundTransfer must already be in the processing state.
     #
-    # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#69
+    # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#71
     def fail(outbound_transfer, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Transitions a test mode created OutboundTransfer to the posted status. The OutboundTransfer must already be in the processing state.
     #
-    # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#89
+    # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#91
     def post(outbound_transfer, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-    # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#64
+    # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#66
     def resource_class; end
 
     # Transitions a test mode created OutboundTransfer to the returned status. The OutboundTransfer must already be in the processing state.
     #
-    # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#109
+    # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#111
     def return_outbound_transfer(outbound_transfer, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Updates a test mode created OutboundTransfer with tracking details. The OutboundTransfer must not be cancelable, and cannot be in the canceled or failed states.
     #
-    # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#129
+    # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#131
     def update(outbound_transfer, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
-# source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#63
+# source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#65
 Stripe::Treasury::OutboundTransfer::TestHelpers::RESOURCE_CLASS = Stripe::Treasury::OutboundTransfer
 
 # ReceivedCredits represent funds sent to a [FinancialAccount](https://stripe.com/docs/api#financial_accounts) (for example, via ACH or wire). These money movements are not initiated from the FinancialAccount.

@@ -170,7 +170,7 @@ describe LocalServer do
   describe '#demos' do
     it 'uses a Dir glob to get the demos' do
       subject.stub(demo_match: 'foo')
-      Dir.should_receive(:glob).with('foo')
+      Dir.should_receive(:glob).with('foo').and_return([])
       subject.demos
     end
   end
@@ -178,7 +178,7 @@ describe LocalServer do
   describe '#logs' do
     it 'uses a Dir glob to get the logs' do
       subject.stub(log_match: 'bar')
-      Dir.should_receive(:glob).with('bar')
+      Dir.should_receive(:glob).with('bar').and_return([])
       subject.logs
     end
   end

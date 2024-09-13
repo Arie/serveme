@@ -25,18 +25,21 @@ class LocalServer < Server
     `ps ux | grep port | grep #{port} | grep srcds_linux | grep -v grep | grep -v ruby | awk '{print \$2}'`
   end
 
+  sig { returns(T::Array[String]) }
   def demos
     Dir.glob(demo_match)
   end
 
+  sig { returns(T::Array[String]) }
   def logs
     Dir.glob(log_match)
   end
 
+  sig { returns(T::Array[String]) }
   def stac_logs
     Dir.glob(stac_log_match)
   end
-
+  sig { params(dir: String, pattern: String).returns(T::Array[String]) }
   def list_files(dir, pattern = '*')
     Dir.glob(File.join(tf_dir, dir, pattern)).map do |f|
       File.basename(f)

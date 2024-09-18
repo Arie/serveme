@@ -2522,24 +2522,24 @@ module Aws::Endpoints
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/endpoints.rb#27
+    # source://aws-sdk-core//lib/aws-sdk-core/endpoints.rb#30
     def resolve_auth_scheme(context, endpoint); end
 
     private
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/endpoints.rb#93
+    # source://aws-sdk-core//lib/aws-sdk-core/endpoints.rb#96
     def default_api_auth(context); end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/endpoints.rb#68
+    # source://aws-sdk-core//lib/aws-sdk-core/endpoints.rb#71
     def default_auth_scheme(context); end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/endpoints.rb#124
+    # source://aws-sdk-core//lib/aws-sdk-core/endpoints.rb#127
     def legacy_default_api_authtype(context); end
 
     # Legacy auth resolution - looks for deprecated signatureVersion
@@ -2547,23 +2547,23 @@ module Aws::Endpoints
     #
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/endpoints.rb#105
+    # source://aws-sdk-core//lib/aws-sdk-core/endpoints.rb#108
     def legacy_default_auth_scheme(context); end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/endpoints.rb#42
+    # source://aws-sdk-core//lib/aws-sdk-core/endpoints.rb#45
     def merge_signing_defaults(auth_scheme, config); end
 
     # @api private
     # @return [Boolean]
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/endpoints.rb#98
+    # source://aws-sdk-core//lib/aws-sdk-core/endpoints.rb#101
     def s3_or_s3v4_signature_version?(context); end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/endpoints.rb#63
+    # source://aws-sdk-core//lib/aws-sdk-core/endpoints.rb#66
     def sigv4_name(config); end
   end
 end
@@ -3000,7 +3000,7 @@ end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/endpoints.rb#24
+# source://aws-sdk-core//lib/aws-sdk-core/endpoints.rb#22
 Aws::Endpoints::SUPPORTED_AUTH_TRAITS = T.let(T.unsafe(nil), Array)
 
 # This class is deprecated. It is used by the Runtime endpoint

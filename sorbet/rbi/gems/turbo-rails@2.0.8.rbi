@@ -700,12 +700,12 @@ module Turbo::Broadcastable
   def broadcast_action_later(action:, target: T.unsafe(nil), attributes: T.unsafe(nil), **rendering); end
   def broadcast_action_later_to(*streamables, action:, target: T.unsafe(nil), attributes: T.unsafe(nil), **rendering); end
   def broadcast_action_to(*streamables, action:, target: T.unsafe(nil), attributes: T.unsafe(nil), **rendering); end
-  def broadcast_after_to(*streamables, target:, **rendering); end
+  def broadcast_after_to(*streamables, target: T.unsafe(nil), targets: T.unsafe(nil), **rendering); end
   def broadcast_append(target: T.unsafe(nil), **rendering); end
   def broadcast_append_later(target: T.unsafe(nil), **rendering); end
   def broadcast_append_later_to(*streamables, target: T.unsafe(nil), **rendering); end
   def broadcast_append_to(*streamables, target: T.unsafe(nil), **rendering); end
-  def broadcast_before_to(*streamables, target:, **rendering); end
+  def broadcast_before_to(*streamables, target: T.unsafe(nil), targets: T.unsafe(nil), **rendering); end
   def broadcast_prepend(target: T.unsafe(nil), **rendering); end
   def broadcast_prepend_later(target: T.unsafe(nil), **rendering); end
   def broadcast_prepend_later_to(*streamables, target: T.unsafe(nil), **rendering); end
@@ -714,8 +714,8 @@ module Turbo::Broadcastable
   def broadcast_refresh_later; end
   def broadcast_refresh_later_to(*streamables); end
   def broadcast_refresh_to(*streamables); end
-  def broadcast_remove; end
-  def broadcast_remove_to(*streamables, target: T.unsafe(nil)); end
+  def broadcast_remove(**rendering); end
+  def broadcast_remove_to(*streamables, target: T.unsafe(nil), **rendering); end
   def broadcast_render(**rendering); end
   def broadcast_render_later(**rendering); end
   def broadcast_render_later_to(*streamables, **rendering); end
@@ -733,6 +733,7 @@ module Turbo::Broadcastable
 
   def broadcast_rendering_with_defaults(options); end
   def broadcast_target_default; end
+  def extract_options_and_add_target(rendering = T.unsafe(nil), target: T.unsafe(nil)); end
 end
 
 module Turbo::Broadcastable::ClassMethods
@@ -925,7 +926,7 @@ end
 #   config.assets.precompile -= Turbo::Engine::PRECOMPILE_ASSETS
 # end
 #
-# source://turbo-rails//lib/turbo/engine.rb#45
+# source://turbo-rails//lib/turbo/engine.rb#67
 Turbo::Engine::PRECOMPILE_ASSETS = T.let(T.unsafe(nil), Array)
 
 module Turbo::Frames; end
@@ -991,6 +992,7 @@ module Turbo::RequestIdTracking
   def turbo_tracking_request_id(&block); end
 end
 
+# source://turbo-rails//lib/turbo/system_test_helper.rb#0
 module Turbo::Streams; end
 
 class Turbo::Streams::ActionBroadcastJob < ::ActiveJob::Base
@@ -1087,8 +1089,8 @@ class Turbo::Streams::TagBuilder
 
   def initialize(view_context); end
 
-  def action(name, target, content = T.unsafe(nil), allow_inferred_rendering: T.unsafe(nil), **rendering, &block); end
-  def action_all(name, targets, content = T.unsafe(nil), allow_inferred_rendering: T.unsafe(nil), **rendering, &block); end
+  def action(name, target, content = T.unsafe(nil), method: T.unsafe(nil), allow_inferred_rendering: T.unsafe(nil), **rendering, &block); end
+  def action_all(name, targets, content = T.unsafe(nil), method: T.unsafe(nil), allow_inferred_rendering: T.unsafe(nil), **rendering, &block); end
   def after(target, content = T.unsafe(nil), **rendering, &block); end
   def after_all(targets, content = T.unsafe(nil), **rendering, &block); end
   def append(target, content = T.unsafe(nil), **rendering, &block); end
@@ -1097,12 +1099,13 @@ class Turbo::Streams::TagBuilder
   def before_all(targets, content = T.unsafe(nil), **rendering, &block); end
   def prepend(target, content = T.unsafe(nil), **rendering, &block); end
   def prepend_all(targets, content = T.unsafe(nil), **rendering, &block); end
+  def refresh(*_arg0, **_arg1, &_arg2); end
   def remove(target); end
   def remove_all(targets); end
-  def replace(target, content = T.unsafe(nil), **rendering, &block); end
-  def replace_all(targets, content = T.unsafe(nil), **rendering, &block); end
-  def update(target, content = T.unsafe(nil), **rendering, &block); end
-  def update_all(targets, content = T.unsafe(nil), **rendering, &block); end
+  def replace(target, content = T.unsafe(nil), method: T.unsafe(nil), **rendering, &block); end
+  def replace_all(targets, content = T.unsafe(nil), method: T.unsafe(nil), **rendering, &block); end
+  def update(target, content = T.unsafe(nil), method: T.unsafe(nil), **rendering, &block); end
+  def update_all(targets, content = T.unsafe(nil), method: T.unsafe(nil), **rendering, &block); end
 
   private
 
@@ -1136,6 +1139,103 @@ end
 module Turbo::StreamsHelper
   def turbo_stream; end
   def turbo_stream_from(*streamables, **attributes); end
+end
+
+# source://turbo-rails//lib/turbo/system_test_helper.rb#1
+module Turbo::SystemTestHelper
+  # Asserts that a `<turbo-cable-stream-source>` element is absent from the
+  # document
+  #
+  # ==== Arguments
+  #
+  # * <tt>locator</tt> optional locator to determine the element's
+  #   `[signed-stream-name]` attribute. Can be of any type that is a valid
+  #   argument to <tt>Turbo::Streams::StreamName#signed_stream_name</tt>.
+  #
+  # ==== Options
+  #
+  # * <tt>:connected</tt> matches the `[connected]` attribute
+  # * <tt>:channel</tt> matches the `[channel]` attribute. Can be a Class,
+  #   String, Symbol, or Regexp
+  # * <tt>:signed_stream_name</tt> matches the element's `[signed-stream-name]`
+  #   attribute. Can be of any type that is a valid
+  #   argument to <tt>Turbo::Streams::StreamName#signed_stream_name</tt>.
+  #
+  # In addition to the filters listed above, accepts any valid Capybara global
+  # filter option.
+  #
+  # source://turbo-rails//lib/turbo/system_test_helper.rb#78
+  def assert_no_turbo_cable_stream_source(*_arg0, **_arg1, &_arg2); end
+
+  # Asserts that a `<turbo-cable-stream-source>` element is present in the
+  # document
+  #
+  # ==== Arguments
+  #
+  # * <tt>locator</tt> optional locator to determine the element's
+  #   `[signed-stream-name]` attribute. Can be of any type that is a valid
+  #   argument to <tt>Turbo::Streams::StreamName#signed_stream_name</tt>.
+  #
+  # ==== Options
+  #
+  # * <tt>:connected</tt> matches the `[connected]` attribute
+  # * <tt>:channel</tt> matches the `[channel]` attribute. Can be a Class,
+  #   String, Symbol, or Regexp
+  # * <tt>:signed_stream_name</tt> matches the element's `[signed-stream-name]`
+  #   attribute. Can be of any type that is a valid
+  #   argument to <tt>Turbo::Streams::StreamName#signed_stream_name</tt>.
+  #
+  # In addition to the filters listed above, accepts any valid Capybara global
+  # filter option.
+  #
+  # source://turbo-rails//lib/turbo/system_test_helper.rb#54
+  def assert_turbo_cable_stream_source(*_arg0, **_arg1, &_arg2); end
+
+  # Delay until every `<turbo-cable-stream-source>` element present in the page
+  # is ready to receive broadcasts
+  #
+  #   test "renders broadcasted Messages" do
+  #     message = Message.new content: "Hello, from Action Cable"
+  #
+  #     visit "/"
+  #     click_link "All Messages"
+  #     message.save! # execute server-side code to broadcast a Message
+  #
+  #     assert_text message.content
+  #   end
+  #
+  # By default, calls to `#visit` will wait for all `<turbo-cable-stream-source>`
+  # elements to connect. You can control this by modifying the
+  # `config.turbo.test_connect_after_actions`. For example, to wait after calls to
+  # `#click_link`, add the following to `config/environments/test.rb`:
+  #
+  #   # config/environments/test.rb
+  #   config.turbo.test_connect_after_actions << :click_link
+  #
+  # To disable automatic connecting, set the configuration to `[]`:
+  #
+  #   # config/environments/test.rb
+  #   config.turbo.test_connect_after_actions = []
+  #
+  # source://turbo-rails//lib/turbo/system_test_helper.rb#28
+  def connect_turbo_cable_stream_sources(**options, &block); end
+end
+
+# source://turbo-rails//lib/turbo/system_test_helper.rb#106
+class Turbo::SystemTestHelper::SignedStreamNameConditions
+  include ::Enumerable
+  include ::Turbo::Streams::StreamName
+
+  # @return [SignedStreamNameConditions] a new instance of SignedStreamNameConditions
+  #
+  # source://turbo-rails//lib/turbo/system_test_helper.rb#109
+  def initialize(value); end
+
+  # source://turbo-rails//lib/turbo/system_test_helper.rb#113
+  def attribute; end
+
+  # source://turbo-rails//lib/turbo/system_test_helper.rb#117
+  def each; end
 end
 
 # source://turbo-rails//lib/turbo/test_assertions.rb#2

@@ -3194,6 +3194,22 @@ class Rouge::Lexers::MiniZinc < ::Rouge::RegexLexer
   end
 end
 
+# source://rouge//lib/rouge/lexers/mojo.rb#8
+class Rouge::Lexers::Mojo < ::Rouge::Lexers::Python
+  class << self
+    # source://rouge//lib/rouge/lexers/mojo.rb#27
+    def builtins; end
+
+    # @return [Boolean]
+    #
+    # source://rouge//lib/rouge/lexers/mojo.rb#16
+    def detect?(text); end
+
+    # source://rouge//lib/rouge/lexers/mojo.rb#20
+    def keywords; end
+  end
+end
+
 # source://rouge//lib/rouge/lexers/moonscript.rb#8
 class Rouge::Lexers::Moonscript < ::Rouge::RegexLexer
   # @return [Moonscript] a new instance of Moonscript
@@ -3379,6 +3395,23 @@ class Rouge::Lexers::OpenTypeFeatureFile < ::Rouge::RegexLexer
   class << self
     # source://rouge//lib/rouge/lexers/opentype_feature_file.rb#13
     def keywords; end
+  end
+end
+
+# source://rouge//lib/rouge/lexers/p4.rb#6
+class Rouge::Lexers::P4 < ::Rouge::RegexLexer
+  class << self
+    # source://rouge//lib/rouge/lexers/p4.rb#36
+    def builtins; end
+
+    # source://rouge//lib/rouge/lexers/p4.rb#29
+    def decls; end
+
+    # source://rouge//lib/rouge/lexers/p4.rb#13
+    def keywords; end
+
+    # source://rouge//lib/rouge/lexers/p4.rb#22
+    def operators; end
   end
 end
 

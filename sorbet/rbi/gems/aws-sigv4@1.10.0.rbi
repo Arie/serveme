@@ -8,28 +8,28 @@
 # source://aws-sigv4//lib/aws-sigv4/asymmetric_credentials.rb#3
 module Aws
   class << self
-    # source://aws-sdk-core/3.201.5/lib/aws-sdk-core.rb#138
+    # source://aws-sdk-core/3.206.0/lib/aws-sdk-core.rb#128
     def config; end
 
-    # source://aws-sdk-core/3.201.5/lib/aws-sdk-core.rb#141
+    # source://aws-sdk-core/3.206.0/lib/aws-sdk-core.rb#131
     def config=(config); end
 
-    # source://aws-sdk-core/3.201.5/lib/aws-sdk-core.rb#200
+    # source://aws-sdk-core/3.206.0/lib/aws-sdk-core.rb#190
     def eager_autoload!(*args); end
 
-    # source://aws-sdk-core/3.201.5/lib/aws-sdk-core.rb#193
+    # source://aws-sdk-core/3.206.0/lib/aws-sdk-core.rb#183
     def empty_connection_pools!; end
 
-    # source://aws-sdk-core/3.201.5/lib/aws-sdk-core.rb#150
+    # source://aws-sdk-core/3.206.0/lib/aws-sdk-core.rb#140
     def partition(partition_name); end
 
-    # source://aws-sdk-core/3.201.5/lib/aws-sdk-core.rb#155
+    # source://aws-sdk-core/3.206.0/lib/aws-sdk-core.rb#145
     def partitions; end
 
-    # source://aws-sdk-core/3.201.5/lib/aws-sdk-core.rb#131
+    # source://aws-sdk-core/3.206.0/lib/aws-sdk-core.rb#121
     def shared_config; end
 
-    # source://aws-sdk-core/3.201.5/lib/aws-sdk-core.rb#170
+    # source://aws-sdk-core/3.206.0/lib/aws-sdk-core.rb#160
     def use_bundled_cert!; end
   end
 end
@@ -306,13 +306,13 @@ class Aws::Sigv4::Signer
   # @param options [Hash] a customizable set of options
   # @return [Signer] a new instance of Signer
   #
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#144
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#135
   def initialize(options = T.unsafe(nil)); end
 
   # @return [Boolean] When `true` the `x-amz-content-sha256` header will be signed and
   #   returned in the signature headers.
   #
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#189
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#173
   def apply_checksum_header; end
 
   # @return [#credentials] Returns an object that responds to
@@ -324,7 +324,7 @@ class Aws::Sigv4::Signer
   #   * `#session_token` => String, nil
   #   * `#set?` => Boolean
   #
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#181
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#165
   def credentials_provider; end
 
   # Signs a URL with query authentication. Using query parameters
@@ -375,17 +375,17 @@ class Aws::Sigv4::Signer
   # @param options [Hash] a customizable set of options
   # @return [HTTPS::URI, HTTP::URI]
   #
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#433
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#413
   def presign_url(options); end
 
   # @return [String]
   #
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#170
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#154
   def region; end
 
   # @return [String]
   #
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#167
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#151
   def service; end
 
   # Signs a event and returns signature headers and prior signature
@@ -424,7 +424,7 @@ class Aws::Sigv4::Signer
   #   signature value (a binary string) used at ':chunk-signature' needs to converted to
   #   hex-encoded string using #unpack
   #
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#346
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#327
   def sign_event(prior_signature, payload, encoder); end
 
   # Computes a version 4 signature signature. Returns the resultant
@@ -463,33 +463,33 @@ class Aws::Sigv4::Signer
   # @return [Signature] Return an instance of {Signature} that has
   #   a `#headers` method. The headers must be applied to your request.
   #
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#238
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#222
   def sign_request(request); end
 
   # @return [Set<String>] Returns a set of header names that should not be signed.
   #   All header names have been downcased.
   #
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#185
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#169
   def unsigned_headers; end
 
   private
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#566
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#543
   def asymmetric_signature(creds, string_to_sign); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#654
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#631
   def canonical_header_value(value); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#642
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#619
   def canonical_headers(headers); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#502
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#479
   def canonical_request(http_method, url, headers, content_sha256); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#554
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#531
   def credential(credentials, date); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#545
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#522
   def credential_scope(date); end
 
   # Returns true if credentials are set (not nil or empty)
@@ -499,22 +499,10 @@ class Aws::Sigv4::Signer
   #
   # @return [Boolean]
   #
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#782
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#759
   def credentials_set?(credentials); end
 
-  # the credentials used by CRT must be a
-  # CRT StaticCredentialsProvider object
-  #
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#808
-  def crt_fetch_credentials; end
-
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#877
-  def crt_presign_url(options); end
-
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#818
-  def crt_sign_request(request); end
-
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#739
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#716
   def downcase_headers(headers); end
 
   # Comparing to original signature v4 algorithm,
@@ -527,7 +515,7 @@ class Aws::Sigv4::Signer
   #   string is handled at #sign_event instead. (Will be used
   #   as next prior signature for event signing)
   #
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#585
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#562
   def event_signature(secret_access_key, date, string_to_sign); end
 
   # Compared to original #string_to_sign at signature v4 algorithm
@@ -540,91 +528,94 @@ class Aws::Sigv4::Signer
   #   payload used is already eventstream encoded (event without signature),
   #   thus no extra encoding is needed.
   #
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#531
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#508
   def event_string_to_sign(datetime, headers, payload, prior_signature, encoder); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#711
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#688
   def extract_credentials_provider(options); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#746
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#723
   def extract_expires_in(options); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#721
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#698
   def extract_http_method(request); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#703
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#680
   def extract_region(options); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#694
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#671
   def extract_service(options); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#730
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#707
   def extract_url(request); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#764
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#741
   def fetch_credentials; end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#690
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#667
   def hexhmac(key, value); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#686
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#663
   def hmac(key, value); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#658
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#635
   def host(uri); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#603
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#580
   def normalized_querystring(querystring); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#593
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#570
   def path(url); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#789
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#766
   def presigned_url_expiration(options, expiration, datetime); end
 
   # @param value [File, Tempfile, IO#read, String]
   # @return [String<SHA256 Hexdigest>]
   #
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#669
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#646
   def sha256_hexdigest(value); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#558
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#535
   def signature(secret_access_key, date, string_to_sign); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#632
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#609
   def signed_headers(headers); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#513
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#490
   def string_to_sign(datetime, canonical_request, algorithm); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#498
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#475
   def sts_algorithm; end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#756
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#733
   def uri_escape(string); end
 
-  # source://aws-sigv4//lib/aws-sigv4/signer.rb#760
+  # source://aws-sigv4//lib/aws-sigv4/signer.rb#737
   def uri_escape_path(string); end
 
   class << self
     # @api private
     #
-    # source://aws-sigv4//lib/aws-sigv4/signer.rb#944
+    # source://aws-sigv4//lib/aws-sigv4/signer.rb#804
     def normalize_path(uri); end
 
     # @api private
     #
-    # source://aws-sigv4//lib/aws-sigv4/signer.rb#935
+    # source://aws-sigv4//lib/aws-sigv4/signer.rb#795
     def uri_escape(string); end
 
     # @api private
     #
-    # source://aws-sigv4//lib/aws-sigv4/signer.rb#930
+    # source://aws-sigv4//lib/aws-sigv4/signer.rb#790
     def uri_escape_path(path); end
 
+    # Kept for backwards compatability
+    # Always return false since we are not using crt signing functionality
+    #
     # @return [Boolean]
     #
-    # source://aws-sigv4//lib/aws-sigv4/signer.rb#925
+    # source://aws-sigv4//lib/aws-sigv4/signer.rb#785
     def use_crt?; end
   end
 end

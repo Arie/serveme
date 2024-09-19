@@ -22,7 +22,6 @@ class LeagueMaps
       new(name: 'ozfortress HL', maps: ozfortress_hl_maps.uniq.sort),
       new(name: 'RGL 6v6', maps: rgl_sixes_maps.uniq.sort),
       new(name: 'RGL HL', maps: rgl_hl_maps.uniq.sort),
-      new(name: 'RGL Prolander', maps: rgl_prolander_maps.uniq.sort),
       new(name: 'UGC 6v6', maps: ugc_sixes_maps.uniq.sort),
       new(name: 'UGC HL', maps: ugc_hl_maps.uniq.sort),
       new(name: 'UGC 4v4', maps: ugc_fours_maps.uniq.sort),
@@ -34,7 +33,7 @@ class LeagueMaps
   def self.all_league_maps
     @all_league_maps ||=
       [
-        etf2l_sixes_maps + etf2l_hl_maps + ozfortress_sixes_maps + ozfortress_hl_maps + rgl_sixes_maps + rgl_hl_maps + rgl_prolander_maps + ugc_sixes_maps + ugc_hl_maps + ugc_fours_maps + ugc_ultiduo_maps
+        etf2l_sixes_maps + etf2l_hl_maps + ozfortress_sixes_maps + ozfortress_hl_maps + rgl_sixes_maps + rgl_hl_maps + ugc_sixes_maps + ugc_hl_maps + ugc_fours_maps + ugc_ultiduo_maps
       ].flatten.uniq.sort
   end
 
@@ -110,16 +109,6 @@ class LeagueMaps
       koth_cascade_rc1a
       koth_product_final
       pl_swiftwater_final1
-      pl_upward_f12
-      pl_vigil_rc10
-    ]
-  end
-
-  def self.rgl_prolander_maps
-    %w[
-      cp_steel_f12
-      koth_ashville_final1
-      koth_product_final
       pl_upward_f12
       pl_vigil_rc10
     ]

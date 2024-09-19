@@ -86,7 +86,7 @@ class LeagueMaps
         cp_snakewater_final1
         cp_sultry_b8a
         cp_sunshine
-        koth_bagel_rc8
+        koth_bagel_rc10
         koth_clearcut_b17
       ]
     sixes_invite =
@@ -97,7 +97,7 @@ class LeagueMaps
         cp_snakewater_final1
         cp_sultry_b8a
         cp_sunshine
-        koth_bagel_rc8
+        koth_bagel_rc10
         koth_product_final
       ]
     sixes + sixes_invite
@@ -108,7 +108,6 @@ class LeagueMaps
       cp_steel
       koth_ashville_final1
       koth_cascade_rc1a
-      koth_lakeside_r2
       koth_product_final
       pl_swiftwater_final1
       pl_upward_f12

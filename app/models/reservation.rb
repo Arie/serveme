@@ -250,7 +250,7 @@ class Reservation < ActiveRecord::Base
   sig { returns(String) }
   def api_keys_rcon_contents
     contents = "logstf_apikey \"#{user&.logs_tf_api_key.presence || Rails.application.credentials.dig(:logs_tf, :api_key)}\"; sm_web_rcon_url \"#{SITE_URL}/reservations/#{id}/rcon\""
-    if enable_demos_tf?
+    if enable_demos_tf? || au_system?
       contents + "; sm_demostf_apikey \"#{user&.demos_tf_api_key.presence || Rails.application.credentials.dig(:demos_tf, :api_key)}\""
     else
       contents

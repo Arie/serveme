@@ -898,7 +898,7 @@ module Puma::Const; end
 
 # Banned keys of response header
 #
-# source://puma//lib/puma/const.rb#248
+# source://puma//lib/puma/const.rb#256
 Puma::Const::BANNED_HEADER_KEY = T.let(T.unsafe(nil), Regexp)
 
 # source://puma//lib/puma/const.rb#187
@@ -1088,7 +1088,7 @@ Puma::Const::PORT_443 = T.let(T.unsafe(nil), String)
 # source://puma//lib/puma/const.rb#177
 Puma::Const::PORT_80 = T.let(T.unsafe(nil), String)
 
-# source://puma//lib/puma/const.rb#250
+# source://puma//lib/puma/const.rb#258
 Puma::Const::PROXY_PROTOCOL_V1_REGEX = T.let(T.unsafe(nil), Regexp)
 
 # source://puma//lib/puma/const.rb#197
@@ -1161,6 +1161,13 @@ Puma::Const::TRANSFER_ENCODING2 = T.let(T.unsafe(nil), String)
 
 # source://puma//lib/puma/const.rb#225
 Puma::Const::TRANSFER_ENCODING_CHUNKED = T.let(T.unsafe(nil), String)
+
+# The keys of headers that should not be convert to underscore
+# normalized versions. These headers are ignored at the request reading layer,
+# but if we normalize them after reading, it's just confusing for the application.
+#
+# source://puma//lib/puma/const.rb#250
+Puma::Const::UNMASKABLE_HEADERS = T.let(T.unsafe(nil), Hash)
 
 # source://puma//lib/puma/const.rb#103
 Puma::Const::VERSION = T.let(T.unsafe(nil), String)
@@ -3278,10 +3285,13 @@ module Puma::Request
   # avoid allocation in the common case (ie there are no headers
   # with `,` in their names), that's why it has the extra conditionals.
   #
+  # @note If a normalized version of a `,` header already exists, we ignore
+  #   the `,` version. This prevents clobbering headers managed by proxies
+  #   but not by clients (Like X-Forwarded-For).
   # @param env [Hash] see Puma::Client#env, from request, modifies in place
   # @version 5.0.3
   #
-  # source://puma//lib/puma/request.rb#324
+  # source://puma//lib/puma/request.rb#329
   def req_env_post_parse(env); end
 
   # Used in the lambda for env[ `Puma::Const::EARLY_HINTS` ]
@@ -3290,7 +3300,7 @@ module Puma::Request
   # @return [String]
   # @version 5.0.3
   #
-  # source://puma//lib/puma/request.rb#356
+  # source://puma//lib/puma/request.rb#369
   def str_early_hints(headers); end
 
   # Processes and write headers to the IOBuffer.
@@ -3304,7 +3314,7 @@ module Puma::Request
   # @param client [Puma::Client]
   # @version 5.0.3
   #
-  # source://puma//lib/puma/request.rb#384
+  # source://puma//lib/puma/request.rb#397
   def str_headers(env, status, headers, res_info, lines, requests, client); end
 end
 

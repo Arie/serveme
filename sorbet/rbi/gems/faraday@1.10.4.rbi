@@ -2166,6 +2166,49 @@ class Faraday::Request::Instrumentation::Options < ::Faraday::Options
   def name; end
 end
 
+# Request middleware that encodes the body as JSON.
+#
+# Processes only requests with matching Content-type or those without a type.
+# If a request doesn't have a type but has a body, it sets the Content-type
+# to JSON MIME-type.
+#
+# Doesn't try to encode bodies that already are in string form.
+#
+# source://faraday//lib/faraday/request/json.rb#14
+class Faraday::Request::Json < ::Faraday::Middleware
+  # source://faraday//lib/faraday/request/json.rb#18
+  def on_request(env); end
+
+  private
+
+  # @return [Boolean]
+  #
+  # source://faraday//lib/faraday/request/json.rb#42
+  def body?(env); end
+
+  # source://faraday//lib/faraday/request/json.rb#26
+  def encode(data); end
+
+  # @yield []
+  #
+  # source://faraday//lib/faraday/request/json.rb#30
+  def match_content_type(env); end
+
+  # @return [Boolean]
+  #
+  # source://faraday//lib/faraday/request/json.rb#37
+  def process_request?(env); end
+
+  # source://faraday//lib/faraday/request/json.rb#46
+  def request_type(env); end
+end
+
+# source://faraday//lib/faraday/request/json.rb#15
+Faraday::Request::Json::MIME_TYPE = T.let(T.unsafe(nil), String)
+
+# source://faraday//lib/faraday/request/json.rb#16
+Faraday::Request::Json::MIME_TYPE_REGEX = T.let(T.unsafe(nil), Regexp)
+
 # source://faraday//lib/faraday.rb#32
 Faraday::Request::Multipart = Faraday::Multipart::Middleware
 
@@ -2322,6 +2365,40 @@ class Faraday::Response
 
   # source://faraday//lib/faraday/response.rb#78
   def to_hash; end
+end
+
+# Parse response bodies as JSON.
+#
+# source://faraday//lib/faraday/response/json.rb#8
+class Faraday::Response::Json < ::Faraday::Response::Middleware
+  # @return [Json] a new instance of Json
+  #
+  # source://faraday//lib/faraday/response/json.rb#9
+  def initialize(app = T.unsafe(nil), options = T.unsafe(nil)); end
+
+  # source://faraday//lib/faraday/response/json.rb#16
+  def on_complete(env); end
+
+  private
+
+  # source://faraday//lib/faraday/response/json.rb#29
+  def parse(body); end
+
+  # @return [Boolean]
+  #
+  # source://faraday//lib/faraday/response/json.rb#33
+  def parse_response?(env); end
+
+  # source://faraday//lib/faraday/response/json.rb#22
+  def process_response(env); end
+
+  # @return [Boolean]
+  #
+  # source://faraday//lib/faraday/response/json.rb#38
+  def process_response_type?(env); end
+
+  # source://faraday//lib/faraday/response/json.rb#45
+  def response_type(env); end
 end
 
 # Logger is a middleware that logs internal events in the HTTP request

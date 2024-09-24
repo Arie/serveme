@@ -5,23 +5,25 @@
 # Please instead update this file by running `bin/tapioca gem aws-sdk-core`.
 
 
+# utility classes
+#
 # source://aws-sdk-core//lib/aws-sdk-core/deprecations.rb#3
 module Aws
   class << self
     # @return [Hash] Returns a hash of default configuration options shared
     #   by all constructed clients.
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#128
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#92
     def config; end
 
     # @param config [Hash]
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#131
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#95
     def config=(config); end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#190
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#154
     def eager_autoload!(*args); end
 
     # Close any long-lived connections maintained by the SDK's internal
@@ -38,22 +40,22 @@ module Aws
     #
     # @return [nil]
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#183
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#147
     def empty_connection_pools!; end
 
     # @see (Aws::Partitions.partition)
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#140
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#104
     def partition(partition_name); end
 
     # @see (Aws::Partitions.partitions)
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#145
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#109
     def partitions; end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#121
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#85
     def shared_config; end
 
     # The SDK ships with a ca certificate bundle to use when verifying SSL
@@ -68,7 +70,7 @@ module Aws
     #
     # @return [String] Returns the path to the bundled cert.
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#160
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#124
     def use_bundled_cert!; end
   end
 end
@@ -595,7 +597,7 @@ class Aws::Binary::EventStreamEncoder
   def serializer_class(protocol); end
 end
 
-# source://aws-sdk-core//lib/aws-sdk-core.rb#114
+# source://aws-sdk-core//lib/aws-sdk-core.rb#78
 Aws::CORE_GEM_VERSION = T.let(T.unsafe(nil), String)
 
 # @api private
@@ -1067,7 +1069,9 @@ class Aws::Cbor::UnknownTypeError < ::Aws::Cbor::Error
   def initialize(type); end
 end
 
-# source://aws-sdk-core//lib/aws-sdk-core/client_side_monitoring/request_metrics.rb#4
+# setup autoloading for ClientSideMonitoring module
+#
+# source://aws-sdk-core//lib/aws-sdk-core/client_side_monitoring.rb#5
 module Aws::ClientSideMonitoring; end
 
 # @api private
@@ -4147,7 +4151,9 @@ class Aws::LRUCache::Entry
   def value; end
 end
 
-# source://aws-sdk-core//lib/aws-sdk-core/log/formatter.rb#6
+# setup autoloading for Log module
+#
+# source://aws-sdk-core//lib/aws-sdk-core/log.rb#5
 module Aws::Log; end
 
 # A log formatter generates a string for logging from a response. This
@@ -4971,9 +4977,10 @@ end
 # source://aws-sdk-core//lib/aws-sdk-core/param_validator.rb#9
 Aws::ParamValidator::EXPECTED_GOT = T.let(T.unsafe(nil), String)
 
-# @api private
+# setup autoloading for Plugins
+# Most plugins are required explicitly from service clients
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/bearer_authorization.rb#5
+# source://aws-sdk-core//lib/aws-sdk-core/plugins.rb#6
 module Aws::Plugins; end
 
 # Deprecated - does not look at new traits like `auth` and `unsignedPayload`
@@ -7606,7 +7613,9 @@ module Aws::RefreshingToken
   def refresh_if_near_expiration; end
 end
 
-# source://aws-sdk-core//lib/aws-sdk-core/resources/collection.rb#4
+# setup autoloading for Resources module
+#
+# source://aws-sdk-core//lib/aws-sdk-core/resources.rb#5
 module Aws::Resources; end
 
 # source://aws-sdk-core//lib/aws-sdk-core/resources/collection.rb#5
@@ -8404,7 +8413,7 @@ end
 #
 # See {Errors} for more information.
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/types.rb#10
+# source://aws-sdk-core//lib/aws-sdk-sso.rb#44
 module Aws::SSO; end
 
 # An API client for SSO.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -8594,154 +8603,154 @@ end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#12
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#13
 module Aws::SSO::ClientApi
   include ::Seahorse::Model
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#108
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#109
 Aws::SSO::ClientApi::API = T.let(T.unsafe(nil), Seahorse::Model::Api)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#16
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#17
 Aws::SSO::ClientApi::AccessKeyType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#17
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#18
 Aws::SSO::ClientApi::AccessTokenType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#18
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#19
 Aws::SSO::ClientApi::AccountIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#19
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#20
 Aws::SSO::ClientApi::AccountInfo = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#20
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#21
 Aws::SSO::ClientApi::AccountListType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#21
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#22
 Aws::SSO::ClientApi::AccountNameType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#22
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#23
 Aws::SSO::ClientApi::EmailAddressType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#23
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#24
 Aws::SSO::ClientApi::ErrorDescription = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#24
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#25
 Aws::SSO::ClientApi::ExpirationTimestampType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#25
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#26
 Aws::SSO::ClientApi::GetRoleCredentialsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#26
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#27
 Aws::SSO::ClientApi::GetRoleCredentialsResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#27
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#28
 Aws::SSO::ClientApi::InvalidRequestException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#28
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#29
 Aws::SSO::ClientApi::ListAccountRolesRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#29
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#30
 Aws::SSO::ClientApi::ListAccountRolesResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#30
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#31
 Aws::SSO::ClientApi::ListAccountsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#31
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#32
 Aws::SSO::ClientApi::ListAccountsResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#32
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#33
 Aws::SSO::ClientApi::LogoutRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#33
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#34
 Aws::SSO::ClientApi::MaxResultType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#34
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#35
 Aws::SSO::ClientApi::NextTokenType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#35
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#36
 Aws::SSO::ClientApi::ResourceNotFoundException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#36
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#37
 Aws::SSO::ClientApi::RoleCredentials = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#37
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#38
 Aws::SSO::ClientApi::RoleInfo = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#38
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#39
 Aws::SSO::ClientApi::RoleListType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#39
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#40
 Aws::SSO::ClientApi::RoleNameType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#40
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#41
 Aws::SSO::ClientApi::SecretAccessKeyType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#41
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#42
 Aws::SSO::ClientApi::SessionTokenType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#42
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#43
 Aws::SSO::ClientApi::TooManyRequestsException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#43
+# source://aws-sdk-core//lib/aws-sdk-sso/client_api.rb#44
 Aws::SSO::ClientApi::UnauthorizedException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # Endpoint parameters used to influence endpoints per request.
@@ -8966,7 +8975,7 @@ end
 # source://aws-sdk-core//lib/aws-sdk-sso.rb#57
 Aws::SSO::GEM_VERSION = T.let(T.unsafe(nil), String)
 
-# source://aws-sdk-core//lib/aws-sdk-sso/plugins/endpoints.rb#12
+# source://aws-sdk-core//lib/aws-sdk-sso.rb#47
 module Aws::SSO::Plugins; end
 
 # source://aws-sdk-core//lib/aws-sdk-sso/plugins/endpoints.rb#13
@@ -9277,7 +9286,7 @@ Aws::SSOCredentials::TOKEN_PROVIDER_REQUIRED_OPTS = T.let(T.unsafe(nil), Array)
 #
 # See {Errors} for more information.
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/types.rb#10
+# source://aws-sdk-core//lib/aws-sdk-ssooidc.rb#44
 module Aws::SSOOIDC; end
 
 # An API client for SSOOIDC.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -9690,269 +9699,269 @@ end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#12
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#13
 module Aws::SSOOIDC::ClientApi
   include ::Seahorse::Model
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#204
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#205
 Aws::SSOOIDC::ClientApi::API = T.let(T.unsafe(nil), Seahorse::Model::Api)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#16
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#17
 Aws::SSOOIDC::ClientApi::AccessDeniedException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#17
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#18
 Aws::SSOOIDC::ClientApi::AccessToken = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#18
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#19
 Aws::SSOOIDC::ClientApi::ArnType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#19
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#20
 Aws::SSOOIDC::ClientApi::Assertion = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#20
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#21
 Aws::SSOOIDC::ClientApi::AuthCode = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#21
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#22
 Aws::SSOOIDC::ClientApi::AuthorizationPendingException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#22
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#23
 Aws::SSOOIDC::ClientApi::ClientId = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#23
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#24
 Aws::SSOOIDC::ClientApi::ClientName = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#24
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#25
 Aws::SSOOIDC::ClientApi::ClientSecret = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#25
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#26
 Aws::SSOOIDC::ClientApi::ClientType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#26
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#27
 Aws::SSOOIDC::ClientApi::CodeVerifier = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#27
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#28
 Aws::SSOOIDC::ClientApi::CreateTokenRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#28
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#29
 Aws::SSOOIDC::ClientApi::CreateTokenResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#29
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#30
 Aws::SSOOIDC::ClientApi::CreateTokenWithIAMRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#30
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#31
 Aws::SSOOIDC::ClientApi::CreateTokenWithIAMResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#31
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#32
 Aws::SSOOIDC::ClientApi::DeviceCode = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#32
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#33
 Aws::SSOOIDC::ClientApi::Error = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#33
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#34
 Aws::SSOOIDC::ClientApi::ErrorDescription = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#34
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#35
 Aws::SSOOIDC::ClientApi::ExpirationInSeconds = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#35
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#36
 Aws::SSOOIDC::ClientApi::ExpiredTokenException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#36
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#37
 Aws::SSOOIDC::ClientApi::GrantType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#37
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#38
 Aws::SSOOIDC::ClientApi::GrantTypes = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#38
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#39
 Aws::SSOOIDC::ClientApi::IdToken = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#39
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#40
 Aws::SSOOIDC::ClientApi::InternalServerException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#40
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#41
 Aws::SSOOIDC::ClientApi::IntervalInSeconds = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#41
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#42
 Aws::SSOOIDC::ClientApi::InvalidClientException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#42
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#43
 Aws::SSOOIDC::ClientApi::InvalidClientMetadataException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#43
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#44
 Aws::SSOOIDC::ClientApi::InvalidGrantException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#44
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#45
 Aws::SSOOIDC::ClientApi::InvalidRedirectUriException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#45
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#46
 Aws::SSOOIDC::ClientApi::InvalidRequestException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#46
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#47
 Aws::SSOOIDC::ClientApi::InvalidRequestRegionException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#47
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#48
 Aws::SSOOIDC::ClientApi::InvalidScopeException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#48
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#49
 Aws::SSOOIDC::ClientApi::Location = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#49
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#50
 Aws::SSOOIDC::ClientApi::LongTimeStampType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#50
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#51
 Aws::SSOOIDC::ClientApi::RedirectUris = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#51
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#52
 Aws::SSOOIDC::ClientApi::RefreshToken = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#52
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#53
 Aws::SSOOIDC::ClientApi::Region = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#53
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#54
 Aws::SSOOIDC::ClientApi::RegisterClientRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#54
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#55
 Aws::SSOOIDC::ClientApi::RegisterClientResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#55
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#56
 Aws::SSOOIDC::ClientApi::Scope = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#56
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#57
 Aws::SSOOIDC::ClientApi::Scopes = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#57
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#58
 Aws::SSOOIDC::ClientApi::SlowDownException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#58
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#59
 Aws::SSOOIDC::ClientApi::StartDeviceAuthorizationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#59
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#60
 Aws::SSOOIDC::ClientApi::StartDeviceAuthorizationResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#60
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#61
 Aws::SSOOIDC::ClientApi::SubjectToken = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#61
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#62
 Aws::SSOOIDC::ClientApi::TokenType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#62
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#63
 Aws::SSOOIDC::ClientApi::TokenTypeURI = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#63
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#64
 Aws::SSOOIDC::ClientApi::URI = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#64
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#65
 Aws::SSOOIDC::ClientApi::UnauthorizedClientException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#65
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#66
 Aws::SSOOIDC::ClientApi::UnsupportedGrantTypeException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#66
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client_api.rb#67
 Aws::SSOOIDC::ClientApi::UserCode = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # Endpoint parameters used to influence endpoints per request.
@@ -10427,7 +10436,7 @@ end
 # source://aws-sdk-core//lib/aws-sdk-ssooidc.rb#57
 Aws::SSOOIDC::GEM_VERSION = T.let(T.unsafe(nil), String)
 
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/plugins/endpoints.rb#12
+# source://aws-sdk-core//lib/aws-sdk-ssooidc.rb#47
 module Aws::SSOOIDC::Plugins; end
 
 # source://aws-sdk-core//lib/aws-sdk-ssooidc/plugins/endpoints.rb#13
@@ -10824,7 +10833,7 @@ Aws::SSOTokenProvider::SSO_REQUIRED_OPTS = T.let(T.unsafe(nil), Array)
 #
 # See {Errors} for more information.
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#10
+# source://aws-sdk-core//lib/aws-sdk-sts.rb#44
 module Aws::STS; end
 
 # An API client for STS.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -12084,199 +12093,199 @@ end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#12
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#13
 module Aws::STS::ClientApi
   include ::Seahorse::Model
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#248
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#249
 Aws::STS::ClientApi::API = T.let(T.unsafe(nil), Seahorse::Model::Api)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#16
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#17
 Aws::STS::ClientApi::AssumeRoleRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#17
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#18
 Aws::STS::ClientApi::AssumeRoleResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#18
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#19
 Aws::STS::ClientApi::AssumeRoleWithSAMLRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#19
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#20
 Aws::STS::ClientApi::AssumeRoleWithSAMLResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#20
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#21
 Aws::STS::ClientApi::AssumeRoleWithWebIdentityRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#21
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#22
 Aws::STS::ClientApi::AssumeRoleWithWebIdentityResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#22
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#23
 Aws::STS::ClientApi::AssumedRoleUser = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#23
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#24
 Aws::STS::ClientApi::Audience = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#24
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#25
 Aws::STS::ClientApi::Credentials = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#25
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#26
 Aws::STS::ClientApi::DecodeAuthorizationMessageRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#26
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#27
 Aws::STS::ClientApi::DecodeAuthorizationMessageResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#27
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#28
 Aws::STS::ClientApi::ExpiredTokenException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#28
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#29
 Aws::STS::ClientApi::FederatedUser = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#29
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#30
 Aws::STS::ClientApi::GetAccessKeyInfoRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#30
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#31
 Aws::STS::ClientApi::GetAccessKeyInfoResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#31
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#32
 Aws::STS::ClientApi::GetCallerIdentityRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#32
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#33
 Aws::STS::ClientApi::GetCallerIdentityResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#33
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#34
 Aws::STS::ClientApi::GetFederationTokenRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#34
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#35
 Aws::STS::ClientApi::GetFederationTokenResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#35
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#36
 Aws::STS::ClientApi::GetSessionTokenRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#36
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#37
 Aws::STS::ClientApi::GetSessionTokenResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#37
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#38
 Aws::STS::ClientApi::IDPCommunicationErrorException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#38
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#39
 Aws::STS::ClientApi::IDPRejectedClaimException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#39
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#40
 Aws::STS::ClientApi::InvalidAuthorizationMessageException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#40
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#41
 Aws::STS::ClientApi::InvalidIdentityTokenException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#41
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#42
 Aws::STS::ClientApi::Issuer = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#42
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#43
 Aws::STS::ClientApi::MalformedPolicyDocumentException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#43
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#44
 Aws::STS::ClientApi::NameQualifier = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#44
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#45
 Aws::STS::ClientApi::PackedPolicyTooLargeException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#45
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#46
 Aws::STS::ClientApi::PolicyDescriptorType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#46
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#47
 Aws::STS::ClientApi::ProvidedContext = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#47
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#48
 Aws::STS::ClientApi::ProvidedContextsListType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#48
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#49
 Aws::STS::ClientApi::RegionDisabledException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#49
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#50
 Aws::STS::ClientApi::SAMLAssertionType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#50
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#51
 Aws::STS::ClientApi::Subject = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#51
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#52
 Aws::STS::ClientApi::SubjectType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#52
+# source://aws-sdk-core//lib/aws-sdk-sts/client_api.rb#53
 Aws::STS::ClientApi::Tag = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # Endpoint parameters used to influence endpoints per request.
@@ -12627,7 +12636,7 @@ class Aws::STS::Errors::ServiceError < ::Aws::Errors::ServiceError; end
 # source://aws-sdk-core//lib/aws-sdk-sts.rb#57
 Aws::STS::GEM_VERSION = T.let(T.unsafe(nil), String)
 
-# source://aws-sdk-core//lib/aws-sdk-sts/plugins/endpoints.rb#12
+# source://aws-sdk-core//lib/aws-sdk-sts.rb#47
 module Aws::STS::Plugins; end
 
 # source://aws-sdk-core//lib/aws-sdk-sts/plugins/endpoints.rb#13
@@ -13619,9 +13628,9 @@ module Aws::Structure::Union
   def value; end
 end
 
-# @api private
+# setup autoloading for Stubbing module
 #
-# source://aws-sdk-core//lib/aws-sdk-core/stubbing/empty_stub.rb#4
+# source://aws-sdk-core//lib/aws-sdk-core/stubbing.rb#5
 module Aws::Stubbing; end
 
 # source://aws-sdk-core//lib/aws-sdk-core/stubbing/data_applicator.rb#5
@@ -13676,7 +13685,7 @@ class Aws::Stubbing::EmptyStub
   def stub_structure(ref, visited); end
 end
 
-# source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/json.rb#5
+# source://aws-sdk-core//lib/aws-sdk-core/stubbing.rb#11
 module Aws::Stubbing::Protocols; end
 
 # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/api_gateway.rb#6

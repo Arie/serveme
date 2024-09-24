@@ -32,7 +32,7 @@
 #
 # See {Errors} for more information.
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/types.rb#10
+# source://aws-sdk-kms//lib/aws-sdk-kms.rb#42
 module Aws::KMS; end
 
 # An API client for KMS.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -6977,1174 +6977,1174 @@ end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#12
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#13
 module Aws::KMS::ClientApi
   include ::Seahorse::Model
 end
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#1010
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#1011
 Aws::KMS::ClientApi::API = T.let(T.unsafe(nil), Seahorse::Model::Api)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#16
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#17
 Aws::KMS::ClientApi::AWSAccountIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#17
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#18
 Aws::KMS::ClientApi::AlgorithmSpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#18
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#19
 Aws::KMS::ClientApi::AliasList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#19
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#20
 Aws::KMS::ClientApi::AliasListEntry = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#20
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#21
 Aws::KMS::ClientApi::AliasNameType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#21
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#22
 Aws::KMS::ClientApi::AlreadyExistsException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#22
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#23
 Aws::KMS::ClientApi::ArnType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#23
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#24
 Aws::KMS::ClientApi::AttestationDocumentType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BlobShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#24
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#25
 Aws::KMS::ClientApi::BooleanType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#25
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#26
 Aws::KMS::ClientApi::CancelKeyDeletionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#26
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#27
 Aws::KMS::ClientApi::CancelKeyDeletionResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#27
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#28
 Aws::KMS::ClientApi::CiphertextType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BlobShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#28
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#29
 Aws::KMS::ClientApi::CloudHsmClusterIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#29
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#30
 Aws::KMS::ClientApi::CloudHsmClusterInUseException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#30
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#31
 Aws::KMS::ClientApi::CloudHsmClusterInvalidConfigurationException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#31
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#32
 Aws::KMS::ClientApi::CloudHsmClusterNotActiveException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#32
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#33
 Aws::KMS::ClientApi::CloudHsmClusterNotFoundException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#33
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#34
 Aws::KMS::ClientApi::CloudHsmClusterNotRelatedException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#34
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#35
 Aws::KMS::ClientApi::ConflictException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#35
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#36
 Aws::KMS::ClientApi::ConnectCustomKeyStoreRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#36
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#37
 Aws::KMS::ClientApi::ConnectCustomKeyStoreResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#37
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#38
 Aws::KMS::ClientApi::ConnectionErrorCodeType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#38
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#39
 Aws::KMS::ClientApi::ConnectionStateType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#39
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#40
 Aws::KMS::ClientApi::CreateAliasRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#40
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#41
 Aws::KMS::ClientApi::CreateCustomKeyStoreRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#41
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#42
 Aws::KMS::ClientApi::CreateCustomKeyStoreResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#42
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#43
 Aws::KMS::ClientApi::CreateGrantRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#43
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#44
 Aws::KMS::ClientApi::CreateGrantResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#44
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#45
 Aws::KMS::ClientApi::CreateKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#45
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#46
 Aws::KMS::ClientApi::CreateKeyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#46
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#47
 Aws::KMS::ClientApi::CustomKeyStoreHasCMKsException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#47
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#48
 Aws::KMS::ClientApi::CustomKeyStoreIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#48
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#49
 Aws::KMS::ClientApi::CustomKeyStoreInvalidStateException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#49
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#50
 Aws::KMS::ClientApi::CustomKeyStoreNameInUseException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#50
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#51
 Aws::KMS::ClientApi::CustomKeyStoreNameType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#51
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#52
 Aws::KMS::ClientApi::CustomKeyStoreNotFoundException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#52
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#53
 Aws::KMS::ClientApi::CustomKeyStoreType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#53
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#54
 Aws::KMS::ClientApi::CustomKeyStoresList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#54
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#55
 Aws::KMS::ClientApi::CustomKeyStoresListEntry = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#55
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#56
 Aws::KMS::ClientApi::CustomerMasterKeySpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#56
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#57
 Aws::KMS::ClientApi::DataKeyPairSpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#57
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#58
 Aws::KMS::ClientApi::DataKeySpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#58
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#59
 Aws::KMS::ClientApi::DateType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#59
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#60
 Aws::KMS::ClientApi::DecryptRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#60
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#61
 Aws::KMS::ClientApi::DecryptResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#61
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#62
 Aws::KMS::ClientApi::DeleteAliasRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#62
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#63
 Aws::KMS::ClientApi::DeleteCustomKeyStoreRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#63
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#64
 Aws::KMS::ClientApi::DeleteCustomKeyStoreResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#64
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#65
 Aws::KMS::ClientApi::DeleteImportedKeyMaterialRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#65
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#66
 Aws::KMS::ClientApi::DependencyTimeoutException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#66
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#67
 Aws::KMS::ClientApi::DeriveSharedSecretRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#67
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#68
 Aws::KMS::ClientApi::DeriveSharedSecretResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#68
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#69
 Aws::KMS::ClientApi::DescribeCustomKeyStoresRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#69
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#70
 Aws::KMS::ClientApi::DescribeCustomKeyStoresResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#70
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#71
 Aws::KMS::ClientApi::DescribeKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#71
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#72
 Aws::KMS::ClientApi::DescribeKeyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#72
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#73
 Aws::KMS::ClientApi::DescriptionType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#73
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#74
 Aws::KMS::ClientApi::DisableKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#74
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#75
 Aws::KMS::ClientApi::DisableKeyRotationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#75
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#76
 Aws::KMS::ClientApi::DisabledException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#76
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#77
 Aws::KMS::ClientApi::DisconnectCustomKeyStoreRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#77
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#78
 Aws::KMS::ClientApi::DisconnectCustomKeyStoreResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#78
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#79
 Aws::KMS::ClientApi::DryRunOperationException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#79
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#80
 Aws::KMS::ClientApi::EnableKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#80
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#81
 Aws::KMS::ClientApi::EnableKeyRotationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#81
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#82
 Aws::KMS::ClientApi::EncryptRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#82
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#83
 Aws::KMS::ClientApi::EncryptResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#83
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#84
 Aws::KMS::ClientApi::EncryptionAlgorithmSpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#84
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#85
 Aws::KMS::ClientApi::EncryptionAlgorithmSpecList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#85
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#86
 Aws::KMS::ClientApi::EncryptionContextKey = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#86
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#87
 Aws::KMS::ClientApi::EncryptionContextType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::MapShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#87
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#88
 Aws::KMS::ClientApi::EncryptionContextValue = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#88
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#89
 Aws::KMS::ClientApi::ErrorMessageType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#89
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#90
 Aws::KMS::ClientApi::ExpirationModelType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#90
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#91
 Aws::KMS::ClientApi::ExpiredImportTokenException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#91
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#92
 Aws::KMS::ClientApi::GenerateDataKeyPairRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#92
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#93
 Aws::KMS::ClientApi::GenerateDataKeyPairResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#93
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#94
 Aws::KMS::ClientApi::GenerateDataKeyPairWithoutPlaintextRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#94
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#95
 Aws::KMS::ClientApi::GenerateDataKeyPairWithoutPlaintextResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#95
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#96
 Aws::KMS::ClientApi::GenerateDataKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#96
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#97
 Aws::KMS::ClientApi::GenerateDataKeyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#97
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#98
 Aws::KMS::ClientApi::GenerateDataKeyWithoutPlaintextRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#98
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#99
 Aws::KMS::ClientApi::GenerateDataKeyWithoutPlaintextResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#99
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#100
 Aws::KMS::ClientApi::GenerateMacRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#100
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#101
 Aws::KMS::ClientApi::GenerateMacResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#101
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#102
 Aws::KMS::ClientApi::GenerateRandomRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#102
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#103
 Aws::KMS::ClientApi::GenerateRandomResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#103
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#104
 Aws::KMS::ClientApi::GetKeyPolicyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#104
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#105
 Aws::KMS::ClientApi::GetKeyPolicyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#105
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#106
 Aws::KMS::ClientApi::GetKeyRotationStatusRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#106
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#107
 Aws::KMS::ClientApi::GetKeyRotationStatusResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#107
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#108
 Aws::KMS::ClientApi::GetParametersForImportRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#108
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#109
 Aws::KMS::ClientApi::GetParametersForImportResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#109
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#110
 Aws::KMS::ClientApi::GetPublicKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#110
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#111
 Aws::KMS::ClientApi::GetPublicKeyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#111
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#112
 Aws::KMS::ClientApi::GrantConstraints = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#112
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#113
 Aws::KMS::ClientApi::GrantIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#113
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#114
 Aws::KMS::ClientApi::GrantList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#114
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#115
 Aws::KMS::ClientApi::GrantListEntry = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#115
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#116
 Aws::KMS::ClientApi::GrantNameType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#116
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#117
 Aws::KMS::ClientApi::GrantOperation = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#117
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#118
 Aws::KMS::ClientApi::GrantOperationList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#118
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#119
 Aws::KMS::ClientApi::GrantTokenList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#119
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#120
 Aws::KMS::ClientApi::GrantTokenType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#120
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#121
 Aws::KMS::ClientApi::ImportKeyMaterialRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#121
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#122
 Aws::KMS::ClientApi::ImportKeyMaterialResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#122
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#123
 Aws::KMS::ClientApi::IncorrectKeyException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#123
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#124
 Aws::KMS::ClientApi::IncorrectKeyMaterialException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#124
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#125
 Aws::KMS::ClientApi::IncorrectTrustAnchorException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#125
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#126
 Aws::KMS::ClientApi::InvalidAliasNameException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#126
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#127
 Aws::KMS::ClientApi::InvalidArnException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#127
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#128
 Aws::KMS::ClientApi::InvalidCiphertextException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#128
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#129
 Aws::KMS::ClientApi::InvalidGrantIdException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#129
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#130
 Aws::KMS::ClientApi::InvalidGrantTokenException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#130
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#131
 Aws::KMS::ClientApi::InvalidImportTokenException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#131
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#132
 Aws::KMS::ClientApi::InvalidKeyUsageException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#132
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#133
 Aws::KMS::ClientApi::InvalidMarkerException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#133
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#134
 Aws::KMS::ClientApi::KMSInternalException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#134
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#135
 Aws::KMS::ClientApi::KMSInvalidMacException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#135
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#136
 Aws::KMS::ClientApi::KMSInvalidSignatureException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#136
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#137
 Aws::KMS::ClientApi::KMSInvalidStateException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#137
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#138
 Aws::KMS::ClientApi::KeyAgreementAlgorithmSpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#138
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#139
 Aws::KMS::ClientApi::KeyAgreementAlgorithmSpecList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#139
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#140
 Aws::KMS::ClientApi::KeyEncryptionMechanism = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#140
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#141
 Aws::KMS::ClientApi::KeyIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#141
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#142
 Aws::KMS::ClientApi::KeyList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#142
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#143
 Aws::KMS::ClientApi::KeyListEntry = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#143
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#144
 Aws::KMS::ClientApi::KeyManagerType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#144
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#145
 Aws::KMS::ClientApi::KeyMetadata = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#145
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#146
 Aws::KMS::ClientApi::KeySpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#146
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#147
 Aws::KMS::ClientApi::KeyState = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#147
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#148
 Aws::KMS::ClientApi::KeyStorePasswordType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#148
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#149
 Aws::KMS::ClientApi::KeyUnavailableException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#149
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#150
 Aws::KMS::ClientApi::KeyUsageType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#150
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#151
 Aws::KMS::ClientApi::LimitExceededException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#151
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#152
 Aws::KMS::ClientApi::LimitType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#152
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#153
 Aws::KMS::ClientApi::ListAliasesRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#153
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#154
 Aws::KMS::ClientApi::ListAliasesResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#154
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#155
 Aws::KMS::ClientApi::ListGrantsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#155
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#156
 Aws::KMS::ClientApi::ListGrantsResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#156
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#157
 Aws::KMS::ClientApi::ListKeyPoliciesRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#157
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#158
 Aws::KMS::ClientApi::ListKeyPoliciesResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#158
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#159
 Aws::KMS::ClientApi::ListKeyRotationsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#159
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#160
 Aws::KMS::ClientApi::ListKeyRotationsResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#160
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#161
 Aws::KMS::ClientApi::ListKeysRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#161
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#162
 Aws::KMS::ClientApi::ListKeysResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#162
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#163
 Aws::KMS::ClientApi::ListResourceTagsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#163
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#164
 Aws::KMS::ClientApi::ListResourceTagsResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#164
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#165
 Aws::KMS::ClientApi::ListRetirableGrantsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#165
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#166
 Aws::KMS::ClientApi::MacAlgorithmSpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#166
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#167
 Aws::KMS::ClientApi::MacAlgorithmSpecList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#167
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#168
 Aws::KMS::ClientApi::MalformedPolicyDocumentException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#168
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#169
 Aws::KMS::ClientApi::MarkerType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#169
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#170
 Aws::KMS::ClientApi::MessageType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#170
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#171
 Aws::KMS::ClientApi::MultiRegionConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#171
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#172
 Aws::KMS::ClientApi::MultiRegionKey = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#172
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#173
 Aws::KMS::ClientApi::MultiRegionKeyList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#173
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#174
 Aws::KMS::ClientApi::MultiRegionKeyType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#174
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#175
 Aws::KMS::ClientApi::NotFoundException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#175
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#176
 Aws::KMS::ClientApi::NullableBooleanType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#176
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#177
 Aws::KMS::ClientApi::NumberOfBytesType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#177
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#178
 Aws::KMS::ClientApi::OriginType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#178
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#179
 Aws::KMS::ClientApi::PendingWindowInDaysType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#179
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#180
 Aws::KMS::ClientApi::PlaintextType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BlobShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#180
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#181
 Aws::KMS::ClientApi::PolicyNameList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#181
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#182
 Aws::KMS::ClientApi::PolicyNameType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#182
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#183
 Aws::KMS::ClientApi::PolicyType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#183
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#184
 Aws::KMS::ClientApi::PrincipalIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#184
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#185
 Aws::KMS::ClientApi::PublicKeyType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BlobShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#185
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#186
 Aws::KMS::ClientApi::PutKeyPolicyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#186
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#187
 Aws::KMS::ClientApi::ReEncryptRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#187
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#188
 Aws::KMS::ClientApi::ReEncryptResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#188
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#189
 Aws::KMS::ClientApi::RecipientInfo = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#189
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#190
 Aws::KMS::ClientApi::RegionType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#190
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#191
 Aws::KMS::ClientApi::ReplicateKeyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#191
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#192
 Aws::KMS::ClientApi::ReplicateKeyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#192
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#193
 Aws::KMS::ClientApi::RetireGrantRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#193
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#194
 Aws::KMS::ClientApi::RevokeGrantRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#194
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#195
 Aws::KMS::ClientApi::RotateKeyOnDemandRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#195
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#196
 Aws::KMS::ClientApi::RotateKeyOnDemandResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#196
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#197
 Aws::KMS::ClientApi::RotationPeriodInDaysType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#197
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#198
 Aws::KMS::ClientApi::RotationType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#198
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#199
 Aws::KMS::ClientApi::RotationsList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#199
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#200
 Aws::KMS::ClientApi::RotationsListEntry = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#200
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#201
 Aws::KMS::ClientApi::ScheduleKeyDeletionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#201
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#202
 Aws::KMS::ClientApi::ScheduleKeyDeletionResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#202
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#203
 Aws::KMS::ClientApi::SignRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#203
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#204
 Aws::KMS::ClientApi::SignResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#204
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#205
 Aws::KMS::ClientApi::SigningAlgorithmSpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#205
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#206
 Aws::KMS::ClientApi::SigningAlgorithmSpecList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#206
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#207
 Aws::KMS::ClientApi::Tag = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#207
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#208
 Aws::KMS::ClientApi::TagException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#208
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#209
 Aws::KMS::ClientApi::TagKeyList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#209
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#210
 Aws::KMS::ClientApi::TagKeyType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#210
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#211
 Aws::KMS::ClientApi::TagList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#211
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#212
 Aws::KMS::ClientApi::TagResourceRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#212
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#213
 Aws::KMS::ClientApi::TagValueType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#213
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#214
 Aws::KMS::ClientApi::TrustAnchorCertificateType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#214
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#215
 Aws::KMS::ClientApi::UnsupportedOperationException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#215
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#216
 Aws::KMS::ClientApi::UntagResourceRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#216
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#217
 Aws::KMS::ClientApi::UpdateAliasRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#217
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#218
 Aws::KMS::ClientApi::UpdateCustomKeyStoreRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#218
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#219
 Aws::KMS::ClientApi::UpdateCustomKeyStoreResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#219
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#220
 Aws::KMS::ClientApi::UpdateKeyDescriptionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#220
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#221
 Aws::KMS::ClientApi::UpdatePrimaryRegionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#221
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#222
 Aws::KMS::ClientApi::VerifyMacRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#222
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#223
 Aws::KMS::ClientApi::VerifyMacResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#223
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#224
 Aws::KMS::ClientApi::VerifyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#224
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#225
 Aws::KMS::ClientApi::VerifyResponse = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#225
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#226
 Aws::KMS::ClientApi::WrappingKeySpec = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#226
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#227
 Aws::KMS::ClientApi::XksKeyAlreadyInUseException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#227
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#228
 Aws::KMS::ClientApi::XksKeyConfigurationType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#228
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#229
 Aws::KMS::ClientApi::XksKeyIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#229
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#230
 Aws::KMS::ClientApi::XksKeyInvalidConfigurationException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#230
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#231
 Aws::KMS::ClientApi::XksKeyNotFoundException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#231
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#232
 Aws::KMS::ClientApi::XksProxyAuthenticationAccessKeyIdType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#232
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#233
 Aws::KMS::ClientApi::XksProxyAuthenticationCredentialType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#233
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#234
 Aws::KMS::ClientApi::XksProxyAuthenticationRawSecretAccessKeyType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#234
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#235
 Aws::KMS::ClientApi::XksProxyConfigurationType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#235
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#236
 Aws::KMS::ClientApi::XksProxyConnectivityType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#236
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#237
 Aws::KMS::ClientApi::XksProxyIncorrectAuthenticationCredentialException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#237
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#238
 Aws::KMS::ClientApi::XksProxyInvalidConfigurationException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#238
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#239
 Aws::KMS::ClientApi::XksProxyInvalidResponseException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#239
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#240
 Aws::KMS::ClientApi::XksProxyUriEndpointInUseException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#240
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#241
 Aws::KMS::ClientApi::XksProxyUriEndpointType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#241
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#242
 Aws::KMS::ClientApi::XksProxyUriInUseException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#242
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#243
 Aws::KMS::ClientApi::XksProxyUriPathType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#243
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#244
 Aws::KMS::ClientApi::XksProxyUriUnreachableException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#244
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#245
 Aws::KMS::ClientApi::XksProxyVpcEndpointServiceInUseException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#245
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#246
 Aws::KMS::ClientApi::XksProxyVpcEndpointServiceInvalidConfigurationException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#246
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#247
 Aws::KMS::ClientApi::XksProxyVpcEndpointServiceNameType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
-# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#247
+# source://aws-sdk-kms//lib/aws-sdk-kms/client_api.rb#248
 Aws::KMS::ClientApi::XksProxyVpcEndpointServiceNotFoundException = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # Endpoint parameters used to influence endpoints per request.
@@ -9705,7 +9705,7 @@ end
 # source://aws-sdk-kms//lib/aws-sdk-kms.rb#55
 Aws::KMS::GEM_VERSION = T.let(T.unsafe(nil), String)
 
-# source://aws-sdk-kms//lib/aws-sdk-kms/plugins/endpoints.rb#12
+# source://aws-sdk-kms//lib/aws-sdk-kms.rb#45
 module Aws::KMS::Plugins; end
 
 # source://aws-sdk-kms//lib/aws-sdk-kms/plugins/endpoints.rb#13

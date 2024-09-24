@@ -104,7 +104,7 @@ class LeagueMaps
 
   def self.rgl_hl_maps
     %w[
-      cp_steel
+      cp_steel_f12
       koth_ashville_final1
       koth_cascade_rc1a
       koth_product_final

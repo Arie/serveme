@@ -155,13 +155,13 @@ class LeagueMaps
 
   def self.ugc_ultiduo_maps
     %w[
-      koth_ultiduo_r_b7
       ulti_fira_b2a
       ultiduo_baloo_v2
-      ultiduo_champions_legacy_a7
       ultiduo_furnace_b2
       ultiduo_gullywash_b2
+      ultiduo_lookout_b1
       ultiduo_noodle
+      ultiduo_obsidiian_a10
       ultiduo_spytech_rc4
     ]
   end

@@ -13,17 +13,17 @@ module Aws
     # @return [Hash] Returns a hash of default configuration options shared
     #   by all constructed clients.
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#92
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#93
     def config; end
 
     # @param config [Hash]
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#95
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#96
     def config=(config); end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#154
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#155
     def eager_autoload!(*args); end
 
     # Close any long-lived connections maintained by the SDK's internal
@@ -40,22 +40,22 @@ module Aws
     #
     # @return [nil]
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#147
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#148
     def empty_connection_pools!; end
 
     # @see (Aws::Partitions.partition)
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#104
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#105
     def partition(partition_name); end
 
     # @see (Aws::Partitions.partitions)
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#109
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#110
     def partitions; end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#85
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#86
     def shared_config; end
 
     # The SDK ships with a ca certificate bundle to use when verifying SSL
@@ -70,7 +70,7 @@ module Aws
     #
     # @return [String] Returns the path to the bundled cert.
     #
-    # source://aws-sdk-core//lib/aws-sdk-core.rb#124
+    # source://aws-sdk-core//lib/aws-sdk-core.rb#125
     def use_bundled_cert!; end
   end
 end
@@ -242,13 +242,16 @@ class Aws::AssumeRoleCredentials
 
   private
 
+  # source://aws-sdk-core//lib/aws-sdk-core/assume_role_credentials.rb#76
+  def parse_account_id(resp); end
+
   # source://aws-sdk-core//lib/aws-sdk-core/assume_role_credentials.rb#64
   def refresh; end
 
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/assume_role_credentials.rb#79
+    # source://aws-sdk-core//lib/aws-sdk-core/assume_role_credentials.rb#84
     def assume_role_options; end
   end
 end
@@ -299,13 +302,16 @@ class Aws::AssumeRoleWebIdentityCredentials
   # source://aws-sdk-core//lib/aws-sdk-core/assume_role_web_identity_credentials.rb#87
   def _token_from_file(path); end
 
+  # source://aws-sdk-core//lib/aws-sdk-core/assume_role_web_identity_credentials.rb#98
+  def parse_account_id(resp); end
+
   # source://aws-sdk-core//lib/aws-sdk-core/assume_role_web_identity_credentials.rb#72
   def refresh; end
 
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/assume_role_web_identity_credentials.rb#101
+    # source://aws-sdk-core//lib/aws-sdk-core/assume_role_web_identity_credentials.rb#106
     def assume_role_web_identity_options; end
   end
 end
@@ -597,7 +603,7 @@ class Aws::Binary::EventStreamEncoder
   def serializer_class(protocol); end
 end
 
-# source://aws-sdk-core//lib/aws-sdk-core.rb#78
+# source://aws-sdk-core//lib/aws-sdk-core.rb#79
 Aws::CORE_GEM_VERSION = T.let(T.unsafe(nil), String)
 
 # @api private
@@ -4979,9 +4985,46 @@ Aws::ParamValidator::EXPECTED_GOT = T.let(T.unsafe(nil), String)
 
 # setup autoloading for Plugins
 # Most plugins are required explicitly from service clients
+# but users may reference them outside of client usage.
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins.rb#6
+# source://aws-sdk-core//lib/aws-sdk-core/plugins.rb#7
 module Aws::Plugins; end
+
+# Provide support for `api_key` parameter for `api-gateway` protocol
+# specific `api-gateway` protocol gems' user-agent
+#
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/api_key.rb#8
+class Aws::Plugins::ApiKey < ::Seahorse::Client::Plugin
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/api_key.rb#17
+  def add_handlers(handlers, config); end
+end
+
+# @api private
+#
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/api_key.rb#39
+class Aws::Plugins::ApiKey::ApiKeyHandler < ::Seahorse::Client::Handler
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/api_key.rb#41
+  def call(context); end
+
+  private
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/api_key.rb#50
+  def apply_api_key(context); end
+end
+
+# @api private
+#
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/api_key.rb#23
+class Aws::Plugins::ApiKey::OptionHandler < ::Seahorse::Client::Handler
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/api_key.rb#24
+  def call(context); end
+end
 
 # Deprecated - does not look at new traits like `auth` and `unsignedPayload`
 # Necessary to exist after endpoints 2.0 for old service clients + new core
@@ -8413,7 +8456,7 @@ end
 #
 # See {Errors} for more information.
 #
-# source://aws-sdk-core//lib/aws-sdk-sso.rb#44
+# source://aws-sdk-core//lib/aws-sdk-sso.rb#46
 module Aws::SSO; end
 
 # An API client for SSO.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -8429,20 +8472,20 @@ module Aws::SSO; end
 #
 # See {#initialize} for a full list of supported configuration options.
 #
-# source://aws-sdk-core//lib/aws-sdk-sso/client.rb#54
+# source://aws-sdk-core//lib/aws-sdk-sso/client.rb#52
 class Aws::SSO::Client < ::Seahorse::Client::Base
   include ::Aws::ClientStubs
 
   # @overload initialize
   # @return [Client] a new instance of Client
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#446
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#444
   def initialize(*args); end
 
   # @api private
   # @param params [{}]
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#660
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#658
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Returns the STS short-term credentials for a given role name that is
@@ -8471,7 +8514,7 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   #   * {Types::GetRoleCredentialsResponse#role_credentials #role_credentials} => Types::RoleCredentials
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/GetRoleCredentials AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#493
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#491
   def get_role_credentials(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Lists all roles that are assigned to the user for a given AWS account.
@@ -8504,7 +8547,7 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   #   * {Types::ListAccountRolesResponse#role_list #role_list} => Array&lt;Types::RoleInfo&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/ListAccountRoles AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#546
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#544
   def list_account_roles(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Lists all AWS accounts assigned to the user. These AWS accounts are
@@ -8543,7 +8586,7 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   #   * {Types::ListAccountsResponse#account_list #account_list} => Array&lt;Types::AccountInfo&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/ListAccounts AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#603
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#601
   def list_accounts(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Removes the locally stored SSO tokens from the client-side cache and
@@ -8579,24 +8622,24 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/Logout AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#651
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#649
   def logout(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#680
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#678
   def waiter_names; end
 
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#690
+    # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#688
     def errors_module; end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#687
+    # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#685
     def identifier; end
   end
 end
@@ -8972,10 +9015,10 @@ class Aws::SSO::Errors::UnauthorizedException < ::Aws::SSO::Errors::ServiceError
   def message; end
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sso.rb#57
+# source://aws-sdk-core//lib/aws-sdk-sso.rb#59
 Aws::SSO::GEM_VERSION = T.let(T.unsafe(nil), String)
 
-# source://aws-sdk-core//lib/aws-sdk-sso.rb#47
+# source://aws-sdk-core//lib/aws-sdk-sso.rb#49
 module Aws::SSO::Plugins; end
 
 # source://aws-sdk-core//lib/aws-sdk-sso/plugins/endpoints.rb#13
@@ -9286,7 +9329,7 @@ Aws::SSOCredentials::TOKEN_PROVIDER_REQUIRED_OPTS = T.let(T.unsafe(nil), Array)
 #
 # See {Errors} for more information.
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc.rb#44
+# source://aws-sdk-core//lib/aws-sdk-ssooidc.rb#46
 module Aws::SSOOIDC; end
 
 # An API client for SSOOIDC.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -9302,20 +9345,20 @@ module Aws::SSOOIDC; end
 #
 # See {#initialize} for a full list of supported configuration options.
 #
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#54
+# source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#52
 class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   include ::Aws::ClientStubs
 
   # @overload initialize
   # @return [Client] a new instance of Client
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#446
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#444
   def initialize(*args); end
 
   # @api private
   # @param params [{}]
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1013
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1011
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Creates and returns access and refresh tokens for clients that are
@@ -9398,7 +9441,7 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   #   * {Types::CreateTokenResponse#id_token #id_token} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/CreateToken AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#588
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#586
   def create_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates and returns access and refresh tokens for clients and
@@ -9550,7 +9593,7 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   #   * {Types::CreateTokenWithIAMResponse#scope #scope} => Array&lt;String&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/CreateTokenWithIAM AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#823
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#821
   def create_token_with_iam(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Registers a client with IAM Identity Center. This allows clients to
@@ -9622,7 +9665,7 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   #   * {Types::RegisterClientResponse#token_endpoint #token_endpoint} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/RegisterClient AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#929
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#927
   def register_client(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Initiates device authorization by requesting a pair of verification
@@ -9675,24 +9718,24 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   #   * {Types::StartDeviceAuthorizationResponse#interval #interval} => Integer
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/StartDeviceAuthorization AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1004
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1002
   def start_device_authorization(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1033
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1031
   def waiter_names; end
 
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1043
+    # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1041
     def errors_module; end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1040
+    # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1038
     def identifier; end
   end
 end
@@ -10433,10 +10476,10 @@ class Aws::SSOOIDC::Errors::UnsupportedGrantTypeException < ::Aws::SSOOIDC::Erro
   def error_description; end
 end
 
-# source://aws-sdk-core//lib/aws-sdk-ssooidc.rb#57
+# source://aws-sdk-core//lib/aws-sdk-ssooidc.rb#59
 Aws::SSOOIDC::GEM_VERSION = T.let(T.unsafe(nil), String)
 
-# source://aws-sdk-core//lib/aws-sdk-ssooidc.rb#47
+# source://aws-sdk-core//lib/aws-sdk-ssooidc.rb#49
 module Aws::SSOOIDC::Plugins; end
 
 # source://aws-sdk-core//lib/aws-sdk-ssooidc/plugins/endpoints.rb#13
@@ -10833,7 +10876,7 @@ Aws::SSOTokenProvider::SSO_REQUIRED_OPTS = T.let(T.unsafe(nil), Array)
 #
 # See {Errors} for more information.
 #
-# source://aws-sdk-core//lib/aws-sdk-sts.rb#44
+# source://aws-sdk-core//lib/aws-sdk-sts.rb#46
 module Aws::STS; end
 
 # An API client for STS.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -10849,14 +10892,14 @@ module Aws::STS; end
 #
 # See {#initialize} for a full list of supported configuration options.
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/client.rb#55
+# source://aws-sdk-core//lib/aws-sdk-sts/client.rb#53
 class Aws::STS::Client < ::Seahorse::Client::Base
   include ::Aws::ClientStubs
 
   # @overload initialize
   # @return [Client] a new instance of Client
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#453
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#451
   def initialize(*args); end
 
   # Returns a set of temporary security credentials that you can use to
@@ -11074,7 +11117,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::AssumeRoleResponse#source_identity #source_identity} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRole AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#937
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#935
   def assume_role(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary security credentials for users who have
@@ -11307,7 +11350,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::AssumeRoleWithSAMLResponse#source_identity #source_identity} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithSAML AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1289
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1287
   def assume_role_with_saml(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary security credentials for users who have
@@ -11552,13 +11595,13 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::AssumeRoleWithWebIdentityResponse#source_identity #source_identity} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithWebIdentity AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1667
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1665
   def assume_role_with_web_identity(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @param params [{}]
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2407
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2405
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Decodes additional information about the authorization status of a
@@ -11630,7 +11673,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::DecodeAuthorizationMessageResponse#decoded_message #decoded_message} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/DecodeAuthorizationMessage AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1748
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1746
   def decode_authorization_message(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns the account identifier for the specified access key ID.
@@ -11680,7 +11723,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetAccessKeyInfoResponse#account #account} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetAccessKeyInfo AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1809
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1807
   def get_access_key_info(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns details about the IAM user or role whose credentials are used
@@ -11756,7 +11799,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetCallerIdentityResponse#arn #arn} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetCallerIdentity AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1893
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1891
   def get_caller_identity(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary security credentials (consisting of an
@@ -11951,7 +11994,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetFederationTokenResponse#packed_policy_size #packed_policy_size} => Integer
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetFederationToken AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2241
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2239
   def get_federation_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary credentials for an Amazon Web Services
@@ -12069,24 +12112,24 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetSessionTokenResponse#credentials #credentials} => Types::Credentials
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetSessionToken AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2398
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2396
   def get_session_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2427
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2425
   def waiter_names; end
 
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2437
+    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2435
     def errors_module; end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2434
+    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2432
     def identifier; end
   end
 end
@@ -12633,10 +12676,10 @@ end
 # source://aws-sdk-core//lib/aws-sdk-sts/errors.rb#0
 class Aws::STS::Errors::ServiceError < ::Aws::Errors::ServiceError; end
 
-# source://aws-sdk-core//lib/aws-sdk-sts.rb#57
+# source://aws-sdk-core//lib/aws-sdk-sts.rb#59
 Aws::STS::GEM_VERSION = T.let(T.unsafe(nil), String)
 
-# source://aws-sdk-core//lib/aws-sdk-sts.rb#47
+# source://aws-sdk-core//lib/aws-sdk-sts.rb#49
 module Aws::STS::Plugins; end
 
 # source://aws-sdk-core//lib/aws-sdk-sts/plugins/endpoints.rb#13

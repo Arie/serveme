@@ -4386,6 +4386,168 @@ class Net::SSH::Timeout < ::Net::SSH::Disconnect; end
 # source://net-ssh//lib/net/ssh/transport/ctr.rb#4
 module Net::SSH::Transport; end
 
+# Implements the aes128-gcm@openssh cipher
+#
+# source://net-ssh//lib/net/ssh/transport/aes128_gcm.rb#6
+class Net::SSH::Transport::AES128_GCM
+  include ::Net::SSH::Loggable
+  extend ::Net::SSH::Transport::GCMCipher
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#23
+  def initialize(encrypt:, key:); end
+
+  # source://net-ssh//lib/net/ssh/transport/aes128_gcm.rb#24
+  def algo_name; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#186
+  def apply_nonce; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#106
+  def block_size; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#14
+  def cipher; end
+
+  # source://net-ssh//lib/net/ssh/transport/aes128_gcm.rb#20
+  def implicit_mac; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#197
+  def implicit_mac?; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#169
+  def incr_nonce; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#119
+  def iv_len; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#15
+  def key; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#102
+  def mac_length; end
+
+  # source://net-ssh//lib/net/ssh/transport/aes128_gcm.rb#28
+  def name; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#16
+  def nonce; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#177
+  def nonce=(iv_s); end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#82
+  def read_and_mac(data, mac, _sequence_number); end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#63
+  def read_length(data, _sequence_number); end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#41
+  def update_cipher_mac(payload, _sequence_number); end
+
+  class << self
+    # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#110
+    def block_size; end
+
+    # --- RFC 5647 ---
+    # K_LEN       AES key length                   16 octets
+    #
+    # source://net-ssh//lib/net/ssh/transport/aes128_gcm.rb#36
+    def key_length; end
+  end
+end
+
+# Implicit HMAC, do need to do anything
+#
+# source://net-ssh//lib/net/ssh/transport/aes128_gcm.rb#10
+class Net::SSH::Transport::AES128_GCM::ImplicitHMac < ::Net::SSH::Transport::HMAC::Abstract
+  # source://net-ssh//lib/net/ssh/transport/aes128_gcm.rb#11
+  def aead; end
+
+  # source://net-ssh//lib/net/ssh/transport/aes128_gcm.rb#15
+  def key_length; end
+end
+
+# Implements the aes256-gcm@openssh cipher
+#
+# source://net-ssh//lib/net/ssh/transport/aes256_gcm.rb#6
+class Net::SSH::Transport::AES256_GCM
+  include ::Net::SSH::Loggable
+  extend ::Net::SSH::Transport::GCMCipher
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#23
+  def initialize(encrypt:, key:); end
+
+  # source://net-ssh//lib/net/ssh/transport/aes256_gcm.rb#24
+  def algo_name; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#186
+  def apply_nonce; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#106
+  def block_size; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#14
+  def cipher; end
+
+  # source://net-ssh//lib/net/ssh/transport/aes256_gcm.rb#20
+  def implicit_mac; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#197
+  def implicit_mac?; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#169
+  def incr_nonce; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#119
+  def iv_len; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#15
+  def key; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#102
+  def mac_length; end
+
+  # source://net-ssh//lib/net/ssh/transport/aes256_gcm.rb#28
+  def name; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#16
+  def nonce; end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#177
+  def nonce=(iv_s); end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#82
+  def read_and_mac(data, mac, _sequence_number); end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#63
+  def read_length(data, _sequence_number); end
+
+  # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#41
+  def update_cipher_mac(payload, _sequence_number); end
+
+  class << self
+    # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#110
+    def block_size; end
+
+    # --- RFC 5647 ---
+    # K_LEN       AES key length                   32 octets
+    #
+    # source://net-ssh//lib/net/ssh/transport/aes256_gcm.rb#36
+    def key_length; end
+  end
+end
+
+# Implicit HMAC, do need to do anything
+#
+# source://net-ssh//lib/net/ssh/transport/aes256_gcm.rb#10
+class Net::SSH::Transport::AES256_GCM::ImplicitHMac < ::Net::SSH::Transport::HMAC::Abstract
+  # source://net-ssh//lib/net/ssh/transport/aes256_gcm.rb#11
+  def aead; end
+
+  # source://net-ssh//lib/net/ssh/transport/aes256_gcm.rb#15
+  def key_length; end
+end
+
 # Implements the higher-level logic behind an SSH key-exchange. It handles
 # both the initial exchange, as well as subsequent re-exchanges (as needed).
 # It also encapsulates the negotiation of the algorithms, and provides a
@@ -4404,13 +4566,13 @@ class Net::SSH::Transport::Algorithms
   #
   # @return [Algorithms] a new instance of Algorithms
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#154
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#158
   def initialize(session, options = T.unsafe(nil)); end
 
   # A convenience method for accessing the list of preferred types for a
   # specific algorithm (see #algorithms).
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#198
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#202
   def [](key); end
 
   # Called by the transport layer when a KEXINIT packet is received, indicating
@@ -4418,13 +4580,13 @@ class Net::SSH::Transport::Algorithms
   # can be in response to a client-initiated rekey request (see #rekey!). Either
   # way, this will block until the key exchange completes.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#185
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#189
   def accept_kexinit(packet); end
 
   # The hash of algorithms preferred by the client, which will be told to
   # the server during algorithm negotiation.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#140
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#144
   def algorithms; end
 
   # Returns true if no exchange is pending, and otherwise returns true or
@@ -4433,73 +4595,73 @@ class Net::SSH::Transport::Algorithms
   #
   # @return [Boolean]
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#214
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#218
   def allow?(packet); end
 
   # The type of compression to use to compress packets being sent by the client.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#127
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#131
   def compression_client; end
 
   # The type of compression to use to decompress packets arriving from the server.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#130
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#134
   def compression_server; end
 
   # The type of the cipher to use to encrypt packets sent from the client to
   # the server.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#115
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#119
   def encryption_client; end
 
   # The type of the cipher to use to decrypt packets arriving from the server.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#118
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#122
   def encryption_server; end
 
   # The type of HMAC to use to sign packets sent by the client.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#121
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#125
   def hmac_client; end
 
   # The type of HMAC to use to validate packets arriving from the server.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#124
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#128
   def hmac_server; end
 
   # The type of host key that will be used for this session.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#111
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#115
   def host_key; end
 
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#223
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#227
   def host_key_format; end
 
   # Returns true if the algorithms have been negotiated at all.
   #
   # @return [Boolean]
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#219
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#223
   def initialized?; end
 
   # The kex algorithm to use settled on between the client and server.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#108
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#112
   def kex; end
 
   # The language that will be used in messages sent by the client.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#133
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#137
   def language_client; end
 
   # The language that will be used in messages sent from the server.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#136
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#140
   def language_server; end
 
   # The hash of options used to initialize this object
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#105
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#109
   def options; end
 
   # Returns +true+ if a key-exchange is pending. This will be true from the
@@ -4510,7 +4672,7 @@ class Net::SSH::Transport::Algorithms
   #
   # @return [Boolean]
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#207
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#211
   def pending?; end
 
   # Request a rekey operation. This will return immediately, and does not
@@ -4518,24 +4680,24 @@ class Net::SSH::Transport::Algorithms
   # state, however--until the key exchange finishes, no new packets will be
   # processed.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#175
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#179
   def rekey!; end
 
   # The underlying transport layer session that supports this object
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#102
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#106
   def session; end
 
   # The session-id for this session, as decided during the initial key exchange.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#143
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#147
   def session_id; end
 
   # Start the algorithm negotation
   #
   # @raise [ArgumentError]
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#165
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#169
   def start; end
 
   private
@@ -4544,12 +4706,12 @@ class Net::SSH::Transport::Algorithms
   # a KEXINIT packet to send to the server. It does not actually send it,
   # it simply builds the packet and returns it.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#368
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#372
   def build_client_algorithm_packet; end
 
   # Composes the list of algorithms by taking supported algorithms and matching with supplied options.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#295
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#299
   def compose_algorithm_list(supported, option, append_all_supported_algorithms = T.unsafe(nil)); end
 
   # Instantiates one of the Transport::Kex classes (based on the negotiated
@@ -4557,21 +4719,21 @@ class Net::SSH::Transport::Algorithms
   # HMACs are initialized and fed to the transport layer, to be used in
   # further communication with the server.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#442
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#446
   def exchange_keys; end
 
   # Considers the sizes of the keys and block-sizes for the selected ciphers,
   # and the lengths of the hmacs, and returns the largest as the byte requirement
   # for the key-exchange algorithm.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#426
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#430
   def kex_byte_requirement; end
 
   # Negotiates a single algorithm based on the preferences reported by the
   # server and those set by the client. This is called by
   # #negotiate_algorithms.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#411
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#415
   def negotiate(algorithm); end
 
   # Given the parsed server KEX packet, and the client's preferred algorithm
@@ -4579,18 +4741,18 @@ class Net::SSH::Transport::Algorithms
   # in common and set those as the selected algorithms. If, for any algorithm,
   # no type can be settled on, an exception is raised.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#387
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#391
   def negotiate_algorithms; end
 
   # Given the SSH name for some compression algorithm, return a normalized
   # name as a symbol.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#513
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#520
   def normalize_compression_name(name); end
 
   # Parses a KEXINIT packet from the server.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#341
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#345
   def parse_server_algorithm_packet(packet); end
 
   # Prepares the list of preferred algorithms, based on the options hash
@@ -4600,14 +4762,14 @@ class Net::SSH::Transport::Algorithms
   # before, and if so, that key type is used as the preferred type for
   # communicating with this server.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#263
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#267
   def prepare_preferred_algorithms!; end
 
   # After both client and server have sent their KEXINIT packets, this
   # will do the algorithm negotiation and key exchange. Once both finish,
   # the object leaves the pending state and the method returns.
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#250
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#254
   def proceed!; end
 
   # Sends a KEXINIT packet to the server. If a server KEXINIT has already
@@ -4615,7 +4777,7 @@ class Net::SSH::Transport::Algorithms
   # exchange, otherwise it returns immediately (but sets the object to the
   # pending state).
   #
-  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#238
+  # source://net-ssh//lib/net/ssh/transport/algorithms.rb#242
   def send_kexinit; end
 
   class << self
@@ -4623,14 +4785,14 @@ class Net::SSH::Transport::Algorithms
     #
     # @return [Boolean]
     #
-    # source://net-ssh//lib/net/ssh/transport/algorithms.rb#146
+    # source://net-ssh//lib/net/ssh/transport/algorithms.rb#150
     def allowed_packet?(packet); end
   end
 end
 
 # Define all algorithms, with the deprecated, supported by Net::SSH.
 #
-# source://net-ssh//lib/net/ssh/transport/algorithms.rb#74
+# source://net-ssh//lib/net/ssh/transport/algorithms.rb#78
 Net::SSH::Transport::Algorithms::ALGORITHMS = T.let(T.unsafe(nil), Hash)
 
 # Define the default algorithms, in order of preference, supported by Net::SSH.
@@ -4664,7 +4826,7 @@ Net::SSH::Transport::ChaCha20Poly1305CipherLoader::LOADED = T.let(T.unsafe(nil),
 
 # Implements a factory of OpenSSL cipher algorithms.
 #
-# source://net-ssh//lib/net/ssh/transport/cipher_factory.rb#12
+# source://net-ssh//lib/net/ssh/transport/cipher_factory.rb#14
 class Net::SSH::Transport::CipherFactory
   class << self
     # Retrieves a new instance of the named algorithm. The new instance
@@ -4673,7 +4835,7 @@ class Net::SSH::Transport::CipherFactory
     # cipher will be put into encryption or decryption mode, based on the
     # value of the +encrypt+ parameter.
     #
-    # source://net-ssh//lib/net/ssh/transport/cipher_factory.rb#60
+    # source://net-ssh//lib/net/ssh/transport/cipher_factory.rb#62
     def get(name, options = T.unsafe(nil)); end
 
     # Returns a two-element array containing the [ key-length,
@@ -4682,7 +4844,7 @@ class Net::SSH::Transport::CipherFactory
     # of the tuple.
     # if :iv_len option is supplied the third return value will be ivlen
     #
-    # source://net-ssh//lib/net/ssh/transport/cipher_factory.rb#99
+    # source://net-ssh//lib/net/ssh/transport/cipher_factory.rb#101
     def get_lengths(name, options = T.unsafe(nil)); end
 
     # Returns true if the underlying OpenSSL library supports the given cipher,
@@ -4690,17 +4852,17 @@ class Net::SSH::Transport::CipherFactory
     #
     # @return [Boolean]
     #
-    # source://net-ssh//lib/net/ssh/transport/cipher_factory.rb#46
+    # source://net-ssh//lib/net/ssh/transport/cipher_factory.rb#48
     def supported?(name); end
   end
 end
 
-# source://net-ssh//lib/net/ssh/transport/cipher_factory.rb#34
+# source://net-ssh//lib/net/ssh/transport/cipher_factory.rb#36
 Net::SSH::Transport::CipherFactory::SSH_TO_CLASS = T.let(T.unsafe(nil), Hash)
 
 # Maps the SSH name of a cipher to it's corresponding OpenSSL name
 #
-# source://net-ssh//lib/net/ssh/transport/cipher_factory.rb#14
+# source://net-ssh//lib/net/ssh/transport/cipher_factory.rb#16
 Net::SSH::Transport::CipherFactory::SSH_TO_OSSL = T.let(T.unsafe(nil), Hash)
 
 # source://net-ssh//lib/net/ssh/transport/constants.rb#4
@@ -4766,6 +4928,16 @@ Net::SSH::Transport::Constants::SERVICE_REQUEST = T.let(T.unsafe(nil), Integer)
 # source://net-ssh//lib/net/ssh/transport/constants.rb#11
 Net::SSH::Transport::Constants::UNIMPLEMENTED = T.let(T.unsafe(nil), Integer)
 
+# Extension module for aes(128|256)gcm ciphers
+#
+# source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#7
+module Net::SSH::Transport::GCMCipher
+  class << self
+    # source://net-ssh//lib/net/ssh/transport/gcm_cipher.rb#9
+    def extended(orig); end
+  end
+end
+
 # Implements a simple factory interface for fetching hmac implementations, or
 # for finding the key lengths for hmac implementations.s
 #
@@ -4791,48 +4963,54 @@ end
 class Net::SSH::Transport::HMAC::Abstract
   # @return [Abstract] a new instance of Abstract
   #
-  # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#79
+  # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#95
   def initialize(key = T.unsafe(nil)); end
+
+  # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#72
+  def aead; end
 
   # Compute the HMAC digest for the given data string.
   #
-  # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#90
+  # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#106
   def digest(data); end
 
-  # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#72
+  # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#88
   def digest_class; end
 
-  # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#60
+  # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#76
   def etm; end
 
   # The key in use for this instance.
   #
-  # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#77
+  # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#93
   def key; end
 
   # Sets the key to the given value, truncating it so that it is the correct
   # length.
   #
-  # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#85
+  # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#101
   def key=(value); end
 
-  # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#64
+  # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#80
   def key_length; end
 
-  # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#68
+  # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#84
   def mac_length; end
 
   class << self
-    # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#47
+    # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#11
+    def aead(*v); end
+
+    # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#59
     def digest_class(*v); end
 
-    # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#11
+    # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#23
     def etm(*v); end
 
-    # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#23
+    # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#35
     def key_length(*v); end
 
-    # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#35
+    # source://net-ssh//lib/net/ssh/transport/hmac/abstract.rb#47
     def mac_length(*v); end
   end
 end
@@ -5819,7 +5997,7 @@ class Net::SSH::Transport::State
   # source://net-ssh//lib/net/ssh/transport/state.rb#102
   def compressor; end
 
-  # Deompresses the data. If no compression is in effect, this will just return
+  # Decompresses the data. If no compression is in effect, this will just return
   # the data unmodified, otherwise it uses #decompressor to decompress the data.
   #
   # source://net-ssh//lib/net/ssh/transport/state.rb#130

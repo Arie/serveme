@@ -8,70 +8,70 @@
 # source://rspec-activemodel-mocks//lib/rspec/active_model/mocks/version.rb#2
 module RSpec
   class << self
-    # source://rspec-core/3.13.0/lib/rspec/core.rb#70
+    # source://rspec-core/3.13.1/lib/rspec/core.rb#70
     def clear_examples; end
 
-    # source://rspec-core/3.13.0/lib/rspec/core.rb#85
+    # source://rspec-core/3.13.1/lib/rspec/core.rb#85
     def configuration; end
 
-    # source://rspec-core/3.13.0/lib/rspec/core.rb#49
+    # source://rspec-core/3.13.1/lib/rspec/core.rb#49
     def configuration=(_arg0); end
 
-    # source://rspec-core/3.13.0/lib/rspec/core.rb#97
+    # source://rspec-core/3.13.1/lib/rspec/core.rb#97
     def configure; end
 
-    # source://rspec-core/3.13.0/lib/rspec/core.rb#194
+    # source://rspec-core/3.13.1/lib/rspec/core.rb#194
     def const_missing(name); end
 
-    # source://rspec-core/3.13.0/lib/rspec/core/dsl.rb#42
+    # source://rspec-core/3.13.1/lib/rspec/core/dsl.rb#42
     def context(*args, &example_group_block); end
 
-    # source://rspec-core/3.13.0/lib/rspec/core.rb#122
+    # source://rspec-core/3.13.1/lib/rspec/core.rb#122
     def current_example; end
 
-    # source://rspec-core/3.13.0/lib/rspec/core.rb#128
+    # source://rspec-core/3.13.1/lib/rspec/core.rb#128
     def current_example=(example); end
 
-    # source://rspec-core/3.13.0/lib/rspec/core.rb#154
+    # source://rspec-core/3.13.1/lib/rspec/core.rb#154
     def current_scope; end
 
-    # source://rspec-core/3.13.0/lib/rspec/core.rb#134
+    # source://rspec-core/3.13.1/lib/rspec/core.rb#134
     def current_scope=(scope); end
 
-    # source://rspec-core/3.13.0/lib/rspec/core/dsl.rb#42
+    # source://rspec-core/3.13.1/lib/rspec/core/dsl.rb#42
     def describe(*args, &example_group_block); end
 
-    # source://rspec-core/3.13.0/lib/rspec/core/dsl.rb#42
+    # source://rspec-core/3.13.1/lib/rspec/core/dsl.rb#42
     def example_group(*args, &example_group_block); end
 
-    # source://rspec-core/3.13.0/lib/rspec/core/dsl.rb#42
+    # source://rspec-core/3.13.1/lib/rspec/core/dsl.rb#42
     def fcontext(*args, &example_group_block); end
 
-    # source://rspec-core/3.13.0/lib/rspec/core/dsl.rb#42
+    # source://rspec-core/3.13.1/lib/rspec/core/dsl.rb#42
     def fdescribe(*args, &example_group_block); end
 
-    # source://rspec-core/3.13.0/lib/rspec/core.rb#58
+    # source://rspec-core/3.13.1/lib/rspec/core.rb#58
     def reset; end
 
-    # source://rspec-core/3.13.0/lib/rspec/core/shared_example_group.rb#110
+    # source://rspec-core/3.13.1/lib/rspec/core/shared_example_group.rb#110
     def shared_context(name, *args, &block); end
 
-    # source://rspec-core/3.13.0/lib/rspec/core/shared_example_group.rb#110
+    # source://rspec-core/3.13.1/lib/rspec/core/shared_example_group.rb#110
     def shared_examples(name, *args, &block); end
 
-    # source://rspec-core/3.13.0/lib/rspec/core/shared_example_group.rb#110
+    # source://rspec-core/3.13.1/lib/rspec/core/shared_example_group.rb#110
     def shared_examples_for(name, *args, &block); end
 
-    # source://rspec-core/3.13.0/lib/rspec/core.rb#160
+    # source://rspec-core/3.13.1/lib/rspec/core.rb#160
     def world; end
 
-    # source://rspec-core/3.13.0/lib/rspec/core.rb#49
+    # source://rspec-core/3.13.1/lib/rspec/core.rb#49
     def world=(_arg0); end
 
-    # source://rspec-core/3.13.0/lib/rspec/core/dsl.rb#42
+    # source://rspec-core/3.13.1/lib/rspec/core/dsl.rb#42
     def xcontext(*args, &example_group_block); end
 
-    # source://rspec-core/3.13.0/lib/rspec/core/dsl.rb#42
+    # source://rspec-core/3.13.1/lib/rspec/core/dsl.rb#42
     def xdescribe(*args, &example_group_block); end
   end
 end
@@ -136,12 +136,12 @@ module RSpec::ActiveModel::Mocks::Mocks
   #   stub_model(Person, :to_param => 37)
   #   stub_model(Person) {|person| person.first_name = "David"}
   #
-  # source://rspec-activemodel-mocks//lib/rspec/active_model/mocks/mocks.rb#264
+  # source://rspec-activemodel-mocks//lib/rspec/active_model/mocks/mocks.rb#267
   def stub_model(model_class, stubs = T.unsafe(nil)); end
 
   private
 
-  # source://rspec-activemodel-mocks//lib/rspec/active_model/mocks/mocks.rb#300
+  # source://rspec-activemodel-mocks//lib/rspec/active_model/mocks/mocks.rb#303
   def next_id; end
 end
 
@@ -170,18 +170,18 @@ module RSpec::ActiveModel::Mocks::Mocks::ActiveModelInstanceMethods
   def respond_to?(message, include_private = T.unsafe(nil)); end
 end
 
-# source://rspec-activemodel-mocks//lib/rspec/active_model/mocks/mocks.rb#201
+# source://rspec-activemodel-mocks//lib/rspec/active_model/mocks/mocks.rb#204
 module RSpec::ActiveModel::Mocks::Mocks::ActiveModelStubExtensions
   # Stubs `persisted` to return false and `id` to return nil
   #
-  # source://rspec-activemodel-mocks//lib/rspec/active_model/mocks/mocks.rb#203
+  # source://rspec-activemodel-mocks//lib/rspec/active_model/mocks/mocks.rb#206
   def as_new_record; end
 
   # Returns `true` by default. Override with a stub.
   #
   # @return [Boolean]
   #
-  # source://rspec-activemodel-mocks//lib/rspec/active_model/mocks/mocks.rb#210
+  # source://rspec-activemodel-mocks//lib/rspec/active_model/mocks/mocks.rb#213
   def persisted?; end
 end
 
@@ -218,25 +218,25 @@ module RSpec::ActiveModel::Mocks::Mocks::ActiveRecordInstanceMethods
   def new_record?; end
 end
 
-# source://rspec-activemodel-mocks//lib/rspec/active_model/mocks/mocks.rb#215
+# source://rspec-activemodel-mocks//lib/rspec/active_model/mocks/mocks.rb#218
 module RSpec::ActiveModel::Mocks::Mocks::ActiveRecordStubExtensions
   # Stubs `id` (or other primary key method) to return nil
   #
-  # source://rspec-activemodel-mocks//lib/rspec/active_model/mocks/mocks.rb#217
+  # source://rspec-activemodel-mocks//lib/rspec/active_model/mocks/mocks.rb#220
   def as_new_record; end
 
   # Raises an IllegalDataAccessException (stubbed models are not allowed to access the database)
   #
   # @raise [RSpec::ActiveModel::Mocks::IllegalDataAccessException]
   #
-  # source://rspec-activemodel-mocks//lib/rspec/active_model/mocks/mocks.rb#229
+  # source://rspec-activemodel-mocks//lib/rspec/active_model/mocks/mocks.rb#232
   def connection; end
 
   # Returns the opposite of `persisted?`.
   #
   # @return [Boolean]
   #
-  # source://rspec-activemodel-mocks//lib/rspec/active_model/mocks/mocks.rb#223
+  # source://rspec-activemodel-mocks//lib/rspec/active_model/mocks/mocks.rb#226
   def new_record?; end
 end
 

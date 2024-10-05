@@ -11,14 +11,14 @@ module Importmap; end
 # source://importmap-rails//lib/importmap/engine.rb#7
 class Importmap::Engine < ::Rails::Engine
   class << self
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1/lib/active_support/callbacks.rb#70
     def __callbacks; end
   end
 end
 
 module Importmap::ImportmapTagsHelper
   def javascript_import_module_tag(*module_names); end
-  def javascript_importmap_module_preload_tags(importmap = T.unsafe(nil)); end
+  def javascript_importmap_module_preload_tags(importmap = T.unsafe(nil), entry_point: T.unsafe(nil)); end
   def javascript_importmap_tags(entry_point = T.unsafe(nil), importmap: T.unsafe(nil)); end
   def javascript_inline_importmap_tag(importmap_json = T.unsafe(nil)); end
   def javascript_module_preload_tag(*paths); end
@@ -76,7 +76,7 @@ class Importmap::Map
   # the different cases.
   #
   # source://importmap-rails//lib/importmap/map.rb#43
-  def preloaded_module_paths(resolver:, cache_key: T.unsafe(nil)); end
+  def preloaded_module_paths(resolver:, entry_point: T.unsafe(nil), cache_key: T.unsafe(nil)); end
 
   # Returns a JSON hash (as a string) of all the resolved module paths of the pinned packages in the import map format.
   # The `resolver` must respond to `path_to_asset`, such as `ActionController::Base.helpers` or
@@ -89,7 +89,7 @@ class Importmap::Map
 
   private
 
-  # source://importmap-rails//lib/importmap/map.rb#155
+  # source://importmap-rails//lib/importmap/map.rb#165
   def absolute_root_of(path); end
 
   # source://importmap-rails//lib/importmap/map.rb#90
@@ -105,15 +105,15 @@ class Importmap::Map
   def expanded_packages_and_directories; end
 
   # source://importmap-rails//lib/importmap/map.rb#121
-  def expanded_preloading_packages_and_directories; end
+  def expanded_preloading_packages_and_directories(entry_point:); end
 
-  # source://importmap-rails//lib/importmap/map.rb#151
+  # source://importmap-rails//lib/importmap/map.rb#161
   def find_javascript_files_in_tree(path); end
 
   # source://importmap-rails//lib/importmap/map.rb#143
   def module_name_from(filename, mapping); end
 
-  # source://importmap-rails//lib/importmap/map.rb#147
+  # source://importmap-rails//lib/importmap/map.rb#157
   def module_path_from(filename, mapping); end
 
   # @return [Boolean]

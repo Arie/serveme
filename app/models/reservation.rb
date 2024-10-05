@@ -307,9 +307,9 @@ class Reservation < ActiveRecord::Base
     return if server_info.ip.nil?
 
     previous_server_sdr_ip = server&.last_sdr_ip
-    previous_server_sdr_port = server&.last_sdr_port
+    previous_server_sdr_port = server&.last_sdr_port&.to_i
 
-    return unless previous_server_sdr_ip != server_info.ip || previous_server_sdr_port != server_info.port
+    return if previous_server_sdr_ip == server_info.ip && previous_server_sdr_port == server_info.port
 
     update_columns(
       sdr_ip: server_info.ip,

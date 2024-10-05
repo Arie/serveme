@@ -31,7 +31,7 @@ class ActiveReservationCheckerWorker
       @server_info.status
       @server_info.fetch_stats
       @server_info.fetch_rcon_status
-      @reservation.save_sdr_info(@server_info) if sdr_info_missing?
+      @reservation.save_sdr_info(@server_info)
       @server.save_version_info(@server_info)
       ServerMetric.new(@server_info)
       @server.rcon_exec("sv_logsecret #{@reservation.logsecret}; #{@reservation.api_keys_rcon_contents}", allow_blocked: true)
@@ -58,9 +58,5 @@ class ActiveReservationCheckerWorker
       Rails.logger.warn "Automatically ending #{@reservation} because it went from occupied to empty"
       @reservation.end_reservation
     end
-  end
-
-  def sdr_info_missing?
-    @reservation.sdr_ip.nil?
   end
 end

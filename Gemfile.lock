@@ -29,6 +29,15 @@ GIT
       capistrano-bundler
       sidekiq (>= 6.0)
 
+GIT
+  remote: https://github.com/seuros/capistrano-puma.git
+  revision: 9cd5e5df4dec324d75493d24b498d91285ddea9e
+  specs:
+    capistrano3-puma (6.0.0.beta.1)
+      capistrano (~> 3.7)
+      capistrano-bundler
+      puma (>= 5.1, < 7.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -170,10 +179,6 @@ GEM
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
-    capistrano3-puma (5.2.0)
-      capistrano (~> 3.7)
-      capistrano-bundler
-      puma (>= 4.0, < 6.0)
     capybara (3.40.0)
       addressable
       matrix
@@ -381,11 +386,12 @@ GEM
     launchy (3.0.1)
       addressable (~> 2.8)
       childprocess (~> 5.0)
-    libv8-node (22.7.0.4-aarch64-linux)
-    libv8-node (22.7.0.4-arm64-darwin)
-    libv8-node (22.7.0.4-x86_64-darwin)
-    libv8-node (22.7.0.4-x86_64-linux)
-    libv8-node (22.7.0.4-x86_64-linux-musl)
+    libv8-node (18.19.0.0-aarch64-linux)
+    libv8-node (18.19.0.0-aarch64-linux-musl)
+    libv8-node (18.19.0.0-arm64-darwin)
+    libv8-node (18.19.0.0-x86_64-darwin)
+    libv8-node (18.19.0.0-x86_64-linux)
+    libv8-node (18.19.0.0-x86_64-linux-musl)
     llhttp-ffi (0.5.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
@@ -417,8 +423,8 @@ GEM
     method_source (1.1.0)
     mini_magick (4.13.2)
     mini_mime (1.1.5)
-    mini_racer (0.15.0)
-      libv8-node (~> 22.7.0.1)
+    mini_racer (0.16.0)
+      libv8-node (~> 18.19.0.0)
     minitest (5.25.1)
     msgpack (1.7.3)
     multi_json (1.15.0)
@@ -490,7 +496,7 @@ GEM
     psych (5.1.2)
       stringio
     public_suffix (6.0.1)
-    puma (5.6.9)
+    puma (6.4.3)
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
@@ -822,7 +828,7 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rvm
   capistrano-sidekiq!
-  capistrano3-puma (~> 5.2)
+  capistrano3-puma!
   capybara
   carrierwave
   coffee-rails

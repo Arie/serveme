@@ -309,17 +309,18 @@ class Reservation < ActiveRecord::Base
     previous_server_sdr_ip = server&.last_sdr_ip
     previous_server_sdr_port = server&.last_sdr_port&.to_i
 
-    return if previous_server_sdr_ip == server_info.ip && previous_server_sdr_port == server_info.port
+    return if previous_server_sdr_ip == server_info.ip && previous_server_sdr_port == server_info&.port&.to_i && sdr_ip == server_info.ip && sdr_port&.to_i == server_info.port&.to_i
 
     update_columns(
       sdr_ip: server_info.ip,
       sdr_port: server_info.port,
-      sdr_tv_port: server_info.port + 1
+      sdr_tv_port: server_info.port.to_i + 1
     )
+
     server&.update_columns(
       last_sdr_ip: server_info.ip,
       last_sdr_port: server_info.port,
-      last_sdr_tv_port: server_info.port + 1
+      last_sdr_tv_port: server_info.port.to_i + 1
     )
 
     broadcast_connect_info

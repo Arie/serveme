@@ -52,7 +52,9 @@ tf_birthday_ball_chance 0
 <% if server_config %>
 <%= "exec #{server_config}" %>
 <% end %>
-servercfgfile "server.cfg"
+<% if SITE_HOST != 'na.serveme.tf' %>
+<%= %{servercfgfile "server.cfg" } %>
+<% end %>
 
 tv_maxrate 0
 tv_snapshotrate 66

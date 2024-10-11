@@ -124,7 +124,7 @@ GEM
     autoprefixer-rails (10.4.19.0)
       execjs (~> 2)
     aws-eventstream (1.3.0)
-    aws-partitions (1.988.0)
+    aws-partitions (1.989.0)
     aws-sdk-core (3.209.1)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.651.0)
@@ -487,7 +487,7 @@ GEM
       xml-simple
     pg (1.5.8)
     popper_js (1.16.1)
-    prism (1.1.0)
+    prism (1.2.0)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -798,7 +798,7 @@ GEM
     yard-sorbet (0.9.0)
       sorbet-runtime
       yard
-    zeitwerk (2.6.18)
+    zeitwerk (2.7.0)
     zonebie (0.6.1)
 
 PLATFORMS

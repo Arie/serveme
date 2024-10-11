@@ -271,9 +271,6 @@ steam_id64,name,reason
 76561198393840168,cheater,cheater
 76561199318671054,cheater,cheater
 76561199130658908,cheater,cheater (tick perfect bunnyhops)
-76561198131588487,cheater / hv/,cheater / hvh (https://gist.github.com/Arie/3088dcd949c97c30580ca054f83d52ab)
-76561199196360535,cheater / hv/,cheater / hvh (https://gist.github.com/Arie/3088dcd949c97c30580ca054f83d52ab)
-76561198243248924,cheater / hvh,cheater / hvh
 76561199075878897,cheater / hvh,cheater / hvh
 76561199159559444,cheater / hvh,cheater / hvh
 76561199162678434,cheater / hvh,cheater / hvh
@@ -312,6 +309,8 @@ steam_id64,name,reason
 76561199180000117,cheater / hvh,cheater / hvh (https://gist.github.com/Arie/7ca8b8bc8d4cc64d483bcfcf1d23fc0b)
 76561199120135347,cheater / hvh,cheater / hvh (hvh with 76561199434000498)
 76561199371462445,cheater / hvh,cheater / hvh (hvh with 76561199434000498)
+76561198131588487,cheater / hvh/,cheater / hvh (https://gist.github.com/Arie/3088dcd949c97c30580ca054f83d52ab)
+76561199196360535,cheater / hvh/,cheater / hvh (https://gist.github.com/Arie/3088dcd949c97c30580ca054f83d52ab)
 76561198347491669,Cheeto,match invader / fake racist log spammer
 76561199074642692,Cheeto,match invader / fake racist log spammer
 76561199275915828,Cheeto,match invader / fake racist log spammer
@@ -378,6 +377,7 @@ steam_id64,name,reason
 76561199642398858,copetrine,bot/cheat dev
 76561199648588714,copetrine,bot/cheat dev
 76561199649395855,copetrine,bot/cheat dev
+76561199439737489,Crossfit Jesus,cheater / hvh (EU #1443752)
 76561199577881169,Crow,cheater / cheat dev  (https://gist.github.com/Arie/fff389b29e139903a4f29dd2d3640d9f)
 76561197992528714,Cvk,https://rgl.gg/Public/PlayerProfile?p=76561198026687147
 76561198073261503,Cvk,https://rgl.gg/Public/PlayerProfile?p=76561198026687147
@@ -393,6 +393,7 @@ steam_id64,name,reason
 76561198845412527,Cvk/1900,https://rgl.gg/Public/PlayerProfile.aspx?p=76561199084460293
 76561199084460293,Cvk/1900,https://rgl.gg/Public/PlayerProfile.aspx?p=76561199084460293
 76561197995751916,DaFuQWiZaT,cheater (triggerbot / EU #1421783)
+76561199672228055,daily,cheater / hvh (EU #1443752)
 76561197996815485,Darkiecutie,etf2l blacklist
 76561198446355527,Darkiecutie,etf2l blacklist
 76561198815669823,desty,match invader / racist
@@ -469,6 +470,8 @@ steam_id64,name,reason
 76561199562906800,elk friends,elk friends
 76561199744653910,elk friends,elk friends
 76561198860216961,emily,cheats / map exploits (tick perfect bunny hops NA 554484)
+76561198243248924,Envixity,cheater / hvh (game ban / VAC ban)
+76561199730525090,Envixity alt,cheater / hvh (EU #1443752)
 76561199062818404,ethereal,cheater (cmdnum spikes / EU #1419999)
 76561199037435019,existence,racism / making reservations for banned cheaters (EU #1422498 / EU #1422499)
 76561197971493612,fake dippi alt,alt

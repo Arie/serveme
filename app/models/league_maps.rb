@@ -185,7 +185,7 @@ class LeagueMaps
       cp_steel_f12
       koth_ashville_final1
       koth_product_final
-      koth_warmtic_f10
+      koth_proot_b6c-alt2
       pl_summercoast_rc8e
       pl_swiftwater_final1
       pl_upward_f12

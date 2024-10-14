@@ -186,6 +186,7 @@ class LeagueMaps
       koth_ashville_final1
       koth_product_final
       koth_warmtic_f10
+      pl_summercoast_rc8e
       pl_swiftwater_final1
       pl_upward_f12
       pl_vigil_rc10

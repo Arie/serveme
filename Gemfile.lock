@@ -435,7 +435,7 @@ GEM
     net-ftp (0.3.8)
       net-protocol
       time
-    net-imap (0.4.16)
+    net-imap (0.4.17)
       date
       net-protocol
     net-pop (0.1.2)
@@ -500,7 +500,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (2.2.9)
+    rack (2.2.10)
     rack-cache (1.17.0)
       rack (>= 0.4)
     rack-openid (1.4.2)
@@ -708,15 +708,15 @@ GEM
       thor (~> 1.0)
       tilt (~> 2.0)
       yard (~> 0.9, >= 0.9.24)
-    sorbet (0.5.11600)
-      sorbet-static (= 0.5.11600)
-    sorbet-runtime (0.5.11600)
-    sorbet-static (0.5.11600-aarch64-linux)
-    sorbet-static (0.5.11600-universal-darwin)
-    sorbet-static (0.5.11600-x86_64-linux)
-    sorbet-static-and-runtime (0.5.11600)
-      sorbet (= 0.5.11600)
-      sorbet-runtime (= 0.5.11600)
+    sorbet (0.5.11602)
+      sorbet-static (= 0.5.11602)
+    sorbet-runtime (0.5.11602)
+    sorbet-static (0.5.11602-aarch64-linux)
+    sorbet-static (0.5.11602-universal-darwin)
+    sorbet-static (0.5.11602-x86_64-linux)
+    sorbet-static-and-runtime (0.5.11602)
+      sorbet (= 0.5.11602)
+      sorbet-runtime (= 0.5.11602)
     spoom (1.5.0)
       erubi (>= 1.10.0)
       prism (>= 0.28.0)
@@ -765,7 +765,7 @@ GEM
     time (0.4.0)
       date
     timeout (0.4.1)
-    tins (1.35.0)
+    tins (1.36.1)
       bigdecimal
       sync
     turbo-rails (2.0.10)

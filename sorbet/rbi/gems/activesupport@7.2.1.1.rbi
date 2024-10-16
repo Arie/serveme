@@ -19872,7 +19872,7 @@ end
 module Process
   extend ::ConnectionPool::ForkTracker
   extend ::RedisClient::PIDCache::CoreExt
-  extend ::Bundler::ConnectionPool::ForkTracker
+  extend ActiveSupport::ForkTracker
   extend ::ActiveSupport::ForkTracker::CoreExt
 
   class << self

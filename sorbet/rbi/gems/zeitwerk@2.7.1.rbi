@@ -58,89 +58,103 @@ class Zeitwerk::Cref
   #
   # @return [Cref] a new instance of Cref
   #
-  # source://zeitwerk//lib/zeitwerk/cref.rb#23
+  # source://zeitwerk//lib/zeitwerk/cref.rb#26
   def initialize(mod, cname); end
 
-  # source://zeitwerk//lib/zeitwerk/cref.rb#40
+  # source://zeitwerk//lib/zeitwerk/cref.rb#43
   def autoload(abspath); end
 
   # @return [Boolean]
   #
-  # source://zeitwerk//lib/zeitwerk/cref.rb#35
+  # source://zeitwerk//lib/zeitwerk/cref.rb#38
   def autoload?; end
 
   # Returns the value of attribute cname.
   #
-  # source://zeitwerk//lib/zeitwerk/cref.rb#17
+  # source://zeitwerk//lib/zeitwerk/cref.rb#20
   def cname; end
 
   # @return [Boolean]
   #
-  # source://zeitwerk//lib/zeitwerk/cref.rb#45
+  # source://zeitwerk//lib/zeitwerk/cref.rb#48
   def defined?; end
 
   # @raise [NameError]
   #
-  # source://zeitwerk//lib/zeitwerk/cref.rb#56
+  # source://zeitwerk//lib/zeitwerk/cref.rb#59
   def get; end
 
-  # source://zeitwerk//lib/zeitwerk/cref.rb#30
+  # Returns the value of attribute mod.
+  #
+  # source://zeitwerk//lib/zeitwerk/cref.rb#17
+  def mod; end
+
+  # source://zeitwerk//lib/zeitwerk/cref.rb#33
   def path; end
 
   # @raise [NameError]
   #
-  # source://zeitwerk//lib/zeitwerk/cref.rb#62
+  # source://zeitwerk//lib/zeitwerk/cref.rb#65
   def remove; end
 
-  # source://zeitwerk//lib/zeitwerk/cref.rb#50
+  # source://zeitwerk//lib/zeitwerk/cref.rb#53
   def set(value); end
 end
 
 # source://zeitwerk//lib/zeitwerk/error.rb#4
 class Zeitwerk::Error < ::StandardError; end
 
-# Centralizes the logic needed to descend into matching subdirectories right
-# after the constant for an explicit namespace has been defined.
+# This module is essentially a registry for explicit namespaces.
+#
+# When a loader determines that a certain file should define an explicit
+# namespace, it registers it here, associating its cref with itself.
+#
+# If the namespace is autoloaded, our const_added callback retrieves its
+# loader by calling loader_for. That way, the loader is able to scan the
+# subdirectories that conform the namespace and set autoloads for their
+# expected constants just in time.
+#
+# Once autoloaded, the namespace is unregistered.
 #
 # The implementation assumes an explicit namespace is managed by one loader.
 # Loaders that reopen namespaces owned by other projects are responsible for
 # loading their constant before setup. This is documented.
 #
-# source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#10
+# source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#19
 module Zeitwerk::ExplicitNamespace
   extend ::Zeitwerk::RealModName
 
   class << self
-    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#51
+    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#80
     def __clear; end
 
-    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#31
+    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#57
     def __loader_for(mod, cname); end
 
-    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#26
-    def __register(cpath, loader); end
+    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#48
+    def __register(cref, loader); end
 
-    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#44
-    def __registered?(cpath); end
+    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#73
+    def __registered?(cname_or_cpath); end
 
-    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#37
+    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#66
     def __unregister_loader(loader); end
 
     private
 
-    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#51
+    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#80
     def clear; end
 
-    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#31
+    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#57
     def loader_for(mod, cname); end
 
-    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#26
-    def register(cpath, loader); end
+    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#48
+    def register(cref, loader); end
 
-    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#44
-    def registered?(cpath); end
+    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#73
+    def registered?(cname_or_cpath); end
 
-    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#37
+    # source://zeitwerk//lib/zeitwerk/explicit_namespace.rb#66
     def unregister_loader(loader); end
   end
 end

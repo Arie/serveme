@@ -8,28 +8,28 @@
 # source://aws-sdk-s3//lib/aws-sdk-s3/customizations.rb#3
 module Aws
   class << self
-    # source://aws-sdk-core/3.209.1/lib/aws-sdk-core.rb#93
+    # source://aws-sdk-core/3.210.0/lib/aws-sdk-core.rb#93
     def config; end
 
-    # source://aws-sdk-core/3.209.1/lib/aws-sdk-core.rb#96
+    # source://aws-sdk-core/3.210.0/lib/aws-sdk-core.rb#96
     def config=(config); end
 
-    # source://aws-sdk-core/3.209.1/lib/aws-sdk-core.rb#155
+    # source://aws-sdk-core/3.210.0/lib/aws-sdk-core.rb#155
     def eager_autoload!(*args); end
 
-    # source://aws-sdk-core/3.209.1/lib/aws-sdk-core.rb#148
+    # source://aws-sdk-core/3.210.0/lib/aws-sdk-core.rb#148
     def empty_connection_pools!; end
 
-    # source://aws-sdk-core/3.209.1/lib/aws-sdk-core.rb#105
+    # source://aws-sdk-core/3.210.0/lib/aws-sdk-core.rb#105
     def partition(partition_name); end
 
-    # source://aws-sdk-core/3.209.1/lib/aws-sdk-core.rb#110
+    # source://aws-sdk-core/3.210.0/lib/aws-sdk-core.rb#110
     def partitions; end
 
-    # source://aws-sdk-core/3.209.1/lib/aws-sdk-core.rb#86
+    # source://aws-sdk-core/3.210.0/lib/aws-sdk-core.rb#86
     def shared_config; end
 
-    # source://aws-sdk-core/3.209.1/lib/aws-sdk-core.rb#125
+    # source://aws-sdk-core/3.210.0/lib/aws-sdk-core.rb#125
     def use_bundled_cert!; end
   end
 end
@@ -230,8 +230,17 @@ class Aws::S3::Bucket
 
   # @return [BucketAcl]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1051
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1072
   def acl; end
+
+  # `BucketRegion` indicates the Amazon Web Services region where the
+  # bucket is located. If the request contains at least one valid
+  # parameter, it is included in the response.
+  #
+  # @return [String]
+  #
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#48
+  def bucket_region; end
 
   # Deletes all objects and versioned objects from this bucket
   #
@@ -245,12 +254,12 @@ class Aws::S3::Bucket
 
   # @return [Client]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#47
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#55
   def client; end
 
   # @return [BucketCors]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1059
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1080
   def cors; end
 
   # @example Request syntax with placeholder values
@@ -288,7 +297,7 @@ class Aws::S3::Bucket
   # @param options [Hash] ({})
   # @return [Types::CreateBucketOutput]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#335
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#343
   def create(options = T.unsafe(nil)); end
 
   # Date the bucket was created. This date can change when making changes
@@ -302,13 +311,13 @@ class Aws::S3::Bucket
   # @raise [NotImplementedError] Raises when {#data_loaded?} is `false`.
   # @return [Types::Bucket] Returns the data for this {Bucket}.
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#62
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#70
   def data; end
 
   # @return [Boolean] Returns `true` if this resource is loaded.  Accessing attributes or
   #   {#data} on an unloaded resource will trigger a call to {#load}.
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#70
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#78
   def data_loaded?; end
 
   # @example Request syntax with placeholder values
@@ -320,7 +329,7 @@ class Aws::S3::Bucket
   # @param options [Hash] ({})
   # @return [EmptyStructure]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#360
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#368
   def delete(options = T.unsafe(nil)); end
 
   # Deletes all objects and versioned objects from this bucket and
@@ -364,32 +373,32 @@ class Aws::S3::Bucket
   # @param options [Hash] ({})
   # @return [Types::DeleteObjectsOutput]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#474
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#482
   def delete_objects(options = T.unsafe(nil)); end
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1507
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1528
   def deprecated_identifiers; end
 
   # @param options [Hash] ({})
   # @return [Boolean] Returns `true` if the Bucket exists.
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#77
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#85
   def exists?(options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # @return [BucketLifecycle]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1067
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1088
   def lifecycle; end
 
   # @return [BucketLifecycleConfiguration]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1075
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1096
   def lifecycle_configuration; end
 
   # @api private
@@ -399,7 +408,7 @@ class Aws::S3::Bucket
 
   # @return [BucketLogging]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1083
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1104
   def logging; end
 
   # @example Request syntax with placeholder values
@@ -423,7 +432,7 @@ class Aws::S3::Bucket
   # @param options [Hash] ({})
   # @return [MultipartUpload::Collection]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1207
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1228
   def multipart_uploads(options = T.unsafe(nil)); end
 
   # @return [String]
@@ -433,13 +442,13 @@ class Aws::S3::Bucket
 
   # @return [BucketNotification]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1231
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1252
   def notification; end
 
   # @param key [String]
   # @return [Object]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1240
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1261
   def object(key); end
 
   # @example Request syntax with placeholder values
@@ -465,7 +474,7 @@ class Aws::S3::Bucket
   # @param options [Hash] ({})
   # @return [ObjectVersion::Collection]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1324
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1345
   def object_versions(options = T.unsafe(nil)); end
 
   # @example Request syntax with placeholder values
@@ -491,12 +500,12 @@ class Aws::S3::Bucket
   # @param options [Hash] ({})
   # @return [ObjectSummary::Collection]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1443
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1464
   def objects(options = T.unsafe(nil)); end
 
   # @return [BucketPolicy]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1466
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1487
   def policy; end
 
   # Creates a {PresignedPost} that makes it easy to upload a file from
@@ -627,23 +636,23 @@ class Aws::S3::Bucket
   # @param options [Hash] ({})
   # @return [Object]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1036
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1057
   def put_object(options = T.unsafe(nil)); end
 
   # @api private
   # @raise [NotImplementedError]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#53
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#61
   def reload; end
 
   # @return [BucketRequestPayment]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1474
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1495
   def request_payment; end
 
   # @return [BucketTagging]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1482
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1503
   def tagging; end
 
   # Returns a public URL for this bucket.
@@ -679,7 +688,7 @@ class Aws::S3::Bucket
 
   # @return [BucketVersioning]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1490
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1511
   def versioning; end
 
   # Waiter polls an API operation until a resource enters a desired
@@ -759,7 +768,7 @@ class Aws::S3::Bucket
   # @return [Resource] if the waiter was successful
   # @yieldparam resource [Resource] to be used in the waiting condition.
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#206
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#214
   def wait_until(options = T.unsafe(nil), &block); end
 
   # @option options
@@ -769,7 +778,7 @@ class Aws::S3::Bucket
   # @param options [Hash] ({})
   # @return [Bucket]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#94
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#102
   def wait_until_exists(options = T.unsafe(nil), &block); end
 
   # @option options
@@ -779,29 +788,29 @@ class Aws::S3::Bucket
   # @param options [Hash] ({})
   # @return [Bucket]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#113
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#121
   def wait_until_not_exists(options = T.unsafe(nil), &block); end
 
   # @return [BucketWebsite]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1498
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1519
   def website; end
 
   private
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1514
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1535
   def extract_name(args, options); end
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1535
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1556
   def separate_params_and_options(options); end
 
   # @yield [waiter.waiter]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1525
+  # source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1546
   def yield_waiter_and_warn(waiter, &block); end
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1552
+# source://aws-sdk-s3//lib/aws-sdk-s3/bucket.rb#1573
 class Aws::S3::Bucket::Collection < ::Aws::Resources::Collection; end
 
 # source://aws-sdk-s3//lib/aws-sdk-s3/bucket_acl.rb#12
@@ -855,7 +864,7 @@ class Aws::S3::BucketAcl
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {BucketAcl}.
@@ -1085,7 +1094,7 @@ class Aws::S3::BucketCors
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {BucketCors}.
@@ -1282,7 +1291,7 @@ class Aws::S3::BucketLifecycle
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {BucketLifecycle}.
@@ -1505,7 +1514,7 @@ class Aws::S3::BucketLifecycleConfiguration
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {BucketLifecycleConfiguration}.
@@ -1761,7 +1770,7 @@ class Aws::S3::BucketLogging
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {BucketLogging}.
@@ -1979,7 +1988,7 @@ class Aws::S3::BucketNotification
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Describes the Lambda functions to invoke and the events for which to
@@ -2241,7 +2250,7 @@ class Aws::S3::BucketPolicy
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {BucketPolicy}.
@@ -2495,7 +2504,7 @@ class Aws::S3::BucketRequestPayment
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {BucketRequestPayment}.
@@ -2690,7 +2699,7 @@ class Aws::S3::BucketTagging
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {BucketTagging}.
@@ -2896,7 +2905,7 @@ class Aws::S3::BucketVersioning
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {BucketVersioning}.
@@ -3130,7 +3139,7 @@ class Aws::S3::BucketWebsite
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # The name of the index document for the website (for example
@@ -3453,7 +3462,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @api private
   # @param params [{}]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19830
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19834
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Completes a multipart upload by assembling previously uploaded parts.
@@ -4030,7 +4039,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::CopyObjectOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CopyObject AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#2217
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#2222
   def copy_object(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This action creates an Amazon S3 bucket. To create an Amazon S3 on
@@ -4238,7 +4247,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::CreateBucketOutput#location #location} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateBucket AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#2537
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#2542
   def create_bucket(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # This action initiates a multipart upload and returns an upload ID.
@@ -4610,7 +4619,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::CreateMultipartUploadOutput#checksum_algorithm #checksum_algorithm} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateMultipartUpload AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#3479
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#3489
   def create_multipart_upload(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a session that establishes temporary security credentials to
@@ -4719,7 +4728,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   with SSE-KMS and S3 Bucket Keys during the session.
   #
   #   <note markdown="1"> Only 1 [customer managed key][14] is supported per directory bucket
-  #   for the lifetime of the bucket. [Amazon Web Services managed
+  #   for the lifetime of the bucket. The [Amazon Web Services managed
   #   key][15] (`aws/s3`) isn't supported. After you specify SSE-KMS as
   #   your bucket's default encryption configuration with a customer
   #   managed key, you can't change the customer managed key for the
@@ -4810,7 +4819,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::CreateSessionOutput#credentials #credentials} => Types::SessionCredentials
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateSession AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#3768
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#3778
   def create_session(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes the S3 bucket. All objects (including all object versions and
@@ -4883,7 +4892,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucket AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#3873
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#3883
   def delete_bucket(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -4936,7 +4945,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketAnalyticsConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#3939
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#3949
   def delete_bucket_analytics_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -4984,7 +4993,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketCors AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#3999
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4009
   def delete_bucket_cors(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # This implementation of the DELETE action resets the default encryption
@@ -5057,7 +5066,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketEncryption AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4103
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4113
   def delete_bucket_encryption(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -5115,7 +5124,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketIntelligentTieringConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4170
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4180
   def delete_bucket_intelligent_tiering_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -5167,7 +5176,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketInventoryConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4235
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4245
   def delete_bucket_inventory_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -5223,7 +5232,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketLifecycle AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4303
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4313
   def delete_bucket_lifecycle(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -5279,7 +5288,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketMetricsConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4373
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4383
   def delete_bucket_metrics_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -5319,7 +5328,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketOwnershipControls AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4423
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4433
   def delete_bucket_ownership_controls(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes the policy of a specified bucket.
@@ -5411,7 +5420,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketPolicy AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4547
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4557
   def delete_bucket_policy(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -5469,7 +5478,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketReplication AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4617
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4627
   def delete_bucket_replication(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -5513,7 +5522,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketTagging AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4673
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4683
   def delete_bucket_tagging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -5568,71 +5577,37 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketWebsite AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4741
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4751
   def delete_bucket_website(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Removes an object from a bucket. The behavior depends on the bucket's
-  # versioning state:
-  #
-  # * If bucket versioning is not enabled, the operation permanently
-  #   deletes the object.
-  #
-  # * If bucket versioning is enabled, the operation inserts a delete
-  #   marker, which becomes the current version of the object. To
-  #   permanently delete an object in a versioned bucket, you must include
-  #   the object’s `versionId` in the request. For more information about
-  #   versioning-enabled buckets, see [Deleting object versions from a
-  #   versioning-enabled bucket][1].
-  #
-  # * If bucket versioning is suspended, the operation removes the object
-  #   that has a null `versionId`, if there is one, and inserts a delete
-  #   marker that becomes the current version of the object. If there
-  #   isn't an object with a null `versionId`, and all versions of the
-  #   object have a `versionId`, Amazon S3 does not remove the object and
-  #   only inserts a delete marker. To permanently delete an object that
-  #   has a `versionId`, you must include the object’s `versionId` in the
-  #   request. For more information about versioning-suspended buckets,
-  #   see [Deleting objects from versioning-suspended buckets][2].
-  #
-  # <note markdown="1"> * **Directory buckets** - S3 Versioning isn't enabled and supported
-  #   for directory buckets. For this API operation, only the `null` value
-  #   of the version ID is supported by directory buckets. You can only
-  #   specify `null` to the `versionId` query parameter in the request.
-  #
-  # * **Directory buckets** - For directory buckets, you must make
-  #   requests for this API operation to the Zonal endpoint. These
-  #   endpoints support virtual-hosted-style requests in the format
-  #   `https://bucket_name.s3express-az_id.region.amazonaws.com/key-name
-  #   `. Path-style requests are not supported. For more information, see
-  #   [Regional and Zonal endpoints][3] in the *Amazon S3 User Guide*.
-  #
-  #  </note>
+  # versioning state. For more information, see [Best practices to
+  # consider before deleting an object][1].
   #
   # To remove a specific version, you must use the `versionId` query
   # parameter. Using this query parameter permanently deletes the version.
   # If the object deleted is a delete marker, Amazon S3 sets the response
-  # header `x-amz-delete-marker` to true.
+  # header `x-amz-delete-marker` to true. If the object you want to delete
+  # is in a bucket where the bucket versioning configuration is MFA delete
+  # enabled, you must include the `x-amz-mfa` request header in the DELETE
+  # `versionId` request. Requests that include `x-amz-mfa` must use HTTPS.
+  # For more information about MFA delete and to see example requests, see
+  # [Using MFA delete][2] and [Sample request][3] in the *Amazon S3 User
+  # Guide*.
   #
-  # If the object you want to delete is in a bucket where the bucket
-  # versioning configuration is MFA Delete enabled, you must include the
-  # `x-amz-mfa` request header in the DELETE `versionId` request. Requests
-  # that include `x-amz-mfa` must use HTTPS. For more information about
-  # MFA Delete, see [Using MFA Delete][4] in the *Amazon S3 User Guide*.
-  # To see sample requests that use versioning, see [Sample Request][5].
+  # <note markdown="1"> * S3 Versioning isn't enabled and supported for directory buckets.
+  #   For this API operation, only the `null` value of the version ID is
+  #   supported by directory buckets. You can only specify `null` to the
+  #   `versionId` query parameter in the request.
   #
-  # <note markdown="1"> **Directory buckets** - MFA delete is not supported by directory
-  # buckets.
+  # * For directory buckets, you must make requests for this API operation
+  #   to the Zonal endpoint. These endpoints support virtual-hosted-style
+  #   requests in the format
+  #   `https://bucket_name.s3express-az_id.region.amazonaws.com/key-name
+  #   `. Path-style requests are not supported. For more information, see
+  #   [Regional and Zonal endpoints][4] in the *Amazon S3 User Guide*.
   #
-  #  </note>
-  #
-  # You can delete objects by explicitly calling DELETE Object or calling
-  # ([PutBucketLifecycle][6]) to enable Amazon S3 to remove them for you.
-  # If you want to block users or accounts from removing or deleting
-  # objects from your bucket, you must deny them the `s3:DeleteObject`,
-  # `s3:DeleteObjectVersion`, and `s3:PutLifeCycleConfiguration` actions.
-  #
-  # <note markdown="1"> **Directory buckets** - S3 Lifecycle is not supported by directory
-  # buckets.
+  # * MFA delete is not supported by directory buckets.
   #
   #  </note>
   #
@@ -5644,24 +5619,23 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     * <b> <code>s3:DeleteObject</code> </b> - To delete an object from
   #       a bucket, you must always have the `s3:DeleteObject` permission.
   #
+  #       <note markdown="1"> You can also use PutBucketLifecycle to delete objects in Amazon
+  #       S3.
+  #
+  #        </note>
+  #
   #     * <b> <code>s3:DeleteObjectVersion</code> </b> - To delete a
   #       specific version of an object from a versioning-enabled bucket,
   #       you must have the `s3:DeleteObjectVersion` permission.
   #
-  #   * **Directory bucket permissions** - To grant access to this API
-  #     operation on a directory bucket, we recommend that you use the [
-  #     `CreateSession` ][7] API operation for session-based
-  #     authorization. Specifically, you grant the
-  #     `s3express:CreateSession` permission to the directory bucket in a
-  #     bucket policy or an IAM identity-based policy. Then, you make the
-  #     `CreateSession` API call on the bucket to obtain a session token.
-  #     With the session token in your request header, you can make API
-  #     requests to this operation. After the session token expires, you
-  #     make another `CreateSession` API call to generate a new session
-  #     token for use. Amazon Web Services CLI or SDKs create session and
-  #     refresh the session token automatically to avoid service
-  #     interruptions when a session expires. For more information about
-  #     authorization, see [ `CreateSession` ][7].
+  #     * If you want to block users or accounts from removing or deleting
+  #       objects from your bucket, you must deny them the
+  #       `s3:DeleteObject`, `s3:DeleteObjectVersion`, and
+  #       `s3:PutLifeCycleConfiguration` permissions.
+  #
+  #   * **Directory buckets permissions** - To grant access to this API
+  #     operation on a directory bucket, we recommend that you use the
+  #     CreateSession API operation for session-based authorization.
   #
   # HTTP Host header syntax
   #
@@ -5670,21 +5644,26 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #
   # The following action is related to `DeleteObject`:
   #
-  # * [PutObject][8]
+  # * [PutObject][5]
   #
   # ^
   #
   #
   #
-  # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjectVersions.html
-  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjectsfromVersioningSuspendedBuckets.html
-  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMFADelete.html
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectDELETE.html#ExampleVersionObjectDelete
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
-  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html
+  # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjects.html#DeletingObjects-best-practices
+  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMFADelete.html
+  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectDELETE.html#ExampleVersionObjectDelete
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html
   #
+  # @example Example: To delete an object (from a non-versioned bucket)
+  #
+  #   # The following example deletes an object from a non-versioned bucket.
+  #
+  #   resp = client.delete_object({
+  #   bucket: "ExampleBucket",
+  #   key: "HappyFace.jpg",
+  #   })
   # @example Example: To delete an object
   #
   #   # The following example deletes an object from an S3 bucket.
@@ -5697,14 +5676,6 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.to_h outputs the following:
   #   {
   #   }
-  # @example Example: To delete an object (from a non-versioned bucket)
-  #
-  #   # The following example deletes an object from a non-versioned bucket.
-  #
-  #   resp = client.delete_object({
-  #   bucket: "ExampleBucket",
-  #   key: "HappyFace.jpg",
-  #   })
   # @example Request syntax with placeholder values
   #
   #   resp = client.delete_object({
@@ -5737,7 +5708,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::DeleteObjectOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObject AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5007
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4979
   def delete_object(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -5817,7 +5788,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::DeleteObjectTaggingOutput#version_id #version_id} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectTagging AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5131
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5103
   def delete_object_tagging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # This operation enables you to delete multiple objects from a bucket
@@ -6053,7 +6024,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::DeleteObjectsOutput#errors #errors} => Array&lt;Types::Error&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjects AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5504
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5476
   def delete_objects(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -6099,7 +6070,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeletePublicAccessBlock AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5561
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5533
   def delete_public_access_block(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -6167,7 +6138,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketAccelerateConfigurationOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAccelerateConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5657
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5629
   def get_bucket_accelerate_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -6238,7 +6209,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketAclOutput#grants #grants} => Array&lt;Types::Grant&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAcl AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5753
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5725
   def get_bucket_acl(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -6310,7 +6281,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketAnalyticsConfigurationOutput#analytics_configuration #analytics_configuration} => Types::AnalyticsConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAnalyticsConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5839
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5811
   def get_bucket_analytics_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -6403,7 +6374,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketCorsOutput#cors_rules #cors_rules} => Array&lt;Types::CORSRule&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketCors AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5959
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5931
   def get_bucket_cors(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns the default encryption configuration for an Amazon S3 bucket.
@@ -6484,7 +6455,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketEncryptionOutput#server_side_encryption_configuration #server_side_encryption_configuration} => Types::ServerSideEncryptionConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketEncryption AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6072
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6044
   def get_bucket_encryption(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -6558,7 +6529,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketIntelligentTieringConfigurationOutput#intelligent_tiering_configuration #intelligent_tiering_configuration} => Types::IntelligentTieringConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketIntelligentTieringConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6156
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6128
   def get_bucket_intelligent_tiering_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -6627,7 +6598,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketInventoryConfigurationOutput#inventory_configuration #inventory_configuration} => Types::InventoryConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketInventoryConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6239
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6211
   def get_bucket_inventory_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # For an updated version of this API, see
@@ -6732,7 +6703,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketLifecycleOutput#rules #rules} => Array&lt;Types::Rule&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLifecycle AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6357
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6329
   def get_bucket_lifecycle(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -6864,7 +6835,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketLifecycleConfigurationOutput#transition_default_minimum_object_size #transition_default_minimum_object_size} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLifecycleConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6502
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6474
   def get_bucket_lifecycle_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -6934,7 +6905,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketLocationOutput#location_constraint #location_constraint} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLocation AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6599
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6571
   def get_bucket_location(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -6982,7 +6953,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketLoggingOutput#logging_enabled #logging_enabled} => Types::LoggingEnabled
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLogging AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6658
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6630
   def get_bucket_logging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -7052,7 +7023,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketMetricsConfigurationOutput#metrics_configuration #metrics_configuration} => Types::MetricsConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketMetricsConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6744
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6716
   def get_bucket_metrics_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -7154,7 +7125,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::NotificationConfigurationDeprecated#cloud_function_configuration #cloud_function_configuration} => Types::CloudFunctionConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketNotification AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6875
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6847
   def get_bucket_notification(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -7243,7 +7214,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::NotificationConfiguration#event_bridge_configuration #event_bridge_configuration} => Types::EventBridgeConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketNotificationConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6990
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6962
   def get_bucket_notification_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -7288,7 +7259,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketOwnershipControlsOutput#ownership_controls #ownership_controls} => Types::OwnershipControls
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketOwnershipControls AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7047
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7019
   def get_bucket_ownership_controls(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns the policy of a specified bucket.
@@ -7398,7 +7369,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketPolicyOutput#policy #policy} => IO
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketPolicy AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7207
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7179
   def get_bucket_policy(params = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -7451,7 +7422,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketPolicyStatusOutput#policy_status #policy_status} => Types::PolicyStatus
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketPolicyStatus AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7272
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7244
   def get_bucket_policy_status(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -7561,7 +7532,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketReplicationOutput#replication_configuration #replication_configuration} => Types::ReplicationConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketReplication AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7395
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7367
   def get_bucket_replication(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -7613,7 +7584,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketRequestPaymentOutput#payer #payer} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketRequestPayment AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7461
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7433
   def get_bucket_request_payment(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -7686,7 +7657,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketTaggingOutput#tag_set #tag_set} => Array&lt;Types::Tag&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketTagging AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7547
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7519
   def get_bucket_tagging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -7750,7 +7721,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketVersioningOutput#mfa_delete #mfa_delete} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketVersioning AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7624
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7596
   def get_bucket_versioning(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -7829,7 +7800,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketWebsiteOutput#routing_rules #routing_rules} => Array&lt;Types::RoutingRule&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketWebsite AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7716
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7688
   def get_bucket_website(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Retrieves an object from Amazon S3.
@@ -8202,7 +8173,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetObjectOutput#object_lock_legal_hold_status #object_lock_legal_hold_status} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObject AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#8382
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#8354
   def get_object(params = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -8333,7 +8304,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetObjectAclOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAcl AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#8566
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#8538
   def get_object_acl(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Retrieves all the metadata from an object without returning the object
@@ -8583,7 +8554,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetObjectAttributesOutput#object_size #object_size} => Integer
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAttributes AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#8928
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#8900
   def get_object_attributes(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -8630,7 +8601,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetObjectLegalHoldOutput#legal_hold #legal_hold} => Types::ObjectLockLegalHold
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectLegalHold AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9024
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#8996
   def get_object_legal_hold(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -8674,7 +8645,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetObjectLockConfigurationOutput#object_lock_configuration #object_lock_configuration} => Types::ObjectLockConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectLockConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9094
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9066
   def get_object_lock_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -8722,7 +8693,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetObjectRetentionOutput#retention #retention} => Types::ObjectLockRetention
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectRetention AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9191
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9163
   def get_object_retention(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -8760,6 +8731,26 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # [3]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html
   # [4]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectTagging.html
   #
+  # @example Example: To retrieve tag set of a specific object version
+  #
+  #   # The following example retrieves tag set of an object. The request specifies object version.
+  #
+  #   resp = client.get_object_tagging({
+  #   bucket: "examplebucket",
+  #   key: "exampleobject",
+  #   version_id: "ydlaNkwWm0SfKJR.T1b1fIdPRbldTYRI",
+  #   })
+  #
+  #   resp.to_h outputs the following:
+  #   {
+  #   tag_set: [
+  #   {
+  #   key: "Key1",
+  #   value: "Value1",
+  #   },
+  #   ],
+  #   version_id: "ydlaNkwWm0SfKJR.T1b1fIdPRbldTYRI",
+  #   }
   # @example Example: To retrieve tag set of an object
   #
   #   # The following example retrieves tag set of an object.
@@ -8782,26 +8773,6 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   },
   #   ],
   #   version_id: "null",
-  #   }
-  # @example Example: To retrieve tag set of a specific object version
-  #
-  #   # The following example retrieves tag set of an object. The request specifies object version.
-  #
-  #   resp = client.get_object_tagging({
-  #   bucket: "examplebucket",
-  #   key: "exampleobject",
-  #   version_id: "ydlaNkwWm0SfKJR.T1b1fIdPRbldTYRI",
-  #   })
-  #
-  #   resp.to_h outputs the following:
-  #   {
-  #   tag_set: [
-  #   {
-  #   key: "Key1",
-  #   value: "Value1",
-  #   },
-  #   ],
-  #   version_id: "ydlaNkwWm0SfKJR.T1b1fIdPRbldTYRI",
   #   }
   # @example Request syntax with placeholder values
   #
@@ -8831,7 +8802,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetObjectTaggingOutput#tag_set #tag_set} => Array&lt;Types::Tag&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectTagging AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9360
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9332
   def get_object_tagging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -8898,7 +8869,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetObjectTorrentOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectTorrent AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9461
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9433
   def get_object_torrent(params = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -8961,7 +8932,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetPublicAccessBlockOutput#public_access_block_configuration #public_access_block_configuration} => Types::PublicAccessBlockConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetPublicAccessBlock AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9536
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9508
   def get_public_access_block(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # You can use this operation to determine if a bucket exists and if you
@@ -9074,7 +9045,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::HeadBucketOutput#access_point_alias #access_point_alias} => Boolean
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/HeadBucket AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9712
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9684
   def head_bucket(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # The `HEAD` operation retrieves metadata from an object without
@@ -9381,7 +9352,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::HeadObjectOutput#object_lock_legal_hold_status #object_lock_legal_hold_status} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/HeadObject AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10235
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10207
   def head_object(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -9467,7 +9438,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListBucketAnalyticsConfigurationsOutput#analytics_configuration_list #analytics_configuration_list} => Array&lt;Types::AnalyticsConfiguration&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketAnalyticsConfigurations AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10336
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10308
   def list_bucket_analytics_configurations(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -9548,7 +9519,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListBucketIntelligentTieringConfigurationsOutput#intelligent_tiering_configuration_list #intelligent_tiering_configuration_list} => Array&lt;Types::IntelligentTieringConfiguration&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketIntelligentTieringConfigurations AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10428
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10400
   def list_bucket_intelligent_tiering_configurations(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -9633,7 +9604,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListBucketInventoryConfigurationsOutput#next_continuation_token #next_continuation_token} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketInventoryConfigurations AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10530
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10502
   def list_bucket_inventory_configurations(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -9718,7 +9689,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListBucketMetricsConfigurationsOutput#metrics_configuration_list #metrics_configuration_list} => Array&lt;Types::MetricsConfiguration&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketMetricsConfigurations AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10632
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10604
   def list_bucket_metrics_configurations(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -9771,15 +9742,21 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp = client.list_buckets({
   #   max_buckets: 1,
   #   continuation_token: "Token",
+  #   prefix: "Prefix",
+  #   bucket_region: "BucketRegion",
   #   })
   # @example Response structure
   #
   #   resp.buckets #=> Array
   #   resp.buckets[0].name #=> String
   #   resp.buckets[0].creation_date #=> Time
+  #   resp.buckets[0].bucket_region #=> String
   #   resp.owner.display_name #=> String
   #   resp.owner.id #=> String
   #   resp.continuation_token #=> String
+  #   resp.prefix #=> String
+  # @option params
+  # @option params
   # @option params
   # @option params
   # @overload list_buckets
@@ -9789,6 +9766,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListBucketsOutput#buckets #buckets} => Array&lt;Types::Bucket&gt;
   #   * {Types::ListBucketsOutput#owner #owner} => Types::Owner
   #   * {Types::ListBucketsOutput#continuation_token #continuation_token} => String
+  #   * {Types::ListBucketsOutput#prefix #prefix} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBuckets AWS API Documentation
   #
   # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10725
@@ -9843,6 +9821,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.buckets #=> Array
   #   resp.buckets[0].name #=> String
   #   resp.buckets[0].creation_date #=> Time
+  #   resp.buckets[0].bucket_region #=> String
   #   resp.continuation_token #=> String
   # @option params
   # @option params
@@ -9854,7 +9833,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListDirectoryBucketsOutput#continuation_token #continuation_token} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListDirectoryBuckets AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10802
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10803
   def list_directory_buckets(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # This operation lists in-progress multipart uploads in a bucket. An
@@ -10135,7 +10114,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListMultipartUploadsOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListMultipartUploads AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#11242
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#11243
   def list_multipart_uploads(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -10296,7 +10275,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListObjectVersionsOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectVersions AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#11481
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#11482
   def list_object_versions(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -10436,7 +10415,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListObjectsOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjects AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#11715
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#11716
   def list_objects(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns some or all (up to 1,000) of the objects in a bucket with each
@@ -10637,7 +10616,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListObjectsV2Output#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectsV2 AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#12055
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#12056
   def list_objects_v2(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Lists the parts that have been uploaded for a specific multipart
@@ -10838,7 +10817,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListPartsOutput#checksum_algorithm #checksum_algorithm} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListParts AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#12375
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#12376
   def list_parts(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -10910,7 +10889,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketAccelerateConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#12474
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#12475
   def put_bucket_accelerate_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -11146,7 +11125,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketAcl AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#12768
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#12769
   def put_bucket_acl(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -11270,7 +11249,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketAnalyticsConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#12906
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#12907
   def put_bucket_analytics_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -11402,7 +11381,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketCors AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13085
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13086
   def put_bucket_cors(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # This operation configures default encryption and Amazon S3 Bucket Keys
@@ -11450,7 +11429,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     object uploads][4].
   #
   #   * Your SSE-KMS configuration can only support 1 [customer managed
-  #     key][5] per directory bucket for the lifetime of the bucket.
+  #     key][5] per directory bucket for the lifetime of the bucket. The
   #     [Amazon Web Services managed key][6] (`aws/s3`) isn't supported.
   #
   #   * S3 Bucket Keys are always enabled for `GET` and `PUT` operations
@@ -11567,7 +11546,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketEncryption AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13314
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13315
   def put_bucket_encryption(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -11681,7 +11660,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketIntelligentTieringConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13439
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13440
   def put_bucket_intelligent_tiering_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -11818,7 +11797,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketInventoryConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13591
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13592
   def put_bucket_inventory_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -11940,7 +11919,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLifecycle AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13742
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13743
   def put_bucket_lifecycle(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -12138,7 +12117,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::PutBucketLifecycleConfigurationOutput#transition_default_minimum_object_size #transition_default_minimum_object_size} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLifecycleConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13986
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13987
   def put_bucket_lifecycle_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -12286,7 +12265,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLogging AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14169
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14170
   def put_bucket_logging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -12374,7 +12353,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketMetricsConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14273
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14274
   def put_bucket_metrics_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -12427,7 +12406,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketNotification AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14359
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14360
   def put_bucket_notification(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -12592,7 +12571,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketNotificationConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14543
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14544
   def put_bucket_notification_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -12641,7 +12620,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketOwnershipControls AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14612
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14613
   def put_bucket_ownership_controls(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Applies an Amazon S3 bucket policy to an Amazon S3 bucket.
@@ -12751,7 +12730,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketPolicy AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14812
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14813
   def put_bucket_policy(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -12945,7 +12924,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketReplication AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15050
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15051
   def put_bucket_replication(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -13001,7 +12980,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketRequestPayment AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15147
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15148
   def put_bucket_request_payment(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -13111,7 +13090,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketTagging AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15298
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15299
   def put_bucket_tagging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -13205,7 +13184,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketVersioning AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15437
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15438
   def put_bucket_versioning(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -13348,7 +13327,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketWebsite AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15621
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15622
   def put_bucket_website(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Adds an object to a bucket.
@@ -13470,6 +13449,57 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html
   # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html
   #
+  # @example Example: To create an object.
+  #
+  #   # The following example creates an object. If the bucket is versioning enabled, S3 returns version ID in response.
+  #
+  #   resp = client.put_object({
+  #   body: "filetoupload",
+  #   bucket: "examplebucket",
+  #   key: "objectkey",
+  #   })
+  #
+  #   resp.to_h outputs the following:
+  #   {
+  #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
+  #   version_id: "Bvq0EDKxOcXLJXNo_Lkz37eM3R4pfzyQ",
+  #   }
+  # @example Example: To upload object and specify user-defined metadata
+  #
+  #   # The following example creates an object. The request also specifies optional metadata. If the bucket is versioning
+  #   # enabled, S3 returns version ID in response.
+  #
+  #   resp = client.put_object({
+  #   body: "filetoupload",
+  #   bucket: "examplebucket",
+  #   key: "exampleobject",
+  #   metadata: {
+  #   "metadata1" => "value1",
+  #   "metadata2" => "value2",
+  #   },
+  #   })
+  #
+  #   resp.to_h outputs the following:
+  #   {
+  #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
+  #   version_id: "pSKidl4pHBiNwukdbcPXAIs.sshFFOc0",
+  #   }
+  # @example Example: To upload an object
+  #
+  #   # The following example uploads an object to a versioning-enabled bucket. The source file is specified using Windows file
+  #   # syntax. S3 returns VersionId of the newly created object.
+  #
+  #   resp = client.put_object({
+  #   body: "HappyFace.jpg",
+  #   bucket: "examplebucket",
+  #   key: "HappyFace.jpg",
+  #   })
+  #
+  #   resp.to_h outputs the following:
+  #   {
+  #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
+  #   version_id: "tpf3zF08nBplQK1XLOefGskR7mGDwcDk",
+  #   }
   # @example Example: To upload an object and specify canned ACL.
   #
   #   # The following example uploads and object. The request specifies optional canned ACL (access control list) to all READ
@@ -13487,36 +13517,24 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
   #   version_id: "Kirh.unyZwjQ69YxcQLA8z4F5j3kJJKr",
   #   }
-  # @example Example: To create an object.
+  # @example Example: To upload an object (specify optional headers)
   #
-  #   # The following example creates an object. If the bucket is versioning enabled, S3 returns version ID in response.
-  #
-  #   resp = client.put_object({
-  #   body: "filetoupload",
-  #   bucket: "examplebucket",
-  #   key: "objectkey",
-  #   })
-  #
-  #   resp.to_h outputs the following:
-  #   {
-  #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
-  #   version_id: "Bvq0EDKxOcXLJXNo_Lkz37eM3R4pfzyQ",
-  #   }
-  # @example Example: To upload an object
-  #
-  #   # The following example uploads an object to a versioning-enabled bucket. The source file is specified using Windows file
-  #   # syntax. S3 returns VersionId of the newly created object.
+  #   # The following example uploads an object. The request specifies optional request headers to directs S3 to use specific
+  #   # storage class and use server-side encryption.
   #
   #   resp = client.put_object({
   #   body: "HappyFace.jpg",
   #   bucket: "examplebucket",
   #   key: "HappyFace.jpg",
+  #   server_side_encryption: "AES256",
+  #   storage_class: "STANDARD_IA",
   #   })
   #
   #   resp.to_h outputs the following:
   #   {
   #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
-  #   version_id: "tpf3zF08nBplQK1XLOefGskR7mGDwcDk",
+  #   server_side_encryption: "AES256",
+  #   version_id: "CG612hodqujkf8FaaNfp8U..FIhLROcp",
   #   }
   # @example Example: To upload an object and specify optional tags
   #
@@ -13553,45 +13571,6 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
   #   server_side_encryption: "AES256",
   #   version_id: "Ri.vC6qVlA4dEnjgRV4ZHsHoFIjqEMNt",
-  #   }
-  # @example Example: To upload an object (specify optional headers)
-  #
-  #   # The following example uploads an object. The request specifies optional request headers to directs S3 to use specific
-  #   # storage class and use server-side encryption.
-  #
-  #   resp = client.put_object({
-  #   body: "HappyFace.jpg",
-  #   bucket: "examplebucket",
-  #   key: "HappyFace.jpg",
-  #   server_side_encryption: "AES256",
-  #   storage_class: "STANDARD_IA",
-  #   })
-  #
-  #   resp.to_h outputs the following:
-  #   {
-  #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
-  #   server_side_encryption: "AES256",
-  #   version_id: "CG612hodqujkf8FaaNfp8U..FIhLROcp",
-  #   }
-  # @example Example: To upload object and specify user-defined metadata
-  #
-  #   # The following example creates an object. The request also specifies optional metadata. If the bucket is versioning
-  #   # enabled, S3 returns version ID in response.
-  #
-  #   resp = client.put_object({
-  #   body: "filetoupload",
-  #   bucket: "examplebucket",
-  #   key: "exampleobject",
-  #   metadata: {
-  #   "metadata1" => "value1",
-  #   "metadata2" => "value2",
-  #   },
-  #   })
-  #
-  #   resp.to_h outputs the following:
-  #   {
-  #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
-  #   version_id: "pSKidl4pHBiNwukdbcPXAIs.sshFFOc0",
   #   }
   # @example Streaming a file from disk
   #   # upload file from disk in a single request, may not exceed 5GB
@@ -13716,7 +13695,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::PutObjectOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObject AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#16555
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#16569
   def put_object(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -13963,7 +13942,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::PutObjectAclOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectAcl AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#16925
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#16939
   def put_object_acl(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -14011,7 +13990,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::PutObjectLegalHoldOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectLegalHold AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17044
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17058
   def put_object_legal_hold(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -14076,7 +14055,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::PutObjectLockConfigurationOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectLockConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17163
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17177
   def put_object_lock_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -14130,7 +14109,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::PutObjectRetentionOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectRetention AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17292
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17306
   def put_object_retention(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -14248,7 +14227,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::PutObjectTaggingOutput#version_id #version_id} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectTagging AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17491
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17505
   def put_object_tagging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -14314,16 +14293,12 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutPublicAccessBlock AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17599
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17613
   def put_public_access_block(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
   #
   #  </note>
-  #
-  # The `SELECT` job type for the RestoreObject operation is no longer
-  # available to new customers. Existing customers of Amazon S3 Select can
-  # continue to use the feature as usual. [Learn more][1]
   #
   # Restores an archived copy of an object back into Amazon S3
   #
@@ -14338,11 +14313,11 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # For more information about the `S3` structure in the request body, see
   # the following:
   #
-  # * [PutObject][2]
+  # * [PutObject][1]
   #
-  # * [Managing Access with ACLs][3] in the *Amazon S3 User Guide*
+  # * [Managing Access with ACLs][2] in the *Amazon S3 User Guide*
   #
-  # * [Protecting Data Using Server-Side Encryption][4] in the *Amazon S3
+  # * [Protecting Data Using Server-Side Encryption][3] in the *Amazon S3
   #   User Guide*
   #
   # Permissions
@@ -14351,8 +14326,8 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   `s3:RestoreObject` action. The bucket owner has this permission by
   #   default and can grant this permission to others. For more
   #   information about permissions, see [Permissions Related to Bucket
-  #   Subresource Operations][5] and [Managing Access Permissions to Your
-  #   Amazon S3 Resources][6] in the *Amazon S3 User Guide*.
+  #   Subresource Operations][4] and [Managing Access Permissions to Your
+  #   Amazon S3 Resources][5] in the *Amazon S3 User Guide*.
   #
   # Restoring objects
   #
@@ -14415,11 +14390,11 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #
   #   For more information about archive retrieval options and provisioned
   #   capacity for `Expedited` data access, see [Restoring Archived
-  #   Objects][7] in the *Amazon S3 User Guide*.
+  #   Objects][6] in the *Amazon S3 User Guide*.
   #
   #   You can use Amazon S3 restore speed upgrade to change the restore
   #   speed to a faster speed while it is in progress. For more
-  #   information, see [ Upgrading the speed of an in-progress restore][8]
+  #   information, see [ Upgrading the speed of an in-progress restore][7]
   #   in the *Amazon S3 User Guide*.
   #
   #   To get the status of object restoration, you can send a `HEAD`
@@ -14427,7 +14402,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   provides information about the restoration status, in the response.
   #   You can use Amazon S3 event notifications to notify you when a
   #   restore is initiated or completed. For more information, see
-  #   [Configuring Amazon S3 Event Notifications][9] in the *Amazon S3
+  #   [Configuring Amazon S3 Event Notifications][8] in the *Amazon S3
   #   User Guide*.
   #
   #   After restoring an archived object, you can update the restoration
@@ -14443,8 +14418,8 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   restore an object copy for 10 days, but the object is scheduled to
   #   expire in 3 days, Amazon S3 deletes the object in 3 days. For more
   #   information about lifecycle configuration, see
-  #   [PutBucketLifecycleConfiguration][10] and [Object Lifecycle
-  #   Management][11] in *Amazon S3 User Guide*.
+  #   [PutBucketLifecycleConfiguration][9] and [Object Lifecycle
+  #   Management][10] in *Amazon S3 User Guide*.
   #
   # Responses
   #
@@ -14482,24 +14457,23 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #
   # The following operations are related to `RestoreObject`:
   #
-  # * [PutBucketLifecycleConfiguration][10]
+  # * [PutBucketLifecycleConfiguration][9]
   #
-  # * [GetBucketNotificationConfiguration][12]
+  # * [GetBucketNotificationConfiguration][11]
   #
   #
   #
-  # [1]: http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/
-  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html
-  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html
-  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html#restoring-objects-upgrade-tier.title.html
-  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html
-  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html
-  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html
-  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketNotificationConfiguration.html
+  # [1]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html
+  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html
+  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html#restoring-objects-upgrade-tier.title.html
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html
+  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html
+  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html
+  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketNotificationConfiguration.html
   #
   # @example Example: To restore an archived object
   #
@@ -14629,16 +14603,12 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::RestoreObjectOutput#restore_output_path #restore_output_path} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RestoreObject AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17989
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17998
   def restore_object(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
   #
   #  </note>
-  #
-  # The SelectObjectContent operation is no longer available to new
-  # customers. Existing customers of Amazon S3 Select can continue to use
-  # the operation as usual. [Learn more][1]
   #
   # This action filters the contents of an Amazon S3 object based on a
   # simple structured query language (SQL) statement. In the request,
@@ -14651,7 +14621,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # This functionality is not supported for Amazon S3 on Outposts.
   #
   # For more information about Amazon S3 Select, see [Selecting Content
-  # from Objects][2] and [SELECT Command][3] in the *Amazon S3 User
+  # from Objects][1] and [SELECT Command][2] in the *Amazon S3 User
   # Guide*.
   #
   #
@@ -14661,7 +14631,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # : You must have the `s3:GetObject` permission for this
   #   operation. Amazon S3 Select does not support anonymous access. For
   #   more information about permissions, see [Specifying Permissions in a
-  #   Policy][4] in the *Amazon S3 User Guide*.
+  #   Policy][3] in the *Amazon S3 User Guide*.
   #
   # Object Data Formats
   #
@@ -14686,31 +14656,31 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #
   #     For objects that are encrypted with customer-provided encryption
   #     keys (SSE-C), you must use HTTPS, and you must use the headers
-  #     that are documented in the [GetObject][5]. For more information
+  #     that are documented in the [GetObject][4]. For more information
   #     about SSE-C, see [Server-Side Encryption (Using Customer-Provided
-  #     Encryption Keys)][6] in the *Amazon S3 User Guide*.
+  #     Encryption Keys)][5] in the *Amazon S3 User Guide*.
   #
   #     For objects that are encrypted with Amazon S3 managed keys
   #     (SSE-S3) and Amazon Web Services KMS keys (SSE-KMS), server-side
   #     encryption is handled transparently, so you don't need to specify
   #     anything. For more information about server-side encryption,
   #     including SSE-S3 and SSE-KMS, see [Protecting Data Using
-  #     Server-Side Encryption][7] in the *Amazon S3 User Guide*.
+  #     Server-Side Encryption][6] in the *Amazon S3 User Guide*.
   #
   # Working with the Response Body
   #
   # : Given the response size is unknown, Amazon S3 Select streams the
   #   response as a series of messages and includes a `Transfer-Encoding`
   #   header with `chunked` as its value in the response. For more
-  #   information, see [Appendix: SelectObjectContent Response][8].
+  #   information, see [Appendix: SelectObjectContent Response][7].
   #
   # GetObject Support
   #
   # : The `SelectObjectContent` action does not support the following
-  #   `GetObject` functionality. For more information, see [GetObject][5].
+  #   `GetObject` functionality. For more information, see [GetObject][4].
   #
   #   * `Range`: Although you can specify a scan range for an Amazon S3
-  #     Select request (see [SelectObjectContentRequest - ScanRange][9] in
+  #     Select request (see [SelectObjectContentRequest - ScanRange][8] in
   #     the request parameters), you cannot specify the range of bytes of
   #     an object to return.
   #
@@ -14721,37 +14691,36 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     storage classes, nor objects in the `ARCHIVE_ACCESS` or
   #     `DEEP_ARCHIVE_ACCESS` access tiers of the `INTELLIGENT_TIERING`
   #     storage class. For more information about storage classes, see
-  #     [Using Amazon S3 storage classes][10] in the *Amazon S3 User
+  #     [Using Amazon S3 storage classes][9] in the *Amazon S3 User
   #     Guide*.
   #
   # Special Errors
   #
   # : For a list of special errors for this operation, see [List of SELECT
-  #   Object Content Error Codes][11]
+  #   Object Content Error Codes][10]
   #
   # The following operations are related to `SelectObjectContent`:
   #
-  # * [GetObject][5]
+  # * [GetObject][4]
   #
-  # * [GetBucketLifecycleConfiguration][12]
+  # * [GetBucketLifecycleConfiguration][11]
   #
-  # * [PutBucketLifecycleConfiguration][13]
+  # * [PutBucketLifecycleConfiguration][12]
   #
   #
   #
-  # [1]: http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/
-  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/dev/selecting-content-from-objects.html
-  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-glacier-select-sql-reference-select.html
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html
-  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/RESTSelectObjectAppendix.html
-  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_SelectObjectContent.html#AmazonS3-SelectObjectContent-request-ScanRange
-  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html
-  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#SelectObjectContentErrorCodeList
-  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html
-  # [13]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html
+  # [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/selecting-content-from-objects.html
+  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-glacier-select-sql-reference-select.html
+  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/RESTSelectObjectAppendix.html
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_SelectObjectContent.html#AmazonS3-SelectObjectContent-request-ScanRange
+  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html
+  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#SelectObjectContentErrorCodeList
+  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html
+  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html
   #
   # @example EventStream Operation Example
   #
@@ -14962,7 +14931,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SelectObjectContent AWS API Documentation
   # @yield [event_stream_handler]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#18391
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#18395
   def select_object_content(params = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # Uploads a part in a multipart upload.
@@ -15238,7 +15207,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::UploadPartOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/UploadPart AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#18861
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#18865
   def upload_part(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Uploads a part by copying data from an existing object as data source.
@@ -15435,25 +15404,6 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # [18]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html
   # [19]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html
   #
-  # @example Example: To upload a part by copying data from an existing object as data source
-  #
-  #   # The following example uploads a part of a multipart upload by copying data from an existing object as data source.
-  #
-  #   resp = client.upload_part_copy({
-  #   bucket: "examplebucket",
-  #   copy_source: "/bucketname/sourceobjectkey",
-  #   key: "examplelargeobject",
-  #   part_number: 1,
-  #   upload_id: "exampleuoh_10OhKhT7YukE9bjzTPRiuaCotmZM_pFngJFir9OZNrSr5cWa3cq3LZSUsfjI4FI7PkP91We7Nrw--",
-  #   })
-  #
-  #   resp.to_h outputs the following:
-  #   {
-  #   copy_part_result: {
-  #   etag: "\"b0c6f0e7e054ab8fa2536a2677f8734d\"",
-  #   last_modified: Time.parse("2016-12-29T21:24:43.000Z"),
-  #   },
-  #   }
   # @example Example: To upload a part by copying byte range from an existing object as data source
   #
   #   # The following example uploads a part of a multipart upload by copying a specified byte range from an existing object as
@@ -15473,6 +15423,25 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   copy_part_result: {
   #   etag: "\"65d16d19e65a7508a51f043180edcc36\"",
   #   last_modified: Time.parse("2016-12-29T21:44:28.000Z"),
+  #   },
+  #   }
+  # @example Example: To upload a part by copying data from an existing object as data source
+  #
+  #   # The following example uploads a part of a multipart upload by copying data from an existing object as data source.
+  #
+  #   resp = client.upload_part_copy({
+  #   bucket: "examplebucket",
+  #   copy_source: "/bucketname/sourceobjectkey",
+  #   key: "examplelargeobject",
+  #   part_number: 1,
+  #   upload_id: "exampleuoh_10OhKhT7YukE9bjzTPRiuaCotmZM_pFngJFir9OZNrSr5cWa3cq3LZSUsfjI4FI7PkP91We7Nrw--",
+  #   })
+  #
+  #   resp.to_h outputs the following:
+  #   {
+  #   copy_part_result: {
+  #   etag: "\"b0c6f0e7e054ab8fa2536a2677f8734d\"",
+  #   last_modified: Time.parse("2016-12-29T21:24:43.000Z"),
   #   },
   #   }
   # @example Request syntax with placeholder values
@@ -15546,7 +15515,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::UploadPartCopyOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/UploadPartCopy AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19430
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19434
   def upload_part_copy(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Polls an API operation until a resource enters a desired state.
@@ -15638,13 +15607,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Boolean] Returns `true` if the waiter was successful.
   # @yield [w.waiter]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19939
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19943
   def wait_until(waiter_name, params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19947
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19951
   def waiter_names; end
 
   # <note markdown="1"> This operation is not supported by directory buckets.
@@ -15799,7 +15768,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/WriteGetObjectResponse AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19821
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19825
   def write_get_object_response(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   private
@@ -15807,21 +15776,21 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @param waiter_name [Symbol]
   # @param options [Hash] ({})
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19955
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19959
   def waiter(waiter_name, options = T.unsafe(nil)); end
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19964
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19968
   def waiters; end
 
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19979
+    # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19983
     def errors_module; end
 
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19976
+    # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19980
     def identifier; end
   end
 end
@@ -15835,7 +15804,7 @@ end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#2788
+# source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#2793
 Aws::S3::ClientApi::API = T.let(T.unsafe(nil), Seahorse::Model::Api)
 
 # @api private
@@ -16056,2831 +16025,2836 @@ Aws::S3::ClientApi::BucketName = T.let(T.unsafe(nil), Seahorse::Model::Shapes::S
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#60
-Aws::S3::ClientApi::BucketType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::BucketRegion = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#61
-Aws::S3::ClientApi::BucketVersioningStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::BucketType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#62
-Aws::S3::ClientApi::Buckets = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::BucketVersioningStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#63
-Aws::S3::ClientApi::BypassGovernanceRetention = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
+Aws::S3::ClientApi::Buckets = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#64
-Aws::S3::ClientApi::BytesProcessed = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::BypassGovernanceRetention = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#65
-Aws::S3::ClientApi::BytesReturned = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::BytesProcessed = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#66
-Aws::S3::ClientApi::BytesScanned = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::BytesReturned = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#67
-Aws::S3::ClientApi::CORSConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::BytesScanned = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#68
-Aws::S3::ClientApi::CORSRule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CORSConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#69
-Aws::S3::ClientApi::CORSRules = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::CORSRule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#70
-Aws::S3::ClientApi::CSVInput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CORSRules = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#71
-Aws::S3::ClientApi::CSVOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CSVInput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#72
-Aws::S3::ClientApi::CacheControl = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::CSVOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#73
-Aws::S3::ClientApi::Checksum = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CacheControl = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#74
-Aws::S3::ClientApi::ChecksumAlgorithm = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Checksum = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#75
-Aws::S3::ClientApi::ChecksumAlgorithmList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::ChecksumAlgorithm = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#76
-Aws::S3::ClientApi::ChecksumCRC32 = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ChecksumAlgorithmList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#77
-Aws::S3::ClientApi::ChecksumCRC32C = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ChecksumCRC32 = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#78
-Aws::S3::ClientApi::ChecksumMode = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ChecksumCRC32C = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#79
-Aws::S3::ClientApi::ChecksumSHA1 = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ChecksumMode = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#80
-Aws::S3::ClientApi::ChecksumSHA256 = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ChecksumSHA1 = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#81
-Aws::S3::ClientApi::CloudFunction = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ChecksumSHA256 = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#82
-Aws::S3::ClientApi::CloudFunctionConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CloudFunction = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#83
-Aws::S3::ClientApi::CloudFunctionInvocationRole = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::CloudFunctionConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#84
-Aws::S3::ClientApi::Code = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::CloudFunctionInvocationRole = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#85
-Aws::S3::ClientApi::Comments = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Code = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#86
-Aws::S3::ClientApi::CommonPrefix = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Comments = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#87
-Aws::S3::ClientApi::CommonPrefixList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::CommonPrefix = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#88
-Aws::S3::ClientApi::CompleteMultipartUploadOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CommonPrefixList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#89
-Aws::S3::ClientApi::CompleteMultipartUploadRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CompleteMultipartUploadOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#90
-Aws::S3::ClientApi::CompletedMultipartUpload = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CompleteMultipartUploadRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#91
-Aws::S3::ClientApi::CompletedPart = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CompletedMultipartUpload = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#92
-Aws::S3::ClientApi::CompletedPartList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::CompletedPart = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#93
-Aws::S3::ClientApi::CompressionType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::CompletedPartList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#94
-Aws::S3::ClientApi::Condition = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CompressionType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#95
-Aws::S3::ClientApi::ConfirmRemoveSelfBucketAccess = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
+Aws::S3::ClientApi::Condition = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#96
-Aws::S3::ClientApi::ContentDisposition = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ConfirmRemoveSelfBucketAccess = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#97
-Aws::S3::ClientApi::ContentEncoding = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ContentDisposition = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#98
-Aws::S3::ClientApi::ContentLanguage = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ContentEncoding = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#99
-Aws::S3::ClientApi::ContentLength = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::ContentLanguage = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#100
-Aws::S3::ClientApi::ContentMD5 = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ContentLength = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#101
-Aws::S3::ClientApi::ContentRange = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ContentMD5 = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#102
-Aws::S3::ClientApi::ContentType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ContentRange = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#103
-Aws::S3::ClientApi::ContinuationEvent = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ContentType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#104
-Aws::S3::ClientApi::CopyObjectOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ContinuationEvent = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#105
-Aws::S3::ClientApi::CopyObjectRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CopyObjectOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#106
-Aws::S3::ClientApi::CopyObjectResult = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CopyObjectRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#107
-Aws::S3::ClientApi::CopyPartResult = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CopyObjectResult = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#108
-Aws::S3::ClientApi::CopySource = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::CopyPartResult = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#109
-Aws::S3::ClientApi::CopySourceIfMatch = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::CopySource = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#110
-Aws::S3::ClientApi::CopySourceIfModifiedSince = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
+Aws::S3::ClientApi::CopySourceIfMatch = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#111
-Aws::S3::ClientApi::CopySourceIfNoneMatch = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::CopySourceIfModifiedSince = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#112
-Aws::S3::ClientApi::CopySourceIfUnmodifiedSince = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
+Aws::S3::ClientApi::CopySourceIfNoneMatch = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#113
-Aws::S3::ClientApi::CopySourceRange = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::CopySourceIfUnmodifiedSince = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#114
-Aws::S3::ClientApi::CopySourceSSECustomerAlgorithm = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::CopySourceRange = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#115
-Aws::S3::ClientApi::CopySourceSSECustomerKey = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::CopySourceSSECustomerAlgorithm = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#116
-Aws::S3::ClientApi::CopySourceSSECustomerKeyMD5 = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::CopySourceSSECustomerKey = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#117
-Aws::S3::ClientApi::CopySourceVersionId = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::CopySourceSSECustomerKeyMD5 = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#118
-Aws::S3::ClientApi::CreateBucketConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CopySourceVersionId = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#119
-Aws::S3::ClientApi::CreateBucketOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CreateBucketConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#120
-Aws::S3::ClientApi::CreateBucketRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CreateBucketOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#121
-Aws::S3::ClientApi::CreateMultipartUploadOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CreateBucketRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#122
-Aws::S3::ClientApi::CreateMultipartUploadRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CreateMultipartUploadOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#123
-Aws::S3::ClientApi::CreateSessionOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CreateMultipartUploadRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#124
-Aws::S3::ClientApi::CreateSessionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::CreateSessionOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#125
-Aws::S3::ClientApi::CreationDate = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
+Aws::S3::ClientApi::CreateSessionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#126
-Aws::S3::ClientApi::DataRedundancy = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::CreationDate = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#127
-Aws::S3::ClientApi::Date = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
+Aws::S3::ClientApi::DataRedundancy = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#128
-Aws::S3::ClientApi::Days = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::Date = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#129
-Aws::S3::ClientApi::DaysAfterInitiation = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::Days = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#130
-Aws::S3::ClientApi::DefaultRetention = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DaysAfterInitiation = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#131
-Aws::S3::ClientApi::Delete = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DefaultRetention = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#132
-Aws::S3::ClientApi::DeleteBucketAnalyticsConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Delete = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#133
-Aws::S3::ClientApi::DeleteBucketCorsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteBucketAnalyticsConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#134
-Aws::S3::ClientApi::DeleteBucketEncryptionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteBucketCorsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#135
-Aws::S3::ClientApi::DeleteBucketIntelligentTieringConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteBucketEncryptionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#136
-Aws::S3::ClientApi::DeleteBucketInventoryConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteBucketIntelligentTieringConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#137
-Aws::S3::ClientApi::DeleteBucketLifecycleRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteBucketInventoryConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#138
-Aws::S3::ClientApi::DeleteBucketMetricsConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteBucketLifecycleRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#139
-Aws::S3::ClientApi::DeleteBucketOwnershipControlsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteBucketMetricsConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#140
-Aws::S3::ClientApi::DeleteBucketPolicyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteBucketOwnershipControlsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#141
-Aws::S3::ClientApi::DeleteBucketReplicationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteBucketPolicyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#142
-Aws::S3::ClientApi::DeleteBucketRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteBucketReplicationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#143
-Aws::S3::ClientApi::DeleteBucketTaggingRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteBucketRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#144
-Aws::S3::ClientApi::DeleteBucketWebsiteRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteBucketTaggingRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#145
-Aws::S3::ClientApi::DeleteMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
+Aws::S3::ClientApi::DeleteBucketWebsiteRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#146
-Aws::S3::ClientApi::DeleteMarkerEntry = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#147
-Aws::S3::ClientApi::DeleteMarkerReplication = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteMarkerEntry = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#148
-Aws::S3::ClientApi::DeleteMarkerReplicationStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::DeleteMarkerReplication = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#149
-Aws::S3::ClientApi::DeleteMarkerVersionId = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::DeleteMarkerReplicationStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#150
-Aws::S3::ClientApi::DeleteMarkers = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::DeleteMarkerVersionId = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#151
-Aws::S3::ClientApi::DeleteObjectOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteMarkers = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#152
-Aws::S3::ClientApi::DeleteObjectRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteObjectOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#153
-Aws::S3::ClientApi::DeleteObjectTaggingOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteObjectRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#154
-Aws::S3::ClientApi::DeleteObjectTaggingRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteObjectTaggingOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#155
-Aws::S3::ClientApi::DeleteObjectsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteObjectTaggingRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#156
-Aws::S3::ClientApi::DeleteObjectsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteObjectsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#157
-Aws::S3::ClientApi::DeletePublicAccessBlockRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeleteObjectsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#158
-Aws::S3::ClientApi::DeletedObject = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::DeletePublicAccessBlockRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#159
-Aws::S3::ClientApi::DeletedObjects = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::DeletedObject = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#160
-Aws::S3::ClientApi::Delimiter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::DeletedObjects = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#161
-Aws::S3::ClientApi::Description = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Delimiter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#162
-Aws::S3::ClientApi::Destination = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Description = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#163
-Aws::S3::ClientApi::DirectoryBucketToken = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Destination = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#164
-Aws::S3::ClientApi::DisplayName = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::DirectoryBucketToken = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#165
-Aws::S3::ClientApi::ETag = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::DisplayName = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#166
-Aws::S3::ClientApi::EmailAddress = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ETag = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#167
-Aws::S3::ClientApi::EnableRequestProgress = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
+Aws::S3::ClientApi::EmailAddress = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#168
-Aws::S3::ClientApi::EncodingType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::EnableRequestProgress = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#169
-Aws::S3::ClientApi::Encryption = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::EncodingType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#170
-Aws::S3::ClientApi::EncryptionConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Encryption = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#171
-Aws::S3::ClientApi::End = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::EncryptionConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#172
-Aws::S3::ClientApi::EndEvent = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::End = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#173
-Aws::S3::ClientApi::Error = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::EndEvent = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#174
-Aws::S3::ClientApi::ErrorCode = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Error = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#175
-Aws::S3::ClientApi::ErrorDocument = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ErrorCode = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#176
-Aws::S3::ClientApi::ErrorMessage = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ErrorDocument = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#177
-Aws::S3::ClientApi::Errors = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::ErrorMessage = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#178
-Aws::S3::ClientApi::Event = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Errors = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#179
-Aws::S3::ClientApi::EventBridgeConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Event = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#180
-Aws::S3::ClientApi::EventList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::EventBridgeConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#181
-Aws::S3::ClientApi::ExistingObjectReplication = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::EventList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#182
-Aws::S3::ClientApi::ExistingObjectReplicationStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ExistingObjectReplication = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#183
-Aws::S3::ClientApi::Expiration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ExistingObjectReplicationStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#184
-Aws::S3::ClientApi::ExpirationStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Expiration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#185
-Aws::S3::ClientApi::ExpiredObjectDeleteMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
+Aws::S3::ClientApi::ExpirationStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#186
-Aws::S3::ClientApi::Expires = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
+Aws::S3::ClientApi::ExpiredObjectDeleteMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#187
-Aws::S3::ClientApi::ExpiresString = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Expires = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#188
-Aws::S3::ClientApi::ExposeHeader = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ExpiresString = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#189
-Aws::S3::ClientApi::ExposeHeaders = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::ExposeHeader = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#190
-Aws::S3::ClientApi::Expression = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ExposeHeaders = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#191
-Aws::S3::ClientApi::ExpressionType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Expression = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#192
-Aws::S3::ClientApi::FetchOwner = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
+Aws::S3::ClientApi::ExpressionType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#193
-Aws::S3::ClientApi::FieldDelimiter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::FetchOwner = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#194
-Aws::S3::ClientApi::FileHeaderInfo = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::FieldDelimiter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#195
-Aws::S3::ClientApi::FilterRule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::FileHeaderInfo = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#196
-Aws::S3::ClientApi::FilterRuleList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::FilterRule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#197
-Aws::S3::ClientApi::FilterRuleName = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::FilterRuleList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#198
-Aws::S3::ClientApi::FilterRuleValue = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::FilterRuleName = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#199
-Aws::S3::ClientApi::GetBucketAccelerateConfigurationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::FilterRuleValue = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#200
-Aws::S3::ClientApi::GetBucketAccelerateConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketAccelerateConfigurationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#201
-Aws::S3::ClientApi::GetBucketAclOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketAccelerateConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#202
-Aws::S3::ClientApi::GetBucketAclRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketAclOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#203
-Aws::S3::ClientApi::GetBucketAnalyticsConfigurationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketAclRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#204
-Aws::S3::ClientApi::GetBucketAnalyticsConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketAnalyticsConfigurationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#205
-Aws::S3::ClientApi::GetBucketCorsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketAnalyticsConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#206
-Aws::S3::ClientApi::GetBucketCorsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketCorsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#207
-Aws::S3::ClientApi::GetBucketEncryptionOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketCorsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#208
-Aws::S3::ClientApi::GetBucketEncryptionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketEncryptionOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#209
-Aws::S3::ClientApi::GetBucketIntelligentTieringConfigurationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketEncryptionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#210
-Aws::S3::ClientApi::GetBucketIntelligentTieringConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketIntelligentTieringConfigurationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#211
-Aws::S3::ClientApi::GetBucketInventoryConfigurationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketIntelligentTieringConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#212
-Aws::S3::ClientApi::GetBucketInventoryConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketInventoryConfigurationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#213
-Aws::S3::ClientApi::GetBucketLifecycleConfigurationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketInventoryConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#214
-Aws::S3::ClientApi::GetBucketLifecycleConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketLifecycleConfigurationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#215
-Aws::S3::ClientApi::GetBucketLifecycleOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketLifecycleConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#216
-Aws::S3::ClientApi::GetBucketLifecycleRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketLifecycleOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#217
-Aws::S3::ClientApi::GetBucketLocationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketLifecycleRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#218
-Aws::S3::ClientApi::GetBucketLocationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketLocationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#219
-Aws::S3::ClientApi::GetBucketLoggingOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketLocationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#220
-Aws::S3::ClientApi::GetBucketLoggingRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketLoggingOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#221
-Aws::S3::ClientApi::GetBucketMetricsConfigurationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketLoggingRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#222
-Aws::S3::ClientApi::GetBucketMetricsConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketMetricsConfigurationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#223
-Aws::S3::ClientApi::GetBucketNotificationConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketMetricsConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#224
-Aws::S3::ClientApi::GetBucketOwnershipControlsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketNotificationConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#225
-Aws::S3::ClientApi::GetBucketOwnershipControlsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketOwnershipControlsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#226
-Aws::S3::ClientApi::GetBucketPolicyOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketOwnershipControlsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#227
-Aws::S3::ClientApi::GetBucketPolicyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketPolicyOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#228
-Aws::S3::ClientApi::GetBucketPolicyStatusOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketPolicyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#229
-Aws::S3::ClientApi::GetBucketPolicyStatusRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketPolicyStatusOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#230
-Aws::S3::ClientApi::GetBucketReplicationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketPolicyStatusRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#231
-Aws::S3::ClientApi::GetBucketReplicationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketReplicationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#232
-Aws::S3::ClientApi::GetBucketRequestPaymentOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketReplicationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#233
-Aws::S3::ClientApi::GetBucketRequestPaymentRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketRequestPaymentOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#234
-Aws::S3::ClientApi::GetBucketTaggingOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketRequestPaymentRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#235
-Aws::S3::ClientApi::GetBucketTaggingRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketTaggingOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#236
-Aws::S3::ClientApi::GetBucketVersioningOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketTaggingRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#237
-Aws::S3::ClientApi::GetBucketVersioningRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketVersioningOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#238
-Aws::S3::ClientApi::GetBucketWebsiteOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketVersioningRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#239
-Aws::S3::ClientApi::GetBucketWebsiteRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketWebsiteOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#240
-Aws::S3::ClientApi::GetObjectAclOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetBucketWebsiteRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#241
-Aws::S3::ClientApi::GetObjectAclRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetObjectAclOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#242
-Aws::S3::ClientApi::GetObjectAttributesOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetObjectAclRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#243
-Aws::S3::ClientApi::GetObjectAttributesParts = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetObjectAttributesOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#244
-Aws::S3::ClientApi::GetObjectAttributesRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetObjectAttributesParts = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#245
-Aws::S3::ClientApi::GetObjectLegalHoldOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetObjectAttributesRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#246
-Aws::S3::ClientApi::GetObjectLegalHoldRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetObjectLegalHoldOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#247
-Aws::S3::ClientApi::GetObjectLockConfigurationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetObjectLegalHoldRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#248
-Aws::S3::ClientApi::GetObjectLockConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetObjectLockConfigurationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#249
-Aws::S3::ClientApi::GetObjectOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetObjectLockConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#250
-Aws::S3::ClientApi::GetObjectRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetObjectOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#251
-Aws::S3::ClientApi::GetObjectResponseStatusCode = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::GetObjectRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#252
-Aws::S3::ClientApi::GetObjectRetentionOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetObjectResponseStatusCode = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#253
-Aws::S3::ClientApi::GetObjectRetentionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetObjectRetentionOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#254
-Aws::S3::ClientApi::GetObjectTaggingOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetObjectRetentionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#255
-Aws::S3::ClientApi::GetObjectTaggingRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetObjectTaggingOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#256
-Aws::S3::ClientApi::GetObjectTorrentOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetObjectTaggingRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#257
-Aws::S3::ClientApi::GetObjectTorrentRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetObjectTorrentOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#258
-Aws::S3::ClientApi::GetPublicAccessBlockOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetObjectTorrentRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#259
-Aws::S3::ClientApi::GetPublicAccessBlockRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetPublicAccessBlockOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#260
-Aws::S3::ClientApi::GlacierJobParameters = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GetPublicAccessBlockRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#261
-Aws::S3::ClientApi::Grant = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GlacierJobParameters = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#262
-Aws::S3::ClientApi::GrantFullControl = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Grant = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#263
-Aws::S3::ClientApi::GrantRead = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::GrantFullControl = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#264
-Aws::S3::ClientApi::GrantReadACP = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::GrantRead = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#265
-Aws::S3::ClientApi::GrantWrite = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::GrantReadACP = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#266
-Aws::S3::ClientApi::GrantWriteACP = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::GrantWrite = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#267
-Aws::S3::ClientApi::Grantee = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::GrantWriteACP = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#268
-Aws::S3::ClientApi::Grants = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::Grantee = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#269
-Aws::S3::ClientApi::HeadBucketOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Grants = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#270
-Aws::S3::ClientApi::HeadBucketRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::HeadBucketOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#271
-Aws::S3::ClientApi::HeadObjectOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::HeadBucketRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#272
-Aws::S3::ClientApi::HeadObjectRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::HeadObjectOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#273
-Aws::S3::ClientApi::HostName = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::HeadObjectRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#274
-Aws::S3::ClientApi::HttpErrorCodeReturnedEquals = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::HostName = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#275
-Aws::S3::ClientApi::HttpRedirectCode = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::HttpErrorCodeReturnedEquals = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#276
-Aws::S3::ClientApi::ID = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::HttpRedirectCode = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#277
-Aws::S3::ClientApi::IfMatch = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ID = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#278
-Aws::S3::ClientApi::IfModifiedSince = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
+Aws::S3::ClientApi::IfMatch = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#279
-Aws::S3::ClientApi::IfNoneMatch = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::IfModifiedSince = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#280
-Aws::S3::ClientApi::IfUnmodifiedSince = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
+Aws::S3::ClientApi::IfNoneMatch = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#281
-Aws::S3::ClientApi::IndexDocument = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::IfUnmodifiedSince = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#282
-Aws::S3::ClientApi::Initiated = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
+Aws::S3::ClientApi::IndexDocument = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#283
-Aws::S3::ClientApi::Initiator = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Initiated = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#284
-Aws::S3::ClientApi::InputSerialization = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Initiator = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#285
-Aws::S3::ClientApi::IntelligentTieringAccessTier = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::InputSerialization = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#286
-Aws::S3::ClientApi::IntelligentTieringAndOperator = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::IntelligentTieringAccessTier = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#287
-Aws::S3::ClientApi::IntelligentTieringConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::IntelligentTieringAndOperator = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#288
-Aws::S3::ClientApi::IntelligentTieringConfigurationList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::IntelligentTieringConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#289
-Aws::S3::ClientApi::IntelligentTieringDays = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::IntelligentTieringConfigurationList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#290
-Aws::S3::ClientApi::IntelligentTieringFilter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::IntelligentTieringDays = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#291
-Aws::S3::ClientApi::IntelligentTieringId = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::IntelligentTieringFilter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#292
-Aws::S3::ClientApi::IntelligentTieringStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::IntelligentTieringId = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#293
-Aws::S3::ClientApi::InvalidObjectState = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::IntelligentTieringStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#294
-Aws::S3::ClientApi::InventoryConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::InvalidObjectState = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#295
-Aws::S3::ClientApi::InventoryConfigurationList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::InventoryConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#296
-Aws::S3::ClientApi::InventoryDestination = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::InventoryConfigurationList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#297
-Aws::S3::ClientApi::InventoryEncryption = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::InventoryDestination = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#298
-Aws::S3::ClientApi::InventoryFilter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::InventoryEncryption = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#299
-Aws::S3::ClientApi::InventoryFormat = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::InventoryFilter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#300
-Aws::S3::ClientApi::InventoryFrequency = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::InventoryFormat = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#301
-Aws::S3::ClientApi::InventoryId = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::InventoryFrequency = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#302
-Aws::S3::ClientApi::InventoryIncludedObjectVersions = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::InventoryId = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#303
-Aws::S3::ClientApi::InventoryOptionalField = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::InventoryIncludedObjectVersions = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#304
-Aws::S3::ClientApi::InventoryOptionalFields = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::InventoryOptionalField = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#305
-Aws::S3::ClientApi::InventoryS3BucketDestination = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::InventoryOptionalFields = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#306
-Aws::S3::ClientApi::InventorySchedule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::InventoryS3BucketDestination = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#307
-Aws::S3::ClientApi::IsEnabled = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
+Aws::S3::ClientApi::InventorySchedule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#308
-Aws::S3::ClientApi::IsLatest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
+Aws::S3::ClientApi::IsEnabled = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#309
-Aws::S3::ClientApi::IsPublic = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
+Aws::S3::ClientApi::IsLatest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#310
-Aws::S3::ClientApi::IsRestoreInProgress = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
+Aws::S3::ClientApi::IsPublic = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#311
-Aws::S3::ClientApi::IsTruncated = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
+Aws::S3::ClientApi::IsRestoreInProgress = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#312
-Aws::S3::ClientApi::JSONInput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::IsTruncated = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#313
-Aws::S3::ClientApi::JSONOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::JSONInput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#314
-Aws::S3::ClientApi::JSONType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::JSONOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#315
-Aws::S3::ClientApi::KMSContext = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::JSONType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#316
-Aws::S3::ClientApi::KeyCount = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::KMSContext = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#317
-Aws::S3::ClientApi::KeyMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::KeyCount = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#318
-Aws::S3::ClientApi::KeyPrefixEquals = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::KeyMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#319
-Aws::S3::ClientApi::LambdaFunctionArn = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::KeyPrefixEquals = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#320
-Aws::S3::ClientApi::LambdaFunctionConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::LambdaFunctionArn = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#321
-Aws::S3::ClientApi::LambdaFunctionConfigurationList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::LambdaFunctionConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#322
-Aws::S3::ClientApi::LastModified = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
+Aws::S3::ClientApi::LambdaFunctionConfigurationList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#323
-Aws::S3::ClientApi::LifecycleConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::LastModified = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#324
-Aws::S3::ClientApi::LifecycleExpiration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::LifecycleConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#325
-Aws::S3::ClientApi::LifecycleRule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::LifecycleExpiration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#326
-Aws::S3::ClientApi::LifecycleRuleAndOperator = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::LifecycleRule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#327
-Aws::S3::ClientApi::LifecycleRuleFilter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::LifecycleRuleAndOperator = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#328
-Aws::S3::ClientApi::LifecycleRules = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::LifecycleRuleFilter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#329
-Aws::S3::ClientApi::ListBucketAnalyticsConfigurationsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::LifecycleRules = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#330
-Aws::S3::ClientApi::ListBucketAnalyticsConfigurationsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListBucketAnalyticsConfigurationsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#331
-Aws::S3::ClientApi::ListBucketIntelligentTieringConfigurationsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListBucketAnalyticsConfigurationsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#332
-Aws::S3::ClientApi::ListBucketIntelligentTieringConfigurationsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListBucketIntelligentTieringConfigurationsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#333
-Aws::S3::ClientApi::ListBucketInventoryConfigurationsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListBucketIntelligentTieringConfigurationsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#334
-Aws::S3::ClientApi::ListBucketInventoryConfigurationsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListBucketInventoryConfigurationsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#335
-Aws::S3::ClientApi::ListBucketMetricsConfigurationsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListBucketInventoryConfigurationsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#336
-Aws::S3::ClientApi::ListBucketMetricsConfigurationsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListBucketMetricsConfigurationsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#337
-Aws::S3::ClientApi::ListBucketsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListBucketMetricsConfigurationsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#338
-Aws::S3::ClientApi::ListBucketsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListBucketsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#339
-Aws::S3::ClientApi::ListDirectoryBucketsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListBucketsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#340
-Aws::S3::ClientApi::ListDirectoryBucketsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListDirectoryBucketsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#341
-Aws::S3::ClientApi::ListMultipartUploadsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListDirectoryBucketsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#342
-Aws::S3::ClientApi::ListMultipartUploadsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListMultipartUploadsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#343
-Aws::S3::ClientApi::ListObjectVersionsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListMultipartUploadsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#344
-Aws::S3::ClientApi::ListObjectVersionsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListObjectVersionsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#345
-Aws::S3::ClientApi::ListObjectsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListObjectVersionsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#346
-Aws::S3::ClientApi::ListObjectsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListObjectsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#347
-Aws::S3::ClientApi::ListObjectsV2Output = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListObjectsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#348
-Aws::S3::ClientApi::ListObjectsV2Request = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListObjectsV2Output = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#349
-Aws::S3::ClientApi::ListPartsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListObjectsV2Request = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#350
-Aws::S3::ClientApi::ListPartsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ListPartsOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#351
-Aws::S3::ClientApi::Location = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ListPartsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#352
-Aws::S3::ClientApi::LocationInfo = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Location = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#353
-Aws::S3::ClientApi::LocationNameAsString = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::LocationInfo = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#354
-Aws::S3::ClientApi::LocationPrefix = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::LocationNameAsString = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#355
-Aws::S3::ClientApi::LocationType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::LocationPrefix = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#356
-Aws::S3::ClientApi::LoggingEnabled = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::LocationType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#357
-Aws::S3::ClientApi::MFA = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::LoggingEnabled = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#358
-Aws::S3::ClientApi::MFADelete = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::MFA = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#359
-Aws::S3::ClientApi::MFADeleteStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::MFADelete = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#360
-Aws::S3::ClientApi::Marker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::MFADeleteStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#361
-Aws::S3::ClientApi::MaxAgeSeconds = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::Marker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#362
-Aws::S3::ClientApi::MaxBuckets = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::MaxAgeSeconds = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#363
-Aws::S3::ClientApi::MaxDirectoryBuckets = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::MaxBuckets = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#364
-Aws::S3::ClientApi::MaxKeys = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::MaxDirectoryBuckets = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#365
-Aws::S3::ClientApi::MaxParts = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::MaxKeys = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#366
-Aws::S3::ClientApi::MaxUploads = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::MaxParts = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#367
-Aws::S3::ClientApi::Message = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::MaxUploads = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#368
-Aws::S3::ClientApi::Metadata = T.let(T.unsafe(nil), Seahorse::Model::Shapes::MapShape)
+Aws::S3::ClientApi::Message = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#369
-Aws::S3::ClientApi::MetadataDirective = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Metadata = T.let(T.unsafe(nil), Seahorse::Model::Shapes::MapShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#370
-Aws::S3::ClientApi::MetadataEntry = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::MetadataDirective = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#371
-Aws::S3::ClientApi::MetadataKey = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::MetadataEntry = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#372
-Aws::S3::ClientApi::MetadataValue = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::MetadataKey = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#373
-Aws::S3::ClientApi::Metrics = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::MetadataValue = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#374
-Aws::S3::ClientApi::MetricsAndOperator = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Metrics = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#375
-Aws::S3::ClientApi::MetricsConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::MetricsAndOperator = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#376
-Aws::S3::ClientApi::MetricsConfigurationList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::MetricsConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#377
-Aws::S3::ClientApi::MetricsFilter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::MetricsConfigurationList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#378
-Aws::S3::ClientApi::MetricsId = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::MetricsFilter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#379
-Aws::S3::ClientApi::MetricsStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::MetricsId = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#380
-Aws::S3::ClientApi::Minutes = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::MetricsStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#381
-Aws::S3::ClientApi::MissingMeta = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::Minutes = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#382
-Aws::S3::ClientApi::MultipartUpload = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::MissingMeta = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#383
-Aws::S3::ClientApi::MultipartUploadId = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::MultipartUpload = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#384
-Aws::S3::ClientApi::MultipartUploadList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::MultipartUploadId = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#385
-Aws::S3::ClientApi::NextKeyMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::MultipartUploadList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#386
-Aws::S3::ClientApi::NextMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::NextKeyMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#387
-Aws::S3::ClientApi::NextPartNumberMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::NextMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#388
-Aws::S3::ClientApi::NextToken = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::NextPartNumberMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#389
-Aws::S3::ClientApi::NextUploadIdMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::NextToken = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#390
-Aws::S3::ClientApi::NextVersionIdMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::NextUploadIdMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#391
-Aws::S3::ClientApi::NoSuchBucket = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::NextVersionIdMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#392
-Aws::S3::ClientApi::NoSuchKey = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::NoSuchBucket = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#393
-Aws::S3::ClientApi::NoSuchUpload = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::NoSuchKey = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#394
-Aws::S3::ClientApi::NoncurrentVersionExpiration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::NoSuchUpload = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#395
-Aws::S3::ClientApi::NoncurrentVersionTransition = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::NoncurrentVersionExpiration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#396
-Aws::S3::ClientApi::NoncurrentVersionTransitionList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::NoncurrentVersionTransition = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#397
-Aws::S3::ClientApi::NotificationConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::NoncurrentVersionTransitionList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#398
-Aws::S3::ClientApi::NotificationConfigurationDeprecated = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::NotificationConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#399
-Aws::S3::ClientApi::NotificationConfigurationFilter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::NotificationConfigurationDeprecated = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#400
-Aws::S3::ClientApi::NotificationId = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::NotificationConfigurationFilter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#401
-Aws::S3::ClientApi::Object = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::NotificationId = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#402
-Aws::S3::ClientApi::ObjectAlreadyInActiveTierError = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Object = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#403
-Aws::S3::ClientApi::ObjectAttributes = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ObjectAlreadyInActiveTierError = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#404
-Aws::S3::ClientApi::ObjectAttributesList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::ObjectAttributes = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#405
-Aws::S3::ClientApi::ObjectCannedACL = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ObjectAttributesList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#406
-Aws::S3::ClientApi::ObjectIdentifier = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ObjectCannedACL = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#407
-Aws::S3::ClientApi::ObjectIdentifierList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::ObjectIdentifier = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#408
-Aws::S3::ClientApi::ObjectKey = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ObjectIdentifierList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#409
-Aws::S3::ClientApi::ObjectList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::ObjectKey = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#410
-Aws::S3::ClientApi::ObjectLockConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ObjectList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#411
-Aws::S3::ClientApi::ObjectLockEnabled = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ObjectLockConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#412
-Aws::S3::ClientApi::ObjectLockEnabledForBucket = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
+Aws::S3::ClientApi::ObjectLockEnabled = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#413
-Aws::S3::ClientApi::ObjectLockLegalHold = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ObjectLockEnabledForBucket = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#414
-Aws::S3::ClientApi::ObjectLockLegalHoldStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ObjectLockLegalHold = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#415
-Aws::S3::ClientApi::ObjectLockMode = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ObjectLockLegalHoldStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#416
-Aws::S3::ClientApi::ObjectLockRetainUntilDate = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
+Aws::S3::ClientApi::ObjectLockMode = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#417
-Aws::S3::ClientApi::ObjectLockRetention = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ObjectLockRetainUntilDate = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#418
-Aws::S3::ClientApi::ObjectLockRetentionMode = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ObjectLockRetention = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#419
-Aws::S3::ClientApi::ObjectLockRule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ObjectLockRetentionMode = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#420
-Aws::S3::ClientApi::ObjectLockToken = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ObjectLockRule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#421
-Aws::S3::ClientApi::ObjectNotInActiveTierError = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ObjectLockToken = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#422
-Aws::S3::ClientApi::ObjectOwnership = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ObjectNotInActiveTierError = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#423
-Aws::S3::ClientApi::ObjectPart = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ObjectOwnership = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#424
-Aws::S3::ClientApi::ObjectSize = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::ObjectPart = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#425
-Aws::S3::ClientApi::ObjectSizeGreaterThanBytes = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::ObjectSize = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#426
-Aws::S3::ClientApi::ObjectSizeLessThanBytes = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::ObjectSizeGreaterThanBytes = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#427
-Aws::S3::ClientApi::ObjectStorageClass = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ObjectSizeLessThanBytes = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#428
-Aws::S3::ClientApi::ObjectVersion = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ObjectStorageClass = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#429
-Aws::S3::ClientApi::ObjectVersionId = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ObjectVersion = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#430
-Aws::S3::ClientApi::ObjectVersionList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::ObjectVersionId = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#431
-Aws::S3::ClientApi::ObjectVersionStorageClass = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ObjectVersionList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#432
-Aws::S3::ClientApi::OptionalObjectAttributes = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ObjectVersionStorageClass = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#433
-Aws::S3::ClientApi::OptionalObjectAttributesList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::OptionalObjectAttributes = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#434
-Aws::S3::ClientApi::OutputLocation = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::OptionalObjectAttributesList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#435
-Aws::S3::ClientApi::OutputSerialization = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::OutputLocation = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#436
-Aws::S3::ClientApi::Owner = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::OutputSerialization = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#437
-Aws::S3::ClientApi::OwnerOverride = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Owner = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#438
-Aws::S3::ClientApi::OwnershipControls = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::OwnerOverride = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#439
-Aws::S3::ClientApi::OwnershipControlsRule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::OwnershipControls = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#440
-Aws::S3::ClientApi::OwnershipControlsRules = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::OwnershipControlsRule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#441
-Aws::S3::ClientApi::ParquetInput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::OwnershipControlsRules = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#442
-Aws::S3::ClientApi::Part = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ParquetInput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#443
-Aws::S3::ClientApi::PartNumber = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::Part = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#444
-Aws::S3::ClientApi::PartNumberMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::PartNumber = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#445
-Aws::S3::ClientApi::PartitionDateSource = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::PartNumberMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#446
-Aws::S3::ClientApi::PartitionedPrefix = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PartitionDateSource = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#447
-Aws::S3::ClientApi::Parts = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::PartitionedPrefix = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#448
-Aws::S3::ClientApi::PartsCount = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::Parts = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#449
-Aws::S3::ClientApi::PartsList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::PartsCount = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#450
-Aws::S3::ClientApi::Payer = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::PartsList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#451
-Aws::S3::ClientApi::Permission = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Payer = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#452
-Aws::S3::ClientApi::Policy = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Permission = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#453
-Aws::S3::ClientApi::PolicyStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Policy = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#454
-Aws::S3::ClientApi::Prefix = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::PolicyStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#455
-Aws::S3::ClientApi::Priority = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::Prefix = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#456
-Aws::S3::ClientApi::Progress = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Priority = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#457
-Aws::S3::ClientApi::ProgressEvent = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Progress = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#458
-Aws::S3::ClientApi::Protocol = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ProgressEvent = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#459
-Aws::S3::ClientApi::PublicAccessBlockConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Protocol = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#460
-Aws::S3::ClientApi::PutBucketAccelerateConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PublicAccessBlockConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#461
-Aws::S3::ClientApi::PutBucketAclRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketAccelerateConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#462
-Aws::S3::ClientApi::PutBucketAnalyticsConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketAclRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#463
-Aws::S3::ClientApi::PutBucketCorsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketAnalyticsConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#464
-Aws::S3::ClientApi::PutBucketEncryptionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketCorsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#465
-Aws::S3::ClientApi::PutBucketIntelligentTieringConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketEncryptionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#466
-Aws::S3::ClientApi::PutBucketInventoryConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketIntelligentTieringConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#467
-Aws::S3::ClientApi::PutBucketLifecycleConfigurationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketInventoryConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#468
-Aws::S3::ClientApi::PutBucketLifecycleConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketLifecycleConfigurationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#469
-Aws::S3::ClientApi::PutBucketLifecycleRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketLifecycleConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#470
-Aws::S3::ClientApi::PutBucketLoggingRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketLifecycleRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#471
-Aws::S3::ClientApi::PutBucketMetricsConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketLoggingRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#472
-Aws::S3::ClientApi::PutBucketNotificationConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketMetricsConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#473
-Aws::S3::ClientApi::PutBucketNotificationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketNotificationConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#474
-Aws::S3::ClientApi::PutBucketOwnershipControlsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketNotificationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#475
-Aws::S3::ClientApi::PutBucketPolicyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketOwnershipControlsRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#476
-Aws::S3::ClientApi::PutBucketReplicationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketPolicyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#477
-Aws::S3::ClientApi::PutBucketRequestPaymentRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketReplicationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#478
-Aws::S3::ClientApi::PutBucketTaggingRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketRequestPaymentRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#479
-Aws::S3::ClientApi::PutBucketVersioningRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketTaggingRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#480
-Aws::S3::ClientApi::PutBucketWebsiteRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketVersioningRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#481
-Aws::S3::ClientApi::PutObjectAclOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutBucketWebsiteRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#482
-Aws::S3::ClientApi::PutObjectAclRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutObjectAclOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#483
-Aws::S3::ClientApi::PutObjectLegalHoldOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutObjectAclRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#484
-Aws::S3::ClientApi::PutObjectLegalHoldRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutObjectLegalHoldOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#485
-Aws::S3::ClientApi::PutObjectLockConfigurationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutObjectLegalHoldRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#486
-Aws::S3::ClientApi::PutObjectLockConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutObjectLockConfigurationOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#487
-Aws::S3::ClientApi::PutObjectOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutObjectLockConfigurationRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#488
-Aws::S3::ClientApi::PutObjectRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutObjectOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#489
-Aws::S3::ClientApi::PutObjectRetentionOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutObjectRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#490
-Aws::S3::ClientApi::PutObjectRetentionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutObjectRetentionOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#491
-Aws::S3::ClientApi::PutObjectTaggingOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutObjectRetentionRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#492
-Aws::S3::ClientApi::PutObjectTaggingRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutObjectTaggingOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#493
-Aws::S3::ClientApi::PutPublicAccessBlockRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::PutObjectTaggingRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#494
-Aws::S3::ClientApi::QueueArn = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::PutPublicAccessBlockRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#495
-Aws::S3::ClientApi::QueueConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::QueueArn = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#496
-Aws::S3::ClientApi::QueueConfigurationDeprecated = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::QueueConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#497
-Aws::S3::ClientApi::QueueConfigurationList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::QueueConfigurationDeprecated = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#498
-Aws::S3::ClientApi::Quiet = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
+Aws::S3::ClientApi::QueueConfigurationList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#499
-Aws::S3::ClientApi::QuoteCharacter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Quiet = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#500
-Aws::S3::ClientApi::QuoteEscapeCharacter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::QuoteCharacter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#501
-Aws::S3::ClientApi::QuoteFields = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::QuoteEscapeCharacter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#502
-Aws::S3::ClientApi::Range = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::QuoteFields = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#503
-Aws::S3::ClientApi::RecordDelimiter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Range = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#504
-Aws::S3::ClientApi::RecordsEvent = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::RecordDelimiter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#505
-Aws::S3::ClientApi::Redirect = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::RecordsEvent = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#506
-Aws::S3::ClientApi::RedirectAllRequestsTo = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Redirect = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#507
-Aws::S3::ClientApi::Region = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::RedirectAllRequestsTo = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#508
-Aws::S3::ClientApi::ReplaceKeyPrefixWith = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Region = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#509
-Aws::S3::ClientApi::ReplaceKeyWith = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ReplaceKeyPrefixWith = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#510
-Aws::S3::ClientApi::ReplicaKmsKeyID = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ReplaceKeyWith = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#511
-Aws::S3::ClientApi::ReplicaModifications = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ReplicaKmsKeyID = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#512
-Aws::S3::ClientApi::ReplicaModificationsStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ReplicaModifications = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#513
-Aws::S3::ClientApi::ReplicationConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ReplicaModificationsStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#514
-Aws::S3::ClientApi::ReplicationRule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ReplicationConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#515
-Aws::S3::ClientApi::ReplicationRuleAndOperator = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ReplicationRule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#516
-Aws::S3::ClientApi::ReplicationRuleFilter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ReplicationRuleAndOperator = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#517
-Aws::S3::ClientApi::ReplicationRuleStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ReplicationRuleFilter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#518
-Aws::S3::ClientApi::ReplicationRules = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::ReplicationRuleStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#519
-Aws::S3::ClientApi::ReplicationStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ReplicationRules = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#520
-Aws::S3::ClientApi::ReplicationTime = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ReplicationStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#521
-Aws::S3::ClientApi::ReplicationTimeStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ReplicationTime = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#522
-Aws::S3::ClientApi::ReplicationTimeValue = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ReplicationTimeStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#523
-Aws::S3::ClientApi::RequestCharged = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ReplicationTimeValue = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#524
-Aws::S3::ClientApi::RequestPayer = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::RequestCharged = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#525
-Aws::S3::ClientApi::RequestPaymentConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::RequestPayer = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#526
-Aws::S3::ClientApi::RequestProgress = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::RequestPaymentConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#527
-Aws::S3::ClientApi::RequestRoute = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::RequestProgress = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#528
-Aws::S3::ClientApi::RequestToken = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::RequestRoute = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#529
-Aws::S3::ClientApi::ResponseCacheControl = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::RequestToken = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#530
-Aws::S3::ClientApi::ResponseContentDisposition = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ResponseCacheControl = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#531
-Aws::S3::ClientApi::ResponseContentEncoding = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ResponseContentDisposition = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#532
-Aws::S3::ClientApi::ResponseContentLanguage = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ResponseContentEncoding = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#533
-Aws::S3::ClientApi::ResponseContentType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ResponseContentLanguage = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#534
-Aws::S3::ClientApi::ResponseExpires = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
+Aws::S3::ClientApi::ResponseContentType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#535
-Aws::S3::ClientApi::Restore = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ResponseExpires = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#536
-Aws::S3::ClientApi::RestoreExpiryDate = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
+Aws::S3::ClientApi::Restore = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#537
-Aws::S3::ClientApi::RestoreObjectOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::RestoreExpiryDate = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#538
-Aws::S3::ClientApi::RestoreObjectRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::RestoreObjectOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#539
-Aws::S3::ClientApi::RestoreOutputPath = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::RestoreObjectRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#540
-Aws::S3::ClientApi::RestoreRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::RestoreOutputPath = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#541
-Aws::S3::ClientApi::RestoreRequestType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::RestoreRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#542
-Aws::S3::ClientApi::RestoreStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::RestoreRequestType = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#543
-Aws::S3::ClientApi::Role = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::RestoreStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#544
-Aws::S3::ClientApi::RoutingRule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Role = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#545
-Aws::S3::ClientApi::RoutingRules = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::RoutingRule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#546
-Aws::S3::ClientApi::Rule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::RoutingRules = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#547
-Aws::S3::ClientApi::Rules = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::Rule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#548
-Aws::S3::ClientApi::S3KeyFilter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Rules = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#549
-Aws::S3::ClientApi::S3Location = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::S3KeyFilter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#550
-Aws::S3::ClientApi::SSECustomerAlgorithm = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::S3Location = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#551
-Aws::S3::ClientApi::SSECustomerKey = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::SSECustomerAlgorithm = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#552
-Aws::S3::ClientApi::SSECustomerKeyMD5 = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::SSECustomerKey = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#553
-Aws::S3::ClientApi::SSEKMS = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::SSECustomerKeyMD5 = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#554
-Aws::S3::ClientApi::SSEKMSEncryptionContext = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::SSEKMS = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#555
-Aws::S3::ClientApi::SSEKMSKeyId = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::SSEKMSEncryptionContext = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#556
-Aws::S3::ClientApi::SSES3 = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::SSEKMSKeyId = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#557
-Aws::S3::ClientApi::ScanRange = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::SSES3 = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#558
-Aws::S3::ClientApi::SelectObjectContentEventStream = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ScanRange = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#559
-Aws::S3::ClientApi::SelectObjectContentOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::SelectObjectContentEventStream = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#560
-Aws::S3::ClientApi::SelectObjectContentRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::SelectObjectContentOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#561
-Aws::S3::ClientApi::SelectParameters = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::SelectObjectContentRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#562
-Aws::S3::ClientApi::ServerSideEncryption = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::SelectParameters = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#563
-Aws::S3::ClientApi::ServerSideEncryptionByDefault = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ServerSideEncryption = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#564
-Aws::S3::ClientApi::ServerSideEncryptionConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ServerSideEncryptionByDefault = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#565
-Aws::S3::ClientApi::ServerSideEncryptionRule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::ServerSideEncryptionConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#566
-Aws::S3::ClientApi::ServerSideEncryptionRules = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::ServerSideEncryptionRule = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#567
-Aws::S3::ClientApi::SessionCredentialValue = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::ServerSideEncryptionRules = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#568
-Aws::S3::ClientApi::SessionCredentials = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::SessionCredentialValue = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#569
-Aws::S3::ClientApi::SessionExpiration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
+Aws::S3::ClientApi::SessionCredentials = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#570
-Aws::S3::ClientApi::SessionMode = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::SessionExpiration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::TimestampShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#571
-Aws::S3::ClientApi::Setting = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
+Aws::S3::ClientApi::SessionMode = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#572
-Aws::S3::ClientApi::SimplePrefix = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Setting = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#573
-Aws::S3::ClientApi::Size = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::SimplePrefix = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#574
-Aws::S3::ClientApi::SkipValidation = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
+Aws::S3::ClientApi::Size = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#575
-Aws::S3::ClientApi::SourceSelectionCriteria = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::SkipValidation = T.let(T.unsafe(nil), Seahorse::Model::Shapes::BooleanShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#576
-Aws::S3::ClientApi::SseKmsEncryptedObjects = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::SourceSelectionCriteria = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#577
-Aws::S3::ClientApi::SseKmsEncryptedObjectsStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::SseKmsEncryptedObjects = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#578
-Aws::S3::ClientApi::Start = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::SseKmsEncryptedObjectsStatus = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#579
-Aws::S3::ClientApi::StartAfter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Start = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#580
-Aws::S3::ClientApi::Stats = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::StartAfter = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#581
-Aws::S3::ClientApi::StatsEvent = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Stats = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#582
-Aws::S3::ClientApi::StorageClass = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::StatsEvent = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#583
-Aws::S3::ClientApi::StorageClassAnalysis = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::StorageClass = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#584
-Aws::S3::ClientApi::StorageClassAnalysisDataExport = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::StorageClassAnalysis = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#585
-Aws::S3::ClientApi::StorageClassAnalysisSchemaVersion = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::StorageClassAnalysisDataExport = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#586
-Aws::S3::ClientApi::Suffix = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::StorageClassAnalysisSchemaVersion = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#587
-Aws::S3::ClientApi::Tag = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Suffix = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#588
-Aws::S3::ClientApi::TagCount = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::Tag = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#589
-Aws::S3::ClientApi::TagSet = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::TagCount = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#590
-Aws::S3::ClientApi::Tagging = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::TagSet = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#591
-Aws::S3::ClientApi::TaggingDirective = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Tagging = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#592
-Aws::S3::ClientApi::TaggingHeader = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::TaggingDirective = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#593
-Aws::S3::ClientApi::TargetBucket = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::TaggingHeader = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#594
-Aws::S3::ClientApi::TargetGrant = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::TargetBucket = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#595
-Aws::S3::ClientApi::TargetGrants = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::TargetGrant = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#596
-Aws::S3::ClientApi::TargetObjectKeyFormat = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::TargetGrants = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#597
-Aws::S3::ClientApi::TargetPrefix = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::TargetObjectKeyFormat = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#598
-Aws::S3::ClientApi::Tier = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::TargetPrefix = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#599
-Aws::S3::ClientApi::Tiering = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::Tier = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#600
-Aws::S3::ClientApi::TieringList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::Tiering = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#601
-Aws::S3::ClientApi::Token = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::TieringList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#602
-Aws::S3::ClientApi::TopicArn = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Token = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#603
-Aws::S3::ClientApi::TopicConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::TopicArn = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#604
-Aws::S3::ClientApi::TopicConfigurationDeprecated = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::TopicConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#605
-Aws::S3::ClientApi::TopicConfigurationList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::TopicConfigurationDeprecated = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#606
-Aws::S3::ClientApi::Transition = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::TopicConfigurationList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#607
-Aws::S3::ClientApi::TransitionDefaultMinimumObjectSize = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Transition = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#608
-Aws::S3::ClientApi::TransitionList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::TransitionDefaultMinimumObjectSize = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#609
-Aws::S3::ClientApi::TransitionStorageClass = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::TransitionList = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#610
-Aws::S3::ClientApi::Type = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::TransitionStorageClass = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#611
-Aws::S3::ClientApi::URI = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::Type = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#612
-Aws::S3::ClientApi::UploadIdMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::URI = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#613
-Aws::S3::ClientApi::UploadPartCopyOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::UploadIdMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#614
-Aws::S3::ClientApi::UploadPartCopyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::UploadPartCopyOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#615
-Aws::S3::ClientApi::UploadPartOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::UploadPartCopyRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#616
-Aws::S3::ClientApi::UploadPartRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::UploadPartOutput = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#617
-Aws::S3::ClientApi::UserMetadata = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
+Aws::S3::ClientApi::UploadPartRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#618
-Aws::S3::ClientApi::Value = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::UserMetadata = T.let(T.unsafe(nil), Seahorse::Model::Shapes::ListShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#619
-Aws::S3::ClientApi::VersionCount = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
+Aws::S3::ClientApi::Value = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#620
-Aws::S3::ClientApi::VersionIdMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::VersionCount = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#621
-Aws::S3::ClientApi::VersioningConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::VersionIdMarker = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#622
-Aws::S3::ClientApi::WebsiteConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::VersioningConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#623
-Aws::S3::ClientApi::WebsiteRedirectLocation = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
+Aws::S3::ClientApi::WebsiteConfiguration = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#624
-Aws::S3::ClientApi::WriteGetObjectResponseRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+Aws::S3::ClientApi::WebsiteRedirectLocation = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StringShape)
 
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#625
+Aws::S3::ClientApi::WriteGetObjectResponseRequest = T.let(T.unsafe(nil), Seahorse::Model::Shapes::StructureShape)
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/client_api.rb#626
 Aws::S3::ClientApi::Years = T.let(T.unsafe(nil), Seahorse::Model::Shapes::IntegerShape)
 
 # source://aws-sdk-s3//lib/aws-sdk-s3/encryption.rb#21
@@ -19090,7 +19064,7 @@ class Aws::S3::Encryption::Client
   # @param options [Hash] a customizable set of options
   # @return [Client] a new instance of Client
   #
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def initialize(*args, &block); end
 
   # source://forwardable/1.3.3/forwardable.rb#231
@@ -21097,6 +21071,10 @@ class Aws::S3::EndpointParameters < ::Struct
 
   class << self
     def [](*_arg0); end
+
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoint_parameters.rb#168
+    def create(config, options = T.unsafe(nil)); end
+
     def inspect; end
     def keyword_init?; end
     def members; end
@@ -21115,7 +21093,14 @@ end
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#13
-module Aws::S3::Endpoints; end
+module Aws::S3::Endpoints
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1187
+    def parameters_for_operation(context); end
+  end
+end
 
 # @api private
 #
@@ -21131,8 +21116,20 @@ end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#39
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#27
 class Aws::S3::Endpoints::CompleteMultipartUpload
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#28
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#39
+class Aws::S3::Endpoints::CopyObject
   class << self
     # @api private
     #
@@ -21143,264 +21140,540 @@ end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#63
-class Aws::S3::Endpoints::CopyObject
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#64
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#87
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#53
 class Aws::S3::Endpoints::CreateBucket
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#88
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#54
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#111
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#66
 class Aws::S3::Endpoints::CreateMultipartUpload
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#112
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#67
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#135
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#78
 class Aws::S3::Endpoints::CreateSession
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#136
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#79
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#159
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#90
 class Aws::S3::Endpoints::DeleteBucket
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#160
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#91
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#183
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#102
 class Aws::S3::Endpoints::DeleteBucketAnalyticsConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#184
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#103
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#207
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#114
 class Aws::S3::Endpoints::DeleteBucketCors
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#208
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#115
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#231
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#126
 class Aws::S3::Endpoints::DeleteBucketEncryption
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#232
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#127
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#255
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#138
 class Aws::S3::Endpoints::DeleteBucketIntelligentTieringConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#256
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#139
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#279
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#150
 class Aws::S3::Endpoints::DeleteBucketInventoryConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#280
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#151
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#303
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#162
 class Aws::S3::Endpoints::DeleteBucketLifecycle
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#304
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#163
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#327
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#174
 class Aws::S3::Endpoints::DeleteBucketMetricsConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#328
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#175
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#351
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#186
 class Aws::S3::Endpoints::DeleteBucketOwnershipControls
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#352
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#187
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#375
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#198
 class Aws::S3::Endpoints::DeleteBucketPolicy
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#376
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#199
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#399
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#210
 class Aws::S3::Endpoints::DeleteBucketReplication
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#400
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#211
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#423
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#222
 class Aws::S3::Endpoints::DeleteBucketTagging
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#424
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#223
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#447
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#234
 class Aws::S3::Endpoints::DeleteBucketWebsite
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#448
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#235
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#471
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#246
 class Aws::S3::Endpoints::DeleteObject
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#472
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#247
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#495
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#258
 class Aws::S3::Endpoints::DeleteObjectTagging
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#496
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#259
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#519
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#269
 class Aws::S3::Endpoints::DeleteObjects
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#520
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#270
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#543
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#280
 class Aws::S3::Endpoints::DeletePublicAccessBlock
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#544
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#281
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#567
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#292
 class Aws::S3::Endpoints::GetBucketAccelerateConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#568
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#293
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#304
+class Aws::S3::Endpoints::GetBucketAcl
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#305
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#316
+class Aws::S3::Endpoints::GetBucketAnalyticsConfiguration
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#317
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#328
+class Aws::S3::Endpoints::GetBucketCors
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#329
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#340
+class Aws::S3::Endpoints::GetBucketEncryption
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#341
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#352
+class Aws::S3::Endpoints::GetBucketIntelligentTieringConfiguration
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#353
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#364
+class Aws::S3::Endpoints::GetBucketInventoryConfiguration
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#365
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#376
+class Aws::S3::Endpoints::GetBucketLifecycle
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#377
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#388
+class Aws::S3::Endpoints::GetBucketLifecycleConfiguration
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#389
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#400
+class Aws::S3::Endpoints::GetBucketLocation
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#401
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#412
+class Aws::S3::Endpoints::GetBucketLogging
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#413
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#424
+class Aws::S3::Endpoints::GetBucketMetricsConfiguration
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#425
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#436
+class Aws::S3::Endpoints::GetBucketNotification
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#437
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#448
+class Aws::S3::Endpoints::GetBucketNotificationConfiguration
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#449
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#460
+class Aws::S3::Endpoints::GetBucketOwnershipControls
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#461
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#472
+class Aws::S3::Endpoints::GetBucketPolicy
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#473
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#484
+class Aws::S3::Endpoints::GetBucketPolicyStatus
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#485
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#496
+class Aws::S3::Endpoints::GetBucketReplication
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#497
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#508
+class Aws::S3::Endpoints::GetBucketRequestPayment
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#509
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#520
+class Aws::S3::Endpoints::GetBucketTagging
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#521
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#532
+class Aws::S3::Endpoints::GetBucketVersioning
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#533
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#544
+class Aws::S3::Endpoints::GetBucketWebsite
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#545
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#556
+class Aws::S3::Endpoints::GetObject
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#557
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#568
+class Aws::S3::Endpoints::GetObjectAcl
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#569
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#580
+class Aws::S3::Endpoints::GetObjectAttributes
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#581
     def build(context); end
   end
 end
@@ -21408,7 +21681,7 @@ end
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#591
-class Aws::S3::Endpoints::GetBucketAcl
+class Aws::S3::Endpoints::GetObjectLegalHold
   class << self
     # @api private
     #
@@ -21419,240 +21692,504 @@ end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#615
-class Aws::S3::Endpoints::GetBucketAnalyticsConfiguration
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#602
+class Aws::S3::Endpoints::GetObjectLockConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#616
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#603
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#639
-class Aws::S3::Endpoints::GetBucketCors
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#613
+class Aws::S3::Endpoints::GetObjectRetention
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#640
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#614
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#663
-class Aws::S3::Endpoints::GetBucketEncryption
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#624
+class Aws::S3::Endpoints::GetObjectTagging
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#664
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#625
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#687
-class Aws::S3::Endpoints::GetBucketIntelligentTieringConfiguration
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#635
+class Aws::S3::Endpoints::GetObjectTorrent
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#688
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#636
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#711
-class Aws::S3::Endpoints::GetBucketInventoryConfiguration
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#646
+class Aws::S3::Endpoints::GetPublicAccessBlock
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#712
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#647
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#735
-class Aws::S3::Endpoints::GetBucketLifecycle
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#658
+class Aws::S3::Endpoints::HeadBucket
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#736
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#659
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#759
-class Aws::S3::Endpoints::GetBucketLifecycleConfiguration
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#669
+class Aws::S3::Endpoints::HeadObject
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#760
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#670
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#783
-class Aws::S3::Endpoints::GetBucketLocation
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#681
+class Aws::S3::Endpoints::ListBucketAnalyticsConfigurations
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#784
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#682
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#807
-class Aws::S3::Endpoints::GetBucketLogging
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#693
+class Aws::S3::Endpoints::ListBucketIntelligentTieringConfigurations
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#808
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#694
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#831
-class Aws::S3::Endpoints::GetBucketMetricsConfiguration
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#705
+class Aws::S3::Endpoints::ListBucketInventoryConfigurations
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#832
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#706
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#855
-class Aws::S3::Endpoints::GetBucketNotification
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#717
+class Aws::S3::Endpoints::ListBucketMetricsConfigurations
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#856
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#718
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#879
-class Aws::S3::Endpoints::GetBucketNotificationConfiguration
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#728
+class Aws::S3::Endpoints::ListBuckets
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#880
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#729
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#903
-class Aws::S3::Endpoints::GetBucketOwnershipControls
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#738
+class Aws::S3::Endpoints::ListDirectoryBuckets
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#904
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#739
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#927
-class Aws::S3::Endpoints::GetBucketPolicy
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#749
+class Aws::S3::Endpoints::ListMultipartUploads
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#928
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#750
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#951
-class Aws::S3::Endpoints::GetBucketPolicyStatus
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#761
+class Aws::S3::Endpoints::ListObjectVersions
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#952
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#762
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#975
-class Aws::S3::Endpoints::GetBucketReplication
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#773
+class Aws::S3::Endpoints::ListObjects
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#976
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#774
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#999
-class Aws::S3::Endpoints::GetBucketRequestPayment
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#785
+class Aws::S3::Endpoints::ListObjectsV2
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1000
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#786
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1023
-class Aws::S3::Endpoints::GetBucketTagging
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#797
+class Aws::S3::Endpoints::ListParts
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1024
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#798
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1047
-class Aws::S3::Endpoints::GetBucketVersioning
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#809
+class Aws::S3::Endpoints::PutBucketAccelerateConfiguration
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1048
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#810
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1071
-class Aws::S3::Endpoints::GetBucketWebsite
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#821
+class Aws::S3::Endpoints::PutBucketAcl
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1072
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#822
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#833
+class Aws::S3::Endpoints::PutBucketAnalyticsConfiguration
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#834
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#845
+class Aws::S3::Endpoints::PutBucketCors
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#846
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#857
+class Aws::S3::Endpoints::PutBucketEncryption
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#858
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#869
+class Aws::S3::Endpoints::PutBucketIntelligentTieringConfiguration
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#870
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#881
+class Aws::S3::Endpoints::PutBucketInventoryConfiguration
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#882
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#893
+class Aws::S3::Endpoints::PutBucketLifecycle
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#894
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#905
+class Aws::S3::Endpoints::PutBucketLifecycleConfiguration
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#906
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#917
+class Aws::S3::Endpoints::PutBucketLogging
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#918
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#929
+class Aws::S3::Endpoints::PutBucketMetricsConfiguration
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#930
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#941
+class Aws::S3::Endpoints::PutBucketNotification
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#942
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#953
+class Aws::S3::Endpoints::PutBucketNotificationConfiguration
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#954
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#965
+class Aws::S3::Endpoints::PutBucketOwnershipControls
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#966
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#977
+class Aws::S3::Endpoints::PutBucketPolicy
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#978
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#989
+class Aws::S3::Endpoints::PutBucketReplication
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#990
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1001
+class Aws::S3::Endpoints::PutBucketRequestPayment
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1002
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1013
+class Aws::S3::Endpoints::PutBucketTagging
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1014
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1025
+class Aws::S3::Endpoints::PutBucketVersioning
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1026
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1037
+class Aws::S3::Endpoints::PutBucketWebsite
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1038
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1049
+class Aws::S3::Endpoints::PutObject
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1050
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1061
+class Aws::S3::Endpoints::PutObjectAcl
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1062
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1073
+class Aws::S3::Endpoints::PutObjectLegalHold
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1074
+    def build(context); end
+  end
+end
+
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1084
+class Aws::S3::Endpoints::PutObjectLockConfiguration
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1085
     def build(context); end
   end
 end
@@ -21660,7 +22197,7 @@ end
 # @api private
 #
 # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1095
-class Aws::S3::Endpoints::GetObject
+class Aws::S3::Endpoints::PutObjectRetention
   class << self
     # @api private
     #
@@ -21671,636 +22208,84 @@ end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1119
-class Aws::S3::Endpoints::GetObjectAcl
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1120
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1143
-class Aws::S3::Endpoints::GetObjectAttributes
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1144
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1167
-class Aws::S3::Endpoints::GetObjectLegalHold
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1168
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1191
-class Aws::S3::Endpoints::GetObjectLockConfiguration
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1192
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1215
-class Aws::S3::Endpoints::GetObjectRetention
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1216
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1239
-class Aws::S3::Endpoints::GetObjectTagging
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1240
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1263
-class Aws::S3::Endpoints::GetObjectTorrent
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1264
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1287
-class Aws::S3::Endpoints::GetPublicAccessBlock
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1288
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1311
-class Aws::S3::Endpoints::HeadBucket
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1312
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1335
-class Aws::S3::Endpoints::HeadObject
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1336
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1359
-class Aws::S3::Endpoints::ListBucketAnalyticsConfigurations
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1360
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1383
-class Aws::S3::Endpoints::ListBucketIntelligentTieringConfigurations
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1384
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1407
-class Aws::S3::Endpoints::ListBucketInventoryConfigurations
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1408
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1431
-class Aws::S3::Endpoints::ListBucketMetricsConfigurations
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1432
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1455
-class Aws::S3::Endpoints::ListBuckets
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1456
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1479
-class Aws::S3::Endpoints::ListDirectoryBuckets
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1480
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1503
-class Aws::S3::Endpoints::ListMultipartUploads
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1504
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1527
-class Aws::S3::Endpoints::ListObjectVersions
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1528
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1551
-class Aws::S3::Endpoints::ListObjects
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1552
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1575
-class Aws::S3::Endpoints::ListObjectsV2
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1576
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1599
-class Aws::S3::Endpoints::ListParts
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1600
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1623
-class Aws::S3::Endpoints::PutBucketAccelerateConfiguration
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1624
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1647
-class Aws::S3::Endpoints::PutBucketAcl
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1648
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1671
-class Aws::S3::Endpoints::PutBucketAnalyticsConfiguration
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1672
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1695
-class Aws::S3::Endpoints::PutBucketCors
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1696
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1719
-class Aws::S3::Endpoints::PutBucketEncryption
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1720
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1743
-class Aws::S3::Endpoints::PutBucketIntelligentTieringConfiguration
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1744
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1767
-class Aws::S3::Endpoints::PutBucketInventoryConfiguration
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1768
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1791
-class Aws::S3::Endpoints::PutBucketLifecycle
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1792
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1815
-class Aws::S3::Endpoints::PutBucketLifecycleConfiguration
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1816
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1839
-class Aws::S3::Endpoints::PutBucketLogging
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1840
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1863
-class Aws::S3::Endpoints::PutBucketMetricsConfiguration
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1864
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1887
-class Aws::S3::Endpoints::PutBucketNotification
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1888
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1911
-class Aws::S3::Endpoints::PutBucketNotificationConfiguration
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1912
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1935
-class Aws::S3::Endpoints::PutBucketOwnershipControls
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1936
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1959
-class Aws::S3::Endpoints::PutBucketPolicy
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1960
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1983
-class Aws::S3::Endpoints::PutBucketReplication
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1984
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2007
-class Aws::S3::Endpoints::PutBucketRequestPayment
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2008
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2031
-class Aws::S3::Endpoints::PutBucketTagging
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2032
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2055
-class Aws::S3::Endpoints::PutBucketVersioning
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2056
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2079
-class Aws::S3::Endpoints::PutBucketWebsite
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2080
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2103
-class Aws::S3::Endpoints::PutObject
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2104
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2127
-class Aws::S3::Endpoints::PutObjectAcl
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2128
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2151
-class Aws::S3::Endpoints::PutObjectLegalHold
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2152
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2175
-class Aws::S3::Endpoints::PutObjectLockConfiguration
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2176
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2199
-class Aws::S3::Endpoints::PutObjectRetention
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2200
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2223
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1106
 class Aws::S3::Endpoints::PutObjectTagging
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2224
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1107
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2247
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1117
 class Aws::S3::Endpoints::PutPublicAccessBlock
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2248
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1118
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2271
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1129
 class Aws::S3::Endpoints::RestoreObject
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2272
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1130
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2295
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1140
 class Aws::S3::Endpoints::SelectObjectContent
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2296
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1141
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2319
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1151
 class Aws::S3::Endpoints::UploadPart
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2320
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1152
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2343
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1163
 class Aws::S3::Endpoints::UploadPartCopy
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2344
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1164
     def build(context); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2367
+# source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1175
 class Aws::S3::Endpoints::WriteGetObjectResponse
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#2368
+    # source://aws-sdk-s3//lib/aws-sdk-s3/endpoints.rb#1176
     def build(context); end
   end
 end
@@ -23409,7 +23394,7 @@ class Aws::S3::MultipartUpload
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Date and time at which the multipart upload was initiated.
@@ -23777,7 +23762,7 @@ class Aws::S3::MultipartUploadPart
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Date and time at which the part was uploaded.
@@ -23980,7 +23965,7 @@ class Aws::S3::Object
 
   # @return [ObjectAcl]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3205
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3228
   def acl; end
 
   # The archive state of the head object.
@@ -23996,7 +23981,7 @@ class Aws::S3::Object
 
   # @return [Bucket]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3214
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3237
   def bucket; end
 
   # Indicates whether the object uses an S3 Bucket Key for server-side
@@ -24284,7 +24269,7 @@ class Aws::S3::Object
   # @param options [Hash] ({})
   # @return [Types::DeleteObjectOutput]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#1455
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#1460
   def delete(options = T.unsafe(nil)); end
 
   # Specifies whether the object retrieved was (true) or was not (false) a
@@ -24300,7 +24285,7 @@ class Aws::S3::Object
   # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#53
   def delete_marker; end
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3245
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3268
   def deprecated_identifiers; end
 
   # Downloads a file in S3 to a path on disk.
@@ -24431,7 +24416,7 @@ class Aws::S3::Object
   # @param options [Hash] ({})
   # @return [Types::GetObjectOutput]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#1720
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#1725
   def get(options = T.unsafe(nil), &block); end
 
   # @example Request syntax with placeholder values
@@ -24479,13 +24464,13 @@ class Aws::S3::Object
   # @param options [Hash] ({})
   # @return [Types::HeadObjectOutput]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3191
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3214
   def head(options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # @example Request syntax with placeholder values
@@ -24553,7 +24538,7 @@ class Aws::S3::Object
   # @param options [Hash] ({})
   # @return [MultipartUpload]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#2284
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#2294
   def initiate_multipart_upload(options = T.unsafe(nil)); end
 
   # @return [String]
@@ -24619,7 +24604,7 @@ class Aws::S3::Object
   # @param id [String]
   # @return [MultipartUpload]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3223
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3246
   def multipart_upload(id); end
 
   # Specifies whether a legal hold is in effect for this object. This
@@ -24915,7 +24900,7 @@ class Aws::S3::Object
   # @param options [Hash] ({})
   # @return [Types::PutObjectOutput]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#2851
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#2874
   def put(options = T.unsafe(nil)); end
 
   # Loads, or reloads {#data} for the current {Object}.
@@ -25120,7 +25105,7 @@ class Aws::S3::Object
   # @param options [Hash] ({})
   # @return [Types::RestoreObjectOutput]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#2992
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3015
   def restore_object(options = T.unsafe(nil)); end
 
   # The server-side encryption algorithm used when you store this object
@@ -25291,7 +25276,7 @@ class Aws::S3::Object
   # @param id [String]
   # @return [ObjectVersion]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3234
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3257
   def version(id); end
 
   # Version ID of the object.
@@ -25420,22 +25405,22 @@ class Aws::S3::Object
 
   private
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3255
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3278
   def extract_bucket_name(args, options); end
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3266
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3289
   def extract_key(args, options); end
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3287
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3310
   def separate_params_and_options(options); end
 
   # @yield [waiter.waiter]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3277
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3300
   def yield_waiter_and_warn(waiter, &block); end
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3304
+# source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3327
 class Aws::S3::Object::Collection < ::Aws::Resources::Collection
   # @example Request syntax with placeholder values
   #
@@ -25454,13 +25439,13 @@ class Aws::S3::Object::Collection < ::Aws::Resources::Collection
   # @param options [{}]
   # @return [void]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3403
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3426
   def batch_delete!(options = T.unsafe(nil)); end
 
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def delete(*args, &block); end
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3403
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3426
   def deprecated_delete(options = T.unsafe(nil)); end
 end
 
@@ -25510,7 +25495,7 @@ class Aws::S3::ObjectAcl
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Loads, or reloads {#data} for the current {ObjectAcl}.
@@ -25958,12 +25943,12 @@ class Aws::S3::ObjectSummary
 
   # @return [ObjectAcl]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2656
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2679
   def acl; end
 
   # @return [Bucket]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2665
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2688
   def bucket; end
 
   # @return [String]
@@ -26116,10 +26101,10 @@ class Aws::S3::ObjectSummary
   # @param options [Hash] ({})
   # @return [Types::DeleteObjectOutput]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#1105
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#1110
   def delete(options = T.unsafe(nil)); end
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2705
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2728
   def deprecated_identifiers; end
 
   # @param destination [String] Where to download the file to.
@@ -26214,13 +26199,13 @@ class Aws::S3::ObjectSummary
   # @param options [Hash] ({})
   # @return [Types::GetObjectOutput]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#1370
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#1375
   def get(options = T.unsafe(nil), &block); end
 
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # @example Request syntax with placeholder values
@@ -26288,7 +26273,7 @@ class Aws::S3::ObjectSummary
   # @param options [Hash] ({})
   # @return [MultipartUpload]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#1934
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#1944
   def initiate_multipart_upload(options = T.unsafe(nil)); end
 
   # @return [String]
@@ -26324,12 +26309,12 @@ class Aws::S3::ObjectSummary
   # @param id [String]
   # @return [MultipartUpload]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2674
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2697
   def multipart_upload(id); end
 
   # @return [Object]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2684
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2707
   def object; end
 
   # The owner of the object
@@ -26464,7 +26449,7 @@ class Aws::S3::ObjectSummary
   # @param options [Hash] ({})
   # @return [Types::PutObjectOutput]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2501
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2524
   def put(options = T.unsafe(nil)); end
 
   # @api private
@@ -26570,7 +26555,7 @@ class Aws::S3::ObjectSummary
   # @param options [Hash] ({})
   # @return [Types::RestoreObjectOutput]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2642
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2665
   def restore_object(options = T.unsafe(nil)); end
 
   # Specifies the restoration status of an object. Objects in certain
@@ -26642,7 +26627,7 @@ class Aws::S3::ObjectSummary
   # @param id [String]
   # @return [ObjectVersion]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2694
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2717
   def version(id); end
 
   # Waiter polls an API operation until a resource enters a desired
@@ -26747,22 +26732,22 @@ class Aws::S3::ObjectSummary
 
   private
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2715
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2738
   def extract_bucket_name(args, options); end
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2726
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2749
   def extract_key(args, options); end
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2747
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2770
   def separate_params_and_options(options); end
 
   # @yield [waiter.waiter]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2737
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2760
   def yield_waiter_and_warn(waiter, &block); end
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2764
+# source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2787
 class Aws::S3::ObjectSummary::Collection < ::Aws::Resources::Collection
   # @example Request syntax with placeholder values
   #
@@ -26781,13 +26766,13 @@ class Aws::S3::ObjectSummary::Collection < ::Aws::Resources::Collection
   # @param options [{}]
   # @return [void]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2863
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2886
   def batch_delete!(options = T.unsafe(nil)); end
 
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def delete(*args, &block); end
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2863
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object_summary.rb#2886
   def deprecated_delete(options = T.unsafe(nil)); end
 end
 
@@ -26959,7 +26944,7 @@ class Aws::S3::ObjectVersion
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def identifiers(*args, &block); end
 
   # Specifies whether the object is (true) or is not (false) the latest
@@ -27163,7 +27148,7 @@ class Aws::S3::ObjectVersion::Collection < ::Aws::Resources::Collection
   # source://aws-sdk-s3//lib/aws-sdk-s3/object_version.rb#896
   def batch_delete!(options = T.unsafe(nil)); end
 
-  # source://aws-sdk-core/3.209.1/lib/aws-sdk-core/deprecations.rb#65
+  # source://aws-sdk-core/3.210.0/lib/aws-sdk-core/deprecations.rb#65
   def delete(*args, &block); end
 
   # source://aws-sdk-s3//lib/aws-sdk-s3/object_version.rb#896
@@ -27361,7 +27346,7 @@ end
 
 # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/endpoints.rb#13
 class Aws::S3::Plugins::Endpoints < ::Seahorse::Client::Plugin
-  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/endpoints.rb#284
+  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/endpoints.rb#81
   def add_handlers(handlers, _config); end
 end
 
@@ -27380,11 +27365,6 @@ class Aws::S3::Plugins::Endpoints::Handler < ::Seahorse::Client::Handler
   #
   # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/endpoints.rb#69
   def apply_endpoint_headers(context, headers); end
-
-  # @api private
-  #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/endpoints.rb#80
-  def parameters_for_operation(context); end
 
   # @api private
   #
@@ -28677,11 +28657,16 @@ class Aws::S3::Resource
 
   # @example Request syntax with placeholder values
   #
-  #   s3.buckets()
+  #   buckets = s3.buckets({
+  #   prefix: "Prefix",
+  #   bucket_region: "BucketRegion",
+  #   })
+  # @option options
+  # @option options
   # @param options [Hash] ({})
   # @return [Bucket::Collection]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/resource.rb#194
+  # source://aws-sdk-s3//lib/aws-sdk-s3/resource.rb#218
   def buckets(options = T.unsafe(nil)); end
 
   # @return [Client]
@@ -28890,12 +28875,12 @@ Aws::S3::Types::AnalyticsS3BucketDestination::SENSITIVE = T.let(T.unsafe(nil), A
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Bucket AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#351
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#358
 class Aws::S3::Types::Bucket < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#352
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#359
 Aws::S3::Types::Bucket::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The requested bucket name is not available. The bucket namespace is
@@ -28904,7 +28889,7 @@ Aws::S3::Types::Bucket::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/BucketAlreadyExists AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#362
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#369
 class Aws::S3::Types::BucketAlreadyExists < ::Aws::EmptyStructure; end
 
 # The bucket you tried to create already exists, and you own it. Amazon
@@ -28916,7 +28901,7 @@ class Aws::S3::Types::BucketAlreadyExists < ::Aws::EmptyStructure; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/BucketAlreadyOwnedByYou AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#373
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#380
 class Aws::S3::Types::BucketAlreadyOwnedByYou < ::Aws::EmptyStructure; end
 
 # Specifies the information about the bucket that will be created. For
@@ -28933,12 +28918,12 @@ class Aws::S3::Types::BucketAlreadyOwnedByYou < ::Aws::EmptyStructure; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/BucketInfo AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#400
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#407
 class Aws::S3::Types::BucketInfo < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#401
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#408
 Aws::S3::Types::BucketInfo::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the lifecycle configuration for objects in an Amazon S3
@@ -28951,24 +28936,24 @@ Aws::S3::Types::BucketInfo::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/BucketLifecycleConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#420
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#427
 class Aws::S3::Types::BucketLifecycleConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#421
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#428
 Aws::S3::Types::BucketLifecycleConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for logging status information.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/BucketLoggingStatus AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#440
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#447
 class Aws::S3::Types::BucketLoggingStatus < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#441
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#448
 Aws::S3::Types::BucketLoggingStatus::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Describes the cross-origin access configuration for objects in an
@@ -28981,24 +28966,24 @@ Aws::S3::Types::BucketLoggingStatus::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CORSConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#461
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#468
 class Aws::S3::Types::CORSConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#462
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#469
 Aws::S3::Types::CORSConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies a cross-origin access rule for an Amazon S3 bucket.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CORSRule AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#509
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#516
 class Aws::S3::Types::CORSRule < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#510
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#517
 Aws::S3::Types::CORSRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Describes how an uncompressed comma-separated values (CSV)-formatted
@@ -29006,12 +28991,12 @@ Aws::S3::Types::CORSRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CSVInput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#584
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#591
 class Aws::S3::Types::CSVInput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#585
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#592
 Aws::S3::Types::CSVInput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Describes how uncompressed comma-separated values (CSV)-formatted
@@ -29019,36 +29004,36 @@ Aws::S3::Types::CSVInput::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CSVOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#629
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#636
 class Aws::S3::Types::CSVOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#630
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#637
 Aws::S3::Types::CSVOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Contains all the possible checksum or digest values for an object.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Checksum AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#702
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#709
 class Aws::S3::Types::Checksum < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#703
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#710
 Aws::S3::Types::Checksum::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for specifying the Lambda notification configuration.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CloudFunctionConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#739
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#746
 class Aws::S3::Types::CloudFunctionConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#740
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#747
 Aws::S3::Types::CloudFunctionConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for all (if there are any) keys between Prefix and the next
@@ -29059,56 +29044,56 @@ Aws::S3::Types::CloudFunctionConfiguration::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CommonPrefix AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#757
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#764
 class Aws::S3::Types::CommonPrefix < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#758
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#765
 Aws::S3::Types::CommonPrefix::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CompleteMultipartUploadOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#915
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#922
 class Aws::S3::Types::CompleteMultipartUploadOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#916
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#923
 Aws::S3::Types::CompleteMultipartUploadOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CompleteMultipartUploadRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1133
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1140
 class Aws::S3::Types::CompleteMultipartUploadRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1134
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1141
 Aws::S3::Types::CompleteMultipartUploadRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The container for the completed multipart upload details.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CompletedMultipartUpload AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1150
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1157
 class Aws::S3::Types::CompletedMultipartUpload < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1151
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1158
 Aws::S3::Types::CompletedMultipartUpload::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Details of the parts that were uploaded.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CompletedPart AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1248
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1255
 class Aws::S3::Types::CompletedPart < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1249
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1256
 Aws::S3::Types::CompletedPart::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for describing a condition that must be met for the
@@ -29119,138 +29104,138 @@ Aws::S3::Types::CompletedPart::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Condition AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1291
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1298
 class Aws::S3::Types::Condition < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1292
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1299
 Aws::S3::Types::Condition::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ContinuationEvent AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1299
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1306
 class Aws::S3::Types::ContinuationEvent < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1300
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1307
 Aws::S3::Types::ContinuationEvent::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CopyObjectOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1400
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1407
 class Aws::S3::Types::CopyObjectOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1401
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1408
 Aws::S3::Types::CopyObjectOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CopyObjectRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2259
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2271
 class Aws::S3::Types::CopyObjectRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2260
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2272
 Aws::S3::Types::CopyObjectRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for all response elements.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CopyObjectResult AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2327
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2339
 class Aws::S3::Types::CopyObjectResult < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2328
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2340
 Aws::S3::Types::CopyObjectResult::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for all response elements.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CopyPartResult AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2410
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2422
 class Aws::S3::Types::CopyPartResult < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2411
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2423
 Aws::S3::Types::CopyPartResult::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The configuration information for the bucket.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateBucketConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2460
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2472
 class Aws::S3::Types::CreateBucketConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2461
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2473
 Aws::S3::Types::CreateBucketConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateBucketOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2472
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2484
 class Aws::S3::Types::CreateBucketOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2473
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2485
 Aws::S3::Types::CreateBucketOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateBucketRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2614
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2626
 class Aws::S3::Types::CreateBucketRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2615
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2627
 Aws::S3::Types::CreateBucketRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateMultipartUploadOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2740
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2752
 class Aws::S3::Types::CreateMultipartUploadOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2741
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2753
 Aws::S3::Types::CreateMultipartUploadOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateMultipartUploadRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3406
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3423
 class Aws::S3::Types::CreateMultipartUploadRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3407
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3424
 Aws::S3::Types::CreateMultipartUploadRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateSessionOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3448
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3465
 class Aws::S3::Types::CreateSessionOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3449
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3466
 Aws::S3::Types::CreateSessionOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateSessionRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3557
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3574
 class Aws::S3::Types::CreateSessionRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3558
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3575
 Aws::S3::Types::CreateSessionRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The container element for optionally specifying the default Object
@@ -29267,166 +29252,166 @@ Aws::S3::Types::CreateSessionRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DefaultRetention AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3595
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3612
 class Aws::S3::Types::DefaultRetention < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3596
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3613
 Aws::S3::Types::DefaultRetention::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for the objects to delete.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Delete AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3623
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3640
 class Aws::S3::Types::Delete < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3624
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3641
 Aws::S3::Types::Delete::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketAnalyticsConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3649
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3666
 class Aws::S3::Types::DeleteBucketAnalyticsConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3650
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3667
 Aws::S3::Types::DeleteBucketAnalyticsConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketCorsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3669
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3686
 class Aws::S3::Types::DeleteBucketCorsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3670
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3687
 Aws::S3::Types::DeleteBucketCorsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketEncryptionRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3710
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3727
 class Aws::S3::Types::DeleteBucketEncryptionRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3711
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3728
 Aws::S3::Types::DeleteBucketEncryptionRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketIntelligentTieringConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3728
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3745
 class Aws::S3::Types::DeleteBucketIntelligentTieringConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3729
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3746
 Aws::S3::Types::DeleteBucketIntelligentTieringConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketInventoryConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3754
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3771
 class Aws::S3::Types::DeleteBucketInventoryConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3755
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3772
 Aws::S3::Types::DeleteBucketInventoryConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketLifecycleRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3774
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3791
 class Aws::S3::Types::DeleteBucketLifecycleRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3775
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3792
 Aws::S3::Types::DeleteBucketLifecycleRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketMetricsConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3802
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3819
 class Aws::S3::Types::DeleteBucketMetricsConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3803
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3820
 Aws::S3::Types::DeleteBucketMetricsConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketOwnershipControlsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3822
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3839
 class Aws::S3::Types::DeleteBucketOwnershipControlsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3823
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3840
 Aws::S3::Types::DeleteBucketOwnershipControlsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketPolicyRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3862
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3879
 class Aws::S3::Types::DeleteBucketPolicyRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3863
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3880
 Aws::S3::Types::DeleteBucketPolicyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketReplicationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3882
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3899
 class Aws::S3::Types::DeleteBucketReplicationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3883
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3900
 Aws::S3::Types::DeleteBucketReplicationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3922
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3939
 class Aws::S3::Types::DeleteBucketRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3923
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3940
 Aws::S3::Types::DeleteBucketRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketTaggingRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3942
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3959
 class Aws::S3::Types::DeleteBucketTaggingRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3943
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3960
 Aws::S3::Types::DeleteBucketTaggingRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketWebsiteRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3963
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3980
 class Aws::S3::Types::DeleteBucketWebsiteRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3964
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3981
 Aws::S3::Types::DeleteBucketWebsiteRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Information about the delete marker.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteMarkerEntry AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3998
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4015
 class Aws::S3::Types::DeleteMarkerEntry < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3999
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4016
 Aws::S3::Types::DeleteMarkerEntry::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies whether Amazon S3 replicates delete markers. If you specify
@@ -29454,94 +29439,94 @@ Aws::S3::Types::DeleteMarkerEntry::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteMarkerReplication AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4037
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4054
 class Aws::S3::Types::DeleteMarkerReplication < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4038
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4055
 Aws::S3::Types::DeleteMarkerReplication::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4076
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4093
 class Aws::S3::Types::DeleteObjectOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4077
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4094
 Aws::S3::Types::DeleteObjectOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4194
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4211
 class Aws::S3::Types::DeleteObjectRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4195
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4212
 Aws::S3::Types::DeleteObjectRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectTaggingOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4206
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4223
 class Aws::S3::Types::DeleteObjectTaggingOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4207
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4224
 Aws::S3::Types::DeleteObjectTaggingOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectTaggingRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4263
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4280
 class Aws::S3::Types::DeleteObjectTaggingRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4264
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4281
 Aws::S3::Types::DeleteObjectTaggingRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4292
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4309
 class Aws::S3::Types::DeleteObjectsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4293
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4310
 Aws::S3::Types::DeleteObjectsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4452
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4469
 class Aws::S3::Types::DeleteObjectsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4453
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4470
 Aws::S3::Types::DeleteObjectsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeletePublicAccessBlockRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4473
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4490
 class Aws::S3::Types::DeletePublicAccessBlockRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4474
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4491
 Aws::S3::Types::DeletePublicAccessBlockRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Information about the deleted object.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeletedObject AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4520
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4537
 class Aws::S3::Types::DeletedObject < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4521
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4538
 Aws::S3::Types::DeletedObject::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies information about where to publish analysis or configuration
@@ -29550,24 +29535,24 @@ Aws::S3::Types::DeletedObject::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Destination AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4597
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4614
 class Aws::S3::Types::Destination < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4598
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4615
 Aws::S3::Types::Destination::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Contains the type of server-side encryption used.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Encryption AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4632
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4649
 class Aws::S3::Types::Encryption < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4633
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4650
 Aws::S3::Types::Encryption::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies encryption-related information for an Amazon S3 bucket that
@@ -29583,12 +29568,12 @@ Aws::S3::Types::Encryption::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/EncryptionConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4665
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4682
 class Aws::S3::Types::EncryptionConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4666
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4683
 Aws::S3::Types::EncryptionConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A message that indicates the request is complete and no more messages
@@ -29597,36 +29582,36 @@ Aws::S3::Types::EncryptionConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/EndEvent AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4677
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4694
 class Aws::S3::Types::EndEvent < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4678
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4695
 Aws::S3::Types::EndEvent::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for all error elements.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Error AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5517
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5534
 class Aws::S3::Types::Error < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5518
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5535
 Aws::S3::Types::Error::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The error information.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ErrorDocument AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5539
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5556
 class Aws::S3::Types::ErrorDocument < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5540
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5557
 Aws::S3::Types::ErrorDocument::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for specifying the configuration for Amazon EventBridge.
@@ -29634,7 +29619,7 @@ Aws::S3::Types::ErrorDocument::SENSITIVE = T.let(T.unsafe(nil), Array)
 # @api private
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/EventBridgeConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5550
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5567
 class Aws::S3::Types::EventBridgeConfiguration < ::Aws::EmptyStructure; end
 
 # Optional configuration to replicate existing source bucket objects.
@@ -29651,12 +29636,12 @@ class Aws::S3::Types::EventBridgeConfiguration < ::Aws::EmptyStructure; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ExistingObjectReplication AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5572
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5589
 class Aws::S3::Types::ExistingObjectReplication < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5573
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5590
 Aws::S3::Types::ExistingObjectReplication::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the Amazon S3 object key name to filter on. An object key
@@ -29672,726 +29657,726 @@ Aws::S3::Types::ExistingObjectReplication::SENSITIVE = T.let(T.unsafe(nil), Arra
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/FilterRule AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5608
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5625
 class Aws::S3::Types::FilterRule < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5609
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5626
 Aws::S3::Types::FilterRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAccelerateConfigurationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5630
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5647
 class Aws::S3::Types::GetBucketAccelerateConfigurationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5631
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5648
 Aws::S3::Types::GetBucketAccelerateConfigurationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAccelerateConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5670
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5687
 class Aws::S3::Types::GetBucketAccelerateConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5671
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5688
 Aws::S3::Types::GetBucketAccelerateConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAclOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5687
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5704
 class Aws::S3::Types::GetBucketAclOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5688
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5705
 Aws::S3::Types::GetBucketAclOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAclRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5721
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5738
 class Aws::S3::Types::GetBucketAclRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5722
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5739
 Aws::S3::Types::GetBucketAclRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAnalyticsConfigurationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5733
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5750
 class Aws::S3::Types::GetBucketAnalyticsConfigurationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5734
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5751
 Aws::S3::Types::GetBucketAnalyticsConfigurationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAnalyticsConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5759
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5776
 class Aws::S3::Types::GetBucketAnalyticsConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5760
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5777
 Aws::S3::Types::GetBucketAnalyticsConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketCorsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5772
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5789
 class Aws::S3::Types::GetBucketCorsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5773
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5790
 Aws::S3::Types::GetBucketCorsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketCorsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5806
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5823
 class Aws::S3::Types::GetBucketCorsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5807
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5824
 Aws::S3::Types::GetBucketCorsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketEncryptionOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5818
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5835
 class Aws::S3::Types::GetBucketEncryptionOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5819
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5836
 Aws::S3::Types::GetBucketEncryptionOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketEncryptionRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5859
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5876
 class Aws::S3::Types::GetBucketEncryptionRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5860
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5877
 Aws::S3::Types::GetBucketEncryptionRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketIntelligentTieringConfigurationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5871
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5888
 class Aws::S3::Types::GetBucketIntelligentTieringConfigurationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5872
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5889
 Aws::S3::Types::GetBucketIntelligentTieringConfigurationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketIntelligentTieringConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5889
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5906
 class Aws::S3::Types::GetBucketIntelligentTieringConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5890
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5907
 Aws::S3::Types::GetBucketIntelligentTieringConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketInventoryConfigurationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5901
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5918
 class Aws::S3::Types::GetBucketInventoryConfigurationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5902
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5919
 Aws::S3::Types::GetBucketInventoryConfigurationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketInventoryConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5927
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5944
 class Aws::S3::Types::GetBucketInventoryConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5928
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5945
 Aws::S3::Types::GetBucketInventoryConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLifecycleConfigurationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5958
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5975
 class Aws::S3::Types::GetBucketLifecycleConfigurationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5959
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5976
 Aws::S3::Types::GetBucketLifecycleConfigurationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLifecycleConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5978
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5995
 class Aws::S3::Types::GetBucketLifecycleConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5979
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5996
 Aws::S3::Types::GetBucketLifecycleConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLifecycleOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5990
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6007
 class Aws::S3::Types::GetBucketLifecycleOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5991
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6008
 Aws::S3::Types::GetBucketLifecycleOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLifecycleRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6010
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6027
 class Aws::S3::Types::GetBucketLifecycleRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6011
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6028
 Aws::S3::Types::GetBucketLifecycleRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLocationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6029
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6046
 class Aws::S3::Types::GetBucketLocationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6030
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6047
 Aws::S3::Types::GetBucketLocationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLocationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6063
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6080
 class Aws::S3::Types::GetBucketLocationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6064
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6081
 Aws::S3::Types::GetBucketLocationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLoggingOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6081
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6098
 class Aws::S3::Types::GetBucketLoggingOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6082
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6099
 Aws::S3::Types::GetBucketLoggingOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLoggingRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6101
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6118
 class Aws::S3::Types::GetBucketLoggingRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6102
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6119
 Aws::S3::Types::GetBucketLoggingRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketMetricsConfigurationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6113
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6130
 class Aws::S3::Types::GetBucketMetricsConfigurationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6114
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6131
 Aws::S3::Types::GetBucketMetricsConfigurationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketMetricsConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6141
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6158
 class Aws::S3::Types::GetBucketMetricsConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6142
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6159
 Aws::S3::Types::GetBucketMetricsConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketNotificationConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6176
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6193
 class Aws::S3::Types::GetBucketNotificationConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6177
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6194
 Aws::S3::Types::GetBucketNotificationConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketOwnershipControlsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6189
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6206
 class Aws::S3::Types::GetBucketOwnershipControlsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6190
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6207
 Aws::S3::Types::GetBucketOwnershipControlsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketOwnershipControlsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6210
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6227
 class Aws::S3::Types::GetBucketOwnershipControlsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6211
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6228
 Aws::S3::Types::GetBucketOwnershipControlsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketPolicyOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6222
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6239
 class Aws::S3::Types::GetBucketPolicyOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6223
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6240
 Aws::S3::Types::GetBucketPolicyOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketPolicyRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6279
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6296
 class Aws::S3::Types::GetBucketPolicyRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6280
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6297
 Aws::S3::Types::GetBucketPolicyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketPolicyStatusOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6291
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6308
 class Aws::S3::Types::GetBucketPolicyStatusOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6292
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6309
 Aws::S3::Types::GetBucketPolicyStatusOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketPolicyStatusRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6312
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6329
 class Aws::S3::Types::GetBucketPolicyStatusRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6313
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6330
 Aws::S3::Types::GetBucketPolicyStatusRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketReplicationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6325
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6342
 class Aws::S3::Types::GetBucketReplicationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6326
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6343
 Aws::S3::Types::GetBucketReplicationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketReplicationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6345
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6362
 class Aws::S3::Types::GetBucketReplicationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6346
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6363
 Aws::S3::Types::GetBucketReplicationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketRequestPaymentOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6357
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6374
 class Aws::S3::Types::GetBucketRequestPaymentOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6358
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6375
 Aws::S3::Types::GetBucketRequestPaymentOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketRequestPaymentRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6378
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6395
 class Aws::S3::Types::GetBucketRequestPaymentRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6379
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6396
 Aws::S3::Types::GetBucketRequestPaymentRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketTaggingOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6390
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6407
 class Aws::S3::Types::GetBucketTaggingOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6391
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6408
 Aws::S3::Types::GetBucketTaggingOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketTaggingRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6410
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6427
 class Aws::S3::Types::GetBucketTaggingRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6411
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6428
 Aws::S3::Types::GetBucketTaggingRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketVersioningOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6430
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6447
 class Aws::S3::Types::GetBucketVersioningOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6431
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6448
 Aws::S3::Types::GetBucketVersioningOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketVersioningRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6450
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6467
 class Aws::S3::Types::GetBucketVersioningRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6451
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6468
 Aws::S3::Types::GetBucketVersioningRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketWebsiteOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6481
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6498
 class Aws::S3::Types::GetBucketWebsiteOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6482
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6499
 Aws::S3::Types::GetBucketWebsiteOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketWebsiteRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6501
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6518
 class Aws::S3::Types::GetBucketWebsiteRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6502
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6519
 Aws::S3::Types::GetBucketWebsiteRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAclOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6528
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6545
 class Aws::S3::Types::GetObjectAclOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6529
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6546
 Aws::S3::Types::GetObjectAclOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAclRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6597
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6614
 class Aws::S3::Types::GetObjectAclRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6598
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6615
 Aws::S3::Types::GetObjectAclRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAttributesOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6678
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6695
 class Aws::S3::Types::GetObjectAttributesOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6679
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6696
 Aws::S3::Types::GetObjectAttributesOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A collection of parts associated with a multipart upload.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAttributesParts AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6735
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6752
 class Aws::S3::Types::GetObjectAttributesParts < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6736
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6753
 Aws::S3::Types::GetObjectAttributesParts::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAttributesRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6883
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6900
 class Aws::S3::Types::GetObjectAttributesRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6884
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6901
 Aws::S3::Types::GetObjectAttributesRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectLegalHoldOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6895
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6912
 class Aws::S3::Types::GetObjectLegalHoldOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6896
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6913
 Aws::S3::Types::GetObjectLegalHoldOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectLegalHoldRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6962
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6979
 class Aws::S3::Types::GetObjectLegalHoldRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6963
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6980
 Aws::S3::Types::GetObjectLegalHoldRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectLockConfigurationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6974
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6991
 class Aws::S3::Types::GetObjectLockConfigurationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6975
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6992
 Aws::S3::Types::GetObjectLockConfigurationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectLockConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7009
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7026
 class Aws::S3::Types::GetObjectLockConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7010
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7027
 Aws::S3::Types::GetObjectLockConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7347
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7364
 class Aws::S3::Types::GetObjectOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7348
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7365
 Aws::S3::Types::GetObjectOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7702
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7719
 class Aws::S3::Types::GetObjectRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7703
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7720
 Aws::S3::Types::GetObjectRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectRetentionOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7714
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7731
 class Aws::S3::Types::GetObjectRetentionOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7715
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7732
 Aws::S3::Types::GetObjectRetentionOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectRetentionRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7781
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7798
 class Aws::S3::Types::GetObjectRetentionRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7782
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7799
 Aws::S3::Types::GetObjectRetentionRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectTaggingOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7799
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7816
 class Aws::S3::Types::GetObjectTaggingOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7800
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7817
 Aws::S3::Types::GetObjectTaggingOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectTaggingRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7875
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7892
 class Aws::S3::Types::GetObjectTaggingRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7876
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7893
 Aws::S3::Types::GetObjectTaggingRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectTorrentOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7897
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7914
 class Aws::S3::Types::GetObjectTorrentOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7898
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7915
 Aws::S3::Types::GetObjectTorrentOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectTorrentRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7942
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7959
 class Aws::S3::Types::GetObjectTorrentRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7943
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7960
 Aws::S3::Types::GetObjectTorrentRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetPublicAccessBlockOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7955
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7972
 class Aws::S3::Types::GetPublicAccessBlockOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7956
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7973
 Aws::S3::Types::GetPublicAccessBlockOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetPublicAccessBlockRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7976
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7993
 class Aws::S3::Types::GetPublicAccessBlockRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7977
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7994
 Aws::S3::Types::GetPublicAccessBlockRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for S3 Glacier job parameters.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GlacierJobParameters AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7990
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8007
 class Aws::S3::Types::GlacierJobParameters < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7991
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8008
 Aws::S3::Types::GlacierJobParameters::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for grant information.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Grant AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8009
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8026
 class Aws::S3::Types::Grant < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8010
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8027
 Aws::S3::Types::Grant::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for the person being granted permissions.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Grantee AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8072
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8089
 class Aws::S3::Types::Grantee < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8073
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8090
 Aws::S3::Types::Grantee::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/HeadBucketOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8115
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8132
 class Aws::S3::Types::HeadBucketOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8116
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8133
 Aws::S3::Types::HeadBucketOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/HeadBucketRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8184
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8201
 class Aws::S3::Types::HeadBucketRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8185
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8202
 Aws::S3::Types::HeadBucketRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/HeadObjectOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8589
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8606
 class Aws::S3::Types::HeadObjectOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8590
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8607
 Aws::S3::Types::HeadObjectOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/HeadObjectRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8868
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8885
 class Aws::S3::Types::HeadObjectRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8869
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8886
 Aws::S3::Types::HeadObjectRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for the `Suffix` element.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/IndexDocument AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8895
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8912
 class Aws::S3::Types::IndexDocument < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8896
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8913
 Aws::S3::Types::IndexDocument::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container element that identifies who initiated the multipart upload.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Initiator AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8926
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8943
 class Aws::S3::Types::Initiator < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8927
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8944
 Aws::S3::Types::Initiator::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Describes the serialization format of the object.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InputSerialization AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8956
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8973
 class Aws::S3::Types::InputSerialization < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8957
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8974
 Aws::S3::Types::InputSerialization::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for specifying S3 Intelligent-Tiering filters. The filters
@@ -30399,12 +30384,12 @@ Aws::S3::Types::InputSerialization::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/IntelligentTieringAndOperator AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8978
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8995
 class Aws::S3::Types::IntelligentTieringAndOperator < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8979
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8996
 Aws::S3::Types::IntelligentTieringAndOperator::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the S3 Intelligent-Tiering configuration for an Amazon S3
@@ -30420,12 +30405,12 @@ Aws::S3::Types::IntelligentTieringAndOperator::SENSITIVE = T.let(T.unsafe(nil), 
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/IntelligentTieringConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9018
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9035
 class Aws::S3::Types::IntelligentTieringConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9019
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9036
 Aws::S3::Types::IntelligentTieringConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The `Filter` is used to identify objects that the S3
@@ -30433,12 +30418,12 @@ Aws::S3::Types::IntelligentTieringConfiguration::SENSITIVE = T.let(T.unsafe(nil)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/IntelligentTieringFilter AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9055
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9072
 class Aws::S3::Types::IntelligentTieringFilter < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9056
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9073
 Aws::S3::Types::IntelligentTieringFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Object is archived and inaccessible until restored.
@@ -30459,12 +30444,12 @@ Aws::S3::Types::IntelligentTieringFilter::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InvalidObjectState AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9086
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9103
 class Aws::S3::Types::InvalidObjectState < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9087
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9104
 Aws::S3::Types::InvalidObjectState::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the inventory configuration for an Amazon S3 bucket. For
@@ -30477,24 +30462,24 @@ Aws::S3::Types::InvalidObjectState::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InventoryConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9144
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9161
 class Aws::S3::Types::InventoryConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9145
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9162
 Aws::S3::Types::InventoryConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the inventory configuration for an Amazon S3 bucket.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InventoryDestination AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9159
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9176
 class Aws::S3::Types::InventoryDestination < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9160
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9177
 Aws::S3::Types::InventoryDestination::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Contains the type of server-side encryption used to encrypt the
@@ -30502,12 +30487,12 @@ Aws::S3::Types::InventoryDestination::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InventoryEncryption AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9179
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9196
 class Aws::S3::Types::InventoryEncryption < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9180
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9197
 Aws::S3::Types::InventoryEncryption::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies an inventory filter. The inventory only includes objects
@@ -30515,12 +30500,12 @@ Aws::S3::Types::InventoryEncryption::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InventoryFilter AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9195
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9212
 class Aws::S3::Types::InventoryFilter < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9196
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9213
 Aws::S3::Types::InventoryFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Contains the bucket name, file format, bucket owner (optional), and
@@ -30528,60 +30513,60 @@ Aws::S3::Types::InventoryFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InventoryS3BucketDestination AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9239
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9256
 class Aws::S3::Types::InventoryS3BucketDestination < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9240
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9257
 Aws::S3::Types::InventoryS3BucketDestination::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the schedule for generating inventory results.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InventorySchedule AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9253
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9270
 class Aws::S3::Types::InventorySchedule < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9254
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9271
 Aws::S3::Types::InventorySchedule::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies JSON as object's input serialization format.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/JSONInput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9267
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9284
 class Aws::S3::Types::JSONInput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9268
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9285
 Aws::S3::Types::JSONInput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies JSON as request's output serialization format.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/JSONOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9282
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9299
 class Aws::S3::Types::JSONOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9283
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9300
 Aws::S3::Types::JSONOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for specifying the configuration for Lambda notifications.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LambdaFunctionConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9326
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9343
 class Aws::S3::Types::LambdaFunctionConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9327
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9344
 Aws::S3::Types::LambdaFunctionConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for lifecycle rules. You can add as many as 1000 rules.
@@ -30595,12 +30580,12 @@ Aws::S3::Types::LambdaFunctionConfiguration::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LifecycleConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9347
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9364
 class Aws::S3::Types::LifecycleConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9348
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9365
 Aws::S3::Types::LifecycleConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for the expiration for the lifecycle of the object.
@@ -30614,12 +30599,12 @@ Aws::S3::Types::LifecycleConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LifecycleExpiration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9384
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9401
 class Aws::S3::Types::LifecycleExpiration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9385
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9402
 Aws::S3::Types::LifecycleExpiration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A lifecycle rule for individual objects in an Amazon S3 bucket.
@@ -30633,12 +30618,12 @@ Aws::S3::Types::LifecycleExpiration::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LifecycleRule AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9479
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9496
 class Aws::S3::Types::LifecycleRule < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9480
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9497
 Aws::S3::Types::LifecycleRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # This is used in a Lifecycle Rule Filter to apply a logical AND to two
@@ -30647,12 +30632,12 @@ Aws::S3::Types::LifecycleRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LifecycleRuleAndOperator AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9511
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9528
 class Aws::S3::Types::LifecycleRuleAndOperator < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9512
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9529
 Aws::S3::Types::LifecycleRuleAndOperator::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The `Filter` is used to identify objects that a Lifecycle Rule applies
@@ -30663,157 +30648,157 @@ Aws::S3::Types::LifecycleRuleAndOperator::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LifecycleRuleFilter AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9560
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9577
 class Aws::S3::Types::LifecycleRuleFilter < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9561
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9578
 Aws::S3::Types::LifecycleRuleFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketAnalyticsConfigurationsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9595
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9612
 class Aws::S3::Types::ListBucketAnalyticsConfigurationsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9596
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9613
 Aws::S3::Types::ListBucketAnalyticsConfigurationsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketAnalyticsConfigurationsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9622
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9639
 class Aws::S3::Types::ListBucketAnalyticsConfigurationsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9623
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9640
 Aws::S3::Types::ListBucketAnalyticsConfigurationsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketIntelligentTieringConfigurationsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9656
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9673
 class Aws::S3::Types::ListBucketIntelligentTieringConfigurationsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9657
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9674
 Aws::S3::Types::ListBucketIntelligentTieringConfigurationsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketIntelligentTieringConfigurationsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9675
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9692
 class Aws::S3::Types::ListBucketIntelligentTieringConfigurationsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9676
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9693
 Aws::S3::Types::ListBucketIntelligentTieringConfigurationsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketInventoryConfigurationsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9708
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9725
 class Aws::S3::Types::ListBucketInventoryConfigurationsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9709
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9726
 Aws::S3::Types::ListBucketInventoryConfigurationsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketInventoryConfigurationsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9737
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9754
 class Aws::S3::Types::ListBucketInventoryConfigurationsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9738
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9755
 Aws::S3::Types::ListBucketInventoryConfigurationsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketMetricsConfigurationsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9772
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9789
 class Aws::S3::Types::ListBucketMetricsConfigurationsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9773
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9790
 Aws::S3::Types::ListBucketMetricsConfigurationsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketMetricsConfigurationsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9801
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9818
 class Aws::S3::Types::ListBucketMetricsConfigurationsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9802
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9819
 Aws::S3::Types::ListBucketMetricsConfigurationsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9826
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9852
 class Aws::S3::Types::ListBucketsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9827
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9853
 Aws::S3::Types::ListBucketsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9852
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9905
 class Aws::S3::Types::ListBucketsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9853
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9906
 Aws::S3::Types::ListBucketsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListDirectoryBucketsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9871
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9924
 class Aws::S3::Types::ListDirectoryBucketsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9872
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9925
 Aws::S3::Types::ListDirectoryBucketsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListDirectoryBucketsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9894
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9947
 class Aws::S3::Types::ListDirectoryBucketsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9895
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9948
 Aws::S3::Types::ListDirectoryBucketsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListMultipartUploadsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10023
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10076
 class Aws::S3::Types::ListMultipartUploadsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10024
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10077
 Aws::S3::Types::ListMultipartUploadsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListMultipartUploadsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10210
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10263
 class Aws::S3::Types::ListMultipartUploadsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10211
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10264
 Aws::S3::Types::ListMultipartUploadsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectVersionsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10316
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10369
 class Aws::S3::Types::ListObjectVersionsOutput < ::Struct
   include ::Aws::Structure
 
@@ -30827,77 +30812,77 @@ class Aws::S3::Types::ListObjectVersionsOutput < ::Struct
   def versions_delete_markers; end
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10317
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10370
 Aws::S3::Types::ListObjectVersionsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectVersionsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10426
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10479
 class Aws::S3::Types::ListObjectVersionsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10427
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10480
 Aws::S3::Types::ListObjectVersionsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10545
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10598
 class Aws::S3::Types::ListObjectsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10546
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10599
 Aws::S3::Types::ListObjectsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10667
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10720
 class Aws::S3::Types::ListObjectsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10668
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10721
 Aws::S3::Types::ListObjectsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectsV2Output AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10818
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10871
 class Aws::S3::Types::ListObjectsV2Output < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10819
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10872
 Aws::S3::Types::ListObjectsV2Output::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectsV2Request AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10991
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11044
 class Aws::S3::Types::ListObjectsV2Request < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10992
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11045
 Aws::S3::Types::ListObjectsV2Request::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListPartsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11127
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11180
 class Aws::S3::Types::ListPartsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11128
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11181
 Aws::S3::Types::ListPartsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListPartsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11277
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11330
 class Aws::S3::Types::ListPartsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11278
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11331
 Aws::S3::Types::ListPartsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the location where the bucket will be created.
@@ -30916,12 +30901,12 @@ Aws::S3::Types::ListPartsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LocationInfo AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11312
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11365
 class Aws::S3::Types::LocationInfo < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11313
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11366
 Aws::S3::Types::LocationInfo::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Describes where logs are stored and the prefix that Amazon S3 assigns
@@ -30934,24 +30919,24 @@ Aws::S3::Types::LocationInfo::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LoggingEnabled AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11364
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11417
 class Aws::S3::Types::LoggingEnabled < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11365
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11418
 Aws::S3::Types::LoggingEnabled::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A metadata key-value pair to store with an object.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/MetadataEntry AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11383
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11436
 class Aws::S3::Types::MetadataEntry < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11384
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11437
 Aws::S3::Types::MetadataEntry::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container specifying replication metrics-related settings enabling
@@ -30959,12 +30944,12 @@ Aws::S3::Types::MetadataEntry::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Metrics AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11404
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11457
 class Aws::S3::Types::Metrics < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11405
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11458
 Aws::S3::Types::Metrics::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A conjunction (logical AND) of predicates, which is used in evaluating
@@ -30974,12 +30959,12 @@ Aws::S3::Types::Metrics::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/MetricsAndOperator AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11431
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11484
 class Aws::S3::Types::MetricsAndOperator < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11432
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11485
 Aws::S3::Types::MetricsAndOperator::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies a metrics configuration for the CloudWatch request metrics
@@ -30995,12 +30980,12 @@ Aws::S3::Types::MetricsAndOperator::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/MetricsConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11464
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11517
 class Aws::S3::Types::MetricsConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11465
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11518
 Aws::S3::Types::MetricsConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies a metrics configuration filter. The metrics configuration
@@ -31015,45 +31000,45 @@ Aws::S3::Types::MetricsConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/MetricsFilter AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11504
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11557
 class Aws::S3::Types::MetricsFilter < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11505
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11558
 Aws::S3::Types::MetricsFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for the `MultipartUpload` for the Amazon S3 object.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/MultipartUpload AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11559
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11612
 class Aws::S3::Types::MultipartUpload < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11560
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11613
 Aws::S3::Types::MultipartUpload::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The specified bucket does not exist.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/NoSuchBucket AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11568
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11621
 class Aws::S3::Types::NoSuchBucket < ::Aws::EmptyStructure; end
 
 # The specified key does not exist.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/NoSuchKey AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11574
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11627
 class Aws::S3::Types::NoSuchKey < ::Aws::EmptyStructure; end
 
 # The specified multipart upload does not exist.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/NoSuchUpload AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11580
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11633
 class Aws::S3::Types::NoSuchUpload < ::Aws::EmptyStructure; end
 
 # Specifies when noncurrent object versions expire. Upon expiration,
@@ -31064,12 +31049,12 @@ class Aws::S3::Types::NoSuchUpload < ::Aws::EmptyStructure; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/NoncurrentVersionExpiration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11617
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11670
 class Aws::S3::Types::NoncurrentVersionExpiration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11618
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11671
 Aws::S3::Types::NoncurrentVersionExpiration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for the transition rule that describes when noncurrent
@@ -31084,12 +31069,12 @@ Aws::S3::Types::NoncurrentVersionExpiration::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/NoncurrentVersionTransition AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11665
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11718
 class Aws::S3::Types::NoncurrentVersionTransition < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11666
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11719
 Aws::S3::Types::NoncurrentVersionTransition::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for specifying the notification configuration of the
@@ -31098,22 +31083,22 @@ Aws::S3::Types::NoncurrentVersionTransition::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/NotificationConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11699
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11752
 class Aws::S3::Types::NotificationConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11700
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11753
 Aws::S3::Types::NotificationConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/NotificationConfigurationDeprecated AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11726
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11779
 class Aws::S3::Types::NotificationConfigurationDeprecated < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11727
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11780
 Aws::S3::Types::NotificationConfigurationDeprecated::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies object key name filtering rules. For information about key
@@ -31126,91 +31111,91 @@ Aws::S3::Types::NotificationConfigurationDeprecated::SENSITIVE = T.let(T.unsafe(
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/NotificationConfigurationFilter AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11746
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11799
 class Aws::S3::Types::NotificationConfigurationFilter < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11747
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11800
 Aws::S3::Types::NotificationConfigurationFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # An object consists of data and its descriptive metadata.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Object AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11845
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11898
 class Aws::S3::Types::Object < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11846
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11899
 Aws::S3::Types::Object::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # This action is not allowed against this storage tier.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectAlreadyInActiveTierError AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11854
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11907
 class Aws::S3::Types::ObjectAlreadyInActiveTierError < ::Aws::EmptyStructure; end
 
 # Object Identifier is unique value to identify objects.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectIdentifier AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11882
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11935
 class Aws::S3::Types::ObjectIdentifier < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11883
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11936
 Aws::S3::Types::ObjectIdentifier::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The container element for Object Lock configuration parameters.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectLockConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11907
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11960
 class Aws::S3::Types::ObjectLockConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11908
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11961
 Aws::S3::Types::ObjectLockConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A legal hold configuration for an object.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectLockLegalHold AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11921
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11974
 class Aws::S3::Types::ObjectLockLegalHold < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11922
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11975
 Aws::S3::Types::ObjectLockLegalHold::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A Retention configuration for an object.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectLockRetention AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11940
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11993
 class Aws::S3::Types::ObjectLockRetention < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11941
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11994
 Aws::S3::Types::ObjectLockRetention::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The container element for an Object Lock rule.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectLockRule AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11958
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12011
 class Aws::S3::Types::ObjectLockRule < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11959
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12012
 Aws::S3::Types::ObjectLockRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The source object of the COPY action is not in the active tier and is
@@ -31218,91 +31203,91 @@ Aws::S3::Types::ObjectLockRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectNotInActiveTierError AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11968
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12021
 class Aws::S3::Types::ObjectNotInActiveTierError < ::Aws::EmptyStructure; end
 
 # A container for elements related to an individual part.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectPart AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12046
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12099
 class Aws::S3::Types::ObjectPart < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12047
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12100
 Aws::S3::Types::ObjectPart::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The version of an object.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectVersion AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12114
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12167
 class Aws::S3::Types::ObjectVersion < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12115
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12168
 Aws::S3::Types::ObjectVersion::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Describes the location where the restore job's output is stored.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/OutputLocation AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12129
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12182
 class Aws::S3::Types::OutputLocation < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12130
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12183
 Aws::S3::Types::OutputLocation::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Describes how results of the Select job are serialized.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/OutputSerialization AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12148
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12201
 class Aws::S3::Types::OutputSerialization < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12149
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12202
 Aws::S3::Types::OutputSerialization::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for the owner's display name and ID.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Owner AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12188
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12241
 class Aws::S3::Types::Owner < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12189
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12242
 Aws::S3::Types::Owner::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The container element for a bucket's ownership controls.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/OwnershipControls AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12202
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12255
 class Aws::S3::Types::OwnershipControls < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12203
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12256
 Aws::S3::Types::OwnershipControls::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The container element for an ownership control rule.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/OwnershipControlsRule AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12249
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12302
 class Aws::S3::Types::OwnershipControlsRule < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12250
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12303
 Aws::S3::Types::OwnershipControlsRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for Parquet.
@@ -31310,19 +31295,19 @@ Aws::S3::Types::OwnershipControlsRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 # @api private
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ParquetInput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12260
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12313
 class Aws::S3::Types::ParquetInput < ::Aws::EmptyStructure; end
 
 # Container for elements related to a part.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Part AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12345
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12398
 class Aws::S3::Types::Part < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12346
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12399
 Aws::S3::Types::Part::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Amazon S3 keys for log objects are partitioned in the following
@@ -31335,12 +31320,12 @@ Aws::S3::Types::Part::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PartitionedPrefix AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12374
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12427
 class Aws::S3::Types::PartitionedPrefix < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12375
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12428
 Aws::S3::Types::PartitionedPrefix::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # This error is not modeled.
@@ -31360,24 +31345,24 @@ Aws::S3::Types::PermanentRedirect::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PolicyStatus AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12389
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12442
 class Aws::S3::Types::PolicyStatus < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12390
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12443
 Aws::S3::Types::PolicyStatus::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # This data type contains information about progress of an operation.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Progress AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12413
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12466
 class Aws::S3::Types::Progress < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12414
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12467
 Aws::S3::Types::Progress::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # This data type contains information about the progress event of an
@@ -31385,12 +31370,12 @@ Aws::S3::Types::Progress::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ProgressEvent AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12429
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12482
 class Aws::S3::Types::ProgressEvent < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12430
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12483
 Aws::S3::Types::ProgressEvent::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The PublicAccessBlock configuration that you want to apply to this
@@ -31405,352 +31390,352 @@ Aws::S3::Types::ProgressEvent::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PublicAccessBlockConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12497
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12550
 class Aws::S3::Types::PublicAccessBlockConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12498
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12551
 Aws::S3::Types::PublicAccessBlockConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketAccelerateConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12541
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12594
 class Aws::S3::Types::PutBucketAccelerateConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12542
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12595
 Aws::S3::Types::PutBucketAccelerateConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketAclRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12635
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12688
 class Aws::S3::Types::PutBucketAclRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12636
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12689
 Aws::S3::Types::PutBucketAclRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketAnalyticsConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12666
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12719
 class Aws::S3::Types::PutBucketAnalyticsConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12667
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12720
 Aws::S3::Types::PutBucketAnalyticsConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketCorsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12731
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12784
 class Aws::S3::Types::PutBucketCorsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12732
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12785
 Aws::S3::Types::PutBucketCorsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketEncryptionRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12815
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12868
 class Aws::S3::Types::PutBucketEncryptionRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12816
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12869
 Aws::S3::Types::PutBucketEncryptionRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketIntelligentTieringConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12838
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12891
 class Aws::S3::Types::PutBucketIntelligentTieringConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12839
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12892
 Aws::S3::Types::PutBucketIntelligentTieringConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketInventoryConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12869
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12922
 class Aws::S3::Types::PutBucketInventoryConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12870
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12923
 Aws::S3::Types::PutBucketInventoryConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLifecycleConfigurationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12895
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12948
 class Aws::S3::Types::PutBucketLifecycleConfigurationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12896
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12949
 Aws::S3::Types::PutBucketLifecycleConfigurationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLifecycleConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12957
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13010
 class Aws::S3::Types::PutBucketLifecycleConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12958
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13011
 Aws::S3::Types::PutBucketLifecycleConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLifecycleRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13005
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13058
 class Aws::S3::Types::PutBucketLifecycleRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13006
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13059
 Aws::S3::Types::PutBucketLifecycleRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLoggingRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13057
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13110
 class Aws::S3::Types::PutBucketLoggingRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13058
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13111
 Aws::S3::Types::PutBucketLoggingRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketMetricsConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13089
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13142
 class Aws::S3::Types::PutBucketMetricsConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13090
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13143
 Aws::S3::Types::PutBucketMetricsConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketNotificationConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13122
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13175
 class Aws::S3::Types::PutBucketNotificationConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13123
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13176
 Aws::S3::Types::PutBucketNotificationConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketNotificationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13174
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13227
 class Aws::S3::Types::PutBucketNotificationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13175
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13228
 Aws::S3::Types::PutBucketNotificationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketOwnershipControlsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13210
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13263
 class Aws::S3::Types::PutBucketOwnershipControlsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13211
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13264
 Aws::S3::Types::PutBucketOwnershipControlsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketPolicyRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13322
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13375
 class Aws::S3::Types::PutBucketPolicyRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13323
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13376
 Aws::S3::Types::PutBucketPolicyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketReplicationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13387
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13440
 class Aws::S3::Types::PutBucketReplicationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13388
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13441
 Aws::S3::Types::PutBucketReplicationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketRequestPaymentRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13446
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13499
 class Aws::S3::Types::PutBucketRequestPaymentRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13447
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13500
 Aws::S3::Types::PutBucketRequestPaymentRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketTaggingRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13505
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13558
 class Aws::S3::Types::PutBucketTaggingRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13506
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13559
 Aws::S3::Types::PutBucketTaggingRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketVersioningRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13571
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13624
 class Aws::S3::Types::PutBucketVersioningRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13572
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13625
 Aws::S3::Types::PutBucketVersioningRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketWebsiteRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13630
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13683
 class Aws::S3::Types::PutBucketWebsiteRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13631
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13684
 Aws::S3::Types::PutBucketWebsiteRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectAclOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13647
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13700
 class Aws::S3::Types::PutObjectAclOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13648
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13701
 Aws::S3::Types::PutObjectAclOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectAclRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13813
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13866
 class Aws::S3::Types::PutObjectAclRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13814
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13867
 Aws::S3::Types::PutObjectAclRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectLegalHoldOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13830
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13883
 class Aws::S3::Types::PutObjectLegalHoldOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13831
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13884
 Aws::S3::Types::PutObjectLegalHoldOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectLegalHoldRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13928
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13981
 class Aws::S3::Types::PutObjectLegalHoldRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13929
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13982
 Aws::S3::Types::PutObjectLegalHoldRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectLockConfigurationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13945
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13998
 class Aws::S3::Types::PutObjectLockConfigurationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13946
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13999
 Aws::S3::Types::PutObjectLockConfigurationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectLockConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14023
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14076
 class Aws::S3::Types::PutObjectLockConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14024
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14077
 Aws::S3::Types::PutObjectLockConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14211
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14264
 class Aws::S3::Types::PutObjectOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14212
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14265
 Aws::S3::Types::PutObjectOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14892
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14958
 class Aws::S3::Types::PutObjectRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14893
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14959
 Aws::S3::Types::PutObjectRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectRetentionOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14909
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14975
 class Aws::S3::Types::PutObjectRetentionOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14910
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14976
 Aws::S3::Types::PutObjectRetentionOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectRetentionRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15014
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15080
 class Aws::S3::Types::PutObjectRetentionRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15015
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15081
 Aws::S3::Types::PutObjectRetentionRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectTaggingOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15026
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15092
 class Aws::S3::Types::PutObjectTaggingOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15027
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15093
 Aws::S3::Types::PutObjectTaggingOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectTaggingRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15132
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15198
 class Aws::S3::Types::PutObjectTaggingRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15133
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15199
 Aws::S3::Types::PutObjectTaggingRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutPublicAccessBlockRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15193
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15259
 class Aws::S3::Types::PutPublicAccessBlockRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15194
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15260
 Aws::S3::Types::PutPublicAccessBlockRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the configuration for publishing messages to an Amazon
@@ -31759,12 +31744,12 @@ Aws::S3::Types::PutPublicAccessBlockRequest::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/QueueConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15234
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15300
 class Aws::S3::Types::QueueConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15235
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15301
 Aws::S3::Types::QueueConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # This data type is deprecated. Use [QueueConfiguration][1] for the same
@@ -31778,24 +31763,24 @@ Aws::S3::Types::QueueConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/QueueConfigurationDeprecated AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15274
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15340
 class Aws::S3::Types::QueueConfigurationDeprecated < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15275
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15341
 Aws::S3::Types::QueueConfigurationDeprecated::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The container for the records event.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RecordsEvent AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15297
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15363
 class Aws::S3::Types::RecordsEvent < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15298
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15364
 Aws::S3::Types::RecordsEvent::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies how requests are redirected. In the event of an error, you
@@ -31803,12 +31788,12 @@ Aws::S3::Types::RecordsEvent::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Redirect AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15359
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15425
 class Aws::S3::Types::Redirect < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15360
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15426
 Aws::S3::Types::Redirect::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the redirect behavior of all requests to a website endpoint
@@ -31816,12 +31801,12 @@ Aws::S3::Types::Redirect::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RedirectAllRequestsTo AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15380
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15446
 class Aws::S3::Types::RedirectAllRequestsTo < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15381
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15447
 Aws::S3::Types::RedirectAllRequestsTo::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A filter that you can specify for selection for modifications on
@@ -31838,12 +31823,12 @@ Aws::S3::Types::RedirectAllRequestsTo::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ReplicaModifications AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15404
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15470
 class Aws::S3::Types::ReplicaModifications < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15405
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15471
 Aws::S3::Types::ReplicaModifications::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for replication rules. You can add up to 1,000 rules. The
@@ -31851,12 +31836,12 @@ Aws::S3::Types::ReplicaModifications::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ReplicationConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15433
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15499
 class Aws::S3::Types::ReplicationConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15434
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15500
 Aws::S3::Types::ReplicationConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies which Amazon S3 objects to replicate and where to store the
@@ -31864,12 +31849,12 @@ Aws::S3::Types::ReplicationConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ReplicationRule AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15552
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15618
 class Aws::S3::Types::ReplicationRule < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15553
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15619
 Aws::S3::Types::ReplicationRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for specifying rule filters. The filters determine the
@@ -31886,12 +31871,12 @@ Aws::S3::Types::ReplicationRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ReplicationRuleAndOperator AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15582
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15648
 class Aws::S3::Types::ReplicationRuleAndOperator < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15583
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15649
 Aws::S3::Types::ReplicationRuleAndOperator::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A filter that identifies the subset of objects to which the
@@ -31900,12 +31885,12 @@ Aws::S3::Types::ReplicationRuleAndOperator::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ReplicationRuleFilter AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15627
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15693
 class Aws::S3::Types::ReplicationRuleFilter < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15628
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15694
 Aws::S3::Types::ReplicationRuleFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container specifying S3 Replication Time Control (S3 RTC) related
@@ -31915,12 +31900,12 @@ Aws::S3::Types::ReplicationRuleFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ReplicationTime AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15650
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15716
 class Aws::S3::Types::ReplicationTime < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15651
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15717
 Aws::S3::Types::ReplicationTime::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container specifying the time value for S3 Replication Time Control
@@ -31928,24 +31913,24 @@ Aws::S3::Types::ReplicationTime::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ReplicationTimeValue AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15667
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15733
 class Aws::S3::Types::ReplicationTimeValue < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15668
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15734
 Aws::S3::Types::ReplicationTimeValue::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for Payer.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RequestPaymentConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15681
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15747
 class Aws::S3::Types::RequestPaymentConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15682
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15748
 Aws::S3::Types::RequestPaymentConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for specifying if periodic `QueryProgress` messages should
@@ -31953,44 +31938,44 @@ Aws::S3::Types::RequestPaymentConfiguration::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RequestProgress AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15697
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15763
 class Aws::S3::Types::RequestProgress < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15698
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15764
 Aws::S3::Types::RequestProgress::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RestoreObjectOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15720
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15786
 class Aws::S3::Types::RestoreObjectOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15721
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15787
 Aws::S3::Types::RestoreObjectOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RestoreObjectRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15817
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15883
 class Aws::S3::Types::RestoreObjectRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15818
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15884
 Aws::S3::Types::RestoreObjectRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for restore job parameters.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RestoreRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15882
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15932
 class Aws::S3::Types::RestoreRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15883
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15933
 Aws::S3::Types::RestoreRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the restoration status of an object. Objects in certain
@@ -32011,12 +31996,12 @@ Aws::S3::Types::RestoreRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RestoreStatus AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15931
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15981
 class Aws::S3::Types::RestoreStatus < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15932
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15982
 Aws::S3::Types::RestoreStatus::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the redirect behavior and when a redirect is applied. For
@@ -32029,12 +32014,12 @@ Aws::S3::Types::RestoreStatus::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RoutingRule AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15962
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16012
 class Aws::S3::Types::RoutingRule < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15963
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16013
 Aws::S3::Types::RoutingRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies lifecycle rules for an Amazon S3 bucket. For more
@@ -32049,24 +32034,24 @@ Aws::S3::Types::RoutingRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Rule AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16058
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16108
 class Aws::S3::Types::Rule < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16059
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16109
 Aws::S3::Types::Rule::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for object key name prefix and suffix filtering rules.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/S3KeyFilter AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16073
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16123
 class Aws::S3::Types::S3KeyFilter < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16074
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16124
 Aws::S3::Types::S3KeyFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Describes an Amazon S3 location that will receive the results of the
@@ -32074,24 +32059,24 @@ Aws::S3::Types::S3KeyFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/S3Location AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16124
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16174
 class Aws::S3::Types::S3Location < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16125
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16175
 Aws::S3::Types::S3Location::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the use of SSE-KMS to encrypt delivered inventory reports.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SSEKMS AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16140
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16190
 class Aws::S3::Types::SSEKMS < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16141
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16191
 Aws::S3::Types::SSEKMS::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the use of SSE-S3 to encrypt delivered inventory reports.
@@ -32099,7 +32084,7 @@ Aws::S3::Types::SSEKMS::SENSITIVE = T.let(T.unsafe(nil), Array)
 # @api private
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SSES3 AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16151
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16201
 class Aws::S3::Types::SSES3 < ::Aws::EmptyStructure; end
 
 # Specifies the byte range of the object to get the records from. A
@@ -32110,12 +32095,12 @@ class Aws::S3::Types::SSES3 < ::Aws::EmptyStructure; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ScanRange AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16180
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16230
 class Aws::S3::Types::ScanRange < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16181
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16231
 Aws::S3::Types::ScanRange::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The container for selecting objects from a content event stream.
@@ -32125,28 +32110,22 @@ Aws::S3::Types::ScanRange::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SelectObjectContentEventStream AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18159
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18181
 class Aws::S3::Types::SelectObjectContentEventStream < ::Enumerator
-  # source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18161
+  # source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18183
   def event_types; end
 end
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SelectObjectContentOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16192
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16242
 class Aws::S3::Types::SelectObjectContentOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16193
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16243
 Aws::S3::Types::SelectObjectContentOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
-# <note markdown="1"> Learn Amazon S3 Select is no longer available to new customers.
-# Existing customers of Amazon S3 Select can continue to use the feature
-# as usual. [Learn more][1]
-#
-#  </note>
-#
 # Request to filter the contents of an Amazon S3 object based on a
 # simple Structured Query Language (SQL) statement. In the request,
 # along with the SQL expression, you must specify a data serialization
@@ -32154,46 +32133,32 @@ Aws::S3::Types::SelectObjectContentOutput::SENSITIVE = T.let(T.unsafe(nil), Arra
 # object data into records. It returns only records that match the
 # specified SQL expression. You must also specify the data serialization
 # format for the response. For more information, see [S3Select API
-# Documentation][2].
+# Documentation][1].
 #
 #
 #
-# [1]: http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/
-# [2]: https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html
+# [1]: https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SelectObjectContentRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16322
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16365
 class Aws::S3::Types::SelectObjectContentRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16323
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16366
 Aws::S3::Types::SelectObjectContentRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
-# Amazon S3 Select is no longer available to new customers. Existing
-# customers of Amazon S3 Select can continue to use the feature as
-# usual. [Learn more][1]
-#
 # Describes the parameters for Select job types.
-#
-# Learn [How to optimize querying your data in Amazon S3][1] using
-# [Amazon Athena][2], [S3 Object Lambda][3], or client-side filtering.
-#
-#
-#
-# [1]: http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/
-# [2]: https://docs.aws.amazon.com/athena/latest/ug/what-is.html
-# [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/transforming-objects.html
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SelectParameters AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16372
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16394
 class Aws::S3::Types::SelectParameters < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16373
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16395
 Aws::S3::Types::SelectParameters::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Describes the default server-side encryption to apply to new objects
@@ -32209,8 +32174,8 @@ Aws::S3::Types::SelectParameters::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # * **Directory buckets** - Your SSE-KMS configuration can only support
 #   1 [customer managed key][2] per directory bucket for the lifetime of
-#   the bucket. [Amazon Web Services managed key][3] (`aws/s3`) isn't
-#   supported.
+#   the bucket. The [Amazon Web Services managed key][3] (`aws/s3`)
+#   isn't supported.
 #
 # * **Directory buckets** - For directory buckets, there are only two
 #   supported options for server-side encryption: SSE-S3 and SSE-KMS.
@@ -32225,24 +32190,24 @@ Aws::S3::Types::SelectParameters::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ServerSideEncryptionByDefault AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16471
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16493
 class Aws::S3::Types::ServerSideEncryptionByDefault < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16472
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16494
 Aws::S3::Types::ServerSideEncryptionByDefault::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the default server-side-encryption configuration.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ServerSideEncryptionConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16486
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16508
 class Aws::S3::Types::ServerSideEncryptionConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16487
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16509
 Aws::S3::Types::ServerSideEncryptionConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the default server-side encryption configuration.
@@ -32266,12 +32231,12 @@ Aws::S3::Types::ServerSideEncryptionConfiguration::SENSITIVE = T.let(T.unsafe(ni
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ServerSideEncryptionRule AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16552
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16574
 class Aws::S3::Types::ServerSideEncryptionRule < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16553
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16575
 Aws::S3::Types::ServerSideEncryptionRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The established temporary security credentials of the session.
@@ -32284,12 +32249,12 @@ Aws::S3::Types::ServerSideEncryptionRule::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SessionCredentials AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16596
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16618
 class Aws::S3::Types::SessionCredentials < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16597
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16619
 Aws::S3::Types::SessionCredentials::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # To use simple format for S3 keys for log objects, set SimplePrefix to
@@ -32300,7 +32265,7 @@ Aws::S3::Types::SessionCredentials::SENSITIVE = T.let(T.unsafe(nil), Array)
 # @api private
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SimplePrefix AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16610
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16632
 class Aws::S3::Types::SimplePrefix < ::Aws::EmptyStructure; end
 
 # A container that describes additional filters for identifying the
@@ -32312,12 +32277,12 @@ class Aws::S3::Types::SimplePrefix < ::Aws::EmptyStructure; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SourceSelectionCriteria AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16644
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16666
 class Aws::S3::Types::SourceSelectionCriteria < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16645
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16667
 Aws::S3::Types::SourceSelectionCriteria::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for filter information for the selection of S3 objects
@@ -32325,36 +32290,36 @@ Aws::S3::Types::SourceSelectionCriteria::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SseKmsEncryptedObjects AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16661
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16683
 class Aws::S3::Types::SseKmsEncryptedObjects < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16662
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16684
 Aws::S3::Types::SseKmsEncryptedObjects::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for the stats details.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Stats AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16685
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16707
 class Aws::S3::Types::Stats < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16686
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16708
 Aws::S3::Types::Stats::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for the Stats Event.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/StatsEvent AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16700
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16722
 class Aws::S3::Types::StatsEvent < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16701
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16723
 Aws::S3::Types::StatsEvent::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies data related to access patterns to be collected and made
@@ -32363,12 +32328,12 @@ Aws::S3::Types::StatsEvent::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/StorageClassAnalysis AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16717
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16739
 class Aws::S3::Types::StorageClassAnalysis < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16718
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16740
 Aws::S3::Types::StorageClassAnalysis::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for data related to the storage class analysis for an Amazon
@@ -32376,36 +32341,36 @@ Aws::S3::Types::StorageClassAnalysis::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/StorageClassAnalysisDataExport AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16738
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16760
 class Aws::S3::Types::StorageClassAnalysisDataExport < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16739
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16761
 Aws::S3::Types::StorageClassAnalysisDataExport::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container of a key value name pair.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Tag AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16757
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16779
 class Aws::S3::Types::Tag < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16758
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16780
 Aws::S3::Types::Tag::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for `TagSet` elements.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Tagging AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16771
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16793
 class Aws::S3::Types::Tagging < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16772
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16794
 Aws::S3::Types::Tagging::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for granting information.
@@ -32421,12 +32386,12 @@ Aws::S3::Types::Tagging::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/TargetGrant AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16799
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16821
 class Aws::S3::Types::TargetGrant < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16800
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16822
 Aws::S3::Types::TargetGrant::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Amazon S3 key format for log objects. Only one format,
@@ -32434,12 +32399,12 @@ Aws::S3::Types::TargetGrant::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/TargetObjectKeyFormat AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16820
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16842
 class Aws::S3::Types::TargetObjectKeyFormat < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16821
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16843
 Aws::S3::Types::TargetObjectKeyFormat::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The S3 Intelligent-Tiering storage class is designed to optimize
@@ -32448,12 +32413,12 @@ Aws::S3::Types::TargetObjectKeyFormat::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Tiering AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16852
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16874
 class Aws::S3::Types::Tiering < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16853
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16875
 Aws::S3::Types::Tiering::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for specifying the configuration for publication of
@@ -32462,12 +32427,12 @@ Aws::S3::Types::Tiering::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/TopicConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16899
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16921
 class Aws::S3::Types::TopicConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16900
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16922
 Aws::S3::Types::TopicConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for specifying the configuration for publication of
@@ -32481,12 +32446,12 @@ Aws::S3::Types::TopicConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/TopicConfigurationDeprecated AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16938
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16960
 class Aws::S3::Types::TopicConfigurationDeprecated < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16939
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16961
 Aws::S3::Types::TopicConfigurationDeprecated::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies when an object transitions to a specified storage class. For
@@ -32500,52 +32465,52 @@ Aws::S3::Types::TopicConfigurationDeprecated::SENSITIVE = T.let(T.unsafe(nil), A
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Transition AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16973
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16995
 class Aws::S3::Types::Transition < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16974
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16996
 Aws::S3::Types::Transition::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/UploadPartCopyOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17048
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17070
 class Aws::S3::Types::UploadPartCopyOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17049
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17071
 Aws::S3::Types::UploadPartCopyOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/UploadPartCopyRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17369
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17391
 class Aws::S3::Types::UploadPartCopyRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17370
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17392
 Aws::S3::Types::UploadPartCopyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/UploadPartOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17497
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17519
 class Aws::S3::Types::UploadPartOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17498
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17520
 Aws::S3::Types::UploadPartOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/UploadPartRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17725
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17747
 class Aws::S3::Types::UploadPartRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17726
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17748
 Aws::S3::Types::UploadPartRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Describes the versioning state of an Amazon S3 bucket. For more
@@ -32558,34 +32523,34 @@ Aws::S3::Types::UploadPartRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/VersioningConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17753
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17775
 class Aws::S3::Types::VersioningConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17754
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17776
 Aws::S3::Types::VersioningConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies website configuration parameters for an Amazon S3 bucket.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/WebsiteConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17786
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17808
 class Aws::S3::Types::WebsiteConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17787
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17809
 Aws::S3::Types::WebsiteConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/WriteGetObjectResponseRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18147
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18169
 class Aws::S3::Types::WriteGetObjectResponseRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18148
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18170
 Aws::S3::Types::WriteGetObjectResponseRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Waiters are utility methods that poll for a particular state to occur

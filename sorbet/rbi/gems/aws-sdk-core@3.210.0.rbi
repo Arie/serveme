@@ -2817,7 +2817,7 @@ module Aws::Endpoints::Matchers
     #
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/endpoints/matchers.rb#108
+    # source://aws-sdk-core//lib/aws-sdk-core/endpoints/matchers.rb#101
     def aws_parse_arn(value); end
 
     # aws.partition(value: string) Option<Partition>
@@ -2832,7 +2832,7 @@ module Aws::Endpoints::Matchers
     # @api private
     # @return [Boolean]
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/endpoints/matchers.rb#120
+    # source://aws-sdk-core//lib/aws-sdk-core/endpoints/matchers.rb#113
     def aws_virtual_hostable_s3_bucket?(value, allow_sub_domains = T.unsafe(nil)); end
 
     # booleanEquals(value1: bool, value2: bool) bool
@@ -5825,29 +5825,43 @@ class Aws::Plugins::RegionalEndpoint < ::Seahorse::Client::Plugin
   # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#82
   def after_initialize(client); end
 
+  private
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#101
+  def initialize_default_endpoint(client); end
+
+  # set a default endpoint in config using legacy (endpoints.json) resolver
+  #
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#114
+  def resolve_legacy_endpoint(cfg); end
+
   class << self
     private
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#174
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#211
     def env_global_endpoint(cfg); end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#164
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#201
     def env_service_endpoint(cfg); end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#198
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#235
     def handle_legacy_pseudo_regions(cfg); end
 
     # get a custom configured endpoint from ENV or configuration
     #
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#157
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#194
     def resolve_custom_config_endpoint(cfg); end
 
     # NOTE: with Endpoints 2.0, some of this logic is deprecated
@@ -5860,51 +5874,44 @@ class Aws::Plugins::RegionalEndpoint < ::Seahorse::Client::Plugin
     #
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#140
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#176
     def resolve_endpoint(cfg); end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#127
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#163
     def resolve_ignore_configured_endpoint_urls(cfg); end
 
-    # set a default endpoint in config using legacy (endpoints.json) resolver
-    #
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#210
-    def resolve_legacy_endpoint(cfg); end
-
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#99
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#135
     def resolve_region(cfg); end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#107
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#143
     def resolve_sigv4a_signing_region_set(cfg); end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#113
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#149
     def resolve_use_dualstack_endpoint(cfg); end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#121
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#157
     def resolve_use_fips_endpoint(cfg); end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#182
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#219
     def shared_config_endpoint(cfg); end
 
     # check region is a valid RFC host label
     #
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#192
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/regional_endpoint.rb#229
     def validate_region!(region); end
   end
 end
@@ -8849,6 +8856,10 @@ class Aws::SSO::EndpointParameters < ::Struct
 
   class << self
     def [](*_arg0); end
+
+    # source://aws-sdk-core//lib/aws-sdk-sso/endpoint_parameters.rb#60
+    def create(config, options = T.unsafe(nil)); end
+
     def inspect; end
     def keyword_init?; end
     def members; end
@@ -8867,53 +8878,12 @@ end
 # @api private
 #
 # source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#13
-module Aws::SSO::Endpoints; end
-
-# @api private
-#
-# source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#15
-class Aws::SSO::Endpoints::GetRoleCredentials
+module Aws::SSO::Endpoints
   class << self
     # @api private
     #
     # source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#16
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#26
-class Aws::SSO::Endpoints::ListAccountRoles
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#27
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#37
-class Aws::SSO::Endpoints::ListAccounts
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#38
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#48
-class Aws::SSO::Endpoints::Logout
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-sso/endpoints.rb#49
-    def build(context); end
+    def parameters_for_operation(context); end
   end
 end
 
@@ -9023,7 +8993,7 @@ module Aws::SSO::Plugins; end
 
 # source://aws-sdk-core//lib/aws-sdk-sso/plugins/endpoints.rb#13
 class Aws::SSO::Plugins::Endpoints < ::Seahorse::Client::Plugin
-  # source://aws-sdk-core//lib/aws-sdk-sso/plugins/endpoints.rb#85
+  # source://aws-sdk-core//lib/aws-sdk-sso/plugins/endpoints.rb#72
   def add_handlers(handlers, _config); end
 end
 
@@ -9042,11 +9012,6 @@ class Aws::SSO::Plugins::Endpoints::Handler < ::Seahorse::Client::Handler
   #
   # source://aws-sdk-core//lib/aws-sdk-sso/plugins/endpoints.rb#60
   def apply_endpoint_headers(context, headers); end
-
-  # @api private
-  #
-  # source://aws-sdk-core//lib/aws-sdk-sso/plugins/endpoints.rb#71
-  def parameters_for_operation(context); end
 
   # @api private
   #
@@ -10060,6 +10025,10 @@ class Aws::SSOOIDC::EndpointParameters < ::Struct
 
   class << self
     def [](*_arg0); end
+
+    # source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoint_parameters.rb#60
+    def create(config, options = T.unsafe(nil)); end
+
     def inspect; end
     def keyword_init?; end
     def members; end
@@ -10078,53 +10047,12 @@ end
 # @api private
 #
 # source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#13
-module Aws::SSOOIDC::Endpoints; end
-
-# @api private
-#
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#15
-class Aws::SSOOIDC::Endpoints::CreateToken
+module Aws::SSOOIDC::Endpoints
   class << self
     # @api private
     #
     # source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#16
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#26
-class Aws::SSOOIDC::Endpoints::CreateTokenWithIAM
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#27
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#37
-class Aws::SSOOIDC::Endpoints::RegisterClient
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#38
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#48
-class Aws::SSOOIDC::Endpoints::StartDeviceAuthorization
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-ssooidc/endpoints.rb#49
-    def build(context); end
+    def parameters_for_operation(context); end
   end
 end
 
@@ -10484,7 +10412,7 @@ module Aws::SSOOIDC::Plugins; end
 
 # source://aws-sdk-core//lib/aws-sdk-ssooidc/plugins/endpoints.rb#13
 class Aws::SSOOIDC::Plugins::Endpoints < ::Seahorse::Client::Plugin
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/plugins/endpoints.rb#85
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/plugins/endpoints.rb#72
   def add_handlers(handlers, _config); end
 end
 
@@ -10503,11 +10431,6 @@ class Aws::SSOOIDC::Plugins::Endpoints::Handler < ::Seahorse::Client::Handler
   #
   # source://aws-sdk-core//lib/aws-sdk-ssooidc/plugins/endpoints.rb#60
   def apply_endpoint_headers(context, headers); end
-
-  # @api private
-  #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/plugins/endpoints.rb#71
-  def parameters_for_operation(context); end
 
   # @api private
   #
@@ -12394,6 +12317,10 @@ class Aws::STS::EndpointParameters < ::Struct
 
   class << self
     def [](*_arg0); end
+
+    # source://aws-sdk-core//lib/aws-sdk-sts/endpoint_parameters.rb#69
+    def create(config, options = T.unsafe(nil)); end
+
     def inspect; end
     def keyword_init?; end
     def members; end
@@ -12412,101 +12339,12 @@ end
 # @api private
 #
 # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#13
-module Aws::STS::Endpoints; end
-
-# @api private
-#
-# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#15
-class Aws::STS::Endpoints::AssumeRole
+module Aws::STS::Endpoints
   class << self
     # @api private
     #
     # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#16
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#27
-class Aws::STS::Endpoints::AssumeRoleWithSAML
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#28
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#39
-class Aws::STS::Endpoints::AssumeRoleWithWebIdentity
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#40
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#51
-class Aws::STS::Endpoints::DecodeAuthorizationMessage
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#52
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#63
-class Aws::STS::Endpoints::GetAccessKeyInfo
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#64
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#75
-class Aws::STS::Endpoints::GetCallerIdentity
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#76
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#87
-class Aws::STS::Endpoints::GetFederationToken
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#88
-    def build(context); end
-  end
-end
-
-# @api private
-#
-# source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#99
-class Aws::STS::Endpoints::GetSessionToken
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-sts/endpoints.rb#100
-    def build(context); end
+    def parameters_for_operation(context); end
   end
 end
 
@@ -12684,7 +12522,7 @@ module Aws::STS::Plugins; end
 
 # source://aws-sdk-core//lib/aws-sdk-sts/plugins/endpoints.rb#13
 class Aws::STS::Plugins::Endpoints < ::Seahorse::Client::Plugin
-  # source://aws-sdk-core//lib/aws-sdk-sts/plugins/endpoints.rb#93
+  # source://aws-sdk-core//lib/aws-sdk-sts/plugins/endpoints.rb#72
   def add_handlers(handlers, _config); end
 end
 
@@ -12703,11 +12541,6 @@ class Aws::STS::Plugins::Endpoints::Handler < ::Seahorse::Client::Handler
   #
   # source://aws-sdk-core//lib/aws-sdk-sts/plugins/endpoints.rb#60
   def apply_endpoint_headers(context, headers); end
-
-  # @api private
-  #
-  # source://aws-sdk-core//lib/aws-sdk-sts/plugins/endpoints.rb#71
-  def parameters_for_operation(context); end
 
   # @api private
   #

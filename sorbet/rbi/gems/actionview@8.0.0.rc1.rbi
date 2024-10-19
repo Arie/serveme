@@ -14,19 +14,16 @@ class ActionController::Base < ::ActionController::Metal
   include ::Devise::Controllers::StoreLocation
   extend ::AbstractController::Helpers::Resolution
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#69
   def __callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
-  def __callbacks?; end
-
-  # source://actionpack/7.2.1.1/lib/abstract_controller/helpers.rb#13
+  # source://actionpack/8.0.0.rc1/lib/abstract_controller/helpers.rb#13
   def _helper_methods; end
 
-  # source://actionpack/7.2.1.1/lib/abstract_controller/helpers.rb#13
+  # source://actionpack/8.0.0.rc1/lib/abstract_controller/helpers.rb#13
   def _helper_methods=(_arg0); end
 
-  # source://actionpack/7.2.1.1/lib/abstract_controller/helpers.rb#13
+  # source://actionpack/8.0.0.rc1/lib/abstract_controller/helpers.rb#13
   def _helper_methods?; end
 
   # source://actionview//lib/action_view/layouts.rb#212
@@ -35,169 +32,169 @@ class ActionController::Base < ::ActionController::Metal
   # source://actionview//lib/action_view/layouts.rb#212
   def _layout_conditions?; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#924
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#923
   def _process_action_callbacks; end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/renderers.rb#33
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/renderers.rb#31
   def _renderers; end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/renderers.rb#33
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/renderers.rb#31
   def _renderers=(_arg0); end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/renderers.rb#33
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/renderers.rb#31
   def _renderers?; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#912
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#911
   def _run_process_action_callbacks(&block); end
 
-  # source://actionpack/7.2.1.1/lib/abstract_controller/caching.rb#44
+  # source://actionpack/8.0.0.rc1/lib/abstract_controller/caching.rb#44
   def _view_cache_dependencies; end
 
-  # source://actionpack/7.2.1.1/lib/abstract_controller/caching.rb#44
+  # source://actionpack/8.0.0.rc1/lib/abstract_controller/caching.rb#44
   def _view_cache_dependencies=(_arg0); end
 
-  # source://actionpack/7.2.1.1/lib/abstract_controller/caching.rb#44
+  # source://actionpack/8.0.0.rc1/lib/abstract_controller/caching.rb#44
   def _view_cache_dependencies?; end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/params_wrapper.rb#185
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/params_wrapper.rb#185
   def _wrapper_options; end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/params_wrapper.rb#185
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/params_wrapper.rb#185
   def _wrapper_options=(_arg0); end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/params_wrapper.rb#185
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/params_wrapper.rb#185
   def _wrapper_options?; end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/flash.rb#38
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/flash.rb#38
   def alert; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
   def allow_forgery_protection; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
   def allow_forgery_protection=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
   def asset_host; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
   def asset_host=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
   def assets_dir; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
   def assets_dir=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
   def csrf_token_storage_strategy; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
   def csrf_token_storage_strategy=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
   def default_asset_host_protocol; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
   def default_asset_host_protocol=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
   def default_static_extension; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
   def default_static_extension=(value); end
 
-  # source://actionpack/7.2.1.1/lib/action_dispatch/routing/url_for.rb#100
+  # source://actionpack/8.0.0.rc1/lib/action_dispatch/routing/url_for.rb#100
   def default_url_options; end
 
-  # source://actionpack/7.2.1.1/lib/action_dispatch/routing/url_for.rb#100
+  # source://actionpack/8.0.0.rc1/lib/action_dispatch/routing/url_for.rb#100
   def default_url_options=(_arg0); end
 
-  # source://actionpack/7.2.1.1/lib/action_dispatch/routing/url_for.rb#100
+  # source://actionpack/8.0.0.rc1/lib/action_dispatch/routing/url_for.rb#100
   def default_url_options?; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
   def enable_fragment_cache_logging; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
   def enable_fragment_cache_logging=(value); end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/etag_with_template_digest.rb#31
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/etag_with_template_digest.rb#31
   def etag_with_template_digest; end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/etag_with_template_digest.rb#31
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/etag_with_template_digest.rb#31
   def etag_with_template_digest=(_arg0); end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/etag_with_template_digest.rb#31
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/etag_with_template_digest.rb#31
   def etag_with_template_digest?; end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/conditional_get.rb#15
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/conditional_get.rb#15
   def etaggers; end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/conditional_get.rb#15
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/conditional_get.rb#15
   def etaggers=(_arg0); end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/conditional_get.rb#15
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/conditional_get.rb#15
   def etaggers?; end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/flash.rb#12
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/flash.rb#12
   def flash(*_arg0, **_arg1, &_arg2); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
   def forgery_protection_origin_check; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
   def forgery_protection_origin_check=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
   def forgery_protection_strategy; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
   def forgery_protection_strategy=(value); end
 
-  # source://actionpack/7.2.1.1/lib/abstract_controller/caching/fragments.rb#26
+  # source://actionpack/8.0.0.rc1/lib/abstract_controller/caching/fragments.rb#26
   def fragment_cache_keys; end
 
-  # source://actionpack/7.2.1.1/lib/abstract_controller/caching/fragments.rb#26
+  # source://actionpack/8.0.0.rc1/lib/abstract_controller/caching/fragments.rb#26
   def fragment_cache_keys=(_arg0); end
 
-  # source://actionpack/7.2.1.1/lib/abstract_controller/caching/fragments.rb#26
+  # source://actionpack/8.0.0.rc1/lib/abstract_controller/caching/fragments.rb#26
   def fragment_cache_keys?; end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/helpers.rb#70
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/helpers.rb#70
   def helpers_path; end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/helpers.rb#70
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/helpers.rb#70
   def helpers_path=(_arg0); end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/helpers.rb#70
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/helpers.rb#70
   def helpers_path?; end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/helpers.rb#71
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/helpers.rb#71
   def include_all_helpers; end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/helpers.rb#71
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/helpers.rb#71
   def include_all_helpers=(_arg0); end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/helpers.rb#71
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/helpers.rb#71
   def include_all_helpers?; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
   def javascripts_dir; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
   def javascripts_dir=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
   def log_warning_on_csrf_failure; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
   def log_warning_on_csrf_failure=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
   def logger; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
   def logger=(value); end
 
   # source://responders/3.1.1/lib/action_controller/respond_with.rb#11
@@ -209,52 +206,52 @@ class ActionController::Base < ::ActionController::Metal
   # source://responders/3.1.1/lib/action_controller/respond_with.rb#11
   def mimes_for_respond_to?; end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/flash.rb#38
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/flash.rb#38
   def notice; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
   def per_form_csrf_tokens; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
   def per_form_csrf_tokens=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
   def perform_caching; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
   def perform_caching=(value); end
 
-  # source://actionpack/7.2.1.1/lib/abstract_controller/callbacks.rb#36
+  # source://actionpack/8.0.0.rc1/lib/abstract_controller/callbacks.rb#36
   def raise_on_missing_callback_actions; end
 
-  # source://actionpack/7.2.1.1/lib/abstract_controller/callbacks.rb#36
+  # source://actionpack/8.0.0.rc1/lib/abstract_controller/callbacks.rb#36
   def raise_on_missing_callback_actions=(val); end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/redirecting.rb#17
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/redirecting.rb#17
   def raise_on_open_redirects; end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/metal/redirecting.rb#17
+  # source://actionpack/8.0.0.rc1/lib/action_controller/metal/redirecting.rb#17
   def raise_on_open_redirects=(val); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
   def relative_url_root; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
   def relative_url_root=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
   def request_forgery_protection_token; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
   def request_forgery_protection_token=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
+  # source://activesupport/8.0.0.rc1/lib/active_support/rescuable.rb#15
   def rescue_handlers; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
+  # source://activesupport/8.0.0.rc1/lib/active_support/rescuable.rb#15
   def rescue_handlers=(_arg0); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
+  # source://activesupport/8.0.0.rc1/lib/active_support/rescuable.rb#15
   def rescue_handlers?; end
 
   # source://responders/3.1.1/lib/action_controller/respond_with.rb#11
@@ -266,10 +263,10 @@ class ActionController::Base < ::ActionController::Metal
   # source://responders/3.1.1/lib/action_controller/respond_with.rb#11
   def responder?; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
   def stylesheets_dir; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
   def stylesheets_dir=(value); end
 
   private
@@ -279,299 +276,299 @@ class ActionController::Base < ::ActionController::Metal
 
   def _layout_from_proc; end
 
-  # source://actionpack/7.2.1.1/lib/action_controller/base.rb#324
+  # source://actionpack/8.0.0.rc1/lib/action_controller/base.rb#324
   def _protected_ivars; end
 
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def __callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
-    def __callbacks=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def __callbacks=(new_value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
-    def __callbacks?; end
-
-    # source://actionpack/7.2.1.1/lib/action_controller/form_builder.rb#35
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def _default_form_builder; end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/form_builder.rb#35
-    def _default_form_builder=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def _default_form_builder=(new_value); end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/form_builder.rb#35
+    # source://actionpack/8.0.0.rc1/lib/action_controller/form_builder.rb#35
     def _default_form_builder?; end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/flash.rb#10
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def _flash_types; end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/flash.rb#10
-    def _flash_types=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def _flash_types=(new_value); end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/flash.rb#10
+    # source://actionpack/8.0.0.rc1/lib/action_controller/metal/flash.rb#10
     def _flash_types?; end
 
-    # source://actionpack/7.2.1.1/lib/abstract_controller/helpers.rb#13
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def _helper_methods; end
 
-    # source://actionpack/7.2.1.1/lib/abstract_controller/helpers.rb#13
-    def _helper_methods=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def _helper_methods=(new_value); end
 
-    # source://actionpack/7.2.1.1/lib/abstract_controller/helpers.rb#13
+    # source://actionpack/8.0.0.rc1/lib/abstract_controller/helpers.rb#13
     def _helper_methods?; end
 
-    # source://actionpack/7.2.1.1/lib/abstract_controller/helpers.rb#17
+    # source://actionpack/8.0.0.rc1/lib/abstract_controller/helpers.rb#17
     def _helpers; end
 
-    # source://actionview//lib/action_view/layouts.rb#211
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def _layout; end
 
-    # source://actionview//lib/action_view/layouts.rb#211
-    def _layout=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def _layout=(new_value); end
 
     # source://actionview//lib/action_view/layouts.rb#211
     def _layout?; end
 
-    # source://actionview//lib/action_view/layouts.rb#212
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def _layout_conditions; end
 
-    # source://actionview//lib/action_view/layouts.rb#212
-    def _layout_conditions=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def _layout_conditions=(new_value); end
 
     # source://actionview//lib/action_view/layouts.rb#212
     def _layout_conditions?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#916
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#915
     def _process_action_callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#920
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#919
     def _process_action_callbacks=(value); end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/renderers.rb#33
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def _renderers; end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/renderers.rb#33
-    def _renderers=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def _renderers=(new_value); end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/renderers.rb#33
+    # source://actionpack/8.0.0.rc1/lib/action_controller/metal/renderers.rb#31
     def _renderers?; end
 
-    # source://actionpack/7.2.1.1/lib/abstract_controller/caching.rb#44
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def _view_cache_dependencies; end
 
-    # source://actionpack/7.2.1.1/lib/abstract_controller/caching.rb#44
-    def _view_cache_dependencies=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def _view_cache_dependencies=(new_value); end
 
-    # source://actionpack/7.2.1.1/lib/abstract_controller/caching.rb#44
+    # source://actionpack/8.0.0.rc1/lib/abstract_controller/caching.rb#44
     def _view_cache_dependencies?; end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/params_wrapper.rb#185
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def _wrapper_options; end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/params_wrapper.rb#185
-    def _wrapper_options=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def _wrapper_options=(new_value); end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/params_wrapper.rb#185
+    # source://actionpack/8.0.0.rc1/lib/action_controller/metal/params_wrapper.rb#185
     def _wrapper_options?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
     def allow_forgery_protection; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
     def allow_forgery_protection=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
     def asset_host; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
     def asset_host=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
     def assets_dir; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
     def assets_dir=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
     def csrf_token_storage_strategy; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
     def csrf_token_storage_strategy=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
     def default_asset_host_protocol; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
     def default_asset_host_protocol=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
     def default_static_extension; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
     def default_static_extension=(value); end
 
-    # source://actionpack/7.2.1.1/lib/action_dispatch/routing/url_for.rb#100
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def default_url_options; end
 
-    # source://actionpack/7.2.1.1/lib/action_dispatch/routing/url_for.rb#100
-    def default_url_options=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def default_url_options=(new_value); end
 
-    # source://actionpack/7.2.1.1/lib/action_dispatch/routing/url_for.rb#100
+    # source://actionpack/8.0.0.rc1/lib/action_dispatch/routing/url_for.rb#100
     def default_url_options?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
     def enable_fragment_cache_logging; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
     def enable_fragment_cache_logging=(value); end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/etag_with_template_digest.rb#31
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def etag_with_template_digest; end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/etag_with_template_digest.rb#31
-    def etag_with_template_digest=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def etag_with_template_digest=(new_value); end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/etag_with_template_digest.rb#31
+    # source://actionpack/8.0.0.rc1/lib/action_controller/metal/etag_with_template_digest.rb#31
     def etag_with_template_digest?; end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/conditional_get.rb#15
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def etaggers; end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/conditional_get.rb#15
-    def etaggers=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def etaggers=(new_value); end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/conditional_get.rb#15
+    # source://actionpack/8.0.0.rc1/lib/action_controller/metal/conditional_get.rb#15
     def etaggers?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
     def forgery_protection_origin_check; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
     def forgery_protection_origin_check=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
     def forgery_protection_strategy; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
     def forgery_protection_strategy=(value); end
 
-    # source://actionpack/7.2.1.1/lib/abstract_controller/caching/fragments.rb#26
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def fragment_cache_keys; end
 
-    # source://actionpack/7.2.1.1/lib/abstract_controller/caching/fragments.rb#26
-    def fragment_cache_keys=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def fragment_cache_keys=(new_value); end
 
-    # source://actionpack/7.2.1.1/lib/abstract_controller/caching/fragments.rb#26
+    # source://actionpack/8.0.0.rc1/lib/abstract_controller/caching/fragments.rb#26
     def fragment_cache_keys?; end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/helpers.rb#70
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def helpers_path; end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/helpers.rb#70
-    def helpers_path=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def helpers_path=(new_value); end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/helpers.rb#70
+    # source://actionpack/8.0.0.rc1/lib/action_controller/metal/helpers.rb#70
     def helpers_path?; end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/helpers.rb#71
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def include_all_helpers; end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/helpers.rb#71
-    def include_all_helpers=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def include_all_helpers=(new_value); end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/helpers.rb#71
+    # source://actionpack/8.0.0.rc1/lib/action_controller/metal/helpers.rb#71
     def include_all_helpers?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
     def javascripts_dir; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
     def javascripts_dir=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
     def log_warning_on_csrf_failure; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
     def log_warning_on_csrf_failure=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
     def logger; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
     def logger=(value); end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal.rb#288
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def middleware_stack; end
 
-    # source://responders/3.1.1/lib/action_controller/respond_with.rb#11
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def middleware_stack=(new_value); end
+
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def mimes_for_respond_to; end
 
-    # source://responders/3.1.1/lib/action_controller/respond_with.rb#11
-    def mimes_for_respond_to=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def mimes_for_respond_to=(new_value); end
 
     # source://responders/3.1.1/lib/action_controller/respond_with.rb#11
     def mimes_for_respond_to?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
     def per_form_csrf_tokens; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
     def per_form_csrf_tokens=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
     def perform_caching; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
     def perform_caching=(value); end
 
-    # source://actionpack/7.2.1.1/lib/abstract_controller/callbacks.rb#36
+    # source://actionpack/8.0.0.rc1/lib/abstract_controller/callbacks.rb#36
     def raise_on_missing_callback_actions; end
 
-    # source://actionpack/7.2.1.1/lib/abstract_controller/callbacks.rb#36
+    # source://actionpack/8.0.0.rc1/lib/abstract_controller/callbacks.rb#36
     def raise_on_missing_callback_actions=(val); end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/redirecting.rb#17
+    # source://actionpack/8.0.0.rc1/lib/action_controller/metal/redirecting.rb#17
     def raise_on_open_redirects; end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal/redirecting.rb#17
+    # source://actionpack/8.0.0.rc1/lib/action_controller/metal/redirecting.rb#17
     def raise_on_open_redirects=(val); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
     def relative_url_root; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
     def relative_url_root=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
     def request_forgery_protection_token; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
     def request_forgery_protection_token=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def rescue_handlers; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
-    def rescue_handlers=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def rescue_handlers=(new_value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
+    # source://activesupport/8.0.0.rc1/lib/active_support/rescuable.rb#15
     def rescue_handlers?; end
 
-    # source://responders/3.1.1/lib/action_controller/respond_with.rb#11
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def responder; end
 
-    # source://responders/3.1.1/lib/action_controller/respond_with.rb#11
-    def responder=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def responder=(new_value); end
 
     # source://responders/3.1.1/lib/action_controller/respond_with.rb#11
     def responder?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#115
     def stylesheets_dir; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/8.0.0.rc1/lib/active_support/configurable.rb#116
     def stylesheets_dir=(value); end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/base.rb#222
+    # source://actionpack/8.0.0.rc1/lib/action_controller/base.rb#222
     def without_modules(*modules); end
   end
 end
@@ -985,10 +982,10 @@ class ActionView::Base
   # source://actionview//lib/action_view/base.rb#223
   def assign(new_assigns); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attr_internal.rb#44
+  # source://activesupport/8.0.0.rc1/lib/active_support/core_ext/module/attr_internal.rb#43
   def assigns; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attr_internal.rb#44
+  # source://activesupport/8.0.0.rc1/lib/active_support/core_ext/module/attr_internal.rb#43
   def assigns=(_arg0); end
 
   # source://actionview//lib/action_view/base.rb#176
@@ -1002,10 +999,10 @@ class ActionView::Base
   # source://actionview//lib/action_view/base.rb#287
   def compiled_method_container; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attr_internal.rb#44
+  # source://activesupport/8.0.0.rc1/lib/active_support/core_ext/module/attr_internal.rb#43
   def config; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attr_internal.rb#44
+  # source://activesupport/8.0.0.rc1/lib/active_support/core_ext/module/attr_internal.rb#43
   def config=(_arg0); end
 
   # source://actionview//lib/action_view/helpers/translation_helper.rb#18
@@ -1082,11 +1079,11 @@ class ActionView::Base
   def view_renderer; end
 
   class << self
-    # source://actionview//lib/action_view/base.rb#181
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def _routes; end
 
-    # source://actionview//lib/action_view/base.rb#181
-    def _routes=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def _routes=(new_value); end
 
     # source://actionview//lib/action_view/base.rb#181
     def _routes?; end
@@ -1146,20 +1143,20 @@ class ActionView::Base
     # source://actionview//lib/action_view/base.rb#161
     def field_error_proc=(val); end
 
-    # source://actionview//lib/action_view/base.rb#182
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def logger; end
 
-    # source://actionview//lib/action_view/base.rb#182
-    def logger=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def logger=(new_value); end
 
     # source://actionview//lib/action_view/base.rb#182
     def logger?; end
 
-    # source://actionview//lib/action_view/base.rb#170
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def prefix_partial_path_with_controller_namespace; end
 
-    # source://actionview//lib/action_view/base.rb#170
-    def prefix_partial_path_with_controller_namespace=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def prefix_partial_path_with_controller_namespace=(new_value); end
 
     # source://actionview//lib/action_view/base.rb#170
     def prefix_partial_path_with_controller_namespace?; end
@@ -1408,13 +1405,13 @@ class ActionView::DependencyTracker
   extend ::ActiveSupport::Autoload
 
   class << self
-    # source://actionview//lib/action_view/dependency_tracker.rb#16
+    # source://actionview//lib/action_view/dependency_tracker.rb#17
     def find_dependencies(name, template, view_paths = T.unsafe(nil)); end
 
-    # source://actionview//lib/action_view/dependency_tracker.rb#23
+    # source://actionview//lib/action_view/dependency_tracker.rb#24
     def register_tracker(extension, tracker); end
 
-    # source://actionview//lib/action_view/dependency_tracker.rb#34
+    # source://actionview//lib/action_view/dependency_tracker.rb#35
     def remove_tracker(handler); end
   end
 end
@@ -1443,7 +1440,7 @@ class ActionView::DependencyTracker::ERBTracker
   # source://actionview//lib/action_view/dependency_tracker/erb_tracker.rb#88
   def directory; end
 
-  # source://actionview//lib/action_view/dependency_tracker/erb_tracker.rb#145
+  # source://actionview//lib/action_view/dependency_tracker/erb_tracker.rb#158
   def explicit_dependencies; end
 
   # Returns the value of attribute name.
@@ -1453,9 +1450,6 @@ class ActionView::DependencyTracker::ERBTracker
 
   # source://actionview//lib/action_view/dependency_tracker/erb_tracker.rb#92
   def render_dependencies; end
-
-  # source://actionview//lib/action_view/dependency_tracker/erb_tracker.rb#133
-  def resolve_directories(wildcard_dependencies); end
 
   # source://actionview//lib/action_view/dependency_tracker/erb_tracker.rb#84
   def source; end
@@ -1535,7 +1529,7 @@ class ActionView::DependencyTracker::RubyTracker
 
   private
 
-  # source://actionview//lib/action_view/dependency_tracker/ruby_tracker.rb#39
+  # source://actionview//lib/action_view/dependency_tracker/ruby_tracker.rb#38
   def explicit_dependencies; end
 
   # Returns the value of attribute name.
@@ -1545,9 +1539,6 @@ class ActionView::DependencyTracker::RubyTracker
 
   # source://actionview//lib/action_view/dependency_tracker/ruby_tracker.rb#28
   def render_dependencies; end
-
-  # source://actionview//lib/action_view/dependency_tracker/ruby_tracker.rb#47
-  def resolve_directories(wildcard_dependencies); end
 
   # Returns the value of attribute template.
   #
@@ -1572,6 +1563,37 @@ end
 
 # source://actionview//lib/action_view/dependency_tracker/ruby_tracker.rb#6
 ActionView::DependencyTracker::RubyTracker::EXPLICIT_DEPENDENCY = T.let(T.unsafe(nil), Regexp)
+
+# source://actionview//lib/action_view/dependency_tracker/wildcard_resolver.rb#5
+class ActionView::DependencyTracker::WildcardResolver
+  # @return [WildcardResolver] a new instance of WildcardResolver
+  #
+  # source://actionview//lib/action_view/dependency_tracker/wildcard_resolver.rb#6
+  def initialize(view_paths, dependencies); end
+
+  # source://actionview//lib/action_view/dependency_tracker/wildcard_resolver.rb#13
+  def resolve; end
+
+  private
+
+  # Returns the value of attribute explicit_dependencies.
+  #
+  # source://actionview//lib/action_view/dependency_tracker/wildcard_resolver.rb#20
+  def explicit_dependencies; end
+
+  # source://actionview//lib/action_view/dependency_tracker/wildcard_resolver.rb#22
+  def resolved_wildcard_dependencies; end
+
+  # Returns the value of attribute view_paths.
+  #
+  # source://actionview//lib/action_view/dependency_tracker/wildcard_resolver.rb#20
+  def view_paths; end
+
+  # Returns the value of attribute wildcard_dependencies.
+  #
+  # source://actionview//lib/action_view/dependency_tracker/wildcard_resolver.rb#20
+  def wildcard_dependencies; end
+end
 
 # source://actionview//lib/action_view/digestor.rb#6
 class ActionView::Digestor
@@ -1677,67 +1699,67 @@ class ActionView::EncodingError < ::StandardError; end
 
 # A resolver that loads files from the filesystem.
 #
-# source://actionview//lib/action_view/template/resolver.rb#91
+# source://actionview//lib/action_view/template/resolver.rb#90
 class ActionView::FileSystemResolver < ::ActionView::Resolver
   # @raise [ArgumentError]
   # @return [FileSystemResolver] a new instance of FileSystemResolver
   #
-  # source://actionview//lib/action_view/template/resolver.rb#94
+  # source://actionview//lib/action_view/template/resolver.rb#93
   def initialize(path); end
 
   # @return [Boolean]
   #
-  # source://actionview//lib/action_view/template/resolver.rb#113
+  # source://actionview//lib/action_view/template/resolver.rb#112
   def ==(resolver); end
 
-  # source://actionview//lib/action_view/template/resolver.rb#118
+  # source://actionview//lib/action_view/template/resolver.rb#117
   def all_template_paths; end
 
-  # source://actionview//lib/action_view/template/resolver.rb#127
+  # source://actionview//lib/action_view/template/resolver.rb#126
   def built_templates; end
 
-  # source://actionview//lib/action_view/template/resolver.rb#102
+  # source://actionview//lib/action_view/template/resolver.rb#101
   def clear_cache; end
 
   # @return [Boolean]
   #
-  # source://actionview//lib/action_view/template/resolver.rb#113
+  # source://actionview//lib/action_view/template/resolver.rb#112
   def eql?(resolver); end
 
   # Returns the value of attribute path.
   #
-  # source://actionview//lib/action_view/template/resolver.rb#92
+  # source://actionview//lib/action_view/template/resolver.rb#91
   def path; end
 
-  # source://actionview//lib/action_view/template/resolver.rb#108
+  # source://actionview//lib/action_view/template/resolver.rb#107
   def to_path; end
 
-  # source://actionview//lib/action_view/template/resolver.rb#108
+  # source://actionview//lib/action_view/template/resolver.rb#107
   def to_s; end
 
   private
 
-  # source://actionview//lib/action_view/template/resolver.rb#132
+  # source://actionview//lib/action_view/template/resolver.rb#131
   def _find_all(name, prefix, partial, details, key, locals); end
 
-  # source://actionview//lib/action_view/template/resolver.rb#151
+  # source://actionview//lib/action_view/template/resolver.rb#150
   def build_unbound_template(template); end
 
-  # source://actionview//lib/action_view/template/resolver.rb#209
+  # source://actionview//lib/action_view/template/resolver.rb#208
   def escape_entry(entry); end
 
-  # source://actionview//lib/action_view/template/resolver.rb#181
+  # source://actionview//lib/action_view/template/resolver.rb#180
   def filter_and_sort_by_details(templates, requested_details); end
 
-  # source://actionview//lib/action_view/template/resolver.rb#147
+  # source://actionview//lib/action_view/template/resolver.rb#146
   def source_for_template(template); end
 
   # Safe glob within @path
   #
-  # source://actionview//lib/action_view/template/resolver.rb#196
+  # source://actionview//lib/action_view/template/resolver.rb#195
   def template_glob(glob); end
 
-  # source://actionview//lib/action_view/template/resolver.rb#164
+  # source://actionview//lib/action_view/template/resolver.rb#163
   def unbound_templates_from_path(path); end
 end
 
@@ -2955,7 +2977,7 @@ ActionView::Helpers::AssetUrlHelper::URI_REGEXP = T.let(T.unsafe(nil), Regexp)
 
 # = Action View Atom Feed \Helpers
 #
-# source://actionview//lib/action_view/helpers/atom_feed_helper.rb#8
+# source://actionview//lib/action_view/helpers/atom_feed_helper.rb#6
 module ActionView::Helpers::AtomFeedHelper
   # Adds easy defaults to writing Atom feeds with the Builder template engine (this does not work on ERB or any other
   # template languages).
@@ -3047,15 +3069,15 @@ module ActionView::Helpers::AtomFeedHelper
   # <tt>atom_feed</tt> yields an +AtomFeedBuilder+ instance. Nested elements yield
   # an +AtomBuilder+ instance.
   #
-  # source://actionview//lib/action_view/helpers/atom_feed_helper.rb#98
+  # source://actionview//lib/action_view/helpers/atom_feed_helper.rb#96
   def atom_feed(options = T.unsafe(nil), &block); end
 end
 
-# source://actionview//lib/action_view/helpers/atom_feed_helper.rb#129
+# source://actionview//lib/action_view/helpers/atom_feed_helper.rb#127
 class ActionView::Helpers::AtomFeedHelper::AtomBuilder
   # @return [AtomBuilder] a new instance of AtomBuilder
   #
-  # source://actionview//lib/action_view/helpers/atom_feed_helper.rb#132
+  # source://actionview//lib/action_view/helpers/atom_feed_helper.rb#130
   def initialize(xml); end
 
   private
@@ -3064,7 +3086,7 @@ class ActionView::Helpers::AtomFeedHelper::AtomBuilder
   # namespaced div element if the method and arguments indicate
   # that an xhtml_block? is desired.
   #
-  # source://actionview//lib/action_view/helpers/atom_feed_helper.rb#140
+  # source://actionview//lib/action_view/helpers/atom_feed_helper.rb#138
   def method_missing(method, *arguments, &block); end
 
   # True if the method name matches one of the five elements defined
@@ -3073,18 +3095,18 @@ class ActionView::Helpers::AtomFeedHelper::AtomBuilder
   #
   # @return [Boolean]
   #
-  # source://actionview//lib/action_view/helpers/atom_feed_helper.rb#155
+  # source://actionview//lib/action_view/helpers/atom_feed_helper.rb#153
   def xhtml_block?(method, arguments); end
 end
 
-# source://actionview//lib/action_view/helpers/atom_feed_helper.rb#130
+# source://actionview//lib/action_view/helpers/atom_feed_helper.rb#128
 ActionView::Helpers::AtomFeedHelper::AtomBuilder::XHTML_TAG_NAMES = T.let(T.unsafe(nil), Set)
 
-# source://actionview//lib/action_view/helpers/atom_feed_helper.rb#163
+# source://actionview//lib/action_view/helpers/atom_feed_helper.rb#161
 class ActionView::Helpers::AtomFeedHelper::AtomFeedBuilder < ::ActionView::Helpers::AtomFeedHelper::AtomBuilder
   # @return [AtomFeedBuilder] a new instance of AtomFeedBuilder
   #
-  # source://actionview//lib/action_view/helpers/atom_feed_helper.rb#164
+  # source://actionview//lib/action_view/helpers/atom_feed_helper.rb#162
   def initialize(xml, view, feed_options = T.unsafe(nil)); end
 
   # Creates an entry tag for a specific record and prefills the id using class and id.
@@ -3097,12 +3119,12 @@ class ActionView::Helpers::AtomFeedHelper::AtomFeedBuilder < ::ActionView::Helpe
   # * <tt>:id</tt>: The ID for this entry. Defaults to "tag:#{@view.request.host},#{@feed_options[:schema_date]}:#{record.class}/#{record.id}"
   # * <tt>:type</tt>: The TYPE for this entry. Defaults to "text/html".
   #
-  # source://actionview//lib/action_view/helpers/atom_feed_helper.rb#182
+  # source://actionview//lib/action_view/helpers/atom_feed_helper.rb#180
   def entry(record, options = T.unsafe(nil)); end
 
   # Accepts a Date or Time object and inserts it in the proper format. If +nil+ is passed, current time in UTC is used.
   #
-  # source://actionview//lib/action_view/helpers/atom_feed_helper.rb#169
+  # source://actionview//lib/action_view/helpers/atom_feed_helper.rb#167
   def updated(date_or_time = T.unsafe(nil)); end
 end
 
@@ -3197,6 +3219,14 @@ module ActionView::Helpers::CacheHelper
   #   render partial: 'attachments/attachment', collection: group_of_attachments
   #   render partial: 'documents/document', collection: @project.documents.where(published: true).order('created_at')
   #
+  # One last type of dependency can be determined implicitly:
+  #
+  #   render "maintenance_tasks/runs/info/#{run.status}"
+  #
+  # Because the value passed to render ends in interpolation, Action View
+  # will mark all partials within the "maintenace_tasks/runs/info" folder as
+  # dependencies.
+  #
   # === Explicit dependencies
   #
   # Sometimes you'll have template dependencies that can't be derived at all. This is typically
@@ -3270,7 +3300,7 @@ module ActionView::Helpers::CacheHelper
   # This will include both records as part of the cache key and updating either of them will
   # expire the cache.
   #
-  # source://actionview//lib/action_view/helpers/cache_helper.rb#168
+  # source://actionview//lib/action_view/helpers/cache_helper.rb#176
   def cache(name = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # This helper returns the name of a cache key for a given fragment cache
@@ -3279,7 +3309,7 @@ module ActionView::Helpers::CacheHelper
   # cannot be manually expired unless you know the exact key which is the
   # case when using memcached.
   #
-  # source://actionview//lib/action_view/helpers/cache_helper.rb#240
+  # source://actionview//lib/action_view/helpers/cache_helper.rb#248
   def cache_fragment_name(name = T.unsafe(nil), skip_digest: T.unsafe(nil), digest_path: T.unsafe(nil)); end
 
   # Cache fragments of a view if +condition+ is true
@@ -3289,7 +3319,7 @@ module ActionView::Helpers::CacheHelper
   #     <%= render project.topics %>
   #   <% end %>
   #
-  # source://actionview//lib/action_view/helpers/cache_helper.rb#215
+  # source://actionview//lib/action_view/helpers/cache_helper.rb#223
   def cache_if(condition, name = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # Cache fragments of a view unless +condition+ is true
@@ -3299,7 +3329,7 @@ module ActionView::Helpers::CacheHelper
   #     <%= render project.topics %>
   #   <% end %>
   #
-  # source://actionview//lib/action_view/helpers/cache_helper.rb#231
+  # source://actionview//lib/action_view/helpers/cache_helper.rb#239
   def cache_unless(condition, name = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # Returns whether the current view fragment is within a +cache+ block.
@@ -3312,10 +3342,10 @@ module ActionView::Helpers::CacheHelper
   #
   # @return [Boolean]
   #
-  # source://actionview//lib/action_view/helpers/cache_helper.rb#188
+  # source://actionview//lib/action_view/helpers/cache_helper.rb#196
   def caching?; end
 
-  # source://actionview//lib/action_view/helpers/cache_helper.rb#248
+  # source://actionview//lib/action_view/helpers/cache_helper.rb#256
   def digest_path_from_template(template); end
 
   # Raises +UncacheableFragmentError+ when called from within a +cache+ block.
@@ -3334,34 +3364,34 @@ module ActionView::Helpers::CacheHelper
   #
   # @raise [UncacheableFragmentError]
   #
-  # source://actionview//lib/action_view/helpers/cache_helper.rb#205
+  # source://actionview//lib/action_view/helpers/cache_helper.rb#213
   def uncacheable!; end
 
   private
 
-  # source://actionview//lib/action_view/helpers/cache_helper.rb#270
+  # source://actionview//lib/action_view/helpers/cache_helper.rb#278
   def fragment_for(name = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
-  # source://actionview//lib/action_view/helpers/cache_helper.rb#259
+  # source://actionview//lib/action_view/helpers/cache_helper.rb#267
   def fragment_name_with_digest(name, digest_path); end
 
-  # source://actionview//lib/action_view/helpers/cache_helper.rb#280
+  # source://actionview//lib/action_view/helpers/cache_helper.rb#288
   def read_fragment_for(name, options); end
 
-  # source://actionview//lib/action_view/helpers/cache_helper.rb#284
+  # source://actionview//lib/action_view/helpers/cache_helper.rb#292
   def write_fragment_for(name, options, &block); end
 end
 
-# source://actionview//lib/action_view/helpers/cache_helper.rb#289
+# source://actionview//lib/action_view/helpers/cache_helper.rb#297
 module ActionView::Helpers::CacheHelper::CachingRegistry
   extend ::ActionView::Helpers::CacheHelper::CachingRegistry
 
   # @return [Boolean]
   #
-  # source://actionview//lib/action_view/helpers/cache_helper.rb#292
+  # source://actionview//lib/action_view/helpers/cache_helper.rb#300
   def caching?; end
 
-  # source://actionview//lib/action_view/helpers/cache_helper.rb#296
+  # source://actionview//lib/action_view/helpers/cache_helper.rb#304
   def track_caching; end
 end
 
@@ -4721,12 +4751,12 @@ end
 #
 #   <%= form_with model: @person do |person_form| %>
 #     Name: <%= person_form.text_field :name %>
-#     Admin: <%= person_form.check_box :admin %>
+#     Admin: <%= person_form.checkbox :admin %>
 #   <% end %>
 #
 # In the above block, a +FormBuilder+ object is yielded as the
 # +person_form+ variable. This allows you to generate the +text_field+
-# and +check_box+ fields by specifying their eponymous methods, which
+# and +checkbox+ fields by specifying their eponymous methods, which
 # modify the underlying template and associates the <tt>@person</tt> model object
 # with the form.
 #
@@ -4769,7 +4799,7 @@ class ActionView::Helpers::FormBuilder
 
   # @return [FormBuilder] a new instance of FormBuilder
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1717
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1720
   def initialize(object_name, object, template, options); end
 
   # Add the submit button for the given form. When no value is given, it checks
@@ -4867,7 +4897,7 @@ class ActionView::Helpers::FormBuilder
   # within an array-like parameter, as in
   #
   #   <%= fields_for "project[invoice_attributes][]", invoice, index: nil do |form| %>
-  #     <%= form.check_box :paid %>
+  #     <%= form.checkbox :paid %>
   #     ...
   #   <% end %>
   #
@@ -4875,74 +4905,155 @@ class ActionView::Helpers::FormBuilder
   # the elements of the array. For each item with a checked check box you
   # get an extra ghost item with only that attribute, assigned to "0".
   #
-  # In that case it is preferable to either use +check_box_tag+ or to use
+  # In that case it is preferable to either use +checkbox_tag+ or to use
   # hashes instead of arrays.
   #
   # ==== Examples
   #
   #   # Let's say that @article.validated? is 1:
-  #   check_box("validated")
+  #   checkbox("validated")
   #   # => <input name="article[validated]" type="hidden" value="0" />
   #   #    <input checked="checked" type="checkbox" id="article_validated" name="article[validated]" value="1" />
   #
   #   # Let's say that @puppy.gooddog is "no":
-  #   check_box("gooddog", {}, "yes", "no")
+  #   checkbox("gooddog", {}, "yes", "no")
   #   # => <input name="puppy[gooddog]" type="hidden" value="no" />
   #   #    <input type="checkbox" id="puppy_gooddog" name="puppy[gooddog]" value="yes" />
   #
   #   # Let's say that @eula.accepted is "no":
-  #   check_box("accepted", { class: 'eula_check' }, "yes", "no")
+  #   checkbox("accepted", { class: 'eula_check' }, "yes", "no")
   #   # => <input name="eula[accepted]" type="hidden" value="no" />
   #   #    <input type="checkbox" class="eula_check" id="eula_accepted" name="eula[accepted]" value="yes" />
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2474
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2473
   def check_box(method, options = T.unsafe(nil), checked_value = T.unsafe(nil), unchecked_value = T.unsafe(nil)); end
 
-  # Wraps ActionView::Helpers::FormOptionsHelper#collection_check_boxes for form builders:
+  # Returns a checkbox tag tailored for accessing a specified attribute (identified by +method+) on an object
+  # assigned to the template (identified by +object+). This object must be an instance object (@object) and not a local object.
+  # It's intended that +method+ returns an integer and if that integer is above zero, then the checkbox is checked.
+  # Additional options on the input tag can be passed as a hash with +options+. The +checked_value+ defaults to 1
+  # while the default +unchecked_value+ is set to 0 which is convenient for boolean values.
   #
-  #   <%= form_for @post do |f| %>
-  #     <%= f.collection_check_boxes :author_ids, Author.all, :id, :name_with_initial %>
+  # ==== Options
+  #
+  # * Any standard HTML attributes for the tag can be passed in, for example +:class+.
+  # * <tt>:checked</tt> - +true+ or +false+ forces the state of the checkbox to be checked or not.
+  # * <tt>:include_hidden</tt> - If set to false, the auxiliary hidden field described below will not be generated.
+  #
+  # ==== Gotcha
+  #
+  # The HTML specification says unchecked check boxes are not successful, and
+  # thus web browsers do not send them. Unfortunately this introduces a gotcha:
+  # if an +Invoice+ model has a +paid+ flag, and in the form that edits a paid
+  # invoice the user unchecks its check box, no +paid+ parameter is sent. So,
+  # any mass-assignment idiom like
+  #
+  #   @invoice.update(params[:invoice])
+  #
+  # wouldn't update the flag.
+  #
+  # To prevent this the helper generates an auxiliary hidden field before
+  # every check box. The hidden field has the same name and its
+  # attributes mimic an unchecked check box.
+  #
+  # This way, the client either sends only the hidden field (representing
+  # the check box is unchecked), or both fields. Since the HTML specification
+  # says key/value pairs have to be sent in the same order they appear in the
+  # form, and parameters extraction gets the last occurrence of any repeated
+  # key in the query string, that works for ordinary forms.
+  #
+  # Unfortunately that workaround does not work when the check box goes
+  # within an array-like parameter, as in
+  #
+  #   <%= fields_for "project[invoice_attributes][]", invoice, index: nil do |form| %>
+  #     <%= form.checkbox :paid %>
+  #     ...
+  #   <% end %>
+  #
+  # because parameter name repetition is precisely what \Rails seeks to distinguish
+  # the elements of the array. For each item with a checked check box you
+  # get an extra ghost item with only that attribute, assigned to "0".
+  #
+  # In that case it is preferable to either use +checkbox_tag+ or to use
+  # hashes instead of arrays.
+  #
+  # ==== Examples
+  #
+  #   # Let's say that @article.validated? is 1:
+  #   checkbox("validated")
+  #   # => <input name="article[validated]" type="hidden" value="0" />
+  #   #    <input checked="checked" type="checkbox" id="article_validated" name="article[validated]" value="1" />
+  #
+  #   # Let's say that @puppy.gooddog is "no":
+  #   checkbox("gooddog", {}, "yes", "no")
+  #   # => <input name="puppy[gooddog]" type="hidden" value="no" />
+  #   #    <input type="checkbox" id="puppy_gooddog" name="puppy[gooddog]" value="yes" />
+  #
+  #   # Let's say that @eula.accepted is "no":
+  #   checkbox("accepted", { class: 'eula_check' }, "yes", "no")
+  #   # => <input name="eula[accepted]" type="hidden" value="no" />
+  #   #    <input type="checkbox" class="eula_check" id="eula_accepted" name="eula[accepted]" value="yes" />
+  #
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2473
+  def checkbox(method, options = T.unsafe(nil), checked_value = T.unsafe(nil), unchecked_value = T.unsafe(nil)); end
+
+  # Wraps ActionView::Helpers::FormOptionsHelper#collection_checkboxes for form builders:
+  #
+  #   <%= form_with model: @post do |f| %>
+  #     <%= f.collection_checkboxes :author_ids, Author.all, :id, :name_with_initial %>
   #     <%= f.submit %>
   #   <% end %>
   #
   # Please refer to the documentation of the base helper for details.
   #
-  # source://actionview//lib/action_view/helpers/form_options_helper.rb#908
+  # source://actionview//lib/action_view/helpers/form_options_helper.rb#909
   def collection_check_boxes(method, collection, value_method, text_method, options = T.unsafe(nil), html_options = T.unsafe(nil), &block); end
+
+  # Wraps ActionView::Helpers::FormOptionsHelper#collection_checkboxes for form builders:
+  #
+  #   <%= form_with model: @post do |f| %>
+  #     <%= f.collection_checkboxes :author_ids, Author.all, :id, :name_with_initial %>
+  #     <%= f.submit %>
+  #   <% end %>
+  #
+  # Please refer to the documentation of the base helper for details.
+  #
+  # source://actionview//lib/action_view/helpers/form_options_helper.rb#909
+  def collection_checkboxes(method, collection, value_method, text_method, options = T.unsafe(nil), html_options = T.unsafe(nil), &block); end
 
   # Wraps ActionView::Helpers::FormOptionsHelper#collection_radio_buttons for form builders:
   #
-  #   <%= form_for @post do |f| %>
+  #   <%= form_with model: @post do |f| %>
   #     <%= f.collection_radio_buttons :author_id, Author.all, :id, :name_with_initial %>
   #     <%= f.submit %>
   #   <% end %>
   #
   # Please refer to the documentation of the base helper for details.
   #
-  # source://actionview//lib/action_view/helpers/form_options_helper.rb#920
+  # source://actionview//lib/action_view/helpers/form_options_helper.rb#922
   def collection_radio_buttons(method, collection, value_method, text_method, options = T.unsafe(nil), html_options = T.unsafe(nil), &block); end
 
   # Wraps ActionView::Helpers::FormOptionsHelper#collection_select for form builders:
   #
-  #   <%= form_for @post do |f| %>
+  #   <%= form_with model: @post do |f| %>
   #     <%= f.collection_select :person_id, Author.all, :id, :name_with_initial, prompt: true %>
   #     <%= f.submit %>
   #   <% end %>
   #
   # Please refer to the documentation of the base helper for details.
   #
-  # source://actionview//lib/action_view/helpers/form_options_helper.rb#860
+  # source://actionview//lib/action_view/helpers/form_options_helper.rb#861
   def collection_select(method, collection, value_method, text_method, options = T.unsafe(nil), html_options = T.unsafe(nil)); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2042
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2024
   def color_field(method, options = T.unsafe(nil)); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2070
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2024
   def date_field(method, options = T.unsafe(nil)); end
 
   # Wraps ActionView::Helpers::DateHelper#date_select for form builders:
   #
-  #   <%= form_for @person do |f| %>
+  #   <%= form_with model: @person do |f| %>
   #     <%= f.date_select :birth_date %>
   #     <%= f.submit %>
   #   <% end %>
@@ -4952,15 +5063,15 @@ class ActionView::Helpers::FormBuilder
   # source://actionview//lib/action_view/helpers/date_helper.rb#1237
   def date_select(method, options = T.unsafe(nil), html_options = T.unsafe(nil)); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2084
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2024
   def datetime_field(method, options = T.unsafe(nil)); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2091
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2024
   def datetime_local_field(method, options = T.unsafe(nil)); end
 
   # Wraps ActionView::Helpers::DateHelper#datetime_select for form builders:
   #
-  #   <%= form_for @person do |f| %>
+  #   <%= form_with model: @person do |f| %>
   #     <%= f.datetime_select :last_request_at %>
   #     <%= f.submit %>
   #   <% end %>
@@ -4970,7 +5081,7 @@ class ActionView::Helpers::FormBuilder
   # source://actionview//lib/action_view/helpers/date_helper.rb#1261
   def datetime_select(method, options = T.unsafe(nil), html_options = T.unsafe(nil)); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2119
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2024
   def email_field(method, options = T.unsafe(nil)); end
 
   # @return [Boolean]
@@ -4978,13 +5089,13 @@ class ActionView::Helpers::FormBuilder
   # source://actionview//lib/action_view/helpers/form_helper.rb#2670
   def emitted_hidden_id?; end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1682
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1685
   def field_helpers; end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1682
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1685
   def field_helpers=(_arg0); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1682
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1685
   def field_helpers?; end
 
   # Generate an HTML <tt>id</tt> attribute value for the given field
@@ -5004,7 +5115,7 @@ class ActionView::Helpers::FormBuilder
   # element, sharing a common <tt>id</tt> root (<tt>article_title</tt>, in this
   # case).
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1774
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1777
   def field_id(method, *suffixes, namespace: T.unsafe(nil), index: T.unsafe(nil)); end
 
   # Generate an HTML <tt>name</tt> attribute value for the given name and
@@ -5023,17 +5134,17 @@ class ActionView::Helpers::FormBuilder
   #     <%# => <input type="text" name="article[tag][]"> %>
   #   <% end %>
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1794
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1797
   def field_name(method, *methods, multiple: T.unsafe(nil), index: T.unsafe(nil)); end
 
   # See the docs for the ActionView::Helpers::FormHelper#fields helper method.
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2328
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2327
   def fields(scope = T.unsafe(nil), model: T.unsafe(nil), **options, &block); end
 
-  # Creates a scope around a specific model object like form_with, but
-  # doesn't create the form tags themselves. This makes fields_for suitable
-  # for specifying additional model objects in the same form.
+  # Creates a scope around a specific model object like +form_with+, but
+  # doesn't create the form tags themselves. This makes +fields_for+
+  # suitable for specifying additional model objects in the same form.
   #
   # Although the usage and purpose of +fields_for+ is similar to +form_with+'s,
   # its method signature is slightly different. Like +form_with+, it yields
@@ -5052,7 +5163,7 @@ class ActionView::Helpers::FormBuilder
   #     Last name : <%= person_form.text_field :last_name %>
   #
   #     <%= fields_for :permission, @person.permission do |permission_fields| %>
-  #       Admin?  : <%= permission_fields.check_box :admin %>
+  #       Admin?  : <%= permission_fields.checkbox :admin %>
   #     <% end %>
   #
   #     <%= person_form.submit %>
@@ -5069,7 +5180,7 @@ class ActionView::Helpers::FormBuilder
   # object to +fields_for+ -
   #
   #   <%= fields_for :permission do |permission_fields| %>
-  #     Admin?: <%= permission_fields.check_box :admin %>
+  #     Admin?: <%= permission_fields.checkbox :admin %>
   #   <% end %>
   #
   # ...in which case, if <tt>:permission</tt> also happens to be the name of an
@@ -5081,7 +5192,7 @@ class ActionView::Helpers::FormBuilder
   # name has been omitted) -
   #
   #   <%= fields_for @person.permission do |permission_fields| %>
-  #     Admin?: <%= permission_fields.check_box :admin %>
+  #     Admin?: <%= permission_fields.checkbox :admin %>
   #   <% end %>
   #
   # and +fields_for+ will derive the required name of the field from the
@@ -5099,7 +5210,7 @@ class ActionView::Helpers::FormBuilder
   #   <%= form_with model: @person do |person_form| %>
   #     ...
   #     <%= fields_for :permission, @person.permission, {} do |permission_fields| %>
-  #       Admin?: <%= check_box_tag permission_fields.field_name(:admin), @person.permission[:admin] %>
+  #       Admin?: <%= checkbox_tag permission_fields.field_name(:admin), @person.permission[:admin] %>
   #     <% end %>
   #     ...
   #   <% end %>
@@ -5174,7 +5285,7 @@ class ActionView::Helpers::FormBuilder
   #     ...
   #     <%= person_form.fields_for :address do |address_fields| %>
   #       ...
-  #       Delete: <%= address_fields.check_box :_destroy %>
+  #       Delete: <%= address_fields.checkbox :_destroy %>
   #     <% end %>
   #     ...
   #   <% end %>
@@ -5262,7 +5373,7 @@ class ActionView::Helpers::FormBuilder
   #   <%= form_with model: @person do |person_form| %>
   #     ...
   #     <%= person_form.fields_for :projects do |project_fields| %>
-  #       Delete: <%= project_fields.check_box :_destroy %>
+  #       Delete: <%= project_fields.checkbox :_destroy %>
   #     <% end %>
   #     ...
   #   <% end %>
@@ -5285,7 +5396,7 @@ class ActionView::Helpers::FormBuilder
   # hidden field is not needed and you can pass <tt>include_id: false</tt>
   # to prevent fields_for from rendering it automatically.
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2290
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2289
   def fields_for(record_name, record_object = T.unsafe(nil), fields_options = T.unsafe(nil), &block); end
 
   # Returns a file upload input tag tailored for accessing a specified attribute (identified by +method+) on an object
@@ -5328,14 +5439,14 @@ class ActionView::Helpers::FormBuilder
 
   # Wraps ActionView::Helpers::FormOptionsHelper#grouped_collection_select for form builders:
   #
-  #   <%= form_for @city do |f| %>
+  #   <%= form_with model: @city do |f| %>
   #     <%= f.grouped_collection_select :country_id, @continents, :countries, :name, :id, :name %>
   #     <%= f.submit %>
   #   <% end %>
   #
   # Please refer to the documentation of the base helper for details.
   #
-  # source://actionview//lib/action_view/helpers/form_options_helper.rb#872
+  # source://actionview//lib/action_view/helpers/form_options_helper.rb#873
   def grouped_collection_select(method, collection, group_method, group_label_method, option_key_method, option_value_method, options = T.unsafe(nil), html_options = T.unsafe(nil)); end
 
   # Returns a hidden input tag tailored for accessing a specified attribute (identified by +method+) on an object
@@ -5377,12 +5488,12 @@ class ActionView::Helpers::FormBuilder
   # <tt><button></tt> element should be treated as the <tt><form></tt>
   # element's submit button, regardless of where it exists in the DOM.
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1754
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1757
   def id; end
 
   # Returns the value of attribute index.
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1694
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1697
   def index; end
 
   # Returns a label tag tailored for labelling an input field for a specified attribute (identified by +method+) on an object
@@ -5454,68 +5565,68 @@ class ActionView::Helpers::FormBuilder
   #   end
   #   # => <label for="article_terms">Accept <a href="/terms">Terms</a>.</label>
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2405
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2404
   def label(method, text = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2098
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2024
   def month_field(method, options = T.unsafe(nil)); end
 
   # Returns the value of attribute multipart.
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1694
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1697
   def multipart; end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1697
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1700
   def multipart=(multipart); end
 
   # Returns the value of attribute multipart.
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1694
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1697
   def multipart?; end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2126
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2024
   def number_field(method, options = T.unsafe(nil)); end
 
   # Returns the value of attribute object.
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1692
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1695
   def object; end
 
   # Sets the attribute object
   #
   # @param value the value to set the attribute object to.
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1692
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1695
   def object=(_arg0); end
 
   # Returns the value of attribute object_name.
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1692
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1695
   def object_name; end
 
   # Sets the attribute object_name
   #
   # @param value the value to set the attribute object_name to.
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1692
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1695
   def object_name=(_arg0); end
 
   # Returns the value of attribute options.
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1692
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1695
   def options; end
 
   # Sets the attribute options
   #
   # @param value the value to set the attribute options to.
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1692
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1695
   def options=(_arg0); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2028
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2024
   def password_field(method, options = T.unsafe(nil)); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2063
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2024
   def phone_field(method, options = T.unsafe(nil)); end
 
   # Returns a radio button tag for accessing a specified attribute (identified by +method+) on an object
@@ -5540,24 +5651,25 @@ class ActionView::Helpers::FormBuilder
   # source://actionview//lib/action_view/helpers/form_helper.rb#2496
   def radio_button(method, tag_value, options = T.unsafe(nil)); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2133
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2024
   def range_field(method, options = T.unsafe(nil)); end
 
   def rich_text_area(method, options = T.unsafe(nil)); end
+  def rich_textarea(method, options = T.unsafe(nil)); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2049
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2024
   def search_field(method, options = T.unsafe(nil)); end
 
   # Wraps ActionView::Helpers::FormOptionsHelper#select for form builders:
   #
-  #   <%= form_for @post do |f| %>
+  #   <%= form_with model: @post do |f| %>
   #     <%= f.select :person_id, Person.all.collect { |p| [ p.name, p.id ] }, include_blank: true %>
   #     <%= f.submit %>
   #   <% end %>
   #
   # Please refer to the documentation of the base helper for details.
   #
-  # source://actionview//lib/action_view/helpers/form_options_helper.rb#848
+  # source://actionview//lib/action_view/helpers/form_options_helper.rb#849
   def select(method, choices = T.unsafe(nil), options = T.unsafe(nil), html_options = T.unsafe(nil), &block); end
 
   # Add the submit button for the given form. When no value is given, it checks
@@ -5590,21 +5702,24 @@ class ActionView::Helpers::FormBuilder
   # source://actionview//lib/action_view/helpers/form_helper.rb#2589
   def submit(value = T.unsafe(nil), options = T.unsafe(nil)); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2056
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2024
   def telephone_field(method, options = T.unsafe(nil)); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2035
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2024
   def text_area(method, options = T.unsafe(nil)); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2021
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2024
   def text_field(method, options = T.unsafe(nil)); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2077
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2024
+  def textarea(method, options = T.unsafe(nil)); end
+
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2024
   def time_field(method, options = T.unsafe(nil)); end
 
   # Wraps ActionView::Helpers::DateHelper#time_select for form builders:
   #
-  #   <%= form_for @race do |f| %>
+  #   <%= form_with model: @race do |f| %>
   #     <%= f.time_select :average_lap %>
   #     <%= f.submit %>
   #   <% end %>
@@ -5616,38 +5731,38 @@ class ActionView::Helpers::FormBuilder
 
   # Wraps ActionView::Helpers::FormOptionsHelper#time_zone_select for form builders:
   #
-  #   <%= form_for @user do |f| %>
+  #   <%= form_with model: @user do |f| %>
   #     <%= f.time_zone_select :time_zone, nil, include_blank: true %>
   #     <%= f.submit %>
   #   <% end %>
   #
   # Please refer to the documentation of the base helper for details.
   #
-  # source://actionview//lib/action_view/helpers/form_options_helper.rb#884
+  # source://actionview//lib/action_view/helpers/form_options_helper.rb#885
   def time_zone_select(method, priority_zones = T.unsafe(nil), options = T.unsafe(nil), html_options = T.unsafe(nil)); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1713
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1716
   def to_model; end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1709
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1712
   def to_partial_path; end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2112
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2024
   def url_field(method, options = T.unsafe(nil)); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#2105
+  # source://actionview//lib/action_view/helpers/form_helper.rb#2024
   def week_field(method, options = T.unsafe(nil)); end
 
   # Wraps ActionView::Helpers::FormOptionsHelper#weekday_select for form builders:
   #
-  #   <%= form_for @user do |f| %>
+  #   <%= form_with model: @user do |f| %>
   #     <%= f.weekday_select :weekday, include_blank: true %>
   #     <%= f.submit %>
   #   <% end %>
   #
   # Please refer to the documentation of the base helper for details.
   #
-  # source://actionview//lib/action_view/helpers/form_options_helper.rb#896
+  # source://actionview//lib/action_view/helpers/form_options_helper.rb#897
   def weekday_select(method, options = T.unsafe(nil), html_options = T.unsafe(nil)); end
 
   private
@@ -5676,16 +5791,16 @@ class ActionView::Helpers::FormBuilder
   def submit_default_value; end
 
   class << self
-    # source://actionview//lib/action_view/helpers/form_helper.rb#1705
+    # source://actionview//lib/action_view/helpers/form_helper.rb#1708
     def _to_partial_path; end
 
-    # source://actionview//lib/action_view/helpers/form_helper.rb#1682
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def field_helpers; end
 
-    # source://actionview//lib/action_view/helpers/form_helper.rb#1682
-    def field_helpers=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def field_helpers=(new_value); end
 
-    # source://actionview//lib/action_view/helpers/form_helper.rb#1682
+    # source://actionview//lib/action_view/helpers/form_helper.rb#1685
     def field_helpers?; end
   end
 end
@@ -5705,20 +5820,21 @@ end
 # when the form is initially displayed, input fields corresponding to attributes
 # of the resource should show the current values of those attributes.
 #
-# In \Rails, this is usually achieved by creating the form using +form_for+ and
-# a number of related helper methods. +form_for+ generates an appropriate <tt>form</tt>
-# tag and yields a form builder object that knows the model the form is about.
-# Input fields are created by calling methods defined on the form builder, which
-# means they are able to generate the appropriate names and default values
+# In \Rails, this is usually achieved by creating the form using either
+# +form_with+ or +form_for+ and a number of related helper methods. These
+# methods generate an appropriate <tt>form</tt> tag and yield a form
+# builder object that knows the model the form is about. Input fields are
+# created by calling methods defined on the form builder, which means they
+# are able to generate the appropriate names and default values
 # corresponding to the model attributes, as well as convenient IDs, etc.
-# Conventions in the generated field names allow controllers to receive form data
-# nicely structured in +params+ with no effort on your side.
+# Conventions in the generated field names allow controllers to receive form
+# data nicely structured in +params+ with no effort on your side.
 #
 # For example, to create a new person you typically set up a new instance of
 # +Person+ in the <tt>PeopleController#new</tt> action, <tt>@person</tt>, and
-# in the view template pass that object to +form_for+:
+# in the view template pass that object to +form_with+ or +form_for+:
 #
-#   <%= form_for @person do |f| %>
+#   <%= form_with model: @person do |f| %>
 #     <%= f.label :first_name %>:
 #     <%= f.text_field :first_name %><br />
 #
@@ -5786,7 +5902,7 @@ end
 #
 # That's how you typically work with resources.
 #
-# source://actionview//lib/action_view/helpers/form_helper.rb#113
+# source://actionview//lib/action_view/helpers/form_helper.rb#114
 module ActionView::Helpers::FormHelper
   include ::ActionView::ModelNaming
   include ::ActionView::RecordIdentifier
@@ -5799,7 +5915,7 @@ module ActionView::Helpers::FormHelper
   mixes_in_class_methods ::ActionView::Helpers::UrlHelper::ClassMethods
   mixes_in_class_methods ::ActionView::Helpers::SanitizeHelper::ClassMethods
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1588
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1591
   def _object_for_form_builder(object); end
 
   # Returns a checkbox tag tailored for accessing a specified attribute (identified by +method+) on an object
@@ -5840,7 +5956,7 @@ module ActionView::Helpers::FormHelper
   # within an array-like parameter, as in
   #
   #   <%= fields_for "project[invoice_attributes][]", invoice, index: nil do |form| %>
-  #     <%= form.check_box :paid %>
+  #     <%= form.checkbox :paid %>
   #     ...
   #   <% end %>
   #
@@ -5848,34 +5964,102 @@ module ActionView::Helpers::FormHelper
   # the elements of the array. For each item with a checked check box you
   # get an extra ghost item with only that attribute, assigned to "0".
   #
-  # In that case it is preferable to either use +check_box_tag+ or to use
+  # In that case it is preferable to either use +checkbox_tag+ or to use
   # hashes instead of arrays.
   #
   # ==== Examples
   #
   #   # Let's say that @article.validated? is 1:
-  #   check_box("article", "validated")
+  #   checkbox("article", "validated")
   #   # => <input name="article[validated]" type="hidden" value="0" />
   #   #    <input checked="checked" type="checkbox" id="article_validated" name="article[validated]" value="1" />
   #
   #   # Let's say that @puppy.gooddog is "no":
-  #   check_box("puppy", "gooddog", {}, "yes", "no")
+  #   checkbox("puppy", "gooddog", {}, "yes", "no")
   #   # => <input name="puppy[gooddog]" type="hidden" value="no" />
   #   #    <input type="checkbox" id="puppy_gooddog" name="puppy[gooddog]" value="yes" />
   #
-  #   check_box("eula", "accepted", { class: 'eula_check' }, "yes", "no")
+  #   checkbox("eula", "accepted", { class: 'eula_check' }, "yes", "no")
   #   # => <input name="eula[accepted]" type="hidden" value="no" />
   #   #    <input type="checkbox" class="eula_check" id="eula_accepted" name="eula[accepted]" value="yes" />
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1345
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1347
   def check_box(object_name, method, options = T.unsafe(nil), checked_value = T.unsafe(nil), unchecked_value = T.unsafe(nil)); end
+
+  # Returns a checkbox tag tailored for accessing a specified attribute (identified by +method+) on an object
+  # assigned to the template (identified by +object+). This object must be an instance object (@object) and not a local object.
+  # It's intended that +method+ returns an integer and if that integer is above zero, then the checkbox is checked.
+  # Additional options on the input tag can be passed as a hash with +options+. The +checked_value+ defaults to 1
+  # while the default +unchecked_value+ is set to 0 which is convenient for boolean values.
+  #
+  # ==== Options
+  #
+  # * Any standard HTML attributes for the tag can be passed in, for example +:class+.
+  # * <tt>:checked</tt> - +true+ or +false+ forces the state of the checkbox to be checked or not.
+  # * <tt>:include_hidden</tt> - If set to false, the auxiliary hidden field described below will not be generated.
+  #
+  # ==== Gotcha
+  #
+  # The HTML specification says unchecked check boxes are not successful, and
+  # thus web browsers do not send them. Unfortunately this introduces a gotcha:
+  # if an +Invoice+ model has a +paid+ flag, and in the form that edits a paid
+  # invoice the user unchecks its check box, no +paid+ parameter is sent. So,
+  # any mass-assignment idiom like
+  #
+  #   @invoice.update(params[:invoice])
+  #
+  # wouldn't update the flag.
+  #
+  # To prevent this the helper generates an auxiliary hidden field before
+  # every check box. The hidden field has the same name and its
+  # attributes mimic an unchecked check box.
+  #
+  # This way, the client either sends only the hidden field (representing
+  # the check box is unchecked), or both fields. Since the HTML specification
+  # says key/value pairs have to be sent in the same order they appear in the
+  # form, and parameters extraction gets the last occurrence of any repeated
+  # key in the query string, that works for ordinary forms.
+  #
+  # Unfortunately that workaround does not work when the check box goes
+  # within an array-like parameter, as in
+  #
+  #   <%= fields_for "project[invoice_attributes][]", invoice, index: nil do |form| %>
+  #     <%= form.checkbox :paid %>
+  #     ...
+  #   <% end %>
+  #
+  # because parameter name repetition is precisely what \Rails seeks to distinguish
+  # the elements of the array. For each item with a checked check box you
+  # get an extra ghost item with only that attribute, assigned to "0".
+  #
+  # In that case it is preferable to either use +checkbox_tag+ or to use
+  # hashes instead of arrays.
+  #
+  # ==== Examples
+  #
+  #   # Let's say that @article.validated? is 1:
+  #   checkbox("article", "validated")
+  #   # => <input name="article[validated]" type="hidden" value="0" />
+  #   #    <input checked="checked" type="checkbox" id="article_validated" name="article[validated]" value="1" />
+  #
+  #   # Let's say that @puppy.gooddog is "no":
+  #   checkbox("puppy", "gooddog", {}, "yes", "no")
+  #   # => <input name="puppy[gooddog]" type="hidden" value="no" />
+  #   #    <input type="checkbox" id="puppy_gooddog" name="puppy[gooddog]" value="yes" />
+  #
+  #   checkbox("eula", "accepted", { class: 'eula_check' }, "yes", "no")
+  #   # => <input name="eula[accepted]" type="hidden" value="no" />
+  #   #    <input type="checkbox" class="eula_check" id="eula_accepted" name="eula[accepted]" value="yes" />
+  #
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1347
+  def checkbox(object_name, method, options = T.unsafe(nil), checked_value = T.unsafe(nil), unchecked_value = T.unsafe(nil)); end
 
   # Returns a text_field of type "color".
   #
   #   color_field("car", "color")
   #   # => <input id="car_color" name="car[color]" type="color" value="#000000" />
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1375
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1378
   def color_field(object_name, method, options = T.unsafe(nil)); end
 
   # Returns a text_field of type "date".
@@ -5904,7 +6088,7 @@ module ActionView::Helpers::FormHelper
   #   date_field("user", "born_on", min: "2014-05-20")
   #   # => <input id="user_born_on" name="user[born_on]" type="date" min="2014-05-20" />
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1439
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1442
   def date_field(object_name, method, options = T.unsafe(nil)); end
 
   # Returns a text_field of type "datetime-local".
@@ -5939,7 +6123,7 @@ module ActionView::Helpers::FormHelper
   #   datetime_field("user", "born_on", include_seconds: false)
   #   # => <input id="user_born_on" name="user[born_on]" type="datetime-local" value="2014-05-20T14:35" />
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1512
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1515
   def datetime_field(object_name, method, options = T.unsafe(nil)); end
 
   # Returns a text_field of type "datetime-local".
@@ -5974,7 +6158,7 @@ module ActionView::Helpers::FormHelper
   #   datetime_field("user", "born_on", include_seconds: false)
   #   # => <input id="user_born_on" name="user[born_on]" type="datetime-local" value="2014-05-20T14:35" />
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1512
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1515
   def datetime_local_field(object_name, method, options = T.unsafe(nil)); end
 
   def default_form_builder; end
@@ -5985,7 +6169,7 @@ module ActionView::Helpers::FormHelper
   #   email_field("user", "address")
   #   # => <input id="user_address" name="user[address]" type="email" />
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1566
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1569
   def email_field(object_name, method, options = T.unsafe(nil)); end
 
   # Scopes input fields with either an explicit scope or model.
@@ -6026,20 +6210,20 @@ module ActionView::Helpers::FormHelper
   #   <%= fields model: @comment do |fields| %>
   #     <%= fields.text_field :body %>
   #
-  #     <%= text_area :commenter, :biography %>
-  #     <%= check_box_tag "comment[all_caps]", "1", @comment.commenter.hulk_mode? %>
+  #     <%= textarea :commenter, :biography %>
+  #     <%= checkbox_tag "comment[all_caps]", "1", @comment.commenter.hulk_mode? %>
   #   <% end %>
   #
   # Same goes for the methods in FormOptionsHelper and DateHelper designed
   # to work with an object as a base, like
   # FormOptionsHelper#collection_select and DateHelper#datetime_select.
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1079
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1080
   def fields(scope = T.unsafe(nil), model: T.unsafe(nil), **options, &block); end
 
-  # Creates a scope around a specific model object like form_with, but
-  # doesn't create the form tags themselves. This makes fields_for suitable
-  # for specifying additional model objects in the same form.
+  # Creates a scope around a specific model object like +form_with+, but
+  # doesn't create the form tags themselves. This makes +fields_for+
+  # suitable for specifying additional model objects in the same form.
   #
   # Although the usage and purpose of +fields_for+ is similar to +form_with+'s,
   # its method signature is slightly different. Like +form_with+, it yields
@@ -6058,7 +6242,7 @@ module ActionView::Helpers::FormHelper
   #     Last name : <%= person_form.text_field :last_name %>
   #
   #     <%= fields_for :permission, @person.permission do |permission_fields| %>
-  #       Admin?  : <%= permission_fields.check_box :admin %>
+  #       Admin?  : <%= permission_fields.checkbox :admin %>
   #     <% end %>
   #
   #     <%= person_form.submit %>
@@ -6075,7 +6259,7 @@ module ActionView::Helpers::FormHelper
   # object to +fields_for+ -
   #
   #   <%= fields_for :permission do |permission_fields| %>
-  #     Admin?: <%= permission_fields.check_box :admin %>
+  #     Admin?: <%= permission_fields.checkbox :admin %>
   #   <% end %>
   #
   # ...in which case, if <tt>:permission</tt> also happens to be the name of an
@@ -6087,7 +6271,7 @@ module ActionView::Helpers::FormHelper
   # name has been omitted) -
   #
   #   <%= fields_for @person.permission do |permission_fields| %>
-  #     Admin?: <%= permission_fields.check_box :admin %>
+  #     Admin?: <%= permission_fields.checkbox :admin %>
   #   <% end %>
   #
   # and +fields_for+ will derive the required name of the field from the
@@ -6168,7 +6352,7 @@ module ActionView::Helpers::FormHelper
   #     ...
   #     <%= person_form.fields_for :address do |address_fields| %>
   #       ...
-  #       Delete: <%= address_fields.check_box :_destroy %>
+  #       Delete: <%= address_fields.checkbox :_destroy %>
   #     <% end %>
   #     ...
   #   <% end %>
@@ -6256,7 +6440,7 @@ module ActionView::Helpers::FormHelper
   #   <%= form_with model: @person do |person_form| %>
   #     ...
   #     <%= person_form.fields_for :projects do |project_fields| %>
-  #       Delete: <%= project_fields.check_box :_destroy %>
+  #       Delete: <%= project_fields.checkbox :_destroy %>
   #     <% end %>
   #     ...
   #   <% end %>
@@ -6280,7 +6464,7 @@ module ActionView::Helpers::FormHelper
   # can pass <tt>include_id: false</tt> to prevent fields_for from
   # rendering it automatically.
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1028
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1029
   def fields_for(record_name, record_object = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # Returns a file upload input tag tailored for accessing a specified attribute (identified by +method+) on an object
@@ -6313,7 +6497,7 @@ module ActionView::Helpers::FormHelper
   #   file_field(:attachment, :file, class: 'file_input')
   #   # => <input type="file" id="attachment_file" name="attachment[file]" class="file_input" />
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1247
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1248
   def file_field(object_name, method, options = T.unsafe(nil)); end
 
   # Creates a form that allows the user to create or update the attributes
@@ -6328,8 +6512,8 @@ module ActionView::Helpers::FormHelper
   #   <%= form_for :person do |f| %>
   #     First name: <%= f.text_field :first_name %><br />
   #     Last name : <%= f.text_field :last_name %><br />
-  #     Biography : <%= f.text_area :biography %><br />
-  #     Admin?    : <%= f.check_box :admin %><br />
+  #     Biography : <%= f.textarea :biography %><br />
+  #     Admin?    : <%= f.checkbox :admin %><br />
   #     <%= f.submit %>
   #   <% end %>
   #
@@ -6395,8 +6579,8 @@ module ActionView::Helpers::FormHelper
   #   <%= form_for :person do |f| %>
   #     First name: <%= f.text_field :first_name %>
   #     Last name : <%= f.text_field :last_name %>
-  #     Biography : <%= text_area :person, :biography %>
-  #     Admin?    : <%= check_box_tag "person[admin]", "1", @person.company.admin? %>
+  #     Biography : <%= textarea :person, :biography %>
+  #     Admin?    : <%= checkbox_tag "person[admin]", "1", @person.company.admin? %>
   #     <%= f.submit %>
   #   <% end %>
   #
@@ -6585,8 +6769,8 @@ module ActionView::Helpers::FormHelper
   #   <%= form_for @person, url: { action: "create" }, builder: LabellingFormBuilder do |f| %>
   #     <%= f.text_field :first_name %>
   #     <%= f.text_field :last_name %>
-  #     <%= f.text_area :biography %>
-  #     <%= f.check_box :admin %>
+  #     <%= f.textarea :biography %>
+  #     <%= f.checkbox :admin %>
   #     <%= f.submit %>
   #   <% end %>
   #
@@ -6631,7 +6815,7 @@ module ActionView::Helpers::FormHelper
   #
   # @raise [ArgumentError]
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#435
+  # source://actionview//lib/action_view/helpers/form_helper.rb#436
   def form_for(record, options = T.unsafe(nil), &block); end
 
   # Creates a form tag based on mixing URLs, scopes, or models.
@@ -6820,8 +7004,8 @@ module ActionView::Helpers::FormHelper
   #     <%= form.text_field :first_name %>
   #     <%= form.text_field :last_name %>
   #
-  #     <%= text_area :person, :biography %>
-  #     <%= check_box_tag "person[admin]", "1", @person.company.admin? %>
+  #     <%= textarea :person, :biography %>
+  #     <%= checkbox_tag "person[admin]", "1", @person.company.admin? %>
   #
   #     <%= form.submit %>
   #   <% end %>
@@ -6882,8 +7066,8 @@ module ActionView::Helpers::FormHelper
   #   <%= form_with model: @person, url: { action: "create" }, builder: LabellingFormBuilder do |form| %>
   #     <%= form.text_field :first_name %>
   #     <%= form.text_field :last_name %>
-  #     <%= form.text_area :biography %>
-  #     <%= form.check_box :admin %>
+  #     <%= form.textarea :biography %>
+  #     <%= form.checkbox :admin %>
   #     <%= form.submit %>
   #   <% end %>
   #
@@ -6905,19 +7089,21 @@ module ActionView::Helpers::FormHelper
   #     form_with(**options.merge(builder: LabellingFormBuilder), &block)
   #   end
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#755
+  # @raise [ArgumentError]
+  #
+  # source://actionview//lib/action_view/helpers/form_helper.rb#756
   def form_with(model: T.unsafe(nil), scope: T.unsafe(nil), url: T.unsafe(nil), format: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#481
+  # source://actionview//lib/action_view/helpers/form_helper.rb#482
   def form_with_generates_ids; end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#481
+  # source://actionview//lib/action_view/helpers/form_helper.rb#482
   def form_with_generates_ids=(val); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#479
+  # source://actionview//lib/action_view/helpers/form_helper.rb#480
   def form_with_generates_remote_forms; end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#479
+  # source://actionview//lib/action_view/helpers/form_helper.rb#480
   def form_with_generates_remote_forms=(val); end
 
   # Returns a hidden input tag tailored for accessing a specified attribute (identified by +method+) on an object
@@ -6935,7 +7121,7 @@ module ActionView::Helpers::FormHelper
   #   hidden_field(:user, :token)
   #   # => <input type="hidden" id="user_token" name="user[token]" value="#{@user.token}" />
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1214
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1215
   def hidden_field(object_name, method, options = T.unsafe(nil)); end
 
   # Returns a label tag tailored for labelling an input field for a specified attribute (identified by +method+) on an object
@@ -6999,7 +7185,7 @@ module ActionView::Helpers::FormHelper
   #   end
   #   # => <label for="article_terms">Accept <a href="/terms">Terms</a>.</label>
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1151
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1152
   def label(object_name, method, content_or_options = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # Returns a text_field of type "month".
@@ -7015,13 +7201,13 @@ module ActionView::Helpers::FormHelper
   #   month_field("user", "born_on")
   #   # => <input id="user_born_on" name="user[born_on]" type="date" value="1984-01" />
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1531
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1534
   def month_field(object_name, method, options = T.unsafe(nil)); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#483
+  # source://actionview//lib/action_view/helpers/form_helper.rb#484
   def multiple_file_field_include_hidden; end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#483
+  # source://actionview//lib/action_view/helpers/form_helper.rb#484
   def multiple_file_field_include_hidden=(val); end
 
   # Returns an input tag of type "number".
@@ -7030,7 +7216,7 @@ module ActionView::Helpers::FormHelper
   #
   # Supports the same options as FormTagHelper#number_field_tag.
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1575
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1578
   def number_field(object_name, method, options = T.unsafe(nil)); end
 
   # Returns an input tag of the "password" type tailored for accessing a specified attribute (identified by +method+) on an object
@@ -7051,7 +7237,7 @@ module ActionView::Helpers::FormHelper
   #   password_field(:account, :pin, size: 20, class: 'form_input')
   #   # => <input type="password" id="account_pin" name="account[pin]" size="20" class="form_input" />
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1196
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1197
   def password_field(object_name, method, options = T.unsafe(nil)); end
 
   # Returns a text_field of type "tel".
@@ -7060,7 +7246,7 @@ module ActionView::Helpers::FormHelper
   #   # => <input id="user_phone" name="user[phone]" type="tel" />
   # aliases telephone_field
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1407
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1410
   def phone_field(object_name, method, options = T.unsafe(nil)); end
 
   # Returns a radio button tag for accessing a specified attribute (identified by +method+) on an object
@@ -7082,7 +7268,7 @@ module ActionView::Helpers::FormHelper
   #   # => <input type="radio" id="user_receive_newsletter_yes" name="user[receive_newsletter]" value="yes" />
   #   #    <input type="radio" id="user_receive_newsletter_no" name="user[receive_newsletter]" value="no" checked="checked" />
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1367
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1370
   def radio_button(object_name, method, tag_value, options = T.unsafe(nil)); end
 
   # Returns an input tag of type "range".
@@ -7091,10 +7277,11 @@ module ActionView::Helpers::FormHelper
   #
   # Supports the same options as FormTagHelper#range_field_tag.
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1584
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1587
   def range_field(object_name, method, options = T.unsafe(nil)); end
 
   def rich_text_area(object_name, method, options = T.unsafe(nil)); end
+  def rich_textarea(object_name, method, options = T.unsafe(nil)); end
 
   # Returns an input of type "search" for accessing a specified attribute (identified by +method+) on an object
   # assigned to the template (identified by +object_name+). Inputs of type "search" may be styled differently by
@@ -7116,7 +7303,7 @@ module ActionView::Helpers::FormHelper
   #   search_field(:user, :name, autosave: true, onsearch: true)
   #   # => <input autosave="com.example.www" id="user_name" incremental="true" name="user[name]" onsearch="true" results="10" type="search" />
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1398
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1401
   def search_field(object_name, method, options = T.unsafe(nil)); end
 
   # Returns a text_field of type "tel".
@@ -7124,7 +7311,7 @@ module ActionView::Helpers::FormHelper
   #   telephone_field("user", "phone")
   #   # => <input id="user_phone" name="user[phone]" type="tel" />
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1407
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1410
   def telephone_field(object_name, method, options = T.unsafe(nil)); end
 
   # Returns a textarea opening and closing tag set tailored for accessing a specified attribute (identified by +method+)
@@ -7132,27 +7319,27 @@ module ActionView::Helpers::FormHelper
   # hash with +options+.
   #
   # ==== Examples
-  #   text_area(:article, :body, cols: 20, rows: 40)
+  #   textarea(:article, :body, cols: 20, rows: 40)
   #   # => <textarea cols="20" rows="40" id="article_body" name="article[body]">
   #   #      #{@article.body}
   #   #    </textarea>
   #
-  #   text_area(:comment, :text, size: "20x30")
+  #   textarea(:comment, :text, size: "20x30")
   #   # => <textarea cols="20" rows="30" id="comment_text" name="comment[text]">
   #   #      #{@comment.text}
   #   #    </textarea>
   #
-  #   text_area(:application, :notes, cols: 40, rows: 15, class: 'app_input')
+  #   textarea(:application, :notes, cols: 40, rows: 15, class: 'app_input')
   #   # => <textarea cols="40" rows="15" id="application_notes" name="application[notes]" class="app_input">
   #   #      #{@application.notes}
   #   #    </textarea>
   #
-  #   text_area(:entry, :body, size: "20x20", disabled: 'disabled')
+  #   textarea(:entry, :body, size: "20x20", disabled: 'disabled')
   #   # => <textarea cols="20" rows="20" id="entry_body" name="entry[body]" disabled="disabled">
   #   #      #{@entry.body}
   #   #    </textarea>
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1277
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1278
   def text_area(object_name, method, options = T.unsafe(nil)); end
 
   # Returns an input tag of the "text" type tailored for accessing a specified attribute (identified by +method+) on an object
@@ -7176,8 +7363,36 @@ module ActionView::Helpers::FormHelper
   #   text_field(:snippet, :code, size: 20, class: 'code_input')
   #   # => <input type="text" id="snippet_code" name="snippet[code]" size="20" value="#{@snippet.code}" class="code_input" />
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1175
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1176
   def text_field(object_name, method, options = T.unsafe(nil)); end
+
+  # Returns a textarea opening and closing tag set tailored for accessing a specified attribute (identified by +method+)
+  # on an object assigned to the template (identified by +object+). Additional options on the input tag can be passed as a
+  # hash with +options+.
+  #
+  # ==== Examples
+  #   textarea(:article, :body, cols: 20, rows: 40)
+  #   # => <textarea cols="20" rows="40" id="article_body" name="article[body]">
+  #   #      #{@article.body}
+  #   #    </textarea>
+  #
+  #   textarea(:comment, :text, size: "20x30")
+  #   # => <textarea cols="20" rows="30" id="comment_text" name="comment[text]">
+  #   #      #{@comment.text}
+  #   #    </textarea>
+  #
+  #   textarea(:application, :notes, cols: 40, rows: 15, class: 'app_input')
+  #   # => <textarea cols="40" rows="15" id="application_notes" name="application[notes]" class="app_input">
+  #   #      #{@application.notes}
+  #   #    </textarea>
+  #
+  #   textarea(:entry, :body, size: "20x20", disabled: 'disabled')
+  #   # => <textarea cols="20" rows="20" id="entry_body" name="entry[body]" disabled="disabled">
+  #   #      #{@entry.body}
+  #   #    </textarea>
+  #
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1278
+  def textarea(object_name, method, options = T.unsafe(nil)); end
 
   # Returns a text_field of type "time".
   #
@@ -7214,7 +7429,7 @@ module ActionView::Helpers::FormHelper
   #   time_field("task", "started_at", value: Time.now, include_seconds: false)
   #   # => <input id="task_started_at" name="task[started_at]" type="time" value="01:00" />
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1477
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1480
   def time_field(object_name, method, options = T.unsafe(nil)); end
 
   # Returns a text_field of type "url".
@@ -7222,7 +7437,7 @@ module ActionView::Helpers::FormHelper
   #   url_field("user", "homepage")
   #   # => <input id="user_homepage" name="user[homepage]" type="url" />
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1557
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1560
   def url_field(object_name, method, options = T.unsafe(nil)); end
 
   # Returns a text_field of type "week".
@@ -7238,40 +7453,40 @@ module ActionView::Helpers::FormHelper
   #   week_field("user", "born_on")
   #   # => <input id="user_born_on" name="user[born_on]" type="date" value="1984-W19" />
   #
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1548
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1551
   def week_field(object_name, method, options = T.unsafe(nil)); end
 
   private
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#465
+  # source://actionview//lib/action_view/helpers/form_helper.rb#466
   def apply_form_for_options!(object, options); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1622
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1625
   def default_form_builder_class; end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1593
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1596
   def html_options_for_form_with(url_for_options = T.unsafe(nil), model = T.unsafe(nil), html: T.unsafe(nil), local: T.unsafe(nil), skip_enforcing_utf8: T.unsafe(nil), **options); end
 
-  # source://actionview//lib/action_view/helpers/form_helper.rb#1608
+  # source://actionview//lib/action_view/helpers/form_helper.rb#1611
   def instantiate_builder(record_name, record_object, options); end
 
   class << self
-    # source://actionview//lib/action_view/helpers/form_helper.rb#481
+    # source://actionview//lib/action_view/helpers/form_helper.rb#482
     def form_with_generates_ids; end
 
-    # source://actionview//lib/action_view/helpers/form_helper.rb#481
+    # source://actionview//lib/action_view/helpers/form_helper.rb#482
     def form_with_generates_ids=(val); end
 
-    # source://actionview//lib/action_view/helpers/form_helper.rb#479
+    # source://actionview//lib/action_view/helpers/form_helper.rb#480
     def form_with_generates_remote_forms; end
 
-    # source://actionview//lib/action_view/helpers/form_helper.rb#479
+    # source://actionview//lib/action_view/helpers/form_helper.rb#480
     def form_with_generates_remote_forms=(val); end
 
-    # source://actionview//lib/action_view/helpers/form_helper.rb#483
+    # source://actionview//lib/action_view/helpers/form_helper.rb#484
     def multiple_file_field_include_hidden; end
 
-    # source://actionview//lib/action_view/helpers/form_helper.rb#483
+    # source://actionview//lib/action_view/helpers/form_helper.rb#484
     def multiple_file_field_include_hidden=(val); end
   end
 end
@@ -7392,7 +7607,7 @@ module ActionView::Helpers::FormOptionsHelper
   #   end
   #
   # Sample usage (selecting the associated Author for an instance of Post, <tt>@post</tt>):
-  #   collection_check_boxes(:post, :author_ids, Author.all, :id, :name_with_initial)
+  #   collection_checkboxes(:post, :author_ids, Author.all, :id, :name_with_initial)
   #
   # If <tt>@post.author_ids</tt> is already <tt>[1]</tt>, this would return:
   #   <input id="post_author_ids_1" name="post[author_ids][]" type="checkbox" value="1" checked="checked" />
@@ -7405,8 +7620,8 @@ module ActionView::Helpers::FormOptionsHelper
   #
   # It is also possible to customize the way the elements will be shown by
   # giving a block to the method:
-  #   collection_check_boxes(:post, :author_ids, Author.all, :id, :name_with_initial) do |b|
-  #     b.label { b.check_box }
+  #   collection_checkboxes(:post, :author_ids, Author.all, :id, :name_with_initial) do |b|
+  #     b.label { b.checkbox }
   #   end
   #
   # The argument passed to the block is a special kind of builder for this
@@ -7415,17 +7630,17 @@ module ActionView::Helpers::FormOptionsHelper
   # Using it, you can change the label and check box display order or even
   # use the label as wrapper, as in the example above.
   #
-  # The builder methods <tt>label</tt> and <tt>check_box</tt> also accept
+  # The builder methods <tt>label</tt> and <tt>checkbox</tt> also accept
   # extra HTML options:
-  #   collection_check_boxes(:post, :author_ids, Author.all, :id, :name_with_initial) do |b|
-  #     b.label(class: "check_box") { b.check_box(class: "check_box") }
+  #   collection_checkboxes(:post, :author_ids, Author.all, :id, :name_with_initial) do |b|
+  #     b.label(class: "checkbox") { b.checkbox(class: "checkbox") }
   #   end
   #
   # There are also three special methods available: <tt>object</tt>, <tt>text</tt> and
   # <tt>value</tt>, which are the current item being rendered, its text and value methods,
   # respectively. You can use them like this:
-  #   collection_check_boxes(:post, :author_ids, Author.all, :id, :name_with_initial) do |b|
-  #      b.label(:"data-value" => b.value) { b.check_box + b.text }
+  #   collection_checkboxes(:post, :author_ids, Author.all, :id, :name_with_initial) do |b|
+  #      b.label(:"data-value" => b.value) { b.checkbox + b.text }
   #   end
   #
   # ==== Gotcha
@@ -7451,6 +7666,90 @@ module ActionView::Helpers::FormOptionsHelper
   #
   # source://actionview//lib/action_view/helpers/form_options_helper.rb#782
   def collection_check_boxes(object, method, collection, value_method, text_method, options = T.unsafe(nil), html_options = T.unsafe(nil), &block); end
+
+  # Returns check box tags for the collection of existing return values of
+  # +method+ for +object+'s class. The value returned from calling +method+
+  # on the instance +object+ will be selected. If calling +method+ returns
+  # +nil+, no selection is made.
+  #
+  # The <tt>:value_method</tt> and <tt>:text_method</tt> parameters are
+  # methods to be called on each member of +collection+. The return values
+  # are used as the +value+ attribute and contents of each check box tag,
+  # respectively. They can also be any object that responds to +call+, such
+  # as a +proc+, that will be called for each member of the +collection+ to
+  # retrieve the value/text.
+  #
+  # Example object structure for use with this method:
+  #   class Post < ActiveRecord::Base
+  #     has_and_belongs_to_many :authors
+  #   end
+  #   class Author < ActiveRecord::Base
+  #     has_and_belongs_to_many :posts
+  #     def name_with_initial
+  #       "#{first_name.first}. #{last_name}"
+  #     end
+  #   end
+  #
+  # Sample usage (selecting the associated Author for an instance of Post, <tt>@post</tt>):
+  #   collection_checkboxes(:post, :author_ids, Author.all, :id, :name_with_initial)
+  #
+  # If <tt>@post.author_ids</tt> is already <tt>[1]</tt>, this would return:
+  #   <input id="post_author_ids_1" name="post[author_ids][]" type="checkbox" value="1" checked="checked" />
+  #   <label for="post_author_ids_1">D. Heinemeier Hansson</label>
+  #   <input id="post_author_ids_2" name="post[author_ids][]" type="checkbox" value="2" />
+  #   <label for="post_author_ids_2">D. Thomas</label>
+  #   <input id="post_author_ids_3" name="post[author_ids][]" type="checkbox" value="3" />
+  #   <label for="post_author_ids_3">M. Clark</label>
+  #   <input name="post[author_ids][]" type="hidden" value="" />
+  #
+  # It is also possible to customize the way the elements will be shown by
+  # giving a block to the method:
+  #   collection_checkboxes(:post, :author_ids, Author.all, :id, :name_with_initial) do |b|
+  #     b.label { b.checkbox }
+  #   end
+  #
+  # The argument passed to the block is a special kind of builder for this
+  # collection, which has the ability to generate the label and check box
+  # for the current item in the collection, with proper text and value.
+  # Using it, you can change the label and check box display order or even
+  # use the label as wrapper, as in the example above.
+  #
+  # The builder methods <tt>label</tt> and <tt>checkbox</tt> also accept
+  # extra HTML options:
+  #   collection_checkboxes(:post, :author_ids, Author.all, :id, :name_with_initial) do |b|
+  #     b.label(class: "checkbox") { b.checkbox(class: "checkbox") }
+  #   end
+  #
+  # There are also three special methods available: <tt>object</tt>, <tt>text</tt> and
+  # <tt>value</tt>, which are the current item being rendered, its text and value methods,
+  # respectively. You can use them like this:
+  #   collection_checkboxes(:post, :author_ids, Author.all, :id, :name_with_initial) do |b|
+  #      b.label(:"data-value" => b.value) { b.checkbox + b.text }
+  #   end
+  #
+  # ==== Gotcha
+  #
+  # When no selection is made for a collection of checkboxes most
+  # web browsers will not send any value.
+  #
+  # For example, if we have a +User+ model with +category_ids+ field and we
+  # have the following code in our update action:
+  #
+  #   @user.update(params[:user])
+  #
+  # If no +category_ids+ are selected then we can safely assume this field
+  # will not be updated.
+  #
+  # This is possible thanks to a hidden field generated by the helper method
+  # for every collection of checkboxes.
+  # This hidden field is given the same field name as the checkboxes with a
+  # blank value.
+  #
+  # In the rare case you don't want this hidden field, you can pass the
+  # <tt>include_hidden: false</tt> option to the helper method.
+  #
+  # source://actionview//lib/action_view/helpers/form_options_helper.rb#782
+  def collection_checkboxes(object, method, collection, value_method, text_method, options = T.unsafe(nil), html_options = T.unsafe(nil), &block); end
 
   # Returns radio button tags for the collection of existing return values
   # of +method+ for +object+'s class. The value returned from calling
@@ -7522,7 +7821,7 @@ module ActionView::Helpers::FormOptionsHelper
   # if a +User+ model has a +category_id+ field and in the form no category is selected, no +category_id+ parameter is sent. So,
   # any strong parameters idiom like:
   #
-  #   params.require(:user).permit(...)
+  #   params.expect(user: [...])
   #
   # will raise an error since no <tt>{user: ...}</tt> will be present.
   #
@@ -7986,27 +8285,27 @@ module ActionView::Helpers::FormOptionsHelper
 
   private
 
-  # source://actionview//lib/action_view/helpers/form_options_helper.rb#809
+  # source://actionview//lib/action_view/helpers/form_options_helper.rb#810
   def extract_selected_and_disabled(selected); end
 
-  # source://actionview//lib/action_view/helpers/form_options_helper.rb#820
+  # source://actionview//lib/action_view/helpers/form_options_helper.rb#821
   def extract_values_from_collection(collection, value_method, selected); end
 
-  # source://actionview//lib/action_view/helpers/form_options_helper.rb#787
+  # source://actionview//lib/action_view/helpers/form_options_helper.rb#788
   def option_html_attributes(element); end
 
-  # source://actionview//lib/action_view/helpers/form_options_helper.rb#795
+  # source://actionview//lib/action_view/helpers/form_options_helper.rb#796
   def option_text_and_value(option); end
 
   # @return [Boolean]
   #
-  # source://actionview//lib/action_view/helpers/form_options_helper.rb#805
+  # source://actionview//lib/action_view/helpers/form_options_helper.rb#806
   def option_value_selected?(value, selected); end
 
-  # source://actionview//lib/action_view/helpers/form_options_helper.rb#834
+  # source://actionview//lib/action_view/helpers/form_options_helper.rb#835
   def prompt_text(prompt); end
 
-  # source://actionview//lib/action_view/helpers/form_options_helper.rb#830
+  # source://actionview//lib/action_view/helpers/form_options_helper.rb#831
   def value_for_collection(item, value); end
 end
 
@@ -8063,13 +8362,13 @@ module ActionView::Helpers::FormTagHelper
   #   #     <strong>Ask me!</strong>
   #   #    </button>
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#566
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#568
   def button_tag(content_or_options = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # :call-seq:
-  #   check_box_tag(name, options = {})
-  #   check_box_tag(name, value, options = {})
-  #   check_box_tag(name, value, checked, options = {})
+  #   checkbox_tag(name, options = {})
+  #   checkbox_tag(name, value, options = {})
+  #   checkbox_tag(name, value, checked, options = {})
   #
   # Creates a check box form input tag.
   #
@@ -8080,23 +8379,55 @@ module ActionView::Helpers::FormTagHelper
   # * Any other key creates standard HTML options for the tag.
   #
   # ==== Examples
-  #   check_box_tag 'accept'
+  #   checkbox_tag 'accept'
   #   # => <input id="accept" name="accept" type="checkbox" value="1" />
   #
-  #   check_box_tag 'rock', 'rock music'
+  #   checkbox_tag 'rock', 'rock music'
   #   # => <input id="rock" name="rock" type="checkbox" value="rock music" />
   #
-  #   check_box_tag 'receive_email', 'yes', true
+  #   checkbox_tag 'receive_email', 'yes', true
   #   # => <input checked="checked" id="receive_email" name="receive_email" type="checkbox" value="yes" />
   #
-  #   check_box_tag 'tos', 'yes', false, class: 'accept_tos'
+  #   checkbox_tag 'tos', 'yes', false, class: 'accept_tos'
   #   # => <input class="accept_tos" id="tos" name="tos" type="checkbox" value="yes" />
   #
-  #   check_box_tag 'eula', 'accepted', false, disabled: true
+  #   checkbox_tag 'eula', 'accepted', false, disabled: true
   #   # => <input disabled="disabled" id="eula" name="eula" type="checkbox" value="accepted" />
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#455
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#456
   def check_box_tag(name, *args); end
+
+  # :call-seq:
+  #   checkbox_tag(name, options = {})
+  #   checkbox_tag(name, value, options = {})
+  #   checkbox_tag(name, value, checked, options = {})
+  #
+  # Creates a check box form input tag.
+  #
+  # ==== Options
+  # * <tt>:value</tt> - The value of the input. Defaults to <tt>"1"</tt>.
+  # * <tt>:checked</tt> - If set to true, the checkbox will be checked by default.
+  # * <tt>:disabled</tt> - If set to true, the user will not be able to use this input.
+  # * Any other key creates standard HTML options for the tag.
+  #
+  # ==== Examples
+  #   checkbox_tag 'accept'
+  #   # => <input id="accept" name="accept" type="checkbox" value="1" />
+  #
+  #   checkbox_tag 'rock', 'rock music'
+  #   # => <input id="rock" name="rock" type="checkbox" value="rock music" />
+  #
+  #   checkbox_tag 'receive_email', 'yes', true
+  #   # => <input checked="checked" id="receive_email" name="receive_email" type="checkbox" value="yes" />
+  #
+  #   checkbox_tag 'tos', 'yes', false, class: 'accept_tos'
+  #   # => <input class="accept_tos" id="tos" name="tos" type="checkbox" value="yes" />
+  #
+  #   checkbox_tag 'eula', 'accepted', false, disabled: true
+  #   # => <input disabled="disabled" id="eula" name="eula" type="checkbox" value="accepted" />
+  #
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#456
+  def checkbox_tag(name, *args); end
 
   # Creates a text field of type "color".
   #
@@ -8118,7 +8449,7 @@ module ActionView::Helpers::FormTagHelper
   #   color_field_tag 'color', '#DEF726', class: 'special_input', disabled: true
   #   # => <input disabled="disabled" class="special_input" id="color" name="color" type="color" value="#DEF726" />
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#666
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#668
   def color_field_tag(name, value = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a text field of type "date".
@@ -8141,7 +8472,7 @@ module ActionView::Helpers::FormTagHelper
   #   date_field_tag 'date', '2014-12-31', class: 'special_input', disabled: true
   #   # => <input disabled="disabled" class="special_input" id="date" name="date" type="date" value="2014-12-31" />
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#736
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#738
   def date_field_tag(name, value = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a text field of type "datetime-local".
@@ -8169,7 +8500,7 @@ module ActionView::Helpers::FormTagHelper
   #   datetime_field_tag 'datetime', '2014-01-01T01:01', class: 'special_input', disabled: true
   #   # => <input disabled="disabled" class="special_input" id="datetime" name="datetime" type="datetime-local" value="2014-01-01T01:01" />
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#795
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#797
   def datetime_field_tag(name, value = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a text field of type "datetime-local".
@@ -8197,7 +8528,7 @@ module ActionView::Helpers::FormTagHelper
   #   datetime_field_tag 'datetime', '2014-01-01T01:01', class: 'special_input', disabled: true
   #   # => <input disabled="disabled" class="special_input" id="datetime" name="datetime" type="datetime-local" value="2014-01-01T01:01" />
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#795
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#797
   def datetime_local_field_tag(name, value = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # source://actionview//lib/action_view/helpers/form_tag_helper.rb#29
@@ -8226,7 +8557,7 @@ module ActionView::Helpers::FormTagHelper
   #   email_field_tag 'email', 'email@example.com', class: 'special_input', disabled: true
   #   # => <input disabled="disabled" class="special_input" id="email" name="email" type="email" value="email@example.com" />
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#897
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#899
   def email_field_tag(name, value = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # source://actionview//lib/action_view/helpers/form_tag_helper.rb#26
@@ -8290,7 +8621,7 @@ module ActionView::Helpers::FormTagHelper
   #   <% end %>
   #   # => <fieldset class="format"><p><input id="name" name="name" type="text" /></p></fieldset>
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#638
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#640
   def field_set_tag(legend = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # Creates a field set for grouping HTML form elements.
@@ -8314,7 +8645,7 @@ module ActionView::Helpers::FormTagHelper
   #   <% end %>
   #   # => <fieldset class="format"><p><input id="name" name="name" type="text" /></p></fieldset>
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#638
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#640
   def fieldset_tag(legend = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # Creates a file upload field. If you are using file uploads then you will also need
@@ -8457,7 +8788,7 @@ module ActionView::Helpers::FormTagHelper
   #   image_submit_tag("save.png", data: { confirm: "Are you sure?" })
   #   # => <input src="/assets/save.png" data-confirm="Are you sure?" type="image" />
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#612
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#614
   def image_submit_tag(source, options = T.unsafe(nil)); end
 
   # Creates a label element. Accepts a block.
@@ -8502,7 +8833,7 @@ module ActionView::Helpers::FormTagHelper
   #   month_field_tag 'month', '2014-01', class: 'special_input', disabled: true
   #   # => <input disabled="disabled" class="special_input" id="month" name="month" type="month" value="2014-01" />
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#824
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#826
   def month_field_tag(name, value = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a number field.
@@ -8550,7 +8881,7 @@ module ActionView::Helpers::FormTagHelper
   #   number_field_tag 'quantity', '1', class: 'special_input', disabled: true
   #   # => <input disabled="disabled" class="special_input" id="quantity" name="quantity" type="number" value="1" />
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#945
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#947
   def number_field_tag(name, value = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a password field, a masked text field that will hide the users input behind a mask character.
@@ -8606,7 +8937,7 @@ module ActionView::Helpers::FormTagHelper
   #   telephone_field_tag 'tel', '0123456789', class: 'special_input', disabled: true
   #   # => <input disabled="disabled" class="special_input" id="tel" name="tel" type="tel" value="0123456789" />
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#712
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#714
   def phone_field_tag(name, value = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # :call-seq:
@@ -8634,7 +8965,7 @@ module ActionView::Helpers::FormTagHelper
   #   radio_button_tag 'color', "green", true, class: "color_input"
   #   # => <input checked="checked" class="color_input" id="color_green" name="color" type="radio" value="green" />
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#491
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#493
   def radio_button_tag(name, value, *args); end
 
   # Creates a range form element.
@@ -8654,7 +8985,7 @@ module ActionView::Helpers::FormTagHelper
   #   range_field_tag 'quantity', min: 1, max: 10, step: 2
   #   # => <input id="quantity" name="quantity" min="1" max="10" step="2" type="range"
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#970
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#972
   def range_field_tag(name, value = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a text field of type "search".
@@ -8677,7 +9008,7 @@ module ActionView::Helpers::FormTagHelper
   #   search_field_tag 'search', 'Enter your search query here', class: 'special_input', disabled: true
   #   # => <input disabled="disabled" class="special_input" id="search" name="search" type="search" value="Enter your search query here" />
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#689
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#691
   def search_field_tag(name, value = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a dropdown selection box, or if the <tt>:multiple</tt> option is set to true, a multiple
@@ -8762,7 +9093,7 @@ module ActionView::Helpers::FormTagHelper
   #   submit_tag "Edit", class: "edit_button"
   #   # => <input class="edit_button" data-disable-with="Edit" name="commit" type="submit" value="Edit" />
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#525
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#527
   def submit_tag(value = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a text field of type "tel".
@@ -8785,7 +9116,7 @@ module ActionView::Helpers::FormTagHelper
   #   telephone_field_tag 'tel', '0123456789', class: 'special_input', disabled: true
   #   # => <input disabled="disabled" class="special_input" id="tel" name="tel" type="tel" value="0123456789" />
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#712
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#714
   def telephone_field_tag(name, value = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a text input area; use a textarea for longer text inputs such as blog posts or descriptions.
@@ -8800,22 +9131,22 @@ module ActionView::Helpers::FormTagHelper
   # * Any other key creates standard HTML attributes for the tag.
   #
   # ==== Examples
-  #   text_area_tag 'post'
+  #   textarea_tag 'post'
   #   # => <textarea id="post" name="post"></textarea>
   #
-  #   text_area_tag 'bio', @user.bio
+  #   textarea_tag 'bio', @user.bio
   #   # => <textarea id="bio" name="bio">This is my biography.</textarea>
   #
-  #   text_area_tag 'body', nil, rows: 10, cols: 25
+  #   textarea_tag 'body', nil, rows: 10, cols: 25
   #   # => <textarea cols="25" id="body" name="body" rows="10"></textarea>
   #
-  #   text_area_tag 'body', nil, size: "25x10"
+  #   textarea_tag 'body', nil, size: "25x10"
   #   # => <textarea name="body" id="body" cols="25" rows="10"></textarea>
   #
-  #   text_area_tag 'description', "Description goes here.", disabled: true
+  #   textarea_tag 'description', "Description goes here.", disabled: true
   #   # => <textarea disabled="disabled" id="description" name="description">Description goes here.</textarea>
   #
-  #   text_area_tag 'comment', nil, class: 'comment_input'
+  #   textarea_tag 'comment', nil, class: 'comment_input'
   #   # => <textarea class="comment_input" id="comment" name="comment"></textarea>
   #
   # source://actionview//lib/action_view/helpers/form_tag_helper.rb#413
@@ -8861,6 +9192,39 @@ module ActionView::Helpers::FormTagHelper
   # source://actionview//lib/action_view/helpers/form_tag_helper.rb#263
   def text_field_tag(name, value = T.unsafe(nil), options = T.unsafe(nil)); end
 
+  # Creates a text input area; use a textarea for longer text inputs such as blog posts or descriptions.
+  #
+  # ==== Options
+  # * <tt>:size</tt> - A string specifying the dimensions (columns by rows) of the textarea (e.g., "25x10").
+  # * <tt>:rows</tt> - Specify the number of rows in the textarea
+  # * <tt>:cols</tt> - Specify the number of columns in the textarea
+  # * <tt>:disabled</tt> - If set to true, the user will not be able to use this input.
+  # * <tt>:escape</tt> - By default, the contents of the text input are HTML escaped.
+  #   If you need unescaped contents, set this to false.
+  # * Any other key creates standard HTML attributes for the tag.
+  #
+  # ==== Examples
+  #   textarea_tag 'post'
+  #   # => <textarea id="post" name="post"></textarea>
+  #
+  #   textarea_tag 'bio', @user.bio
+  #   # => <textarea id="bio" name="bio">This is my biography.</textarea>
+  #
+  #   textarea_tag 'body', nil, rows: 10, cols: 25
+  #   # => <textarea cols="25" id="body" name="body" rows="10"></textarea>
+  #
+  #   textarea_tag 'body', nil, size: "25x10"
+  #   # => <textarea name="body" id="body" cols="25" rows="10"></textarea>
+  #
+  #   textarea_tag 'description', "Description goes here.", disabled: true
+  #   # => <textarea disabled="disabled" id="description" name="description">Description goes here.</textarea>
+  #
+  #   textarea_tag 'comment', nil, class: 'comment_input'
+  #   # => <textarea class="comment_input" id="comment" name="comment"></textarea>
+  #
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#413
+  def textarea_tag(name, content = T.unsafe(nil), options = T.unsafe(nil)); end
+
   # Creates a text field of type "time".
   #
   # ==== Options
@@ -8889,7 +9253,7 @@ module ActionView::Helpers::FormTagHelper
   #   time_field_tag 'time', '01:01', min: '00:00', max: '23:59', step: 1
   #   # => <input id="time" max="23:59" min="00:00" name="time" step="1" type="time" value="01:01" />
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#767
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#769
   def time_field_tag(name, value = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a text field of type "url".
@@ -8912,13 +9276,13 @@ module ActionView::Helpers::FormTagHelper
   #   url_field_tag 'url', 'http://rubyonrails.org', class: 'special_input', disabled: true
   #   # => <input disabled="disabled" class="special_input" id="url" name="url" type="url" value="http://rubyonrails.org" />
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#874
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#876
   def url_field_tag(name, value = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates the hidden UTF-8 enforcer tag. Override this method in a helper
   # to customize the tag.
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#976
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#978
   def utf8_enforcer_tag; end
 
   # Creates a text field of type "week".
@@ -8945,32 +9309,32 @@ module ActionView::Helpers::FormTagHelper
   #   week_field_tag 'week', '2014-W01', class: 'special_input', disabled: true
   #   # => <input disabled="disabled" class="special_input" id="week" name="week" type="week" value="2014-W01" />
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#851
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#853
   def week_field_tag(name, value = T.unsafe(nil), options = T.unsafe(nil)); end
 
   private
 
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#1073
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#1075
   def convert_direct_upload_option_to_url(options); end
 
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#1011
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#1013
   def extra_tags_for_form(html_options); end
 
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#1041
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#1043
   def form_tag_html(html_options); end
 
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#1047
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#1049
   def form_tag_with_body(html_options, content); end
 
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#984
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#986
   def html_options_for_form(url_for_options, options); end
 
   # see http://www.w3.org/TR/html4/types.html#type-name
   #
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#1054
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#1056
   def sanitize_to_id(name); end
 
-  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#1058
+  # source://actionview//lib/action_view/helpers/form_tag_helper.rb#1060
   def set_default_disable_with(value, tag_options); end
 
   class << self
@@ -9235,86 +9599,194 @@ module ActionView::Helpers::OutputSafetyHelper
   def to_sentence(array, options = T.unsafe(nil)); end
 end
 
-# = Action View \Rendering \Helpers
+# # Action View Rendering Helpers
 #
-# Implements methods that allow rendering from a view context.
-# In order to use this module, all you need is to implement
-# view_renderer that returns an ActionView::Renderer object.
+# Implements methods that allow rendering from a view context. In order to use
+# this module, all you need is to implement view_renderer that returns an
+# ActionView::Renderer object.
 #
-# source://actionview//lib/action_view/helpers/rendering_helper.rb#10
+# source://actionview//lib/action_view/helpers/rendering_helper.rb#12
 module ActionView::Helpers::RenderingHelper
   # Overrides _layout_for in the context object so it supports the case a block is
-  # passed to a partial. Returns the contents that are yielded to a layout, given a
-  # name or a block.
+  # passed to a partial. Returns the contents that are yielded to a layout, given
+  # a name or a block.
   #
-  # You can think of a layout as a method that is called with a block. If the user calls
-  # <tt>yield :some_name</tt>, the block, by default, returns <tt>content_for(:some_name)</tt>.
-  # If the user calls simply +yield+, the default block returns <tt>content_for(:layout)</tt>.
+  # You can think of a layout as a method that is called with a block. If the user
+  # calls `yield :some_name`, the block, by default, returns
+  # `content_for(:some_name)`. If the user calls simply `yield`, the default block
+  # returns `content_for(:layout)`.
   #
   # The user can override this default by passing a block to the layout:
   #
-  #   # The template
-  #   <%= render layout: "my_layout" do %>
-  #     Content
-  #   <% end %>
+  #     # The template
+  #     <%= render layout: "my_layout" do %>
+  #       Content
+  #     <% end %>
   #
-  #   # The layout
-  #   <html>
-  #     <%= yield %>
-  #   </html>
+  #     # The layout
+  #     <html>
+  #       <%= yield %>
+  #     </html>
   #
-  # In this case, instead of the default block, which would return <tt>content_for(:layout)</tt>,
-  # this method returns the block that was passed in to <tt>render :layout</tt>, and the response
+  # In this case, instead of the default block, which would return `content_for(:layout)`,
+  # this method returns the block that was passed in to `render :layout`, and the response
   # would be
   #
-  #   <html>
-  #     Content
-  #   </html>
+  #     <html>
+  #       Content
+  #     </html>
   #
-  # Finally, the block can take block arguments, which can be passed in by +yield+:
+  # Finally, the block can take block arguments, which can be passed in by
+  # `yield`:
   #
-  #   # The template
-  #   <%= render layout: "my_layout" do |customer| %>
-  #     Hello <%= customer.name %>
-  #   <% end %>
+  #     # The template
+  #     <%= render layout: "my_layout" do |customer| %>
+  #       Hello <%= customer.name %>
+  #     <% end %>
   #
-  #   # The layout
-  #   <html>
-  #     <%= yield Struct.new(:name).new("David") %>
-  #   </html>
+  #     # The layout
+  #     <html>
+  #       <%= yield Struct.new(:name).new("David") %>
+  #     </html>
   #
-  # In this case, the layout would receive the block passed into <tt>render :layout</tt>,
+  # In this case, the layout would receive the block passed into `render :layout`,
   # and the struct specified would be passed into the block as an argument. The result
   # would be
   #
-  #   <html>
-  #     Hello David
-  #   </html>
+  #     <html>
+  #       Hello David
+  #     </html>
   #
-  # source://actionview//lib/action_view/helpers/rendering_helper.rb#97
+  # source://actionview//lib/action_view/helpers/rendering_helper.rb#207
   def _layout_for(*args, &block); end
 
-  # Returns the result of a render that's dictated by the options hash. The primary options are:
+  # Renders a template and returns the result.
   #
-  # * <tt>:partial</tt> - See ActionView::PartialRenderer.
-  # * <tt>:file</tt> - Renders an explicit template file (this used to be the old default), add +:locals+ to pass in those.
-  # * <tt>:inline</tt> - Renders an inline template similar to how it's done in the controller.
-  # * <tt>:plain</tt> - Renders the text passed in out. Setting the content
-  #   type as <tt>text/plain</tt>.
-  # * <tt>:html</tt> - Renders the HTML safe string passed in out, otherwise
-  #   performs HTML escape on the string first. Setting the content type as
-  #   <tt>text/html</tt>.
-  # * <tt>:body</tt> - Renders the text passed in, and inherits the content
-  #   type of <tt>text/plain</tt> from ActionDispatch::Response object.
+  # Pass the template to render as the first argument. This is shorthand
+  # syntax for partial rendering, so the template filename should be
+  # prefixed with an underscore. The partial renderer looks for the partial
+  # template in the directory of the calling template first.
   #
-  # If no <tt>options</tt> hash is passed or if <tt>:update</tt> is specified, then:
+  #     <% # app/views/posts/new.html.erb %>
+  #     <%= render "form" %>
+  #     # => renders app/views/posts/_form.html.erb
   #
-  # If an object responding to +render_in+ is passed, +render_in+ is called on the object,
-  # passing in the current view context.
+  # Use the complete view path to render a partial from another directory.
   #
-  # Otherwise, a partial is rendered using the second parameter as the locals hash.
+  #     <% # app/views/posts/show.html.erb %>
+  #     <%= render "comments/form" %>
+  #     # => renders app/views/comments/_form.html.erb
   #
-  # source://actionview//lib/action_view/helpers/rendering_helper.rb#30
+  # Without the rendering mode, the second argument can be a Hash of local
+  # variable assignments for the template.
+  #
+  #     <% # app/views/posts/new.html.erb %>
+  #     <%= render "form", post: Post.new %>
+  #     # => renders app/views/posts/_form.html.erb
+  #
+  # If the first argument responds to `render_in`, the template will be rendered
+  # by calling `render_in` with the current view context.
+  #
+  #     class Greeting
+  #       def render_in(view_context)
+  #         view_context.render html: "<h1>Hello, World</h1>"
+  #       end
+  #
+  #       def format
+  #         :html
+  #       end
+  #     end
+  #
+  #     <%= render Greeting.new %>
+  #     # => "<h1>Hello, World</h1>"
+  #
+  # #### Rendering Mode
+  #
+  # Pass the rendering mode as first argument to override it.
+  #
+  # `:partial`
+  # :   See ActionView::PartialRenderer for details.
+  #
+  #         <%= render partial: "form", locals: { post: Post.new } %>
+  #         # => renders app/views/posts/_form.html.erb
+  #
+  # `:file`
+  # :   Renders the contents of a file. This option should **not** be used with
+  #     unsanitized user input.
+  #
+  #         <%= render file: "/path/to/some/file" %>
+  #         # => renders /path/to/some/file
+  #
+  # `:inline`
+  # :   Renders an ERB template string.
+  #
+  #         <% name = "World" %>
+  #         <%= render inline: "<h1>Hello, <%= name %>!</h1>" %>
+  #         # => renders "<h1>Hello, World!</h1>"
+  #
+  # `:body`
+  # :   Renders the provided text, and sets the format as `:text`.
+  #
+  #         <%= render body: "Hello, World!" %>
+  #         # => renders "Hello, World!"
+  #
+  # `:plain`
+  # :   Renders the provided text, and sets the format as `:text`.
+  #
+  #         <%= render plain: "Hello, World!" %>
+  #         # => renders "Hello, World!"
+  #
+  # `:html`
+  # :   Renders the provided HTML string, and sets the format as
+  #     `:html`. If the string is not `html_safe?`, performs HTML escaping on
+  #     the string before rendering.
+  #
+  #         <%= render html: "<h1>Hello, World!</h1>".html_safe %>
+  #         # => renders "<h1>Hello, World!</h1>"
+  #
+  #         <%= render html: "<h1>Hello, World!</h1>" %>
+  #         # => renders "&lt;h1&gt;Hello, World!&lt;/h1&gt;"
+  #
+  # `:renderable`
+  # :   Renders the provided object by calling `render_in` with the current view
+  #     context. The format is determined by calling `format` on the
+  #     renderable if it responds to `format`, falling back to `:html` by
+  #     default.
+  #
+  #         <%= render renderable: Greeting.new %>
+  #         # => renders "<h1>Hello, World</h1>"
+  #
+  #
+  # #### Options
+  #
+  # `:locals`
+  # :   Hash of local variable assignments for the template.
+  #
+  #         <%= render inline: "<h1>Hello, <%= name %>!</h1>", locals: { name: "World" } %>
+  #         # => renders "<h1>Hello, World!</h1>"
+  #
+  # `:formats`
+  # :   Override the current format to render a template for a different format.
+  #
+  #         <% # app/views/posts/show.html.erb %>
+  #         <%= render template: "posts/content", formats: [:text] %>
+  #         # => renders app/views/posts/content.text.erb
+  #
+  # `:variants`
+  # :   Render a template for a different variant.
+  #
+  #         <% # app/views/posts/show.html.erb %>
+  #         <%= render template: "posts/content", variants: [:tablet] %>
+  #         # => renders app/views/posts/content.html+tablet.erb
+  #
+  # `:handlers`
+  # :   Render a template for a different handler.
+  #
+  #         <% # app/views/posts/show.html.erb %>
+  #         <%= render template: "posts/content", handlers: [:builder] %>
+  #         # => renders app/views/posts/content.html.builder
+  #
+  # source://actionview//lib/action_view/helpers/rendering_helper.rb#138
   def render(options = T.unsafe(nil), locals = T.unsafe(nil), &block); end
 end
 
@@ -9603,7 +10075,7 @@ end
 # Provides methods to generate HTML tags programmatically both as a modern
 # HTML5 compliant builder style and legacy XHTML compliant tags.
 #
-# source://actionview//lib/action_view/helpers/tag_helper.rb#17
+# source://actionview//lib/action_view/helpers/tag_helper.rb#16
 module ActionView::Helpers::TagHelper
   include ::ActionView::Helpers::CaptureHelper
   include ::ActionView::Helpers::OutputSafetyHelper
@@ -9622,7 +10094,7 @@ module ActionView::Helpers::TagHelper
   #   cdata_section("hello]]>world")
   #   # => <![CDATA[hello]]]]><![CDATA[>world]]>
   #
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#571
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#558
   def cdata_section(content); end
 
   # Returns a string of tokens built from +args+.
@@ -9637,7 +10109,7 @@ module ActionView::Helpers::TagHelper
   #   token_list(nil, false, 123, "", "foo", { bar: true })
   #    # => "123 foo bar"
   #
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#551
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#538
   def class_names(*args); end
 
   # Returns an HTML block tag of type +name+ surrounding the +content+. Add
@@ -9669,7 +10141,7 @@ module ActionView::Helpers::TagHelper
   #   <% end -%>
   #    # => <div class="strong">Hello world!</div>
   #
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#529
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#516
   def content_tag(name, content_or_options_with_block = T.unsafe(nil), options = T.unsafe(nil), escape = T.unsafe(nil), &block); end
 
   # Returns an escaped version of +html+ without affecting existing escaped entities.
@@ -9680,7 +10152,7 @@ module ActionView::Helpers::TagHelper
   #   escape_once("&lt;&lt; Accept & Checkout")
   #   # => "&lt;&lt; Accept &amp; Checkout"
   #
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#583
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#570
   def escape_once(html); end
 
   # Returns an HTML tag.
@@ -9830,7 +10302,7 @@ module ActionView::Helpers::TagHelper
   #   tag("div", class: { highlight: current_user.admin? })
   #   # => <div class="highlight" />
   #
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#492
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#479
   def tag(name = T.unsafe(nil), options = T.unsafe(nil), open = T.unsafe(nil), escape = T.unsafe(nil)); end
 
   # Returns a string of tokens built from +args+.
@@ -9845,83 +10317,83 @@ module ActionView::Helpers::TagHelper
   #   token_list(nil, false, 123, "", "foo", { bar: true })
   #    # => "123 foo bar"
   #
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#551
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#538
   def token_list(*args); end
 
   private
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#593
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#580
   def build_tag_values(*args); end
 
   # @raise [ArgumentError]
   #
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#588
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#575
   def ensure_valid_html5_tag_name(name); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#613
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#600
   def tag_builder; end
 
   class << self
-    # source://actionview//lib/action_view/helpers/tag_helper.rb#593
+    # source://actionview//lib/action_view/helpers/tag_helper.rb#580
     def build_tag_values(*args); end
 
     # @raise [ArgumentError]
     #
-    # source://actionview//lib/action_view/helpers/tag_helper.rb#588
+    # source://actionview//lib/action_view/helpers/tag_helper.rb#575
     def ensure_valid_html5_tag_name(name); end
   end
 end
 
-# source://actionview//lib/action_view/helpers/tag_helper.rb#34
+# source://actionview//lib/action_view/helpers/tag_helper.rb#33
 ActionView::Helpers::TagHelper::ARIA_PREFIXES = T.let(T.unsafe(nil), Set)
 
-# source://actionview//lib/action_view/helpers/tag_helper.rb#21
+# source://actionview//lib/action_view/helpers/tag_helper.rb#20
 ActionView::Helpers::TagHelper::BOOLEAN_ATTRIBUTES = T.let(T.unsafe(nil), Set)
 
-# source://actionview//lib/action_view/helpers/tag_helper.rb#35
+# source://actionview//lib/action_view/helpers/tag_helper.rb#34
 ActionView::Helpers::TagHelper::DATA_PREFIXES = T.let(T.unsafe(nil), Set)
 
-# source://actionview//lib/action_view/helpers/tag_helper.rb#43
+# source://actionview//lib/action_view/helpers/tag_helper.rb#42
 ActionView::Helpers::TagHelper::PRE_CONTENT_STRINGS = T.let(T.unsafe(nil), Hash)
 
-# source://actionview//lib/action_view/helpers/tag_helper.rb#37
+# source://actionview//lib/action_view/helpers/tag_helper.rb#36
 ActionView::Helpers::TagHelper::TAG_TYPES = T.let(T.unsafe(nil), Hash)
 
-# source://actionview//lib/action_view/helpers/tag_helper.rb#47
+# source://actionview//lib/action_view/helpers/tag_helper.rb#46
 class ActionView::Helpers::TagHelper::TagBuilder
   include ::ActionView::Helpers::CaptureHelper
   include ::ActionView::Helpers::OutputSafetyHelper
 
   # @return [TagBuilder] a new instance of TagBuilder
   #
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#229
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#216
   def initialize(view_context); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#390
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#112
   def a(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#393
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#113
   def abbr(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#396
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#114
   def address(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#292
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#98
   def animate(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#299
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#99
   def animate_motion(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#306
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#100
   def animate_transform(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#96
-  def area(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#84
+  def area(escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#399
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#115
   def article(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#402
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#116
   def aside(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
   # Transforms a Hash into HTML Attributes, ready to be interpolated into
@@ -9930,402 +10402,402 @@ class ActionView::Helpers::TagHelper::TagBuilder
   #   <input <%= tag.attributes(type: :text, aria: { label: "Search" }) %> >
   #   # => <input type="text" aria-label="Search">
   #
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#238
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#225
   def attributes(attributes); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#405
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#117
   def audio(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#408
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#118
   def b(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#110
-  def base(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#85
+  def base(escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#411
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#119
   def bdi(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#414
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#120
   def bdo(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#417
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#121
   def blockquote(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#420
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#122
   def body(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#303
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#290
   def boolean_tag_option(key); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#124
-  def br(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#86
+  def br(escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#423
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#123
   def button(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#426
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#124
   def canvas(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#429
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#125
   def caption(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#313
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#101
   def circle(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#432
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#126
   def cite(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#435
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#127
   def code(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#138
-  def col(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#87
+  def col(escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#438
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#128
   def colgroup(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#252
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#239
   def content_tag_string(name, content, options, escape = T.unsafe(nil)); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#441
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#129
   def data(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#444
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#130
   def datalist(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#447
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#131
   def dd(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#450
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#132
   def del(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#453
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#133
   def details(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#456
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#134
   def dfn(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#459
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#135
   def dialog(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#462
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#136
   def div(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#465
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#137
   def dl(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#468
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#138
   def dt(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#320
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#102
   def ellipse(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#471
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#139
   def em(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#152
-  def embed(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#88
+  def embed(escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#474
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#140
   def fieldset(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#477
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#141
   def figcaption(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#480
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#142
   def figure(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#483
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#143
   def footer(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#486
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#144
   def form(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#489
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#145
   def h1(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#492
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#146
   def h2(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#495
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#147
   def h3(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#498
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#148
   def h4(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#501
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#149
   def h5(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#504
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#150
   def h6(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#507
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#151
   def head(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#510
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#152
   def header(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#513
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#153
   def hgroup(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#166
-  def hr(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#89
+  def hr(escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#516
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#154
   def html(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#519
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#155
   def i(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#522
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#156
   def iframe(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#180
-  def img(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#90
+  def img(escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#194
-  def input(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#91
+  def input(escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#525
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#157
   def ins(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#528
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#158
   def kbd(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#208
-  def keygen(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#92
+  def keygen(escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#531
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#159
   def label(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#534
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#160
   def legend(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#537
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#161
   def li(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#327
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#103
   def line(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#222
-  def link(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#93
+  def link(escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#540
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#162
   def main(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#543
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#163
   def map(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#546
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#164
   def mark(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#549
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#165
   def menu(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#236
-  def meta(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#94
+  def meta(escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#552
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#166
   def meter(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#555
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#167
   def nav(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#558
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#168
   def noscript(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#561
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#169
   def object(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#564
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#170
   def ol(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#567
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#171
   def optgroup(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#570
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#172
   def option(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#573
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#173
   def output(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#576
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#174
   def p(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#334
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#104
   def path(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#579
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#175
   def picture(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#341
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#105
   def polygon(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#348
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#106
   def polyline(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#582
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#176
   def portal(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#585
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#177
   def pre(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#588
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#178
   def progress(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#591
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#179
   def q(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#355
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#107
   def rect(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#594
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#180
   def rp(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#597
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#181
   def rt(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#600
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#182
   def ruby(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#603
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#183
   def s(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#606
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#184
   def samp(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#609
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#185
   def script(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#612
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#186
   def search(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#615
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#187
   def section(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#618
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#188
   def select(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#248
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#235
   def self_closing_tag_string(name, options, escape = T.unsafe(nil), tag_suffix = T.unsafe(nil)); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#362
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#108
   def set(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#621
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#189
   def slot(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#624
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#190
   def small(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#250
-  def source(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#95
+  def source(escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#627
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#191
   def span(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#369
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#109
   def stop(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#630
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#192
   def strong(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#633
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#193
   def style(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#636
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#194
   def sub(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#639
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#195
   def summary(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#642
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#196
   def sup(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#645
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#197
   def table(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#307
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#294
   def tag_option(key, value, escape); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#261
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#248
   def tag_options(options, escape = T.unsafe(nil)); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#242
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#229
   def tag_string(name, content = T.unsafe(nil), options, escape: T.unsafe(nil), &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#648
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#198
   def tbody(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#651
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#199
   def td(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#654
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#200
   def template(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#657
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#201
   def textarea(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#660
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#202
   def tfoot(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#663
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#203
   def th(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#666
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#204
   def thead(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#669
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#205
   def time(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#672
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#206
   def title(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#675
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#207
   def tr(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#264
-  def track(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#96
+  def track(escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#678
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#208
   def u(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#681
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#209
   def ul(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#376
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#110
   def use(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#684
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#210
   def var(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#687
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#211
   def video(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#383
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#111
   def view(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#278
-  def wbr(content = T.unsafe(nil), escape: T.unsafe(nil), **options, &block); end
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#97
+  def wbr(escape: T.unsafe(nil), **options, &block); end
 
   private
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#337
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#324
   def method_missing(called, *args, escape: T.unsafe(nil), **options, &block); end
 
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#325
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#312
   def prefix_tag_option(prefix, key, value, escape); end
 
   # @return [Boolean]
   #
-  # source://actionview//lib/action_view/helpers/tag_helper.rb#333
+  # source://actionview//lib/action_view/helpers/tag_helper.rb#320
   def respond_to_missing?(*args); end
 
   class << self
-    # source://actionview//lib/action_view/helpers/tag_helper.rb#51
+    # source://actionview//lib/action_view/helpers/tag_helper.rb#50
     def define_element(name, code_generator:, method_name: T.unsafe(nil)); end
 
-    # source://actionview//lib/action_view/helpers/tag_helper.rb#82
+    # source://actionview//lib/action_view/helpers/tag_helper.rb#70
     def define_self_closing_element(name, code_generator:, method_name: T.unsafe(nil)); end
 
     # source://actionview//lib/action_view/helpers/tag_helper.rb#61
@@ -10451,15 +10923,15 @@ class ActionView::Helpers::Tags::CollectionCheckBoxes < ::ActionView::Helpers::T
   include ::ActionView::Helpers::Tags::CollectionHelpers
   include ::ActionView::Helpers::FormOptionsHelper
 
-  # source://actionview//lib/action_view/helpers/tags/collection_check_boxes.rb#21
+  # source://actionview//lib/action_view/helpers/tags/collection_check_boxes.rb#22
   def render(&block); end
 
   private
 
-  # source://actionview//lib/action_view/helpers/tags/collection_check_boxes.rb#30
+  # source://actionview//lib/action_view/helpers/tags/collection_check_boxes.rb#31
   def hidden_field_name; end
 
-  # source://actionview//lib/action_view/helpers/tags/collection_check_boxes.rb#26
+  # source://actionview//lib/action_view/helpers/tags/collection_check_boxes.rb#27
   def render_component(builder); end
 end
 
@@ -10467,6 +10939,9 @@ end
 class ActionView::Helpers::Tags::CollectionCheckBoxes::CheckBoxBuilder < ::ActionView::Helpers::Tags::CollectionHelpers::Builder
   # source://actionview//lib/action_view/helpers/tags/collection_check_boxes.rb#13
   def check_box(extra_html_options = T.unsafe(nil)); end
+
+  # source://actionview//lib/action_view/helpers/tags/collection_check_boxes.rb#13
+  def checkbox(extra_html_options = T.unsafe(nil)); end
 end
 
 # source://actionview//lib/action_view/helpers/tags/collection_helpers.rb#6
@@ -12367,7 +12842,7 @@ module ActionView::Layouts
   def initialize(*_arg0); end
 
   # source://actionview//lib/action_view/layouts.rb#350
-  def _normalize_options(options); end
+  def _process_render_template_options(options); end
 
   def action_has_layout=(_arg0); end
 
@@ -12547,8 +13022,11 @@ class ActionView::LogSubscriber < ::ActiveSupport::LogSubscriber
     # source://actionview//lib/action_view/log_subscriber.rb#105
     def attach_to(*_arg0); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/log_subscriber.rb#84
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def log_levels; end
+
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def log_levels=(new_value); end
   end
 end
 
@@ -13455,8 +13933,11 @@ end
 # source://actionview//lib/action_view/railtie.rb#8
 class ActionView::Railtie < ::Rails::Engine
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def __callbacks; end
+
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def __callbacks=(new_value); end
   end
 end
 
@@ -13495,7 +13976,7 @@ end
 #
 # Consider for example the following code that form of post:
 #
-#   <%= form_for(post) do |f| %>
+#   <%= form_with(model: post) do |f| %>
 #     <%= f.text_field :body %>
 #   <% end %>
 #
@@ -13764,22 +14245,22 @@ module ActionView::Rendering
   # Normalize args by converting render "foo" to render action: "foo" and
   # render "foo/bar" to render template: "foo/bar".
   #
-  # source://actionview//lib/action_view/rendering.rb#152
+  # source://actionview//lib/action_view/rendering.rb#153
   def _normalize_args(action = T.unsafe(nil), options = T.unsafe(nil)); end
-
-  # Normalize options.
-  #
-  # source://actionview//lib/action_view/rendering.rb#176
-  def _normalize_options(options); end
 
   # Assign the rendered format to look up context.
   #
-  # source://actionview//lib/action_view/rendering.rb#145
+  # source://actionview//lib/action_view/rendering.rb#146
   def _process_format(format); end
+
+  # Normalize options.
+  #
+  # source://actionview//lib/action_view/rendering.rb#177
+  def _process_render_template_options(options); end
 
   # Find and render a template based on the options given.
   #
-  # source://actionview//lib/action_view/rendering.rb#126
+  # source://actionview//lib/action_view/rendering.rb#127
   def _render_template(options); end
 end
 
@@ -13808,34 +14289,34 @@ end
 
 # = Action View Resolver
 #
-# source://actionview//lib/action_view/template/resolver.rb#12
+# source://actionview//lib/action_view/template/resolver.rb#11
 class ActionView::Resolver
-  # source://actionview//lib/action_view/template/resolver.rb#70
+  # source://actionview//lib/action_view/template/resolver.rb#69
   def all_template_paths; end
 
-  # source://actionview//lib/action_view/template/resolver.rb#65
+  # source://actionview//lib/action_view/template/resolver.rb#64
   def built_templates; end
 
-  # source://actionview//lib/action_view/template/resolver.rb#51
+  # source://actionview//lib/action_view/template/resolver.rb#50
   def caching; end
 
-  # source://actionview//lib/action_view/template/resolver.rb#51
+  # source://actionview//lib/action_view/template/resolver.rb#50
   def caching=(val); end
 
-  # source://actionview//lib/action_view/template/resolver.rb#80
+  # source://actionview//lib/action_view/template/resolver.rb#79
   def caching?(&_arg0); end
 
-  # source://actionview//lib/action_view/template/resolver.rb#57
+  # source://actionview//lib/action_view/template/resolver.rb#56
   def clear_cache; end
 
   # Normalizes the arguments and passes it on to find_templates.
   #
-  # source://actionview//lib/action_view/template/resolver.rb#61
+  # source://actionview//lib/action_view/template/resolver.rb#60
   def find_all(name, prefix = T.unsafe(nil), partial = T.unsafe(nil), details = T.unsafe(nil), key = T.unsafe(nil), locals = T.unsafe(nil)); end
 
   private
 
-  # source://actionview//lib/action_view/template/resolver.rb#76
+  # source://actionview//lib/action_view/template/resolver.rb#75
   def _find_all(name, prefix, partial, details, key, locals); end
 
   # This is what child classes implement. No defaults are needed
@@ -13844,31 +14325,31 @@ class ActionView::Resolver
   #
   # @raise [NotImplementedError]
   #
-  # source://actionview//lib/action_view/template/resolver.rb#85
+  # source://actionview//lib/action_view/template/resolver.rb#84
   def find_templates(name, prefix, partial, details, locals = T.unsafe(nil)); end
 
   class << self
-    # source://actionview//lib/action_view/template/resolver.rb#51
+    # source://actionview//lib/action_view/template/resolver.rb#50
     def caching; end
 
-    # source://actionview//lib/action_view/template/resolver.rb#51
+    # source://actionview//lib/action_view/template/resolver.rb#50
     def caching=(val); end
 
-    # source://actionview//lib/action_view/template/resolver.rb#51
+    # source://actionview//lib/action_view/template/resolver.rb#50
     def caching?; end
   end
 end
 
-# source://actionview//lib/action_view/template/resolver.rb#13
+# source://actionview//lib/action_view/template/resolver.rb#12
 class ActionView::Resolver::PathParser
-  # source://actionview//lib/action_view/template/resolver.rb#16
+  # source://actionview//lib/action_view/template/resolver.rb#15
   def build_path_regex; end
 
-  # source://actionview//lib/action_view/template/resolver.rb#37
+  # source://actionview//lib/action_view/template/resolver.rb#36
   def parse(path); end
 end
 
-# source://actionview//lib/action_view/template/resolver.rb#14
+# source://actionview//lib/action_view/template/resolver.rb#13
 class ActionView::Resolver::PathParser::ParsedPath < ::Struct
   # Returns the value of attribute details
   #
@@ -13905,7 +14386,7 @@ end
 module ActionView::RoutingUrlFor
   include ::ActionDispatch::Routing::PolymorphicRoutes
 
-  # source://actionpack/7.2.1.1/lib/action_dispatch/routing/url_for.rb#102
+  # source://actionpack/8.0.0.rc1/lib/action_dispatch/routing/url_for.rb#102
   def default_url_options=(val); end
 
   # Returns the URL for the set of +options+ provided. This takes the
@@ -14007,7 +14488,7 @@ module ActionView::RoutingUrlFor
   def optimize_routes_generation?; end
 
   class << self
-    # source://actionpack/7.2.1.1/lib/action_dispatch/routing/url_for.rb#102
+    # source://actionpack/8.0.0.rc1/lib/action_dispatch/routing/url_for.rb#102
     def default_url_options=(val); end
   end
 end
@@ -14088,18 +14569,18 @@ end
 # * Support streaming from child templates, partials and so on.
 # * Rack::Cache needs to support streaming bodies
 #
-# source://actionview//lib/action_view/renderer/streaming_template_renderer.rb#13
+# source://actionview//lib/action_view/renderer/streaming_template_renderer.rb#12
 class ActionView::StreamingTemplateRenderer < ::ActionView::TemplateRenderer
   # For streaming, instead of rendering a given a template, we return a Body
   # object that responds to each. This object is initialized with a block
   # that knows how to render the template.
   #
-  # source://actionview//lib/action_view/renderer/streaming_template_renderer.rb#45
+  # source://actionview//lib/action_view/renderer/streaming_template_renderer.rb#44
   def render_template(view, template, layout_name = T.unsafe(nil), locals = T.unsafe(nil)); end
 
   private
 
-  # source://actionview//lib/action_view/renderer/streaming_template_renderer.rb#57
+  # source://actionview//lib/action_view/renderer/streaming_template_renderer.rb#56
   def delayed_render(buffer, template, layout, view, locals); end
 end
 
@@ -14107,21 +14588,21 @@ end
 # It is initialized with a block that, when called, starts
 # rendering the template.
 #
-# source://actionview//lib/action_view/renderer/streaming_template_renderer.rb#14
+# source://actionview//lib/action_view/renderer/streaming_template_renderer.rb#13
 class ActionView::StreamingTemplateRenderer::Body
   # @return [Body] a new instance of Body
   #
-  # source://actionview//lib/action_view/renderer/streaming_template_renderer.rb#15
+  # source://actionview//lib/action_view/renderer/streaming_template_renderer.rb#14
   def initialize(&start); end
 
-  # source://actionview//lib/action_view/renderer/streaming_template_renderer.rb#19
+  # source://actionview//lib/action_view/renderer/streaming_template_renderer.rb#18
   def each(&block); end
 
   private
 
   # This is the same logging logic as in ShowExceptions middleware.
   #
-  # source://actionview//lib/action_view/renderer/streaming_template_renderer.rb#31
+  # source://actionview//lib/action_view/renderer/streaming_template_renderer.rb#30
   def log_error(exception); end
 end
 
@@ -14141,14 +14622,14 @@ end
 
 # = Action View \Template
 #
-# source://actionview//lib/action_view/template.rb#8
+# source://actionview//lib/action_view/template.rb#7
 class ActionView::Template
   extend ::ActiveSupport::Autoload
   extend ::ActionView::Template::Handlers
 
   # @return [Template] a new instance of Template
   #
-  # source://actionview//lib/action_view/template.rb#200
+  # source://actionview//lib/action_view/template.rb#199
   def initialize(source, identifier, handler, locals:, format: T.unsafe(nil), variant: T.unsafe(nil), virtual_path: T.unsafe(nil)); end
 
   # This method is responsible for properly setting the encoding of the
@@ -14161,44 +14642,44 @@ class ActionView::Template
   # before passing the source on to the template engine, leaving a
   # blank line in its stead.
   #
-  # source://actionview//lib/action_view/template.rb#312
+  # source://actionview//lib/action_view/template.rb#321
   def encode!; end
 
   # Returns the value of attribute format.
   #
-  # source://actionview//lib/action_view/template.rb#196
+  # source://actionview//lib/action_view/template.rb#195
   def format; end
 
   # Returns the value of attribute handler.
   #
-  # source://actionview//lib/action_view/template.rb#195
+  # source://actionview//lib/action_view/template.rb#194
   def handler; end
 
   # Returns the value of attribute identifier.
   #
-  # source://actionview//lib/action_view/template.rb#195
+  # source://actionview//lib/action_view/template.rb#194
   def identifier; end
 
-  # source://actionview//lib/action_view/template.rb#291
+  # source://actionview//lib/action_view/template.rb#300
   def inspect; end
 
   # The locals this template has been or will be compiled for, or nil if this
   # is a strict locals template.
   #
-  # source://actionview//lib/action_view/template.rb#224
+  # source://actionview//lib/action_view/template.rb#223
   def locals; end
 
   # Exceptions are marshalled when using the parallel test runner with DRb, so we need
   # to ensure that references to the template object can be marshalled as well. This means forgoing
   # the marshalling of the compiler mutex and instantiating that again on unmarshalling.
   #
-  # source://actionview//lib/action_view/template.rb#378
+  # source://actionview//lib/action_view/template.rb#387
   def marshal_dump; end
 
-  # source://actionview//lib/action_view/template.rb#382
+  # source://actionview//lib/action_view/template.rb#391
   def marshal_load(array); end
 
-  # source://actionview//lib/action_view/template.rb#387
+  # source://actionview//lib/action_view/template.rb#396
   def method_name; end
 
   # Render a template. If the template was not compiled yet, it is done
@@ -14208,16 +14689,16 @@ class ActionView::Template
   # we use a bang in this instrumentation because you don't want to
   # consume this in production. This is only slow if it's being listened to.
   #
-  # source://actionview//lib/action_view/template.rb#262
+  # source://actionview//lib/action_view/template.rb#271
   def render(view, locals, buffer = T.unsafe(nil), implicit_locals: T.unsafe(nil), add_to_stack: T.unsafe(nil), &block); end
 
-  # source://actionview//lib/action_view/template.rb#287
+  # source://actionview//lib/action_view/template.rb#296
   def short_identifier; end
 
-  # source://actionview//lib/action_view/template.rb#295
+  # source://actionview//lib/action_view/template.rb#304
   def source; end
 
-  # source://actionview//lib/action_view/template.rb#232
+  # source://actionview//lib/action_view/template.rb#231
   def spot(location); end
 
   # This method is responsible for marking a template as having strict locals
@@ -14230,14 +14711,14 @@ class ActionView::Template
   # Strict locals are useful for validating template arguments and for
   # specifying defaults.
   #
-  # source://actionview//lib/action_view/template.rb#357
+  # source://actionview//lib/action_view/template.rb#366
   def strict_locals!; end
 
   # Returns whether a template is using strict locals.
   #
   # @return [Boolean]
   #
-  # source://actionview//lib/action_view/template.rb#371
+  # source://actionview//lib/action_view/template.rb#380
   def strict_locals?; end
 
   # Returns whether the underlying handler supports streaming. If so,
@@ -14245,31 +14726,31 @@ class ActionView::Template
   #
   # @return [Boolean]
   #
-  # source://actionview//lib/action_view/template.rb#252
+  # source://actionview//lib/action_view/template.rb#261
   def supports_streaming?; end
 
   # Translate an error location returned by ErrorHighlight to the correct
   # source location inside the template.
   #
-  # source://actionview//lib/action_view/template.rb#242
+  # source://actionview//lib/action_view/template.rb#251
   def translate_location(backtrace_location, spot); end
 
-  # source://actionview//lib/action_view/template.rb#283
+  # source://actionview//lib/action_view/template.rb#292
   def type; end
 
   # Returns the value of attribute variable.
   #
-  # source://actionview//lib/action_view/template.rb#196
+  # source://actionview//lib/action_view/template.rb#195
   def variable; end
 
   # Returns the value of attribute variant.
   #
-  # source://actionview//lib/action_view/template.rb#196
+  # source://actionview//lib/action_view/template.rb#195
   def variant; end
 
   # Returns the value of attribute virtual_path.
   #
-  # source://actionview//lib/action_view/template.rb#196
+  # source://actionview//lib/action_view/template.rb#195
   def virtual_path; end
 
   private
@@ -14286,54 +14767,54 @@ class ActionView::Template
   # In general, this means that templates will be UTF-8 inside of Rails,
   # regardless of the original source encoding.
   #
-  # source://actionview//lib/action_view/template.rb#491
+  # source://actionview//lib/action_view/template.rb#500
   def compile(mod); end
 
   # Compile a template. This method ensures a template is compiled
   # just once and removes the source after it is compiled.
   #
-  # source://actionview//lib/action_view/template.rb#409
+  # source://actionview//lib/action_view/template.rb#418
   def compile!(view); end
 
   # This method compiles the source of the template. The compilation of templates
   # involves setting strict_locals! if applicable, encoding the template, and setting
   # frozen string literal.
   #
-  # source://actionview//lib/action_view/template.rb#434
+  # source://actionview//lib/action_view/template.rb#443
   def compiled_source; end
 
-  # source://actionview//lib/action_view/template.rb#396
+  # source://actionview//lib/action_view/template.rb#405
   def find_node_by_id(node, node_id); end
 
-  # source://actionview//lib/action_view/template.rb#540
+  # source://actionview//lib/action_view/template.rb#549
   def handle_render_error(view, e); end
 
-  # source://actionview//lib/action_view/template.rb#565
+  # source://actionview//lib/action_view/template.rb#574
   def identifier_method_name; end
 
-  # source://actionview//lib/action_view/template.rb#569
+  # source://actionview//lib/action_view/template.rb#578
   def instrument(action, &block); end
 
-  # source://actionview//lib/action_view/template.rb#577
+  # source://actionview//lib/action_view/template.rb#586
   def instrument_payload; end
 
-  # source://actionview//lib/action_view/template.rb#573
+  # source://actionview//lib/action_view/template.rb#582
   def instrument_render_template(&block); end
 
-  # source://actionview//lib/action_view/template.rb#552
+  # source://actionview//lib/action_view/template.rb#561
   def locals_code; end
 
-  # source://actionview//lib/action_view/template.rb#532
+  # source://actionview//lib/action_view/template.rb#541
   def offset; end
 
   class << self
-    # source://actionview//lib/action_view/template.rb#181
+    # source://actionview//lib/action_view/template.rb#180
     def frozen_string_literal; end
 
-    # source://actionview//lib/action_view/template.rb#181
+    # source://actionview//lib/action_view/template.rb#180
     def frozen_string_literal=(_arg0); end
 
-    # source://actionview//lib/action_view/template.rb#185
+    # source://actionview//lib/action_view/template.rb#184
     def mime_types_implementation=(implementation); end
   end
 end
@@ -14485,11 +14966,11 @@ class ActionView::Template::Handlers::Builder
   def require_engine; end
 
   class << self
-    # source://actionview//lib/action_view/template/handlers/builder.rb#6
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def default_format; end
 
-    # source://actionview//lib/action_view/template/handlers/builder.rb#6
-    def default_format=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def default_format=(new_value); end
 
     # source://actionview//lib/action_view/template/handlers/builder.rb#6
     def default_format?; end
@@ -14567,38 +15048,38 @@ class ActionView::Template::Handlers::ERB
     # source://actionview//lib/action_view/template/handlers/erb.rb#29
     def call(template, source); end
 
-    # source://actionview//lib/action_view/template/handlers/erb.rb#17
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def erb_implementation; end
 
-    # source://actionview//lib/action_view/template/handlers/erb.rb#17
-    def erb_implementation=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def erb_implementation=(new_value); end
 
     # source://actionview//lib/action_view/template/handlers/erb.rb#17
     def erb_implementation?; end
 
-    # source://actionview//lib/action_view/template/handlers/erb.rb#14
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def erb_trim_mode; end
 
-    # source://actionview//lib/action_view/template/handlers/erb.rb#14
-    def erb_trim_mode=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def erb_trim_mode=(new_value); end
 
     # source://actionview//lib/action_view/template/handlers/erb.rb#14
     def erb_trim_mode?; end
 
-    # source://actionview//lib/action_view/template/handlers/erb.rb#20
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def escape_ignore_list; end
 
-    # source://actionview//lib/action_view/template/handlers/erb.rb#20
-    def escape_ignore_list=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def escape_ignore_list=(new_value); end
 
     # source://actionview//lib/action_view/template/handlers/erb.rb#20
     def escape_ignore_list?; end
 
-    # source://actionview//lib/action_view/template/handlers/erb.rb#23
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def strip_trailing_newlines; end
 
-    # source://actionview//lib/action_view/template/handlers/erb.rb#23
-    def strip_trailing_newlines=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def strip_trailing_newlines=(new_value); end
 
     # source://actionview//lib/action_view/template/handlers/erb.rb#23
     def strip_trailing_newlines?; end
@@ -14663,13 +15144,13 @@ end
 # source://actionview//lib/action_view/template/inline.rb#8
 ActionView::Template::Inline::Finalizer = T.let(T.unsafe(nil), Proc)
 
-# source://actionview//lib/action_view/template.rb#299
+# source://actionview//lib/action_view/template.rb#308
 ActionView::Template::LEADING_ENCODING_REGEXP = T.let(T.unsafe(nil), Regexp)
 
-# source://actionview//lib/action_view/template.rb#198
+# source://actionview//lib/action_view/template.rb#197
 ActionView::Template::NONE = T.let(T.unsafe(nil), Object)
 
-# source://actionview//lib/action_view/template.rb#549
+# source://actionview//lib/action_view/template.rb#558
 ActionView::Template::RUBY_RESERVED_KEYWORDS = T.let(T.unsafe(nil), Array)
 
 # = Action View RawFile Template
@@ -14719,7 +15200,7 @@ class ActionView::Template::Renderable
   def render(context, *args); end
 end
 
-# source://actionview//lib/action_view/template.rb#11
+# source://actionview//lib/action_view/template.rb#10
 ActionView::Template::STRICT_LOCALS_REGEX = T.let(T.unsafe(nil), Regexp)
 
 # SimpleType is mostly just a stub implementation for when Action View
@@ -14817,7 +15298,7 @@ class ActionView::Template::Text
   def type=(_arg0); end
 end
 
-# source://actionview//lib/action_view/template.rb#190
+# source://actionview//lib/action_view/template.rb#189
 ActionView::Template::Types = Mime
 
 # source://actionview//lib/action_view/template_details.rb#4
@@ -15098,13 +15579,13 @@ class ActionView::TestCase < ::ActiveSupport::TestCase
   extend ::ActiveSupport::Testing::ConstantLookup::ClassMethods
   extend ::ActionView::TestCase::Behavior::ClassMethods
 
-  # source://actionpack/7.2.1.1/lib/abstract_controller/helpers.rb#13
+  # source://actionpack/8.0.0.rc1/lib/abstract_controller/helpers.rb#13
   def _helper_methods; end
 
-  # source://actionpack/7.2.1.1/lib/abstract_controller/helpers.rb#13
+  # source://actionpack/8.0.0.rc1/lib/abstract_controller/helpers.rb#13
   def _helper_methods=(_arg0); end
 
-  # source://actionpack/7.2.1.1/lib/abstract_controller/helpers.rb#13
+  # source://actionpack/8.0.0.rc1/lib/abstract_controller/helpers.rb#13
   def _helper_methods?; end
 
   # source://actionview//lib/action_view/helpers/translation_helper.rb#18
@@ -15114,26 +15595,29 @@ class ActionView::TestCase < ::ActiveSupport::TestCase
   def debug_missing_translation=(val); end
 
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def __callbacks; end
 
-    # source://actionpack/7.2.1.1/lib/abstract_controller/helpers.rb#13
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def __callbacks=(new_value); end
+
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def _helper_methods; end
 
-    # source://actionpack/7.2.1.1/lib/abstract_controller/helpers.rb#13
-    def _helper_methods=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def _helper_methods=(new_value); end
 
-    # source://actionpack/7.2.1.1/lib/abstract_controller/helpers.rb#13
+    # source://actionpack/8.0.0.rc1/lib/abstract_controller/helpers.rb#13
     def _helper_methods?; end
 
-    # source://actionpack/7.2.1.1/lib/abstract_controller/helpers.rb#17
+    # source://actionpack/8.0.0.rc1/lib/abstract_controller/helpers.rb#17
     def _helpers; end
 
-    # source://actionview//lib/action_view/test_case.rb#200
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def content_class; end
 
-    # source://actionview//lib/action_view/test_case.rb#200
-    def content_class=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def content_class=(new_value); end
 
     # source://actionview//lib/action_view/test_case.rb#200
     def content_class?; end
@@ -15589,8 +16073,11 @@ class ActionView::TestCase::TestController < ::ActionController::Base
     # source://actionview//lib/action_view/test_case.rb#23
     def controller_path=(_arg0); end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal.rb#288
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def middleware_stack; end
+
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def middleware_stack=(new_value); end
   end
 end
 

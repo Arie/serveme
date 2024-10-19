@@ -13,10 +13,10 @@ module ActiveRecord
   extend ::ActiveSupport::Autoload
 
   class << self
-    # source://activerecord//lib/active_record.rb#377
+    # source://activerecord//lib/active_record.rb#361
     def action_on_strict_loading_violation; end
 
-    # source://activerecord//lib/active_record.rb#377
+    # source://activerecord//lib/active_record.rb#361
     def action_on_strict_loading_violation=(_arg0); end
 
     # Registers a block to be called after all the current transactions have been
@@ -33,102 +33,96 @@ module ActiveRecord
     # if and once all of them have been committed. But note that nesting transactions across
     # two distinct databases is a sharding anti-pattern that comes with a world of hurts.
     #
-    # source://activerecord//lib/active_record.rb#557
+    # source://activerecord//lib/active_record.rb#527
     def after_all_transactions_commit(&block); end
 
-    # source://activerecord//lib/active_record.rb#577
+    # source://activerecord//lib/active_record.rb#547
     def all_open_transactions; end
 
-    # source://activerecord//lib/active_record.rb#447
-    def allow_deprecated_singular_associations_name; end
-
-    # source://activerecord//lib/active_record.rb#454
-    def allow_deprecated_singular_associations_name=(value); end
-
-    # source://activerecord//lib/active_record.rb#370
+    # source://activerecord//lib/active_record.rb#354
     def application_record_class; end
 
-    # source://activerecord//lib/active_record.rb#370
+    # source://activerecord//lib/active_record.rb#354
     def application_record_class=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#276
+    # source://activerecord//lib/active_record.rb#283
     def async_query_executor; end
 
-    # source://activerecord//lib/active_record.rb#276
+    # source://activerecord//lib/active_record.rb#283
     def async_query_executor=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#341
+    # source://activerecord//lib/active_record.rb#348
     def before_committed_on_all_records; end
 
-    # source://activerecord//lib/active_record.rb#341
+    # source://activerecord//lib/active_record.rb#348
     def before_committed_on_all_records=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#338
+    # source://activerecord//lib/active_record.rb#345
     def belongs_to_required_validates_foreign_key; end
 
-    # source://activerecord//lib/active_record.rb#338
+    # source://activerecord//lib/active_record.rb#345
     def belongs_to_required_validates_foreign_key=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#347
-    def commit_transaction_on_non_local_return; end
+    # source://activerecord//lib/active_record.rb#211
+    def database_cli; end
 
-    # source://activerecord//lib/active_record.rb#354
-    def commit_transaction_on_non_local_return=(value); end
+    # source://activerecord//lib/active_record.rb#211
+    def database_cli=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#218
+    # source://activerecord//lib/active_record.rb#233
     def db_warnings_action; end
 
-    # source://activerecord//lib/active_record.rb#220
+    # source://activerecord//lib/active_record.rb#235
     def db_warnings_action=(action); end
 
-    # source://activerecord//lib/active_record.rb#247
+    # source://activerecord//lib/active_record.rb#262
     def db_warnings_ignore; end
 
-    # source://activerecord//lib/active_record.rb#247
+    # source://activerecord//lib/active_record.rb#262
     def db_warnings_ignore=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#199
+    # source://activerecord//lib/active_record.rb#214
     def default_timezone; end
 
     # Determines whether to use Time.utc (using :utc) or Time.local (using :local) when pulling
     # dates and times from the database. This is set to :utc by default.
     #
-    # source://activerecord//lib/active_record.rb#203
+    # source://activerecord//lib/active_record.rb#218
     def default_timezone=(default_timezone); end
 
     # source://activerecord//lib/active_record/deprecator.rb#4
     def deprecator; end
 
-    # source://activerecord//lib/active_record.rb#181
+    # source://activerecord//lib/active_record.rb#182
     def disable_prepared_statements; end
 
-    # source://activerecord//lib/active_record.rb#181
+    # source://activerecord//lib/active_record.rb#182
     def disable_prepared_statements=(_arg0); end
 
     # Explicitly closes all database connections in all pools.
     #
-    # source://activerecord//lib/active_record.rb#540
+    # source://activerecord//lib/active_record.rb#510
     def disconnect_all!; end
 
-    # source://activerecord//lib/active_record.rb#425
+    # source://activerecord//lib/active_record.rb#409
     def dump_schema_after_migration; end
 
-    # source://activerecord//lib/active_record.rb#425
+    # source://activerecord//lib/active_record.rb#409
     def dump_schema_after_migration=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#435
+    # source://activerecord//lib/active_record.rb#419
     def dump_schemas; end
 
-    # source://activerecord//lib/active_record.rb#435
+    # source://activerecord//lib/active_record.rb#419
     def dump_schemas=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#529
+    # source://activerecord//lib/active_record.rb#499
     def eager_load!; end
 
-    # source://activerecord//lib/active_record.rb#396
+    # source://activerecord//lib/active_record.rb#380
     def error_on_ignored_order; end
 
-    # source://activerecord//lib/active_record.rb#396
+    # source://activerecord//lib/active_record.rb#380
     def error_on_ignored_order=(_arg0); end
 
     # Returns the currently loaded version of Active Record as a +Gem::Version+.
@@ -136,149 +130,154 @@ module ActiveRecord
     # source://activerecord//lib/active_record/gem_version.rb#5
     def gem_version; end
 
-    # source://activerecord//lib/active_record.rb#490
+    # source://activerecord//lib/active_record.rb#460
     def generate_secure_token_on; end
 
-    # source://activerecord//lib/active_record.rb#490
+    # source://activerecord//lib/active_record.rb#460
     def generate_secure_token_on=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#299
+    # source://activerecord//lib/active_record.rb#306
     def global_executor_concurrency; end
 
     # Set the +global_executor_concurrency+. This configuration value can only be used
     # with the global thread pool async query executor.
     #
-    # source://activerecord//lib/active_record.rb#291
+    # source://activerecord//lib/active_record.rb#298
     def global_executor_concurrency=(global_executor_concurrency); end
 
-    # source://activerecord//lib/active_record.rb#279
+    # source://activerecord//lib/active_record.rb#286
     def global_thread_pool_async_query_executor; end
 
-    # source://activerecord//lib/active_record.rb#314
+    # source://activerecord//lib/active_record.rb#321
     def index_nested_attribute_errors; end
 
-    # source://activerecord//lib/active_record.rb#314
+    # source://activerecord//lib/active_record.rb#321
     def index_nested_attribute_errors=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#188
+    # source://activerecord//lib/active_record.rb#189
     def lazily_load_schema_cache; end
 
-    # source://activerecord//lib/active_record.rb#188
+    # source://activerecord//lib/active_record.rb#189
     def lazily_load_schema_cache=(_arg0); end
 
-    # @raise [ArgumentError]
-    #
-    # source://activerecord//lib/active_record.rb#256
-    def legacy_connection_handling=(_); end
-
-    # source://activerecord//lib/active_record.rb#332
+    # source://activerecord//lib/active_record.rb#339
     def maintain_test_schema; end
 
-    # source://activerecord//lib/active_record.rb#332
+    # source://activerecord//lib/active_record.rb#339
     def maintain_test_schema=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#493
+    # source://activerecord//lib/active_record.rb#463
     def marshalling_format_version; end
 
-    # source://activerecord//lib/active_record.rb#497
+    # source://activerecord//lib/active_record.rb#467
     def marshalling_format_version=(value); end
 
-    # source://activerecord//lib/active_record.rb#416
+    # source://activerecord//lib/active_record.rb#400
     def migration_strategy; end
 
-    # source://activerecord//lib/active_record.rb#416
+    # source://activerecord//lib/active_record.rb#400
     def migration_strategy=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#304
+    # source://activerecord//lib/active_record.rb#311
     def permanent_connection_checkout; end
 
     # Defines whether +ActiveRecord::Base.connection+ is allowed, deprecated, or entirely disallowed.
     #
-    # source://activerecord//lib/active_record.rb#307
+    # source://activerecord//lib/active_record.rb#314
     def permanent_connection_checkout=(value); end
 
-    # source://activerecord//lib/active_record.rb#520
+    # source://activerecord//lib/active_record.rb#490
     def protocol_adapters; end
 
-    # source://activerecord//lib/active_record.rb#520
+    # source://activerecord//lib/active_record.rb#490
     def protocol_adapters=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#461
+    # source://activerecord//lib/active_record.rb#431
     def query_transformers; end
 
-    # source://activerecord//lib/active_record.rb#461
+    # source://activerecord//lib/active_record.rb#431
     def query_transformers=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#329
+    # source://activerecord//lib/active_record.rb#336
     def queues; end
 
-    # source://activerecord//lib/active_record.rb#329
+    # source://activerecord//lib/active_record.rb#336
     def queues=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#476
+    # source://activerecord//lib/active_record.rb#446
     def raise_int_wider_than_64bit; end
 
-    # source://activerecord//lib/active_record.rb#476
+    # source://activerecord//lib/active_record.rb#446
     def raise_int_wider_than_64bit=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#335
+    # source://activerecord//lib/active_record.rb#342
     def raise_on_assign_to_attr_readonly; end
 
-    # source://activerecord//lib/active_record.rb#335
+    # source://activerecord//lib/active_record.rb#342
     def raise_on_assign_to_attr_readonly=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#253
+    # source://activerecord//lib/active_record.rb#268
     def reading_role; end
 
-    # source://activerecord//lib/active_record.rb#253
+    # source://activerecord//lib/active_record.rb#268
     def reading_role=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#344
+    # source://activerecord//lib/active_record.rb#351
     def run_after_transaction_callbacks_in_order_defined; end
 
-    # source://activerecord//lib/active_record.rb#344
+    # source://activerecord//lib/active_record.rb#351
     def run_after_transaction_callbacks_in_order_defined=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#196
+    # Checks to see if the +table_name+ is ignored by checking
+    # against the +schema_cache_ignored_tables+ option.
+    #
+    #   ActiveRecord.schema_cache_ignored_table?(:developers)
+    #
+    # @return [Boolean]
+    #
+    # source://activerecord//lib/active_record.rb#205
+    def schema_cache_ignored_table?(table_name); end
+
+    # source://activerecord//lib/active_record.rb#197
     def schema_cache_ignored_tables; end
 
-    # source://activerecord//lib/active_record.rb#196
+    # source://activerecord//lib/active_record.rb#197
     def schema_cache_ignored_tables=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#388
+    # source://activerecord//lib/active_record.rb#372
     def schema_format; end
 
-    # source://activerecord//lib/active_record.rb#388
+    # source://activerecord//lib/active_record.rb#372
     def schema_format=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#402
+    # source://activerecord//lib/active_record.rb#386
     def timestamped_migrations; end
 
-    # source://activerecord//lib/active_record.rb#402
+    # source://activerecord//lib/active_record.rb#386
     def timestamped_migrations=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#468
+    # source://activerecord//lib/active_record.rb#438
     def use_yaml_unsafe_load; end
 
-    # source://activerecord//lib/active_record.rb#468
+    # source://activerecord//lib/active_record.rb#438
     def use_yaml_unsafe_load=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#410
+    # source://activerecord//lib/active_record.rb#394
     def validate_migration_timestamps; end
 
-    # source://activerecord//lib/active_record.rb#410
+    # source://activerecord//lib/active_record.rb#394
     def validate_migration_timestamps=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#322
+    # source://activerecord//lib/active_record.rb#329
     def verbose_query_logs; end
 
-    # source://activerecord//lib/active_record.rb#322
+    # source://activerecord//lib/active_record.rb#329
     def verbose_query_logs=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#444
+    # source://activerecord//lib/active_record.rb#428
     def verify_foreign_keys_for_fixtures; end
 
-    # source://activerecord//lib/active_record.rb#444
+    # source://activerecord//lib/active_record.rb#428
     def verify_foreign_keys_for_fixtures=(_arg0); end
 
     # Returns the currently loaded version of Active Record as a +Gem::Version+.
@@ -286,22 +285,16 @@ module ActiveRecord
     # source://activerecord//lib/active_record/version.rb#7
     def version; end
 
-    # source://activerecord//lib/active_record.rb#367
-    def warn_on_records_fetched_greater_than; end
-
-    # source://activerecord//lib/active_record.rb#367
-    def warn_on_records_fetched_greater_than=(_arg0); end
-
-    # source://activerecord//lib/active_record.rb#250
+    # source://activerecord//lib/active_record.rb#265
     def writing_role; end
 
-    # source://activerecord//lib/active_record.rb#250
+    # source://activerecord//lib/active_record.rb#265
     def writing_role=(_arg0); end
 
-    # source://activerecord//lib/active_record.rb#483
+    # source://activerecord//lib/active_record.rb#453
     def yaml_column_permitted_classes; end
 
-    # source://activerecord//lib/active_record.rb#483
+    # source://activerecord//lib/active_record.rb#453
     def yaml_column_permitted_classes=(_arg0); end
   end
 end
@@ -342,7 +335,7 @@ class ActiveRecord::AdapterNotSpecified < ::ActiveRecord::ActiveRecordError; end
 
 # AdapterTimeout will be raised when database clients times out while waiting from the server.
 #
-# source://activerecord//lib/active_record/errors.rb#569
+# source://activerecord//lib/active_record/errors.rb#577
 class ActiveRecord::AdapterTimeout < ::ActiveRecord::QueryAborted; end
 
 # See ActiveRecord::Aggregations::ClassMethods for documentation
@@ -786,18 +779,21 @@ class ActiveRecord::Associations::Association
   # source://activerecord//lib/active_record/associations/association.rb#41
   def initialize(owner, reflection); end
 
+  # source://activerecord//lib/active_record/associations/association.rb#190
+  def async_load_target; end
+
   # Whether the association represent a single record
   # or a collection of records.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/association.rb#215
+  # source://activerecord//lib/active_record/associations/association.rb#229
   def collection?; end
 
-  # source://activerecord//lib/active_record/associations/association.rb#205
+  # source://activerecord//lib/active_record/associations/association.rb#219
   def create(attributes = T.unsafe(nil), &block); end
 
-  # source://activerecord//lib/active_record/associations/association.rb#209
+  # source://activerecord//lib/active_record/associations/association.rb#223
   def create!(attributes = T.unsafe(nil), &block); end
 
   # Returns the value of attribute disable_joins.
@@ -805,22 +801,22 @@ class ActiveRecord::Associations::Association
   # source://activerecord//lib/active_record/associations/association.rb#37
   def disable_joins; end
 
-  # source://activerecord//lib/active_record/associations/association.rb#154
+  # source://activerecord//lib/active_record/associations/association.rb#161
   def extensions; end
 
-  # source://activerecord//lib/active_record/associations/association.rb#195
+  # source://activerecord//lib/active_record/associations/association.rb#209
   def initialize_attributes(record, except_from_scope_attributes = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/associations/association.rb#138
+  # source://activerecord//lib/active_record/associations/association.rb#145
   def inversed_from(record); end
 
-  # source://activerecord//lib/active_record/associations/association.rb#142
+  # source://activerecord//lib/active_record/associations/association.rb#149
   def inversed_from_queries(record); end
 
   # Returns the class of the target. belongs_to polymorphic overrides this to look at the
   # polymorphic_type field on the owner.
   #
-  # source://activerecord//lib/active_record/associations/association.rb#150
+  # source://activerecord//lib/active_record/associations/association.rb#157
   def klass; end
 
   # Loads the \target if needed and returns it.
@@ -834,27 +830,27 @@ class ActiveRecord::Associations::Association
   # ActiveRecord::RecordNotFound is rescued within the method, and it is
   # not reraised. The proxy is \reset and +nil+ is the return value.
   #
-  # source://activerecord//lib/active_record/associations/association.rb#174
+  # source://activerecord//lib/active_record/associations/association.rb#181
   def load_target; end
 
   # Asserts the \target has been loaded setting the \loaded flag to +true+.
   #
-  # source://activerecord//lib/active_record/associations/association.rb#79
+  # source://activerecord//lib/active_record/associations/association.rb#86
   def loaded!; end
 
   # Has the \target been already \loaded?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/association.rb#74
+  # source://activerecord//lib/active_record/associations/association.rb#81
   def loaded?; end
 
   # We can't dump @reflection and @through_reflection since it contains the scope proc
   #
-  # source://activerecord//lib/active_record/associations/association.rb#184
+  # source://activerecord//lib/active_record/associations/association.rb#198
   def marshal_dump; end
 
-  # source://activerecord//lib/active_record/associations/association.rb#189
+  # source://activerecord//lib/active_record/associations/association.rb#203
   def marshal_load(data); end
 
   # source://activerecord//lib/active_record/associations/association.rb#39
@@ -874,34 +870,34 @@ class ActiveRecord::Associations::Association
   # Reloads the \target and returns +self+ on success.
   # The QueryCache is cleared if +force+ is true.
   #
-  # source://activerecord//lib/active_record/associations/association.rb#65
+  # source://activerecord//lib/active_record/associations/association.rb#72
   def reload(force = T.unsafe(nil)); end
 
   # Remove the inverse association, if possible
   #
-  # source://activerecord//lib/active_record/associations/association.rb#132
+  # source://activerecord//lib/active_record/associations/association.rb#139
   def remove_inverse_instance(record); end
 
   # Resets the \loaded flag to +false+ and sets the \target to +nil+.
   #
-  # source://activerecord//lib/active_record/associations/association.rb#54
+  # source://activerecord//lib/active_record/associations/association.rb#61
   def reset; end
 
-  # source://activerecord//lib/active_record/associations/association.rb#59
+  # source://activerecord//lib/active_record/associations/association.rb#66
   def reset_negative_cache; end
 
-  # source://activerecord//lib/active_record/associations/association.rb#112
+  # source://activerecord//lib/active_record/associations/association.rb#119
   def reset_scope; end
 
-  # source://activerecord//lib/active_record/associations/association.rb#100
+  # source://activerecord//lib/active_record/associations/association.rb#107
   def scope; end
 
   # Set the inverse association, if possible
   #
-  # source://activerecord//lib/active_record/associations/association.rb#117
+  # source://activerecord//lib/active_record/associations/association.rb#124
   def set_inverse_instance(record); end
 
-  # source://activerecord//lib/active_record/associations/association.rb#124
+  # source://activerecord//lib/active_record/associations/association.rb#131
   def set_inverse_instance_from_queries(record); end
 
   # The target is stale if the target no longer points to the record(s) that the
@@ -913,17 +909,15 @@ class ActiveRecord::Associations::Association
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/association.rb#90
+  # source://activerecord//lib/active_record/associations/association.rb#97
   def stale_target?; end
 
-  # Returns the value of attribute target.
-  #
-  # source://activerecord//lib/active_record/associations/association.rb#37
+  # source://activerecord//lib/active_record/associations/association.rb#53
   def target; end
 
   # Sets the target of this association to <tt>\target</tt>, and the \loaded flag to +true+.
   #
-  # source://activerecord//lib/active_record/associations/association.rb#95
+  # source://activerecord//lib/active_record/associations/association.rb#102
   def target=(target); end
 
   private
@@ -935,34 +929,34 @@ class ActiveRecord::Associations::Association
   # by scope.scoping { ... } or unscoped { ... } etc, which affects the scope which
   # actually gets built.
   #
-  # source://activerecord//lib/active_record/associations/association.rb#276
+  # source://activerecord//lib/active_record/associations/association.rb#296
   def association_scope; end
 
-  # source://activerecord//lib/active_record/associations/association.rb#359
+  # source://activerecord//lib/active_record/associations/association.rb#379
   def build_record(attributes); end
 
-  # source://activerecord//lib/active_record/associations/association.rb#374
+  # source://activerecord//lib/active_record/associations/association.rb#394
   def enqueue_destroy_association(options); end
 
   # Reader and writer methods call this so that consistent errors are presented
   # when the association target class does not exist.
   #
-  # source://activerecord//lib/active_record/associations/association.rb#222
+  # source://activerecord//lib/active_record/associations/association.rb#236
   def ensure_klass_exists!; end
 
-  # source://activerecord//lib/active_record/associations/association.rb#226
-  def find_target; end
+  # source://activerecord//lib/active_record/associations/association.rb#240
+  def find_target(async: T.unsafe(nil)); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/association.rb#296
+  # source://activerecord//lib/active_record/associations/association.rb#316
   def find_target?; end
 
   # Returns true if record contains the foreign_key
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/association.rb#346
+  # source://activerecord//lib/active_record/associations/association.rb#366
   def foreign_key_for?(record); end
 
   # Returns true if there is a foreign key present on the owner which
@@ -976,22 +970,22 @@ class ActiveRecord::Associations::Association
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/association.rb#308
+  # source://activerecord//lib/active_record/associations/association.rb#328
   def foreign_key_present?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/association.rb#382
+  # source://activerecord//lib/active_record/associations/association.rb#402
   def inversable?(record); end
 
-  # source://activerecord//lib/active_record/associations/association.rb#326
+  # source://activerecord//lib/active_record/associations/association.rb#346
   def inverse_association_for(record); end
 
   # Can be redefined by subclasses, notably polymorphic belongs_to
   # The record parameter is necessary to support polymorphic inverses as we must check for
   # the association in the specific class of the record.
   #
-  # source://activerecord//lib/active_record/associations/association.rb#335
+  # source://activerecord//lib/active_record/associations/association.rb#355
   def inverse_reflection_for(record); end
 
   # Returns true if inverse association on the given record needs to be set.
@@ -999,32 +993,32 @@ class ActiveRecord::Associations::Association
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/association.rb#341
+  # source://activerecord//lib/active_record/associations/association.rb#361
   def invertible_for?(record); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/association.rb#387
+  # source://activerecord//lib/active_record/associations/association.rb#407
   def matches_foreign_key?(record); end
 
   # Raises ActiveRecord::AssociationTypeMismatch unless +record+ is of
   # the kind of the class of the associated objects. Meant to be used as
   # a safety check when you are about to assign an associated record.
   #
-  # source://activerecord//lib/active_record/associations/association.rb#315
+  # source://activerecord//lib/active_record/associations/association.rb#335
   def raise_on_type_mismatch!(record); end
 
-  # source://activerecord//lib/active_record/associations/association.rb#292
+  # source://activerecord//lib/active_record/associations/association.rb#312
   def scope_for_create; end
 
   # Returns true if statement cache should be skipped on the association reader.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/association.rb#367
+  # source://activerecord//lib/active_record/associations/association.rb#387
   def skip_statement_cache?(scope); end
 
-  # source://activerecord//lib/active_record/associations/association.rb#252
+  # source://activerecord//lib/active_record/associations/association.rb#272
   def skip_strict_loading(&block); end
 
   # This should be implemented to return the values of the relevant key(s) on the owner,
@@ -1033,18 +1027,18 @@ class ActiveRecord::Associations::Association
   #
   # This is only relevant to certain associations, which is why it returns +nil+ by default.
   #
-  # source://activerecord//lib/active_record/associations/association.rb#356
+  # source://activerecord//lib/active_record/associations/association.rb#376
   def stale_state; end
 
   # Can be overridden (i.e. in ThroughAssociation) to merge in other scopes (i.e. the
   # through association's scope)
   #
-  # source://activerecord//lib/active_record/associations/association.rb#288
+  # source://activerecord//lib/active_record/associations/association.rb#308
   def target_scope; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/association.rb#260
+  # source://activerecord//lib/active_record/associations/association.rb#280
   def violates_strict_loading?; end
 end
 
@@ -1271,16 +1265,16 @@ class ActiveRecord::Associations::Builder::Association
 
     private
 
-    # source://activerecord//lib/active_record/associations/builder/association.rb#144
+    # source://activerecord//lib/active_record/associations/builder/association.rb#145
     def add_after_commit_jobs_callback(model, dependent); end
 
-    # source://activerecord//lib/active_record/associations/builder/association.rb#139
+    # source://activerecord//lib/active_record/associations/builder/association.rb#140
     def add_destroy_callbacks(model, reflection); end
 
     # source://activerecord//lib/active_record/associations/builder/association.rb#53
     def build_scope(scope); end
 
-    # source://activerecord//lib/active_record/associations/builder/association.rb#129
+    # source://activerecord//lib/active_record/associations/builder/association.rb#130
     def check_dependent_options(dependent, model); end
 
     # Defines the setter and getter methods for the association
@@ -1290,25 +1284,25 @@ class ActiveRecord::Associations::Builder::Association
     #
     # Post.first.comments and Post.first.comments= methods are defined by this method...
     #
-    # source://activerecord//lib/active_record/associations/builder/association.rb#94
+    # source://activerecord//lib/active_record/associations/builder/association.rb#95
     def define_accessors(model, reflection); end
 
-    # source://activerecord//lib/active_record/associations/builder/association.rb#76
+    # source://activerecord//lib/active_record/associations/builder/association.rb#77
     def define_callbacks(model, reflection); end
 
-    # source://activerecord//lib/active_record/associations/builder/association.rb#121
+    # source://activerecord//lib/active_record/associations/builder/association.rb#122
     def define_change_tracking_methods(model, reflection); end
 
     # source://activerecord//lib/active_record/associations/builder/association.rb#73
     def define_extensions(model, name); end
 
-    # source://activerecord//lib/active_record/associations/builder/association.rb#101
+    # source://activerecord//lib/active_record/associations/builder/association.rb#102
     def define_readers(mixin, name); end
 
-    # source://activerecord//lib/active_record/associations/builder/association.rb#117
+    # source://activerecord//lib/active_record/associations/builder/association.rb#118
     def define_validations(model, reflection); end
 
-    # source://activerecord//lib/active_record/associations/builder/association.rb#109
+    # source://activerecord//lib/active_record/associations/builder/association.rb#110
     def define_writers(mixin, name); end
 
     # @raise [NotImplementedError]
@@ -1318,7 +1312,7 @@ class ActiveRecord::Associations::Builder::Association
 
     # @raise [NotImplementedError]
     #
-    # source://activerecord//lib/active_record/associations/builder/association.rb#125
+    # source://activerecord//lib/active_record/associations/builder/association.rb#126
     def valid_dependent_options; end
 
     # source://activerecord//lib/active_record/associations/builder/association.rb#65
@@ -1799,21 +1793,43 @@ end
 #              after_add: :congratulate_client,
 #              after_remove: :log_after_remove
 #
-#     def congratulate_client(record)
+#     def congratulate_client(client)
 #       # ...
 #     end
 #
-#     def log_after_remove(record)
+#     def log_after_remove(client)
 #       # ...
 #     end
 #   end
 #
+# Callbacks can be defined in three ways:
+#
+# 1. A symbol that references a method defined on the class with the
+#    associated collection. For example, <tt>after_add: :congratulate_client</tt>
+#    invokes <tt>Firm#congratulate_client(client)</tt>.
+# 2. A callable with a signature that accepts both the record with the
+#    associated collection and the record being added or removed. For
+#    example, <tt>after_add: ->(firm, client) { ... }</tt>.
+# 3. An object that responds to the callback name. For example, passing
+#    <tt>after_add: CallbackObject.new</tt> invokes <tt>CallbackObject#after_add(firm,
+#    client)</tt>.
+#
 # It's possible to stack callbacks by passing them as an array. Example:
+#
+#   class CallbackObject
+#     def after_add(firm, client)
+#       firm.log << "after_adding #{client.id}"
+#     end
+#   end
 #
 #   class Firm < ActiveRecord::Base
 #     has_many :clients,
 #              dependent: :destroy,
-#              after_add: [:congratulate_client, -> (firm, record) { firm.log << "after_adding#{record.id}" }],
+#              after_add: [
+#                :congratulate_client,
+#                -> (firm, client) { firm.log << "after_adding #{client.id}" },
+#                CallbackObject.new
+#              ],
 #              after_remove: :log_after_remove
 #   end
 #
@@ -2428,7 +2444,7 @@ end
 # All of the association macros can be specialized through options. This makes cases
 # more complex than the simple and guessable ones possible.
 #
-# source://activerecord//lib/active_record/associations.rb#1010
+# source://activerecord//lib/active_record/associations.rb#1032
 module ActiveRecord::Associations::ClassMethods
   # Specifies a one-to-one association with another class. This method should only be used
   # if this class contains the foreign key. If the other class contains the foreign key,
@@ -2614,7 +2630,7 @@ module ActiveRecord::Associations::ClassMethods
   #   belongs_to :account, strict_loading: true
   #   belongs_to :note, query_constraints: [:organization_id, :note_id]
   #
-  # source://activerecord//lib/active_record/associations.rb#1647
+  # source://activerecord//lib/active_record/associations.rb#1677
   def belongs_to(name, scope = T.unsafe(nil), **options); end
 
   # Specifies a many-to-many relationship with another class. This associates two classes via an
@@ -2634,7 +2650,7 @@ module ActiveRecord::Associations::ClassMethods
   # The join table should not have a primary key or a model associated with it. You must manually generate the
   # join table with a migration such as this:
   #
-  #   class CreateDevelopersProjectsJoinTable < ActiveRecord::Migration[7.2]
+  #   class CreateDevelopersProjectsJoinTable < ActiveRecord::Migration[8.0]
   #     def change
   #       create_join_table :developers, :projects
   #     end
@@ -2794,7 +2810,7 @@ module ActiveRecord::Associations::ClassMethods
   #   has_and_belongs_to_many :categories, -> { readonly }
   #   has_and_belongs_to_many :categories, strict_loading: true
   #
-  # source://activerecord//lib/active_record/associations.rb#1828
+  # source://activerecord//lib/active_record/associations.rb#1858
   def has_and_belongs_to_many(name, scope = T.unsafe(nil), **options, &extension); end
 
   # Specifies a one-to-many association. The following methods for retrieval and query of
@@ -3040,6 +3056,14 @@ module ActiveRecord::Associations::ClassMethods
   #   persisted new records placed at the end.
   #   When set to +:nested_attributes_order+, the index is based on the record order received by
   #   nested attributes setter, when accepts_nested_attributes_for is used.
+  # [:before_add]
+  #   Defines an {association callback}[rdoc-ref:Associations::ClassMethods@Association+callbacks] that gets triggered <b>before an object is added</b> to the association collection.
+  # [:after_add]
+  #   Defines an {association callback}[rdoc-ref:Associations::ClassMethods@Association+callbacks] that gets triggered <b>after an object is added</b> to the association collection.
+  # [:before_remove]
+  #   Defines an {association callback}[rdoc-ref:Associations::ClassMethods@Association+callbacks] that gets triggered <b>before an object is removed</b> from the association collection.
+  # [:after_remove]
+  #   Defines an {association callback}[rdoc-ref:Associations::ClassMethods@Association+callbacks] that gets triggered <b>after an object is removed</b> from the association collection.
   #
   # Option examples:
   #   has_many :comments, -> { order("posted_on") }
@@ -3055,7 +3079,7 @@ module ActiveRecord::Associations::ClassMethods
   #   has_many :comments, query_constraints: [:blog_id, :post_id]
   #   has_many :comments, index_errors: :nested_attributes_order
   #
-  # source://activerecord//lib/active_record/associations.rb#1268
+  # source://activerecord//lib/active_record/associations.rb#1298
   def has_many(name, scope = T.unsafe(nil), **options, &extension); end
 
   # Specifies a one-to-one association with another class. This method should only be used
@@ -3245,7 +3269,7 @@ module ActiveRecord::Associations::ClassMethods
   #   has_one :credit_card, strict_loading: true
   #   has_one :employment_record_book, query_constraints: [:organization_id, :employee_id]
   #
-  # source://activerecord//lib/active_record/associations.rb#1459
+  # source://activerecord//lib/active_record/associations.rb#1489
   def has_one(name, scope = T.unsafe(nil), **options); end
 end
 
@@ -3275,7 +3299,7 @@ end
 #
 # source://activerecord//lib/active_record/associations/collection_association.rb#30
 class ActiveRecord::Associations::CollectionAssociation < ::ActiveRecord::Associations::Association
-  # source://activerecord//lib/active_record/associations/collection_association.rb#279
+  # source://activerecord//lib/active_record/associations/collection_association.rb#281
   def add_to_target(record, skip_callbacks: T.unsafe(nil), replace: T.unsafe(nil), &block); end
 
   # source://activerecord//lib/active_record/associations/collection_association.rb#117
@@ -3283,7 +3307,7 @@ class ActiveRecord::Associations::CollectionAssociation < ::ActiveRecord::Associ
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/collection_association.rb#314
+  # source://activerecord//lib/active_record/associations/collection_association.rb#316
   def collection?; end
 
   # Add +records+ to this association. Since +<<+ flattens its argument list
@@ -3355,7 +3379,7 @@ class ActiveRecord::Associations::CollectionAssociation < ::ActiveRecord::Associ
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/collection_association.rb#306
+  # source://activerecord//lib/active_record/associations/collection_association.rb#308
   def find_from_target?; end
 
   # Implements the ids reader method, e.g. foo.item_ids for Foo.has_many :items
@@ -3373,7 +3397,7 @@ class ActiveRecord::Associations::CollectionAssociation < ::ActiveRecord::Associ
   # source://activerecord//lib/active_record/associations/collection_association.rb#258
   def include?(record); end
 
-  # source://activerecord//lib/active_record/associations/collection_association.rb#270
+  # source://activerecord//lib/active_record/associations/collection_association.rb#272
   def load_target; end
 
   # source://activerecord//lib/active_record/associations/collection_association.rb#31
@@ -3384,7 +3408,7 @@ class ActiveRecord::Associations::CollectionAssociation < ::ActiveRecord::Associ
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/collection_association.rb#302
+  # source://activerecord//lib/active_record/associations/collection_association.rb#304
   def null_scope?; end
 
   # Implements the reader method, e.g. foo.items for Foo.has_many :items
@@ -3401,7 +3425,7 @@ class ActiveRecord::Associations::CollectionAssociation < ::ActiveRecord::Associ
   # source://activerecord//lib/active_record/associations/collection_association.rb#87
   def reset; end
 
-  # source://activerecord//lib/active_record/associations/collection_association.rb#296
+  # source://activerecord//lib/active_record/associations/collection_association.rb#298
   def scope; end
 
   # Returns the size of the collection by executing a SELECT COUNT(*)
@@ -3418,7 +3442,7 @@ class ActiveRecord::Associations::CollectionAssociation < ::ActiveRecord::Associ
   # source://activerecord//lib/active_record/associations/collection_association.rb#209
   def size; end
 
-  # source://activerecord//lib/active_record/associations/collection_association.rb#283
+  # source://activerecord//lib/active_record/associations/collection_association.rb#285
   def target=(record); end
 
   # Implements the writer method, e.g. foo.items= for Foo.has_many :items
@@ -3428,21 +3452,21 @@ class ActiveRecord::Associations::CollectionAssociation < ::ActiveRecord::Associ
 
   private
 
-  # source://activerecord//lib/active_record/associations/collection_association.rb#352
+  # source://activerecord//lib/active_record/associations/collection_association.rb#354
   def _create_record(attributes, raise = T.unsafe(nil), &block); end
 
-  # source://activerecord//lib/active_record/associations/collection_association.rb#490
+  # source://activerecord//lib/active_record/associations/collection_association.rb#492
   def callback(method, record); end
 
-  # source://activerecord//lib/active_record/associations/collection_association.rb#496
+  # source://activerecord//lib/active_record/associations/collection_association.rb#498
   def callbacks_for(callback_name); end
 
   # @raise [ActiveRecord::Rollback]
   #
-  # source://activerecord//lib/active_record/associations/collection_association.rb#436
+  # source://activerecord//lib/active_record/associations/collection_association.rb#438
   def concat_records(records, raise = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/associations/collection_association.rb#383
+  # source://activerecord//lib/active_record/associations/collection_association.rb#385
   def delete_or_destroy(records, method); end
 
   # Delete the given records from the association,
@@ -3451,23 +3475,23 @@ class ActiveRecord::Associations::CollectionAssociation < ::ActiveRecord::Associ
   #
   # @raise [NotImplementedError]
   #
-  # source://activerecord//lib/active_record/associations/collection_association.rb#412
+  # source://activerecord//lib/active_record/associations/collection_association.rb#414
   def delete_records(records, method); end
 
   # If the :inverse_of option has been
   # specified, then #find scans the entire collection.
   #
-  # source://activerecord//lib/active_record/associations/collection_association.rb#519
+  # source://activerecord//lib/active_record/associations/collection_association.rb#521
   def find_by_scan(*args); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/collection_association.rb#505
+  # source://activerecord//lib/active_record/associations/collection_association.rb#507
   def include_in_memory?(record); end
 
   # Do the relevant stuff to insert the given record into the association collection.
   #
-  # source://activerecord//lib/active_record/associations/collection_association.rb#375
+  # source://activerecord//lib/active_record/associations/collection_association.rb#377
   def insert_record(record, validate = T.unsafe(nil), raise = T.unsafe(nil), &block); end
 
   # We have some records loaded from the database (persisted) and some that are
@@ -3481,22 +3505,22 @@ class ActiveRecord::Associations::CollectionAssociation < ::ActiveRecord::Associ
   #   * Any changes made to attributes on objects in the memory array are to be preserved
   #   * Otherwise, attributes should have the value found in the database
   #
-  # source://activerecord//lib/active_record/associations/collection_association.rb#333
+  # source://activerecord//lib/active_record/associations/collection_association.rb#335
   def merge_target_lists(persisted, memory); end
 
-  # source://activerecord//lib/active_record/associations/collection_association.rb#397
+  # source://activerecord//lib/active_record/associations/collection_association.rb#399
   def remove_records(existing_records, records, method); end
 
-  # source://activerecord//lib/active_record/associations/collection_association.rb#428
+  # source://activerecord//lib/active_record/associations/collection_association.rb#430
   def replace_common_records_in_memory(new_target, original_target); end
 
-  # source://activerecord//lib/active_record/associations/collection_association.rb#455
+  # source://activerecord//lib/active_record/associations/collection_association.rb#457
   def replace_on_target(record, skip_callbacks, replace:, inversing: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/associations/collection_association.rb#416
+  # source://activerecord//lib/active_record/associations/collection_association.rb#418
   def replace_records(new_target, original_target); end
 
-  # source://activerecord//lib/active_record/associations/collection_association.rb#319
+  # source://activerecord//lib/active_record/associations/collection_association.rb#321
   def transaction(&block); end
 end
 
@@ -3592,6 +3616,9 @@ class ActiveRecord::Associations::CollectionProxy < ::ActiveRecord::Relation
 
   # source://activerecord//lib/active_record/associations/collection_proxy.rb#1137
   def _select!(*_arg0, **_arg1, &_arg2); end
+
+  # source://activerecord//lib/active_record/associations/collection_proxy.rb#1137
+  def all(*_arg0, **_arg1, &_arg2); end
 
   # source://activerecord//lib/active_record/associations/collection_proxy.rb#1137
   def and(*_arg0, **_arg1, &_arg2); end
@@ -5014,38 +5041,40 @@ class ActiveRecord::Associations::HasManyThroughAssociation < ::ActiveRecord::As
   # source://activerecord//lib/active_record/associations/has_many_through_association.rb#37
   def concat_records(records); end
 
-  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#130
+  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#136
   def delete_or_nullify_all_records(method); end
 
-  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#134
+  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#140
   def delete_records(records, method); end
 
-  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#203
+  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#209
   def delete_through_records(records); end
 
-  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#171
+  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#177
   def difference(a, b); end
 
-  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#187
+  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#193
   def distribution(array); end
 
-  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#219
-  def find_target; end
+  # @raise [NotImplementedError]
+  #
+  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#225
+  def find_target(async: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#177
+  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#183
   def intersection(a, b); end
 
   # NOTE - not sure that we can actually cope with inverses here
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#226
+  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#233
   def invertible_for?(record); end
 
-  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#183
+  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#189
   def mark_occurrence(distribution, record); end
 
-  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#110
+  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#116
   def remove_records(existing_records, records, method); end
 
   # source://activerecord//lib/active_record/associations/has_many_through_association.rb#81
@@ -5053,10 +5082,10 @@ class ActiveRecord::Associations::HasManyThroughAssociation < ::ActiveRecord::As
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#115
+  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#121
   def target_reflection_has_associated_record?; end
 
-  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#193
+  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#199
   def through_records_for(record); end
 
   # Returns the value of attribute through_scope.
@@ -5069,7 +5098,7 @@ class ActiveRecord::Associations::HasManyThroughAssociation < ::ActiveRecord::As
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#119
+  # source://activerecord//lib/active_record/associations/has_many_through_association.rb#125
   def update_through_counter?(method); end
 end
 
@@ -5313,7 +5342,7 @@ class ActiveRecord::Associations::JoinDependency::JoinAssociation < ::ActiveReco
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/join_dependency/join_association.rb#80
+  # source://activerecord//lib/active_record/associations/join_dependency/join_association.rb#81
   def readonly?; end
 
   # Returns the value of attribute reflection.
@@ -5323,7 +5352,7 @@ class ActiveRecord::Associations::JoinDependency::JoinAssociation < ::ActiveReco
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/join_dependency/join_association.rb#86
+  # source://activerecord//lib/active_record/associations/join_dependency/join_association.rb#87
   def strict_loading?; end
 
   # Returns the value of attribute table.
@@ -5345,7 +5374,7 @@ class ActiveRecord::Associations::JoinDependency::JoinAssociation < ::ActiveReco
 
   private
 
-  # source://activerecord//lib/active_record/associations/join_dependency/join_association.rb#93
+  # source://activerecord//lib/active_record/associations/join_dependency/join_association.rb#94
   def append_constraints(connection, join, constraints); end
 end
 
@@ -5959,13 +5988,13 @@ end
 
 # source://activerecord//lib/active_record/associations/singular_association.rb#6
 class ActiveRecord::Associations::SingularAssociation < ::ActiveRecord::Associations::Association
-  # source://activerecord//lib/active_record/associations/singular_association.rb#28
+  # source://activerecord//lib/active_record/associations/singular_association.rb#29
   def build(attributes = T.unsafe(nil), &block); end
 
   # Implements the reload reader method, e.g. foo.reload_bar for
   # Foo.has_one :bar
   #
-  # source://activerecord//lib/active_record/associations/singular_association.rb#36
+  # source://activerecord//lib/active_record/associations/singular_association.rb#37
   def force_reload_reader; end
 
   # Implements the reader method, e.g. foo.bar for Foo.has_one :bar
@@ -5980,28 +6009,28 @@ class ActiveRecord::Associations::SingularAssociation < ::ActiveRecord::Associat
 
   # Implements the writer method, e.g. foo.bar= for Foo.belongs_to :bar
   #
-  # source://activerecord//lib/active_record/associations/singular_association.rb#24
+  # source://activerecord//lib/active_record/associations/singular_association.rb#25
   def writer(record); end
 
   private
 
   # @raise [RecordInvalid]
   #
-  # source://activerecord//lib/active_record/associations/singular_association.rb#62
+  # source://activerecord//lib/active_record/associations/singular_association.rb#67
   def _create_record(attributes, raise_error = T.unsafe(nil), &block); end
 
-  # source://activerecord//lib/active_record/associations/singular_association.rb#46
-  def find_target; end
+  # source://activerecord//lib/active_record/associations/singular_association.rb#47
+  def find_target(async: T.unsafe(nil)); end
 
   # @raise [NotImplementedError]
   #
-  # source://activerecord//lib/active_record/associations/singular_association.rb#54
+  # source://activerecord//lib/active_record/associations/singular_association.rb#59
   def replace(record); end
 
-  # source://activerecord//lib/active_record/associations/singular_association.rb#42
+  # source://activerecord//lib/active_record/associations/singular_association.rb#43
   def scope_for_create; end
 
-  # source://activerecord//lib/active_record/associations/singular_association.rb#58
+  # source://activerecord//lib/active_record/associations/singular_association.rb#63
   def set_new_record(record); end
 end
 
@@ -6068,69 +6097,57 @@ module ActiveRecord::Associations::ThroughAssociation
   def transaction(&block); end
 end
 
-# source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#4
+# source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#7
 class ActiveRecord::AsynchronousQueriesTracker
   # @return [AsynchronousQueriesTracker] a new instance of AsynchronousQueriesTracker
   #
-  # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#46
+  # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#45
   def initialize; end
 
-  # Returns the value of attribute current_session.
-  #
-  # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#44
+  # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#49
   def current_session; end
 
-  # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#55
-  def finalize_session; end
+  # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#58
+  def finalize_session(wait = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#50
+  # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#53
   def start_session; end
 
   class << self
-    # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#39
+    # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#40
     def complete(asynchronous_queries_tracker); end
 
-    # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#31
+    # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#32
     def install_executor_hooks(executor = T.unsafe(nil)); end
 
-    # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#35
+    # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#36
     def run; end
   end
 end
 
-# source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#5
-module ActiveRecord::AsynchronousQueriesTracker::NullSession
-  class << self
-    # @return [Boolean]
-    #
-    # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#7
-    def active?; end
-
-    # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#11
-    def finalize; end
-  end
-end
-
-# source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#16
+# source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#8
 class ActiveRecord::AsynchronousQueriesTracker::Session
   # @return [Session] a new instance of Session
   #
-  # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#17
+  # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#9
   def initialize; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#21
+  # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#14
   def active?; end
 
-  # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#25
-  def finalize; end
+  # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#22
+  def finalize(wait = T.unsafe(nil)); end
+
+  # source://activerecord//lib/active_record/asynchronous_queries_tracker.rb#18
+  def synchronize(&block); end
 end
 
 # AsynchronousQueryInsideTransactionError will be raised when attempting
 # to perform an asynchronous query from inside a transaction
 #
-# source://activerecord//lib/active_record/errors.rb#528
+# source://activerecord//lib/active_record/errors.rb#536
 class ActiveRecord::AsynchronousQueryInsideTransactionError < ::ActiveRecord::ActiveRecordError; end
 
 # source://activerecord//lib/active_record/attribute_assignment.rb#4
@@ -6147,19 +6164,24 @@ module ActiveRecord::AttributeAssignment
   # parentheses to have the parameters typecasted before they're used in the constructor. Use i for Integer and
   # f for Float. If all the values for a given attribute are empty, the attribute will be set to +nil+.
   #
-  # source://activerecord//lib/active_record/attribute_assignment.rb#28
+  # source://activerecord//lib/active_record/attribute_assignment.rb#36
   def assign_multiparameter_attributes(pairs); end
 
-  # source://activerecord//lib/active_record/attribute_assignment.rb#34
+  # Assign any deferred nested attributes after the base attributes have been set.
+  #
+  # source://activerecord//lib/active_record/attribute_assignment.rb#26
+  def assign_nested_parameter_attributes(pairs); end
+
+  # source://activerecord//lib/active_record/attribute_assignment.rb#42
   def execute_callstack_for_multiparameter_attributes(callstack); end
 
-  # source://activerecord//lib/active_record/attribute_assignment.rb#52
+  # source://activerecord//lib/active_record/attribute_assignment.rb#60
   def extract_callstack_for_multiparameter_attributes(pairs); end
 
-  # source://activerecord//lib/active_record/attribute_assignment.rb#70
+  # source://activerecord//lib/active_record/attribute_assignment.rb#78
   def find_parameter_position(multiparameter_name); end
 
-  # source://activerecord//lib/active_record/attribute_assignment.rb#66
+  # source://activerecord//lib/active_record/attribute_assignment.rb#74
   def type_cast_attribute_value(multiparameter_name, value); end
 end
 
@@ -6167,21 +6189,21 @@ end
 # {ActiveRecord::Base#attributes=}[rdoc-ref:AttributeAssignment#attributes=] method.
 # The exception has an +attribute+ property that is the name of the offending attribute.
 #
-# source://activerecord//lib/active_record/errors.rb#436
+# source://activerecord//lib/active_record/errors.rb#449
 class ActiveRecord::AttributeAssignmentError < ::ActiveRecord::ActiveRecordError
   # @return [AttributeAssignmentError] a new instance of AttributeAssignmentError
   #
-  # source://activerecord//lib/active_record/errors.rb#439
+  # source://activerecord//lib/active_record/errors.rb#452
   def initialize(message = T.unsafe(nil), exception = T.unsafe(nil), attribute = T.unsafe(nil)); end
 
   # Returns the value of attribute attribute.
   #
-  # source://activerecord//lib/active_record/errors.rb#437
+  # source://activerecord//lib/active_record/errors.rb#450
   def attribute; end
 
   # Returns the value of attribute exception.
   #
-  # source://activerecord//lib/active_record/errors.rb#437
+  # source://activerecord//lib/active_record/errors.rb#450
   def exception; end
 end
 
@@ -6999,7 +7021,7 @@ ActiveRecord::AttributeMethods::GeneratedAttributeMethods::LOCK = T.let(T.unsafe
 
 # = Active Record Attribute Methods Primary Key
 #
-# source://activerecord//lib/active_record/attribute_methods/primary_key.rb#8
+# source://activerecord//lib/active_record/attribute_methods/primary_key.rb#6
 module ActiveRecord::AttributeMethods::PrimaryKey
   extend ::ActiveSupport::Concern
 
@@ -7008,13 +7030,13 @@ module ActiveRecord::AttributeMethods::PrimaryKey
   # Returns the primary key column's value. If the primary key is composite,
   # returns an array of the primary key column values.
   #
-  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#20
+  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#18
   def id; end
 
   # Sets the primary key column's value. If the primary key is composite,
   # raises TypeError when the set value not enumerable.
   #
-  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#30
+  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#28
   def id=(value); end
 
   # Queries the primary key column's value. If the primary key is composite,
@@ -7022,74 +7044,74 @@ module ActiveRecord::AttributeMethods::PrimaryKey
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#36
+  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#34
   def id?; end
 
   # Returns the primary key column's value before type cast. If the primary key is composite,
   # returns an array of primary key column values before type cast.
   #
-  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#42
+  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#40
   def id_before_type_cast; end
 
-  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#58
+  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#56
   def id_for_database; end
 
   # Returns the primary key column's value from the database. If the primary key is composite,
   # returns an array of primary key column values from database.
   #
-  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#54
+  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#52
   def id_in_database; end
 
   # Returns the primary key column's previous value. If the primary key is composite,
   # returns an array of primary key column previous values.
   #
-  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#48
+  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#46
   def id_was; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#24
+  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#22
   def primary_key_values_present?; end
 
   # Returns this record's primary key value wrapped in an array if one is
   # available.
   #
-  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#13
+  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#11
   def to_key; end
 
   private
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#63
+  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#61
   def attribute_method?(attr_name); end
 end
 
-# source://activerecord//lib/active_record/attribute_methods/primary_key.rb#67
+# source://activerecord//lib/active_record/attribute_methods/primary_key.rb#65
 module ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#87
+  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#85
   def composite_primary_key?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#75
+  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#73
   def dangerous_attribute_method?(method_name); end
 
-  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#106
+  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#103
   def get_primary_key(base_name); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#71
+  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#69
   def instance_method_already_implemented?(method_name); end
 
   # Defines the primary key field -- can be overridden in subclasses.
   # Overwriting will negate any effect of the +primary_key_prefix_type+
   # setting, though.
   #
-  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#82
+  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#80
   def primary_key; end
 
   # Sets the name of the primary key column.
@@ -7108,28 +7130,27 @@ module ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods
   #
   #   Project.primary_key # => "foo_id"
   #
-  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#133
+  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#130
   def primary_key=(value); end
 
-  # Returns a quoted version of the primary key name, used to construct
-  # SQL statements.
+  # Returns a quoted version of the primary key name.
   #
-  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#94
+  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#91
   def quoted_primary_key; end
 
-  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#98
+  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#95
   def reset_primary_key; end
 
   private
 
-  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#146
+  # source://activerecord//lib/active_record/attribute_methods/primary_key.rb#142
   def inherited(base); end
 end
 
-# source://activerecord//lib/active_record/attribute_methods/primary_key.rb#68
+# source://activerecord//lib/active_record/attribute_methods/primary_key.rb#66
 ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods::ID_ATTRIBUTE_METHODS = T.let(T.unsafe(nil), Set)
 
-# source://activerecord//lib/active_record/attribute_methods/primary_key.rb#69
+# source://activerecord//lib/active_record/attribute_methods/primary_key.rb#67
 ActiveRecord::AttributeMethods::PrimaryKey::ClassMethods::PRIMARY_KEY_NOT_SET = T.let(T.unsafe(nil), BasicObject)
 
 # = Active Record Attribute Methods \Query
@@ -7427,21 +7448,24 @@ module ActiveRecord::AttributeMethods::TimeZoneConversion
   end
 end
 
-# source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#71
+# source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#65
 module ActiveRecord::AttributeMethods::TimeZoneConversion::ClassMethods
   private
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#81
+  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#75
   def create_time_zone_conversion_attribute?(name, cast_type); end
 
-  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#73
+  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#67
   def hook_attribute_type(name, cast_type); end
 end
 
 # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#8
 class ActiveRecord::AttributeMethods::TimeZoneConversion::TimeZoneConverter
+  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#35
+  def ==(other); end
+
   # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#17
   def cast(value); end
 
@@ -7450,13 +7474,10 @@ class ActiveRecord::AttributeMethods::TimeZoneConversion::TimeZoneConverter
 
   private
 
-  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#36
+  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#40
   def convert_time_to_time_zone(value); end
 
   # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#52
-  def map_avoiding_infinite_recursion(value); end
-
-  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#48
   def set_time_zone_without_conversion(value); end
 
   class << self
@@ -7517,11 +7538,10 @@ end
 #
 # source://activerecord//lib/active_record/attributes.rb#12
 module ActiveRecord::Attributes::ClassMethods
-  # source://activerecord//lib/active_record/attributes.rb#242
+  # source://activerecord//lib/active_record/attributes.rb#241
   def _default_attributes; end
 
-  # This is the low level API which sits beneath +attribute+. It only
-  # accepts type objects, and will do its work immediately instead of
+  # This API only accepts type objects, and will do its work immediately instead of
   # waiting for the schema to load. While this method
   # is provided so it can be used by plugin authors, application code
   # should probably use ClassMethods#attribute.
@@ -7538,30 +7558,30 @@ module ActiveRecord::Attributes::ClassMethods
   # +user_provided_default+ Whether the default value should be cast using
   # +cast+ or +deserialize+.
   #
-  # source://activerecord//lib/active_record/attributes.rb#232
+  # source://activerecord//lib/active_record/attributes.rb#231
   def define_attribute(name, cast_type, default: T.unsafe(nil), user_provided_default: T.unsafe(nil)); end
 
   protected
 
-  # source://activerecord//lib/active_record/attributes.rb#269
+  # source://activerecord//lib/active_record/attributes.rb#268
   def reload_schema_from_cache(*_arg0); end
 
   private
 
-  # source://activerecord//lib/active_record/attributes.rb#278
+  # source://activerecord//lib/active_record/attributes.rb#277
   def define_default_attribute(name, value, type, from_user:); end
 
-  # source://activerecord//lib/active_record/attributes.rb#294
+  # source://activerecord//lib/active_record/attributes.rb#293
   def reset_default_attributes; end
 
-  # source://activerecord//lib/active_record/attributes.rb#298
+  # source://activerecord//lib/active_record/attributes.rb#297
   def resolve_type_name(name, **options); end
 
-  # source://activerecord//lib/active_record/attributes.rb#302
+  # source://activerecord//lib/active_record/attributes.rb#301
   def type_for_column(connection, column); end
 end
 
-# source://activerecord//lib/active_record/attributes.rb#275
+# source://activerecord//lib/active_record/attributes.rb#274
 ActiveRecord::Attributes::ClassMethods::NO_DEFAULT_PROVIDED = T.let(T.unsafe(nil), Object)
 
 # = Active Record Autosave Association
@@ -7705,25 +7725,30 @@ module ActiveRecord::AutosaveAssociation
 
   mixes_in_class_methods ::ActiveRecord::AutosaveAssociation::ClassMethods
 
+  # @return [Boolean]
+  #
+  # source://activerecord//lib/active_record/autosave_association.rb#284
+  def autosaving_belongs_to_for?(association); end
+
   # Returns whether or not this record has been changed in any way (including whether
   # any of its nested autosave associations are likewise changed)
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/autosave_association.rb#273
+  # source://activerecord//lib/active_record/autosave_association.rb#275
   def changed_for_autosave?; end
 
   # Returns the association for the parent being destroyed.
   #
   # Used to avoid updating the counter cache unnecessarily.
   #
-  # source://activerecord//lib/active_record/autosave_association.rb#267
+  # source://activerecord//lib/active_record/autosave_association.rb#269
   def destroyed_by_association; end
 
   # Records the association that is being destroyed and destroying this
   # record in the process.
   #
-  # source://activerecord//lib/active_record/autosave_association.rb#260
+  # source://activerecord//lib/active_record/autosave_association.rb#262
   def destroyed_by_association=(reflection); end
 
   # Marks this record to be destroyed as part of the parent's save transaction.
@@ -7732,7 +7757,7 @@ module ActiveRecord::AutosaveAssociation
   #
   # Only useful if the <tt>:autosave</tt> option on the parent is enabled for this associated model.
   #
-  # source://activerecord//lib/active_record/autosave_association.rb#247
+  # source://activerecord//lib/active_record/autosave_association.rb#249
   def mark_for_destruction; end
 
   # Returns whether or not this record will be destroyed as part of the parent's save transaction.
@@ -7741,42 +7766,47 @@ module ActiveRecord::AutosaveAssociation
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/autosave_association.rb#254
+  # source://activerecord//lib/active_record/autosave_association.rb#256
   def marked_for_destruction?; end
 
   # Reloads the attributes of the object as usual and clears <tt>marked_for_destruction</tt> flag.
   #
-  # source://activerecord//lib/active_record/autosave_association.rb#236
+  # source://activerecord//lib/active_record/autosave_association.rb#238
   def reload(options = T.unsafe(nil)); end
+
+  # @return [Boolean]
+  #
+  # source://activerecord//lib/active_record/autosave_association.rb#279
+  def validating_belongs_to_for?(association); end
 
   private
 
-  # source://activerecord//lib/active_record/autosave_association.rb#540
+  # source://activerecord//lib/active_record/autosave_association.rb#582
   def _ensure_no_duplicate_errors; end
 
   # If the record is new or it has changed, returns true.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/autosave_association.rb#465
+  # source://activerecord//lib/active_record/autosave_association.rb#500
   def _record_changed?(reflection, record, key); end
 
   # Is used as an around_save callback to check while saving a collection
   # association whether or not the parent was a new record before saving.
   #
-  # source://activerecord//lib/active_record/autosave_association.rb#358
+  # source://activerecord//lib/active_record/autosave_association.rb#392
   def around_save_collection_association; end
 
   # Returns the record for an association collection that should be validated
   # or saved. If +autosave+ is +false+ only new records will be returned,
   # unless the parent is/was a new record itself.
   #
-  # source://activerecord//lib/active_record/autosave_association.rb#286
+  # source://activerecord//lib/active_record/autosave_association.rb#298
   def associated_records_to_validate_or_save(association, new_record, autosave); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/autosave_association.rb#472
+  # source://activerecord//lib/active_record/autosave_association.rb#507
   def association_foreign_key_changed?(reflection, record, key); end
 
   # Returns whether or not the association is valid and applies any errors to
@@ -7785,18 +7815,18 @@ module ActiveRecord::AutosaveAssociation
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/autosave_association.rb#337
+  # source://activerecord//lib/active_record/autosave_association.rb#371
   def association_valid?(association, record); end
 
-  # source://activerecord//lib/active_record/autosave_association.rb#524
+  # source://activerecord//lib/active_record/autosave_association.rb#566
   def compute_primary_key(reflection, record); end
 
-  # source://activerecord//lib/active_record/autosave_association.rb#278
+  # source://activerecord//lib/active_record/autosave_association.rb#290
   def init_internals; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/autosave_association.rb#481
+  # source://activerecord//lib/active_record/autosave_association.rb#516
   def inverse_polymorphic_association_changed?(reflection, record); end
 
   # Go through nested autosave associations that are loaded in memory (without loading
@@ -7805,14 +7835,14 @@ module ActiveRecord::AutosaveAssociation
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/autosave_association.rb#299
+  # source://activerecord//lib/active_record/autosave_association.rb#311
   def nested_records_changed_for_autosave?; end
 
   # Saves the associated record if it's new or <tt>:autosave</tt> is enabled.
   #
   # In addition, it will destroy the association if it was marked for destruction.
   #
-  # source://activerecord//lib/active_record/autosave_association.rb#492
+  # source://activerecord//lib/active_record/autosave_association.rb#526
   def save_belongs_to_association(reflection); end
 
   # Saves any new associated records, or all loaded autosave associations if
@@ -7824,7 +7854,7 @@ module ActiveRecord::AutosaveAssociation
   # This all happens inside a transaction, _if_ the Transactions module is included into
   # ActiveRecord::Base after the AutosaveAssociation module, which it does by default.
   #
-  # source://activerecord//lib/active_record/autosave_association.rb#375
+  # source://activerecord//lib/active_record/autosave_association.rb#409
   def save_collection_association(reflection); end
 
   # Saves the associated record if it's new or <tt>:autosave</tt> is enabled
@@ -7836,21 +7866,27 @@ module ActiveRecord::AutosaveAssociation
   # This all happens inside a transaction, _if_ the Transactions module is included into
   # ActiveRecord::Base after the AutosaveAssociation module, which it does by default.
   #
-  # source://activerecord//lib/active_record/autosave_association.rb#429
+  # source://activerecord//lib/active_record/autosave_association.rb#463
   def save_has_one_association(reflection); end
+
+  # Validate the association if <tt>:validate</tt> or <tt>:autosave</tt> is
+  # turned on for the belongs_to association.
+  #
+  # source://activerecord//lib/active_record/autosave_association.rb#343
+  def validate_belongs_to_association(reflection); end
 
   # Validate the associated records if <tt>:validate</tt> or
   # <tt>:autosave</tt> is turned on for the association specified by
   # +reflection+.
   #
-  # source://activerecord//lib/active_record/autosave_association.rb#326
+  # source://activerecord//lib/active_record/autosave_association.rb#360
   def validate_collection_association(reflection); end
 
   # Validate the association if <tt>:validate</tt> or <tt>:autosave</tt> is
-  # turned on for the association.
+  # turned on for the has_one association.
   #
-  # source://activerecord//lib/active_record/autosave_association.rb#317
-  def validate_single_association(reflection); end
+  # source://activerecord//lib/active_record/autosave_association.rb#329
+  def validate_has_one_association(reflection); end
 end
 
 # source://activerecord//lib/active_record/autosave_association.rb#143
@@ -8290,28 +8326,25 @@ class ActiveRecord::Base
   extend ::ActionText::Attribute::ClassMethods
   extend ::Turbo::Broadcastable::ClassMethods
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#69
   def __callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
-  def __callbacks?; end
-
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#924
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#923
   def _before_commit_callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#924
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#923
   def _commit_callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#924
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#923
   def _create_callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#924
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#923
   def _destroy_callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#924
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#923
   def _find_callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#924
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#923
   def _initialize_callbacks; end
 
   # source://activerecord//lib/active_record/reflection.rb#11
@@ -8320,64 +8353,64 @@ class ActiveRecord::Base
   # source://activerecord//lib/active_record/reflection.rb#11
   def _reflections?; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#924
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#923
   def _rollback_callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#912
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#911
   def _run_before_commit_callbacks(&block); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#912
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#911
   def _run_commit_callbacks(&block); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#912
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#911
   def _run_create_callbacks(&block); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#912
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#911
   def _run_destroy_callbacks(&block); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#912
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#911
   def _run_find_callbacks(&block); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#912
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#911
   def _run_initialize_callbacks(&block); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#912
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#911
   def _run_rollback_callbacks(&block); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#912
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#911
   def _run_save_callbacks(&block); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#912
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#911
   def _run_touch_callbacks(&block); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#912
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#911
   def _run_update_callbacks(&block); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#912
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#911
   def _run_validate_callbacks(&block); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#912
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#911
   def _run_validation_callbacks(&block); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#924
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#923
   def _save_callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#924
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#923
   def _touch_callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#924
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#923
   def _update_callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#924
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#923
   def _validate_callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#924
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#923
   def _validation_callbacks; end
 
-  # source://activemodel/7.2.1.1/lib/active_model/validations.rb#71
+  # source://activemodel/8.0.0.rc1/lib/active_model/validations.rb#50
   def _validators; end
 
-  # source://activemodel/7.2.1.1/lib/active_model/validations.rb#71
+  # source://activemodel/8.0.0.rc1/lib/active_model/validations.rb#50
   def _validators?; end
 
   # source://activerecord//lib/active_record/reflection.rb#12
@@ -8386,22 +8419,22 @@ class ActiveRecord::Base
   # source://activerecord//lib/active_record/reflection.rb#12
   def aggregate_reflections?; end
 
-  # source://activestorage/7.2.1.1/lib/active_storage/reflection.rb#53
+  # source://activestorage/8.0.0.rc1/lib/active_storage/reflection.rb#53
   def attachment_reflections; end
 
-  # source://activestorage/7.2.1.1/lib/active_storage/reflection.rb#53
+  # source://activestorage/8.0.0.rc1/lib/active_storage/reflection.rb#53
   def attachment_reflections?; end
 
-  # source://activemodel/7.2.1.1/lib/active_model/attribute_methods.rb#71
+  # source://activemodel/8.0.0.rc1/lib/active_model/attribute_methods.rb#71
   def attribute_aliases; end
 
-  # source://activemodel/7.2.1.1/lib/active_model/attribute_methods.rb#71
+  # source://activemodel/8.0.0.rc1/lib/active_model/attribute_methods.rb#71
   def attribute_aliases?; end
 
-  # source://activemodel/7.2.1.1/lib/active_model/attribute_methods.rb#72
+  # source://activemodel/8.0.0.rc1/lib/active_model/attribute_methods.rb#72
   def attribute_method_patterns; end
 
-  # source://activemodel/7.2.1.1/lib/active_model/attribute_methods.rb#72
+  # source://activemodel/8.0.0.rc1/lib/active_model/attribute_methods.rb#72
   def attribute_method_patterns?; end
 
   # source://activerecord//lib/active_record/reflection.rb#13
@@ -8443,16 +8476,16 @@ class ActiveRecord::Base
   # source://activerecord//lib/active_record/counter_cache.rb#10
   def counter_cached_association_names?; end
 
-  # source://activerecord//lib/active_record/core.rb#97
+  # source://activerecord//lib/active_record/core.rb#98
   def default_connection_handler; end
 
-  # source://activerecord//lib/active_record/core.rb#97
+  # source://activerecord//lib/active_record/core.rb#98
   def default_connection_handler?; end
 
-  # source://activerecord//lib/active_record/core.rb#99
+  # source://activerecord//lib/active_record/core.rb#100
   def default_role; end
 
-  # source://activerecord//lib/active_record/core.rb#99
+  # source://activerecord//lib/active_record/core.rb#100
   def default_role?; end
 
   # source://activerecord//lib/active_record/scoping/default.rb#20
@@ -8461,10 +8494,10 @@ class ActiveRecord::Base
   # source://activerecord//lib/active_record/scoping/default.rb#19
   def default_scopes; end
 
-  # source://activerecord//lib/active_record/core.rb#101
+  # source://activerecord//lib/active_record/core.rb#102
   def default_shard; end
 
-  # source://activerecord//lib/active_record/core.rb#101
+  # source://activerecord//lib/active_record/core.rb#102
   def default_shard?; end
 
   # source://activerecord//lib/active_record/enum.rb#167
@@ -8488,10 +8521,10 @@ class ActiveRecord::Base
   # source://activerecord//lib/active_record/encryption/encryptable_record.rb#11
   def encrypted_attributes?; end
 
-  # source://activemodel/7.2.1.1/lib/active_model/serializers/json.rb#15
+  # source://activemodel/8.0.0.rc1/lib/active_model/serializers/json.rb#15
   def include_root_in_json; end
 
-  # source://activemodel/7.2.1.1/lib/active_model/serializers/json.rb#15
+  # source://activemodel/8.0.0.rc1/lib/active_model/serializers/json.rb#15
   def include_root_in_json?; end
 
   # source://activerecord//lib/active_record/locking/optimistic.rb#56
@@ -8506,7 +8539,7 @@ class ActiveRecord::Base
   # source://activerecord//lib/active_record/core.rb#22
   def logger?; end
 
-  # source://activemodel/7.2.1.1/lib/active_model/naming.rb#255
+  # source://activemodel/8.0.0.rc1/lib/active_model/naming.rb#255
   def model_name(&_arg0); end
 
   # source://activerecord//lib/active_record/nested_attributes.rb#15
@@ -8524,7 +8557,7 @@ class ActiveRecord::Base
   # source://activerecord//lib/active_record/normalization.rb#8
   def normalized_attributes?; end
 
-  # source://activemodel/7.2.1.1/lib/active_model/conversion.rb#32
+  # source://activemodel/8.0.0.rc1/lib/active_model/conversion.rb#32
   def param_delimiter=(_arg0); end
 
   # source://activerecord//lib/active_record/attribute_methods/dirty.rb#50
@@ -8566,10 +8599,10 @@ class ActiveRecord::Base
   # source://activerecord//lib/active_record/signed_id.rb#13
   def signed_id_verifier_secret?; end
 
-  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#67
+  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#61
   def skip_time_zone_conversion_for_attributes; end
 
-  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#67
+  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#61
   def skip_time_zone_conversion_for_attributes?; end
 
   # source://activerecord//lib/active_record/inheritance.rb#43
@@ -8598,305 +8631,294 @@ class ActiveRecord::Base
   # source://activerecord//lib/active_record/model_schema.rb#165
   def table_name_suffix?; end
 
-  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#66
+  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#60
   def time_zone_aware_attributes; end
 
-  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#66
+  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#60
   def time_zone_aware_attributes?; end
 
-  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#68
+  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#62
   def time_zone_aware_types; end
 
-  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#68
+  # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#62
   def time_zone_aware_types?; end
 
   # source://activerecord//lib/active_record/model_schema.rb#183
   def type_for_attribute(*_arg0, **_arg1, &_arg2); end
 
-  # source://activemodel/7.2.1.1/lib/active_model/validations.rb#67
-  def validation_context; end
-
-  private
-
-  # source://activemodel/7.2.1.1/lib/active_model/validations.rb#67
-  def validation_context=(_arg0); end
-
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def __callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
-    def __callbacks=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def __callbacks=(new_value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
-    def __callbacks?; end
-
-    # source://activerecord//lib/active_record/readonly_attributes.rb#11
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def _attr_readonly; end
 
-    # source://activerecord//lib/active_record/readonly_attributes.rb#11
-    def _attr_readonly=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def _attr_readonly=(new_value); end
 
     # source://activerecord//lib/active_record/readonly_attributes.rb#11
     def _attr_readonly?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#916
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#915
     def _before_commit_callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#920
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#919
     def _before_commit_callbacks=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#916
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#915
     def _commit_callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#920
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#919
     def _commit_callbacks=(value); end
 
-    # source://activerecord//lib/active_record/counter_cache.rb#9
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def _counter_cache_columns; end
 
-    # source://activerecord//lib/active_record/counter_cache.rb#9
-    def _counter_cache_columns=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def _counter_cache_columns=(new_value); end
 
     # source://activerecord//lib/active_record/counter_cache.rb#9
     def _counter_cache_columns?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#916
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#915
     def _create_callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#920
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#919
     def _create_callbacks=(value); end
 
-    # source://activerecord//lib/active_record/core.rb#24
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def _destroy_association_async_job; end
 
-    # source://activerecord//lib/active_record/core.rb#24
-    def _destroy_association_async_job=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def _destroy_association_async_job=(new_value); end
 
     # source://activerecord//lib/active_record/core.rb#24
     def _destroy_association_async_job?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#916
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#915
     def _destroy_callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#920
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#919
     def _destroy_callbacks=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#916
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#915
     def _find_callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#920
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#919
     def _find_callbacks=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#916
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#915
     def _initialize_callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#920
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#919
     def _initialize_callbacks=(value); end
 
-    # source://activerecord//lib/active_record/reflection.rb#11
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def _reflections; end
 
-    # source://activerecord//lib/active_record/reflection.rb#11
-    def _reflections=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def _reflections=(new_value); end
 
     # source://activerecord//lib/active_record/reflection.rb#11
     def _reflections?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#916
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#915
     def _rollback_callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#920
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#919
     def _rollback_callbacks=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#916
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#915
     def _save_callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#920
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#919
     def _save_callbacks=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#916
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#915
     def _touch_callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#920
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#919
     def _touch_callbacks=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#916
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#915
     def _update_callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#920
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#919
     def _update_callbacks=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#916
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#915
     def _validate_callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#920
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#919
     def _validate_callbacks=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#916
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#915
     def _validation_callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#920
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#919
     def _validation_callbacks=(value); end
 
-    # source://activemodel/7.2.1.1/lib/active_model/validations.rb#71
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def _validators; end
 
-    # source://activemodel/7.2.1.1/lib/active_model/validations.rb#71
-    def _validators=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def _validators=(new_value); end
 
-    # source://activemodel/7.2.1.1/lib/active_model/validations.rb#71
+    # source://activemodel/8.0.0.rc1/lib/active_model/validations.rb#50
     def _validators?; end
 
-    # source://activemodel/7.2.1.1/lib/active_model/callbacks.rb#144
+    # source://activemodel/8.0.0.rc1/lib/active_model/callbacks.rb#144
     def after_create(*args, **options, &block); end
 
-    # source://activemodel/7.2.1.1/lib/active_model/callbacks.rb#144
+    # source://activemodel/8.0.0.rc1/lib/active_model/callbacks.rb#144
     def after_destroy(*args, **options, &block); end
 
-    # source://activemodel/7.2.1.1/lib/active_model/callbacks.rb#144
+    # source://activemodel/8.0.0.rc1/lib/active_model/callbacks.rb#144
     def after_find(*args, **options, &block); end
 
-    # source://activemodel/7.2.1.1/lib/active_model/callbacks.rb#144
+    # source://activemodel/8.0.0.rc1/lib/active_model/callbacks.rb#144
     def after_initialize(*args, **options, &block); end
 
-    # source://activemodel/7.2.1.1/lib/active_model/callbacks.rb#144
+    # source://activemodel/8.0.0.rc1/lib/active_model/callbacks.rb#144
     def after_save(*args, **options, &block); end
 
-    # source://activemodel/7.2.1.1/lib/active_model/callbacks.rb#144
+    # source://activemodel/8.0.0.rc1/lib/active_model/callbacks.rb#144
     def after_touch(*args, **options, &block); end
 
-    # source://activemodel/7.2.1.1/lib/active_model/callbacks.rb#144
+    # source://activemodel/8.0.0.rc1/lib/active_model/callbacks.rb#144
     def after_update(*args, **options, &block); end
 
-    # source://activerecord//lib/active_record/reflection.rb#12
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def aggregate_reflections; end
 
-    # source://activerecord//lib/active_record/reflection.rb#12
-    def aggregate_reflections=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def aggregate_reflections=(new_value); end
 
     # source://activerecord//lib/active_record/reflection.rb#12
     def aggregate_reflections?; end
 
-    # source://activerecord//lib/active_record/core.rb#108
+    # source://activerecord//lib/active_record/core.rb#109
     def application_record_class?; end
 
-    # source://activemodel/7.2.1.1/lib/active_model/callbacks.rb#137
+    # source://activemodel/8.0.0.rc1/lib/active_model/callbacks.rb#137
     def around_create(*args, **options, &block); end
 
-    # source://activemodel/7.2.1.1/lib/active_model/callbacks.rb#137
+    # source://activemodel/8.0.0.rc1/lib/active_model/callbacks.rb#137
     def around_destroy(*args, **options, &block); end
 
-    # source://activemodel/7.2.1.1/lib/active_model/callbacks.rb#137
+    # source://activemodel/8.0.0.rc1/lib/active_model/callbacks.rb#137
     def around_save(*args, **options, &block); end
 
-    # source://activemodel/7.2.1.1/lib/active_model/callbacks.rb#137
+    # source://activemodel/8.0.0.rc1/lib/active_model/callbacks.rb#137
     def around_update(*args, **options, &block); end
 
-    # source://activerecord//lib/active_record/core.rb#128
+    # source://activerecord//lib/active_record/core.rb#129
     def asynchronous_queries_session; end
 
-    # source://activerecord//lib/active_record/core.rb#132
+    # source://activerecord//lib/active_record/core.rb#133
     def asynchronous_queries_tracker; end
 
-    # source://activestorage/7.2.1.1/lib/active_storage/reflection.rb#53
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def attachment_reflections; end
 
-    # source://activestorage/7.2.1.1/lib/active_storage/reflection.rb#53
-    def attachment_reflections=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def attachment_reflections=(new_value); end
 
-    # source://activestorage/7.2.1.1/lib/active_storage/reflection.rb#53
+    # source://activestorage/8.0.0.rc1/lib/active_storage/reflection.rb#53
     def attachment_reflections?; end
 
-    # source://activemodel/7.2.1.1/lib/active_model/attribute_methods.rb#71
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def attribute_aliases; end
 
-    # source://activemodel/7.2.1.1/lib/active_model/attribute_methods.rb#71
-    def attribute_aliases=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def attribute_aliases=(new_value); end
 
-    # source://activemodel/7.2.1.1/lib/active_model/attribute_methods.rb#71
+    # source://activemodel/8.0.0.rc1/lib/active_model/attribute_methods.rb#71
     def attribute_aliases?; end
 
-    # source://activemodel/7.2.1.1/lib/active_model/attribute_methods.rb#72
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def attribute_method_patterns; end
 
-    # source://activemodel/7.2.1.1/lib/active_model/attribute_methods.rb#72
-    def attribute_method_patterns=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def attribute_method_patterns=(new_value); end
 
-    # source://activemodel/7.2.1.1/lib/active_model/attribute_methods.rb#72
+    # source://activemodel/8.0.0.rc1/lib/active_model/attribute_methods.rb#72
     def attribute_method_patterns?; end
 
-    # source://activerecord//lib/active_record/core.rb#106
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def attributes_for_inspect; end
 
-    # source://activerecord//lib/active_record/core.rb#106
-    def attributes_for_inspect=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def attributes_for_inspect=(new_value); end
 
-    # source://activerecord//lib/active_record/core.rb#106
+    # source://activerecord//lib/active_record/core.rb#107
     def attributes_for_inspect?; end
 
-    # source://activerecord//lib/active_record/reflection.rb#13
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def automatic_scope_inversing; end
 
-    # source://activerecord//lib/active_record/reflection.rb#13
-    def automatic_scope_inversing=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def automatic_scope_inversing=(new_value); end
 
     # source://activerecord//lib/active_record/reflection.rb#13
     def automatic_scope_inversing?; end
 
-    # source://activerecord//lib/active_record/reflection.rb#14
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def automatically_invert_plural_associations; end
 
-    # source://activerecord//lib/active_record/reflection.rb#14
-    def automatically_invert_plural_associations=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def automatically_invert_plural_associations=(new_value); end
 
     # source://activerecord//lib/active_record/reflection.rb#14
     def automatically_invert_plural_associations?; end
 
-    # source://activemodel/7.2.1.1/lib/active_model/callbacks.rb#130
+    # source://activemodel/8.0.0.rc1/lib/active_model/callbacks.rb#130
     def before_create(*args, **options, &block); end
 
-    # source://activemodel/7.2.1.1/lib/active_model/callbacks.rb#130
+    # source://activemodel/8.0.0.rc1/lib/active_model/callbacks.rb#130
     def before_destroy(*args, **options, &block); end
 
-    # source://activemodel/7.2.1.1/lib/active_model/callbacks.rb#130
+    # source://activemodel/8.0.0.rc1/lib/active_model/callbacks.rb#130
     def before_save(*args, **options, &block); end
 
-    # source://activemodel/7.2.1.1/lib/active_model/callbacks.rb#130
+    # source://activemodel/8.0.0.rc1/lib/active_model/callbacks.rb#130
     def before_update(*args, **options, &block); end
 
-    # source://activerecord//lib/active_record/core.rb#89
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def belongs_to_required_by_default; end
 
-    # source://activerecord//lib/active_record/core.rb#89
-    def belongs_to_required_by_default=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def belongs_to_required_by_default=(new_value); end
 
     # source://activerecord//lib/active_record/core.rb#89
     def belongs_to_required_by_default?; end
 
-    # source://activerecord//lib/active_record/integration.rb#16
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def cache_timestamp_format; end
 
-    # source://activerecord//lib/active_record/integration.rb#16
-    def cache_timestamp_format=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def cache_timestamp_format=(new_value); end
 
     # source://activerecord//lib/active_record/integration.rb#16
     def cache_timestamp_format?; end
 
-    # source://activerecord//lib/active_record/integration.rb#24
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def cache_versioning; end
 
-    # source://activerecord//lib/active_record/integration.rb#24
-    def cache_versioning=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def cache_versioning=(new_value); end
 
     # source://activerecord//lib/active_record/integration.rb#24
     def cache_versioning?; end
 
-    # source://activerecord//lib/active_record/integration.rb#32
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def collection_cache_versioning; end
 
-    # source://activerecord//lib/active_record/integration.rb#32
-    def collection_cache_versioning=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def collection_cache_versioning=(new_value); end
 
     # source://activerecord//lib/active_record/integration.rb#32
     def collection_cache_versioning?; end
@@ -8907,188 +8929,188 @@ class ActiveRecord::Base
     # source://activerecord//lib/active_record/core.rb#71
     def configurations=(config); end
 
-    # source://activerecord//lib/active_record/core.rb#192
+    # source://activerecord//lib/active_record/core.rb#193
     def connected_to_stack; end
 
-    # source://activerecord//lib/active_record/core.rb#206
+    # source://activerecord//lib/active_record/core.rb#207
     def connection_class; end
 
-    # source://activerecord//lib/active_record/core.rb#202
+    # source://activerecord//lib/active_record/core.rb#203
     def connection_class=(b); end
 
-    # source://activerecord//lib/active_record/core.rb#210
+    # source://activerecord//lib/active_record/core.rb#211
     def connection_class?; end
 
-    # source://activerecord//lib/active_record/core.rb#214
+    # source://activerecord//lib/active_record/core.rb#215
     def connection_class_for_self; end
 
-    # source://activerecord//lib/active_record/core.rb#120
+    # source://activerecord//lib/active_record/core.rb#121
     def connection_handler; end
 
-    # source://activerecord//lib/active_record/core.rb#124
+    # source://activerecord//lib/active_record/core.rb#125
     def connection_handler=(handler); end
 
-    # source://activerecord//lib/active_record/counter_cache.rb#10
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def counter_cached_association_names; end
 
-    # source://activerecord//lib/active_record/counter_cache.rb#10
-    def counter_cached_association_names=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def counter_cached_association_names=(new_value); end
 
     # source://activerecord//lib/active_record/counter_cache.rb#10
     def counter_cached_association_names?; end
 
-    # source://activerecord//lib/active_record/core.rb#183
+    # source://activerecord//lib/active_record/core.rb#184
     def current_preventing_writes; end
 
-    # source://activerecord//lib/active_record/core.rb#146
+    # source://activerecord//lib/active_record/core.rb#147
     def current_role; end
 
-    # source://activerecord//lib/active_record/core.rb#164
+    # source://activerecord//lib/active_record/core.rb#165
     def current_shard; end
 
-    # source://activerecord//lib/active_record/attribute_methods/serialization.rb#20
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def default_column_serializer; end
 
-    # source://activerecord//lib/active_record/attribute_methods/serialization.rb#20
-    def default_column_serializer=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def default_column_serializer=(new_value); end
 
     # source://activerecord//lib/active_record/attribute_methods/serialization.rb#20
     def default_column_serializer?; end
 
-    # source://activerecord//lib/active_record/core.rb#97
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def default_connection_handler; end
 
-    # source://activerecord//lib/active_record/core.rb#97
-    def default_connection_handler=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def default_connection_handler=(new_value); end
 
-    # source://activerecord//lib/active_record/core.rb#97
+    # source://activerecord//lib/active_record/core.rb#98
     def default_connection_handler?; end
 
-    # source://activerecord//lib/active_record/core.rb#99
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def default_role; end
 
-    # source://activerecord//lib/active_record/core.rb#99
-    def default_role=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def default_role=(new_value); end
 
-    # source://activerecord//lib/active_record/core.rb#99
+    # source://activerecord//lib/active_record/core.rb#100
     def default_role?; end
 
-    # source://activerecord//lib/active_record/scoping/default.rb#20
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def default_scope_override; end
 
-    # source://activerecord//lib/active_record/scoping/default.rb#20
-    def default_scope_override=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def default_scope_override=(new_value); end
 
-    # source://activerecord//lib/active_record/scoping/default.rb#19
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def default_scopes; end
 
-    # source://activerecord//lib/active_record/scoping/default.rb#19
-    def default_scopes=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def default_scopes=(new_value); end
 
-    # source://activerecord//lib/active_record/core.rb#101
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def default_shard; end
 
-    # source://activerecord//lib/active_record/core.rb#101
-    def default_shard=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def default_shard=(new_value); end
 
-    # source://activerecord//lib/active_record/core.rb#101
+    # source://activerecord//lib/active_record/core.rb#102
     def default_shard?; end
 
-    # source://activerecord//lib/active_record/enum.rb#167
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def defined_enums; end
 
-    # source://activerecord//lib/active_record/enum.rb#167
-    def defined_enums=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def defined_enums=(new_value); end
 
     # source://activerecord//lib/active_record/enum.rb#167
     def defined_enums?; end
 
-    # source://activerecord//lib/active_record/core.rb#47
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def destroy_association_async_batch_size; end
 
-    # source://activerecord//lib/active_record/core.rb#47
-    def destroy_association_async_batch_size=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def destroy_association_async_batch_size=(new_value); end
 
     # source://activerecord//lib/active_record/core.rb#27
     def destroy_association_async_job; end
 
-    # source://activerecord//lib/active_record/core.rb#24
-    def destroy_association_async_job=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def destroy_association_async_job=(new_value); end
 
-    # source://activerecord//lib/active_record/encryption/encryptable_record.rb#11
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def encrypted_attributes; end
 
-    # source://activerecord//lib/active_record/encryption/encryptable_record.rb#11
-    def encrypted_attributes=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def encrypted_attributes=(new_value); end
 
     # source://activerecord//lib/active_record/encryption/encryptable_record.rb#11
     def encrypted_attributes?; end
 
-    # source://activerecord//lib/active_record/core.rb#87
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def enumerate_columns_in_select_statements; end
 
-    # source://activerecord//lib/active_record/core.rb#87
-    def enumerate_columns_in_select_statements=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def enumerate_columns_in_select_statements=(new_value); end
 
     # source://activerecord//lib/active_record/core.rb#87
     def enumerate_columns_in_select_statements?; end
 
-    # source://activerecord//lib/active_record/token_for.rb#11
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def generated_token_verifier; end
 
-    # source://activerecord//lib/active_record/token_for.rb#11
-    def generated_token_verifier=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def generated_token_verifier=(new_value); end
 
-    # source://activerecord//lib/active_record/core.rb#93
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def has_many_inversing; end
 
-    # source://activerecord//lib/active_record/core.rb#93
-    def has_many_inversing=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def has_many_inversing=(new_value); end
 
-    # source://activerecord//lib/active_record/core.rb#93
+    # source://activerecord//lib/active_record/core.rb#94
     def has_many_inversing?; end
 
-    # source://activerecord//lib/active_record/model_schema.rb#170
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def immutable_strings_by_default; end
 
-    # source://activerecord//lib/active_record/model_schema.rb#170
-    def immutable_strings_by_default=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def immutable_strings_by_default=(new_value); end
 
     # source://activerecord//lib/active_record/model_schema.rb#170
     def immutable_strings_by_default?; end
 
-    # source://activerecord//lib/active_record/model_schema.rb#169
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def implicit_order_column; end
 
-    # source://activerecord//lib/active_record/model_schema.rb#169
-    def implicit_order_column=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def implicit_order_column=(new_value); end
 
     # source://activerecord//lib/active_record/model_schema.rb#169
     def implicit_order_column?; end
 
-    # source://activemodel/7.2.1.1/lib/active_model/serializers/json.rb#15
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def include_root_in_json; end
 
-    # source://activemodel/7.2.1.1/lib/active_model/serializers/json.rb#15
-    def include_root_in_json=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def include_root_in_json=(new_value); end
 
-    # source://activemodel/7.2.1.1/lib/active_model/serializers/json.rb#15
+    # source://activemodel/8.0.0.rc1/lib/active_model/serializers/json.rb#15
     def include_root_in_json?; end
 
-    # source://activerecord//lib/active_record/model_schema.rb#172
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def inheritance_column; end
 
-    # source://activerecord//lib/active_record/model_schema.rb#326
+    # source://activerecord//lib/active_record/model_schema.rb#325
     def inheritance_column=(value); end
 
     # source://activerecord//lib/active_record/model_schema.rb#172
     def inheritance_column?; end
 
-    # source://activerecord//lib/active_record/model_schema.rb#167
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def internal_metadata_table_name; end
 
-    # source://activerecord//lib/active_record/model_schema.rb#167
-    def internal_metadata_table_name=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def internal_metadata_table_name=(new_value); end
 
     # source://activerecord//lib/active_record/model_schema.rb#167
     def internal_metadata_table_name?; end
@@ -9099,223 +9121,232 @@ class ActiveRecord::Base
     # source://activerecord//lib/active_record/store.rb#101
     def local_stored_attributes=(_arg0); end
 
-    # source://activerecord//lib/active_record/locking/optimistic.rb#56
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def lock_optimistically; end
 
-    # source://activerecord//lib/active_record/locking/optimistic.rb#56
-    def lock_optimistically=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def lock_optimistically=(new_value); end
 
     # source://activerecord//lib/active_record/locking/optimistic.rb#56
     def lock_optimistically?; end
 
-    # source://activerecord//lib/active_record/core.rb#22
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def logger; end
 
-    # source://activerecord//lib/active_record/core.rb#22
-    def logger=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def logger=(new_value); end
 
     # source://activerecord//lib/active_record/core.rb#22
     def logger?; end
 
-    # source://activerecord//lib/active_record/nested_attributes.rb#15
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def nested_attributes_options; end
 
-    # source://activerecord//lib/active_record/nested_attributes.rb#15
-    def nested_attributes_options=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def nested_attributes_options=(new_value); end
 
     # source://activerecord//lib/active_record/nested_attributes.rb#15
     def nested_attributes_options?; end
 
-    # source://activerecord//lib/active_record/normalization.rb#8
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def normalized_attributes; end
 
-    # source://activerecord//lib/active_record/normalization.rb#8
-    def normalized_attributes=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def normalized_attributes=(new_value); end
 
     # source://activerecord//lib/active_record/normalization.rb#8
     def normalized_attributes?; end
 
-    # source://activemodel/7.2.1.1/lib/active_model/conversion.rb#32
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def param_delimiter; end
 
-    # source://activemodel/7.2.1.1/lib/active_model/conversion.rb#32
-    def param_delimiter=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def param_delimiter=(new_value); end
 
-    # source://activemodel/7.2.1.1/lib/active_model/conversion.rb#32
+    # source://activemodel/8.0.0.rc1/lib/active_model/conversion.rb#32
     def param_delimiter?; end
 
-    # source://activerecord//lib/active_record/attribute_methods/dirty.rb#50
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def partial_inserts; end
 
-    # source://activerecord//lib/active_record/attribute_methods/dirty.rb#50
-    def partial_inserts=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def partial_inserts=(new_value); end
 
     # source://activerecord//lib/active_record/attribute_methods/dirty.rb#50
     def partial_inserts?; end
 
-    # source://activerecord//lib/active_record/attribute_methods/dirty.rb#49
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def partial_updates; end
 
-    # source://activerecord//lib/active_record/attribute_methods/dirty.rb#49
-    def partial_updates=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def partial_updates=(new_value); end
 
     # source://activerecord//lib/active_record/attribute_methods/dirty.rb#49
     def partial_updates?; end
 
-    # source://activerecord//lib/active_record/model_schema.rb#168
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def pluralize_table_names; end
 
-    # source://activerecord//lib/active_record/model_schema.rb#168
-    def pluralize_table_names=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def pluralize_table_names=(new_value); end
 
     # source://activerecord//lib/active_record/model_schema.rb#168
     def pluralize_table_names?; end
 
-    # source://activerecord//lib/active_record/model_schema.rb#163
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def primary_key_prefix_type; end
 
-    # source://activerecord//lib/active_record/model_schema.rb#163
-    def primary_key_prefix_type=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def primary_key_prefix_type=(new_value); end
 
     # source://activerecord//lib/active_record/model_schema.rb#163
     def primary_key_prefix_type?; end
 
-    # source://activerecord//lib/active_record/timestamp.rb#47
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def record_timestamps; end
 
-    # source://activerecord//lib/active_record/timestamp.rb#47
-    def record_timestamps=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def record_timestamps=(new_value); end
 
     # source://activerecord//lib/active_record/timestamp.rb#47
     def record_timestamps?; end
 
-    # source://activerecord//lib/active_record/core.rb#95
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def run_commit_callbacks_on_first_saved_instances_in_transaction; end
 
-    # source://activerecord//lib/active_record/core.rb#95
-    def run_commit_callbacks_on_first_saved_instances_in_transaction=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def run_commit_callbacks_on_first_saved_instances_in_transaction=(new_value); end
 
-    # source://activerecord//lib/active_record/core.rb#95
+    # source://activerecord//lib/active_record/core.rb#96
     def run_commit_callbacks_on_first_saved_instances_in_transaction?; end
 
-    # source://activerecord//lib/active_record/model_schema.rb#166
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def schema_migrations_table_name; end
 
-    # source://activerecord//lib/active_record/model_schema.rb#166
-    def schema_migrations_table_name=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def schema_migrations_table_name=(new_value); end
 
     # source://activerecord//lib/active_record/model_schema.rb#166
     def schema_migrations_table_name?; end
 
-    # source://activerecord//lib/active_record/core.rb#103
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def shard_selector; end
 
-    # source://activerecord//lib/active_record/core.rb#103
-    def shard_selector=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def shard_selector=(new_value); end
 
-    # source://activerecord//lib/active_record/core.rb#103
+    # source://activerecord//lib/active_record/core.rb#104
     def shard_selector?; end
 
-    # source://activerecord//lib/active_record/signed_id.rb#13
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def signed_id_verifier_secret; end
 
-    # source://activerecord//lib/active_record/signed_id.rb#13
-    def signed_id_verifier_secret=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def signed_id_verifier_secret=(new_value); end
 
     # source://activerecord//lib/active_record/signed_id.rb#13
     def signed_id_verifier_secret?; end
 
-    # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#67
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def skip_time_zone_conversion_for_attributes; end
 
-    # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#67
-    def skip_time_zone_conversion_for_attributes=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def skip_time_zone_conversion_for_attributes=(new_value); end
 
-    # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#67
+    # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#61
     def skip_time_zone_conversion_for_attributes?; end
 
-    # source://activerecord//lib/active_record/inheritance.rb#43
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def store_full_class_name; end
 
-    # source://activerecord//lib/active_record/inheritance.rb#43
-    def store_full_class_name=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def store_full_class_name=(new_value); end
 
     # source://activerecord//lib/active_record/inheritance.rb#43
     def store_full_class_name?; end
 
-    # source://activerecord//lib/active_record/inheritance.rb#47
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def store_full_sti_class; end
 
-    # source://activerecord//lib/active_record/inheritance.rb#47
-    def store_full_sti_class=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def store_full_sti_class=(new_value); end
 
     # source://activerecord//lib/active_record/inheritance.rb#47
     def store_full_sti_class?; end
 
-    # source://activerecord//lib/active_record/core.rb#91
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def strict_loading_by_default; end
 
-    # source://activerecord//lib/active_record/core.rb#91
-    def strict_loading_by_default=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def strict_loading_by_default=(new_value); end
 
     # source://activerecord//lib/active_record/core.rb#91
     def strict_loading_by_default?; end
 
-    # source://activerecord//lib/active_record/core.rb#229
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
+    def strict_loading_mode; end
+
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def strict_loading_mode=(new_value); end
+
+    # source://activerecord//lib/active_record/core.rb#92
+    def strict_loading_mode?; end
+
+    # source://activerecord//lib/active_record/core.rb#230
     def strict_loading_violation!(owner:, reflection:); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attribute_accessors_per_thread.rb#49
+    # source://activesupport/8.0.0.rc1/lib/active_support/core_ext/module/attribute_accessors_per_thread.rb#49
     def suppressed_turbo_broadcasts; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attribute_accessors_per_thread.rb#108
+    # source://activesupport/8.0.0.rc1/lib/active_support/core_ext/module/attribute_accessors_per_thread.rb#108
     def suppressed_turbo_broadcasts=(obj); end
 
-    # source://activerecord//lib/active_record/model_schema.rb#164
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def table_name_prefix; end
 
-    # source://activerecord//lib/active_record/model_schema.rb#164
-    def table_name_prefix=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def table_name_prefix=(new_value); end
 
     # source://activerecord//lib/active_record/model_schema.rb#164
     def table_name_prefix?; end
 
-    # source://activerecord//lib/active_record/model_schema.rb#165
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def table_name_suffix; end
 
-    # source://activerecord//lib/active_record/model_schema.rb#165
-    def table_name_suffix=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def table_name_suffix=(new_value); end
 
     # source://activerecord//lib/active_record/model_schema.rb#165
     def table_name_suffix?; end
 
-    # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#66
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def time_zone_aware_attributes; end
 
-    # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#66
-    def time_zone_aware_attributes=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def time_zone_aware_attributes=(new_value); end
 
-    # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#66
+    # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#60
     def time_zone_aware_attributes?; end
 
-    # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#68
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def time_zone_aware_types; end
 
-    # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#68
-    def time_zone_aware_types=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def time_zone_aware_types=(new_value); end
 
-    # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#68
+    # source://activerecord//lib/active_record/attribute_methods/time_zone_conversion.rb#62
     def time_zone_aware_types?; end
 
-    # source://activerecord//lib/active_record/token_for.rb#10
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def token_definitions; end
 
-    # source://activerecord//lib/active_record/token_for.rb#10
-    def token_definitions=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def token_definitions=(new_value); end
 
     private
 
-    # source://activerecord//lib/active_record/model_schema.rb#172
-    def _inheritance_column=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def _inheritance_column=(new_value); end
   end
 end
 
@@ -9356,11 +9387,13 @@ module ActiveRecord::Batches
   #
   # ==== Options
   # * <tt>:batch_size</tt> - Specifies the size of the batch. Defaults to 1000.
-  # * <tt>:start</tt> - Specifies the primary key value to start from, inclusive of the value.
-  # * <tt>:finish</tt> - Specifies the primary key value to end at, inclusive of the value.
+  # * <tt>:start</tt> - Specifies the cursor column value to start from, inclusive of the value.
+  # * <tt>:finish</tt> - Specifies the cursor column value to end at, inclusive of the value.
   # * <tt>:error_on_ignore</tt> - Overrides the application config to specify if an error should be raised when
   #   an order is present in the relation.
-  # * <tt>:order</tt> - Specifies the primary key order (can be +:asc+ or +:desc+ or an array consisting
+  # * <tt>:cursor</tt> - Specifies the column to use for batching (can be a column name or an array
+  #   of column names). Defaults to primary key.
+  # * <tt>:order</tt> - Specifies the cursor column order (can be +:asc+ or +:desc+ or an array consisting
   #   of :asc or :desc). Defaults to +:asc+.
   #
   #     class Order < ActiveRecord::Base
@@ -9392,14 +9425,18 @@ module ActiveRecord::Batches
   #
   # NOTE: Order can be ascending (:asc) or descending (:desc). It is automatically set to
   # ascending on the primary key ("id ASC").
-  # This also means that this method only works when the primary key is
+  # This also means that this method only works when the cursor column is
   # orderable (e.g. an integer or string).
+  #
+  # NOTE: When using custom columns for batching, they should include at least one unique column
+  # (e.g. primary key) as a tiebreaker. Also, to reduce the likelihood of race conditions,
+  # all columns should be static (unchangeable after it was set).
   #
   # NOTE: By its nature, batch processing is subject to race conditions if
   # other processes are modifying the database.
   #
-  # source://activerecord//lib/active_record/relation/batches.rb#79
-  def find_each(start: T.unsafe(nil), finish: T.unsafe(nil), batch_size: T.unsafe(nil), error_on_ignore: T.unsafe(nil), order: T.unsafe(nil), &block); end
+  # source://activerecord//lib/active_record/relation/batches.rb#85
+  def find_each(start: T.unsafe(nil), finish: T.unsafe(nil), batch_size: T.unsafe(nil), error_on_ignore: T.unsafe(nil), cursor: T.unsafe(nil), order: T.unsafe(nil), &block); end
 
   # Yields each batch of records that was found by the find options as
   # an array.
@@ -9421,11 +9458,13 @@ module ActiveRecord::Batches
   #
   # ==== Options
   # * <tt>:batch_size</tt> - Specifies the size of the batch. Defaults to 1000.
-  # * <tt>:start</tt> - Specifies the primary key value to start from, inclusive of the value.
-  # * <tt>:finish</tt> - Specifies the primary key value to end at, inclusive of the value.
+  # * <tt>:start</tt> - Specifies the cursor column value to start from, inclusive of the value.
+  # * <tt>:finish</tt> - Specifies the cursor column value to end at, inclusive of the value.
   # * <tt>:error_on_ignore</tt> - Overrides the application config to specify if an error should be raised when
   #   an order is present in the relation.
-  # * <tt>:order</tt> - Specifies the primary key order (can be +:asc+ or +:desc+ or an array consisting
+  # * <tt>:cursor</tt> - Specifies the column to use for batching (can be a column name or an array
+  #   of column names). Defaults to primary key.
+  # * <tt>:order</tt> - Specifies the cursor column order (can be +:asc+ or +:desc+ or an array consisting
   #   of :asc or :desc). Defaults to +:asc+.
   #
   #     class Order < ActiveRecord::Base
@@ -9452,14 +9491,18 @@ module ActiveRecord::Batches
   #
   # NOTE: Order can be ascending (:asc) or descending (:desc). It is automatically set to
   # ascending on the primary key ("id ASC").
-  # This also means that this method only works when the primary key is
+  # This also means that this method only works when the cursor column is
   # orderable (e.g. an integer or string).
+  #
+  # NOTE: When using custom columns for batching, they should include at least one unique column
+  # (e.g. primary key) as a tiebreaker. Also, to reduce the likelihood of race conditions,
+  # all columns should be static (unchangeable after it was set).
   #
   # NOTE: By its nature, batch processing is subject to race conditions if
   # other processes are modifying the database.
   #
-  # source://activerecord//lib/active_record/relation/batches.rb#148
-  def find_in_batches(start: T.unsafe(nil), finish: T.unsafe(nil), batch_size: T.unsafe(nil), error_on_ignore: T.unsafe(nil), order: T.unsafe(nil)); end
+  # source://activerecord//lib/active_record/relation/batches.rb#161
+  def find_in_batches(start: T.unsafe(nil), finish: T.unsafe(nil), batch_size: T.unsafe(nil), error_on_ignore: T.unsafe(nil), cursor: T.unsafe(nil), order: T.unsafe(nil)); end
 
   # Yields ActiveRecord::Relation objects to work with a batch of records.
   #
@@ -9485,11 +9528,13 @@ module ActiveRecord::Batches
   # ==== Options
   # * <tt>:of</tt> - Specifies the size of the batch. Defaults to 1000.
   # * <tt>:load</tt> - Specifies if the relation should be loaded. Defaults to false.
-  # * <tt>:start</tt> - Specifies the primary key value to start from, inclusive of the value.
-  # * <tt>:finish</tt> - Specifies the primary key value to end at, inclusive of the value.
+  # * <tt>:start</tt> - Specifies the cursor column value to start from, inclusive of the value.
+  # * <tt>:finish</tt> - Specifies the cursor column value to end at, inclusive of the value.
   # * <tt>:error_on_ignore</tt> - Overrides the application config to specify if an error should be raised when
   #   an order is present in the relation.
-  # * <tt>:order</tt> - Specifies the primary key order (can be +:asc+ or +:desc+ or an array consisting
+  # * <tt>:cursor</tt> - Specifies the column to use for batching (can be a column name or an array
+  #   of column names). Defaults to primary key.
+  # * <tt>:order</tt> - Specifies the cursor column order (can be +:asc+ or +:desc+ or an array consisting
   #   of :asc or :desc). Defaults to +:asc+.
   #
   #     class Order < ActiveRecord::Base
@@ -9533,43 +9578,56 @@ module ActiveRecord::Batches
   #
   # NOTE: Order can be ascending (:asc) or descending (:desc). It is automatically set to
   # ascending on the primary key ("id ASC").
-  # This also means that this method only works when the primary key is
+  # This also means that this method only works when the cursor column is
   # orderable (e.g. an integer or string).
+  #
+  # NOTE: When using custom columns for batching, they should include at least one unique column
+  # (e.g. primary key) as a tiebreaker. Also, to reduce the likelihood of race conditions,
+  # all columns should be static (unchangeable after it was set).
   #
   # NOTE: By its nature, batch processing is subject to race conditions if
   # other processes are modifying the database.
   #
-  # source://activerecord//lib/active_record/relation/batches.rb#239
-  def in_batches(of: T.unsafe(nil), start: T.unsafe(nil), finish: T.unsafe(nil), load: T.unsafe(nil), error_on_ignore: T.unsafe(nil), order: T.unsafe(nil), use_ranges: T.unsafe(nil), &block); end
+  # source://activerecord//lib/active_record/relation/batches.rb#259
+  def in_batches(of: T.unsafe(nil), start: T.unsafe(nil), finish: T.unsafe(nil), load: T.unsafe(nil), error_on_ignore: T.unsafe(nil), cursor: T.unsafe(nil), order: T.unsafe(nil), use_ranges: T.unsafe(nil), &block); end
 
   private
 
-  # source://activerecord//lib/active_record/relation/batches.rb#325
+  # source://activerecord//lib/active_record/relation/batches.rb#369
   def act_on_ignored_order(error_on_ignore); end
 
-  # source://activerecord//lib/active_record/relation/batches.rb#297
-  def apply_finish_limit(relation, finish, batch_orders); end
+  # source://activerecord//lib/active_record/relation/batches.rb#341
+  def apply_finish_limit(relation, cursor, finish, batch_orders); end
 
-  # source://activerecord//lib/active_record/relation/batches.rb#284
-  def apply_limits(relation, start, finish, batch_orders); end
+  # source://activerecord//lib/active_record/relation/batches.rb#328
+  def apply_limits(relation, cursor, start, finish, batch_orders); end
 
-  # source://activerecord//lib/active_record/relation/batches.rb#290
-  def apply_start_limit(relation, start, batch_orders); end
+  # source://activerecord//lib/active_record/relation/batches.rb#334
+  def apply_start_limit(relation, cursor, start, batch_orders); end
 
-  # source://activerecord//lib/active_record/relation/batches.rb#304
-  def batch_condition(relation, columns, values, operators); end
+  # source://activerecord//lib/active_record/relation/batches.rb#348
+  def batch_condition(relation, cursor, values, operators); end
 
-  # source://activerecord//lib/active_record/relation/batches.rb#339
-  def batch_on_loaded_relation(relation:, start:, finish:, order:, batch_limit:); end
+  # source://activerecord//lib/active_record/relation/batches.rb#379
+  def batch_on_loaded_relation(relation:, start:, finish:, cursor:, order:, batch_limit:); end
 
-  # source://activerecord//lib/active_record/relation/batches.rb#370
-  def batch_on_unloaded_relation(relation:, start:, finish:, load:, order:, use_ranges:, remaining:, batch_limit:); end
+  # source://activerecord//lib/active_record/relation/batches.rb#426
+  def batch_on_unloaded_relation(relation:, start:, finish:, load:, cursor:, order:, use_ranges:, remaining:, batch_limit:); end
 
-  # source://activerecord//lib/active_record/relation/batches.rb#319
-  def build_batch_orders(order); end
+  # source://activerecord//lib/active_record/relation/batches.rb#363
+  def build_batch_orders(cursor, order); end
 
-  # source://activerecord//lib/active_record/relation/batches.rb#335
-  def get_the_order_of_primary_key(order); end
+  # This is a custom implementation of `<=>` operator,
+  # which also takes into account how the collection will be ordered.
+  #
+  # source://activerecord//lib/active_record/relation/batches.rb#414
+  def compare_values_for_order(values1, values2, order); end
+
+  # source://activerecord//lib/active_record/relation/batches.rb#305
+  def ensure_valid_options_for_batching!(cursor, start, finish, order); end
+
+  # source://activerecord//lib/active_record/relation/batches.rb#408
+  def record_cursor_values(record, cursor); end
 end
 
 # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#5
@@ -9579,11 +9637,11 @@ class ActiveRecord::Batches::BatchEnumerator
   # @return [BatchEnumerator] a new instance of BatchEnumerator
   #
   # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#8
-  def initialize(relation:, of: T.unsafe(nil), start: T.unsafe(nil), finish: T.unsafe(nil), order: T.unsafe(nil), use_ranges: T.unsafe(nil)); end
+  def initialize(relation:, cursor:, of: T.unsafe(nil), start: T.unsafe(nil), finish: T.unsafe(nil), order: T.unsafe(nil), use_ranges: T.unsafe(nil)); end
 
   # The size of the batches yielded by the BatchEnumerator.
   #
-  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#27
+  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#28
   def batch_size; end
 
   # Deletes records in batches. Returns the total number of rows affected.
@@ -9592,7 +9650,7 @@ class ActiveRecord::Batches::BatchEnumerator
   #
   # See Relation#delete_all for details of how each batch is deleted.
   #
-  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#65
+  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#66
   def delete_all; end
 
   # Destroys records in batches. Returns the total number of rows affected.
@@ -9601,7 +9659,7 @@ class ActiveRecord::Batches::BatchEnumerator
   #
   # See Relation#destroy_all for details of how each batch is destroyed.
   #
-  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#96
+  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#97
   def destroy_all; end
 
   # Yields an ActiveRecord::Relation object for each batch of records.
@@ -9610,7 +9668,7 @@ class ActiveRecord::Batches::BatchEnumerator
   #     relation.update_all(awesome: true)
   #   end
   #
-  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#107
+  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#108
   def each(&block); end
 
   # Looping through a collection of records from the database (using the
@@ -9635,22 +9693,22 @@ class ActiveRecord::Batches::BatchEnumerator
   #     person.award_trophy(index + 1)
   #   end
   #
-  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#52
+  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#53
   def each_record(&block); end
 
   # The primary key value at which the BatchEnumerator ends, inclusive of the value.
   #
-  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#21
+  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#22
   def finish; end
 
   # The relation from which the BatchEnumerator yields batches.
   #
-  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#24
+  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#25
   def relation; end
 
   # The primary key value from which the BatchEnumerator starts, inclusive of the value.
   #
-  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#18
+  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#19
   def start; end
 
   # Touches records in batches. Returns the total number of rows affected.
@@ -9659,7 +9717,7 @@ class ActiveRecord::Batches::BatchEnumerator
   #
   # See Relation#touch_all for details of how each batch is touched.
   #
-  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#85
+  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#86
   def touch_all(*_arg0, **_arg1, &_arg2); end
 
   # Updates records in batches. Returns the total number of rows affected.
@@ -9668,7 +9726,7 @@ class ActiveRecord::Batches::BatchEnumerator
   #
   # See Relation#update_all for details of how each batch is updated.
   #
-  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#74
+  # source://activerecord//lib/active_record/relation/batches/batch_enumerator.rb#75
   def update_all(updates); end
 end
 
@@ -9697,7 +9755,7 @@ module ActiveRecord::Calculations
   # Same as #ids, but performs the query asynchronously and returns an
   # ActiveRecord::Promise.
   #
-  # source://activerecord//lib/active_record/relation/calculations.rb#405
+  # source://activerecord//lib/active_record/relation/calculations.rb#409
   def async_ids; end
 
   # Same as #maximum, but performs the query asynchronously and returns an
@@ -9715,13 +9773,13 @@ module ActiveRecord::Calculations
   # Same as #pick, but performs the query asynchronously and returns an
   # ActiveRecord::Promise.
   #
-  # source://activerecord//lib/active_record/relation/calculations.rb#359
+  # source://activerecord//lib/active_record/relation/calculations.rb#363
   def async_pick(*column_names); end
 
   # Same as #pluck, but performs the query asynchronously and returns an
   # ActiveRecord::Promise.
   #
-  # source://activerecord//lib/active_record/relation/calculations.rb#330
+  # source://activerecord//lib/active_record/relation/calculations.rb#334
   def async_pluck(*column_names); end
 
   # Same as #sum, but performs the query asynchronously and returns an
@@ -9827,7 +9885,7 @@ module ActiveRecord::Calculations
   #   Person.ids # SELECT people.id FROM people
   #   Person.joins(:company).ids # SELECT people.id FROM people INNER JOIN companies ON companies.id = people.company_id
   #
-  # source://activerecord//lib/active_record/relation/calculations.rb#367
+  # source://activerecord//lib/active_record/relation/calculations.rb#371
   def ids; end
 
   # Calculates the maximum value on a given column. The value is returned
@@ -9863,7 +9921,7 @@ module ActiveRecord::Calculations
   #   # SELECT people.name, people.email_address FROM people WHERE id = 1 LIMIT 1
   #   # => [ 'David', 'david@loudthinking.com' ]
   #
-  # source://activerecord//lib/active_record/relation/calculations.rb#348
+  # source://activerecord//lib/active_record/relation/calculations.rb#352
   def pick(*column_names); end
 
   # Use #pluck as a shortcut to select one or more attributes without
@@ -9895,9 +9953,13 @@ module ActiveRecord::Calculations
   #   # SELECT people.id FROM people WHERE people.age = 21 LIMIT 5
   #   # => [2, 3]
   #
-  #   Comment.joins(:person).pluck(:id, person: [:id])
-  #   # SELECT comments.id, people.id FROM comments INNER JOIN people on comments.person_id = people.id
+  #   Comment.joins(:person).pluck(:id, person: :id)
+  #   # SELECT comments.id, person.id FROM comments INNER JOIN people person ON person.id = comments.person_id
   #   # => [[1, 2], [2, 2]]
+  #
+  #   Comment.joins(:person).pluck(:id, person: [:id, :name])
+  #   # SELECT comments.id, person.id, person.name FROM comments INNER JOIN people person ON person.id = comments.person_id
+  #   # => [[1, 2, 'David'], [2, 2, 'David']]
   #
   #   Person.pluck(Arel.sql('DATEDIFF(updated_at, created_at)'))
   #   # SELECT DATEDIFF(updated_at, created_at) FROM people
@@ -9905,7 +9967,7 @@ module ActiveRecord::Calculations
   #
   # See also #ids.
   #
-  # source://activerecord//lib/active_record/relation/calculations.rb#287
+  # source://activerecord//lib/active_record/relation/calculations.rb#291
   def pluck(*column_names); end
 
   # Calculates the sum of values on a given column. The value is returned
@@ -9930,57 +9992,57 @@ module ActiveRecord::Calculations
 
   private
 
-  # source://activerecord//lib/active_record/relation/calculations.rb#449
+  # source://activerecord//lib/active_record/relation/calculations.rb#453
   def aggregate_column(column_name); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation/calculations.rb#410
+  # source://activerecord//lib/active_record/relation/calculations.rb#414
   def all_attributes?(column_names); end
 
-  # source://activerecord//lib/active_record/relation/calculations.rb#659
+  # source://activerecord//lib/active_record/relation/calculations.rb#656
   def build_count_subquery(relation, column_name, distinct); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation/calculations.rb#652
+  # source://activerecord//lib/active_record/relation/calculations.rb#649
   def build_count_subquery?(operation, column_name, distinct); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation/calculations.rb#445
+  # source://activerecord//lib/active_record/relation/calculations.rb#449
   def distinct_select?(column_name); end
 
-  # source://activerecord//lib/active_record/relation/calculations.rb#502
+  # source://activerecord//lib/active_record/relation/calculations.rb#509
   def execute_grouped_calculation(operation, column_name, distinct); end
 
-  # source://activerecord//lib/active_record/relation/calculations.rb#461
+  # source://activerecord//lib/active_record/relation/calculations.rb#468
   def execute_simple_calculation(operation, column_name, distinct); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation/calculations.rb#414
+  # source://activerecord//lib/active_record/relation/calculations.rb#418
   def has_include?(column_name); end
 
-  # source://activerecord//lib/active_record/relation/calculations.rb#589
+  # source://activerecord//lib/active_record/relation/calculations.rb#596
   def lookup_cast_type_from_join_dependencies(name, join_dependencies = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/calculations.rb#457
+  # source://activerecord//lib/active_record/relation/calculations.rb#464
   def operation_over_aggregate_column(column, operation, distinct); end
 
-  # source://activerecord//lib/active_record/relation/calculations.rb#418
+  # source://activerecord//lib/active_record/relation/calculations.rb#422
   def perform_calculation(operation, column_name); end
 
-  # source://activerecord//lib/active_record/relation/calculations.rb#632
+  # source://activerecord//lib/active_record/relation/calculations.rb#639
   def select_for_count; end
 
-  # source://activerecord//lib/active_record/relation/calculations.rb#614
+  # source://activerecord//lib/active_record/relation/calculations.rb#621
   def type_cast_calculated_value(value, operation, type); end
 
-  # source://activerecord//lib/active_record/relation/calculations.rb#597
+  # source://activerecord//lib/active_record/relation/calculations.rb#604
   def type_cast_pluck_values(result, columns); end
 
-  # source://activerecord//lib/active_record/relation/calculations.rb#584
+  # source://activerecord//lib/active_record/relation/calculations.rb#591
   def type_for(field, &block); end
 end
 
@@ -10321,12 +10383,10 @@ module ActiveRecord::Callbacks
   module GeneratedClassMethods
     def __callbacks; end
     def __callbacks=(value); end
-    def __callbacks?; end
   end
 
   module GeneratedInstanceMethods
     def __callbacks; end
-    def __callbacks?; end
   end
 end
 
@@ -10338,7 +10398,7 @@ module ActiveRecord::Callbacks::ClassMethods
   include ::ActiveModel::Callbacks
 end
 
-# source://activerecord//lib/active_record.rb#124
+# source://activerecord//lib/active_record.rb#125
 module ActiveRecord::Coders; end
 
 # source://activerecord//lib/active_record/coders/column_serializer.rb#5
@@ -10435,18 +10495,18 @@ class ActiveRecord::CompositePrimaryKeyMismatchError < ::ActiveRecord::ActiveRec
   def reflection; end
 end
 
-# source://activerecord//lib/active_record/migration.rb#190
+# source://activerecord//lib/active_record/migration.rb#187
 class ActiveRecord::ConcurrentMigrationError < ::ActiveRecord::MigrationError
   # @return [ConcurrentMigrationError] a new instance of ConcurrentMigrationError
   #
-  # source://activerecord//lib/active_record/migration.rb#194
+  # source://activerecord//lib/active_record/migration.rb#191
   def initialize(message = T.unsafe(nil)); end
 end
 
-# source://activerecord//lib/active_record/migration.rb#191
+# source://activerecord//lib/active_record/migration.rb#188
 ActiveRecord::ConcurrentMigrationError::DEFAULT_MESSAGE = T.let(T.unsafe(nil), String)
 
-# source://activerecord//lib/active_record/migration.rb#192
+# source://activerecord//lib/active_record/migration.rb#189
 ActiveRecord::ConcurrentMigrationError::RELEASE_LOCK_FAILED_MESSAGE = T.let(T.unsafe(nil), String)
 
 # Raised when association is being configured improperly or user tries to use
@@ -10455,7 +10515,7 @@ ActiveRecord::ConcurrentMigrationError::RELEASE_LOCK_FAILED_MESSAGE = T.let(T.un
 # {ActiveRecord::Base.has_and_belongs_to_many}[rdoc-ref:Associations::ClassMethods#has_and_belongs_to_many]
 # associations.
 #
-# source://activerecord//lib/active_record/errors.rb#377
+# source://activerecord//lib/active_record/errors.rb#390
 class ActiveRecord::ConfigurationError < ::ActiveRecord::ActiveRecordError; end
 
 # source://activerecord//lib/active_record/connection_adapters.rb#6
@@ -10497,7 +10557,7 @@ end
 # Most of the methods in the adapter are useful during migrations. Most
 # notably, the instance methods provided by SchemaStatements are very useful.
 #
-# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#31
+# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#30
 class ActiveRecord::ConnectionAdapters::AbstractAdapter
   include ::ActiveSupport::Callbacks
   include ::ActiveRecord::Migration::JoinTable
@@ -10513,25 +10573,22 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
 
   # @return [AbstractAdapter] a new instance of AbstractAdapter
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#126
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#125
   def initialize(config_or_deprecated_connection, deprecated_logger = T.unsafe(nil), deprecated_connection_options = T.unsafe(nil), deprecated_config = T.unsafe(nil)); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#69
   def __callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
-  def __callbacks?; end
-
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#924
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#923
   def _checkin_callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#924
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#923
   def _checkout_callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#912
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#911
   def _run_checkin_callbacks(&block); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#912
+  # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#911
   def _run_checkout_callbacks(&block); end
 
   # Checks whether the connection to the database is still active. This includes
@@ -10540,28 +10597,28 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#651
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#658
   def active?; end
 
   # Returns the human-readable name of the adapter. Use mixed case - one
   # can always use downcase if needed.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#356
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#355
   def adapter_name; end
 
   # This is meant to be implemented by the adapters that support custom enum types
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#591
-  def add_enum_value(*_arg0); end
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#590
+  def add_enum_value(*_arg0, **_arg1, &_arg2); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#598
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#605
   def advisory_locks_enabled?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#565
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#564
   def async_enabled?; end
 
   # Called by ActiveRecord::InsertAll,
@@ -10570,42 +10627,42 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   # should be overridden by adapters to implement common features with
   # non-standard syntax like handling duplicates or returning values.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#835
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#842
   def build_insert_sql(insert); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#806
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#813
   def case_insensitive_comparison(attribute, value); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#802
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#809
   def case_sensitive_comparison(attribute, value); end
 
   # Override to check all foreign key constraints in a database.
   # The adapter should raise a +ActiveRecord::StatementInvalid+ if foreign key
   # constraints are not met.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#636
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#643
   def check_all_foreign_keys_valid!; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#207
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#206
   def check_if_write_query(sql); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#850
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#857
   def check_version; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#775
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#782
   def clean!; end
 
   # Clear any caching the database adapter may be doing.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#732
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#739
   def clear_cache!(new_connection: T.unsafe(nil)); end
 
   # Check the connection back in to the connection pool
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#822
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#829
   def close; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#770
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#777
   def connect!; end
 
   # Checks whether the connection to the database was established. This doesn't
@@ -10614,13 +10671,13 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#644
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#651
   def connected?; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#292
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#291
   def connection_class; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#217
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#216
   def connection_retries; end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#23
@@ -10628,26 +10685,31 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
 
   # This is meant to be implemented by the adapters that support custom enum types
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#579
-  def create_enum(*_arg0); end
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#578
+  def create_enum(*_arg0, **_arg1, &_arg2); end
+
+  # This is meant to be implemented by the adapters that support virtual tables
+  #
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#598
+  def create_virtual_table(*_arg0); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#365
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#364
   def database_exists?; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#846
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#853
   def database_version; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#826
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#833
   def default_index_type?(index); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#229
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#228
   def default_timezone; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#798
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#805
   def default_uniqueness_comparison(attribute, value); end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#23
@@ -10655,12 +10717,12 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
 
   # This is meant to be implemented by the adapters that support extensions
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#571
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#570
   def disable_extension(name, **_arg1); end
 
   # Override to turn off referential integrity while executing <tt>&block</tt>.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#629
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#636
   def disable_referential_integrity; end
 
   # Immediately forget this connection ever existed. Unlike disconnect!,
@@ -10670,23 +10732,28 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   # undefined. This is called internally just before a forked process gets
   # rid of a connection that belonged to its parent.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#707
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#714
   def discard!; end
 
   # Disconnects from the database if already connected. Otherwise, this
   # method does nothing.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#693
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#700
   def disconnect!; end
 
   # This is meant to be implemented by the adapters that support custom enum types
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#583
-  def drop_enum(*_arg0); end
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#582
+  def drop_enum(*_arg0, **_arg1, &_arg2); end
+
+  # This is meant to be implemented by the adapters that support virtual tables
+  #
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#602
+  def drop_virtual_table(*_arg0); end
 
   # This is meant to be implemented by the adapters that support extensions
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#575
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#574
   def enable_extension(name, **_arg1); end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#23
@@ -10700,12 +10767,12 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
 
   # this method must only be called while holding connection pool's mutex
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#313
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#312
   def expire; end
 
   # A list of extensions, to be filled in by adapters that support them.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#617
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#624
   def extensions; end
 
   # This is meant to be implemented by the adapters that support advisory
@@ -10713,57 +10780,57 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   #
   # Return true if we got the lock, otherwise false
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#606
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#613
   def get_advisory_lock(lock_id); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#843
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#850
   def get_database_version; end
 
   # Returns the value of attribute owner.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#45
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#44
   def in_use?; end
 
   # A list of index algorithms, to be filled by adapters that support them.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#622
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#629
   def index_algorithms; end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#23
   def insert(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#175
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#174
   def inspect; end
 
   # this method must only be called while holding connection pool's mutex
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#277
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#276
   def lease; end
 
   # Returns the value of attribute lock.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#45
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#44
   def lock; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#182
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#181
   def lock_thread=(lock_thread); end
 
   # Returns the value of attribute logger.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#45
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#44
   def logger; end
 
   # Returns the value of attribute owner.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#45
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#44
   def owner; end
 
   # Returns the value of attribute pool.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#44
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#43
   def pool; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#48
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#47
   def pool=(value); end
 
   # Should primary key values be selected from their corresponding
@@ -10772,20 +10839,20 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#405
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#404
   def prefetch_primary_key?(table_name = T.unsafe(nil)); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#244
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#243
   def prepared_statements; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#244
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#243
   def prepared_statements?; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#249
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#248
   def prepared_statements_disabled_cache; end
 
   # Determines whether writes are currently being prevented.
@@ -10795,7 +10862,7 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#237
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#236
   def preventing_writes?; end
 
   # Provides access to the underlying database driver for this adapter. For
@@ -10809,14 +10876,14 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   # this client. If that is the case, generally you'll want to invalidate
   # the query cache using +ActiveRecord::Base.clear_query_cache+.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#790
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#797
   def raw_connection; end
 
   # Disconnects from the database if already connected, and establishes a new
   # connection with the database. Implementors should define private #reconnect
   # instead.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#657
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#664
   def reconnect!(restore_transactions: T.unsafe(nil)); end
 
   # This is meant to be implemented by the adapters that support advisory
@@ -10824,29 +10891,29 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   #
   # Return true if we released the lock, otherwise false
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#613
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#620
   def release_advisory_lock(lock_id); end
 
   # This is meant to be implemented by the adapters that support custom enum types
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#587
-  def rename_enum(*_arg0); end
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#586
+  def rename_enum(*_arg0, **_arg1, &_arg2); end
 
   # This is meant to be implemented by the adapters that support custom enum types
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#595
-  def rename_enum_value(*_arg0); end
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#594
+  def rename_enum_value(*_arg0, **_arg1, &_arg2); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#213
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#212
   def replica?; end
 
   # Returns true if its required to reload the connection between requests for development mode.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#745
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#752
   def requires_reloading?; end
 
   # Reset the state of this connection, directing the DBMS to clear
@@ -10858,24 +10925,24 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   # should call super immediately after resetting the connection (and while
   # still holding @lock).
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#719
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#726
   def reset!; end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#23
   def restart_db_transaction(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#221
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#220
   def retry_deadline; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#561
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#560
   def return_value_after_insert?(column); end
 
   # The role (e.g. +:writing+) for the current connection. In a
   # non-multi role application, +:writing+ is returned.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#298
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#297
   def role; end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#23
@@ -10889,10 +10956,10 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#389
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#388
   def savepoint_errors_invalidate_transactions?; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#308
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#307
   def schema_cache; end
 
   # Returns the version identifier of the schema currently available in
@@ -10900,73 +10967,73 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   # numbered migration that has been executed, or 0 if no schema
   # information is present / the database is empty.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#857
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#864
   def schema_version; end
 
   # Seconds since this connection was returned to the pool
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#342
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#341
   def seconds_idle; end
 
   # The shard (e.g. +:default+) for the current connection. In
   # a non-sharded application, +:default+ is returned.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#304
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#303
   def shard; end
 
   # this method must only be called while holding connection pool's mutex (and a desire for segfaults)
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#329
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#328
   def steal!; end
 
   # Does this adapter support application-enforced advisory locking?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#398
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#397
   def supports_advisory_locks?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#378
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#377
   def supports_bulk_alter?; end
 
   # Does this adapter support creating check constraints?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#470
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#469
   def supports_check_constraints?; end
 
   # Does this adapter support metadata comments on database objects (tables, columns, indexes)?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#505
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#504
   def supports_comments?; end
 
   # Can comments for tables, columns, and indexes be specified in create/alter table statements?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#510
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#509
   def supports_comments_in_create?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#529
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#528
   def supports_common_table_expressions?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#553
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#552
   def supports_concurrent_connections?; end
 
   # Does this adapter support datetime with precision?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#495
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#494
   def supports_datetime_with_precision?; end
 
   # Does this adapter support DDL rollbacks in transactions? That is, would
@@ -10974,70 +11041,70 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#374
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#373
   def supports_ddl_transactions?; end
 
   # Does this adapter support creating deferrable constraints?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#465
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#464
   def supports_deferrable_constraints?; end
 
   # Does this adapter support creating exclusion constraints?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#475
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#474
   def supports_exclusion_constraints?; end
 
   # Does this adapter support explain?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#434
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#433
   def supports_explain?; end
 
   # Does this adapter support expression indices?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#429
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#428
   def supports_expression_index?; end
 
   # Does this adapter support database extensions?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#444
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#443
   def supports_extensions?; end
 
   # Does this adapter support creating foreign key constraints?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#455
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#454
   def supports_foreign_keys?; end
 
   # Does this adapter support foreign/external tables?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#520
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#519
   def supports_foreign_tables?; end
 
   # Does this adapter support including non-key columns?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#424
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#423
   def supports_index_include?; end
 
   # Does this adapter support index sort order?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#414
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#413
   def supports_index_sort_order?; end
 
   # Does this adapter support creating indexes in the same statement as
@@ -11045,122 +11112,122 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#450
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#449
   def supports_indexes_in_create?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#549
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#548
   def supports_insert_conflict_target?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#541
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#540
   def supports_insert_on_duplicate_skip?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#545
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#544
   def supports_insert_on_duplicate_update?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#537
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#536
   def supports_insert_returning?; end
 
   # Does this adapter support JSON data type?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#500
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#499
   def supports_json?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#533
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#532
   def supports_lazy_transactions?; end
 
   # Does this adapter support materialized views?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#490
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#489
   def supports_materialized_views?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#557
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#556
   def supports_nulls_not_distinct?; end
 
   # Does this adapter support optimizer hints?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#525
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#524
   def supports_optimizer_hints?; end
 
   # Does this adapter support partial indices?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#419
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#418
   def supports_partial_index?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#409
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#408
   def supports_partitioned_indexes?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#393
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#392
   def supports_restart_db_transaction?; end
 
   # Does this adapter support savepoints?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#383
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#382
   def supports_savepoints?; end
 
   # Does this adapter support setting the isolation level for a transaction?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#439
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#438
   def supports_transaction_isolation?; end
 
   # Does this adapter support creating unique constraints?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#480
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#479
   def supports_unique_constraints?; end
 
   # Does this adapter support creating invalid constraints?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#460
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#459
   def supports_validate_constraints?; end
 
   # Does this adapter support views?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#485
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#484
   def supports_views?; end
 
   # Does this adapter support virtual columns?
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#515
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#514
   def supports_virtual_columns?; end
 
   # Removes the connection from the pool and disconnect it.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#726
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#733
   def throw_away!; end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#23
@@ -11169,7 +11236,7 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#23
   def truncate_tables(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#347
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#346
   def unprepared_statement; end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#23
@@ -11177,22 +11244,22 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#272
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#271
   def valid_type?(type); end
 
   # Checks whether the connection to the database is still active (i.e. not stale).
   # This is done under the hood by calling #active?. If the connection
   # is no longer active, then this method will reconnect to the database.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#752
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#759
   def verify!; end
 
   # Returns the value of attribute visitor.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#45
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#44
   def visitor; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#197
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#196
   def with_instrumenter(instrumenter, &block); end
 
   private
@@ -11201,13 +11268,13 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   # to both be thread-safe and not rely upon actual server communication.
   # This is useful for e.g. string escaping methods.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1075
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1083
   def any_raw_connection; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1182
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1180
   def arel_visitor; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1064
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1072
   def backoff(counter); end
 
   # Builds the result object.
@@ -11215,24 +11282,24 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   # This is an internal hook to make possible connection adapters to build
   # custom result objects with connection-specific data.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1193
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1191
   def build_result(columns:, rows:, column_types: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1186
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1184
   def build_statement_pool; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#816
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#823
   def can_perform_case_insensitive_comparison_for?(column); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1168
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1166
   def collector; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1157
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1155
   def column_for(table_name, column_name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1163
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1161
   def column_for_attribute(attribute); end
 
   # Perform any necessary initialization upon the newly-established
@@ -11242,51 +11309,48 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   # Implementations may assume this method will only be called while
   # holding @lock (or from #initialize).
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1204
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1202
   def configure_connection; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1208
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1206
   def default_prepared_statements; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1092
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1100
   def extended_type_map_key; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1050
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1058
   def invalidate_transaction(exception); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1118
-  def log(sql, name = T.unsafe(nil), binds = T.unsafe(nil), type_casted_binds = T.unsafe(nil), statement_name = T.unsafe(nil), async: T.unsafe(nil), &block); end
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1128
+  def log(sql, name = T.unsafe(nil), binds = T.unsafe(nil), type_casted_binds = T.unsafe(nil), async: T.unsafe(nil), &block); end
 
   # @raise [NotImplementedError]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1068
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1076
   def reconnect; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#938
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#945
   def reconnect_can_restore_state?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1046
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1053
   def retryable_connection_error?(exception); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1057
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1065
   def retryable_query_error?(exception); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1136
-  def transform_query(sql); end
-
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1143
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1145
   def translate_exception(exception, message:, sql:, binds:); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1108
-  def translate_exception_class(e, sql, binds); end
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1116
+  def translate_exception_class(native_error, sql, binds); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1098
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1106
   def type_map; end
 
   # Similar to any_raw_connection, but ensures it is validated and
@@ -11295,19 +11359,19 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   # server... but some drivers fail if they know the connection has gone
   # away.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1084
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1092
   def valid_raw_connection; end
 
   # Mark the connection as verified. Call this inside a
   # `with_raw_connection` block only when the block is guaranteed to
   # exercise the raw connection.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1042
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1049
   def verified!; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1212
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1210
   def warning_ignored?(warning); end
 
   # Lock the monitor, ensure we're properly connected and
@@ -11343,139 +11407,131 @@ class ActiveRecord::ConnectionAdapters::AbstractAdapter
   # still-yielded connection in the outer block), but we currently
   # provide no special enforcement there.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#975
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#982
   def with_raw_connection(allow_retry: T.unsafe(nil), materialize_transactions: T.unsafe(nil)); end
 
-  # @return [Boolean]
-  #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#1153
-  def without_prepared_statement?(binds); end
-
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def __callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
-    def __callbacks=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def __callbacks=(new_value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
-    def __callbacks?; end
-
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#916
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#915
     def _checkin_callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#920
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#919
     def _checkin_callbacks=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#916
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#915
     def _checkout_callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#920
+    # source://activesupport/8.0.0.rc1/lib/active_support/callbacks.rb#919
     def _checkout_callbacks=(value); end
 
-    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#87
+    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#86
     def build_read_query_regexp(*parts); end
 
     # Does the database for this adapter exist?
     #
     # @return [Boolean]
     #
-    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#361
+    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#360
     def database_exists?(config); end
 
     # Opens a database console session.
     #
     # @raise [NotImplementedError]
     #
-    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#122
+    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#121
     def dbconsole(config, options = T.unsafe(nil)); end
 
-    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#869
+    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#876
     def extended_type_map(default_timezone:); end
 
-    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#93
+    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#92
     def find_cmd_and_exec(commands, *args); end
 
-    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#862
+    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#869
     def register_class_with_precision(mapping, key, klass, **kwargs); end
 
-    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#66
+    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#65
     def type_cast_config_to_boolean(config); end
 
-    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#56
+    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#55
     def type_cast_config_to_integer(config); end
 
-    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#74
+    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#73
     def validate_default_timezone(config); end
 
     private
 
-    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#929
+    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#936
     def extract_limit(sql_type); end
 
-    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#925
+    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#932
     def extract_precision(sql_type); end
 
-    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#918
+    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#925
     def extract_scale(sql_type); end
 
-    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#878
+    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#885
     def initialize_type_map(m); end
 
-    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#911
+    # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#918
     def register_class_with_limit(mapping, key, klass); end
   end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#32
+# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#31
 ActiveRecord::ConnectionAdapters::AbstractAdapter::ADAPTER_NAME = T.let(T.unsafe(nil), String)
 
-# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#42
+# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#41
 ActiveRecord::ConnectionAdapters::AbstractAdapter::COMMENT_REGEX = T.let(T.unsafe(nil), Regexp)
 
-# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#84
+# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#83
 ActiveRecord::ConnectionAdapters::AbstractAdapter::DEFAULT_READ_QUERY = T.let(T.unsafe(nil), Array)
 
-# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#195
+# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#194
 ActiveRecord::ConnectionAdapters::AbstractAdapter::EXCEPTION_IMMEDIATE = T.let(T.unsafe(nil), Hash)
 
-# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#194
+# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#193
 ActiveRecord::ConnectionAdapters::AbstractAdapter::EXCEPTION_NEVER = T.let(T.unsafe(nil), Hash)
 
-# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#935
+# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#942
 ActiveRecord::ConnectionAdapters::AbstractAdapter::EXTENDED_TYPE_MAPS = T.let(T.unsafe(nil), Concurrent::Map)
 
-# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#41
+# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#40
 ActiveRecord::ConnectionAdapters::AbstractAdapter::SIMPLE_INT = T.let(T.unsafe(nil), Regexp)
 
-# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#934
+# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#941
 ActiveRecord::ConnectionAdapters::AbstractAdapter::TYPE_MAP = T.let(T.unsafe(nil), ActiveRecord::Type::TypeMap)
 
-# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#253
+# source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#252
 class ActiveRecord::ConnectionAdapters::AbstractAdapter::Version
   include ::Comparable
 
   # @return [Version] a new instance of Version
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#258
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#257
   def initialize(version_string, full_version_string = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#263
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#262
   def <=>(version_string); end
 
   # Returns the value of attribute full_version_string.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#256
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#255
   def full_version_string; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#267
+  # source://activerecord//lib/active_record/connection_adapters/abstract_adapter.rb#266
   def to_s; end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#12
+# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#11
 module ActiveRecord::ConnectionAdapters::AbstractPool; end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#114
+# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#113
 class ActiveRecord::ConnectionAdapters::AddColumnDefinition < ::Struct
   # Returns the value of attribute column
   #
@@ -11497,54 +11553,62 @@ class ActiveRecord::ConnectionAdapters::AddColumnDefinition < ::Struct
   end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#621
+# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#620
 class ActiveRecord::ConnectionAdapters::AlterTable
   # @return [AlterTable] a new instance of AlterTable
   #
   # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#626
   def initialize(td); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#645
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#646
   def add_check_constraint(expression, options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#653
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#658
   def add_column(name, type, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#637
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#638
   def add_foreign_key(to_table, options); end
 
   # Returns the value of attribute adds.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#622
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#621
   def adds; end
 
   # Returns the value of attribute check_constraint_adds.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#624
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#623
   def check_constraint_adds; end
 
   # Returns the value of attribute check_constraint_drops.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#624
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#623
   def check_constraint_drops; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#649
+  # Returns the value of attribute constraint_drops.
+  #
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#624
+  def constraint_drops; end
+
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#650
   def drop_check_constraint(constraint_name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#641
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#654
+  def drop_constraint(constraint_name); end
+
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#642
   def drop_foreign_key(name); end
 
   # Returns the value of attribute foreign_key_adds.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#623
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#622
   def foreign_key_adds; end
 
   # Returns the value of attribute foreign_key_drops.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#623
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#622
   def foreign_key_drops; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#635
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#636
   def name; end
 end
 
@@ -11627,7 +11691,7 @@ class ActiveRecord::ConnectionAdapters::BoundSchemaReflection::FakePool
   def with_connection; end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#118
+# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#117
 class ActiveRecord::ConnectionAdapters::ChangeColumnDefaultDefinition < ::Struct
   # Returns the value of attribute column
   #
@@ -11660,7 +11724,7 @@ class ActiveRecord::ConnectionAdapters::ChangeColumnDefaultDefinition < ::Struct
   end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#116
+# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#115
 class ActiveRecord::ConnectionAdapters::ChangeColumnDefinition < ::Struct
   # Returns the value of attribute column
   #
@@ -11693,16 +11757,16 @@ class ActiveRecord::ConnectionAdapters::ChangeColumnDefinition < ::Struct
   end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#174
+# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#173
 class ActiveRecord::ConnectionAdapters::CheckConstraintDefinition < ::Struct
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#188
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#187
   def defined_for?(name:, expression: T.unsafe(nil), validate: T.unsafe(nil), **options); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#184
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#183
   def export_name_on_schema_dump?; end
 
   # Returns the value of attribute expression
@@ -11716,7 +11780,7 @@ class ActiveRecord::ConnectionAdapters::CheckConstraintDefinition < ::Struct
   # @return [Object] the newly set value
   def expression=(_); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#175
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#174
   def name; end
 
   # Returns the value of attribute options
@@ -11743,12 +11807,12 @@ class ActiveRecord::ConnectionAdapters::CheckConstraintDefinition < ::Struct
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#179
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#178
   def validate?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#179
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#178
   def validated?; end
 
   class << self
@@ -11890,45 +11954,45 @@ end
 # +columns+ attribute of said TableDefinition object, in order to be used
 # for generating a number of table creation or table changing SQL statements.
 #
-# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#79
+# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#78
 class ActiveRecord::ConnectionAdapters::ColumnDefinition < ::Struct
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#109
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#108
   def aliased_types(name, fallback); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#99
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#98
   def collation; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#103
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#102
   def collation=(value); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#99
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#98
   def comment; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#103
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#102
   def comment=(value); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#99
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#98
   def default; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#103
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#102
   def default=(value); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#99
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#98
   def if_exists; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#103
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#102
   def if_exists=(value); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#99
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#98
   def if_not_exists; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#103
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#102
   def if_not_exists=(value); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#99
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#98
   def limit; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#103
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#102
   def limit=(value); end
 
   # Returns the value of attribute name
@@ -11942,10 +12006,10 @@ class ActiveRecord::ConnectionAdapters::ColumnDefinition < ::Struct
   # @return [Object] the newly set value
   def name=(_); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#99
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#98
   def null; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#103
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#102
   def null=(value); end
 
   # Returns the value of attribute options
@@ -11959,21 +12023,21 @@ class ActiveRecord::ConnectionAdapters::ColumnDefinition < ::Struct
   # @return [Object] the newly set value
   def options=(_); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#99
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#98
   def precision; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#103
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#102
   def precision=(value); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#93
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#92
   def primary_key?; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#99
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#98
   def scale; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#103
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#102
   def scale=(value); end
 
   # Returns the value of attribute sql_type
@@ -12007,10 +12071,10 @@ class ActiveRecord::ConnectionAdapters::ColumnDefinition < ::Struct
   end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#80
+# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#79
 ActiveRecord::ConnectionAdapters::ColumnDefinition::OPTION_NAMES = T.let(T.unsafe(nil), Array)
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#300
+# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#299
 module ActiveRecord::ConnectionAdapters::ColumnMethods
   extend ::ActiveSupport::Concern
 
@@ -12019,7 +12083,7 @@ module ActiveRecord::ConnectionAdapters::ColumnMethods
   # Appends a primary key definition to the table definition.
   # Can be called multiple times, but this is probably not a good idea.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#305
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#304
   def primary_key(name, type = T.unsafe(nil), **options); end
 end
 
@@ -12027,7 +12091,7 @@ end
 module ActiveRecord::ConnectionAdapters::ColumnMethods::ClassMethods
   private
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#329
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#328
   def define_column_methods(*column_types); end
 end
 
@@ -12081,11 +12145,11 @@ end
 # about the model. The model needs to pass a connection specification name to the handler,
 # in order to look up the correct connection pool.
 #
-# source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#57
+# source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#56
 class ActiveRecord::ConnectionAdapters::ConnectionHandler
   # @return [ConnectionHandler] a new instance of ConnectionHandler
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#74
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#73
   def initialize; end
 
   # Returns true if there are any active connections among the connection
@@ -12093,24 +12157,24 @@ class ActiveRecord::ConnectionAdapters::ConnectionHandler
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#155
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#154
   def active_connections?(role = T.unsafe(nil)); end
 
   # Returns any connections in use by the current thread back to the pool,
   # and also returns connections to the pool cached by threads that are no
   # longer alive.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#162
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#161
   def clear_active_connections!(role = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#176
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#175
   def clear_all_connections!(role = T.unsafe(nil)); end
 
   # Clears the cache which maps classes.
   #
   # See ConnectionPool#clear_reloadable_connections! for details.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#172
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#171
   def clear_reloadable_connections!(role = T.unsafe(nil)); end
 
   # Returns true if a connection that's accessible to this class has
@@ -12118,44 +12182,44 @@ class ActiveRecord::ConnectionAdapters::ConnectionHandler
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#198
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#197
   def connected?(connection_name, role: T.unsafe(nil), shard: T.unsafe(nil)); end
 
   # Returns the pools for a connection handler and given role. If +:all+ is passed,
   # all pools belonging to the connection handler will be returned.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#93
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#92
   def connection_pool_list(role = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#87
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#86
   def connection_pool_names; end
 
   # Returns the pools for a connection handler and given role. If +:all+ is passed,
   # all pools belonging to the connection handler will be returned.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#93
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#92
   def connection_pools(role = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#102
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#101
   def each_connection_pool(role = T.unsafe(nil), &block); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#113
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#112
   def establish_connection(config, owner_name: T.unsafe(nil), role: T.unsafe(nil), shard: T.unsafe(nil), clobber: T.unsafe(nil)); end
 
   # Disconnects all currently idle connections.
   #
   # See ConnectionPool#flush! for details.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#183
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#182
   def flush_idle_connections!(role = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#79
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#78
   def prevent_writes; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#83
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#82
   def prevent_writes=(prevent_writes); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#203
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#202
   def remove_connection_pool(connection_name, role: T.unsafe(nil), shard: T.unsafe(nil)); end
 
   # Locate the connection of the nearest super class. This can be an
@@ -12163,35 +12227,35 @@ class ActiveRecord::ConnectionAdapters::ConnectionHandler
   # opened and set as the active connection for the class it was defined
   # for (not necessarily the current class).
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#191
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#190
   def retrieve_connection(connection_name, role: T.unsafe(nil), shard: T.unsafe(nil)); end
 
   # Retrieving the connection pool happens a lot, so we cache it in @connection_name_to_pool_manager.
   # This makes retrieving the connection pool O(1) once the process is warm.
   # When a connection is established or removed, we invalidate the cache.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#212
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#211
   def retrieve_connection_pool(connection_name, role: T.unsafe(nil), shard: T.unsafe(nil), strict: T.unsafe(nil)); end
 
   private
 
   # Returns the value of attribute connection_name_to_pool_manager.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#231
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#237
   def connection_name_to_pool_manager; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#273
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#279
   def determine_owner_name(owner_name, config); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#247
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#253
   def disconnect_pool_from_pool_manager(pool_manager, role, shard); end
 
   # Returns the pool manager for a connection name / identifier.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#234
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#240
   def get_pool_manager(connection_name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#243
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#249
   def pool_managers; end
 
   # Returns an instance of PoolConfig for a given adapter.
@@ -12206,33 +12270,33 @@ class ActiveRecord::ConnectionAdapters::ConnectionHandler
   #
   # @raise [AdapterNotSpecified]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#266
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#272
   def resolve_pool_config(config, connection_name, role, shard); end
 
   # Get the existing pool manager or initialize and assign a new one.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#239
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#245
   def set_pool_manager(connection_name); end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#58
+# source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#57
 class ActiveRecord::ConnectionAdapters::ConnectionHandler::StringConnectionName
   # @return [StringConnectionName] a new instance of StringConnectionName
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#61
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#60
   def initialize(name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#69
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#68
   def current_preventing_writes; end
 
   # Returns the value of attribute name.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#59
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#58
   def name; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#65
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_handler.rb#64
   def primary_class?; end
 end
 
@@ -12303,7 +12367,7 @@ end
 # * private methods that require being called in a +synchronize+ blocks
 #   are now explicitly documented
 #
-# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#8
+# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#7
 class ActiveRecord::ConnectionAdapters::ConnectionPool
   include ::ActiveRecord::ConnectionAdapters::QueryCache::ConnectionPoolConfiguration
   include ::MonitorMixin
@@ -12329,7 +12393,7 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#353
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#370
   def active_connection; end
 
   # Returns true if there is an open connection being used for the current thread.
@@ -12340,24 +12404,24 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#353
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#370
   def active_connection?; end
 
   # Returns the value of attribute async_executor.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#192
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#216
   def async_executor; end
 
   # Returns the value of attribute automatic_reconnect.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#191
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#215
   def automatic_reconnect; end
 
   # Sets the attribute automatic_reconnect
   #
   # @param value the value to set the attribute automatic_reconnect to.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#191
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#215
   def automatic_reconnect=(_arg0); end
 
   # Check-in a database connection back into the pool, indicating that you
@@ -12366,7 +12430,7 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool
   # +conn+: an AbstractAdapter object, which was obtained by earlier by
   # calling #checkout on this pool.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#547
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#564
   def checkin(conn); end
 
   # Check-out a database connection from the pool, indicating that you want
@@ -12384,7 +12448,7 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool
   # Raises:
   # - ActiveRecord::ConnectionTimeoutError no connection can be obtained from the pool.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#524
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#541
   def checkout(checkout_timeout = T.unsafe(nil)); end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#132
@@ -12392,14 +12456,14 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool
 
   # Returns the value of attribute checkout_timeout.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#191
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#215
   def checkout_timeout; end
 
   # Sets the attribute checkout_timeout
   #
   # @param value the value to set the attribute checkout_timeout to.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#191
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#215
   def checkout_timeout=(_arg0); end
 
   # Clears the cache which maps classes and re-connects connections that
@@ -12410,7 +12474,7 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool
   #   connections in the pool within a timeout interval (default duration is
   #   <tt>spec.db_config.checkout_timeout * 2</tt> seconds).
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#482
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#499
   def clear_reloadable_connections(raise_on_acquisition_timeout = T.unsafe(nil)); end
 
   # Clears the cache which maps classes and re-connects connections that
@@ -12422,20 +12486,17 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool
   # clears the cache and reloads connections without any regard for other
   # connection owning threads.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#506
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#523
   def clear_reloadable_connections!; end
 
   # Returns true if a connection has already been opened.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#404
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#421
   def connected?; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#295
-  def connection; end
-
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#344
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#361
   def connection_class; end
 
   # Returns an array containing the connections currently in the pool.
@@ -12450,12 +12511,12 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool
   # thread-safety guarantees of the underlying method. Many of the methods
   # on connection adapter classes are inherently multi-thread unsafe.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#419
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#436
   def connections; end
 
   # Returns the value of attribute db_config.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#192
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#216
   def db_config; end
 
   # Discards all connections in the pool (even if they're currently
@@ -12464,12 +12525,12 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool
   #
   # See AbstractAdapter#discard!
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#461
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#478
   def discard!; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#471
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#488
   def discarded?; end
 
   # Disconnects all connections in the pool, and clears the pool.
@@ -12479,7 +12540,7 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool
   #   connections in the pool within a timeout interval (default duration is
   #   <tt>spec.db_config.checkout_timeout * 2</tt> seconds).
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#429
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#446
   def disconnect(raise_on_acquisition_timeout = T.unsafe(nil)); end
 
   # Disconnects all connections in the pool, and clears the pool.
@@ -12489,26 +12550,26 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool
   # <tt>spec.db_config.checkout_timeout * 2</tt> seconds), then the pool is forcefully
   # disconnected without any regard for other connection owning threads.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#452
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#469
   def disconnect!; end
 
   # Disconnect all connections that have been idle for at least
   # +minimum_idle+ seconds. Connections currently checked out, or that were
   # checked in less than +minimum_idle+ seconds ago, are unaffected.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#620
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#637
   def flush(minimum_idle = T.unsafe(nil)); end
 
   # Disconnect all currently idle connections. Connections currently checked
   # out are unaffected.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#642
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#659
   def flush!; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#248
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#272
   def inspect; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#276
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#300
   def internal_metadata; end
 
   # Retrieve the connection associated with the current thread, or call
@@ -12517,41 +12578,41 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool
   # #lease_connection can be called any number of times; the connection is
   # held in a cache keyed by a thread.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#285
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#309
   def lease_connection; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#264
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#288
   def migration_context; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#268
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#292
   def migrations_paths; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#647
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#664
   def num_waiting_in_queue; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#291
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#315
   def permanent_lease?; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#303
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#319
   def pin_connection!(lock_thread); end
 
   # Returns the value of attribute pool_config.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#192
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#216
   def pool_config; end
 
   # Recover lost connections for the pool. A lost connection can occur if
   # a programmer forgets to checkin a connection at the end of a thread
   # or a thread dies unexpectedly.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#597
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#614
   def reap; end
 
   # Returns the value of attribute reaper.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#192
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#216
   def reaper; end
 
   # Signal that the thread is finished with the current connection.
@@ -12562,56 +12623,56 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool
   # #lease_connection or #with_connection methods, connections obtained through
   # #checkout will not be automatically released.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#365
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#382
   def release_connection(existing_lease = T.unsafe(nil)); end
 
   # Remove a connection from the connection pool. The connection will
   # remain open and active but will no longer be managed by this pool.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#565
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#582
   def remove(conn); end
 
   # Returns the value of attribute role.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#192
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#216
   def role; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#668
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#685
   def schedule_query(future_result); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#255
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#279
   def schema_cache; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#272
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#296
   def schema_migration; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#194
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#218
   def schema_reflection(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#259
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#283
   def schema_reflection=(schema_reflection); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#194
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#218
   def server_version(*_arg0, **_arg1, &_arg2); end
 
   # Returns the value of attribute shard.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#192
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#216
   def shard; end
 
   # Returns the value of attribute size.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#192
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#216
   def size; end
 
   # Returns the connection pool's usage statistic.
   #
   #    ActiveRecord::Base.connection_pool.stat # => { size: 15, connections: 1, busy: 1, dead: 0, idle: 0, waiting: 0, checkout_timeout: 5 }
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#654
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#671
   def stat; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#318
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#334
   def unpin_connection!; end
 
   # Yields a connection from the connection pool to the block. If no connection
@@ -12624,7 +12685,7 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool
   # connection will be properly returned to the pool by the code that checked
   # it out.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#382
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#399
   def with_connection(prevent_permanent_checkout: T.unsafe(nil)); end
 
   private
@@ -12641,51 +12702,51 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool
   # Implementation detail: the connection returned by +acquire_connection+
   # will already be "+connection.lease+ -ed" to the current thread.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#826
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#843
   def acquire_connection(checkout_timeout); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#896
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#913
   def adopt_connection(conn); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#717
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#734
   def attempt_to_checkout_all_existing_connections(raise_on_acquisition_timeout = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#678
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#695
   def build_async_executor; end
 
   # --
   # this is unfortunately not concurrent
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#696
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#713
   def bulk_make_new_connections(num_new_conns_needed); end
 
   # --
   # Must be called in a synchronize block.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#766
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#783
   def checkout_for_exclusive_access(checkout_timeout); end
 
   # @raise [ConnectionNotEstablished]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#907
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#924
   def checkout_new_connection; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#674
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#691
   def connection_lease; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#856
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#873
   def new_connection; end
 
   # --
   # if owner_thread param is omitted, this must be called in synchronize block
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#851
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#868
   def release(conn, owner_thread = T.unsafe(nil)); end
 
   # --
   # if owner_thread param is omitted, this must be called in synchronize block
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#851
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#868
   def remove_connection_from_thread_cache(conn, owner_thread = T.unsafe(nil)); end
 
   # If the pool is not at a <tt>@size</tt> limit, establish new connection. Connecting
@@ -12694,7 +12755,7 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool
   # Implementation constraint: a newly established connection returned by this
   # method must be in the +.leased+ state.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#869
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#886
   def try_to_checkout_new_connection; end
 
   # Take control of all existing connections so a "group" action such as
@@ -12702,42 +12763,47 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool
   # wrap it in +synchronize+ because some pool's actions are allowed
   # to be performed outside of the main +synchronize+ block.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#710
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#727
   def with_exclusively_acquired_all_connections(raise_on_acquisition_timeout = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#786
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#803
   def with_new_connections_blocked; end
+
+  class << self
+    # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#206
+    def install_executor_hooks(executor = T.unsafe(nil)); end
+  end
 end
 
 # Adds the ability to turn a basic fair FIFO queue into one
 # biased to some thread.
 #
-# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#138
+# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#137
 module ActiveRecord::ConnectionAdapters::ConnectionPool::BiasableQueue
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#178
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#177
   def with_a_bias_for(thread); end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#139
+# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#138
 class ActiveRecord::ConnectionAdapters::ConnectionPool::BiasableQueue::BiasedConditionVariable
   # semantics of condition variables guarantee that +broadcast+, +broadcast_on_biased+,
   # +signal+ and +wait+ methods are only called while holding a lock
   #
   # @return [BiasedConditionVariable] a new instance of BiasedConditionVariable
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#142
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#141
   def initialize(lock, other_cond, preferred_thread); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#149
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#148
   def broadcast; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#154
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#153
   def broadcast_on_biased; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#159
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#158
   def signal; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#168
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#167
   def wait(timeout); end
 end
 
@@ -12747,65 +12813,76 @@ end
 # <tt>@lock</tt> as the main pool) so that a returned connection is already
 # leased and there is no need to re-enter synchronized block.
 #
-# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#199
+# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#198
 class ActiveRecord::ConnectionAdapters::ConnectionPool::ConnectionLeasingQueue < ::ActiveRecord::ConnectionAdapters::ConnectionPool::Queue
   include ::ActiveRecord::ConnectionAdapters::ConnectionPool::BiasableQueue
 
   private
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#203
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#202
   def internal_poll(timeout); end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#142
+# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#186
+module ActiveRecord::ConnectionAdapters::ConnectionPool::ExecutorHooks
+  class << self
+    # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#192
+    def complete(_); end
+
+    # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#188
+    def run; end
+  end
+end
+
+# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#141
 class ActiveRecord::ConnectionAdapters::ConnectionPool::Lease
   # @return [Lease] a new instance of Lease
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#145
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#144
   def initialize; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#157
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#156
   def clear(connection); end
 
   # Returns the value of attribute connection.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#143
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#142
   def connection; end
 
   # Sets the attribute connection
   #
   # @param value the value to set the attribute connection to.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#143
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#142
   def connection=(_arg0); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#150
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#149
   def release; end
 
   # Returns the value of attribute sticky.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#143
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#142
   def sticky; end
 
   # Sets the attribute sticky
   #
   # @param value the value to set the attribute sticky to.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#143
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#142
   def sticky=(_arg0); end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#168
+# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#167
 class ActiveRecord::ConnectionAdapters::ConnectionPool::LeaseRegistry
   # @return [LeaseRegistry] a new instance of LeaseRegistry
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#169
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#168
   def initialize; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#174
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#173
   def [](context); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#180
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#179
   def clear; end
 end
 
@@ -12814,39 +12891,39 @@ end
 # Threadsafe, fair, LIFO queue.  Meant to be used by ConnectionPool
 # with which it shares a Monitor.
 #
-# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#13
+# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#12
 class ActiveRecord::ConnectionAdapters::ConnectionPool::Queue
   # @return [Queue] a new instance of Queue
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#14
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#13
   def initialize(lock = T.unsafe(nil)); end
 
   # Add +element+ to the queue.  Never blocks.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#37
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#36
   def add(element); end
 
   # Test if any threads are currently waiting on the queue.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#22
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#21
   def any_waiting?; end
 
   # Remove all elements from the queue.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#52
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#51
   def clear; end
 
   # If +element+ is in the queue, remove and return it, or +nil+.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#45
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#44
   def delete(element); end
 
   # Returns the number of threads currently waiting on this
   # queue.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#30
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#29
   def num_waiting; end
 
   # Remove the head of the queue.
@@ -12864,7 +12941,7 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool::Queue
   # - ActiveRecord::ConnectionTimeoutError if +timeout+ is given and no element
   # becomes available within +timeout+ seconds,
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#72
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#71
   def poll(timeout = T.unsafe(nil)); end
 
   private
@@ -12873,7 +12950,7 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool::Queue
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#86
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#85
   def any?; end
 
   # A thread can remove an element from the queue without
@@ -12883,31 +12960,31 @@ class ActiveRecord::ConnectionAdapters::ConnectionPool::Queue
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#94
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#93
   def can_remove_no_wait?; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#77
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#76
   def internal_poll(timeout); end
 
   # Remove and return the head of the queue if the number of
   # available elements is strictly greater than the number of
   # threads currently waiting.  Otherwise, return +nil+.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#106
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#105
   def no_wait_poll; end
 
   # Removes and returns the head of the queue if possible, or +nil+.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#99
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#98
   def remove; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#81
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#80
   def synchronize(&block); end
 
   # Waits on the queue up to +timeout+ seconds, then removes and
   # returns the head of the queue.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#112
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/queue.rb#111
   def wait_poll(timeout); end
 end
 
@@ -12920,58 +12997,58 @@ end
 # Configure the frequency by setting +reaping_frequency+ in your database
 # YAML file (default 60 seconds).
 #
-# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/reaper.rb#17
+# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/reaper.rb#16
 class ActiveRecord::ConnectionAdapters::ConnectionPool::Reaper
   # @return [Reaper] a new instance of Reaper
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/reaper.rb#20
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/reaper.rb#19
   def initialize(pool, frequency); end
 
   # Returns the value of attribute frequency.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/reaper.rb#18
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/reaper.rb#17
   def frequency; end
 
   # Returns the value of attribute pool.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/reaper.rb#18
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/reaper.rb#17
   def pool; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/reaper.rb#72
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/reaper.rb#71
   def run; end
 
   class << self
-    # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/reaper.rb#30
+    # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/reaper.rb#29
     def register_pool(pool, frequency); end
 
     private
 
-    # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/reaper.rb#41
+    # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool/reaper.rb#40
     def spawn_thread(frequency); end
   end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#121
+# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#120
 class ActiveRecord::ConnectionAdapters::ConnectionPool::WeakThreadKeyMap
   # FIXME: On 3.3 we could use ObjectSpace::WeakKeyMap
   # but it currently cause GC crashes: https://github.com/byroot/rails/pull/3
   #
   # @return [WeakThreadKeyMap] a new instance of WeakThreadKeyMap
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#124
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#123
   def initialize; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#132
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#131
   def [](key); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#136
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#135
   def []=(key, value); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#128
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#127
   def clear; end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#120
+# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#119
 class ActiveRecord::ConnectionAdapters::CreateIndexDefinition < ::Struct
   # Returns the value of attribute algorithm
   #
@@ -13049,13 +13126,16 @@ module ActiveRecord::ConnectionAdapters::DatabaseStatements
   # Register a record with the current transaction so that its after_commit and after_rollback callbacks
   # can be called.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#407
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#405
   def add_transaction_record(record, ensure_finalize = T.unsafe(nil)); end
 
   # Begins the transaction (and turns off auto-committing).
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#412
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#410
   def begin_db_transaction; end
+
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#412
+  def begin_deferred_transaction(isolation_level = T.unsafe(nil)); end
 
   # Begins the transaction with the isolation level set. Raises an error by
   # default; adapters that support setting the isolation level should implement
@@ -13063,10 +13143,10 @@ module ActiveRecord::ConnectionAdapters::DatabaseStatements
   #
   # @raise [ActiveRecord::TransactionIsolationError]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#426
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#432
   def begin_isolated_db_transaction(isolation); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#369
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#367
   def begin_transaction(*_arg0, **_arg1, &_arg2); end
 
   # This is used in the StatementCache object. It returns an object that
@@ -13077,10 +13157,10 @@ module ActiveRecord::ConnectionAdapters::DatabaseStatements
 
   # Commits the transaction (and turns on auto-committing).
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#431
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#446
   def commit_db_transaction; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#369
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#367
   def commit_transaction(*_arg0, **_arg1, &_arg2); end
 
   # Executes an INSERT query and returns the new record's ID
@@ -13098,10 +13178,10 @@ module ActiveRecord::ConnectionAdapters::DatabaseStatements
   # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#195
   def create(arel, name = T.unsafe(nil), pk = T.unsafe(nil), id_value = T.unsafe(nil), sequence_name = T.unsafe(nil), binds = T.unsafe(nil), returning: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#369
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#367
   def current_transaction(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#453
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#468
   def default_sequence_name(table, column); end
 
   # Executes the delete statement and returns the number of rows affected.
@@ -13109,16 +13189,16 @@ module ActiveRecord::ConnectionAdapters::DatabaseStatements
   # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#212
   def delete(arel, name = T.unsafe(nil), binds = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#369
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#367
   def dirty_current_transaction(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#369
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#367
   def disable_lazy_transactions!(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#485
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#498
   def empty_insert_statement_value(primary_key = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#369
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#367
   def enable_lazy_transactions!(*_arg0, **_arg1, &_arg2); end
 
   # Executes delete +sql+ statement in the context of this connection using
@@ -13152,10 +13232,10 @@ module ActiveRecord::ConnectionAdapters::DatabaseStatements
   # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#147
   def exec_query(sql, name = T.unsafe(nil), binds = T.unsafe(nil), prepare: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#447
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#462
   def exec_restart_db_transaction; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#441
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#456
   def exec_rollback_db_transaction; end
 
   # Executes update +sql+ statement in the context of this connection using
@@ -13194,7 +13274,7 @@ module ActiveRecord::ConnectionAdapters::DatabaseStatements
   # Adapters supporting datetime with precision should override this to
   # provide as much precision as is available.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#523
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#536
   def high_precision_current_timestamp; end
 
   # Executes an INSERT query and returns the new record's ID
@@ -13218,56 +13298,71 @@ module ActiveRecord::ConnectionAdapters::DatabaseStatements
   # We keep this method to provide fallback
   # for databases like SQLite that do not support bulk inserts.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#467
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#482
   def insert_fixture(fixture, table_name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#471
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#486
   def insert_fixtures_set(fixture_set, tables_to_delete = T.unsafe(nil)); end
 
-  # @raise [NotImplementedError]
+  # Execute a query and returns an ActiveRecord::Result
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#527
-  def internal_exec_query(sql, name = T.unsafe(nil), binds = T.unsafe(nil), prepare: T.unsafe(nil), async: T.unsafe(nil), allow_retry: T.unsafe(nil)); end
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#546
+  def internal_exec_query(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#374
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#372
   def mark_transaction_written_if_write(sql); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#369
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#367
   def materialize_transactions(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#369
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#367
   def open_transactions(*_arg0, **_arg1, &_arg2); end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#113
-  def query(sql, name = T.unsafe(nil)); end
+  def query(*_arg0, **_arg1, &_arg2); end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#105
-  def query_value(sql, name = T.unsafe(nil)); end
+  def query_value(*_arg0, **_arg1, &_arg2); end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#109
-  def query_values(sql, name = T.unsafe(nil)); end
+  def query_values(*_arg0, **_arg1, &_arg2); end
+
+  # Same as raw_execute but returns an ActiveRecord::Result object.
+  #
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#541
+  def raw_exec_query(*_arg0, **_arg1, &_arg2); end
+
+  # Hook point called after an isolated DB transaction is committed
+  # or rolled back.
+  # Most adapters don't need to implement anything because the isolation
+  # level is set on a per transaction basis.
+  # But some databases like SQLite set it on a per connection level
+  # and need to explicitly reset it after commit or rollback.
+  #
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#442
+  def reset_isolation_level; end
 
   # Set the sequence to the max value of the table's column.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#458
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#473
   def reset_sequence!(table, column, sequence = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#385
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#383
   def reset_transaction(restore: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#443
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#458
   def restart_db_transaction; end
 
   # Rolls back the transaction (and turns on auto-committing). Must be
   # done if the transaction block raises an exception or returns false.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#435
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#450
   def rollback_db_transaction; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#449
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#464
   def rollback_to_savepoint(name = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#369
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#367
   def rollback_transaction(*_arg0, **_arg1, &_arg2); end
 
   # Sanitizes the given LIMIT parameter in order to prevent SQL injection.
@@ -13277,7 +13372,7 @@ module ActiveRecord::ConnectionAdapters::DatabaseStatements
   #
   # Returns Integer and Arel::Nodes::SqlLiteral limits as is.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#495
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#508
   def sanitize_limit(limit); end
 
   # Returns an ActiveRecord::Result instance.
@@ -13433,18 +13528,18 @@ module ActiveRecord::ConnectionAdapters::DatabaseStatements
   # isolation level.
   #  :args: (requires_new: nil, isolation: nil, &block)
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#354
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#352
   def transaction(requires_new: T.unsafe(nil), isolation: T.unsafe(nil), joinable: T.unsafe(nil), &block); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#414
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#420
   def transaction_isolation_levels; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#367
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#365
   def transaction_manager; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#381
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#379
   def transaction_open?; end
 
   # Executes the truncate statement.
@@ -13464,10 +13559,10 @@ module ActiveRecord::ConnectionAdapters::DatabaseStatements
   # are not quotable. In this case we want to convert
   # the column value to YAML.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#506
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#519
   def with_yaml_fallback(value); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#369
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#367
   def within_new_transaction(*_arg0, **_arg1, &_arg2); end
 
   # Determines whether the SQL statement is a write query.
@@ -13480,71 +13575,90 @@ module ActiveRecord::ConnectionAdapters::DatabaseStatements
 
   private
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#685
+  # @raise [NotImplementedError]
+  #
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#570
+  def affected_rows(raw_result); end
+
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#732
   def arel_from_relation(relation); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#558
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#607
   def build_fixture_sql(fixtures, table_name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#600
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#649
   def build_fixture_statements(fixture_set); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#607
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#656
   def build_truncate_statement(table_name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#611
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#660
   def build_truncate_statements(table_names); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#621
+  # Receive a native adapter result object and returns an ActiveRecord::Result object.
+  #
+  # @raise [NotImplementedError]
+  #
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#566
+  def cast_result(raw_result); end
+
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#666
   def combine_multi_statements(total_sql); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#554
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#603
   def default_insert_value(column); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#541
-  def execute_batch(statements, name = T.unsafe(nil)); end
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#594
+  def execute_batch(statements, name = T.unsafe(nil), **kwargs); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#693
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#740
   def extract_table_ref_from_insert_sql(sql); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#532
-  def internal_execute(sql, name = T.unsafe(nil), allow_retry: T.unsafe(nil), materialize_transactions: T.unsafe(nil)); end
+  # Same as #internal_exec_query, but yields a native adapter result
+  #
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#589
+  def internal_execute(sql, name = T.unsafe(nil), binds = T.unsafe(nil), prepare: T.unsafe(nil), async: T.unsafe(nil), allow_retry: T.unsafe(nil), materialize_transactions: T.unsafe(nil), &block); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#672
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#719
   def last_inserted_id(result); end
 
   # @raise [NotImplementedError]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#547
-  def raw_execute(sql, name, async: T.unsafe(nil), allow_retry: T.unsafe(nil), materialize_transactions: T.unsafe(nil)); end
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#561
+  def perform_query(raw_connection, sql, binds, type_casted_binds, prepare:, notification_payload:, batch:); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#676
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#574
+  def preprocess_query(sql); end
+
+  # Lowest level way to execute a query. Doesn't check for illegal writes, doesn't annotate queries, yields a native result object.
+  #
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#552
+  def raw_execute(sql, name = T.unsafe(nil), binds = T.unsafe(nil), prepare: T.unsafe(nil), async: T.unsafe(nil), allow_retry: T.unsafe(nil), materialize_transactions: T.unsafe(nil), batch: T.unsafe(nil)); end
+
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#723
   def returning_column_values(result); end
 
   # Returns an ActiveRecord::Result instance.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#626
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#671
   def select(sql, name = T.unsafe(nil), binds = T.unsafe(nil), prepare: T.unsafe(nil), async: T.unsafe(nil), allow_retry: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#680
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#727
   def single_value_from_rows(rows); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#655
+  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#702
   def sql_for_insert(sql, pk, binds, returning); end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#17
   def to_sql_and_binds(arel_or_sql_string, binds = T.unsafe(nil), preparable = T.unsafe(nil), allow_retry = T.unsafe(nil)); end
-
-  # source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#617
-  def with_multi_statements; end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#551
+# source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#600
 ActiveRecord::ConnectionAdapters::DatabaseStatements::DEFAULT_INSERT_VALUE = T.let(T.unsafe(nil), Arel::Nodes::SqlLiteral)
 
 # This is a safe default, even if not high precision on all databases
 #
-# source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#515
+# source://activerecord//lib/active_record/connection_adapters/abstract/database_statements.rb#528
 ActiveRecord::ConnectionAdapters::DatabaseStatements::HIGH_PRECISION_CURRENT_TIMESTAMP = T.let(T.unsafe(nil), Arel::Nodes::SqlLiteral)
 
 # source://activerecord//lib/active_record/connection_adapters/deduplicable.rb#5
@@ -13574,27 +13688,27 @@ module ActiveRecord::ConnectionAdapters::Deduplicable::ClassMethods
   def registry; end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#124
+# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#123
 class ActiveRecord::ConnectionAdapters::ForeignKeyDefinition < ::Struct
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#129
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#128
   def column; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#149
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#148
   def custom_primary_key?; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#145
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#144
   def deferrable; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#162
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#161
   def defined_for?(to_table: T.unsafe(nil), validate: T.unsafe(nil), **options); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#158
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#157
   def export_name_on_schema_dump?; end
 
   # Returns the value of attribute from_table
@@ -13608,13 +13722,13 @@ class ActiveRecord::ConnectionAdapters::ForeignKeyDefinition < ::Struct
   # @return [Object] the newly set value
   def from_table=(_); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#125
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#124
   def name; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#137
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#136
   def on_delete; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#141
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#140
   def on_update; end
 
   # Returns the value of attribute options
@@ -13628,7 +13742,7 @@ class ActiveRecord::ConnectionAdapters::ForeignKeyDefinition < ::Struct
   # @return [Object] the newly set value
   def options=(_); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#133
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#132
   def primary_key; end
 
   # Returns the value of attribute to_table
@@ -13644,17 +13758,17 @@ class ActiveRecord::ConnectionAdapters::ForeignKeyDefinition < ::Struct
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#153
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#152
   def validate?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#153
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#152
   def validated?; end
 
   private
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#169
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#168
   def default_primary_key; end
 
   class << self
@@ -13670,71 +13784,71 @@ end
 # this type are typically created and returned by methods in database
 # adapters. e.g. ActiveRecord::ConnectionAdapters::MySQL::SchemaStatements#indexes
 #
-# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#9
+# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#8
 class ActiveRecord::ConnectionAdapters::IndexDefinition
   # @return [IndexDefinition] a new instance of IndexDefinition
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#12
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#11
   def initialize(table, name, unique = T.unsafe(nil), columns = T.unsafe(nil), lengths: T.unsafe(nil), orders: T.unsafe(nil), opclasses: T.unsafe(nil), where: T.unsafe(nil), type: T.unsafe(nil), using: T.unsafe(nil), include: T.unsafe(nil), nulls_not_distinct: T.unsafe(nil), comment: T.unsafe(nil), valid: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#47
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#46
   def column_options; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#10
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#9
   def columns; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#10
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#9
   def comment; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#55
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#54
   def defined_for?(columns = T.unsafe(nil), name: T.unsafe(nil), unique: T.unsafe(nil), valid: T.unsafe(nil), include: T.unsafe(nil), nulls_not_distinct: T.unsafe(nil), **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#10
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#9
   def include; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#10
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#9
   def lengths; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#10
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#9
   def name; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#10
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#9
   def nulls_not_distinct; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#10
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#9
   def opclasses; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#10
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#9
   def orders; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#10
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#9
   def table; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#10
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#9
   def type; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#10
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#9
   def unique; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#10
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#9
   def using; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#10
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#9
   def valid; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#43
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#42
   def valid?; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#10
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#9
   def where; end
 
   private
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#66
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#65
   def concise_options(options); end
 end
 
@@ -13746,49 +13860,49 @@ class ActiveRecord::ConnectionAdapters::NullColumn < ::ActiveRecord::ConnectionA
   def initialize(name, **_arg1); end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#15
+# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#14
 class ActiveRecord::ConnectionAdapters::NullPool
   include ::ActiveRecord::ConnectionAdapters::AbstractPool
 
   # @return [NullPool] a new instance of NullPool
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#25
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#24
   def initialize; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#43
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#42
   def async_executor; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#41
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#40
   def checkin(_); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#40
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#39
   def connection_class; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#45
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#44
   def db_config; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#49
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#48
   def dirties_query_cache; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#42
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#41
   def remove(_); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#39
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#38
   def schema_cache; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#35
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#34
   def schema_reflection; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#31
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#30
   def server_version(connection); end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#23
+# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#22
 ActiveRecord::ConnectionAdapters::NullPool::NULL_CONFIG = T.let(T.unsafe(nil), ActiveRecord::ConnectionAdapters::NullPool::NullConfig)
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#18
+# source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#17
 class ActiveRecord::ConnectionAdapters::NullPool::NullConfig
-  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#19
+  # source://activerecord//lib/active_record/connection_adapters/abstract/connection_pool.rb#18
   def method_missing(*_arg0, **_arg1, &_arg2); end
 end
 
@@ -13966,7 +14080,7 @@ class ActiveRecord::ConnectionAdapters::PoolManager
   def shard_names; end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#122
+# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#121
 class ActiveRecord::ConnectionAdapters::PrimaryKeyDefinition < ::Struct
   # Returns the value of attribute name
   #
@@ -13990,12 +14104,12 @@ end
 
 # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#8
 module ActiveRecord::ConnectionAdapters::QueryCache
-  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#194
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#196
   def initialize(*_arg0); end
 
   # Enable the query cache within the block.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#204
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#206
   def cache(&block); end
 
   # Clears the query cache.
@@ -14005,31 +14119,31 @@ module ActiveRecord::ConnectionAdapters::QueryCache
   # the same SQL query and repeatedly return the same result each time, silently
   # undermining the randomness you were expecting.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#230
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#232
   def clear_query_cache; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#220
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#222
   def disable_query_cache!; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#208
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#210
   def enable_query_cache!; end
 
   # Returns the value of attribute query_cache.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#192
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#194
   def query_cache; end
 
   # Sets the attribute query_cache
   #
   # @param value the value to set the attribute query_cache to.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#192
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#194
   def query_cache=(_arg0); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#199
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#201
   def query_cache_enabled; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#234
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#236
   def select_all(arel, name = T.unsafe(nil), binds = T.unsafe(nil), preparable: T.unsafe(nil), async: T.unsafe(nil), allow_retry: T.unsafe(nil)); end
 
   # Disable the query cache within the block.
@@ -14037,7 +14151,7 @@ module ActiveRecord::ConnectionAdapters::QueryCache
   # Set <tt>dirties: false</tt> to prevent query caches on all connections from being cleared by write operations.
   # (By default, write operations dirty all connections' query caches in case they are replicas whose cache would now be outdated.)
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#216
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#218
   def uncached(dirties: T.unsafe(nil), &block); end
 
   private
@@ -14045,16 +14159,19 @@ module ActiveRecord::ConnectionAdapters::QueryCache
   # Database adapters can override this method to
   # provide custom cache information.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#300
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#308
   def cache_notification_info(sql, name, binds); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#276
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#300
+  def cache_notification_info_result(sql, name, binds, result); end
+
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#278
   def cache_sql(sql, name, binds); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#258
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#260
   def lookup_sql_cache(sql, name, binds); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#254
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#256
   def unset_query_cache!; end
 
   class << self
@@ -14074,10 +14191,10 @@ module ActiveRecord::ConnectionAdapters::QueryCache::ConnectionPoolConfiguration
   # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#132
   def checkout_and_verify(connection); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#175
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#177
   def clear_query_cache; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#171
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#173
   def dirties_query_cache; end
 
   # Disable the query cache within the block.
@@ -14085,7 +14202,7 @@ module ActiveRecord::ConnectionAdapters::QueryCache::ConnectionPoolConfiguration
   # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#139
   def disable_query_cache(dirties: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#163
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#164
   def disable_query_cache!; end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#149
@@ -14094,10 +14211,10 @@ module ActiveRecord::ConnectionAdapters::QueryCache::ConnectionPoolConfiguration
   # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#159
   def enable_query_cache!; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#185
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#187
   def query_cache; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#167
+  # source://activerecord//lib/active_record/connection_adapters/abstract/query_cache.rb#169
   def query_cache_enabled; end
 end
 
@@ -14333,92 +14450,92 @@ end
 #
 # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#449
 class ActiveRecord::ConnectionAdapters::RealTransaction < ::ActiveRecord::ConnectionAdapters::Transaction
-  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#480
+  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#487
   def commit; end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#450
   def materialize!; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#460
+  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#464
   def restart; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#474
+  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#478
   def rollback; end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#195
+# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#194
 class ActiveRecord::ConnectionAdapters::ReferenceDefinition
   # @return [ReferenceDefinition] a new instance of ReferenceDefinition
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#196
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#195
   def initialize(name, polymorphic: T.unsafe(nil), index: T.unsafe(nil), foreign_key: T.unsafe(nil), type: T.unsafe(nil), **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#216
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#215
   def add(table_name, connection); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#230
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#229
   def add_to(table); end
 
   private
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#247
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#246
   def as_options(value); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#285
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#284
   def column_name; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#289
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#288
   def column_names; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#277
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#276
   def columns; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#251
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#250
   def conditional_options; end
 
   # Returns the value of attribute foreign_key.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#245
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#244
   def foreign_key; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#273
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#272
   def foreign_key_options; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#293
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#292
   def foreign_table_name; end
 
   # Returns the value of attribute index.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#245
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#244
   def index; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#263
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#262
   def index_options(table_name); end
 
   # Returns the value of attribute name.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#245
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#244
   def name; end
 
   # Returns the value of attribute options.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#245
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#244
   def options; end
 
   # Returns the value of attribute polymorphic.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#245
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#244
   def polymorphic; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#259
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#258
   def polymorphic_index_name(table_name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#255
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#254
   def polymorphic_options; end
 
   # Returns the value of attribute type.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#245
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#244
   def type; end
 end
 
@@ -14580,10 +14697,10 @@ class ActiveRecord::ConnectionAdapters::SchemaCache
 
   private
 
-  # source://activerecord//lib/active_record/connection_adapters/schema_cache.rb#450
+  # source://activerecord//lib/active_record/connection_adapters/schema_cache.rb#448
   def deep_deduplicate(value); end
 
-  # source://activerecord//lib/active_record/connection_adapters/schema_cache.rb#442
+  # source://activerecord//lib/active_record/connection_adapters/schema_cache.rb#440
   def derive_columns_hash_and_deduplicate_values; end
 
   # @return [Boolean]
@@ -14594,7 +14711,7 @@ class ActiveRecord::ConnectionAdapters::SchemaCache
   # source://activerecord//lib/active_record/connection_adapters/schema_cache.rb#264
   def initialize_dup(other); end
 
-  # source://activerecord//lib/active_record/connection_adapters/schema_cache.rb#463
+  # source://activerecord//lib/active_record/connection_adapters/schema_cache.rb#461
   def open(filename); end
 
   # source://activerecord//lib/active_record/connection_adapters/schema_cache.rb#428
@@ -14623,16 +14740,16 @@ class ActiveRecord::ConnectionAdapters::SchemaCreation
 
   private
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#176
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#175
   def action_sql(action, dependency); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#151
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#150
   def add_column_options!(sql, options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#142
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#141
   def add_table_options!(create_sql, o); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#147
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#146
   def column_options(o); end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#16
@@ -14647,7 +14764,7 @@ class ActiveRecord::ConnectionAdapters::SchemaCreation
   # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#16
   def quote_table_name(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#134
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#133
   def quoted_columns(o); end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#16
@@ -14664,7 +14781,7 @@ class ActiveRecord::ConnectionAdapters::SchemaCreation
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#138
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#137
   def supports_index_using?; end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#16
@@ -14681,10 +14798,10 @@ class ActiveRecord::ConnectionAdapters::SchemaCreation
 
   # Returns any SQL string to go between CREATE and TABLE. May be nil.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#172
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#171
   def table_modifier_in_create(o); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#166
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#165
   def to_sql(sql); end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#16
@@ -14693,40 +14810,43 @@ class ActiveRecord::ConnectionAdapters::SchemaCreation
   # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#16
   def use_foreign_keys?(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#126
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#129
   def visit_AddCheckConstraint(o); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#40
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#41
   def visit_AddColumnDefinition(o); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#95
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#96
   def visit_AddForeignKey(o); end
 
   # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#24
   def visit_AlterTable(o); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#122
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#125
   def visit_CheckConstraintDefinition(o); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#33
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#34
   def visit_ColumnDefinition(o); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#103
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#106
   def visit_CreateIndexDefinition(o); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#130
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#100
   def visit_DropCheckConstraint(name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#99
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#100
+  def visit_DropConstraint(name); end
+
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#100
   def visit_DropForeignKey(name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#82
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#83
   def visit_ForeignKeyDefinition(o); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#78
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#79
   def visit_PrimaryKeyDefinition(o); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#44
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_creation.rb#45
   def visit_TableDefinition(o); end
 end
 
@@ -14938,7 +15058,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   #   add_reference(:products, :supplier, foreign_key: { to_table: :firms })
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1042
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1063
   def add_belongs_to(table_name, ref_name, **options); end
 
   # Adds a new check constraint to the table. +expression+ is a String
@@ -14958,7 +15078,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   # [<tt>:validate</tt>]
   #   (PostgreSQL only) Specify whether or not the constraint should be validated. Defaults to +true+.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1272
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1293
   def add_check_constraint(table_name, expression, if_not_exists: T.unsafe(nil), **options); end
 
   # Add a new +type+ column named +column_name+ to +table_name+.
@@ -15051,10 +15171,10 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #  # Ignores the method call if the column exists
   #  add_column(:shapes, :triangle, 'polygon', if_not_exists: true)
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#625
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#636
   def add_column(table_name, column_name, type, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#632
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#643
   def add_columns(table_name, *column_names, type:, **options); end
 
   # Adds a new foreign key. +from_table+ is the table with the key column,
@@ -15124,7 +15244,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #   (PostgreSQL only) Specify whether or not the foreign key should be deferrable. Valid values are booleans or
   #   +:deferred+ or +:immediate+ to specify the default behavior. Defaults to +false+.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1152
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1173
   def add_foreign_key(from_table, to_table, **options); end
 
   # Adds a new index to the table. +column_name+ can be a single Symbol, or
@@ -15215,6 +15335,16 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   # Note: only supported by PostgreSQL.
   #
+  # ====== Creating an index where NULLs are treated equally
+  #
+  #   add_index(:people, :last_name, nulls_not_distinct: true)
+  #
+  # generates:
+  #
+  #   CREATE INDEX index_people_on_last_name ON people (last_name) NULLS NOT DISTINCT
+  #
+  # Note: only supported by PostgreSQL version 15.0.0 and greater.
+  #
   # ====== Creating an index with a specific method
   #
   #   add_index(:developers, :name, using: 'btree')
@@ -15263,10 +15393,10 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   # For more information see the {"Transactional Migrations" section}[rdoc-ref:Migration].
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#894
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#915
   def add_index(table_name, column_name, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1449
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1476
   def add_index_options(table_name, column_name, name: T.unsafe(nil), if_not_exists: T.unsafe(nil), internal: T.unsafe(nil), **options); end
 
   # Adds a reference. The reference column is a bigint by default,
@@ -15316,7 +15446,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   #   add_reference(:products, :supplier, foreign_key: { to_table: :firms })
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1042
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1063
   def add_reference(table_name, ref_name, **options); end
 
   # Adds timestamps (+created_at+ and +updated_at+) columns to +table_name+.
@@ -15324,10 +15454,10 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   #   add_timestamps(:suppliers, null: true)
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1432
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1459
   def add_timestamps(table_name, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1337
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1364
   def assume_migrated_upto_version(version); end
 
   # Builds an AlterTable object for adding a column to a table.
@@ -15336,7 +15466,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   # if the same arguments were passed to #add_column. See #add_column for information about
   # passing a +table_name+, +column_name+, +type+ and other options that can be passed.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#643
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#654
   def build_add_column_definition(table_name, column_name, type, **options); end
 
   # Builds a ChangeColumnDefaultDefinition object.
@@ -15347,7 +15477,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   # @raise [NotImplementedError]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#727
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#738
   def build_change_column_default_definition(table_name, column_name, default_or_changes); end
 
   # Builds a CreateIndexDefinition object.
@@ -15356,7 +15486,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   # if the same arguments were passed to #add_index. See #add_index for information about
   # passing a +table_name+, +column_name+, and other additional options that can be passed.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#904
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#925
   def build_create_index_definition(table_name, column_name, **options); end
 
   # Builds a TableDefinition object for a join table.
@@ -15365,7 +15495,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   # if the same arguments were passed to #create_join_table. See #create_join_table for
   # information about what arguments should be passed.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#399
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#408
   def build_create_join_table_definition(table_1, table_2, column_options: T.unsafe(nil), **options); end
 
   # Returns a TableDefinition object containing information about the table that would be created
@@ -15377,7 +15507,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#333
   def build_create_table_definition(table_name, id: T.unsafe(nil), primary_key: T.unsafe(nil), force: T.unsafe(nil), **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1528
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1555
   def bulk_change_table(table_name, operations); end
 
   # Changes the column's definition according to the new options.
@@ -15388,7 +15518,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   # @raise [NotImplementedError]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#700
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#711
   def change_column(table_name, column_name, type, **options); end
 
   # Changes the comment for a column or removes it if +nil+.
@@ -15400,7 +15530,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   # @raise [NotImplementedError]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1510
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1537
   def change_column_comment(table_name, column_name, comment_or_changes); end
 
   # Sets a new default value for a column:
@@ -15419,7 +15549,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   # @raise [NotImplementedError]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#718
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#729
   def change_column_default(table_name, column_name, default_or_changes); end
 
   # Sets or removes a <tt>NOT NULL</tt> constraint on a column. The +null+ flag
@@ -15441,7 +15571,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   # @raise [NotImplementedError]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#747
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#758
   def change_column_null(table_name, column_name, null, default = T.unsafe(nil)); end
 
   # A block for changing columns in +table+.
@@ -15523,7 +15653,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   # See also Table for details on all of the various column transformations.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#501
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#510
   def change_table(table_name, base = T.unsafe(nil), **options); end
 
   # Changes the comment for a table or removes it if +nil+.
@@ -15535,7 +15665,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   # @raise [NotImplementedError]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1500
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1527
   def change_table_comment(table_name, comment_or_changes); end
 
   # Checks to see if a check constraint exists on a table for a given check constraint definition.
@@ -15544,10 +15674,10 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1321
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1341
   def check_constraint_exists?(table_name, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1284
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1305
   def check_constraint_options(table_name, expression, options); end
 
   # Returns an array of check constraints for the given table.
@@ -15555,7 +15685,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   # @raise [NotImplementedError]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1252
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1273
   def check_constraints(table_name); end
 
   # Checks to see if a column exists in a given table.
@@ -15591,7 +15721,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   #   columns_for_distinct("posts.id", ["posts.created_at desc"])
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1398
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1425
   def columns_for_distinct(columns, orders); end
 
   # Creates a new join table with the name created using the lexical order of the first two
@@ -15599,6 +15729,15 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   #   # Creates a table called 'assemblies_parts' with no id.
   #   create_join_table(:assemblies, :parts)
+  #
+  #   # Creates a table called 'paper_boxes_papers' with no id.
+  #   create_join_table('papers', 'paper_boxes')
+  #
+  # A duplicate prefix is combined into a single prefix. This is useful for
+  # namespaced models like Music::Artist and Music::Record:
+  #
+  #   # Creates a table called 'music_artists_records' with no id.
+  #   create_join_table('music_artists', 'music_records')
   #
   # You can pass an +options+ hash which can include the following keys:
   # [<tt>:table_name</tt>]
@@ -15632,10 +15771,10 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #     part_id bigint NOT NULL,
   #   ) ENGINE=InnoDB DEFAULT CHARSET=utf8
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#380
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#389
   def create_join_table(table_1, table_2, column_options: T.unsafe(nil), **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1514
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1541
   def create_schema_dumper(options); end
 
   # Creates a new table with the name +table_name+. +table_name+ may either
@@ -15799,7 +15938,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#34
   def data_sources; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1402
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1429
   def distinct_relation_for_primary_key(relation); end
 
   # Drops the join table specified by the given arguments.
@@ -15809,10 +15948,10 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   # to provide one in a migration's +change+ method so it can be reverted.
   # In that case, the block will be used by #create_join_table.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#418
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#427
   def drop_join_table(table_1, table_2, **options); end
 
-  # Drops a table from the database.
+  # Drops a table or tables from the database.
   #
   # [<tt>:force</tt>]
   #   Set to +:cascade+ to drop dependent objects as well.
@@ -15823,15 +15962,15 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   # Although this command ignores most +options+ and the block if one is given,
   # it can be helpful to provide these in a migration's +change+ method so it can be reverted.
-  # In that case, +options+ and the block will be used by #create_table.
+  # In that case, +options+ and the block will be used by #create_table except if you provide more than one table which is not supported.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#531
-  def drop_table(table_name, **options); end
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#540
+  def drop_table(*table_names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1328
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1355
   def dump_schema_information; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1220
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1241
   def foreign_key_column_for(table_name, column_name); end
 
   # Checks to see if a foreign key exists on a table for a given foreign key definition.
@@ -15847,10 +15986,10 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1216
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1237
   def foreign_key_exists?(from_table, to_table = T.unsafe(nil), **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1225
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1246
   def foreign_key_options(from_table, to_table, options); end
 
   # Returns an array of foreign keys for the given table.
@@ -15858,10 +15997,10 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   # @raise [NotImplementedError]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1082
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1103
   def foreign_keys(table_name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1477
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1504
   def index_algorithm(algorithm); end
 
   # Checks to see if an index exists on a table for a given index definition.
@@ -15886,14 +16025,14 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#102
   def index_exists?(table_name, column_name, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#971
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#992
   def index_name(table_name, options); end
 
   # Verifies the existence of an index with a given name.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#990
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1011
   def index_name_exists?(table_name, index_name); end
 
   # Returns an array of indexes for the given table.
@@ -15903,12 +16042,12 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#81
   def indexes(table_name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1333
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1360
   def internal_string_options_for_primary_key; end
 
   # Returns the maximum length of an index name in bytes.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1566
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1593
   def max_index_name_size; end
 
   # Returns a hash of mappings from the abstract data types to the native
@@ -15920,7 +16059,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1490
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1517
   def options_include_default?(options); end
 
   # Returns just a table's primary key
@@ -15928,7 +16067,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#145
   def primary_key(table_name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1483
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1510
   def quoted_columns_for_index(column_names, options); end
 
   # Removes the reference(s). Also removes a +type+ column if one exists.
@@ -15945,7 +16084,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   #   remove_reference(:products, :user, foreign_key: true)
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1061
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1082
   def remove_belongs_to(table_name, ref_name, foreign_key: T.unsafe(nil), polymorphic: T.unsafe(nil), **options); end
 
   # Removes the given check constraint from the table. Removing a check constraint
@@ -15962,7 +16101,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   # to provide this in a migration's +change+ method so it can be reverted.
   # In that case, +expression+ will be used by #add_check_constraint.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1303
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1324
   def remove_check_constraint(table_name, expression = T.unsafe(nil), if_exists: T.unsafe(nil), **options); end
 
   # Removes the column from the table definition.
@@ -15977,11 +16116,11 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   # If the options provided include an +if_exists+ key, it will be used to check if the
   # column does not exist. This will silently ignore the migration rather than raising
-  # if the column was already used.
+  # if the column was already removed.
   #
   #   remove_column(:suppliers, :qualification, if_exists: true)
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#688
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#699
   def remove_column(table_name, column_name, type = T.unsafe(nil), **options); end
 
   # Removes the given columns from the table definition.
@@ -15992,8 +16131,11 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   #    remove_columns(:suppliers, :qualification, :experience, type: :string, null: false)
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#664
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#675
   def remove_columns(table_name, *column_names, type: T.unsafe(nil), **options); end
+
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1348
+  def remove_constraint(table_name, constraint_name); end
 
   # Removes the given foreign key from the table. Any option parameters provided
   # will be used to re-add the foreign key in case of a migration rollback.
@@ -16026,7 +16168,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   # [<tt>:to_table</tt>]
   #   The name of the table that contains the referenced primary key.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1193
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1214
   def remove_foreign_key(from_table, to_table = T.unsafe(nil), **options); end
 
   # Removes the given index from the table.
@@ -16066,7 +16208,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   # For more information see the {"Transactional Migrations" section}[rdoc-ref:Migration].
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#945
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#966
   def remove_index(table_name, column_name = T.unsafe(nil), **options); end
 
   # Removes the reference(s). Also removes a +type+ column if one exists.
@@ -16083,14 +16225,14 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   #   remove_reference(:products, :user, foreign_key: true)
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1061
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1082
   def remove_reference(table_name, ref_name, foreign_key: T.unsafe(nil), polymorphic: T.unsafe(nil), **options); end
 
   # Removes the timestamp columns (+created_at+ and +updated_at+) from the table definition.
   #
   #  remove_timestamps(:suppliers)
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1441
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1468
   def remove_timestamps(table_name, **options); end
 
   # Renames a column.
@@ -16099,7 +16241,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   # @raise [NotImplementedError]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#755
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#766
   def rename_column(table_name, column_name, new_column_name); end
 
   # Renames an index.
@@ -16108,7 +16250,7 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   #   rename_index :people, 'index_people_on_last_name', 'index_users_on_last_name'
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#959
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#980
   def rename_index(table_name, old_name, new_name); end
 
   # Renames a table.
@@ -16117,13 +16259,13 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   #
   # @raise [NotImplementedError]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#515
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#524
   def rename_table(table_name, new_name, **_arg2); end
 
   # Returns an instance of SchemaCreation, which can be used to visit a schema definition
   # object and return DDL.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1524
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1551
   def schema_creation; end
 
   # Truncates a table alias according to the limits of the current adapter.
@@ -16153,24 +16295,24 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
   # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#51
   def tables; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1358
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1385
   def type_to_sql(type, limit: T.unsafe(nil), precision: T.unsafe(nil), scale: T.unsafe(nil), **_arg4); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1445
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1472
   def update_table_definition(table_name, base); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1518
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1545
   def use_foreign_keys?; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1557
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1584
   def valid_column_definition_options; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1561
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1588
   def valid_primary_key_options; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1553
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1580
   def valid_table_definition_options; end
 
   # Checks to see if the view +view_name+ exists on the database.
@@ -16189,144 +16331,144 @@ module ActiveRecord::ConnectionAdapters::SchemaStatements
 
   private
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1810
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1837
   def add_column_for_alter(table_name, column_name, type, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1595
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1622
   def add_index_sort_order(quoted_columns, **options); end
 
   # Overridden by the MySQL adapter for supporting index lengths and by
   # the PostgreSQL adapter for supporting operator classes.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1612
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1639
   def add_options_for_index_columns(quoted_columns, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1833
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1860
   def add_timestamps_for_alter(table_name, **options); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1802
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1829
   def can_remove_index_by_name?(column_name, options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1816
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1843
   def change_column_default_for_alter(table_name, column_name, default_or_changes); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1770
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1797
   def check_constraint_for(table_name, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1776
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1803
   def check_constraint_for!(table_name, expression: T.unsafe(nil), **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1760
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1787
   def check_constraint_name(table_name, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1591
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1618
   def column_options_keys; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1678
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1705
   def create_alter_table(name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1674
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1701
   def create_table_definition(name, **options); end
 
   # @raise [NotImplementedError]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1863
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1890
   def data_source_sql(name = T.unsafe(nil), type: T.unsafe(nil)); end
 
   # Try to identify whether the given column name is an expression
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1718
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1745
   def expression_column_name?(column_name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1748
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1775
   def extract_foreign_key_action(specifier); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1793
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1820
   def extract_new_comment_value(default_or_changes); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1793
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1820
   def extract_new_default_value(default_or_changes); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1690
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1717
   def fetch_type_metadata(sql_type); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1738
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1765
   def foreign_key_for(from_table, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1743
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1770
   def foreign_key_for!(from_table, to_table: T.unsafe(nil), **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1728
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1755
   def foreign_key_name(table_name, options); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1756
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1783
   def foreign_keys_enabled?; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1571
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1598
   def generate_index_name(table_name, column); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1701
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1728
   def index_column_names(column_names); end
 
   # @raise [ArgumentError]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1620
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1647
   def index_name_for_remove(table_name, column_name, options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1709
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1736
   def index_name_options(column_names); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1850
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1877
   def insert_versions_sql(versions); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1602
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1629
   def options_for_index_columns(options); end
 
   # @raise [NotImplementedError]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1867
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1894
   def quoted_scope(name = T.unsafe(nil), type: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1806
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1833
   def reference_name_for_table(table_name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1825
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1852
   def remove_column_for_alter(table_name, column_name, type = T.unsafe(nil), **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1829
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1856
   def remove_columns_for_alter(table_name, *column_names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1846
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1873
   def remove_timestamps_for_alter(table_name, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1661
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1688
   def rename_column_indexes(table_name, column_name, new_column_name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1821
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1848
   def rename_column_sql(table_name, column_name, new_column_name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1652
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1679
   def rename_table_indexes(table_name, new_name, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1722
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1749
   def strip_table_name_prefix_and_suffix(table_name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1585
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1612
   def validate_change_column_null_argument!(value); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1682
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1709
   def validate_create_table_options!(options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1781
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1808
   def validate_index_length!(table_name, new_name, internal = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1787
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_statements.rb#1814
   def validate_table_length!(table_name); end
 end
 
@@ -16426,14 +16568,14 @@ end
 #     t.remove_timestamps
 #   end
 #
-# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#706
+# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#711
 class ActiveRecord::ConnectionAdapters::Table
   include ::ActiveRecord::ConnectionAdapters::ColumnMethods
   extend ::ActiveRecord::ConnectionAdapters::ColumnMethods::ClassMethods
 
   # @return [Table] a new instance of Table
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#711
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#716
   def initialize(table_name, base); end
 
   # Adds a reference.
@@ -16443,19 +16585,19 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # See {connection.add_reference}[rdoc-ref:SchemaStatements#add_reference] for details of the options you can use.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#862
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#867
   def belongs_to(*args, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def bigint(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def binary(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def blob(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def boolean(*names, **options); end
 
   # Changes the column's definition according to the new options.
@@ -16465,7 +16607,7 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # See TableDefinition#column for details of the options you can use.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#788
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#793
   def change(column_name, type, **options); end
 
   # Sets a new default value for a column.
@@ -16476,7 +16618,7 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # See {connection.change_column_default}[rdoc-ref:SchemaStatements#change_column_default]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#800
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#805
   def change_default(column_name, default_or_changes); end
 
   # Sets or removes a NOT NULL constraint on a column.
@@ -16486,7 +16628,7 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # See {connection.change_column_null}[rdoc-ref:SchemaStatements#change_column_null]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#810
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#815
   def change_null(column_name, null, default = T.unsafe(nil)); end
 
   # Adds a check constraint.
@@ -16495,7 +16637,7 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # See {connection.add_check_constraint}[rdoc-ref:SchemaStatements#add_check_constraint]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#920
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#925
   def check_constraint(*args, **options); end
 
   # Checks if a check_constraint exists on a table.
@@ -16508,7 +16650,7 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#940
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#945
   def check_constraint_exists?(*args, **options); end
 
   # Adds a new column to the named table.
@@ -16517,7 +16659,7 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # See TableDefinition#column for details of the options you can use.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#721
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#726
   def column(column_name, type, index: T.unsafe(nil), **options); end
 
   # Checks to see if a column exists.
@@ -16528,19 +16670,19 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#735
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#740
   def column_exists?(column_name, type = T.unsafe(nil), **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def date(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def datetime(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def decimal(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def float(*names, **options); end
 
   # Adds a foreign key to the table using a supplied table name.
@@ -16550,7 +16692,7 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # See {connection.add_foreign_key}[rdoc-ref:SchemaStatements#add_foreign_key]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#890
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#895
   def foreign_key(*args, **options); end
 
   # Checks to see if a foreign key exists.
@@ -16561,7 +16703,7 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#911
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#916
   def foreign_key_exists?(*args, **options); end
 
   # Adds a new index to the table. +column_name+ can be a single Symbol, or
@@ -16573,7 +16715,7 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # See {connection.add_index}[rdoc-ref:SchemaStatements#add_index] for details of the options you can use.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#747
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#752
   def index(column_name, **options); end
 
   # Checks to see if an index exists.
@@ -16586,21 +16728,21 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#759
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#764
   def index_exists?(column_name, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def integer(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def json(*names, **options); end
 
   # Returns the value of attribute name.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#709
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#714
   def name; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def numeric(*names, **options); end
 
   # Adds a reference.
@@ -16610,7 +16752,7 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # See {connection.add_reference}[rdoc-ref:SchemaStatements#add_reference] for details of the options you can use.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#862
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#867
   def references(*args, **options); end
 
   # Removes the column(s) from the table definition.
@@ -16620,7 +16762,7 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # See {connection.remove_columns}[rdoc-ref:SchemaStatements#remove_columns]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#820
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#825
   def remove(*column_names, **options); end
 
   # Removes a reference. Optionally removes a +type+ column.
@@ -16630,7 +16772,7 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # See {connection.remove_reference}[rdoc-ref:SchemaStatements#remove_reference]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#876
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#881
   def remove_belongs_to(*args, **options); end
 
   # Removes the given check constraint from the table.
@@ -16639,7 +16781,7 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # See {connection.remove_check_constraint}[rdoc-ref:SchemaStatements#remove_check_constraint]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#929
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#934
   def remove_check_constraint(*args, **options); end
 
   # Removes the given foreign key from the table.
@@ -16649,7 +16791,7 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # See {connection.remove_foreign_key}[rdoc-ref:SchemaStatements#remove_foreign_key]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#901
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#906
   def remove_foreign_key(*args, **options); end
 
   # Removes the given index from the table.
@@ -16661,7 +16803,7 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # See {connection.remove_index}[rdoc-ref:SchemaStatements#remove_index]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#833
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#838
   def remove_index(column_name = T.unsafe(nil), **options); end
 
   # Removes a reference. Optionally removes a +type+ column.
@@ -16671,7 +16813,7 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # See {connection.remove_reference}[rdoc-ref:SchemaStatements#remove_reference]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#876
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#881
   def remove_references(*args, **options); end
 
   # Removes the timestamp columns (+created_at+ and +updated_at+) from the table.
@@ -16680,7 +16822,7 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # See {connection.remove_timestamps}[rdoc-ref:SchemaStatements#remove_timestamps]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#843
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#848
   def remove_timestamps(**options); end
 
   # Renames a column.
@@ -16689,7 +16831,7 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # See {connection.rename_column}[rdoc-ref:SchemaStatements#rename_column]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#852
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#857
   def rename(column_name, new_column_name); end
 
   # Renames the given index on the table.
@@ -16698,19 +16840,19 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # See {connection.rename_index}[rdoc-ref:SchemaStatements#rename_index]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#768
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#773
   def rename_index(index_name, new_index_name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def string(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def text(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def time(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def timestamp(*names, **options); end
 
   # Adds timestamps (+created_at+ and +updated_at+) columns to the table.
@@ -16719,15 +16861,15 @@ class ActiveRecord::ConnectionAdapters::Table
   #
   # See {connection.add_timestamps}[rdoc-ref:SchemaStatements#add_timestamps]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#777
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#782
   def timestamps(**options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def virtual(*names, **options); end
 
   private
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#945
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#950
   def raise_on_if_exist_options(options); end
 end
 
@@ -16739,7 +16881,7 @@ end
 # Inside migration files, the +t+ object in {create_table}[rdoc-ref:SchemaStatements#create_table]
 # is actually of this type:
 #
-#   class SomeMigration < ActiveRecord::Migration[7.2]
+#   class SomeMigration < ActiveRecord::Migration[8.0]
 #     def up
 #       create_table :foo do |t|
 #         puts t.class  # => "ActiveRecord::ConnectionAdapters::TableDefinition"
@@ -16751,24 +16893,24 @@ end
 #     end
 #   end
 #
-# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#363
+# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#362
 class ActiveRecord::ConnectionAdapters::TableDefinition
   include ::ActiveRecord::ConnectionAdapters::ColumnMethods
   extend ::ActiveRecord::ConnectionAdapters::ColumnMethods::ClassMethods
 
   # @return [TableDefinition] a new instance of TableDefinition
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#368
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#367
   def initialize(conn, name, temporary: T.unsafe(nil), if_not_exists: T.unsafe(nil), options: T.unsafe(nil), as: T.unsafe(nil), comment: T.unsafe(nil), **_arg7); end
 
   # Returns a ColumnDefinition for the column with name +name+.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#418
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#417
   def [](name); end
 
   # Returns the value of attribute as.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#366
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#365
   def as; end
 
   # Adds a reference.
@@ -16779,27 +16921,27 @@ class ActiveRecord::ConnectionAdapters::TableDefinition
   #
   # See {connection.add_reference}[rdoc-ref:SchemaStatements#add_reference] for details of the options you can use.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#548
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#547
   def belongs_to(*args, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def bigint(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def binary(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def blob(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def boolean(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#522
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#521
   def check_constraint(expression, **options); end
 
   # Returns the value of attribute check_constraints.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#366
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#365
   def check_constraints; end
 
   # Instantiates a new column for the table.
@@ -16870,42 +17012,42 @@ class ActiveRecord::ConnectionAdapters::TableDefinition
   #     t.references :taggable, polymorphic: { default: 'Photo' }, index: false
   #   end
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#489
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#488
   def column(name, type, index: T.unsafe(nil), **options); end
 
   # Returns an array of ColumnDefinition objects for the columns of the table.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#415
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#414
   def columns; end
 
   # Returns the value of attribute comment.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#366
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#365
   def comment; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def date(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def datetime(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def decimal(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def float(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#518
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#517
   def foreign_key(to_table, **options); end
 
   # Returns the value of attribute foreign_keys.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#366
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#365
   def foreign_keys; end
 
   # Returns the value of attribute if_not_exists.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#366
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#365
   def if_not_exists; end
 
   # Adds index options to the indexes hash, keyed by column name
@@ -16913,43 +17055,43 @@ class ActiveRecord::ConnectionAdapters::TableDefinition
   #
   #   index(:account_id, name: 'index_projects_on_account_id')
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#514
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#513
   def index(column_name, **options); end
 
   # Returns the value of attribute indexes.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#366
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#365
   def indexes; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def integer(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def json(*names, **options); end
 
   # Returns the value of attribute name.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#366
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#365
   def name; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#580
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#579
   def new_check_constraint_definition(expression, options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#555
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#554
   def new_column_definition(name, type, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#572
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#571
   def new_foreign_key_definition(to_table, options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def numeric(*names, **options); end
 
   # Returns the value of attribute options.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#366
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#365
   def options; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#409
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#408
   def primary_keys(name = T.unsafe(nil)); end
 
   # Adds a reference.
@@ -16960,33 +17102,33 @@ class ActiveRecord::ConnectionAdapters::TableDefinition
   #
   # See {connection.add_reference}[rdoc-ref:SchemaStatements#add_reference] for details of the options you can use.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#548
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#547
   def references(*args, **options); end
 
   # remove the column +name+ from the table.
   #   remove_column(:account_id)
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#506
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#505
   def remove_column(name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#392
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#391
   def set_primary_key(table_name, id, primary_key, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def string(*names, **options); end
 
   # Returns the value of attribute temporary.
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#366
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#365
   def temporary; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def text(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def time(*names, **options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def timestamp(*names, **options); end
 
   # Appends <tt>:datetime</tt> columns <tt>:created_at</tt> and
@@ -16994,32 +17136,32 @@ class ActiveRecord::ConnectionAdapters::TableDefinition
   #
   #   t.timestamps null: false
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#530
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#529
   def timestamps(**options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#332
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#331
   def virtual(*names, **options); end
 
   private
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#598
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#597
   def aliased_types(name, fallback); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#590
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#589
   def create_column_definition(name, type, options); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#602
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#601
   def integer_like_primary_key?(type, options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#606
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#605
   def integer_like_primary_key_type(type, options); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#610
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#609
   def raise_on_duplicate_column(name); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#586
+  # source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#585
   def valid_column_definition_options; end
 end
 
@@ -17205,65 +17347,65 @@ class ActiveRecord::ConnectionAdapters::TransactionInstrumenter::Instrumentation
 # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#87
 class ActiveRecord::ConnectionAdapters::TransactionInstrumenter::InstrumentationNotStartedError < ::ActiveRecord::ActiveRecordError; end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#487
+# source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#497
 class ActiveRecord::ConnectionAdapters::TransactionManager
   # @return [TransactionManager] a new instance of TransactionManager
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#488
+  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#498
   def initialize(connection); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#496
+  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#506
   def begin_transaction(isolation: T.unsafe(nil), joinable: T.unsafe(nil), _lazy: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#583
+  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#593
   def commit_transaction; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#651
+  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#661
   def current_transaction; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#551
+  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#561
   def dirty_current_transaction; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#538
+  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#548
   def disable_lazy_transactions!; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#543
+  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#553
   def enable_lazy_transactions!; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#547
+  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#557
   def lazy_transactions_enabled?; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#567
+  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#577
   def materialize_transactions; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#647
+  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#657
   def open_transactions; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#563
+  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#573
   def restorable?; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#555
+  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#565
   def restore_transactions; end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#600
+  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#610
   def rollback_transaction(transaction = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#612
+  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#622
   def within_new_transaction(isolation: T.unsafe(nil), joinable: T.unsafe(nil)); end
 
   private
 
   # Deallocate invalidated prepared statements outside of the transaction
   #
-  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#659
+  # source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#669
   def after_failure_actions(transaction, error); end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#656
+# source://activerecord//lib/active_record/connection_adapters/abstract/transaction.rb#666
 ActiveRecord::ConnectionAdapters::TransactionManager::NULL_TRANSACTION = T.let(T.unsafe(nil), ActiveRecord::ConnectionAdapters::NullTransaction)
 
 # = Active Record Connection Adapters Transaction State
@@ -17340,29 +17482,29 @@ end
 # ConnectionFailed will be raised when the network connection to the
 # database fails while sending a query or waiting for its result.
 #
-# source://activerecord//lib/active_record/errors.rb#574
+# source://activerecord//lib/active_record/errors.rb#582
 class ActiveRecord::ConnectionFailed < ::ActiveRecord::QueryAborted; end
 
 # = Active Record Connection Handling
 #
 # source://activerecord//lib/active_record/connection_handling.rb#5
 module ActiveRecord::ConnectionHandling
-  # source://activerecord//lib/active_record/connection_handling.rb#324
+  # source://activerecord//lib/active_record/connection_handling.rb#338
   def adapter_class; end
 
-  # source://activerecord//lib/active_record/connection_handling.rb#358
+  # source://activerecord//lib/active_record/connection_handling.rb#372
   def clear_cache!; end
 
   # Clears the query cache for all connections associated with the current thread.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#244
+  # source://activerecord//lib/active_record/connection_handling.rb#258
   def clear_query_caches_for_current_thread; end
 
   # Returns +true+ if Active Record is connected.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#337
+  # source://activerecord//lib/active_record/connection_handling.rb#351
   def connected?; end
 
   # Connects to a role (e.g. writing, reading, or a custom role) and/or
@@ -17392,7 +17534,7 @@ module ActiveRecord::ConnectionHandling
   #     Dog.first # finds first Dog record stored on the shard one replica
   #   end
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#134
+  # source://activerecord//lib/active_record/connection_handling.rb#136
   def connected_to(role: T.unsafe(nil), shard: T.unsafe(nil), prevent_writes: T.unsafe(nil), &blk); end
 
   # Returns true if role is the current connected role and/or
@@ -17412,8 +17554,18 @@ module ActiveRecord::ConnectionHandling
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#239
+  # source://activerecord//lib/active_record/connection_handling.rb#253
   def connected_to?(role:, shard: T.unsafe(nil)); end
+
+  # Passes the block to +connected_to+ for every +shard+ the
+  # model is configured to connect to (if any), and returns the
+  # results in an array.
+  #
+  # Optionally, +role+ and/or +prevent_writes+ can be passed which
+  # will be forwarded to each +connected_to+ call.
+  #
+  # source://activerecord//lib/active_record/connection_handling.rb#186
+  def connected_to_all_shards(role: T.unsafe(nil), prevent_writes: T.unsafe(nil), &blk); end
 
   # Connects a role and/or shard to the provided connection names. Optionally +prevent_writes+
   # can be passed to block writes on a connection. +reading+ will automatically set
@@ -17429,7 +17581,7 @@ module ActiveRecord::ConnectionHandling
   #     Person.first # Read from primary writer
   #   end
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#163
+  # source://activerecord//lib/active_record/connection_handling.rb#165
   def connected_to_many(*classes, role:, shard: T.unsafe(nil), prevent_writes: T.unsafe(nil)); end
 
   # Use a specified connection.
@@ -17440,12 +17592,12 @@ module ActiveRecord::ConnectionHandling
   # It is not recommended to use this method in a request since it
   # does not yield to a block like +connected_to+.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#185
+  # source://activerecord//lib/active_record/connection_handling.rb#199
   def connecting_to(role: T.unsafe(nil), shard: T.unsafe(nil), prevent_writes: T.unsafe(nil)); end
 
   # Soft deprecated. Use +#with_connection+ or +#lease_connection+ instead.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#260
+  # source://activerecord//lib/active_record/connection_handling.rb#274
   def connection; end
 
   # Returns the db_config object from the associated connection:
@@ -17456,22 +17608,22 @@ module ActiveRecord::ConnectionHandling
   #
   # Use only for reading.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#320
+  # source://activerecord//lib/active_record/connection_handling.rb#334
   def connection_db_config; end
 
-  # source://activerecord//lib/active_record/connection_handling.rb#328
+  # source://activerecord//lib/active_record/connection_handling.rb#342
   def connection_pool; end
 
   # Returns the connection specification name from the current class or its parent.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#302
+  # source://activerecord//lib/active_record/connection_handling.rb#316
   def connection_specification_name; end
 
   # Sets the attribute connection_specification_name
   #
   # @param value the value to set the attribute connection_specification_name to.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#299
+  # source://activerecord//lib/active_record/connection_handling.rb#313
   def connection_specification_name=(_arg0); end
 
   # Connects a model to the databases specified. The +database+ keyword
@@ -17556,12 +17708,12 @@ module ActiveRecord::ConnectionHandling
   # The connection will remain leased for the entire duration of the request
   # or job, or until +#release_connection+ is called.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#255
+  # source://activerecord//lib/active_record/connection_handling.rb#269
   def lease_connection; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#309
+  # source://activerecord//lib/active_record/connection_handling.rb#323
   def primary_class?; end
 
   # Prohibit swapping shards while inside of the passed block.
@@ -17571,29 +17723,37 @@ module ActiveRecord::ConnectionHandling
   # is useful in cases you're using sharding to provide per-request
   # database isolation.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#197
+  # source://activerecord//lib/active_record/connection_handling.rb#211
   def prohibit_shard_swapping(enabled = T.unsafe(nil)); end
 
   # Return the currently leased connection into the pool
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#284
+  # source://activerecord//lib/active_record/connection_handling.rb#298
   def release_connection; end
 
-  # source://activerecord//lib/active_record/connection_handling.rb#341
+  # source://activerecord//lib/active_record/connection_handling.rb#355
   def remove_connection; end
 
-  # source://activerecord//lib/active_record/connection_handling.rb#332
+  # source://activerecord//lib/active_record/connection_handling.rb#346
   def retrieve_connection; end
 
-  # source://activerecord//lib/active_record/connection_handling.rb#354
+  # source://activerecord//lib/active_record/connection_handling.rb#368
   def schema_cache; end
+
+  # source://activerecord//lib/active_record/connection_handling.rb#376
+  def shard_keys; end
 
   # Determine whether or not shard swapping is currently prohibited
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#206
+  # source://activerecord//lib/active_record/connection_handling.rb#220
   def shard_swapping_prohibited?; end
+
+  # @return [Boolean]
+  #
+  # source://activerecord//lib/active_record/connection_handling.rb#380
+  def sharded?; end
 
   # Prevent writing to the database regardless of role.
   #
@@ -17607,7 +17767,7 @@ module ActiveRecord::ConnectionHandling
   # See +READ_QUERY+ for the queries that are blocked by this
   # method.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#221
+  # source://activerecord//lib/active_record/connection_handling.rb#235
   def while_preventing_writes(enabled = T.unsafe(nil), &block); end
 
   # Checkouts a connection from the pool, yield it and then check it back in.
@@ -17618,18 +17778,18 @@ module ActiveRecord::ConnectionHandling
   # If #connection is called inside the block, the connection won't be checked back in
   # unless the +prevent_permanent_checkout+ argument is set to +true+.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#295
+  # source://activerecord//lib/active_record/connection_handling.rb#309
   def with_connection(prevent_permanent_checkout: T.unsafe(nil), &block); end
 
   private
 
-  # source://activerecord//lib/active_record/connection_handling.rb#383
+  # source://activerecord//lib/active_record/connection_handling.rb#405
   def append_to_connected_to_stack(entry); end
 
-  # source://activerecord//lib/active_record/connection_handling.rb#363
+  # source://activerecord//lib/active_record/connection_handling.rb#385
   def resolve_config_for_connection(config_or_env); end
 
-  # source://activerecord//lib/active_record/connection_handling.rb#372
+  # source://activerecord//lib/active_record/connection_handling.rb#394
   def with_role_and_shard(role, shard, prevent_writes); end
 end
 
@@ -17638,6 +17798,32 @@ ActiveRecord::ConnectionHandling::DEFAULT_ENV = T.let(T.unsafe(nil), Proc)
 
 # source://activerecord//lib/active_record/connection_handling.rb#6
 ActiveRecord::ConnectionHandling::RAILS_ENV = T.let(T.unsafe(nil), Proc)
+
+# Raised when a database connection pool is requested but
+# has not been defined.
+#
+# source://activerecord//lib/active_record/errors.rb#89
+class ActiveRecord::ConnectionNotDefined < ::ActiveRecord::ConnectionNotEstablished
+  # @return [ConnectionNotDefined] a new instance of ConnectionNotDefined
+  #
+  # source://activerecord//lib/active_record/errors.rb#90
+  def initialize(message = T.unsafe(nil), connection_name: T.unsafe(nil), role: T.unsafe(nil), shard: T.unsafe(nil)); end
+
+  # Returns the value of attribute connection_name.
+  #
+  # source://activerecord//lib/active_record/errors.rb#97
+  def connection_name; end
+
+  # Returns the value of attribute role.
+  #
+  # source://activerecord//lib/active_record/errors.rb#97
+  def role; end
+
+  # Returns the value of attribute shard.
+  #
+  # source://activerecord//lib/active_record/errors.rb#97
+  def shard; end
+end
 
 # Raised when connection to the database could not been established (for example when
 # {ActiveRecord::Base.lease_connection=}[rdoc-ref:ConnectionHandling#lease_connection]
@@ -17684,12 +17870,12 @@ module ActiveRecord::Core
   # @yield [_self]
   # @yieldparam _self [ActiveRecord::Core] the object that the method was called on
   #
-  # source://activerecord//lib/active_record/core.rb#451
+  # source://activerecord//lib/active_record/core.rb#448
   def initialize(attributes = T.unsafe(nil)); end
 
   # Allows sort on objects
   #
-  # source://activerecord//lib/active_record/core.rb#638
+  # source://activerecord//lib/active_record/core.rb#642
   def <=>(other_object); end
 
   # Returns true if +comparison_object+ is the same exact object, or +comparison_object+
@@ -17702,15 +17888,15 @@ module ActiveRecord::Core
   # Note also that destroying a record preserves its ID in the model instance, so deleted
   # models are still comparable.
   #
-  # source://activerecord//lib/active_record/core.rb#604
+  # source://activerecord//lib/active_record/core.rb#608
   def ==(comparison_object); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/core.rb#650
+  # source://activerecord//lib/active_record/core.rb#654
   def blank?; end
 
-  # source://activerecord//lib/active_record/core.rb#723
+  # source://activerecord//lib/active_record/core.rb#727
   def connection_handler; end
 
   # Populate +coder+ with attributes about this record that should be
@@ -17726,7 +17912,7 @@ module ActiveRecord::Core
   #   Post.new.encode_with(coder)
   #   coder # => {"attributes" => {"id" => nil, ... }}
   #
-  # source://activerecord//lib/active_record/core.rb#560
+  # source://activerecord//lib/active_record/core.rb#564
   def encode_with(coder); end
 
   # Returns true if +comparison_object+ is the same exact object, or +comparison_object+
@@ -17739,33 +17925,36 @@ module ActiveRecord::Core
   # Note also that destroying a record preserves its ID in the model instance, so deleted
   # models are still comparable.
   #
-  # source://activerecord//lib/active_record/core.rb#604
+  # source://activerecord//lib/active_record/core.rb#608
   def eql?(comparison_object); end
 
   # Clone and freeze the attributes hash such that associations are still
   # accessible, even on destroyed records, but cloned models will not be
   # frozen.
   #
-  # source://activerecord//lib/active_record/core.rb#627
+  # source://activerecord//lib/active_record/core.rb#631
   def freeze; end
 
   # Returns +true+ if the attributes hash has been frozen.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/core.rb#633
+  # source://activerecord//lib/active_record/core.rb#637
   def frozen?; end
 
   # Returns the full contents of the record as a nicely formatted string.
   #
-  # source://activerecord//lib/active_record/core.rb#733
+  # source://activerecord//lib/active_record/core.rb#737
   def full_inspect; end
 
   # Delegates to id in order to allow two records of the same type and id to work with something like:
   #   [ Person.find(1), Person.find(2), Person.find(3) ] & [ Person.find(1), Person.find(4) ] # => [ Person.find(1) ]
   #
-  # source://activerecord//lib/active_record/core.rb#614
+  # source://activerecord//lib/active_record/core.rb#618
   def hash; end
+
+  # source://activerecord//lib/active_record/core.rb#540
+  def init_attributes(_); end
 
   # Initialize an empty model object from +coder+. +coder+ should be
   # the result of previously encoding an Active Record model, using
@@ -17782,7 +17971,7 @@ module ActiveRecord::Core
   #   post.init_with(coder)
   #   post.title # => 'hello world'
   #
-  # source://activerecord//lib/active_record/core.rb#478
+  # source://activerecord//lib/active_record/core.rb#475
   def init_with(coder, &block); end
 
   # Initialize an empty model object from +attributes+.
@@ -17792,23 +17981,23 @@ module ActiveRecord::Core
   # @yield [_self]
   # @yieldparam _self [ActiveRecord::Core] the object that the method was called on
   #
-  # source://activerecord//lib/active_record/core.rb#488
+  # source://activerecord//lib/active_record/core.rb#485
   def init_with_attributes(attributes, new_record = T.unsafe(nil)); end
 
   # Returns the attributes specified by <tt>.attributes_for_inspect</tt> as a nicely formatted string.
   #
-  # source://activerecord//lib/active_record/core.rb#728
+  # source://activerecord//lib/active_record/core.rb#732
   def inspect; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/core.rb#646
+  # source://activerecord//lib/active_record/core.rb#650
   def present?; end
 
   # Takes a PP and prettily prints this record to it, allowing you to get a nice result from <tt>pp record</tt>
   # when pp is required.
   #
-  # source://activerecord//lib/active_record/core.rb#739
+  # source://activerecord//lib/active_record/core.rb#743
   def pretty_print(pp); end
 
   # Marks this record as read only.
@@ -17817,14 +18006,14 @@ module ActiveRecord::Core
   #   customer.readonly!
   #   customer.save # Raises an ActiveRecord::ReadOnlyRecord
   #
-  # source://activerecord//lib/active_record/core.rb#719
+  # source://activerecord//lib/active_record/core.rb#723
   def readonly!; end
 
   # Returns +true+ if the record is read only.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/core.rb#655
+  # source://activerecord//lib/active_record/core.rb#659
   def readonly?; end
 
   # Sets the record to strict_loading mode. This will raise an error
@@ -17857,58 +18046,61 @@ module ActiveRecord::Core
   #   user.comments.first.ratings.to_a
   #   => ActiveRecord::StrictLoadingViolationError
   #
-  # source://activerecord//lib/active_record/core.rb#693
+  # source://activerecord//lib/active_record/core.rb#697
   def strict_loading!(value = T.unsafe(nil), mode: T.unsafe(nil)); end
 
   # Returns +true+ if the record is in strict_loading mode.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/core.rb#660
+  # source://activerecord//lib/active_record/core.rb#664
   def strict_loading?; end
 
   # Returns +true+ if the record uses strict_loading with +:all+ mode enabled.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/core.rb#710
+  # source://activerecord//lib/active_record/core.rb#714
   def strict_loading_all?; end
 
   # Returns the value of attribute strict_loading_mode.
   #
-  # source://activerecord//lib/active_record/core.rb#702
+  # source://activerecord//lib/active_record/core.rb#706
   def strict_loading_mode; end
 
   # Returns +true+ if the record uses strict_loading with +:n_plus_one_only+ mode enabled.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/core.rb#705
+  # source://activerecord//lib/active_record/core.rb#709
   def strict_loading_n_plus_one_only?; end
 
   private
 
-  # source://activerecord//lib/active_record/core.rb#825
+  # source://activerecord//lib/active_record/core.rb#833
+  def all_attributes_for_inspect; end
+
+  # source://activerecord//lib/active_record/core.rb#829
   def attributes_for_inspect; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/core.rb#795
+  # source://activerecord//lib/active_record/core.rb#799
   def custom_inspect_method_defined?; end
 
-  # source://activerecord//lib/active_record/core.rb#775
+  # source://activerecord//lib/active_record/core.rb#779
   def init_internals; end
 
-  # source://activerecord//lib/active_record/core.rb#530
+  # source://activerecord//lib/active_record/core.rb#527
   def initialize_dup(other); end
 
-  # source://activerecord//lib/active_record/core.rb#792
+  # source://activerecord//lib/active_record/core.rb#796
   def initialize_internals_callback; end
 
-  # source://activerecord//lib/active_record/core.rb#810
+  # source://activerecord//lib/active_record/core.rb#814
   def inspect_with_attributes(attributes_to_list); end
 
-  # source://activerecord//lib/active_record/core.rb#806
+  # source://activerecord//lib/active_record/core.rb#810
   def inspection_filter; end
 
   # +Array#flatten+ will call +#to_ary+ (recursively) on each of the elements of
@@ -17920,7 +18112,7 @@ module ActiveRecord::Core
   #
   # See also https://tenderlovemaking.com/2011/06/28/til-its-ok-to-return-nil-from-to_ary.html
   #
-  # source://activerecord//lib/active_record/core.rb#771
+  # source://activerecord//lib/active_record/core.rb#775
   def to_ary; end
 
   module GeneratedClassMethods
@@ -17962,6 +18154,9 @@ module ActiveRecord::Core
     def strict_loading_by_default; end
     def strict_loading_by_default=(value); end
     def strict_loading_by_default?; end
+    def strict_loading_mode; end
+    def strict_loading_mode=(value); end
+    def strict_loading_mode?; end
   end
 
   module GeneratedInstanceMethods
@@ -17977,76 +18172,73 @@ module ActiveRecord::Core
   end
 end
 
-# source://activerecord//lib/active_record/core.rb#241
+# source://activerecord//lib/active_record/core.rb#242
 module ActiveRecord::Core::ClassMethods
   # Returns an instance of +Arel::Table+ loaded with the current table name.
   #
-  # source://activerecord//lib/active_record/core.rb#367
+  # source://activerecord//lib/active_record/core.rb#368
   def arel_table; end
 
-  # source://activerecord//lib/active_record/core.rb#379
+  # source://activerecord//lib/active_record/core.rb#380
   def cached_find_by_statement(connection, key, &block); end
 
   # Returns columns which shouldn't be exposed while calling +#inspect+.
   #
-  # source://activerecord//lib/active_record/core.rb#325
+  # source://activerecord//lib/active_record/core.rb#326
   def filter_attributes; end
 
   # Specifies columns which shouldn't be exposed while calling +#inspect+.
   #
-  # source://activerecord//lib/active_record/core.rb#334
+  # source://activerecord//lib/active_record/core.rb#335
   def filter_attributes=(filter_attributes); end
 
-  # source://activerecord//lib/active_record/core.rb#246
+  # source://activerecord//lib/active_record/core.rb#247
   def find(*ids); end
 
-  # source://activerecord//lib/active_record/core.rb#259
+  # source://activerecord//lib/active_record/core.rb#260
   def find_by(*args); end
 
-  # source://activerecord//lib/active_record/core.rb#306
+  # source://activerecord//lib/active_record/core.rb#307
   def find_by!(*args); end
 
-  # source://activerecord//lib/active_record/core.rb#314
+  # source://activerecord//lib/active_record/core.rb#315
   def generated_association_methods; end
 
-  # source://activerecord//lib/active_record/core.rb#242
+  # source://activerecord//lib/active_record/core.rb#243
   def initialize_find_by_cache; end
 
-  # source://activerecord//lib/active_record/core.rb#310
+  # source://activerecord//lib/active_record/core.rb#311
   def initialize_generated_modules; end
 
   # Returns a string like 'Post(id:integer, title:string, body:text)'
   #
-  # source://activerecord//lib/active_record/core.rb#351
+  # source://activerecord//lib/active_record/core.rb#352
   def inspect; end
 
-  # source://activerecord//lib/active_record/core.rb#339
+  # source://activerecord//lib/active_record/core.rb#340
   def inspection_filter; end
 
-  # source://activerecord//lib/active_record/core.rb#371
+  # source://activerecord//lib/active_record/core.rb#372
   def predicate_builder; end
 
-  # source://activerecord//lib/active_record/core.rb#375
+  # source://activerecord//lib/active_record/core.rb#376
   def type_caster; end
 
   private
 
-  # source://activerecord//lib/active_record/core.rb#421
+  # source://activerecord//lib/active_record/core.rb#418
   def cached_find_by(keys, values); end
 
-  # source://activerecord//lib/active_record/core.rb#385
+  # source://activerecord//lib/active_record/core.rb#386
   def inherited(subclass); end
 
-  # source://activerecord//lib/active_record/core.rb#407
+  # source://activerecord//lib/active_record/core.rb#408
   def relation; end
-
-  # source://activerecord//lib/active_record/core.rb#417
-  def table_metadata; end
 end
 
-# source://activerecord//lib/active_record/core.rb#799
+# source://activerecord//lib/active_record/core.rb#803
 class ActiveRecord::Core::InspectionMask
-  # source://activerecord//lib/active_record/core.rb#800
+  # source://activerecord//lib/active_record/core.rb#804
   def pretty_print(pp); end
 end
 
@@ -18233,12 +18425,12 @@ end
 # Raised when attribute has a name reserved by Active Record (when attribute
 # has name of one of Active Record instance methods).
 #
-# source://activerecord//lib/active_record/errors.rb#427
+# source://activerecord//lib/active_record/errors.rb#440
 class ActiveRecord::DangerousAttributeError < ::ActiveRecord::ActiveRecordError; end
 
 # Raised when creating a database if it exists.
 #
-# source://activerecord//lib/active_record/errors.rb#344
+# source://activerecord//lib/active_record/errors.rb#357
 class ActiveRecord::DatabaseAlreadyExists < ::ActiveRecord::StatementInvalid; end
 
 # = Active Record Database Configurations
@@ -18819,18 +19011,18 @@ end
 # Raised when connection to the database could not been established because it was not
 # able to connect to the host or when the authorization failed.
 #
-# source://activerecord//lib/active_record/errors.rb#89
+# source://activerecord//lib/active_record/errors.rb#102
 class ActiveRecord::DatabaseConnectionError < ::ActiveRecord::ConnectionNotEstablished
   # @return [DatabaseConnectionError] a new instance of DatabaseConnectionError
   #
-  # source://activerecord//lib/active_record/errors.rb#90
+  # source://activerecord//lib/active_record/errors.rb#103
   def initialize(message = T.unsafe(nil)); end
 
   class << self
-    # source://activerecord//lib/active_record/errors.rb#95
+    # source://activerecord//lib/active_record/errors.rb#108
     def hostname_error(hostname); end
 
-    # source://activerecord//lib/active_record/errors.rb#102
+    # source://activerecord//lib/active_record/errors.rb#115
     def username_error(username); end
   end
 end
@@ -18838,7 +19030,7 @@ end
 # DatabaseVersionError will be raised when the database version is not supported, or when
 # the database version cannot be determined.
 #
-# source://activerecord//lib/active_record/errors.rb#602
+# source://activerecord//lib/active_record/errors.rb#610
 class ActiveRecord::DatabaseVersionError < ::ActiveRecord::ActiveRecordError; end
 
 # Deadlocked will be raised when a transaction is rolled
@@ -18847,7 +19039,7 @@ class ActiveRecord::DatabaseVersionError < ::ActiveRecord::ActiveRecordError; en
 # This is a subclass of TransactionRollbackError, please make sure to check
 # its documentation to be aware of its caveats.
 #
-# source://activerecord//lib/active_record/errors.rb#544
+# source://activerecord//lib/active_record/errors.rb#552
 class ActiveRecord::Deadlocked < ::ActiveRecord::TransactionRollbackError; end
 
 # = Delegated types
@@ -19093,104 +19285,113 @@ module ActiveRecord::Delegation
 
   mixes_in_class_methods ::ActiveRecord::Delegation::ClassMethods
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def &(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def +(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def -(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def [](*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def as_json(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def compact(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#103
+  # source://activerecord//lib/active_record/relation/delegation.rb#106
   def connection(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def each(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def encode_with(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def in_groups(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def in_groups_of(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def index(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def intersect?(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def join(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#103
-  def lease_connection(*_arg0, **_arg1, &_arg2); end
-
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def length(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#103
+  # source://activerecord//lib/active_record/relation/delegation.rb#106
+  def name(*_arg0, **_arg1, &_arg2); end
+
+  # source://activerecord//lib/active_record/relation/delegation.rb#106
   def primary_key(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def reverse(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def rindex(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def rotate(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def sample(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#106
+  def sanitize_sql_like(*_arg0, **_arg1, &_arg2); end
+
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def shuffle(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def slice(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def split(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#106
+  def table_name(*_arg0, **_arg1, &_arg2); end
+
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def to_formatted_s(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def to_fs(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def to_sentence(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def to_xml(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#103
+  # source://activerecord//lib/active_record/relation/delegation.rb#106
   def transaction(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#103
+  # source://activerecord//lib/active_record/relation/delegation.rb#106
+  def unscoped(*_arg0, **_arg1, &_arg2); end
+
+  # source://activerecord//lib/active_record/relation/delegation.rb#106
   def with_connection(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#98
+  # source://activerecord//lib/active_record/relation/delegation.rb#101
   def |(*_arg0, **_arg1, &_arg2); end
 
   private
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation/delegation.rb#139
+  # source://activerecord//lib/active_record/relation/delegation.rb#150
   def respond_to_missing?(method, _); end
 
   class << self
@@ -19202,18 +19403,18 @@ module ActiveRecord::Delegation
   end
 end
 
-# source://activerecord//lib/active_record/relation/delegation.rb#127
+# source://activerecord//lib/active_record/relation/delegation.rb#138
 module ActiveRecord::Delegation::ClassMethods
-  # source://activerecord//lib/active_record/relation/delegation.rb#128
-  def create(klass, *args, **kwargs); end
+  # source://activerecord//lib/active_record/relation/delegation.rb#139
+  def create(model, *_arg1, **_arg2, &_arg3); end
 
   private
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#133
-  def relation_class_for(klass); end
+  # source://activerecord//lib/active_record/relation/delegation.rb#144
+  def relation_class_for(model); end
 end
 
-# source://activerecord//lib/active_record/relation/delegation.rb#105
+# source://activerecord//lib/active_record/relation/delegation.rb#108
 module ActiveRecord::Delegation::ClassSpecificRelation
   extend ::ActiveSupport::Concern
 
@@ -19221,48 +19422,56 @@ module ActiveRecord::Delegation::ClassSpecificRelation
 
   private
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#115
+  # source://activerecord//lib/active_record/relation/delegation.rb#118
   def method_missing(method, *_arg1, **_arg2, &_arg3); end
 end
 
-# source://activerecord//lib/active_record/relation/delegation.rb#108
+# source://activerecord//lib/active_record/relation/delegation.rb#111
 module ActiveRecord::Delegation::ClassSpecificRelation::ClassMethods
-  # source://activerecord//lib/active_record/relation/delegation.rb#109
+  # source://activerecord//lib/active_record/relation/delegation.rb#112
   def name; end
 end
 
 # source://activerecord//lib/active_record/relation/delegation.rb#24
 module ActiveRecord::Delegation::DelegateCache
-  # source://activerecord//lib/active_record/relation/delegation.rb#49
+  # source://activerecord//lib/active_record/relation/delegation.rb#52
   def generate_relation_method(method); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#44
+  # source://activerecord//lib/active_record/relation/delegation.rb#47
   def inherited(child_class); end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#29
+  # source://activerecord//lib/active_record/relation/delegation.rb#32
   def initialize_relation_delegate_cache; end
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#25
+  # source://activerecord//lib/active_record/relation/delegation.rb#28
   def relation_delegate_class(klass); end
 
   protected
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#54
+  # source://activerecord//lib/active_record/relation/delegation.rb#57
   def include_relation_methods(delegate); end
 
   private
 
-  # source://activerecord//lib/active_record/relation/delegation.rb#60
+  # source://activerecord//lib/active_record/relation/delegation.rb#63
   def generated_relation_methods; end
+
+  class << self
+    # source://activerecord//lib/active_record/relation/delegation.rb#26
+    def delegate_base_methods; end
+
+    # source://activerecord//lib/active_record/relation/delegation.rb#26
+    def delegate_base_methods=(_arg0); end
+  end
 end
 
-# source://activerecord//lib/active_record/relation/delegation.rb#68
+# source://activerecord//lib/active_record/relation/delegation.rb#71
 class ActiveRecord::Delegation::GeneratedRelationMethods < ::Module
-  # source://activerecord//lib/active_record/relation/delegation.rb#71
+  # source://activerecord//lib/active_record/relation/delegation.rb#74
   def generate_method(method); end
 end
 
-# source://activerecord//lib/active_record/relation/delegation.rb#69
+# source://activerecord//lib/active_record/relation/delegation.rb#72
 ActiveRecord::Delegation::GeneratedRelationMethods::MUTEX = T.let(T.unsafe(nil), Thread::Mutex)
 
 # This error is raised when trying to destroy a parent instance in N:1 or 1:1 associations
@@ -19297,11 +19506,17 @@ class ActiveRecord::DestroyAssociationAsyncJob < ::ActiveJob::Base
   def owner_destroyed?(owner, ensuring_owner_was_method); end
 
   class << self
-    # source://activejob/7.2.1.1/lib/active_job/queue_name.rb#55
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def queue_name; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def queue_name=(new_value); end
+
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def rescue_handlers; end
+
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def rescue_handlers=(new_value); end
   end
 end
 
@@ -19332,19 +19547,19 @@ class ActiveRecord::DisableJoinsAssociationRelation < ::ActiveRecord::Relation
   def load; end
 end
 
-# source://activerecord//lib/active_record/migration.rb#104
+# source://activerecord//lib/active_record/migration.rb#101
 class ActiveRecord::DuplicateMigrationNameError < ::ActiveRecord::MigrationError
   # @return [DuplicateMigrationNameError] a new instance of DuplicateMigrationNameError
   #
-  # source://activerecord//lib/active_record/migration.rb#105
+  # source://activerecord//lib/active_record/migration.rb#102
   def initialize(name = T.unsafe(nil)); end
 end
 
-# source://activerecord//lib/active_record/migration.rb#94
+# source://activerecord//lib/active_record/migration.rb#91
 class ActiveRecord::DuplicateMigrationVersionError < ::ActiveRecord::MigrationError
   # @return [DuplicateMigrationVersionError] a new instance of DuplicateMigrationVersionError
   #
-  # source://activerecord//lib/active_record/migration.rb#95
+  # source://activerecord//lib/active_record/migration.rb#92
   def initialize(version = T.unsafe(nil)); end
 end
 
@@ -19483,10 +19698,10 @@ module ActiveRecord::Encryption
   # source://activerecord//lib/active_record/encryption/configurable.rb#10
   def config; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attribute_accessors_per_thread.rb#74
+  # source://activesupport/8.0.0.rc1/lib/active_support/core_ext/module/attribute_accessors_per_thread.rb#74
   def custom_contexts; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attribute_accessors_per_thread.rb#116
+  # source://activesupport/8.0.0.rc1/lib/active_support/core_ext/module/attribute_accessors_per_thread.rb#116
   def custom_contexts=(obj); end
 
   # source://activerecord//lib/active_record/encryption/contexts.rb#17
@@ -19505,10 +19720,10 @@ module ActiveRecord::Encryption
     # source://activerecord//lib/active_record/encryption/configurable.rb#10
     def config; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attribute_accessors_per_thread.rb#49
+    # source://activesupport/8.0.0.rc1/lib/active_support/core_ext/module/attribute_accessors_per_thread.rb#49
     def custom_contexts; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attribute_accessors_per_thread.rb#108
+    # source://activesupport/8.0.0.rc1/lib/active_support/core_ext/module/attribute_accessors_per_thread.rb#108
     def custom_contexts=(obj); end
 
     # source://activerecord//lib/active_record/encryption/contexts.rb#17
@@ -19665,7 +19880,7 @@ ActiveRecord::Encryption::Cipher::DEFAULT_ENCODING = T.let(T.unsafe(nil), Encodi
 class ActiveRecord::Encryption::Config
   # @return [Config] a new instance of Config
   #
-  # source://activerecord//lib/active_record/encryption/config.rb#13
+  # source://activerecord//lib/active_record/encryption/config.rb#14
   def initialize; end
 
   # Returns the value of attribute add_to_filter_parameters.
@@ -19680,9 +19895,21 @@ class ActiveRecord::Encryption::Config
   # source://activerecord//lib/active_record/encryption/config.rb#9
   def add_to_filter_parameters=(_arg0); end
 
+  # Returns the value of attribute compressor.
+  #
+  # source://activerecord//lib/active_record/encryption/config.rb#9
+  def compressor; end
+
+  # Sets the attribute compressor
+  #
+  # @param value the value to set the attribute compressor to.
+  #
+  # source://activerecord//lib/active_record/encryption/config.rb#9
+  def compressor=(_arg0); end
+
   # Returns the value of attribute deterministic_key.
   #
-  # source://activerecord//lib/active_record/encryption/config.rb#41
+  # source://activerecord//lib/active_record/encryption/config.rb#42
   def deterministic_key; end
 
   # Sets the attribute deterministic_key
@@ -19740,13 +19967,13 @@ class ActiveRecord::Encryption::Config
   # source://activerecord//lib/active_record/encryption/config.rb#9
   def forced_encoding_for_deterministic_encryption=(_arg0); end
 
-  # source://activerecord//lib/active_record/encryption/config.rb#36
+  # source://activerecord//lib/active_record/encryption/config.rb#37
   def has_deterministic_key?; end
 
-  # source://activerecord//lib/active_record/encryption/config.rb#36
+  # source://activerecord//lib/active_record/encryption/config.rb#37
   def has_key_derivation_salt?; end
 
-  # source://activerecord//lib/active_record/encryption/config.rb#36
+  # source://activerecord//lib/active_record/encryption/config.rb#37
   def has_primary_key?; end
 
   # Returns the value of attribute hash_digest_class.
@@ -19763,7 +19990,7 @@ class ActiveRecord::Encryption::Config
 
   # Returns the value of attribute key_derivation_salt.
   #
-  # source://activerecord//lib/active_record/encryption/config.rb#41
+  # source://activerecord//lib/active_record/encryption/config.rb#42
   def key_derivation_salt; end
 
   # Sets the attribute key_derivation_salt
@@ -19777,7 +20004,7 @@ class ActiveRecord::Encryption::Config
   #
   #   config.active_record.encryption.previous = [ { key_provider: MyOldKeyProvider.new } ]
   #
-  # source://activerecord//lib/active_record/encryption/config.rb#20
+  # source://activerecord//lib/active_record/encryption/config.rb#21
   def previous=(previous_schemes_properties); end
 
   # Returns the value of attribute previous_schemes.
@@ -19794,7 +20021,7 @@ class ActiveRecord::Encryption::Config
 
   # Returns the value of attribute primary_key.
   #
-  # source://activerecord//lib/active_record/encryption/config.rb#41
+  # source://activerecord//lib/active_record/encryption/config.rb#42
   def primary_key; end
 
   # Sets the attribute primary_key
@@ -19816,7 +20043,7 @@ class ActiveRecord::Encryption::Config
   # source://activerecord//lib/active_record/encryption/config.rb#9
   def store_key_references=(_arg0); end
 
-  # source://activerecord//lib/active_record/encryption/config.rb#26
+  # source://activerecord//lib/active_record/encryption/config.rb#27
   def support_sha1_for_non_deterministic_encryption=(value); end
 
   # Returns the value of attribute support_unencrypted_data.
@@ -19845,10 +20072,10 @@ class ActiveRecord::Encryption::Config
 
   private
 
-  # source://activerecord//lib/active_record/encryption/config.rb#63
+  # source://activerecord//lib/active_record/encryption/config.rb#65
   def add_previous_scheme(**properties); end
 
-  # source://activerecord//lib/active_record/encryption/config.rb#48
+  # source://activerecord//lib/active_record/encryption/config.rb#49
   def set_defaults; end
 end
 
@@ -20102,7 +20329,7 @@ module ActiveRecord::Encryption::EncryptableRecord::ClassMethods
   def deterministic_encrypted_attributes; end
 
   # source://activerecord//lib/active_record/encryption/encryptable_record.rb#49
-  def encrypts(*names, key_provider: T.unsafe(nil), key: T.unsafe(nil), deterministic: T.unsafe(nil), support_unencrypted_data: T.unsafe(nil), downcase: T.unsafe(nil), ignore_case: T.unsafe(nil), previous: T.unsafe(nil), **context_properties); end
+  def encrypts(*names, key_provider: T.unsafe(nil), key: T.unsafe(nil), deterministic: T.unsafe(nil), support_unencrypted_data: T.unsafe(nil), downcase: T.unsafe(nil), ignore_case: T.unsafe(nil), previous: T.unsafe(nil), compress: T.unsafe(nil), compressor: T.unsafe(nil), **context_properties); end
 
   # source://activerecord//lib/active_record/encryption/encryptable_record.rb#65
   def source_attribute_from_preserved_attribute(attribute_name); end
@@ -20113,7 +20340,7 @@ module ActiveRecord::Encryption::EncryptableRecord::ClassMethods
   def add_length_validation_for_encrypted_columns; end
 
   # source://activerecord//lib/active_record/encryption/encryptable_record.rb#84
-  def encrypt_attribute(name, key_provider: T.unsafe(nil), key: T.unsafe(nil), deterministic: T.unsafe(nil), support_unencrypted_data: T.unsafe(nil), downcase: T.unsafe(nil), ignore_case: T.unsafe(nil), previous: T.unsafe(nil), **context_properties); end
+  def encrypt_attribute(name, key_provider: T.unsafe(nil), key: T.unsafe(nil), deterministic: T.unsafe(nil), support_unencrypted_data: T.unsafe(nil), downcase: T.unsafe(nil), ignore_case: T.unsafe(nil), previous: T.unsafe(nil), compress: T.unsafe(nil), compressor: T.unsafe(nil), **context_properties); end
 
   # source://activerecord//lib/active_record/encryption/encryptable_record.rb#78
   def global_previous_schemes_for(scheme); end
@@ -20227,6 +20454,9 @@ class ActiveRecord::Encryption::EncryptedAttributeType < ::ActiveModel::Type::Va
   # source://activerecord//lib/active_record/encryption/encrypted_attribute_type.rb#162
   def clean_text_scheme; end
 
+  # source://activerecord//lib/active_record/encryption/encrypted_attribute_type.rb#174
+  def database_type_to_text(value); end
+
   # source://activerecord//lib/active_record/encryption/encrypted_attribute_type.rb#102
   def decrypt(value); end
 
@@ -20308,22 +20538,36 @@ end
 # It interacts with a KeyProvider for getting the keys, and delegate to
 # ActiveRecord::Encryption::Cipher the actual encryption algorithm.
 #
-# source://activerecord//lib/active_record/encryption/encryptor.rb#14
+# source://activerecord//lib/active_record/encryption/encryptor.rb#13
 class ActiveRecord::Encryption::Encryptor
   # === Options
   #
   # * <tt>:compress</tt> - Boolean indicating whether records should be compressed before encryption.
   #   Defaults to +true+.
+  # * <tt>:compressor</tt> - The compressor to use.
+  #   1. If compressor is provided, it will be used.
+  #   2. If not, it will use ActiveRecord::Encryption.config.compressor which default value is +Zlib+.
+  #   If you want to use a custom compressor, it must respond to +deflate+ and +inflate+.
   #
   # @return [Encryptor] a new instance of Encryptor
   #
-  # source://activerecord//lib/active_record/encryption/encryptor.rb#19
-  def initialize(compress: T.unsafe(nil)); end
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#25
+  def initialize(compress: T.unsafe(nil), compressor: T.unsafe(nil)); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/encryption/encryptor.rb#77
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#84
   def binary?; end
+
+  # @return [Boolean]
+  #
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#88
+  def compress?; end
+
+  # The compressor to use for compressing the payload
+  #
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#15
+  def compressor; end
 
   # Decrypts an +encrypted_text+ and returns the result as clean text
   #
@@ -20337,7 +20581,7 @@ class ActiveRecord::Encryption::Encryptor
   #   Cipher-specific options that will be passed to the Cipher configured in
   #   +ActiveRecord::Encryption.cipher+
   #
-  # source://activerecord//lib/active_record/encryption/encryptor.rb#60
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#67
   def decrypt(encrypted_text, key_provider: T.unsafe(nil), cipher_options: T.unsafe(nil)); end
 
   # Encrypts +clean_text+ and returns the encrypted result
@@ -20360,72 +20604,67 @@ class ActiveRecord::Encryption::Encryptor
   #   Cipher-specific options that will be passed to the Cipher configured in
   #   +ActiveRecord::Encryption.cipher+
   #
-  # source://activerecord//lib/active_record/encryption/encryptor.rb#42
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#49
   def encrypt(clear_text, key_provider: T.unsafe(nil), cipher_options: T.unsafe(nil)); end
 
   # Returns whether the text is encrypted or not
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/encryption/encryptor.rb#70
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#77
   def encrypted?(text); end
 
   private
 
-  # source://activerecord//lib/active_record/encryption/encryptor.rb#100
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#111
   def build_encrypted_message(clear_text, key_provider:, cipher_options:); end
 
-  # source://activerecord//lib/active_record/encryption/encryptor.rb#96
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#107
   def cipher; end
 
-  # source://activerecord//lib/active_record/encryption/encryptor.rb#137
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#144
   def compress(data); end
-
-  # @return [Boolean]
-  #
-  # source://activerecord//lib/active_record/encryption/encryptor.rb#133
-  def compress?; end
 
   # Under certain threshold, ZIP compression is actually worse that not compressing
   #
-  # source://activerecord//lib/active_record/encryption/encryptor.rb#125
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#136
   def compress_if_worth_it(string); end
 
-  # source://activerecord//lib/active_record/encryption/encryptor.rb#86
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#97
   def default_key_provider; end
 
-  # source://activerecord//lib/active_record/encryption/encryptor.rb#114
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#125
   def deserialize_message(message); end
 
-  # source://activerecord//lib/active_record/encryption/encryptor.rb#157
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#164
   def force_encoding_if_needed(value); end
 
-  # source://activerecord//lib/active_record/encryption/encryptor.rb#165
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#172
   def forced_encoding_for_deterministic_encryption; end
 
-  # source://activerecord//lib/active_record/encryption/encryptor.rb#110
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#121
   def serialize_message(message); end
 
-  # source://activerecord//lib/active_record/encryption/encryptor.rb#120
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#131
   def serializer; end
 
-  # source://activerecord//lib/active_record/encryption/encryptor.rb#151
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#158
   def uncompress(data); end
 
-  # source://activerecord//lib/active_record/encryption/encryptor.rb#143
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#150
   def uncompress_if_needed(data, compressed); end
 
-  # source://activerecord//lib/active_record/encryption/encryptor.rb#90
+  # source://activerecord//lib/active_record/encryption/encryptor.rb#101
   def validate_payload_type(clear_text); end
 end
 
-# source://activerecord//lib/active_record/encryption/encryptor.rb#82
+# source://activerecord//lib/active_record/encryption/encryptor.rb#93
 ActiveRecord::Encryption::Encryptor::DECRYPT_ERRORS = T.let(T.unsafe(nil), Array)
 
-# source://activerecord//lib/active_record/encryption/encryptor.rb#83
+# source://activerecord//lib/active_record/encryption/encryptor.rb#94
 ActiveRecord::Encryption::Encryptor::ENCODING_ERRORS = T.let(T.unsafe(nil), Array)
 
-# source://activerecord//lib/active_record/encryption/encryptor.rb#84
+# source://activerecord//lib/active_record/encryption/encryptor.rb#95
 ActiveRecord::Encryption::Encryptor::THRESHOLD_TO_JUSTIFY_COMPRESSION = T.let(T.unsafe(nil), Integer)
 
 # Implements a simple envelope encryption approach where:
@@ -20518,30 +20757,30 @@ module ActiveRecord::Encryption::ExtendedDeterministicQueries
   end
 end
 
-# source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#132
+# source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#134
 class ActiveRecord::Encryption::ExtendedDeterministicQueries::AdditionalValue
   # @return [AdditionalValue] a new instance of AdditionalValue
   #
-  # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#135
+  # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#137
   def initialize(value, type); end
 
   # Returns the value of attribute type.
   #
-  # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#133
+  # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#135
   def type; end
 
   # Returns the value of attribute value.
   #
-  # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#133
+  # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#135
   def value; end
 
   private
 
-  # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#141
+  # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#143
   def process(value); end
 end
 
-# source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#122
+# source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#124
 module ActiveRecord::Encryption::ExtendedDeterministicQueries::CoreQueries
   extend ::ActiveSupport::Concern
 
@@ -20550,7 +20789,7 @@ end
 
 # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#0
 module ActiveRecord::Encryption::ExtendedDeterministicQueries::CoreQueries::ClassMethods
-  # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#126
+  # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#128
   def find_by(*args); end
 end
 
@@ -20566,31 +20805,31 @@ module ActiveRecord::Encryption::ExtendedDeterministicQueries::EncryptedQuery
 
     private
 
-    # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#87
+    # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#89
     def additional_values_for(value, type); end
 
-    # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#69
+    # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#71
     def process_encrypted_query_argument(value, check_for_additional_values, type); end
   end
 end
 
-# source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#146
+# source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#148
 module ActiveRecord::Encryption::ExtendedDeterministicQueries::ExtendedEncryptableType
-  # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#147
+  # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#149
   def serialize(data); end
 end
 
-# source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#95
+# source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#97
 module ActiveRecord::Encryption::ExtendedDeterministicQueries::RelationQueries
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#100
+  # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#102
   def exists?(*args); end
 
-  # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#104
+  # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#106
   def scope_for_create; end
 
-  # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#96
+  # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#98
   def where(*args); end
 end
 
@@ -20711,7 +20950,7 @@ class ActiveRecord::Encryption::KeyProvider
   # source://activerecord//lib/active_record/encryption/key_provider.rb#32
   def decryption_keys(encrypted_message); end
 
-  # Returns the first key in the list as the active key to perform encryptions
+  # Returns the last key in the list as the active key to perform encryptions
   #
   # When +ActiveRecord::Encryption.config.store_key_references+ is true, the key will include
   # a public tag referencing the key itself. That key will be stored in the public
@@ -20930,7 +21169,7 @@ class ActiveRecord::Encryption::Properties
   # source://activerecord//lib/active_record/encryption/properties.rb#20
   def key?(*_arg0, **_arg1, &_arg2); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/delegation.rb#187
+  # source://activesupport/8.0.0.rc1/lib/active_support/delegation.rb#185
   def method_missing(method, *_arg1, **_arg2, &_arg3); end
 
   # source://activerecord//lib/active_record/encryption/properties.rb#68
@@ -20946,7 +21185,7 @@ class ActiveRecord::Encryption::Properties
   # source://activerecord//lib/active_record/encryption/properties.rb#73
   def data; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/delegation.rb#179
+  # source://activesupport/8.0.0.rc1/lib/active_support/delegation.rb#177
   def respond_to_missing?(name, include_private = T.unsafe(nil)); end
 end
 
@@ -20996,37 +21235,37 @@ class ActiveRecord::Encryption::Scheme
   # @return [Scheme] a new instance of Scheme
   #
   # source://activerecord//lib/active_record/encryption/scheme.rb#13
-  def initialize(key_provider: T.unsafe(nil), key: T.unsafe(nil), deterministic: T.unsafe(nil), support_unencrypted_data: T.unsafe(nil), downcase: T.unsafe(nil), ignore_case: T.unsafe(nil), previous_schemes: T.unsafe(nil), **context_properties); end
+  def initialize(key_provider: T.unsafe(nil), key: T.unsafe(nil), deterministic: T.unsafe(nil), support_unencrypted_data: T.unsafe(nil), downcase: T.unsafe(nil), ignore_case: T.unsafe(nil), previous_schemes: T.unsafe(nil), compress: T.unsafe(nil), compressor: T.unsafe(nil), **context_properties); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/encryption/scheme.rb#73
+  # source://activerecord//lib/active_record/encryption/scheme.rb#78
   def compatible_with?(other_scheme); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/encryption/scheme.rb#39
+  # source://activerecord//lib/active_record/encryption/scheme.rb#44
   def deterministic?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/encryption/scheme.rb#35
+  # source://activerecord//lib/active_record/encryption/scheme.rb#40
   def downcase?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/encryption/scheme.rb#47
+  # source://activerecord//lib/active_record/encryption/scheme.rb#52
   def fixed?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/encryption/scheme.rb#31
+  # source://activerecord//lib/active_record/encryption/scheme.rb#36
   def ignore_case?; end
 
-  # source://activerecord//lib/active_record/encryption/scheme.rb#52
+  # source://activerecord//lib/active_record/encryption/scheme.rb#57
   def key_provider; end
 
-  # source://activerecord//lib/active_record/encryption/scheme.rb#56
+  # source://activerecord//lib/active_record/encryption/scheme.rb#61
   def merge(other_scheme); end
 
   # Returns the value of attribute previous_schemes.
@@ -21043,29 +21282,29 @@ class ActiveRecord::Encryption::Scheme
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/encryption/scheme.rb#43
+  # source://activerecord//lib/active_record/encryption/scheme.rb#48
   def support_unencrypted_data?; end
 
-  # source://activerecord//lib/active_record/encryption/scheme.rb#60
+  # source://activerecord//lib/active_record/encryption/scheme.rb#65
   def to_h; end
 
-  # source://activerecord//lib/active_record/encryption/scheme.rb#65
+  # source://activerecord//lib/active_record/encryption/scheme.rb#70
   def with_context(&block); end
 
   private
 
-  # source://activerecord//lib/active_record/encryption/scheme.rb#95
+  # source://activerecord//lib/active_record/encryption/scheme.rb#102
   def default_key_provider; end
 
-  # source://activerecord//lib/active_record/encryption/scheme.rb#89
+  # source://activerecord//lib/active_record/encryption/scheme.rb#96
   def deterministic_key_provider; end
 
-  # source://activerecord//lib/active_record/encryption/scheme.rb#83
+  # source://activerecord//lib/active_record/encryption/scheme.rb#90
   def key_provider_from_key; end
 
   # @raise [Errors::Configuration]
   #
-  # source://activerecord//lib/active_record/encryption/scheme.rb#78
+  # source://activerecord//lib/active_record/encryption/scheme.rb#83
   def validate_config!; end
 end
 
@@ -21230,38 +21469,32 @@ end
 #
 # source://activerecord//lib/active_record/enum.rb#165
 module ActiveRecord::Enum
-  # source://activerecord//lib/active_record/enum.rb#225
-  def enum(name = T.unsafe(nil), values = T.unsafe(nil), **options); end
-
-  # source://activerecord//lib/active_record/enum.rb#170
-  def load_schema!; end
+  # source://activerecord//lib/active_record/enum.rb#216
+  def enum(name, values, prefix: T.unsafe(nil), suffix: T.unsafe(nil), scopes: T.unsafe(nil), instance_methods: T.unsafe(nil), validate: T.unsafe(nil), **options); end
 
   private
 
-  # source://activerecord//lib/active_record/enum.rb#250
-  def _enum(name, values, prefix: T.unsafe(nil), suffix: T.unsafe(nil), scopes: T.unsafe(nil), instance_methods: T.unsafe(nil), validate: T.unsafe(nil), **options); end
-
-  # source://activerecord//lib/active_record/enum.rb#342
+  # source://activerecord//lib/active_record/enum.rb#321
   def _enum_methods_module; end
 
-  # source://activerecord//lib/active_record/enum.rb#350
+  # source://activerecord//lib/active_record/enum.rb#329
   def assert_valid_enum_definition_values(values); end
 
-  # source://activerecord//lib/active_record/enum.rb#377
+  # source://activerecord//lib/active_record/enum.rb#356
   def assert_valid_enum_options(options); end
 
-  # source://activerecord//lib/active_record/enum.rb#390
+  # source://activerecord//lib/active_record/enum.rb#369
   def detect_enum_conflict!(enum_name, method_name, klass_method = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/enum.rb#414
+  # source://activerecord//lib/active_record/enum.rb#393
   def detect_negative_enum_conditions!(method_names); end
 
-  # source://activerecord//lib/active_record/enum.rb#245
+  # source://activerecord//lib/active_record/enum.rb#284
   def inherited(base); end
 
   # @raise [ArgumentError]
   #
-  # source://activerecord//lib/active_record/enum.rb#404
+  # source://activerecord//lib/active_record/enum.rb#383
   def raise_conflict_error(enum_name, method_name, type: T.unsafe(nil), source: T.unsafe(nil)); end
 
   class << self
@@ -21270,85 +21503,85 @@ module ActiveRecord::Enum
   end
 end
 
-# source://activerecord//lib/active_record/enum.rb#384
+# source://activerecord//lib/active_record/enum.rb#363
 ActiveRecord::Enum::ENUM_CONFLICT_MESSAGE = T.let(T.unsafe(nil), String)
 
-# source://activerecord//lib/active_record/enum.rb#310
+# source://activerecord//lib/active_record/enum.rb#289
 class ActiveRecord::Enum::EnumMethods < ::Module
   # @return [EnumMethods] a new instance of EnumMethods
   #
-  # source://activerecord//lib/active_record/enum.rb#311
+  # source://activerecord//lib/active_record/enum.rb#290
   def initialize(klass); end
 
   private
 
-  # source://activerecord//lib/active_record/enum.rb#318
+  # source://activerecord//lib/active_record/enum.rb#297
   def define_enum_methods(name, value_method_name, value, scopes, instance_methods); end
 
   # Returns the value of attribute klass.
   #
-  # source://activerecord//lib/active_record/enum.rb#316
+  # source://activerecord//lib/active_record/enum.rb#295
   def klass; end
 end
 
-# source://activerecord//lib/active_record/enum.rb#179
+# source://activerecord//lib/active_record/enum.rb#170
 class ActiveRecord::Enum::EnumType < ::ActiveModel::Type::Value
   # @return [EnumType] a new instance of EnumType
   #
-  # source://activerecord//lib/active_record/enum.rb#182
+  # source://activerecord//lib/active_record/enum.rb#173
   def initialize(name, mapping, subtype, raise_on_invalid_values: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/enum.rb#211
+  # source://activerecord//lib/active_record/enum.rb#202
   def assert_valid_value(value); end
 
-  # source://activerecord//lib/active_record/enum.rb#189
+  # source://activerecord//lib/active_record/enum.rb#180
   def cast(value); end
 
-  # source://activerecord//lib/active_record/enum.rb#199
+  # source://activerecord//lib/active_record/enum.rb#190
   def deserialize(value); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/enum.rb#207
+  # source://activerecord//lib/active_record/enum.rb#198
   def serializable?(value, &block); end
 
-  # source://activerecord//lib/active_record/enum.rb#203
+  # source://activerecord//lib/active_record/enum.rb#194
   def serialize(value); end
 
   # Returns the value of attribute subtype.
   #
-  # source://activerecord//lib/active_record/enum.rb#219
+  # source://activerecord//lib/active_record/enum.rb#210
   def subtype; end
 
-  # source://activerecord//lib/active_record/enum.rb#180
+  # source://activerecord//lib/active_record/enum.rb#171
   def type(*_arg0, **_arg1, &_arg2); end
 
   private
 
   # Returns the value of attribute mapping.
   #
-  # source://activerecord//lib/active_record/enum.rb#222
+  # source://activerecord//lib/active_record/enum.rb#213
   def mapping; end
 
   # Returns the value of attribute name.
   #
-  # source://activerecord//lib/active_record/enum.rb#222
+  # source://activerecord//lib/active_record/enum.rb#213
   def name; end
 end
 
-# source://activerecord//lib/active_record/migration.rb#219
+# source://activerecord//lib/active_record/migration.rb#216
 class ActiveRecord::EnvironmentMismatchError < ::ActiveRecord::ActiveRecordError
   # @return [EnvironmentMismatchError] a new instance of EnvironmentMismatchError
   #
-  # source://activerecord//lib/active_record/migration.rb#220
+  # source://activerecord//lib/active_record/migration.rb#217
   def initialize(current: T.unsafe(nil), stored: T.unsafe(nil)); end
 end
 
-# source://activerecord//lib/active_record/migration.rb#233
+# source://activerecord//lib/active_record/migration.rb#230
 class ActiveRecord::EnvironmentStorageError < ::ActiveRecord::ActiveRecordError
   # @return [EnvironmentStorageError] a new instance of EnvironmentStorageError
   #
-  # source://activerecord//lib/active_record/migration.rb#234
+  # source://activerecord//lib/active_record/migration.rb#231
   def initialize; end
 end
 
@@ -21357,7 +21590,7 @@ end
 # {ActiveRecord::Base.connection_pool.disconnect!}[rdoc-ref:ConnectionAdapters::ConnectionPool#disconnect!]
 # or {ActiveRecord::Base.connection_handler.clear_reloadable_connections!}[rdoc-ref:ConnectionAdapters::ConnectionHandler#clear_reloadable_connections!].
 #
-# source://activerecord//lib/active_record/errors.rb#115
+# source://activerecord//lib/active_record/errors.rb#128
 class ActiveRecord::ExclusiveConnectionTimeoutError < ::ActiveRecord::ConnectionTimeoutError; end
 
 # source://activerecord//lib/active_record/explain.rb#6
@@ -21896,52 +22129,52 @@ end
 # source://activerecord//lib/active_record/relation/finder_methods.rb#7
 ActiveRecord::FinderMethods::ONE_AS_ONE = T.let(T.unsafe(nil), String)
 
-# source://activerecord//lib/active_record/fixtures.rb#808
+# source://activerecord//lib/active_record/fixtures.rb#806
 class ActiveRecord::Fixture
   include ::Enumerable
 
   # @return [Fixture] a new instance of Fixture
   #
-  # source://activerecord//lib/active_record/fixtures.rb#819
+  # source://activerecord//lib/active_record/fixtures.rb#817
   def initialize(fixture, model_class); end
 
-  # source://activerecord//lib/active_record/fixtures.rb#832
+  # source://activerecord//lib/active_record/fixtures.rb#830
   def [](key); end
 
-  # source://activerecord//lib/active_record/fixtures.rb#824
+  # source://activerecord//lib/active_record/fixtures.rb#822
   def class_name; end
 
-  # source://activerecord//lib/active_record/fixtures.rb#828
+  # source://activerecord//lib/active_record/fixtures.rb#826
   def each(&block); end
 
   # @raise [FixtureClassNotFound]
   #
-  # source://activerecord//lib/active_record/fixtures.rb#838
+  # source://activerecord//lib/active_record/fixtures.rb#836
   def find; end
 
   # Returns the value of attribute fixture.
   #
-  # source://activerecord//lib/active_record/fixtures.rb#817
+  # source://activerecord//lib/active_record/fixtures.rb#815
   def fixture; end
 
   # Returns the value of attribute model_class.
   #
-  # source://activerecord//lib/active_record/fixtures.rb#817
+  # source://activerecord//lib/active_record/fixtures.rb#815
   def model_class; end
 
   # Returns the value of attribute fixture.
   #
-  # source://activerecord//lib/active_record/fixtures.rb#817
+  # source://activerecord//lib/active_record/fixtures.rb#815
   def to_hash; end
 end
 
-# source://activerecord//lib/active_record/fixtures.rb#811
+# source://activerecord//lib/active_record/fixtures.rb#809
 class ActiveRecord::Fixture::FixtureError < ::StandardError; end
 
-# source://activerecord//lib/active_record/fixtures.rb#814
+# source://activerecord//lib/active_record/fixtures.rb#812
 class ActiveRecord::Fixture::FormatError < ::ActiveRecord::Fixture::FixtureError; end
 
-# source://activerecord//lib/active_record/fixtures.rb#12
+# source://activerecord//lib/active_record/fixtures.rb#10
 class ActiveRecord::FixtureClassNotFound < ::ActiveRecord::ActiveRecordError; end
 
 # = Active Record \Fixtures
@@ -22459,76 +22692,76 @@ class ActiveRecord::FixtureClassNotFound < ::ActiveRecord::ActiveRecordError; en
 #
 # Any fixtures labeled "_fixture" are safely ignored.
 #
-# source://activerecord//lib/active_record/fixtures.rb#529
+# source://activerecord//lib/active_record/fixtures.rb#527
 class ActiveRecord::FixtureSet
   # @return [FixtureSet] a new instance of FixtureSet
   #
-  # source://activerecord//lib/active_record/fixtures.rb#715
+  # source://activerecord//lib/active_record/fixtures.rb#713
   def initialize(_, name, class_name, path, config = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/fixtures.rb#726
+  # source://activerecord//lib/active_record/fixtures.rb#724
   def [](x); end
 
-  # source://activerecord//lib/active_record/fixtures.rb#730
+  # source://activerecord//lib/active_record/fixtures.rb#728
   def []=(k, v); end
 
-  # source://activerecord//lib/active_record/fixtures.rb#543
+  # source://activerecord//lib/active_record/fixtures.rb#541
   def all_loaded_fixtures; end
 
-  # source://activerecord//lib/active_record/fixtures.rb#543
+  # source://activerecord//lib/active_record/fixtures.rb#541
   def all_loaded_fixtures=(val); end
 
   # Returns the value of attribute config.
   #
-  # source://activerecord//lib/active_record/fixtures.rb#713
+  # source://activerecord//lib/active_record/fixtures.rb#711
   def config; end
 
-  # source://activerecord//lib/active_record/fixtures.rb#734
+  # source://activerecord//lib/active_record/fixtures.rb#732
   def each(&block); end
 
   # Returns the value of attribute fixtures.
   #
-  # source://activerecord//lib/active_record/fixtures.rb#713
+  # source://activerecord//lib/active_record/fixtures.rb#711
   def fixtures; end
 
   # Returns the value of attribute ignored_fixtures.
   #
-  # source://activerecord//lib/active_record/fixtures.rb#713
+  # source://activerecord//lib/active_record/fixtures.rb#711
   def ignored_fixtures; end
 
   # Returns the value of attribute model_class.
   #
-  # source://activerecord//lib/active_record/fixtures.rb#713
+  # source://activerecord//lib/active_record/fixtures.rb#711
   def model_class; end
 
   # Returns the value of attribute name.
   #
-  # source://activerecord//lib/active_record/fixtures.rb#713
+  # source://activerecord//lib/active_record/fixtures.rb#711
   def name; end
 
-  # source://activerecord//lib/active_record/fixtures.rb#738
+  # source://activerecord//lib/active_record/fixtures.rb#736
   def size; end
 
   # Returns the value of attribute table_name.
   #
-  # source://activerecord//lib/active_record/fixtures.rb#713
+  # source://activerecord//lib/active_record/fixtures.rb#711
   def table_name; end
 
   # Returns a hash of rows to be inserted. The key is the table, the value is
   # a list of rows to insert to that table.
   #
-  # source://activerecord//lib/active_record/fixtures.rb#744
+  # source://activerecord//lib/active_record/fixtures.rb#742
   def table_rows; end
 
   private
 
-  # source://activerecord//lib/active_record/fixtures.rb#802
+  # source://activerecord//lib/active_record/fixtures.rb#800
   def default_fixture_model_class; end
 
-  # source://activerecord//lib/active_record/fixtures.rb#764
+  # source://activerecord//lib/active_record/fixtures.rb#762
   def ignored_fixtures=(base); end
 
-  # source://activerecord//lib/active_record/fixtures.rb#756
+  # source://activerecord//lib/active_record/fixtures.rb#754
   def model_class=(class_name); end
 
   # Loads the fixtures from the YAML file at +path+.
@@ -22537,23 +22770,23 @@ class ActiveRecord::FixtureSet
   #
   # @raise [ArgumentError]
   #
-  # source://activerecord//lib/active_record/fixtures.rb#783
+  # source://activerecord//lib/active_record/fixtures.rb#781
   def read_fixture_files(path); end
 
   class << self
-    # source://activerecord//lib/active_record/fixtures.rb#543
+    # source://activerecord//lib/active_record/fixtures.rb#541
     def all_loaded_fixtures; end
 
-    # source://activerecord//lib/active_record/fixtures.rb#543
+    # source://activerecord//lib/active_record/fixtures.rb#541
     def all_loaded_fixtures=(val); end
 
-    # source://activerecord//lib/active_record/fixtures.rb#578
+    # source://activerecord//lib/active_record/fixtures.rb#576
     def cache_fixtures(connection_pool, fixtures_map); end
 
-    # source://activerecord//lib/active_record/fixtures.rb#562
+    # source://activerecord//lib/active_record/fixtures.rb#560
     def cache_for_connection_pool(connection_pool); end
 
-    # source://activerecord//lib/active_record/fixtures.rb#570
+    # source://activerecord//lib/active_record/fixtures.rb#568
     def cached_fixtures(connection_pool, keys_to_fetch = T.unsafe(nil)); end
 
     # Returns a consistent, platform-independent hash representing a mapping
@@ -22563,56 +22796,56 @@ class ActiveRecord::FixtureSet
     #
     #   composite_identify("label", [:a, :b, :c]) # => { a: hash_1, b: hash_2, c: hash_3 }
     #
-    # source://activerecord//lib/active_record/fixtures.rb#635
+    # source://activerecord//lib/active_record/fixtures.rb#633
     def composite_identify(label, key); end
 
     # Superclass for the evaluation contexts used by \ERB fixtures.
     #
-    # source://activerecord//lib/active_record/fixtures.rb#643
+    # source://activerecord//lib/active_record/fixtures.rb#641
     def context_class; end
 
-    # source://activerecord//lib/active_record/fixtures.rb#597
+    # source://activerecord//lib/active_record/fixtures.rb#595
     def create_fixtures(fixtures_directories, fixture_set_names, class_names = T.unsafe(nil), config = T.unsafe(nil)); end
 
-    # source://activerecord//lib/active_record/fixtures.rb#546
+    # source://activerecord//lib/active_record/fixtures.rb#544
     def default_fixture_model_name(fixture_set_name, config = T.unsafe(nil)); end
 
-    # source://activerecord//lib/active_record/fixtures.rb#552
+    # source://activerecord//lib/active_record/fixtures.rb#550
     def default_fixture_table_name(fixture_set_name, config = T.unsafe(nil)); end
 
     # @return [Boolean]
     #
-    # source://activerecord//lib/active_record/fixtures.rb#566
+    # source://activerecord//lib/active_record/fixtures.rb#564
     def fixture_is_cached?(connection_pool, table_name); end
 
     # Returns a consistent, platform-independent identifier for +label+.
     #
     # \Integer identifiers are values less than 2^30. UUIDs are RFC 4122 version 5 SHA-1 hashes.
     #
-    # source://activerecord//lib/active_record/fixtures.rb#621
+    # source://activerecord//lib/active_record/fixtures.rb#619
     def identify(label, column_type = T.unsafe(nil)); end
 
-    # source://activerecord//lib/active_record/fixtures.rb#591
+    # source://activerecord//lib/active_record/fixtures.rb#589
     def instantiate_all_loaded_fixtures(object, load_instances = T.unsafe(nil)); end
 
-    # source://activerecord//lib/active_record/fixtures.rb#582
+    # source://activerecord//lib/active_record/fixtures.rb#580
     def instantiate_fixtures(object, fixture_set, load_instances = T.unsafe(nil)); end
 
-    # source://activerecord//lib/active_record/fixtures.rb#558
+    # source://activerecord//lib/active_record/fixtures.rb#556
     def reset_cache; end
 
     private
 
-    # source://activerecord//lib/active_record/fixtures.rb#698
+    # source://activerecord//lib/active_record/fixtures.rb#696
     def check_all_foreign_keys_valid!(conn); end
 
-    # source://activerecord//lib/active_record/fixtures.rb#667
+    # source://activerecord//lib/active_record/fixtures.rb#665
     def insert(fixture_sets, connection_pool); end
 
-    # source://activerecord//lib/active_record/fixtures.rb#648
+    # source://activerecord//lib/active_record/fixtures.rb#646
     def read_and_insert(fixtures_directories, fixture_files, class_names, connection_pool); end
 
-    # source://activerecord//lib/active_record/fixtures.rb#708
+    # source://activerecord//lib/active_record/fixtures.rb#706
     def update_all_loaded_fixtures(fixtures_map); end
   end
 end
@@ -22669,7 +22902,7 @@ end
 # possibly in a folder with the same name.
 # ++
 #
-# source://activerecord//lib/active_record/fixtures.rb#539
+# source://activerecord//lib/active_record/fixtures.rb#537
 ActiveRecord::FixtureSet::MAX_ID = T.let(T.unsafe(nil), Integer)
 
 # source://activerecord//lib/active_record/fixture_set/model_metadata.rb#5
@@ -22846,7 +23079,7 @@ class ActiveRecord::FutureResult
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/future_result.rb#135
+  # source://activerecord//lib/active_record/future_result.rb#139
   def canceled?; end
 
   # source://activerecord//lib/active_record/future_result.rb#62
@@ -22865,10 +23098,10 @@ class ActiveRecord::FutureResult
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/future_result.rb#131
+  # source://activerecord//lib/active_record/future_result.rb#135
   def pending?; end
 
-  # source://activerecord//lib/active_record/future_result.rb#118
+  # source://activerecord//lib/active_record/future_result.rb#122
   def result; end
 
   # source://activerecord//lib/active_record/future_result.rb#85
@@ -22882,13 +23115,13 @@ class ActiveRecord::FutureResult
 
   private
 
-  # source://activerecord//lib/active_record/future_result.rb#165
+  # source://activerecord//lib/active_record/future_result.rb#169
   def exec_query(connection, *args, **kwargs); end
 
-  # source://activerecord//lib/active_record/future_result.rb#140
+  # source://activerecord//lib/active_record/future_result.rb#144
   def execute_or_wait; end
 
-  # source://activerecord//lib/active_record/future_result.rb#157
+  # source://activerecord//lib/active_record/future_result.rb#161
   def execute_query(connection, async: T.unsafe(nil)); end
 
   class << self
@@ -22946,11 +23179,11 @@ class ActiveRecord::FutureResult::EventBuffer
   def instrument(name, payload = T.unsafe(nil), &block); end
 end
 
-# source://activerecord//lib/active_record/future_result.rb#169
+# source://activerecord//lib/active_record/future_result.rb#173
 class ActiveRecord::FutureResult::SelectAll < ::ActiveRecord::FutureResult
   private
 
-  # source://activerecord//lib/active_record/future_result.rb#171
+  # source://activerecord//lib/active_record/future_result.rb#175
   def exec_query(*_arg0, **_arg1); end
 end
 
@@ -23045,11 +23278,11 @@ class ActiveRecord::HasOneThroughCantAssociateThroughHasOneOrManyReflection < ::
 # source://activerecord//lib/active_record/associations/errors.rb#237
 class ActiveRecord::HasOneThroughNestedAssociationsAreReadonly < ::ActiveRecord::ThroughNestedAssociationsAreReadonly; end
 
-# source://activerecord//lib/active_record/migration.rb#124
+# source://activerecord//lib/active_record/migration.rb#121
 class ActiveRecord::IllegalMigrationNameError < ::ActiveRecord::MigrationError
   # @return [IllegalMigrationNameError] a new instance of IllegalMigrationNameError
   #
-  # source://activerecord//lib/active_record/migration.rb#125
+  # source://activerecord//lib/active_record/migration.rb#122
   def initialize(name = T.unsafe(nil)); end
 end
 
@@ -23821,14 +24054,14 @@ class ActiveRecord::InternalMetadata::NullInternalMetadata; end
 # Raised when a record cannot be inserted or updated because it references a non-existent record,
 # or when a record cannot be deleted because a parent record references it.
 #
-# source://activerecord//lib/active_record/errors.rb#221
+# source://activerecord//lib/active_record/errors.rb#234
 class ActiveRecord::InvalidForeignKey < ::ActiveRecord::WrappedDatabaseException; end
 
-# source://activerecord//lib/active_record/migration.rb#134
+# source://activerecord//lib/active_record/migration.rb#131
 class ActiveRecord::InvalidMigrationTimestampError < ::ActiveRecord::MigrationError
   # @return [InvalidMigrationTimestampError] a new instance of InvalidMigrationTimestampError
   #
-  # source://activerecord//lib/active_record/migration.rb#135
+  # source://activerecord//lib/active_record/migration.rb#132
   def initialize(version = T.unsafe(nil), name = T.unsafe(nil)); end
 end
 
@@ -23872,7 +24105,7 @@ end
 # For example the following migration is not reversible.
 # Rolling back this migration will raise an ActiveRecord::IrreversibleMigration error.
 #
-#   class IrreversibleMigrationExample < ActiveRecord::Migration[7.2]
+#   class IrreversibleMigrationExample < ActiveRecord::Migration[8.0]
 #     def change
 #       create_table :distributors do |t|
 #         t.string :zipcode
@@ -23890,7 +24123,7 @@ end
 #
 # 1. Define <tt>#up</tt> and <tt>#down</tt> methods instead of <tt>#change</tt>:
 #
-#  class ReversibleMigrationExample < ActiveRecord::Migration[7.2]
+#  class ReversibleMigrationExample < ActiveRecord::Migration[8.0]
 #    def up
 #      create_table :distributors do |t|
 #        t.string :zipcode
@@ -23915,7 +24148,7 @@ end
 #
 # 2. Use the #reversible method in <tt>#change</tt> method:
 #
-#   class ReversibleMigrationExample < ActiveRecord::Migration[7.2]
+#   class ReversibleMigrationExample < ActiveRecord::Migration[8.0]
 #     def change
 #       create_table :distributors do |t|
 #         t.string :zipcode
@@ -23940,13 +24173,13 @@ end
 #     end
 #   end
 #
-# source://activerecord//lib/active_record/migration.rb#91
+# source://activerecord//lib/active_record/migration.rb#88
 class ActiveRecord::IrreversibleMigration < ::ActiveRecord::MigrationError; end
 
 # IrreversibleOrderError is raised when a relation's order is too complex for
 # +reverse_order+ to automatically reverse.
 #
-# source://activerecord//lib/active_record/errors.rb#549
+# source://activerecord//lib/active_record/errors.rb#557
 class ActiveRecord::IrreversibleOrderError < ::ActiveRecord::ActiveRecordError; end
 
 # source://activerecord//lib/active_record/legacy_yaml_adapter.rb#4
@@ -23959,10 +24192,10 @@ end
 
 # LockWaitTimeout will be raised when lock wait timeout exceeded.
 #
-# source://activerecord//lib/active_record/errors.rb#557
+# source://activerecord//lib/active_record/errors.rb#565
 class ActiveRecord::LockWaitTimeout < ::ActiveRecord::StatementInvalid; end
 
-# source://activerecord//lib/active_record.rb#147
+# source://activerecord//lib/active_record.rb#148
 module ActiveRecord::Locking
   extend ::ActiveSupport::Autoload
 end
@@ -23998,7 +24231,7 @@ end
 # it was opened, an ActiveRecord::StaleObjectError exception is thrown if that has occurred
 # and the update is ignored.
 #
-# Check out +ActiveRecord::Locking::Pessimistic+ for an alternative.
+# Check out ActiveRecord::Locking::Pessimistic for an alternative.
 #
 # == Usage
 #
@@ -24243,7 +24476,7 @@ class ActiveRecord::LogSubscriber < ::ActiveSupport::LogSubscriber
   # source://activerecord//lib/active_record/log_subscriber.rb#113
   def debug(progname = T.unsafe(nil), &block); end
 
-  # source://activerecord//lib/active_record/log_subscriber.rb#143
+  # source://activerecord//lib/active_record/log_subscriber.rb#137
   def filter(name, value); end
 
   # source://activerecord//lib/active_record/log_subscriber.rb#121
@@ -24252,7 +24485,7 @@ class ActiveRecord::LogSubscriber < ::ActiveSupport::LogSubscriber
   # source://activerecord//lib/active_record/log_subscriber.rb#109
   def logger; end
 
-  # source://activerecord//lib/active_record/log_subscriber.rb#130
+  # source://activerecord//lib/active_record/log_subscriber.rb#129
   def query_source_location; end
 
   # source://activerecord//lib/active_record/log_subscriber.rb#65
@@ -24265,17 +24498,20 @@ class ActiveRecord::LogSubscriber < ::ActiveSupport::LogSubscriber
   def type_casted_binds(casted_binds); end
 
   class << self
-    # source://activerecord//lib/active_record/log_subscriber.rb#7
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def backtrace_cleaner; end
 
-    # source://activerecord//lib/active_record/log_subscriber.rb#7
-    def backtrace_cleaner=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def backtrace_cleaner=(new_value); end
 
     # source://activerecord//lib/active_record/log_subscriber.rb#7
     def backtrace_cleaner?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/log_subscriber.rb#84
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def log_levels; end
+
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def log_levels=(new_value); end
   end
 end
 
@@ -24300,11 +24536,11 @@ module ActiveRecord::Marshalling::Methods
   # source://activerecord//lib/active_record/marshalling.rb#24
   def _marshal_dump_7_1; end
 
-  # source://activerecord//lib/active_record/marshalling.rb#40
+  # source://activerecord//lib/active_record/marshalling.rb#43
   def marshal_load(state); end
 end
 
-# source://activerecord//lib/active_record.rb#165
+# source://activerecord//lib/active_record.rb#166
 module ActiveRecord::Middleware
   extend ::ActiveSupport::Autoload
 end
@@ -24580,7 +24816,7 @@ end
 #
 # Example of a simple migration:
 #
-#   class AddSsl < ActiveRecord::Migration[7.2]
+#   class AddSsl < ActiveRecord::Migration[8.0]
 #     def up
 #       add_column :accounts, :ssl_enabled, :boolean, default: true
 #     end
@@ -24600,7 +24836,7 @@ end
 #
 # Example of a more complex migration that also needs to initialize data:
 #
-#   class AddSystemSettings < ActiveRecord::Migration[7.2]
+#   class AddSystemSettings < ActiveRecord::Migration[8.0]
 #     def up
 #       create_table :system_settings do |t|
 #         t.string  :name
@@ -24687,7 +24923,7 @@ end
 #
 # === Deletion
 #
-# * <tt>drop_table(name)</tt>: Drops the table called +name+.
+# * <tt>drop_table(*names)</tt>: Drops the given tables.
 # * <tt>drop_join_table(table_1, table_2, options)</tt>: Drops the join table
 #   specified by the given arguments.
 # * <tt>remove_column(table_name, column_name, type, options)</tt>: Removes the column
@@ -24729,7 +24965,7 @@ end
 #   $ bin/rails generate migration add_fieldname_to_tablename fieldname:string
 #
 # This will generate the file <tt>timestamp_add_fieldname_to_tablename.rb</tt>, which will look like this:
-#   class AddFieldnameToTablename < ActiveRecord::Migration[7.2]
+#   class AddFieldnameToTablename < ActiveRecord::Migration[8.0]
 #     def change
 #       add_column :tablenames, :fieldname, :string
 #     end
@@ -24755,7 +24991,7 @@ end
 #
 # Not all migrations change the schema. Some just fix the data:
 #
-#   class RemoveEmptyTags < ActiveRecord::Migration[7.2]
+#   class RemoveEmptyTags < ActiveRecord::Migration[8.0]
 #     def up
 #       Tag.all.each { |tag| tag.destroy if tag.pages.empty? }
 #     end
@@ -24768,7 +25004,7 @@ end
 #
 # Others remove columns when they migrate up instead of down:
 #
-#   class RemoveUnnecessaryItemAttributes < ActiveRecord::Migration[7.2]
+#   class RemoveUnnecessaryItemAttributes < ActiveRecord::Migration[8.0]
 #     def up
 #       remove_column :items, :incomplete_items_count
 #       remove_column :items, :completed_items_count
@@ -24782,7 +25018,7 @@ end
 #
 # And sometimes you need to do something in SQL not abstracted directly by migrations:
 #
-#   class MakeJoinUnique < ActiveRecord::Migration[7.2]
+#   class MakeJoinUnique < ActiveRecord::Migration[8.0]
 #     def up
 #       execute "ALTER TABLE `pages_linked_pages` ADD UNIQUE `page_id_linked_page_id` (`page_id`,`linked_page_id`)"
 #     end
@@ -24799,7 +25035,7 @@ end
 # <tt>Base#reset_column_information</tt> in order to ensure that the model has the
 # latest column data from after the new column was added. Example:
 #
-#   class AddPeopleSalary < ActiveRecord::Migration[7.2]
+#   class AddPeopleSalary < ActiveRecord::Migration[8.0]
 #     def up
 #       add_column :people, :salary, :integer
 #       Person.reset_column_information
@@ -24861,7 +25097,7 @@ end
 # To define a reversible migration, define the +change+ method in your
 # migration like this:
 #
-#   class TenderloveMigration < ActiveRecord::Migration[7.2]
+#   class TenderloveMigration < ActiveRecord::Migration[8.0]
 #     def change
 #       create_table(:horses) do |t|
 #         t.column :content, :text
@@ -24891,7 +25127,7 @@ end
 # can't execute inside a transaction though, and for these situations
 # you can turn the automatic transactions off.
 #
-#   class ChangeEnum < ActiveRecord::Migration[7.2]
+#   class ChangeEnum < ActiveRecord::Migration[8.0]
 #     disable_ddl_transaction!
 #
 #     def up
@@ -24902,67 +25138,67 @@ end
 # Remember that you can still open your own transactions, even if you
 # are in a Migration with <tt>self.disable_ddl_transaction!</tt>.
 #
-# source://activerecord//lib/active_record/migration.rb#574
+# source://activerecord//lib/active_record/migration.rb#571
 class ActiveRecord::Migration
   # @return [Migration] a new instance of Migration
   #
-  # source://activerecord//lib/active_record/migration.rb#803
+  # source://activerecord//lib/active_record/migration.rb#800
   def initialize(name = T.unsafe(nil), version = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/migration.rb#1008
+  # source://activerecord//lib/active_record/migration.rb#1005
   def announce(message); end
 
-  # source://activerecord//lib/active_record/migration.rb#1039
+  # source://activerecord//lib/active_record/migration.rb#1036
   def connection; end
 
-  # source://activerecord//lib/active_record/migration.rb#1043
+  # source://activerecord//lib/active_record/migration.rb#1040
   def connection_pool; end
 
-  # source://activerecord//lib/active_record/migration.rb#1064
+  # source://activerecord//lib/active_record/migration.rb#1061
   def copy(destination, sources, options = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/migration.rb#790
+  # source://activerecord//lib/active_record/migration.rb#787
   def disable_ddl_transaction; end
 
-  # source://activerecord//lib/active_record/migration.rb#960
+  # source://activerecord//lib/active_record/migration.rb#957
   def down; end
 
-  # source://activerecord//lib/active_record/migration.rb#988
+  # source://activerecord//lib/active_record/migration.rb#985
   def exec_migration(conn, direction); end
 
-  # source://activerecord//lib/active_record/migration.rb#810
+  # source://activerecord//lib/active_record/migration.rb#807
   def execution_strategy; end
 
-  # source://activerecord//lib/active_record/migration.rb#1047
+  # source://activerecord//lib/active_record/migration.rb#1044
   def method_missing(method, *arguments, **_arg2, &block); end
 
   # Execute this migration in the named direction
   #
-  # source://activerecord//lib/active_record/migration.rb#967
+  # source://activerecord//lib/active_record/migration.rb#964
   def migrate(direction); end
 
   # Returns the value of attribute name.
   #
-  # source://activerecord//lib/active_record/migration.rb#801
+  # source://activerecord//lib/active_record/migration.rb#798
   def name; end
 
   # Sets the attribute name
   #
   # @param value the value to set the attribute name to.
   #
-  # source://activerecord//lib/active_record/migration.rb#801
+  # source://activerecord//lib/active_record/migration.rb#798
   def name=(_arg0); end
 
   # Determines the version number of the next migration.
   #
-  # source://activerecord//lib/active_record/migration.rb#1131
+  # source://activerecord//lib/active_record/migration.rb#1128
   def next_migration_number(number); end
 
   # Finds the correct table name given an Active Record object.
   # Uses the Active Record object's own table_name, or pre/suffix from the
   # options passed in.
   #
-  # source://activerecord//lib/active_record/migration.rb#1122
+  # source://activerecord//lib/active_record/migration.rb#1119
   def proper_table_name(name, options = T.unsafe(nil)); end
 
   # Used to specify an operation that can be run in one direction or another.
@@ -24974,7 +25210,7 @@ class ActiveRecord::Migration
   # when the three columns 'first_name', 'last_name' and 'full_name' exist,
   # even when migrating down:
   #
-  #    class SplitNameMigration < ActiveRecord::Migration[7.2]
+  #    class SplitNameMigration < ActiveRecord::Migration[8.0]
   #      def change
   #        add_column :users, :first_name, :string
   #        add_column :users, :last_name, :string
@@ -24992,7 +25228,7 @@ class ActiveRecord::Migration
   #      end
   #    end
   #
-  # source://activerecord//lib/active_record/migration.rb#912
+  # source://activerecord//lib/active_record/migration.rb#909
   def reversible; end
 
   # Reverses the migration commands for the given block and
@@ -25002,7 +25238,7 @@ class ActiveRecord::Migration
   # and create the table 'apples' on the way up, and the reverse
   # on the way down.
   #
-  #   class FixTLMigration < ActiveRecord::Migration[7.2]
+  #   class FixTLMigration < ActiveRecord::Migration[8.0]
   #     def change
   #       revert do
   #         create_table(:horses) do |t|
@@ -25021,7 +25257,7 @@ class ActiveRecord::Migration
   #
   #   require_relative "20121212123456_tenderlove_migration"
   #
-  #   class FixupTLMigration < ActiveRecord::Migration[7.2]
+  #   class FixupTLMigration < ActiveRecord::Migration[8.0]
   #     def change
   #       revert TenderloveMigration
   #
@@ -25033,12 +25269,12 @@ class ActiveRecord::Migration
   #
   # This command can be nested.
   #
-  # source://activerecord//lib/active_record/migration.rb#855
+  # source://activerecord//lib/active_record/migration.rb#852
   def revert(*migration_classes, &block); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/migration.rb#872
+  # source://activerecord//lib/active_record/migration.rb#869
   def reverting?; end
 
   # Runs the given migration classes.
@@ -25047,33 +25283,33 @@ class ActiveRecord::Migration
   # - +:direction+ - Default is +:up+.
   # - +:revert+ - Default is +false+.
   #
-  # source://activerecord//lib/active_record/migration.rb#940
+  # source://activerecord//lib/active_record/migration.rb#937
   def run(*migration_classes); end
 
   # Takes a message argument and outputs it as is.
   # A second boolean argument can be passed to specify whether to indent or not.
   #
-  # source://activerecord//lib/active_record/migration.rb#1016
+  # source://activerecord//lib/active_record/migration.rb#1013
   def say(message, subitem = T.unsafe(nil)); end
 
   # Outputs text along with how long it took to run its block.
   # If the block returns an integer it assumes it is the number of rows affected.
   #
-  # source://activerecord//lib/active_record/migration.rb#1022
+  # source://activerecord//lib/active_record/migration.rb#1019
   def say_with_time(message); end
 
   # Takes a block as an argument and suppresses any output generated by the block.
   #
-  # source://activerecord//lib/active_record/migration.rb#1032
+  # source://activerecord//lib/active_record/migration.rb#1029
   def suppress_messages; end
 
   # Builds a hash for use in ActiveRecord::Migration#proper_table_name using
   # the Active Record object's table_name prefix and suffix
   #
-  # source://activerecord//lib/active_record/migration.rb#1141
+  # source://activerecord//lib/active_record/migration.rb#1138
   def table_name_options(config = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/migration.rb#954
+  # source://activerecord//lib/active_record/migration.rb#951
   def up; end
 
   # Used to specify an operation that is only run when migrating up
@@ -25082,7 +25318,7 @@ class ActiveRecord::Migration
   # In the following example, the new column +published+ will be given
   # the value +true+ for all existing records.
   #
-  #    class AddPublishedToPosts < ActiveRecord::Migration[7.2]
+  #    class AddPublishedToPosts < ActiveRecord::Migration[8.0]
   #      def change
   #        add_column :posts, :published, :boolean, default: false
   #        up_only do
@@ -25091,7 +25327,7 @@ class ActiveRecord::Migration
   #      end
   #    end
   #
-  # source://activerecord//lib/active_record/migration.rb#931
+  # source://activerecord//lib/active_record/migration.rb#928
   def up_only(&block); end
 
   # :singleton-method: verbose
@@ -25100,66 +25336,66 @@ class ActiveRecord::Migration
   # happen, along with benchmarks describing how long each step took. Defaults to
   # true.
   #
-  # source://activerecord//lib/active_record/migration.rb#800
+  # source://activerecord//lib/active_record/migration.rb#797
   def verbose; end
 
-  # source://activerecord//lib/active_record/migration.rb#800
+  # source://activerecord//lib/active_record/migration.rb#797
   def verbose=(val); end
 
   # Returns the value of attribute version.
   #
-  # source://activerecord//lib/active_record/migration.rb#801
+  # source://activerecord//lib/active_record/migration.rb#798
   def version; end
 
   # Sets the attribute version
   #
   # @param value the value to set the attribute version to.
   #
-  # source://activerecord//lib/active_record/migration.rb#801
+  # source://activerecord//lib/active_record/migration.rb#798
   def version=(_arg0); end
 
-  # source://activerecord//lib/active_record/migration.rb#1004
+  # source://activerecord//lib/active_record/migration.rb#1001
   def write(text = T.unsafe(nil)); end
 
   private
 
-  # source://activerecord//lib/active_record/migration.rb#1173
+  # source://activerecord//lib/active_record/migration.rb#1170
   def command_recorder; end
 
-  # source://activerecord//lib/active_record/migration.rb#1149
+  # source://activerecord//lib/active_record/migration.rb#1146
   def execute_block; end
 
-  # source://activerecord//lib/active_record/migration.rb#1157
+  # source://activerecord//lib/active_record/migration.rb#1154
   def format_arguments(arguments); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/migration.rb#1169
+  # source://activerecord//lib/active_record/migration.rb#1166
   def internal_option?(option_name); end
 
   class << self
-    # source://activerecord//lib/active_record/migration.rb#632
+    # source://activerecord//lib/active_record/migration.rb#629
     def [](version); end
 
     # Raises ActiveRecord::PendingMigrationError error if any migrations are pending
     # for all database configurations in an environment.
     #
-    # source://activerecord//lib/active_record/migration.rb#700
+    # source://activerecord//lib/active_record/migration.rb#693
     def check_all_pending!; end
 
-    # source://activerecord//lib/active_record/migration.rb#752
+    # source://activerecord//lib/active_record/migration.rb#739
     def check_pending_migrations; end
 
-    # source://activerecord//lib/active_record/migration.rb#636
+    # source://activerecord//lib/active_record/migration.rb#633
     def current_version; end
 
-    # source://activerecord//lib/active_record/migration.rb#691
+    # source://activerecord//lib/active_record/migration.rb#684
     def delegate; end
 
-    # source://activerecord//lib/active_record/migration.rb#691
+    # source://activerecord//lib/active_record/migration.rb#684
     def delegate=(_arg0); end
 
-    # source://activerecord//lib/active_record/migration.rb#692
+    # source://activerecord//lib/active_record/migration.rb#685
     def disable_ddl_transaction; end
 
     # Disable the transaction wrapping this migration.
@@ -25167,55 +25403,58 @@ class ActiveRecord::Migration
     #
     # For more details read the {"Transactional Migrations" section above}[rdoc-ref:Migration].
     #
-    # source://activerecord//lib/active_record/migration.rb#748
+    # source://activerecord//lib/active_record/migration.rb#735
     def disable_ddl_transaction!; end
 
-    # source://activerecord//lib/active_record/migration.rb#692
+    # source://activerecord//lib/active_record/migration.rb#685
     def disable_ddl_transaction=(_arg0); end
 
-    # source://activerecord//lib/active_record/migration.rb#620
+    # source://activerecord//lib/active_record/migration.rb#617
     def inherited(subclass); end
 
-    # source://activerecord//lib/active_record/migration.rb#716
+    # source://activerecord//lib/active_record/migration.rb#709
     def load_schema_if_pending!; end
 
-    # source://activerecord//lib/active_record/migration.rb#730
+    # source://activerecord//lib/active_record/migration.rb#717
     def maintain_test_schema!; end
 
-    # source://activerecord//lib/active_record/migration.rb#736
+    # source://activerecord//lib/active_record/migration.rb#723
     def method_missing(name, *_arg1, **_arg2, &_arg3); end
 
-    # source://activerecord//lib/active_record/migration.rb#740
+    # source://activerecord//lib/active_record/migration.rb#727
     def migrate(direction); end
 
-    # source://activerecord//lib/active_record/migration.rb#694
+    # source://activerecord//lib/active_record/migration.rb#687
     def nearest_delegate; end
 
     # @return [Boolean]
     #
-    # source://activerecord//lib/active_record/migration.rb#642
+    # source://activerecord//lib/active_record/migration.rb#639
     def valid_version_format?(version_string); end
 
-    # source://activerecord//lib/active_record/migration.rb#800
+    # source://activerecord//lib/active_record/migration.rb#797
     def verbose; end
 
-    # source://activerecord//lib/active_record/migration.rb#800
+    # source://activerecord//lib/active_record/migration.rb#797
     def verbose=(val); end
 
     private
 
     # @return [Boolean]
     #
-    # source://activerecord//lib/active_record/migration.rb#761
+    # source://activerecord//lib/active_record/migration.rb#748
     def any_schema_needs_update?; end
 
-    # source://activerecord//lib/active_record/migration.rb#767
+    # source://activerecord//lib/active_record/migration.rb#754
     def db_configs_in_current_env; end
 
-    # source://activerecord//lib/active_record/migration.rb#785
+    # source://activerecord//lib/active_record/migration.rb#772
     def env; end
 
-    # source://activerecord//lib/active_record/migration.rb#771
+    # source://activerecord//lib/active_record/migration.rb#776
+    def load_schema!; end
+
+    # source://activerecord//lib/active_record/migration.rb#758
     def pending_migrations; end
   end
 end
@@ -25223,23 +25462,20 @@ end
 # This class is used to verify that all migrations have been run before
 # loading a web page if <tt>config.active_record.migration_error</tt> is set to +:page_load+.
 #
-# source://activerecord//lib/active_record/migration.rb#651
+# source://activerecord//lib/active_record/migration.rb#648
 class ActiveRecord::Migration::CheckPending
   # @return [CheckPending] a new instance of CheckPending
   #
-  # source://activerecord//lib/active_record/migration.rb#652
+  # source://activerecord//lib/active_record/migration.rb#649
   def initialize(app, file_watcher: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/migration.rb#659
+  # source://activerecord//lib/active_record/migration.rb#656
   def call(env); end
 
   private
 
-  # source://activerecord//lib/active_record/migration.rb#678
+  # source://activerecord//lib/active_record/migration.rb#675
   def build_watcher(&block); end
-
-  # source://activerecord//lib/active_record/migration.rb#685
-  def connection; end
 end
 
 # = \Migration Command Recorder
@@ -25262,10 +25498,12 @@ end
 # * change_table_comment (must supply a +:from+ and +:to+ option)
 # * create_enum
 # * create_join_table
+# * create_virtual_table
 # * create_table
 # * disable_extension
 # * drop_enum (must supply a list of values)
 # * drop_join_table
+# * drop_virtual_table (must supply options)
 # * drop_table (must supply a block)
 # * enable_extension
 # * remove_column (must supply a type)
@@ -25283,116 +25521,128 @@ end
 # * rename_index
 # * rename_table
 #
-# source://activerecord//lib/active_record/migration/command_recorder.rb#45
+# source://activerecord//lib/active_record/migration/command_recorder.rb#47
 class ActiveRecord::Migration::CommandRecorder
   include ::ActiveRecord::Migration::JoinTable
   include ::ActiveRecord::Migration::CommandRecorder::StraightReversions
 
   # @return [CommandRecorder] a new instance of CommandRecorder
   #
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#63
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#67
   def initialize(delegate = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def add_belongs_to(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def add_check_constraint(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def add_column(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def add_enum_value(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def add_exclusion_constraint(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def add_foreign_key(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def add_index(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def add_reference(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def add_timestamps(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def add_unique_constraint(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def change_column(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def change_column_comment(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def change_column_default(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def change_column_null(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#132
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#136
   def change_table(table_name, **options); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def change_table_comment(*args, **_arg1, &block); end
 
   # Returns the value of attribute commands.
   #
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#61
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#65
   def commands; end
 
   # Sets the attribute commands
   #
   # @param value the value to set the attribute commands to.
   #
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#61
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#65
   def commands=(_arg0); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def create_enum(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def create_join_table(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
+  def create_schema(*args, **_arg1, &block); end
+
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def create_table(*args, **_arg1, &block); end
+
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
+  def create_virtual_table(*args, **_arg1, &block); end
 
   # Returns the value of attribute delegate.
   #
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#61
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#65
   def delegate; end
 
   # Sets the attribute delegate
   #
   # @param value the value to set the attribute delegate to.
   #
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#61
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#65
   def delegate=(_arg0); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def disable_extension(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def drop_enum(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def drop_join_table(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
+  def drop_schema(*args, **_arg1, &block); end
+
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def drop_table(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
+  def drop_virtual_table(*args, **_arg1, &block); end
+
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def enable_extension(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def execute(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def execute_block(*args, **_arg1, &block); end
 
   # Returns the inverse of the given command. For example:
@@ -25410,13 +25660,13 @@ class ActiveRecord::Migration::CommandRecorder
   #
   # @raise [IrreversibleMigration]
   #
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#110
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#114
   def inverse_of(command, args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_add_belongs_to(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_remove_belongs_to(args, &block); end
 
   # Record +command+. +command+ should be a method name and arguments.
@@ -25424,55 +25674,55 @@ class ActiveRecord::Migration::CommandRecorder
   #
   #   recorder.record(:method_name, [:arg1, :arg2])
   #
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#90
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#94
   def record(*command, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def remove_belongs_to(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def remove_check_constraint(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def remove_column(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def remove_columns(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def remove_exclusion_constraint(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def remove_foreign_key(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def remove_index(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def remove_reference(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def remove_timestamps(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def remove_unique_constraint(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def rename_column(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def rename_enum(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def rename_enum_value(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def rename_index(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def rename_table(*args, **_arg1, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#144
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#148
   def replay(migration); end
 
   # While executing the given block, the recorded will be in reverting mode.
@@ -25483,198 +25733,215 @@ class ActiveRecord::Migration::CommandRecorder
   #   recorder.revert{ recorder.record(:rename_table, [:old, :new]) }
   #   # same effect as recorder.record(:rename_table, [:new, :old])
   #
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#76
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#80
   def revert; end
 
   # Returns the value of attribute reverting.
   #
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#61
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#65
   def reverting; end
 
   # Sets the attribute reverting
   #
   # @param value the value to set the attribute reverting to.
   #
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#61
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#65
   def reverting=(_arg0); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#123
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#127
   def transaction(*args, **_arg1, &block); end
 
   private
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#313
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#324
   def invert_add_check_constraint(args); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#274
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#285
   def invert_add_foreign_key(args); end
 
   # @raise [ActiveRecord::IrreversibleMigration]
   #
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#335
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#346
   def invert_add_unique_constraint(args); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#293
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#304
   def invert_change_column_comment(args); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#259
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#270
   def invert_change_column_default(args); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#269
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#280
   def invert_change_column_null(args); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#303
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#314
   def invert_change_table_comment(args); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#191
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#197
   def invert_create_table(args, &block); end
 
   # @raise [ActiveRecord::IrreversibleMigration]
   #
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#349
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#360
   def invert_drop_enum(args); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#198
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#204
   def invert_drop_table(args, &block); end
 
   # @raise [ActiveRecord::IrreversibleMigration]
   #
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#321
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#386
+  def invert_drop_virtual_table(args); end
+
+  # @raise [ActiveRecord::IrreversibleMigration]
+  #
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#332
   def invert_remove_check_constraint(args); end
 
   # @raise [ActiveRecord::IrreversibleMigration]
   #
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#215
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#226
   def invert_remove_column(args); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#220
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#231
   def invert_remove_columns(args); end
 
   # @raise [ActiveRecord::IrreversibleMigration]
   #
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#330
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#341
   def invert_remove_exclusion_constraint(args); end
 
   # @raise [ActiveRecord::IrreversibleMigration]
   #
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#279
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#290
   def invert_remove_foreign_key(args); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#238
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#249
   def invert_remove_index(args); end
 
   # @raise [ActiveRecord::IrreversibleMigration]
   #
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#342
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#353
   def invert_remove_unique_constraint(args); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#233
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#244
   def invert_rename_column(args); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#355
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#366
   def invert_rename_enum(args); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#365
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#376
   def invert_rename_enum_value(args); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#228
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#239
   def invert_rename_index(args); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#208
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#219
   def invert_rename_table(args); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#180
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#186
   def invert_transaction(args, &block); end
 
   # Forwards any missing method call to the \target.
   #
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#380
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#397
   def method_missing(method, *_arg1, **_arg2, &_arg3); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#375
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#392
   def respond_to_missing?(method, _); end
 end
 
-# source://activerecord//lib/active_record/migration/command_recorder.rb#46
+# source://activerecord//lib/active_record/migration/command_recorder.rb#48
 ActiveRecord::Migration::CommandRecorder::ReversibleAndIrreversibleMethods = T.let(T.unsafe(nil), Array)
 
-# source://activerecord//lib/active_record/migration/command_recorder.rb#151
+# source://activerecord//lib/active_record/migration/command_recorder.rb#155
 module ActiveRecord::Migration::CommandRecorder::StraightReversions
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_add_check_constraint(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_add_column(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_add_exclusion_constraint(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_add_foreign_key(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_add_index(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_add_reference(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_add_timestamps(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_add_unique_constraint(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_create_enum(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_create_join_table(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
+  def invert_create_schema(args, &block); end
+
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_create_table(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
+  def invert_create_virtual_table(args, &block); end
+
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_disable_extension(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_drop_enum(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_drop_join_table(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
+  def invert_drop_schema(args, &block); end
+
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_drop_table(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
+  def invert_drop_virtual_table(args, &block); end
+
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_enable_extension(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_execute_block(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_remove_check_constraint(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_remove_column(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_remove_exclusion_constraint(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_remove_foreign_key(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_remove_index(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_remove_reference(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_remove_timestamps(args, &block); end
 
-  # source://activerecord//lib/active_record/migration/command_recorder.rb#170
+  # source://activerecord//lib/active_record/migration/command_recorder.rb#176
   def invert_remove_unique_constraint(args, &block); end
 end
 
@@ -25686,299 +25953,302 @@ module ActiveRecord::Migration::Compatibility
   end
 end
 
-# source://activerecord//lib/active_record/migration/compatibility.rb#413
+# source://activerecord//lib/active_record/migration/compatibility.rb#416
 class ActiveRecord::Migration::Compatibility::V4_2 < ::ActiveRecord::Migration::Compatibility::V5_0
-  # source://activerecord//lib/active_record/migration/compatibility.rb#431
+  # source://activerecord//lib/active_record/migration/compatibility.rb#434
   def add_belongs_to(table_name, ref_name, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#431
+  # source://activerecord//lib/active_record/migration/compatibility.rb#434
   def add_reference(table_name, ref_name, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#437
+  # source://activerecord//lib/active_record/migration/compatibility.rb#440
   def add_timestamps(table_name, **options); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/migration/compatibility.rb#442
+  # source://activerecord//lib/active_record/migration/compatibility.rb#445
   def index_exists?(table_name, column_name, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#453
+  # source://activerecord//lib/active_record/migration/compatibility.rb#456
   def remove_index(table_name, column_name = T.unsafe(nil), **options); end
 
   private
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#459
+  # source://activerecord//lib/active_record/migration/compatibility.rb#462
   def compatible_table_definition(t); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#466
+  # source://activerecord//lib/active_record/migration/compatibility.rb#469
   def index_name_for_remove(table_name, column_name, options); end
 end
 
-# source://activerecord//lib/active_record/migration/compatibility.rb#414
+# source://activerecord//lib/active_record/migration/compatibility.rb#417
 module ActiveRecord::Migration::Compatibility::V4_2::TableDefinition
-  # source://activerecord//lib/active_record/migration/compatibility.rb#415
+  # source://activerecord//lib/active_record/migration/compatibility.rb#418
   def belongs_to(*_arg0, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#415
+  # source://activerecord//lib/active_record/migration/compatibility.rb#418
   def references(*_arg0, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#421
+  # source://activerecord//lib/active_record/migration/compatibility.rb#424
   def timestamps(**options); end
 
   private
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#427
+  # source://activerecord//lib/active_record/migration/compatibility.rb#430
   def raise_on_if_exist_options(options); end
 end
 
-# source://activerecord//lib/active_record/migration/compatibility.rb#344
+# source://activerecord//lib/active_record/migration/compatibility.rb#347
 class ActiveRecord::Migration::Compatibility::V5_0 < ::ActiveRecord::Migration::Compatibility::V5_1
-  # source://activerecord//lib/active_record/migration/compatibility.rb#399
+  # source://activerecord//lib/active_record/migration/compatibility.rb#402
   def add_belongs_to(table_name, ref_name, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#389
+  # source://activerecord//lib/active_record/migration/compatibility.rb#392
   def add_column(table_name, column_name, type, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#399
+  # source://activerecord//lib/active_record/migration/compatibility.rb#402
   def add_reference(table_name, ref_name, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#384
+  # source://activerecord//lib/active_record/migration/compatibility.rb#387
   def create_join_table(table_1, table_2, column_options: T.unsafe(nil), **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#361
+  # source://activerecord//lib/active_record/migration/compatibility.rb#364
   def create_table(table_name, **options); end
 
   private
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#405
+  # source://activerecord//lib/active_record/migration/compatibility.rb#408
   def compatible_table_definition(t); end
 end
 
-# source://activerecord//lib/active_record/migration/compatibility.rb#345
+# source://activerecord//lib/active_record/migration/compatibility.rb#348
 module ActiveRecord::Migration::Compatibility::V5_0::TableDefinition
-  # source://activerecord//lib/active_record/migration/compatibility.rb#351
+  # source://activerecord//lib/active_record/migration/compatibility.rb#354
   def belongs_to(*args, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#346
+  # source://activerecord//lib/active_record/migration/compatibility.rb#349
   def primary_key(name, type = T.unsafe(nil), **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#351
+  # source://activerecord//lib/active_record/migration/compatibility.rb#354
   def references(*args, **options); end
 
   private
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#357
+  # source://activerecord//lib/active_record/migration/compatibility.rb#360
   def raise_on_if_exist_options(options); end
 end
 
-# source://activerecord//lib/active_record/migration/compatibility.rb#323
+# source://activerecord//lib/active_record/migration/compatibility.rb#326
 class ActiveRecord::Migration::Compatibility::V5_1 < ::ActiveRecord::Migration::Compatibility::V5_2
-  # source://activerecord//lib/active_record/migration/compatibility.rb#324
+  # source://activerecord//lib/active_record/migration/compatibility.rb#327
   def change_column(table_name, column_name, type, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#335
+  # source://activerecord//lib/active_record/migration/compatibility.rb#338
   def create_table(table_name, **options); end
 end
 
-# source://activerecord//lib/active_record/migration/compatibility.rb#267
+# source://activerecord//lib/active_record/migration/compatibility.rb#270
 class ActiveRecord::Migration::Compatibility::V5_2 < ::ActiveRecord::Migration::Compatibility::V6_0
-  # source://activerecord//lib/active_record/migration/compatibility.rb#301
+  # source://activerecord//lib/active_record/migration/compatibility.rb#304
   def add_timestamps(table_name, **options); end
 
   private
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#314
+  # source://activerecord//lib/active_record/migration/compatibility.rb#317
   def command_recorder; end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#307
+  # source://activerecord//lib/active_record/migration/compatibility.rb#310
   def compatible_table_definition(t); end
 end
 
-# source://activerecord//lib/active_record/migration/compatibility.rb#287
+# source://activerecord//lib/active_record/migration/compatibility.rb#290
 module ActiveRecord::Migration::Compatibility::V5_2::CommandRecorder
-  # source://activerecord//lib/active_record/migration/compatibility.rb#292
+  # source://activerecord//lib/active_record/migration/compatibility.rb#295
   def invert_change_column_comment(args); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#296
+  # source://activerecord//lib/active_record/migration/compatibility.rb#299
   def invert_change_table_comment(args); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#288
+  # source://activerecord//lib/active_record/migration/compatibility.rb#291
   def invert_transaction(args, &block); end
 end
 
-# source://activerecord//lib/active_record/migration/compatibility.rb#268
+# source://activerecord//lib/active_record/migration/compatibility.rb#271
 module ActiveRecord::Migration::Compatibility::V5_2::TableDefinition
-  # source://activerecord//lib/active_record/migration/compatibility.rb#274
+  # source://activerecord//lib/active_record/migration/compatibility.rb#277
   def column(name, type, index: T.unsafe(nil), **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#269
+  # source://activerecord//lib/active_record/migration/compatibility.rb#272
   def timestamps(**options); end
 
   private
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#283
+  # source://activerecord//lib/active_record/migration/compatibility.rb#286
   def raise_on_duplicate_column(name); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#280
+  # source://activerecord//lib/active_record/migration/compatibility.rb#283
   def raise_on_if_exist_options(options); end
 end
 
-# source://activerecord//lib/active_record/migration/compatibility.rb#224
+# source://activerecord//lib/active_record/migration/compatibility.rb#227
 class ActiveRecord::Migration::Compatibility::V6_0 < ::ActiveRecord::Migration::Compatibility::V6_1
-  # source://activerecord//lib/active_record/migration/compatibility.rb#248
+  # source://activerecord//lib/active_record/migration/compatibility.rb#251
   def add_belongs_to(table_name, ref_name, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#248
+  # source://activerecord//lib/active_record/migration/compatibility.rb#251
   def add_reference(table_name, ref_name, **options); end
 
   private
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#259
+  # source://activerecord//lib/active_record/migration/compatibility.rb#262
   def compatible_table_definition(t); end
 end
 
-# source://activerecord//lib/active_record/migration/compatibility.rb#225
+# source://activerecord//lib/active_record/migration/compatibility.rb#228
 class ActiveRecord::Migration::Compatibility::V6_0::ReferenceDefinition < ::ActiveRecord::ConnectionAdapters::ReferenceDefinition
-  # source://activerecord//lib/active_record/migration/compatibility.rb#226
+  # source://activerecord//lib/active_record/migration/compatibility.rb#229
   def index_options(table_name); end
 end
 
-# source://activerecord//lib/active_record/migration/compatibility.rb#231
+# source://activerecord//lib/active_record/migration/compatibility.rb#234
 module ActiveRecord::Migration::Compatibility::V6_0::TableDefinition
-  # source://activerecord//lib/active_record/migration/compatibility.rb#232
+  # source://activerecord//lib/active_record/migration/compatibility.rb#235
   def belongs_to(*args, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#238
+  # source://activerecord//lib/active_record/migration/compatibility.rb#241
   def column(name, type, index: T.unsafe(nil), **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#232
+  # source://activerecord//lib/active_record/migration/compatibility.rb#235
   def references(*args, **options); end
 
   private
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#244
+  # source://activerecord//lib/active_record/migration/compatibility.rb#247
   def raise_on_if_exist_options(options); end
 end
 
-# source://activerecord//lib/active_record/migration/compatibility.rb#161
+# source://activerecord//lib/active_record/migration/compatibility.rb#164
 class ActiveRecord::Migration::Compatibility::V6_1 < ::ActiveRecord::Migration::Compatibility::V7_0
-  # source://activerecord//lib/active_record/migration/compatibility.rb#176
+  # source://activerecord//lib/active_record/migration/compatibility.rb#179
   def add_column(table_name, column_name, type, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#185
+  # source://activerecord//lib/active_record/migration/compatibility.rb#188
   def change_column(table_name, column_name, type, **options); end
 
   private
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#216
+  # source://activerecord//lib/active_record/migration/compatibility.rb#219
   def compatible_table_definition(t); end
 end
 
-# source://activerecord//lib/active_record/migration/compatibility.rb#162
+# source://activerecord//lib/active_record/migration/compatibility.rb#165
 class ActiveRecord::Migration::Compatibility::V6_1::PostgreSQLCompat
   class << self
-    # source://activerecord//lib/active_record/migration/compatibility.rb#163
+    # source://activerecord//lib/active_record/migration/compatibility.rb#166
     def compatible_timestamp_type(type, connection); end
   end
 end
 
-# source://activerecord//lib/active_record/migration/compatibility.rb#194
+# source://activerecord//lib/active_record/migration/compatibility.rb#197
 module ActiveRecord::Migration::Compatibility::V6_1::TableDefinition
-  # source://activerecord//lib/active_record/migration/compatibility.rb#200
+  # source://activerecord//lib/active_record/migration/compatibility.rb#203
   def change(name, type, index: T.unsafe(nil), **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#205
+  # source://activerecord//lib/active_record/migration/compatibility.rb#208
   def column(name, type, index: T.unsafe(nil), **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#195
+  # source://activerecord//lib/active_record/migration/compatibility.rb#198
   def new_column_definition(name, type, **options); end
 
   private
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#211
+  # source://activerecord//lib/active_record/migration/compatibility.rb#214
   def raise_on_if_exist_options(options); end
 end
 
-# source://activerecord//lib/active_record/migration/compatibility.rb#37
+# source://activerecord//lib/active_record/migration/compatibility.rb#40
 class ActiveRecord::Migration::Compatibility::V7_0 < ::ActiveRecord::Migration::Compatibility::V7_1
   include ::ActiveRecord::Migration::Compatibility::V7_0::LegacyIndexName
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#107
+  # source://activerecord//lib/active_record/migration/compatibility.rb#110
   def add_belongs_to(table_name, ref_name, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#97
+  # source://activerecord//lib/active_record/migration/compatibility.rb#100
   def add_column(table_name, column_name, type, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#145
+  # source://activerecord//lib/active_record/migration/compatibility.rb#148
   def add_foreign_key(from_table, to_table, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#102
+  # source://activerecord//lib/active_record/migration/compatibility.rb#105
   def add_index(table_name, column_name, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#107
+  # source://activerecord//lib/active_record/migration/compatibility.rb#110
   def add_reference(table_name, ref_name, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#126
+  # source://activerecord//lib/active_record/migration/compatibility.rb#129
   def change_column(table_name, column_name, type, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#134
+  # source://activerecord//lib/active_record/migration/compatibility.rb#137
   def change_column_null(table_name, column_name, null, default = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#113
+  # source://activerecord//lib/active_record/migration/compatibility.rb#116
   def create_table(table_name, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#138
+  # source://activerecord//lib/active_record/migration/compatibility.rb#141
   def disable_extension(name, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#120
+  # source://activerecord//lib/active_record/migration/compatibility.rb#123
   def rename_table(table_name, new_name, **options); end
 
   private
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#153
+  # source://activerecord//lib/active_record/migration/compatibility.rb#156
   def compatible_table_definition(t); end
 end
 
-# source://activerecord//lib/active_record/migration/compatibility.rb#38
+# source://activerecord//lib/active_record/migration/compatibility.rb#41
 module ActiveRecord::Migration::Compatibility::V7_0::LegacyIndexName
   private
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/migration/compatibility.rb#62
+  # source://activerecord//lib/active_record/migration/compatibility.rb#65
   def expression_column_name?(column_name); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#54
+  # source://activerecord//lib/active_record/migration/compatibility.rb#57
   def index_name_options(column_names); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#40
+  # source://activerecord//lib/active_record/migration/compatibility.rb#43
   def legacy_index_name(table_name, options); end
 end
 
-# source://activerecord//lib/active_record/migration/compatibility.rb#67
+# source://activerecord//lib/active_record/migration/compatibility.rb#70
 module ActiveRecord::Migration::Compatibility::V7_0::TableDefinition
   include ::ActiveRecord::Migration::Compatibility::V7_0::LegacyIndexName
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#75
+  # source://activerecord//lib/active_record/migration/compatibility.rb#78
   def change(name, type, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#70
+  # source://activerecord//lib/active_record/migration/compatibility.rb#73
   def column(name, type, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#80
+  # source://activerecord//lib/active_record/migration/compatibility.rb#83
   def index(column_name, **options); end
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#85
+  # source://activerecord//lib/active_record/migration/compatibility.rb#88
   def references(*args, **options); end
 
   private
 
-  # source://activerecord//lib/active_record/migration/compatibility.rb#91
+  # source://activerecord//lib/active_record/migration/compatibility.rb#94
   def raise_on_if_exist_options(options); end
 end
 
+# source://activerecord//lib/active_record/migration/compatibility.rb#37
+class ActiveRecord::Migration::Compatibility::V7_1 < ::ActiveRecord::Migration::Compatibility::V7_2; end
+
 # source://activerecord//lib/active_record/migration/compatibility.rb#34
-class ActiveRecord::Migration::Compatibility::V7_1 < ::ActiveRecord::Migration::Current; end
+class ActiveRecord::Migration::Compatibility::V7_2 < ::ActiveRecord::Migration::Current; end
 
 # This file exists to ensure that old migrations run the same way they did before a Rails upgrade.
 # e.g. if you write a migration on Rails 6.1, then upgrade to Rails 7, the migration should do the same thing to your
@@ -25988,7 +26258,7 @@ class ActiveRecord::Migration::Compatibility::V7_1 < ::ActiveRecord::Migration::
 # New migration functionality that will never be backward compatible should be added directly to `ActiveRecord::Migration`.
 #
 # There are classes for each prior Rails version. Each class descends from the *next* Rails version, so:
-# 5.2 < 6.0 < 6.1 < 7.0 < 7.1 < 7.2
+# 5.2 < 6.0 < 6.1 < 7.0 < 7.1 < 7.2 < 8.0
 #
 # If you are introducing new migration functionality that should only apply from Rails 7 onward, then you should
 # find the class that immediately precedes it (6.1), and override the relevant migration methods to undo your changes.
@@ -25998,26 +26268,26 @@ class ActiveRecord::Migration::Compatibility::V7_1 < ::ActiveRecord::Migration::
 # for migrations written for 5.2, but will for migrations written for 6.0.
 #
 # source://activerecord//lib/active_record/migration/compatibility.rb#32
-ActiveRecord::Migration::Compatibility::V7_2 = ActiveRecord::Migration::Current
+ActiveRecord::Migration::Compatibility::V8_0 = ActiveRecord::Migration::Current
 
 # This must be defined before the inherited hook, below
 #
-# source://activerecord//lib/active_record/migration.rb#582
+# source://activerecord//lib/active_record/migration.rb#579
 class ActiveRecord::Migration::Current < ::ActiveRecord::Migration
-  # source://activerecord//lib/active_record/migration.rb#591
+  # source://activerecord//lib/active_record/migration.rb#588
   def change_table(table_name, **options); end
 
-  # source://activerecord//lib/active_record/migration.rb#615
+  # source://activerecord//lib/active_record/migration.rb#612
   def compatible_table_definition(t); end
 
-  # source://activerecord//lib/active_record/migration.rb#599
+  # source://activerecord//lib/active_record/migration.rb#596
   def create_join_table(table_1, table_2, **options); end
 
-  # source://activerecord//lib/active_record/migration.rb#583
+  # source://activerecord//lib/active_record/migration.rb#580
   def create_table(table_name, **options); end
 
-  # source://activerecord//lib/active_record/migration.rb#607
-  def drop_table(table_name, **options); end
+  # source://activerecord//lib/active_record/migration.rb#604
+  def drop_table(*table_names, **options); end
 end
 
 # The default strategy for executing migrations. Delegates method calls
@@ -26071,12 +26341,12 @@ module ActiveRecord::Migration::JoinTable
   def join_table_name(table_1, table_2); end
 end
 
-# source://activerecord//lib/active_record/migration.rb#640
+# source://activerecord//lib/active_record/migration.rb#637
 ActiveRecord::Migration::MigrationFilenameRegexp = T.let(T.unsafe(nil), Regexp)
 
-# source://activerecord//lib/active_record/migration.rb#876
+# source://activerecord//lib/active_record/migration.rb#873
 class ActiveRecord::Migration::ReversibleBlockHelper < ::Struct
-  # source://activerecord//lib/active_record/migration.rb#881
+  # source://activerecord//lib/active_record/migration.rb#878
   def down; end
 
   # Returns the value of attribute reverting
@@ -26090,7 +26360,7 @@ class ActiveRecord::Migration::ReversibleBlockHelper < ::Struct
   # @return [Object] the newly set value
   def reverting=(_); end
 
-  # source://activerecord//lib/active_record/migration.rb#877
+  # source://activerecord//lib/active_record/migration.rb#874
   def up; end
 
   class << self
@@ -26112,36 +26382,36 @@ end
 # a +SchemaMigration+ object per database. From the Rake tasks, \Rails will
 # handle this for you.
 #
-# source://activerecord//lib/active_record/migration.rb#1214
+# source://activerecord//lib/active_record/migration.rb#1211
 class ActiveRecord::MigrationContext
   # @return [MigrationContext] a new instance of MigrationContext
   #
-  # source://activerecord//lib/active_record/migration.rb#1217
+  # source://activerecord//lib/active_record/migration.rb#1214
   def initialize(migrations_paths, schema_migration = T.unsafe(nil), internal_metadata = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/migration.rb#1343
+  # source://activerecord//lib/active_record/migration.rb#1340
   def current_environment; end
 
-  # source://activerecord//lib/active_record/migration.rb#1293
+  # source://activerecord//lib/active_record/migration.rb#1290
   def current_version; end
 
-  # source://activerecord//lib/active_record/migration.rb#1267
+  # source://activerecord//lib/active_record/migration.rb#1264
   def down(target_version = T.unsafe(nil), &block); end
 
-  # source://activerecord//lib/active_record/migration.rb#1253
+  # source://activerecord//lib/active_record/migration.rb#1250
   def forward(steps = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/migration.rb#1285
+  # source://activerecord//lib/active_record/migration.rb#1282
   def get_all_versions; end
 
   # Returns the value of attribute internal_metadata.
   #
-  # source://activerecord//lib/active_record/migration.rb#1215
+  # source://activerecord//lib/active_record/migration.rb#1212
   def internal_metadata; end
 
   # @raise [NoEnvironmentInSchemaError]
   #
-  # source://activerecord//lib/active_record/migration.rb#1351
+  # source://activerecord//lib/active_record/migration.rb#1348
   def last_stored_environment; end
 
   # Runs the migrations in the +migrations_path+.
@@ -26158,103 +26428,103 @@ class ActiveRecord::MigrationContext
   # If none of the conditions are met, +up+ will be run with
   # the +target_version+.
   #
-  # source://activerecord//lib/active_record/migration.rb#1236
+  # source://activerecord//lib/active_record/migration.rb#1233
   def migrate(target_version = T.unsafe(nil), &block); end
 
-  # source://activerecord//lib/active_record/migration.rb#1306
+  # source://activerecord//lib/active_record/migration.rb#1303
   def migrations; end
 
   # Returns the value of attribute migrations_paths.
   #
-  # source://activerecord//lib/active_record/migration.rb#1215
+  # source://activerecord//lib/active_record/migration.rb#1212
   def migrations_paths; end
 
-  # source://activerecord//lib/active_record/migration.rb#1322
+  # source://activerecord//lib/active_record/migration.rb#1319
   def migrations_status; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/migration.rb#1298
+  # source://activerecord//lib/active_record/migration.rb#1295
   def needs_migration?; end
 
-  # source://activerecord//lib/active_record/migration.rb#1281
+  # source://activerecord//lib/active_record/migration.rb#1278
   def open; end
 
-  # source://activerecord//lib/active_record/migration.rb#1302
+  # source://activerecord//lib/active_record/migration.rb#1299
   def pending_migration_versions; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/migration.rb#1347
+  # source://activerecord//lib/active_record/migration.rb#1344
   def protected_environment?; end
 
-  # source://activerecord//lib/active_record/migration.rb#1249
+  # source://activerecord//lib/active_record/migration.rb#1246
   def rollback(steps = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/migration.rb#1277
+  # source://activerecord//lib/active_record/migration.rb#1274
   def run(direction, target_version); end
 
   # Returns the value of attribute schema_migration.
   #
-  # source://activerecord//lib/active_record/migration.rb#1215
+  # source://activerecord//lib/active_record/migration.rb#1212
   def schema_migration; end
 
-  # source://activerecord//lib/active_record/migration.rb#1257
+  # source://activerecord//lib/active_record/migration.rb#1254
   def up(target_version = T.unsafe(nil), &block); end
 
   private
 
-  # source://activerecord//lib/active_record/migration.rb#1363
+  # source://activerecord//lib/active_record/migration.rb#1360
   def connection; end
 
-  # source://activerecord//lib/active_record/migration.rb#1367
+  # source://activerecord//lib/active_record/migration.rb#1364
   def connection_pool; end
 
-  # source://activerecord//lib/active_record/migration.rb#1371
+  # source://activerecord//lib/active_record/migration.rb#1368
   def migration_files; end
 
-  # source://activerecord//lib/active_record/migration.rb#1388
+  # source://activerecord//lib/active_record/migration.rb#1385
   def move(direction, steps); end
 
-  # source://activerecord//lib/active_record/migration.rb#1376
+  # source://activerecord//lib/active_record/migration.rb#1373
   def parse_migration_filename(filename); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/migration.rb#1384
+  # source://activerecord//lib/active_record/migration.rb#1381
   def valid_migration_timestamp?(version); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/migration.rb#1380
+  # source://activerecord//lib/active_record/migration.rb#1377
   def validate_timestamp?; end
 end
 
-# source://activerecord//lib/active_record/migration.rb#13
+# source://activerecord//lib/active_record/migration.rb#10
 class ActiveRecord::MigrationError < ::ActiveRecord::ActiveRecordError
   # @return [MigrationError] a new instance of MigrationError
   #
-  # source://activerecord//lib/active_record/migration.rb#14
+  # source://activerecord//lib/active_record/migration.rb#11
   def initialize(message = T.unsafe(nil)); end
 end
 
 # MigrationProxy is used to defer loading of the actual migration classes
 # until they are needed
 #
-# source://activerecord//lib/active_record/migration.rb#1180
+# source://activerecord//lib/active_record/migration.rb#1177
 class ActiveRecord::MigrationProxy < ::Struct
   # @return [MigrationProxy] a new instance of MigrationProxy
   #
-  # source://activerecord//lib/active_record/migration.rb#1181
+  # source://activerecord//lib/active_record/migration.rb#1178
   def initialize(name, version, filename, scope); end
 
-  # source://activerecord//lib/active_record/migration.rb#1190
+  # source://activerecord//lib/active_record/migration.rb#1187
   def announce(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/migration.rb#1186
+  # source://activerecord//lib/active_record/migration.rb#1183
   def basename; end
 
-  # source://activerecord//lib/active_record/migration.rb#1190
+  # source://activerecord//lib/active_record/migration.rb#1187
   def disable_ddl_transaction(*_arg0, **_arg1, &_arg2); end
 
   # Returns the value of attribute filename
@@ -26268,7 +26538,7 @@ class ActiveRecord::MigrationProxy < ::Struct
   # @return [Object] the newly set value
   def filename=(_); end
 
-  # source://activerecord//lib/active_record/migration.rb#1190
+  # source://activerecord//lib/active_record/migration.rb#1187
   def migrate(*_arg0, **_arg1, &_arg2); end
 
   # Returns the value of attribute name
@@ -26304,15 +26574,15 @@ class ActiveRecord::MigrationProxy < ::Struct
   # @return [Object] the newly set value
   def version=(_); end
 
-  # source://activerecord//lib/active_record/migration.rb#1190
+  # source://activerecord//lib/active_record/migration.rb#1187
   def write(*_arg0, **_arg1, &_arg2); end
 
   private
 
-  # source://activerecord//lib/active_record/migration.rb#1197
+  # source://activerecord//lib/active_record/migration.rb#1194
   def load_migration; end
 
-  # source://activerecord//lib/active_record/migration.rb#1193
+  # source://activerecord//lib/active_record/migration.rb#1190
   def migration; end
 
   class << self
@@ -26324,161 +26594,161 @@ class ActiveRecord::MigrationProxy < ::Struct
   end
 end
 
-# source://activerecord//lib/active_record/migration.rb#1408
+# source://activerecord//lib/active_record/migration.rb#1405
 class ActiveRecord::Migrator
   # @return [Migrator] a new instance of Migrator
   #
-  # source://activerecord//lib/active_record/migration.rb#1424
+  # source://activerecord//lib/active_record/migration.rb#1421
   def initialize(direction, migrations, schema_migration, internal_metadata, target_version = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/migration.rb#1442
+  # source://activerecord//lib/active_record/migration.rb#1439
   def current; end
 
-  # source://activerecord//lib/active_record/migration.rb#1442
+  # source://activerecord//lib/active_record/migration.rb#1439
   def current_migration; end
 
-  # source://activerecord//lib/active_record/migration.rb#1438
+  # source://activerecord//lib/active_record/migration.rb#1435
   def current_version; end
 
-  # source://activerecord//lib/active_record/migration.rb#1487
+  # source://activerecord//lib/active_record/migration.rb#1484
   def load_migrated; end
 
-  # source://activerecord//lib/active_record/migration.rb#1455
+  # source://activerecord//lib/active_record/migration.rb#1452
   def migrate; end
 
-  # source://activerecord//lib/active_record/migration.rb#1483
+  # source://activerecord//lib/active_record/migration.rb#1480
   def migrated; end
 
-  # source://activerecord//lib/active_record/migration.rb#1474
+  # source://activerecord//lib/active_record/migration.rb#1471
   def migrations; end
 
-  # source://activerecord//lib/active_record/migration.rb#1478
+  # source://activerecord//lib/active_record/migration.rb#1475
   def pending_migrations; end
 
-  # source://activerecord//lib/active_record/migration.rb#1447
+  # source://activerecord//lib/active_record/migration.rb#1444
   def run; end
 
-  # source://activerecord//lib/active_record/migration.rb#1463
+  # source://activerecord//lib/active_record/migration.rb#1460
   def runnable; end
 
   private
 
-  # source://activerecord//lib/active_record/migration.rb#1492
+  # source://activerecord//lib/active_record/migration.rb#1489
   def connection; end
 
   # Wrap the migration in a transaction only if supported by the adapter.
   #
-  # source://activerecord//lib/active_record/migration.rb#1587
+  # source://activerecord//lib/active_record/migration.rb#1584
   def ddl_transaction(migration, &block); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/migration.rb#1582
+  # source://activerecord//lib/active_record/migration.rb#1579
   def down?; end
 
-  # source://activerecord//lib/active_record/migration.rb#1531
+  # source://activerecord//lib/active_record/migration.rb#1528
   def execute_migration_in_transaction(migration); end
 
-  # source://activerecord//lib/active_record/migration.rb#1552
+  # source://activerecord//lib/active_record/migration.rb#1549
   def finish; end
 
-  # source://activerecord//lib/active_record/migration.rb#1619
+  # source://activerecord//lib/active_record/migration.rb#1616
   def generate_migrator_advisory_lock_id; end
 
   # Return true if a valid version is not provided.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/migration.rb#1527
+  # source://activerecord//lib/active_record/migration.rb#1524
   def invalid_target?; end
 
   # Used for running multiple migrations up to or down to a certain value.
   #
-  # source://activerecord//lib/active_record/migration.rb#1506
+  # source://activerecord//lib/active_record/migration.rb#1503
   def migrate_without_lock; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/migration.rb#1522
+  # source://activerecord//lib/active_record/migration.rb#1519
   def ran?(migration); end
 
   # Stores the current environment in the database.
   #
-  # source://activerecord//lib/active_record/migration.rb#1516
+  # source://activerecord//lib/active_record/migration.rb#1513
   def record_environment; end
 
-  # source://activerecord//lib/active_record/migration.rb#1568
+  # source://activerecord//lib/active_record/migration.rb#1565
   def record_version_state_after_migrating(version); end
 
   # Used for running a specific migration.
   #
   # @raise [UnknownMigrationVersionError]
   #
-  # source://activerecord//lib/active_record/migration.rb#1497
+  # source://activerecord//lib/active_record/migration.rb#1494
   def run_without_lock; end
 
-  # source://activerecord//lib/active_record/migration.rb#1556
+  # source://activerecord//lib/active_record/migration.rb#1553
   def start; end
 
-  # source://activerecord//lib/active_record/migration.rb#1548
+  # source://activerecord//lib/active_record/migration.rb#1545
   def target; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/migration.rb#1578
+  # source://activerecord//lib/active_record/migration.rb#1575
   def up?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/migration.rb#1599
+  # source://activerecord//lib/active_record/migration.rb#1596
   def use_advisory_lock?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/migration.rb#1595
+  # source://activerecord//lib/active_record/migration.rb#1592
   def use_transaction?(migration); end
 
   # @raise [DuplicateMigrationNameError]
   #
-  # source://activerecord//lib/active_record/migration.rb#1560
+  # source://activerecord//lib/active_record/migration.rb#1557
   def validate(migrations); end
 
-  # source://activerecord//lib/active_record/migration.rb#1603
+  # source://activerecord//lib/active_record/migration.rb#1600
   def with_advisory_lock; end
 
   class << self
     # For cases where a table doesn't exist like loading from schema cache
     #
-    # source://activerecord//lib/active_record/migration.rb#1413
+    # source://activerecord//lib/active_record/migration.rb#1410
     def current_version; end
 
     # Returns the value of attribute migrations_paths.
     #
-    # source://activerecord//lib/active_record/migration.rb#1410
+    # source://activerecord//lib/active_record/migration.rb#1407
     def migrations_paths; end
 
     # Sets the attribute migrations_paths
     #
     # @param value the value to set the attribute migrations_paths to.
     #
-    # source://activerecord//lib/active_record/migration.rb#1410
+    # source://activerecord//lib/active_record/migration.rb#1407
     def migrations_paths=(_arg0); end
   end
 end
 
-# source://activerecord//lib/active_record/migration.rb#1618
+# source://activerecord//lib/active_record/migration.rb#1615
 ActiveRecord::Migrator::MIGRATOR_SALT = T.let(T.unsafe(nil), Integer)
 
 # Raised when a foreign key constraint cannot be added because the column type does not match the referenced column type.
 #
-# source://activerecord//lib/active_record/errors.rb#225
+# source://activerecord//lib/active_record/errors.rb#238
 class ActiveRecord::MismatchedForeignKey < ::ActiveRecord::StatementInvalid
   # @return [MismatchedForeignKey] a new instance of MismatchedForeignKey
   #
-  # source://activerecord//lib/active_record/errors.rb#226
+  # source://activerecord//lib/active_record/errors.rb#239
   def initialize(message: T.unsafe(nil), sql: T.unsafe(nil), binds: T.unsafe(nil), table: T.unsafe(nil), foreign_key: T.unsafe(nil), target_table: T.unsafe(nil), primary_key: T.unsafe(nil), primary_key_column: T.unsafe(nil), query_parser: T.unsafe(nil), connection_pool: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/errors.rb#262
+  # source://activerecord//lib/active_record/errors.rb#275
   def set_query(sql, binds); end
 end
 
@@ -26548,16 +26818,16 @@ end
 
 # source://activerecord//lib/active_record/model_schema.rb#200
 module ActiveRecord::ModelSchema::ClassMethods
-  # source://activerecord//lib/active_record/model_schema.rb#438
+  # source://activerecord//lib/active_record/model_schema.rb#436
   def _returning_columns_for_insert(connection); end
 
-  # source://activerecord//lib/active_record/model_schema.rb#421
+  # source://activerecord//lib/active_record/model_schema.rb#420
   def attributes_builder; end
 
   # Returns a hash where the keys are column names and the values are
   # default values when instantiating the Active Record object for this table.
   #
-  # source://activerecord//lib/active_record/model_schema.rb#474
+  # source://activerecord//lib/active_record/model_schema.rb#472
   def column_defaults; end
 
   # Returns the column object for the named attribute.
@@ -26574,36 +26844,36 @@ module ActiveRecord::ModelSchema::ClassMethods
   #   person.column_for_attribute(:nothing)
   #   # => #<ActiveRecord::ConnectionAdapters::NullColumn:0xXXX @name=nil, @sql_type=nil, @cast_type=#<Type::Value>, ...>
   #
-  # source://activerecord//lib/active_record/model_schema.rb#465
+  # source://activerecord//lib/active_record/model_schema.rb#463
   def column_for_attribute(name); end
 
   # Returns an array of column names as strings.
   #
-  # source://activerecord//lib/active_record/model_schema.rb#480
+  # source://activerecord//lib/active_record/model_schema.rb#478
   def column_names; end
 
-  # source://activerecord//lib/active_record/model_schema.rb#433
+  # source://activerecord//lib/active_record/model_schema.rb#432
   def columns; end
 
-  # source://activerecord//lib/active_record/model_schema.rb#428
+  # source://activerecord//lib/active_record/model_schema.rb#427
   def columns_hash; end
 
   # Returns an array of column objects where the primary id, all columns ending in "_id" or "_count",
   # and columns used for single table inheritance have been removed.
   #
-  # source://activerecord//lib/active_record/model_schema.rb#491
+  # source://activerecord//lib/active_record/model_schema.rb#489
   def content_columns; end
 
-  # source://activerecord//lib/active_record/model_schema.rb#303
+  # source://activerecord//lib/active_record/model_schema.rb#302
   def full_table_name_prefix; end
 
-  # source://activerecord//lib/active_record/model_schema.rb#307
+  # source://activerecord//lib/active_record/model_schema.rb#306
   def full_table_name_suffix; end
 
   # The list of columns names the model should ignore. Ignored columns won't have attribute
   # accessors defined, and won't be referenced in SQL queries.
   #
-  # source://activerecord//lib/active_record/model_schema.rb#332
+  # source://activerecord//lib/active_record/model_schema.rb#331
   def ignored_columns; end
 
   # Sets the columns names the model should ignore. Ignored columns won't have attribute
@@ -26638,19 +26908,19 @@ module ActiveRecord::ModelSchema::ClassMethods
   #   user = Project.create!(name: "First Project")
   #   user.category # => raises NoMethodError
   #
-  # source://activerecord//lib/active_record/model_schema.rb#367
+  # source://activerecord//lib/active_record/model_schema.rb#366
   def ignored_columns=(columns); end
 
   # Load the model's schema information either from the schema cache
   # or directly from the database.
   #
-  # source://activerecord//lib/active_record/model_schema.rb#536
+  # source://activerecord//lib/active_record/model_schema.rb#534
   def load_schema; end
 
   # Returns the next value that will be used as the primary key on
   # an insert statement.
   #
-  # source://activerecord//lib/active_record/model_schema.rb#412
+  # source://activerecord//lib/active_record/model_schema.rb#411
   def next_sequence_value; end
 
   # Determines if the primary key values should be selected from their
@@ -26658,26 +26928,26 @@ module ActiveRecord::ModelSchema::ClassMethods
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/model_schema.rb#406
+  # source://activerecord//lib/active_record/model_schema.rb#405
   def prefetch_primary_key?; end
 
   # The array of names of environments where destructive actions should be prohibited. By default,
   # the value is <tt>["production"]</tt>.
   #
-  # source://activerecord//lib/active_record/model_schema.rb#313
+  # source://activerecord//lib/active_record/model_schema.rb#312
   def protected_environments; end
 
   # Sets an array of names of environments where destructive actions should be prohibited.
   #
-  # source://activerecord//lib/active_record/model_schema.rb#322
+  # source://activerecord//lib/active_record/model_schema.rb#321
   def protected_environments=(environments); end
 
-  # Returns a quoted version of the table name, used to construct SQL statements.
+  # Returns a quoted version of the table name.
   #
-  # source://activerecord//lib/active_record/model_schema.rb#286
+  # source://activerecord//lib/active_record/model_schema.rb#285
   def quoted_table_name; end
 
-  # source://activerecord//lib/active_record/model_schema.rb#326
+  # source://activerecord//lib/active_record/model_schema.rb#325
   def real_inheritance_column=(value); end
 
   # Resets all the cached information about columns, which will cause them
@@ -26687,7 +26957,7 @@ module ActiveRecord::ModelSchema::ClassMethods
   # when just after creating a table you want to populate it with some default
   # values, e.g.:
   #
-  #  class CreateJobLevels < ActiveRecord::Migration[7.2]
+  #  class CreateJobLevels < ActiveRecord::Migration[8.0]
   #    def up
   #      create_table :job_levels do |t|
   #        t.integer :id
@@ -26707,18 +26977,18 @@ module ActiveRecord::ModelSchema::ClassMethods
   #    end
   #  end
   #
-  # source://activerecord//lib/active_record/model_schema.rb#525
+  # source://activerecord//lib/active_record/model_schema.rb#523
   def reset_column_information; end
 
-  # source://activerecord//lib/active_record/model_schema.rb#380
+  # source://activerecord//lib/active_record/model_schema.rb#379
   def reset_sequence_name; end
 
   # Computes the table name, (re)sets it internally, and returns it.
   #
-  # source://activerecord//lib/active_record/model_schema.rb#291
+  # source://activerecord//lib/active_record/model_schema.rb#290
   def reset_table_name; end
 
-  # source://activerecord//lib/active_record/model_schema.rb#372
+  # source://activerecord//lib/active_record/model_schema.rb#371
   def sequence_name; end
 
   # Sets the name of the sequence to use when generating ids to the given
@@ -26736,17 +27006,17 @@ module ActiveRecord::ModelSchema::ClassMethods
   #     self.sequence_name = "projectseq"   # default would have been "project_seq"
   #   end
   #
-  # source://activerecord//lib/active_record/model_schema.rb#399
+  # source://activerecord//lib/active_record/model_schema.rb#398
   def sequence_name=(value); end
 
-  # source://activerecord//lib/active_record/model_schema.rb#484
+  # source://activerecord//lib/active_record/model_schema.rb#482
   def symbol_column_to_string(name_symbol); end
 
   # Indicates whether the table associated with this class exists
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/model_schema.rb#417
+  # source://activerecord//lib/active_record/model_schema.rb#416
   def table_exists?; end
 
   # Guesses the table name (in forced lower-case) based on the name of the class in the
@@ -26821,41 +27091,41 @@ module ActiveRecord::ModelSchema::ClassMethods
   # source://activerecord//lib/active_record/model_schema.rb#270
   def table_name=(value); end
 
-  # source://activerecord//lib/active_record/model_schema.rb#448
+  # source://activerecord//lib/active_record/model_schema.rb#446
   def yaml_encoder; end
 
   protected
 
-  # source://activerecord//lib/active_record/model_schema.rb#551
+  # source://activerecord//lib/active_record/model_schema.rb#549
   def initialize_load_schema_monitor; end
 
-  # source://activerecord//lib/active_record/model_schema.rb#555
+  # source://activerecord//lib/active_record/model_schema.rb#553
   def reload_schema_from_cache(recursive = T.unsafe(nil)); end
 
   private
 
   # Computes and returns a table name according to default conventions.
   #
-  # source://activerecord//lib/active_record/model_schema.rb#608
+  # source://activerecord//lib/active_record/model_schema.rb#606
   def compute_table_name; end
 
-  # source://activerecord//lib/active_record/model_schema.rb#576
+  # source://activerecord//lib/active_record/model_schema.rb#574
   def inherited(child_class); end
 
-  # source://activerecord//lib/active_record/model_schema.rb#589
+  # source://activerecord//lib/active_record/model_schema.rb#587
   def load_schema!; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/model_schema.rb#585
+  # source://activerecord//lib/active_record/model_schema.rb#583
   def schema_loaded?; end
 
-  # source://activerecord//lib/active_record/model_schema.rb#624
+  # source://activerecord//lib/active_record/model_schema.rb#622
   def type_for_column(connection, column); end
 
   # Guesses the table name, but does not decorate it with prefix and suffix information.
   #
-  # source://activerecord//lib/active_record/model_schema.rb#602
+  # source://activerecord//lib/active_record/model_schema.rb#600
   def undecorated_table_name(model_name); end
 end
 
@@ -26864,16 +27134,16 @@ end
 # method. The exception has an +errors+ property that contains an array of AttributeAssignmentError
 # objects, each corresponding to the error while assigning to an attribute.
 #
-# source://activerecord//lib/active_record/errors.rb#450
+# source://activerecord//lib/active_record/errors.rb#463
 class ActiveRecord::MultiparameterAssignmentErrors < ::ActiveRecord::ActiveRecordError
   # @return [MultiparameterAssignmentErrors] a new instance of MultiparameterAssignmentErrors
   #
-  # source://activerecord//lib/active_record/errors.rb#453
+  # source://activerecord//lib/active_record/errors.rb#466
   def initialize(errors = T.unsafe(nil)); end
 
   # Returns the value of attribute errors.
   #
-  # source://activerecord//lib/active_record/errors.rb#451
+  # source://activerecord//lib/active_record/errors.rb#464
   def errors; end
 end
 
@@ -26973,6 +27243,9 @@ module ActiveRecord::NestedAttributes
   #
   # source://activerecord//lib/active_record/nested_attributes.rb#556
   def check_record_limit!(limit, attributes_collection); end
+
+  # source://activerecord//lib/active_record/nested_attributes.rb#624
+  def find_record_by_id(klass, records, id); end
 
   # Determines if a hash contains a truthy _destroy key.
   #
@@ -27383,45 +27656,45 @@ ActiveRecord::NestedAttributes::UNASSIGNABLE_KEYS = T.let(T.unsafe(nil), Array)
 
 # Raised when a given database does not exist.
 #
-# source://activerecord//lib/active_record/errors.rb#315
+# source://activerecord//lib/active_record/errors.rb#328
 class ActiveRecord::NoDatabaseError < ::ActiveRecord::StatementInvalid
   include ::ActiveSupport::ActionableError
   extend ::ActiveSupport::ActionableError::ClassMethods
 
   # @return [NoDatabaseError] a new instance of NoDatabaseError
   #
-  # source://activerecord//lib/active_record/errors.rb#322
+  # source://activerecord//lib/active_record/errors.rb#335
   def initialize(message = T.unsafe(nil), connection_pool: T.unsafe(nil)); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/actionable_error.rb#17
+  # source://activesupport/8.0.0.rc1/lib/active_support/actionable_error.rb#17
   def _actions; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/actionable_error.rb#17
+  # source://activesupport/8.0.0.rc1/lib/active_support/actionable_error.rb#17
   def _actions=(_arg0); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/actionable_error.rb#17
+  # source://activesupport/8.0.0.rc1/lib/active_support/actionable_error.rb#17
   def _actions?; end
 
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/actionable_error.rb#17
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def _actions; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/actionable_error.rb#17
-    def _actions=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def _actions=(new_value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/actionable_error.rb#17
+    # source://activesupport/8.0.0.rc1/lib/active_support/actionable_error.rb#17
     def _actions?; end
 
-    # source://activerecord//lib/active_record/errors.rb#327
+    # source://activerecord//lib/active_record/errors.rb#340
     def db_error(db_name); end
   end
 end
 
-# source://activerecord//lib/active_record/migration.rb#199
+# source://activerecord//lib/active_record/migration.rb#196
 class ActiveRecord::NoEnvironmentInSchemaError < ::ActiveRecord::MigrationError
   # @return [NoEnvironmentInSchemaError] a new instance of NoEnvironmentInSchemaError
   #
-  # source://activerecord//lib/active_record/migration.rb#200
+  # source://activerecord//lib/active_record/migration.rb#197
   def initialize; end
 end
 
@@ -27665,7 +27938,7 @@ end
 
 # Raised when a record cannot be inserted or updated because it would violate a not null constraint.
 #
-# source://activerecord//lib/active_record/errors.rb#280
+# source://activerecord//lib/active_record/errors.rb#293
 class ActiveRecord::NotNullViolation < ::ActiveRecord::StatementInvalid; end
 
 # source://activerecord//lib/active_record/migration/pending_migration_connection.rb#4
@@ -27684,41 +27957,41 @@ class ActiveRecord::PendingMigrationConnection
   end
 end
 
-# source://activerecord//lib/active_record/migration.rb#150
+# source://activerecord//lib/active_record/migration.rb#147
 class ActiveRecord::PendingMigrationError < ::ActiveRecord::MigrationError
   include ::ActiveSupport::ActionableError
   extend ::ActiveSupport::ActionableError::ClassMethods
 
   # @return [PendingMigrationError] a new instance of PendingMigrationError
   #
-  # source://activerecord//lib/active_record/migration.rb#162
+  # source://activerecord//lib/active_record/migration.rb#159
   def initialize(message = T.unsafe(nil), pending_migrations: T.unsafe(nil)); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/actionable_error.rb#17
+  # source://activesupport/8.0.0.rc1/lib/active_support/actionable_error.rb#17
   def _actions; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/actionable_error.rb#17
+  # source://activesupport/8.0.0.rc1/lib/active_support/actionable_error.rb#17
   def _actions=(_arg0); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/actionable_error.rb#17
+  # source://activesupport/8.0.0.rc1/lib/active_support/actionable_error.rb#17
   def _actions?; end
 
   private
 
-  # source://activerecord//lib/active_record/migration.rb#185
+  # source://activerecord//lib/active_record/migration.rb#182
   def connection_pool; end
 
-  # source://activerecord//lib/active_record/migration.rb#171
+  # source://activerecord//lib/active_record/migration.rb#168
   def detailed_migration_message(pending_migrations); end
 
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/actionable_error.rb#17
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#12
     def _actions; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/actionable_error.rb#17
-    def _actions=(value); end
+    # source://activesupport/8.0.0.rc1/lib/active_support/class_attribute.rb#15
+    def _actions=(new_value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/actionable_error.rb#17
+    # source://activesupport/8.0.0.rc1/lib/active_support/actionable_error.rb#17
     def _actions?; end
   end
 end
@@ -27746,7 +28019,7 @@ module ActiveRecord::Persistence
   #
   # If you want to change the STI column as well, use #becomes! instead.
   #
-  # source://activerecord//lib/active_record/persistence.rb#489
+  # source://activerecord//lib/active_record/persistence.rb#487
   def becomes(klass); end
 
   # Wrapper around #becomes that also changes the instance's STI column value.
@@ -27756,14 +28029,14 @@ module ActiveRecord::Persistence
   # Note: The old instance's STI column value will be changed too, as both objects
   # share the same set of attributes.
   #
-  # source://activerecord//lib/active_record/persistence.rb#510
+  # source://activerecord//lib/active_record/persistence.rb#508
   def becomes!(klass); end
 
   # Initializes +attribute+ to zero if +nil+ and subtracts the value passed as +by+ (default is 1).
   # The decrement is performed directly on the underlying attribute, no setter is invoked.
   # Only makes sense for number-based attributes. Returns +self+.
   #
-  # source://activerecord//lib/active_record/persistence.rb#657
+  # source://activerecord//lib/active_record/persistence.rb#655
   def decrement(attribute, by = T.unsafe(nil)); end
 
   # Wrapper around #decrement that writes the update to the database.
@@ -27773,7 +28046,7 @@ module ActiveRecord::Persistence
   # +update_counters+, see that for more.
   # Returns +self+.
   #
-  # source://activerecord//lib/active_record/persistence.rb#667
+  # source://activerecord//lib/active_record/persistence.rb#665
   def decrement!(attribute, by = T.unsafe(nil), touch: T.unsafe(nil)); end
 
   # Deletes the record in the database and freezes this instance to
@@ -27789,7 +28062,7 @@ module ActiveRecord::Persistence
   # callbacks or any <tt>:dependent</tt> association
   # options, use #destroy.
   #
-  # source://activerecord//lib/active_record/persistence.rb#441
+  # source://activerecord//lib/active_record/persistence.rb#439
   def delete; end
 
   # Deletes the record in the database and freezes this instance to reflect
@@ -27800,7 +28073,7 @@ module ActiveRecord::Persistence
   # and #destroy returns +false+.
   # See ActiveRecord::Callbacks for further details.
   #
-  # source://activerecord//lib/active_record/persistence.rb#455
+  # source://activerecord//lib/active_record/persistence.rb#453
   def destroy; end
 
   # Deletes the record in the database and freezes this instance to reflect
@@ -27811,21 +28084,21 @@ module ActiveRecord::Persistence
   # and #destroy! raises ActiveRecord::RecordNotDestroyed.
   # See ActiveRecord::Callbacks for further details.
   #
-  # source://activerecord//lib/active_record/persistence.rb#471
+  # source://activerecord//lib/active_record/persistence.rb#469
   def destroy!; end
 
   # Returns true if this object has been destroyed, otherwise returns false.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/persistence.rb#357
+  # source://activerecord//lib/active_record/persistence.rb#355
   def destroyed?; end
 
   # Initializes +attribute+ to zero if +nil+ and adds the value passed as +by+ (default is 1).
   # The increment is performed directly on the underlying attribute, no setter is invoked.
   # Only makes sense for number-based attributes. Returns +self+.
   #
-  # source://activerecord//lib/active_record/persistence.rb#634
+  # source://activerecord//lib/active_record/persistence.rb#632
   def increment(attribute, by = T.unsafe(nil)); end
 
   # Wrapper around #increment that writes the update to the database.
@@ -27835,7 +28108,7 @@ module ActiveRecord::Persistence
   # +update_counters+, see that for more.
   # Returns +self+.
   #
-  # source://activerecord//lib/active_record/persistence.rb#646
+  # source://activerecord//lib/active_record/persistence.rb#644
   def increment!(attribute, by = T.unsafe(nil), touch: T.unsafe(nil)); end
 
   # Returns true if this object hasn't been saved yet -- that is, a record
@@ -27843,7 +28116,7 @@ module ActiveRecord::Persistence
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/persistence.rb#340
+  # source://activerecord//lib/active_record/persistence.rb#338
   def new_record?; end
 
   # Returns true if the record is persisted, i.e. it's not a new record and it was
@@ -27851,7 +28124,7 @@ module ActiveRecord::Persistence
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/persistence.rb#363
+  # source://activerecord//lib/active_record/persistence.rb#361
   def persisted?; end
 
   # Returns true if this object was just created -- that is, prior to the last
@@ -27860,14 +28133,14 @@ module ActiveRecord::Persistence
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/persistence.rb#347
+  # source://activerecord//lib/active_record/persistence.rb#345
   def previously_new_record?; end
 
   # Returns true if this object was previously persisted but now it has been deleted.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/persistence.rb#352
+  # source://activerecord//lib/active_record/persistence.rb#350
   def previously_persisted?; end
 
   # Reloads the record from the database.
@@ -27918,7 +28191,7 @@ module ActiveRecord::Persistence
   #     end
   #   end
   #
-  # source://activerecord//lib/active_record/persistence.rb#744
+  # source://activerecord//lib/active_record/persistence.rb#742
   def reload(options = T.unsafe(nil)); end
 
   # :call-seq:
@@ -27946,7 +28219,7 @@ module ActiveRecord::Persistence
   # Attributes marked as readonly are silently ignored if the record is
   # being updated.
   #
-  # source://activerecord//lib/active_record/persistence.rb#392
+  # source://activerecord//lib/active_record/persistence.rb#390
   def save(**options, &block); end
 
   # :call-seq:
@@ -27976,7 +28249,7 @@ module ActiveRecord::Persistence
   #
   # Unless an error is raised, returns true.
   #
-  # source://activerecord//lib/active_record/persistence.rb#425
+  # source://activerecord//lib/active_record/persistence.rb#423
   def save!(**options, &block); end
 
   # Assigns to +attribute+ the boolean opposite of <tt>attribute?</tt>. So
@@ -27991,7 +28264,7 @@ module ActiveRecord::Persistence
   #   user.toggle(:banned)
   #   user.banned? # => true
   #
-  # source://activerecord//lib/active_record/persistence.rb#683
+  # source://activerecord//lib/active_record/persistence.rb#681
   def toggle(attribute); end
 
   # Wrapper around #toggle that saves the record. This method differs from
@@ -27999,7 +28272,7 @@ module ActiveRecord::Persistence
   # Saving is not subjected to validation checks. Returns +true+ if the
   # record could be saved.
   #
-  # source://activerecord//lib/active_record/persistence.rb#692
+  # source://activerecord//lib/active_record/persistence.rb#690
   def toggle!(attribute); end
 
   # Saves the record with the updated_at/on attributes set to the current time
@@ -28036,20 +28309,20 @@ module ActiveRecord::Persistence
   #   ball = Ball.new
   #   ball.touch(:updated_at)   # => raises ActiveRecordError
   #
-  # source://activerecord//lib/active_record/persistence.rb#795
+  # source://activerecord//lib/active_record/persistence.rb#793
   def touch(*names, time: T.unsafe(nil)); end
 
   # Updates the attributes of the model from the passed-in hash and saves the
   # record, all wrapped in a transaction. If the object is invalid, the saving
   # will fail and false will be returned.
   #
-  # source://activerecord//lib/active_record/persistence.rb#565
+  # source://activerecord//lib/active_record/persistence.rb#563
   def update(attributes); end
 
   # Updates its receiver just like #update but calls #save! instead
   # of +save+, so an exception is raised if the record is invalid and saving will fail.
   #
-  # source://activerecord//lib/active_record/persistence.rb#576
+  # source://activerecord//lib/active_record/persistence.rb#574
   def update!(attributes); end
 
   # Updates a single attribute and saves the record.
@@ -28065,7 +28338,7 @@ module ActiveRecord::Persistence
   #
   # Also see #update_column.
   #
-  # source://activerecord//lib/active_record/persistence.rb#532
+  # source://activerecord//lib/active_record/persistence.rb#530
   def update_attribute(name, value); end
 
   # Updates a single attribute and saves the record.
@@ -28083,12 +28356,12 @@ module ActiveRecord::Persistence
   # and #update_attribute! raises ActiveRecord::RecordNotSaved. See
   # ActiveRecord::Callbacks for further details.
   #
-  # source://activerecord//lib/active_record/persistence.rb#554
+  # source://activerecord//lib/active_record/persistence.rb#552
   def update_attribute!(name, value); end
 
   # Equivalent to <code>update_columns(name => value)</code>.
   #
-  # source://activerecord//lib/active_record/persistence.rb#586
+  # source://activerecord//lib/active_record/persistence.rb#584
   def update_column(name, value); end
 
   # Updates the attributes directly in the database issuing an UPDATE SQL
@@ -28110,7 +28383,7 @@ module ActiveRecord::Persistence
   #
   # @raise [ActiveRecordError]
   #
-  # source://activerecord//lib/active_record/persistence.rb#606
+  # source://activerecord//lib/active_record/persistence.rb#604
   def update_columns(attributes); end
 
   private
@@ -28121,35 +28394,35 @@ module ActiveRecord::Persistence
   # @yield [_self]
   # @yieldparam _self [ActiveRecord::Persistence] the object that the method was called on
   #
-  # source://activerecord//lib/active_record/persistence.rb#922
+  # source://activerecord//lib/active_record/persistence.rb#920
   def _create_record(attribute_names = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/persistence.rb#872
+  # source://activerecord//lib/active_record/persistence.rb#870
   def _delete_row; end
 
-  # source://activerecord//lib/active_record/persistence.rb#828
+  # source://activerecord//lib/active_record/persistence.rb#826
   def _find_record(options); end
 
-  # source://activerecord//lib/active_record/persistence.rb#839
+  # source://activerecord//lib/active_record/persistence.rb#837
   def _in_memory_query_constraints_hash; end
 
-  # source://activerecord//lib/active_record/persistence.rb#854
+  # source://activerecord//lib/active_record/persistence.rb#852
   def _query_constraints_hash; end
 
   # @raise [ReadOnlyRecord]
   #
-  # source://activerecord//lib/active_record/persistence.rb#959
+  # source://activerecord//lib/active_record/persistence.rb#957
   def _raise_readonly_record_error; end
 
-  # source://activerecord//lib/active_record/persistence.rb#951
+  # source://activerecord//lib/active_record/persistence.rb#949
   def _raise_record_not_destroyed; end
 
   # @raise [ActiveRecordError]
   #
-  # source://activerecord//lib/active_record/persistence.rb#963
+  # source://activerecord//lib/active_record/persistence.rb#961
   def _raise_record_not_touched_error; end
 
-  # source://activerecord//lib/active_record/persistence.rb#876
+  # source://activerecord//lib/active_record/persistence.rb#874
   def _touch_row(attribute_names, time); end
 
   # Updates the associated record with values matching those of the instance attributes.
@@ -28158,49 +28431,49 @@ module ActiveRecord::Persistence
   # @yield [_self]
   # @yieldparam _self [ActiveRecord::Persistence] the object that the method was called on
   #
-  # source://activerecord//lib/active_record/persistence.rb#902
+  # source://activerecord//lib/active_record/persistence.rb#900
   def _update_record(attribute_names = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/persistence.rb#886
+  # source://activerecord//lib/active_record/persistence.rb#884
   def _update_row(attribute_names, attempted_action = T.unsafe(nil)); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/persistence.rb#849
+  # source://activerecord//lib/active_record/persistence.rb#847
   def apply_scoping?(options); end
 
-  # source://activerecord//lib/active_record/persistence.rb#893
+  # source://activerecord//lib/active_record/persistence.rb#891
   def create_or_update(**_arg0, &block); end
 
   # A hook to be overridden by association modules.
   #
-  # source://activerecord//lib/active_record/persistence.rb#865
+  # source://activerecord//lib/active_record/persistence.rb#863
   def destroy_associations; end
 
-  # source://activerecord//lib/active_record/persistence.rb#868
+  # source://activerecord//lib/active_record/persistence.rb#866
   def destroy_row; end
 
-  # source://activerecord//lib/active_record/persistence.rb#816
+  # source://activerecord//lib/active_record/persistence.rb#814
   def init_internals; end
 
-  # source://activerecord//lib/active_record/persistence.rb#822
+  # source://activerecord//lib/active_record/persistence.rb#820
   def strict_loaded_associations; end
 
   # @raise [ActiveRecordError]
   #
-  # source://activerecord//lib/active_record/persistence.rb#947
+  # source://activerecord//lib/active_record/persistence.rb#945
   def verify_readonly_attribute(name); end
 end
 
 # source://activerecord//lib/active_record/persistence.rb#10
 module ActiveRecord::Persistence::ClassMethods
-  # source://activerecord//lib/active_record/persistence.rb#284
+  # source://activerecord//lib/active_record/persistence.rb#282
   def _delete_record(constraints); end
 
   # source://activerecord//lib/active_record/persistence.rb#238
   def _insert_record(connection, values, returning); end
 
-  # source://activerecord//lib/active_record/persistence.rb#265
+  # source://activerecord//lib/active_record/persistence.rb#263
   def _update_record(values, constraints); end
 
   # Builds an object (or multiple objects) and returns either the built object or a list of built
@@ -28374,7 +28647,7 @@ module ActiveRecord::Persistence::ClassMethods
   # to build `where` clause from default scopes.
   # Skips empty scopes.
   #
-  # source://activerecord//lib/active_record/persistence.rb#330
+  # source://activerecord//lib/active_record/persistence.rb#328
   def build_default_constraint; end
 
   # Called by +instantiate+ to decide which class to use for a new
@@ -28383,16 +28656,16 @@ module ActiveRecord::Persistence::ClassMethods
   # See +ActiveRecord::Inheritance#discriminate_class_for_record+ for
   # the single-table inheritance discriminator.
   #
-  # source://activerecord//lib/active_record/persistence.rb#323
+  # source://activerecord//lib/active_record/persistence.rb#321
   def discriminate_class_for_record(record); end
 
-  # source://activerecord//lib/active_record/persistence.rb#303
+  # source://activerecord//lib/active_record/persistence.rb#301
   def inherited(subclass); end
 
   # Given a class, an attributes hash, +instantiate_instance_of+ returns a
   # new instance of the class. Accepts only keys as strings.
   #
-  # source://activerecord//lib/active_record/persistence.rb#313
+  # source://activerecord//lib/active_record/persistence.rb#311
   def instantiate_instance_of(klass, attributes, column_types = T.unsafe(nil), &block); end
 end
 
@@ -28433,25 +28706,35 @@ class ActiveRecord::PredicateBuilder
   # source://activerecord//lib/active_record/relation/predicate_builder.rb#71
   def resolve_arel_attribute(table_name, column_name, &block); end
 
+  # source://activerecord//lib/active_record/relation/predicate_builder.rb#75
+  def with(table); end
+
   protected
 
-  # source://activerecord//lib/active_record/relation/predicate_builder.rb#76
+  # source://activerecord//lib/active_record/relation/predicate_builder.rb#84
   def expand_from_hash(attributes, &block); end
+
+  # Sets the attribute table
+  #
+  # @param value the value to set the attribute table to.
+  #
+  # source://activerecord//lib/active_record/relation/predicate_builder.rb#82
+  def table=(_arg0); end
 
   private
 
-  # source://activerecord//lib/active_record/relation/predicate_builder.rb#150
+  # source://activerecord//lib/active_record/relation/predicate_builder.rb#163
   def convert_dot_notation_to_hash(attributes); end
 
-  # source://activerecord//lib/active_record/relation/predicate_builder.rb#140
+  # source://activerecord//lib/active_record/relation/predicate_builder.rb#153
   def grouping_queries(queries); end
 
-  # source://activerecord//lib/active_record/relation/predicate_builder.rb#172
+  # source://activerecord//lib/active_record/relation/predicate_builder.rb#185
   def handler_for(object); end
 
   # Returns the value of attribute table.
   #
-  # source://activerecord//lib/active_record/relation/predicate_builder.rb#138
+  # source://activerecord//lib/active_record/relation/predicate_builder.rb#151
   def table; end
 
   class << self
@@ -28652,7 +28935,7 @@ end
 # Raised when PostgreSQL returns 'cached plan must not change result type' and
 # we cannot retry gracefully (e.g. inside a transaction)
 #
-# source://activerecord//lib/active_record/errors.rb#349
+# source://activerecord//lib/active_record/errors.rb#362
 class ActiveRecord::PreparedStatementCacheExpired < ::ActiveRecord::StatementInvalid; end
 
 # Raised when the number of placeholders in an SQL fragment passed to
@@ -28663,7 +28946,7 @@ class ActiveRecord::PreparedStatementCacheExpired < ::ActiveRecord::StatementInv
 #
 #   Location.where("lat = ? AND lng = ?", 53.7362)
 #
-# source://activerecord//lib/active_record/errors.rb#311
+# source://activerecord//lib/active_record/errors.rb#324
 class ActiveRecord::PreparedStatementInvalid < ::ActiveRecord::ActiveRecordError; end
 
 # source://activerecord//lib/active_record/promise.rb#4
@@ -28740,17 +29023,17 @@ class ActiveRecord::Promise::Complete < ::ActiveRecord::Promise
   def status; end
 end
 
-# source://activerecord//lib/active_record/migration.rb#210
+# source://activerecord//lib/active_record/migration.rb#207
 class ActiveRecord::ProtectedEnvironmentError < ::ActiveRecord::ActiveRecordError
   # @return [ProtectedEnvironmentError] a new instance of ProtectedEnvironmentError
   #
-  # source://activerecord//lib/active_record/migration.rb#211
+  # source://activerecord//lib/active_record/migration.rb#208
   def initialize(env = T.unsafe(nil)); end
 end
 
 # Superclass for errors that have been aborted (either by client or server).
 #
-# source://activerecord//lib/active_record/errors.rb#553
+# source://activerecord//lib/active_record/errors.rb#561
 class ActiveRecord::QueryAborted < ::ActiveRecord::StatementInvalid; end
 
 # = Active Record Query Cache
@@ -28761,7 +29044,7 @@ class ActiveRecord::QueryCache
     # source://activerecord//lib/active_record/query_cache.rb#41
     def complete(pools); end
 
-    # source://activerecord//lib/active_record/query_cache.rb#52
+    # source://activerecord//lib/active_record/query_cache.rb#48
     def install_executor_hooks(executor = T.unsafe(nil)); end
 
     # source://activerecord//lib/active_record/query_cache.rb#37
@@ -28789,7 +29072,7 @@ end
 
 # QueryCanceled will be raised when canceling statement due to user request.
 #
-# source://activerecord//lib/active_record/errors.rb#565
+# source://activerecord//lib/active_record/errors.rb#573
 class ActiveRecord::QueryCanceled < ::ActiveRecord::QueryAborted; end
 
 # = Active Record Query Logs
@@ -28863,123 +29146,142 @@ class ActiveRecord::QueryCanceled < ::ActiveRecord::QueryAborted; end
 # source://activerecord//lib/active_record/query_logs_formatter.rb#4
 module ActiveRecord::QueryLogs
   class << self
-    # source://activerecord//lib/active_record/query_logs.rb#78
+    # source://activerecord//lib/active_record/query_logs.rb#115
     def cache_query_log_tags; end
 
-    # source://activerecord//lib/active_record/query_logs.rb#78
-    def cache_query_log_tags=(val); end
+    # source://activerecord//lib/active_record/query_logs.rb#115
+    def cache_query_log_tags=(_arg0); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attribute_accessors_per_thread.rb#49
+    # source://activesupport/8.0.0.rc1/lib/active_support/core_ext/module/attribute_accessors_per_thread.rb#49
     def cached_comment; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attribute_accessors_per_thread.rb#108
+    # source://activesupport/8.0.0.rc1/lib/active_support/core_ext/module/attribute_accessors_per_thread.rb#108
     def cached_comment=(obj); end
 
-    # source://activerecord//lib/active_record/query_logs.rb#83
+    # source://activerecord//lib/active_record/query_logs.rb#139
     def call(sql, connection); end
 
-    # source://activerecord//lib/active_record/query_logs.rb#95
+    # source://activerecord//lib/active_record/query_logs.rb#151
     def clear_cache; end
 
-    # source://activerecord//lib/active_record/query_logs.rb#77
+    # source://activerecord//lib/active_record/query_logs.rb#115
     def prepend_comment; end
 
-    # source://activerecord//lib/active_record/query_logs.rb#77
-    def prepend_comment=(val); end
+    # source://activerecord//lib/active_record/query_logs.rb#115
+    def prepend_comment=(_arg0); end
 
-    # source://activerecord//lib/active_record/query_logs.rb#113
+    # source://activerecord//lib/active_record/query_logs.rb#155
     def query_source_location; end
 
-    # source://activerecord//lib/active_record/query_logs.rb#75
+    # source://activerecord//lib/active_record/query_logs.rb#114
     def taggings; end
 
-    # source://activerecord//lib/active_record/query_logs.rb#75
-    def taggings=(val); end
+    # source://activerecord//lib/active_record/query_logs.rb#117
+    def taggings=(taggings); end
 
-    # source://activerecord//lib/active_record/query_logs.rb#76
+    # source://activerecord//lib/active_record/query_logs.rb#114
     def tags; end
 
-    # source://activerecord//lib/active_record/query_logs.rb#76
-    def tags=(val); end
+    # source://activerecord//lib/active_record/query_logs.rb#122
+    def tags=(tags); end
 
-    # source://activerecord//lib/active_record/query_logs.rb#79
+    # source://activerecord//lib/active_record/query_logs.rb#114
     def tags_formatter; end
 
-    # source://activerecord//lib/active_record/query_logs.rb#79
-    def tags_formatter=(val); end
-
-    # Updates the formatter to be what the passed in format is.
-    #
-    # source://activerecord//lib/active_record/query_logs.rb#100
-    def update_formatter(format); end
+    # source://activerecord//lib/active_record/query_logs.rb#127
+    def tags_formatter=(format); end
 
     private
+
+    # source://activerecord//lib/active_record/query_logs.rb#180
+    def build_handler(name, handler = T.unsafe(nil)); end
 
     # Returns an SQL comment +String+ containing the query log tags.
     # Sets and returns a cached comment if <tt>cache_query_log_tags</tt> is +true+.
     #
-    # source://activerecord//lib/active_record/query_logs.rb#131
+    # source://activerecord//lib/active_record/query_logs.rb#197
     def comment(connection); end
 
-    # source://activerecord//lib/active_record/query_logs.rb#151
+    # source://activerecord//lib/active_record/query_logs.rb#213
     def escape_sql_comment(content); end
 
-    # source://activerecord//lib/active_record/query_logs.rb#139
-    def formatter; end
+    # source://activerecord//lib/active_record/query_logs.rb#166
+    def rebuild_handlers; end
 
-    # source://activerecord//lib/active_record/query_logs.rb#164
+    # source://activerecord//lib/active_record/query_logs.rb#226
     def tag_content(connection); end
 
-    # source://activerecord//lib/active_record/query_logs.rb#143
+    # source://activerecord//lib/active_record/query_logs.rb#205
     def uncached_comment(connection); end
   end
 end
 
-# source://activerecord//lib/active_record/query_logs_formatter.rb#5
-class ActiveRecord::QueryLogs::LegacyFormatter
-  # @return [LegacyFormatter] a new instance of LegacyFormatter
+# source://activerecord//lib/active_record/query_logs.rb#75
+class ActiveRecord::QueryLogs::GetKeyHandler
+  # @return [GetKeyHandler] a new instance of GetKeyHandler
   #
-  # source://activerecord//lib/active_record/query_logs_formatter.rb#6
-  def initialize; end
+  # source://activerecord//lib/active_record/query_logs.rb#76
+  def initialize(name); end
 
-  # Formats the key value pairs into a string.
-  #
-  # source://activerecord//lib/active_record/query_logs_formatter.rb#11
-  def format(pairs); end
-
-  private
-
-  # source://activerecord//lib/active_record/query_logs_formatter.rb#20
-  def format_value(value); end
-
-  # Returns the value of attribute key_value_separator.
-  #
-  # source://activerecord//lib/active_record/query_logs_formatter.rb#18
-  def key_value_separator; end
+  # source://activerecord//lib/active_record/query_logs.rb#80
+  def call(context); end
 end
 
-# source://activerecord//lib/active_record/query_logs_formatter.rb#25
-class ActiveRecord::QueryLogs::SQLCommenter < ::ActiveRecord::QueryLogs::LegacyFormatter
-  # @return [SQLCommenter] a new instance of SQLCommenter
+# source://activerecord//lib/active_record/query_logs.rb#85
+class ActiveRecord::QueryLogs::IdentityHandler
+  # @return [IdentityHandler] a new instance of IdentityHandler
   #
-  # source://activerecord//lib/active_record/query_logs_formatter.rb#26
-  def initialize; end
+  # source://activerecord//lib/active_record/query_logs.rb#86
+  def initialize(value); end
 
-  # source://activerecord//lib/active_record/query_logs_formatter.rb#30
-  def format(pairs); end
+  # source://activerecord//lib/active_record/query_logs.rb#90
+  def call(_context); end
+end
 
-  private
+# source://activerecord//lib/active_record/query_logs_formatter.rb#5
+module ActiveRecord::QueryLogs::LegacyFormatter
+  class << self
+    # Formats the key value pairs into a string.
+    #
+    # source://activerecord//lib/active_record/query_logs_formatter.rb#8
+    def format(key, value); end
 
-  # source://activerecord//lib/active_record/query_logs_formatter.rb#36
-  def format_value(value); end
+    # source://activerecord//lib/active_record/query_logs_formatter.rb#12
+    def join(pairs); end
+  end
+end
+
+# source://activerecord//lib/active_record/query_logs_formatter.rb#18
+class ActiveRecord::QueryLogs::SQLCommenter
+  class << self
+    # source://activerecord//lib/active_record/query_logs_formatter.rb#20
+    def format(key, value); end
+
+    # source://activerecord//lib/active_record/query_logs_formatter.rb#24
+    def join(pairs); end
+  end
+end
+
+# source://activerecord//lib/active_record/query_logs.rb#95
+class ActiveRecord::QueryLogs::ZeroArityHandler
+  # @return [ZeroArityHandler] a new instance of ZeroArityHandler
+  #
+  # source://activerecord//lib/active_record/query_logs.rb#96
+  def initialize(proc); end
+
+  # source://activerecord//lib/active_record/query_logs.rb#100
+  def call(_context); end
 end
 
 # source://activerecord//lib/active_record/relation/query_methods.rb#9
 module ActiveRecord::QueryMethods
   include ::ActiveModel::ForbiddenAttributesProtection
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#421
+  # source://activerecord//lib/active_record/relation/query_methods.rb#428
   def _select!(*fields); end
+
+  # source://activerecord//lib/active_record/relation/query_methods.rb#260
+  def all; end
 
   # Returns a new relation, which is the logical intersection of this relation and the one passed
   # as an argument.
@@ -28991,10 +29293,10 @@ module ActiveRecord::QueryMethods
   #    Post.where(id: [1, 2]).and(Post.where(id: [2, 3]))
   #    # SELECT `posts`.* FROM `posts` WHERE `posts`.`id` IN (1, 2) AND `posts`.`id` IN (2, 3)
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1113
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1133
   def and(other); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1121
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1141
   def and!(other); end
 
   # Adds an SQL comment to queries generated from this relation. For example:
@@ -29009,26 +29311,26 @@ module ActiveRecord::QueryMethods
   #
   # Some escaping is performed, however untrusted user input should not be used.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1507
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1527
   def annotate(*args); end
 
   # Like #annotate, but modifies relation in place.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1513
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1533
   def annotate!(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def annotate_values; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def annotate_values=(value); end
 
   # Returns the Arel object associated with the relation.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1572
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1592
   def arel(aliases = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1576
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1596
   def construct_join_dependency(associations, join_type); end
 
   # Sets attributes to be used when creating new records from a
@@ -29045,16 +29347,16 @@ module ActiveRecord::QueryMethods
   #   users = users.create_with(nil)
   #   users.new.name # => 'Oscar'
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1324
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1344
   def create_with(value); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1328
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1348
   def create_with!(value); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def create_with_value; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def create_with_value=(value); end
 
   # Specifies whether the records should be unique or not. For example:
@@ -29068,18 +29370,18 @@ module ActiveRecord::QueryMethods
   #   User.select(:name).distinct.distinct(false)
   #   # You can also remove the uniqueness
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1388
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1408
   def distinct(value = T.unsafe(nil)); end
 
   # Like #distinct, but modifies relation in place.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1393
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1413
   def distinct!(value = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def distinct_value; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def distinct_value=(value); end
 
   # Specify associations +args+ to be eager loaded using a <tt>LEFT OUTER JOIN</tt>.
@@ -29109,16 +29411,16 @@ module ActiveRecord::QueryMethods
   # NOTE: Loading the associations in a join can result in many rows that
   # contain redundant data and it performs poorly at scale.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#283
+  # source://activerecord//lib/active_record/relation/query_methods.rb#290
   def eager_load(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#288
+  # source://activerecord//lib/active_record/relation/query_methods.rb#295
   def eager_load!(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def eager_load_values; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def eager_load_values=(value); end
 
   # Excludes the specified record (or collection of records) from the resulting
@@ -29148,10 +29450,10 @@ module ActiveRecord::QueryMethods
   # is passed in) are not instances of the same model that the relation is
   # scoping.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1552
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1572
   def excluding(*records); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1565
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1585
   def excluding!(records); end
 
   # Used to extend a scope with additional methods, either through
@@ -29191,19 +29493,19 @@ module ActiveRecord::QueryMethods
   #     end
   #   end
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1434
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1454
   def extending(*modules, &block); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1442
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1462
   def extending!(*modules, &block); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def extending_values; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def extending_values=(value); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def extensions; end
 
   # Extracts a named +association+ from the relation. The named association is first preloaded,
@@ -29216,7 +29518,7 @@ module ActiveRecord::QueryMethods
   #
   #   account.memberships.preload(:user).collect(&:user)
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#334
+  # source://activerecord//lib/active_record/relation/query_methods.rb#341
   def extract_associated(association); end
 
   # Specifies the table from which the records will be fetched. For example:
@@ -29250,16 +29552,16 @@ module ActiveRecord::QueryMethods
   #   # FROM colors c, JSONB_ARRAY_ELEMENTS(colored_things) AS colorvalues(colorvalue)
   #   # WHERE (colorvalue->>'color' = 'red')
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1369
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1389
   def from(value, subquery_name = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1373
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1393
   def from!(value, subquery_name = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def from_clause; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def from_clause=(value); end
 
   # Allows to specify a group attribute:
@@ -29283,16 +29585,16 @@ module ActiveRecord::QueryMethods
   #   User.select([:id, :first_name]).group(:id, :first_name).first(3)
   #   # => [#<User id: 1, first_name: "Bill">, #<User id: 2, first_name: "Earl">, #<User id: 3, first_name: "Beto">]
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#564
+  # source://activerecord//lib/active_record/relation/query_methods.rb#571
   def group(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#569
+  # source://activerecord//lib/active_record/relation/query_methods.rb#576
   def group!(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def group_values; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def group_values=(value); end
 
   # Allows to specify a HAVING clause. Note that you can't use HAVING
@@ -29300,16 +29602,16 @@ module ActiveRecord::QueryMethods
   #
   #   Order.having('SUM(price) > 30').group('user_id')
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1195
   def having(opts, *rest); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1179
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1199
   def having!(opts, *rest); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def having_clause; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def having_clause=(value); end
 
   # Applies an <tt>ORDER BY</tt> clause based on a given +column+,
@@ -29350,8 +29652,18 @@ module ActiveRecord::QueryMethods
   #   #     WHEN "conversations"."status" = 0 THEN 3
   #   #   END ASC
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#699
-  def in_order_of(column, values); end
+  # +filter+ can be set to +false+ to include all results instead of only the ones specified in +values+.
+  #
+  #   Conversation.in_order_of(:status, [:archived, :active], filter: false)
+  #   # SELECT "conversations".* FROM "conversations"
+  #   #   ORDER BY CASE
+  #   #     WHEN "conversations"."status" = 1 THEN 1
+  #   #     WHEN "conversations"."status" = 0 THEN 2
+  #   #     ELSE 3
+  #   #   END ASC
+  #
+  # source://activerecord//lib/active_record/relation/query_methods.rb#715
+  def in_order_of(column, values, filter: T.unsafe(nil)); end
 
   # Specify associations +args+ to be eager loaded to prevent N + 1 queries.
   # A separate query is performed for each association, unless a join is
@@ -29417,16 +29729,16 @@ module ActiveRecord::QueryMethods
   # <em>and will only include posts named "example"</em>, even when a
   # matching user has other additional posts.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#247
+  # source://activerecord//lib/active_record/relation/query_methods.rb#250
   def includes(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#252
+  # source://activerecord//lib/active_record/relation/query_methods.rb#255
   def includes!(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def includes_values; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def includes_values=(value); end
 
   # Allows you to invert an entire where clause instead of manually applying conditions.
@@ -29458,10 +29770,10 @@ module ActiveRecord::QueryMethods
   #   User.where(role: 'admin').inactive
   #   # WHERE NOT (`role` = 'admin' AND `accepted` = 1 AND `locked` = 0)
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1079
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1099
   def invert_where; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1083
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1103
   def invert_where!; end
 
   # Performs JOINs on +args+. The given symbol(s) should match the name of
@@ -29493,16 +29805,16 @@ module ActiveRecord::QueryMethods
   #   User.joins("LEFT JOIN bookmarks ON bookmarks.bookmarkable_type = 'Post' AND bookmarks.user_id = users.id")
   #   # SELECT "users".* FROM "users" LEFT JOIN bookmarks ON bookmarks.bookmarkable_type = 'Post' AND bookmarks.user_id = users.id
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#846
+  # source://activerecord//lib/active_record/relation/query_methods.rb#866
   def joins(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#851
+  # source://activerecord//lib/active_record/relation/query_methods.rb#871
   def joins!(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def joins_values; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def joins_values=(value); end
 
   # Performs LEFT OUTER JOINs on +args+:
@@ -29510,7 +29822,7 @@ module ActiveRecord::QueryMethods
   #   User.left_outer_joins(:posts)
   #   # SELECT "users".* FROM "users" LEFT OUTER JOIN "posts" ON "posts"."user_id" = "users"."id"
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#861
+  # source://activerecord//lib/active_record/relation/query_methods.rb#881
   def left_joins(*args); end
 
   # Performs LEFT OUTER JOINs on +args+:
@@ -29518,16 +29830,16 @@ module ActiveRecord::QueryMethods
   #   User.left_outer_joins(:posts)
   #   # SELECT "users".* FROM "users" LEFT OUTER JOIN "posts" ON "posts"."user_id" = "users"."id"
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#861
+  # source://activerecord//lib/active_record/relation/query_methods.rb#881
   def left_outer_joins(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#867
+  # source://activerecord//lib/active_record/relation/query_methods.rb#887
   def left_outer_joins!(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def left_outer_joins_values; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def left_outer_joins_values=(value); end
 
   # Specifies a limit for the number of records to retrieve.
@@ -29536,31 +29848,31 @@ module ActiveRecord::QueryMethods
   #
   #   User.limit(10).limit(20) # generated SQL has 'LIMIT 20'
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1189
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1209
   def limit(value); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1193
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1213
   def limit!(value); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def limit_value; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def limit_value=(value); end
 
   # Specifies locking settings (default to +true+). For more information
   # on locking, please see ActiveRecord::Locking.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1216
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1236
   def lock(locks = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1220
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1240
   def lock!(locks = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def lock_value; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def lock_value=(value); end
 
   # Returns a chainable relation with zero records.
@@ -29591,15 +29903,15 @@ module ActiveRecord::QueryMethods
   #     end
   #   end
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1259
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1279
   def none; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1263
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1283
   def none!; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1271
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1291
   def null_relation?; end
 
   # Specifies the number of rows to skip before returning rows.
@@ -29610,16 +29922,16 @@ module ActiveRecord::QueryMethods
   #
   #   User.offset(10).order("name ASC")
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1205
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1225
   def offset(value); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1209
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1229
   def offset!(value); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def offset_value; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def offset_value=(value); end
 
   # Specify optimizer hints to be used in the SELECT statement.
@@ -29634,16 +29946,16 @@ module ActiveRecord::QueryMethods
   #   Topic.optimizer_hints("SeqScan(topics)", "Parallel(topics 8)")
   #   # SELECT /*+ SeqScan(topics) Parallel(topics 8) */ "topics".* FROM "topics"
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1463
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1483
   def optimizer_hints(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1468
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1488
   def optimizer_hints!(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def optimizer_hints_values; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def optimizer_hints_values=(value); end
 
   # Returns a new relation, which is the logical union of this relation and the one passed as an
@@ -29656,10 +29968,10 @@ module ActiveRecord::QueryMethods
   #    Post.where("id = 1").or(Post.where("author_id = 3"))
   #    # SELECT `posts`.* FROM `posts` WHERE ((id = 1) OR (author_id = 3))
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1145
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1165
   def or(other); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1157
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1177
   def or!(other); end
 
   # Applies an <code>ORDER BY</code> clause to a query.
@@ -29715,18 +30027,18 @@ module ActiveRecord::QueryMethods
   #   User.order(Arel.sql("payload->>'kind'"))
   #   # SELECT "users".* FROM "users" ORDER BY payload->>'kind'
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#647
+  # source://activerecord//lib/active_record/relation/query_methods.rb#654
   def order(*args); end
 
   # Same as #order but operates on relation in-place instead of copying.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#655
+  # source://activerecord//lib/active_record/relation/query_methods.rb#662
   def order!(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def order_values; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def order_values=(value); end
 
   # Specify associations +args+ to be eager loaded using separate queries.
@@ -29752,16 +30064,16 @@ module ActiveRecord::QueryMethods
   #   # SELECT "friends".* FROM "friends" WHERE "friends"."user_id" IN (1,2,3,4,5)
   #   # SELECT ...
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#315
+  # source://activerecord//lib/active_record/relation/query_methods.rb#322
   def preload(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#320
+  # source://activerecord//lib/active_record/relation/query_methods.rb#327
   def preload!(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def preload_values; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def preload_values=(value); end
 
   # Mark a relation as readonly. Attempting to update a record will result in
@@ -29777,16 +30089,16 @@ module ActiveRecord::QueryMethods
   #   users.first.save
   #   => true
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1287
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1307
   def readonly(value = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1291
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1311
   def readonly!(value = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def readonly_value; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def readonly_value=(value); end
 
   # Use to indicate that the given +table_names+ are referenced by an SQL string,
@@ -29800,16 +30112,16 @@ module ActiveRecord::QueryMethods
   #   User.includes(:posts).where("posts.name = 'foo'").references(:posts)
   #   # Query now knows the string references posts, so adds a JOIN
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#348
+  # source://activerecord//lib/active_record/relation/query_methods.rb#355
   def references(*table_names); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#353
+  # source://activerecord//lib/active_record/relation/query_methods.rb#360
   def references!(*table_names); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def references_values; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def references_values=(value); end
 
   # Allows you to change a previously set group statement.
@@ -29823,12 +30135,12 @@ module ActiveRecord::QueryMethods
   # This is short-hand for <tt>unscope(:group).group(fields)</tt>.
   # Note that we're unscoping the entire group statement.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#584
+  # source://activerecord//lib/active_record/relation/query_methods.rb#591
   def regroup(*args); end
 
   # Same as #regroup but operates on relation in-place instead of copying.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#590
+  # source://activerecord//lib/active_record/relation/query_methods.rb#597
   def regroup!(*args); end
 
   # Replaces any existing order defined on the relation with the specified order.
@@ -29841,18 +30153,18 @@ module ActiveRecord::QueryMethods
   #
   # generates a query with <tt>ORDER BY id ASC, name ASC</tt>.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#730
+  # source://activerecord//lib/active_record/relation/query_methods.rb#750
   def reorder(*args); end
 
   # Same as #reorder but operates on relation in-place instead of copying.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#738
+  # source://activerecord//lib/active_record/relation/query_methods.rb#758
   def reorder!(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def reordering_value; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def reordering_value=(value); end
 
   # Allows you to change a previously set select statement.
@@ -29866,28 +30178,28 @@ module ActiveRecord::QueryMethods
   # This is short-hand for <tt>unscope(:select).select(fields)</tt>.
   # Note that we're unscoping the entire select statement.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#532
+  # source://activerecord//lib/active_record/relation/query_methods.rb#539
   def reselect(*args); end
 
   # Same as #reselect but operates on relation in-place instead of copying.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#539
+  # source://activerecord//lib/active_record/relation/query_methods.rb#546
   def reselect!(*args); end
 
   # Reverse the existing order clause on the relation.
   #
   #   User.order('name ASC').reverse_order # generated SQL has 'ORDER BY name DESC'
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1476
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1496
   def reverse_order; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1480
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1500
   def reverse_order!; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def reverse_order_value; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def reverse_order_value=(value); end
 
   # Allows you to change a previously set where condition for a given attribute, instead of appending to that condition.
@@ -29904,7 +30216,7 @@ module ActiveRecord::QueryMethods
   # This is short-hand for <tt>unscope(where: conditions.keys).where(conditions)</tt>.
   # Note that unlike reorder, we're only unscoping the named conditions -- not the entire where statement.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1039
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1059
   def rewhere(conditions); end
 
   # Works in two unique ways.
@@ -29956,25 +30268,25 @@ module ActiveRecord::QueryMethods
   #   Model.select(:field).first.other_field
   #   # => ActiveModel::MissingAttributeError: missing attribute 'other_field' for Model
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#406
+  # source://activerecord//lib/active_record/relation/query_methods.rb#413
   def select(*fields); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def select_values; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def select_values=(value); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1491
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1511
   def skip_preloading!; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1486
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1506
   def skip_query_cache!(value = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def skip_query_cache_value; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def skip_query_cache_value=(value); end
 
   # Sets the returned relation to strict_loading mode. This will raise an error
@@ -29984,16 +30296,16 @@ module ActiveRecord::QueryMethods
   #   user.comments.to_a
   #   => ActiveRecord::StrictLoadingViolationError
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1302
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1322
   def strict_loading(value = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1306
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1326
   def strict_loading!(value = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def strict_loading_value; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def strict_loading_value=(value); end
 
   # Checks whether the given relation is structurally compatible with this relation, to determine
@@ -30009,12 +30321,12 @@ module ActiveRecord::QueryMethods
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1099
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1119
   def structurally_compatible?(other); end
 
   # Deduplicate multiple values.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1519
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1539
   def uniq!(name); end
 
   # Removes an unwanted relation that is already defined on a chain of relations.
@@ -30050,16 +30362,16 @@ module ActiveRecord::QueryMethods
   #
   #   has_many :comments, -> { unscope(where: :trashed) }
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#784
+  # source://activerecord//lib/active_record/relation/query_methods.rb#804
   def unscope(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#789
+  # source://activerecord//lib/active_record/relation/query_methods.rb#809
   def unscope!(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def unscope_values; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def unscope_values=(value); end
 
   # Returns a new relation, which is the result of filtering the current relation
@@ -30202,16 +30514,16 @@ module ActiveRecord::QueryMethods
   # If the condition is any blank-ish object, then #where is a no-op and returns
   # the current relation.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1011
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1031
   def where(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1021
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1041
   def where!(opts, *rest); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def where_clause; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def where_clause=(value); end
 
   # Add a Common Table Expression (CTE) that you can then reference within another SELECT statement.
@@ -30277,19 +30589,19 @@ module ActiveRecord::QueryMethods
   #
   # @raise [ArgumentError]
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#486
+  # source://activerecord//lib/active_record/relation/query_methods.rb#493
   def with(*args); end
 
   # Like #with, but modifies relation in place.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#493
+  # source://activerecord//lib/active_record/relation/query_methods.rb#500
   def with!(*args); end
 
   # Add a recursive Common Table Expression (CTE) that you can then reference within another SELECT statement.
   #
   #   Post.with_recursive(post_and_replies: [Post.where(id: 42), Post.joins('JOIN post_and_replies ON posts.in_reply_to_id = post_and_replies.id')])
   #   # => ActiveRecord::Relation
-  #   # WITH post_and_replies AS (
+  #   # WITH RECURSIVE post_and_replies AS (
   #   #   (SELECT * FROM posts WHERE id = 42)
   #   #   UNION ALL
   #   #   (SELECT * FROM posts JOIN posts_and_replies ON posts.in_reply_to_id = posts_and_replies.id)
@@ -30298,18 +30610,18 @@ module ActiveRecord::QueryMethods
   #
   # See `#with` for more information.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#510
+  # source://activerecord//lib/active_record/relation/query_methods.rb#517
   def with_recursive(*args); end
 
   # Like #with_recursive but modifies the relation in place.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#516
+  # source://activerecord//lib/active_record/relation/query_methods.rb#523
   def with_recursive!(*args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def with_values; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#175
+  # source://activerecord//lib/active_record/relation/query_methods.rb#178
   def with_values=(value); end
 
   # Excludes the specified record (or collection of records) from the resulting
@@ -30339,85 +30651,91 @@ module ActiveRecord::QueryMethods
   # is passed in) are not instances of the same model that the relation is
   # scoping.
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1552
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1572
   def without(*records); end
 
   protected
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1634
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1660
+  def arel_columns(columns); end
+
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1654
   def async!; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1591
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1611
   def build_having_clause(opts, rest = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1583
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1603
   def build_subquery(subquery_alias, select_value); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1591
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1611
   def build_where_clause(opts, rest = T.unsafe(nil)); end
 
   private
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1931
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1985
   def arel_column(field); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1912
-  def arel_columns(columns); end
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2227
+  def arel_column_aliases_from_hash(fields); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1978
+  def arel_column_with_table(table_name, column_name); end
+
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1962
   def arel_columns_from_hash(fields); end
 
   # @raise [UnmodifiableRelation]
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1708
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1744
   def assert_modifiable!; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1640
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1676
   def async; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1712
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1748
   def build_arel(connection, aliases = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1664
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1700
   def build_bound_sql_literal(statement, values); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2101
-  def build_case_for_value_position(column, values); end
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2156
+  def build_case_for_value_position(column, values, filter: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1741
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1777
   def build_cast_value(name, value); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1745
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1781
   def build_from; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1787
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1823
   def build_join_buckets; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1697
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1733
   def build_join_dependencies; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1843
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1879
   def build_joins(join_sources, aliases = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1644
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1680
   def build_named_bound_sql_literal(statement, values); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1993
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2048
   def build_order(arel); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1865
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1901
   def build_select(arel); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1875
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1911
   def build_with(arel); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1893
-  def build_with_expression_from_value(value); end
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1929
+  def build_with_expression_from_value(value, nested = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1904
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1954
   def build_with_join_node(name, kind = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1887
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1923
   def build_with_value_from_hash(hash); end
 
   # Checks to make sure that the arguments are not blank. Note that if some
@@ -30437,91 +30755,91 @@ module ActiveRecord::QueryMethods
   #   ...
   # end
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2150
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2206
   def check_if_method_has_arguments!(method_name, args, message = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2062
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2117
   def column_references(order_args); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1982
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2037
   def does_not_support_reverse?(order); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1691
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1727
   def each_join_dependencies(join_dependencies = T.unsafe(nil), &block); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2087
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2142
   def extract_table_name_from(string); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2015
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2070
   def flattened_args(args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1684
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1720
   def lookup_table_klass_from_join_dependencies(table_name); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2091
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2146
   def order_column(field); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2019
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2074
   def preprocess_order_args(order_args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2161
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2217
   def process_select_args(fields); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2110
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2166
   def resolve_arel_attributes(attrs); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1953
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2008
   def reverse_sql_order(order_query); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2056
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2111
   def sanitize_order_arguments(order_args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1772
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1808
   def select_association_list(associations, stashed_joins = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1760
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1796
   def select_named_joins(join_names, stashed_joins = T.unsafe(nil), &block); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2201
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2252
   def structurally_incompatible_values_for(other); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1947
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2002
   def table_name_matches?(from); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2001
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2056
   def validate_order_args(args); end
 end
 
 # A wrapper to distinguish CTE joins from other nodes.
 #
-# source://activerecord//lib/active_record/relation/query_methods.rb#148
+# source://activerecord//lib/active_record/relation/query_methods.rb#151
 class ActiveRecord::QueryMethods::CTEJoin
   # @return [CTEJoin] a new instance of CTEJoin
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#151
+  # source://activerecord//lib/active_record/relation/query_methods.rb#154
   def initialize(name); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#149
+  # source://activerecord//lib/active_record/relation/query_methods.rb#152
   def name; end
 end
 
-# source://activerecord//lib/active_record/relation/query_methods.rb#156
+# source://activerecord//lib/active_record/relation/query_methods.rb#159
 ActiveRecord::QueryMethods::FROZEN_EMPTY_ARRAY = T.let(T.unsafe(nil), Array)
 
-# source://activerecord//lib/active_record/relation/query_methods.rb#157
+# source://activerecord//lib/active_record/relation/query_methods.rb#160
 ActiveRecord::QueryMethods::FROZEN_EMPTY_HASH = T.let(T.unsafe(nil), Hash)
 
-# source://activerecord//lib/active_record/relation/query_methods.rb#2196
+# source://activerecord//lib/active_record/relation/query_methods.rb#2247
 ActiveRecord::QueryMethods::STRUCTURAL_VALUE_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://activerecord//lib/active_record/relation/query_methods.rb#1998
+# source://activerecord//lib/active_record/relation/query_methods.rb#2053
 ActiveRecord::QueryMethods::VALID_DIRECTIONS = T.let(T.unsafe(nil), Set)
 
-# source://activerecord//lib/active_record/relation/query_methods.rb#746
+# source://activerecord//lib/active_record/relation/query_methods.rb#766
 ActiveRecord::QueryMethods::VALID_UNSCOPING_VALUES = T.let(T.unsafe(nil), Set)
 
 # +WhereChain+ objects act as placeholder for queries in which +where+ does not have any parameter.
@@ -30588,7 +30906,7 @@ class ActiveRecord::QueryMethods::WhereChain
   #    # LEFT OUTER JOIN "comments" ON "comments"."post_id" = "posts"."id"
   #    # WHERE "authors"."id" IS NULL AND "comments"."id" IS NULL
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#123
+  # source://activerecord//lib/active_record/relation/query_methods.rb#124
   def missing(*associations); end
 
   # Returns a new relation expressing WHERE + NOT condition according to
@@ -30627,16 +30945,16 @@ class ActiveRecord::QueryMethods::WhereChain
 
   private
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#138
+  # source://activerecord//lib/active_record/relation/query_methods.rb#140
   def scope_association_reflection(association); end
 end
 
 # source://activerecord//lib/active_record/querying.rb#4
 module ActiveRecord::Querying
-  # source://activerecord//lib/active_record/querying.rb#73
+  # source://activerecord//lib/active_record/querying.rb#71
   def _load_from_sql(result_set, &block); end
 
-  # source://activerecord//lib/active_record/querying.rb#69
+  # source://activerecord//lib/active_record/querying.rb#67
   def _query_by_sql(connection, sql, binds = T.unsafe(nil), preparable: T.unsafe(nil), async: T.unsafe(nil), allow_retry: T.unsafe(nil)); end
 
   # source://activerecord//lib/active_record/querying.rb#24
@@ -30662,7 +30980,7 @@ module ActiveRecord::Querying
   # Same as <tt>#find_by_sql</tt> but perform the query asynchronously and returns an ActiveRecord::Promise.
   #
   # source://activerecord//lib/active_record/querying.rb#59
-  def async_find_by_sql(sql, binds = T.unsafe(nil), preparable: T.unsafe(nil), &block); end
+  def async_find_by_sql(sql, binds = T.unsafe(nil), preparable: T.unsafe(nil), allow_retry: T.unsafe(nil), &block); end
 
   # source://activerecord//lib/active_record/querying.rb#24
   def async_ids(*_arg0, **_arg1, &_arg2); end
@@ -31044,17 +31362,17 @@ class ActiveRecord::Railtie < ::Rails::Railtie; end
 
 # Raised when values that executed are out of range.
 #
-# source://activerecord//lib/active_record/errors.rb#288
+# source://activerecord//lib/active_record/errors.rb#301
 class ActiveRecord::RangeError < ::ActiveRecord::StatementInvalid; end
 
 # Raised when a write to the database is attempted on a read only connection.
 #
-# source://activerecord//lib/active_record/errors.rb#119
+# source://activerecord//lib/active_record/errors.rb#132
 class ActiveRecord::ReadOnlyError < ::ActiveRecord::ActiveRecordError; end
 
 # Raised on attempt to update record that is instantiated as read only.
 #
-# source://activerecord//lib/active_record/errors.rb#381
+# source://activerecord//lib/active_record/errors.rb#394
 class ActiveRecord::ReadOnlyRecord < ::ActiveRecord::ActiveRecordError; end
 
 # source://activerecord//lib/active_record/readonly_attributes.rb#4
@@ -31156,41 +31474,41 @@ end
 #
 #   User.first.destroy! # => raises an ActiveRecord::RecordNotDestroyed
 #
-# source://activerecord//lib/active_record/errors.rb#169
+# source://activerecord//lib/active_record/errors.rb#182
 class ActiveRecord::RecordNotDestroyed < ::ActiveRecord::ActiveRecordError
   # @return [RecordNotDestroyed] a new instance of RecordNotDestroyed
   #
-  # source://activerecord//lib/active_record/errors.rb#172
+  # source://activerecord//lib/active_record/errors.rb#185
   def initialize(message = T.unsafe(nil), record = T.unsafe(nil)); end
 
   # Returns the value of attribute record.
   #
-  # source://activerecord//lib/active_record/errors.rb#170
+  # source://activerecord//lib/active_record/errors.rb#183
   def record; end
 end
 
 # Raised when Active Record cannot find a record by given id or set of ids.
 #
-# source://activerecord//lib/active_record/errors.rb#123
+# source://activerecord//lib/active_record/errors.rb#136
 class ActiveRecord::RecordNotFound < ::ActiveRecord::ActiveRecordError
   # @return [RecordNotFound] a new instance of RecordNotFound
   #
-  # source://activerecord//lib/active_record/errors.rb#126
+  # source://activerecord//lib/active_record/errors.rb#139
   def initialize(message = T.unsafe(nil), model = T.unsafe(nil), primary_key = T.unsafe(nil), id = T.unsafe(nil)); end
 
   # Returns the value of attribute id.
   #
-  # source://activerecord//lib/active_record/errors.rb#124
+  # source://activerecord//lib/active_record/errors.rb#137
   def id; end
 
   # Returns the value of attribute model.
   #
-  # source://activerecord//lib/active_record/errors.rb#124
+  # source://activerecord//lib/active_record/errors.rb#137
   def model; end
 
   # Returns the value of attribute primary_key.
   #
-  # source://activerecord//lib/active_record/errors.rb#124
+  # source://activerecord//lib/active_record/errors.rb#137
   def primary_key; end
 end
 
@@ -31208,22 +31526,22 @@ end
 #
 #   Product.create! # => raises an ActiveRecord::RecordNotSaved
 #
-# source://activerecord//lib/active_record/errors.rb#148
+# source://activerecord//lib/active_record/errors.rb#161
 class ActiveRecord::RecordNotSaved < ::ActiveRecord::ActiveRecordError
   # @return [RecordNotSaved] a new instance of RecordNotSaved
   #
-  # source://activerecord//lib/active_record/errors.rb#151
+  # source://activerecord//lib/active_record/errors.rb#164
   def initialize(message = T.unsafe(nil), record = T.unsafe(nil)); end
 
   # Returns the value of attribute record.
   #
-  # source://activerecord//lib/active_record/errors.rb#149
+  # source://activerecord//lib/active_record/errors.rb#162
   def record; end
 end
 
 # Raised when a record cannot be inserted or updated because it would violate a uniqueness constraint.
 #
-# source://activerecord//lib/active_record/errors.rb#216
+# source://activerecord//lib/active_record/errors.rb#229
 class ActiveRecord::RecordNotUnique < ::ActiveRecord::WrappedDatabaseException; end
 
 # = Active Record Reflection
@@ -31249,7 +31567,7 @@ module ActiveRecord::Reflection
 
     private
 
-    # source://activestorage/7.2.1.1/lib/active_storage/reflection.rb#37
+    # source://activestorage/8.0.0.rc1/lib/active_storage/reflection.rb#37
     def reflection_class_for(macro); end
   end
 
@@ -31396,10 +31714,10 @@ class ActiveRecord::Reflection::AbstractReflection
   def join_scope(table, foreign_table, foreign_klass); end
 
   # source://activerecord//lib/active_record/reflection.rb#227
-  def join_scopes(table, predicate_builder, klass = T.unsafe(nil), record = T.unsafe(nil)); end
+  def join_scopes(table, predicate_builder = T.unsafe(nil), klass = T.unsafe(nil), record = T.unsafe(nil)); end
 
   # source://activerecord//lib/active_record/reflection.rb#235
-  def klass_join_scope(table, predicate_builder); end
+  def klass_join_scope(table, predicate_builder = T.unsafe(nil)); end
 
   # Returns a list of scopes that should be applied for this Reflection
   # object when querying the database.
@@ -31409,10 +31727,10 @@ class ActiveRecord::Reflection::AbstractReflection
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#344
+  # source://activerecord//lib/active_record/reflection.rb#340
   def strict_loading?; end
 
-  # source://activerecord//lib/active_record/reflection.rb#348
+  # source://activerecord//lib/active_record/reflection.rb#344
   def strict_loading_violation_message(owner); end
 
   # source://activerecord//lib/active_record/reflection.rb#176
@@ -31427,89 +31745,86 @@ class ActiveRecord::Reflection::AbstractReflection
 
   # FIXME: this is a horrible name
   #
-  # source://activerecord//lib/active_record/reflection.rb#355
+  # source://activerecord//lib/active_record/reflection.rb#351
   def actual_source_reflection; end
 
   private
 
-  # source://activerecord//lib/active_record/reflection.rb#368
+  # source://activerecord//lib/active_record/reflection.rb#360
   def ensure_option_not_given_as_class!(option_name); end
 
-  # source://activerecord//lib/active_record/reflection.rb#360
-  def predicate_builder(table); end
-
-  # source://activerecord//lib/active_record/reflection.rb#364
+  # source://activerecord//lib/active_record/reflection.rb#356
   def primary_key(klass); end
 end
 
 # Holds all the metadata about an aggregation as it was specified in the
 # Active Record class.
 #
-# source://activerecord//lib/active_record/reflection.rb#488
+# source://activerecord//lib/active_record/reflection.rb#480
 class ActiveRecord::Reflection::AggregateReflection < ::ActiveRecord::Reflection::MacroReflection
-  # source://activerecord//lib/active_record/reflection.rb#489
+  # source://activerecord//lib/active_record/reflection.rb#481
   def mapping; end
 end
 
 # Holds all the metadata about an association as it was specified in the
 # Active Record class.
 #
-# source://activerecord//lib/active_record/reflection.rb#497
+# source://activerecord//lib/active_record/reflection.rb#489
 class ActiveRecord::Reflection::AssociationReflection < ::ActiveRecord::Reflection::MacroReflection
   # @return [AssociationReflection] a new instance of AssociationReflection
   #
-  # source://activerecord//lib/active_record/reflection.rb#525
+  # source://activerecord//lib/active_record/reflection.rb#517
   def initialize(name, scope, options, active_record); end
 
-  # source://activerecord//lib/active_record/reflection.rb#590
+  # source://activerecord//lib/active_record/reflection.rb#587
   def active_record_primary_key; end
 
-  # source://activerecord//lib/active_record/reflection.rb#736
+  # source://activerecord//lib/active_record/reflection.rb#733
   def add_as_polymorphic_through(reflection, seed); end
 
-  # source://activerecord//lib/active_record/reflection.rb#732
+  # source://activerecord//lib/active_record/reflection.rb#729
   def add_as_source(seed); end
 
-  # source://activerecord//lib/active_record/reflection.rb#740
+  # source://activerecord//lib/active_record/reflection.rb#737
   def add_as_through(seed); end
 
   # @raise [NotImplementedError]
   #
-  # source://activerecord//lib/active_record/reflection.rb#722
+  # source://activerecord//lib/active_record/reflection.rb#719
   def association_class; end
 
-  # source://activerecord//lib/active_record/reflection.rb#582
+  # source://activerecord//lib/active_record/reflection.rb#579
   def association_foreign_key; end
 
-  # source://activerecord//lib/active_record/reflection.rb#586
+  # source://activerecord//lib/active_record/reflection.rb#583
   def association_primary_key(klass = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/reflection.rb#548
+  # source://activerecord//lib/active_record/reflection.rb#540
   def association_scope_cache(klass, owner, &block); end
 
   # Returns +true+ if +self+ is a +belongs_to+ reflection.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#717
+  # source://activerecord//lib/active_record/reflection.rb#714
   def belongs_to?; end
 
-  # source://activerecord//lib/active_record/reflection.rb#633
+  # source://activerecord//lib/active_record/reflection.rb#630
   def check_eager_loadable!; end
 
-  # source://activerecord//lib/active_record/reflection.rb#621
+  # source://activerecord//lib/active_record/reflection.rb#618
   def check_validity!; end
 
   # This is for clearing cache on the reflection. Useful for tests that need to compare
   # SQL queries on associations.
   #
-  # source://activerecord//lib/active_record/reflection.rb#665
+  # source://activerecord//lib/active_record/reflection.rb#662
   def clear_association_scope_cache; end
 
   # A chain of reflections from this one back to the owner. For more see the explanation in
   # ThroughReflection.
   #
-  # source://activerecord//lib/active_record/reflection.rb#659
+  # source://activerecord//lib/active_record/reflection.rb#656
   def collect_join_chain; end
 
   # Returns whether or not this association reflection is for a collection
@@ -31518,53 +31833,53 @@ class ActiveRecord::Reflection::AssociationReflection < ::ActiveRecord::Reflecti
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#699
+  # source://activerecord//lib/active_record/reflection.rb#696
   def collection?; end
 
-  # source://activerecord//lib/active_record/reflection.rb#498
+  # source://activerecord//lib/active_record/reflection.rb#490
   def compute_class(name); end
 
-  # source://activerecord//lib/active_record/reflection.rb#744
+  # source://activerecord//lib/active_record/reflection.rb#741
   def extensions; end
 
-  # source://activerecord//lib/active_record/reflection.rb#562
+  # source://activerecord//lib/active_record/reflection.rb#554
   def foreign_key(infer_from_inverse_of: T.unsafe(nil)); end
 
   # Returns the value of attribute foreign_type.
   #
-  # source://activerecord//lib/active_record/reflection.rb#522
+  # source://activerecord//lib/active_record/reflection.rb#514
   def foreign_type; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#677
+  # source://activerecord//lib/active_record/reflection.rb#674
   def has_inverse?; end
 
   # Returns +true+ if +self+ is a +has_one+ reflection.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#720
+  # source://activerecord//lib/active_record/reflection.rb#717
   def has_one?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#673
+  # source://activerecord//lib/active_record/reflection.rb#670
   def has_scope?; end
 
-  # source://activerecord//lib/active_record/reflection.rb#617
+  # source://activerecord//lib/active_record/reflection.rb#614
   def join_foreign_key; end
 
-  # source://activerecord//lib/active_record/reflection.rb#645
+  # source://activerecord//lib/active_record/reflection.rb#642
   def join_id_for(owner); end
 
-  # source://activerecord//lib/active_record/reflection.rb#609
+  # source://activerecord//lib/active_record/reflection.rb#606
   def join_primary_key(klass = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/reflection.rb#613
+  # source://activerecord//lib/active_record/reflection.rb#610
   def join_primary_type; end
 
-  # source://activerecord//lib/active_record/reflection.rb#558
+  # source://activerecord//lib/active_record/reflection.rb#550
   def join_table; end
 
   # Returns the macro type.
@@ -31573,44 +31888,44 @@ class ActiveRecord::Reflection::AssociationReflection < ::ActiveRecord::Reflecti
   #
   # @raise [NotImplementedError]
   #
-  # source://activerecord//lib/active_record/reflection.rb#694
+  # source://activerecord//lib/active_record/reflection.rb#691
   def macro; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#669
+  # source://activerecord//lib/active_record/reflection.rb#666
   def nested?; end
 
   # Reflection
   #
-  # source://activerecord//lib/active_record/reflection.rb#523
+  # source://activerecord//lib/active_record/reflection.rb#515
   def parent_reflection; end
 
   # Reflection
   #
-  # source://activerecord//lib/active_record/reflection.rb#523
+  # source://activerecord//lib/active_record/reflection.rb#515
   def parent_reflection=(_arg0); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#724
+  # source://activerecord//lib/active_record/reflection.rb#721
   def polymorphic?; end
 
-  # source://activerecord//lib/active_record/reflection.rb#681
+  # source://activerecord//lib/active_record/reflection.rb#678
   def polymorphic_inverse_of(associated_class); end
 
-  # source://activerecord//lib/active_record/reflection.rb#728
+  # source://activerecord//lib/active_record/reflection.rb#725
   def polymorphic_name; end
 
-  # source://activerecord//lib/active_record/reflection.rb#653
+  # source://activerecord//lib/active_record/reflection.rb#650
   def source_reflection; end
 
-  # source://activerecord//lib/active_record/reflection.rb#649
+  # source://activerecord//lib/active_record/reflection.rb#646
   def through_reflection; end
 
   # Returns the value of attribute type.
   #
-  # source://activerecord//lib/active_record/reflection.rb#522
+  # source://activerecord//lib/active_record/reflection.rb#514
   def type; end
 
   # Returns whether or not the association should be validated as part of
@@ -31625,14 +31940,14 @@ class ActiveRecord::Reflection::AssociationReflection < ::ActiveRecord::Reflecti
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#712
+  # source://activerecord//lib/active_record/reflection.rb#709
   def validate?; end
 
   private
 
   # returns either +nil+ or the inverse association name that it finds.
   #
-  # source://activerecord//lib/active_record/reflection.rb#761
+  # source://activerecord//lib/active_record/reflection.rb#758
   def automatic_inverse_of; end
 
   # Checks to see if the reflection doesn't have any options that prevent
@@ -31644,26 +31959,26 @@ class ActiveRecord::Reflection::AssociationReflection < ::ActiveRecord::Reflecti
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#803
+  # source://activerecord//lib/active_record/reflection.rb#800
   def can_find_inverse_of_automatically?(reflection, inverse_reflection = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/reflection.rb#824
+  # source://activerecord//lib/active_record/reflection.rb#821
   def derive_class_name; end
 
-  # source://activerecord//lib/active_record/reflection.rb#842
+  # source://activerecord//lib/active_record/reflection.rb#839
   def derive_fk_query_constraints(foreign_key); end
 
-  # source://activerecord//lib/active_record/reflection.rb#830
+  # source://activerecord//lib/active_record/reflection.rb#827
   def derive_foreign_key(infer_from_inverse_of: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/reflection.rb#882
+  # source://activerecord//lib/active_record/reflection.rb#879
   def derive_join_table; end
 
   # Attempts to find the inverse association name automatically.
   # If it cannot find a suitable inverse association name, it returns
   # +nil+.
   #
-  # source://activerecord//lib/active_record/reflection.rb#752
+  # source://activerecord//lib/active_record/reflection.rb#749
   def inverse_name; end
 
   # Scopes on the potential inverse reflection prevent automatic
@@ -31675,7 +31990,7 @@ class ActiveRecord::Reflection::AssociationReflection < ::ActiveRecord::Reflecti
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#816
+  # source://activerecord//lib/active_record/reflection.rb#813
   def scope_allows_automatic_inverse_of?(reflection, inverse_reflection); end
 
   # Checks if the inverse reflection that is returned from the
@@ -31685,42 +32000,42 @@ class ActiveRecord::Reflection::AssociationReflection < ::ActiveRecord::Reflecti
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#789
+  # source://activerecord//lib/active_record/reflection.rb#786
   def valid_inverse_reflection?(reflection); end
 end
 
-# source://activerecord//lib/active_record/reflection.rb#915
+# source://activerecord//lib/active_record/reflection.rb#912
 class ActiveRecord::Reflection::BelongsToReflection < ::ActiveRecord::Reflection::AssociationReflection
-  # source://activerecord//lib/active_record/reflection.rb#920
+  # source://activerecord//lib/active_record/reflection.rb#917
   def association_class; end
 
   # klass option is necessary to support loading polymorphic associations
   #
-  # source://activerecord//lib/active_record/reflection.rb#929
+  # source://activerecord//lib/active_record/reflection.rb#926
   def association_primary_key(klass = T.unsafe(nil)); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#918
+  # source://activerecord//lib/active_record/reflection.rb#915
   def belongs_to?; end
 
-  # source://activerecord//lib/active_record/reflection.rb#951
+  # source://activerecord//lib/active_record/reflection.rb#948
   def join_foreign_key; end
 
-  # source://activerecord//lib/active_record/reflection.rb#955
+  # source://activerecord//lib/active_record/reflection.rb#952
   def join_foreign_type; end
 
-  # source://activerecord//lib/active_record/reflection.rb#947
+  # source://activerecord//lib/active_record/reflection.rb#944
   def join_primary_key(klass = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/reflection.rb#916
+  # source://activerecord//lib/active_record/reflection.rb#913
   def macro; end
 
   private
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#960
+  # source://activerecord//lib/active_record/reflection.rb#957
   def can_find_inverse_of_automatically?(*_arg0); end
 end
 
@@ -31743,8 +32058,6 @@ module ActiveRecord::Reflection::ClassMethods
   # source://activerecord//lib/active_record/reflection.rb#137
   def clear_reflections_cache; end
 
-  # :nodoc
-  #
   # source://activerecord//lib/active_record/reflection.rb#82
   def normalized_reflections; end
 
@@ -31799,73 +32112,73 @@ module ActiveRecord::Reflection::ClassMethods
   def inherited(subclass); end
 end
 
-# source://activerecord//lib/active_record/reflection.rb#965
+# source://activerecord//lib/active_record/reflection.rb#962
 class ActiveRecord::Reflection::HasAndBelongsToManyReflection < ::ActiveRecord::Reflection::AssociationReflection
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#968
+  # source://activerecord//lib/active_record/reflection.rb#965
   def collection?; end
 
-  # source://activerecord//lib/active_record/reflection.rb#966
+  # source://activerecord//lib/active_record/reflection.rb#963
   def macro; end
 end
 
-# source://activerecord//lib/active_record/reflection.rb#887
+# source://activerecord//lib/active_record/reflection.rb#884
 class ActiveRecord::Reflection::HasManyReflection < ::ActiveRecord::Reflection::AssociationReflection
-  # source://activerecord//lib/active_record/reflection.rb#892
+  # source://activerecord//lib/active_record/reflection.rb#889
   def association_class; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#890
+  # source://activerecord//lib/active_record/reflection.rb#887
   def collection?; end
 
-  # source://activerecord//lib/active_record/reflection.rb#888
+  # source://activerecord//lib/active_record/reflection.rb#885
   def macro; end
 end
 
-# source://activerecord//lib/active_record/reflection.rb#901
+# source://activerecord//lib/active_record/reflection.rb#898
 class ActiveRecord::Reflection::HasOneReflection < ::ActiveRecord::Reflection::AssociationReflection
-  # source://activerecord//lib/active_record/reflection.rb#906
+  # source://activerecord//lib/active_record/reflection.rb#903
   def association_class; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#904
+  # source://activerecord//lib/active_record/reflection.rb#901
   def has_one?; end
 
-  # source://activerecord//lib/active_record/reflection.rb#902
+  # source://activerecord//lib/active_record/reflection.rb#899
   def macro; end
 end
 
 # Base class for AggregateReflection and AssociationReflection. Objects of
 # AggregateReflection and AssociationReflection are returned by the Reflection::ClassMethods.
 #
-# source://activerecord//lib/active_record/reflection.rb#377
+# source://activerecord//lib/active_record/reflection.rb#369
 class ActiveRecord::Reflection::MacroReflection < ::ActiveRecord::Reflection::AbstractReflection
   # @return [MacroReflection] a new instance of MacroReflection
   #
-  # source://activerecord//lib/active_record/reflection.rb#396
+  # source://activerecord//lib/active_record/reflection.rb#388
   def initialize(name, scope, options, active_record); end
 
   # Returns +true+ if +self+ and +other_aggregation+ have the same +name+ attribute, +active_record+ attribute,
   # and +other_aggregation+ has an options hash assigned to it.
   #
-  # source://activerecord//lib/active_record/reflection.rb#448
+  # source://activerecord//lib/active_record/reflection.rb#440
   def ==(other_aggregation); end
 
-  # source://activerecord//lib/active_record/reflection.rb#434
+  # source://activerecord//lib/active_record/reflection.rb#426
   def _klass(class_name); end
 
   # Returns the value of attribute active_record.
   #
-  # source://activerecord//lib/active_record/reflection.rb#392
+  # source://activerecord//lib/active_record/reflection.rb#384
   def active_record; end
 
-  # source://activerecord//lib/active_record/reflection.rb#407
+  # source://activerecord//lib/active_record/reflection.rb#399
   def autosave=(autosave); end
 
-  # source://activerecord//lib/active_record/reflection.rb#442
+  # source://activerecord//lib/active_record/reflection.rb#434
   def compute_class(name); end
 
   # Returns the class for the macro.
@@ -31884,7 +32197,7 @@ class ActiveRecord::Reflection::MacroReflection < ::ActiveRecord::Reflection::Ab
   # a new association object. Use +build_association+ or +create_association+
   # instead. This allows plugins to hook into association object creation.
   #
-  # source://activerecord//lib/active_record/reflection.rb#430
+  # source://activerecord//lib/active_record/reflection.rb#422
   def klass; end
 
   # Returns the name of the macro.
@@ -31892,7 +32205,7 @@ class ActiveRecord::Reflection::MacroReflection < ::ActiveRecord::Reflection::Ab
   # <tt>composed_of :balance, class_name: 'Money'</tt> returns <tt>:balance</tt>
   # <tt>has_many :clients</tt> returns <tt>:clients</tt>
   #
-  # source://activerecord//lib/active_record/reflection.rb#382
+  # source://activerecord//lib/active_record/reflection.rb#374
   def name; end
 
   # Returns the hash of options used for the macro.
@@ -31900,64 +32213,64 @@ class ActiveRecord::Reflection::MacroReflection < ::ActiveRecord::Reflection::Ab
   # <tt>composed_of :balance, class_name: 'Money'</tt> returns <tt>{ class_name: "Money" }</tt>
   # <tt>has_many :clients</tt> returns <tt>{}</tt>
   #
-  # source://activerecord//lib/active_record/reflection.rb#390
+  # source://activerecord//lib/active_record/reflection.rb#382
   def options; end
 
-  # source://activerecord//lib/active_record/reflection.rb#394
+  # source://activerecord//lib/active_record/reflection.rb#386
   def plural_name; end
 
   # Returns the value of attribute scope.
   #
-  # source://activerecord//lib/active_record/reflection.rb#384
+  # source://activerecord//lib/active_record/reflection.rb#376
   def scope; end
 
-  # source://activerecord//lib/active_record/reflection.rb#456
+  # source://activerecord//lib/active_record/reflection.rb#448
   def scope_for(relation, owner = T.unsafe(nil)); end
 
   private
 
-  # source://activerecord//lib/active_record/reflection.rb#461
+  # source://activerecord//lib/active_record/reflection.rb#453
   def derive_class_name; end
 
-  # source://activerecord//lib/active_record/reflection.rb#465
+  # source://activerecord//lib/active_record/reflection.rb#457
   def normalize_options(options); end
 end
 
-# source://activerecord//lib/active_record/reflection.rb#1231
+# source://activerecord//lib/active_record/reflection.rb#1228
 class ActiveRecord::Reflection::PolymorphicReflection < ::ActiveRecord::Reflection::AbstractReflection
   # @return [PolymorphicReflection] a new instance of PolymorphicReflection
   #
-  # source://activerecord//lib/active_record/reflection.rb#1235
+  # source://activerecord//lib/active_record/reflection.rb#1232
   def initialize(reflection, previous_reflection); end
 
   # source://activerecord//lib/active_record/reflection.rb#1246
   def constraints; end
 
-  # source://activerecord//lib/active_record/reflection.rb#1232
+  # source://activerecord//lib/active_record/reflection.rb#1229
   def join_foreign_key(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1232
+  # source://activerecord//lib/active_record/reflection.rb#1229
   def join_primary_key(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1241
-  def join_scopes(table, predicate_builder, klass = T.unsafe(nil), record = T.unsafe(nil)); end
+  # source://activerecord//lib/active_record/reflection.rb#1238
+  def join_scopes(table, predicate_builder = T.unsafe(nil), klass = T.unsafe(nil), record = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1232
+  # source://activerecord//lib/active_record/reflection.rb#1229
   def klass(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1232
+  # source://activerecord//lib/active_record/reflection.rb#1229
   def name(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1232
+  # source://activerecord//lib/active_record/reflection.rb#1229
   def plural_name(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1232
+  # source://activerecord//lib/active_record/reflection.rb#1229
   def scope(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1232
+  # source://activerecord//lib/active_record/reflection.rb#1229
   def scope_for(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1232
+  # source://activerecord//lib/active_record/reflection.rb#1229
   def type(*_arg0, **_arg1, &_arg2); end
 
   private
@@ -32001,63 +32314,63 @@ end
 # Holds all the metadata about a :through association as it was specified
 # in the Active Record class.
 #
-# source://activerecord//lib/active_record/reflection.rb#975
+# source://activerecord//lib/active_record/reflection.rb#972
 class ActiveRecord::Reflection::ThroughReflection < ::ActiveRecord::Reflection::AbstractReflection
   # @return [ThroughReflection] a new instance of ThroughReflection
   #
-  # source://activerecord//lib/active_record/reflection.rb#979
+  # source://activerecord//lib/active_record/reflection.rb#976
   def initialize(delegate_reflection); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def _klass(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def active_record(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#976
+  # source://activerecord//lib/active_record/reflection.rb#973
   def active_record_primary_key(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1193
+  # source://activerecord//lib/active_record/reflection.rb#1190
   def add_as_polymorphic_through(reflection, seed); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1189
+  # source://activerecord//lib/active_record/reflection.rb#1186
   def add_as_source(seed); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1197
+  # source://activerecord//lib/active_record/reflection.rb#1194
   def add_as_through(seed); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def association_class(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#976
+  # source://activerecord//lib/active_record/reflection.rb#973
   def association_foreign_key(*_arg0, **_arg1, &_arg2); end
 
   # We want to use the klass from this reflection, rather than just delegate straight to
   # the source_reflection, because the source_reflection may be polymorphic. We still
   # need to respect the source_reflection's :primary_key option, though.
   #
-  # source://activerecord//lib/active_record/reflection.rb#1086
+  # source://activerecord//lib/active_record/reflection.rb#1083
   def association_primary_key(klass = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def association_scope_cache(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def autosave=(arg); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def belongs_to?(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def check_eager_loadable!(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1143
+  # source://activerecord//lib/active_record/reflection.rb#1140
   def check_validity!; end
 
   # This is for clearing cache on the reflection. Useful for tests that need to compare
   # SQL queries on associations.
   #
-  # source://activerecord//lib/active_record/reflection.rb#1058
+  # source://activerecord//lib/active_record/reflection.rb#1055
   def clear_association_scope_cache; end
 
   # Returns an array of reflections which are involved in this association. Each item in the
@@ -32077,103 +32390,103 @@ class ActiveRecord::Reflection::ThroughReflection < ::ActiveRecord::Reflection::
   #   # => [<ActiveRecord::Reflection::ThroughReflection: @delegate_reflection=#<ActiveRecord::Reflection::HasManyReflection: @name=:tags...>,
   #         <ActiveRecord::Reflection::HasManyReflection: @name=:taggings, @options={}, @active_record=Post>]
   #
-  # source://activerecord//lib/active_record/reflection.rb#1052
+  # source://activerecord//lib/active_record/reflection.rb#1049
   def collect_join_chain; end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def collection?(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def compute_class(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1183
+  # source://activerecord//lib/active_record/reflection.rb#1180
   def constraints; end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def extensions(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#976
+  # source://activerecord//lib/active_record/reflection.rb#973
   def foreign_key(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#976
+  # source://activerecord//lib/active_record/reflection.rb#973
   def foreign_type(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def has_inverse?(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def has_one?(*_arg0, **_arg1, &_arg2); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#1072
+  # source://activerecord//lib/active_record/reflection.rb#1069
   def has_scope?; end
 
-  # source://activerecord//lib/active_record/reflection.rb#976
+  # source://activerecord//lib/active_record/reflection.rb#973
   def join_foreign_key(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#976
+  # source://activerecord//lib/active_record/reflection.rb#973
   def join_id_for(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1096
+  # source://activerecord//lib/active_record/reflection.rb#1093
   def join_primary_key(klass = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def join_primary_type(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1068
-  def join_scopes(table, predicate_builder, klass = T.unsafe(nil), record = T.unsafe(nil)); end
+  # source://activerecord//lib/active_record/reflection.rb#1065
+  def join_scopes(table, predicate_builder = T.unsafe(nil), klass = T.unsafe(nil), record = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def join_table(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#992
+  # source://activerecord//lib/active_record/reflection.rb#989
   def klass; end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def macro(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def name(*_arg0, **_arg1, &_arg2); end
 
   # A through association is nested if there would be more than one join table
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#1079
+  # source://activerecord//lib/active_record/reflection.rb#1076
   def nested?; end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def options(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def parent_reflection(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def parent_reflection=(arg); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def plural_name(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def polymorphic?(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def polymorphic_inverse_of(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def polymorphic_name(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def scope(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def scope_for(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1064
+  # source://activerecord//lib/active_record/reflection.rb#1061
   def scopes; end
 
-  # source://activerecord//lib/active_record/reflection.rb#1135
+  # source://activerecord//lib/active_record/reflection.rb#1132
   def source_options; end
 
   # Returns the source of the through reflection. It checks both a singularized
@@ -32193,10 +32506,10 @@ class ActiveRecord::Reflection::ThroughReflection < ::ActiveRecord::Reflection::
   #   tags_reflection.source_reflection
   #   # => <ActiveRecord::Reflection::BelongsToReflection: @name=:tag, @active_record=Tagging, @plural_name="tags">
   #
-  # source://activerecord//lib/active_record/reflection.rb#1013
+  # source://activerecord//lib/active_record/reflection.rb#1010
   def source_reflection; end
 
-  # source://activerecord//lib/active_record/reflection.rb#1115
+  # source://activerecord//lib/active_record/reflection.rb#1112
   def source_reflection_name; end
 
   # Gets an array of possible <tt>:through</tt> source reflection names in both singular and plural form.
@@ -32210,10 +32523,10 @@ class ActiveRecord::Reflection::ThroughReflection < ::ActiveRecord::Reflection::
   #   tags_reflection.source_reflection_names
   #   # => [:tag, :tags]
   #
-  # source://activerecord//lib/active_record/reflection.rb#1111
+  # source://activerecord//lib/active_record/reflection.rb#1108
   def source_reflection_names; end
 
-  # source://activerecord//lib/active_record/reflection.rb#1139
+  # source://activerecord//lib/active_record/reflection.rb#1136
   def through_options; end
 
   # Returns the AssociationReflection object specified in the <tt>:through</tt> option
@@ -32228,41 +32541,41 @@ class ActiveRecord::Reflection::ThroughReflection < ::ActiveRecord::Reflection::
   #   tags_reflection.through_reflection
   #   # => <ActiveRecord::Reflection::HasManyReflection: @name=:taggings, @active_record=Post, @plural_name="taggings">
   #
-  # source://activerecord//lib/active_record/reflection.rb#1031
+  # source://activerecord//lib/active_record/reflection.rb#1028
   def through_reflection; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/reflection.rb#988
+  # source://activerecord//lib/active_record/reflection.rb#985
   def through_reflection?; end
 
-  # source://activerecord//lib/active_record/reflection.rb#976
+  # source://activerecord//lib/active_record/reflection.rb#973
   def type(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/reflection.rb#1228
+  # source://activerecord//lib/active_record/reflection.rb#1225
   def validate?(*_arg0, **_arg1, &_arg2); end
 
   protected
 
   # FIXME: this is a horrible name
   #
-  # source://activerecord//lib/active_record/reflection.rb#1202
+  # source://activerecord//lib/active_record/reflection.rb#1199
   def actual_source_reflection; end
 
   private
 
-  # source://activerecord//lib/active_record/reflection.rb#1209
+  # source://activerecord//lib/active_record/reflection.rb#1206
   def collect_join_reflections(seed); end
 
   # Returns the value of attribute delegate_reflection.
   #
-  # source://activerecord//lib/active_record/reflection.rb#1207
+  # source://activerecord//lib/active_record/reflection.rb#1204
   def delegate_reflection; end
 
-  # source://activerecord//lib/active_record/reflection.rb#1220
+  # source://activerecord//lib/active_record/reflection.rb#1217
   def derive_class_name; end
 
-  # source://activerecord//lib/active_record/reflection.rb#1218
+  # source://activerecord//lib/active_record/reflection.rb#1215
   def inverse_name; end
 end
 
@@ -32286,17 +32599,17 @@ class ActiveRecord::Relation
   # @return [Relation] a new instance of Relation
   #
   # source://activerecord//lib/active_record/relation.rb#77
-  def initialize(klass, table: T.unsafe(nil), predicate_builder: T.unsafe(nil), values: T.unsafe(nil)); end
+  def initialize(model, table: T.unsafe(nil), predicate_builder: T.unsafe(nil), values: T.unsafe(nil)); end
 
   # Compares two relations for equality.
   #
-  # source://activerecord//lib/active_record/relation.rb#1239
+  # source://activerecord//lib/active_record/relation.rb#1253
   def ==(other); end
 
-  # source://activerecord//lib/active_record/relation.rb#545
+  # source://activerecord//lib/active_record/relation.rb#552
   def _exec_scope(*_arg0, **_arg1, &_arg2); end
 
-  # source://activerecord//lib/active_record/relation.rb#1289
+  # source://activerecord//lib/active_record/relation.rb#1307
   def alias_tracker(joins = T.unsafe(nil), aliases = T.unsafe(nil)); end
 
   # Returns true if there are any records.
@@ -32308,19 +32621,19 @@ class ActiveRecord::Relation
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation.rb#384
+  # source://activerecord//lib/active_record/relation.rb#391
   def any?(*args); end
 
   # @yield [attr, bind]
   #
-  # source://activerecord//lib/active_record/relation.rb#95
+  # source://activerecord//lib/active_record/relation.rb#102
   def bind_attribute(name, value); end
 
   # Returns true if relation is blank.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation.rb#1260
+  # source://activerecord//lib/active_record/relation.rb#1274
   def blank?; end
 
   # Initializes new record from relation while maintaining the current
@@ -32336,7 +32649,7 @@ class ActiveRecord::Relation
   #   user = users.new { |user| user.name = 'Oscar' }
   #   user.name # => Oscar
   #
-  # source://activerecord//lib/active_record/relation.rb#118
+  # source://activerecord//lib/active_record/relation.rb#125
   def build(attributes = T.unsafe(nil), &block); end
 
   # Returns a stable cache key that can be used to identify this query.
@@ -32357,12 +32670,12 @@ class ActiveRecord::Relation
   #
   #   Product.where("name like ?", "%Game%").cache_key(:last_reviewed_at)
   #
-  # source://activerecord//lib/active_record/relation.rb#431
+  # source://activerecord//lib/active_record/relation.rb#438
   def cache_key(timestamp_column = T.unsafe(nil)); end
 
   # Returns a cache key along with the version.
   #
-  # source://activerecord//lib/active_record/relation.rb#512
+  # source://activerecord//lib/active_record/relation.rb#519
   def cache_key_with_version; end
 
   # Returns a cache version that can be used together with the cache key to form
@@ -32376,7 +32689,7 @@ class ActiveRecord::Relation
   #
   #    SELECT COUNT(*), MAX("products"."updated_at") FROM "products" WHERE (name like '%Cosmic Encounter%')
   #
-  # source://activerecord//lib/active_record/relation.rb#458
+  # source://activerecord//lib/active_record/relation.rb#465
   def cache_version(timestamp_column = T.unsafe(nil)); end
 
   # Tries to create a new record with the same scoped attributes
@@ -32399,7 +32712,7 @@ class ActiveRecord::Relation
   #   users.create(name: nil) # validation on name
   #   # => #<User id: nil, name: nil, ...>
   #
-  # source://activerecord//lib/active_record/relation.rb#147
+  # source://activerecord//lib/active_record/relation.rb#154
   def create(attributes = T.unsafe(nil), &block); end
 
   # Similar to #create, but calls
@@ -32409,7 +32722,7 @@ class ActiveRecord::Relation
   # Expects arguments in the same format as
   # {ActiveRecord::Base.create!}[rdoc-ref:Persistence::ClassMethods#create!].
   #
-  # source://activerecord//lib/active_record/relation.rb#162
+  # source://activerecord//lib/active_record/relation.rb#169
   def create!(attributes = T.unsafe(nil), &block); end
 
   # Attempts to create a record with the given attributes in a table that has a unique database constraint
@@ -32444,14 +32757,14 @@ class ActiveRecord::Relation
   # and failed due to validation errors it won't be persisted, you get what #create returns in
   # such situation.
   #
-  # source://activerecord//lib/active_record/relation.rb#266
+  # source://activerecord//lib/active_record/relation.rb#273
   def create_or_find_by(attributes, &block); end
 
   # Like #create_or_find_by, but calls
   # {create!}[rdoc-ref:Persistence::ClassMethods#create!] so an exception
   # is raised if the created record is invalid.
   #
-  # source://activerecord//lib/active_record/relation.rb#281
+  # source://activerecord//lib/active_record/relation.rb#288
   def create_or_find_by!(attributes, &block); end
 
   # Deletes the row with a primary key matching the +id+ argument, using an
@@ -32473,7 +32786,7 @@ class ActiveRecord::Relation
   #   # Delete multiple rows
   #   Todo.delete([2,3,4])
   #
-  # source://activerecord//lib/active_record/relation.rb#1050
+  # source://activerecord//lib/active_record/relation.rb#1057
   def delete(id_or_array); end
 
   # Deletes the records without instantiating the records
@@ -32495,7 +32808,7 @@ class ActiveRecord::Relation
   #   Post.distinct.delete_all
   #   # => ActiveRecord::ActiveRecordError: delete_all doesn't support distinct
   #
-  # source://activerecord//lib/active_record/relation.rb#1004
+  # source://activerecord//lib/active_record/relation.rb#1011
   def delete_all; end
 
   # Finds and deletes all records matching the specified conditions.
@@ -32508,7 +32821,7 @@ class ActiveRecord::Relation
   #   Person.delete_by(name: 'Spartacus', rating: 4)
   #   Person.delete_by("published_at < ?", 2.weeks.ago)
   #
-  # source://activerecord//lib/active_record/relation.rb#1112
+  # source://activerecord//lib/active_record/relation.rb#1119
   def delete_by(*args); end
 
   # Destroy an object (or multiple objects) that has the given id. The object is instantiated first,
@@ -32531,7 +32844,7 @@ class ActiveRecord::Relation
   #   todos = [1,2,3]
   #   Todo.destroy(todos)
   #
-  # source://activerecord//lib/active_record/relation.rb#1076
+  # source://activerecord//lib/active_record/relation.rb#1083
   def destroy(id); end
 
   # Destroys the records by instantiating each
@@ -32551,7 +32864,7 @@ class ActiveRecord::Relation
   #
   #   Person.where(age: 0..18).destroy_all
   #
-  # source://activerecord//lib/active_record/relation.rb#982
+  # source://activerecord//lib/active_record/relation.rb#989
   def destroy_all; end
 
   # Finds and destroys all records matching the specified conditions.
@@ -32564,31 +32877,31 @@ class ActiveRecord::Relation
   #   Person.destroy_by(name: 'Spartacus', rating: 4)
   #   Person.destroy_by("published_at < ?", 2.weeks.ago)
   #
-  # source://activerecord//lib/active_record/relation.rb#1099
+  # source://activerecord//lib/active_record/relation.rb#1106
   def destroy_by(*args); end
 
   # Returns true if relation needs eager loading.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation.rb#1224
+  # source://activerecord//lib/active_record/relation.rb#1238
   def eager_loading?; end
 
   # Returns true if there are no records.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation.rb#355
+  # source://activerecord//lib/active_record/relation.rb#362
   def empty?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation.rb#1281
+  # source://activerecord//lib/active_record/relation.rb#1299
   def empty_scope?; end
 
   # Serializes the relation objects Array.
   #
-  # source://activerecord//lib/active_record/relation.rb#341
+  # source://activerecord//lib/active_record/relation.rb#348
   def encode_with(coder); end
 
   # Runs EXPLAIN on the query or queries triggered by this relation and
@@ -32618,7 +32931,7 @@ class ActiveRecord::Relation
   # Please see further details in the
   # {Active Record Query Interface guide}[https://guides.rubyonrails.org/active_record_querying.html#running-explain].
   #
-  # source://activerecord//lib/active_record/relation.rb#325
+  # source://activerecord//lib/active_record/relation.rb#332
   def explain(*options); end
 
   # Finds the first record with the given attributes, or creates a record
@@ -32663,34 +32976,34 @@ class ActiveRecord::Relation
   # doesn't have a relevant unique constraint it could be the case that
   # you end up with two or more similar records.
   #
-  # source://activerecord//lib/active_record/relation.rb#224
+  # source://activerecord//lib/active_record/relation.rb#231
   def find_or_create_by(attributes, &block); end
 
   # Like #find_or_create_by, but calls
   # {create!}[rdoc-ref:Persistence::ClassMethods#create!] so an exception
   # is raised if the created record is invalid.
   #
-  # source://activerecord//lib/active_record/relation.rb#231
+  # source://activerecord//lib/active_record/relation.rb#238
   def find_or_create_by!(attributes, &block); end
 
   # Like #find_or_create_by, but calls {new}[rdoc-ref:Core#new]
   # instead of {create}[rdoc-ref:Persistence::ClassMethods#create].
   #
-  # source://activerecord//lib/active_record/relation.rb#295
+  # source://activerecord//lib/active_record/relation.rb#302
   def find_or_initialize_by(attributes, &block); end
 
-  # source://activerecord//lib/active_record/relation.rb#171
+  # source://activerecord//lib/active_record/relation.rb#178
   def first_or_create(attributes = T.unsafe(nil), &block); end
 
-  # source://activerecord//lib/active_record/relation.rb#175
+  # source://activerecord//lib/active_record/relation.rb#182
   def first_or_create!(attributes = T.unsafe(nil), &block); end
 
-  # source://activerecord//lib/active_record/relation.rb#179
+  # source://activerecord//lib/active_record/relation.rb#186
   def first_or_initialize(attributes = T.unsafe(nil), &block); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation.rb#1285
+  # source://activerecord//lib/active_record/relation.rb#1303
   def has_limit_or_offset?; end
 
   # Inserts a single record into the database in a single SQL INSERT
@@ -32700,7 +33013,7 @@ class ActiveRecord::Relation
   #
   # See #insert_all for documentation.
   #
-  # source://activerecord//lib/active_record/relation.rb#637
+  # source://activerecord//lib/active_record/relation.rb#644
   def insert(attributes, returning: T.unsafe(nil), unique_by: T.unsafe(nil), record_timestamps: T.unsafe(nil)); end
 
   # Inserts a single record into the database in a single SQL INSERT
@@ -32710,7 +33023,7 @@ class ActiveRecord::Relation
   #
   # See #insert_all! for more.
   #
-  # source://activerecord//lib/active_record/relation.rb#726
+  # source://activerecord//lib/active_record/relation.rb#733
   def insert!(attributes, returning: T.unsafe(nil), record_timestamps: T.unsafe(nil)); end
 
   # Inserts multiple records into the database in a single SQL INSERT
@@ -32789,7 +33102,7 @@ class ActiveRecord::Relation
   #     { id: 2, title: "Eloquent Ruby" }
   #   ])
   #
-  # source://activerecord//lib/active_record/relation.rb#716
+  # source://activerecord//lib/active_record/relation.rb#723
   def insert_all(attributes, returning: T.unsafe(nil), unique_by: T.unsafe(nil), record_timestamps: T.unsafe(nil)); end
 
   # Inserts multiple records into the database in a single SQL INSERT
@@ -32846,10 +33159,10 @@ class ActiveRecord::Relation
   #     { id: 1, title: "Eloquent Ruby", author: "Russ" }
   #   ])
   #
-  # source://activerecord//lib/active_record/relation.rb#783
+  # source://activerecord//lib/active_record/relation.rb#790
   def insert_all!(attributes, returning: T.unsafe(nil), record_timestamps: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation.rb#1272
+  # source://activerecord//lib/active_record/relation.rb#1290
   def inspect; end
 
   # Joins that are also marked for preloading. In which case we should just eager load them.
@@ -32857,10 +33170,10 @@ class ActiveRecord::Relation
   # represent the same association, but that aren't matched by this. Also, we could have
   # nested hashes which partially match, e.g. <tt>{ a: :b } & { a: [:b, :c] }</tt>
   #
-  # source://activerecord//lib/active_record/relation.rb#1234
+  # source://activerecord//lib/active_record/relation.rb#1248
   def joined_includes_values; end
 
-  # Returns the value of attribute klass.
+  # Returns the value of attribute model.
   #
   # source://activerecord//lib/active_record/relation.rb#71
   def klass; end
@@ -32872,7 +33185,7 @@ class ActiveRecord::Relation
   #
   #   Post.where(published: true).load # => #<ActiveRecord::Relation>
   #
-  # source://activerecord//lib/active_record/relation.rb#1165
+  # source://activerecord//lib/active_record/relation.rb#1179
   def load(&block); end
 
   # Schedule the query to be performed from a background thread pool.
@@ -32886,15 +33199,12 @@ class ActiveRecord::Relation
   # for queries to actually be executed concurrently. Otherwise it defaults to
   # executing them in the foreground.
   #
-  # +load_async+ will also fall back to executing in the foreground in the test environment when transactional
-  # fixtures are enabled.
-  #
   # If the query was actually executed in the background, the Active Record logs will show
   # it by prefixing the log line with <tt>ASYNC</tt>:
   #
   #   ASYNC Post Load (0.0ms) (db time 2ms)  SELECT "posts".* FROM "posts" LIMIT 100
   #
-  # source://activerecord//lib/active_record/relation.rb#1134
+  # source://activerecord//lib/active_record/relation.rb#1138
   def load_async; end
 
   # Returns the value of attribute loaded.
@@ -32907,17 +33217,17 @@ class ActiveRecord::Relation
   # source://activerecord//lib/active_record/relation.rb#71
   def loaded?; end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#171
+  # source://activerecord//lib/active_record/relation/query_methods.rb#174
   def locked?; end
 
   # Returns true if there is more than one record.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation.rb#406
+  # source://activerecord//lib/active_record/relation.rb#413
   def many?; end
 
-  # Returns the value of attribute klass.
+  # Returns the value of attribute model.
   #
   # source://activerecord//lib/active_record/relation.rb#71
   def model; end
@@ -32935,7 +33245,7 @@ class ActiveRecord::Relation
   #   user = users.new { |user| user.name = 'Oscar' }
   #   user.name # => Oscar
   #
-  # source://activerecord//lib/active_record/relation.rb#118
+  # source://activerecord//lib/active_record/relation.rb#125
   def new(attributes = T.unsafe(nil), &block); end
 
   # Returns true if there are no records.
@@ -32947,7 +33257,7 @@ class ActiveRecord::Relation
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation.rb#371
+  # source://activerecord//lib/active_record/relation.rb#378
   def none?(*args); end
 
   # Returns true if there is exactly one record.
@@ -32959,7 +33269,7 @@ class ActiveRecord::Relation
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation.rb#397
+  # source://activerecord//lib/active_record/relation.rb#404
   def one?(*args); end
 
   # Returns the value of attribute predicate_builder.
@@ -32967,21 +33277,26 @@ class ActiveRecord::Relation
   # source://activerecord//lib/active_record/relation.rb#71
   def predicate_builder; end
 
-  # source://activerecord//lib/active_record/relation.rb#1303
+  # source://activerecord//lib/active_record/relation.rb#1321
   def preload_associations(records); end
 
-  # source://activerecord//lib/active_record/relation.rb#1250
+  # source://activerecord//lib/active_record/relation.rb#1264
   def pretty_print(pp); end
 
-  # source://activerecord//lib/active_record/relation.rb#335
+  # @return [Boolean]
+  #
+  # source://activerecord//lib/active_record/relation.rb#1278
+  def readonly?; end
+
+  # source://activerecord//lib/active_record/relation.rb#342
   def records; end
 
   # Forces reloading of relation.
   #
-  # source://activerecord//lib/active_record/relation.rb#1175
+  # source://activerecord//lib/active_record/relation.rb#1189
   def reload; end
 
-  # source://activerecord//lib/active_record/relation.rb#1180
+  # source://activerecord//lib/active_record/relation.rb#1194
   def reset; end
 
   # Returns <tt>true</tt> if the relation was scheduled on the background
@@ -32989,10 +33304,10 @@ class ActiveRecord::Relation
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation.rb#1155
+  # source://activerecord//lib/active_record/relation.rb#1169
   def scheduled?; end
 
-  # source://activerecord//lib/active_record/relation.rb#1217
+  # source://activerecord//lib/active_record/relation.rb#1231
   def scope_for_create; end
 
   # Scope all queries to the current scope.
@@ -33010,12 +33325,12 @@ class ActiveRecord::Relation
   # Please check unscoped if you want to remove all previous scopes (including
   # the default_scope) during the execution of a block.
   #
-  # source://activerecord//lib/active_record/relation.rb#534
+  # source://activerecord//lib/active_record/relation.rb#541
   def scoping(all_queries: T.unsafe(nil), &block); end
 
   # Returns size of the records.
   #
-  # source://activerecord//lib/active_record/relation.rb#346
+  # source://activerecord//lib/active_record/relation.rb#353
   def size; end
 
   # Returns the value of attribute skip_preloading_value.
@@ -33035,14 +33350,17 @@ class ActiveRecord::Relation
   # source://activerecord//lib/active_record/relation.rb#71
   def table; end
 
+  # source://activerecord//lib/active_record/relation.rb#1157
+  def then(&block); end
+
   # Converts relation objects to Array.
   #
-  # source://activerecord//lib/active_record/relation.rb#330
+  # source://activerecord//lib/active_record/relation.rb#337
   def to_a; end
 
   # Converts relation objects to Array.
   #
-  # source://activerecord//lib/active_record/relation.rb#330
+  # source://activerecord//lib/active_record/relation.rb#337
   def to_ary; end
 
   # Returns sql statement for the relation.
@@ -33050,7 +33368,7 @@ class ActiveRecord::Relation
   #   User.where(name: 'Oscar').to_sql
   #   # SELECT "users".* FROM "users"  WHERE "users"."name" = 'Oscar'
   #
-  # source://activerecord//lib/active_record/relation.rb#1196
+  # source://activerecord//lib/active_record/relation.rb#1210
   def to_sql; end
 
   # Touches all records in the current relation, setting the +updated_at+/+updated_on+ attributes to the current time or the time specified.
@@ -33077,13 +33395,13 @@ class ActiveRecord::Relation
   #   Person.where(name: 'David').touch_all
   #   # => "UPDATE \"people\" SET \"updated_at\" = '2018-01-04 22:55:23.132670' WHERE \"people\".\"name\" = 'David'"
   #
-  # source://activerecord//lib/active_record/relation.rb#962
+  # source://activerecord//lib/active_record/relation.rb#969
   def touch_all(*names, time: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation.rb#614
+  # source://activerecord//lib/active_record/relation.rb#621
   def update(id = T.unsafe(nil), attributes); end
 
-  # source://activerecord//lib/active_record/relation.rb#622
+  # source://activerecord//lib/active_record/relation.rb#629
   def update!(id = T.unsafe(nil), attributes); end
 
   # Updates all records in the current relation with details given. This method constructs a single SQL UPDATE
@@ -33117,7 +33435,7 @@ class ActiveRecord::Relation
   #
   # @raise [ArgumentError]
   #
-  # source://activerecord//lib/active_record/relation.rb#581
+  # source://activerecord//lib/active_record/relation.rb#588
   def update_all(updates); end
 
   # Updates the counters of the records in the current relation.
@@ -33133,7 +33451,7 @@ class ActiveRecord::Relation
   #   # For Posts by a given author increment the comment_count by 1.
   #   Post.where(author_id: author.id).update_counters(comment_count: 1)
   #
-  # source://activerecord//lib/active_record/relation.rb#919
+  # source://activerecord//lib/active_record/relation.rb#926
   def update_counters(counters); end
 
   # Updates or inserts (upserts) a single record into the database in a
@@ -33143,7 +33461,7 @@ class ActiveRecord::Relation
   #
   # See #upsert_all for documentation.
   #
-  # source://activerecord//lib/active_record/relation.rb#793
+  # source://activerecord//lib/active_record/relation.rb#800
   def upsert(attributes, **kwargs); end
 
   # Updates or inserts (upserts) multiple records into the database in a
@@ -33253,13 +33571,13 @@ class ActiveRecord::Relation
   #
   #   Book.find_by(isbn: "1").title # => "Eloquent Ruby"
   #
-  # source://activerecord//lib/active_record/relation.rb#903
+  # source://activerecord//lib/active_record/relation.rb#910
   def upsert_all(attributes, on_duplicate: T.unsafe(nil), update_only: T.unsafe(nil), returning: T.unsafe(nil), unique_by: T.unsafe(nil), record_timestamps: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation.rb#1264
+  # source://activerecord//lib/active_record/relation.rb#1282
   def values; end
 
-  # source://activerecord//lib/active_record/relation.rb#1268
+  # source://activerecord//lib/active_record/relation.rb#1286
   def values_for_queries; end
 
   # Returns a hash of where conditions.
@@ -33267,77 +33585,77 @@ class ActiveRecord::Relation
   #   User.where(name: 'Oscar').where_values_hash
   #   # => {name: "Oscar"}
   #
-  # source://activerecord//lib/active_record/relation.rb#1213
+  # source://activerecord//lib/active_record/relation.rb#1227
   def where_values_hash(relation_table_name = T.unsafe(nil)); end
 
   protected
 
-  # source://activerecord//lib/active_record/relation.rb#1313
+  # source://activerecord//lib/active_record/relation.rb#1331
   def load_records(records); end
 
   private
 
-  # source://activerecord//lib/active_record/relation.rb#1339
+  # source://activerecord//lib/active_record/relation.rb#1357
   def _create(attributes, &block); end
 
-  # source://activerecord//lib/active_record/relation.rb#1343
+  # source://activerecord//lib/active_record/relation.rb#1361
   def _create!(attributes, &block); end
 
-  # source://activerecord//lib/active_record/relation.rb#1378
+  # source://activerecord//lib/active_record/relation.rb#1396
   def _increment_attribute(attribute, value = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation.rb#1335
+  # source://activerecord//lib/active_record/relation.rb#1353
   def _new(attributes, &block); end
 
-  # source://activerecord//lib/active_record/relation.rb#1347
+  # source://activerecord//lib/active_record/relation.rb#1365
   def _scoping(scope, registry, all_queries = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation.rb#1363
+  # source://activerecord//lib/active_record/relation.rb#1381
   def _substitute_values(values); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation.rb#1319
+  # source://activerecord//lib/active_record/relation.rb#1337
   def already_in_scope?(registry); end
 
-  # source://activerecord//lib/active_record/relation.rb#436
+  # source://activerecord//lib/active_record/relation.rb#443
   def compute_cache_key(timestamp_column = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation.rb#465
+  # source://activerecord//lib/active_record/relation.rb#472
   def compute_cache_version(timestamp_column); end
 
-  # source://activerecord//lib/active_record/relation.rb#1327
+  # source://activerecord//lib/active_record/relation.rb#1345
   def current_scope_restoring_block(&block); end
 
-  # source://activerecord//lib/active_record/relation.rb#1405
+  # source://activerecord//lib/active_record/relation.rb#1423
   def exec_main_query(async: T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation.rb#1385
+  # source://activerecord//lib/active_record/relation.rb#1403
   def exec_queries(&block); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation.rb#1323
+  # source://activerecord//lib/active_record/relation.rb#1341
   def global_scope?(registry); end
 
-  # source://activerecord//lib/active_record/relation.rb#90
+  # source://activerecord//lib/active_record/relation.rb#97
   def initialize_copy(other); end
 
-  # source://activerecord//lib/active_record/relation.rb#1437
+  # source://activerecord//lib/active_record/relation.rb#1455
   def instantiate_records(rows, &block); end
 
-  # source://activerecord//lib/active_record/relation.rb#1480
+  # source://activerecord//lib/active_record/relation.rb#1498
   def limited_count; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation.rb#1456
+  # source://activerecord//lib/active_record/relation.rb#1474
   def references_eager_loaded_tables?; end
 
-  # source://activerecord//lib/active_record/relation.rb#1448
+  # source://activerecord//lib/active_record/relation.rb#1466
   def skip_query_cache_if_necessary(&block); end
 
-  # source://activerecord//lib/active_record/relation.rb#1473
+  # source://activerecord//lib/active_record/relation.rb#1491
   def tables_in_string(string); end
 end
 
@@ -33561,15 +33879,15 @@ end
 # source://activerecord//lib/active_record/relation.rb#59
 ActiveRecord::Relation::SINGLE_VALUE_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://activerecord//lib/active_record/relation.rb#1293
+# source://activerecord//lib/active_record/relation.rb#1311
 class ActiveRecord::Relation::StrictLoadingScope
   class << self
     # @return [Boolean]
     #
-    # source://activerecord//lib/active_record/relation.rb#1294
+    # source://activerecord//lib/active_record/relation.rb#1312
     def empty_scope?; end
 
-    # source://activerecord//lib/active_record/relation.rb#1298
+    # source://activerecord//lib/active_record/relation.rb#1316
     def strict_loading_value; end
   end
 end
@@ -33725,109 +34043,154 @@ class ActiveRecord::Result
 
   # @return [Result] a new instance of Result
   #
-  # source://activerecord//lib/active_record/result.rb#49
+  # source://activerecord//lib/active_record/result.rb#102
   def initialize(columns, rows, column_types = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/result.rb#93
+  # source://activerecord//lib/active_record/result.rb#148
   def [](idx); end
 
-  # source://activerecord//lib/active_record/result.rb#106
+  # source://activerecord//lib/active_record/result.rb#161
   def cancel; end
 
-  # source://activerecord//lib/active_record/result.rb#110
+  # source://activerecord//lib/active_record/result.rb#165
   def cast_values(type_overrides = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/result.rb#148
+  # source://activerecord//lib/active_record/result.rb#203
   def column_indexes; end
 
   # Returns the value of attribute column_types.
   #
-  # source://activerecord//lib/active_record/result.rb#39
+  # source://activerecord//lib/active_record/result.rb#92
   def column_types; end
 
   # Returns the value of attribute columns.
   #
-  # source://activerecord//lib/active_record/result.rb#39
+  # source://activerecord//lib/active_record/result.rb#92
   def columns; end
 
   # Calls the given block once for each element in row collection, passing
-  # row as parameter.
+  # row as parameter. Each row is a Hash-like, read only object.
+  #
+  # To get real hashes, use +.to_a.each+.
   #
   # Returns an +Enumerator+ if no block is given.
   #
-  # source://activerecord//lib/active_record/result.rb#73
+  # source://activerecord//lib/active_record/result.rb#128
   def each(&block); end
 
   # Returns true if there are no records, otherwise false.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/result.rb#82
+  # source://activerecord//lib/active_record/result.rb#137
   def empty?; end
 
-  # source://activerecord//lib/active_record/result.rb#143
+  # source://activerecord//lib/active_record/result.rb#197
   def freeze; end
 
   # Returns true if this result set includes the column named +name+
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/result.rb#60
+  # source://activerecord//lib/active_record/result.rb#113
   def includes_column?(name); end
+
+  # source://activerecord//lib/active_record/result.rb#216
+  def indexed_rows; end
 
   # Returns the last record from the rows collection.
   #
-  # source://activerecord//lib/active_record/result.rb#98
+  # source://activerecord//lib/active_record/result.rb#153
   def last(n = T.unsafe(nil)); end
 
   # Returns the number of elements in the rows array.
   #
-  # source://activerecord//lib/active_record/result.rb#65
+  # source://activerecord//lib/active_record/result.rb#118
   def length; end
 
-  # source://activerecord//lib/active_record/result.rb#102
+  # source://activerecord//lib/active_record/result.rb#157
   def result; end
 
   # Returns the value of attribute rows.
   #
-  # source://activerecord//lib/active_record/result.rb#39
+  # source://activerecord//lib/active_record/result.rb#92
   def rows; end
 
   # Returns an array of hashes representing each row record.
   #
-  # source://activerecord//lib/active_record/result.rb#87
+  # source://activerecord//lib/active_record/result.rb#142
   def to_a; end
 
   # Returns an array of hashes representing each row record.
   #
-  # source://activerecord//lib/active_record/result.rb#87
+  # source://activerecord//lib/active_record/result.rb#142
   def to_ary; end
 
   private
 
-  # source://activerecord//lib/active_record/result.rb#162
+  # source://activerecord//lib/active_record/result.rb#224
   def column_type(name, index, type_overrides); end
 
-  # source://activerecord//lib/active_record/result.rb#170
+  # source://activerecord//lib/active_record/result.rb#232
   def hash_rows; end
 
-  # source://activerecord//lib/active_record/result.rb#136
+  # source://activerecord//lib/active_record/result.rb#191
   def initialize_copy(other); end
 
   class << self
-    # source://activerecord//lib/active_record/result.rb#41
+    # source://activerecord//lib/active_record/result.rb#94
     def empty(async: T.unsafe(nil)); end
   end
 end
 
-# source://activerecord//lib/active_record/result.rb#182
+# source://activerecord//lib/active_record/result.rb#244
 ActiveRecord::Result::EMPTY = T.let(T.unsafe(nil), ActiveRecord::Result)
 
-# source://activerecord//lib/active_record/result.rb#185
+# source://activerecord//lib/active_record/result.rb#247
 ActiveRecord::Result::EMPTY_ASYNC = T.let(T.unsafe(nil), ActiveRecord::FutureResult::Complete)
 
-# source://activerecord//lib/active_record/result.rb#179
+# source://activerecord//lib/active_record/result.rb#241
 ActiveRecord::Result::EMPTY_HASH = T.let(T.unsafe(nil), Hash)
+
+# source://activerecord//lib/active_record/result.rb#39
+class ActiveRecord::Result::IndexedRow
+  # @return [IndexedRow] a new instance of IndexedRow
+  #
+  # source://activerecord//lib/active_record/result.rb#40
+  def initialize(column_indexes, row); end
+
+  # source://activerecord//lib/active_record/result.rb#58
+  def ==(other); end
+
+  # source://activerecord//lib/active_record/result.rb#80
+  def [](column); end
+
+  # source://activerecord//lib/active_record/result.rb#50
+  def each_key(&block); end
+
+  # source://activerecord//lib/active_record/result.rb#70
+  def fetch(column); end
+
+  # @return [Boolean]
+  #
+  # source://activerecord//lib/active_record/result.rb#66
+  def key?(column); end
+
+  # source://activerecord//lib/active_record/result.rb#54
+  def keys; end
+
+  # source://activerecord//lib/active_record/result.rb#45
+  def length; end
+
+  # source://activerecord//lib/active_record/result.rb#45
+  def size; end
+
+  # source://activerecord//lib/active_record/result.rb#86
+  def to_h; end
+
+  # source://activerecord//lib/active_record/result.rb#86
+  def to_hash; end
+end
 
 # {ActiveRecord::Base.transaction}[rdoc-ref:Transactions::ClassMethods#transaction]
 # uses this exception to distinguish a deliberate rollback from other exceptional situations.
@@ -33858,7 +34221,7 @@ ActiveRecord::Result::EMPTY_HASH = T.let(T.unsafe(nil), Hash)
 #     end
 #   end
 #
-# source://activerecord//lib/active_record/errors.rb#422
+# source://activerecord//lib/active_record/errors.rb#435
 class ActiveRecord::Rollback < ::ActiveRecord::ActiveRecordError; end
 
 # This is a thread locals registry for Active Record. For example:
@@ -33910,33 +34273,33 @@ end
 
 # Raised when a statement produces an SQL warning.
 #
-# source://activerecord//lib/active_record/errors.rb#292
+# source://activerecord//lib/active_record/errors.rb#305
 class ActiveRecord::SQLWarning < ::ActiveRecord::AdapterError
   # @return [SQLWarning] a new instance of SQLWarning
   #
-  # source://activerecord//lib/active_record/errors.rb#296
+  # source://activerecord//lib/active_record/errors.rb#309
   def initialize(message = T.unsafe(nil), code = T.unsafe(nil), level = T.unsafe(nil), sql = T.unsafe(nil), connection_pool = T.unsafe(nil)); end
 
   # Returns the value of attribute code.
   #
-  # source://activerecord//lib/active_record/errors.rb#293
+  # source://activerecord//lib/active_record/errors.rb#306
   def code; end
 
   # Returns the value of attribute level.
   #
-  # source://activerecord//lib/active_record/errors.rb#293
+  # source://activerecord//lib/active_record/errors.rb#306
   def level; end
 
   # Returns the value of attribute sql.
   #
-  # source://activerecord//lib/active_record/errors.rb#294
+  # source://activerecord//lib/active_record/errors.rb#307
   def sql; end
 
   # Sets the attribute sql
   #
   # @param value the value to set the attribute sql to.
   #
-  # source://activerecord//lib/active_record/errors.rb#294
+  # source://activerecord//lib/active_record/errors.rb#307
   def sql=(_arg0); end
 end
 
@@ -33949,7 +34312,7 @@ end
 
 # source://activerecord//lib/active_record/sanitization.rb#7
 module ActiveRecord::Sanitization::ClassMethods
-  # source://activerecord//lib/active_record/sanitization.rb#182
+  # source://activerecord//lib/active_record/sanitization.rb#183
   def disallow_raw_sql!(args, permit: T.unsafe(nil)); end
 
   # Accepts an array of SQL conditions and sanitizes them into a valid
@@ -34006,7 +34369,7 @@ module ActiveRecord::Sanitization::ClassMethods
   #   sanitize_sql_array(["role = ?", 0])
   #   # => "role = '0'"
   #
-  # source://activerecord//lib/active_record/sanitization.rb#163
+  # source://activerecord//lib/active_record/sanitization.rb#164
   def sanitize_sql_array(ary); end
 
   # Accepts an array or hash of SQL conditions and sanitizes them into
@@ -34103,24 +34466,24 @@ module ActiveRecord::Sanitization::ClassMethods
   #   sanitize_sql_like("snake_cased_string", "!")
   #   # => "snake!_cased!_string"
   #
-  # source://activerecord//lib/active_record/sanitization.rb#131
+  # source://activerecord//lib/active_record/sanitization.rb#132
   def sanitize_sql_like(string, escape_character = T.unsafe(nil)); end
 
   private
 
-  # source://activerecord//lib/active_record/sanitization.rb#232
+  # source://activerecord//lib/active_record/sanitization.rb#233
   def quote_bound_value(connection, value); end
 
-  # source://activerecord//lib/active_record/sanitization.rb#246
+  # source://activerecord//lib/active_record/sanitization.rb#247
   def raise_if_bind_arity_mismatch(statement, expected, provided); end
 
-  # source://activerecord//lib/active_record/sanitization.rb#210
+  # source://activerecord//lib/active_record/sanitization.rb#211
   def replace_bind_variable(connection, value); end
 
-  # source://activerecord//lib/active_record/sanitization.rb#202
+  # source://activerecord//lib/active_record/sanitization.rb#203
   def replace_bind_variables(connection, statement, values); end
 
-  # source://activerecord//lib/active_record/sanitization.rb#218
+  # source://activerecord//lib/active_record/sanitization.rb#219
   def replace_named_bind_variables(connection, statement, bind_vars); end
 end
 
@@ -34202,7 +34565,7 @@ end
 class ActiveRecord::SchemaDumper
   # @return [SchemaDumper] a new instance of SchemaDumper
   #
-  # source://activerecord//lib/active_record/schema_dumper.rb#73
+  # source://activerecord//lib/active_record/schema_dumper.rb#74
   def initialize(connection, options = T.unsafe(nil)); end
 
   # :singleton-method:
@@ -34260,86 +34623,91 @@ class ActiveRecord::SchemaDumper
 
   private
 
-  # source://activerecord//lib/active_record/schema_dumper.rb#273
+  # source://activerecord//lib/active_record/schema_dumper.rb#278
   def check_constraints_in_create(table, stream); end
 
-  # source://activerecord//lib/active_record/schema_dumper.rb#91
+  # source://activerecord//lib/active_record/schema_dumper.rb#92
   def define_params; end
 
   # extensions are only supported by PostgreSQL
   #
-  # source://activerecord//lib/active_record/schema_dumper.rb#118
+  # source://activerecord//lib/active_record/schema_dumper.rb#119
   def extensions(stream); end
 
-  # source://activerecord//lib/active_record/schema_dumper.rb#293
+  # source://activerecord//lib/active_record/schema_dumper.rb#298
   def foreign_keys(table, stream); end
 
-  # source://activerecord//lib/active_record/schema_dumper.rb#325
+  # source://activerecord//lib/active_record/schema_dumper.rb#330
   def format_colspec(colspec); end
 
-  # source://activerecord//lib/active_record/schema_dumper.rb#335
+  # source://activerecord//lib/active_record/schema_dumper.rb#340
   def format_index_parts(options); end
 
-  # source://activerecord//lib/active_record/schema_dumper.rb#331
+  # source://activerecord//lib/active_record/schema_dumper.rb#336
   def format_options(options); end
 
   # turns 20170404131909 into "2017_04_04_131909"
   #
-  # source://activerecord//lib/active_record/schema_dumper.rb#85
+  # source://activerecord//lib/active_record/schema_dumper.rb#86
   def formatted_version; end
 
-  # source://activerecord//lib/active_record/schema_dumper.rb#95
+  # source://activerecord//lib/active_record/schema_dumper.rb#96
   def header(stream); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/schema_dumper.rb#353
+  # source://activerecord//lib/active_record/schema_dumper.rb#358
   def ignored?(table_name); end
 
-  # source://activerecord//lib/active_record/schema_dumper.rb#255
+  # source://activerecord//lib/active_record/schema_dumper.rb#260
   def index_parts(index); end
 
   # Keep it for indexing materialized views
   #
-  # source://activerecord//lib/active_record/schema_dumper.rb#222
+  # source://activerecord//lib/active_record/schema_dumper.rb#227
   def indexes(table, stream); end
 
-  # source://activerecord//lib/active_record/schema_dumper.rb#234
+  # source://activerecord//lib/active_record/schema_dumper.rb#239
   def indexes_in_create(table, stream); end
 
-  # source://activerecord//lib/active_record/schema_dumper.rb#343
+  # source://activerecord//lib/active_record/schema_dumper.rb#348
   def remove_prefix_and_suffix(table); end
 
   # schemas are only supported by PostgreSQL
   #
-  # source://activerecord//lib/active_record/schema_dumper.rb#126
+  # source://activerecord//lib/active_record/schema_dumper.rb#127
   def schemas(stream); end
 
-  # source://activerecord//lib/active_record/schema_dumper.rb#153
+  # source://activerecord//lib/active_record/schema_dumper.rb#158
   def table(table, stream); end
 
   # Returns the value of attribute table_name.
   #
-  # source://activerecord//lib/active_record/schema_dumper.rb#71
+  # source://activerecord//lib/active_record/schema_dumper.rb#72
   def table_name; end
 
   # Sets the attribute table_name
   #
   # @param value the value to set the attribute table_name to.
   #
-  # source://activerecord//lib/active_record/schema_dumper.rb#71
+  # source://activerecord//lib/active_record/schema_dumper.rb#72
   def table_name=(_arg0); end
 
-  # source://activerecord//lib/active_record/schema_dumper.rb#129
+  # source://activerecord//lib/active_record/schema_dumper.rb#134
   def tables(stream); end
 
-  # source://activerecord//lib/active_record/schema_dumper.rb#113
+  # source://activerecord//lib/active_record/schema_dumper.rb#114
   def trailer(stream); end
 
   # (enum) types are only supported by PostgreSQL
   #
-  # source://activerecord//lib/active_record/schema_dumper.rb#122
+  # source://activerecord//lib/active_record/schema_dumper.rb#123
   def types(stream); end
+
+  # virtual tables are only supported by SQLite
+  #
+  # source://activerecord//lib/active_record/schema_dumper.rb#131
+  def virtual_tables(stream); end
 
   class << self
     # source://activerecord//lib/active_record/schema_dumper.rb#29
@@ -34401,10 +34769,10 @@ class ActiveRecord::SchemaMigration
   # source://activerecord//lib/active_record/schema_migration.rb#12
   def arel_table; end
 
-  # source://activerecord//lib/active_record/schema_migration.rb#90
+  # source://activerecord//lib/active_record/schema_migration.rb#91
   def count; end
 
-  # source://activerecord//lib/active_record/schema_migration.rb#52
+  # source://activerecord//lib/active_record/schema_migration.rb#53
   def create_table; end
 
   # source://activerecord//lib/active_record/schema_migration.rb#19
@@ -34416,30 +34784,30 @@ class ActiveRecord::SchemaMigration
   # source://activerecord//lib/active_record/schema_migration.rb#27
   def delete_version(version); end
 
-  # source://activerecord//lib/active_record/schema_migration.rb#62
+  # source://activerecord//lib/active_record/schema_migration.rb#63
   def drop_table; end
 
-  # source://activerecord//lib/active_record/schema_migration.rb#86
+  # source://activerecord//lib/active_record/schema_migration.rb#87
   def integer_versions; end
 
-  # source://activerecord//lib/active_record/schema_migration.rb#68
+  # source://activerecord//lib/active_record/schema_migration.rb#69
   def normalize_migration_number(number); end
 
-  # source://activerecord//lib/active_record/schema_migration.rb#72
+  # source://activerecord//lib/active_record/schema_migration.rb#73
   def normalized_versions; end
 
-  # source://activerecord//lib/active_record/schema_migration.rb#44
+  # source://activerecord//lib/active_record/schema_migration.rb#45
   def primary_key; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/schema_migration.rb#99
+  # source://activerecord//lib/active_record/schema_migration.rb#100
   def table_exists?; end
 
-  # source://activerecord//lib/active_record/schema_migration.rb#48
+  # source://activerecord//lib/active_record/schema_migration.rb#49
   def table_name; end
 
-  # source://activerecord//lib/active_record/schema_migration.rb#76
+  # source://activerecord//lib/active_record/schema_migration.rb#77
   def versions; end
 end
 
@@ -35057,7 +35425,7 @@ end
 # This is a subclass of TransactionRollbackError, please make sure to check
 # its documentation to be aware of its caveats.
 #
-# source://activerecord//lib/active_record/errors.rb#536
+# source://activerecord//lib/active_record/errors.rb#544
 class ActiveRecord::SerializationFailure < ::ActiveRecord::TransactionRollbackError; end
 
 # Raised when unserialized object's type mismatches one specified for serializable field.
@@ -35194,16 +35562,16 @@ end
 
 # Raised when Active Record finds multiple records but only expected one.
 #
-# source://activerecord//lib/active_record/errors.rb#179
+# source://activerecord//lib/active_record/errors.rb#192
 class ActiveRecord::SoleRecordExceeded < ::ActiveRecord::ActiveRecordError
   # @return [SoleRecordExceeded] a new instance of SoleRecordExceeded
   #
-  # source://activerecord//lib/active_record/errors.rb#182
+  # source://activerecord//lib/active_record/errors.rb#195
   def initialize(record = T.unsafe(nil)); end
 
   # Returns the value of attribute record.
   #
-  # source://activerecord//lib/active_record/errors.rb#180
+  # source://activerecord//lib/active_record/errors.rb#193
   def record; end
 end
 
@@ -35268,21 +35636,21 @@ end
 # Read more about optimistic locking in ActiveRecord::Locking module
 # documentation.
 #
-# source://activerecord//lib/active_record/errors.rb#358
+# source://activerecord//lib/active_record/errors.rb#371
 class ActiveRecord::StaleObjectError < ::ActiveRecord::ActiveRecordError
   # @return [StaleObjectError] a new instance of StaleObjectError
   #
-  # source://activerecord//lib/active_record/errors.rb#361
+  # source://activerecord//lib/active_record/errors.rb#374
   def initialize(record = T.unsafe(nil), attempted_action = T.unsafe(nil)); end
 
   # Returns the value of attribute attempted_action.
   #
-  # source://activerecord//lib/active_record/errors.rb#359
+  # source://activerecord//lib/active_record/errors.rb#372
   def attempted_action; end
 
   # Returns the value of attribute record.
   #
-  # source://activerecord//lib/active_record/errors.rb#359
+  # source://activerecord//lib/active_record/errors.rb#372
   def record; end
 end
 
@@ -35318,27 +35686,10 @@ class ActiveRecord::StatementCache
   # @return [StatementCache] a new instance of StatementCache
   #
   # source://activerecord//lib/active_record/statement_cache.rb#139
-  def initialize(query_builder, bind_map, klass); end
+  def initialize(query_builder, bind_map, model); end
 
   # source://activerecord//lib/active_record/statement_cache.rb#145
-  def execute(params, connection, allow_retry: T.unsafe(nil), &block); end
-
-  private
-
-  # Returns the value of attribute bind_map.
-  #
-  # source://activerecord//lib/active_record/statement_cache.rb#162
-  def bind_map; end
-
-  # Returns the value of attribute klass.
-  #
-  # source://activerecord//lib/active_record/statement_cache.rb#162
-  def klass; end
-
-  # Returns the value of attribute query_builder.
-  #
-  # source://activerecord//lib/active_record/statement_cache.rb#162
-  def query_builder; end
+  def execute(params, connection, allow_retry: T.unsafe(nil), async: T.unsafe(nil), &block); end
 
   class << self
     # source://activerecord//lib/active_record/statement_cache.rb#132
@@ -35355,7 +35706,7 @@ class ActiveRecord::StatementCache
 
     # @return [Boolean]
     #
-    # source://activerecord//lib/active_record/statement_cache.rb#155
+    # source://activerecord//lib/active_record/statement_cache.rb#158
     def unsupported_value?(value); end
   end
 end
@@ -35450,30 +35801,30 @@ class ActiveRecord::StatementCache::Substitute; end
 #
 # Wraps the underlying database error as +cause+.
 #
-# source://activerecord//lib/active_record/errors.rb#191
+# source://activerecord//lib/active_record/errors.rb#204
 class ActiveRecord::StatementInvalid < ::ActiveRecord::AdapterError
   # @return [StatementInvalid] a new instance of StatementInvalid
   #
-  # source://activerecord//lib/active_record/errors.rb#192
+  # source://activerecord//lib/active_record/errors.rb#205
   def initialize(message = T.unsafe(nil), sql: T.unsafe(nil), binds: T.unsafe(nil), connection_pool: T.unsafe(nil)); end
 
   # Returns the value of attribute binds.
   #
-  # source://activerecord//lib/active_record/errors.rb#198
+  # source://activerecord//lib/active_record/errors.rb#211
   def binds; end
 
-  # source://activerecord//lib/active_record/errors.rb#200
+  # source://activerecord//lib/active_record/errors.rb#213
   def set_query(sql, binds); end
 
   # Returns the value of attribute sql.
   #
-  # source://activerecord//lib/active_record/errors.rb#198
+  # source://activerecord//lib/active_record/errors.rb#211
   def sql; end
 end
 
 # StatementTimeout will be raised when statement timeout exceeded.
 #
-# source://activerecord//lib/active_record/errors.rb#561
+# source://activerecord//lib/active_record/errors.rb#569
 class ActiveRecord::StatementTimeout < ::ActiveRecord::QueryAborted; end
 
 # = Active Record \Store
@@ -35498,8 +35849,8 @@ class ActiveRecord::StatementTimeout < ::ActiveRecord::QueryAborted; end
 # You can set custom coder to encode/decode your serialized attributes to/from different formats.
 # JSON, YAML, Marshal are supported out of the box. Generally it can be any wrapper that provides +load+ and +dump+.
 #
-# NOTE: If you are using structured database data types (e.g. PostgreSQL +hstore+/+json+, or MySQL 5.7+
-# +json+) there is no need for the serialization provided by {.store}[rdoc-ref:rdoc-ref:ClassMethods#store].
+# NOTE: If you are using structured database data types (e.g. PostgreSQL +hstore+/+json+, MySQL 5.7+
+# +json+, or SQLite 3.38+ +json+) there is no need for the serialization provided by {.store}[rdoc-ref:rdoc-ref:ClassMethods#store].
 # Simply use {.store_accessor}[rdoc-ref:ClassMethods#store_accessor] instead to generate
 # the accessor methods. Be aware that these columns use a string keyed hash and do not allow access
 # using a symbol.
@@ -35600,59 +35951,59 @@ module ActiveRecord::Store::ClassMethods
   def stored_attributes; end
 end
 
-# source://activerecord//lib/active_record/store.rb#223
+# source://activerecord//lib/active_record/store.rb#227
 class ActiveRecord::Store::HashAccessor
   class << self
-    # source://activerecord//lib/active_record/store.rb#234
+    # source://activerecord//lib/active_record/store.rb#238
     def prepare(object, attribute); end
 
-    # source://activerecord//lib/active_record/store.rb#224
+    # source://activerecord//lib/active_record/store.rb#228
     def read(object, attribute, key); end
 
-    # source://activerecord//lib/active_record/store.rb#229
+    # source://activerecord//lib/active_record/store.rb#233
     def write(object, attribute, key, value); end
   end
 end
 
-# source://activerecord//lib/active_record/store.rb#260
+# source://activerecord//lib/active_record/store.rb#264
 class ActiveRecord::Store::IndifferentCoder
   # @return [IndifferentCoder] a new instance of IndifferentCoder
   #
-  # source://activerecord//lib/active_record/store.rb#261
+  # source://activerecord//lib/active_record/store.rb#265
   def initialize(attr_name, coder_or_class_name); end
 
-  # source://activerecord//lib/active_record/store.rb#270
+  # source://activerecord//lib/active_record/store.rb#274
   def dump(obj); end
 
-  # source://activerecord//lib/active_record/store.rb#274
+  # source://activerecord//lib/active_record/store.rb#278
   def load(yaml); end
 
   private
 
-  # source://activerecord//lib/active_record/store.rb#290
+  # source://activerecord//lib/active_record/store.rb#294
   def as_regular_hash(obj); end
 
   class << self
-    # source://activerecord//lib/active_record/store.rb#278
+    # source://activerecord//lib/active_record/store.rb#282
     def as_indifferent_hash(obj); end
   end
 end
 
-# source://activerecord//lib/active_record/store.rb#249
+# source://activerecord//lib/active_record/store.rb#253
 class ActiveRecord::Store::IndifferentHashAccessor < ::ActiveRecord::Store::HashAccessor
   class << self
-    # source://activerecord//lib/active_record/store.rb#250
+    # source://activerecord//lib/active_record/store.rb#254
     def prepare(object, store_attribute); end
   end
 end
 
-# source://activerecord//lib/active_record/store.rb#239
+# source://activerecord//lib/active_record/store.rb#243
 class ActiveRecord::Store::StringKeyedHashAccessor < ::ActiveRecord::Store::HashAccessor
   class << self
-    # source://activerecord//lib/active_record/store.rb#240
+    # source://activerecord//lib/active_record/store.rb#244
     def read(object, attribute, key); end
 
-    # source://activerecord//lib/active_record/store.rb#244
+    # source://activerecord//lib/active_record/store.rb#248
     def write(object, attribute, key, value); end
   end
 end
@@ -35665,7 +36016,7 @@ end
 # guide covers solutions, such as using
 # {ActiveRecord::Base.includes}[rdoc-ref:QueryMethods#includes].
 #
-# source://activerecord//lib/active_record/errors.rb#391
+# source://activerecord//lib/active_record/errors.rb#404
 class ActiveRecord::StrictLoadingViolationError < ::ActiveRecord::ActiveRecordError; end
 
 # Raised when the single-table inheritance mechanism fails to locate the subclass
@@ -35741,7 +36092,7 @@ class ActiveRecord::TableMetadata
 
   # Returns the value of attribute arel_table.
   #
-  # source://activerecord//lib/active_record/table_metadata.rb#80
+  # source://activerecord//lib/active_record/table_metadata.rb#78
   def arel_table; end
 
   # source://activerecord//lib/active_record/table_metadata.rb#29
@@ -35798,12 +36149,12 @@ class ActiveRecord::TableMetadata
 
   # Returns the value of attribute klass.
   #
-  # source://activerecord//lib/active_record/table_metadata.rb#83
+  # source://activerecord//lib/active_record/table_metadata.rb#81
   def klass; end
 
   # Returns the value of attribute reflection.
   #
-  # source://activerecord//lib/active_record/table_metadata.rb#83
+  # source://activerecord//lib/active_record/table_metadata.rb#81
   def reflection; end
 end
 
@@ -35812,7 +36163,7 @@ end
 # source://activerecord//lib/active_record/errors.rb#46
 class ActiveRecord::TableNotSpecified < ::ActiveRecord::ActiveRecordError; end
 
-# source://activerecord//lib/active_record.rb#172
+# source://activerecord//lib/active_record.rb#173
 module ActiveRecord::Tasks
   extend ::ActiveSupport::Autoload
 end
@@ -35857,7 +36208,7 @@ module ActiveRecord::Tasks::DatabaseTasks
   extend ::ActiveRecord::Tasks::DatabaseTasks
 
   # source://activerecord//lib/active_record/tasks/database_tasks.rb#449
-  def cache_dump_filename(db_config_or_name, schema_cache_path: T.unsafe(nil)); end
+  def cache_dump_filename(db_config, schema_cache_path: T.unsafe(nil)); end
 
   # source://activerecord//lib/active_record/tasks/database_tasks.rb#313
   def charset(configuration, *arguments); end
@@ -35868,13 +36219,13 @@ module ActiveRecord::Tasks::DatabaseTasks
   # source://activerecord//lib/active_record/tasks/database_tasks.rb#65
   def check_protected_environments!(environment = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#479
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#463
   def check_schema_file(filename); end
 
   # source://activerecord//lib/active_record/tasks/database_tasks.rb#298
   def check_target_version; end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#505
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#489
   def clear_schema_cache(filename); end
 
   # source://activerecord//lib/active_record/tasks/database_tasks.rb#323
@@ -35917,13 +36268,13 @@ module ActiveRecord::Tasks::DatabaseTasks
   # source://activerecord//lib/active_record/tasks/database_tasks.rb#60
   def db_dir=(_arg0); end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#212
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#210
   def drop(configuration, *arguments); end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#224
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#222
   def drop_all; end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#228
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#226
   def drop_current(environment = T.unsafe(nil)); end
 
   # source://activerecord//lib/active_record/tasks/database_tasks.rb#412
@@ -35934,7 +36285,7 @@ module ActiveRecord::Tasks::DatabaseTasks
   # ==== Examples
   #   ActiveRecord::Tasks::DatabaseTasks.dump_schema_cache(ActiveRecord::Base.lease_connection, "tmp/schema_dump.yaml")
   #
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#501
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#485
   def dump_schema_cache(conn_or_pool, filename); end
 
   # source://activerecord//lib/active_record/tasks/database_tasks.rb#103
@@ -35963,25 +36314,25 @@ module ActiveRecord::Tasks::DatabaseTasks
   # source://activerecord//lib/active_record/tasks/database_tasks.rb#357
   def load_schema(db_config, format = T.unsafe(nil), file = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#471
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#455
   def load_schema_current(format = T.unsafe(nil), file = T.unsafe(nil), environment = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#487
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#471
   def load_seed; end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#245
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#243
   def migrate(version = T.unsafe(nil)); end
 
   # source://activerecord//lib/active_record/tasks/database_tasks.rb#283
   def migrate_status; end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#526
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#510
   def migration_class; end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#530
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#514
   def migration_connection; end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#534
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#518
   def migration_connection_pool; end
 
   # source://activerecord//lib/active_record/tasks/database_tasks.rb#87
@@ -36058,71 +36409,71 @@ module ActiveRecord::Tasks::DatabaseTasks
   # source://activerecord//lib/active_record/tasks/database_tasks.rb#304
   def target_version; end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#239
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#237
   def truncate_all(environment = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#520
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#504
   def with_temporary_connection(db_config, clobber: T.unsafe(nil), &block); end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#509
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#493
   def with_temporary_pool_for_each(env: T.unsafe(nil), name: T.unsafe(nil), clobber: T.unsafe(nil), &block); end
 
   private
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#643
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#616
   def check_current_protected_environment!(db_config); end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#582
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#555
   def class_for_adapter(adapter); end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#559
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#532
   def configs_for(**options); end
 
   # Create a new instance for the specified db configuration object
   # For classes that have been converted to use db_config objects, pass a
   # `DatabaseConfig`, otherwise pass a `Hash`
   #
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#574
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#547
   def database_adapter_for(db_config, *arguments); end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#590
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#563
   def each_current_configuration(environment, name = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#600
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#573
   def each_current_environment(environment, &block); end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#606
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#579
   def each_local_configuration; end
+
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#633
+  def initialize_database(db_config); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#618
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#591
   def local_database?(db_config); end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#563
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#536
   def resolve_configuration(configuration); end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#539
-  def schema_cache_env; end
-
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#623
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#596
   def schema_sha1(file); end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#627
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#600
   def structure_dump_flags_for(adapter); end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#635
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#608
   def structure_load_flags_for(adapter); end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#232
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#230
   def truncate_tables(db_config); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#567
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#540
   def verbose?; end
 
-  # source://activerecord//lib/active_record/tasks/database_tasks.rb#550
+  # source://activerecord//lib/active_record/tasks/database_tasks.rb#523
   def with_temporary_pool(db_config, clobber: T.unsafe(nil)); end
 
   class << self
@@ -36147,73 +36498,70 @@ ActiveRecord::Tasks::DatabaseTasks::LOCAL_HOSTS = T.let(T.unsafe(nil), Array)
 class ActiveRecord::Tasks::MySQLDatabaseTasks
   # @return [MySQLDatabaseTasks] a new instance of MySQLDatabaseTasks
   #
-  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#12
+  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#10
   def initialize(db_config); end
 
-  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#34
+  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#32
   def charset; end
 
-  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#38
+  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#36
   def collation; end
 
-  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#17
+  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#15
   def create; end
 
-  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#23
+  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#21
   def drop; end
 
-  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#28
+  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#26
   def purge; end
 
-  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#42
+  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#40
   def structure_dump(filename, extra_flags); end
 
-  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#61
+  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#59
   def structure_load(filename, extra_flags); end
 
   private
 
   # Returns the value of attribute configuration_hash.
   #
-  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#71
+  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#69
   def configuration_hash; end
 
-  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#81
+  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#79
   def configuration_hash_without_database; end
 
-  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#73
+  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#71
   def connection; end
 
-  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#85
+  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#83
   def creation_options; end
 
   # Returns the value of attribute db_config.
   #
-  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#71
+  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#69
   def db_config; end
 
-  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#77
+  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#75
   def establish_connection(config = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#92
+  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#90
   def prepare_command_options; end
 
-  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#111
+  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#109
   def run_cmd(cmd, args, action); end
 
-  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#115
+  # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#113
   def run_cmd_error(cmd, args, action); end
 
   class << self
     # @return [Boolean]
     #
-    # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#8
+    # source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#6
     def using_database_configurations?; end
   end
 end
-
-# source://activerecord//lib/active_record/tasks/mysql_database_tasks.rb#6
-ActiveRecord::Tasks::MySQLDatabaseTasks::ER_DB_CREATE_EXISTS = T.let(T.unsafe(nil), Integer)
 
 # source://activerecord//lib/active_record/tasks/postgresql_database_tasks.rb#7
 class ActiveRecord::Tasks::PostgreSQLDatabaseTasks
@@ -36387,38 +36735,41 @@ module ActiveRecord::TestFixtures
 
   private
 
-  # source://activerecord//lib/active_record/test_fixtures.rb#288
+  # source://activerecord//lib/active_record/test_fixtures.rb#300
   def access_fixture(fs_name, *fixture_names); end
 
-  # source://activerecord//lib/active_record/test_fixtures.rb#280
+  # source://activerecord//lib/active_record/test_fixtures.rb#292
   def active_record_fixture(fixture_set_name, *fixture_names); end
 
-  # source://activerecord//lib/active_record/test_fixtures.rb#248
+  # source://activerecord//lib/active_record/test_fixtures.rb#260
   def instantiate_fixtures; end
 
-  # source://activerecord//lib/active_record/test_fixtures.rb#157
+  # source://activerecord//lib/active_record/test_fixtures.rb#168
   def invalidate_already_loaded_fixtures; end
 
-  # source://activerecord//lib/active_record/test_fixtures.rb#244
+  # source://activerecord//lib/active_record/test_fixtures.rb#256
   def load_fixtures(config); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/test_fixtures.rb#260
+  # source://activerecord//lib/active_record/test_fixtures.rb#272
   def load_instances?; end
 
-  # source://activerecord//lib/active_record/test_fixtures.rb#264
+  # source://activerecord//lib/active_record/test_fixtures.rb#276
   def method_missing(method, *_arg1, **_arg2, &_arg3); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/test_fixtures.rb#272
+  # source://activerecord//lib/active_record/test_fixtures.rb#284
   def respond_to_missing?(method, include_private = T.unsafe(nil)); end
 
   # @return [Boolean]
   #
   # source://activerecord//lib/active_record/test_fixtures.rb#108
   def run_in_transaction?; end
+
+  # source://activerecord//lib/active_record/test_fixtures.rb#160
+  def setup_asynchronous_queries_session; end
 
   # source://activerecord//lib/active_record/test_fixtures.rb#113
   def setup_fixtures(config = T.unsafe(nil)); end
@@ -36430,19 +36781,22 @@ module ActiveRecord::TestFixtures
   # need to share a connection pool so that the reading connection
   # can see data in the open transaction on the writing connection.
   #
-  # source://activerecord//lib/active_record/test_fixtures.rb#208
+  # source://activerecord//lib/active_record/test_fixtures.rb#220
   def setup_shared_connection_pool; end
 
-  # source://activerecord//lib/active_record/test_fixtures.rb#161
+  # source://activerecord//lib/active_record/test_fixtures.rb#172
   def setup_transactional_fixtures; end
 
-  # source://activerecord//lib/active_record/test_fixtures.rb#145
+  # source://activerecord//lib/active_record/test_fixtures.rb#164
+  def teardown_asynchronous_queries_session; end
+
+  # source://activerecord//lib/active_record/test_fixtures.rb#146
   def teardown_fixtures; end
 
-  # source://activerecord//lib/active_record/test_fixtures.rb#227
+  # source://activerecord//lib/active_record/test_fixtures.rb#239
   def teardown_shared_connection_pool; end
 
-  # source://activerecord//lib/active_record/test_fixtures.rb#191
+  # source://activerecord//lib/active_record/test_fixtures.rb#202
   def teardown_transactional_fixtures; end
 
   module GeneratedClassMethods
@@ -37029,7 +37383,7 @@ ActiveRecord::Transaction::NULL_TRANSACTION = T.let(T.unsafe(nil), ActiveRecord:
 #
 # The mysql2, trilogy, and postgresql adapters support setting the transaction isolation level.
 #
-# source://activerecord//lib/active_record/errors.rb#500
+# source://activerecord//lib/active_record/errors.rb#508
 class ActiveRecord::TransactionIsolationError < ::ActiveRecord::ActiveRecordError; end
 
 # TransactionRollbackError will be raised when a transaction is rolled
@@ -37053,7 +37407,7 @@ class ActiveRecord::TransactionIsolationError < ::ActiveRecord::ActiveRecordErro
 # * https://www.postgresql.org/docs/current/static/transaction-iso.html
 # * https://dev.mysql.com/doc/mysql-errors/en/server-error-reference.html#error_er_lock_deadlock
 #
-# source://activerecord//lib/active_record/errors.rb#523
+# source://activerecord//lib/active_record/errors.rb#531
 class ActiveRecord::TransactionRollbackError < ::ActiveRecord::StatementInvalid; end
 
 # See ActiveRecord::Transactions::ClassMethods for documentation.
@@ -37955,7 +38309,7 @@ class ActiveRecord::TypeConflictError < ::StandardError; end
 
 # Raised when unknown attributes are supplied via mass assignment.
 #
-# source://activerecord//lib/active_record/errors.rb#431
+# source://activerecord//lib/active_record/errors.rb#444
 ActiveRecord::UnknownAttributeError = ActiveModel::UnknownAttributeError
 
 # UnknownAttributeReference is raised when an unknown and potentially unsafe
@@ -37979,29 +38333,29 @@ ActiveRecord::UnknownAttributeError = ActiveModel::UnknownAttributeError
 # Again, such a workaround should *not* be used when passing user-provided
 # values, such as request parameters or model attributes to query methods.
 #
-# source://activerecord//lib/active_record/errors.rb#597
+# source://activerecord//lib/active_record/errors.rb#605
 class ActiveRecord::UnknownAttributeReference < ::ActiveRecord::ActiveRecordError; end
 
-# source://activerecord//lib/active_record/migration.rb#114
+# source://activerecord//lib/active_record/migration.rb#111
 class ActiveRecord::UnknownMigrationVersionError < ::ActiveRecord::MigrationError
   # @return [UnknownMigrationVersionError] a new instance of UnknownMigrationVersionError
   #
-  # source://activerecord//lib/active_record/migration.rb#115
+  # source://activerecord//lib/active_record/migration.rb#112
   def initialize(version = T.unsafe(nil)); end
 end
 
 # Raised when a primary key is needed, but not specified in the schema or model.
 #
-# source://activerecord//lib/active_record/errors.rb#459
+# source://activerecord//lib/active_record/errors.rb#472
 class ActiveRecord::UnknownPrimaryKey < ::ActiveRecord::ActiveRecordError
   # @return [UnknownPrimaryKey] a new instance of UnknownPrimaryKey
   #
-  # source://activerecord//lib/active_record/errors.rb#462
+  # source://activerecord//lib/active_record/errors.rb#475
   def initialize(model = T.unsafe(nil), description = T.unsafe(nil)); end
 
   # Returns the value of attribute model.
   #
-  # source://activerecord//lib/active_record/errors.rb#460
+  # source://activerecord//lib/active_record/errors.rb#473
   def model; end
 end
 
@@ -38017,7 +38371,7 @@ end
 #   relation.where!(title: 'TODO')  # => ActiveRecord::UnmodifiableRelation
 #   relation.limit!(5)              # => ActiveRecord::UnmodifiableRelation
 #
-# source://activerecord//lib/active_record/errors.rb#485
+# source://activerecord//lib/active_record/errors.rb#498
 class ActiveRecord::UnmodifiableRelation < ::ActiveRecord::ActiveRecordError; end
 
 # source://activerecord//lib/active_record/gem_version.rb#9
@@ -38389,7 +38743,7 @@ module ActiveRecord::Validations::ClassMethods
   # * ActiveRecord::ConnectionAdapters::SQLite3Adapter.
   # * ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.
   #
-  # source://activerecord//lib/active_record/validations/uniqueness.rb#290
+  # source://activerecord//lib/active_record/validations/uniqueness.rb#291
   def validates_uniqueness_of(*attr_names); end
 end
 
@@ -38426,52 +38780,50 @@ class ActiveRecord::Validations::UniquenessValidator < ::ActiveModel::EachValida
   # source://activerecord//lib/active_record/validations/uniqueness.rb#6
   def initialize(options); end
 
-  # source://activerecord//lib/active_record/validations/uniqueness.rb#19
+  # source://activerecord//lib/active_record/validations/uniqueness.rb#20
   def validate_each(record, attribute, value); end
 
   private
 
-  # source://activerecord//lib/active_record/validations/uniqueness.rb#111
+  # source://activerecord//lib/active_record/validations/uniqueness.rb#112
   def build_relation(klass, attribute, value); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/validations/uniqueness.rb#82
+  # source://activerecord//lib/active_record/validations/uniqueness.rb#83
   def covered_by_unique_index?(klass, record, attribute, scope); end
 
   # The check for an existing value should be run from a class that
   # isn't abstract. This means working down from the current class
-  # (self), to the first non-abstract class. Since classes don't know
-  # their subclasses, we have to build the hierarchy between self and
-  # the record's class.
+  # (self), to the first non-abstract class.
   #
-  # source://activerecord//lib/active_record/validations/uniqueness.rb#59
+  # source://activerecord//lib/active_record/validations/uniqueness.rb#58
   def find_finder_class_for(record); end
 
-  # source://activerecord//lib/active_record/validations/uniqueness.rb#146
+  # source://activerecord//lib/active_record/validations/uniqueness.rb#147
   def map_enum_attribute(klass, attribute, value); end
 
-  # source://activerecord//lib/active_record/validations/uniqueness.rb#97
+  # source://activerecord//lib/active_record/validations/uniqueness.rb#98
   def resolve_attributes(record, attributes); end
 
-  # source://activerecord//lib/active_record/validations/uniqueness.rb#133
+  # source://activerecord//lib/active_record/validations/uniqueness.rb#134
   def scope_relation(record, relation); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/validations/uniqueness.rb#69
+  # source://activerecord//lib/active_record/validations/uniqueness.rb#70
   def validation_needed?(klass, record, attribute); end
 end
 
 # Raised when a record cannot be inserted or updated because a value too long for a column type.
 #
-# source://activerecord//lib/active_record/errors.rb#284
+# source://activerecord//lib/active_record/errors.rb#297
 class ActiveRecord::ValueTooLong < ::ActiveRecord::StatementInvalid; end
 
 # Defunct wrapper class kept for compatibility.
 # StatementInvalid wraps the original exception now.
 #
-# source://activerecord//lib/active_record/errors.rb#212
+# source://activerecord//lib/active_record/errors.rb#225
 class ActiveRecord::WrappedDatabaseException < ::ActiveRecord::StatementInvalid; end
 
 # source://activerecord//lib/arel/errors.rb#3
@@ -38577,7 +38929,7 @@ class Arel::Collectors::Bind
   def <<(str); end
 
   # source://activerecord//lib/arel/collectors/bind.rb#16
-  def add_bind(bind); end
+  def add_bind(bind, &_arg1); end
 
   # source://activerecord//lib/arel/collectors/bind.rb#21
   def add_binds(binds, proc_for_binds = T.unsafe(nil)); end
@@ -41429,38 +41781,38 @@ class Arel::Table
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/arel/table.rb#99
+  # source://activerecord//lib/arel/table.rb#95
   def ==(other); end
 
-  # source://activerecord//lib/arel/table.rb#86
+  # source://activerecord//lib/arel/table.rb#82
   def [](name, table = T.unsafe(nil)); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/arel/table.rb#114
+  # source://activerecord//lib/arel/table.rb#110
   def able_to_type_cast?; end
 
-  # source://activerecord//lib/arel/table.rb#34
+  # source://activerecord//lib/arel/table.rb#30
   def alias(name = T.unsafe(nil)); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/arel/table.rb#99
+  # source://activerecord//lib/arel/table.rb#95
   def eql?(other); end
 
-  # source://activerecord//lib/arel/table.rb#38
+  # source://activerecord//lib/arel/table.rb#34
   def from; end
 
-  # source://activerecord//lib/arel/table.rb#58
+  # source://activerecord//lib/arel/table.rb#54
   def group(*columns); end
 
-  # source://activerecord//lib/arel/table.rb#92
+  # source://activerecord//lib/arel/table.rb#88
   def hash; end
 
-  # source://activerecord//lib/arel/table.rb#82
+  # source://activerecord//lib/arel/table.rb#78
   def having(expr); end
 
-  # source://activerecord//lib/arel/table.rb#42
+  # source://activerecord//lib/arel/table.rb#38
   def join(relation, klass = T.unsafe(nil)); end
 
   # Returns the value of attribute name.
@@ -41475,16 +41827,16 @@ class Arel::Table
   # source://activerecord//lib/arel/table.rb#11
   def name=(_arg0); end
 
-  # source://activerecord//lib/arel/table.rb#62
+  # source://activerecord//lib/arel/table.rb#58
   def order(*expr); end
 
-  # source://activerecord//lib/arel/table.rb#54
+  # source://activerecord//lib/arel/table.rb#50
   def outer_join(relation); end
 
-  # source://activerecord//lib/arel/table.rb#70
+  # source://activerecord//lib/arel/table.rb#66
   def project(*things); end
 
-  # source://activerecord//lib/arel/table.rb#78
+  # source://activerecord//lib/arel/table.rb#74
   def skip(amount); end
 
   # Returns the value of attribute table_alias.
@@ -41492,23 +41844,23 @@ class Arel::Table
   # source://activerecord//lib/arel/table.rb#12
   def table_alias; end
 
-  # source://activerecord//lib/arel/table.rb#74
+  # source://activerecord//lib/arel/table.rb#70
   def take(amount); end
 
-  # source://activerecord//lib/arel/table.rb#106
+  # source://activerecord//lib/arel/table.rb#102
   def type_cast_for_database(attr_name, value); end
 
-  # source://activerecord//lib/arel/table.rb#110
+  # source://activerecord//lib/arel/table.rb#106
   def type_for_attribute(name); end
 
-  # source://activerecord//lib/arel/table.rb#66
+  # source://activerecord//lib/arel/table.rb#62
   def where(condition); end
 
   private
 
   # Returns the value of attribute type_caster.
   #
-  # source://activerecord//lib/arel/table.rb#119
+  # source://activerecord//lib/arel/table.rb#115
   def type_caster; end
 
   class << self
@@ -41959,6 +42311,12 @@ Arel::Visitors::PostgreSQL::BIND_BLOCK = T.let(T.unsafe(nil), Proc)
 # source://activerecord//lib/arel/visitors/sqlite.rb#5
 class Arel::Visitors::SQLite < ::Arel::Visitors::ToSql
   private
+
+  # Queries used in UNION should not be wrapped by parentheses,
+  # because it is an invalid syntax in SQLite.
+  #
+  # source://activerecord//lib/arel/visitors/sqlite.rb#39
+  def infix_value_with_paren(o, collector, value, suppress_parens = T.unsafe(nil)); end
 
   # source://activerecord//lib/arel/visitors/sqlite.rb#21
   def visit_Arel_Nodes_False(o, collector); end

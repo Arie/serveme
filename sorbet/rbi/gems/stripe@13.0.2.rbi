@@ -976,7 +976,7 @@ class Stripe::APIResource < ::Stripe::StripeObject
   # source://stripe//lib/stripe/api_resource.rb#95
   def refresh; end
 
-  # source://stripe//lib/stripe/api_resource.rb#116
+  # source://stripe//lib/stripe/api_resource.rb#115
   def request_stripe_object(method:, path:, params:, base_address: T.unsafe(nil), opts: T.unsafe(nil)); end
 
   # source://stripe//lib/stripe/api_resource.rb#84
@@ -1002,7 +1002,7 @@ class Stripe::APIResource < ::Stripe::StripeObject
 
   protected
 
-  # source://stripe//lib/stripe/api_resource.rb#121
+  # source://stripe//lib/stripe/api_resource.rb#120
   def request_stream(method:, path:, params:, base_address: T.unsafe(nil), opts: T.unsafe(nil), &read_body_chunk_block); end
 
   class << self

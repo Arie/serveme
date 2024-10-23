@@ -27,7 +27,7 @@ module ExecJS
 
     # Returns the value of attribute runtime.
     #
-    # source://execjs//lib/execjs/module.rb#11
+    # source://execjs//lib/execjs.rb#5
     def runtime; end
 
     # @raise [RuntimeUnavailable]

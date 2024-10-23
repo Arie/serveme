@@ -608,67 +608,8 @@ Aws::CORE_GEM_VERSION = T.let(T.unsafe(nil), String)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#5
-module Aws::Cbor
-  class << self
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#74
-    def decode(bytes); end
-
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#70
-    def encode(data); end
-
-    # @api private
-    # @return [Class] Returns the default engine.
-    #   One of:
-    #
-    #   * {CborEngine}
-    #
-    # source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#65
-    def engine; end
-
-    # @api private
-    # @param engine [Symbol, Class] Must be one of the following values:
-    #
-    #   * :cbor
-    #
-    # source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#56
-    def engine=(engine); end
-
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#79
-    def set_default_engine; end
-
-    private
-
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#91
-    def load_engine(name); end
-
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#97
-    def try_load_engine(name); end
-  end
-end
-
-# Pure Ruby implementation of CBOR encode and decode
-#
-# source://aws-sdk-core//lib/aws-sdk-core/cbor/cbor_engine.rb#9
-module Aws::Cbor::CborEngine
-  class << self
-    # source://aws-sdk-core//lib/aws-sdk-core/cbor/cbor_engine.rb#14
-    def decode(bytes); end
-
-    # source://aws-sdk-core//lib/aws-sdk-core/cbor/cbor_engine.rb#10
-    def encode(data); end
-  end
-end
+# source://aws-sdk-core//lib/aws-sdk-core/cbor/encoder.rb#6
+module Aws::Cbor; end
 
 # Pure Ruby implementation of CBOR Decoder
 #
@@ -982,28 +923,28 @@ Aws::Cbor::Encoder::TAG_TYPE_EPOCH = T.let(T.unsafe(nil), Integer)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#22
+# source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#25
 class Aws::Cbor::Error < ::StandardError; end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#36
+# source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#39
 class Aws::Cbor::ExtraBytesError < ::Aws::Cbor::Error
   # @api private
   # @return [ExtraBytesError] a new instance of ExtraBytesError
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#37
+  # source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#40
   def initialize(pos, size); end
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#24
+# source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#27
 class Aws::Cbor::OutOfBytesError < ::Aws::Cbor::Error
   # @api private
   # @return [OutOfBytesError] a new instance of OutOfBytesError
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#25
+  # source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#28
   def initialize(n, left); end
 end
 
@@ -1017,7 +958,7 @@ end
 #
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#20
+# source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#23
 class Aws::Cbor::Tagged < ::Struct
   # The tag number.
   #
@@ -1050,28 +991,28 @@ end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#44
+# source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#47
 class Aws::Cbor::UnexpectedAdditionalInformationError < ::Aws::Cbor::Error
   # @api private
   # @return [UnexpectedAdditionalInformationError] a new instance of UnexpectedAdditionalInformationError
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#45
+  # source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#48
   def initialize(add_info); end
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#42
+# source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#45
 class Aws::Cbor::UnexpectedBreakCodeError < ::Aws::Cbor::Error; end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#30
+# source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#33
 class Aws::Cbor::UnknownTypeError < ::Aws::Cbor::Error
   # @api private
   # @return [UnknownTypeError] a new instance of UnknownTypeError
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#31
+  # source://aws-sdk-core//lib/aws-sdk-core/cbor.rb#34
   def initialize(type); end
 end
 
@@ -3950,27 +3891,27 @@ class Aws::Json::ErrorHandler < ::Aws::ErrorHandler
 
   private
 
-  # source://aws-sdk-core//lib/aws-sdk-core/json/error_handler.rb#82
+  # source://aws-sdk-core//lib/aws-sdk-core/json/error_handler.rb#83
   def apply_error_headers(rule, context, data); end
 
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/json/error_handler.rb#43
+  # source://aws-sdk-core//lib/aws-sdk-core/json/error_handler.rb#44
   def aws_query_error?(context); end
 
   # source://aws-sdk-core//lib/aws-sdk-core/json/error_handler.rb#26
   def error_code(json, context); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/json/error_handler.rb#56
+  # source://aws-sdk-core//lib/aws-sdk-core/json/error_handler.rb#57
   def error_message(code, json); end
 
   # source://aws-sdk-core//lib/aws-sdk-core/json/error_handler.rb#16
   def extract_error(body, context); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/json/error_handler.rb#64
+  # source://aws-sdk-core//lib/aws-sdk-core/json/error_handler.rb#65
   def parse_error_data(context, body, code); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/json/error_handler.rb#48
+  # source://aws-sdk-core//lib/aws-sdk-core/json/error_handler.rb#49
   def remove_prefix(error_code, context); end
 end
 
@@ -3984,35 +3925,35 @@ class Aws::Json::Handler < ::Seahorse::Client::Handler
 
   private
 
-  # source://aws-sdk-core//lib/aws-sdk-core/json/handler.rb#80
+  # source://aws-sdk-core//lib/aws-sdk-core/json/handler.rb#81
   def apply_request_id(context); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/json/handler.rb#27
+  # source://aws-sdk-core//lib/aws-sdk-core/json/handler.rb#28
   def build_body(context); end
 
   # source://aws-sdk-core//lib/aws-sdk-core/json/handler.rb#20
   def build_request(context); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/json/handler.rb#71
+  # source://aws-sdk-core//lib/aws-sdk-core/json/handler.rb#72
   def content_type(context); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/json/handler.rb#39
+  # source://aws-sdk-core//lib/aws-sdk-core/json/handler.rb#40
   def parse_body(context); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/json/handler.rb#35
+  # source://aws-sdk-core//lib/aws-sdk-core/json/handler.rb#36
   def parse_response(response); end
 
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/json/handler.rb#88
+  # source://aws-sdk-core//lib/aws-sdk-core/json/handler.rb#89
   def query_compatible?(context); end
 
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/json/handler.rb#84
+  # source://aws-sdk-core//lib/aws-sdk-core/json/handler.rb#85
   def simple_json?(context); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/json/handler.rb#75
+  # source://aws-sdk-core//lib/aws-sdk-core/json/handler.rb#76
   def target(context); end
 end
 
@@ -8288,8 +8229,56 @@ class Aws::Rest::Response::StatusCode
   def apply(http_resp, data); end
 end
 
-# source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#4
-module Aws::RpcV2; end
+# @api private
+#
+# source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/builder.rb#6
+module Aws::RpcV2
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2.rb#37
+    def decode(bytes); end
+
+    # @api private
+    #
+    # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2.rb#33
+    def encode(data); end
+
+    # @api private
+    # @return [Class] Returns the default engine.
+    #   One of:
+    #
+    #   * {CborEngine}
+    #
+    # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2.rb#28
+    def engine; end
+
+    # @api private
+    # @param engine [Symbol, Class] Must be one of the following values:
+    #
+    #   * :cbor
+    #
+    # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2.rb#19
+    def engine=(engine); end
+
+    # @api private
+    #
+    # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2.rb#42
+    def set_default_engine; end
+
+    private
+
+    # @api private
+    #
+    # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2.rb#54
+    def load_engine(name); end
+
+    # @api private
+    #
+    # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2.rb#60
+    def try_load_engine(name); end
+  end
+end
 
 # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/builder.rb#7
 class Aws::RpcV2::Builder
@@ -8321,6 +8310,19 @@ class Aws::RpcV2::Builder
   def structure(ref, values); end
 end
 
+# Pure Ruby implementation of CBOR encode and decode
+#
+# source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/cbor_engine.rb#8
+module Aws::RpcV2::CborEngine
+  class << self
+    # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/cbor_engine.rb#13
+    def decode(bytes); end
+
+    # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/cbor_engine.rb#9
+    def encode(data); end
+  end
+end
+
 # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/content_type_handler.rb#5
 class Aws::RpcV2::ContentTypeHandler < ::Seahorse::Client::Handler
   # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/content_type_handler.rb#6
@@ -8330,17 +8332,17 @@ class Aws::RpcV2::ContentTypeHandler < ::Seahorse::Client::Handler
 
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/content_type_handler.rb#40
+  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/content_type_handler.rb#42
   def empty_input_structure?(context); end
 
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/content_type_handler.rb#26
+  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/content_type_handler.rb#28
   def eventstream_input?(context); end
 
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/content_type_handler.rb#33
+  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/content_type_handler.rb#35
   def eventstream_output?(context); end
 end
 
@@ -8353,7 +8355,7 @@ class Aws::RpcV2::ErrorHandler < ::Aws::ErrorHandler
 
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/error_handler.rb#70
+  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/error_handler.rb#71
   def aws_query_error?(context); end
 
   # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/error_handler.rb#39
@@ -8362,10 +8364,10 @@ class Aws::RpcV2::ErrorHandler < ::Aws::ErrorHandler
   # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/error_handler.rb#29
   def extract_error(body, context); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/error_handler.rb#54
+  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/error_handler.rb#55
   def parse_error_data(context, body, code); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/error_handler.rb#75
+  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/error_handler.rb#76
   def remove_prefix(error_code, context); end
 
   # @return [Boolean]
@@ -8384,24 +8386,24 @@ class Aws::RpcV2::Handler < ::Seahorse::Client::Handler
 
   private
 
-  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#69
+  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#70
   def apply_request_id(context); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#35
+  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#36
   def build_body(context); end
 
   # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#22
   def build_request(context); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#29
+  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#30
   def build_url(context); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#39
+  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#40
   def parse_body(context); end
 
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#73
+  # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#74
   def query_compatible?(context); end
 
   # source://aws-sdk-core//lib/aws-sdk-core/rpc_v2/handler.rb#18
@@ -13504,7 +13506,7 @@ module Aws::Structure::Union
   def value; end
 end
 
-# setup autoloading for Stubbing module
+# @api private
 #
 # source://aws-sdk-core//lib/aws-sdk-core/stubbing.rb#5
 module Aws::Stubbing; end
@@ -13561,149 +13563,226 @@ class Aws::Stubbing::EmptyStub
   def stub_structure(ref, visited); end
 end
 
+# @api private
+#
 # source://aws-sdk-core//lib/aws-sdk-core/stubbing.rb#11
 module Aws::Stubbing::Protocols; end
 
 # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/api_gateway.rb#6
 class Aws::Stubbing::Protocols::ApiGateway < ::Aws::Stubbing::Protocols::RestJson; end
 
-# source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/ec2.rb#6
+# @api private
+#
+# source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/ec2.rb#7
 class Aws::Stubbing::Protocols::EC2
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/ec2.rb#8
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/ec2.rb#9
   def stub_data(api, operation, data); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/ec2.rb#18
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/ec2.rb#19
   def stub_error(error_code); end
 
   private
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/ec2.rb#34
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/ec2.rb#35
   def build_body(api, operation, data); end
 end
 
-# source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/json.rb#6
+# @api private
+#
+# source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/json.rb#7
 class Aws::Stubbing::Protocols::Json
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/json.rb#8
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/json.rb#9
   def stub_data(api, operation, data); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/json.rb#17
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/json.rb#18
   def stub_error(error_code); end
 
   private
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/json.rb#35
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/json.rb#36
   def build_body(operation, data); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/json.rb#31
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/json.rb#32
   def content_type(api); end
 end
 
-# source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/query.rb#6
+# @api private
+#
+# source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/query.rb#7
 class Aws::Stubbing::Protocols::Query
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/query.rb#8
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/query.rb#9
   def stub_data(api, operation, data); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/query.rb#15
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/query.rb#16
   def stub_error(error_code); end
 
   private
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/query.rb#24
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/query.rb#25
   def build_body(api, operation, data); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/query.rb#39
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/query.rb#40
   def xmlns(api); end
 end
 
-# source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#8
+# @api private
+#
+# source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#9
 class Aws::Stubbing::Protocols::Rest
   include ::Seahorse::Model::Shapes
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#12
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#13
   def stub_data(api, operation, data); end
 
   private
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#41
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#42
   def apply_body(api, operation, resp, data); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#37
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#38
   def apply_headers(operation, resp, data); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#29
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#30
   def apply_status_code(operation, resp, data); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#45
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#46
   def build_body(api, operation, data); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#105
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#106
   def encode_error(opts, event_data); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#185
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#186
   def encode_event(opts, rules, event_data, builder); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#85
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#86
   def encode_eventstream_response(rules, data, builder); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#135
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#136
   def encode_modeled_event(opts, rules, event_type, event_data, builder); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#121
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#122
   def encode_unknown_event(opts, event_type, event_data); end
 
+  # @api private
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#81
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#82
   def eventstream?(rules); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#77
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#78
   def head_operation(operation); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#22
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#23
   def new_http_response; end
 
+  # @api private
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#65
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest.rb#66
   def streaming?(ref); end
 end
 
-# source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest_json.rb#6
+# @api private
+#
+# source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest_json.rb#7
 class Aws::Stubbing::Protocols::RestJson < ::Aws::Stubbing::Protocols::Rest
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest_json.rb#8
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest_json.rb#9
   def body_for(_a, _b, rules, data); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest_json.rb#16
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest_json.rb#17
   def stub_error(error_code); end
 end
 
-# source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest_xml.rb#6
+# @api private
+#
+# source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest_xml.rb#7
 class Aws::Stubbing::Protocols::RestXml < ::Aws::Stubbing::Protocols::Rest
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest_xml.rb#8
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest_xml.rb#9
   def body_for(api, operation, rules, data); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest_xml.rb#20
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest_xml.rb#21
   def stub_error(error_code); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest_xml.rb#27
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rest_xml.rb#28
   def xmlns(api); end
 end
 
-# source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rpc_v2.rb#6
+# @api private
+#
+# source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rpc_v2.rb#7
 class Aws::Stubbing::Protocols::RpcV2
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rpc_v2.rb#8
-  def stub_data(api, operation, data); end
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rpc_v2.rb#9
+  def stub_data(_api, operation, data); end
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rpc_v2.rb#17
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rpc_v2.rb#19
   def stub_error(error_code); end
 
   private
 
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rpc_v2.rb#35
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rpc_v2.rb#33
   def build_body(operation, data); end
-
-  # source://aws-sdk-core//lib/aws-sdk-core/stubbing/protocols/rpc_v2.rb#31
-  def content_type(api); end
 end
 
 # @api private

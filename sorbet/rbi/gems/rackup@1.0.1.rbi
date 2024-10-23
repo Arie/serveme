@@ -5,5 +5,8 @@
 # Please instead update this file by running `bin/tapioca gem rackup`.
 
 
-# THIS IS AN EMPTY RBI FILE.
-# see https://github.com/Shopify/tapioca#manually-requiring-parts-of-a-gem
+# source://rackup//lib/rackup/version.rb#6
+module Rackup; end
+
+# source://rackup//lib/rackup/version.rb#7
+Rackup::VERSION = T.let(T.unsafe(nil), String)

@@ -8,28 +8,28 @@
 # source://aws-sigv4//lib/aws-sigv4/asymmetric_credentials.rb#3
 module Aws
   class << self
-    # source://aws-sdk-core/3.206.0/lib/aws-sdk-core.rb#128
+    # source://aws-sdk-core/3.211.0/lib/aws-sdk-core.rb#93
     def config; end
 
-    # source://aws-sdk-core/3.206.0/lib/aws-sdk-core.rb#131
+    # source://aws-sdk-core/3.211.0/lib/aws-sdk-core.rb#96
     def config=(config); end
 
-    # source://aws-sdk-core/3.206.0/lib/aws-sdk-core.rb#190
+    # source://aws-sdk-core/3.211.0/lib/aws-sdk-core.rb#155
     def eager_autoload!(*args); end
 
-    # source://aws-sdk-core/3.206.0/lib/aws-sdk-core.rb#183
+    # source://aws-sdk-core/3.211.0/lib/aws-sdk-core.rb#148
     def empty_connection_pools!; end
 
-    # source://aws-sdk-core/3.206.0/lib/aws-sdk-core.rb#140
+    # source://aws-sdk-core/3.211.0/lib/aws-sdk-core.rb#105
     def partition(partition_name); end
 
-    # source://aws-sdk-core/3.206.0/lib/aws-sdk-core.rb#145
+    # source://aws-sdk-core/3.211.0/lib/aws-sdk-core.rb#110
     def partitions; end
 
-    # source://aws-sdk-core/3.206.0/lib/aws-sdk-core.rb#121
+    # source://aws-sdk-core/3.211.0/lib/aws-sdk-core.rb#86
     def shared_config; end
 
-    # source://aws-sdk-core/3.206.0/lib/aws-sdk-core.rb#160
+    # source://aws-sdk-core/3.211.0/lib/aws-sdk-core.rb#125
     def use_bundled_cert!; end
   end
 end
@@ -56,8 +56,14 @@ module Aws::Sigv4::AsymmetricCredentials
     def be_bytes_to_num(bytes); end
 
     # @api private
+    # @return [Array] value of the BigNumber as a big-endian unsigned byte array.
     #
-    # source://aws-sigv4//lib/aws-sigv4/asymmetric_credentials.rb#80
+    # source://aws-sigv4//lib/aws-sigv4/asymmetric_credentials.rb#64
+    def bn_to_be_bytes(bn); end
+
+    # @api private
+    #
+    # source://aws-sigv4//lib/aws-sigv4/asymmetric_credentials.rb#90
     def check_openssl_support!; end
 
     # @api private
@@ -74,7 +80,7 @@ module Aws::Sigv4::AsymmetricCredentials
     #
     # @api private
     #
-    # source://aws-sigv4//lib/aws-sigv4/asymmetric_credentials.rb#66
+    # source://aws-sigv4//lib/aws-sigv4/asymmetric_credentials.rb#76
     def generate_ec(public_key, d); end
   end
 end

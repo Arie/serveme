@@ -1450,10 +1450,10 @@ class Rails::Application::RoutesReloader
   # source://railties//lib/rails/application/routes_reloader.rb#15
   def initialize; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+  # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
   def __callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+  # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
   def __callbacks?; end
 
   # Returns the value of attribute eager_load.
@@ -1519,13 +1519,13 @@ class Rails::Application::RoutesReloader
   def updater; end
 
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks?; end
   end
 end
@@ -1534,7 +1534,7 @@ end
 class Rails::ApplicationController < ::ActionController::Base
   private
 
-  # source://actionview/7.2.1.1/lib/action_view/layouts.rb#328
+  # source://actionview/7.2.1.2/lib/action_view/layouts.rb#328
   def _layout(lookup_context, formats); end
 
   def _layout_from_proc; end
@@ -1551,16 +1551,16 @@ class Rails::ApplicationController < ::ActionController::Base
   def require_local!; end
 
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks; end
 
-    # source://actionview/7.2.1.1/lib/action_view/layouts.rb#211
+    # source://actionview/7.2.1.2/lib/action_view/layouts.rb#211
     def _layout; end
 
-    # source://actionview/7.2.1.1/lib/action_view/layouts.rb#212
+    # source://actionview/7.2.1.2/lib/action_view/layouts.rb#212
     def _layout_conditions; end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal.rb#288
+    # source://actionpack/7.2.1.2/lib/action_controller/metal.rb#288
     def middleware_stack; end
   end
 end
@@ -2466,16 +2466,16 @@ class Rails::Engine < ::Rails::Railtie
   # source://railties//lib/rails/engine.rb#439
   def initialize; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+  # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
   def __callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+  # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
   def __callbacks?; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#924
+  # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#924
   def _load_seed_callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#912
+  # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#912
   def _run_load_seed_callbacks(&block); end
 
   # Returns the underlying Rack application for this engine.
@@ -2623,19 +2623,19 @@ class Rails::Engine < ::Rails::Railtie
   def load_config_initializer(initializer); end
 
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#916
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#916
     def _load_seed_callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#920
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#920
     def _load_seed_callbacks=(value); end
 
     # Returns the value of attribute called_from.
@@ -4951,7 +4951,7 @@ class Rails::HealthController < ::ActionController::Base
 
   private
 
-  # source://actionview/7.2.1.1/lib/action_view/layouts.rb#328
+  # source://actionview/7.2.1.2/lib/action_view/layouts.rb#328
   def _layout(lookup_context, formats); end
 
   def _layout_from_proc; end
@@ -4966,10 +4966,10 @@ class Rails::HealthController < ::ActionController::Base
   def render_up; end
 
   class << self
-    # source://actionpack/7.2.1.1/lib/action_controller/metal.rb#288
+    # source://actionpack/7.2.1.2/lib/action_controller/metal.rb#288
     def middleware_stack; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
+    # source://activesupport/7.2.1.2/lib/active_support/rescuable.rb#15
     def rescue_handlers; end
   end
 end
@@ -5020,7 +5020,7 @@ class Rails::InfoController < ::Rails::ApplicationController
 
   private
 
-  # source://actionview/7.2.1.1/lib/action_view/layouts.rb#328
+  # source://actionview/7.2.1.2/lib/action_view/layouts.rb#328
   def _layout(lookup_context, formats); end
 
   # source://railties//lib/rails/info_controller.rb#8
@@ -5030,16 +5030,16 @@ class Rails::InfoController < ::Rails::ApplicationController
   def matching_routes(query:, exact_match:); end
 
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks; end
 
-    # source://actionview/7.2.1.1/lib/action_view/layouts.rb#211
+    # source://actionview/7.2.1.2/lib/action_view/layouts.rb#211
     def _layout; end
 
-    # source://actionview/7.2.1.1/lib/action_view/layouts.rb#212
+    # source://actionview/7.2.1.2/lib/action_view/layouts.rb#212
     def _layout_conditions; end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal.rb#288
+    # source://actionpack/7.2.1.2/lib/action_controller/metal.rb#288
     def middleware_stack; end
   end
 end
@@ -5147,7 +5147,7 @@ class Rails::MailersController < ::Rails::ApplicationController
 
   private
 
-  # source://actionview/7.2.1.1/lib/action_view/layouts.rb#328
+  # source://actionview/7.2.1.2/lib/action_view/layouts.rb#328
   def _layout(lookup_context, formats); end
 
   # source://railties//lib/rails/mailers_controller.rb#107
@@ -5180,13 +5180,13 @@ class Rails::MailersController < ::Rails::ApplicationController
   def show_previews?; end
 
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks; end
 
-    # source://actionpack/7.2.1.1/lib/abstract_controller/helpers.rb#13
+    # source://actionpack/7.2.1.2/lib/abstract_controller/helpers.rb#13
     def _helper_methods; end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal.rb#288
+    # source://actionpack/7.2.1.2/lib/action_controller/metal.rb#288
     def middleware_stack; end
   end
 end
@@ -5449,14 +5449,14 @@ class Rails::PwaController < ::Rails::ApplicationController
 
   private
 
-  # source://actionview/7.2.1.1/lib/action_view/layouts.rb#328
+  # source://actionview/7.2.1.2/lib/action_view/layouts.rb#328
   def _layout(lookup_context, formats); end
 
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks; end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal.rb#288
+    # source://actionpack/7.2.1.2/lib/action_controller/metal.rb#288
     def middleware_stack; end
   end
 end
@@ -6176,20 +6176,20 @@ class Rails::WelcomeController < ::Rails::ApplicationController
 
   private
 
-  # source://actionview/7.2.1.1/lib/action_view/layouts.rb#328
+  # source://actionview/7.2.1.2/lib/action_view/layouts.rb#328
   def _layout(lookup_context, formats); end
 
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks; end
 
-    # source://actionview/7.2.1.1/lib/action_view/layouts.rb#211
+    # source://actionview/7.2.1.2/lib/action_view/layouts.rb#211
     def _layout; end
 
-    # source://actionview/7.2.1.1/lib/action_view/layouts.rb#212
+    # source://actionview/7.2.1.2/lib/action_view/layouts.rb#212
     def _layout_conditions; end
 
-    # source://actionpack/7.2.1.1/lib/action_controller/metal.rb#288
+    # source://actionpack/7.2.1.2/lib/action_controller/metal.rb#288
     def middleware_stack; end
   end
 end

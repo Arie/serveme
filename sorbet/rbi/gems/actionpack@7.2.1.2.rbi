@@ -68,10 +68,10 @@ class AbstractController::Base
 
   # Returns the name of the action this controller is processing.
   #
-  # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attr_internal.rb#44
+  # source://activesupport/7.2.1.2/lib/active_support/core_ext/module/attr_internal.rb#44
   def action_name; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attr_internal.rb#44
+  # source://activesupport/7.2.1.2/lib/active_support/core_ext/module/attr_internal.rb#44
   def action_name=(_arg0); end
 
   # Returns true if a method for the action is available and can be dispatched,
@@ -97,10 +97,10 @@ class AbstractController::Base
 
   # Returns the formats that can be processed by the controller.
   #
-  # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attr_internal.rb#44
+  # source://activesupport/7.2.1.2/lib/active_support/core_ext/module/attr_internal.rb#44
   def formats; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attr_internal.rb#44
+  # source://activesupport/7.2.1.2/lib/active_support/core_ext/module/attr_internal.rb#44
   def formats=(_arg0); end
 
   # source://actionpack//lib/abstract_controller/base.rb#204
@@ -128,10 +128,10 @@ class AbstractController::Base
 
   # Returns the body of the HTTP response sent by the controller.
   #
-  # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attr_internal.rb#44
+  # source://activesupport/7.2.1.2/lib/active_support/core_ext/module/attr_internal.rb#44
   def response_body; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attr_internal.rb#44
+  # source://activesupport/7.2.1.2/lib/active_support/core_ext/module/attr_internal.rb#44
   def response_body=(_arg0); end
 
   # Actually call the method associated with the action. Override this method if
@@ -1278,13 +1278,13 @@ class ActionController::API < ::ActionController::Metal
   extend ::ActionController::RespondWith::ClassMethods
   extend ::Devise::Controllers::Helpers::ClassMethods
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+  # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
   def __callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+  # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
   def __callbacks?; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#924
+  # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#924
   def _process_action_callbacks; end
 
   # source://actionpack//lib/action_controller/metal/renderers.rb#33
@@ -1296,7 +1296,7 @@ class ActionController::API < ::ActionController::Metal
   # source://actionpack//lib/action_controller/metal/renderers.rb#33
   def _renderers?; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#912
+  # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#912
   def _run_process_action_callbacks(&block); end
 
   # source://actionpack//lib/action_controller/metal/params_wrapper.rb#185
@@ -1326,10 +1326,10 @@ class ActionController::API < ::ActionController::Metal
   # source://actionpack//lib/action_controller/metal/conditional_get.rb#15
   def etaggers?; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
   def logger; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
   def logger=(value); end
 
   # source://responders/3.1.1/lib/action_controller/respond_with.rb#11
@@ -1353,13 +1353,13 @@ class ActionController::API < ::ActionController::Metal
   # source://actionpack//lib/action_controller/metal/redirecting.rb#17
   def raise_on_open_redirects=(val); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
+  # source://activesupport/7.2.1.2/lib/active_support/rescuable.rb#15
   def rescue_handlers; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
+  # source://activesupport/7.2.1.2/lib/active_support/rescuable.rb#15
   def rescue_handlers=(_arg0); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
+  # source://activesupport/7.2.1.2/lib/active_support/rescuable.rb#15
   def rescue_handlers?; end
 
   # source://responders/3.1.1/lib/action_controller/respond_with.rb#11
@@ -1372,19 +1372,19 @@ class ActionController::API < ::ActionController::Metal
   def responder?; end
 
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#916
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#916
     def _process_action_callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#920
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#920
     def _process_action_callbacks=(value); end
 
     # source://actionpack//lib/action_controller/metal/renderers.rb#33
@@ -1423,10 +1423,10 @@ class ActionController::API < ::ActionController::Metal
     # source://actionpack//lib/action_controller/metal/conditional_get.rb#15
     def etaggers?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
     def logger; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
     def logger=(value); end
 
     # source://actionpack//lib/action_controller/metal.rb#288
@@ -1453,13 +1453,13 @@ class ActionController::API < ::ActionController::Metal
     # source://actionpack//lib/action_controller/metal/redirecting.rb#17
     def raise_on_open_redirects=(val); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
+    # source://activesupport/7.2.1.2/lib/active_support/rescuable.rb#15
     def rescue_handlers; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
+    # source://activesupport/7.2.1.2/lib/active_support/rescuable.rb#15
     def rescue_handlers=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
+    # source://activesupport/7.2.1.2/lib/active_support/rescuable.rb#15
     def rescue_handlers?; end
 
     # source://responders/3.1.1/lib/action_controller/respond_with.rb#11
@@ -1930,10 +1930,10 @@ class ActionController::Base < ::ActionController::Metal
   extend ::ActionController::RespondWith::ClassMethods
   extend ::Devise::Controllers::Helpers::ClassMethods
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+  # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
   def __callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+  # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
   def __callbacks?; end
 
   # source://actionpack//lib/abstract_controller/helpers.rb#13
@@ -1945,13 +1945,13 @@ class ActionController::Base < ::ActionController::Metal
   # source://actionpack//lib/abstract_controller/helpers.rb#13
   def _helper_methods?; end
 
-  # source://actionview/7.2.1.1/lib/action_view/layouts.rb#212
+  # source://actionview/7.2.1.2/lib/action_view/layouts.rb#212
   def _layout_conditions; end
 
-  # source://actionview/7.2.1.1/lib/action_view/layouts.rb#212
+  # source://actionview/7.2.1.2/lib/action_view/layouts.rb#212
   def _layout_conditions?; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#924
+  # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#924
   def _process_action_callbacks; end
 
   # source://actionpack//lib/action_controller/metal/renderers.rb#33
@@ -1963,7 +1963,7 @@ class ActionController::Base < ::ActionController::Metal
   # source://actionpack//lib/action_controller/metal/renderers.rb#33
   def _renderers?; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#912
+  # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#912
   def _run_process_action_callbacks(&block); end
 
   # source://actionpack//lib/abstract_controller/caching.rb#44
@@ -1987,40 +1987,40 @@ class ActionController::Base < ::ActionController::Metal
   # source://actionpack//lib/action_controller/metal/flash.rb#38
   def alert; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
   def allow_forgery_protection; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
   def allow_forgery_protection=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
   def asset_host; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
   def asset_host=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
   def assets_dir; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
   def assets_dir=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
   def csrf_token_storage_strategy; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
   def csrf_token_storage_strategy=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
   def default_asset_host_protocol; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
   def default_asset_host_protocol=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
   def default_static_extension; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
   def default_static_extension=(value); end
 
   # source://actionpack//lib/action_dispatch/routing/url_for.rb#100
@@ -2032,10 +2032,10 @@ class ActionController::Base < ::ActionController::Metal
   # source://actionpack//lib/action_dispatch/routing/url_for.rb#100
   def default_url_options?; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
   def enable_fragment_cache_logging; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
   def enable_fragment_cache_logging=(value); end
 
   # source://actionpack//lib/action_controller/metal/etag_with_template_digest.rb#31
@@ -2059,16 +2059,16 @@ class ActionController::Base < ::ActionController::Metal
   # source://actionpack//lib/action_controller/metal/flash.rb#12
   def flash(*_arg0, **_arg1, &_arg2); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
   def forgery_protection_origin_check; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
   def forgery_protection_origin_check=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
   def forgery_protection_strategy; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
   def forgery_protection_strategy=(value); end
 
   # source://actionpack//lib/abstract_controller/caching/fragments.rb#26
@@ -2098,22 +2098,22 @@ class ActionController::Base < ::ActionController::Metal
   # source://actionpack//lib/action_controller/metal/helpers.rb#71
   def include_all_helpers?; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
   def javascripts_dir; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
   def javascripts_dir=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
   def log_warning_on_csrf_failure; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
   def log_warning_on_csrf_failure=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
   def logger; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
   def logger=(value); end
 
   # source://responders/3.1.1/lib/action_controller/respond_with.rb#11
@@ -2128,16 +2128,16 @@ class ActionController::Base < ::ActionController::Metal
   # source://actionpack//lib/action_controller/metal/flash.rb#38
   def notice; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
   def per_form_csrf_tokens; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
   def per_form_csrf_tokens=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
   def perform_caching; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
   def perform_caching=(value); end
 
   # source://actionpack//lib/abstract_controller/callbacks.rb#36
@@ -2152,25 +2152,25 @@ class ActionController::Base < ::ActionController::Metal
   # source://actionpack//lib/action_controller/metal/redirecting.rb#17
   def raise_on_open_redirects=(val); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
   def relative_url_root; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
   def relative_url_root=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
   def request_forgery_protection_token; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
   def request_forgery_protection_token=(value); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
+  # source://activesupport/7.2.1.2/lib/active_support/rescuable.rb#15
   def rescue_handlers; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
+  # source://activesupport/7.2.1.2/lib/active_support/rescuable.rb#15
   def rescue_handlers=(_arg0); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
+  # source://activesupport/7.2.1.2/lib/active_support/rescuable.rb#15
   def rescue_handlers?; end
 
   # source://responders/3.1.1/lib/action_controller/respond_with.rb#11
@@ -2182,15 +2182,15 @@ class ActionController::Base < ::ActionController::Metal
   # source://responders/3.1.1/lib/action_controller/respond_with.rb#11
   def responder?; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
   def stylesheets_dir; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+  # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
   def stylesheets_dir=(value); end
 
   private
 
-  # source://actionview/7.2.1.1/lib/action_view/layouts.rb#328
+  # source://actionview/7.2.1.2/lib/action_view/layouts.rb#328
   def _layout(lookup_context, formats); end
 
   def _layout_from_proc; end
@@ -2199,13 +2199,13 @@ class ActionController::Base < ::ActionController::Metal
   def _protected_ivars; end
 
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks?; end
 
     # source://actionpack//lib/action_controller/form_builder.rb#35
@@ -2238,28 +2238,28 @@ class ActionController::Base < ::ActionController::Metal
     # source://actionpack//lib/abstract_controller/helpers.rb#17
     def _helpers; end
 
-    # source://actionview/7.2.1.1/lib/action_view/layouts.rb#211
+    # source://actionview/7.2.1.2/lib/action_view/layouts.rb#211
     def _layout; end
 
-    # source://actionview/7.2.1.1/lib/action_view/layouts.rb#211
+    # source://actionview/7.2.1.2/lib/action_view/layouts.rb#211
     def _layout=(value); end
 
-    # source://actionview/7.2.1.1/lib/action_view/layouts.rb#211
+    # source://actionview/7.2.1.2/lib/action_view/layouts.rb#211
     def _layout?; end
 
-    # source://actionview/7.2.1.1/lib/action_view/layouts.rb#212
+    # source://actionview/7.2.1.2/lib/action_view/layouts.rb#212
     def _layout_conditions; end
 
-    # source://actionview/7.2.1.1/lib/action_view/layouts.rb#212
+    # source://actionview/7.2.1.2/lib/action_view/layouts.rb#212
     def _layout_conditions=(value); end
 
-    # source://actionview/7.2.1.1/lib/action_view/layouts.rb#212
+    # source://actionview/7.2.1.2/lib/action_view/layouts.rb#212
     def _layout_conditions?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#916
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#916
     def _process_action_callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#920
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#920
     def _process_action_callbacks=(value); end
 
     # source://actionpack//lib/action_controller/metal/renderers.rb#33
@@ -2289,40 +2289,40 @@ class ActionController::Base < ::ActionController::Metal
     # source://actionpack//lib/action_controller/metal/params_wrapper.rb#185
     def _wrapper_options?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
     def allow_forgery_protection; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
     def allow_forgery_protection=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
     def asset_host; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
     def asset_host=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
     def assets_dir; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
     def assets_dir=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
     def csrf_token_storage_strategy; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
     def csrf_token_storage_strategy=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
     def default_asset_host_protocol; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
     def default_asset_host_protocol=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
     def default_static_extension; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
     def default_static_extension=(value); end
 
     # source://actionpack//lib/action_dispatch/routing/url_for.rb#100
@@ -2334,10 +2334,10 @@ class ActionController::Base < ::ActionController::Metal
     # source://actionpack//lib/action_dispatch/routing/url_for.rb#100
     def default_url_options?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
     def enable_fragment_cache_logging; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
     def enable_fragment_cache_logging=(value); end
 
     # source://actionpack//lib/action_controller/metal/etag_with_template_digest.rb#31
@@ -2358,16 +2358,16 @@ class ActionController::Base < ::ActionController::Metal
     # source://actionpack//lib/action_controller/metal/conditional_get.rb#15
     def etaggers?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
     def forgery_protection_origin_check; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
     def forgery_protection_origin_check=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
     def forgery_protection_strategy; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
     def forgery_protection_strategy=(value); end
 
     # source://actionpack//lib/abstract_controller/caching/fragments.rb#26
@@ -2397,22 +2397,22 @@ class ActionController::Base < ::ActionController::Metal
     # source://actionpack//lib/action_controller/metal/helpers.rb#71
     def include_all_helpers?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
     def javascripts_dir; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
     def javascripts_dir=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
     def log_warning_on_csrf_failure; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
     def log_warning_on_csrf_failure=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
     def logger; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
     def logger=(value); end
 
     # source://actionpack//lib/action_controller/metal.rb#288
@@ -2427,16 +2427,16 @@ class ActionController::Base < ::ActionController::Metal
     # source://responders/3.1.1/lib/action_controller/respond_with.rb#11
     def mimes_for_respond_to?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
     def per_form_csrf_tokens; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
     def per_form_csrf_tokens=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
     def perform_caching; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
     def perform_caching=(value); end
 
     # source://actionpack//lib/abstract_controller/callbacks.rb#36
@@ -2451,25 +2451,25 @@ class ActionController::Base < ::ActionController::Metal
     # source://actionpack//lib/action_controller/metal/redirecting.rb#17
     def raise_on_open_redirects=(val); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
     def relative_url_root; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
     def relative_url_root=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
     def request_forgery_protection_token; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
     def request_forgery_protection_token=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
+    # source://activesupport/7.2.1.2/lib/active_support/rescuable.rb#15
     def rescue_handlers; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
+    # source://activesupport/7.2.1.2/lib/active_support/rescuable.rb#15
     def rescue_handlers=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/rescuable.rb#15
+    # source://activesupport/7.2.1.2/lib/active_support/rescuable.rb#15
     def rescue_handlers?; end
 
     # source://responders/3.1.1/lib/action_controller/respond_with.rb#11
@@ -2481,10 +2481,10 @@ class ActionController::Base < ::ActionController::Metal
     # source://responders/3.1.1/lib/action_controller/respond_with.rb#11
     def responder?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#115
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#115
     def stylesheets_dir; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/configurable.rb#116
+    # source://activesupport/7.2.1.2/lib/active_support/configurable.rb#116
     def stylesheets_dir=(value); end
 
     # Shortcut helper that returns all the modules included in
@@ -4525,7 +4525,7 @@ class ActionController::LogSubscriber < ::ActiveSupport::LogSubscriber
   def write_fragment(event); end
 
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/log_subscriber.rb#84
+    # source://activesupport/7.2.1.2/lib/active_support/log_subscriber.rb#84
     def log_levels; end
   end
 end
@@ -4685,10 +4685,10 @@ class ActionController::Metal < ::AbstractController::Base
   #
   # The ActionDispatch::Request instance for the current request.
   #
-  # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attr_internal.rb#44
+  # source://activesupport/7.2.1.2/lib/active_support/core_ext/module/attr_internal.rb#44
   def request; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attr_internal.rb#44
+  # source://activesupport/7.2.1.2/lib/active_support/core_ext/module/attr_internal.rb#44
   def request=(_arg0); end
 
   # source://actionpack//lib/action_controller/metal.rb#284
@@ -4698,7 +4698,7 @@ class ActionController::Metal < ::AbstractController::Base
   #
   # The ActionDispatch::Response instance for the current response.
   #
-  # source://activesupport/7.2.1.1/lib/active_support/core_ext/module/attr_internal.rb#44
+  # source://activesupport/7.2.1.2/lib/active_support/core_ext/module/attr_internal.rb#44
   def response; end
 
   # Assign the response and mark it as committed. No further processing will
@@ -8446,7 +8446,7 @@ class ActionController::TestCase < ::ActiveSupport::TestCase
   def _controller_class?; end
 
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks; end
 
     # source://actionpack//lib/action_controller/test_case.rb#591
@@ -9311,35 +9311,35 @@ class ActionDispatch::Callbacks
   # source://actionpack//lib/action_dispatch/middleware/callbacks.rb#24
   def initialize(app); end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+  # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
   def __callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+  # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
   def __callbacks?; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#924
+  # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#924
   def _call_callbacks; end
 
-  # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#912
+  # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#912
   def _run_call_callbacks(&block); end
 
   # source://actionpack//lib/action_dispatch/middleware/callbacks.rb#28
   def call(env); end
 
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks=(value); end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#70
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#70
     def __callbacks?; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#916
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#916
     def _call_callbacks; end
 
-    # source://activesupport/7.2.1.1/lib/active_support/callbacks.rb#920
+    # source://activesupport/7.2.1.2/lib/active_support/callbacks.rb#920
     def _call_callbacks=(value); end
 
     # source://actionpack//lib/action_dispatch/middleware/callbacks.rb#19
@@ -14268,7 +14268,7 @@ class ActionDispatch::LogSubscriber < ::ActiveSupport::LogSubscriber
   def redirect(event); end
 
   class << self
-    # source://activesupport/7.2.1.1/lib/active_support/log_subscriber.rb#84
+    # source://activesupport/7.2.1.2/lib/active_support/log_subscriber.rb#84
     def log_levels; end
   end
 end

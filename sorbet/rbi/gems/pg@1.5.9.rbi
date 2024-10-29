@@ -1046,6 +1046,55 @@ class PG::Connection
 
   def consume_input; end
 
+  # call-seq:
+  #     conn.copy_data( sql [, coder] ) {|sql_result| ... } -> PG::Result
+  #
+  # Execute a copy process for transferring data to or from the server.
+  #
+  # This issues the SQL COPY command via #exec. The response to this
+  # (if there is no error in the command) is a PG::Result object that
+  # is passed to the block, bearing a status code of PGRES_COPY_OUT or
+  # PGRES_COPY_IN (depending on the specified copy direction).
+  # The application should then use #put_copy_data or #get_copy_data
+  # to receive or transmit data rows and should return from the block
+  # when finished.
+  #
+  # #copy_data returns another PG::Result object when the data transfer
+  # is complete. An exception is raised if some problem was encountered,
+  # so it isn't required to make use of any of them.
+  # At this point further SQL commands can be issued via #exec.
+  # (It is not possible to execute other SQL commands using the same
+  # connection while the COPY operation is in progress.)
+  #
+  # This method ensures, that the copy process is properly terminated
+  # in case of client side or server side failures. Therefore, in case
+  # of blocking mode of operation, #copy_data is preferred to raw calls
+  # of #put_copy_data, #get_copy_data and #put_copy_end.
+  #
+  # _coder_ can be a PG::Coder derivation
+  # (typically PG::TextEncoder::CopyRow or PG::TextDecoder::CopyRow).
+  # This enables encoding of data fields given to #put_copy_data
+  # or decoding of fields received by #get_copy_data.
+  #
+  # Example with CSV input format:
+  #   conn.exec "create table my_table (a text,b text,c text,d text)"
+  #   conn.copy_data "COPY my_table FROM STDIN CSV" do
+  #     conn.put_copy_data "some,data,to,copy\n"
+  #     conn.put_copy_data "more,data,to,copy\n"
+  #   end
+  # This creates +my_table+ and inserts two CSV rows.
+  #
+  # The same with text format encoder PG::TextEncoder::CopyRow
+  # and Array input:
+  #   enco = PG::TextEncoder::CopyRow.new
+  #   conn.copy_data "COPY my_table FROM STDIN", enco do
+  #     conn.put_copy_data ['some', 'data', 'to', 'copy']
+  #     conn.put_copy_data ['more', 'data', 'to', 'copy']
+  #   end
+  #
+  # All 4 CopyRow classes can take a type map to specify how the columns are mapped to and from the database format.
+  # For details see the particular CopyRow class description.
+  #
   # PG::BinaryEncoder::CopyRow can be used to send data in binary format to the server.
   # In this case copy_data generates the header and trailer data automatically:
   #   enco = PG::BinaryEncoder::CopyRow.new
@@ -1426,7 +1475,7 @@ class PG::Connection
     # Do not use this method in production code.
     # Any issues with the default setting of <tt>async_api=true</tt> should be reported to the maintainers instead.
     #
-    # source://pg//lib/pg/connection.rb#959
+    # source://pg//lib/pg/connection.rb#957
     def async_api=(enable); end
 
     # call-seq:
@@ -1481,7 +1530,7 @@ class PG::Connection
     #
     # Raises a PG::Error if the connection fails.
     #
-    # source://pg//lib/pg/connection.rb#773
+    # source://pg//lib/pg/connection.rb#771
     def async_connect(*args); end
 
     # call-seq:
@@ -1508,10 +1557,10 @@ class PG::Connection
     #
     # See also check_socket for a way to check the connection without doing any server communication.
     #
-    # source://pg//lib/pg/connection.rb#880
+    # source://pg//lib/pg/connection.rb#878
     def async_ping(*args); end
 
-    # source://pg//lib/pg/connection.rb#936
+    # source://pg//lib/pg/connection.rb#934
     def async_send_api=(enable); end
 
     def conndefaults; end
@@ -1576,7 +1625,7 @@ class PG::Connection
     #
     # Raises a PG::Error if the connection fails.
     #
-    # source://pg//lib/pg/connection.rb#773
+    # source://pg//lib/pg/connection.rb#771
     def connect(*args); end
 
     # Convert Hash options to connection String
@@ -1646,7 +1695,7 @@ class PG::Connection
     #
     # Raises a PG::Error if the connection fails.
     #
-    # source://pg//lib/pg/connection.rb#773
+    # source://pg//lib/pg/connection.rb#771
     def new(*args); end
 
     # call-seq:
@@ -1701,7 +1750,7 @@ class PG::Connection
     #
     # Raises a PG::Error if the connection fails.
     #
-    # source://pg//lib/pg/connection.rb#773
+    # source://pg//lib/pg/connection.rb#771
     def open(*args); end
 
     # Parse the connection +args+ into a connection-parameter string.
@@ -1744,7 +1793,7 @@ class PG::Connection
     #
     # See also check_socket for a way to check the connection without doing any server communication.
     #
-    # source://pg//lib/pg/connection.rb#880
+    # source://pg//lib/pg/connection.rb#878
     def ping(*args); end
 
     # Quote a single +value+ for use in a connection-parameter string.
@@ -1806,7 +1855,7 @@ class PG::Connection
     #
     # Raises a PG::Error if the connection fails.
     #
-    # source://pg//lib/pg/connection.rb#773
+    # source://pg//lib/pg/connection.rb#771
     def setdb(*args); end
 
     # call-seq:
@@ -1861,7 +1910,7 @@ class PG::Connection
     #
     # Raises a PG::Error if the connection fails.
     #
-    # source://pg//lib/pg/connection.rb#773
+    # source://pg//lib/pg/connection.rb#771
     def setdblogin(*args); end
 
     def sync_connect(*_arg0); end
@@ -1870,13 +1919,13 @@ class PG::Connection
 
     private
 
-    # source://pg//lib/pg/connection.rb#825
+    # source://pg//lib/pg/connection.rb#823
     def connect_to_hosts(*args); end
 
-    # source://pg//lib/pg/connection.rb#850
+    # source://pg//lib/pg/connection.rb#848
     def host_is_named_pipe?(host_string); end
 
-    # source://pg//lib/pg/connection.rb#794
+    # source://pg//lib/pg/connection.rb#792
     def resolve_hosts(iopts); end
   end
 end
@@ -2316,7 +2365,6 @@ class PG::SimpleCoder < ::PG::Coder; end
 class PG::SimpleDecoder < ::PG::SimpleCoder; end
 class PG::SimpleEncoder < ::PG::SimpleCoder; end
 class PG::SingletonSqlJsonItemRequired < ::PG::DataException; end
-class PG::SnapshotTooOld < ::PG::ServerError; end
 class PG::SqlJsonArrayNotFound < ::PG::DataException; end
 class PG::SqlJsonItemCannotBeCastToTargetType < ::PG::DataException; end
 class PG::SqlJsonMemberNotFound < ::PG::DataException; end
@@ -2623,6 +2671,7 @@ class PG::TooManyJsonObjectMembers < ::PG::DataException; end
 class PG::TooManyRows < ::PG::PlpgsqlError; end
 class PG::TransactionResolutionUnknown < ::PG::ConnectionException; end
 class PG::TransactionRollback < ::PG::ServerError; end
+class PG::TransactionTimeout < ::PG::InvalidTransactionState; end
 class PG::TriggeredActionException < ::PG::ServerError; end
 class PG::TriggeredDataChangeViolation < ::PG::ServerError; end
 class PG::TrimError < ::PG::DataException; end

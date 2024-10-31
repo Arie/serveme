@@ -976,7 +976,7 @@ class Stripe::APIResource < ::Stripe::StripeObject
   # source://stripe//lib/stripe/api_resource.rb#95
   def refresh; end
 
-  # source://stripe//lib/stripe/api_resource.rb#115
+  # source://stripe//lib/stripe/api_resource.rb#122
   def request_stripe_object(method:, path:, params:, base_address: T.unsafe(nil), opts: T.unsafe(nil)); end
 
   # source://stripe//lib/stripe/api_resource.rb#84
@@ -1002,7 +1002,7 @@ class Stripe::APIResource < ::Stripe::StripeObject
 
   protected
 
-  # source://stripe//lib/stripe/api_resource.rb#120
+  # source://stripe//lib/stripe/api_resource.rb#127
   def request_stream(method:, path:, params:, base_address: T.unsafe(nil), opts: T.unsafe(nil), &read_body_chunk_block); end
 
   class << self
@@ -1031,7 +1031,7 @@ class Stripe::APIResource < ::Stripe::StripeObject
     # source://stripe//lib/stripe/api_resource.rb#27
     def resource_url; end
 
-    # source://stripe//lib/stripe/api_resource.rb#104
+    # source://stripe//lib/stripe/api_resource.rb#111
     def retrieve(id, opts = T.unsafe(nil)); end
 
     # A metaprogramming call that specifies that a field of a resource can be
@@ -1407,7 +1407,7 @@ end
 
 # source://stripe//lib/stripe/services/account_login_link_service.rb#5
 class Stripe::AccountLoginLinkService < ::Stripe::StripeService
-  # Creates a single-use login link for a connected account to access the Express Dashboard.
+  # Creates a login link for a connected account to access the Express Dashboard.
   #
   # You can only create login links for accounts that use the [Express Dashboard](https://stripe.com/connect/express-dashboard) and are connected to your platform.
   #
@@ -2070,7 +2070,7 @@ class Stripe::Billing::AlertService < ::Stripe::StripeService
   def retrieve(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 end
 
-# Indicates the credit balance for credits granted to a customer.
+# Indicates the billing credit balance for billing credits granted to a customer.
 #
 # source://stripe//lib/stripe/resources/billing/credit_balance_summary.rb#7
 class Stripe::Billing::CreditBalanceSummary < ::Stripe::SingletonAPIResource
@@ -2124,9 +2124,12 @@ class Stripe::Billing::CreditBalanceTransactionService < ::Stripe::StripeService
   def retrieve(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 end
 
-# A credit grant is a resource that records a grant of some credit to a customer.
+# A credit grant is an API resource that documents the allocation of some billing credits to a customer.
 #
-# source://stripe//lib/stripe/resources/billing/credit_grant.rb#7
+# Related guide: [Billing credits](https://docs.stripe.com/billing/subscriptions/usage-based/billing-credits)
+# end
+#
+# source://stripe//lib/stripe/resources/billing/credit_grant.rb#10
 class Stripe::Billing::CreditGrant < ::Stripe::APIResource
   include ::Stripe::APIOperations::Save
   extend ::Stripe::APIOperations::Create
@@ -2135,46 +2138,46 @@ class Stripe::Billing::CreditGrant < ::Stripe::APIResource
 
   # Expires a credit grant
   #
-  # source://stripe//lib/stripe/resources/billing/credit_grant.rb#28
+  # source://stripe//lib/stripe/resources/billing/credit_grant.rb#31
   def expire(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Voids a credit grant
   #
-  # source://stripe//lib/stripe/resources/billing/credit_grant.rb#68
+  # source://stripe//lib/stripe/resources/billing/credit_grant.rb#71
   def void_grant(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   class << self
     # Creates a credit grant
     #
-    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#18
+    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#21
     def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Expires a credit grant
     #
-    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#38
+    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#41
     def expire(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Retrieve a list of credit grants
     #
-    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#48
+    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#51
     def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#13
+    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#16
     def object_name; end
 
     # Updates a credit grant
     #
-    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#58
+    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#61
     def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Voids a credit grant
     #
-    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#78
+    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#81
     def void_grant(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
-# source://stripe//lib/stripe/resources/billing/credit_grant.rb#12
+# source://stripe//lib/stripe/resources/billing/credit_grant.rb#15
 Stripe::Billing::CreditGrant::OBJECT_NAME = T.let(T.unsafe(nil), String)
 
 # source://stripe//lib/stripe/services/billing/credit_grant_service.rb#6
@@ -2212,7 +2215,9 @@ end
 
 # A billing meter is a resource that allows you to track usage of a particular event. For example, you might create a billing meter to track the number of API calls made by a particular user. You can then attach the billing meter to a price and attach the price to a subscription to charge the user for the number of API calls they make.
 #
-# source://stripe//lib/stripe/resources/billing/meter.rb#7
+# Related guide: [Usage based billing](https://docs.stripe.com/billing/subscriptions/usage-based)
+#
+# source://stripe//lib/stripe/resources/billing/meter.rb#9
 class Stripe::Billing::Meter < ::Stripe::APIResource
   include ::Stripe::APIOperations::Save
   extend ::Stripe::APIOperations::Create
@@ -2222,23 +2227,23 @@ class Stripe::Billing::Meter < ::Stripe::APIResource
 
   # Deactivates a billing meter
   #
-  # source://stripe//lib/stripe/resources/billing/meter.rb#28
+  # source://stripe//lib/stripe/resources/billing/meter.rb#30
   def deactivate(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Reactivates a billing meter
   #
-  # source://stripe//lib/stripe/resources/billing/meter.rb#53
+  # source://stripe//lib/stripe/resources/billing/meter.rb#55
   def reactivate(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   class << self
     # Creates a billing meter
     #
-    # source://stripe//lib/stripe/resources/billing/meter.rb#23
+    # source://stripe//lib/stripe/resources/billing/meter.rb#25
     def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Deactivates a billing meter
     #
-    # source://stripe//lib/stripe/resources/billing/meter.rb#38
+    # source://stripe//lib/stripe/resources/billing/meter.rb#40
     def deactivate(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/api_operations/nested_resource.rb#22
@@ -2246,28 +2251,28 @@ class Stripe::Billing::Meter < ::Stripe::APIResource
 
     # Retrieve a list of billing meters.
     #
-    # source://stripe//lib/stripe/resources/billing/meter.rb#48
+    # source://stripe//lib/stripe/resources/billing/meter.rb#50
     def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/api_operations/nested_resource.rb#87
     def list_event_summaries(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-    # source://stripe//lib/stripe/resources/billing/meter.rb#14
+    # source://stripe//lib/stripe/resources/billing/meter.rb#16
     def object_name; end
 
     # Reactivates a billing meter
     #
-    # source://stripe//lib/stripe/resources/billing/meter.rb#63
+    # source://stripe//lib/stripe/resources/billing/meter.rb#65
     def reactivate(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Updates a billing meter
     #
-    # source://stripe//lib/stripe/resources/billing/meter.rb#73
+    # source://stripe//lib/stripe/resources/billing/meter.rb#75
     def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
-# source://stripe//lib/stripe/resources/billing/meter.rb#13
+# source://stripe//lib/stripe/resources/billing/meter.rb#15
 Stripe::Billing::Meter::OBJECT_NAME = T.let(T.unsafe(nil), String)
 
 # A billing meter event represents a customer's usage of a product. Meter events are used to bill a customer based on their usage.
@@ -6115,6 +6120,11 @@ class Stripe::Issuing::Card::TestHelpers < ::Stripe::APIResourceTestHelpers
   # source://stripe//lib/stripe/resources/issuing/card.rb#118
   def ship_card(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
+  # Updates the shipping status of the specified Issuing Card object to submitted. This method requires Stripe Version ‘2024-09-30.acacia' or later.
+  #
+  # source://stripe//lib/stripe/resources/issuing/card.rb#138
+  def submit_card(params = T.unsafe(nil), opts = T.unsafe(nil)); end
+
   class << self
     # Updates the shipping status of the specified Issuing Card object to delivered.
     #
@@ -6138,6 +6148,11 @@ class Stripe::Issuing::Card::TestHelpers < ::Stripe::APIResourceTestHelpers
     #
     # source://stripe//lib/stripe/resources/issuing/card.rb#108
     def ship_card(card, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+
+    # Updates the shipping status of the specified Issuing Card object to submitted. This method requires Stripe Version ‘2024-09-30.acacia' or later.
+    #
+    # source://stripe//lib/stripe/resources/issuing/card.rb#128
+    def submit_card(card, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -11703,6 +11718,11 @@ class Stripe::TestHelpers::Issuing::CardService < ::Stripe::StripeService
   #
   # source://stripe//lib/stripe/services/test_helpers/issuing/card_service.rb#42
   def ship_card(card, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+
+  # Updates the shipping status of the specified Issuing Card object to submitted. This method requires Stripe Version ‘2024-09-30.acacia' or later.
+  #
+  # source://stripe//lib/stripe/services/test_helpers/issuing/card_service.rb#53
+  def submit_card(card, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 end
 
 # source://stripe//lib/stripe/services/test_helpers/issuing/personalization_design_service.rb#7
@@ -12098,7 +12118,7 @@ class Stripe::Token < ::Stripe::APIResource
 
   class << self
     # Creates a single-use token that represents a bank account's details.
-    # You can use this token with any API method in place of a bank account dictionary. You can only use this token once. To do so, attach it to a [connected account](https://stripe.com/docs/api#accounts) where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is application, which includes Custom accounts.
+    # You can use this token with any v1 API method in place of a bank account dictionary. You can only use this token once. To do so, attach it to a [connected account](https://stripe.com/docs/api#accounts) where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is application, which includes Custom accounts.
     #
     # source://stripe//lib/stripe/resources/token.rb#35
     def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -12114,7 +12134,7 @@ Stripe::Token::OBJECT_NAME = T.let(T.unsafe(nil), String)
 # source://stripe//lib/stripe/services/token_service.rb#5
 class Stripe::TokenService < ::Stripe::StripeService
   # Creates a single-use token that represents a bank account's details.
-  # You can use this token with any API method in place of a bank account dictionary. You can only use this token once. To do so, attach it to a [connected account](https://stripe.com/docs/api#accounts) where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is application, which includes Custom accounts.
+  # You can use this token with any v1 API method in place of a bank account dictionary. You can only use this token once. To do so, attach it to a [connected account](https://stripe.com/docs/api#accounts) where [controller.requirement_collection](https://stripe.com/api/accounts/object#account_object-controller-requirement_collection) is application, which includes Custom accounts.
   #
   # source://stripe//lib/stripe/services/token_service.rb#8
   def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -13117,15 +13137,17 @@ end
 # source://stripe//lib/stripe/resources/usage_record.rb#12
 Stripe::UsageRecord::OBJECT_NAME = T.let(T.unsafe(nil), String)
 
-# source://stripe//lib/stripe/resources/usage_record_summary.rb#5
+# A usage record summary represents an aggregated view of how much usage was accrued for a subscription item within a subscription billing period.
+#
+# source://stripe//lib/stripe/resources/usage_record_summary.rb#6
 class Stripe::UsageRecordSummary < ::Stripe::StripeObject
   class << self
-    # source://stripe//lib/stripe/resources/usage_record_summary.rb#7
+    # source://stripe//lib/stripe/resources/usage_record_summary.rb#8
     def object_name; end
   end
 end
 
-# source://stripe//lib/stripe/resources/usage_record_summary.rb#6
+# source://stripe//lib/stripe/resources/usage_record_summary.rb#7
 Stripe::UsageRecordSummary::OBJECT_NAME = T.let(T.unsafe(nil), String)
 
 # source://stripe//lib/stripe/util.rb#6
@@ -13805,8 +13827,51 @@ class Stripe::V2::BillingService < ::Stripe::StripeService
   def meter_events; end
 end
 
-# source://stripe//lib/stripe/services/v2/core/event_service.rb#6
+# source://stripe//lib/stripe/services/v2/core/event_destination_service.rb#6
 module Stripe::V2::Core; end
+
+# source://stripe//lib/stripe/services/v2/core/event_destination_service.rb#7
+class Stripe::V2::Core::EventDestinationService < ::Stripe::StripeService
+  # Create a new event destination.
+  #
+  # source://stripe//lib/stripe/services/v2/core/event_destination_service.rb#9
+  def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
+
+  # Delete an event destination.
+  #
+  # source://stripe//lib/stripe/services/v2/core/event_destination_service.rb#20
+  def delete(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+
+  # Disable an event destination.
+  #
+  # source://stripe//lib/stripe/services/v2/core/event_destination_service.rb#31
+  def disable(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+
+  # Enable an event destination.
+  #
+  # source://stripe//lib/stripe/services/v2/core/event_destination_service.rb#42
+  def enable(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+
+  # Lists all event destinations.
+  #
+  # source://stripe//lib/stripe/services/v2/core/event_destination_service.rb#53
+  def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
+
+  # Send a `ping` event to an event destination.
+  #
+  # source://stripe//lib/stripe/services/v2/core/event_destination_service.rb#64
+  def ping(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+
+  # Retrieves the details of an event destination.
+  #
+  # source://stripe//lib/stripe/services/v2/core/event_destination_service.rb#75
+  def retrieve(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+
+  # Update the details of an event destination.
+  #
+  # source://stripe//lib/stripe/services/v2/core/event_destination_service.rb#86
+  def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+end
 
 # source://stripe//lib/stripe/services/v2/core/event_service.rb#7
 class Stripe::V2::Core::EventService < ::Stripe::StripeService
@@ -13828,6 +13893,11 @@ class Stripe::V2::CoreService < ::Stripe::StripeService
   # source://stripe//lib/stripe/services/v2/core_service.rb#9
   def initialize(requestor); end
 
+  # Returns the value of attribute event_destinations.
+  #
+  # source://stripe//lib/stripe/services/v2/core_service.rb#7
+  def event_destinations; end
+
   # Returns the value of attribute events.
   #
   # source://stripe//lib/stripe/services/v2/core_service.rb#7
@@ -13844,6 +13914,17 @@ end
 
 # source://stripe//lib/stripe/resources/v2/event.rb#7
 Stripe::V2::Event::OBJECT_NAME = T.let(T.unsafe(nil), String)
+
+# source://stripe//lib/stripe/resources/v2/event_destination.rb#6
+class Stripe::V2::EventDestination < ::Stripe::APIResource
+  class << self
+    # source://stripe//lib/stripe/resources/v2/event_destination.rb#8
+    def object_name; end
+  end
+end
+
+# source://stripe//lib/stripe/resources/v2/event_destination.rb#7
+Stripe::V2::EventDestination::OBJECT_NAME = T.let(T.unsafe(nil), String)
 
 # source://stripe//lib/stripe/v2_list_object.rb#5
 class Stripe::V2::ListObject < ::Stripe::StripeObject

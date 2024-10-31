@@ -36,20 +36,36 @@ module OmniAuth::Strategies; end
 
 # source://omniauth-steam//lib/omniauth/strategies/steam.rb#6
 class OmniAuth::Strategies::Steam < ::OmniAuth::Strategies::OpenID
+  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#42
+  def callback_phase; end
+
   private
 
-  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#67
+  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#62
+  def allowed_params; end
+
+  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#101
   def friend_list_url; end
 
-  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#48
+  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#82
   def player; end
 
-  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#63
+  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#97
   def player_profile_uri; end
 
-  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#44
+  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#78
   def raw_info; end
 
-  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#52
+  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#86
   def steam_id; end
+
+  # @return [Boolean]
+  #
+  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#50
+  def valid_openid?; end
+
+  # @return [Boolean]
+  #
+  # source://omniauth-steam//lib/omniauth/strategies/steam.rb#56
+  def valid_params?; end
 end

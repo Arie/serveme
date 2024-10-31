@@ -503,7 +503,7 @@ class ActiveSupport::BroadcastLogger
   def <<(message); end
 
   # source://activesupport//lib/active_support/broadcast_logger.rb#116
-  def add(*args, &block); end
+  def add(*_arg0, **_arg1, &_arg2); end
 
   # Add logger(s) to the broadcast.
   #
@@ -522,7 +522,7 @@ class ActiveSupport::BroadcastLogger
   def close; end
 
   # source://activesupport//lib/active_support/broadcast_logger.rb#121
-  def debug(*args, &block); end
+  def debug(*_arg0, **_arg1, &_arg2); end
 
   # Sets the log level to Logger::DEBUG for the whole broadcast.
   #
@@ -538,7 +538,7 @@ class ActiveSupport::BroadcastLogger
   def debug?; end
 
   # source://activesupport//lib/active_support/broadcast_logger.rb#133
-  def error(*args, &block); end
+  def error(*_arg0, **_arg1, &_arg2); end
 
   # Sets the log level to Logger::ERROR for the whole broadcast.
   #
@@ -554,7 +554,7 @@ class ActiveSupport::BroadcastLogger
   def error?; end
 
   # source://activesupport//lib/active_support/broadcast_logger.rb#137
-  def fatal(*args, &block); end
+  def fatal(*_arg0, **_arg1, &_arg2); end
 
   # Sets the log level to Logger::FATAL for the whole broadcast.
   #
@@ -578,7 +578,7 @@ class ActiveSupport::BroadcastLogger
   def formatter=(formatter); end
 
   # source://activesupport//lib/active_support/broadcast_logger.rb#125
-  def info(*args, &block); end
+  def info(*_arg0, **_arg1, &_arg2); end
 
   # Sets the log level to Logger::INFO for the whole broadcast.
   #
@@ -603,7 +603,7 @@ class ActiveSupport::BroadcastLogger
   def local_level=(level); end
 
   # source://activesupport//lib/active_support/broadcast_logger.rb#116
-  def log(*args, &block); end
+  def log(*_arg0, **_arg1, &_arg2); end
 
   # Returns the value of attribute progname.
   #
@@ -638,10 +638,10 @@ class ActiveSupport::BroadcastLogger
   def stop_broadcasting_to(logger); end
 
   # source://activesupport//lib/active_support/broadcast_logger.rb#141
-  def unknown(*args, &block); end
+  def unknown(*_arg0, **_arg1, &_arg2); end
 
   # source://activesupport//lib/active_support/broadcast_logger.rb#129
-  def warn(*args, &block); end
+  def warn(*_arg0, **_arg1, &_arg2); end
 
   # Sets the log level to Logger::WARN for the whole broadcast.
   #
@@ -4010,7 +4010,7 @@ class ActiveSupport::CurrentAttributes
 
   # @return [CurrentAttributes] a new instance of CurrentAttributes
   #
-  # source://activesupport//lib/active_support/current_attributes.rb#197
+  # source://activesupport//lib/active_support/current_attributes.rb#199
   def initialize; end
 
   # source://activesupport//lib/active_support/callbacks.rb#70
@@ -4027,25 +4027,25 @@ class ActiveSupport::CurrentAttributes
 
   # Returns the value of attribute attributes.
   #
-  # source://activesupport//lib/active_support/current_attributes.rb#195
+  # source://activesupport//lib/active_support/current_attributes.rb#197
   def attributes; end
 
   # Sets the attribute attributes
   #
   # @param value the value to set the attribute attributes to.
   #
-  # source://activesupport//lib/active_support/current_attributes.rb#195
+  # source://activesupport//lib/active_support/current_attributes.rb#197
   def attributes=(_arg0); end
 
-  # source://activesupport//lib/active_support/current_attributes.rb#193
+  # source://activesupport//lib/active_support/current_attributes.rb#195
   def defaults; end
 
-  # source://activesupport//lib/active_support/current_attributes.rb#193
+  # source://activesupport//lib/active_support/current_attributes.rb#195
   def defaults?; end
 
   # Reset all attributes. Should be called before and after actions, when used as a per-request singleton.
   #
-  # source://activesupport//lib/active_support/current_attributes.rb#216
+  # source://activesupport//lib/active_support/current_attributes.rb#218
   def reset; end
 
   # Expose one or more attributes within a block. Old values are returned after the block concludes.
@@ -4059,12 +4059,12 @@ class ActiveSupport::CurrentAttributes
   #     end
   #   end
   #
-  # source://activesupport//lib/active_support/current_attributes.rb#211
+  # source://activesupport//lib/active_support/current_attributes.rb#213
   def set(attributes, &block); end
 
   private
 
-  # source://activesupport//lib/active_support/current_attributes.rb#223
+  # source://activesupport//lib/active_support/current_attributes.rb#225
   def resolve_defaults; end
 
   class << self
@@ -4085,7 +4085,7 @@ class ActiveSupport::CurrentAttributes
 
     # Calls this callback after #reset is called on the instance. Used for resetting external collaborators, like Time.zone.
     #
-    # source://activesupport//lib/active_support/current_attributes.rb#147
+    # source://activesupport//lib/active_support/current_attributes.rb#149
     def after_reset(*methods, &block); end
 
     # Declares one or more attributes that will be given both class and instance accessor methods.
@@ -4097,73 +4097,76 @@ class ActiveSupport::CurrentAttributes
     # constructed. Otherwise, the value will be duplicated with +#dup+.
     # Default values are re-assigned when the attributes are reset.
     #
-    # source://activesupport//lib/active_support/current_attributes.rb#112
+    # source://activesupport//lib/active_support/current_attributes.rb#114
     def attribute(*names, default: T.unsafe(nil)); end
 
     # Calls this callback before #reset is called on the instance. Used for resetting external collaborators that depend on current values.
     #
-    # source://activesupport//lib/active_support/current_attributes.rb#142
+    # source://activesupport//lib/active_support/current_attributes.rb#144
     def before_reset(*methods, &block); end
 
-    # source://activesupport//lib/active_support/current_attributes.rb#158
+    # source://activesupport//lib/active_support/current_attributes.rb#160
     def clear_all; end
 
-    # source://activesupport//lib/active_support/current_attributes.rb#193
+    # source://activesupport//lib/active_support/current_attributes.rb#195
     def defaults; end
 
-    # source://activesupport//lib/active_support/current_attributes.rb#193
+    # source://activesupport//lib/active_support/current_attributes.rb#195
     def defaults=(value); end
 
-    # source://activesupport//lib/active_support/current_attributes.rb#193
+    # source://activesupport//lib/active_support/current_attributes.rb#195
     def defaults?; end
 
     # Returns singleton instance for this class in this thread. If none exists, one is created.
     #
-    # source://activesupport//lib/active_support/current_attributes.rb#100
+    # source://activesupport//lib/active_support/current_attributes.rb#102
     def instance; end
 
-    # source://activesupport//lib/active_support/current_attributes.rb#152
+    # source://activesupport//lib/active_support/current_attributes.rb#154
     def reset(*_arg0, **_arg1, &_arg2); end
 
-    # source://activesupport//lib/active_support/current_attributes.rb#154
+    # source://activesupport//lib/active_support/current_attributes.rb#156
     def reset_all; end
 
     # Calls this callback after #reset is called on the instance. Used for resetting external collaborators, like Time.zone.
     #
-    # source://activesupport//lib/active_support/current_attributes.rb#147
+    # source://activesupport//lib/active_support/current_attributes.rb#149
     def resets(*methods, &block); end
 
-    # source://activesupport//lib/active_support/current_attributes.rb#152
+    # source://activesupport//lib/active_support/current_attributes.rb#154
     def set(*_arg0, **_arg1, &_arg2); end
 
     private
 
-    # source://activesupport//lib/active_support/current_attributes.rb#168
+    # source://activesupport//lib/active_support/current_attributes.rb#170
     def current_instances; end
 
-    # source://activesupport//lib/active_support/current_attributes.rb#172
+    # source://activesupport//lib/active_support/current_attributes.rb#174
     def current_instances_key; end
 
-    # source://activesupport//lib/active_support/current_attributes.rb#164
+    # source://activesupport//lib/active_support/current_attributes.rb#166
     def generated_attribute_methods; end
 
     # @private
     #
-    # source://activesupport//lib/active_support/current_attributes.rb#184
+    # source://activesupport//lib/active_support/current_attributes.rb#186
     def method_added(name); end
 
-    # source://activesupport//lib/active_support/current_attributes.rb#176
+    # source://activesupport//lib/active_support/current_attributes.rb#178
     def method_missing(name, *_arg1, **_arg2, &_arg3); end
 
     # @return [Boolean]
     #
-    # source://activesupport//lib/active_support/current_attributes.rb#180
+    # source://activesupport//lib/active_support/current_attributes.rb#182
     def respond_to_missing?(name, _); end
   end
 end
 
 # source://activesupport//lib/active_support/current_attributes.rb#96
 ActiveSupport::CurrentAttributes::INVALID_ATTRIBUTE_NAMES = T.let(T.unsafe(nil), Array)
+
+# source://activesupport//lib/active_support/current_attributes.rb#98
+ActiveSupport::CurrentAttributes::NOT_SET = T.let(T.unsafe(nil), Object)
 
 # Provides +deep_merge+ and +deep_merge!+ methods. Expects the including class
 # to provide a <tt>merge!(other, &block)</tt> method.
@@ -13115,43 +13118,43 @@ module ActiveSupport::Testing::FileFixtures
   end
 end
 
-# source://activesupport//lib/active_support/testing/isolation.rb#5
+# source://activesupport//lib/active_support/testing/isolation.rb#7
 module ActiveSupport::Testing::Isolation
   include ::ActiveSupport::Testing::Isolation::Forking
 
-  # source://activesupport//lib/active_support/testing/isolation.rb#20
+  # source://activesupport//lib/active_support/testing/isolation.rb#22
   def run; end
 
   class << self
     # @return [Boolean]
     #
-    # source://activesupport//lib/active_support/testing/isolation.rb#16
+    # source://activesupport//lib/active_support/testing/isolation.rb#18
     def forking_env?; end
 
-    # source://activesupport//lib/active_support/testing/isolation.rb#10
+    # source://activesupport//lib/active_support/testing/isolation.rb#12
     def included(klass); end
   end
 end
 
-# source://activesupport//lib/active_support/testing/isolation.rb#35
+# source://activesupport//lib/active_support/testing/isolation.rb#37
 module ActiveSupport::Testing::Isolation::Forking
-  # source://activesupport//lib/active_support/testing/isolation.rb#36
+  # source://activesupport//lib/active_support/testing/isolation.rb#38
   def run_in_isolation(&blk); end
 end
 
-# source://activesupport//lib/active_support/testing/isolation.rb#73
+# source://activesupport//lib/active_support/testing/isolation.rb#75
 module ActiveSupport::Testing::Isolation::Subprocess
   # Complicated H4X to get this working in Windows / JRuby with
   # no forking.
   #
-  # source://activesupport//lib/active_support/testing/isolation.rb#78
+  # source://activesupport//lib/active_support/testing/isolation.rb#80
   def run_in_isolation(&blk); end
 end
 
-# source://activesupport//lib/active_support/testing/isolation.rb#74
+# source://activesupport//lib/active_support/testing/isolation.rb#76
 ActiveSupport::Testing::Isolation::Subprocess::ORIG_ARGV = T.let(T.unsafe(nil), Array)
 
-# source://activesupport//lib/active_support/testing/isolation.rb#8
+# source://activesupport//lib/active_support/testing/isolation.rb#10
 class ActiveSupport::Testing::Isolation::SubprocessCrashed < ::StandardError; end
 
 # source://activesupport//lib/active_support/testing/parallelization/server.rb#8
@@ -13195,40 +13198,62 @@ class ActiveSupport::Testing::Parallelization
 end
 
 # source://activesupport//lib/active_support/testing/parallelization/server.rb#9
+class ActiveSupport::Testing::Parallelization::PrerecordResultClass < ::Struct
+  # Returns the value of attribute name
+  #
+  # @return [Object] the current value of name
+  def name; end
+
+  # Sets the attribute name
+  #
+  # @param value [Object] the value to set the attribute name to.
+  # @return [Object] the newly set value
+  def name=(_); end
+
+  class << self
+    def [](*_arg0); end
+    def inspect; end
+    def keyword_init?; end
+    def members; end
+    def new(*_arg0); end
+  end
+end
+
+# source://activesupport//lib/active_support/testing/parallelization/server.rb#11
 class ActiveSupport::Testing::Parallelization::Server
   include ::DRb::DRbUndumped
 
   # @return [Server] a new instance of Server
   #
-  # source://activesupport//lib/active_support/testing/parallelization/server.rb#12
+  # source://activesupport//lib/active_support/testing/parallelization/server.rb#14
   def initialize; end
 
-  # source://activesupport//lib/active_support/testing/parallelization/server.rb#28
+  # source://activesupport//lib/active_support/testing/parallelization/server.rb#31
   def <<(o); end
 
   # @return [Boolean]
   #
-  # source://activesupport//lib/active_support/testing/parallelization/server.rb#48
+  # source://activesupport//lib/active_support/testing/parallelization/server.rb#51
   def active_workers?; end
 
-  # source://activesupport//lib/active_support/testing/parallelization/server.rb#52
+  # source://activesupport//lib/active_support/testing/parallelization/server.rb#55
   def interrupt; end
 
-  # source://activesupport//lib/active_support/testing/parallelization/server.rb#33
+  # source://activesupport//lib/active_support/testing/parallelization/server.rb#36
   def pop; end
 
   # @raise [DRb::DRbConnError]
   #
-  # source://activesupport//lib/active_support/testing/parallelization/server.rb#18
+  # source://activesupport//lib/active_support/testing/parallelization/server.rb#20
   def record(reporter, result); end
 
-  # source://activesupport//lib/active_support/testing/parallelization/server.rb#56
+  # source://activesupport//lib/active_support/testing/parallelization/server.rb#59
   def shutdown; end
 
-  # source://activesupport//lib/active_support/testing/parallelization/server.rb#40
+  # source://activesupport//lib/active_support/testing/parallelization/server.rb#43
   def start_worker(worker_id); end
 
-  # source://activesupport//lib/active_support/testing/parallelization/server.rb#44
+  # source://activesupport//lib/active_support/testing/parallelization/server.rb#47
   def stop_worker(worker_id); end
 end
 
@@ -13879,7 +13904,7 @@ class ActiveSupport::TimeWithZone
   # source://activesupport//lib/active_support/time_with_zone.rb#434
   def day; end
 
-  # Returns true if the current time is within Daylight Savings Time for the
+  # Returns true if the current time is within Daylight Savings \Time for the
   # specified time zone.
   #
   #   Time.zone = 'Eastern Time (US & Canada)'    # => 'Eastern Time (US & Canada)'
@@ -14021,7 +14046,7 @@ class ActiveSupport::TimeWithZone
   # source://activesupport//lib/active_support/time_with_zone.rb#499
   def is_a?(klass); end
 
-  # Returns true if the current time is within Daylight Savings Time for the
+  # Returns true if the current time is within Daylight Savings \Time for the
   # specified time zone.
   #
   #   Time.zone = 'Eastern Time (US & Canada)'    # => 'Eastern Time (US & Canada)'
@@ -14388,7 +14413,7 @@ ActiveSupport::TimeWithZone::SECONDS_PER_DAY = T.let(T.unsafe(nil), Integer)
 # * Limit the set of zones provided by TZInfo to a meaningful subset of 134
 #   zones.
 # * Retrieve and display zones with a friendlier name
-#   (e.g., "Eastern Time (US & Canada)" instead of "America/New_York").
+#   (e.g., "Eastern \Time (US & Canada)" instead of "America/New_York").
 # * Lazily load +TZInfo::Timezone+ instances only when they're needed.
 # * Create ActiveSupport::TimeWithZone instances via TimeZone's +local+,
 #   +parse+, +at+, and +now+ methods.
@@ -14428,7 +14453,7 @@ class ActiveSupport::TimeZone
   # source://activesupport//lib/active_support/values/time_zone.rb#344
   def =~(re); end
 
-  # Method for creating new ActiveSupport::TimeWithZone instance in time zone
+  # \Method for creating new ActiveSupport::TimeWithZone instance in time zone
   # of +self+ from number of seconds since the Unix epoch.
   #
   #   Time.zone = 'Hawaii'        # => "Hawaii"
@@ -14459,7 +14484,7 @@ class ActiveSupport::TimeZone
   # source://activesupport//lib/active_support/values/time_zone.rb#573
   def init_with(coder); end
 
-  # Method for creating new ActiveSupport::TimeWithZone instance in time zone
+  # \Method for creating new ActiveSupport::TimeWithZone instance in time zone
   # of +self+ from an ISO 8601 string.
   #
   #   Time.zone = 'Hawaii'                     # => "Hawaii"
@@ -14476,7 +14501,7 @@ class ActiveSupport::TimeZone
   # source://activesupport//lib/active_support/values/time_zone.rb#398
   def iso8601(str); end
 
-  # Method for creating new ActiveSupport::TimeWithZone instance in time zone
+  # \Method for creating new ActiveSupport::TimeWithZone instance in time zone
   # of +self+ from given values.
   #
   #   Time.zone = 'Hawaii'                    # => "Hawaii"
@@ -14513,7 +14538,7 @@ class ActiveSupport::TimeZone
   # source://activesupport//lib/active_support/values/time_zone.rb#518
   def now; end
 
-  # Method for creating new ActiveSupport::TimeWithZone instance in time zone
+  # \Method for creating new ActiveSupport::TimeWithZone instance in time zone
   # of +self+ from parsed string.
   #
   #   Time.zone = 'Hawaii'                   # => "Hawaii"
@@ -14550,7 +14575,7 @@ class ActiveSupport::TimeZone
   # source://activesupport//lib/active_support/values/time_zone.rb#569
   def periods_for_local(time); end
 
-  # Method for creating new ActiveSupport::TimeWithZone instance in time zone
+  # \Method for creating new ActiveSupport::TimeWithZone instance in time zone
   # of +self+ from an RFC 3339 string.
   #
   #   Time.zone = 'Hawaii'                     # => "Hawaii"
@@ -14742,7 +14767,7 @@ ActiveSupport::VERSION::MAJOR = T.let(T.unsafe(nil), Integer)
 ActiveSupport::VERSION::MINOR = T.let(T.unsafe(nil), Integer)
 
 # source://activesupport//lib/active_support/gem_version.rb#13
-ActiveSupport::VERSION::PRE = T.let(T.unsafe(nil), String)
+ActiveSupport::VERSION::PRE = T.let(T.unsafe(nil), T.untyped)
 
 # source://activesupport//lib/active_support/gem_version.rb#15
 ActiveSupport::VERSION::STRING = T.let(T.unsafe(nil), String)
@@ -17256,9 +17281,9 @@ end
 # source://activesupport//lib/active_support/core_ext/enumerable.rb#21
 class Enumerable::SoleItemExpectedError < ::StandardError; end
 
-# source://activesupport//lib/active_support/core_ext/object/json.rb#248
+# source://activesupport//lib/active_support/core_ext/object/json.rb#250
 class Exception
-  # source://activesupport//lib/active_support/core_ext/object/json.rb#249
+  # source://activesupport//lib/active_support/core_ext/object/json.rb#251
   def as_json(options = T.unsafe(nil)); end
 end
 
@@ -17989,9 +18014,9 @@ IO::READABLE = T.let(T.unsafe(nil), Integer)
 class IO::TimeoutError < ::IOError; end
 IO::WRITABLE = T.let(T.unsafe(nil), Integer)
 
-# source://activesupport//lib/active_support/core_ext/object/json.rb#236
+# source://activesupport//lib/active_support/core_ext/object/json.rb#237
 class IPAddr
-  # source://activesupport//lib/active_support/core_ext/object/json.rb#237
+  # source://activesupport//lib/active_support/core_ext/object/json.rb#238
   def as_json(options = T.unsafe(nil)); end
 end
 
@@ -19881,9 +19906,9 @@ module Process
   end
 end
 
-# source://activesupport//lib/active_support/core_ext/object/json.rb#242
+# source://activesupport//lib/active_support/core_ext/object/json.rb#244
 class Process::Status
-  # source://activesupport//lib/active_support/core_ext/object/json.rb#243
+  # source://activesupport//lib/active_support/core_ext/object/json.rb#245
   def as_json(options = T.unsafe(nil)); end
 end
 
@@ -20331,7 +20356,7 @@ class String
   #   >> "ǉ".upcase
   #   => "Ǉ"
   #
-  # == Method chaining
+  # == \Method chaining
   #
   # All the methods on the Chars proxy which normally return a string will return a Chars object. This allows
   # method chaining on the result of any of these methods.
@@ -21216,7 +21241,7 @@ class Time
     # This method accepts any of the following:
     #
     # * A \Rails TimeZone object.
-    # * An identifier for a \Rails TimeZone object (e.g., "Eastern Time (US & Canada)", <tt>-5.hours</tt>).
+    # * An identifier for a \Rails TimeZone object (e.g., "Eastern \Time (US & Canada)", <tt>-5.hours</tt>).
     # * A +TZInfo::Timezone+ object.
     # * An identifier for a +TZInfo::Timezone+ object (e.g., "America/New_York").
     #

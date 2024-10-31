@@ -5,6 +5,14 @@ GIT
     google_visualr (2.1.6)
 
 GIT
+  remote: https://github.com/Arie/omniauth-steam.git
+  revision: a551a84134fa6c4d4c6eeeb64140dcf6785cb4c1
+  specs:
+    omniauth-steam (1.0.6)
+      multi_json
+      omniauth-openid
+
+GIT
   remote: https://github.com/Arie/remote_lock.git
   revision: 402bba89168d8259ced331f0c5a6d75f529c06b7
   specs:
@@ -471,9 +479,6 @@ GEM
     omniauth-rails_csrf_protection (1.0.2)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
-    omniauth-steam (1.0.6)
-      multi_json
-      omniauth-openid
     orm_adapter (0.5.0)
     ostruct (0.6.0)
     parallel (1.26.3)
@@ -876,7 +881,7 @@ DEPENDENCIES
   oily_png
   omniauth
   omniauth-rails_csrf_protection
-  omniauth-steam
+  omniauth-steam!
   parallel_tests
   paypal-sdk-rest
   pg

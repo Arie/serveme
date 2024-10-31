@@ -45,6 +45,9 @@ Style/NumericLiterals:
 Style/HashSyntax:
    EnforcedShorthandSyntax: either
 
+Style/SafeNavigationChainLength:
+   Enabled: false
+
 Metrics/BlockLength:
    Exclude:
       - 'Rakefile'

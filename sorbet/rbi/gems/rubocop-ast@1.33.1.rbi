@@ -7270,28 +7270,28 @@ class RuboCop::AST::YieldNode < ::RuboCop::AST::Node
 end
 
 class RuboCop::CommentConfig
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#34
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#34
   def initialize(processed_source); end
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#63
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#63
   def comment_only_line?(line_number); end
 
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
   def config(*_arg0, **_arg1, &_arg2); end
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#51
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#51
   def cop_disabled_line_ranges; end
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#39
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#39
   def cop_enabled_at_line?(cop, line_number); end
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#47
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#47
   def cop_opted_in?(cop); end
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#55
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#55
   def extra_enabled_comments; end
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#30
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#30
   def processed_source; end
 
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
@@ -7299,51 +7299,51 @@ class RuboCop::CommentConfig
 
   private
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#96
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#96
   def analyze; end
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#124
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#124
   def analyze_cop(analysis, directive); end
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#144
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#144
   def analyze_disabled(analysis, directive); end
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#155
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#155
   def analyze_rest(analysis, directive); end
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#135
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#135
   def analyze_single_line(analysis, directive); end
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#164
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#164
   def cop_line_ranges(analysis); end
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#170
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#170
   def each_directive; end
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#69
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#69
   def extra_enabled_comments_with_names(extras:, names:); end
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#190
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#190
   def handle_enable_all(directive, names, extras); end
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#204
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#204
   def handle_switch(directive, names, extras); end
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#115
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#115
   def inject_disabled_cops_directives(analyses); end
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#183
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#183
   def non_comment_token_line_numbers; end
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#83
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#83
   def opt_in_cops; end
 
-  # source://rubocop/1.67.0/lib/rubocop/comment_config.rb#179
+  # source://rubocop/1.68.0/lib/rubocop/comment_config.rb#179
   def qualified_cop_name(cop_name); end
 end
 
 class RuboCop::Config
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#30
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#30
   def initialize(hash = T.unsafe(nil), loaded_path = T.unsafe(nil)); end
 
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
@@ -7352,37 +7352,37 @@ class RuboCop::Config
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
   def []=(*_arg0, **_arg1, &_arg2); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#170
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#170
   def active_support_extensions_enabled?; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#96
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#96
   def add_excludes_from_higher_level(highest_config); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#197
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#197
   def allowed_camel_case_file?(file); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#241
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#241
   def base_dir_for_path_parameters; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#271
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#271
   def bundler_lock_file_path; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#51
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#51
   def check; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#142
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#142
   def clusivity_config_for_badge?(badge); end
 
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
   def delete(*_arg0, **_arg1, &_arg2); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#108
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#108
   def deprecation_check; end
 
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
   def dig(*_arg0, **_arg1, &_arg2); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#162
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#162
   def disabled_new_cops?; end
 
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
@@ -7391,37 +7391,37 @@ class RuboCop::Config
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
   def each_key(*_arg0, **_arg1, &_arg2); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#166
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#166
   def enabled_new_cops?; end
 
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
   def fetch(*_arg0, **_arg1, &_arg2); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#219
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#219
   def file_to_exclude?(file); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#178
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#178
   def file_to_include?(file); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#158
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#158
   def for_all_cops; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#128
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#128
   def for_badge(badge); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#122
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#122
   def for_cop(cop); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#153
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#153
   def for_department(department_name); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#296
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#296
   def gem_versions_in_target; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#300
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#300
   def inspect; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#76
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#76
   def internal?; end
 
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
@@ -7430,13 +7430,13 @@ class RuboCop::Config
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
   def keys(*_arg0, **_arg1, &_arg2); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#47
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#47
   def loaded_features; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#20
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#20
   def loaded_path; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#81
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#81
   def make_excludes_absolute; end
 
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
@@ -7445,37 +7445,37 @@ class RuboCop::Config
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
   def merge(*_arg0, **_arg1, &_arg2); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#251
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#251
   def parser_engine; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#232
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#232
   def path_relative_to_config(path); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#228
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#228
   def patterns_to_exclude; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#224
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#224
   def patterns_to_include; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#282
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#282
   def pending_cops; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#211
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#211
   def possibly_include_hidden?; end
 
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
   def replace(*_arg0, **_arg1, &_arg2); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#71
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#71
   def signature; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#266
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#266
   def smart_loaded_path; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#174
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#174
   def string_literals_frozen_by_default?; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#255
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#255
   def target_rails_version; end
 
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
@@ -7487,7 +7487,7 @@ class RuboCop::Config
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
   def to_hash(*_arg0, **_arg1, &_arg2); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#67
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#67
   def to_s; end
 
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
@@ -7496,37 +7496,37 @@ class RuboCop::Config
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
   def validate(*_arg0, **_arg1, &_arg2); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#58
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#58
   def validate_after_resolution; end
 
   private
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#350
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#350
   def department_of(qualified_cop_name); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#338
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#338
   def enable_cop?(qualified_cop_name, cop_options); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#325
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#325
   def gem_version_to_major_minor_float(gem_version); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#331
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#331
   def read_gem_versions_from_target_lockfile; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#312
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#312
   def read_rails_version_from_bundler_lock_file; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config.rb#307
+  # source://rubocop/1.68.0/lib/rubocop/config.rb#307
   def target_rails_version_from_bundler_lock_file; end
 
   class << self
-    # source://rubocop/1.67.0/lib/rubocop/config.rb#22
+    # source://rubocop/1.68.0/lib/rubocop/config.rb#22
     def create(hash, path, check: T.unsafe(nil)); end
   end
 end
 
 class RuboCop::ConfigValidator
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#27
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#27
   def initialize(config); end
 
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
@@ -7535,66 +7535,66 @@ class RuboCop::ConfigValidator
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#9
   def smart_loaded_path(*_arg0, **_arg1, &_arg2); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#63
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#63
   def target_ruby_version; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#33
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#33
   def validate; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#59
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#59
   def validate_after_resolution; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#67
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#67
   def validate_section_presence(name); end
 
   private
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#104
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#104
   def alert_about_unrecognized_cops(invalid_cop_names); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#254
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#254
   def check_cop_config_value(hash, parent = T.unsafe(nil)); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#77
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#77
   def check_obsoletions; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#84
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#84
   def check_target_ruby; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#195
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#195
   def each_invalid_parameter(cop_name); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#120
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#120
   def list_unknown_cops(invalid_cop_names); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#274
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#274
   def param_error_message(parent, key, value, supposed_values); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#242
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#242
   def reject_conflicting_safe_settings; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#233
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#233
   def reject_mutually_exclusive_defaults; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#142
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#142
   def suggestion(name); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#75
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#75
   def target_ruby; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#207
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#207
   def validate_enforced_styles(valid_cop_names); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#169
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#169
   def validate_new_cops_parameter; end
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#180
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#180
   def validate_parameter_names(valid_cop_names); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#227
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#227
   def validate_support_and_has_list(name, formats, valid); end
 
-  # source://rubocop/1.67.0/lib/rubocop/config_validator.rb#158
+  # source://rubocop/1.68.0/lib/rubocop/config_validator.rb#158
   def validate_syntax_cop; end
 end
 

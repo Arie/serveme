@@ -47,9 +47,9 @@ gem 'omniauth-steam', git: 'https://github.com/Arie/omniauth-steam.git'
 gem 'paypal-sdk-rest'
 gem 'pg'
 gem 'puma'
-gem 'rack', '~> 2.2'
+gem 'rack'
 gem 'rack-cache'
-gem 'rails', '~> 7.2'
+gem 'rails', '~> 8.0.0'
 gem 'rbzip2'
 # Use Redis for Action Cable
 gem 'redis'
@@ -76,7 +76,7 @@ gem 'stripe'
 gem 'terser'
 gem 'text'
 gem 'tf2_line_parser'
-gem 'uri', '~> 0.13.1'
+gem 'uri'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap4'
 
@@ -117,7 +117,7 @@ end
 group :test do
   gem 'capybara'
   gem 'cucumber'
-  gem 'cucumber-rails', require: false
+  gem 'cucumber-rails', git: 'https://github.com/tagliala/cucumber-rails.git', ref: 'b750833e104bf39354d4a4077413a5847241d249', require: false
   gem 'database_cleaner'
   gem 'delorean'
   gem 'json_expressions'

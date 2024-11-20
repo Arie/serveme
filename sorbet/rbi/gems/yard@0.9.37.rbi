@@ -14626,7 +14626,7 @@ class YARD::Server::RackMiddleware
 end
 
 # source://yard//lib/yard/server/rack_adapter.rb#12
-YARD::Server::RackServer = Rack::Server
+YARD::Server::RackServer = Server
 
 # A router class implements the logic used to recognize a request for a specific
 # URL and run specific {Commands::Base commands}.

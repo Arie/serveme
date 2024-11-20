@@ -737,7 +737,7 @@ class Rack::Cache::EntityStore::Noop < ::Rack::Cache::EntityStore
 end
 
 # source://rack-cache//lib/rack/cache/headers.rb#12
-Rack::Cache::Headers = Rack::Utils::HeaderHash
+Rack::Cache::Headers = Puma::Util::HeaderHash
 
 # source://rack-cache//lib/rack/cache/key.rb#4
 class Rack::Cache::Key

@@ -2127,57 +2127,56 @@ end
 # A credit grant is an API resource that documents the allocation of some billing credits to a customer.
 #
 # Related guide: [Billing credits](https://docs.stripe.com/billing/subscriptions/usage-based/billing-credits)
-# end
 #
-# source://stripe//lib/stripe/resources/billing/credit_grant.rb#10
+# source://stripe//lib/stripe/resources/billing/credit_grant.rb#9
 class Stripe::Billing::CreditGrant < ::Stripe::APIResource
   include ::Stripe::APIOperations::Save
   extend ::Stripe::APIOperations::Create
   extend ::Stripe::APIOperations::List
   extend ::Stripe::APIOperations::Save::ClassMethods
 
-  # Expires a credit grant
+  # Expires a credit grant.
   #
-  # source://stripe//lib/stripe/resources/billing/credit_grant.rb#31
+  # source://stripe//lib/stripe/resources/billing/credit_grant.rb#30
   def expire(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # Voids a credit grant
+  # Voids a credit grant.
   #
-  # source://stripe//lib/stripe/resources/billing/credit_grant.rb#71
+  # source://stripe//lib/stripe/resources/billing/credit_grant.rb#70
   def void_grant(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   class << self
     # Creates a credit grant
     #
-    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#21
+    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#20
     def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-    # Expires a credit grant
+    # Expires a credit grant.
     #
-    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#41
+    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#40
     def expire(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-    # Retrieve a list of credit grants
+    # Retrieve a list of credit grants.
     #
-    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#51
+    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#50
     def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#16
+    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#15
     def object_name; end
 
     # Updates a credit grant
     #
-    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#61
+    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#60
     def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-    # Voids a credit grant
+    # Voids a credit grant.
     #
-    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#81
+    # source://stripe//lib/stripe/resources/billing/credit_grant.rb#80
     def void_grant(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
-# source://stripe//lib/stripe/resources/billing/credit_grant.rb#15
+# source://stripe//lib/stripe/resources/billing/credit_grant.rb#14
 Stripe::Billing::CreditGrant::OBJECT_NAME = T.let(T.unsafe(nil), String)
 
 # source://stripe//lib/stripe/services/billing/credit_grant_service.rb#6
@@ -2187,12 +2186,12 @@ class Stripe::Billing::CreditGrantService < ::Stripe::StripeService
   # source://stripe//lib/stripe/services/billing/credit_grant_service.rb#8
   def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # Expires a credit grant
+  # Expires a credit grant.
   #
   # source://stripe//lib/stripe/services/billing/credit_grant_service.rb#19
   def expire(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # Retrieve a list of credit grants
+  # Retrieve a list of credit grants.
   #
   # source://stripe//lib/stripe/services/billing/credit_grant_service.rb#30
   def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -2207,7 +2206,7 @@ class Stripe::Billing::CreditGrantService < ::Stripe::StripeService
   # source://stripe//lib/stripe/services/billing/credit_grant_service.rb#52
   def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # Voids a credit grant
+  # Voids a credit grant.
   #
   # source://stripe//lib/stripe/services/billing/credit_grant_service.rb#63
   def void_grant(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -5988,9 +5987,14 @@ class Stripe::Issuing::Authorization::TestHelpers < ::Stripe::APIResourceTestHel
   # source://stripe//lib/stripe/resources/issuing/authorization.rb#186
   def increment(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # Reverse a test-mode Authorization.
+  # Respond to a fraud challenge on a testmode Issuing authorization, simulating either a confirmation of fraud or a correction of legitimacy.
   #
   # source://stripe//lib/stripe/resources/issuing/authorization.rb#206
+  def respond(params = T.unsafe(nil), opts = T.unsafe(nil)); end
+
+  # Reverse a test-mode Authorization.
+  #
+  # source://stripe//lib/stripe/resources/issuing/authorization.rb#226
   def reverse(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   class << self
@@ -6022,9 +6026,14 @@ class Stripe::Issuing::Authorization::TestHelpers < ::Stripe::APIResourceTestHel
     # source://stripe//lib/stripe/resources/issuing/authorization.rb#101
     def resource_class; end
 
-    # Reverse a test-mode Authorization.
+    # Respond to a fraud challenge on a testmode Issuing authorization, simulating either a confirmation of fraud or a correction of legitimacy.
     #
     # source://stripe//lib/stripe/resources/issuing/authorization.rb#196
+    def respond(authorization, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+
+    # Reverse a test-mode Authorization.
+    #
+    # source://stripe//lib/stripe/resources/issuing/authorization.rb#216
     def reverse(authorization, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
@@ -6062,7 +6071,7 @@ class Stripe::Issuing::AuthorizationService < ::Stripe::StripeService
   def update(authorization, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 end
 
-# You can [create physical or virtual cards](https://stripe.com/docs/issuing/cards) that are issued to cardholders.
+# You can [create physical or virtual cards](https://stripe.com/docs/issuing) that are issued to cardholders.
 #
 # source://stripe//lib/stripe/resources/issuing/card.rb#7
 class Stripe::Issuing::Card < ::Stripe::APIResource
@@ -6184,7 +6193,7 @@ end
 
 # An Issuing `Cardholder` object represents an individual or business entity who is [issued](https://stripe.com/docs/issuing) cards.
 #
-# Related guide: [How to create a cardholder](https://stripe.com/docs/issuing/cards#create-cardholder)
+# Related guide: [How to create a cardholder](https://stripe.com/docs/issuing/cards/virtual/issue-cards#create-cardholder)
 #
 # source://stripe//lib/stripe/resources/issuing/cardholder.rb#9
 class Stripe::Issuing::Cardholder < ::Stripe::APIResource
@@ -10509,7 +10518,7 @@ class Stripe::Subscription < ::Stripe::APIResource
     # A trial starts or ends.
     #
     #
-    # In these cases, we apply a credit for the unused time on the previous price, immediately charge the customer using the new price, and reset the billing date. Learn about how [Stripe immediately attempts payment for subscription changes](https://stripe.com/billing/subscriptions/upgrade-downgrade#immediate-payment).
+    # In these cases, we apply a credit for the unused time on the previous price, immediately charge the customer using the new price, and reset the billing date. Learn about how [Stripe immediately attempts payment for subscription changes](https://stripe.com/docs/billing/subscriptions/upgrade-downgrade#immediate-payment).
     #
     # If you want to charge for an upgrade immediately, pass proration_behavior as always_invoice to create prorations, automatically invoice the customer for those proration adjustments, and attempt to collect payment. If you pass create_prorations, the prorations are created but not automatically invoiced. If you want to bill the customer for the prorations before the subscription's renewal date, you need to manually [invoice the customer](https://stripe.com/docs/api/invoices/create).
     #
@@ -10803,7 +10812,7 @@ class Stripe::SubscriptionService < ::Stripe::StripeService
   # A trial starts or ends.
   #
   #
-  # In these cases, we apply a credit for the unused time on the previous price, immediately charge the customer using the new price, and reset the billing date. Learn about how [Stripe immediately attempts payment for subscription changes](https://stripe.com/billing/subscriptions/upgrade-downgrade#immediate-payment).
+  # In these cases, we apply a credit for the unused time on the previous price, immediately charge the customer using the new price, and reset the billing date. Learn about how [Stripe immediately attempts payment for subscription changes](https://stripe.com/docs/billing/subscriptions/upgrade-downgrade#immediate-payment).
   #
   # If you want to charge for an upgrade immediately, pass proration_behavior as always_invoice to create prorations, automatically invoice the customer for those proration adjustments, and attempt to collect payment. If you pass create_prorations, the prorations are created but not automatically invoiced. If you want to bill the customer for the prorations before the subscription's renewal date, you need to manually [invoice the customer](https://stripe.com/docs/api/invoices/create).
   #
@@ -11691,9 +11700,14 @@ class Stripe::TestHelpers::Issuing::AuthorizationService < ::Stripe::StripeServi
   # source://stripe//lib/stripe/services/test_helpers/issuing/authorization_service.rb#53
   def increment(authorization, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # Reverse a test-mode Authorization.
+  # Respond to a fraud challenge on a testmode Issuing authorization, simulating either a confirmation of fraud or a correction of legitimacy.
   #
   # source://stripe//lib/stripe/services/test_helpers/issuing/authorization_service.rb#64
+  def respond(authorization, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+
+  # Reverse a test-mode Authorization.
+  #
+  # source://stripe//lib/stripe/services/test_helpers/issuing/authorization_service.rb#75
   def reverse(authorization, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 end
 

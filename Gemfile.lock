@@ -516,6 +516,8 @@ GEM
     raabro (1.4.0)
     racc (1.8.1)
     rack (3.1.8)
+    rack-attack (6.7.0)
+      rack (>= 1.0, < 4)
     rack-cache (1.17.0)
       rack (>= 0.4)
     rack-openid (1.4.2)
@@ -888,6 +890,7 @@ DEPENDENCIES
   pry-nav
   puma
   rack
+  rack-attack
   rack-cache
   rails (~> 8.0.0)
   rails-controller-testing

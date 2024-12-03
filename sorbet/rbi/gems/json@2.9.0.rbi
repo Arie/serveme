@@ -7,7 +7,7 @@
 
 # Extends any Class to include _json_creatable?_ method.
 #
-# source://json//lib/json/common.rb#868
+# source://json//lib/json/common.rb#888
 class Class < ::Module
   # Returns true if this class can be used to create an instance
   # from a serialised JSON string. The class has to implement a class
@@ -16,7 +16,7 @@ class Class < ::Module
   #
   # @return [Boolean]
   #
-  # source://json//lib/json/common.rb#873
+  # source://json//lib/json/common.rb#893
   def json_creatable?; end
 end
 
@@ -633,7 +633,7 @@ module JSON
   # Output:
   #   {"foo":[0,1],"bar":{"baz":2,"bat":3},"bam":"bad"}
   #
-  # source://json//lib/json/common.rb#772
+  # source://json//lib/json/common.rb#795
   def dump(obj, anIO = T.unsafe(nil), limit = T.unsafe(nil), kwargs = T.unsafe(nil)); end
 
   # :call-seq:
@@ -650,13 +650,13 @@ module JSON
   #   # Raises SystemStackError (stack level too deep):
   #   JSON.fast_generate(a)
   #
-  # source://json//lib/json/common.rb#313
+  # source://json//lib/json/common.rb#329
   def fast_generate(obj, opts = T.unsafe(nil)); end
 
   # :stopdoc:
   # I want to deprecate these later, so I'll first be silent about them, and later delete them.
   #
-  # source://json//lib/json/common.rb#313
+  # source://json//lib/json/common.rb#329
   def fast_unparse(obj, opts = T.unsafe(nil)); end
 
   # :call-seq:
@@ -695,13 +695,23 @@ module JSON
   #   # Raises JSON::NestingError (nesting of 100 is too deep):
   #   JSON.generate(a)
   #
-  # source://json//lib/json/common.rb#285
+  # source://json//lib/json/common.rb#301
   def generate(obj, opts = T.unsafe(nil)); end
 
   # :call-seq:
   #   JSON.load(source, proc = nil, options = {}) -> object
   #
   # Returns the Ruby objects created by parsing the given +source+.
+  #
+  # BEWARE: This method is meant to serialise data from trusted user input,
+  # like from your own database server or clients under your control, it could
+  # be dangerous to allow untrusted users to pass JSON sources into it.
+  # If you must use it, use JSON.unsafe_load instead to make it clear.
+  #
+  # Since JSON version 2.8.0, `load` emits a deprecation warning when a
+  # non native type is deserialized, without `create_additions` being explicitly
+  # enabled, and in JSON version 3.0, `load` will have `create_additions` disabled
+  # by default.
   #
   # - Argument +source+ must be, or be convertible to, a \String:
   #   - If +source+ responds to instance method +to_str+,
@@ -717,10 +727,6 @@ module JSON
   # - Argument +proc+, if given, must be a \Proc that accepts one argument.
   #   It will be called recursively with each result (depth-first order).
   #   See details below.
-  #   BEWARE: This method is meant to serialise data from trusted user input,
-  #   like from your own database server or clients under your control, it could
-  #   be dangerous to allow untrusted users to pass JSON sources into it.
-  #   If you must use it, use JSON.unsafe_load instead to make it clear.
   # - Argument +opts+, if given, contains a \Hash of options for the parsing.
   #   See {Parsing Options}[#module-JSON-label-Parsing+Options].
   #   The default options can be changed via method JSON.load_default_options=.
@@ -827,7 +833,7 @@ module JSON
   #      #<Admin:0x00000000064c41f8
   #      @attributes={"type"=>"Admin", "password"=>"0wn3d"}>}
   #
-  # source://json//lib/json/common.rb#691
+  # source://json//lib/json/common.rb#714
   def load(source, proc = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # :call-seq:
@@ -838,7 +844,7 @@ module JSON
   #
   # See method #parse.
   #
-  # source://json//lib/json/common.rb#234
+  # source://json//lib/json/common.rb#250
   def load_file(filespec, opts = T.unsafe(nil)); end
 
   # :call-seq:
@@ -849,10 +855,10 @@ module JSON
   #
   # See method #parse!
   #
-  # source://json//lib/json/common.rb#245
+  # source://json//lib/json/common.rb#261
   def load_file!(filespec, opts = T.unsafe(nil)); end
 
-  # source://json//lib/json/common.rb#816
+  # source://json//lib/json/common.rb#836
   def merge_dump_options(opts, strict: T.unsafe(nil)); end
 
   # :call-seq:
@@ -903,7 +909,7 @@ module JSON
   #   # Raises JSON::ParserError (783: unexpected token at ''):
   #   JSON.parse('')
   #
-  # source://json//lib/json/common.rb#204
+  # source://json//lib/json/common.rb#220
   def parse(source, opts = T.unsafe(nil)); end
 
   # :call-seq:
@@ -918,7 +924,7 @@ module JSON
   #   which disables checking for nesting depth.
   # - Option +allow_nan+, if not provided, defaults to +true+.
   #
-  # source://json//lib/json/common.rb#219
+  # source://json//lib/json/common.rb#235
   def parse!(source, opts = T.unsafe(nil)); end
 
   # :call-seq:
@@ -951,34 +957,38 @@ module JSON
   #     }
   #   }
   #
-  # source://json//lib/json/common.rb#358
+  # source://json//lib/json/common.rb#374
   def pretty_generate(obj, opts = T.unsafe(nil)); end
 
   # :stopdoc:
   # I want to deprecate these later, so I'll first be silent about them, and later delete them.
   #
-  # source://json//lib/json/common.rb#358
+  # source://json//lib/json/common.rb#374
   def pretty_unparse(obj, opts = T.unsafe(nil)); end
 
   # Recursively calls passed _Proc_ if the parsed data structure is an _Array_ or _Hash_
   #
-  # source://json//lib/json/common.rb#717
+  # source://json//lib/json/common.rb#740
   def recurse_proc(result, &proc); end
 
-  # source://json//lib/json/common.rb#691
+  # source://json//lib/json/common.rb#714
   def restore(source, proc = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # :stopdoc:
   # I want to deprecate these later, so I'll first be silent about them, and
   # later delete them.
   #
-  # source://json//lib/json/common.rb#285
+  # source://json//lib/json/common.rb#301
   def unparse(obj, opts = T.unsafe(nil)); end
 
   # :call-seq:
   #   JSON.unsafe_load(source, proc = nil, options = {}) -> object
   #
   # Returns the Ruby objects created by parsing the given +source+.
+  #
+  # BEWARE: This method is meant to serialise data from trusted user input,
+  # like from your own database server or clients under your control, it could
+  # be dangerous to allow untrusted users to pass JSON sources into it.
   #
   # - Argument +source+ must be, or be convertible to, a \String:
   #   - If +source+ responds to instance method +to_str+,
@@ -994,9 +1004,6 @@ module JSON
   # - Argument +proc+, if given, must be a \Proc that accepts one argument.
   #   It will be called recursively with each result (depth-first order).
   #   See details below.
-  #   BEWARE: This method is meant to serialise data from trusted user input,
-  #   like from your own database server or clients under your control, it could
-  #   be dangerous to allow untrusted users to pass JSON sources into it.
   # - Argument +opts+, if given, contains a \Hash of options for the parsing.
   #   See {Parsing Options}[#module-JSON-label-Parsing+Options].
   #   The default options can be changed via method JSON.unsafe_load_default_options=.
@@ -1103,7 +1110,7 @@ module JSON
   #      #<Admin:0x00000000064c41f8
   #      @attributes={"type"=>"Admin", "password"=>"0wn3d"}>}
   #
-  # source://json//lib/json/common.rb#537
+  # source://json//lib/json/common.rb#554
   def unsafe_load(source, proc = T.unsafe(nil), options = T.unsafe(nil)); end
 
   class << self
@@ -1177,7 +1184,7 @@ module JSON
     # Output:
     #   {"foo":[0,1],"bar":{"baz":2,"bat":3},"bam":"bad"}
     #
-    # source://json//lib/json/common.rb#772
+    # source://json//lib/json/common.rb#795
     def dump(obj, anIO = T.unsafe(nil), limit = T.unsafe(nil), kwargs = T.unsafe(nil)); end
 
     # Sets or returns the default options for the JSON.dump method.
@@ -1185,7 +1192,7 @@ module JSON
     #   opts = JSON.dump_default_options
     #   opts # => {:max_nesting=>false, :allow_nan=>true}
     #
-    # source://json//lib/json/common.rb#738
+    # source://json//lib/json/common.rb#761
     def dump_default_options; end
 
     # Sets or returns the default options for the JSON.dump method.
@@ -1193,7 +1200,7 @@ module JSON
     #   opts = JSON.dump_default_options
     #   opts # => {:max_nesting=>false, :allow_nan=>true}
     #
-    # source://json//lib/json/common.rb#738
+    # source://json//lib/json/common.rb#761
     def dump_default_options=(_arg0); end
 
     # :call-seq:
@@ -1210,13 +1217,13 @@ module JSON
     #   # Raises SystemStackError (stack level too deep):
     #   JSON.fast_generate(a)
     #
-    # source://json//lib/json/common.rb#313
+    # source://json//lib/json/common.rb#329
     def fast_generate(obj, opts = T.unsafe(nil)); end
 
     # :stopdoc:
     # I want to deprecate these later, so I'll first be silent about them, and later delete them.
     #
-    # source://json//lib/json/common.rb#313
+    # source://json//lib/json/common.rb#329
     def fast_unparse(obj, opts = T.unsafe(nil)); end
 
     # :call-seq:
@@ -1255,7 +1262,7 @@ module JSON
     #   # Raises JSON::NestingError (nesting of 100 is too deep):
     #   JSON.generate(a)
     #
-    # source://json//lib/json/common.rb#285
+    # source://json//lib/json/common.rb#301
     def generate(obj, opts = T.unsafe(nil)); end
 
     # Returns the JSON generator module that is used by JSON.
@@ -1270,13 +1277,23 @@ module JSON
 
     # Encodes string using String.encode.
     #
-    # source://json//lib/json/common.rb#812
+    # source://json//lib/json/common.rb#832
     def iconv(to, from, string); end
 
     # :call-seq:
     #   JSON.load(source, proc = nil, options = {}) -> object
     #
     # Returns the Ruby objects created by parsing the given +source+.
+    #
+    # BEWARE: This method is meant to serialise data from trusted user input,
+    # like from your own database server or clients under your control, it could
+    # be dangerous to allow untrusted users to pass JSON sources into it.
+    # If you must use it, use JSON.unsafe_load instead to make it clear.
+    #
+    # Since JSON version 2.8.0, `load` emits a deprecation warning when a
+    # non native type is deserialized, without `create_additions` being explicitly
+    # enabled, and in JSON version 3.0, `load` will have `create_additions` disabled
+    # by default.
     #
     # - Argument +source+ must be, or be convertible to, a \String:
     #   - If +source+ responds to instance method +to_str+,
@@ -1292,10 +1309,6 @@ module JSON
     # - Argument +proc+, if given, must be a \Proc that accepts one argument.
     #   It will be called recursively with each result (depth-first order).
     #   See details below.
-    #   BEWARE: This method is meant to serialise data from trusted user input,
-    #   like from your own database server or clients under your control, it could
-    #   be dangerous to allow untrusted users to pass JSON sources into it.
-    #   If you must use it, use JSON.unsafe_load instead to make it clear.
     # - Argument +opts+, if given, contains a \Hash of options for the parsing.
     #   See {Parsing Options}[#module-JSON-label-Parsing+Options].
     #   The default options can be changed via method JSON.load_default_options=.
@@ -1402,7 +1415,7 @@ module JSON
     #      #<Admin:0x00000000064c41f8
     #      @attributes={"type"=>"Admin", "password"=>"0wn3d"}>}
     #
-    # source://json//lib/json/common.rb#691
+    # source://json//lib/json/common.rb#714
     def load(source, proc = T.unsafe(nil), options = T.unsafe(nil)); end
 
     # Sets or returns default options for the JSON.load method.
@@ -1410,7 +1423,7 @@ module JSON
     #   opts = JSON.load_default_options
     #   opts # => {:max_nesting=>false, :allow_nan=>true, :allow_blank=>true, :create_additions=>true}
     #
-    # source://json//lib/json/common.rb#402
+    # source://json//lib/json/common.rb#418
     def load_default_options; end
 
     # Sets or returns default options for the JSON.load method.
@@ -1418,7 +1431,7 @@ module JSON
     #   opts = JSON.load_default_options
     #   opts # => {:max_nesting=>false, :allow_nan=>true, :allow_blank=>true, :create_additions=>true}
     #
-    # source://json//lib/json/common.rb#402
+    # source://json//lib/json/common.rb#418
     def load_default_options=(_arg0); end
 
     # :call-seq:
@@ -1429,7 +1442,7 @@ module JSON
     #
     # See method #parse!
     #
-    # source://json//lib/json/common.rb#245
+    # source://json//lib/json/common.rb#261
     def load_file!(filespec, opts = T.unsafe(nil)); end
 
     # :call-seq:
@@ -1480,7 +1493,7 @@ module JSON
     #   # Raises JSON::ParserError (783: unexpected token at ''):
     #   JSON.parse('')
     #
-    # source://json//lib/json/common.rb#204
+    # source://json//lib/json/common.rb#220
     def parse(source, opts = T.unsafe(nil)); end
 
     # :call-seq:
@@ -1495,7 +1508,7 @@ module JSON
     #   which disables checking for nesting depth.
     # - Option +allow_nan+, if not provided, defaults to +true+.
     #
-    # source://json//lib/json/common.rb#219
+    # source://json//lib/json/common.rb#235
     def parse!(source, opts = T.unsafe(nil)); end
 
     # Returns the JSON parser class that is used by JSON.
@@ -1538,21 +1551,21 @@ module JSON
     #     }
     #   }
     #
-    # source://json//lib/json/common.rb#358
+    # source://json//lib/json/common.rb#374
     def pretty_generate(obj, opts = T.unsafe(nil)); end
 
     # :stopdoc:
     # I want to deprecate these later, so I'll first be silent about them, and later delete them.
     #
-    # source://json//lib/json/common.rb#358
+    # source://json//lib/json/common.rb#374
     def pretty_unparse(obj, opts = T.unsafe(nil)); end
 
     # Recursively calls passed _Proc_ if the parsed data structure is an _Array_ or _Hash_
     #
-    # source://json//lib/json/common.rb#717
+    # source://json//lib/json/common.rb#740
     def recurse_proc(result, &proc); end
 
-    # source://json//lib/json/common.rb#691
+    # source://json//lib/json/common.rb#714
     def restore(source, proc = T.unsafe(nil), options = T.unsafe(nil)); end
 
     # Sets or Returns the JSON generator state class that is used by JSON.
@@ -1569,13 +1582,17 @@ module JSON
     # I want to deprecate these later, so I'll first be silent about them, and
     # later delete them.
     #
-    # source://json//lib/json/common.rb#285
+    # source://json//lib/json/common.rb#301
     def unparse(obj, opts = T.unsafe(nil)); end
 
     # :call-seq:
     #   JSON.unsafe_load(source, proc = nil, options = {}) -> object
     #
     # Returns the Ruby objects created by parsing the given +source+.
+    #
+    # BEWARE: This method is meant to serialise data from trusted user input,
+    # like from your own database server or clients under your control, it could
+    # be dangerous to allow untrusted users to pass JSON sources into it.
     #
     # - Argument +source+ must be, or be convertible to, a \String:
     #   - If +source+ responds to instance method +to_str+,
@@ -1591,9 +1608,6 @@ module JSON
     # - Argument +proc+, if given, must be a \Proc that accepts one argument.
     #   It will be called recursively with each result (depth-first order).
     #   See details below.
-    #   BEWARE: This method is meant to serialise data from trusted user input,
-    #   like from your own database server or clients under your control, it could
-    #   be dangerous to allow untrusted users to pass JSON sources into it.
     # - Argument +opts+, if given, contains a \Hash of options for the parsing.
     #   See {Parsing Options}[#module-JSON-label-Parsing+Options].
     #   The default options can be changed via method JSON.unsafe_load_default_options=.
@@ -1700,7 +1714,7 @@ module JSON
     #      #<Admin:0x00000000064c41f8
     #      @attributes={"type"=>"Admin", "password"=>"0wn3d"}>}
     #
-    # source://json//lib/json/common.rb#537
+    # source://json//lib/json/common.rb#554
     def unsafe_load(source, proc = T.unsafe(nil), options = T.unsafe(nil)); end
 
     # Sets or returns default options for the JSON.unsafe_load method.
@@ -1708,7 +1722,7 @@ module JSON
     #   opts = JSON.load_default_options
     #   opts # => {:max_nesting=>false, :allow_nan=>true, :allow_blank=>true, :create_additions=>true}
     #
-    # source://json//lib/json/common.rb#388
+    # source://json//lib/json/common.rb#404
     def unsafe_load_default_options; end
 
     # Sets or returns default options for the JSON.unsafe_load method.
@@ -1716,12 +1730,12 @@ module JSON
     #   opts = JSON.load_default_options
     #   opts # => {:max_nesting=>false, :allow_nan=>true, :allow_blank=>true, :create_additions=>true}
     #
-    # source://json//lib/json/common.rb#388
+    # source://json//lib/json/common.rb#404
     def unsafe_load_default_options=(_arg0); end
 
     private
 
-    # source://json//lib/json/common.rb#816
+    # source://json//lib/json/common.rb#836
     def merge_dump_options(opts, strict: T.unsafe(nil)); end
   end
 end
@@ -1756,14 +1770,14 @@ class JSON::Ext::Generator::State
   #
   # Returns the value returned by method +name+.
   #
-  # source://json//lib/json/ext/generator/state.rb#83
+  # source://json//lib/json/ext/generator/state.rb#94
   def [](name); end
 
   # call-seq: []=(name, value)
   #
   # Sets the attribute name to value.
   #
-  # source://json//lib/json/ext/generator/state.rb#95
+  # source://json//lib/json/ext/generator/state.rb#106
   def []=(name, value); end
 
   # call-seq: configure(opts)
@@ -1773,6 +1787,17 @@ class JSON::Ext::Generator::State
   #
   # source://json//lib/json/ext/generator/state.rb#35
   def configure(opts); end
+
+  # call-seq:
+  #   generate(obj) -> String
+  #   generate(obj, anIO) -> anIO
+  #
+  # Generates a valid JSON document from object +obj+ and returns the
+  # result. If no valid JSON document can be created this method raises a
+  # GeneratorError exception.
+  #
+  # source://json//lib/json/ext/generator/state.rb#57
+  def generate(obj, io = T.unsafe(nil)); end
 
   # call-seq: configure(opts)
   #
@@ -1787,7 +1812,7 @@ class JSON::Ext::Generator::State
   # Returns the configuration instance variables as a hash, that can be
   # passed to the configure method.
   #
-  # source://json//lib/json/ext/generator/state.rb#54
+  # source://json//lib/json/ext/generator/state.rb#65
   def to_h; end
 
   # call-seq: to_h
@@ -1795,8 +1820,26 @@ class JSON::Ext::Generator::State
   # Returns the configuration instance variables as a hash, that can be
   # passed to the configure method.
   #
-  # source://json//lib/json/ext/generator/state.rb#54
+  # source://json//lib/json/ext/generator/state.rb#65
   def to_hash; end
+end
+
+# This exception is raised if a generator or unparser error occurs.
+#
+# source://json//lib/json/common.rb#146
+class JSON::GeneratorError < ::JSON::JSONError
+  # @return [GeneratorError] a new instance of GeneratorError
+  #
+  # source://json//lib/json/common.rb#149
+  def initialize(message, invalid_object = T.unsafe(nil)); end
+
+  # source://json//lib/json/common.rb#154
+  def detailed_message(*_arg0, **_arg1, &_arg2); end
+
+  # Returns the value of attribute invalid_object.
+  #
+  # source://json//lib/json/common.rb#147
+  def invalid_object; end
 end
 
 # source://json//lib/json/generic_object.rb#9
@@ -1861,10 +1904,10 @@ JSON::State = JSON::Ext::Generator::State
 
 # For backwards compatibility
 #
-# source://json//lib/json/common.rb#148
+# source://json//lib/json/common.rb#164
 JSON::UnparserError = JSON::GeneratorError
 
-# source://json//lib/json/common.rb#826
+# source://json//lib/json/common.rb#846
 module Kernel
   private
 
@@ -1875,18 +1918,18 @@ module Kernel
   # The _opts_ argument is passed through to generate/parse respectively. See
   # generate and parse for their documentation.
   #
-  # source://json//lib/json/common.rb#853
+  # source://json//lib/json/common.rb#873
   def JSON(object, *args); end
 
   # Outputs _objs_ to STDOUT as JSON strings in the shortest form, that is in
   # one line.
   #
-  # source://json//lib/json/common.rb#831
+  # source://json//lib/json/common.rb#851
   def j(*objs); end
 
   # Outputs _objs_ to STDOUT as JSON strings in a pretty format, with
   # indentation and over many lines.
   #
-  # source://json//lib/json/common.rb#840
+  # source://json//lib/json/common.rb#860
   def jj(*objs); end
 end

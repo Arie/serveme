@@ -269,11 +269,11 @@ class Aws::S3::Bucket
   #   create_bucket_configuration: {
   #   location_constraint: "af-south-1", # accepts af-south-1, ap-east-1, ap-northeast-1, ap-northeast-2, ap-northeast-3, ap-south-1, ap-south-2, ap-southeast-1, ap-southeast-2, ap-southeast-3, ca-central-1, cn-north-1, cn-northwest-1, EU, eu-central-1, eu-north-1, eu-south-1, eu-south-2, eu-west-1, eu-west-2, eu-west-3, me-south-1, sa-east-1, us-east-2, us-gov-east-1, us-gov-west-1, us-west-1, us-west-2
   #   location: {
-  #   type: "AvailabilityZone", # accepts AvailabilityZone
+  #   type: "AvailabilityZone", # accepts AvailabilityZone, LocalZone
   #   name: "LocationNameAsString",
   #   },
   #   bucket: {
-  #   data_redundancy: "SingleAvailabilityZone", # accepts SingleAvailabilityZone
+  #   data_redundancy: "SingleAvailabilityZone", # accepts SingleAvailabilityZone, SingleLocalZone
   #   type: "Directory", # accepts Directory
   #   },
   #   },
@@ -3377,20 +3377,24 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # * **Directory buckets** - For directory buckets, you must make
   #   requests for this API operation to the Zonal endpoint. These
   #   endpoints support virtual-hosted-style requests in the format
-  #   `https://bucket_name.s3express-az_id.region.amazonaws.com/key-name
-  #   `. Path-style requests are not supported. For more information, see
-  #   [Regional and Zonal endpoints][2] in the *Amazon S3 User Guide*.
+  #   `https://bucket-name.s3express-zone-id.region-code.amazonaws.com/key-name
+  #   `. Path-style requests are not supported. For more information about
+  #   endpoints in Availability Zones, see [Regional and Zonal endpoints
+  #   for directory buckets in Availability Zones][2] in the *Amazon S3
+  #   User Guide*. For more information about endpoints in Local Zones,
+  #   see [Available Local Zone for directory buckets][3] in the *Amazon
+  #   S3 User Guide*.
   #
   #  </note>
   #
   # Permissions
   # : * **General purpose bucket permissions** - For information about
   #     permissions required to use the multipart upload, see [Multipart
-  #     Upload and Permissions][3] in the *Amazon S3 User Guide*.
+  #     Upload and Permissions][4] in the *Amazon S3 User Guide*.
   #
   #   * **Directory bucket permissions** - To grant access to this API
   #     operation on a directory bucket, we recommend that you use the [
-  #     `CreateSession` ][4] API operation for session-based
+  #     `CreateSession` ][5] API operation for session-based
   #     authorization. Specifically, you grant the
   #     `s3express:CreateSession` permission to the directory bucket in a
   #     bucket policy or an IAM identity-based policy. Then, you make the
@@ -3401,35 +3405,36 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     token for use. Amazon Web Services CLI or SDKs create session and
   #     refresh the session token automatically to avoid service
   #     interruptions when a session expires. For more information about
-  #     authorization, see [ `CreateSession` ][4].
+  #     authorization, see [ `CreateSession` ][5].
   #
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is `
-  #   Bucket_name.s3express-az_id.region.amazonaws.com`.
+  #   Bucket-name.s3express-zone-id.region-code.amazonaws.com`.
   #
   # The following operations are related to `AbortMultipartUpload`:
   #
-  # * [CreateMultipartUpload][5]
+  # * [CreateMultipartUpload][6]
   #
-  # * [UploadPart][6]
+  # * [UploadPart][7]
   #
-  # * [CompleteMultipartUpload][7]
+  # * [CompleteMultipartUpload][8]
   #
   # * [ListParts][1]
   #
-  # * [ListMultipartUploads][8]
+  # * [ListMultipartUploads][9]
   #
   #
   #
   # [1]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html
   # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html
-  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html
+  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html
+  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html
   #
   # @example Example: To abort a multipart upload
   #
@@ -3470,13 +3475,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::AbortMultipartUploadOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/AbortMultipartUpload AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#756
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#761
   def abort_multipart_upload(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @param params [{}]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#20060
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#20262
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Completes a multipart upload by assembling previously uploaded parts.
@@ -3526,19 +3531,23 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # <note markdown="1"> **Directory buckets** - For directory buckets, you must make requests
   # for this API operation to the Zonal endpoint. These endpoints support
   # virtual-hosted-style requests in the format
-  # `https://bucket_name.s3express-az_id.region.amazonaws.com/key-name `.
-  # Path-style requests are not supported. For more information, see
-  # [Regional and Zonal endpoints][5] in the *Amazon S3 User Guide*.
+  # `https://bucket-name.s3express-zone-id.region-code.amazonaws.com/key-name
+  # `. Path-style requests are not supported. For more information about
+  # endpoints in Availability Zones, see [Regional and Zonal endpoints for
+  # directory buckets in Availability Zones][5] in the *Amazon S3 User
+  # Guide*. For more information about endpoints in Local Zones, see
+  # [Available Local Zone for directory buckets][6] in the *Amazon S3 User
+  # Guide*.
   #
   #  </note>
   #
   # Permissions
   # : * **General purpose bucket permissions** - For information about
   #     permissions required to use the multipart upload API, see
-  #     [Multipart Upload and Permissions][6] in the *Amazon S3 User
+  #     [Multipart Upload and Permissions][7] in the *Amazon S3 User
   #     Guide*.
   #
-  #     If you provide an [additional checksum value][7] in your
+  #     If you provide an [additional checksum value][8] in your
   #     `MultipartUpload` requests and the object is encrypted with Key
   #     Management Service, you must have permission to use the
   #     `kms:Decrypt` action for the `CompleteMultipartUpload` request to
@@ -3546,7 +3555,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #
   #   * **Directory bucket permissions** - To grant access to this API
   #     operation on a directory bucket, we recommend that you use the [
-  #     `CreateSession` ][8] API operation for session-based
+  #     `CreateSession` ][9] API operation for session-based
   #     authorization. Specifically, you grant the
   #     `s3express:CreateSession` permission to the directory bucket in a
   #     bucket policy or an IAM identity-based policy. Then, you make the
@@ -3557,7 +3566,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     token for use. Amazon Web Services CLI or SDKs create session and
   #     refresh the session token automatically to avoid service
   #     interruptions when a session expires. For more information about
-  #     authorization, see [ `CreateSession` ][8].
+  #     authorization, see [ `CreateSession` ][9].
   #
   #     If the object is encrypted with SSE-KMS, you must also have the
   #     `kms:GenerateDataKey` and `kms:Decrypt` permissions in IAM
@@ -3595,19 +3604,19 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is `
-  #   Bucket_name.s3express-az_id.region.amazonaws.com`.
+  #   Bucket-name.s3express-zone-id.region-code.amazonaws.com`.
   #
   # The following operations are related to `CompleteMultipartUpload`:
   #
-  # * [CreateMultipartUpload][9]
+  # * [CreateMultipartUpload][10]
   #
   # * [UploadPart][1]
   #
-  # * [AbortMultipartUpload][10]
+  # * [AbortMultipartUpload][11]
   #
-  # * [ListParts][11]
+  # * [ListParts][12]
   #
-  # * [ListMultipartUploads][12]
+  # * [ListMultipartUploads][13]
   #
   #
   #
@@ -3616,13 +3625,14 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ErrorBestPractices.html
   # [4]: https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html
   # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_Checksum.html
-  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
-  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html
-  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html
-  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html
-  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_Checksum.html
+  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
+  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html
+  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html
+  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html
+  # [13]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html
   #
   # @example Example: To complete multipart upload
   #
@@ -3734,7 +3744,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::CompleteMultipartUploadOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CompleteMultipartUpload AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#1209
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#1219
   def complete_multipart_upload(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a copy of an object that is already stored in Amazon S3.
@@ -3758,9 +3768,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # * <b>Directory buckets </b> - For directory buckets, you must make
   #   requests for this API operation to the Zonal endpoint. These
   #   endpoints support virtual-hosted-style requests in the format
-  #   `https://bucket_name.s3express-az_id.region.amazonaws.com/key-name
-  #   `. Path-style requests are not supported. For more information, see
-  #   [Regional and Zonal endpoints][2] in the *Amazon S3 User Guide*.
+  #   `https://bucket-name.s3express-zone-id.region-code.amazonaws.com/key-name
+  #   `. Path-style requests are not supported. For more information about
+  #   endpoints in Availability Zones, see [Regional and Zonal endpoints
+  #   for directory buckets in Availability Zones][2] in the *Amazon S3
+  #   User Guide*. For more information about endpoints in Local Zones,
+  #   see [Available Local Zone for directory buckets][3] in the *Amazon
+  #   S3 User Guide*.
   #
   # * VPC endpoints don't support cross-Region requests (including
   #   copies). If you're using VPC endpoints, your source and destination
@@ -3772,13 +3786,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # Both the Region that you want to copy the object from and the Region
   # that you want to copy the object to must be enabled for your account.
   # For more information about how to enable a Region for your account,
-  # see [Enable or disable a Region for standalone accounts][3] in the
+  # see [Enable or disable a Region for standalone accounts][4] in the
   # *Amazon Web Services Account Management Guide*.
   #
   # Amazon S3 transfer acceleration does not support cross-Region copies.
   # If you request a cross-Region copy using a transfer acceleration
   # endpoint, you get a `400 Bad Request` error. For more information, see
-  # [Transfer Acceleration][4].
+  # [Transfer Acceleration][5].
   #
   # Authentication and authorization
   #
@@ -3786,7 +3800,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   IAM credentials (access key ID and secret access key for the IAM
   #   identities). All headers with the `x-amz-` prefix, including
   #   `x-amz-copy-source`, must be signed. For more information, see [REST
-  #   Authentication][5].
+  #   Authentication][6].
   #
   #   **Directory buckets** - You must use the IAM credentials to
   #   authenticate and authorize your access to the `CopyObject` API
@@ -3834,9 +3848,9 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     identity-based policies and KMS key policies for the KMS key.
   #
   #     For example policies, see [Example bucket policies for S3 Express
-  #     One Zone][6] and [Amazon Web Services Identity and Access
+  #     One Zone][7] and [Amazon Web Services Identity and Access
   #     Management (IAM) identity-based policies for S3 Express One
-  #     Zone][7] in the *Amazon S3 User Guide*.
+  #     Zone][8] in the *Amazon S3 User Guide*.
   #
   # Response and special errors
   #
@@ -3859,7 +3873,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #       response is embedded in the `200 OK` response. For example, in a
   #       cross-region copy, you may encounter throttling and receive a
   #       `200 OK` response. For more information, see [Resolve the Error
-  #       200 response when copying objects to Amazon S3][8]. The `200 OK`
+  #       200 response when copying objects to Amazon S3][9]. The `200 OK`
   #       status code means the copy was accepted, but it doesn't mean
   #       the copy is complete. Another example is when you disconnect
   #       from Amazon S3 before the copy is complete, Amazon S3 might
@@ -3883,32 +3897,33 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   result in a data retrieval charge for the source if the source
   #   storage class bills for data retrieval. If the copy source is in a
   #   different region, the data transfer is billed to the copy source
-  #   account. For pricing information, see [Amazon S3 pricing][9].
+  #   account. For pricing information, see [Amazon S3 pricing][10].
   #
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is `
-  #   Bucket_name.s3express-az_id.region.amazonaws.com`.
+  #   Bucket-name.s3express-zone-id.region-code.amazonaws.com`.
   #
   # The following operations are related to `CopyObject`:
   #
-  # * [PutObject][10]
+  # * [PutObject][11]
   #
-  # * [GetObject][11]
+  # * [GetObject][12]
   #
   #
   #
   # [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/CopyingObjctsUsingRESTMPUapi.html
   # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [3]: https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-regions.html#manage-acct-regions-enable-standalone
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-identity-policies.html
-  # [8]: https://repost.aws/knowledge-center/s3-resolve-200-internalerror
-  # [9]: http://aws.amazon.com/s3/pricing/
-  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html
-  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html
+  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [4]: https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-regions.html#manage-acct-regions-enable-standalone
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-identity-policies.html
+  # [9]: https://repost.aws/knowledge-center/s3-resolve-200-internalerror
+  # [10]: http://aws.amazon.com/s3/pricing/
+  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html
+  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html
   #
   # @example Example: To copy an object
   #
@@ -4050,7 +4065,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::CopyObjectOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CopyObject AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#2252
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#2275
   def copy_object(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This action creates an Amazon S3 bucket. To create an Amazon S3 on
@@ -4081,10 +4096,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # * <b>Directory buckets </b> - For directory buckets, you must make
   #   requests for this API operation to the Regional endpoint. These
   #   endpoints support path-style requests in the format
-  #   `https://s3express-control.region_code.amazonaws.com/bucket-name `.
+  #   `https://s3express-control.region-code.amazonaws.com/bucket-name `.
   #   Virtual-hosted-style requests aren't supported. For more
-  #   information, see [Regional and Zonal endpoints][4] in the *Amazon S3
-  #   User Guide*.
+  #   information about endpoints in Availability Zones, see [Regional and
+  #   Zonal endpoints for directory buckets in Availability Zones][4] in
+  #   the *Amazon S3 User Guide*. For more information about endpoints in
+  #   Local Zones, see [Available Local Zone for directory buckets][5] in
+  #   the *Amazon S3 User Guide*.
   #
   #  </note>
   #
@@ -4126,17 +4144,17 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #       disabled. If you would like to share data with users outside of
   #       your account, you can use bucket policies as needed. For more
   #       information, see [Controlling ownership of objects and disabling
-  #       ACLs for your bucket ][5] and [Blocking public access to your
-  #       Amazon S3 storage ][6] in the *Amazon S3 User Guide*.
+  #       ACLs for your bucket ][6] and [Blocking public access to your
+  #       Amazon S3 storage ][7] in the *Amazon S3 User Guide*.
   #
   #     * **S3 Block Public Access** - If your specific use case requires
   #       granting public access to your S3 resources, you can disable
   #       Block Public Access. Specifically, you can create a new bucket
   #       with Block Public Access enabled, then separately call the [
-  #       `DeletePublicAccessBlock` ][7] API. To use this operation, you
+  #       `DeletePublicAccessBlock` ][8] API. To use this operation, you
   #       must have the `s3:PutBucketPublicAccessBlock` permission. For
   #       more information about S3 Block Public Access, see [Blocking
-  #       public access to your Amazon S3 storage ][6] in the *Amazon S3
+  #       public access to your Amazon S3 storage ][7] in the *Amazon S3
   #       User Guide*.
   #   * **Directory bucket permissions** - You must have the
   #     `s3express:CreateBucket` permission in an IAM identity-based
@@ -4145,7 +4163,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     performed by the Amazon Web Services account that owns the
   #     resource. For more information about directory bucket policies and
   #     permissions, see [Amazon Web Services Identity and Access
-  #     Management (IAM) for S3 Express One Zone][8] in the *Amazon S3
+  #     Management (IAM) for S3 Express One Zone][9] in the *Amazon S3
   #     User Guide*.
   #
   #     The permissions for ACLs, Object Lock, S3 Object Ownership, and S3
@@ -4155,21 +4173,21 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     enforced (ACLs disabled). These settings can't be modified.
   #
   #      For more information about permissions for creating and working
-  #     with directory buckets, see [Directory buckets][9] in the *Amazon
+  #     with directory buckets, see [Directory buckets][10] in the *Amazon
   #     S3 User Guide*. For more information about supported S3 features
-  #     for directory buckets, see [Features of S3 Express One Zone][10]
+  #     for directory buckets, see [Features of S3 Express One Zone][11]
   #     in the *Amazon S3 User Guide*.
   #
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is
-  #   `s3express-control.region.amazonaws.com`.
+  #   `s3express-control.region-code.amazonaws.com`.
   #
   # The following operations are related to `CreateBucket`:
   #
-  # * [PutObject][11]
+  # * [PutObject][12]
   #
-  # * [DeleteBucket][12]
+  # * [DeleteBucket][13]
   #
   #
   #
@@ -4177,27 +4195,16 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html
   # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html
   # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeletePublicAccessBlock.html
-  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
-  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html
-  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-one-zone.html#s3-express-features
-  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html
-  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeletePublicAccessBlock.html
+  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
+  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html
+  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-one-zone.html#s3-express-features
+  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html
+  # [13]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html
   #
-  # @example Example: To create a bucket
-  #
-  #   # The following example creates a bucket.
-  #
-  #   resp = client.create_bucket({
-  #   bucket: "examplebucket",
-  #   })
-  #
-  #   resp.to_h outputs the following:
-  #   {
-  #   location: "/examplebucket",
-  #   }
   # @example Example: To create a bucket in a specific region
   #
   #   # The following example creates a bucket. The request specifies an AWS region where to create the bucket.
@@ -4213,6 +4220,18 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   {
   #   location: "http://examplebucket.<Region>.s3.amazonaws.com/",
   #   }
+  # @example Example: To create a bucket
+  #
+  #   # The following example creates a bucket.
+  #
+  #   resp = client.create_bucket({
+  #   bucket: "examplebucket",
+  #   })
+  #
+  #   resp.to_h outputs the following:
+  #   {
+  #   location: "/examplebucket",
+  #   }
   # @example Request syntax with placeholder values
   #
   #   resp = client.create_bucket({
@@ -4221,11 +4240,11 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   create_bucket_configuration: {
   #   location_constraint: "af-south-1", # accepts af-south-1, ap-east-1, ap-northeast-1, ap-northeast-2, ap-northeast-3, ap-south-1, ap-south-2, ap-southeast-1, ap-southeast-2, ap-southeast-3, ca-central-1, cn-north-1, cn-northwest-1, EU, eu-central-1, eu-north-1, eu-south-1, eu-south-2, eu-west-1, eu-west-2, eu-west-3, me-south-1, sa-east-1, us-east-2, us-gov-east-1, us-gov-west-1, us-west-1, us-west-2
   #   location: {
-  #   type: "AvailabilityZone", # accepts AvailabilityZone
+  #   type: "AvailabilityZone", # accepts AvailabilityZone, LocalZone
   #   name: "LocationNameAsString",
   #   },
   #   bucket: {
-  #   data_redundancy: "SingleAvailabilityZone", # accepts SingleAvailabilityZone
+  #   data_redundancy: "SingleAvailabilityZone", # accepts SingleAvailabilityZone, SingleLocalZone
   #   type: "Directory", # accepts Directory
   #   },
   #   },
@@ -4257,7 +4276,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::CreateBucketOutput#location #location} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateBucket AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#2571
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#2599
   def create_bucket(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # This action initiates a multipart upload and returns an upload ID.
@@ -4291,9 +4310,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # * <b>Directory buckets </b> - For directory buckets, you must make
   #   requests for this API operation to the Zonal endpoint. These
   #   endpoints support virtual-hosted-style requests in the format
-  #   `https://bucket_name.s3express-az_id.region.amazonaws.com/key-name
-  #   `. Path-style requests are not supported. For more information, see
-  #   [Regional and Zonal endpoints][4] in the *Amazon S3 User Guide*.
+  #   `https://bucket-name.s3express-zone-id.region-code.amazonaws.com/key-name
+  #   `. Path-style requests are not supported. For more information about
+  #   endpoints in Availability Zones, see [Regional and Zonal endpoints
+  #   for directory buckets in Availability Zones][4] in the *Amazon S3
+  #   User Guide*. For more information about endpoints in Local Zones,
+  #   see [Available Local Zone for directory buckets][5] in the *Amazon
+  #   S3 User Guide*.
   #
   #  </note>
   #
@@ -4305,7 +4328,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   sign each request individually. There is nothing special about
   #   signing multipart upload requests. For more information about
   #   signing, see [Authenticating Requests (Amazon Web Services Signature
-  #   Version 4)][5] in the *Amazon S3 User Guide*.
+  #   Version 4)][6] in the *Amazon S3 User Guide*.
   #
   # Permissions
   # : * **General purpose bucket permissions** - To perform a multipart
@@ -4318,13 +4341,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     `UploadPartCopy` APIs. These permissions are required because
   #     Amazon S3 must decrypt and read data from the encrypted file parts
   #     before it completes the multipart upload. For more information,
-  #     see [Multipart upload API and permissions][6] and [Protecting data
-  #     using server-side encryption with Amazon Web Services KMS][7] in
+  #     see [Multipart upload API and permissions][7] and [Protecting data
+  #     using server-side encryption with Amazon Web Services KMS][8] in
   #     the *Amazon S3 User Guide*.
   #
   #   * **Directory bucket permissions** - To grant access to this API
   #     operation on a directory bucket, we recommend that you use the [
-  #     `CreateSession` ][8] API operation for session-based
+  #     `CreateSession` ][9] API operation for session-based
   #     authorization. Specifically, you grant the
   #     `s3express:CreateSession` permission to the directory bucket in a
   #     bucket policy or an IAM identity-based policy. Then, you make the
@@ -4335,7 +4358,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     token for use. Amazon Web Services CLI or SDKs create session and
   #     refresh the session token automatically to avoid service
   #     interruptions when a session expires. For more information about
-  #     authorization, see [ `CreateSession` ][8].
+  #     authorization, see [ `CreateSession` ][9].
   #
   # Encryption
   # : * **General purpose buckets** - Server-side encryption is for data
@@ -4362,7 +4385,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     the destination bucket, the encryption setting in your request
   #     takes precedence. If you choose to provide your own encryption
   #     key, the request headers you provide in [UploadPart][1] and
-  #     [UploadPartCopy][9] requests must match the headers you used in
+  #     [UploadPartCopy][10] requests must match the headers you used in
   #     the `CreateMultipartUpload` request.
   #
   #     * Use KMS keys (SSE-KMS) that include the Amazon Web Services
@@ -4387,9 +4410,9 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #         actions on the key. These permissions are required because
   #         Amazon S3 must decrypt and read data from the encrypted file
   #         parts before it completes the multipart upload. For more
-  #         information, see [Multipart upload API and permissions][6] and
+  #         information, see [Multipart upload API and permissions][7] and
   #         [Protecting data using server-side encryption with Amazon Web
-  #         Services KMS][7] in the *Amazon S3 User Guide*.
+  #         Services KMS][8] in the *Amazon S3 User Guide*.
   #
   #       * If your Identity and Access Management (IAM) user or role is
   #         in the same Amazon Web Services account as the KMS key, then
@@ -4404,13 +4427,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #         For information about configuring any of the officially
   #         supported Amazon Web Services SDKs and Amazon Web Services
   #         CLI, see [Specifying the Signature Version in Request
-  #         Authentication][10] in the *Amazon S3 User Guide*.
+  #         Authentication][11] in the *Amazon S3 User Guide*.
   #
   #        </note>
   #
   #       For more information about server-side encryption with KMS keys
   #       (SSE-KMS), see [Protecting Data Using Server-Side Encryption
-  #       with KMS keys][7] in the *Amazon S3 User Guide*.
+  #       with KMS keys][8] in the *Amazon S3 User Guide*.
   #
   #     * Use customer-provided encryption keys (SSE-C) – If you want to
   #       manage your own encryption keys, provide all the following
@@ -4424,7 +4447,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #       For more information about server-side encryption with
   #       customer-provided encryption keys (SSE-C), see [ Protecting data
   #       using server-side encryption with customer-provided encryption
-  #       keys (SSE-C)][11] in the *Amazon S3 User Guide*.
+  #       keys (SSE-C)][12] in the *Amazon S3 User Guide*.
   #   * **Directory buckets** - For directory buckets, there are only two
   #     supported options for server-side encryption: server-side
   #     encryption with Amazon S3 managed keys (SSE-S3) (`AES256`) and
@@ -4434,13 +4457,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     default encryption in your `CreateSession` requests or `PUT`
   #     object requests. Then, new objects are automatically encrypted
   #     with the desired encryption settings. For more information, see
-  #     [Protecting data with server-side encryption][12] in the *Amazon
+  #     [Protecting data with server-side encryption][13] in the *Amazon
   #     S3 User Guide*. For more information about the encryption
   #     overriding behaviors in directory buckets, see [Specifying
-  #     server-side encryption with KMS for new object uploads][13].
+  #     server-side encryption with KMS for new object uploads][14].
   #
-  #     In the Zonal endpoint API calls (except [CopyObject][14] and
-  #     [UploadPartCopy][9]) using the REST API, the encryption request
+  #     In the Zonal endpoint API calls (except [CopyObject][15] and
+  #     [UploadPartCopy][10]) using the REST API, the encryption request
   #     headers must match the encryption settings that are specified in
   #     the `CreateSession` request. You can't override the values of the
   #     encryption settings (`x-amz-server-side-encryption`,
@@ -4460,7 +4483,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     configuration for the `CreateSession` request. It's not supported
   #     to override the encryption settings values in the `CreateSession`
   #     request. So in the Zonal endpoint API calls (except
-  #     [CopyObject][14] and [UploadPartCopy][9]), the encryption request
+  #     [CopyObject][15] and [UploadPartCopy][10]), the encryption request
   #     headers must match the default encryption configuration of the
   #     directory bucket.
   #
@@ -4476,19 +4499,19 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is `
-  #   Bucket_name.s3express-az_id.region.amazonaws.com`.
+  #   Bucket-name.s3express-zone-id.region-code.amazonaws.com`.
   #
   # The following operations are related to `CreateMultipartUpload`:
   #
   # * [UploadPart][1]
   #
-  # * [CompleteMultipartUpload][15]
+  # * [CompleteMultipartUpload][16]
   #
-  # * [AbortMultipartUpload][16]
+  # * [AbortMultipartUpload][17]
   #
-  # * [ListParts][17]
+  # * [ListParts][18]
   #
-  # * [ListMultipartUploads][18]
+  # * [ListMultipartUploads][19]
   #
   #
   #
@@ -4496,20 +4519,21 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # [2]: https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html
   # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config
   # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html#mpuAndPermissions
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html
-  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
-  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html
-  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
-  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerSideEncryptionCustomerKeys.html
-  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html
-  # [13]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-specifying-kms-encryption.html
-  # [14]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html
-  # [15]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html
-  # [16]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html
-  # [17]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html
-  # [18]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html#mpuAndPermissions
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html
+  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
+  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html
+  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
+  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerSideEncryptionCustomerKeys.html
+  # [13]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html
+  # [14]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-specifying-kms-encryption.html
+  # [15]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html
+  # [16]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html
+  # [17]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html
+  # [18]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html
+  # [19]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html
   #
   # @example Example: To initiate a multipart upload
   #
@@ -4626,7 +4650,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::CreateMultipartUploadOutput#checksum_algorithm #checksum_algorithm} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateMultipartUpload AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#3515
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#3548
   def create_multipart_upload(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a session that establishes temporary security credentials to
@@ -4667,23 +4691,27 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #
   # <note markdown="1"> * You must make requests for this API operation to the Zonal endpoint.
   #   These endpoints support virtual-hosted-style requests in the format
-  #   `https://bucket_name.s3express-az_id.region.amazonaws.com`.
-  #   Path-style requests are not supported. For more information, see
-  #   [Regional and Zonal endpoints][3] in the *Amazon S3 User Guide*.
+  #   `https://bucket-name.s3express-zone-id.region-code.amazonaws.com`.
+  #   Path-style requests are not supported. For more information about
+  #   endpoints in Availability Zones, see [Regional and Zonal endpoints
+  #   for directory buckets in Availability Zones][3] in the *Amazon S3
+  #   User Guide*. For more information about endpoints in Local Zones,
+  #   see [Available Local Zone for directory buckets][4] in the *Amazon
+  #   S3 User Guide*.
   #
   # * <b> <code>CopyObject</code> API operation</b> - Unlike other Zonal
   #   endpoint API operations, the `CopyObject` API operation doesn't use
   #   the temporary security credentials returned from the `CreateSession`
   #   API operation for authentication and authorization. For information
   #   about authentication and authorization of the `CopyObject` API
-  #   operation on directory buckets, see [CopyObject][4].
+  #   operation on directory buckets, see [CopyObject][5].
   #
   # * <b> <code>HeadBucket</code> API operation</b> - Unlike other Zonal
   #   endpoint API operations, the `HeadBucket` API operation doesn't use
   #   the temporary security credentials returned from the `CreateSession`
   #   API operation for authentication and authorization. For information
   #   about authentication and authorization of the `HeadBucket` API
-  #   operation on directory buckets, see [HeadBucket][5].
+  #   operation on directory buckets, see [HeadBucket][6].
   #
   #  </note>
   #
@@ -4695,10 +4723,10 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   can have the `s3express:SessionMode` condition key to control who
   #   can create a `ReadWrite` or `ReadOnly` session. For more information
   #   about `ReadWrite` or `ReadOnly` sessions, see [
-  #   `x-amz-create-session-mode` ][6]. For example policies, see [Example
-  #   bucket policies for S3 Express One Zone][7] and [Amazon Web Services
+  #   `x-amz-create-session-mode` ][7]. For example policies, see [Example
+  #   bucket policies for S3 Express One Zone][8] and [Amazon Web Services
   #   Identity and Access Management (IAM) identity-based policies for S3
-  #   Express One Zone][8] in the *Amazon S3 User Guide*.
+  #   Express One Zone][9] in the *Amazon S3 User Guide*.
   #
   #   To grant cross-account access to Zonal endpoint API operations, the
   #   bucket policy should also grant both accounts the
@@ -4719,32 +4747,32 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   requests or `PUT` object requests. Then, new objects are
   #   automatically encrypted with the desired encryption settings. For
   #   more information, see [Protecting data with server-side
-  #   encryption][9] in the *Amazon S3 User Guide*. For more information
+  #   encryption][10] in the *Amazon S3 User Guide*. For more information
   #   about the encryption overriding behaviors in directory buckets, see
   #   [Specifying server-side encryption with KMS for new object
-  #   uploads][10].
+  #   uploads][11].
   #
-  #   For [Zonal endpoint (object-level) API operations][11] except
-  #   [CopyObject][4] and [UploadPartCopy][12], you authenticate and
-  #   authorize requests through [CreateSession][13] for low latency. To
+  #   For [Zonal endpoint (object-level) API operations][12] except
+  #   [CopyObject][5] and [UploadPartCopy][13], you authenticate and
+  #   authorize requests through [CreateSession][14] for low latency. To
   #   encrypt new objects in a directory bucket with SSE-KMS, you must
   #   specify SSE-KMS as the directory bucket's default encryption
   #   configuration with a KMS key (specifically, a [customer managed
-  #   key][14]). Then, when a session is created for Zonal endpoint API
+  #   key][15]). Then, when a session is created for Zonal endpoint API
   #   operations, new objects are automatically encrypted and decrypted
   #   with SSE-KMS and S3 Bucket Keys during the session.
   #
-  #   <note markdown="1"> Only 1 [customer managed key][14] is supported per directory bucket
+  #   <note markdown="1"> Only 1 [customer managed key][15] is supported per directory bucket
   #   for the lifetime of the bucket. The [Amazon Web Services managed
-  #   key][15] (`aws/s3`) isn't supported. After you specify SSE-KMS as
+  #   key][16] (`aws/s3`) isn't supported. After you specify SSE-KMS as
   #   your bucket's default encryption configuration with a customer
   #   managed key, you can't change the customer managed key for the
   #   bucket's SSE-KMS configuration.
   #
   #    </note>
   #
-  #   In the Zonal endpoint API calls (except [CopyObject][4] and
-  #   [UploadPartCopy][12]) using the REST API, you can't override the
+  #   In the Zonal endpoint API calls (except [CopyObject][5] and
+  #   [UploadPartCopy][13]) using the REST API, you can't override the
   #   values of the encryption settings (`x-amz-server-side-encryption`,
   #   `x-amz-server-side-encryption-aws-kms-key-id`,
   #   `x-amz-server-side-encryption-context`, and
@@ -4760,8 +4788,8 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   Web Services SDKs use the bucket's default encryption configuration
   #   for the `CreateSession` request. It's not supported to override the
   #   encryption settings values in the `CreateSession` request. Also, in
-  #   the Zonal endpoint API calls (except [CopyObject][4] and
-  #   [UploadPartCopy][12]), it's not supported to override the values of
+  #   the Zonal endpoint API calls (except [CopyObject][5] and
+  #   [UploadPartCopy][13]), it's not supported to override the values of
   #   the encryption settings from the `CreateSession` request.
   #
   #    </note>
@@ -4769,25 +4797,26 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is `
-  #   Bucket_name.s3express-az_id.region.amazonaws.com`.
+  #   Bucket-name.s3express-zone-id.region-code.amazonaws.com`.
   #
   #
   #
   # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-APIs.html
   # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-optimizing-performance-guidelines-design-patterns.html#s3-express-optimizing-performance-session-authentication
   # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_HeadBucket.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html#API_CreateSession_RequestParameters
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html
-  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-identity-policies.html
-  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html
-  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-specifying-kms-encryption.html
-  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-differences.html#s3-express-differences-api-operations
-  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html
-  # [13]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
-  # [14]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk
-  # [15]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_HeadBucket.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html#API_CreateSession_RequestParameters
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html
+  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-identity-policies.html
+  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html
+  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-specifying-kms-encryption.html
+  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-differences.html#s3-express-differences-api-operations
+  # [13]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html
+  # [14]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
+  # [15]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk
+  # [16]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk
   #
   # @example Request syntax with placeholder values
   #
@@ -4826,7 +4855,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::CreateSessionOutput#credentials #credentials} => Types::SessionCredentials
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateSession AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#3804
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#3842
   def create_session(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes the S3 bucket. All objects (including all object versions and
@@ -4840,10 +4869,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # * <b>Directory buckets </b> - For directory buckets, you must make
   #   requests for this API operation to the Regional endpoint. These
   #   endpoints support path-style requests in the format
-  #   `https://s3express-control.region_code.amazonaws.com/bucket-name `.
+  #   `https://s3express-control.region-code.amazonaws.com/bucket-name `.
   #   Virtual-hosted-style requests aren't supported. For more
-  #   information, see [Regional and Zonal endpoints][1] in the *Amazon S3
-  #   User Guide*.
+  #   information about endpoints in Availability Zones, see [Regional and
+  #   Zonal endpoints for directory buckets in Availability Zones][1] in
+  #   the *Amazon S3 User Guide*. For more information about endpoints in
+  #   Local Zones, see [Available Local Zone for directory buckets][2] in
+  #   the *Amazon S3 User Guide*.
   #
   #  </note>
   #
@@ -4858,26 +4890,27 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     performed by the Amazon Web Services account that owns the
   #     resource. For more information about directory bucket policies and
   #     permissions, see [Amazon Web Services Identity and Access
-  #     Management (IAM) for S3 Express One Zone][2] in the *Amazon S3
+  #     Management (IAM) for S3 Express One Zone][3] in the *Amazon S3
   #     User Guide*.
   #
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is
-  #   `s3express-control.region.amazonaws.com`.
+  #   `s3express-control.region-code.amazonaws.com`.
   #
   # The following operations are related to `DeleteBucket`:
   #
-  # * [CreateBucket][3]
+  # * [CreateBucket][4]
   #
-  # * [DeleteObject][4]
+  # * [DeleteObject][5]
   #
   #
   #
   # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
-  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html
+  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html
   #
   # @example Example: To delete a bucket
   #
@@ -4899,7 +4932,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucket AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#3909
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#3952
   def delete_bucket(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -4952,7 +4985,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketAnalyticsConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#3975
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4018
   def delete_bucket_analytics_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -5000,7 +5033,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketCors AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4035
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4078
   def delete_bucket_cors(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # This implementation of the DELETE action resets the default encryption
@@ -5042,7 +5075,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is
-  #   `s3express-control.region.amazonaws.com`.
+  #   `s3express-control.region-code.amazonaws.com`.
   #
   # The following operations are related to `DeleteBucketEncryption`:
   #
@@ -5073,7 +5106,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketEncryption AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4139
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4183
   def delete_bucket_encryption(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -5131,7 +5164,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketIntelligentTieringConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4206
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4250
   def delete_bucket_intelligent_tiering_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -5183,7 +5216,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketInventoryConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4271
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4315
   def delete_bucket_inventory_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes the lifecycle configuration from the specified bucket. Amazon
@@ -5221,10 +5254,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     <note markdown="1"> <b>Directory buckets </b> - For directory buckets, you must make
   #     requests for this API operation to the Regional endpoint. These
   #     endpoints support path-style requests in the format
-  #     `https://s3express-control.region_code.amazonaws.com/bucket-name
+  #     `https://s3express-control.region-code.amazonaws.com/bucket-name
   #     `. Virtual-hosted-style requests aren't supported. For more
-  #     information, see [Regional and Zonal endpoints][3] in the *Amazon
-  #     S3 User Guide*.
+  #     information about endpoints in Availability Zones, see [Regional
+  #     and Zonal endpoints for directory buckets in Availability
+  #     Zones][3] in the *Amazon S3 User Guide*. For more information
+  #     about endpoints in Local Zones, see [Available Local Zone for
+  #     directory buckets][4] in the *Amazon S3 User Guide*.
   #
   #      </note>
   # ^
@@ -5235,22 +5271,23 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   `s3express-control.region.amazonaws.com`.
   #
   # For more information about the object expiration, see [Elements to
-  # Describe Lifecycle Actions][4].
+  # Describe Lifecycle Actions][5].
   #
   # Related actions include:
   #
-  # * [PutBucketLifecycleConfiguration][5]
+  # * [PutBucketLifecycleConfiguration][6]
   #
-  # * [GetBucketLifecycleConfiguration][6]
+  # * [GetBucketLifecycleConfiguration][7]
   #
   #
   #
   # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html
   # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
   # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#intro-lifecycle-rules-actions
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#intro-lifecycle-rules-actions
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html
   #
   # @example Example: To delete lifecycle configuration on a bucket.
   #
@@ -5272,7 +5309,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketLifecycle AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4377
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4425
   def delete_bucket_lifecycle(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -5328,7 +5365,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketMetricsConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4447
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4495
   def delete_bucket_metrics_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -5368,7 +5405,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketOwnershipControls AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4497
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4545
   def delete_bucket_ownership_controls(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Deletes the policy of a specified bucket.
@@ -5376,9 +5413,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # <note markdown="1"> <b>Directory buckets </b> - For directory buckets, you must make
   # requests for this API operation to the Regional endpoint. These
   # endpoints support path-style requests in the format
-  # `https://s3express-control.region_code.amazonaws.com/bucket-name `.
-  # Virtual-hosted-style requests aren't supported. For more information,
-  # see [Regional and Zonal endpoints][1] in the *Amazon S3 User Guide*.
+  # `https://s3express-control.region-code.amazonaws.com/bucket-name `.
+  # Virtual-hosted-style requests aren't supported. For more information
+  # about endpoints in Availability Zones, see [Regional and Zonal
+  # endpoints for directory buckets in Availability Zones][1] in the
+  # *Amazon S3 User Guide*. For more information about endpoints in Local
+  # Zones, see [Available Local Zone for directory buckets][2] in the
+  # *Amazon S3 User Guide*.
   #
   #  </note>
   #
@@ -5408,7 +5449,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * **General purpose bucket permissions** - The
   #     `s3:DeleteBucketPolicy` permission is required in a policy. For
   #     more information about general purpose buckets bucket policies,
-  #     see [Using Bucket Policies and User Policies][2] in the *Amazon S3
+  #     see [Using Bucket Policies and User Policies][3] in the *Amazon S3
   #     User Guide*.
   #
   #   * **Directory bucket permissions** - To grant access to this API
@@ -5419,26 +5460,27 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     Services account that owns the resource. For more information
   #     about directory bucket policies and permissions, see [Amazon Web
   #     Services Identity and Access Management (IAM) for S3 Express One
-  #     Zone][3] in the *Amazon S3 User Guide*.
+  #     Zone][4] in the *Amazon S3 User Guide*.
   #
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is
-  #   `s3express-control.region.amazonaws.com`.
+  #   `s3express-control.region-code.amazonaws.com`.
   #
   # The following operations are related to `DeleteBucketPolicy`
   #
-  # * [CreateBucket][4]
+  # * [CreateBucket][5]
   #
-  # * [DeleteObject][5]
+  # * [DeleteObject][6]
   #
   #
   #
   # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html
-  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html
+  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html
   #
   # @example Example: To delete bucket policy
   #
@@ -5460,7 +5502,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketPolicy AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4621
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4675
   def delete_bucket_policy(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -5518,7 +5560,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketReplication AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4691
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4745
   def delete_bucket_replication(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -5562,7 +5604,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketTagging AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4747
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4801
   def delete_bucket_tagging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -5617,37 +5659,75 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketWebsite AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4815
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#4869
   def delete_bucket_website(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Removes an object from a bucket. The behavior depends on the bucket's
-  # versioning state. For more information, see [Best practices to
-  # consider before deleting an object][1].
+  # versioning state:
+  #
+  # * If bucket versioning is not enabled, the operation permanently
+  #   deletes the object.
+  #
+  # * If bucket versioning is enabled, the operation inserts a delete
+  #   marker, which becomes the current version of the object. To
+  #   permanently delete an object in a versioned bucket, you must include
+  #   the object’s `versionId` in the request. For more information about
+  #   versioning-enabled buckets, see [Deleting object versions from a
+  #   versioning-enabled bucket][1].
+  #
+  # * If bucket versioning is suspended, the operation removes the object
+  #   that has a null `versionId`, if there is one, and inserts a delete
+  #   marker that becomes the current version of the object. If there
+  #   isn't an object with a null `versionId`, and all versions of the
+  #   object have a `versionId`, Amazon S3 does not remove the object and
+  #   only inserts a delete marker. To permanently delete an object that
+  #   has a `versionId`, you must include the object’s `versionId` in the
+  #   request. For more information about versioning-suspended buckets,
+  #   see [Deleting objects from versioning-suspended buckets][2].
+  #
+  # <note markdown="1"> * **Directory buckets** - S3 Versioning isn't enabled and supported
+  #   for directory buckets. For this API operation, only the `null` value
+  #   of the version ID is supported by directory buckets. You can only
+  #   specify `null` to the `versionId` query parameter in the request.
+  #
+  # * **Directory buckets** - For directory buckets, you must make
+  #   requests for this API operation to the Zonal endpoint. These
+  #   endpoints support virtual-hosted-style requests in the format
+  #   `https://bucket-name.s3express-zone-id.region-code.amazonaws.com/key-name
+  #   `. Path-style requests are not supported. For more information about
+  #   endpoints in Availability Zones, see [Regional and Zonal endpoints
+  #   for directory buckets in Availability Zones][3] in the *Amazon S3
+  #   User Guide*. For more information about endpoints in Local Zones,
+  #   see [Available Local Zone for directory buckets][4] in the *Amazon
+  #   S3 User Guide*.
+  #
+  #  </note>
   #
   # To remove a specific version, you must use the `versionId` query
   # parameter. Using this query parameter permanently deletes the version.
   # If the object deleted is a delete marker, Amazon S3 sets the response
-  # header `x-amz-delete-marker` to true. If the object you want to delete
-  # is in a bucket where the bucket versioning configuration is MFA delete
-  # enabled, you must include the `x-amz-mfa` request header in the DELETE
-  # `versionId` request. Requests that include `x-amz-mfa` must use HTTPS.
-  # For more information about MFA delete and to see example requests, see
-  # [Using MFA delete][2] and [Sample request][3] in the *Amazon S3 User
-  # Guide*.
+  # header `x-amz-delete-marker` to true.
   #
-  # <note markdown="1"> * S3 Versioning isn't enabled and supported for directory buckets.
-  #   For this API operation, only the `null` value of the version ID is
-  #   supported by directory buckets. You can only specify `null` to the
-  #   `versionId` query parameter in the request.
+  # If the object you want to delete is in a bucket where the bucket
+  # versioning configuration is MFA Delete enabled, you must include the
+  # `x-amz-mfa` request header in the DELETE `versionId` request. Requests
+  # that include `x-amz-mfa` must use HTTPS. For more information about
+  # MFA Delete, see [Using MFA Delete][5] in the *Amazon S3 User Guide*.
+  # To see sample requests that use versioning, see [Sample Request][6].
   #
-  # * For directory buckets, you must make requests for this API operation
-  #   to the Zonal endpoint. These endpoints support virtual-hosted-style
-  #   requests in the format
-  #   `https://bucket_name.s3express-az_id.region.amazonaws.com/key-name
-  #   `. Path-style requests are not supported. For more information, see
-  #   [Regional and Zonal endpoints][4] in the *Amazon S3 User Guide*.
+  # <note markdown="1"> **Directory buckets** - MFA delete is not supported by directory
+  # buckets.
   #
-  # * MFA delete is not supported by directory buckets.
+  #  </note>
+  #
+  # You can delete objects by explicitly calling DELETE Object or calling
+  # ([PutBucketLifecycle][7]) to enable Amazon S3 to remove them for you.
+  # If you want to block users or accounts from removing or deleting
+  # objects from your bucket, you must deny them the `s3:DeleteObject`,
+  # `s3:DeleteObjectVersion`, and `s3:PutLifeCycleConfiguration` actions.
+  #
+  # <note markdown="1"> **Directory buckets** - S3 Lifecycle is not supported by directory
+  # buckets.
   #
   #  </note>
   #
@@ -5659,50 +5739,47 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     * <b> <code>s3:DeleteObject</code> </b> - To delete an object from
   #       a bucket, you must always have the `s3:DeleteObject` permission.
   #
-  #       <note markdown="1"> You can also use PutBucketLifecycle to delete objects in Amazon
-  #       S3.
-  #
-  #        </note>
-  #
   #     * <b> <code>s3:DeleteObjectVersion</code> </b> - To delete a
   #       specific version of an object from a versioning-enabled bucket,
   #       you must have the `s3:DeleteObjectVersion` permission.
-  #
-  #     * If you want to block users or accounts from removing or deleting
-  #       objects from your bucket, you must deny them the
-  #       `s3:DeleteObject`, `s3:DeleteObjectVersion`, and
-  #       `s3:PutLifeCycleConfiguration` permissions.
-  #   * **Directory buckets permissions** - To grant access to this API
-  #     operation on a directory bucket, we recommend that you use the
-  #     CreateSession API operation for session-based authorization.
+  #   * **Directory bucket permissions** - To grant access to this API
+  #     operation on a directory bucket, we recommend that you use the [
+  #     `CreateSession` ][8] API operation for session-based
+  #     authorization. Specifically, you grant the
+  #     `s3express:CreateSession` permission to the directory bucket in a
+  #     bucket policy or an IAM identity-based policy. Then, you make the
+  #     `CreateSession` API call on the bucket to obtain a session token.
+  #     With the session token in your request header, you can make API
+  #     requests to this operation. After the session token expires, you
+  #     make another `CreateSession` API call to generate a new session
+  #     token for use. Amazon Web Services CLI or SDKs create session and
+  #     refresh the session token automatically to avoid service
+  #     interruptions when a session expires. For more information about
+  #     authorization, see [ `CreateSession` ][8].
   #
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is `
-  #   Bucket_name.s3express-az_id.region.amazonaws.com`.
+  #   Bucket-name.s3express-zone-id.region-code.amazonaws.com`.
   #
   # The following action is related to `DeleteObject`:
   #
-  # * [PutObject][5]
+  # * [PutObject][9]
   #
   # ^
   #
   #
   #
-  # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjects.html#DeletingObjects-best-practices
-  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMFADelete.html
-  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectDELETE.html#ExampleVersionObjectDelete
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html
+  # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjectVersions.html
+  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/DeletingObjectsfromVersioningSuspendedBuckets.html
+  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMFADelete.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectDELETE.html#ExampleVersionObjectDelete
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
+  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html
   #
-  # @example Example: To delete an object (from a non-versioned bucket)
-  #
-  #   # The following example deletes an object from a non-versioned bucket.
-  #
-  #   resp = client.delete_object({
-  #   bucket: "ExampleBucket",
-  #   key: "HappyFace.jpg",
-  #   })
   # @example Example: To delete an object
   #
   #   # The following example deletes an object from an S3 bucket.
@@ -5715,6 +5792,14 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.to_h outputs the following:
   #   {
   #   }
+  # @example Example: To delete an object (from a non-versioned bucket)
+  #
+  #   # The following example deletes an object from a non-versioned bucket.
+  #
+  #   resp = client.delete_object({
+  #   bucket: "ExampleBucket",
+  #   key: "HappyFace.jpg",
+  #   })
   # @example Request syntax with placeholder values
   #
   #   resp = client.delete_object({
@@ -5753,7 +5838,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::DeleteObjectOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObject AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5088
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5185
   def delete_object(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -5833,7 +5918,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::DeleteObjectTaggingOutput#version_id #version_id} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectTagging AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5212
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5309
   def delete_object_tagging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # This operation enables you to delete multiple objects from a bucket
@@ -5855,9 +5940,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # * **Directory buckets** - For directory buckets, you must make
   #   requests for this API operation to the Zonal endpoint. These
   #   endpoints support virtual-hosted-style requests in the format
-  #   `https://bucket_name.s3express-az_id.region.amazonaws.com/key-name
-  #   `. Path-style requests are not supported. For more information, see
-  #   [Regional and Zonal endpoints][1] in the *Amazon S3 User Guide*.
+  #   `https://bucket-name.s3express-zone-id.region-code.amazonaws.com/key-name
+  #   `. Path-style requests are not supported. For more information about
+  #   endpoints in Availability Zones, see [Regional and Zonal endpoints
+  #   for directory buckets in Availability Zones][1] in the *Amazon S3
+  #   User Guide*. For more information about endpoints in Local Zones,
+  #   see [Available Local Zone for directory buckets][2] in the *Amazon
+  #   S3 User Guide*.
   #
   #  </note>
   #
@@ -5875,7 +5964,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # if there are non-versioned objects you are trying to delete. If you
   # provide an invalid token, whether there are versioned keys in the
   # request or not, the entire Multi-Object Delete request will fail. For
-  # information about MFA Delete, see [MFA Delete][2] in the *Amazon S3
+  # information about MFA Delete, see [MFA Delete][3] in the *Amazon S3
   # User Guide*.
   #
   # <note markdown="1"> **Directory buckets** - MFA delete is not supported by directory
@@ -5897,7 +5986,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #       you must specify the `s3:DeleteObjectVersion` permission.
   #   * **Directory bucket permissions** - To grant access to this API
   #     operation on a directory bucket, we recommend that you use the [
-  #     `CreateSession` ][3] API operation for session-based
+  #     `CreateSession` ][4] API operation for session-based
   #     authorization. Specifically, you grant the
   #     `s3express:CreateSession` permission to the directory bucket in a
   #     bucket policy or an IAM identity-based policy. Then, you make the
@@ -5908,7 +5997,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     token for use. Amazon Web Services CLI or SDKs create session and
   #     refresh the session token automatically to avoid service
   #     interruptions when a session expires. For more information about
-  #     authorization, see [ `CreateSession` ][3].
+  #     authorization, see [ `CreateSession` ][4].
   #
   # Content-MD5 request header
   # : * **General purpose bucket** - The Content-MD5 request header is
@@ -5925,66 +6014,32 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is `
-  #   Bucket_name.s3express-az_id.region.amazonaws.com`.
+  #   Bucket-name.s3express-zone-id.region-code.amazonaws.com`.
   #
   # The following operations are related to `DeleteObjects`:
   #
-  # * [CreateMultipartUpload][4]
+  # * [CreateMultipartUpload][5]
   #
-  # * [UploadPart][5]
+  # * [UploadPart][6]
   #
-  # * [CompleteMultipartUpload][6]
+  # * [CompleteMultipartUpload][7]
   #
-  # * [ListParts][7]
+  # * [ListParts][8]
   #
-  # * [AbortMultipartUpload][8]
+  # * [AbortMultipartUpload][9]
   #
   #
   #
   # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html#MultiFactorAuthenticationDelete
-  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html
-  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html
+  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html#MultiFactorAuthenticationDelete
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html
+  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html
   #
-  # @example Example: To delete multiple object versions from a versioned bucket
-  #
-  #   # The following example deletes objects from a bucket. The request specifies object versions. S3 deletes specific object
-  #   # versions and returns the key and versions of deleted objects in the response.
-  #
-  #   resp = client.delete_objects({
-  #   bucket: "examplebucket",
-  #   delete: {
-  #   objects: [
-  #   {
-  #   key: "HappyFace.jpg",
-  #   version_id: "2LWg7lQLnY41.maGB5Z6SWW.dcq0vx7b",
-  #   },
-  #   {
-  #   key: "HappyFace.jpg",
-  #   version_id: "yoz3HB.ZhCS_tKVEmIOr7qYyyAaZSKVd",
-  #   },
-  #   ],
-  #   quiet: false,
-  #   },
-  #   })
-  #
-  #   resp.to_h outputs the following:
-  #   {
-  #   deleted: [
-  #   {
-  #   key: "HappyFace.jpg",
-  #   version_id: "yoz3HB.ZhCS_tKVEmIOr7qYyyAaZSKVd",
-  #   },
-  #   {
-  #   key: "HappyFace.jpg",
-  #   version_id: "2LWg7lQLnY41.maGB5Z6SWW.dcq0vx7b",
-  #   },
-  #   ],
-  #   }
   # @example Example: To delete multiple objects from a versioned bucket
   #
   #   # The following example deletes objects from a bucket. The bucket is versioned, and the request does not specify the
@@ -6017,6 +6072,41 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   delete_marker: true,
   #   delete_marker_version_id: "iOd_ORxhkKe_e8G8_oSGxt2PjsCZKlkt",
   #   key: "objectkey2",
+  #   },
+  #   ],
+  #   }
+  # @example Example: To delete multiple object versions from a versioned bucket
+  #
+  #   # The following example deletes objects from a bucket. The request specifies object versions. S3 deletes specific object
+  #   # versions and returns the key and versions of deleted objects in the response.
+  #
+  #   resp = client.delete_objects({
+  #   bucket: "examplebucket",
+  #   delete: {
+  #   objects: [
+  #   {
+  #   key: "HappyFace.jpg",
+  #   version_id: "2LWg7lQLnY41.maGB5Z6SWW.dcq0vx7b",
+  #   },
+  #   {
+  #   key: "HappyFace.jpg",
+  #   version_id: "yoz3HB.ZhCS_tKVEmIOr7qYyyAaZSKVd",
+  #   },
+  #   ],
+  #   quiet: false,
+  #   },
+  #   })
+  #
+  #   resp.to_h outputs the following:
+  #   {
+  #   deleted: [
+  #   {
+  #   key: "HappyFace.jpg",
+  #   version_id: "yoz3HB.ZhCS_tKVEmIOr7qYyyAaZSKVd",
+  #   },
+  #   {
+  #   key: "HappyFace.jpg",
+  #   version_id: "2LWg7lQLnY41.maGB5Z6SWW.dcq0vx7b",
   #   },
   #   ],
   #   }
@@ -6071,7 +6161,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::DeleteObjectsOutput#errors #errors} => Array&lt;Types::Error&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjects AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5587
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5689
   def delete_objects(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -6117,7 +6207,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeletePublicAccessBlock AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5644
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5746
   def delete_public_access_block(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -6185,7 +6275,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketAccelerateConfigurationOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAccelerateConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5740
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5842
   def get_bucket_accelerate_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -6256,7 +6346,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketAclOutput#grants #grants} => Array&lt;Types::Grant&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAcl AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5836
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5938
   def get_bucket_acl(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -6328,7 +6418,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketAnalyticsConfigurationOutput#analytics_configuration #analytics_configuration} => Types::AnalyticsConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAnalyticsConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#5922
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6024
   def get_bucket_analytics_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -6421,7 +6511,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketCorsOutput#cors_rules #cors_rules} => Array&lt;Types::CORSRule&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketCors AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6042
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6144
   def get_bucket_cors(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns the default encryption configuration for an Amazon S3 bucket.
@@ -6463,7 +6553,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is
-  #   `s3express-control.region.amazonaws.com`.
+  #   `s3express-control.region-code.amazonaws.com`.
   #
   # The following operations are related to `GetBucketEncryption`:
   #
@@ -6502,7 +6592,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketEncryptionOutput#server_side_encryption_configuration #server_side_encryption_configuration} => Types::ServerSideEncryptionConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketEncryption AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6155
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6258
   def get_bucket_encryption(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -6576,7 +6666,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketIntelligentTieringConfigurationOutput#intelligent_tiering_configuration #intelligent_tiering_configuration} => Types::IntelligentTieringConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketIntelligentTieringConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6239
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6342
   def get_bucket_intelligent_tiering_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -6645,7 +6735,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketInventoryConfigurationOutput#inventory_configuration #inventory_configuration} => Types::InventoryConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketInventoryConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6322
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6425
   def get_bucket_inventory_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # For an updated version of this API, see
@@ -6750,7 +6840,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketLifecycleOutput#rules #rules} => Array&lt;Types::Rule&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLifecycle AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6440
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6543
   def get_bucket_lifecycle(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns the lifecycle configuration information set on the bucket. For
@@ -6801,10 +6891,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     <note markdown="1"> <b>Directory buckets </b> - For directory buckets, you must make
   #     requests for this API operation to the Regional endpoint. These
   #     endpoints support path-style requests in the format
-  #     `https://s3express-control.region_code.amazonaws.com/bucket-name
+  #     `https://s3express-control.region-code.amazonaws.com/bucket-name
   #     `. Virtual-hosted-style requests aren't supported. For more
-  #     information, see [Regional and Zonal endpoints][5] in the *Amazon
-  #     S3 User Guide*.
+  #     information about endpoints in Availability Zones, see [Regional
+  #     and Zonal endpoints for directory buckets in Availability
+  #     Zones][5] in the *Amazon S3 User Guide*. For more information
+  #     about endpoints in Local Zones, see [Available Local Zone for
+  #     directory buckets][6] in the *Amazon S3 User Guide*.
   #
   #      </note>
   #
@@ -6828,9 +6921,9 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #
   # * [GetBucketLifecycle][2]
   #
-  # * [PutBucketLifecycle][6]
+  # * [PutBucketLifecycle][7]
   #
-  # * [DeleteBucketLifecycle][7]
+  # * [DeleteBucketLifecycle][8]
   #
   #
   #
@@ -6839,8 +6932,9 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html
   # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
   # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html
   #
   # @example Example: To get lifecycle configuration on a bucket
   #
@@ -6914,7 +7008,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketLifecycleConfigurationOutput#transition_default_minimum_object_size #transition_default_minimum_object_size} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLifecycleConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6622
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6729
   def get_bucket_lifecycle_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -6984,7 +7078,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketLocationOutput#location_constraint #location_constraint} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLocation AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6719
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6826
   def get_bucket_location(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -7032,7 +7126,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketLoggingOutput#logging_enabled #logging_enabled} => Types::LoggingEnabled
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLogging AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6778
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6885
   def get_bucket_logging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -7102,7 +7196,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketMetricsConfigurationOutput#metrics_configuration #metrics_configuration} => Types::MetricsConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketMetricsConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6864
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6971
   def get_bucket_metrics_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -7204,7 +7298,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::NotificationConfigurationDeprecated#cloud_function_configuration #cloud_function_configuration} => Types::CloudFunctionConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketNotification AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#6995
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7102
   def get_bucket_notification(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -7293,7 +7387,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::NotificationConfiguration#event_bridge_configuration #event_bridge_configuration} => Types::EventBridgeConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketNotificationConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7110
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7217
   def get_bucket_notification_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -7338,7 +7432,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketOwnershipControlsOutput#ownership_controls #ownership_controls} => Types::OwnershipControls
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketOwnershipControls AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7167
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7274
   def get_bucket_ownership_controls(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns the policy of a specified bucket.
@@ -7346,9 +7440,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # <note markdown="1"> <b>Directory buckets </b> - For directory buckets, you must make
   # requests for this API operation to the Regional endpoint. These
   # endpoints support path-style requests in the format
-  # `https://s3express-control.region_code.amazonaws.com/bucket-name `.
-  # Virtual-hosted-style requests aren't supported. For more information,
-  # see [Regional and Zonal endpoints][1] in the *Amazon S3 User Guide*.
+  # `https://s3express-control.region-code.amazonaws.com/bucket-name `.
+  # Virtual-hosted-style requests aren't supported. For more information
+  # about endpoints in Availability Zones, see [Regional and Zonal
+  # endpoints for directory buckets in Availability Zones][1] in the
+  # *Amazon S3 User Guide*. For more information about endpoints in Local
+  # Zones, see [Available Local Zone for directory buckets][2] in the
+  # *Amazon S3 User Guide*.
   #
   #  </note>
   #
@@ -7378,7 +7476,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * **General purpose bucket permissions** - The `s3:GetBucketPolicy`
   #     permission is required in a policy. For more information about
   #     general purpose buckets bucket policies, see [Using Bucket
-  #     Policies and User Policies][2] in the *Amazon S3 User Guide*.
+  #     Policies and User Policies][3] in the *Amazon S3 User Guide*.
   #
   #   * **Directory bucket permissions** - To grant access to this API
   #     operation, you must have the `s3express:GetBucketPolicy`
@@ -7388,35 +7486,36 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     Services account that owns the resource. For more information
   #     about directory bucket policies and permissions, see [Amazon Web
   #     Services Identity and Access Management (IAM) for S3 Express One
-  #     Zone][3] in the *Amazon S3 User Guide*.
+  #     Zone][4] in the *Amazon S3 User Guide*.
   #
   # Example bucket policies
   #
   # : **General purpose buckets example bucket policies** - See [Bucket
-  #   policy examples][4] in the *Amazon S3 User Guide*.
+  #   policy examples][5] in the *Amazon S3 User Guide*.
   #
   #   **Directory bucket example bucket policies** - See [Example bucket
-  #   policies for S3 Express One Zone][5] in the *Amazon S3 User Guide*.
+  #   policies for S3 Express One Zone][6] in the *Amazon S3 User Guide*.
   #
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is
-  #   `s3express-control.region.amazonaws.com`.
+  #   `s3express-control.region-code.amazonaws.com`.
   #
   # The following action is related to `GetBucketPolicy`:
   #
-  # * [GetObject][6]
+  # * [GetObject][7]
   #
   # ^
   #
   #
   #
   # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html
-  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-bucket-policies.html
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html
+  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-bucket-policies.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html
   #
   # @example Example: To get bucket policy
   #
@@ -7448,7 +7547,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketPolicyOutput#policy #policy} => IO
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketPolicy AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7327
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7440
   def get_bucket_policy(params = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -7501,7 +7600,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketPolicyStatusOutput#policy_status #policy_status} => Types::PolicyStatus
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketPolicyStatus AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7392
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7505
   def get_bucket_policy_status(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -7611,7 +7710,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketReplicationOutput#replication_configuration #replication_configuration} => Types::ReplicationConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketReplication AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7515
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7628
   def get_bucket_replication(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -7663,7 +7762,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketRequestPaymentOutput#payer #payer} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketRequestPayment AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7581
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7694
   def get_bucket_request_payment(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -7736,7 +7835,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketTaggingOutput#tag_set #tag_set} => Array&lt;Types::Tag&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketTagging AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7667
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7780
   def get_bucket_tagging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -7800,7 +7899,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketVersioningOutput#mfa_delete #mfa_delete} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketVersioning AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7744
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7857
   def get_bucket_versioning(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -7879,7 +7978,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetBucketWebsiteOutput#routing_rules #routing_rules} => Array&lt;Types::RoutingRule&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketWebsite AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7836
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#7949
   def get_bucket_website(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Retrieves an object from Amazon S3.
@@ -7904,9 +8003,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # `/photos/2006/February/sample.jpg`. Also, when you make requests to
   # this API operation, your requests are sent to the Zonal endpoint.
   # These endpoints support virtual-hosted-style requests in the format
-  # `https://bucket_name.s3express-az_id.region.amazonaws.com/key-name `.
-  # Path-style requests are not supported. For more information, see
-  # [Regional and Zonal endpoints][2] in the *Amazon S3 User Guide*.
+  # `https://bucket-name.s3express-zone-id.region-code.amazonaws.com/key-name
+  # `. Path-style requests are not supported. For more information about
+  # endpoints in Availability Zones, see [Regional and Zonal endpoints for
+  # directory buckets in Availability Zones][2] in the *Amazon S3 User
+  # Guide*. For more information about endpoints in Local Zones, see
+  # [Available Local Zone for directory buckets][3] in the *Amazon S3 User
+  # Guide*.
   #
   # Permissions
   # : * **General purpose bucket permissions** - You must have the
@@ -7914,7 +8017,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     have the `READ` access to the object (or version). If you grant
   #     `READ` access to the anonymous user, the `GetObject` operation
   #     returns the object without using an authorization header. For more
-  #     information, see [Specifying permissions in a policy][3] in the
+  #     information, see [Specifying permissions in a policy][4] in the
   #     *Amazon S3 User Guide*.
   #
   #     If you include a `versionId` in your request header, you must have
@@ -7938,7 +8041,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #       returns an HTTP status code `403 Access Denied` error.
   #   * **Directory bucket permissions** - To grant access to this API
   #     operation on a directory bucket, we recommend that you use the [
-  #     `CreateSession` ][4] API operation for session-based
+  #     `CreateSession` ][5] API operation for session-based
   #     authorization. Specifically, you grant the
   #     `s3express:CreateSession` permission to the directory bucket in a
   #     bucket policy or an IAM identity-based policy. Then, you make the
@@ -7949,7 +8052,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     token for use. Amazon Web Services CLI or SDKs create session and
   #     refresh the session token automatically to avoid service
   #     interruptions when a session expires. For more information about
-  #     authorization, see [ `CreateSession` ][4].
+  #     authorization, see [ `CreateSession` ][5].
   #
   #     If the object is encrypted using SSE-KMS, you must also have the
   #     `kms:GenerateDataKey` and `kms:Decrypt` permissions in IAM
@@ -7962,9 +8065,9 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   storage class, the S3 Intelligent-Tiering Archive Access tier, or
   #   the S3 Intelligent-Tiering Deep Archive Access tier, before you can
   #   retrieve the object you must first restore a copy using
-  #   [RestoreObject][5]. Otherwise, this operation returns an
+  #   [RestoreObject][6]. Otherwise, this operation returns an
   #   `InvalidObjectState` error. For information about restoring archived
-  #   objects, see [Restoring Archived Objects][6] in the *Amazon S3 User
+  #   objects, see [Restoring Archived Objects][7] in the *Amazon S3 User
   #   Guide*.
   #
   #   <b>Directory buckets </b> - For directory buckets, only the S3
@@ -7986,7 +8089,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   **Directory buckets** - For directory buckets, there are only two
   #   supported options for server-side encryption: SSE-S3 and SSE-KMS.
   #   SSE-C isn't supported. For more information, see [Protecting data
-  #   with server-side encryption][7] in the *Amazon S3 User Guide*.
+  #   with server-side encryption][8] in the *Amazon S3 User Guide*.
   #
   # Overriding response header values through the request
   #
@@ -8031,47 +8134,27 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is `
-  #   Bucket_name.s3express-az_id.region.amazonaws.com`.
+  #   Bucket-name.s3express-zone-id.region-code.amazonaws.com`.
   #
   # The following operations are related to `GetObject`:
   #
-  # * [ListBuckets][8]
+  # * [ListBuckets][9]
   #
-  # * [GetObjectAcl][9]
+  # * [GetObjectAcl][10]
   #
   #
   #
   # [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html#VirtualHostingSpecifyBucket
   # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_RestoreObject.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html
-  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBuckets.html
-  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html
+  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_RestoreObject.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html
+  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBuckets.html
+  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html
   #
-  # @example Example: To retrieve an object
-  #
-  #   # The following example retrieves an object for an S3 bucket.
-  #
-  #   resp = client.get_object({
-  #   bucket: "examplebucket",
-  #   key: "HappyFace.jpg",
-  #   })
-  #
-  #   resp.to_h outputs the following:
-  #   {
-  #   accept_ranges: "bytes",
-  #   content_length: 3191,
-  #   content_type: "image/jpeg",
-  #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
-  #   last_modified: Time.parse("2016-12-15T01:19:41.000Z"),
-  #   metadata: {
-  #   },
-  #   tag_count: 2,
-  #   version_id: "null",
-  #   }
   # @example Example: To retrieve a byte range of an object
   #
   #   # The following example retrieves an object for an S3 bucket. The request specifies the range header to retrieve a
@@ -8093,6 +8176,27 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   last_modified: Time.parse("2014-10-09T22:57:28.000Z"),
   #   metadata: {
   #   },
+  #   version_id: "null",
+  #   }
+  # @example Example: To retrieve an object
+  #
+  #   # The following example retrieves an object for an S3 bucket.
+  #
+  #   resp = client.get_object({
+  #   bucket: "examplebucket",
+  #   key: "HappyFace.jpg",
+  #   })
+  #
+  #   resp.to_h outputs the following:
+  #   {
+  #   accept_ranges: "bytes",
+  #   content_length: 3191,
+  #   content_type: "image/jpeg",
+  #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
+  #   last_modified: Time.parse("2016-12-15T01:19:41.000Z"),
+  #   metadata: {
+  #   },
+  #   tag_count: 2,
   #   version_id: "null",
   #   }
   # @example Download an object to disk
@@ -8251,7 +8355,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetObjectOutput#object_lock_legal_hold_status #object_lock_legal_hold_status} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObject AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#8501
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#8619
   def get_object(params = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -8382,7 +8486,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetObjectAclOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAcl AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#8685
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#8803
   def get_object_acl(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Retrieves all the metadata from an object without returning the object
@@ -8396,9 +8500,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # <note markdown="1"> **Directory buckets** - For directory buckets, you must make requests
   # for this API operation to the Zonal endpoint. These endpoints support
   # virtual-hosted-style requests in the format
-  # `https://bucket_name.s3express-az_id.region.amazonaws.com/key-name `.
-  # Path-style requests are not supported. For more information, see
-  # [Regional and Zonal endpoints][1] in the *Amazon S3 User Guide*.
+  # `https://bucket-name.s3express-zone-id.region-code.amazonaws.com/key-name
+  # `. Path-style requests are not supported. For more information about
+  # endpoints in Availability Zones, see [Regional and Zonal endpoints for
+  # directory buckets in Availability Zones][1] in the *Amazon S3 User
+  # Guide*. For more information about endpoints in Local Zones, see
+  # [Available Local Zone for directory buckets][2] in the *Amazon S3 User
+  # Guide*.
   #
   #  </note>
   #
@@ -8411,7 +8519,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     `s3:GetObjectVersionAttributes` permissions for this operation. If
   #     the bucket is not versioned, you need the `s3:GetObject` and
   #     `s3:GetObjectAttributes` permissions. For more information, see
-  #     [Specifying Permissions in a Policy][2] in the *Amazon S3 User
+  #     [Specifying Permissions in a Policy][3] in the *Amazon S3 User
   #     Guide*. If the object that you request does not exist, the error
   #     Amazon S3 returns depends on whether you also have the
   #     `s3:ListBucket` permission.
@@ -8425,7 +8533,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #       error.
   #   * **Directory bucket permissions** - To grant access to this API
   #     operation on a directory bucket, we recommend that you use the [
-  #     `CreateSession` ][3] API operation for session-based
+  #     `CreateSession` ][4] API operation for session-based
   #     authorization. Specifically, you grant the
   #     `s3express:CreateSession` permission to the directory bucket in a
   #     bucket policy or an IAM identity-based policy. Then, you make the
@@ -8436,7 +8544,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     token for use. Amazon Web Services CLI or SDKs create session and
   #     refresh the session token automatically to avoid service
   #     interruptions when a session expires. For more information about
-  #     authorization, see [ `CreateSession` ][3].
+  #     authorization, see [ `CreateSession` ][4].
   #
   #     If the object is encrypted with SSE-KMS, you must also have the
   #     `kms:GenerateDataKey` and `kms:Decrypt` permissions in IAM
@@ -8472,7 +8580,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * `x-amz-server-side-encryption-customer-key-MD5`
   #
   #   For more information about SSE-C, see [Server-Side Encryption (Using
-  #   Customer-Provided Encryption Keys)][4] in the *Amazon S3 User
+  #   Customer-Provided Encryption Keys)][5] in the *Amazon S3 User
   #   Guide*.
   #
   #   <note markdown="1"> **Directory bucket permissions** - For directory buckets, there are
@@ -8484,10 +8592,10 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   encryption in your `CreateSession` requests or `PUT` object
   #   requests. Then, new objects are automatically encrypted with the
   #   desired encryption settings. For more information, see [Protecting
-  #   data with server-side encryption][5] in the *Amazon S3 User Guide*.
+  #   data with server-side encryption][6] in the *Amazon S3 User Guide*.
   #   For more information about the encryption overriding behaviors in
   #   directory buckets, see [Specifying server-side encryption with KMS
-  #   for new object uploads][6].
+  #   for new object uploads][7].
   #
   #    </note>
   #
@@ -8510,7 +8618,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #
   #     * `If-Unmodified-Since` condition evaluates to `false`.
   #     For more information about conditional requests, see [RFC
-  #     7232][7].
+  #     7232][8].
   #
   #   * If both of the `If-None-Match` and `If-Modified-Since` headers are
   #     present in the request as follows, then Amazon S3 returns the HTTP
@@ -8520,48 +8628,49 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #
   #     * `If-Modified-Since` condition evaluates to `true`.
   #     For more information about conditional requests, see [RFC
-  #     7232][7].
+  #     7232][8].
   #
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is `
-  #   Bucket_name.s3express-az_id.region.amazonaws.com`.
+  #   Bucket-name.s3express-zone-id.region-code.amazonaws.com`.
   #
   # The following actions are related to `GetObjectAttributes`:
   #
-  # * [GetObject][8]
+  # * [GetObject][9]
   #
-  # * [GetObjectAcl][9]
+  # * [GetObjectAcl][10]
   #
-  # * [GetObjectLegalHold][10]
+  # * [GetObjectLegalHold][11]
   #
-  # * [GetObjectLockConfiguration][11]
+  # * [GetObjectLockConfiguration][12]
   #
-  # * [GetObjectRetention][12]
+  # * [GetObjectRetention][13]
   #
-  # * [GetObjectTagging][13]
+  # * [GetObjectTagging][14]
   #
-  # * [HeadObject][14]
+  # * [HeadObject][15]
   #
-  # * [ListParts][15]
+  # * [ListParts][16]
   #
   #
   #
   # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html
-  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-specifying-kms-encryption.html
-  # [7]: https://tools.ietf.org/html/rfc7232
-  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html
-  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html
-  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectLegalHold.html
-  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectLockConfiguration.html
-  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectRetention.html
-  # [13]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectTagging.html
-  # [14]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_HeadObject.html
-  # [15]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html
+  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-specifying-kms-encryption.html
+  # [8]: https://tools.ietf.org/html/rfc7232
+  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html
+  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html
+  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectLegalHold.html
+  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectLockConfiguration.html
+  # [13]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectRetention.html
+  # [14]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectTagging.html
+  # [15]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_HeadObject.html
+  # [16]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html
   #
   # @example Request syntax with placeholder values
   #
@@ -8629,7 +8738,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetObjectAttributesOutput#object_size #object_size} => Integer
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAttributes AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9044
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9167
   def get_object_attributes(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -8676,7 +8785,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetObjectLegalHoldOutput#legal_hold #legal_hold} => Types::ObjectLockLegalHold
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectLegalHold AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9140
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9263
   def get_object_legal_hold(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -8720,7 +8829,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetObjectLockConfigurationOutput#object_lock_configuration #object_lock_configuration} => Types::ObjectLockConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectLockConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9210
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9333
   def get_object_lock_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -8768,7 +8877,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetObjectRetentionOutput#retention #retention} => Types::ObjectLockRetention
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectRetention AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9307
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9430
   def get_object_retention(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -8806,26 +8915,6 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # [3]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html
   # [4]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectTagging.html
   #
-  # @example Example: To retrieve tag set of a specific object version
-  #
-  #   # The following example retrieves tag set of an object. The request specifies object version.
-  #
-  #   resp = client.get_object_tagging({
-  #   bucket: "examplebucket",
-  #   key: "exampleobject",
-  #   version_id: "ydlaNkwWm0SfKJR.T1b1fIdPRbldTYRI",
-  #   })
-  #
-  #   resp.to_h outputs the following:
-  #   {
-  #   tag_set: [
-  #   {
-  #   key: "Key1",
-  #   value: "Value1",
-  #   },
-  #   ],
-  #   version_id: "ydlaNkwWm0SfKJR.T1b1fIdPRbldTYRI",
-  #   }
   # @example Example: To retrieve tag set of an object
   #
   #   # The following example retrieves tag set of an object.
@@ -8848,6 +8937,26 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   },
   #   ],
   #   version_id: "null",
+  #   }
+  # @example Example: To retrieve tag set of a specific object version
+  #
+  #   # The following example retrieves tag set of an object. The request specifies object version.
+  #
+  #   resp = client.get_object_tagging({
+  #   bucket: "examplebucket",
+  #   key: "exampleobject",
+  #   version_id: "ydlaNkwWm0SfKJR.T1b1fIdPRbldTYRI",
+  #   })
+  #
+  #   resp.to_h outputs the following:
+  #   {
+  #   tag_set: [
+  #   {
+  #   key: "Key1",
+  #   value: "Value1",
+  #   },
+  #   ],
+  #   version_id: "ydlaNkwWm0SfKJR.T1b1fIdPRbldTYRI",
   #   }
   # @example Request syntax with placeholder values
   #
@@ -8877,7 +8986,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetObjectTaggingOutput#tag_set #tag_set} => Array&lt;Types::Tag&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectTagging AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9476
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9599
   def get_object_tagging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -8944,7 +9053,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetObjectTorrentOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectTorrent AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9577
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9700
   def get_object_torrent(params = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -9007,7 +9116,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::GetPublicAccessBlockOutput#public_access_block_configuration #public_access_block_configuration} => Types::PublicAccessBlockConfiguration
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetPublicAccessBlock AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9652
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9775
   def get_public_access_block(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # You can use this operation to determine if a bucket exists and if you
@@ -9066,13 +9175,17 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is `
-  #   Bucket_name.s3express-az_id.region.amazonaws.com`.
+  #   Bucket-name.s3express-zone-id.region-code.amazonaws.com`.
   #
   #   <note markdown="1"> You must make requests for this API operation to the Zonal endpoint.
   #   These endpoints support virtual-hosted-style requests in the format
-  #   `https://bucket_name.s3express-az_id.region.amazonaws.com`.
-  #   Path-style requests are not supported. For more information, see
-  #   [Regional and Zonal endpoints][5] in the *Amazon S3 User Guide*.
+  #   `https://bucket-name.s3express-zone-id.region-code.amazonaws.com`.
+  #   Path-style requests are not supported. For more information about
+  #   endpoints in Availability Zones, see [Regional and Zonal endpoints
+  #   for directory buckets in Availability Zones][5] in the *Amazon S3
+  #   User Guide*. For more information about endpoints in Local Zones,
+  #   see [Available Local Zone for directory buckets][6] in the *Amazon
+  #   S3 User Guide*.
   #
   #    </note>
   #
@@ -9083,6 +9196,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html
   # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-identity-policies.html
   # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
   #
   # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
   #
@@ -9104,7 +9218,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   })
   # @example Response structure
   #
-  #   resp.bucket_location_type #=> String, one of "AvailabilityZone"
+  #   resp.bucket_location_type #=> String, one of "AvailabilityZone", "LocalZone"
   #   resp.bucket_location_name #=> String
   #   resp.bucket_region #=> String
   #   resp.access_point_alias #=> Boolean
@@ -9120,7 +9234,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::HeadBucketOutput#access_point_alias #access_point_alias} => Boolean
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/HeadBucket AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9828
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#9956
   def head_bucket(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # The `HEAD` operation retrieves metadata from an object without
@@ -9248,22 +9362,26 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is `
-  #   Bucket_name.s3express-az_id.region.amazonaws.com`.
+  #   Bucket-name.s3express-zone-id.region-code.amazonaws.com`.
   #
   #   <note markdown="1"> For directory buckets, you must make requests for this API operation
   #   to the Zonal endpoint. These endpoints support virtual-hosted-style
   #   requests in the format
-  #   `https://bucket_name.s3express-az_id.region.amazonaws.com/key-name
-  #   `. Path-style requests are not supported. For more information, see
-  #   [Regional and Zonal endpoints][6] in the *Amazon S3 User Guide*.
+  #   `https://bucket-name.s3express-zone-id.region-code.amazonaws.com/key-name
+  #   `. Path-style requests are not supported. For more information about
+  #   endpoints in Availability Zones, see [Regional and Zonal endpoints
+  #   for directory buckets in Availability Zones][6] in the *Amazon S3
+  #   User Guide*. For more information about endpoints in Local Zones,
+  #   see [Available Local Zone for directory buckets][7] in the *Amazon
+  #   S3 User Guide*.
   #
   #    </note>
   #
   # The following actions are related to `HeadObject`:
   #
-  # * [GetObject][7]
+  # * [GetObject][8]
   #
-  # * [GetObjectAttributes][8]
+  # * [GetObjectAttributes][9]
   #
   #
   #
@@ -9273,8 +9391,9 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # [4]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html
   # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html
   # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html
-  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html
+  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html
   #
   # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
   #
@@ -9426,7 +9545,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::HeadObjectOutput#object_lock_legal_hold_status #object_lock_legal_hold_status} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/HeadObject AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10350
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10483
   def head_object(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -9512,7 +9631,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListBucketAnalyticsConfigurationsOutput#analytics_configuration_list #analytics_configuration_list} => Array&lt;Types::AnalyticsConfiguration&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketAnalyticsConfigurations AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10451
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10584
   def list_bucket_analytics_configurations(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -9593,7 +9712,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListBucketIntelligentTieringConfigurationsOutput#intelligent_tiering_configuration_list #intelligent_tiering_configuration_list} => Array&lt;Types::IntelligentTieringConfiguration&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketIntelligentTieringConfigurations AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10543
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10676
   def list_bucket_intelligent_tiering_configurations(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -9678,7 +9797,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListBucketInventoryConfigurationsOutput#next_continuation_token #next_continuation_token} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketInventoryConfigurations AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10645
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10778
   def list_bucket_inventory_configurations(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -9763,7 +9882,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListBucketMetricsConfigurationsOutput#metrics_configuration_list #metrics_configuration_list} => Array&lt;Types::MetricsConfiguration&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketMetricsConfigurations AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10747
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10880
   def list_bucket_metrics_configurations(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -9852,7 +9971,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListBucketsOutput#prefix #prefix} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBuckets AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10885
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#11018
   def list_buckets(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a list of all Amazon S3 directory buckets owned by the
@@ -9863,9 +9982,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # <note markdown="1"> <b>Directory buckets </b> - For directory buckets, you must make
   # requests for this API operation to the Regional endpoint. These
   # endpoints support path-style requests in the format
-  # `https://s3express-control.region_code.amazonaws.com/bucket-name `.
-  # Virtual-hosted-style requests aren't supported. For more information,
-  # see [Regional and Zonal endpoints][2] in the *Amazon S3 User Guide*.
+  # `https://s3express-control.region-code.amazonaws.com/bucket-name `.
+  # Virtual-hosted-style requests aren't supported. For more information
+  # about endpoints in Availability Zones, see [Regional and Zonal
+  # endpoints for directory buckets in Availability Zones][2] in the
+  # *Amazon S3 User Guide*. For more information about endpoints in Local
+  # Zones, see [Available Local Zone for directory buckets][3] in the
+  # *Amazon S3 User Guide*.
   #
   #  </note>
   #
@@ -9877,7 +10000,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   operation can only be performed by the Amazon Web Services account
   #   that owns the resource. For more information about directory bucket
   #   policies and permissions, see [Amazon Web Services Identity and
-  #   Access Management (IAM) for S3 Express One Zone][3] in the *Amazon
+  #   Access Management (IAM) for S3 Express One Zone][4] in the *Amazon
   #   S3 User Guide*.
   #
   # HTTP Host header syntax
@@ -9894,7 +10017,8 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #
   # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html
   # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
+  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
   #
   # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
   #
@@ -9921,7 +10045,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListDirectoryBucketsOutput#continuation_token #continuation_token} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListDirectoryBuckets AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#10968
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#11106
   def list_directory_buckets(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # This operation lists in-progress multipart uploads in a bucket. An
@@ -9968,21 +10092,25 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # <note markdown="1"> **Directory buckets** - For directory buckets, you must make requests
   # for this API operation to the Zonal endpoint. These endpoints support
   # virtual-hosted-style requests in the format
-  # `https://bucket_name.s3express-az_id.region.amazonaws.com/key-name `.
-  # Path-style requests are not supported. For more information, see
-  # [Regional and Zonal endpoints][2] in the *Amazon S3 User Guide*.
+  # `https://bucket-name.s3express-zone-id.region-code.amazonaws.com/key-name
+  # `. Path-style requests are not supported. For more information about
+  # endpoints in Availability Zones, see [Regional and Zonal endpoints for
+  # directory buckets in Availability Zones][2] in the *Amazon S3 User
+  # Guide*. For more information about endpoints in Local Zones, see
+  # [Available Local Zone for directory buckets][3] in the *Amazon S3 User
+  # Guide*.
   #
   #  </note>
   #
   # Permissions
   # : * **General purpose bucket permissions** - For information about
   #     permissions required to use the multipart upload API, see
-  #     [Multipart Upload and Permissions][3] in the *Amazon S3 User
+  #     [Multipart Upload and Permissions][4] in the *Amazon S3 User
   #     Guide*.
   #
   #   * **Directory bucket permissions** - To grant access to this API
   #     operation on a directory bucket, we recommend that you use the [
-  #     `CreateSession` ][4] API operation for session-based
+  #     `CreateSession` ][5] API operation for session-based
   #     authorization. Specifically, you grant the
   #     `s3express:CreateSession` permission to the directory bucket in a
   #     bucket policy or an IAM identity-based policy. Then, you make the
@@ -9993,7 +10121,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     token for use. Amazon Web Services CLI or SDKs create session and
   #     refresh the session token automatically to avoid service
   #     interruptions when a session expires. For more information about
-  #     authorization, see [ `CreateSession` ][4].
+  #     authorization, see [ `CreateSession` ][5].
   #
   # Sorting of multipart uploads in response
   # : * **General purpose bucket** - In the `ListMultipartUploads`
@@ -10014,31 +10142,32 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is `
-  #   Bucket_name.s3express-az_id.region.amazonaws.com`.
+  #   Bucket-name.s3express-zone-id.region-code.amazonaws.com`.
   #
   # The following operations are related to `ListMultipartUploads`:
   #
-  # * [CreateMultipartUpload][5]
+  # * [CreateMultipartUpload][6]
   #
-  # * [UploadPart][6]
+  # * [UploadPart][7]
   #
-  # * [CompleteMultipartUpload][7]
+  # * [CompleteMultipartUpload][8]
   #
-  # * [ListParts][8]
+  # * [ListParts][9]
   #
-  # * [AbortMultipartUpload][9]
+  # * [AbortMultipartUpload][10]
   #
   #
   #
   # [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html
   # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html
-  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html
-  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html
+  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html
+  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html
+  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html
   #
   # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
   #
@@ -10201,7 +10330,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListMultipartUploadsOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListMultipartUploads AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#11407
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#11550
   def list_multipart_uploads(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -10362,7 +10491,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListObjectVersionsOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectVersions AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#11646
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#11789
   def list_object_versions(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -10502,7 +10631,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListObjectsOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjects AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#11880
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#12023
   def list_objects(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns some or all (up to 1,000) of the objects in a bucket with each
@@ -10525,9 +10654,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # * **Directory buckets** - For directory buckets, you must make
   #   requests for this API operation to the Zonal endpoint. These
   #   endpoints support virtual-hosted-style requests in the format
-  #   `https://bucket_name.s3express-az_id.region.amazonaws.com/key-name
-  #   `. Path-style requests are not supported. For more information, see
-  #   [Regional and Zonal endpoints][3] in the *Amazon S3 User Guide*.
+  #   `https://bucket-name.s3express-zone-id.region-code.amazonaws.com/key-name
+  #   `. Path-style requests are not supported. For more information about
+  #   endpoints in Availability Zones, see [Regional and Zonal endpoints
+  #   for directory buckets in Availability Zones][3] in the *Amazon S3
+  #   User Guide*. For more information about endpoints in Local Zones,
+  #   see [Available Local Zone for directory buckets][4] in the *Amazon
+  #   S3 User Guide*.
   #
   #  </note>
   #
@@ -10537,12 +10670,12 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     to perform the `s3:ListBucket` action. The bucket owner has this
   #     permission by default and can grant this permission to others. For
   #     more information about permissions, see [Permissions Related to
-  #     Bucket Subresource Operations][4] and [Managing Access Permissions
-  #     to Your Amazon S3 Resources][5] in the *Amazon S3 User Guide*.
+  #     Bucket Subresource Operations][5] and [Managing Access Permissions
+  #     to Your Amazon S3 Resources][6] in the *Amazon S3 User Guide*.
   #
   #   * **Directory bucket permissions** - To grant access to this API
   #     operation on a directory bucket, we recommend that you use the [
-  #     `CreateSession` ][6] API operation for session-based
+  #     `CreateSession` ][7] API operation for session-based
   #     authorization. Specifically, you grant the
   #     `s3express:CreateSession` permission to the directory bucket in a
   #     bucket policy or an IAM identity-based policy. Then, you make the
@@ -10553,7 +10686,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     token for use. Amazon Web Services CLI or SDKs create session and
   #     refresh the session token automatically to avoid service
   #     interruptions when a session expires. For more information about
-  #     authorization, see [ `CreateSession` ][6].
+  #     authorization, see [ `CreateSession` ][7].
   #
   # Sorting order of returned objects
   # : * **General purpose bucket** - For general purpose buckets,
@@ -10566,33 +10699,34 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is `
-  #   Bucket_name.s3express-az_id.region.amazonaws.com`.
+  #   Bucket-name.s3express-zone-id.region-code.amazonaws.com`.
   #
   # This section describes the latest revision of this action. We
   # recommend that you use this revised API operation for application
   # development. For backward compatibility, Amazon S3 continues to
-  # support the prior version of this API operation, [ListObjects][7].
+  # support the prior version of this API operation, [ListObjects][8].
   #
   # The following operations are related to `ListObjectsV2`:
   #
-  # * [GetObject][8]
+  # * [GetObject][9]
   #
-  # * [PutObject][9]
+  # * [PutObject][10]
   #
-  # * [CreateBucket][10]
+  # * [CreateBucket][11]
   #
   #
   #
   # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/ListingKeysUsingAPIs.html
   # [2]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBuckets.html
   # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html
-  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html
-  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html
-  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html
+  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html
+  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html
+  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html
   #
   # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
   #
@@ -10703,7 +10837,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListObjectsV2Output#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectsV2 AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#12220
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#12368
   def list_objects_v2(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Lists the parts that have been uploaded for a specific multipart
@@ -10729,16 +10863,20 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # <note markdown="1"> **Directory buckets** - For directory buckets, you must make requests
   # for this API operation to the Zonal endpoint. These endpoints support
   # virtual-hosted-style requests in the format
-  # `https://bucket_name.s3express-az_id.region.amazonaws.com/key-name `.
-  # Path-style requests are not supported. For more information, see
-  # [Regional and Zonal endpoints][3] in the *Amazon S3 User Guide*.
+  # `https://bucket-name.s3express-zone-id.region-code.amazonaws.com/key-name
+  # `. Path-style requests are not supported. For more information about
+  # endpoints in Availability Zones, see [Regional and Zonal endpoints for
+  # directory buckets in Availability Zones][3] in the *Amazon S3 User
+  # Guide*. For more information about endpoints in Local Zones, see
+  # [Available Local Zone for directory buckets][4] in the *Amazon S3 User
+  # Guide*.
   #
   #  </note>
   #
   # Permissions
   # : * **General purpose bucket permissions** - For information about
   #     permissions required to use the multipart upload API, see
-  #     [Multipart Upload and Permissions][4] in the *Amazon S3 User
+  #     [Multipart Upload and Permissions][5] in the *Amazon S3 User
   #     Guide*.
   #
   #     If the upload was created using server-side encryption with Key
@@ -10749,7 +10887,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #
   #   * **Directory bucket permissions** - To grant access to this API
   #     operation on a directory bucket, we recommend that you use the [
-  #     `CreateSession` ][5] API operation for session-based
+  #     `CreateSession` ][6] API operation for session-based
   #     authorization. Specifically, you grant the
   #     `s3express:CreateSession` permission to the directory bucket in a
   #     bucket policy or an IAM identity-based policy. Then, you make the
@@ -10760,39 +10898,40 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     token for use. Amazon Web Services CLI or SDKs create session and
   #     refresh the session token automatically to avoid service
   #     interruptions when a session expires. For more information about
-  #     authorization, see [ `CreateSession` ][5].
+  #     authorization, see [ `CreateSession` ][6].
   #
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is `
-  #   Bucket_name.s3express-az_id.region.amazonaws.com`.
+  #   Bucket-name.s3express-zone-id.region-code.amazonaws.com`.
   #
   # The following operations are related to `ListParts`:
   #
   # * [CreateMultipartUpload][1]
   #
-  # * [UploadPart][6]
+  # * [UploadPart][7]
   #
-  # * [CompleteMultipartUpload][7]
+  # * [CompleteMultipartUpload][8]
   #
-  # * [AbortMultipartUpload][8]
+  # * [AbortMultipartUpload][9]
   #
-  # * [GetObjectAttributes][9]
+  # * [GetObjectAttributes][10]
   #
-  # * [ListMultipartUploads][10]
+  # * [ListMultipartUploads][11]
   #
   #
   #
   # [1]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html
   # [2]: https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html
   # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html
-  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html
-  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html
-  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html
+  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html
+  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html
+  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html
   #
   # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
   #
@@ -10904,7 +11043,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::ListPartsOutput#checksum_algorithm #checksum_algorithm} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListParts AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#12540
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#12693
   def list_parts(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -10976,7 +11115,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketAccelerateConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#12639
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#12792
   def put_bucket_accelerate_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -11211,7 +11350,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketAcl AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#12932
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13085
   def put_bucket_acl(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -11333,7 +11472,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketAnalyticsConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13068
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13221
   def put_bucket_analytics_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -11465,7 +11604,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketCors AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13247
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13400
   def put_bucket_cors(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # This operation configures default encryption and Amazon S3 Bucket Keys
@@ -11474,9 +11613,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # <note markdown="1"> <b>Directory buckets </b> - For directory buckets, you must make
   # requests for this API operation to the Regional endpoint. These
   # endpoints support path-style requests in the format
-  # `https://s3express-control.region_code.amazonaws.com/bucket-name `.
-  # Virtual-hosted-style requests aren't supported. For more information,
-  # see [Regional and Zonal endpoints][1] in the *Amazon S3 User Guide*.
+  # `https://s3express-control.region-code.amazonaws.com/bucket-name `.
+  # Virtual-hosted-style requests aren't supported. For more information
+  # about endpoints in Availability Zones, see [Regional and Zonal
+  # endpoints for directory buckets in Availability Zones][1] in the
+  # *Amazon S3 User Guide*. For more information about endpoints in Local
+  # Zones, see [Available Local Zone for directory buckets][2] in the
+  # *Amazon S3 User Guide*.
   #
   #  </note>
   #
@@ -11490,12 +11633,12 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     keys (SSE-KMS) or dual-layer server-side encryption with Amazon
   #     Web Services KMS keys (DSSE-KMS). If you specify default
   #     encryption by using SSE-KMS, you can also configure [Amazon S3
-  #     Bucket Keys][2]. For information about the bucket default
-  #     encryption feature, see [Amazon S3 Bucket Default Encryption][3]
+  #     Bucket Keys][3]. For information about the bucket default
+  #     encryption feature, see [Amazon S3 Bucket Default Encryption][4]
   #     in the *Amazon S3 User Guide*.
   #
   #   * If you use PutBucketEncryption to set your [default bucket
-  #     encryption][3] to SSE-KMS, you should verify that your KMS key ID
+  #     encryption][4] to SSE-KMS, you should verify that your KMS key ID
   #     is correct. Amazon S3 doesn't validate the KMS key ID provided in
   #     PutBucketEncryption requests.
   # * <b>Directory buckets </b> - You can optionally configure default
@@ -11509,28 +11652,28 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     encrypted with the desired encryption settings. For more
   #     information about the encryption overriding behaviors in directory
   #     buckets, see [Specifying server-side encryption with KMS for new
-  #     object uploads][4].
+  #     object uploads][5].
   #
   #   * Your SSE-KMS configuration can only support 1 [customer managed
-  #     key][5] per directory bucket for the lifetime of the bucket. The
-  #     [Amazon Web Services managed key][6] (`aws/s3`) isn't supported.
+  #     key][6] per directory bucket for the lifetime of the bucket. The
+  #     [Amazon Web Services managed key][7] (`aws/s3`) isn't supported.
   #
   #   * S3 Bucket Keys are always enabled for `GET` and `PUT` operations
   #     in a directory bucket and can’t be disabled. S3 Bucket Keys
   #     aren't supported, when you copy SSE-KMS encrypted objects from
   #     general purpose buckets to directory buckets, from directory
   #     buckets to general purpose buckets, or between directory buckets,
-  #     through [CopyObject][7], [UploadPartCopy][8], [the Copy operation
-  #     in Batch Operations][9], or [the import jobs][10]. In this case,
+  #     through [CopyObject][8], [UploadPartCopy][9], [the Copy operation
+  #     in Batch Operations][10], or [the import jobs][11]. In this case,
   #     Amazon S3 makes a call to KMS every time a copy request is made
   #     for a KMS-encrypted object.
   #
-  #   * When you specify an [KMS customer managed key][5] for encryption
+  #   * When you specify an [KMS customer managed key][6] for encryption
   #     in your directory bucket, only use the key ID or key ARN. The key
   #     alias format of the KMS key isn't supported.
   #
   #   * For directory buckets, if you use PutBucketEncryption to set your
-  #     [default bucket encryption][3] to SSE-KMS, Amazon S3 validates the
+  #     [default bucket encryption][4] to SSE-KMS, Amazon S3 validates the
   #     KMS key ID provided in PutBucketEncryption requests.
   #
   #  </note>
@@ -11543,7 +11686,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #
   #  Also, this action requires Amazon Web Services Signature Version 4.
   # For more information, see [ Authenticating Requests (Amazon Web
-  # Services Signature Version 4)][11].
+  # Services Signature Version 4)][12].
   #
   # Permissions
   # : * **General purpose bucket permissions** - The
@@ -11551,8 +11694,8 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     policy. The bucket owner has this permission by default. The
   #     bucket owner can grant this permission to others. For more
   #     information about permissions, see [Permissions Related to Bucket
-  #     Operations][12] and [Managing Access Permissions to Your Amazon S3
-  #     Resources][13] in the *Amazon S3 User Guide*.
+  #     Operations][13] and [Managing Access Permissions to Your Amazon S3
+  #     Resources][14] in the *Amazon S3 User Guide*.
   #
   #   * **Directory bucket permissions** - To grant access to this API
   #     operation, you must have the
@@ -11562,7 +11705,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     only be performed by the Amazon Web Services account that owns the
   #     resource. For more information about directory bucket policies and
   #     permissions, see [Amazon Web Services Identity and Access
-  #     Management (IAM) for S3 Express One Zone][14] in the *Amazon S3
+  #     Management (IAM) for S3 Express One Zone][15] in the *Amazon S3
   #     User Guide*.
   #
   #     To set a directory bucket default encryption with SSE-KMS, you
@@ -11573,32 +11716,33 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is
-  #   `s3express-control.region.amazonaws.com`.
+  #   `s3express-control.region-code.amazonaws.com`.
   #
   # The following operations are related to `PutBucketEncryption`:
   #
-  # * [GetBucketEncryption][15]
+  # * [GetBucketEncryption][16]
   #
-  # * [DeleteBucketEncryption][16]
+  # * [DeleteBucketEncryption][17]
   #
   #
   #
   # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html
-  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-specifying-kms-encryption.html
-  # [5]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk
-  # [6]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html
-  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html
-  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-objects-Batch-Ops
-  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-import-job
-  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html
-  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources
-  # [13]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html
-  # [14]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
-  # [15]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketEncryption.html
-  # [16]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketEncryption.html
+  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-specifying-kms-encryption.html
+  # [6]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk
+  # [7]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html
+  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html
+  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-objects-Batch-Ops
+  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-import-job
+  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html
+  # [13]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources
+  # [14]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html
+  # [15]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
+  # [16]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketEncryption.html
+  # [17]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketEncryption.html
   #
   # @example Request syntax with placeholder values
   #
@@ -11629,7 +11773,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketEncryption AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13475
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13634
   def put_bucket_encryption(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -11743,7 +11887,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketIntelligentTieringConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13600
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13759
   def put_bucket_intelligent_tiering_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -11880,7 +12024,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketInventoryConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13752
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13911
   def put_bucket_inventory_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # For an updated version of this API, see
@@ -12002,7 +12146,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLifecycle AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#13903
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14062
   def put_bucket_lifecycle(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates a new lifecycle configuration for the bucket or replaces an
@@ -12011,6 +12155,16 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # retain any configuration details, they must be included in the new
   # lifecycle configuration. For information about lifecycle
   # configuration, see [Managing your storage lifecycle][1].
+  #
+  # <note markdown="1"> Bucket lifecycle configuration now supports specifying a lifecycle
+  # rule using an object key name prefix, one or more object tags, object
+  # size, or any combination of these. Accordingly, this section describes
+  # the latest API. The previous version of the API supported filtering
+  # based only on an object key name prefix, which is supported for
+  # backward compatibility. For the related API description, see
+  # [PutBucketLifecycle][2].
+  #
+  #  </note>
   #
   # Rules
   # Permissions
@@ -12092,10 +12246,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     <note markdown="1"> <b>Directory buckets </b> - For directory buckets, you must make
   #     requests for this API operation to the Regional endpoint. These
   #     endpoints support path-style requests in the format
-  #     `https://s3express-control.region_code.amazonaws.com/bucket-name
+  #     `https://s3express-control.region-code.amazonaws.com/bucket-name
   #     `. Virtual-hosted-style requests aren't supported. For more
-  #     information, see [Regional and Zonal endpoints][7] in the *Amazon
-  #     S3 User Guide*.
+  #     information about endpoints in Availability Zones, see [Regional
+  #     and Zonal endpoints for directory buckets in Availability
+  #     Zones][7] in the *Amazon S3 User Guide*. For more information
+  #     about endpoints in Local Zones, see [Available Local Zone for
+  #     directory buckets][8] in the *Amazon S3 User Guide*.
   #
   #      </note>
   #
@@ -12105,9 +12262,9 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   The following operations are related to
   #   `PutBucketLifecycleConfiguration`:
   #
-  #   * [GetBucketLifecycleConfiguration][8]
+  #   * [GetBucketLifecycleConfiguration][9]
   #
-  #   * [DeleteBucketLifecycle][9]
+  #   * [DeleteBucketLifecycle][10]
   #
   #
   #
@@ -12118,8 +12275,9 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html
   # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
   # [7]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html
-  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html
+  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html
   #
   # @example Example: Put bucket lifecycle
   #
@@ -12226,7 +12384,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::PutBucketLifecycleConfigurationOutput#transition_default_minimum_object_size #transition_default_minimum_object_size} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLifecycleConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14183
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14356
   def put_bucket_lifecycle_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -12374,7 +12532,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLogging AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14366
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14539
   def put_bucket_logging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -12462,7 +12620,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketMetricsConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14470
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14643
   def put_bucket_metrics_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -12515,7 +12673,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketNotification AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14556
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14729
   def put_bucket_notification(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -12680,7 +12838,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketNotificationConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14740
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14913
   def put_bucket_notification_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -12729,7 +12887,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketOwnershipControls AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14809
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#14982
   def put_bucket_ownership_controls(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Applies an Amazon S3 bucket policy to an Amazon S3 bucket.
@@ -12737,9 +12895,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # <note markdown="1"> <b>Directory buckets </b> - For directory buckets, you must make
   # requests for this API operation to the Regional endpoint. These
   # endpoints support path-style requests in the format
-  # `https://s3express-control.region_code.amazonaws.com/bucket-name `.
-  # Virtual-hosted-style requests aren't supported. For more information,
-  # see [Regional and Zonal endpoints][1] in the *Amazon S3 User Guide*.
+  # `https://s3express-control.region-code.amazonaws.com/bucket-name `.
+  # Virtual-hosted-style requests aren't supported. For more information
+  # about endpoints in Availability Zones, see [Regional and Zonal
+  # endpoints for directory buckets in Availability Zones][1] in the
+  # *Amazon S3 User Guide*. For more information about endpoints in Local
+  # Zones, see [Available Local Zone for directory buckets][2] in the
+  # *Amazon S3 User Guide*.
   #
   #  </note>
   #
@@ -12769,7 +12931,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * **General purpose bucket permissions** - The `s3:PutBucketPolicy`
   #     permission is required in a policy. For more information about
   #     general purpose buckets bucket policies, see [Using Bucket
-  #     Policies and User Policies][2] in the *Amazon S3 User Guide*.
+  #     Policies and User Policies][3] in the *Amazon S3 User Guide*.
   #
   #   * **Directory bucket permissions** - To grant access to this API
   #     operation, you must have the `s3express:PutBucketPolicy`
@@ -12779,36 +12941,37 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     Services account that owns the resource. For more information
   #     about directory bucket policies and permissions, see [Amazon Web
   #     Services Identity and Access Management (IAM) for S3 Express One
-  #     Zone][3] in the *Amazon S3 User Guide*.
+  #     Zone][4] in the *Amazon S3 User Guide*.
   #
   # Example bucket policies
   #
   # : **General purpose buckets example bucket policies** - See [Bucket
-  #   policy examples][4] in the *Amazon S3 User Guide*.
+  #   policy examples][5] in the *Amazon S3 User Guide*.
   #
   #   **Directory bucket example bucket policies** - See [Example bucket
-  #   policies for S3 Express One Zone][5] in the *Amazon S3 User Guide*.
+  #   policies for S3 Express One Zone][6] in the *Amazon S3 User Guide*.
   #
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is
-  #   `s3express-control.region.amazonaws.com`.
+  #   `s3express-control.region-code.amazonaws.com`.
   #
   # The following operations are related to `PutBucketPolicy`:
   #
-  # * [CreateBucket][6]
+  # * [CreateBucket][7]
   #
-  # * [DeleteBucket][7]
+  # * [DeleteBucket][8]
   #
   #
   #
   # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html
-  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-bucket-policies.html
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html
+  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-bucket-policies.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html
   #
   # @example Example: Set bucket policy
   #
@@ -12839,7 +13002,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketPolicy AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15009
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15188
   def put_bucket_policy(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -13033,7 +13196,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketReplication AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15247
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15426
   def put_bucket_replication(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -13089,7 +13252,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketRequestPayment AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15344
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15523
   def put_bucket_request_payment(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -13199,7 +13362,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketTagging AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15495
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15674
   def put_bucket_tagging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -13295,7 +13458,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketVersioning AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15636
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15815
   def put_bucket_versioning(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -13438,7 +13601,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketWebsite AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15820
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#15999
   def put_bucket_website(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Adds an object to a bucket.
@@ -13457,9 +13620,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # * **Directory buckets** - For directory buckets, you must make
   #   requests for this API operation to the Zonal endpoint. These
   #   endpoints support virtual-hosted-style requests in the format
-  #   `https://bucket_name.s3express-az_id.region.amazonaws.com/key-name
-  #   `. Path-style requests are not supported. For more information, see
-  #   [Regional and Zonal endpoints][1] in the *Amazon S3 User Guide*.
+  #   `https://bucket-name.s3express-zone-id.region-code.amazonaws.com/key-name
+  #   `. Path-style requests are not supported. For more information about
+  #   endpoints in Availability Zones, see [Regional and Zonal endpoints
+  #   for directory buckets in Availability Zones][1] in the *Amazon S3
+  #   User Guide*. For more information about endpoints in Local Zones,
+  #   see [Available Local Zone for directory buckets][2] in the *Amazon
+  #   S3 User Guide*.
   #
   #  </note>
   #
@@ -13469,7 +13636,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # modify this behavior:
   #
   # * **S3 Object Lock** - To prevent objects from being deleted or
-  #   overwritten, you can use [Amazon S3 Object Lock][2] in the *Amazon
+  #   overwritten, you can use [Amazon S3 Object Lock][3] in the *Amazon
   #   S3 User Guide*.
   #
   #   <note markdown="1"> This functionality is not supported for directory buckets.
@@ -13483,9 +13650,9 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   automatically generates a unique version ID of that object being
   #   stored in Amazon S3. You can retrieve, replace, or delete any
   #   version of the object. For more information about versioning, see
-  #   [Adding Objects to Versioning-Enabled Buckets][3] in the *Amazon S3
+  #   [Adding Objects to Versioning-Enabled Buckets][4] in the *Amazon S3
   #   User Guide*. For information about returning the versioning state of
-  #   a bucket, see [GetBucketVersioning][4].
+  #   a bucket, see [GetBucketVersioning][5].
   #
   #   <note markdown="1"> This functionality is not supported for directory buckets.
   #
@@ -13509,7 +13676,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #       `s3:PutObjectTagging`.
   #   * **Directory bucket permissions** - To grant access to this API
   #     operation on a directory bucket, we recommend that you use the [
-  #     `CreateSession` ][5] API operation for session-based
+  #     `CreateSession` ][6] API operation for session-based
   #     authorization. Specifically, you grant the
   #     `s3express:CreateSession` permission to the directory bucket in a
   #     bucket policy or an IAM identity-based policy. Then, you make the
@@ -13520,7 +13687,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     token for use. Amazon Web Services CLI or SDKs create session and
   #     refresh the session token automatically to avoid service
   #     interruptions when a session expires. For more information about
-  #     authorization, see [ `CreateSession` ][5].
+  #     authorization, see [ `CreateSession` ][6].
   #
   #     If the object is encrypted with SSE-KMS, you must also have the
   #     `kms:GenerateDataKey` and `kms:Decrypt` permissions in IAM
@@ -13541,76 +13708,25 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is `
-  #   Bucket_name.s3express-az_id.region.amazonaws.com`.
+  #   Bucket-name.s3express-zone-id.region-code.amazonaws.com`.
   #
   # For more information about related Amazon S3 APIs, see the following:
   #
-  # * [CopyObject][6]
+  # * [CopyObject][7]
   #
-  # * [DeleteObject][7]
+  # * [DeleteObject][8]
   #
   #
   #
   # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.html
-  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/AddingObjectstoVersioningEnabledBuckets.html
-  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketVersioning.html
-  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html
+  # [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.html
+  # [4]: https://docs.aws.amazon.com/AmazonS3/latest/dev/AddingObjectstoVersioningEnabledBuckets.html
+  # [5]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketVersioning.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html
   #
-  # @example Example: To upload an object and specify server-side encryption and object tags
-  #
-  #   # The following example uploads an object. The request specifies the optional server-side encryption option. The request
-  #   # also specifies optional object tags. If the bucket is versioning enabled, S3 returns version ID in response.
-  #
-  #   resp = client.put_object({
-  #   body: "filetoupload",
-  #   bucket: "examplebucket",
-  #   key: "exampleobject",
-  #   server_side_encryption: "AES256",
-  #   tagging: "key1=value1&key2=value2",
-  #   })
-  #
-  #   resp.to_h outputs the following:
-  #   {
-  #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
-  #   server_side_encryption: "AES256",
-  #   version_id: "Ri.vC6qVlA4dEnjgRV4ZHsHoFIjqEMNt",
-  #   }
-  # @example Example: To upload an object
-  #
-  #   # The following example uploads an object to a versioning-enabled bucket. The source file is specified using Windows file
-  #   # syntax. S3 returns VersionId of the newly created object.
-  #
-  #   resp = client.put_object({
-  #   body: "HappyFace.jpg",
-  #   bucket: "examplebucket",
-  #   key: "HappyFace.jpg",
-  #   })
-  #
-  #   resp.to_h outputs the following:
-  #   {
-  #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
-  #   version_id: "tpf3zF08nBplQK1XLOefGskR7mGDwcDk",
-  #   }
-  # @example Example: To upload an object and specify optional tags
-  #
-  #   # The following example uploads an object. The request specifies optional object tags. The bucket is versioned, therefore
-  #   # S3 returns version ID of the newly created object.
-  #
-  #   resp = client.put_object({
-  #   body: "c:\\HappyFace.jpg",
-  #   bucket: "examplebucket",
-  #   key: "HappyFace.jpg",
-  #   tagging: "key1=value1&key2=value2",
-  #   })
-  #
-  #   resp.to_h outputs the following:
-  #   {
-  #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
-  #   version_id: "psM2sYY4.o1501dSx8wMvnkOzSBB.V4a",
-  #   }
   # @example Example: To upload object and specify user-defined metadata
   #
   #   # The following example creates an object. The request also specifies optional metadata. If the bucket is versioning
@@ -13631,22 +13747,22 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
   #   version_id: "pSKidl4pHBiNwukdbcPXAIs.sshFFOc0",
   #   }
-  # @example Example: To upload an object and specify canned ACL.
+  # @example Example: To upload an object and specify optional tags
   #
-  #   # The following example uploads and object. The request specifies optional canned ACL (access control list) to all READ
-  #   # access to authenticated users. If the bucket is versioning enabled, S3 returns version ID in response.
+  #   # The following example uploads an object. The request specifies optional object tags. The bucket is versioned, therefore
+  #   # S3 returns version ID of the newly created object.
   #
   #   resp = client.put_object({
-  #   acl: "authenticated-read",
-  #   body: "filetoupload",
+  #   body: "c:\\HappyFace.jpg",
   #   bucket: "examplebucket",
-  #   key: "exampleobject",
+  #   key: "HappyFace.jpg",
+  #   tagging: "key1=value1&key2=value2",
   #   })
   #
   #   resp.to_h outputs the following:
   #   {
   #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
-  #   version_id: "Kirh.unyZwjQ69YxcQLA8z4F5j3kJJKr",
+  #   version_id: "psM2sYY4.o1501dSx8wMvnkOzSBB.V4a",
   #   }
   # @example Example: To upload an object (specify optional headers)
   #
@@ -13666,6 +13782,58 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
   #   server_side_encryption: "AES256",
   #   version_id: "CG612hodqujkf8FaaNfp8U..FIhLROcp",
+  #   }
+  # @example Example: To upload an object and specify canned ACL.
+  #
+  #   # The following example uploads and object. The request specifies optional canned ACL (access control list) to all READ
+  #   # access to authenticated users. If the bucket is versioning enabled, S3 returns version ID in response.
+  #
+  #   resp = client.put_object({
+  #   acl: "authenticated-read",
+  #   body: "filetoupload",
+  #   bucket: "examplebucket",
+  #   key: "exampleobject",
+  #   })
+  #
+  #   resp.to_h outputs the following:
+  #   {
+  #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
+  #   version_id: "Kirh.unyZwjQ69YxcQLA8z4F5j3kJJKr",
+  #   }
+  # @example Example: To upload an object
+  #
+  #   # The following example uploads an object to a versioning-enabled bucket. The source file is specified using Windows file
+  #   # syntax. S3 returns VersionId of the newly created object.
+  #
+  #   resp = client.put_object({
+  #   body: "HappyFace.jpg",
+  #   bucket: "examplebucket",
+  #   key: "HappyFace.jpg",
+  #   })
+  #
+  #   resp.to_h outputs the following:
+  #   {
+  #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
+  #   version_id: "tpf3zF08nBplQK1XLOefGskR7mGDwcDk",
+  #   }
+  # @example Example: To upload an object and specify server-side encryption and object tags
+  #
+  #   # The following example uploads an object. The request specifies the optional server-side encryption option. The request
+  #   # also specifies optional object tags. If the bucket is versioning enabled, S3 returns version ID in response.
+  #
+  #   resp = client.put_object({
+  #   body: "filetoupload",
+  #   bucket: "examplebucket",
+  #   key: "exampleobject",
+  #   server_side_encryption: "AES256",
+  #   tagging: "key1=value1&key2=value2",
+  #   })
+  #
+  #   resp.to_h outputs the following:
+  #   {
+  #   etag: "\"6805f2cfc46c0f04559748bb039d69ae\"",
+  #   server_side_encryption: "AES256",
+  #   version_id: "Ri.vC6qVlA4dEnjgRV4ZHsHoFIjqEMNt",
   #   }
   # @example Example: To create an object.
   #
@@ -13811,7 +13979,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::PutObjectOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObject AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#16801
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#16985
   def put_object(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -14057,7 +14225,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::PutObjectAclOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectAcl AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17170
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17354
   def put_object_acl(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -14105,7 +14273,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::PutObjectLegalHoldOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectLegalHold AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17289
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17473
   def put_object_legal_hold(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -14170,7 +14338,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::PutObjectLockConfigurationOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectLockConfiguration AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17408
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17592
   def put_object_lock_configuration(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -14224,7 +14392,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::PutObjectRetentionOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectRetention AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17537
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17721
   def put_object_retention(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -14342,7 +14510,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::PutObjectTaggingOutput#version_id #version_id} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectTagging AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17736
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17920
   def put_object_tagging(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -14408,7 +14576,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutPublicAccessBlock AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#17844
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#18028
   def put_public_access_block(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -14717,7 +14885,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::RestoreObjectOutput#restore_output_path #restore_output_path} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RestoreObject AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#18228
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#18412
   def restore_object(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -15045,7 +15213,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SelectObjectContent AWS API Documentation
   # @yield [event_stream_handler]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#18625
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#18809
   def select_object_content(params = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   # Uploads a part in a multipart upload.
@@ -15087,9 +15255,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # <note markdown="1"> **Directory buckets** - For directory buckets, you must make requests
   # for this API operation to the Zonal endpoint. These endpoints support
   # virtual-hosted-style requests in the format
-  # `https://bucket_name.s3express-az_id.region.amazonaws.com/key-name `.
-  # Path-style requests are not supported. For more information, see
-  # [Regional and Zonal endpoints][5] in the *Amazon S3 User Guide*.
+  # `https://bucket-name.s3express-zone-id.region-code.amazonaws.com/key-name
+  # `. Path-style requests are not supported. For more information about
+  # endpoints in Availability Zones, see [Regional and Zonal endpoints for
+  # directory buckets in Availability Zones][5] in the *Amazon S3 User
+  # Guide*. For more information about endpoints in Local Zones, see
+  # [Available Local Zone for directory buckets][6] in the *Amazon S3 User
+  # Guide*.
   #
   #  </note>
   #
@@ -15106,15 +15278,15 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     These permissions are required because Amazon S3 must decrypt and
   #     read data from the encrypted file parts before it completes the
   #     multipart upload. For more information about KMS permissions, see
-  #     [Protecting data using server-side encryption with KMS][6] in the
+  #     [Protecting data using server-side encryption with KMS][7] in the
   #     *Amazon S3 User Guide*. For information about the permissions
   #     required to use the multipart upload API, see [Multipart upload
-  #     and permissions][7] and [Multipart upload API and permissions][8]
+  #     and permissions][8] and [Multipart upload API and permissions][9]
   #     in the *Amazon S3 User Guide*.
   #
   #   * **Directory bucket permissions** - To grant access to this API
   #     operation on a directory bucket, we recommend that you use the [
-  #     `CreateSession` ][9] API operation for session-based
+  #     `CreateSession` ][10] API operation for session-based
   #     authorization. Specifically, you grant the
   #     `s3express:CreateSession` permission to the directory bucket in a
   #     bucket policy or an IAM identity-based policy. Then, you make the
@@ -15125,7 +15297,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     token for use. Amazon Web Services CLI or SDKs create session and
   #     refresh the session token automatically to avoid service
   #     interruptions when a session expires. For more information about
-  #     authorization, see [ `CreateSession` ][9].
+  #     authorization, see [ `CreateSession` ][10].
   #
   #     If the object is encrypted with SSE-KMS, you must also have the
   #     `kms:GenerateDataKey` and `kms:Decrypt` permissions in IAM
@@ -15141,7 +15313,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   then Amazon Web Services S3 uses the `x-amz-content-sha256` header
   #   as a checksum instead of `Content-MD5`. For more information see
   #   [Authenticating Requests: Using the Authorization Header (Amazon Web
-  #   Services Signature Version 4)][10].
+  #   Services Signature Version 4)][11].
   #
   #   <note markdown="1"> **Directory buckets** - MD5 is not supported by directory buckets.
   #   You can use checksum algorithms to check object integrity.
@@ -15181,7 +15353,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     * x-amz-server-side-encryption-customer-key
   #
   #     * x-amz-server-side-encryption-customer-key-MD5
-  #     For more information, see [Using Server-Side Encryption][11] in
+  #     For more information, see [Using Server-Side Encryption][12] in
   #     the *Amazon S3 User Guide*.
   #
   #   * <b>Directory buckets </b> - For directory buckets, there are only
@@ -15203,19 +15375,19 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is `
-  #   Bucket_name.s3express-az_id.region.amazonaws.com`.
+  #   Bucket-name.s3express-zone-id.region-code.amazonaws.com`.
   #
   # The following operations are related to `UploadPart`:
   #
   # * [CreateMultipartUpload][2]
   #
-  # * [CompleteMultipartUpload][12]
+  # * [CompleteMultipartUpload][13]
   #
-  # * [AbortMultipartUpload][13]
+  # * [AbortMultipartUpload][14]
   #
-  # * [ListParts][14]
+  # * [ListParts][15]
   #
-  # * [ListMultipartUploads][15]
+  # * [ListMultipartUploads][16]
   #
   #
   #
@@ -15224,16 +15396,17 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/qfacts.html
   # [4]: https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html
   # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html
-  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html#mpuAndPermissions
-  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
-  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-auth-using-authorization-header.html
-  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html
-  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html
-  # [13]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html
-  # [14]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html
-  # [15]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html
+  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html#mpuAndPermissions
+  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html
+  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-auth-using-authorization-header.html
+  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html
+  # [13]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html
+  # [14]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html
+  # [15]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html
+  # [16]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html
   #
   # @example Example: To upload a part
   #
@@ -15320,7 +15493,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::UploadPartOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/UploadPart AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19094
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19283
   def upload_part(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Uploads a part by copying data from an existing object as data source.
@@ -15351,9 +15524,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # <note markdown="1"> **Directory buckets** - For directory buckets, you must make requests
   # for this API operation to the Zonal endpoint. These endpoints support
   # virtual-hosted-style requests in the format
-  # `https://bucket_name.s3express-az_id.region.amazonaws.com/key-name `.
-  # Path-style requests are not supported. For more information, see
-  # [Regional and Zonal endpoints][5] in the *Amazon S3 User Guide*.
+  # `https://bucket-name.s3express-zone-id.region-code.amazonaws.com/key-name
+  # `. Path-style requests are not supported. For more information about
+  # endpoints in Availability Zones, see [Regional and Zonal endpoints for
+  # directory buckets in Availability Zones][5] in the *Amazon S3 User
+  # Guide*. For more information about endpoints in Local Zones, see
+  # [Available Local Zone for directory buckets][6] in the *Amazon S3 User
+  # Guide*.
   #
   #  </note>
   #
@@ -15363,7 +15540,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   using IAM credentials (access key ID and secret access key for the
   #   IAM identities). All headers with the `x-amz-` prefix, including
   #   `x-amz-copy-source`, must be signed. For more information, see [REST
-  #   Authentication][6].
+  #   Authentication][7].
   #
   #   **Directory buckets** - You must use IAM credentials to authenticate
   #   and authorize your access to the `UploadPartCopy` API operation,
@@ -15400,11 +15577,11 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #       permissions are required because Amazon S3 must decrypt and read
   #       data from the encrypted file parts before it completes the
   #       multipart upload. For more information about KMS permissions,
-  #       see [Protecting data using server-side encryption with KMS][7]
+  #       see [Protecting data using server-side encryption with KMS][8]
   #       in the *Amazon S3 User Guide*. For information about the
   #       permissions required to use the multipart upload API, see
-  #       [Multipart upload and permissions][8] and [Multipart upload API
-  #       and permissions][9] in the *Amazon S3 User Guide*.
+  #       [Multipart upload and permissions][9] and [Multipart upload API
+  #       and permissions][10] in the *Amazon S3 User Guide*.
   #   * **Directory bucket permissions** - You must have permissions in a
   #     bucket policy or an IAM identity-based policy based on the source
   #     and destination bucket types in an `UploadPartCopy` operation.
@@ -15427,14 +15604,14 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     identity-based policies and KMS key policies for the KMS key.
   #
   #     For example policies, see [Example bucket policies for S3 Express
-  #     One Zone][10] and [Amazon Web Services Identity and Access
+  #     One Zone][11] and [Amazon Web Services Identity and Access
   #     Management (IAM) identity-based policies for S3 Express One
-  #     Zone][11] in the *Amazon S3 User Guide*.
+  #     Zone][12] in the *Amazon S3 User Guide*.
   #
   # Encryption
   # : * <b>General purpose buckets </b> - For information about using
   #     server-side encryption with customer-provided encryption keys with
-  #     the `UploadPartCopy` operation, see [CopyObject][12] and
+  #     the `UploadPartCopy` operation, see [CopyObject][13] and
   #     [UploadPart][2].
   #
   #   * <b>Directory buckets </b> - For directory buckets, there are only
@@ -15442,7 +15619,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     encryption with Amazon S3 managed keys (SSE-S3) (`AES256`) and
   #     server-side encryption with KMS keys (SSE-KMS) (`aws:kms`). For
   #     more information, see [Protecting data with server-side
-  #     encryption][13] in the *Amazon S3 User Guide*.
+  #     encryption][14] in the *Amazon S3 User Guide*.
   #
   #     <note markdown="1"> For directory buckets, when you perform a `CreateMultipartUpload`
   #     operation and an `UploadPartCopy` operation, the request headers
@@ -15454,7 +15631,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #     S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted
   #     objects from general purpose buckets to directory buckets, from
   #     directory buckets to general purpose buckets, or between directory
-  #     buckets, through [UploadPartCopy][14]. In this case, Amazon S3
+  #     buckets, through [UploadPartCopy][15]. In this case, Amazon S3
   #     makes a call to KMS every time a copy request is made for a
   #     KMS-encrypted object.
   #
@@ -15476,21 +15653,21 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # HTTP Host header syntax
   #
   # : <b>Directory buckets </b> - The HTTP Host header syntax is `
-  #   Bucket_name.s3express-az_id.region.amazonaws.com`.
+  #   Bucket-name.s3express-zone-id.region-code.amazonaws.com`.
   #
   # The following operations are related to `UploadPartCopy`:
   #
-  # * [CreateMultipartUpload][15]
+  # * [CreateMultipartUpload][16]
   #
   # * [UploadPart][2]
   #
-  # * [CompleteMultipartUpload][16]
+  # * [CompleteMultipartUpload][17]
   #
-  # * [AbortMultipartUpload][17]
+  # * [AbortMultipartUpload][18]
   #
-  # * [ListParts][18]
+  # * [ListParts][19]
   #
-  # * [ListMultipartUploads][19]
+  # * [ListMultipartUploads][20]
   #
   #
   #
@@ -15499,20 +15676,21 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # [3]: https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html
   # [4]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectOperations.html
   # [5]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-Regions-and-Zones.html
-  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html
-  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html
-  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html
-  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html#mpuAndPermissions
-  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html
-  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-identity-policies.html
-  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html
-  # [13]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html
-  # [14]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html
-  # [15]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html
-  # [16]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html
-  # [17]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html
-  # [18]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html
-  # [19]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html
+  # [6]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html
+  # [7]: https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html
+  # [8]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html
+  # [9]: https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html
+  # [10]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html#mpuAndPermissions
+  # [11]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html
+  # [12]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-identity-policies.html
+  # [13]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html
+  # [14]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html
+  # [15]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html
+  # [16]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html
+  # [17]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CompleteMultipartUpload.html
+  # [18]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html
+  # [19]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html
+  # [20]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html
   #
   # @example Example: To upload a part by copying data from an existing object as data source
   #
@@ -15625,7 +15803,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   * {Types::UploadPartCopyOutput#request_charged #request_charged} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/UploadPartCopy AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19660
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#19862
   def upload_part_copy(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Polls an API operation until a resource enters a desired state.
@@ -15717,13 +15895,13 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Boolean] Returns `true` if the waiter was successful.
   # @yield [w.waiter]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#20169
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#20371
   def wait_until(waiter_name, params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#20177
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#20379
   def waiter_names; end
 
   # <note markdown="1"> This operation is not supported for directory buckets.
@@ -15878,7 +16056,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/WriteGetObjectResponse AWS API Documentation
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#20051
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#20253
   def write_get_object_response(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   private
@@ -15886,21 +16064,21 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @param waiter_name [Symbol]
   # @param options [Hash] ({})
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#20185
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#20387
   def waiter(waiter_name, options = T.unsafe(nil)); end
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#20194
+  # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#20396
   def waiters; end
 
   class << self
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#20209
+    # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#20411
     def errors_module; end
 
     # @api private
     #
-    # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#20206
+    # source://aws-sdk-s3//lib/aws-sdk-s3/client.rb#20408
     def identifier; end
   end
 end
@@ -24178,7 +24356,7 @@ class Aws::S3::Object
 
   # @return [ObjectAcl]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3302
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3304
   def acl; end
 
   # The archive state of the head object.
@@ -24189,12 +24367,12 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#119
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#121
   def archive_status; end
 
   # @return [Bucket]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3311
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3313
   def bucket; end
 
   # Indicates whether the object uses an S3 Bucket Key for server-side
@@ -24202,7 +24380,7 @@ class Aws::S3::Object
   #
   # @return [Boolean]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#337
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#339
   def bucket_key_enabled; end
 
   # @return [String]
@@ -24214,7 +24392,7 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#236
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#238
   def cache_control; end
 
   # The base64-encoded, 32-bit CRC-32 checksum of the object. This will
@@ -24232,7 +24410,7 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#148
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#150
   def checksum_crc32; end
 
   # The base64-encoded, 32-bit CRC-32C checksum of the object. This will
@@ -24250,7 +24428,7 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#165
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#167
   def checksum_crc32c; end
 
   # The base64-encoded, 160-bit SHA-1 digest of the object. This will only
@@ -24268,7 +24446,7 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#182
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#184
   def checksum_sha1; end
 
   # The base64-encoded, 256-bit SHA-256 digest of the object. This will
@@ -24286,19 +24464,19 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#199
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#201
   def checksum_sha256; end
 
   # @return [Client]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#478
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#480
   def client; end
 
   # Specifies presentational information for the object.
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#242
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#244
   def content_disposition; end
 
   # Indicates what content encodings have been applied to the object and
@@ -24307,28 +24485,28 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#250
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#252
   def content_encoding; end
 
   # The language the content is in.
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#256
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#258
   def content_language; end
 
   # Size of the body in bytes.
   #
   # @return [Integer]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#131
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#133
   def content_length; end
 
   # A standard MIME type describing the format of the object data.
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#262
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#264
   def content_type; end
 
   # @example Request syntax with placeholder values
@@ -24456,13 +24634,13 @@ class Aws::S3::Object
   # @return [Types::HeadObjectOutput] Returns the data for this {Object}. Calls
   #   {Client#head_object} if {#data_loaded?} is `false`.
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#503
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#505
   def data; end
 
   # @return [Boolean] Returns `true` if this resource is loaded.  Accessing attributes or
   #   {#data} on an unloaded resource will trigger a call to {#load}.
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#511
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#513
   def data_loaded?; end
 
   # @example Request syntax with placeholder values
@@ -24488,7 +24666,7 @@ class Aws::S3::Object
   # @param options [Hash] ({})
   # @return [Types::DeleteObjectOutput]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#1503
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#1505
   def delete(options = T.unsafe(nil)); end
 
   # Specifies whether the object retrieved was (true) or was not (false) a
@@ -24504,7 +24682,7 @@ class Aws::S3::Object
   # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#53
   def delete_marker; end
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3342
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3344
   def deprecated_identifiers; end
 
   # Downloads a file in S3 to a path on disk.
@@ -24550,13 +24728,13 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#206
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#208
   def etag; end
 
   # @param options [Hash] ({})
   # @return [Boolean] Returns `true` if the Object exists.
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#518
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#520
   def exists?(options = T.unsafe(nil)); end
 
   # If the object expiration is configured (see [
@@ -24565,7 +24743,9 @@ class Aws::S3::Object
   # providing object expiration information. The value of the `rule-id` is
   # URL-encoded.
   #
-  # <note markdown="1"> This functionality is not supported for directory buckets.
+  # <note markdown="1"> Object expiration information is not returned in directory buckets and
+  # this header returns the value "`NotImplemented`" in all responses
+  # for directory buckets.
   #
   #  </note>
   #
@@ -24575,19 +24755,19 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#77
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#79
   def expiration; end
 
   # The date and time at which the object is no longer cacheable.
   #
   # @return [Time]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#268
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#270
   def expires; end
 
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#273
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#275
   def expires_string; end
 
   # @example Request syntax with placeholder values
@@ -24635,7 +24815,7 @@ class Aws::S3::Object
   # @param options [Hash] ({})
   # @return [Types::GetObjectOutput]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#1768
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#1770
   def get(options = T.unsafe(nil), &block); end
 
   # @example Request syntax with placeholder values
@@ -24683,7 +24863,7 @@ class Aws::S3::Object
   # @param options [Hash] ({})
   # @return [Types::HeadObjectOutput]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3288
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3290
   def head(options = T.unsafe(nil)); end
 
   # @api private
@@ -24757,7 +24937,7 @@ class Aws::S3::Object
   # @param options [Hash] ({})
   # @return [MultipartUpload]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#2337
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#2339
   def initiate_multipart_upload(options = T.unsafe(nil)); end
 
   # @return [String]
@@ -24769,7 +24949,7 @@ class Aws::S3::Object
   #
   # @return [Time]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#125
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#127
   def last_modified; end
 
   # Loads, or reloads {#data} for the current {Object}.
@@ -24779,14 +24959,14 @@ class Aws::S3::Object
   #
   # @return [self]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#488
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#490
   def load; end
 
   # A map of metadata to store with the object in S3.
   #
   # @return [Hash<String,String>]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#298
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#300
   def metadata; end
 
   # This is set to the number of metadata entries not returned in
@@ -24801,7 +24981,7 @@ class Aws::S3::Object
   #
   # @return [Integer]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#220
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#222
   def missing_meta; end
 
   # Copies and deletes the current object. The object will only be deleted
@@ -24823,7 +25003,7 @@ class Aws::S3::Object
   # @param id [String]
   # @return [MultipartUpload]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3320
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3322
   def multipart_upload(id); end
 
   # Specifies whether a legal hold is in effect for this object. This
@@ -24842,7 +25022,7 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#471
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#473
   def object_lock_legal_hold_status; end
 
   # The Object Lock mode, if any, that's in effect for this object. This
@@ -24860,7 +25040,7 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#441
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#443
   def object_lock_mode; end
 
   # The date and time when the Object Lock retention period expires. This
@@ -24873,7 +25053,7 @@ class Aws::S3::Object
   #
   # @return [Time]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#453
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#455
   def object_lock_retain_until_date; end
 
   # The count of parts this object has. This value is only returned if you
@@ -24882,7 +25062,7 @@ class Aws::S3::Object
   #
   # @return [Integer]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#424
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#426
   def parts_count; end
 
   # Creates a {PresignedPost} that makes it easy to upload a file from
@@ -25123,7 +25303,7 @@ class Aws::S3::Object
   # @param options [Hash] ({})
   # @return [Types::PutObjectOutput]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#2948
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#2950
   def put(options = T.unsafe(nil)); end
 
   # Loads, or reloads {#data} for the current {Object}.
@@ -25133,7 +25313,7 @@ class Aws::S3::Object
   #
   # @return [self]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#488
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#490
   def reload; end
 
   # Amazon S3 can return this header if your request involves a bucket
@@ -25183,7 +25363,7 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#416
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#418
   def replication_status; end
 
   # If present, indicates that the requester was successfully charged for
@@ -25195,7 +25375,7 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#367
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#369
   def request_charged; end
 
   # If the object is an archived object (an object whose storage class is
@@ -25228,7 +25408,7 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#109
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#111
   def restore; end
 
   # @example Request syntax with placeholder values
@@ -25328,7 +25508,7 @@ class Aws::S3::Object
   # @param options [Hash] ({})
   # @return [Types::RestoreObjectOutput]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3089
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3091
   def restore_object(options = T.unsafe(nil)); end
 
   # The server-side encryption algorithm used when you store this object
@@ -25336,10 +25516,10 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#292
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#294
   def server_side_encryption; end
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#131
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#133
   def size; end
 
   # If server-side encryption with a customer-provided encryption key was
@@ -25352,7 +25532,7 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#310
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#312
   def sse_customer_algorithm; end
 
   # If server-side encryption with a customer-provided encryption key was
@@ -25366,7 +25546,7 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#323
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#325
   def sse_customer_key_md5; end
 
   # If present, indicates the ID of the KMS key that was used for object
@@ -25374,7 +25554,7 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#330
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#332
   def ssekms_key_id; end
 
   # Provides storage class information of the object. Amazon S3 returns
@@ -25394,7 +25574,7 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#356
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#358
   def storage_class; end
 
   # Uploads a file from disk to the current object in S3.
@@ -25499,7 +25679,7 @@ class Aws::S3::Object
   # @param id [String]
   # @return [ObjectVersion]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3331
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3333
   def version(id); end
 
   # Version ID of the object.
@@ -25510,7 +25690,7 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#230
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#232
   def version_id; end
 
   # Waiter polls an API operation until a resource enters a desired
@@ -25590,7 +25770,7 @@ class Aws::S3::Object
   # @return [Resource] if the waiter was successful
   # @yieldparam resource [Resource] to be used in the waiting condition.
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#651
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#653
   def wait_until(options = T.unsafe(nil), &block); end
 
   # @option options
@@ -25600,7 +25780,7 @@ class Aws::S3::Object
   # @param options [Hash] ({})
   # @return [Object]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#535
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#537
   def wait_until_exists(options = T.unsafe(nil), &block); end
 
   # @option options
@@ -25610,7 +25790,7 @@ class Aws::S3::Object
   # @param options [Hash] ({})
   # @return [Object]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#556
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#558
   def wait_until_not_exists(options = T.unsafe(nil), &block); end
 
   # If the bucket is configured as a website, redirects requests for this
@@ -25623,27 +25803,27 @@ class Aws::S3::Object
   #
   # @return [String]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#285
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#287
   def website_redirect_location; end
 
   private
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3352
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3354
   def extract_bucket_name(args, options); end
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3363
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3365
   def extract_key(args, options); end
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3384
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3386
   def separate_params_and_options(options); end
 
   # @yield [waiter.waiter]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3374
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3376
   def yield_waiter_and_warn(waiter, &block); end
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3401
+# source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3403
 class Aws::S3::Object::Collection < ::Aws::Resources::Collection
   # @example Request syntax with placeholder values
   #
@@ -25662,13 +25842,13 @@ class Aws::S3::Object::Collection < ::Aws::Resources::Collection
   # @param options [{}]
   # @return [void]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3500
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3502
   def batch_delete!(options = T.unsafe(nil)); end
 
   # source://aws-sdk-core/3.214.0/lib/aws-sdk-core/deprecations.rb#65
   def delete(*args, &block); end
 
-  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3500
+  # source://aws-sdk-s3//lib/aws-sdk-s3/object.rb#3502
   def deprecated_delete(options = T.unsafe(nil)); end
 end
 
@@ -28891,7 +29071,7 @@ class Aws::S3::Resource
   # @param name [String]
   # @return [Bucket]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/resource.rb#182
+  # source://aws-sdk-s3//lib/aws-sdk-s3/resource.rb#183
   def bucket(name); end
 
   # @example Request syntax with placeholder values
@@ -28905,7 +29085,7 @@ class Aws::S3::Resource
   # @param options [Hash] ({})
   # @return [Bucket::Collection]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/resource.rb#218
+  # source://aws-sdk-s3//lib/aws-sdk-s3/resource.rb#219
   def buckets(options = T.unsafe(nil)); end
 
   # @return [Client]
@@ -28921,11 +29101,11 @@ class Aws::S3::Resource
   #   create_bucket_configuration: {
   #   location_constraint: "af-south-1", # accepts af-south-1, ap-east-1, ap-northeast-1, ap-northeast-2, ap-northeast-3, ap-south-1, ap-south-2, ap-southeast-1, ap-southeast-2, ap-southeast-3, ca-central-1, cn-north-1, cn-northwest-1, EU, eu-central-1, eu-north-1, eu-south-1, eu-south-2, eu-west-1, eu-west-2, eu-west-3, me-south-1, sa-east-1, us-east-2, us-gov-east-1, us-gov-west-1, us-west-1, us-west-2
   #   location: {
-  #   type: "AvailabilityZone", # accepts AvailabilityZone
+  #   type: "AvailabilityZone", # accepts AvailabilityZone, LocalZone
   #   name: "LocationNameAsString",
   #   },
   #   bucket: {
-  #   data_redundancy: "SingleAvailabilityZone", # accepts SingleAvailabilityZone
+  #   data_redundancy: "SingleAvailabilityZone", # accepts SingleAvailabilityZone, SingleLocalZone
   #   type: "Directory", # accepts Directory
   #   },
   #   },
@@ -28950,7 +29130,7 @@ class Aws::S3::Resource
   # @param options [Hash] ({})
   # @return [Bucket]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/resource.rb#168
+  # source://aws-sdk-s3//lib/aws-sdk-s3/resource.rb#169
   def create_bucket(options = T.unsafe(nil)); end
 end
 
@@ -29363,118 +29543,118 @@ Aws::S3::Types::ContinuationEvent::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CopyObjectOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1444
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1446
 class Aws::S3::Types::CopyObjectOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1445
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#1447
 Aws::S3::Types::CopyObjectOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CopyObjectRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2308
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2318
 class Aws::S3::Types::CopyObjectRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2309
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2319
 Aws::S3::Types::CopyObjectRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for all response elements.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CopyObjectResult AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2376
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2386
 class Aws::S3::Types::CopyObjectResult < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2377
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2387
 Aws::S3::Types::CopyObjectResult::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for all response elements.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CopyPartResult AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2459
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2469
 class Aws::S3::Types::CopyPartResult < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2460
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2470
 Aws::S3::Types::CopyPartResult::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The configuration information for the bucket.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateBucketConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2509
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2528
 class Aws::S3::Types::CreateBucketConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2510
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2529
 Aws::S3::Types::CreateBucketConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateBucketOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2521
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2540
 class Aws::S3::Types::CreateBucketOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2522
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2541
 Aws::S3::Types::CreateBucketOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateBucketRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2663
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2683
 class Aws::S3::Types::CreateBucketRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2664
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2684
 Aws::S3::Types::CreateBucketRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateMultipartUploadOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2789
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2809
 class Aws::S3::Types::CreateMultipartUploadOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2790
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#2810
 Aws::S3::Types::CreateMultipartUploadOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateMultipartUploadRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3460
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3480
 class Aws::S3::Types::CreateMultipartUploadRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3461
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3481
 Aws::S3::Types::CreateMultipartUploadRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateSessionOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3502
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3522
 class Aws::S3::Types::CreateSessionOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3503
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3523
 Aws::S3::Types::CreateSessionOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateSessionRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3611
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3631
 class Aws::S3::Types::CreateSessionRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3612
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3632
 Aws::S3::Types::CreateSessionRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The container element for optionally specifying the default Object
@@ -29491,166 +29671,166 @@ Aws::S3::Types::CreateSessionRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DefaultRetention AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3649
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3669
 class Aws::S3::Types::DefaultRetention < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3650
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3670
 Aws::S3::Types::DefaultRetention::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for the objects to delete.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Delete AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3677
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3697
 class Aws::S3::Types::Delete < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3678
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3698
 Aws::S3::Types::Delete::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketAnalyticsConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3703
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3723
 class Aws::S3::Types::DeleteBucketAnalyticsConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3704
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3724
 Aws::S3::Types::DeleteBucketAnalyticsConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketCorsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3723
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3743
 class Aws::S3::Types::DeleteBucketCorsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3724
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3744
 Aws::S3::Types::DeleteBucketCorsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketEncryptionRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3764
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3785
 class Aws::S3::Types::DeleteBucketEncryptionRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3765
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3786
 Aws::S3::Types::DeleteBucketEncryptionRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketIntelligentTieringConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3782
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3803
 class Aws::S3::Types::DeleteBucketIntelligentTieringConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3783
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3804
 Aws::S3::Types::DeleteBucketIntelligentTieringConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketInventoryConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3808
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3829
 class Aws::S3::Types::DeleteBucketInventoryConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3809
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3830
 Aws::S3::Types::DeleteBucketInventoryConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketLifecycleRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3833
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3854
 class Aws::S3::Types::DeleteBucketLifecycleRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3834
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3855
 Aws::S3::Types::DeleteBucketLifecycleRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketMetricsConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3861
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3882
 class Aws::S3::Types::DeleteBucketMetricsConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3862
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3883
 Aws::S3::Types::DeleteBucketMetricsConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketOwnershipControlsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3881
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3902
 class Aws::S3::Types::DeleteBucketOwnershipControlsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3882
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3903
 Aws::S3::Types::DeleteBucketOwnershipControlsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketPolicyRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3921
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3943
 class Aws::S3::Types::DeleteBucketPolicyRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3922
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3944
 Aws::S3::Types::DeleteBucketPolicyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketReplicationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3941
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3963
 class Aws::S3::Types::DeleteBucketReplicationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3942
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3964
 Aws::S3::Types::DeleteBucketReplicationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3981
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4004
 class Aws::S3::Types::DeleteBucketRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#3982
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4005
 Aws::S3::Types::DeleteBucketRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketTaggingRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4001
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4024
 class Aws::S3::Types::DeleteBucketTaggingRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4002
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4025
 Aws::S3::Types::DeleteBucketTaggingRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketWebsiteRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4022
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4045
 class Aws::S3::Types::DeleteBucketWebsiteRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4023
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4046
 Aws::S3::Types::DeleteBucketWebsiteRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Information about the delete marker.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteMarkerEntry AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4057
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4080
 class Aws::S3::Types::DeleteMarkerEntry < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4058
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4081
 Aws::S3::Types::DeleteMarkerEntry::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies whether Amazon S3 replicates delete markers. If you specify
@@ -29678,94 +29858,94 @@ Aws::S3::Types::DeleteMarkerEntry::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteMarkerReplication AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4096
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4119
 class Aws::S3::Types::DeleteMarkerReplication < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4097
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4120
 Aws::S3::Types::DeleteMarkerReplication::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4135
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4158
 class Aws::S3::Types::DeleteObjectOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4136
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4159
 Aws::S3::Types::DeleteObjectOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4302
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4325
 class Aws::S3::Types::DeleteObjectRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4303
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4326
 Aws::S3::Types::DeleteObjectRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectTaggingOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4314
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4337
 class Aws::S3::Types::DeleteObjectTaggingOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4315
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4338
 Aws::S3::Types::DeleteObjectTaggingOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectTaggingRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4371
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4394
 class Aws::S3::Types::DeleteObjectTaggingRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4372
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4395
 Aws::S3::Types::DeleteObjectTaggingRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4400
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4423
 class Aws::S3::Types::DeleteObjectsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4401
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4424
 Aws::S3::Types::DeleteObjectsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4560
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4583
 class Aws::S3::Types::DeleteObjectsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4561
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4584
 Aws::S3::Types::DeleteObjectsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeletePublicAccessBlockRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4581
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4604
 class Aws::S3::Types::DeletePublicAccessBlockRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4582
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4605
 Aws::S3::Types::DeletePublicAccessBlockRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Information about the deleted object.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeletedObject AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4628
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4651
 class Aws::S3::Types::DeletedObject < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4629
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4652
 Aws::S3::Types::DeletedObject::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies information about where to publish analysis or configuration
@@ -29774,24 +29954,24 @@ Aws::S3::Types::DeletedObject::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Destination AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4705
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4728
 class Aws::S3::Types::Destination < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4706
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4729
 Aws::S3::Types::Destination::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Contains the type of server-side encryption used.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Encryption AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4740
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4763
 class Aws::S3::Types::Encryption < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4741
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4764
 Aws::S3::Types::Encryption::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies encryption-related information for an Amazon S3 bucket that
@@ -29807,12 +29987,12 @@ Aws::S3::Types::Encryption::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/EncryptionConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4773
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4796
 class Aws::S3::Types::EncryptionConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4774
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4797
 Aws::S3::Types::EncryptionConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The existing object was created with a different encryption type.
@@ -29821,7 +30001,7 @@ Aws::S3::Types::EncryptionConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/EncryptionTypeMismatch AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4784
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4807
 class Aws::S3::Types::EncryptionTypeMismatch < ::Aws::EmptyStructure; end
 
 # A message that indicates the request is complete and no more messages
@@ -29830,36 +30010,36 @@ class Aws::S3::Types::EncryptionTypeMismatch < ::Aws::EmptyStructure; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/EndEvent AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4793
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4816
 class Aws::S3::Types::EndEvent < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4794
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#4817
 Aws::S3::Types::EndEvent::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for all error elements.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Error AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5546
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5569
 class Aws::S3::Types::Error < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5547
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5570
 Aws::S3::Types::Error::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The error information.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ErrorDocument AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5568
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5591
 class Aws::S3::Types::ErrorDocument < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5569
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5592
 Aws::S3::Types::ErrorDocument::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for specifying the configuration for Amazon EventBridge.
@@ -29867,7 +30047,7 @@ Aws::S3::Types::ErrorDocument::SENSITIVE = T.let(T.unsafe(nil), Array)
 # @api private
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/EventBridgeConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5579
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5602
 class Aws::S3::Types::EventBridgeConfiguration < ::Aws::EmptyStructure; end
 
 # Optional configuration to replicate existing source bucket objects.
@@ -29884,12 +30064,12 @@ class Aws::S3::Types::EventBridgeConfiguration < ::Aws::EmptyStructure; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ExistingObjectReplication AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5601
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5624
 class Aws::S3::Types::ExistingObjectReplication < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5602
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5625
 Aws::S3::Types::ExistingObjectReplication::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the Amazon S3 object key name to filter on. An object key
@@ -29905,726 +30085,726 @@ Aws::S3::Types::ExistingObjectReplication::SENSITIVE = T.let(T.unsafe(nil), Arra
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/FilterRule AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5637
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5660
 class Aws::S3::Types::FilterRule < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5638
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5661
 Aws::S3::Types::FilterRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAccelerateConfigurationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5659
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5682
 class Aws::S3::Types::GetBucketAccelerateConfigurationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5660
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5683
 Aws::S3::Types::GetBucketAccelerateConfigurationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAccelerateConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5699
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5722
 class Aws::S3::Types::GetBucketAccelerateConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5700
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5723
 Aws::S3::Types::GetBucketAccelerateConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAclOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5716
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5739
 class Aws::S3::Types::GetBucketAclOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5717
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5740
 Aws::S3::Types::GetBucketAclOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAclRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5750
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5773
 class Aws::S3::Types::GetBucketAclRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5751
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5774
 Aws::S3::Types::GetBucketAclRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAnalyticsConfigurationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5762
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5785
 class Aws::S3::Types::GetBucketAnalyticsConfigurationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5763
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5786
 Aws::S3::Types::GetBucketAnalyticsConfigurationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAnalyticsConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5788
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5811
 class Aws::S3::Types::GetBucketAnalyticsConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5789
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5812
 Aws::S3::Types::GetBucketAnalyticsConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketCorsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5801
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5824
 class Aws::S3::Types::GetBucketCorsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5802
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5825
 Aws::S3::Types::GetBucketCorsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketCorsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5835
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5858
 class Aws::S3::Types::GetBucketCorsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5836
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5859
 Aws::S3::Types::GetBucketCorsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketEncryptionOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5847
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5870
 class Aws::S3::Types::GetBucketEncryptionOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5848
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5871
 Aws::S3::Types::GetBucketEncryptionOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketEncryptionRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5888
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5912
 class Aws::S3::Types::GetBucketEncryptionRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5889
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5913
 Aws::S3::Types::GetBucketEncryptionRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketIntelligentTieringConfigurationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5900
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5924
 class Aws::S3::Types::GetBucketIntelligentTieringConfigurationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5901
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5925
 Aws::S3::Types::GetBucketIntelligentTieringConfigurationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketIntelligentTieringConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5918
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5942
 class Aws::S3::Types::GetBucketIntelligentTieringConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5919
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5943
 Aws::S3::Types::GetBucketIntelligentTieringConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketInventoryConfigurationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5930
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5954
 class Aws::S3::Types::GetBucketInventoryConfigurationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5931
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5955
 Aws::S3::Types::GetBucketInventoryConfigurationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketInventoryConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5956
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5980
 class Aws::S3::Types::GetBucketInventoryConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5957
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5981
 Aws::S3::Types::GetBucketInventoryConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLifecycleConfigurationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5992
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6016
 class Aws::S3::Types::GetBucketLifecycleConfigurationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#5993
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6017
 Aws::S3::Types::GetBucketLifecycleConfigurationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLifecycleConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6017
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6041
 class Aws::S3::Types::GetBucketLifecycleConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6018
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6042
 Aws::S3::Types::GetBucketLifecycleConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLifecycleOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6029
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6053
 class Aws::S3::Types::GetBucketLifecycleOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6030
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6054
 Aws::S3::Types::GetBucketLifecycleOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLifecycleRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6049
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6073
 class Aws::S3::Types::GetBucketLifecycleRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6050
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6074
 Aws::S3::Types::GetBucketLifecycleRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLocationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6068
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6092
 class Aws::S3::Types::GetBucketLocationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6069
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6093
 Aws::S3::Types::GetBucketLocationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLocationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6102
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6126
 class Aws::S3::Types::GetBucketLocationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6103
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6127
 Aws::S3::Types::GetBucketLocationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLoggingOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6120
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6144
 class Aws::S3::Types::GetBucketLoggingOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6121
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6145
 Aws::S3::Types::GetBucketLoggingOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLoggingRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6140
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6164
 class Aws::S3::Types::GetBucketLoggingRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6141
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6165
 Aws::S3::Types::GetBucketLoggingRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketMetricsConfigurationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6152
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6176
 class Aws::S3::Types::GetBucketMetricsConfigurationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6153
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6177
 Aws::S3::Types::GetBucketMetricsConfigurationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketMetricsConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6180
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6204
 class Aws::S3::Types::GetBucketMetricsConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6181
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6205
 Aws::S3::Types::GetBucketMetricsConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketNotificationConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6215
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6239
 class Aws::S3::Types::GetBucketNotificationConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6216
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6240
 Aws::S3::Types::GetBucketNotificationConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketOwnershipControlsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6228
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6252
 class Aws::S3::Types::GetBucketOwnershipControlsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6229
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6253
 Aws::S3::Types::GetBucketOwnershipControlsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketOwnershipControlsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6249
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6273
 class Aws::S3::Types::GetBucketOwnershipControlsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6250
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6274
 Aws::S3::Types::GetBucketOwnershipControlsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketPolicyOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6261
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6285
 class Aws::S3::Types::GetBucketPolicyOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6262
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6286
 Aws::S3::Types::GetBucketPolicyOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketPolicyRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6318
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6343
 class Aws::S3::Types::GetBucketPolicyRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6319
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6344
 Aws::S3::Types::GetBucketPolicyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketPolicyStatusOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6330
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6355
 class Aws::S3::Types::GetBucketPolicyStatusOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6331
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6356
 Aws::S3::Types::GetBucketPolicyStatusOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketPolicyStatusRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6351
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6376
 class Aws::S3::Types::GetBucketPolicyStatusRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6352
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6377
 Aws::S3::Types::GetBucketPolicyStatusRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketReplicationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6364
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6389
 class Aws::S3::Types::GetBucketReplicationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6365
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6390
 Aws::S3::Types::GetBucketReplicationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketReplicationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6384
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6409
 class Aws::S3::Types::GetBucketReplicationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6385
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6410
 Aws::S3::Types::GetBucketReplicationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketRequestPaymentOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6396
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6421
 class Aws::S3::Types::GetBucketRequestPaymentOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6397
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6422
 Aws::S3::Types::GetBucketRequestPaymentOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketRequestPaymentRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6417
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6442
 class Aws::S3::Types::GetBucketRequestPaymentRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6418
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6443
 Aws::S3::Types::GetBucketRequestPaymentRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketTaggingOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6429
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6454
 class Aws::S3::Types::GetBucketTaggingOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6430
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6455
 Aws::S3::Types::GetBucketTaggingOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketTaggingRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6449
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6474
 class Aws::S3::Types::GetBucketTaggingRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6450
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6475
 Aws::S3::Types::GetBucketTaggingRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketVersioningOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6469
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6494
 class Aws::S3::Types::GetBucketVersioningOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6470
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6495
 Aws::S3::Types::GetBucketVersioningOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketVersioningRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6489
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6514
 class Aws::S3::Types::GetBucketVersioningRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6490
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6515
 Aws::S3::Types::GetBucketVersioningRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketWebsiteOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6520
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6545
 class Aws::S3::Types::GetBucketWebsiteOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6521
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6546
 Aws::S3::Types::GetBucketWebsiteOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketWebsiteRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6540
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6565
 class Aws::S3::Types::GetBucketWebsiteRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6541
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6566
 Aws::S3::Types::GetBucketWebsiteRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAclOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6567
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6592
 class Aws::S3::Types::GetObjectAclOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6568
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6593
 Aws::S3::Types::GetObjectAclOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAclRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6636
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6661
 class Aws::S3::Types::GetObjectAclRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6637
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6662
 Aws::S3::Types::GetObjectAclRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAttributesOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6717
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6742
 class Aws::S3::Types::GetObjectAttributesOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6718
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6743
 Aws::S3::Types::GetObjectAttributesOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A collection of parts associated with a multipart upload.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAttributesParts AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6774
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6799
 class Aws::S3::Types::GetObjectAttributesParts < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6775
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6800
 Aws::S3::Types::GetObjectAttributesParts::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAttributesRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6922
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6947
 class Aws::S3::Types::GetObjectAttributesRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6923
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6948
 Aws::S3::Types::GetObjectAttributesRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectLegalHoldOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6934
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6959
 class Aws::S3::Types::GetObjectLegalHoldOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6935
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#6960
 Aws::S3::Types::GetObjectLegalHoldOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectLegalHoldRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7001
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7026
 class Aws::S3::Types::GetObjectLegalHoldRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7002
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7027
 Aws::S3::Types::GetObjectLegalHoldRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectLockConfigurationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7013
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7038
 class Aws::S3::Types::GetObjectLockConfigurationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7014
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7039
 Aws::S3::Types::GetObjectLockConfigurationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectLockConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7048
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7073
 class Aws::S3::Types::GetObjectLockConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7049
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7074
 Aws::S3::Types::GetObjectLockConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7386
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7413
 class Aws::S3::Types::GetObjectOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7387
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7414
 Aws::S3::Types::GetObjectOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7741
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7768
 class Aws::S3::Types::GetObjectRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7742
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7769
 Aws::S3::Types::GetObjectRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectRetentionOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7753
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7780
 class Aws::S3::Types::GetObjectRetentionOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7754
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7781
 Aws::S3::Types::GetObjectRetentionOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectRetentionRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7820
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7847
 class Aws::S3::Types::GetObjectRetentionRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7821
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7848
 Aws::S3::Types::GetObjectRetentionRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectTaggingOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7838
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7865
 class Aws::S3::Types::GetObjectTaggingOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7839
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7866
 Aws::S3::Types::GetObjectTaggingOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectTaggingRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7914
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7941
 class Aws::S3::Types::GetObjectTaggingRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7915
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7942
 Aws::S3::Types::GetObjectTaggingRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectTorrentOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7936
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7963
 class Aws::S3::Types::GetObjectTorrentOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7937
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7964
 Aws::S3::Types::GetObjectTorrentOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectTorrentRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7981
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8008
 class Aws::S3::Types::GetObjectTorrentRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7982
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8009
 Aws::S3::Types::GetObjectTorrentRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetPublicAccessBlockOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7994
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8021
 class Aws::S3::Types::GetPublicAccessBlockOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#7995
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8022
 Aws::S3::Types::GetPublicAccessBlockOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetPublicAccessBlockRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8015
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8042
 class Aws::S3::Types::GetPublicAccessBlockRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8016
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8043
 Aws::S3::Types::GetPublicAccessBlockRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for S3 Glacier job parameters.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GlacierJobParameters AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8029
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8056
 class Aws::S3::Types::GlacierJobParameters < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8030
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8057
 Aws::S3::Types::GlacierJobParameters::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for grant information.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Grant AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8048
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8075
 class Aws::S3::Types::Grant < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8049
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8076
 Aws::S3::Types::Grant::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for the person being granted permissions.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Grantee AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8111
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8138
 class Aws::S3::Types::Grantee < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8112
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8139
 Aws::S3::Types::Grantee::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/HeadBucketOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8154
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8182
 class Aws::S3::Types::HeadBucketOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8155
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8183
 Aws::S3::Types::HeadBucketOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/HeadBucketRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8223
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8251
 class Aws::S3::Types::HeadBucketRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8224
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8252
 Aws::S3::Types::HeadBucketRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/HeadObjectOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8628
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8658
 class Aws::S3::Types::HeadObjectOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8629
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8659
 Aws::S3::Types::HeadObjectOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/HeadObjectRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8907
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8937
 class Aws::S3::Types::HeadObjectRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8908
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8938
 Aws::S3::Types::HeadObjectRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for the `Suffix` element.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/IndexDocument AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8934
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8964
 class Aws::S3::Types::IndexDocument < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8935
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8965
 Aws::S3::Types::IndexDocument::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container element that identifies who initiated the multipart upload.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Initiator AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8965
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8995
 class Aws::S3::Types::Initiator < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8966
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8996
 Aws::S3::Types::Initiator::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Describes the serialization format of the object.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InputSerialization AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8995
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9025
 class Aws::S3::Types::InputSerialization < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#8996
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9026
 Aws::S3::Types::InputSerialization::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for specifying S3 Intelligent-Tiering filters. The filters
@@ -30632,12 +30812,12 @@ Aws::S3::Types::InputSerialization::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/IntelligentTieringAndOperator AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9017
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9047
 class Aws::S3::Types::IntelligentTieringAndOperator < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9018
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9048
 Aws::S3::Types::IntelligentTieringAndOperator::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the S3 Intelligent-Tiering configuration for an Amazon S3
@@ -30653,12 +30833,12 @@ Aws::S3::Types::IntelligentTieringAndOperator::SENSITIVE = T.let(T.unsafe(nil), 
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/IntelligentTieringConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9057
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9087
 class Aws::S3::Types::IntelligentTieringConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9058
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9088
 Aws::S3::Types::IntelligentTieringConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The `Filter` is used to identify objects that the S3
@@ -30666,12 +30846,12 @@ Aws::S3::Types::IntelligentTieringConfiguration::SENSITIVE = T.let(T.unsafe(nil)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/IntelligentTieringFilter AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9094
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9124
 class Aws::S3::Types::IntelligentTieringFilter < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9095
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9125
 Aws::S3::Types::IntelligentTieringFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Object is archived and inaccessible until restored.
@@ -30692,12 +30872,12 @@ Aws::S3::Types::IntelligentTieringFilter::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InvalidObjectState AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9125
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9155
 class Aws::S3::Types::InvalidObjectState < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9126
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9156
 Aws::S3::Types::InvalidObjectState::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # You may receive this error in multiple cases. Depending on the reason
@@ -30713,7 +30893,7 @@ Aws::S3::Types::InvalidObjectState::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InvalidRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9143
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9173
 class Aws::S3::Types::InvalidRequest < ::Aws::EmptyStructure; end
 
 # The write offset value that you specified does not match the current
@@ -30721,7 +30901,7 @@ class Aws::S3::Types::InvalidRequest < ::Aws::EmptyStructure; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InvalidWriteOffset AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9150
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9180
 class Aws::S3::Types::InvalidWriteOffset < ::Aws::EmptyStructure; end
 
 # Specifies the inventory configuration for an Amazon S3 bucket. For
@@ -30734,24 +30914,24 @@ class Aws::S3::Types::InvalidWriteOffset < ::Aws::EmptyStructure; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InventoryConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9205
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9235
 class Aws::S3::Types::InventoryConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9206
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9236
 Aws::S3::Types::InventoryConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the inventory configuration for an Amazon S3 bucket.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InventoryDestination AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9220
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9250
 class Aws::S3::Types::InventoryDestination < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9221
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9251
 Aws::S3::Types::InventoryDestination::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Contains the type of server-side encryption used to encrypt the
@@ -30759,12 +30939,12 @@ Aws::S3::Types::InventoryDestination::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InventoryEncryption AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9240
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9270
 class Aws::S3::Types::InventoryEncryption < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9241
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9271
 Aws::S3::Types::InventoryEncryption::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies an inventory filter. The inventory only includes objects
@@ -30772,12 +30952,12 @@ Aws::S3::Types::InventoryEncryption::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InventoryFilter AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9256
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9286
 class Aws::S3::Types::InventoryFilter < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9257
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9287
 Aws::S3::Types::InventoryFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Contains the bucket name, file format, bucket owner (optional), and
@@ -30785,60 +30965,60 @@ Aws::S3::Types::InventoryFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InventoryS3BucketDestination AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9300
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9330
 class Aws::S3::Types::InventoryS3BucketDestination < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9301
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9331
 Aws::S3::Types::InventoryS3BucketDestination::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the schedule for generating inventory results.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InventorySchedule AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9314
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9344
 class Aws::S3::Types::InventorySchedule < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9315
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9345
 Aws::S3::Types::InventorySchedule::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies JSON as object's input serialization format.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/JSONInput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9328
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9358
 class Aws::S3::Types::JSONInput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9329
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9359
 Aws::S3::Types::JSONInput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies JSON as request's output serialization format.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/JSONOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9343
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9373
 class Aws::S3::Types::JSONOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9344
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9374
 Aws::S3::Types::JSONOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for specifying the configuration for Lambda notifications.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LambdaFunctionConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9387
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9417
 class Aws::S3::Types::LambdaFunctionConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9388
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9418
 Aws::S3::Types::LambdaFunctionConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for lifecycle rules. You can add as many as 1000 rules.
@@ -30852,12 +31032,12 @@ Aws::S3::Types::LambdaFunctionConfiguration::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LifecycleConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9408
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9438
 class Aws::S3::Types::LifecycleConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9409
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9439
 Aws::S3::Types::LifecycleConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for the expiration for the lifecycle of the object.
@@ -30871,12 +31051,12 @@ Aws::S3::Types::LifecycleConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LifecycleExpiration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9455
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9485
 class Aws::S3::Types::LifecycleExpiration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9456
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9486
 Aws::S3::Types::LifecycleExpiration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A lifecycle rule for individual objects in an Amazon S3 bucket.
@@ -30890,12 +31070,12 @@ Aws::S3::Types::LifecycleExpiration::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LifecycleRule AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9569
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9599
 class Aws::S3::Types::LifecycleRule < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9570
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9600
 Aws::S3::Types::LifecycleRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # This is used in a Lifecycle Rule Filter to apply a logical AND to two
@@ -30904,12 +31084,12 @@ Aws::S3::Types::LifecycleRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LifecycleRuleAndOperator AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9601
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9631
 class Aws::S3::Types::LifecycleRuleAndOperator < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9602
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9632
 Aws::S3::Types::LifecycleRuleAndOperator::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The `Filter` is used to identify objects that a Lifecycle Rule applies
@@ -30920,157 +31100,157 @@ Aws::S3::Types::LifecycleRuleAndOperator::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LifecycleRuleFilter AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9655
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9685
 class Aws::S3::Types::LifecycleRuleFilter < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9656
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9686
 Aws::S3::Types::LifecycleRuleFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketAnalyticsConfigurationsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9690
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9720
 class Aws::S3::Types::ListBucketAnalyticsConfigurationsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9691
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9721
 Aws::S3::Types::ListBucketAnalyticsConfigurationsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketAnalyticsConfigurationsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9717
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9747
 class Aws::S3::Types::ListBucketAnalyticsConfigurationsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9718
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9748
 Aws::S3::Types::ListBucketAnalyticsConfigurationsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketIntelligentTieringConfigurationsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9751
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9781
 class Aws::S3::Types::ListBucketIntelligentTieringConfigurationsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9752
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9782
 Aws::S3::Types::ListBucketIntelligentTieringConfigurationsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketIntelligentTieringConfigurationsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9770
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9800
 class Aws::S3::Types::ListBucketIntelligentTieringConfigurationsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9771
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9801
 Aws::S3::Types::ListBucketIntelligentTieringConfigurationsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketInventoryConfigurationsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9803
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9833
 class Aws::S3::Types::ListBucketInventoryConfigurationsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9804
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9834
 Aws::S3::Types::ListBucketInventoryConfigurationsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketInventoryConfigurationsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9832
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9862
 class Aws::S3::Types::ListBucketInventoryConfigurationsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9833
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9863
 Aws::S3::Types::ListBucketInventoryConfigurationsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketMetricsConfigurationsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9867
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9897
 class Aws::S3::Types::ListBucketMetricsConfigurationsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9868
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9898
 Aws::S3::Types::ListBucketMetricsConfigurationsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketMetricsConfigurationsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9896
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9926
 class Aws::S3::Types::ListBucketMetricsConfigurationsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9897
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9927
 Aws::S3::Types::ListBucketMetricsConfigurationsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9930
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9960
 class Aws::S3::Types::ListBucketsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9931
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9961
 Aws::S3::Types::ListBucketsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9991
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10021
 class Aws::S3::Types::ListBucketsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#9992
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10022
 Aws::S3::Types::ListBucketsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListDirectoryBucketsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10010
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10040
 class Aws::S3::Types::ListDirectoryBucketsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10011
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10041
 Aws::S3::Types::ListDirectoryBucketsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListDirectoryBucketsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10033
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10063
 class Aws::S3::Types::ListDirectoryBucketsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10034
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10064
 Aws::S3::Types::ListDirectoryBucketsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListMultipartUploadsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10162
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10192
 class Aws::S3::Types::ListMultipartUploadsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10163
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10193
 Aws::S3::Types::ListMultipartUploadsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListMultipartUploadsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10349
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10379
 class Aws::S3::Types::ListMultipartUploadsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10350
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10380
 Aws::S3::Types::ListMultipartUploadsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectVersionsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10455
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10485
 class Aws::S3::Types::ListObjectVersionsOutput < ::Struct
   include ::Aws::Structure
 
@@ -31084,84 +31264,84 @@ class Aws::S3::Types::ListObjectVersionsOutput < ::Struct
   def versions_delete_markers; end
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10456
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10486
 Aws::S3::Types::ListObjectVersionsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectVersionsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10565
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10595
 class Aws::S3::Types::ListObjectVersionsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10566
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10596
 Aws::S3::Types::ListObjectVersionsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10684
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10714
 class Aws::S3::Types::ListObjectsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10685
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10715
 Aws::S3::Types::ListObjectsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10806
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10836
 class Aws::S3::Types::ListObjectsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10807
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10837
 Aws::S3::Types::ListObjectsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectsV2Output AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10957
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10987
 class Aws::S3::Types::ListObjectsV2Output < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10958
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#10988
 Aws::S3::Types::ListObjectsV2Output::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectsV2Request AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11130
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11160
 class Aws::S3::Types::ListObjectsV2Request < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11131
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11161
 Aws::S3::Types::ListObjectsV2Request::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListPartsOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11266
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11296
 class Aws::S3::Types::ListPartsOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11267
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11297
 Aws::S3::Types::ListPartsOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListPartsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11416
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11446
 class Aws::S3::Types::ListPartsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11417
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11447
 Aws::S3::Types::ListPartsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the location where the bucket will be created.
 #
-# For directory buckets, the location type is Availability Zone. For
-# more information about directory buckets, see [Directory buckets][1]
-# in the *Amazon S3 User Guide*.
+# For directory buckets, the location type is Availability Zone or Local
+# Zone. For more information about directory buckets, see [Directory
+# buckets][1] in the *Amazon S3 User Guide*.
 #
 # <note markdown="1"> This functionality is only supported by directory buckets.
 #
@@ -31173,12 +31353,12 @@ Aws::S3::Types::ListPartsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LocationInfo AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11451
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11481
 class Aws::S3::Types::LocationInfo < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11452
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11482
 Aws::S3::Types::LocationInfo::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Describes where logs are stored and the prefix that Amazon S3 assigns
@@ -31191,24 +31371,24 @@ Aws::S3::Types::LocationInfo::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LoggingEnabled AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11503
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11533
 class Aws::S3::Types::LoggingEnabled < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11504
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11534
 Aws::S3::Types::LoggingEnabled::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A metadata key-value pair to store with an object.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/MetadataEntry AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11522
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11552
 class Aws::S3::Types::MetadataEntry < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11523
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11553
 Aws::S3::Types::MetadataEntry::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container specifying replication metrics-related settings enabling
@@ -31216,12 +31396,12 @@ Aws::S3::Types::MetadataEntry::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Metrics AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11543
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11573
 class Aws::S3::Types::Metrics < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11544
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11574
 Aws::S3::Types::Metrics::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A conjunction (logical AND) of predicates, which is used in evaluating
@@ -31231,12 +31411,12 @@ Aws::S3::Types::Metrics::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/MetricsAndOperator AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11570
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11600
 class Aws::S3::Types::MetricsAndOperator < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11571
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11601
 Aws::S3::Types::MetricsAndOperator::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies a metrics configuration for the CloudWatch request metrics
@@ -31252,12 +31432,12 @@ Aws::S3::Types::MetricsAndOperator::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/MetricsConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11603
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11633
 class Aws::S3::Types::MetricsConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11604
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11634
 Aws::S3::Types::MetricsConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies a metrics configuration filter. The metrics configuration
@@ -31272,45 +31452,45 @@ Aws::S3::Types::MetricsConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/MetricsFilter AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11643
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11673
 class Aws::S3::Types::MetricsFilter < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11644
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11674
 Aws::S3::Types::MetricsFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for the `MultipartUpload` for the Amazon S3 object.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/MultipartUpload AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11698
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11728
 class Aws::S3::Types::MultipartUpload < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11699
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11729
 Aws::S3::Types::MultipartUpload::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The specified bucket does not exist.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/NoSuchBucket AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11707
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11737
 class Aws::S3::Types::NoSuchBucket < ::Aws::EmptyStructure; end
 
 # The specified key does not exist.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/NoSuchKey AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11713
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11743
 class Aws::S3::Types::NoSuchKey < ::Aws::EmptyStructure; end
 
 # The specified multipart upload does not exist.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/NoSuchUpload AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11719
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11749
 class Aws::S3::Types::NoSuchUpload < ::Aws::EmptyStructure; end
 
 # Specifies when noncurrent object versions expire. Upon expiration,
@@ -31326,12 +31506,12 @@ class Aws::S3::Types::NoSuchUpload < ::Aws::EmptyStructure; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/NoncurrentVersionExpiration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11771
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11801
 class Aws::S3::Types::NoncurrentVersionExpiration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11772
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11802
 Aws::S3::Types::NoncurrentVersionExpiration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for the transition rule that describes when noncurrent
@@ -31346,12 +31526,12 @@ Aws::S3::Types::NoncurrentVersionExpiration::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/NoncurrentVersionTransition AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11819
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11849
 class Aws::S3::Types::NoncurrentVersionTransition < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11820
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11850
 Aws::S3::Types::NoncurrentVersionTransition::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for specifying the notification configuration of the
@@ -31360,22 +31540,22 @@ Aws::S3::Types::NoncurrentVersionTransition::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/NotificationConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11853
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11883
 class Aws::S3::Types::NotificationConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11854
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11884
 Aws::S3::Types::NotificationConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/NotificationConfigurationDeprecated AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11880
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11910
 class Aws::S3::Types::NotificationConfigurationDeprecated < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11881
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11911
 Aws::S3::Types::NotificationConfigurationDeprecated::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies object key name filtering rules. For information about key
@@ -31388,91 +31568,91 @@ Aws::S3::Types::NotificationConfigurationDeprecated::SENSITIVE = T.let(T.unsafe(
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/NotificationConfigurationFilter AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11900
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11930
 class Aws::S3::Types::NotificationConfigurationFilter < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11901
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11931
 Aws::S3::Types::NotificationConfigurationFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # An object consists of data and its descriptive metadata.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Object AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#11999
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12029
 class Aws::S3::Types::Object < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12000
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12030
 Aws::S3::Types::Object::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # This action is not allowed against this storage tier.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectAlreadyInActiveTierError AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12008
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12038
 class Aws::S3::Types::ObjectAlreadyInActiveTierError < ::Aws::EmptyStructure; end
 
 # Object Identifier is unique value to identify objects.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectIdentifier AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12068
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12098
 class Aws::S3::Types::ObjectIdentifier < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12069
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12099
 Aws::S3::Types::ObjectIdentifier::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The container element for Object Lock configuration parameters.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectLockConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12093
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12123
 class Aws::S3::Types::ObjectLockConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12094
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12124
 Aws::S3::Types::ObjectLockConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A legal hold configuration for an object.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectLockLegalHold AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12107
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12137
 class Aws::S3::Types::ObjectLockLegalHold < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12108
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12138
 Aws::S3::Types::ObjectLockLegalHold::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A Retention configuration for an object.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectLockRetention AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12126
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12156
 class Aws::S3::Types::ObjectLockRetention < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12127
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12157
 Aws::S3::Types::ObjectLockRetention::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The container element for an Object Lock rule.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectLockRule AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12144
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12174
 class Aws::S3::Types::ObjectLockRule < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12145
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12175
 Aws::S3::Types::ObjectLockRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The source object of the COPY action is not in the active tier and is
@@ -31480,91 +31660,91 @@ Aws::S3::Types::ObjectLockRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectNotInActiveTierError AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12154
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12184
 class Aws::S3::Types::ObjectNotInActiveTierError < ::Aws::EmptyStructure; end
 
 # A container for elements related to an individual part.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectPart AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12232
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12262
 class Aws::S3::Types::ObjectPart < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12233
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12263
 Aws::S3::Types::ObjectPart::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The version of an object.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectVersion AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12300
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12330
 class Aws::S3::Types::ObjectVersion < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12301
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12331
 Aws::S3::Types::ObjectVersion::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Describes the location where the restore job's output is stored.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/OutputLocation AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12315
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12345
 class Aws::S3::Types::OutputLocation < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12316
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12346
 Aws::S3::Types::OutputLocation::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Describes how results of the Select job are serialized.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/OutputSerialization AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12334
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12364
 class Aws::S3::Types::OutputSerialization < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12335
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12365
 Aws::S3::Types::OutputSerialization::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for the owner's display name and ID.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Owner AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12374
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12404
 class Aws::S3::Types::Owner < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12375
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12405
 Aws::S3::Types::Owner::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The container element for a bucket's ownership controls.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/OwnershipControls AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12388
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12418
 class Aws::S3::Types::OwnershipControls < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12389
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12419
 Aws::S3::Types::OwnershipControls::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The container element for an ownership control rule.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/OwnershipControlsRule AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12435
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12465
 class Aws::S3::Types::OwnershipControlsRule < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12436
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12466
 Aws::S3::Types::OwnershipControlsRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for Parquet.
@@ -31572,19 +31752,19 @@ Aws::S3::Types::OwnershipControlsRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 # @api private
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ParquetInput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12446
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12476
 class Aws::S3::Types::ParquetInput < ::Aws::EmptyStructure; end
 
 # Container for elements related to a part.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Part AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12531
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12561
 class Aws::S3::Types::Part < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12532
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12562
 Aws::S3::Types::Part::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Amazon S3 keys for log objects are partitioned in the following
@@ -31597,12 +31777,12 @@ Aws::S3::Types::Part::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PartitionedPrefix AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12560
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12590
 class Aws::S3::Types::PartitionedPrefix < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12561
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12591
 Aws::S3::Types::PartitionedPrefix::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # This error is not modeled.
@@ -31622,24 +31802,24 @@ Aws::S3::Types::PermanentRedirect::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PolicyStatus AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12575
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12605
 class Aws::S3::Types::PolicyStatus < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12576
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12606
 Aws::S3::Types::PolicyStatus::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # This data type contains information about progress of an operation.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Progress AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12599
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12629
 class Aws::S3::Types::Progress < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12600
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12630
 Aws::S3::Types::Progress::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # This data type contains information about the progress event of an
@@ -31647,12 +31827,12 @@ Aws::S3::Types::Progress::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ProgressEvent AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12615
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12645
 class Aws::S3::Types::ProgressEvent < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12616
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12646
 Aws::S3::Types::ProgressEvent::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The PublicAccessBlock configuration that you want to apply to this
@@ -31667,352 +31847,352 @@ Aws::S3::Types::ProgressEvent::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PublicAccessBlockConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12683
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12713
 class Aws::S3::Types::PublicAccessBlockConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12684
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12714
 Aws::S3::Types::PublicAccessBlockConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketAccelerateConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12727
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12757
 class Aws::S3::Types::PutBucketAccelerateConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12728
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12758
 Aws::S3::Types::PutBucketAccelerateConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketAclRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12821
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12851
 class Aws::S3::Types::PutBucketAclRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12822
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12852
 Aws::S3::Types::PutBucketAclRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketAnalyticsConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12852
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12882
 class Aws::S3::Types::PutBucketAnalyticsConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12853
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12883
 Aws::S3::Types::PutBucketAnalyticsConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketCorsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12917
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12947
 class Aws::S3::Types::PutBucketCorsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12918
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#12948
 Aws::S3::Types::PutBucketCorsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketEncryptionRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13001
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13032
 class Aws::S3::Types::PutBucketEncryptionRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13002
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13033
 Aws::S3::Types::PutBucketEncryptionRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketIntelligentTieringConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13024
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13055
 class Aws::S3::Types::PutBucketIntelligentTieringConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13025
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13056
 Aws::S3::Types::PutBucketIntelligentTieringConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketInventoryConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13055
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13086
 class Aws::S3::Types::PutBucketInventoryConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13056
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13087
 Aws::S3::Types::PutBucketInventoryConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLifecycleConfigurationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13086
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13117
 class Aws::S3::Types::PutBucketLifecycleConfigurationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13087
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13118
 Aws::S3::Types::PutBucketLifecycleConfigurationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLifecycleConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13158
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13189
 class Aws::S3::Types::PutBucketLifecycleConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13159
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13190
 Aws::S3::Types::PutBucketLifecycleConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLifecycleRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13206
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13237
 class Aws::S3::Types::PutBucketLifecycleRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13207
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13238
 Aws::S3::Types::PutBucketLifecycleRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLoggingRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13258
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13289
 class Aws::S3::Types::PutBucketLoggingRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13259
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13290
 Aws::S3::Types::PutBucketLoggingRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketMetricsConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13290
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13321
 class Aws::S3::Types::PutBucketMetricsConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13291
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13322
 Aws::S3::Types::PutBucketMetricsConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketNotificationConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13323
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13354
 class Aws::S3::Types::PutBucketNotificationConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13324
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13355
 Aws::S3::Types::PutBucketNotificationConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketNotificationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13375
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13406
 class Aws::S3::Types::PutBucketNotificationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13376
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13407
 Aws::S3::Types::PutBucketNotificationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketOwnershipControlsRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13411
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13442
 class Aws::S3::Types::PutBucketOwnershipControlsRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13412
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13443
 Aws::S3::Types::PutBucketOwnershipControlsRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketPolicyRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13523
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13555
 class Aws::S3::Types::PutBucketPolicyRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13524
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13556
 Aws::S3::Types::PutBucketPolicyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketReplicationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13588
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13620
 class Aws::S3::Types::PutBucketReplicationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13589
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13621
 Aws::S3::Types::PutBucketReplicationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketRequestPaymentRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13647
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13679
 class Aws::S3::Types::PutBucketRequestPaymentRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13648
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13680
 Aws::S3::Types::PutBucketRequestPaymentRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketTaggingRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13706
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13738
 class Aws::S3::Types::PutBucketTaggingRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13707
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13739
 Aws::S3::Types::PutBucketTaggingRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketVersioningRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13772
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13804
 class Aws::S3::Types::PutBucketVersioningRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13773
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13805
 Aws::S3::Types::PutBucketVersioningRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketWebsiteRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13831
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13863
 class Aws::S3::Types::PutBucketWebsiteRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13832
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13864
 Aws::S3::Types::PutBucketWebsiteRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectAclOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13848
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13880
 class Aws::S3::Types::PutObjectAclOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13849
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#13881
 Aws::S3::Types::PutObjectAclOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectAclRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14014
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14046
 class Aws::S3::Types::PutObjectAclRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14015
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14047
 Aws::S3::Types::PutObjectAclRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectLegalHoldOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14031
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14063
 class Aws::S3::Types::PutObjectLegalHoldOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14032
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14064
 Aws::S3::Types::PutObjectLegalHoldOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectLegalHoldRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14129
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14161
 class Aws::S3::Types::PutObjectLegalHoldRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14130
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14162
 Aws::S3::Types::PutObjectLegalHoldRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectLockConfigurationOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14146
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14178
 class Aws::S3::Types::PutObjectLockConfigurationOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14147
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14179
 Aws::S3::Types::PutObjectLockConfigurationOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectLockConfigurationRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14224
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14256
 class Aws::S3::Types::PutObjectLockConfigurationRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14225
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14257
 Aws::S3::Types::PutObjectLockConfigurationRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14423
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14457
 class Aws::S3::Types::PutObjectOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14424
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#14458
 Aws::S3::Types::PutObjectOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15152
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15186
 class Aws::S3::Types::PutObjectRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15153
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15187
 Aws::S3::Types::PutObjectRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectRetentionOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15169
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15203
 class Aws::S3::Types::PutObjectRetentionOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15170
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15204
 Aws::S3::Types::PutObjectRetentionOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectRetentionRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15274
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15308
 class Aws::S3::Types::PutObjectRetentionRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15275
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15309
 Aws::S3::Types::PutObjectRetentionRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectTaggingOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15286
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15320
 class Aws::S3::Types::PutObjectTaggingOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15287
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15321
 Aws::S3::Types::PutObjectTaggingOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectTaggingRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15392
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15426
 class Aws::S3::Types::PutObjectTaggingRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15393
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15427
 Aws::S3::Types::PutObjectTaggingRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutPublicAccessBlockRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15453
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15487
 class Aws::S3::Types::PutPublicAccessBlockRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15454
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15488
 Aws::S3::Types::PutPublicAccessBlockRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the configuration for publishing messages to an Amazon
@@ -32021,12 +32201,12 @@ Aws::S3::Types::PutPublicAccessBlockRequest::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/QueueConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15494
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15528
 class Aws::S3::Types::QueueConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15495
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15529
 Aws::S3::Types::QueueConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # This data type is deprecated. Use [QueueConfiguration][1] for the same
@@ -32040,24 +32220,24 @@ Aws::S3::Types::QueueConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/QueueConfigurationDeprecated AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15534
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15568
 class Aws::S3::Types::QueueConfigurationDeprecated < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15535
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15569
 Aws::S3::Types::QueueConfigurationDeprecated::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The container for the records event.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RecordsEvent AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15557
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15591
 class Aws::S3::Types::RecordsEvent < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15558
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15592
 Aws::S3::Types::RecordsEvent::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies how requests are redirected. In the event of an error, you
@@ -32065,12 +32245,12 @@ Aws::S3::Types::RecordsEvent::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Redirect AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15619
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15653
 class Aws::S3::Types::Redirect < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15620
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15654
 Aws::S3::Types::Redirect::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the redirect behavior of all requests to a website endpoint
@@ -32078,12 +32258,12 @@ Aws::S3::Types::Redirect::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RedirectAllRequestsTo AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15640
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15674
 class Aws::S3::Types::RedirectAllRequestsTo < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15641
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15675
 Aws::S3::Types::RedirectAllRequestsTo::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A filter that you can specify for selection for modifications on
@@ -32100,12 +32280,12 @@ Aws::S3::Types::RedirectAllRequestsTo::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ReplicaModifications AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15664
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15698
 class Aws::S3::Types::ReplicaModifications < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15665
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15699
 Aws::S3::Types::ReplicaModifications::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for replication rules. You can add up to 1,000 rules. The
@@ -32113,12 +32293,12 @@ Aws::S3::Types::ReplicaModifications::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ReplicationConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15693
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15727
 class Aws::S3::Types::ReplicationConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15694
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15728
 Aws::S3::Types::ReplicationConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies which Amazon S3 objects to replicate and where to store the
@@ -32126,12 +32306,12 @@ Aws::S3::Types::ReplicationConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ReplicationRule AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15812
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15846
 class Aws::S3::Types::ReplicationRule < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15813
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15847
 Aws::S3::Types::ReplicationRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for specifying rule filters. The filters determine the
@@ -32148,12 +32328,12 @@ Aws::S3::Types::ReplicationRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ReplicationRuleAndOperator AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15842
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15876
 class Aws::S3::Types::ReplicationRuleAndOperator < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15843
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15877
 Aws::S3::Types::ReplicationRuleAndOperator::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A filter that identifies the subset of objects to which the
@@ -32162,12 +32342,12 @@ Aws::S3::Types::ReplicationRuleAndOperator::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ReplicationRuleFilter AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15887
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15921
 class Aws::S3::Types::ReplicationRuleFilter < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15888
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15922
 Aws::S3::Types::ReplicationRuleFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container specifying S3 Replication Time Control (S3 RTC) related
@@ -32177,12 +32357,12 @@ Aws::S3::Types::ReplicationRuleFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ReplicationTime AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15910
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15944
 class Aws::S3::Types::ReplicationTime < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15911
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15945
 Aws::S3::Types::ReplicationTime::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container specifying the time value for S3 Replication Time Control
@@ -32190,24 +32370,24 @@ Aws::S3::Types::ReplicationTime::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ReplicationTimeValue AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15927
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15961
 class Aws::S3::Types::ReplicationTimeValue < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15928
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15962
 Aws::S3::Types::ReplicationTimeValue::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for Payer.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RequestPaymentConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15941
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15975
 class Aws::S3::Types::RequestPaymentConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15942
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15976
 Aws::S3::Types::RequestPaymentConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for specifying if periodic `QueryProgress` messages should
@@ -32215,44 +32395,44 @@ Aws::S3::Types::RequestPaymentConfiguration::SENSITIVE = T.let(T.unsafe(nil), Ar
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RequestProgress AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15957
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15991
 class Aws::S3::Types::RequestProgress < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15958
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15992
 Aws::S3::Types::RequestProgress::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RestoreObjectOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15980
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16014
 class Aws::S3::Types::RestoreObjectOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#15981
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16015
 Aws::S3::Types::RestoreObjectOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RestoreObjectRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16077
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16111
 class Aws::S3::Types::RestoreObjectRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16078
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16112
 Aws::S3::Types::RestoreObjectRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for restore job parameters.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RestoreRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16126
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16176
 class Aws::S3::Types::RestoreRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16127
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16177
 Aws::S3::Types::RestoreRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the restoration status of an object. Objects in certain
@@ -32273,12 +32453,12 @@ Aws::S3::Types::RestoreRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RestoreStatus AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16175
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16225
 class Aws::S3::Types::RestoreStatus < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16176
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16226
 Aws::S3::Types::RestoreStatus::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the redirect behavior and when a redirect is applied. For
@@ -32291,12 +32471,12 @@ Aws::S3::Types::RestoreStatus::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RoutingRule AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16206
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16256
 class Aws::S3::Types::RoutingRule < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16207
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16257
 Aws::S3::Types::RoutingRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies lifecycle rules for an Amazon S3 bucket. For more
@@ -32311,24 +32491,24 @@ Aws::S3::Types::RoutingRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Rule AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16307
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16357
 class Aws::S3::Types::Rule < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16308
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16358
 Aws::S3::Types::Rule::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for object key name prefix and suffix filtering rules.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/S3KeyFilter AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16322
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16372
 class Aws::S3::Types::S3KeyFilter < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16323
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16373
 Aws::S3::Types::S3KeyFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Describes an Amazon S3 location that will receive the results of the
@@ -32336,24 +32516,24 @@ Aws::S3::Types::S3KeyFilter::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/S3Location AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16373
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16423
 class Aws::S3::Types::S3Location < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16374
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16424
 Aws::S3::Types::S3Location::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the use of SSE-KMS to encrypt delivered inventory reports.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SSEKMS AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16389
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16439
 class Aws::S3::Types::SSEKMS < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16390
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16440
 Aws::S3::Types::SSEKMS::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the use of SSE-S3 to encrypt delivered inventory reports.
@@ -32361,7 +32541,7 @@ Aws::S3::Types::SSEKMS::SENSITIVE = T.let(T.unsafe(nil), Array)
 # @api private
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SSES3 AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16400
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16450
 class Aws::S3::Types::SSES3 < ::Aws::EmptyStructure; end
 
 # Specifies the byte range of the object to get the records from. A
@@ -32372,12 +32552,12 @@ class Aws::S3::Types::SSES3 < ::Aws::EmptyStructure; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ScanRange AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16429
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16479
 class Aws::S3::Types::ScanRange < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16430
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16480
 Aws::S3::Types::ScanRange::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The container for selecting objects from a content event stream.
@@ -32387,22 +32567,28 @@ Aws::S3::Types::ScanRange::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SelectObjectContentEventStream AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18389
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18475
 class Aws::S3::Types::SelectObjectContentEventStream < ::Enumerator
-  # source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18391
+  # source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18477
   def event_types; end
 end
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SelectObjectContentOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16441
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16491
 class Aws::S3::Types::SelectObjectContentOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16442
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16492
 Aws::S3::Types::SelectObjectContentOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
+# <note markdown="1"> Learn Amazon S3 Select is no longer available to new customers.
+# Existing customers of Amazon S3 Select can continue to use the feature
+# as usual. [Learn more][1]
+#
+#  </note>
+#
 # Request to filter the contents of an Amazon S3 object based on a
 # simple Structured Query Language (SQL) statement. In the request,
 # along with the SQL expression, you must specify a data serialization
@@ -32410,32 +32596,46 @@ Aws::S3::Types::SelectObjectContentOutput::SENSITIVE = T.let(T.unsafe(nil), Arra
 # object data into records. It returns only records that match the
 # specified SQL expression. You must also specify the data serialization
 # format for the response. For more information, see [S3Select API
-# Documentation][1].
+# Documentation][2].
 #
 #
 #
-# [1]: https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html
+# [1]: http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/
+# [2]: https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SelectObjectContentRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16564
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16621
 class Aws::S3::Types::SelectObjectContentRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16565
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16622
 Aws::S3::Types::SelectObjectContentRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
+# Amazon S3 Select is no longer available to new customers. Existing
+# customers of Amazon S3 Select can continue to use the feature as
+# usual. [Learn more][1]
+#
 # Describes the parameters for Select job types.
+#
+# Learn [How to optimize querying your data in Amazon S3][1] using
+# [Amazon Athena][2], [S3 Object Lambda][3], or client-side filtering.
+#
+#
+#
+# [1]: http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/
+# [2]: https://docs.aws.amazon.com/athena/latest/ug/what-is.html
+# [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/transforming-objects.html
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SelectParameters AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16593
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16671
 class Aws::S3::Types::SelectParameters < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16594
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16672
 Aws::S3::Types::SelectParameters::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Describes the default server-side encryption to apply to new objects
@@ -32467,24 +32667,24 @@ Aws::S3::Types::SelectParameters::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ServerSideEncryptionByDefault AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16692
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16770
 class Aws::S3::Types::ServerSideEncryptionByDefault < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16693
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16771
 Aws::S3::Types::ServerSideEncryptionByDefault::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the default server-side-encryption configuration.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ServerSideEncryptionConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16707
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16785
 class Aws::S3::Types::ServerSideEncryptionConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16708
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16786
 Aws::S3::Types::ServerSideEncryptionConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies the default server-side encryption configuration.
@@ -32508,12 +32708,12 @@ Aws::S3::Types::ServerSideEncryptionConfiguration::SENSITIVE = T.let(T.unsafe(ni
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ServerSideEncryptionRule AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16773
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16851
 class Aws::S3::Types::ServerSideEncryptionRule < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16774
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16852
 Aws::S3::Types::ServerSideEncryptionRule::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The established temporary security credentials of the session.
@@ -32526,12 +32726,12 @@ Aws::S3::Types::ServerSideEncryptionRule::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SessionCredentials AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16817
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16895
 class Aws::S3::Types::SessionCredentials < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16818
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16896
 Aws::S3::Types::SessionCredentials::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # To use simple format for S3 keys for log objects, set SimplePrefix to
@@ -32542,7 +32742,7 @@ Aws::S3::Types::SessionCredentials::SENSITIVE = T.let(T.unsafe(nil), Array)
 # @api private
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SimplePrefix AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16831
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16909
 class Aws::S3::Types::SimplePrefix < ::Aws::EmptyStructure; end
 
 # A container that describes additional filters for identifying the
@@ -32554,12 +32754,12 @@ class Aws::S3::Types::SimplePrefix < ::Aws::EmptyStructure; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SourceSelectionCriteria AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16865
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16943
 class Aws::S3::Types::SourceSelectionCriteria < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16866
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16944
 Aws::S3::Types::SourceSelectionCriteria::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for filter information for the selection of S3 objects
@@ -32567,36 +32767,36 @@ Aws::S3::Types::SourceSelectionCriteria::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SseKmsEncryptedObjects AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16882
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16960
 class Aws::S3::Types::SseKmsEncryptedObjects < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16883
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16961
 Aws::S3::Types::SseKmsEncryptedObjects::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for the stats details.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Stats AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16906
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16984
 class Aws::S3::Types::Stats < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16907
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16985
 Aws::S3::Types::Stats::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for the Stats Event.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/StatsEvent AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16921
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16999
 class Aws::S3::Types::StatsEvent < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16922
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17000
 Aws::S3::Types::StatsEvent::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies data related to access patterns to be collected and made
@@ -32605,12 +32805,12 @@ Aws::S3::Types::StatsEvent::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/StorageClassAnalysis AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16938
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17016
 class Aws::S3::Types::StorageClassAnalysis < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16939
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17017
 Aws::S3::Types::StorageClassAnalysis::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for data related to the storage class analysis for an Amazon
@@ -32618,36 +32818,36 @@ Aws::S3::Types::StorageClassAnalysis::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/StorageClassAnalysisDataExport AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16959
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17037
 class Aws::S3::Types::StorageClassAnalysisDataExport < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16960
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17038
 Aws::S3::Types::StorageClassAnalysisDataExport::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container of a key value name pair.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Tag AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16978
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17056
 class Aws::S3::Types::Tag < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16979
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17057
 Aws::S3::Types::Tag::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for `TagSet` elements.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Tagging AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16992
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17070
 class Aws::S3::Types::Tagging < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#16993
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17071
 Aws::S3::Types::Tagging::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Container for granting information.
@@ -32663,12 +32863,12 @@ Aws::S3::Types::Tagging::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/TargetGrant AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17020
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17098
 class Aws::S3::Types::TargetGrant < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17021
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17099
 Aws::S3::Types::TargetGrant::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Amazon S3 key format for log objects. Only one format,
@@ -32676,12 +32876,12 @@ Aws::S3::Types::TargetGrant::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/TargetObjectKeyFormat AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17041
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17119
 class Aws::S3::Types::TargetObjectKeyFormat < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17042
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17120
 Aws::S3::Types::TargetObjectKeyFormat::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The S3 Intelligent-Tiering storage class is designed to optimize
@@ -32690,12 +32890,12 @@ Aws::S3::Types::TargetObjectKeyFormat::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Tiering AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17073
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17151
 class Aws::S3::Types::Tiering < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17074
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17152
 Aws::S3::Types::Tiering::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # You have attempted to add more parts than the maximum of 10000 that
@@ -32705,7 +32905,7 @@ Aws::S3::Types::Tiering::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/TooManyParts AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17085
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17163
 class Aws::S3::Types::TooManyParts < ::Aws::EmptyStructure; end
 
 # A container for specifying the configuration for publication of
@@ -32714,12 +32914,12 @@ class Aws::S3::Types::TooManyParts < ::Aws::EmptyStructure; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/TopicConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17129
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17207
 class Aws::S3::Types::TopicConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17130
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17208
 Aws::S3::Types::TopicConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A container for specifying the configuration for publication of
@@ -32733,12 +32933,12 @@ Aws::S3::Types::TopicConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/TopicConfigurationDeprecated AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17168
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17246
 class Aws::S3::Types::TopicConfigurationDeprecated < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17169
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17247
 Aws::S3::Types::TopicConfigurationDeprecated::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies when an object transitions to a specified storage class. For
@@ -32752,52 +32952,52 @@ Aws::S3::Types::TopicConfigurationDeprecated::SENSITIVE = T.let(T.unsafe(nil), A
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Transition AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17203
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17281
 class Aws::S3::Types::Transition < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17204
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17282
 Aws::S3::Types::Transition::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/UploadPartCopyOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17278
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17356
 class Aws::S3::Types::UploadPartCopyOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17279
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17357
 Aws::S3::Types::UploadPartCopyOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/UploadPartCopyRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17599
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17685
 class Aws::S3::Types::UploadPartCopyRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17600
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17686
 Aws::S3::Types::UploadPartCopyRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/UploadPartOutput AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17727
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17813
 class Aws::S3::Types::UploadPartOutput < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17728
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17814
 Aws::S3::Types::UploadPartOutput::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/UploadPartRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17955
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18041
 class Aws::S3::Types::UploadPartRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17956
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18042
 Aws::S3::Types::UploadPartRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Describes the versioning state of an Amazon S3 bucket. For more
@@ -32810,34 +33010,34 @@ Aws::S3::Types::UploadPartRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/VersioningConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17983
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18069
 class Aws::S3::Types::VersioningConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#17984
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18070
 Aws::S3::Types::VersioningConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Specifies website configuration parameters for an Amazon S3 bucket.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/WebsiteConfiguration AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18016
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18102
 class Aws::S3::Types::WebsiteConfiguration < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18017
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18103
 Aws::S3::Types::WebsiteConfiguration::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/WriteGetObjectResponseRequest AWS API Documentation
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18377
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18463
 class Aws::S3::Types::WriteGetObjectResponseRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18378
+# source://aws-sdk-s3//lib/aws-sdk-s3/types.rb#18464
 Aws::S3::Types::WriteGetObjectResponseRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Waiters are utility methods that poll for a particular state to occur

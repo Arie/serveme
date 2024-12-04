@@ -2,6 +2,7 @@
 
 source 'https://rubygems.org'
 
+gem 'actionpack-action_caching'
 gem 'american_date'
 gem 'aws-sdk-s3', require: false
 gem 'base32_pure'

@@ -5,6 +5,7 @@ class PagesController < ApplicationController
   skip_before_action :authenticate_user!, except: %i[recent_reservations statistics]
   skip_before_action :redirect_if_country_banned, only: %i[no_to_war welcome no_vatnik]
   before_action :require_admin_or_streamer, only: :recent_reservations
+  caches_action :welcome, cache_path: -> { "welcome_#{Time.zone}" }, unless: -> { current_user }
 
   def welcome
     return unless current_user

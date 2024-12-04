@@ -8,6 +8,7 @@ class ReservationsController < ApplicationController
   skip_before_action :store_current_location, only: %i[extend_reservation destroy]
   helper LogLineHelper
   layout 'simple', only: %i[rcon motd]
+  caches_action :motd, cache_path: -> { "motd_#{params[:id]}" }, unless: -> { current_user }, expires_in: 30.seconds
   include RconHelper
   include LogLineHelper
   include ReservationsHelper
@@ -146,7 +147,7 @@ class ReservationsController < ApplicationController
 
     return head(:unauthorized) unless @reservation.password == params[:password]
 
-    rcon
+    rcon if current_user && (current_user == @reservation.user || current_user.admin?)
   end
 
   def motd_rcon_command

@@ -49,7 +49,7 @@ class HTTP::Cookie
   # Compares the cookie with another.  When there are many cookies with
   # the same name for a URL, the value of the smallest must be used.
   #
-  # source://http-cookie//lib/http/cookie.rb#646
+  # source://http-cookie//lib/http/cookie.rb#648
   def <=>(other); end
 
   # Tests if it is OK to accept this cookie considering its origin.
@@ -58,7 +58,7 @@ class HTTP::Cookie
   #
   # @return [Boolean]
   #
-  # source://http-cookie//lib/http/cookie.rb#572
+  # source://http-cookie//lib/http/cookie.rb#574
   def acceptable?; end
 
   # Tests if it is OK to accept this cookie if it is sent from a given
@@ -66,35 +66,35 @@ class HTTP::Cookie
   #
   # @return [Boolean]
   #
-  # source://http-cookie//lib/http/cookie.rb#553
+  # source://http-cookie//lib/http/cookie.rb#555
   def acceptable_from_uri?(uri); end
 
   # The time this cookie was last accessed at.
   #
-  # source://http-cookie//lib/http/cookie.rb#549
+  # source://http-cookie//lib/http/cookie.rb#551
   def accessed_at; end
 
   # The time this cookie was last accessed at.
   #
-  # source://http-cookie//lib/http/cookie.rb#549
+  # source://http-cookie//lib/http/cookie.rb#551
   def accessed_at=(_arg0); end
 
   # Returns a string for use in the Cookie header, i.e. `name=value`
   # or `name="value"`.
   #
-  # source://http-cookie//lib/http/cookie.rb#599
+  # source://http-cookie//lib/http/cookie.rb#601
   def cookie_value; end
 
   # The time this cookie was created at.  This value is used as a base
   # date for interpreting the Max-Age attribute value.  See #expires.
   #
-  # source://http-cookie//lib/http/cookie.rb#546
+  # source://http-cookie//lib/http/cookie.rb#548
   def created_at; end
 
   # The time this cookie was created at.  This value is used as a base
   # date for interpreting the Max-Age attribute value.  See #expires.
   #
-  # source://http-cookie//lib/http/cookie.rb#546
+  # source://http-cookie//lib/http/cookie.rb#548
   def created_at=(_arg0); end
 
   # Returns the value of attribute domain.
@@ -120,20 +120,20 @@ class HTTP::Cookie
 
   # YAML serialization helper for Psych.
   #
-  # source://http-cookie//lib/http/cookie.rb#662
+  # source://http-cookie//lib/http/cookie.rb#664
   def encode_with(coder); end
 
   # Expires this cookie by setting the expires attribute value to a
   # past date.
   #
-  # source://http-cookie//lib/http/cookie.rb#539
+  # source://http-cookie//lib/http/cookie.rb#541
   def expire!; end
 
   # Tests if this cookie is expired by now, or by a given time.
   #
   # @return [Boolean]
   #
-  # source://http-cookie//lib/http/cookie.rb#529
+  # source://http-cookie//lib/http/cookie.rb#531
   def expired?(time = T.unsafe(nil)); end
 
   # source://http-cookie//lib/http/cookie.rb#488
@@ -202,20 +202,20 @@ class HTTP::Cookie
 
   # YAML deserialization helper for Syck.
   #
-  # source://http-cookie//lib/http/cookie.rb#669
+  # source://http-cookie//lib/http/cookie.rb#671
   def init_with(coder); end
 
-  # source://http-cookie//lib/http/cookie.rb#638
+  # source://http-cookie//lib/http/cookie.rb#640
   def inspect; end
 
   # Returns the value of attribute max_age.
   #
-  # source://http-cookie//lib/http/cookie.rb#507
+  # source://http-cookie//lib/http/cookie.rb#509
   def max_age; end
 
   # See #max_age.
   #
-  # source://http-cookie//lib/http/cookie.rb#510
+  # source://http-cookie//lib/http/cookie.rb#512
   def max_age=(sec); end
 
   # Returns the value of attribute name.
@@ -291,18 +291,18 @@ class HTTP::Cookie
   # missing, RuntimeError is raised.  It is always the best to set an
   # origin before calling this method.
   #
-  # source://http-cookie//lib/http/cookie.rb#608
+  # source://http-cookie//lib/http/cookie.rb#610
   def set_cookie_value; end
 
   # Returns a string for use in the Cookie header, i.e. `name=value`
   # or `name="value"`.
   #
-  # source://http-cookie//lib/http/cookie.rb#599
+  # source://http-cookie//lib/http/cookie.rb#601
   def to_s; end
 
   # YAML serialization helper for Syck.
   #
-  # source://http-cookie//lib/http/cookie.rb#657
+  # source://http-cookie//lib/http/cookie.rb#659
   def to_yaml_properties; end
 
   # Tests if it is OK to send this cookie to a given `uri`.  A
@@ -310,7 +310,7 @@ class HTTP::Cookie
   #
   # @return [Boolean]
   #
-  # source://http-cookie//lib/http/cookie.rb#587
+  # source://http-cookie//lib/http/cookie.rb#589
   def valid_for_uri?(uri); end
 
   # Returns the value of attribute value.
@@ -325,7 +325,7 @@ class HTTP::Cookie
 
   # YAML deserialization helper for Psych.
   #
-  # source://http-cookie//lib/http/cookie.rb#674
+  # source://http-cookie//lib/http/cookie.rb#676
   def yaml_initialize(tag, map); end
 
   class << self

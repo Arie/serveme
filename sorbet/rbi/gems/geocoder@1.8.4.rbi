@@ -739,19 +739,19 @@ module Geocoder::Lookup
   # Use this instead of Geocoder::Lookup::X.new to get an
   # already-configured Lookup object.
   #
-  # source://geocoder//lib/geocoder/lookup.rb#110
+  # source://geocoder//lib/geocoder/lookup.rb#111
   def get(name); end
 
   # All IP address lookup services, default first.
   #
-  # source://geocoder//lib/geocoder/lookup.rb#77
+  # source://geocoder//lib/geocoder/lookup.rb#78
   def ip_services; end
 
   # Sets the attribute ip_services
   #
   # @param value the value to set the attribute ip_services to.
   #
-  # source://geocoder//lib/geocoder/lookup.rb#103
+  # source://geocoder//lib/geocoder/lookup.rb#104
   def ip_services=(_arg0); end
 
   # All street address lookup services, default first.
@@ -763,24 +763,24 @@ module Geocoder::Lookup
   #
   # @param value the value to set the attribute street_services to.
   #
-  # source://geocoder//lib/geocoder/lookup.rb#103
+  # source://geocoder//lib/geocoder/lookup.rb#104
   def street_services=(_arg0); end
 
   private
 
   # Convert an "underscore" version of a name into a "class" version.
   #
-  # source://geocoder//lib/geocoder/lookup.rb#136
+  # source://geocoder//lib/geocoder/lookup.rb#137
   def classify_name(filename); end
 
   # Safely instantiate Lookup
   #
-  # source://geocoder//lib/geocoder/lookup.rb#143
+  # source://geocoder//lib/geocoder/lookup.rb#144
   def instantiate_lookup(name); end
 
   # Spawn a Lookup of the given name.
   #
-  # source://geocoder//lib/geocoder/lookup.rb#122
+  # source://geocoder//lib/geocoder/lookup.rb#123
   def spawn(name); end
 end
 

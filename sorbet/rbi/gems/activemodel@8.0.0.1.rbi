@@ -2296,10 +2296,10 @@ class ActiveModel::Error
     # source://activemodel//lib/active_model/error.rb#64
     def generate_message(attribute, type, base, options); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def i18n_customize_full_message; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def i18n_customize_full_message=(new_value); end
 
     # source://activemodel//lib/active_model/error.rb#13
@@ -5087,7 +5087,7 @@ ActiveModel::VERSION::MAJOR = T.let(T.unsafe(nil), Integer)
 ActiveModel::VERSION::MINOR = T.let(T.unsafe(nil), Integer)
 
 # source://activemodel//lib/active_model/gem_version.rb#13
-ActiveModel::VERSION::PRE = T.let(T.unsafe(nil), T.untyped)
+ActiveModel::VERSION::PRE = T.let(T.unsafe(nil), String)
 
 # source://activemodel//lib/active_model/gem_version.rb#15
 ActiveModel::VERSION::STRING = T.let(T.unsafe(nil), String)

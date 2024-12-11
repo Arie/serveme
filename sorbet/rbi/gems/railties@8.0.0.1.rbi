@@ -1459,7 +1459,7 @@ class Rails::Application::RoutesReloader
   # source://railties//lib/rails/application/routes_reloader.rb#15
   def initialize; end
 
-  # source://activesupport/8.0.0/lib/active_support/callbacks.rb#69
+  # source://activesupport/8.0.0.1/lib/active_support/callbacks.rb#69
   def __callbacks; end
 
   # Returns the value of attribute eager_load.
@@ -1533,10 +1533,10 @@ class Rails::Application::RoutesReloader
   def updater; end
 
   class << self
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def __callbacks; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def __callbacks=(new_value); end
   end
 end
@@ -1545,7 +1545,7 @@ end
 class Rails::ApplicationController < ::ActionController::Base
   private
 
-  # source://actionview/8.0.0/lib/action_view/layouts.rb#328
+  # source://actionview/8.0.0.1/lib/action_view/layouts.rb#328
   def _layout(lookup_context, formats); end
 
   def _layout_from_proc; end
@@ -1562,28 +1562,28 @@ class Rails::ApplicationController < ::ActionController::Base
   def require_local!; end
 
   class << self
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def __callbacks; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def __callbacks=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def _layout; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def _layout=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def _layout_conditions; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def _layout_conditions=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def middleware_stack; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def middleware_stack=(new_value); end
   end
 end
@@ -1719,10 +1719,10 @@ class Rails::CodeStatistics
   def width_for(label); end
 
   class << self
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def directories; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def directories=(new_value); end
 
     # source://railties//lib/rails/code_statistics.rb#45
@@ -1739,10 +1739,10 @@ class Rails::CodeStatistics
     # source://railties//lib/rails/code_statistics.rb#55
     def register_directory(label, path, test_directory: T.unsafe(nil)); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def test_types; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def test_types=(new_value); end
 
     # source://railties//lib/rails/code_statistics.rb#46
@@ -1923,10 +1923,10 @@ class Rails::Command::Base < ::Thor
     # source://railties//lib/rails/command/base.rb#106
     def base_name; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def bin; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def bin=(new_value); end
 
     # source://railties//lib/rails/command/base.rb#20
@@ -2635,13 +2635,13 @@ class Rails::Engine < ::Rails::Railtie
   # source://railties//lib/rails/engine.rb#440
   def initialize; end
 
-  # source://activesupport/8.0.0/lib/active_support/callbacks.rb#69
+  # source://activesupport/8.0.0.1/lib/active_support/callbacks.rb#69
   def __callbacks; end
 
-  # source://activesupport/8.0.0/lib/active_support/callbacks.rb#923
+  # source://activesupport/8.0.0.1/lib/active_support/callbacks.rb#923
   def _load_seed_callbacks; end
 
-  # source://activesupport/8.0.0/lib/active_support/callbacks.rb#911
+  # source://activesupport/8.0.0.1/lib/active_support/callbacks.rb#911
   def _run_load_seed_callbacks(&block); end
 
   # Returns the underlying Rack application for this engine.
@@ -2789,16 +2789,16 @@ class Rails::Engine < ::Rails::Railtie
   def load_config_initializer(initializer); end
 
   class << self
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def __callbacks; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def __callbacks=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/callbacks.rb#915
+    # source://activesupport/8.0.0.1/lib/active_support/callbacks.rb#915
     def _load_seed_callbacks; end
 
-    # source://activesupport/8.0.0/lib/active_support/callbacks.rb#919
+    # source://activesupport/8.0.0.1/lib/active_support/callbacks.rb#919
     def _load_seed_callbacks=(value); end
 
     # Returns the value of attribute called_from.
@@ -4876,37 +4876,37 @@ class Rails::Generators::TestCase < ::ActiveSupport::TestCase
   def generator_class?; end
 
   class << self
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def current_path; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def current_path=(new_value); end
 
     # source://railties//lib/rails/generators/testing/behavior.rb#21
     def current_path?; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def default_arguments; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def default_arguments=(new_value); end
 
     # source://railties//lib/rails/generators/testing/behavior.rb#22
     def default_arguments?; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def destination_root; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def destination_root=(new_value); end
 
     # source://railties//lib/rails/generators/testing/behavior.rb#23
     def destination_root?; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def generator_class; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def generator_class=(new_value); end
 
     # source://railties//lib/rails/generators/testing/behavior.rb#24
@@ -5239,7 +5239,7 @@ class Rails::HealthController < ::ActionController::Base
 
   private
 
-  # source://actionview/8.0.0/lib/action_view/layouts.rb#328
+  # source://actionview/8.0.0.1/lib/action_view/layouts.rb#328
   def _layout(lookup_context, formats); end
 
   def _layout_from_proc; end
@@ -5254,16 +5254,16 @@ class Rails::HealthController < ::ActionController::Base
   def render_up; end
 
   class << self
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def middleware_stack; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def middleware_stack=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def rescue_handlers; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def rescue_handlers=(new_value); end
   end
 end
@@ -5317,7 +5317,7 @@ class Rails::InfoController < ::Rails::ApplicationController
 
   private
 
-  # source://actionview/8.0.0/lib/action_view/layouts.rb#328
+  # source://actionview/8.0.0.1/lib/action_view/layouts.rb#328
   def _layout(lookup_context, formats); end
 
   # source://railties//lib/rails/info_controller.rb#8
@@ -5327,28 +5327,28 @@ class Rails::InfoController < ::Rails::ApplicationController
   def matching_routes(query:, exact_match:); end
 
   class << self
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def __callbacks; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def __callbacks=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def _layout; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def _layout=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def _layout_conditions; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def _layout_conditions=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def middleware_stack; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def middleware_stack=(new_value); end
   end
 end
@@ -5456,7 +5456,7 @@ class Rails::MailersController < ::Rails::ApplicationController
 
   private
 
-  # source://actionview/8.0.0/lib/action_view/layouts.rb#328
+  # source://actionview/8.0.0.1/lib/action_view/layouts.rb#328
   def _layout(lookup_context, formats); end
 
   # source://railties//lib/rails/mailers_controller.rb#107
@@ -5489,22 +5489,22 @@ class Rails::MailersController < ::Rails::ApplicationController
   def show_previews?; end
 
   class << self
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def __callbacks; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def __callbacks=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def _helper_methods; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def _helper_methods=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def middleware_stack; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def middleware_stack=(new_value); end
   end
 end
@@ -5767,20 +5767,20 @@ class Rails::PwaController < ::Rails::ApplicationController
 
   private
 
-  # source://actionview/8.0.0/lib/action_view/layouts.rb#328
+  # source://actionview/8.0.0.1/lib/action_view/layouts.rb#328
   def _layout(lookup_context, formats); end
 
   class << self
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def __callbacks; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def __callbacks=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def middleware_stack; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def middleware_stack=(new_value); end
   end
 end
@@ -6486,7 +6486,7 @@ Rails::VERSION::MAJOR = T.let(T.unsafe(nil), Integer)
 Rails::VERSION::MINOR = T.let(T.unsafe(nil), Integer)
 
 # source://railties//lib/rails/gem_version.rb#13
-Rails::VERSION::PRE = T.let(T.unsafe(nil), T.untyped)
+Rails::VERSION::PRE = T.let(T.unsafe(nil), String)
 
 # source://railties//lib/rails/gem_version.rb#15
 Rails::VERSION::STRING = T.let(T.unsafe(nil), String)
@@ -6501,32 +6501,32 @@ class Rails::WelcomeController < ::Rails::ApplicationController
 
   private
 
-  # source://actionview/8.0.0/lib/action_view/layouts.rb#328
+  # source://actionview/8.0.0.1/lib/action_view/layouts.rb#328
   def _layout(lookup_context, formats); end
 
   class << self
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def __callbacks; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def __callbacks=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def _layout; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def _layout=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def _layout_conditions; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def _layout_conditions=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def middleware_stack; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def middleware_stack=(new_value); end
   end
 end

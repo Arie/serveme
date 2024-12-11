@@ -205,19 +205,19 @@ class ActiveJob::Base
   extend ::Sidekiq::Job::Options::ClassMethods
   extend ::ActiveJob::TestHelper::TestQueueAdapter::ClassMethods
 
-  # source://activesupport/8.0.0/lib/active_support/callbacks.rb#69
+  # source://activesupport/8.0.0.1/lib/active_support/callbacks.rb#69
   def __callbacks; end
 
-  # source://activesupport/8.0.0/lib/active_support/callbacks.rb#923
+  # source://activesupport/8.0.0.1/lib/active_support/callbacks.rb#923
   def _enqueue_callbacks; end
 
-  # source://activesupport/8.0.0/lib/active_support/callbacks.rb#923
+  # source://activesupport/8.0.0.1/lib/active_support/callbacks.rb#923
   def _perform_callbacks; end
 
-  # source://activesupport/8.0.0/lib/active_support/callbacks.rb#911
+  # source://activesupport/8.0.0.1/lib/active_support/callbacks.rb#911
   def _run_enqueue_callbacks(&block); end
 
-  # source://activesupport/8.0.0/lib/active_support/callbacks.rb#911
+  # source://activesupport/8.0.0.1/lib/active_support/callbacks.rb#911
   def _run_perform_callbacks(&block); end
 
   # source://activejob//lib/active_job/exceptions.rb#12
@@ -247,89 +247,89 @@ class ActiveJob::Base
   # source://activejob//lib/active_job/queue_name.rb#57
   def queue_name_prefix?; end
 
-  # source://activesupport/8.0.0/lib/active_support/rescuable.rb#15
+  # source://activesupport/8.0.0.1/lib/active_support/rescuable.rb#15
   def rescue_handlers; end
 
-  # source://activesupport/8.0.0/lib/active_support/rescuable.rb#15
+  # source://activesupport/8.0.0.1/lib/active_support/rescuable.rb#15
   def rescue_handlers=(_arg0); end
 
-  # source://activesupport/8.0.0/lib/active_support/rescuable.rb#15
+  # source://activesupport/8.0.0.1/lib/active_support/rescuable.rb#15
   def rescue_handlers?; end
 
-  # source://sidekiq/7.3.5/lib/sidekiq/job.rb#141
+  # source://sidekiq/7.3.6/lib/sidekiq/job.rb#141
   def sidekiq_options_hash; end
 
-  # source://sidekiq/7.3.5/lib/sidekiq/job.rb#153
+  # source://sidekiq/7.3.6/lib/sidekiq/job.rb#153
   def sidekiq_options_hash=(_arg0); end
 
-  # source://sidekiq/7.3.5/lib/sidekiq/job.rb#141
+  # source://sidekiq/7.3.6/lib/sidekiq/job.rb#141
   def sidekiq_retries_exhausted_block; end
 
-  # source://sidekiq/7.3.5/lib/sidekiq/job.rb#153
+  # source://sidekiq/7.3.6/lib/sidekiq/job.rb#153
   def sidekiq_retries_exhausted_block=(_arg0); end
 
-  # source://sidekiq/7.3.5/lib/sidekiq/job.rb#141
+  # source://sidekiq/7.3.6/lib/sidekiq/job.rb#141
   def sidekiq_retry_in_block; end
 
-  # source://sidekiq/7.3.5/lib/sidekiq/job.rb#153
+  # source://sidekiq/7.3.6/lib/sidekiq/job.rb#153
   def sidekiq_retry_in_block=(_arg0); end
 
   class << self
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def __callbacks; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def __callbacks=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/callbacks.rb#915
+    # source://activesupport/8.0.0.1/lib/active_support/callbacks.rb#915
     def _enqueue_callbacks; end
 
-    # source://activesupport/8.0.0/lib/active_support/callbacks.rb#919
+    # source://activesupport/8.0.0.1/lib/active_support/callbacks.rb#919
     def _enqueue_callbacks=(value); end
 
-    # source://activesupport/8.0.0/lib/active_support/callbacks.rb#915
+    # source://activesupport/8.0.0.1/lib/active_support/callbacks.rb#915
     def _perform_callbacks; end
 
-    # source://activesupport/8.0.0/lib/active_support/callbacks.rb#919
+    # source://activesupport/8.0.0.1/lib/active_support/callbacks.rb#919
     def _perform_callbacks=(value); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def _queue_adapter; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def _queue_adapter=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def _queue_adapter_name; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def _queue_adapter_name=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def _test_adapter; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def _test_adapter=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def after_discard_procs; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def after_discard_procs=(new_value); end
 
     # source://activejob//lib/active_job/exceptions.rb#12
     def after_discard_procs?; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def enqueue_after_transaction_commit; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def enqueue_after_transaction_commit=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def log_arguments; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def log_arguments=(new_value); end
 
     # source://activejob//lib/active_job/logging.rb#26
@@ -341,84 +341,84 @@ class ActiveJob::Base
     # source://activejob//lib/active_job/logging.rb#15
     def logger=(val); end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def priority; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def priority=(new_value); end
 
     # source://activejob//lib/active_job/queue_priority.rb#49
     def priority?; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def queue_name; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def queue_name=(new_value); end
 
     # source://activejob//lib/active_job/queue_name.rb#55
     def queue_name?; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def queue_name_delimiter; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def queue_name_delimiter=(new_value); end
 
     # source://activejob//lib/active_job/queue_name.rb#56
     def queue_name_delimiter?; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def queue_name_prefix; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def queue_name_prefix=(new_value); end
 
     # source://activejob//lib/active_job/queue_name.rb#57
     def queue_name_prefix?; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def rescue_handlers; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def rescue_handlers=(new_value); end
 
-    # source://activesupport/8.0.0/lib/active_support/rescuable.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/rescuable.rb#15
     def rescue_handlers?; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def retry_jitter; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def retry_jitter=(new_value); end
 
-    # source://sidekiq/7.3.5/lib/sidekiq/job.rb#108
+    # source://sidekiq/7.3.6/lib/sidekiq/job.rb#108
     def sidekiq_options_hash; end
 
-    # source://sidekiq/7.3.5/lib/sidekiq/job.rb#116
+    # source://sidekiq/7.3.6/lib/sidekiq/job.rb#116
     def sidekiq_options_hash=(val); end
 
-    # source://sidekiq/7.3.5/lib/sidekiq/job.rb#108
+    # source://sidekiq/7.3.6/lib/sidekiq/job.rb#108
     def sidekiq_retries_exhausted_block; end
 
-    # source://sidekiq/7.3.5/lib/sidekiq/job.rb#116
+    # source://sidekiq/7.3.6/lib/sidekiq/job.rb#116
     def sidekiq_retries_exhausted_block=(val); end
 
-    # source://sidekiq/7.3.5/lib/sidekiq/job.rb#108
+    # source://sidekiq/7.3.6/lib/sidekiq/job.rb#108
     def sidekiq_retry_in_block; end
 
-    # source://sidekiq/7.3.5/lib/sidekiq/job.rb#116
+    # source://sidekiq/7.3.6/lib/sidekiq/job.rb#116
     def sidekiq_retry_in_block=(val); end
 
     private
 
-    # source://sidekiq/7.3.5/lib/sidekiq/job.rb#103
+    # source://sidekiq/7.3.6/lib/sidekiq/job.rb#103
     def __synchronized_sidekiq_options_hash; end
 
-    # source://sidekiq/7.3.5/lib/sidekiq/job.rb#103
+    # source://sidekiq/7.3.6/lib/sidekiq/job.rb#103
     def __synchronized_sidekiq_retries_exhausted_block; end
 
-    # source://sidekiq/7.3.5/lib/sidekiq/job.rb#103
+    # source://sidekiq/7.3.6/lib/sidekiq/job.rb#103
     def __synchronized_sidekiq_retry_in_block; end
   end
 end
@@ -448,13 +448,13 @@ module ActiveJob::Callbacks
   mixes_in_class_methods ::ActiveJob::Callbacks::ClassMethods
 
   class << self
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#8
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#8
     def __callbacks; end
 
-    # source://activesupport/8.0.0/lib/active_support/callbacks.rb#923
+    # source://activesupport/8.0.0.1/lib/active_support/callbacks.rb#923
     def _execute_callbacks; end
 
-    # source://activesupport/8.0.0/lib/active_support/callbacks.rb#911
+    # source://activesupport/8.0.0.1/lib/active_support/callbacks.rb#911
     def _run_execute_callbacks(&block); end
   end
 
@@ -1282,19 +1282,19 @@ class ActiveJob::LogSubscriber < ::ActiveSupport::LogSubscriber
   def scheduled_at(event); end
 
   class << self
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def backtrace_cleaner; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def backtrace_cleaner=(new_value); end
 
     # source://activejob//lib/active_job/log_subscriber.rb#7
     def backtrace_cleaner?; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#12
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#12
     def log_levels; end
 
-    # source://activesupport/8.0.0/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.0.1/lib/active_support/class_attribute.rb#15
     def log_levels=(new_value); end
   end
 end
@@ -2815,7 +2815,7 @@ ActiveJob::VERSION::MAJOR = T.let(T.unsafe(nil), Integer)
 ActiveJob::VERSION::MINOR = T.let(T.unsafe(nil), Integer)
 
 # source://activejob//lib/active_job/gem_version.rb#13
-ActiveJob::VERSION::PRE = T.let(T.unsafe(nil), T.untyped)
+ActiveJob::VERSION::PRE = T.let(T.unsafe(nil), String)
 
 # source://activejob//lib/active_job/gem_version.rb#15
 ActiveJob::VERSION::STRING = T.let(T.unsafe(nil), String)

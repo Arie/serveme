@@ -66,7 +66,7 @@ end
 #   work of Keiju ISHITSUKA of Nippon Rational Inc, who produced the Ruby
 #   parser for irb and the rtags package.
 #
-# source://rdoc//lib/rdoc.rb#58
+# source://rdoc//lib/rdoc.rb#56
 module RDoc
   class << self
     # Searches and returns the directory for settings.
@@ -79,12 +79,12 @@ module RDoc
     # Other than the home directory, the containing directory will be
     # created automatically.
     #
-    # source://rdoc//lib/rdoc.rb#134
+    # source://rdoc//lib/rdoc.rb#132
     def home; end
 
     # Loads the best available YAML library.
     #
-    # source://rdoc//lib/rdoc.rb#107
+    # source://rdoc//lib/rdoc.rb#105
     def load_yaml; end
   end
 end
@@ -573,7 +573,7 @@ class RDoc::ClassModule < ::RDoc::Context
   # source://rdoc//lib/rdoc/code_object/class_module.rb#252
   def each_ancestor; end
 
-  # source://rdoc//lib/rdoc/code_object/class_module.rb#816
+  # source://rdoc//lib/rdoc/code_object/class_module.rb#829
   def embed_mixins; end
 
   # Looks for a symbol in the #ancestors. See Context#find_local_symbol.
@@ -704,7 +704,7 @@ class RDoc::ClassModule < ::RDoc::Context
   # Get all super classes of this class in an array. The last element might be
   # a string if the name is unknown.
   #
-  # source://rdoc//lib/rdoc/code_object/class_module.rb#718
+  # source://rdoc//lib/rdoc/code_object/class_module.rb#731
   def super_classes; end
 
   # Get the superclass of this class.  Attempts to retrieve the superclass
@@ -715,17 +715,23 @@ class RDoc::ClassModule < ::RDoc::Context
 
   # Set the superclass of this class to +superclass+
   #
+  # where +superclass+ is one of:
+  #
+  # - +nil+
+  # - a String containing the full name of the superclass
+  # - the RDoc::ClassModule representing the superclass
+  #
   # @raise [NoMethodError]
   #
-  # source://rdoc//lib/rdoc/code_object/class_module.rb#709
+  # source://rdoc//lib/rdoc/code_object/class_module.rb#715
   def superclass=(superclass); end
 
-  # source://rdoc//lib/rdoc/code_object/class_module.rb#728
+  # source://rdoc//lib/rdoc/code_object/class_module.rb#741
   def to_s; end
 
   # 'module' or 'class'
   #
-  # source://rdoc//lib/rdoc/code_object/class_module.rb#739
+  # source://rdoc//lib/rdoc/code_object/class_module.rb#752
   def type; end
 
   # Updates the child modules & classes by replacing the ones that are
@@ -742,7 +748,7 @@ class RDoc::ClassModule < ::RDoc::Context
   # the aliased modules are included in the constants of the class/module,
   # that are listed separately.
   #
-  # source://rdoc//lib/rdoc/code_object/class_module.rb#758
+  # source://rdoc//lib/rdoc/code_object/class_module.rb#771
   def update_aliases; end
 
   # Deletes from #extends those whose module has been removed from the
@@ -750,7 +756,7 @@ class RDoc::ClassModule < ::RDoc::Context
   # --
   # FIXME: like update_includes, extends are not reliably removed
   #
-  # source://rdoc//lib/rdoc/code_object/class_module.rb#806
+  # source://rdoc//lib/rdoc/code_object/class_module.rb#819
   def update_extends; end
 
   # Deletes from #includes those whose module has been removed from the
@@ -758,12 +764,12 @@ class RDoc::ClassModule < ::RDoc::Context
   # --
   # FIXME: includes are not reliably removed, see _possible_bug test case
   #
-  # source://rdoc//lib/rdoc/code_object/class_module.rb#791
+  # source://rdoc//lib/rdoc/code_object/class_module.rb#804
   def update_includes; end
 
   private
 
-  # source://rdoc//lib/rdoc/code_object/class_module.rb#845
+  # source://rdoc//lib/rdoc/code_object/class_module.rb#858
   def prepare_to_embed(code_object, singleton = T.unsafe(nil)); end
 
   class << self
@@ -5815,7 +5821,7 @@ class RDoc::Markup::PreProcess
   # Look for the given file in the directory containing the current file,
   # and then in each of the directories specified in the RDOC_INCLUDE path
   #
-  # source://rdoc//lib/rdoc/markup/pre_process.rb#291
+  # source://rdoc//lib/rdoc/markup/pre_process.rb#308
   def find_include_file(name); end
 
   # Look for directives in the given +text+.
@@ -5862,7 +5868,7 @@ class RDoc::Markup::PreProcess
   # TODO shift left the whole file content in that case
   # TODO comment stop/start #-- and #++ in included file must be processed here
   #
-  # source://rdoc//lib/rdoc/markup/pre_process.rb#265
+  # source://rdoc//lib/rdoc/markup/pre_process.rb#282
   def include_file(name, indent, encoding); end
 
   # An RDoc::Options instance that will be filled in with overrides from
@@ -7395,6 +7401,9 @@ class RDoc::MethodAttr < ::RDoc::CodeObject
   # source://rdoc//lib/rdoc/code_object/method_attr.rb#12
   def name=(_arg0); end
 
+  # source://rdoc//lib/rdoc/code_object/method_attr.rb#418
+  def name_ord_range; end
+
   # '::' for a class method/attribute, '#' for an instance method.
   #
   # source://rdoc//lib/rdoc/code_object/method_attr.rb#319
@@ -8716,8 +8725,9 @@ class RDoc::Parser::C < ::RDoc::Parser
   #    */
   #
   # This method modifies the +comment+
+  # Both :main: and :title: directives are deprecated and will be removed in RDoc 7.
   #
-  # source://rdoc//lib/rdoc/parser/c.rb#1101
+  # source://rdoc//lib/rdoc/parser/c.rb#1102
   def look_for_directives_in(context, comment); end
 
   # Classes found while parsing the C file that were not yet registered due to
@@ -8728,25 +8738,25 @@ class RDoc::Parser::C < ::RDoc::Parser
 
   # Creates a RDoc::Comment instance.
   #
-  # source://rdoc//lib/rdoc/parser/c.rb#1231
+  # source://rdoc//lib/rdoc/parser/c.rb#1250
   def new_comment(text = T.unsafe(nil), location = T.unsafe(nil), language = T.unsafe(nil)); end
 
   # Extracts parameters from the +method_body+ and returns a method
   # parameter string.  Follows 1.9.3dev's scan-arg-spec, see README.EXT
   #
-  # source://rdoc//lib/rdoc/parser/c.rb#1120
+  # source://rdoc//lib/rdoc/parser/c.rb#1139
   def rb_scan_args(method_body); end
 
   # Removes lines that are commented out that might otherwise get picked up
   # when scanning for classes and methods
   #
-  # source://rdoc//lib/rdoc/parser/c.rb#1203
+  # source://rdoc//lib/rdoc/parser/c.rb#1222
   def remove_commented_out_lines; end
 
   # Extracts the classes, modules, methods, attributes, constants and aliases
   # from a C file and returns an RDoc::TopLevel for this file
   #
-  # source://rdoc//lib/rdoc/parser/c.rb#1211
+  # source://rdoc//lib/rdoc/parser/c.rb#1230
   def scan; end
 
   # Maps C variable names to names of Ruby singleton classes
@@ -10474,7 +10484,7 @@ class RDoc::RDoc
   # By default, output will be stored in a directory called "doc" below the
   # current directory, so make sure you're somewhere writable before invoking.
   #
-  # source://rdoc//lib/rdoc/rdoc.rb#450
+  # source://rdoc//lib/rdoc/rdoc.rb#452
   def document(options); end
 
   # Report an error message and exit
@@ -10494,7 +10504,7 @@ class RDoc::RDoc
   # output dir using the generator selected
   # by the RDoc options
   #
-  # source://rdoc//lib/rdoc/rdoc.rb#515
+  # source://rdoc//lib/rdoc/rdoc.rb#517
   def generate; end
 
   # Generator instance used for creating output
@@ -10573,18 +10583,18 @@ class RDoc::RDoc
 
   # Parse each file on the command line, recursively entering directories.
   #
-  # source://rdoc//lib/rdoc/rdoc.rb#404
+  # source://rdoc//lib/rdoc/rdoc.rb#403
   def parse_files(files); end
 
   # Removes a siginfo handler and replaces the previous
   #
-  # source://rdoc//lib/rdoc/rdoc.rb#535
+  # source://rdoc//lib/rdoc/rdoc.rb#537
   def remove_siginfo_handler; end
 
   # Removes file extensions known to be unparseable from +files+ and TAGS
   # files for emacs and vim.
   #
-  # source://rdoc//lib/rdoc/rdoc.rb#428
+  # source://rdoc//lib/rdoc/rdoc.rb#430
   def remove_unparseable(files); end
 
   # Create an output dir if it doesn't exist. If it does exist, but doesn't
@@ -10664,129 +10674,129 @@ class RDoc::RI::Driver
   #
   # @return [Driver] a new instance of Driver
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#395
+  # source://rdoc//lib/rdoc/ri/driver.rb#402
   def initialize(initial_options = T.unsafe(nil)); end
 
   # Adds paths for undocumented classes +also_in+ to +out+
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#433
+  # source://rdoc//lib/rdoc/ri/driver.rb#441
   def add_also_in(out, also_in); end
 
   # Adds a class header to +out+ for class +name+ which is described in
   # +classes+.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#450
+  # source://rdoc//lib/rdoc/ri/driver.rb#458
   def add_class(out, name, classes); end
 
   # Adds +extends+ to +out+
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#477
+  # source://rdoc//lib/rdoc/ri/driver.rb#485
   def add_extends(out, extends); end
 
   # Adds a list of +extensions+ to this module of the given +type+ to +out+.
   # add_includes and add_extends call this, so you should use those directly.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#485
+  # source://rdoc//lib/rdoc/ri/driver.rb#493
   def add_extension_modules(out, type, extensions); end
 
   # Renders multiple included +modules+ from +store+ to +out+.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#503
+  # source://rdoc//lib/rdoc/ri/driver.rb#511
   def add_extension_modules_multiple(out, store, modules); end
 
   # Adds a single extension module +include+ from +store+ to +out+
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#530
+  # source://rdoc//lib/rdoc/ri/driver.rb#538
   def add_extension_modules_single(out, store, include); end
 
   # Adds "(from ...)" to +out+ for +store+
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#470
+  # source://rdoc//lib/rdoc/ri/driver.rb#478
   def add_from(out, store); end
 
   # Adds +includes+ to +out+
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#544
+  # source://rdoc//lib/rdoc/ri/driver.rb#552
   def add_includes(out, includes); end
 
   # Looks up the method +name+ and adds it to +out+
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#551
+  # source://rdoc//lib/rdoc/ri/driver.rb#559
   def add_method(out, name); end
 
   # Adds documentation for all methods in +klass+ to +out+
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#562
+  # source://rdoc//lib/rdoc/ri/driver.rb#567
   def add_method_documentation(out, klass); end
 
   # Adds a list of +methods+ to +out+ with a heading of +name+
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#575
+  # source://rdoc//lib/rdoc/ri/driver.rb#580
   def add_method_list(out, methods, name); end
 
   # Returns ancestor classes of +klass+
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#595
+  # source://rdoc//lib/rdoc/ri/driver.rb#600
   def ancestors_of(klass); end
 
-  # source://rdoc//lib/rdoc/ri/driver.rb#930
+  # source://rdoc//lib/rdoc/ri/driver.rb#938
   def check_did_you_mean; end
 
   # For RubyGems backwards compatibility
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#626
+  # source://rdoc//lib/rdoc/ri/driver.rb#631
   def class_cache; end
 
   # Builds a RDoc::Markup::Document from +found+, +klasess+ and +includes+
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#632
+  # source://rdoc//lib/rdoc/ri/driver.rb#637
   def class_document(name, found, klasses, includes, extends); end
 
   # Adds the class +comment+ to +out+.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#654
+  # source://rdoc//lib/rdoc/ri/driver.rb#660
   def class_document_comment(out, comment); end
 
   # Adds the constants from +klass+ to the Document +out+.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#674
+  # source://rdoc//lib/rdoc/ri/driver.rb#680
   def class_document_constants(out, klass); end
 
   # Hash mapping a known class or module to the stores it can be loaded from
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#698
+  # source://rdoc//lib/rdoc/ri/driver.rb#704
   def classes; end
 
   # Returns the stores wherein +name+ is found along with the classes,
   # extends and includes that match it
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#718
+  # source://rdoc//lib/rdoc/ri/driver.rb#724
   def classes_and_includes_and_extends_for(name); end
 
   # Completes +name+ based on the caches.  For Readline
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#743
+  # source://rdoc//lib/rdoc/ri/driver.rb#749
   def complete(name); end
 
-  # source://rdoc//lib/rdoc/ri/driver.rb#754
+  # source://rdoc//lib/rdoc/ri/driver.rb#760
   def complete_klass(name, klass, selector, method, completions); end
 
-  # source://rdoc//lib/rdoc/ri/driver.rb#773
+  # source://rdoc//lib/rdoc/ri/driver.rb#779
   def complete_method(name, klass, selector, completions); end
 
   # Converts +document+ to text and writes it to the pager
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#793
+  # source://rdoc//lib/rdoc/ri/driver.rb#799
   def display(document); end
 
   # Outputs formatted RI data for class +name+.  Groups undocumented classes
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#806
+  # source://rdoc//lib/rdoc/ri/driver.rb#812
   def display_class(name); end
 
   # Outputs formatted RI data for method +name+
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#822
+  # source://rdoc//lib/rdoc/ri/driver.rb#828
   def display_method(name); end
 
   # Outputs formatted RI data for the class or method +name+.
@@ -10794,39 +10804,42 @@ class RDoc::RI::Driver
   # Returns true if +name+ was found, false if it was not an alternative could
   # be guessed, raises an error if +name+ couldn't be guessed.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#836
+  # source://rdoc//lib/rdoc/ri/driver.rb#844
   def display_name(name); end
 
   # Displays each name in +name+
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#865
+  # source://rdoc//lib/rdoc/ri/driver.rb#873
   def display_names(names); end
 
   # Outputs formatted RI data for page +name+.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#876
+  # source://rdoc//lib/rdoc/ri/driver.rb#884
   def display_page(name); end
 
   # Outputs a formatted RI page list for the pages in +store+.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#907
+  # source://rdoc//lib/rdoc/ri/driver.rb#915
   def display_page_list(store, pages = T.unsafe(nil), search = T.unsafe(nil)); end
 
   # Expands abbreviated klass +klass+ into a fully-qualified class.  "Zl::Da"
   # will be expanded to Zlib::DataError.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#951
+  # source://rdoc//lib/rdoc/ri/driver.rb#959
   def expand_class(klass); end
 
   # Expands the class portion of +name+ into a fully-qualified class.  See
   # #expand_class.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#969
+  # source://rdoc//lib/rdoc/ri/driver.rb#977
   def expand_name(name); end
+
+  # source://rdoc//lib/rdoc/ri/driver.rb#1525
+  def expand_rdoc_refs_at_the_bottom(out); end
 
   # Filters the methods in +found+ trying to find a match for +name+.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#985
+  # source://rdoc//lib/rdoc/ri/driver.rb#993
   def filter_methods(found, name); end
 
   # Yields items matching +name+ including the store they were found in, the
@@ -10834,7 +10847,7 @@ class RDoc::RI::Driver
   # types of methods to look up (from #method_type), and the method name being
   # searched for
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#1003
+  # source://rdoc//lib/rdoc/ri/driver.rb#1011
   def find_methods(name); end
 
   # Finds a store that matches +name+ which can be the name of a gem, "ruby",
@@ -10844,73 +10857,73 @@ class RDoc::RI::Driver
   #
   # @raise [RDoc::RI::Driver::NotFoundError]
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#1049
+  # source://rdoc//lib/rdoc/ri/driver.rb#1057
   def find_store(name); end
 
   # Creates a new RDoc::Markup::Formatter.  If a formatter is given with -f,
   # use it.  If we're outputting to a pager, use bs, otherwise ansi.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#1066
+  # source://rdoc//lib/rdoc/ri/driver.rb#1074
   def formatter(io); end
 
   # Runs ri interactively using Readline if it is available.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#1079
+  # source://rdoc//lib/rdoc/ri/driver.rb#1087
   def interactive; end
 
   # Lists classes known to ri starting with +names+.  If +names+ is empty all
   # known classes are shown.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#1118
+  # source://rdoc//lib/rdoc/ri/driver.rb#1126
   def list_known_classes(names = T.unsafe(nil)); end
 
   # Returns an Array of methods matching +name+
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#1150
+  # source://rdoc//lib/rdoc/ri/driver.rb#1158
   def list_methods_matching(name); end
 
   # Loads RI data for method +name+ on +klass+ from +store+.  +type+ and
   # +cache+ indicate if it is a class or instance method.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#1189
+  # source://rdoc//lib/rdoc/ri/driver.rb#1197
   def load_method(store, cache, klass, type, name); end
 
   # Returns an Array of RI data for methods matching +name+
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#1212
+  # source://rdoc//lib/rdoc/ri/driver.rb#1220
   def load_methods_matching(name); end
 
   # Returns a filtered list of methods matching +name+
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#1233
+  # source://rdoc//lib/rdoc/ri/driver.rb#1241
   def lookup_method(name); end
 
   # Builds a RDoc::Markup::Document from +found+, +klasses+ and +includes+
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#1258
-  def method_document(name, filtered); end
+  # source://rdoc//lib/rdoc/ri/driver.rb#1266
+  def method_document(out, name, filtered); end
 
   # Returns the type of method (:both, :instance, :class) for +selector+
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#1276
+  # source://rdoc//lib/rdoc/ri/driver.rb#1282
   def method_type(selector); end
 
   # Returns a regular expression for +name+ that will match an
   # RDoc::AnyMethod's name.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#1288
+  # source://rdoc//lib/rdoc/ri/driver.rb#1294
   def name_regexp(name); end
 
   # Paginates output through a pager program.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#1302
+  # source://rdoc//lib/rdoc/ri/driver.rb#1308
   def page; end
 
   # Are we using a pager?
   #
   # @return [Boolean]
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#1320
+  # source://rdoc//lib/rdoc/ri/driver.rb#1326
   def paging?; end
 
   # Extracts the class, selector and method name parts from +name+ like
@@ -10919,36 +10932,36 @@ class RDoc::RI::Driver
   # NOTE: Given Foo::Bar, Bar is considered a class even though it may be a
   # method
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#1331
+  # source://rdoc//lib/rdoc/ri/driver.rb#1337
   def parse_name(name); end
 
   # Renders the +klass+ from +store+ to +out+.  If the klass has no
   # documentable items the class is added to +also_in+ instead.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#1363
+  # source://rdoc//lib/rdoc/ri/driver.rb#1369
   def render_class(out, store, klass, also_in); end
 
-  # source://rdoc//lib/rdoc/ri/driver.rb#1393
+  # source://rdoc//lib/rdoc/ri/driver.rb#1399
   def render_method(out, store, method, name); end
 
-  # source://rdoc//lib/rdoc/ri/driver.rb#1413
+  # source://rdoc//lib/rdoc/ri/driver.rb#1419
   def render_method_arguments(out, arglists); end
 
-  # source://rdoc//lib/rdoc/ri/driver.rb#1422
+  # source://rdoc//lib/rdoc/ri/driver.rb#1428
   def render_method_comment(out, method, alias_for = T.unsafe(nil)); end
 
-  # source://rdoc//lib/rdoc/ri/driver.rb#1440
+  # source://rdoc//lib/rdoc/ri/driver.rb#1446
   def render_method_superclass(out, method); end
 
   # Looks up and displays ri data according to the options given.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#1452
+  # source://rdoc//lib/rdoc/ri/driver.rb#1458
   def run; end
 
   # Sets up a pager program to pass output through.  Tries the RI_PAGER and
   # PAGER environment variables followed by pager, less then more.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#1472
+  # source://rdoc//lib/rdoc/ri/driver.rb#1478
   def setup_pager; end
 
   # Show all method documentation following a class or module
@@ -10963,7 +10976,7 @@ class RDoc::RI::Driver
 
   # Starts a WEBrick server for ri.
   #
-  # source://rdoc//lib/rdoc/ri/driver.rb#1498
+  # source://rdoc//lib/rdoc/ri/driver.rb#1504
   def start_server; end
 
   # An RDoc::RI::Store for each entry in the RI path
@@ -10994,17 +11007,17 @@ class RDoc::RI::Driver
 
     # Dump +data_path+ using pp
     #
-    # source://rdoc//lib/rdoc/ri/driver.rb#98
+    # source://rdoc//lib/rdoc/ri/driver.rb#99
     def dump(data_path); end
 
     # Parses +argv+ and returns a Hash of options
     #
-    # source://rdoc//lib/rdoc/ri/driver.rb#109
+    # source://rdoc//lib/rdoc/ri/driver.rb#110
     def process_args(argv); end
 
     # Runs the ri command line executable using +argv+
     #
-    # source://rdoc//lib/rdoc/ri/driver.rb#380
+    # source://rdoc//lib/rdoc/ri/driver.rb#387
     def run(argv = T.unsafe(nil)); end
   end
 end
@@ -11026,6 +11039,9 @@ class RDoc::RI::Driver::NotFoundError < ::RDoc::RI::Driver::Error
   # source://rdoc//lib/rdoc/ri/driver.rb#45
   def name; end
 end
+
+# source://rdoc//lib/rdoc/ri/driver.rb#1523
+RDoc::RI::Driver::RDOC_REFS_REGEXP = T.let(T.unsafe(nil), Regexp)
 
 # For RubyGems backwards compatibility
 #
@@ -11395,34 +11411,34 @@ class RDoc::Store
 
   # Returns all classes discovered by RDoc
   #
-  # source://rdoc//lib/rdoc/store.rb#212
+  # source://rdoc//lib/rdoc/store.rb#224
   def all_classes; end
 
   # Returns all classes and modules discovered by RDoc
   #
-  # source://rdoc//lib/rdoc/store.rb#219
+  # source://rdoc//lib/rdoc/store.rb#231
   def all_classes_and_modules; end
 
   # All TopLevels known to RDoc
   #
-  # source://rdoc//lib/rdoc/store.rb#226
+  # source://rdoc//lib/rdoc/store.rb#238
   def all_files; end
 
   # Returns all modules discovered by RDoc
   #
-  # source://rdoc//lib/rdoc/store.rb#233
+  # source://rdoc//lib/rdoc/store.rb#245
   def all_modules; end
 
   # Ancestors cache accessor.  Maps a klass name to an Array of its ancestors
   # in this store.  If Foo in this store inherits from Object, Kernel won't be
   # listed (it will be included from ruby's ri store).
   #
-  # source://rdoc//lib/rdoc/store.rb#242
+  # source://rdoc//lib/rdoc/store.rb#254
   def ancestors; end
 
   # Attributes cache accessor.  Maps a class to an Array of its attributes.
   #
-  # source://rdoc//lib/rdoc/store.rb#249
+  # source://rdoc//lib/rdoc/store.rb#261
   def attributes; end
 
   # Maps C variables to class or module names for each parsed C file.
@@ -11451,34 +11467,34 @@ class RDoc::Store
 
   # Path to the cache file
   #
-  # source://rdoc//lib/rdoc/store.rb#256
+  # source://rdoc//lib/rdoc/store.rb#268
   def cache_path; end
 
   # Path to the ri data for +klass_name+
   #
-  # source://rdoc//lib/rdoc/store.rb#263
+  # source://rdoc//lib/rdoc/store.rb#275
   def class_file(klass_name); end
 
   # Class methods cache accessor.  Maps a class to an Array of its class
   # methods (not full name).
   #
-  # source://rdoc//lib/rdoc/store.rb#272
+  # source://rdoc//lib/rdoc/store.rb#284
   def class_methods; end
 
   # Path where data for +klass_name+ will be stored (methods or class data)
   #
-  # source://rdoc//lib/rdoc/store.rb#279
+  # source://rdoc//lib/rdoc/store.rb#291
   def class_path(klass_name); end
 
   # Hash of all classes known to RDoc
   #
-  # source://rdoc//lib/rdoc/store.rb#286
+  # source://rdoc//lib/rdoc/store.rb#298
   def classes_hash; end
 
   # Removes empty items and ensures item in each collection are unique and
   # sorted
   #
-  # source://rdoc//lib/rdoc/store.rb#294
+  # source://rdoc//lib/rdoc/store.rb#306
   def clean_cache_collection(collection); end
 
   # Prepares the RDoc code object tree for use by a generator.
@@ -11496,7 +11512,7 @@ class RDoc::Store
   #
   # See also RDoc::Context#remove_from_documentation?
   #
-  # source://rdoc//lib/rdoc/store.rb#322
+  # source://rdoc//lib/rdoc/store.rb#334
   def complete(min_visibility); end
 
   # If true this Store will not write any files
@@ -11521,43 +11537,43 @@ class RDoc::Store
 
   # Hash of all files known to RDoc
   #
-  # source://rdoc//lib/rdoc/store.rb#362
+  # source://rdoc//lib/rdoc/store.rb#374
   def files_hash; end
 
   # Finds the enclosure (namespace) for the given C +variable+.
   #
-  # source://rdoc//lib/rdoc/store.rb#369
+  # source://rdoc//lib/rdoc/store.rb#381
   def find_c_enclosure(variable); end
 
   # Finds the class with +name+ in all discovered classes
   #
-  # source://rdoc//lib/rdoc/store.rb#394
+  # source://rdoc//lib/rdoc/store.rb#406
   def find_class_named(name); end
 
   # Finds the class with +name+ starting in namespace +from+
   #
-  # source://rdoc//lib/rdoc/store.rb#401
+  # source://rdoc//lib/rdoc/store.rb#413
   def find_class_named_from(name, from); end
 
   # Finds the class or module with +name+
   #
-  # source://rdoc//lib/rdoc/store.rb#419
+  # source://rdoc//lib/rdoc/store.rb#431
   def find_class_or_module(name); end
 
   # Finds the file with +name+ in all discovered files
   #
-  # source://rdoc//lib/rdoc/store.rb#427
+  # source://rdoc//lib/rdoc/store.rb#439
   def find_file_named(name); end
 
   # Finds the module with +name+ in all discovered modules
   #
-  # source://rdoc//lib/rdoc/store.rb#434
+  # source://rdoc//lib/rdoc/store.rb#446
   def find_module_named(name); end
 
   # Returns the RDoc::TopLevel that is a text file and has the given
   # +file_name+
   #
-  # source://rdoc//lib/rdoc/store.rb#442
+  # source://rdoc//lib/rdoc/store.rb#454
   def find_text_page(file_name); end
 
   # Finds unique classes/modules defined in +all_hash+,
@@ -11566,7 +11582,7 @@ class RDoc::Store
   # --
   # TODO  aliases should be registered by Context#add_module_alias
   #
-  # source://rdoc//lib/rdoc/store.rb#455
+  # source://rdoc//lib/rdoc/store.rb#467
   def find_unique(all_hash); end
 
   # Fixes the erroneous <tt>BasicObject < Object</tt> in 1.9.
@@ -11577,95 +11593,95 @@ class RDoc::Store
   # We fix BasicObject right away if we are running in a Ruby
   # version >= 1.9.
   #
-  # source://rdoc//lib/rdoc/store.rb#474
+  # source://rdoc//lib/rdoc/store.rb#486
   def fix_basic_object_inheritance; end
 
   # Friendly rendition of #path
   #
-  # source://rdoc//lib/rdoc/store.rb#483
+  # source://rdoc//lib/rdoc/store.rb#495
   def friendly_path; end
 
-  # source://rdoc//lib/rdoc/store.rb#495
+  # source://rdoc//lib/rdoc/store.rb#507
   def inspect; end
 
   # Instance methods cache accessor.  Maps a class to an Array of its
   # instance methods (not full name).
   #
-  # source://rdoc//lib/rdoc/store.rb#503
+  # source://rdoc//lib/rdoc/store.rb#515
   def instance_methods; end
 
   # Loads all items from this store into memory.  This recreates a
   # documentation tree for use by a generator
   #
-  # source://rdoc//lib/rdoc/store.rb#511
+  # source://rdoc//lib/rdoc/store.rb#523
   def load_all; end
 
   # Loads cache file for this store
   #
-  # source://rdoc//lib/rdoc/store.rb#559
+  # source://rdoc//lib/rdoc/store.rb#571
   def load_cache; end
 
   # Loads ri data for +klass_name+ and hooks it up to this store.
   #
-  # source://rdoc//lib/rdoc/store.rb#598
+  # source://rdoc//lib/rdoc/store.rb#610
   def load_class(klass_name); end
 
   # Loads ri data for +klass_name+
   #
-  # source://rdoc//lib/rdoc/store.rb#616
+  # source://rdoc//lib/rdoc/store.rb#628
   def load_class_data(klass_name); end
 
   # Loads ri data for +method_name+ in +klass_name+
   #
-  # source://rdoc//lib/rdoc/store.rb#629
+  # source://rdoc//lib/rdoc/store.rb#641
   def load_method(klass_name, method_name); end
 
   # Loads ri data for +page_name+
   #
-  # source://rdoc//lib/rdoc/store.rb#645
+  # source://rdoc//lib/rdoc/store.rb#657
   def load_page(page_name); end
 
   # Gets the main page for this RDoc store.  This page is used as the root of
   # the RDoc server.
   #
-  # source://rdoc//lib/rdoc/store.rb#661
+  # source://rdoc//lib/rdoc/store.rb#673
   def main; end
 
   # Sets the main page for this RDoc store.
   #
-  # source://rdoc//lib/rdoc/store.rb#668
+  # source://rdoc//lib/rdoc/store.rb#680
   def main=(page); end
 
   # Converts the variable => ClassModule map +variables+ from a C parser into
   # a variable => class name map.
   #
-  # source://rdoc//lib/rdoc/store.rb#676
+  # source://rdoc//lib/rdoc/store.rb#688
   def make_variable_map(variables); end
 
   # Path to the ri data for +method_name+ in +klass_name+
   #
-  # source://rdoc//lib/rdoc/store.rb#689
+  # source://rdoc//lib/rdoc/store.rb#701
   def method_file(klass_name, method_name); end
 
   # Modules cache accessor.  An Array of all the module (and class) names in
   # the store.
   #
-  # source://rdoc//lib/rdoc/store.rb#703
+  # source://rdoc//lib/rdoc/store.rb#715
   def module_names; end
 
   # Hash of all modules known to RDoc
   #
-  # source://rdoc//lib/rdoc/store.rb#710
+  # source://rdoc//lib/rdoc/store.rb#722
   def modules_hash; end
 
   # Returns the RDoc::TopLevel that is a text file and has the given +name+
   #
-  # source://rdoc//lib/rdoc/store.rb#717
+  # source://rdoc//lib/rdoc/store.rb#729
   def page(name); end
 
   # Path to the ri data for +page_name+
   #
-  # source://rdoc//lib/rdoc/store.rb#726
+  # source://rdoc//lib/rdoc/store.rb#738
   def page_file(page_name); end
 
   # Path this store reads or writes
@@ -11694,32 +11710,37 @@ class RDoc::Store
   #
   # See RDoc::Context#remove_from_documentation?
   #
-  # source://rdoc//lib/rdoc/store.rb#737
+  # source://rdoc//lib/rdoc/store.rb#749
   def remove_nodoc(all_hash); end
+
+  # Make sure any references to C variable names are resolved to the corresponding class.
+  #
+  # source://rdoc//lib/rdoc/store.rb#204
+  def resolve_c_superclasses; end
 
   # Saves all entries in the store
   #
-  # source://rdoc//lib/rdoc/store.rb#747
+  # source://rdoc//lib/rdoc/store.rb#759
   def save; end
 
   # Writes the cache file for this store
   #
-  # source://rdoc//lib/rdoc/store.rb#772
+  # source://rdoc//lib/rdoc/store.rb#784
   def save_cache; end
 
   # Writes the ri data for +klass+ (or module)
   #
-  # source://rdoc//lib/rdoc/store.rb#799
+  # source://rdoc//lib/rdoc/store.rb#811
   def save_class(klass); end
 
   # Writes the ri data for +method+ on +klass+
   #
-  # source://rdoc//lib/rdoc/store.rb#873
+  # source://rdoc//lib/rdoc/store.rb#885
   def save_method(klass, method); end
 
   # Writes the ri data for +page+
   #
-  # source://rdoc//lib/rdoc/store.rb#896
+  # source://rdoc//lib/rdoc/store.rb#908
   def save_page(page); end
 
   # Source of the contents of this store.
@@ -11730,18 +11751,18 @@ class RDoc::Store
   # ri directory the store is "site".  For other stores the source is the
   # #path.
   #
-  # source://rdoc//lib/rdoc/store.rb#922
+  # source://rdoc//lib/rdoc/store.rb#934
   def source; end
 
   # Gets the title for this RDoc store.  This is used as the title in each
   # page on the RDoc server
   #
-  # source://rdoc//lib/rdoc/store.rb#936
+  # source://rdoc//lib/rdoc/store.rb#948
   def title; end
 
   # Sets the title page for this RDoc store.
   #
-  # source://rdoc//lib/rdoc/store.rb#943
+  # source://rdoc//lib/rdoc/store.rb#955
   def title=(title); end
 
   # Type of ri datastore this was loaded from.  See RDoc::RI::Driver,
@@ -11760,19 +11781,19 @@ class RDoc::Store
   #
   # ::complete must have been called prior to using this method.
   #
-  # source://rdoc//lib/rdoc/store.rb#952
+  # source://rdoc//lib/rdoc/store.rb#964
   def unique_classes; end
 
   # Returns the unique classes and modules discovered by RDoc.
   # ::complete must have been called prior to using this method.
   #
-  # source://rdoc//lib/rdoc/store.rb#960
+  # source://rdoc//lib/rdoc/store.rb#972
   def unique_classes_and_modules; end
 
   # Returns the unique modules discovered by RDoc.
   # ::complete must have been called prior to using this method.
   #
-  # source://rdoc//lib/rdoc/store.rb#968
+  # source://rdoc//lib/rdoc/store.rb#980
   def unique_modules; end
 
   # The lazy constants alias will be discovered in passing
@@ -11782,16 +11803,16 @@ class RDoc::Store
 
   # Sets the parser of +absolute_name+, unless it from a source code file.
   #
-  # source://rdoc//lib/rdoc/store.rb#203
+  # source://rdoc//lib/rdoc/store.rb#215
   def update_parser_of_file(absolute_name, parser); end
 
   private
 
-  # source://rdoc//lib/rdoc/store.rb#973
+  # source://rdoc//lib/rdoc/store.rb#985
   def marshal_load(file); end
 end
 
-# source://rdoc//lib/rdoc/store.rb#977
+# source://rdoc//lib/rdoc/store.rb#989
 RDoc::Store::MarshalFilter = T.let(T.unsafe(nil), Proc)
 
 # Raised when a stored file for a class, module, page or method is missing.

@@ -439,6 +439,7 @@ end
 # - <tt>:float</tt>: converts each \String-embedded float into a true \Float.
 # - <tt>:date</tt>: converts each \String-embedded date into a true \Date.
 # - <tt>:date_time</tt>: converts each \String-embedded date-time into a true \DateTime
+# - <tt>:time</tt>: converts each \String-embedded time into a true \Time
 # .
 # This example creates a converter proc, then stores it:
 #   strip_converter = proc {|field| field.strip }
@@ -549,6 +550,7 @@ end
 #   [:numeric, [:integer, :float]]
 #   [:date, Proc]
 #   [:date_time, Proc]
+#   [:time, Proc]
 #   [:all, [:date_time, :numeric]]
 #
 # Each of these converters transcodes values to UTF-8 before attempting conversion.
@@ -592,6 +594,15 @@ end
 #   # With the converter
 #   csv = CSV.parse_line(data, converters: :date_time)
 #   csv # => [#<DateTime: 2020-05-07T14:59:00-05:00 ((2458977j,71940s,0n),-18000s,2299161j)>, "x"]
+#
+# Converter +time+ converts each field that Time::parse accepts:
+#   data = '2020-05-07T14:59:00-05:00,x'
+#   # Without the converter
+#   csv = CSV.parse_line(data)
+#   csv # => ["2020-05-07T14:59:00-05:00", "x"]
+#   # With the converter
+#   csv = CSV.parse_line(data, converters: :time)
+#   csv # => [2020-05-07 14:59:00 -0500, "x"]
 #
 # Converter +:numeric+ converts with both +:date_time+ and +:numeric+..
 #
@@ -796,7 +807,7 @@ class CSV
   # @raise [ArgumentError]
   # @return [CSV] a new instance of CSV
   #
-  # source://csv//lib/csv.rb#1905
+  # source://csv//lib/csv.rb#2034
   def initialize(data, col_sep: T.unsafe(nil), row_sep: T.unsafe(nil), quote_char: T.unsafe(nil), field_size_limit: T.unsafe(nil), max_field_size: T.unsafe(nil), converters: T.unsafe(nil), unconverted_fields: T.unsafe(nil), headers: T.unsafe(nil), return_headers: T.unsafe(nil), write_headers: T.unsafe(nil), header_converters: T.unsafe(nil), skip_blanks: T.unsafe(nil), force_quotes: T.unsafe(nil), skip_lines: T.unsafe(nil), liberal_parsing: T.unsafe(nil), internal_encoding: T.unsafe(nil), external_encoding: T.unsafe(nil), encoding: T.unsafe(nil), nil_value: T.unsafe(nil), empty_value: T.unsafe(nil), strip: T.unsafe(nil), quote_empty: T.unsafe(nil), write_converters: T.unsafe(nil), write_nil_value: T.unsafe(nil), write_empty_value: T.unsafe(nil)); end
 
   # :call-seq:
@@ -850,7 +861,7 @@ class CSV
   #     end
   #   end
   #
-  # source://csv//lib/csv.rb#2372
+  # source://csv//lib/csv.rb#2507
   def <<(row); end
 
   # :call-seq:
@@ -904,12 +915,12 @@ class CSV
   #     end
   #   end
   #
-  # source://csv//lib/csv.rb#2372
+  # source://csv//lib/csv.rb#2507
   def add_row(row); end
 
   # @return [Boolean]
   #
-  # source://csv//lib/csv.rb#2261
+  # source://csv//lib/csv.rb#2396
   def binmode?; end
 
   # :call-seq:
@@ -919,7 +930,7 @@ class CSV
   # see {Option +col_sep+}[#class-CSV-label-Option+col_sep]:
   #   CSV.new('').col_sep # => ","
   #
-  # source://csv//lib/csv.rb#2009
+  # source://csv//lib/csv.rb#2144
   def col_sep; end
 
   # :call-seq:
@@ -987,7 +998,7 @@ class CSV
   #   # Raises NoMethodError (undefined method `arity' for nil:NilClass)
   #   csv.read
   #
-  # source://csv//lib/csv.rb#2443
+  # source://csv//lib/csv.rb#2578
   def convert(name = T.unsafe(nil), &converter); end
 
   # :call-seq:
@@ -1006,7 +1017,7 @@ class CSV
   # +Ractor.make_shareable(CSV::Converters)+ on the main Ractor to use
   # this method.
   #
-  # source://csv//lib/csv.rb#2082
+  # source://csv//lib/csv.rb#2217
   def converters; end
 
   # :call-seq:
@@ -1049,7 +1060,7 @@ class CSV
   #     p row
   #   end
   #
-  # source://csv//lib/csv.rb#2554
+  # source://csv//lib/csv.rb#2689
   def each(&block); end
 
   # :call-seq:
@@ -1059,17 +1070,17 @@ class CSV
   # see {Character Encodings (M17n or Multilingualization)}[#class-CSV-label-Character+Encodings+-28M17n+or+Multilingualization-29]:
   #   CSV.new('').encoding # => #<Encoding:UTF-8>
   #
-  # source://csv//lib/csv.rb#2192
+  # source://csv//lib/csv.rb#2327
   def encoding; end
 
   # @return [Boolean]
   #
-  # source://csv//lib/csv.rb#2297
+  # source://csv//lib/csv.rb#2432
   def eof; end
 
   # @return [Boolean]
   #
-  # source://csv//lib/csv.rb#2297
+  # source://csv//lib/csv.rb#2432
   def eof?; end
 
   # :call-seq:
@@ -1081,12 +1092,12 @@ class CSV
   #
   # Deprecated since 3.2.3. Use +max_field_size+ instead.
   #
-  # source://csv//lib/csv.rb#2041
+  # source://csv//lib/csv.rb#2176
   def field_size_limit; end
 
   # @raise [NotImplementedError]
   #
-  # source://csv//lib/csv.rb#2269
+  # source://csv//lib/csv.rb#2404
   def flock(*args); end
 
   # :call-seq:
@@ -1099,7 +1110,7 @@ class CSV
   #
   # @return [Boolean]
   #
-  # source://csv//lib/csv.rb#2172
+  # source://csv//lib/csv.rb#2307
   def force_quotes?; end
 
   # :call-seq:
@@ -1136,7 +1147,7 @@ class CSV
   #   # Raises IOError (not opened for reading)
   #   csv.shift
   #
-  # source://csv//lib/csv.rb#2668
+  # source://csv//lib/csv.rb#2803
   def gets; end
 
   # The block need not return a \String object:
@@ -1159,7 +1170,7 @@ class CSV
   #   # Raises NoMethodError (undefined method `arity' for nil:NilClass)
   #   csv.read
   #
-  # source://csv//lib/csv.rb#2509
+  # source://csv//lib/csv.rb#2644
   def header_convert(name = T.unsafe(nil), &converter); end
 
   # :call-seq:
@@ -1173,7 +1184,7 @@ class CSV
   # +Ractor.make_shareable(CSV::HeaderConverters)+ on the main Ractor
   # to use this method.
   #
-  # source://csv//lib/csv.rb#2148
+  # source://csv//lib/csv.rb#2283
   def header_converters; end
 
   # :call-seq:
@@ -1205,7 +1216,7 @@ class CSV
   #
   # @return [Boolean]
   #
-  # source://csv//lib/csv.rb#2631
+  # source://csv//lib/csv.rb#2766
   def header_row?; end
 
   # :call-seq:
@@ -1215,7 +1226,7 @@ class CSV
   # see {Option +headers+}[#class-CSV-label-Option+headers]:
   #   CSV.new('').headers # => nil
   #
-  # source://csv//lib/csv.rb#2106
+  # source://csv//lib/csv.rb#2241
   def headers; end
 
   # :call-seq:
@@ -1226,12 +1237,12 @@ class CSV
   #   csv = CSV.new(string, headers: true)
   #   s = csv.inspect
   #
-  # source://csv//lib/csv.rb#2690
+  # source://csv//lib/csv.rb#2825
   def inspect; end
 
   # @raise [NotImplementedError]
   #
-  # source://csv//lib/csv.rb#2274
+  # source://csv//lib/csv.rb#2409
   def ioctl(*args); end
 
   # :call-seq:
@@ -1243,7 +1254,7 @@ class CSV
   #
   # @return [Boolean]
   #
-  # source://csv//lib/csv.rb#2182
+  # source://csv//lib/csv.rb#2317
   def liberal_parsing?; end
 
   # :call-seq:
@@ -1263,7 +1274,7 @@ class CSV
   #   [2, "bar,1\n"]
   #   [3, "baz,2\n"]
   #
-  # source://csv//lib/csv.rb#2247
+  # source://csv//lib/csv.rb#2382
   def line; end
 
   # :call-seq:
@@ -1296,7 +1307,7 @@ class CSV
   #   1
   #   2
   #
-  # source://csv//lib/csv.rb#2223
+  # source://csv//lib/csv.rb#2358
   def lineno; end
 
   # :call-seq:
@@ -1308,10 +1319,10 @@ class CSV
   #
   # Since 3.2.3.
   #
-  # source://csv//lib/csv.rb#2053
+  # source://csv//lib/csv.rb#2188
   def max_field_size; end
 
-  # source://csv//lib/csv.rb#2279
+  # source://csv//lib/csv.rb#2414
   def path; end
 
   # :call-seq:
@@ -1365,7 +1376,7 @@ class CSV
   #     end
   #   end
   #
-  # source://csv//lib/csv.rb#2372
+  # source://csv//lib/csv.rb#2507
   def puts(row); end
 
   # :call-seq:
@@ -1375,7 +1386,7 @@ class CSV
   # see {Option +quote_char+}[#class-CSV-label-Option+quote_char]:
   #   CSV.new('').quote_char # => "\""
   #
-  # source://csv//lib/csv.rb#2029
+  # source://csv//lib/csv.rb#2164
   def quote_char; end
 
   # :call-seq:
@@ -1410,7 +1421,7 @@ class CSV
   #   # Raises IOError (not opened for reading)
   #   csv.read
   #
-  # source://csv//lib/csv.rb#2595
+  # source://csv//lib/csv.rb#2730
   def read; end
 
   # :call-seq:
@@ -1447,7 +1458,7 @@ class CSV
   #   # Raises IOError (not opened for reading)
   #   csv.shift
   #
-  # source://csv//lib/csv.rb#2668
+  # source://csv//lib/csv.rb#2803
   def readline; end
 
   # :call-seq:
@@ -1482,7 +1493,7 @@ class CSV
   #   # Raises IOError (not opened for reading)
   #   csv.read
   #
-  # source://csv//lib/csv.rb#2595
+  # source://csv//lib/csv.rb#2730
   def readlines; end
 
   # :call-seq:
@@ -1494,12 +1505,12 @@ class CSV
   #
   # @return [Boolean]
   #
-  # source://csv//lib/csv.rb#2124
+  # source://csv//lib/csv.rb#2259
   def return_headers?; end
 
   # Rewinds the underlying IO object and resets CSV's lineno() counter.
   #
-  # source://csv//lib/csv.rb#2312
+  # source://csv//lib/csv.rb#2447
   def rewind; end
 
   # :call-seq:
@@ -1509,7 +1520,7 @@ class CSV
   # see {Option +row_sep+}[#class-CSV-label-Option+row_sep]:
   #   CSV.new('').row_sep # => "\n"
   #
-  # source://csv//lib/csv.rb#2019
+  # source://csv//lib/csv.rb#2154
   def row_sep; end
 
   # :call-seq:
@@ -1546,7 +1557,7 @@ class CSV
   #   # Raises IOError (not opened for reading)
   #   csv.shift
   #
-  # source://csv//lib/csv.rb#2668
+  # source://csv//lib/csv.rb#2803
   def shift; end
 
   # :call-seq:
@@ -1558,7 +1569,7 @@ class CSV
   #
   # @return [Boolean]
   #
-  # source://csv//lib/csv.rb#2161
+  # source://csv//lib/csv.rb#2296
   def skip_blanks?; end
 
   # :call-seq:
@@ -1568,20 +1579,20 @@ class CSV
   # see {Option +skip_lines+}[#class-CSV-label-Option+skip_lines]:
   #   CSV.new('').skip_lines # => nil
   #
-  # source://csv//lib/csv.rb#2063
+  # source://csv//lib/csv.rb#2198
   def skip_lines; end
 
   # @raise [NotImplementedError]
   #
-  # source://csv//lib/csv.rb#2283
+  # source://csv//lib/csv.rb#2418
   def stat(*args); end
 
   # @raise [NotImplementedError]
   #
-  # source://csv//lib/csv.rb#2288
+  # source://csv//lib/csv.rb#2423
   def to_i; end
 
-  # source://csv//lib/csv.rb#2293
+  # source://csv//lib/csv.rb#2428
   def to_io; end
 
   # :call-seq:
@@ -1594,7 +1605,7 @@ class CSV
   #
   # @return [Boolean]
   #
-  # source://csv//lib/csv.rb#2096
+  # source://csv//lib/csv.rb#2231
   def unconverted_fields?; end
 
   # :call-seq:
@@ -1606,21 +1617,21 @@ class CSV
   #
   # @return [Boolean]
   #
-  # source://csv//lib/csv.rb#2134
+  # source://csv//lib/csv.rb#2269
   def write_headers?; end
 
   private
 
-  # source://csv//lib/csv.rb#2822
+  # source://csv//lib/csv.rb#2957
   def build_fields_converter(initial_converters, options); end
 
-  # source://csv//lib/csv.rb#2804
+  # source://csv//lib/csv.rb#2939
   def build_header_fields_converter; end
 
-  # source://csv//lib/csv.rb#2792
+  # source://csv//lib/csv.rb#2927
   def build_parser_fields_converter; end
 
-  # source://csv//lib/csv.rb#2817
+  # source://csv//lib/csv.rb#2952
   def build_writer_fields_converter; end
 
   # Processes +fields+ with <tt>@converters</tt>, or <tt>@header_converters</tt>
@@ -1629,42 +1640,42 @@ class CSV
   # the pipeline of conversion for that field. This is primarily an efficiency
   # shortcut.
   #
-  # source://csv//lib/csv.rb#2767
+  # source://csv//lib/csv.rb#2902
   def convert_fields(fields, headers = T.unsafe(nil)); end
 
-  # source://csv//lib/csv.rb#2730
+  # source://csv//lib/csv.rb#2865
   def determine_encoding(encoding, internal_encoding); end
 
-  # source://csv//lib/csv.rb#2800
+  # source://csv//lib/csv.rb#2935
   def header_fields_converter; end
 
-  # source://csv//lib/csv.rb#2745
+  # source://csv//lib/csv.rb#2880
   def normalize_converters(converters); end
 
-  # source://csv//lib/csv.rb#2830
+  # source://csv//lib/csv.rb#2965
   def parser; end
 
-  # source://csv//lib/csv.rb#2839
+  # source://csv//lib/csv.rb#2974
   def parser_enumerator; end
 
-  # source://csv//lib/csv.rb#2788
+  # source://csv//lib/csv.rb#2923
   def parser_fields_converter; end
 
-  # source://csv//lib/csv.rb#2834
+  # source://csv//lib/csv.rb#2969
   def parser_options; end
 
   # Returns the encoding of the internal IO object.
   #
-  # source://csv//lib/csv.rb#2778
+  # source://csv//lib/csv.rb#2913
   def raw_encoding; end
 
-  # source://csv//lib/csv.rb#2843
+  # source://csv//lib/csv.rb#2978
   def writer; end
 
-  # source://csv//lib/csv.rb#2813
+  # source://csv//lib/csv.rb#2948
   def writer_fields_converter; end
 
-  # source://csv//lib/csv.rb#2847
+  # source://csv//lib/csv.rb#2982
   def writer_options; end
 
   class << self
@@ -1847,9 +1858,45 @@ class CSV
     # * Argument +in_string_or_io+ must be a \String or an \IO stream.
     # * Argument +out_string_or_io+ must be a \String or an \IO stream.
     # * Arguments <tt>**options</tt> must be keyword options.
-    #   See {Options for Parsing}[#class-CSV-label-Options+for+Parsing].
     #
-    # source://csv//lib/csv.rb#1202
+    #   - Each option defined as an {option for parsing}[#class-CSV-label-Options+for+Parsing]
+    #     is used for parsing the filter input.
+    #   - Each option defined as an {option for generating}[#class-CSV-label-Options+for+Generating]
+    #     is used for generator the filter input.
+    #
+    # However, there are three options that may be used for both parsing and generating:
+    # +col_sep+, +quote_char+, and +row_sep+.
+    #
+    # Therefore for method +filter+ (and method +filter+ only),
+    # there are special options that allow these parsing and generating options
+    # to be specified separately:
+    #
+    # - Options +input_col_sep+ and +output_col_sep+
+    #   (and their aliases +in_col_sep+ and +out_col_sep+)
+    #   specify the column separators for parsing and generating.
+    # - Options +input_quote_char+ and +output_quote_char+
+    #   (and their aliases +in_quote_char+ and +out_quote_char+)
+    #   specify the quote characters for parsing and generting.
+    # - Options +input_row_sep+ and +output_row_sep+
+    #   (and their aliases +in_row_sep+ and +out_row_sep+)
+    #   specify the row separators for parsing and generating.
+    #
+    # Example options (for column separators):
+    #
+    #   CSV.filter                                    # Default for both parsing and generating.
+    #   CSV.filter(in_col_sep: ';')                   # ';' for parsing, default for generating.
+    #   CSV.filter(out_col_sep: '|')                  # Default for parsing, '|' for generating.
+    #   CSV.filter(in_col_sep: ';', out_col_sep: '|') # ';' for parsing, '|' for generating.
+    #
+    # Note that for a special option (e.g., +input_col_sep+)
+    # and its corresponding "regular" option (e.g., +col_sep+),
+    # the two are mutually overriding.
+    #
+    # Another example (possibly surprising):
+    #
+    #   CSV.filter(in_col_sep: ';', col_sep: '|') # '|' for both parsing(!) and generating.
+    #
+    # source://csv//lib/csv.rb#1259
     def filter(input = T.unsafe(nil), output = T.unsafe(nil), **options); end
 
     # :call-seq:
@@ -1937,7 +1984,7 @@ class CSV
     #   would read +UTF-32BE+ data from the file
     #   but transcode it to +UTF-8+ before parsing.
     #
-    # source://csv//lib/csv.rb#1332
+    # source://csv//lib/csv.rb#1389
     def foreach(path, mode = T.unsafe(nil), **options, &block); end
 
     # :call-seq:
@@ -2000,7 +2047,7 @@ class CSV
     #
     # @yield [csv]
     #
-    # source://csv//lib/csv.rb#1398
+    # source://csv//lib/csv.rb#1455
     def generate(str = T.unsafe(nil), **options); end
 
     # :call-seq:
@@ -2035,7 +2082,7 @@ class CSV
     #   # Raises NoMethodError (undefined method `find' for :foo:Symbol)
     #   CSV.generate_line(:foo)
     #
-    # source://csv//lib/csv.rb#1446
+    # source://csv//lib/csv.rb#1503
     def generate_line(row, **options); end
 
     # :call-seq:
@@ -2070,7 +2117,7 @@ class CSV
     #   # Raises NoMethodError (undefined method `each' for :foo:Symbol)
     #   CSV.generate_lines(:foo)
     #
-    # source://csv//lib/csv.rb#1501
+    # source://csv//lib/csv.rb#1558
     def generate_lines(rows, **options); end
 
     # :call-seq:
@@ -2117,14 +2164,12 @@ class CSV
     # \CSV object; returns the block's return value:
     #   CSV.instance(s0) {|csv| :foo } # => :foo
     #
-    # source://csv//lib/csv.rb#1006
+    # source://csv//lib/csv.rb#1026
     def instance(data = T.unsafe(nil), **options); end
 
     # :call-seq:
-    #   open(file_path, mode = "rb", **options ) -> new_csv
-    #   open(io, mode = "rb", **options ) -> new_csv
-    #   open(file_path, mode = "rb", **options ) { |csv| ... } -> object
-    #   open(io, mode = "rb", **options ) { |csv| ... } -> object
+    #   open(path_or_io, mode = "rb", **options ) -> new_csv
+    #   open(path_or_io, mode = "rb", **options ) { |csv| ... } -> object
     #
     # possible options elements:
     #   keyword form:
@@ -2133,7 +2178,7 @@ class CSV
     #     :undef => :replace   # replace undefined conversion
     #     :replace => string   # replacement string ("?" or "\uFFFD" if not specified)
     #
-    # * Argument +path+, if given, must be the path to a file.
+    # * Argument +path_or_io+, must be a file path or an \IO stream.
     # :include: ../doc/csv/arguments/io.rdoc
     # * Argument +mode+, if given, must be a \File mode.
     #   See {Access Modes}[https://docs.ruby-lang.org/en/master/File.html#class-File-label-Access+Modes].
@@ -2156,6 +2201,9 @@ class CSV
     #   path = 't.csv'
     #   File.write(path, string)
     #
+    #   string_io = StringIO.new
+    #   string_io << "foo,0\nbar,1\nbaz,2\n"
+    #
     # ---
     #
     # With no block given, returns a new \CSV object.
@@ -2166,6 +2214,8 @@ class CSV
     # Create a \CSV object using an open \File:
     #   csv = CSV.open(File.open(path))
     #
+    # Create a \CSV object using a \StringIO:
+    #   csv = CSV.open(string_io)
     # ---
     #
     # With a block given, calls the block with the created \CSV object;
@@ -2179,14 +2229,17 @@ class CSV
     #   csv = CSV.open(File.open(path)) {|csv| p csv}
     # Output:
     #
+    # Using a \StringIO:
+    #   csv = CSV.open(string_io) {|csv| p csv}
+    # Output:
     # ---
     #
     # Raises an exception if the argument is not a \String object or \IO object:
     #   # Raises TypeError (no implicit conversion of Symbol into String)
     #   CSV.open(:foo)
     #
-    # source://csv//lib/csv.rb#1581
-    def open(filename, mode = T.unsafe(nil), **options); end
+    # source://csv//lib/csv.rb#1647
+    def open(filename_or_io, mode = T.unsafe(nil), **options); end
 
     # :call-seq:
     #   parse(string) -> array_of_arrays
@@ -2300,7 +2353,23 @@ class CSV
     #   # Raises NoMethodError (undefined method `close' for :foo:Symbol)
     #   CSV.parse(:foo)
     #
-    # source://csv//lib/csv.rb#1732
+    # ---
+    #
+    # Please make sure if your text contains \BOM or not. CSV.parse will not remove
+    # \BOM automatically. You might want to remove \BOM before calling CSV.parse :
+    #   # remove BOM on calling File.open
+    #     CSV.parse(file, headers: true) do |row|
+    #       # you can get value by column name because BOM is removed
+    #       p row['Name']
+    #     end
+    #   end
+    #
+    # Output:
+    #   # "foo"
+    #   # "bar"
+    #   # "baz"
+    #
+    # source://csv//lib/csv.rb#1825
     def parse(str, **options, &block); end
 
     # :call-seq:
@@ -2363,7 +2432,7 @@ class CSV
     #   # Raises ArgumentError (Cannot parse nil as CSV):
     #   CSV.parse_line(nil)
     #
-    # source://csv//lib/csv.rb#1805
+    # source://csv//lib/csv.rb#1898
     def parse_line(line, **options); end
 
     # :call-seq:
@@ -2386,7 +2455,7 @@ class CSV
     #   File.write(path, string)
     #   CSV.read(path, headers: true) # => #<CSV::Table mode:col_or_row row_count:4>
     #
-    # source://csv//lib/csv.rb#1829
+    # source://csv//lib/csv.rb#1922
     def read(path, **options); end
 
     # :call-seq:
@@ -2394,7 +2463,7 @@ class CSV
     #
     # Alias for CSV.read.
     #
-    # source://csv//lib/csv.rb#1837
+    # source://csv//lib/csv.rb#1930
     def readlines(path, **options); end
 
     # :call-seq:
@@ -2413,14 +2482,22 @@ class CSV
     #   File.write(path, string)
     #   CSV.table(path) # => #<CSV::Table mode:col_or_row row_count:4>
     #
-    # source://csv//lib/csv.rb#1856
+    # source://csv//lib/csv.rb#1949
     def table(path, **options); end
+
+    private
+
+    # source://csv//lib/csv.rb#1990
+    def create_stringio(str, mode, opts); end
+
+    # source://csv//lib/csv.rb#1963
+    def may_enable_bom_detection_automatically(filename_or_io, mode, options, file_opts); end
   end
 end
 
 # The encoding used by all converters.
 #
-# source://csv//lib/csv.rb#883
+# source://csv//lib/csv.rb#895
 CSV::ConverterEncoding = T.let(T.unsafe(nil), Encoding)
 
 # A \Hash containing the names and \Procs for the built-in field converters.
@@ -2430,17 +2507,17 @@ CSV::ConverterEncoding = T.let(T.unsafe(nil), Encoding)
 # custom field converters.
 # See {Custom Field Converters}[#class-CSV-label-Custom+Field+Converters].
 #
-# source://csv//lib/csv.rb#891
+# source://csv//lib/csv.rb#903
 CSV::Converters = T.let(T.unsafe(nil), Hash)
 
 # A Regexp used to find and convert some common Date formats.
 #
-# source://csv//lib/csv.rb#872
+# source://csv//lib/csv.rb#884
 CSV::DateMatcher = T.let(T.unsafe(nil), Regexp)
 
-# A Regexp used to find and convert some common DateTime formats.
+# A Regexp used to find and convert some common (Date)Time formats.
 #
-# source://csv//lib/csv.rb#875
+# source://csv//lib/csv.rb#887
 CSV::DateTimeMatcher = T.let(T.unsafe(nil), Regexp)
 
 # Note: Don't use this class directly. This is an internal class.
@@ -2455,38 +2532,41 @@ class CSV::FieldsConverter
   #
   # @return [FieldsConverter] a new instance of FieldsConverter
   #
-  # source://csv//lib/csv/fields_converter.rb#13
+  # source://csv//lib/csv/fields_converter.rb#20
   def initialize(options = T.unsafe(nil)); end
 
-  # source://csv//lib/csv/fields_converter.rb#23
+  # source://csv//lib/csv/fields_converter.rb#30
   def add_converter(name = T.unsafe(nil), &converter); end
 
-  # source://csv//lib/csv/fields_converter.rb#47
-  def convert(fields, headers, lineno, quoted_fields); end
+  # source://csv//lib/csv/fields_converter.rb#54
+  def convert(fields, headers, lineno, quoted_fields = T.unsafe(nil)); end
 
-  # source://csv//lib/csv/fields_converter.rb#39
+  # source://csv//lib/csv/fields_converter.rb#46
   def each(&block); end
 
   # @return [Boolean]
   #
-  # source://csv//lib/csv/fields_converter.rb#43
+  # source://csv//lib/csv/fields_converter.rb#50
   def empty?; end
 
   private
 
-  # source://csv//lib/csv/fields_converter.rb#85
+  # source://csv//lib/csv/fields_converter.rb#92
   def builtin_converters; end
 
   # @return [Boolean]
   #
-  # source://csv//lib/csv/fields_converter.rb#80
+  # source://csv//lib/csv/fields_converter.rb#87
   def need_convert?; end
 
   # @return [Boolean]
   #
-  # source://csv//lib/csv/fields_converter.rb#76
+  # source://csv//lib/csv/fields_converter.rb#83
   def need_static_convert?; end
 end
+
+# source://csv//lib/csv/fields_converter.rb#8
+CSV::FieldsConverter::NO_QUOTED_FIELDS = T.let(T.unsafe(nil), Array)
 
 # A \Hash containing the names and \Procs for the built-in header converters.
 # See {Built-In Header Converters}[#class-CSV-label-Built-In+Header+Converters].
@@ -2495,7 +2575,7 @@ end
 # custom field converters.
 # See {Custom Header Converters}[#class-CSV-label-Custom+Header+Converters].
 #
-# source://csv//lib/csv.rb#924
+# source://csv//lib/csv.rb#944
 CSV::HeaderConverters = T.let(T.unsafe(nil), Hash)
 
 # source://csv//lib/csv/input_record_separator.rb#5
@@ -2508,36 +2588,36 @@ end
 
 # The error thrown when the parser encounters invalid encoding in CSV.
 #
-# source://csv//lib/csv.rb#850
+# source://csv//lib/csv.rb#862
 class CSV::InvalidEncodingError < ::CSV::MalformedCSVError
   # @return [InvalidEncodingError] a new instance of InvalidEncodingError
   #
-  # source://csv//lib/csv.rb#852
+  # source://csv//lib/csv.rb#864
   def initialize(encoding, line_number); end
 
   # Returns the value of attribute encoding.
   #
-  # source://csv//lib/csv.rb#851
+  # source://csv//lib/csv.rb#863
   def encoding; end
 end
 
 # The error thrown when the parser encounters illegal CSV formatting.
 #
-# source://csv//lib/csv.rb#840
+# source://csv//lib/csv.rb#852
 class CSV::MalformedCSVError < ::RuntimeError
   # @return [MalformedCSVError] a new instance of MalformedCSVError
   #
-  # source://csv//lib/csv.rb#843
+  # source://csv//lib/csv.rb#855
   def initialize(message, line_number); end
 
   # Returns the value of attribute line_number.
   #
-  # source://csv//lib/csv.rb#841
+  # source://csv//lib/csv.rb#853
   def line_number; end
 
   # Returns the value of attribute line_number.
   #
-  # source://csv//lib/csv.rb#841
+  # source://csv//lib/csv.rb#853
   def lineno; end
 end
 
@@ -2607,7 +2687,7 @@ class CSV::Parser
 
   # @return [Boolean]
   #
-  # source://csv//lib/csv/parser.rb#440
+  # source://csv//lib/csv/parser.rb#434
   def use_headers?; end
 
   private
@@ -2616,119 +2696,119 @@ class CSV::Parser
   # +row+ and an accessor method for +row+ called unconverted_fields().  The
   # variable is set to the contents of +fields+.
   #
-  # source://csv//lib/csv/parser.rb#1289
+  # source://csv//lib/csv/parser.rb#1284
   def add_unconverted_fields(row, fields); end
 
-  # source://csv//lib/csv/parser.rb#803
+  # source://csv//lib/csv/parser.rb#793
   def adjust_headers(headers, quoted_fields); end
 
-  # source://csv//lib/csv/parser.rb#871
+  # source://csv//lib/csv/parser.rb#868
   def build_scanner; end
 
-  # source://csv//lib/csv/parser.rb#725
+  # source://csv//lib/csv/parser.rb#715
   def detect_row_separator(sample, cr, lf); end
 
   # @yield [row]
   #
-  # source://csv//lib/csv/parser.rb#1260
-  def emit_row(row, quoted_fields, &block); end
+  # source://csv//lib/csv/parser.rb#1255
+  def emit_row(row, quoted_fields = T.unsafe(nil), &block); end
 
-  # source://csv//lib/csv/parser.rb#1245
+  # source://csv//lib/csv/parser.rb#1240
   def ignore_broken_line; end
 
-  # source://csv//lib/csv/parser.rb#755
+  # source://csv//lib/csv/parser.rb#745
   def last_line; end
 
   # @return [Boolean]
   #
-  # source://csv//lib/csv/parser.rb#813
+  # source://csv//lib/csv/parser.rb#810
   def may_quoted?; end
 
-  # source://csv//lib/csv/parser.rb#1200
+  # source://csv//lib/csv/parser.rb#1195
   def parse_column_end; end
 
-  # source://csv//lib/csv/parser.rb#1100
+  # source://csv//lib/csv/parser.rb#1095
   def parse_column_value; end
 
-  # source://csv//lib/csv/parser.rb#789
+  # source://csv//lib/csv/parser.rb#779
   def parse_headers(row); end
 
-  # source://csv//lib/csv/parser.rb#938
+  # source://csv//lib/csv/parser.rb#935
   def parse_no_quote(&block); end
 
-  # source://csv//lib/csv/parser.rb#969
+  # source://csv//lib/csv/parser.rb#964
   def parse_quotable_loose(&block); end
 
-  # source://csv//lib/csv/parser.rb#1030
+  # source://csv//lib/csv/parser.rb#1025
   def parse_quotable_robust(&block); end
 
-  # source://csv//lib/csv/parser.rb#1158
+  # source://csv//lib/csv/parser.rb#1153
   def parse_quoted_column_value; end
 
-  # source://csv//lib/csv/parser.rb#1214
+  # source://csv//lib/csv/parser.rb#1209
   def parse_row_end; end
 
-  # source://csv//lib/csv/parser.rb#1130
+  # source://csv//lib/csv/parser.rb#1125
   def parse_unquoted_column_value; end
 
   # A set of tasks to prepare the file in order to parse it
   #
-  # source://csv//lib/csv/parser.rb#446
+  # source://csv//lib/csv/parser.rb#440
   def prepare; end
 
-  # source://csv//lib/csv/parser.rb#503
+  # source://csv//lib/csv/parser.rb#495
   def prepare_backslash; end
 
-  # source://csv//lib/csv/parser.rb#763
+  # source://csv//lib/csv/parser.rb#753
   def prepare_header; end
 
-  # source://csv//lib/csv/parser.rb#749
+  # source://csv//lib/csv/parser.rb#739
   def prepare_line; end
 
-  # source://csv//lib/csv/parser.rb#809
+  # source://csv//lib/csv/parser.rb#799
   def prepare_parser; end
 
-  # source://csv//lib/csv/parser.rb#487
+  # source://csv//lib/csv/parser.rb#479
   def prepare_quote_character; end
 
-  # source://csv//lib/csv/parser.rb#645
+  # source://csv//lib/csv/parser.rb#635
   def prepare_quoted; end
 
-  # source://csv//lib/csv/parser.rb#577
+  # source://csv//lib/csv/parser.rb#567
   def prepare_separators; end
 
-  # source://csv//lib/csv/parser.rb#518
+  # source://csv//lib/csv/parser.rb#510
   def prepare_skip_lines; end
 
-  # source://csv//lib/csv/parser.rb#535
+  # source://csv//lib/csv/parser.rb#527
   def prepare_strip; end
 
-  # source://csv//lib/csv/parser.rb#672
+  # source://csv//lib/csv/parser.rb#662
   def prepare_unquoted; end
 
-  # source://csv//lib/csv/parser.rb#461
+  # source://csv//lib/csv/parser.rb#455
   def prepare_variable; end
 
-  # source://csv//lib/csv/parser.rb#685
+  # source://csv//lib/csv/parser.rb#675
   def resolve_row_separator(separator); end
 
   # @return [Boolean]
   #
-  # source://csv//lib/csv/parser.rb#918
+  # source://csv//lib/csv/parser.rb#915
   def skip_line?(line); end
 
-  # source://csv//lib/csv/parser.rb#901
+  # source://csv//lib/csv/parser.rb#898
   def skip_needless_lines; end
 
-  # source://csv//lib/csv/parser.rb#1251
+  # source://csv//lib/csv/parser.rb#1246
   def start_row; end
 
-  # source://csv//lib/csv/parser.rb#1227
+  # source://csv//lib/csv/parser.rb#1222
   def strip_value(value); end
 
   # @raise [MalformedCSVError]
   #
-  # source://csv//lib/csv/parser.rb#930
+  # source://csv//lib/csv/parser.rb#927
   def validate_field_size(field); end
 
   # This method verifies that there are no (obvious) ambiguities with the
@@ -2736,7 +2816,7 @@ class CSV::Parser
   # and +strip+ were both equal to +\t+, then there would be no clear way to
   # parse the input.
   #
-  # source://csv//lib/csv/parser.rb#627
+  # source://csv//lib/csv/parser.rb#617
   def validate_strip_and_col_sep_options; end
 end
 
@@ -2809,10 +2889,10 @@ end
 # source://csv//lib/csv/parser.rb#22
 class CSV::Parser::InvalidEncoding < ::StandardError; end
 
-# source://csv//lib/csv/parser.rb#845
+# source://csv//lib/csv/parser.rb#842
 CSV::Parser::SCANNER_TEST = T.let(T.unsafe(nil), FalseClass)
 
-# source://csv//lib/csv/parser.rb#574
+# source://csv//lib/csv/parser.rb#564
 CSV::Parser::STRING_SCANNER_SCAN_ACCEPT_STRING = T.let(T.unsafe(nil), TrueClass)
 
 # CSV::Scanner receives a CSV output, scans it and return the content.
@@ -2854,22 +2934,22 @@ end
 # source://csv//lib/csv/parser.rb#26
 class CSV::Parser::UnexpectedError < ::StandardError; end
 
-# source://csv//lib/csv/parser.rb#827
+# source://csv//lib/csv/parser.rb#824
 class CSV::Parser::UnoptimizedStringIO
   # @return [UnoptimizedStringIO] a new instance of UnoptimizedStringIO
   #
-  # source://csv//lib/csv/parser.rb#828
+  # source://csv//lib/csv/parser.rb#825
   def initialize(string); end
 
-  # source://csv//lib/csv/parser.rb#836
+  # source://csv//lib/csv/parser.rb#833
   def each_line(*args, &block); end
 
   # @return [Boolean]
   #
-  # source://csv//lib/csv/parser.rb#840
+  # source://csv//lib/csv/parser.rb#837
   def eof?; end
 
-  # source://csv//lib/csv/parser.rb#832
+  # source://csv//lib/csv/parser.rb#829
   def gets(*args); end
 end
 
@@ -3684,6 +3764,14 @@ class CSV::Row
   #
   # source://csv//lib/csv/row.rb#130
   def initialize_copy(other); end
+end
+
+# source://csv//lib/csv.rb#2132
+class CSV::TSV < ::CSV
+  # @return [TSV] a new instance of TSV
+  #
+  # source://csv//lib/csv.rb#2133
+  def initialize(data, **options); end
 end
 
 # = \CSV::Table
@@ -4645,30 +4733,30 @@ class CSV::Writer
 
   # Winds back to the beginning
   #
-  # source://csv//lib/csv/writer.rb#64
+  # source://csv//lib/csv/writer.rb#63
   def rewind; end
 
   private
 
-  # source://csv//lib/csv/writer.rb#70
+  # source://csv//lib/csv/writer.rb#69
   def prepare; end
 
-  # source://csv//lib/csv/writer.rb#106
+  # source://csv//lib/csv/writer.rb#105
   def prepare_force_quotes_fields(force_quotes); end
 
-  # source://csv//lib/csv/writer.rb#133
+  # source://csv//lib/csv/writer.rb#132
   def prepare_format; end
 
-  # source://csv//lib/csv/writer.rb#78
+  # source://csv//lib/csv/writer.rb#77
   def prepare_header; end
 
-  # source://csv//lib/csv/writer.rb#163
+  # source://csv//lib/csv/writer.rb#162
   def prepare_output; end
 
-  # source://csv//lib/csv/writer.rb#190
+  # source://csv//lib/csv/writer.rb#189
   def quote(field, i); end
 
-  # source://csv//lib/csv/writer.rb#181
+  # source://csv//lib/csv/writer.rb#180
   def quote_field(field); end
 end
 
@@ -4678,7 +4766,7 @@ class Object < ::BasicObject
 
   private
 
-  # source://csv//lib/csv.rb#2876
+  # source://csv//lib/csv.rb#3011
   def CSV(*args, **options, &block); end
 end
 

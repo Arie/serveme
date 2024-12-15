@@ -243,7 +243,7 @@ GEM
     cronex (0.15.0)
       tzinfo
       unicode (>= 0.4.4.5)
-    csv (3.3.0)
+    csv (3.3.1)
     cucumber (9.2.0)
       builder (~> 3.2)
       cucumber-ci-environment (> 9, < 11)
@@ -600,7 +600,7 @@ GEM
       railties (>= 5.2)
     reverse_markdown (2.1.1)
       nokogiri
-    rexml (3.3.9)
+    rexml (3.4.0)
     rouge (4.5.1)
     rspec-activemodel-mocks (1.2.1)
       activemodel (>= 3.0)

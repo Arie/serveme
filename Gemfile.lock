@@ -455,7 +455,7 @@ GEM
     net-ftp (0.3.8)
       net-protocol
       time
-    net-imap (0.5.1)
+    net-imap (0.5.2)
       date
       net-protocol
     net-pop (0.1.2)
@@ -579,7 +579,7 @@ GEM
       sorbet-runtime (>= 0.5.9204)
     rbs (2.8.4)
     rbzip2 (0.3.0)
-    rdoc (6.9.0)
+    rdoc (6.9.1)
       psych (>= 4.0.0)
     redis (5.3.0)
       redis-client (>= 0.22.0)
@@ -667,15 +667,15 @@ GEM
       sprockets-rails
       tilt
     sd_notify (0.1.1)
-    securerandom (0.4.0)
-    sentry-rails (5.22.0)
+    securerandom (0.4.1)
+    sentry-rails (5.22.1)
       railties (>= 5.0)
-      sentry-ruby (~> 5.22.0)
-    sentry-ruby (5.22.0)
+      sentry-ruby (~> 5.22.1)
+    sentry-ruby (5.22.1)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.22.0)
-      sentry-ruby (~> 5.22.0)
+    sentry-sidekiq (5.22.1)
+      sentry-ruby (~> 5.22.1)
       sidekiq (>= 3.0)
     sexp_processor (4.17.3)
     shoulda-matchers (6.4.0)
@@ -770,7 +770,7 @@ GEM
     tilt (2.4.0)
     time (0.4.1)
       date
-    timeout (0.4.2)
+    timeout (0.4.3)
     tins (1.37.1)
       bigdecimal
       sync

@@ -12,9 +12,10 @@ module Timeout
   # Perform an operation in a block, raising an error if it takes longer than
   # +sec+ seconds to complete.
   #
-  # +sec+:: Number of seconds to wait for the block to terminate. Any number
-  #         may be used, including Floats to specify fractional seconds. A
+  # +sec+:: Number of seconds to wait for the block to terminate. Any non-negative number
+  #         or nil may be used, including Floats to specify fractional seconds. A
   #         value of 0 or +nil+ will execute the block without any timeout.
+  #         Any negative number will raise an ArgumentError.
   # +klass+:: Exception Class to raise if the block fails to terminate
   #           in +sec+ seconds.  Omitting will use the default, Timeout::Error
   # +message+:: Error message to raise with Exception Class.
@@ -35,7 +36,9 @@ module Timeout
   # Timeout</tt> into your classes so they have a #timeout method, as well as
   # a module method, so you can call it directly as Timeout.timeout().
   #
-  # source://timeout//lib/timeout.rb#166
+  # @raise [ArgumentError]
+  #
+  # source://timeout//lib/timeout.rb#167
   def timeout(sec, klass = T.unsafe(nil), message = T.unsafe(nil), &block); end
 
   class << self
@@ -45,9 +48,10 @@ module Timeout
     # Perform an operation in a block, raising an error if it takes longer than
     # +sec+ seconds to complete.
     #
-    # +sec+:: Number of seconds to wait for the block to terminate. Any number
-    #         may be used, including Floats to specify fractional seconds. A
+    # +sec+:: Number of seconds to wait for the block to terminate. Any non-negative number
+    #         or nil may be used, including Floats to specify fractional seconds. A
     #         value of 0 or +nil+ will execute the block without any timeout.
+    #         Any negative number will raise an ArgumentError.
     # +klass+:: Exception Class to raise if the block fails to terminate
     #           in +sec+ seconds.  Omitting will use the default, Timeout::Error
     # +message+:: Error message to raise with Exception Class.
@@ -68,7 +72,9 @@ module Timeout
     # Timeout</tt> into your classes so they have a #timeout method, as well as
     # a module method, so you can call it directly as Timeout.timeout().
     #
-    # source://timeout//lib/timeout.rb#166
+    # @raise [ArgumentError]
+    #
+    # source://timeout//lib/timeout.rb#167
     def timeout(sec, klass = T.unsafe(nil), message = T.unsafe(nil), &block); end
 
     private

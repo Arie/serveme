@@ -455,13 +455,13 @@ module Sentry
     # source://sentry-ruby//lib/sentry-ruby.rb#87
     def metrics_aggregator; end
 
-    # source://railties/8.0.0/lib/rails/engine.rb#413
+    # source://railties/8.0.1/lib/rails/engine.rb#413
     def railtie_helpers_paths; end
 
-    # source://railties/8.0.0/lib/rails/engine.rb#396
+    # source://railties/8.0.1/lib/rails/engine.rb#396
     def railtie_namespace; end
 
-    # source://railties/8.0.0/lib/rails/engine.rb#417
+    # source://railties/8.0.1/lib/rails/engine.rb#417
     def railtie_routes_url_helpers(include_path_helpers = T.unsafe(nil)); end
 
     # Registers the SDK integration with its name and version.
@@ -511,10 +511,10 @@ module Sentry
     # source://sentry-ruby//lib/sentry-ruby.rb#587
     def sys_command(command); end
 
-    # source://railties/8.0.0/lib/rails/engine.rb#402
+    # source://railties/8.0.1/lib/rails/engine.rb#402
     def table_name_prefix; end
 
-    # source://railties/8.0.0/lib/rails/engine.rb#409
+    # source://railties/8.0.1/lib/rails/engine.rb#409
     def use_relative_model_naming?; end
 
     # source://sentry-ruby//lib/sentry-ruby.rb#605
@@ -1900,7 +1900,7 @@ class Sentry::Configuration
   # source://sentry-ruby//lib/sentry/configuration.rb#204
   def rack_env_whitelist=(_arg0); end
 
-  # source://sentry-rails/5.22.0/lib/sentry/rails/configuration.rb#11
+  # source://sentry-rails/5.22.1/lib/sentry/rails/configuration.rb#11
   def rails; end
 
   # Release tag to be passed with every event sent to Sentry.
@@ -2017,7 +2017,7 @@ class Sentry::Configuration
   # source://sentry-ruby//lib/sentry/configuration.rb#535
   def session_tracking?; end
 
-  # source://sentry-sidekiq/5.22.0/lib/sentry/sidekiq/configuration.rb#5
+  # source://sentry-sidekiq/5.22.1/lib/sentry/sidekiq/configuration.rb#5
   def sidekiq; end
 
   # Allow to skip Sentry emails within rake tasks
@@ -3129,7 +3129,7 @@ class Sentry::Hub
   # source://sentry-ruby//lib/sentry/hub.rb#53
   def configure_scope(&block); end
 
-  # source://sentry-ruby//lib/sentry/hub.rb#302
+  # source://sentry-ruby//lib/sentry/hub.rb#306
   def continue_trace(env, **options); end
 
   # source://sentry-ruby//lib/sentry/hub.rb#23
@@ -3141,16 +3141,16 @@ class Sentry::Hub
   # source://sentry-ruby//lib/sentry/hub.rb#251
   def end_session; end
 
-  # source://sentry-ruby//lib/sentry/hub.rb#277
+  # source://sentry-ruby//lib/sentry/hub.rb#281
   def get_baggage; end
 
-  # source://sentry-ruby//lib/sentry/hub.rb#284
+  # source://sentry-ruby//lib/sentry/hub.rb#288
   def get_trace_propagation_headers; end
 
-  # source://sentry-ruby//lib/sentry/hub.rb#296
+  # source://sentry-ruby//lib/sentry/hub.rb#300
   def get_trace_propagation_meta; end
 
-  # source://sentry-ruby//lib/sentry/hub.rb#270
+  # source://sentry-ruby//lib/sentry/hub.rb#274
   def get_traceparent; end
 
   # Returns the value of attribute last_event_id.
@@ -3185,37 +3185,37 @@ class Sentry::Hub
   # source://sentry-ruby//lib/sentry/hub.rb#57
   def with_scope(&block); end
 
-  # source://sentry-ruby//lib/sentry/hub.rb#261
+  # source://sentry-ruby//lib/sentry/hub.rb#265
   def with_session_tracking(&block); end
 
   private
 
-  # source://sentry-ruby//lib/sentry/hub.rb#322
+  # source://sentry-ruby//lib/sentry/hub.rb#326
   def current_layer; end
 end
 
-# source://sentry-ruby//lib/sentry/hub.rb#326
+# source://sentry-ruby//lib/sentry/hub.rb#330
 class Sentry::Hub::Layer
   # @return [Layer] a new instance of Layer
   #
-  # source://sentry-ruby//lib/sentry/hub.rb#330
+  # source://sentry-ruby//lib/sentry/hub.rb#334
   def initialize(client, scope); end
 
   # Returns the value of attribute client.
   #
-  # source://sentry-ruby//lib/sentry/hub.rb#327
+  # source://sentry-ruby//lib/sentry/hub.rb#331
   def client; end
 
   # Sets the attribute client
   #
   # @param value the value to set the attribute client to.
   #
-  # source://sentry-ruby//lib/sentry/hub.rb#327
+  # source://sentry-ruby//lib/sentry/hub.rb#331
   def client=(_arg0); end
 
   # Returns the value of attribute scope.
   #
-  # source://sentry-ruby//lib/sentry/hub.rb#328
+  # source://sentry-ruby//lib/sentry/hub.rb#332
   def scope; end
 end
 
@@ -4801,81 +4801,81 @@ Sentry::SingleExceptionInterface::SKIP_INSPECTION_ATTRIBUTES = T.let(T.unsafe(ni
 class Sentry::Span
   # @return [Span] a new instance of Span
   #
-  # source://sentry-ruby//lib/sentry/span.rb#112
+  # source://sentry-ruby//lib/sentry/span.rb#117
   def initialize(transaction:, description: T.unsafe(nil), op: T.unsafe(nil), status: T.unsafe(nil), trace_id: T.unsafe(nil), span_id: T.unsafe(nil), parent_span_id: T.unsafe(nil), sampled: T.unsafe(nil), start_timestamp: T.unsafe(nil), timestamp: T.unsafe(nil), origin: T.unsafe(nil)); end
 
   # Span data
   #
   # @return [Hash]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#97
+  # source://sentry-ruby//lib/sentry/span.rb#102
   def data; end
 
-  # source://sentry-ruby//lib/sentry/span.rb#241
+  # source://sentry-ruby//lib/sentry/span.rb#246
   def deep_dup; end
 
   # Span description
   #
   # @return [String]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#85
+  # source://sentry-ruby//lib/sentry/span.rb#90
   def description; end
 
   # Finishes the span by adding a timestamp.
   #
   # @return [self]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#142
+  # source://sentry-ruby//lib/sentry/span.rb#147
   def finish(end_timestamp: T.unsafe(nil)); end
 
   # Returns the Dynamic Sampling Context from the transaction baggage.
   #
   # @return [Hash, nil]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#165
+  # source://sentry-ruby//lib/sentry/span.rb#170
   def get_dynamic_sampling_context; end
 
   # Returns the span's context that can be used to embed in an Event.
   #
   # @return [Hash]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#193
+  # source://sentry-ruby//lib/sentry/span.rb#198
   def get_trace_context; end
 
   # Collects gauge metrics on the span for metric summaries.
   #
-  # source://sentry-ruby//lib/sentry/span.rb#306
+  # source://sentry-ruby//lib/sentry/span.rb#311
   def metrics_local_aggregator; end
 
-  # source://sentry-ruby//lib/sentry/span.rb#310
+  # source://sentry-ruby//lib/sentry/span.rb#315
   def metrics_summary; end
 
   # Span operation
   #
   # @return [String]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#88
+  # source://sentry-ruby//lib/sentry/span.rb#93
   def op; end
 
   # Span origin that tracks what kind of instrumentation created a span
   #
   # @return [String]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#100
+  # source://sentry-ruby//lib/sentry/span.rb#105
   def origin; end
 
   # Span parent's span_id.
   #
   # @return [String]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#73
+  # source://sentry-ruby//lib/sentry/span.rb#78
   def parent_span_id; end
 
   # Sampling result of the span.
   #
   # @return [Boolean, nil]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#76
+  # source://sentry-ruby//lib/sentry/span.rb#81
   def sampled; end
 
   # Inserts a key-value pair to the span's data payload.
@@ -4883,42 +4883,42 @@ class Sentry::Span
   # @param key [String, Symbol]
   # @param value [Object]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#288
+  # source://sentry-ruby//lib/sentry/span.rb#293
   def set_data(key, value); end
 
   # Sets the span's description.
   #
   # @param description [String] description of the span.
   #
-  # source://sentry-ruby//lib/sentry/span.rb#253
+  # source://sentry-ruby//lib/sentry/span.rb#258
   def set_description(description); end
 
   # Sets the span's status with given http status code.
   #
   # @param status_code [String] example: "500".
   #
-  # source://sentry-ruby//lib/sentry/span.rb#272
+  # source://sentry-ruby//lib/sentry/span.rb#277
   def set_http_status(status_code); end
 
   # Sets the span's operation.
   #
   # @param op [String] operation of the span.
   #
-  # source://sentry-ruby//lib/sentry/span.rb#247
+  # source://sentry-ruby//lib/sentry/span.rb#252
   def set_op(op); end
 
   # Sets the origin of the span.
   #
   # @param origin [String]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#301
+  # source://sentry-ruby//lib/sentry/span.rb#306
   def set_origin(origin); end
 
   # Sets the span's status.
   #
   # @param satus [String] status of the span.
   #
-  # source://sentry-ruby//lib/sentry/span.rb#260
+  # source://sentry-ruby//lib/sentry/span.rb#265
   def set_status(status); end
 
   # Sets a tag to the span.
@@ -4926,21 +4926,21 @@ class Sentry::Span
   # @param key [String, Symbol]
   # @param value [String]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#295
+  # source://sentry-ruby//lib/sentry/span.rb#300
   def set_tag(key, value); end
 
   # Sets the span's finish timestamp.
   #
   # @param timestamp [Float] finished time in float format (most precise).
   #
-  # source://sentry-ruby//lib/sentry/span.rb#266
+  # source://sentry-ruby//lib/sentry/span.rb#271
   def set_timestamp(timestamp); end
 
   # An uuid that can be used to identify the span.
   #
   # @return [String]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#70
+  # source://sentry-ruby//lib/sentry/span.rb#75
   def span_id; end
 
   # The SpanRecorder the current span belongs to.
@@ -4948,7 +4948,7 @@ class Sentry::Span
   #
   # @return [SpanRecorder]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#105
+  # source://sentry-ruby//lib/sentry/span.rb#110
   def span_recorder; end
 
   # The SpanRecorder the current span belongs to.
@@ -4956,42 +4956,42 @@ class Sentry::Span
   #
   # @return [SpanRecorder]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#105
+  # source://sentry-ruby//lib/sentry/span.rb#110
   def span_recorder=(_arg0); end
 
   # Starts a child span with given attributes.
   #
   # @param attributes [Hash] the attributes for the child span.
   #
-  # source://sentry-ruby//lib/sentry/span.rb#208
+  # source://sentry-ruby//lib/sentry/span.rb#213
   def start_child(**attributes); end
 
   # Starting timestamp of the span.
   #
   # @return [Float]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#79
+  # source://sentry-ruby//lib/sentry/span.rb#84
   def start_timestamp; end
 
   # Span status
   #
   # @return [String]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#91
+  # source://sentry-ruby//lib/sentry/span.rb#96
   def status; end
 
   # Span tags
   #
   # @return [Hash]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#94
+  # source://sentry-ruby//lib/sentry/span.rb#99
   def tags; end
 
   # Finishing timestamp of the span.
   #
   # @return [Float]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#82
+  # source://sentry-ruby//lib/sentry/span.rb#87
   def timestamp; end
 
   # Generates a W3C Baggage header string for distributed tracing
@@ -4999,26 +4999,26 @@ class Sentry::Span
   #
   # @return [String, nil]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#159
+  # source://sentry-ruby//lib/sentry/span.rb#164
   def to_baggage; end
 
   # @return [Hash]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#170
+  # source://sentry-ruby//lib/sentry/span.rb#175
   def to_hash; end
 
   # Generates a trace string that can be used to connect other transactions.
   #
   # @return [String]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#149
+  # source://sentry-ruby//lib/sentry/span.rb#154
   def to_sentry_trace; end
 
   # An uuid that can be used to identify a trace.
   #
   # @return [String]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#67
+  # source://sentry-ruby//lib/sentry/span.rb#72
   def trace_id; end
 
   # The Transaction object the Span belongs to.
@@ -5026,7 +5026,7 @@ class Sentry::Span
   #
   # @return [Transaction]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#110
+  # source://sentry-ruby//lib/sentry/span.rb#115
   def transaction; end
 
   # Starts a child span, yield it to the given block, and then finish the span after the block is executed.
@@ -5039,11 +5039,11 @@ class Sentry::Span
   # @param block [Proc] the action to be recorded in the child span.
   # @yieldparam child_span [Span]
   #
-  # source://sentry-ruby//lib/sentry/span.rb#229
+  # source://sentry-ruby//lib/sentry/span.rb#234
   def with_child_span(**attributes, &block); end
 end
 
-# source://sentry-ruby//lib/sentry/span.rb#63
+# source://sentry-ruby//lib/sentry/span.rb#68
 Sentry::Span::DEFAULT_SPAN_ORIGIN = T.let(T.unsafe(nil), String)
 
 # We will try to be consistent with OpenTelemetry on this front going forward.
@@ -5084,6 +5084,18 @@ Sentry::Span::DataConventions::HTTP_STATUS_CODE = T.let(T.unsafe(nil), String)
 # source://sentry-ruby//lib/sentry/span.rb#44
 Sentry::Span::DataConventions::LINENO = T.let(T.unsafe(nil), String)
 
+# source://sentry-ruby//lib/sentry/span.rb#49
+Sentry::Span::DataConventions::MESSAGING_DESTINATION_NAME = T.let(T.unsafe(nil), String)
+
+# source://sentry-ruby//lib/sentry/span.rb#48
+Sentry::Span::DataConventions::MESSAGING_MESSAGE_ID = T.let(T.unsafe(nil), String)
+
+# source://sentry-ruby//lib/sentry/span.rb#50
+Sentry::Span::DataConventions::MESSAGING_MESSAGE_RECEIVE_LATENCY = T.let(T.unsafe(nil), String)
+
+# source://sentry-ruby//lib/sentry/span.rb#51
+Sentry::Span::DataConventions::MESSAGING_MESSAGE_RETRY_COUNT = T.let(T.unsafe(nil), String)
+
 # source://sentry-ruby//lib/sentry/span.rb#46
 Sentry::Span::DataConventions::NAMESPACE = T.let(T.unsafe(nil), String)
 
@@ -5115,7 +5127,7 @@ Sentry::Span::DataConventions::SERVER_SOCKET_PORT = T.let(T.unsafe(nil), String)
 # source://sentry-ruby//lib/sentry/span.rb#11
 Sentry::Span::DataConventions::URL = T.let(T.unsafe(nil), String)
 
-# source://sentry-ruby//lib/sentry/span.rb#49
+# source://sentry-ruby//lib/sentry/span.rb#54
 Sentry::Span::STATUS_MAP = T.let(T.unsafe(nil), Hash)
 
 # Designed to just report events to Spotlight in development.

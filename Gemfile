@@ -70,7 +70,7 @@ gem 'sentry-sidekiq'
 gem 'sidekiq'
 gem 'sidekiq-cron'
 gem 'simple_form'
-gem 'sorbet-runtime'
+gem 'sorbet-static-and-runtime'
 gem 'sprockets'
 gem 'sprockets-rails'
 gem 'steam-condenser', git: 'https://github.com/Arie/steam-condenser-ruby.git'
@@ -96,7 +96,6 @@ group :development do
   gem 'capistrano-sidekiq', git: 'https://github.com/Pharmony/capistrano-sidekiq.git', require: false
   gem 'rubocop', require: false
   gem 'rubocop-sorbet', require: false
-  gem 'sorbet'
   gem 'tapioca', require: false
 end
 
@@ -112,7 +111,6 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'rspec-sorbet'
   gem 'rspec-support'
-  gem 'solargraph'
   gem 'zonebie'
 end
 

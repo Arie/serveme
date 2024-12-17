@@ -8,57 +8,57 @@
 # source://faraday-multipart//lib/faraday/multipart/version.rb#3
 module Faraday
   class << self
-    # source://faraday/1.10.3/lib/faraday.rb#81
+    # source://faraday/1.10.4/lib/faraday.rb#81
     def default_adapter; end
 
-    # source://faraday/1.10.3/lib/faraday.rb#137
+    # source://faraday/1.10.4/lib/faraday.rb#137
     def default_adapter=(adapter); end
 
-    # source://faraday/1.10.3/lib/faraday.rb#155
+    # source://faraday/1.10.4/lib/faraday.rb#155
     def default_connection; end
 
-    # source://faraday/1.10.3/lib/faraday.rb#84
+    # source://faraday/1.10.4/lib/faraday.rb#84
     def default_connection=(_arg0); end
 
-    # source://faraday/1.10.3/lib/faraday.rb#162
+    # source://faraday/1.10.4/lib/faraday.rb#162
     def default_connection_options; end
 
-    # source://faraday/1.10.3/lib/faraday.rb#169
+    # source://faraday/1.10.4/lib/faraday.rb#169
     def default_connection_options=(options); end
 
-    # source://faraday/1.10.3/lib/faraday.rb#89
+    # source://faraday/1.10.4/lib/faraday.rb#89
     def ignore_env_proxy; end
 
-    # source://faraday/1.10.3/lib/faraday.rb#89
+    # source://faraday/1.10.4/lib/faraday.rb#89
     def ignore_env_proxy=(_arg0); end
 
-    # source://faraday/1.10.3/lib/faraday.rb#72
+    # source://faraday/1.10.4/lib/faraday.rb#72
     def lib_path; end
 
-    # source://faraday/1.10.3/lib/faraday.rb#72
+    # source://faraday/1.10.4/lib/faraday.rb#72
     def lib_path=(_arg0); end
 
-    # source://faraday/1.10.3/lib/faraday.rb#118
+    # source://faraday/1.10.4/lib/faraday.rb#118
     def new(url = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
-    # source://faraday/1.10.3/lib/faraday.rb#128
+    # source://faraday/1.10.4/lib/faraday.rb#128
     def require_lib(*libs); end
 
-    # source://faraday/1.10.3/lib/faraday.rb#128
+    # source://faraday/1.10.4/lib/faraday.rb#128
     def require_libs(*libs); end
 
-    # source://faraday/1.10.3/lib/faraday.rb#142
+    # source://faraday/1.10.4/lib/faraday.rb#142
     def respond_to_missing?(symbol, include_private = T.unsafe(nil)); end
 
-    # source://faraday/1.10.3/lib/faraday.rb#68
+    # source://faraday/1.10.4/lib/faraday.rb#68
     def root_path; end
 
-    # source://faraday/1.10.3/lib/faraday.rb#68
+    # source://faraday/1.10.4/lib/faraday.rb#68
     def root_path=(_arg0); end
 
     private
 
-    # source://faraday/1.10.3/lib/faraday.rb#178
+    # source://faraday/1.10.4/lib/faraday.rb#178
     def method_missing(name, *args, &block); end
   end
 end
@@ -137,23 +137,25 @@ Faraday::Multipart::FilePart = Multipart::Post::UploadIO
 # Middleware for supporting multi-part requests.
 #
 # source://faraday-multipart//lib/faraday/multipart/middleware.rb#8
-class Faraday::Multipart::Middleware < ::Faraday::Request::UrlEncoded
+class Faraday::Multipart::Middleware < ::Faraday::Middleware
   # @return [Middleware] a new instance of Middleware
   #
-  # source://faraday-multipart//lib/faraday/multipart/middleware.rb#13
+  # source://faraday-multipart//lib/faraday/multipart/middleware.rb#12
   def initialize(app = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Checks for files in the payload, otherwise leaves everything untouched.
   #
   # @param env [Faraday::Env]
   #
-  # source://faraday-multipart//lib/faraday/multipart/middleware.rb#21
+  # source://faraday-multipart//lib/faraday/multipart/middleware.rb#20
   def call(env); end
+
+  private
 
   # @param env [Faraday::Env]
   # @param params [Hash]
   #
-  # source://faraday-multipart//lib/faraday/multipart/middleware.rb#55
+  # source://faraday-multipart//lib/faraday/multipart/middleware.rb#76
   def create_multipart(env, params); end
 
   # Returns true if obj is an enumerable with values that are multipart.
@@ -161,32 +163,54 @@ class Faraday::Multipart::Middleware < ::Faraday::Request::UrlEncoded
   # @param obj [Object]
   # @return [Boolean]
   #
-  # source://faraday-multipart//lib/faraday/multipart/middleware.rb#44
+  # source://faraday-multipart//lib/faraday/multipart/middleware.rb#65
   def has_multipart?(obj); end
 
-  # source://faraday-multipart//lib/faraday/multipart/middleware.rb#67
+  # @param env [Faraday::Env]
+  # @yield [request_body] Body of the request
+  #
+  # source://faraday-multipart//lib/faraday/multipart/middleware.rb#34
+  def match_content_type(env); end
+
+  # Determines and provides the multipart mime type for the request.
+  #
+  # @return [String] the multipart mime type
+  #
+  # source://faraday-multipart//lib/faraday/multipart/middleware.rb#125
+  def mime_type; end
+
+  # source://faraday-multipart//lib/faraday/multipart/middleware.rb#88
   def part(boundary, key, value); end
 
   # @param params [Hash]
   # @param prefix [String]
   # @param pieces [Array]
   #
-  # source://faraday-multipart//lib/faraday/multipart/middleware.rb#83
+  # source://faraday-multipart//lib/faraday/multipart/middleware.rb#104
   def process_params(params, prefix = T.unsafe(nil), pieces = T.unsafe(nil), &block); end
 
   # @param env [Faraday::Env]
   # @return [Boolean]
   #
-  # source://faraday-multipart//lib/faraday/multipart/middleware.rb#32
+  # source://faraday-multipart//lib/faraday/multipart/middleware.rb#44
   def process_request?(env); end
+
+  # @param env [Faraday::Env]
+  # @return [String]
+  #
+  # source://faraday-multipart//lib/faraday/multipart/middleware.rb#55
+  def request_type(env); end
 
   # @return [String]
   #
-  # source://faraday-multipart//lib/faraday/multipart/middleware.rb#76
+  # source://faraday-multipart//lib/faraday/multipart/middleware.rb#97
   def unique_boundary; end
 end
 
 # source://faraday-multipart//lib/faraday/multipart/middleware.rb#9
+Faraday::Multipart::Middleware::CONTENT_TYPE = T.let(T.unsafe(nil), String)
+
+# source://faraday-multipart//lib/faraday/multipart/middleware.rb#10
 Faraday::Multipart::Middleware::DEFAULT_BOUNDARY_PREFIX = T.let(T.unsafe(nil), String)
 
 # Multipart value used to POST data with a content type.

@@ -121,9 +121,6 @@ module GeneratedUrlHelpersModule
   def i_am_feeling_lucky_reservations_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def idle_reset_api_reservation_url(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
   def leaderboard_donators_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -239,6 +236,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def rails_disk_service_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def rails_info_notes_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def rails_info_properties_url(*args); end

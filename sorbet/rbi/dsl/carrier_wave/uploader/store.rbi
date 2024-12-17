@@ -26,6 +26,9 @@ module CarrierWave::Uploader::Store
     def _storage; end
     def _storage=(value); end
     def _storage?; end
+    def filename_safeguard_checked; end
+    def filename_safeguard_checked=(value); end
+    def filename_safeguard_checked?; end
   end
 
   module GeneratedInstanceMethods
@@ -37,5 +40,8 @@ module CarrierWave::Uploader::Store
     def _cache_storage?; end
     def _storage; end
     def _storage?; end
+    def filename_safeguard_checked; end
+    def filename_safeguard_checked=(value); end
+    def filename_safeguard_checked?; end
   end
 end

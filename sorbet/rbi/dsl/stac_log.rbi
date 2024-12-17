@@ -368,6 +368,9 @@ class StacLog
     def annotate(*args, &blk); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
+    def arel_columns(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
     def create_with(*args, &blk); end
 
     sig { params(value: T::Boolean).returns(PrivateAssociationRelation) }
@@ -484,8 +487,9 @@ class StacLog
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
     def unscope(*args, &blk); end
 
-    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelationWhereChain) }
-    def where(*args, &blk); end
+    sig { returns(PrivateAssociationRelationWhereChain) }
+    sig { params(args: T.untyped).returns(PrivateAssociationRelation) }
+    def where(*args); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
     def with(*args, &blk); end
@@ -498,16 +502,16 @@ class StacLog
   end
 
   module GeneratedAttributeMethods
-    sig { returns(T.untyped) }
+    sig { returns(T.nilable(::String)) }
     def contents; end
 
-    sig { params(value: T.untyped).returns(T.untyped) }
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
     def contents=(value); end
 
     sig { returns(T::Boolean) }
     def contents?; end
 
-    sig { returns(T.untyped) }
+    sig { returns(T.nilable(::String)) }
     def contents_before_last_save; end
 
     sig { returns(T.untyped) }
@@ -516,28 +520,28 @@ class StacLog
     sig { returns(T::Boolean) }
     def contents_came_from_user?; end
 
-    sig { returns(T.nilable([T.untyped, T.untyped])) }
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
     def contents_change; end
 
-    sig { returns(T.nilable([T.untyped, T.untyped])) }
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
     def contents_change_to_be_saved; end
 
-    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    sig { params(from: T.nilable(::String), to: T.nilable(::String)).returns(T::Boolean) }
     def contents_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
-    sig { returns(T.untyped) }
+    sig { returns(T.nilable(::String)) }
     def contents_in_database; end
 
-    sig { returns(T.nilable([T.untyped, T.untyped])) }
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
     def contents_previous_change; end
 
-    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    sig { params(from: T.nilable(::String), to: T.nilable(::String)).returns(T::Boolean) }
     def contents_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
-    sig { returns(T.untyped) }
+    sig { returns(T.nilable(::String)) }
     def contents_previously_was; end
 
-    sig { returns(T.untyped) }
+    sig { returns(T.nilable(::String)) }
     def contents_was; end
 
     sig { void }
@@ -837,7 +841,7 @@ class StacLog
     sig { void }
     def restore_updated_at!; end
 
-    sig { returns(T.nilable([T.untyped, T.untyped])) }
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
     def saved_change_to_contents; end
 
     sig { returns(T::Boolean) }
@@ -966,6 +970,9 @@ class StacLog
     def annotate(*args, &blk); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
+    def arel_columns(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
     def create_with(*args, &blk); end
 
     sig { params(value: T::Boolean).returns(PrivateRelation) }
@@ -1082,8 +1089,9 @@ class StacLog
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
     def unscope(*args, &blk); end
 
-    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelationWhereChain) }
-    def where(*args, &blk); end
+    sig { returns(PrivateRelationWhereChain) }
+    sig { params(args: T.untyped).returns(PrivateRelation) }
+    def where(*args); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
     def with(*args, &blk); end
@@ -1143,7 +1151,7 @@ class StacLog
     def sum(column_name = nil, &block); end
   end
 
-  class PrivateAssociationRelationWhereChain < PrivateAssociationRelation
+  class PrivateAssociationRelationWhereChain
     Elem = type_member { { fixed: ::StacLog } }
 
     sig { params(args: T.untyped).returns(PrivateAssociationRelation) }
@@ -1271,7 +1279,7 @@ class StacLog
     def sum(column_name = nil, &block); end
   end
 
-  class PrivateRelationWhereChain < PrivateRelation
+  class PrivateRelationWhereChain
     Elem = type_member { { fixed: ::StacLog } }
 
     sig { params(args: T.untyped).returns(PrivateRelation) }

@@ -449,6 +449,9 @@ class Voucher
     def annotate(*args, &blk); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
+    def arel_columns(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
     def create_with(*args, &blk); end
 
     sig { params(value: T::Boolean).returns(PrivateAssociationRelation) }
@@ -565,8 +568,9 @@ class Voucher
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
     def unscope(*args, &blk); end
 
-    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelationWhereChain) }
-    def where(*args, &blk); end
+    sig { returns(PrivateAssociationRelationWhereChain) }
+    sig { params(args: T.untyped).returns(PrivateAssociationRelation) }
+    def where(*args); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
     def with(*args, &blk); end
@@ -1191,6 +1195,9 @@ class Voucher
     def annotate(*args, &blk); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
+    def arel_columns(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
     def create_with(*args, &blk); end
 
     sig { params(value: T::Boolean).returns(PrivateRelation) }
@@ -1307,8 +1314,9 @@ class Voucher
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
     def unscope(*args, &blk); end
 
-    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelationWhereChain) }
-    def where(*args, &blk); end
+    sig { returns(PrivateRelationWhereChain) }
+    sig { params(args: T.untyped).returns(PrivateRelation) }
+    def where(*args); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
     def with(*args, &blk); end
@@ -1368,7 +1376,7 @@ class Voucher
     def sum(column_name = nil, &block); end
   end
 
-  class PrivateAssociationRelationWhereChain < PrivateAssociationRelation
+  class PrivateAssociationRelationWhereChain
     Elem = type_member { { fixed: ::Voucher } }
 
     sig { params(args: T.untyped).returns(PrivateAssociationRelation) }
@@ -1496,7 +1504,7 @@ class Voucher
     def sum(column_name = nil, &block); end
   end
 
-  class PrivateRelationWhereChain < PrivateRelation
+  class PrivateRelationWhereChain
     Elem = type_member { { fixed: ::Voucher } }
 
     sig { params(args: T.untyped).returns(PrivateRelation) }

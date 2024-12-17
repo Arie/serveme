@@ -49,6 +49,9 @@ module ActiveRecord::Core
     def strict_loading_by_default; end
     def strict_loading_by_default=(value); end
     def strict_loading_by_default?; end
+    def strict_loading_mode; end
+    def strict_loading_mode=(value); end
+    def strict_loading_mode?; end
   end
 
   module GeneratedInstanceMethods

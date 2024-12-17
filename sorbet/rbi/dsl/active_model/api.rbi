@@ -15,7 +15,6 @@ module ActiveModel::API
   module GeneratedClassMethods
     def __callbacks; end
     def __callbacks=(value); end
-    def __callbacks?; end
     def _validators; end
     def _validators=(value); end
     def _validators?; end
@@ -26,7 +25,6 @@ module ActiveModel::API
 
   module GeneratedInstanceMethods
     def __callbacks; end
-    def __callbacks?; end
     def _validators; end
     def _validators?; end
     def param_delimiter=(value); end

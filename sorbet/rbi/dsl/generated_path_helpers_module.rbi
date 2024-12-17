@@ -121,9 +121,6 @@ module GeneratedPathHelpersModule
   def i_am_feeling_lucky_reservations_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def idle_reset_api_reservation_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
   def leaderboard_donators_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -239,6 +236,9 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def rails_disk_service_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def rails_info_notes_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def rails_info_path(*args); end

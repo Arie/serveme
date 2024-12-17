@@ -8,6 +8,7 @@
 module ActionController::Caching
   include GeneratedInstanceMethods
 
+  mixes_in_class_methods T::Props::ClassMethods
   mixes_in_class_methods GeneratedClassMethods
 
   module GeneratedClassMethods

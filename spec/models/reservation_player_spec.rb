@@ -45,10 +45,10 @@ describe ReservationPlayer do
 
   context 'banned ip' do
     it 'recognizes a banned ip in a range' do
-      expect(described_class.banned_ip?('109.81.174.1')).to be true
+      expect(described_class.banned_ip?('109.81.174.1')).to be_truthy
     end
     it 'doesnt flag a good ip as banned' do
-      expect(described_class.banned_ip?('127.0.0.1')).to be false
+      expect(described_class.banned_ip?('127.0.0.1')).to be_falsy
     end
   end
 end

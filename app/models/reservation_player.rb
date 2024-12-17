@@ -50,9 +50,13 @@ class ReservationPlayer < ActiveRecord::Base
     banned_uids[steam_id64.to_i]
   end
 
-  sig { params(ip: T.nilable(String)).returns(T::Boolean) }
+  sig { params(ip: T.nilable(String)).returns(T.nilable(T.any(String, T::Boolean))) }
   def self.banned_ip?(ip)
-    !!ip && banned_ranges.any? { |range| range.include?(ip) }
+    return false unless ip
+
+    banned_ip = banned_ips.find { |range, _reason| range.include?(ip) }
+
+    banned_ip && banned_ip[1]
   end
 
   sig { params(steam_id64: T.any(Integer, String)).returns(T.nilable(T::Boolean)) }
@@ -66,8 +70,8 @@ class ReservationPlayer < ActiveRecord::Base
   end
 
   sig { returns(T::Array[String]) }
-  def self.banned_ranges
-    @banned_ranges ||= CSV.read(Rails.root.join('doc', 'banned_ips.csv'), headers: true).map { |row| IPAddr.new(row['ip']) }
+  def self.banned_ips
+    @banned_ips ||= CSV.read(Rails.root.join('doc', 'banned_ips.csv'), headers: true).map { |row| [IPAddr.new(row['ip']), row['reason']] }
   end
 
   sig { returns(T::Array[String]) }

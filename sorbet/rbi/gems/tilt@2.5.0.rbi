@@ -396,16 +396,6 @@ end
 # source://tilt//lib/tilt/haml.rb#10
 Tilt::HamlTemplate = Haml::Template
 
-# Kramdown Markdown implementation. See: https://kramdown.gettalong.org/
-#
-# source://tilt//lib/tilt/kramdown.rb#0
-class Tilt::KramdownTemplate < ::Tilt::StaticTemplate
-  private
-
-  # source://tilt//lib/tilt/kramdown.rb#8
-  def _prepare_output; end
-end
-
 # @private
 #
 # source://tilt//lib/tilt/template.rb#11
@@ -448,14 +438,14 @@ Tilt::LOCK = T.let(T.unsafe(nil), Thread::Mutex)
 # the exception of the first, since that was the most preferred one.
 #
 #     mapping = Tilt::Mapping.new
-#     mapping.register_lazy('Maruku::Template', 'maruku/template', 'md')
+#     mapping.register_lazy('Kramdown::Template', 'kramdown/template', 'md')
 #     mapping.register_lazy('RDiscount::Template', 'rdiscount/template', 'md')
 #     mapping['index.md']
 #     # => RDiscount::Template
 #
 # In the previous example we say that RDiscount has a *higher priority* than
-# Maruku. Tilt will first try to `require "rdiscount/template"`, falling
-# back to `require "maruku/template"`. If none of these are successful,
+# Kramdown. Tilt will first try to `require "rdiscount/template"`, falling
+# back to `require "kramdown/template"`. If none of these are successful,
 # the first error will be raised.
 #
 # source://tilt//lib/tilt/mapping.rb#125
@@ -666,19 +656,11 @@ end
 
 # RDoc template. See: https://github.com/ruby/rdoc
 #
-# It's suggested that your program run the following at load time when
-# using this templae engine in a threaded environment:
-#
-#   require 'rdoc'
-#   require 'rdoc/markup'
-#   require 'rdoc/markup/to_html'
-#   require 'rdoc/options'
-#
 # source://tilt//lib/tilt/rdoc.rb#0
 class Tilt::RDocTemplate < ::Tilt::StaticTemplate
   private
 
-  # source://tilt//lib/tilt/rdoc.rb#17
+  # source://tilt//lib/tilt/rdoc.rb#9
   def _prepare_output; end
 end
 
@@ -708,13 +690,24 @@ class Tilt::ScssTemplate < ::Tilt::SassTemplate
   def sass_options; end
 end
 
-# source://tilt//lib/tilt/template.rb#416
+# Static templates are templates that return the same output for every render
+#
+# Instead of inheriting from the StaticTemplate class, you will use the .subclass
+# method with a block which processes @data and returns the transformed value.
+#
+# Basic example which transforms the template to uppercase:
+#
+#   UppercaseTemplate = Tilt::StaticTemplate.subclass do
+#     @data.upcase
+#   end
+#
+# source://tilt//lib/tilt/template.rb#440
 class Tilt::StaticTemplate < ::Tilt::Template
   # Static templates never allow script.
   #
   # @return [Boolean]
   #
-  # source://tilt//lib/tilt/template.rb#439
+  # source://tilt//lib/tilt/template.rb#463
   def allows_script?; end
 
   # Raise NotImplementedError, since static templates
@@ -722,28 +715,28 @@ class Tilt::StaticTemplate < ::Tilt::Template
   #
   # @raise [NotImplementedError]
   #
-  # source://tilt//lib/tilt/template.rb#434
+  # source://tilt//lib/tilt/template.rb#458
   def compiled_method(locals_keys, scope_class = T.unsafe(nil)); end
 
   # Static templates always return the prepared output.
   #
-  # source://tilt//lib/tilt/template.rb#428
+  # source://tilt//lib/tilt/template.rb#452
   def render(scope = T.unsafe(nil), locals = T.unsafe(nil)); end
 
   protected
 
-  # source://tilt//lib/tilt/template.rb#445
+  # source://tilt//lib/tilt/template.rb#469
   def prepare; end
 
   private
 
   # Do nothing, since compiled method cache is not used.
   #
-  # source://tilt//lib/tilt/template.rb#452
+  # source://tilt//lib/tilt/template.rb#476
   def set_compiled_method_cache; end
 
   class << self
-    # source://tilt//lib/tilt/template.rb#417
+    # source://tilt//lib/tilt/template.rb#441
     def subclass(mime_type: T.unsafe(nil), &block); end
   end
 end
@@ -930,45 +923,52 @@ class Tilt::Template
 
   private
 
-  # source://tilt//lib/tilt/template.rb#407
+  # :nocov:
+  #
+  # source://tilt//lib/tilt/template.rb#271
+  def _dup_string_if_frozen(string); end
+
+  # source://tilt//lib/tilt/template.rb#421
   def binary(string); end
 
-  # source://tilt//lib/tilt/template.rb#341
+  # source://tilt//lib/tilt/template.rb#353
   def bind_compiled_method(method_source, offset, scope_class); end
 
-  # source://tilt//lib/tilt/template.rb#318
+  # source://tilt//lib/tilt/template.rb#330
   def compile_template_method(local_keys, scope_class = T.unsafe(nil)); end
 
-  # source://tilt//lib/tilt/template.rb#370
+  # source://tilt//lib/tilt/template.rb#382
   def eval_compiled_method(method_source, offset, scope_class); end
 
-  # source://tilt//lib/tilt/template.rb#388
+  # source://tilt//lib/tilt/template.rb#400
   def extract_encoding(script, &block); end
 
-  # source://tilt//lib/tilt/template.rb#392
+  # source://tilt//lib/tilt/template.rb#404
   def extract_magic_comment(script); end
 
   # @return [Boolean]
   #
-  # source://tilt//lib/tilt/template.rb#403
+  # source://tilt//lib/tilt/template.rb#417
   def freeze_string_literals?; end
 
-  # source://tilt//lib/tilt/template.rb#374
+  # source://tilt//lib/tilt/template.rb#386
   def load_compiled_method(path, method_source); end
 
-  # source://tilt//lib/tilt/template.rb#297
+  # source://tilt//lib/tilt/template.rb#309
   def local_extraction(local_keys); end
 
-  # source://tilt//lib/tilt/template.rb#270
+  # :nocov:
+  #
+  # source://tilt//lib/tilt/template.rb#282
   def process_arg(arg); end
 
-  # source://tilt//lib/tilt/template.rb#284
+  # source://tilt//lib/tilt/template.rb#296
   def read_template_file; end
 
-  # source://tilt//lib/tilt/template.rb#293
+  # source://tilt//lib/tilt/template.rb#305
   def set_compiled_method_cache; end
 
-  # source://tilt//lib/tilt/template.rb#382
+  # source://tilt//lib/tilt/template.rb#394
   def unbind_compiled_method(method_name); end
 
   class << self

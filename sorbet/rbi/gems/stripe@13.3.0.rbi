@@ -1243,7 +1243,7 @@ class Stripe::Account < ::Stripe::APIResource
     # Returns a list of accounts connected to your platform via [Connect](https://stripe.com/docs/connect). If you're not a platform, the list is empty.
     #
     # source://stripe//lib/stripe/resources/account.rb#80
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/api_operations/nested_resource.rb#87
     def list_capabilities(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -1599,12 +1599,12 @@ class Stripe::ApplePayDomain < ::Stripe::APIResource
     # List apple pay domains.
     #
     # source://stripe//lib/stripe/resources/apple_pay_domain.rb#47
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/apple_pay_domain.rb#12
     def object_name; end
 
-    # source://stripe//lib/stripe/resources/apple_pay_domain.rb#56
+    # source://stripe//lib/stripe/resources/apple_pay_domain.rb#51
     def resource_url; end
   end
 end
@@ -1647,7 +1647,7 @@ class Stripe::ApplicationFee < ::Stripe::APIResource
     # Returns a list of application fees you've previously collected. The application fees are returned in sorted order, with the most recent fees appearing first.
     #
     # source://stripe//lib/stripe/resources/application_fee.rb#17
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/api_operations/nested_resource.rb#87
     def list_refunds(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -1795,7 +1795,7 @@ class Stripe::Apps::Secret < ::Stripe::APIResource
     # List all secrets stored on the given scope.
     #
     # source://stripe//lib/stripe/resources/apps/secret.rb#50
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/apps/secret.rb#20
     def object_name; end
@@ -1894,7 +1894,7 @@ class Stripe::BalanceTransaction < ::Stripe::APIResource
     # Note that this endpoint was previously called “Balance history” and used the path /v1/balance/history.
     #
     # source://stripe//lib/stripe/resources/balance_transaction.rb#20
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/balance_transaction.rb#13
     def object_name; end
@@ -1955,7 +1955,7 @@ class Stripe::BankAccount < ::Stripe::APIResource
     # @raise [NotImplementedError]
     #
     # source://stripe//lib/stripe/resources/bank_account.rb#84
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/bank_account.rb#18
     def object_name; end
@@ -2027,7 +2027,7 @@ class Stripe::Billing::Alert < ::Stripe::APIResource
     # Lists billing active and inactive alerts
     #
     # source://stripe//lib/stripe/resources/billing/alert.rb#82
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/billing/alert.rb#12
     def object_name; end
@@ -2085,7 +2085,7 @@ Stripe::Billing::CreditBalanceSummary::OBJECT_NAME = T.let(T.unsafe(nil), String
 
 # source://stripe//lib/stripe/services/billing/credit_balance_summary_service.rb#6
 class Stripe::Billing::CreditBalanceSummaryService < ::Stripe::StripeService
-  # Retrieves the credit balance summary for a customer
+  # Retrieves the credit balance summary for a customer.
   #
   # source://stripe//lib/stripe/services/billing/credit_balance_summary_service.rb#8
   def retrieve(params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -2098,10 +2098,10 @@ class Stripe::Billing::CreditBalanceTransaction < ::Stripe::APIResource
   extend ::Stripe::APIOperations::List
 
   class << self
-    # Retrieve a list of credit balance transactions
+    # Retrieve a list of credit balance transactions.
     #
     # source://stripe//lib/stripe/resources/billing/credit_balance_transaction.rb#16
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/billing/credit_balance_transaction.rb#11
     def object_name; end
@@ -2113,12 +2113,12 @@ Stripe::Billing::CreditBalanceTransaction::OBJECT_NAME = T.let(T.unsafe(nil), St
 
 # source://stripe//lib/stripe/services/billing/credit_balance_transaction_service.rb#6
 class Stripe::Billing::CreditBalanceTransactionService < ::Stripe::StripeService
-  # Retrieve a list of credit balance transactions
+  # Retrieve a list of credit balance transactions.
   #
   # source://stripe//lib/stripe/services/billing/credit_balance_transaction_service.rb#8
   def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # Retrieves a credit balance transaction
+  # Retrieves a credit balance transaction.
   #
   # source://stripe//lib/stripe/services/billing/credit_balance_transaction_service.rb#19
   def retrieve(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -2146,7 +2146,7 @@ class Stripe::Billing::CreditGrant < ::Stripe::APIResource
   def void_grant(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   class << self
-    # Creates a credit grant
+    # Creates a credit grant.
     #
     # source://stripe//lib/stripe/resources/billing/credit_grant.rb#20
     def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -2159,12 +2159,12 @@ class Stripe::Billing::CreditGrant < ::Stripe::APIResource
     # Retrieve a list of credit grants.
     #
     # source://stripe//lib/stripe/resources/billing/credit_grant.rb#50
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/billing/credit_grant.rb#15
     def object_name; end
 
-    # Updates a credit grant
+    # Updates a credit grant.
     #
     # source://stripe//lib/stripe/resources/billing/credit_grant.rb#60
     def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -2181,7 +2181,7 @@ Stripe::Billing::CreditGrant::OBJECT_NAME = T.let(T.unsafe(nil), String)
 
 # source://stripe//lib/stripe/services/billing/credit_grant_service.rb#6
 class Stripe::Billing::CreditGrantService < ::Stripe::StripeService
-  # Creates a credit grant
+  # Creates a credit grant.
   #
   # source://stripe//lib/stripe/services/billing/credit_grant_service.rb#8
   def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -2196,12 +2196,12 @@ class Stripe::Billing::CreditGrantService < ::Stripe::StripeService
   # source://stripe//lib/stripe/services/billing/credit_grant_service.rb#30
   def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # Retrieves a credit grant
+  # Retrieves a credit grant.
   #
   # source://stripe//lib/stripe/services/billing/credit_grant_service.rb#41
   def retrieve(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # Updates a credit grant
+  # Updates a credit grant.
   #
   # source://stripe//lib/stripe/services/billing/credit_grant_service.rb#52
   def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -2212,7 +2212,7 @@ class Stripe::Billing::CreditGrantService < ::Stripe::StripeService
   def void_grant(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 end
 
-# A billing meter is a resource that allows you to track usage of a particular event. For example, you might create a billing meter to track the number of API calls made by a particular user. You can then attach the billing meter to a price and attach the price to a subscription to charge the user for the number of API calls they make.
+# Meters specify how to aggregate meter events over a billing period. Meter events represent the actions that customers take in your system. Meters attach to prices and form the basis of the bill.
 #
 # Related guide: [Usage based billing](https://docs.stripe.com/billing/subscriptions/usage-based)
 #
@@ -2224,23 +2224,23 @@ class Stripe::Billing::Meter < ::Stripe::APIResource
   extend ::Stripe::APIOperations::NestedResource
   extend ::Stripe::APIOperations::Save::ClassMethods
 
-  # Deactivates a billing meter
+  # When a meter is deactivated, no more meter events will be accepted for this meter. You can't attach a deactivated meter to a price.
   #
   # source://stripe//lib/stripe/resources/billing/meter.rb#30
   def deactivate(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # Reactivates a billing meter
+  # When a meter is reactivated, events for this meter can be accepted and you can attach the meter to a price.
   #
   # source://stripe//lib/stripe/resources/billing/meter.rb#55
   def reactivate(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   class << self
-    # Creates a billing meter
+    # Creates a billing meter.
     #
     # source://stripe//lib/stripe/resources/billing/meter.rb#25
     def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-    # Deactivates a billing meter
+    # When a meter is deactivated, no more meter events will be accepted for this meter. You can't attach a deactivated meter to a price.
     #
     # source://stripe//lib/stripe/resources/billing/meter.rb#40
     def deactivate(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -2251,7 +2251,7 @@ class Stripe::Billing::Meter < ::Stripe::APIResource
     # Retrieve a list of billing meters.
     #
     # source://stripe//lib/stripe/resources/billing/meter.rb#50
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/api_operations/nested_resource.rb#87
     def list_event_summaries(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -2259,12 +2259,12 @@ class Stripe::Billing::Meter < ::Stripe::APIResource
     # source://stripe//lib/stripe/resources/billing/meter.rb#16
     def object_name; end
 
-    # Reactivates a billing meter
+    # When a meter is reactivated, events for this meter can be accepted and you can attach the meter to a price.
     #
     # source://stripe//lib/stripe/resources/billing/meter.rb#65
     def reactivate(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-    # Updates a billing meter
+    # Updates a billing meter.
     #
     # source://stripe//lib/stripe/resources/billing/meter.rb#75
     def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -2274,25 +2274,24 @@ end
 # source://stripe//lib/stripe/resources/billing/meter.rb#15
 Stripe::Billing::Meter::OBJECT_NAME = T.let(T.unsafe(nil), String)
 
-# A billing meter event represents a customer's usage of a product. Meter events are used to bill a customer based on their usage.
-# Meter events are associated with billing meters, which define the shape of the event's payload and how those events are aggregated for billing.
+# Meter events represent actions that customers take in your system. You can use meter events to bill a customer based on their usage. Meter events are associated with billing meters, which define both the contents of the event's payload and how to aggregate those events.
 #
-# source://stripe//lib/stripe/resources/billing/meter_event.rb#8
+# source://stripe//lib/stripe/resources/billing/meter_event.rb#7
 class Stripe::Billing::MeterEvent < ::Stripe::APIResource
   extend ::Stripe::APIOperations::Create
 
   class << self
-    # Creates a billing meter event
+    # Creates a billing meter event.
     #
-    # source://stripe//lib/stripe/resources/billing/meter_event.rb#17
+    # source://stripe//lib/stripe/resources/billing/meter_event.rb#16
     def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-    # source://stripe//lib/stripe/resources/billing/meter_event.rb#12
+    # source://stripe//lib/stripe/resources/billing/meter_event.rb#11
     def object_name; end
   end
 end
 
-# source://stripe//lib/stripe/resources/billing/meter_event.rb#11
+# source://stripe//lib/stripe/resources/billing/meter_event.rb#10
 Stripe::Billing::MeterEvent::OBJECT_NAME = T.let(T.unsafe(nil), String)
 
 # A billing meter event adjustment is a resource that allows you to cancel a meter event. For example, you might create a billing meter event adjustment to cancel a meter event that was created in error or attached to the wrong customer.
@@ -2302,7 +2301,7 @@ class Stripe::Billing::MeterEventAdjustment < ::Stripe::APIResource
   extend ::Stripe::APIOperations::Create
 
   class << self
-    # Creates a billing meter event adjustment
+    # Creates a billing meter event adjustment.
     #
     # source://stripe//lib/stripe/resources/billing/meter_event_adjustment.rb#16
     def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -2317,7 +2316,7 @@ Stripe::Billing::MeterEventAdjustment::OBJECT_NAME = T.let(T.unsafe(nil), String
 
 # source://stripe//lib/stripe/services/billing/meter_event_adjustment_service.rb#6
 class Stripe::Billing::MeterEventAdjustmentService < ::Stripe::StripeService
-  # Creates a billing meter event adjustment
+  # Creates a billing meter event adjustment.
   #
   # source://stripe//lib/stripe/services/billing/meter_event_adjustment_service.rb#8
   def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -2325,7 +2324,7 @@ end
 
 # source://stripe//lib/stripe/services/billing/meter_event_service.rb#6
 class Stripe::Billing::MeterEventService < ::Stripe::StripeService
-  # Creates a billing meter event
+  # Creates a billing meter event.
   #
   # source://stripe//lib/stripe/services/billing/meter_event_service.rb#8
   def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -2360,12 +2359,12 @@ class Stripe::Billing::MeterService < ::Stripe::StripeService
   # source://stripe//lib/stripe/services/billing/meter_service.rb#9
   def initialize(requestor); end
 
-  # Creates a billing meter
+  # Creates a billing meter.
   #
   # source://stripe//lib/stripe/services/billing/meter_service.rb#15
   def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # Deactivates a billing meter
+  # When a meter is deactivated, no more meter events will be accepted for this meter. You can't attach a deactivated meter to a price.
   #
   # source://stripe//lib/stripe/services/billing/meter_service.rb#26
   def deactivate(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -2380,17 +2379,17 @@ class Stripe::Billing::MeterService < ::Stripe::StripeService
   # source://stripe//lib/stripe/services/billing/meter_service.rb#37
   def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # Reactivates a billing meter
+  # When a meter is reactivated, events for this meter can be accepted and you can attach the meter to a price.
   #
   # source://stripe//lib/stripe/services/billing/meter_service.rb#48
   def reactivate(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # Retrieves a billing meter given an ID
+  # Retrieves a billing meter given an ID.
   #
   # source://stripe//lib/stripe/services/billing/meter_service.rb#59
   def retrieve(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # Updates a billing meter
+  # Updates a billing meter.
   #
   # source://stripe//lib/stripe/services/billing/meter_service.rb#70
   def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -2417,7 +2416,7 @@ class Stripe::BillingPortal::Configuration < ::Stripe::APIResource
     # Returns a list of configurations that describe the functionality of the customer portal.
     #
     # source://stripe//lib/stripe/resources/billing_portal/configuration.rb#28
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/billing_portal/configuration.rb#13
     def object_name; end
@@ -2617,7 +2616,7 @@ class Stripe::Card < ::Stripe::APIResource
     # @raise [NotImplementedError]
     #
     # source://stripe//lib/stripe/resources/card.rb#61
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/card.rb#16
     def object_name; end
@@ -2717,7 +2716,7 @@ class Stripe::Charge < ::Stripe::APIResource
     # Returns a list of charges you've previously created. The charges are returned in sorted order, with the most recent charges appearing first.
     #
     # source://stripe//lib/stripe/resources/charge.rb#59
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/api_operations/nested_resource.rb#87
     def list_refunds(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -2842,7 +2841,7 @@ class Stripe::Checkout::Session < ::Stripe::APIResource
     # Returns a list of Checkout Sessions.
     #
     # source://stripe//lib/stripe/resources/checkout/session.rb#65
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # When retrieving a Checkout Session, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
     #
@@ -2963,7 +2962,7 @@ class Stripe::Climate::Order < ::Stripe::APIResource
     # most recently created orders appearing first.
     #
     # source://stripe//lib/stripe/resources/climate/order.rb#52
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/climate/order.rb#14
     def object_name; end
@@ -3022,7 +3021,7 @@ class Stripe::Climate::Product < ::Stripe::APIResource
     # Lists all available Climate product objects.
     #
     # source://stripe//lib/stripe/resources/climate/product.rb#17
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/climate/product.rb#12
     def object_name; end
@@ -3055,7 +3054,7 @@ class Stripe::Climate::Supplier < ::Stripe::APIResource
     # Lists all available Climate supplier objects.
     #
     # source://stripe//lib/stripe/resources/climate/supplier.rb#16
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/climate/supplier.rb#11
     def object_name; end
@@ -3233,7 +3232,7 @@ class Stripe::CountrySpec < ::Stripe::APIResource
     # Lists all Country Spec objects available in the API.
     #
     # source://stripe//lib/stripe/resources/country_spec.rb#20
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/country_spec.rb#15
     def object_name; end
@@ -3290,7 +3289,7 @@ class Stripe::Coupon < ::Stripe::APIResource
     # Returns a list of your coupons.
     #
     # source://stripe//lib/stripe/resources/coupon.rb#47
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/coupon.rb#15
     def object_name; end
@@ -3373,7 +3372,7 @@ class Stripe::CreditNote < ::Stripe::APIResource
     # Returns a list of credit notes.
     #
     # source://stripe//lib/stripe/resources/credit_note.rb#37
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # When retrieving a credit note preview, you'll get a lines property containing the first handful of those items. This URL you can retrieve the full (paginated) list of line items.
     #
@@ -3590,7 +3589,7 @@ class Stripe::Customer < ::Stripe::APIResource
     # Returns a list of your customers. The customers are returned sorted by creation date, with the most recent customers appearing first.
     #
     # source://stripe//lib/stripe/resources/customer.rb#95
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/api_operations/nested_resource.rb#87
     def list_balance_transactions(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -4051,7 +4050,7 @@ class Stripe::Dispute < ::Stripe::APIResource
     # Returns a list of your disputes.
     #
     # source://stripe//lib/stripe/resources/dispute.rb#44
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/dispute.rb#15
     def object_name; end
@@ -4108,7 +4107,7 @@ class Stripe::Entitlements::ActiveEntitlement < ::Stripe::APIResource
     # Retrieve a list of active entitlements for a customer
     #
     # source://stripe//lib/stripe/resources/entitlements/active_entitlement.rb#16
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/entitlements/active_entitlement.rb#11
     def object_name; end
@@ -4150,7 +4149,7 @@ class Stripe::Entitlements::Feature < ::Stripe::APIResource
     # Retrieve a list of features
     #
     # source://stripe//lib/stripe/resources/entitlements/feature.rb#29
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/entitlements/feature.rb#14
     def object_name; end
@@ -4357,7 +4356,7 @@ class Stripe::Event < ::Stripe::APIResource
     # List events, going back up to 30 days. Each event data is rendered according to Stripe API version at its creation time, specified in [event object](https://docs.stripe.com/api/events/object) api_version attribute (not according to your current Stripe API version or Stripe-Version header).
     #
     # source://stripe//lib/stripe/resources/event.rb#44
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/event.rb#39
     def object_name; end
@@ -4423,7 +4422,7 @@ class Stripe::ExchangeRate < ::Stripe::APIResource
     # Returns a list of objects that contain the rates at which foreign currencies are converted to one another. Only shows the currencies for which Stripe supports.
     #
     # source://stripe//lib/stripe/resources/exchange_rate.rb#40
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/exchange_rate.rb#35
     def object_name; end
@@ -4470,7 +4469,7 @@ class Stripe::File < ::Stripe::APIResource
     # Returns a list of the files that your account has access to. Stripe sorts and returns the files by their creation dates, placing the most recently created files at the top.
     #
     # source://stripe//lib/stripe/resources/file.rb#41
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/file.rb#17
     def object_name; end
@@ -4514,7 +4513,7 @@ class Stripe::FileLink < ::Stripe::APIResource
     # Returns a list of file links.
     #
     # source://stripe//lib/stripe/resources/file_link.rb#24
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/file_link.rb#14
     def object_name; end
@@ -4615,7 +4614,7 @@ class Stripe::FinancialConnections::Account < ::Stripe::APIResource
     # Returns a list of Financial Connections Account objects.
     #
     # source://stripe//lib/stripe/resources/financial_connections/account.rb#36
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Lists all owners for a given Account
     #
@@ -4765,7 +4764,7 @@ class Stripe::FinancialConnections::Transaction < ::Stripe::APIResource
     # Returns a list of Financial Connections Transaction objects.
     #
     # source://stripe//lib/stripe/resources/financial_connections/transaction.rb#16
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/financial_connections/transaction.rb#11
     def object_name; end
@@ -4845,7 +4844,7 @@ class Stripe::Forwarding::Request < ::Stripe::APIResource
     # Lists all ForwardingRequest objects.
     #
     # source://stripe//lib/stripe/resources/forwarding/request.rb#42
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/forwarding/request.rb#27
     def object_name; end
@@ -4935,7 +4934,7 @@ class Stripe::Identity::VerificationReport < ::Stripe::APIResource
     # List all verification reports.
     #
     # source://stripe//lib/stripe/resources/identity/verification_report.rb#26
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/identity/verification_report.rb#21
     def object_name; end
@@ -5029,7 +5028,7 @@ class Stripe::Identity::VerificationSession < ::Stripe::APIResource
     # Returns a list of VerificationSessions
     #
     # source://stripe//lib/stripe/resources/identity/verification_session.rb#68
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/identity/verification_session.rb#23
     def object_name; end
@@ -5501,7 +5500,7 @@ class Stripe::Invoice < ::Stripe::APIResource
     # You can list all invoices, or list the invoices for a specific customer. The invoices are returned sorted by creation date, with the most recently created invoices appearing first.
     #
     # source://stripe//lib/stripe/resources/invoice.rb#134
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/api_operations/nested_resource.rb#87
     def list_lines(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -5620,7 +5619,7 @@ class Stripe::InvoiceItem < ::Stripe::APIResource
     # Returns a list of your invoice items. Invoice items are returned sorted by creation date, with the most recently created invoice items appearing first.
     #
     # source://stripe//lib/stripe/resources/invoice_item.rb#53
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/invoice_item.rb#23
     def object_name; end
@@ -5731,7 +5730,7 @@ class Stripe::InvoiceRenderingTemplate < ::Stripe::APIResource
     # List all templates, ordered by creation date, with the most recently created template appearing first.
     #
     # source://stripe//lib/stripe/resources/invoice_rendering_template.rb#36
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/invoice_rendering_template.rb#11
     def object_name; end
@@ -5950,7 +5949,7 @@ class Stripe::Issuing::Authorization < ::Stripe::APIResource
     # Returns a list of Issuing Authorization objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
     #
     # source://stripe//lib/stripe/resources/issuing/authorization.rb#76
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/issuing/authorization.rb#17
     def object_name; end
@@ -6092,7 +6091,7 @@ class Stripe::Issuing::Card < ::Stripe::APIResource
     # Returns a list of Issuing Card objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
     #
     # source://stripe//lib/stripe/resources/issuing/card.rb#23
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/issuing/card.rb#13
     def object_name; end
@@ -6211,7 +6210,7 @@ class Stripe::Issuing::Cardholder < ::Stripe::APIResource
     # Returns a list of Issuing Cardholder objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
     #
     # source://stripe//lib/stripe/resources/issuing/cardholder.rb#30
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/issuing/cardholder.rb#15
     def object_name; end
@@ -6274,7 +6273,7 @@ class Stripe::Issuing::Dispute < ::Stripe::APIResource
     # Returns a list of Issuing Dispute objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
     #
     # source://stripe//lib/stripe/resources/issuing/dispute.rb#30
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/issuing/dispute.rb#15
     def object_name; end
@@ -6343,7 +6342,7 @@ class Stripe::Issuing::PersonalizationDesign < ::Stripe::APIResource
     # Returns a list of personalization design objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
     #
     # source://stripe//lib/stripe/resources/issuing/personalization_design.rb#28
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/issuing/personalization_design.rb#13
     def object_name; end
@@ -6432,7 +6431,7 @@ class Stripe::Issuing::PhysicalBundle < ::Stripe::APIResource
     # Returns a list of physical bundle objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
     #
     # source://stripe//lib/stripe/resources/issuing/physical_bundle.rb#16
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/issuing/physical_bundle.rb#11
     def object_name; end
@@ -6467,7 +6466,7 @@ class Stripe::Issuing::Token < ::Stripe::APIResource
     # Lists all Issuing Token objects for a given card.
     #
     # source://stripe//lib/stripe/resources/issuing/token.rb#17
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/issuing/token.rb#12
     def object_name; end
@@ -6519,7 +6518,7 @@ class Stripe::Issuing::Transaction < ::Stripe::APIResource
     # Returns a list of Issuing Transaction objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
     #
     # source://stripe//lib/stripe/resources/issuing/transaction.rb#21
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/issuing/transaction.rb#16
     def object_name; end
@@ -7211,7 +7210,7 @@ class Stripe::PaymentIntent < ::Stripe::APIResource
     # Returns a list of PaymentIntents.
     #
     # source://stripe//lib/stripe/resources/payment_intent.rb#252
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/payment_intent.rb#23
     def object_name; end
@@ -7405,7 +7404,7 @@ class Stripe::PaymentLink < ::Stripe::APIResource
     # Returns a list of your payment links.
     #
     # source://stripe//lib/stripe/resources/payment_link.rb#26
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # When retrieving a payment link, there is an includable line_items property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of line items.
     #
@@ -7534,7 +7533,7 @@ class Stripe::PaymentMethod < ::Stripe::APIResource
     # Returns a list of PaymentMethods for Treasury flows. If you want to list the PaymentMethods attached to a Customer for payments, you should use the [List a Customer's PaymentMethods](https://stripe.com/docs/api/payment_methods/customer_list) API instead.
     #
     # source://stripe//lib/stripe/resources/payment_method.rb#92
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/payment_method.rb#16
     def object_name; end
@@ -7580,7 +7579,7 @@ class Stripe::PaymentMethodConfiguration < ::Stripe::APIResource
     # List payment method configurations
     #
     # source://stripe//lib/stripe/resources/payment_method_configuration.rb#40
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/payment_method_configuration.rb#25
     def object_name; end
@@ -7649,7 +7648,7 @@ class Stripe::PaymentMethodDomain < ::Stripe::APIResource
     # Lists the details of existing payment method domains.
     #
     # source://stripe//lib/stripe/resources/payment_method_domain.rb#30
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/payment_method_domain.rb#15
     def object_name; end
@@ -7800,7 +7799,7 @@ class Stripe::Payout < ::Stripe::APIResource
     # Returns a list of existing payouts sent to third-party bank accounts or payouts that Stripe sent to you. The payouts return in sorted order, with the most recently created payouts appearing first.
     #
     # source://stripe//lib/stripe/resources/payout.rb#53
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/payout.rb#19
     def object_name; end
@@ -7937,7 +7936,7 @@ class Stripe::Plan < ::Stripe::APIResource
     # Returns a list of your plans.
     #
     # source://stripe//lib/stripe/resources/plan.rb#50
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/plan.rb#20
     def object_name; end
@@ -8004,7 +8003,7 @@ class Stripe::Price < ::Stripe::APIResource
     # Returns a list of your active prices, excluding [inline prices](https://stripe.com/docs/products-prices/pricing-models#inline-pricing). For the list of inactive prices, set active to false.
     #
     # source://stripe//lib/stripe/resources/price.rb#28
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/price.rb#18
     def object_name; end
@@ -8104,7 +8103,7 @@ class Stripe::Product < ::Stripe::APIResource
     # Returns a list of your products. The products are returned sorted by creation date, with the most recently created products appearing first.
     #
     # source://stripe//lib/stripe/resources/product.rb#54
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/api_operations/nested_resource.rb#87
     def list_features(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -8233,7 +8232,7 @@ class Stripe::PromotionCode < ::Stripe::APIResource
     # Returns a list of your promotion codes.
     #
     # source://stripe//lib/stripe/resources/promotion_code.rb#23
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/promotion_code.rb#13
     def object_name; end
@@ -8335,7 +8334,7 @@ class Stripe::Quote < ::Stripe::APIResource
     # Returns a list of your quotes.
     #
     # source://stripe//lib/stripe/resources/quote.rb#83
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # When retrieving a quote, there is an includable [computed.upfront.line_items](https://stripe.com/docs/api/quotes/object#quote_object-computed-upfront-line_items) property containing the first handful of those items. There is also a URL where you can retrieve the full (paginated) list of upfront line items.
     #
@@ -8455,7 +8454,7 @@ class Stripe::Radar::EarlyFraudWarning < ::Stripe::APIResource
     # Returns a list of early fraud warnings.
     #
     # source://stripe//lib/stripe/resources/radar/early_fraud_warning.rb#19
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/radar/early_fraud_warning.rb#14
     def object_name; end
@@ -8512,7 +8511,7 @@ class Stripe::Radar::ValueList < ::Stripe::APIResource
     # Returns a list of ValueList objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
     #
     # source://stripe//lib/stripe/resources/radar/value_list.rb#51
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/radar/value_list.rb#16
     def object_name; end
@@ -8557,7 +8556,7 @@ class Stripe::Radar::ValueListItem < ::Stripe::APIResource
     # Returns a list of ValueListItem objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
     #
     # source://stripe//lib/stripe/resources/radar/value_list_item.rb#50
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/radar/value_list_item.rb#15
     def object_name; end
@@ -8697,7 +8696,7 @@ class Stripe::Refund < ::Stripe::APIResource
     # Returns a list of all refunds you created. We return the refunds in sorted order, with the most recent refunds appearing first. The 10 most recent refunds are always available by default on the Charge object.
     #
     # source://stripe//lib/stripe/resources/refund.rb#60
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/refund.rb#16
     def object_name; end
@@ -8803,7 +8802,7 @@ class Stripe::Reporting::ReportRun < ::Stripe::APIResource
     # Returns a list of Report Runs, with the most recent appearing first.
     #
     # source://stripe//lib/stripe/resources/reporting/report_run.rb#34
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/reporting/report_run.rb#19
     def object_name; end
@@ -8848,7 +8847,7 @@ class Stripe::Reporting::ReportType < ::Stripe::APIResource
     # Returns a full list of Report Types.
     #
     # source://stripe//lib/stripe/resources/reporting/report_type.rb#23
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/reporting/report_type.rb#18
     def object_name; end
@@ -9017,7 +9016,7 @@ class Stripe::Review < ::Stripe::APIResource
     # Returns a list of Review objects that have open set to true. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
     #
     # source://stripe//lib/stripe/resources/review.rb#38
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/review.rb#13
     def object_name; end
@@ -9136,7 +9135,7 @@ class Stripe::SetupAttempt < ::Stripe::APIResource
     # Returns a list of SetupAttempts that associate with a provided SetupIntent.
     #
     # source://stripe//lib/stripe/resources/setup_attempt.rb#18
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/setup_attempt.rb#13
     def object_name; end
@@ -9250,7 +9249,7 @@ class Stripe::SetupIntent < ::Stripe::APIResource
     # Returns a list of SetupIntents.
     #
     # source://stripe//lib/stripe/resources/setup_intent.rb#115
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/setup_intent.rb#32
     def object_name; end
@@ -9349,7 +9348,7 @@ class Stripe::ShippingRate < ::Stripe::APIResource
     # Returns a list of your shipping rates.
     #
     # source://stripe//lib/stripe/resources/shipping_rate.rb#23
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/shipping_rate.rb#13
     def object_name; end
@@ -9403,7 +9402,7 @@ class Stripe::Sigma::ScheduledQueryRun < ::Stripe::APIResource
     # Returns a list of scheduled query runs.
     #
     # source://stripe//lib/stripe/resources/sigma/scheduled_query_run.rb#19
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/sigma/scheduled_query_run.rb#14
     def object_name; end
@@ -10488,7 +10487,7 @@ class Stripe::Subscription < ::Stripe::APIResource
     # By default, returns a list of subscriptions that have not been canceled. In order to list canceled subscriptions, specify status=canceled.
     #
     # source://stripe//lib/stripe/resources/subscription.rb#79
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/subscription.rb#15
     def object_name; end
@@ -10569,7 +10568,7 @@ class Stripe::SubscriptionItem < ::Stripe::APIResource
     # Returns a list of your subscription items for a given subscription.
     #
     # source://stripe//lib/stripe/resources/subscription_item.rb#55
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/api_operations/nested_resource.rb#87
     def list_usage_record_summaries(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -10695,7 +10694,7 @@ class Stripe::SubscriptionSchedule < ::Stripe::APIResource
     # Retrieves the list of your subscription schedules.
     #
     # source://stripe//lib/stripe/resources/subscription_schedule.rb#49
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/subscription_schedule.rb#14
     def object_name; end
@@ -10923,7 +10922,7 @@ class Stripe::Tax::Registration < ::Stripe::APIResource
     # Returns a list of Tax Registration objects.
     #
     # source://stripe//lib/stripe/resources/tax/registration.rb#32
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/tax/registration.rb#17
     def object_name; end
@@ -11088,7 +11087,7 @@ class Stripe::TaxCode < ::Stripe::APIResource
     # A list of [all tax codes available](https://stripe.com/docs/tax/tax-categories) to add to Products in order to allow specific tax calculations.
     #
     # source://stripe//lib/stripe/resources/tax_code.rb#15
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/tax_code.rb#10
     def object_name; end
@@ -11142,7 +11141,7 @@ class Stripe::TaxId < ::Stripe::APIResource
     # Returns a list of tax IDs.
     #
     # source://stripe//lib/stripe/resources/tax_id.rb#45
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/tax_id.rb#15
     def object_name; end
@@ -11195,7 +11194,7 @@ class Stripe::TaxRate < ::Stripe::APIResource
     # Returns a list of your tax rates. Tax rates are returned sorted by creation date, with the most recently created tax rates appearing first.
     #
     # source://stripe//lib/stripe/resources/tax_rate.rb#24
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/tax_rate.rb#14
     def object_name; end
@@ -11299,7 +11298,7 @@ class Stripe::Terminal::Configuration < ::Stripe::APIResource
     # Returns a list of Configuration objects.
     #
     # source://stripe//lib/stripe/resources/terminal/configuration.rb#49
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/terminal/configuration.rb#14
     def object_name; end
@@ -11405,7 +11404,7 @@ class Stripe::Terminal::Location < ::Stripe::APIResource
     # Returns a list of Location objects.
     #
     # source://stripe//lib/stripe/resources/terminal/location.rb#52
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/terminal/location.rb#16
     def object_name; end
@@ -11514,7 +11513,7 @@ class Stripe::Terminal::Reader < ::Stripe::APIResource
     # Returns a list of Reader objects.
     #
     # source://stripe//lib/stripe/resources/terminal/reader.rb#71
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/terminal/reader.rb#16
     def object_name; end
@@ -11875,7 +11874,7 @@ class Stripe::TestHelpers::TestClock < ::Stripe::APIResource
     # Returns a list of your test clocks.
     #
     # source://stripe//lib/stripe/resources/test_helpers/test_clock.rb#70
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/test_helpers/test_clock.rb#15
     def object_name; end
@@ -12191,7 +12190,7 @@ class Stripe::Topup < ::Stripe::APIResource
     # Returns a list of top-ups.
     #
     # source://stripe//lib/stripe/resources/topup.rb#46
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/topup.rb#16
     def object_name; end
@@ -12265,7 +12264,7 @@ class Stripe::Transfer < ::Stripe::APIResource
     # Returns a list of existing transfers sent to connected accounts. The transfers are returned in sorted order, with the most recently created transfers appearing first.
     #
     # source://stripe//lib/stripe/resources/transfer.rb#34
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/api_operations/nested_resource.rb#87
     def list_reversals(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -12377,7 +12376,7 @@ class Stripe::Treasury::CreditReversal < ::Stripe::APIResource
     # Returns a list of CreditReversals.
     #
     # source://stripe//lib/stripe/resources/treasury/credit_reversal.rb#27
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/treasury/credit_reversal.rb#12
     def object_name; end
@@ -12421,7 +12420,7 @@ class Stripe::Treasury::DebitReversal < ::Stripe::APIResource
     # Returns a list of DebitReversals.
     #
     # source://stripe//lib/stripe/resources/treasury/debit_reversal.rb#27
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/treasury/debit_reversal.rb#12
     def object_name; end
@@ -12478,7 +12477,7 @@ class Stripe::Treasury::FinancialAccount < ::Stripe::APIResource
     # Returns a list of FinancialAccounts.
     #
     # source://stripe//lib/stripe/resources/treasury/financial_account.rb#29
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/treasury/financial_account.rb#14
     def object_name; end
@@ -12594,7 +12593,7 @@ class Stripe::Treasury::InboundTransfer < ::Stripe::APIResource
     # Returns a list of InboundTransfers sent from the specified FinancialAccount.
     #
     # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#49
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/treasury/inbound_transfer.rb#14
     def object_name; end
@@ -12701,7 +12700,7 @@ class Stripe::Treasury::OutboundPayment < ::Stripe::APIResource
     # Returns a list of OutboundPayments sent from the specified FinancialAccount.
     #
     # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#51
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/treasury/outbound_payment.rb#16
     def object_name; end
@@ -12818,7 +12817,7 @@ class Stripe::Treasury::OutboundTransfer < ::Stripe::APIResource
     # Returns a list of OutboundTransfers sent from the specified FinancialAccount.
     #
     # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#51
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/treasury/outbound_transfer.rb#16
     def object_name; end
@@ -12915,7 +12914,7 @@ class Stripe::Treasury::ReceivedCredit < ::Stripe::APIResource
     # Returns a list of ReceivedCredits.
     #
     # source://stripe//lib/stripe/resources/treasury/received_credit.rb#16
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/treasury/received_credit.rb#11
     def object_name; end
@@ -12967,7 +12966,7 @@ class Stripe::Treasury::ReceivedDebit < ::Stripe::APIResource
     # Returns a list of ReceivedDebits.
     #
     # source://stripe//lib/stripe/resources/treasury/received_debit.rb#16
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/treasury/received_debit.rb#11
     def object_name; end
@@ -13016,7 +13015,7 @@ class Stripe::Treasury::Transaction < ::Stripe::APIResource
     # Retrieves a list of Transaction objects.
     #
     # source://stripe//lib/stripe/resources/treasury/transaction.rb#16
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/treasury/transaction.rb#11
     def object_name; end
@@ -13036,7 +13035,7 @@ class Stripe::Treasury::TransactionEntry < ::Stripe::APIResource
     # Retrieves a list of TransactionEntry objects.
     #
     # source://stripe//lib/stripe/resources/treasury/transaction_entry.rb#16
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/treasury/transaction_entry.rb#11
     def object_name; end
@@ -14123,14 +14122,14 @@ class Stripe::WebhookEndpoint < ::Stripe::APIResource
     # Returns a list of your webhook endpoints.
     #
     # source://stripe//lib/stripe/resources/webhook_endpoint.rb#54
-    def list(filters = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/webhook_endpoint.rb#19
     def object_name; end
 
     # Updates the webhook endpoint. You may edit the url, the list of enabled_events, and the status of your endpoint.
     #
-    # source://stripe//lib/stripe/resources/webhook_endpoint.rb#64
+    # source://stripe//lib/stripe/resources/webhook_endpoint.rb#59
     def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end

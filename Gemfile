@@ -8,7 +8,7 @@ gem 'aws-sdk-s3', require: false
 gem 'base32_pure'
 gem 'bcrypt_pbkdf'
 gem 'bootsnap', require: false
-gem 'bootstrap', '~> 4.6' # Something in 5 breaks popper, not going to fix that now
+gem 'bootstrap'
 gem 'carrierwave'
 gem 'coffee-rails'
 gem 'connection_pool'
@@ -86,7 +86,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'capistrano', require: false
-  gem 'capistrano3-puma', github: "seuros/capistrano-puma"
+  gem 'capistrano3-puma', github: 'seuros/capistrano-puma'
   gem 'capistrano-bundler', require: false
   gem 'capistrano-ext', require: false
   gem 'capistrano-faster-assets', require: false

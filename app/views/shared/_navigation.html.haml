@@ -3,7 +3,7 @@
     %ul.nav.navbar-nav
       %li.dropdown
         = link_to(SITE_HOST, root_url)
-        %a.dropdown-toggle{data: {toggle: "dropdown"}, href: "#"}
+        %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#"}
         .dropdown-menu#serveme_links
           = link_to('https://serveme.tf', class: "dropdown-item") do
             %span{class: ["flags", "flags-eu"]}
@@ -25,7 +25,7 @@
     %ul.navbar-nav.mr-auto
       - if current_user
         %li.nav-item.dropdown
-          %a.nav-link.dropdown-toggle{data: {toggle: "dropdown"}, href: "#"}
+          %a.nav-link.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#"}
             %i.fa.fa-list
             Reservations
             %b.caret>
@@ -66,7 +66,7 @@
           Stats
 
       %li.dropdown.nav-item
-        %a.dropdown-toggle{data: {toggle: "dropdown"}, href: "#", class: "nav-link"}
+        %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
           %i.fa.fa-trophy
           Credits
           %b.caret>
@@ -79,7 +79,7 @@
             Credits
       - if current_user
         %li.dropdown.nav-item
-          %a.dropdown-toggle{data: {toggle: "dropdown"}, href: "#", class: "nav-link"}
+          %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
             %i.fa.fa-star
             Premium
             %b.caret>

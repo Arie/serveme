@@ -8,4 +8,5 @@ Rails.application.config.assets.precompile << [
   '*.png', '*.gif', '.jpg', '.jpeg',
   '*.eot', '*.otf', '*.svc', '*.woff', '.woff2', '.ttf'
 ]
-# Rails.application.config.assets.precompile += %w( application.css application.js )
+
+Rails.application.config.assets.precompile += %w[bootstrap.min.js popper.js]

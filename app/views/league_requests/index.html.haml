@@ -48,4 +48,6 @@
     New search
 
 :javascript
-  $('.asn-tooltip').tooltip();
+  $(document).ready(function() {
+    $('.asn-tooltip').tooltip({html: true});
+  });

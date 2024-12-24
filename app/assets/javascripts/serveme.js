@@ -17,9 +17,7 @@
 //= require jstz
 //= require pay
 //= require ping
-//= require popper
 //= require select2
 //= require sessions
 //= require reservation
 //
-//= require bootstrap

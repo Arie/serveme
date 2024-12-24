@@ -11,8 +11,13 @@ module PopperJs; end
 # source://popper_js//lib/popper_js/engine.rb#4
 class PopperJs::Engine < ::Rails::Engine
   class << self
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
-    def __callbacks; end
+    private
+
+    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#15
+    def __class_attr___callbacks; end
+
+    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#17
+    def __class_attr___callbacks=(new_value); end
   end
 end
 

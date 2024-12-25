@@ -116,8 +116,8 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'cucumber'
-  gem 'cucumber-rails', git: 'https://github.com/tagliala/cucumber-rails.git', ref: 'b750833e104bf39354d4a4077413a5847241d249', require: false
+  gem 'cucumber', require: false, git: 'git@github.com:Arie/cucumber-ruby.git', branch: 'release/v9.2.0'
+  gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'delorean'
   gem 'json_expressions'

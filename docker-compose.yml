@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:14
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+    ports:
+      - "5435:5432"
+
+  redis:
+    image: redis:7
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data:/data
+
+  web:
+    build:
+      context: .
+      args:
+        RUBY_VERSION: 3.4.1
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/app
+      - bundle_cache:/usr/local/bundle
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      RAILS_ENV: production
+      DATABASE_URL: postgres://postgres:password@db:5435/serveme_production
+      REDIS_URL: redis://redis:6380/1
+
+volumes:
+  postgres_data:
+  redis_data:
+  bundle_cache:

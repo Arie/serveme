@@ -81,7 +81,6 @@ class LeagueMaps
         cp_gullywash_f9
         cp_metalworks_f5
         cp_process_f12
-        cp_reckoner
         cp_snakewater_final1
         cp_sultry_b8a
         cp_sunshine

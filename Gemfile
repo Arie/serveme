@@ -86,7 +86,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'capistrano', require: false
-  gem 'capistrano3-puma', github: 'seuros/capistrano-puma'
+  gem 'capistrano3-puma'
   gem 'capistrano-bundler', require: false
   gem 'capistrano-ext', require: false
   gem 'capistrano-faster-assets', require: false

@@ -98,12 +98,10 @@ end
 #   arn.resource
 #   # => foo/bar
 #
-#   # Note: parser available for parsing resource details
-#   @see Aws::ARNParser#parse_resource
-#
+# @see ARNParser
 # @see https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-arns
 #
-# source://aws-sdk-core//lib/aws-sdk-core/arn.rb#31
+# source://aws-sdk-core//lib/aws-sdk-core/arn.rb#29
 class Aws::ARN
   # @option options
   # @option options
@@ -113,53 +111,53 @@ class Aws::ARN
   # @param options [Hash]
   # @return [ARN] a new instance of ARN
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#39
+  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#37
   def initialize(options = T.unsafe(nil)); end
 
   # @return [String]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#57
+  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#55
   def account_id; end
 
   # Return the ARN as JSON
   #
   # @return [Hash]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#95
+  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#93
   def as_json(_options = T.unsafe(nil)); end
 
   # @return [String]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#48
+  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#46
   def partition; end
 
   # @return [String]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#54
+  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#52
   def region; end
 
   # @return [String]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#60
+  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#58
   def resource; end
 
   # @return [String]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#51
+  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#49
   def service; end
 
   # Return the ARN as a hash
   #
   # @return [Hash]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#82
+  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#80
   def to_h; end
 
   # Return the ARN format in string
   #
   # @return [String]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#75
+  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#73
   def to_s; end
 
   # Validates ARN contains non-empty required components.
@@ -167,7 +165,7 @@ class Aws::ARN
   #
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#66
+  # source://aws-sdk-core//lib/aws-sdk-core/arn.rb#64
   def valid?; end
 end
 

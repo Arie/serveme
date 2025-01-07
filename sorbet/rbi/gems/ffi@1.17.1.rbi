@@ -12,6 +12,8 @@ module FFI
   def custom_typedefs; end
 
   class << self
+    def _async_cb_dispatcher_atfork_child; end
+
     # Add a definition type to type definitions.
     #
     # The type definition is local per Ractor.
@@ -807,6 +809,31 @@ module FFI::LastError
   end
 end
 
+# source://ffi//lib/ffi/ffi.rb#63
+module FFI::LegacyForkTracking; end
+
+# source://ffi//lib/ffi/ffi.rb#84
+module FFI::LegacyForkTracking::IOExt
+  # source://ffi//lib/ffi/ffi.rb#85
+  def popen(*args); end
+end
+
+# source://ffi//lib/ffi/ffi.rb#64
+module FFI::LegacyForkTracking::KernelExt
+  # source://ffi//lib/ffi/ffi.rb#65
+  def fork; end
+end
+
+# source://ffi//lib/ffi/ffi.rb#79
+module FFI::LegacyForkTracking::KernelExtPrivate
+  include ::FFI::LegacyForkTracking::KernelExt
+
+  private
+
+  # source://ffi//lib/ffi/ffi.rb#65
+  def fork; end
+end
+
 # This module is the base to use native functions.
 #
 # A basic usage may be:
@@ -1156,6 +1183,12 @@ class FFI::MemoryPointer < ::FFI::Pointer
   class << self
     def from_string(_arg0); end
   end
+end
+
+# source://ffi//lib/ffi/ffi.rb#53
+module FFI::ModernForkTracking
+  # source://ffi//lib/ffi/ffi.rb#54
+  def _fork; end
 end
 
 FFI::NativeLibrary = FFI::DynamicLibrary
@@ -2135,4 +2168,11 @@ class FFI::VariadicInvoker
   def param_types; end
 
   def return_type; end
+end
+
+module Process
+  extend ::FFI::ModernForkTracking
+  extend ::ConnectionPool::ForkTracker
+  extend ::RedisClient::PIDCache::CoreExt
+  extend ::ActiveSupport::ForkTracker::CoreExt
 end

@@ -754,9 +754,33 @@ module Loofah::Scrubbers
   class << self
     # Returns an array of symbols representing the built-in scrubbers
     #
-    # source://loofah//lib/loofah/scrubbers.rb#371
+    # source://loofah//lib/loofah/scrubbers.rb#425
     def scrubber_symbols; end
   end
+end
+
+# === scrub!(:double_breakpoint)
+#
+#  +:double_breakpoint+ replaces double-break tags with closing/opening paragraph tags.
+#
+#     markup = "<p>Some text here in a logical paragraph.<br><br>Some more text, apparently a second paragraph.</p>"
+#     Loofah.html5_fragment(markup).scrub!(:double_breakpoint)
+#     => "<p>Some text here in a logical paragraph.</p><p>Some more text, apparently a second paragraph.</p>"
+#
+# source://loofah//lib/loofah/scrubbers.rb#362
+class Loofah::Scrubbers::DoubleBreakpoint < ::Loofah::Scrubber
+  # @return [DoubleBreakpoint] a new instance of DoubleBreakpoint
+  #
+  # source://loofah//lib/loofah/scrubbers.rb#363
+  def initialize; end
+
+  # source://loofah//lib/loofah/scrubbers.rb#367
+  def scrub(node); end
+
+  private
+
+  # source://loofah//lib/loofah/scrubbers.rb#400
+  def remove_blank_text_nodes(node); end
 end
 
 # === scrub!(:escape)
@@ -780,19 +804,19 @@ end
 
 # A hash that maps a symbol (like +:prune+) to the appropriate Scrubber (Loofah::Scrubbers::Prune).
 #
-# source://loofah//lib/loofah/scrubbers.rb#354
+# source://loofah//lib/loofah/scrubbers.rb#407
 Loofah::Scrubbers::MAP = T.let(T.unsafe(nil), Hash)
 
 # This class probably isn't useful publicly, but is used for #to_text's current implemention
 #
-# source://loofah//lib/loofah/scrubbers.rb#305
+# source://loofah//lib/loofah/scrubbers.rb#307
 class Loofah::Scrubbers::NewlineBlockElements < ::Loofah::Scrubber
   # @return [NewlineBlockElements] a new instance of NewlineBlockElements
   #
-  # source://loofah//lib/loofah/scrubbers.rb#306
+  # source://loofah//lib/loofah/scrubbers.rb#308
   def initialize; end
 
-  # source://loofah//lib/loofah/scrubbers.rb#310
+  # source://loofah//lib/loofah/scrubbers.rb#312
   def scrub(node); end
 end
 
@@ -823,14 +847,14 @@ end
 #     Loofah.html5_fragment(link_farmers_markup).scrub!(:noopener)
 #     => "ohai! <a href='http://www.myswarmysite.com/' rel="noopener">I like your blog post</a>"
 #
-# source://loofah//lib/loofah/scrubbers.rb#269
+# source://loofah//lib/loofah/scrubbers.rb#271
 class Loofah::Scrubbers::NoOpener < ::Loofah::Scrubber
   # @return [NoOpener] a new instance of NoOpener
   #
-  # source://loofah//lib/loofah/scrubbers.rb#270
+  # source://loofah//lib/loofah/scrubbers.rb#272
   def initialize; end
 
-  # source://loofah//lib/loofah/scrubbers.rb#274
+  # source://loofah//lib/loofah/scrubbers.rb#276
   def scrub(node); end
 end
 
@@ -842,14 +866,14 @@ end
 #     Loofah.html5_fragment(link_farmers_markup).scrub!(:noreferrer)
 #     => "ohai! <a href='http://www.myswarmysite.com/' rel="noreferrer">I like your blog post</a>"
 #
-# source://loofah//lib/loofah/scrubbers.rb#291
+# source://loofah//lib/loofah/scrubbers.rb#293
 class Loofah::Scrubbers::NoReferrer < ::Loofah::Scrubber
   # @return [NoReferrer] a new instance of NoReferrer
   #
-  # source://loofah//lib/loofah/scrubbers.rb#292
+  # source://loofah//lib/loofah/scrubbers.rb#294
   def initialize; end
 
-  # source://loofah//lib/loofah/scrubbers.rb#296
+  # source://loofah//lib/loofah/scrubbers.rb#298
   def scrub(node); end
 end
 
@@ -928,14 +952,14 @@ end
 #
 #     http://timelessrepo.com/json-isnt-a-javascript-subset
 #
-# source://loofah//lib/loofah/scrubbers.rb#338
+# source://loofah//lib/loofah/scrubbers.rb#340
 class Loofah::Scrubbers::Unprintable < ::Loofah::Scrubber
   # @return [Unprintable] a new instance of Unprintable
   #
-  # source://loofah//lib/loofah/scrubbers.rb#339
+  # source://loofah//lib/loofah/scrubbers.rb#341
   def initialize; end
 
-  # source://loofah//lib/loofah/scrubbers.rb#343
+  # source://loofah//lib/loofah/scrubbers.rb#345
   def scrub(node); end
 end
 

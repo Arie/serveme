@@ -71,13 +71,13 @@ end
 class Unicode::DisplayWidth
   # @return [DisplayWidth] a new instance of DisplayWidth
   #
-  # source://unicode-display_width//lib/unicode/display_width.rb#220
+  # source://unicode-display_width//lib/unicode/display_width.rb#227
   def initialize(ambiguous: T.unsafe(nil), overwrite: T.unsafe(nil), emoji: T.unsafe(nil)); end
 
-  # source://unicode-display_width//lib/unicode/display_width.rb#226
+  # source://unicode-display_width//lib/unicode/display_width.rb#233
   def get_config(**kwargs); end
 
-  # source://unicode-display_width//lib/unicode/display_width.rb#234
+  # source://unicode-display_width//lib/unicode/display_width.rb#241
   def of(string, **kwargs); end
 
   class << self
@@ -86,15 +86,15 @@ class Unicode::DisplayWidth
 
     # Returns width of all considered Emoji and remaining string
     #
-    # source://unicode-display_width//lib/unicode/display_width.rb#134
+    # source://unicode-display_width//lib/unicode/display_width.rb#141
     def emoji_width(string, mode = T.unsafe(nil), ambiguous = T.unsafe(nil)); end
 
     # Match possible Emoji first, then refine
     #
-    # source://unicode-display_width//lib/unicode/display_width.rb#164
+    # source://unicode-display_width//lib/unicode/display_width.rb#171
     def emoji_width_via_possible(string, emoji_set_regex, strict_eaw = T.unsafe(nil), ambiguous = T.unsafe(nil)); end
 
-    # source://unicode-display_width//lib/unicode/display_width.rb#192
+    # source://unicode-display_width//lib/unicode/display_width.rb#199
     def normalize_options(string, ambiguous = T.unsafe(nil), overwrite = T.unsafe(nil), old_options = T.unsafe(nil), **options); end
 
     # Returns monospace display width of string
@@ -104,12 +104,12 @@ class Unicode::DisplayWidth
 
     # Returns width for ASCII-only strings. Will consider zero-width control symbols.
     #
-    # source://unicode-display_width//lib/unicode/display_width.rb#124
+    # source://unicode-display_width//lib/unicode/display_width.rb#131
     def width_ascii(string); end
 
     # Returns width of custom overwrites and remaining string
     #
-    # source://unicode-display_width//lib/unicode/display_width.rb#108
+    # source://unicode-display_width//lib/unicode/display_width.rb#115
     def width_custom(string, overwrite); end
   end
 end

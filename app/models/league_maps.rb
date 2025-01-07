@@ -105,7 +105,7 @@ class LeagueMaps
     %w[
       cp_steel_f12
       koth_ashville_final1
-      koth_cascade_rc1a
+      koth_lakeside_f5
       koth_product_final
       pl_swiftwater_final1
       pl_upward_f12

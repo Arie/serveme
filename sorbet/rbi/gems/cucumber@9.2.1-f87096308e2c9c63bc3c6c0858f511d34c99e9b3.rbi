@@ -4736,30 +4736,30 @@ class Cucumber::MultilineArgument::DataTable
   # @raise [ArgumentError]
   # @return [DataTable] a new instance of DataTable
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#84
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#86
   def initialize(data, conversion_procs = T.unsafe(nil), header_mappings = T.unsafe(nil), header_conversion_proc = T.unsafe(nil)); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#97
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#99
   def append_to(array); end
 
   # Returns the value of attribute cell_matrix.
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#385
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#387
   def cell_matrix; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#371
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#373
   def cells_rows; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#343
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#345
   def cells_to_hash(cells); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#387
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#389
   def col_width(col); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#197
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#199
   def column_names; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#436
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#438
   def columns; end
 
   # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#34
@@ -4801,22 +4801,22 @@ class Cucumber::MultilineArgument::DataTable
   # Calling this method is particularly useful in <tt>Then</tt> steps that take
   # a Table argument, if you want to compare that table to some actual values.
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#319
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#321
   def diff!(other_table, options = T.unsafe(nil)); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#207
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#209
   def each_cells_row(&proc); end
 
   # Returns the value of attribute file.
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#105
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#107
   def file; end
 
   # Sets the attribute file
   #
   # @param value the value to set the attribute file to.
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#105
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#107
   def file=(_arg0); end
 
   # Converts this table into an Array of Hash where the keys of each
@@ -4833,19 +4833,19 @@ class Cucumber::MultilineArgument::DataTable
   #
   # Use #map_column to specify how values in a column are converted.
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#140
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#142
   def hashes; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#381
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#383
   def header_cell(col); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#377
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#379
   def headers; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#353
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#355
   def index(cells); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#107
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#109
   def location; end
 
   # Returns a new Table with an additional column mapping.
@@ -4862,7 +4862,7 @@ class Cucumber::MultilineArgument::DataTable
   #     end
   #   end
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#277
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#279
   def map_column(column_name, strict: T.unsafe(nil), &conversion_proc); end
 
   # Returns a new Table where the headers are redefined.
@@ -4898,7 +4898,7 @@ class Cucumber::MultilineArgument::DataTable
   #   table.hashes.keys
   #   # => ['phone number', 'ADDRESS']
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#259
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#261
   def map_headers(mappings = T.unsafe(nil), &block); end
 
   # Matches +pattern+ against the header row of the table.
@@ -4912,7 +4912,7 @@ class Cucumber::MultilineArgument::DataTable
   #
   # Note: must use 'table:' prefix on match
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#221
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#223
   def match(pattern); end
 
   # Gets the raw data of this table. For example, a Table built from
@@ -4925,10 +4925,10 @@ class Cucumber::MultilineArgument::DataTable
   #
   #   [['a', 'b'], ['c', 'd']]
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#191
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#193
   def raw; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#201
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#203
   def rows; end
 
   # Converts this table into a Hash where the first column is
@@ -4943,7 +4943,7 @@ class Cucumber::MultilineArgument::DataTable
   #
   # The table must be exactly two columns wide
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#174
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#176
   def rows_hash; end
 
   # Converts this table into an Array of Hashes where the keys are symbols.
@@ -4957,7 +4957,7 @@ class Cucumber::MultilineArgument::DataTable
   #
   #   [{:foo => '2', :bar => '3', :foo_bar => '5'}, {:foo => '7', :bar => '9', :foo_bar => '16'}]
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#155
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#157
   def symbolic_hashes; end
 
   # TODO: remove the below function if it's not actually being used.
@@ -4965,19 +4965,19 @@ class Cucumber::MultilineArgument::DataTable
   #
   # @return [Boolean]
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#367
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#369
   def text?(text); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#339
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#341
   def to_hash; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#442
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#444
   def to_json(*args); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#391
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#393
   def to_s(options = T.unsafe(nil)); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#101
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#103
   def to_step_definition_arg; end
 
   # Returns a new, transposed table. Example:
@@ -4991,36 +4991,36 @@ class Cucumber::MultilineArgument::DataTable
   #   | 7 | 9 |
   #   | 4 | 2 |
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#122
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#124
   def transpose; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#357
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#359
   def verify_column(column_name); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#361
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#363
   def verify_table_width(width); end
 
   protected
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#453
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#455
   def build_hashes; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#504
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#506
   def clear_cache!; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#472
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#474
   def convert_columns!; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#486
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#488
   def convert_headers!; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#459
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#461
   def create_cell_matrix(ast_table); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#508
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#510
   def ensure_table(table_or_array); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#514
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#516
   def symbolize_key(key); end
 
   class << self
@@ -5059,150 +5059,150 @@ class Cucumber::MultilineArgument::DataTable::Builder
   def rows; end
 end
 
-# source://cucumber//lib/cucumber/multiline_argument/data_table.rb#578
+# source://cucumber//lib/cucumber/multiline_argument/data_table.rb#580
 class Cucumber::MultilineArgument::DataTable::Cell
   # @return [Cell] a new instance of Cell
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#582
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#584
   def initialize(value, table, line); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#592
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#594
   def ==(other); end
 
   # @return [Boolean]
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#596
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#598
   def eql?(other); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#600
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#602
   def hash; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#588
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#590
   def inspect!; end
 
   # Returns the value of attribute line.
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#579
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#581
   def line; end
 
   # Returns the value of attribute status.
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#580
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#582
   def status; end
 
   # Sets the attribute status
   #
   # @param value the value to set the attribute status to.
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#580
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#582
   def status=(_arg0); end
 
   # Returns the value of attribute table.
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#579
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#581
   def table; end
 
   # For testing only
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#605
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#607
   def to_sexp; end
 
   # Returns the value of attribute value.
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#580
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#582
   def value; end
 
   # Sets the attribute value
   #
   # @param value the value to set the attribute value to.
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#580
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#582
   def value=(_arg0); end
 end
 
 # Represents a row of cells or columns of cells
 #
-# source://cucumber//lib/cucumber/multiline_argument/data_table.rb#519
+# source://cucumber//lib/cucumber/multiline_argument/data_table.rb#521
 class Cucumber::MultilineArgument::DataTable::Cells
   include ::Enumerable
   include ::Cucumber::Gherkin::Formatter::Escaping
 
   # @return [Cells] a new instance of Cells
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#525
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#527
   def initialize(table, cells); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#551
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#553
   def [](index); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#530
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#532
   def accept(visitor); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#559
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#561
   def dom_id; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#563
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#565
   def each(&proc); end
 
   # Returns the value of attribute exception.
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#523
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#525
   def exception; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#555
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#557
   def line; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#543
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#545
   def to_hash; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#539
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#541
   def to_sexp; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#547
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#549
   def value(index); end
 
   private
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#569
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#571
   def index; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#573
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#575
   def width; end
 end
 
-# source://cucumber//lib/cucumber/multiline_argument/data_table.rb#397
+# source://cucumber//lib/cucumber/multiline_argument/data_table.rb#399
 class Cucumber::MultilineArgument::DataTable::DataTablePrinter
   include ::Cucumber::Gherkin::Formatter::Escaping
 
   # @return [DataTablePrinter] a new instance of DataTablePrinter
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#402
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#404
   def initialize(data_table, indentation, prefixes); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#408
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#410
   def to_s; end
 
   private
 
   # Returns the value of attribute data_table.
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#399
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#401
   def data_table; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#427
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#429
   def format_cell(cell, col_width); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#418
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#420
   def format_row(row); end
 
   # Returns the value of attribute indentation.
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#399
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#401
   def indentation; end
 
   # Returns the value of attribute prefixes.
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#399
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#401
   def prefixes; end
 end
 
@@ -5330,35 +5330,38 @@ class Cucumber::MultilineArgument::DataTable::DiffMatrices
   def surplus_col; end
 end
 
-# source://cucumber//lib/cucumber/multiline_argument/data_table.rb#330
+# source://cucumber//lib/cucumber/multiline_argument/data_table.rb#332
 class Cucumber::MultilineArgument::DataTable::Different < ::StandardError
   # @return [Different] a new instance of Different
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#333
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#335
   def initialize(table); end
 
   # Returns the value of attribute table.
   #
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#331
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#333
   def table; end
 end
 
-# source://cucumber//lib/cucumber/multiline_argument/data_table.rb#78
+# This is a Hash being initialized with a default value of a Hash, DO NOT REFORMAT TO REMOVE {}
+# Future versions [3.4.0+] of ruby will interpret these as keywords and break.
+#
+# source://cucumber//lib/cucumber/multiline_argument/data_table.rb#80
 Cucumber::MultilineArgument::DataTable::NULL_CONVERSIONS = T.let(T.unsafe(nil), Hash)
 
-# source://cucumber//lib/cucumber/multiline_argument/data_table.rb#610
+# source://cucumber//lib/cucumber/multiline_argument/data_table.rb#612
 class Cucumber::MultilineArgument::DataTable::SurplusCell < ::Cucumber::MultilineArgument::DataTable::Cell
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#615
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#617
   def ==(_other); end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#619
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#621
   def hash; end
 
-  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#611
+  # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#613
   def status; end
 end
 
-# source://cucumber//lib/cucumber/multiline_argument/data_table.rb#446
+# source://cucumber//lib/cucumber/multiline_argument/data_table.rb#448
 Cucumber::MultilineArgument::DataTable::TO_S_PREFIXES = T.let(T.unsafe(nil), Hash)
 
 # source://cucumber//lib/cucumber/multiline_argument/doc_string.rb#5

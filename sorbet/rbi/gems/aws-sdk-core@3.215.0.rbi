@@ -11507,18 +11507,18 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::AssumeRoleWithWebIdentityResponse#source_identity #source_identity} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithWebIdentity AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1705
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1706
   def assume_role_with_web_identity(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of short term credentials you can use to perform
-  # privileged tasks in a member account.
+  # privileged tasks on a member account in your organization.
   #
-  # Before you can launch a privileged session, you must have enabled
-  # centralized root access in your organization. For steps to enable this
-  # feature, see [Centralize root access for member accounts][1] in the
-  # *IAM User Guide*.
+  # Before you can launch a privileged session, you must have centralized
+  # root access in your organization. For steps to enable this feature,
+  # see [Centralize root access for member accounts][1] in the *IAM User
+  # Guide*.
   #
-  # <note markdown="1"> The global endpoint is not supported for AssumeRoot. You must send
+  # <note markdown="1"> The STS global endpoint is not supported for AssumeRoot. You must send
   # this request to a Regional STS endpoint. For more information, see
   # [Endpoints][2].
   #
@@ -11584,13 +11584,13 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::AssumeRootResponse#source_identity #source_identity} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoot AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1822
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1821
   def assume_root(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @param params [{}]
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2562
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2561
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Decodes additional information about the authorization status of a
@@ -11662,7 +11662,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::DecodeAuthorizationMessageResponse#decoded_message #decoded_message} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/DecodeAuthorizationMessage AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1903
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1902
   def decode_authorization_message(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns the account identifier for the specified access key ID.
@@ -11712,7 +11712,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetAccessKeyInfoResponse#account #account} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetAccessKeyInfo AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1964
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1963
   def get_access_key_info(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns details about the IAM user or role whose credentials are used
@@ -11788,7 +11788,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetCallerIdentityResponse#arn #arn} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetCallerIdentity AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2048
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2047
   def get_caller_identity(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary security credentials (consisting of an
@@ -11983,7 +11983,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetFederationTokenResponse#packed_policy_size #packed_policy_size} => Integer
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetFederationToken AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2396
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2395
   def get_federation_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary credentials for an Amazon Web Services
@@ -12101,24 +12101,24 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetSessionTokenResponse#credentials #credentials} => Types::Credentials
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetSessionToken AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2553
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2552
   def get_session_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2582
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2581
   def waiter_names; end
 
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2592
+    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2591
     def errors_module; end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2589
+    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2588
     def identifier; end
   end
 end
@@ -12747,12 +12747,12 @@ Aws::STS::Types::AssumeRoleWithSAMLResponse::SENSITIVE = T.let(T.unsafe(nil), Ar
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithWebIdentityRequest AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#851
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#852
 class Aws::STS::Types::AssumeRoleWithWebIdentityRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#852
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#853
 Aws::STS::Types::AssumeRoleWithWebIdentityRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Contains the response to a successful AssumeRoleWithWebIdentity
@@ -12761,32 +12761,32 @@ Aws::STS::Types::AssumeRoleWithWebIdentityRequest::SENSITIVE = T.let(T.unsafe(ni
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithWebIdentityResponse AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#952
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#953
 class Aws::STS::Types::AssumeRoleWithWebIdentityResponse < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#953
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#954
 Aws::STS::Types::AssumeRoleWithWebIdentityResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRootRequest AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1001
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1000
 class Aws::STS::Types::AssumeRootRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1002
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1001
 Aws::STS::Types::AssumeRootRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRootResponse AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1040
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1039
 class Aws::STS::Types::AssumeRootResponse < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1041
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1040
 Aws::STS::Types::AssumeRootResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The identifiers for the temporary security credentials that the
@@ -12794,34 +12794,34 @@ Aws::STS::Types::AssumeRootResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumedRoleUser AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1069
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1068
 class Aws::STS::Types::AssumedRoleUser < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1070
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1069
 Aws::STS::Types::AssumedRoleUser::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Amazon Web Services credentials for API authentication.
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/Credentials AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1100
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1099
 class Aws::STS::Types::Credentials < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1101
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1100
 Aws::STS::Types::Credentials::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/DecodeAuthorizationMessageRequest AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1112
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1111
 class Aws::STS::Types::DecodeAuthorizationMessageRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1113
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1112
 Aws::STS::Types::DecodeAuthorizationMessageRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A document that contains additional information about the
@@ -12830,12 +12830,12 @@ Aws::STS::Types::DecodeAuthorizationMessageRequest::SENSITIVE = T.let(T.unsafe(n
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/DecodeAuthorizationMessageResponse AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1128
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1127
 class Aws::STS::Types::DecodeAuthorizationMessageResponse < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1129
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1128
 Aws::STS::Types::DecodeAuthorizationMessageResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The web identity token that was passed is expired or is not valid. Get
@@ -12844,12 +12844,12 @@ Aws::STS::Types::DecodeAuthorizationMessageResponse::SENSITIVE = T.let(T.unsafe(
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/ExpiredTokenException AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1143
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1142
 class Aws::STS::Types::ExpiredTokenException < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1144
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1143
 Aws::STS::Types::ExpiredTokenException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Identifiers for the federated user that is associated with the
@@ -12857,38 +12857,38 @@ Aws::STS::Types::ExpiredTokenException::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/FederatedUser AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1170
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1169
 class Aws::STS::Types::FederatedUser < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1171
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1170
 Aws::STS::Types::FederatedUser::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetAccessKeyInfoRequest AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1186
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1185
 class Aws::STS::Types::GetAccessKeyInfoRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1187
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1186
 Aws::STS::Types::GetAccessKeyInfoRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetAccessKeyInfoResponse AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1198
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1197
 class Aws::STS::Types::GetAccessKeyInfoResponse < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1199
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1198
 Aws::STS::Types::GetAccessKeyInfoResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @api private
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetCallerIdentityRequest AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1207
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1206
 class Aws::STS::Types::GetCallerIdentityRequest < ::Aws::EmptyStructure; end
 
 # Contains the response to a successful GetCallerIdentity request,
@@ -12896,22 +12896,22 @@ class Aws::STS::Types::GetCallerIdentityRequest < ::Aws::EmptyStructure; end
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetCallerIdentityResponse AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1238
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1237
 class Aws::STS::Types::GetCallerIdentityResponse < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1239
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1238
 Aws::STS::Types::GetCallerIdentityResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetFederationTokenRequest AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1411
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1410
 class Aws::STS::Types::GetFederationTokenRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1412
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1411
 Aws::STS::Types::GetFederationTokenRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Contains the response to a successful GetFederationToken request,
@@ -12920,22 +12920,22 @@ Aws::STS::Types::GetFederationTokenRequest::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetFederationTokenResponse AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1450
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1449
 class Aws::STS::Types::GetFederationTokenResponse < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1451
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1450
 Aws::STS::Types::GetFederationTokenResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetSessionTokenRequest AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1498
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1497
 class Aws::STS::Types::GetSessionTokenRequest < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1499
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1498
 Aws::STS::Types::GetSessionTokenRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Contains the response to a successful GetSessionToken request,
@@ -12944,12 +12944,12 @@ Aws::STS::Types::GetSessionTokenRequest::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetSessionTokenResponse AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1521
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1520
 class Aws::STS::Types::GetSessionTokenResponse < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1522
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1521
 Aws::STS::Types::GetSessionTokenResponse::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request could not be fulfilled because the identity provider (IDP)
@@ -12961,12 +12961,12 @@ Aws::STS::Types::GetSessionTokenResponse::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/IDPCommunicationErrorException AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1539
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1538
 class Aws::STS::Types::IDPCommunicationErrorException < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1540
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1539
 Aws::STS::Types::IDPCommunicationErrorException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The identity provider (IdP) reported that authentication failed. This
@@ -12978,12 +12978,12 @@ Aws::STS::Types::IDPCommunicationErrorException::SENSITIVE = T.let(T.unsafe(nil)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/IDPRejectedClaimException AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1557
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1556
 class Aws::STS::Types::IDPRejectedClaimException < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1558
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1557
 Aws::STS::Types::IDPRejectedClaimException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The error returned if the message passed to
@@ -12993,12 +12993,12 @@ Aws::STS::Types::IDPRejectedClaimException::SENSITIVE = T.let(T.unsafe(nil), Arr
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/InvalidAuthorizationMessageException AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1573
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1572
 class Aws::STS::Types::InvalidAuthorizationMessageException < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1574
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1573
 Aws::STS::Types::InvalidAuthorizationMessageException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The web identity token that was passed could not be validated by
@@ -13007,12 +13007,12 @@ Aws::STS::Types::InvalidAuthorizationMessageException::SENSITIVE = T.let(T.unsaf
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/InvalidIdentityTokenException AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1588
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1587
 class Aws::STS::Types::InvalidIdentityTokenException < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1589
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1588
 Aws::STS::Types::InvalidIdentityTokenException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the policy document was malformed.
@@ -13020,12 +13020,12 @@ Aws::STS::Types::InvalidIdentityTokenException::SENSITIVE = T.let(T.unsafe(nil),
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/MalformedPolicyDocumentException AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1602
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1601
 class Aws::STS::Types::MalformedPolicyDocumentException < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1603
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1602
 Aws::STS::Types::MalformedPolicyDocumentException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # The request was rejected because the total packed size of the session
@@ -13048,12 +13048,12 @@ Aws::STS::Types::MalformedPolicyDocumentException::SENSITIVE = T.let(T.unsafe(ni
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/PackedPolicyTooLargeException AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1631
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1630
 class Aws::STS::Types::PackedPolicyTooLargeException < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1632
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1631
 Aws::STS::Types::PackedPolicyTooLargeException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # A reference to the IAM managed policy that is passed as a session
@@ -13061,12 +13061,12 @@ Aws::STS::Types::PackedPolicyTooLargeException::SENSITIVE = T.let(T.unsafe(nil),
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/PolicyDescriptorType AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1653
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1652
 class Aws::STS::Types::PolicyDescriptorType < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1654
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1653
 Aws::STS::Types::PolicyDescriptorType::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # Contains information about the provided context. This includes the
@@ -13075,12 +13075,12 @@ Aws::STS::Types::PolicyDescriptorType::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/ProvidedContext AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1677
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1676
 class Aws::STS::Types::ProvidedContext < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1678
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1677
 Aws::STS::Types::ProvidedContext::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # STS is not activated in the requested region for the account that is
@@ -13095,12 +13095,12 @@ Aws::STS::Types::ProvidedContext::SENSITIVE = T.let(T.unsafe(nil), Array)
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/RegionDisabledException AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1698
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1697
 class Aws::STS::Types::RegionDisabledException < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1699
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1698
 Aws::STS::Types::RegionDisabledException::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # You can pass custom key-value pair attributes when you assume a role
@@ -13115,12 +13115,12 @@ Aws::STS::Types::RegionDisabledException::SENSITIVE = T.let(T.unsafe(nil), Array
 #
 # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/Tag AWS API Documentation
 #
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1741
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1740
 class Aws::STS::Types::Tag < ::Struct
   include ::Aws::Structure
 end
 
-# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1742
+# source://aws-sdk-core//lib/aws-sdk-sts/types.rb#1741
 Aws::STS::Types::Tag::SENSITIVE = T.let(T.unsafe(nil), Array)
 
 # @api private

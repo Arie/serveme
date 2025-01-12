@@ -1240,13 +1240,13 @@ class CarrierWave::Railtie < ::Rails::Railtie; end
 #
 # It's probably needlessly comprehensive and complex. Help is appreciated.
 #
-# source://carrierwave//lib/carrierwave/sanitized_file.rb#15
+# source://carrierwave//lib/carrierwave/sanitized_file.rb#14
 class CarrierWave::SanitizedFile
   include ::CarrierWave::Utilities::FileName
 
   # @return [SanitizedFile] a new instance of SanitizedFile
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#28
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#27
   def initialize(file); end
 
   # Returns the content type of the file.
@@ -1255,7 +1255,7 @@ class CarrierWave::SanitizedFile
   #
   # [String] the content type of the file
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#241
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#251
   def content_type; end
 
   # Sets the content type of the file.
@@ -1264,12 +1264,12 @@ class CarrierWave::SanitizedFile
   #
   # [String] the content type of the file
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#256
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#266
   def content_type=(type); end
 
   # Helper to create copy of file in new path.
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#207
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#217
   def copy!(new_path); end
 
   # Creates a copy of this file and moves it to the given path. Returns the copy.
@@ -1284,12 +1284,12 @@ class CarrierWave::SanitizedFile
   #
   # @return [CarrierWave::SanitizedFile] the location where the file will be stored.
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#194
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#204
   def copy_to(new_path, permissions = T.unsafe(nil), directory_permissions = T.unsafe(nil)); end
 
   # Removes the file from the filesystem.
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#218
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#228
   def delete; end
 
   # === Returns
@@ -1298,7 +1298,7 @@ class CarrierWave::SanitizedFile
   #
   # @return [Boolean]
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#111
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#110
   def empty?; end
 
   # === Returns
@@ -1307,12 +1307,12 @@ class CarrierWave::SanitizedFile
   #
   # @return [Boolean]
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#120
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#119
   def exists?; end
 
   # Returns the value of attribute file.
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#18
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#17
   def file; end
 
   # Returns the filename, sanitized to strip out any evil characters.
@@ -1321,7 +1321,7 @@ class CarrierWave::SanitizedFile
   #
   # [String] the sanitized filename
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#56
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#55
   def filename; end
 
   # Returns the filename, sanitized to strip out any evil characters.
@@ -1330,7 +1330,7 @@ class CarrierWave::SanitizedFile
   #
   # [String] the sanitized filename
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#56
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#55
   def identifier; end
 
   # === Returns
@@ -1339,12 +1339,12 @@ class CarrierWave::SanitizedFile
   #
   # @return [Boolean]
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#102
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#101
   def is_path?; end
 
   # Helper to move file to new path.
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#173
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#183
   def move!(new_path); end
 
   # Moves the file to the given path
@@ -1355,7 +1355,7 @@ class CarrierWave::SanitizedFile
   # [permissions (Integer)] permissions to set on the file in its new location.
   # [directory_permissions (Integer)] permissions to set on created directories.
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#159
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#169
   def move_to(new_path, permissions = T.unsafe(nil), directory_permissions = T.unsafe(nil), keep_filename = T.unsafe(nil)); end
 
   # Returns the filename as is, without sanitizing it.
@@ -1364,7 +1364,7 @@ class CarrierWave::SanitizedFile
   #
   # [String] the unsanitized filename
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#40
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#39
   def original_filename; end
 
   # Returns the full path to the file. If the file has no path, it will return nil.
@@ -1373,7 +1373,7 @@ class CarrierWave::SanitizedFile
   #
   # [String, nil] the path where the file is located.
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#88
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#87
   def path; end
 
   # Returns the contents of the file.
@@ -1382,8 +1382,13 @@ class CarrierWave::SanitizedFile
   #
   # [String] contents of the file
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#131
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#130
   def read(*args); end
+
+  # Rewinds the underlying file.
+  #
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#156
+  def rewind; end
 
   # Used to sanitize the file name. Public to allow overriding for non-latin characters.
   #
@@ -1391,7 +1396,7 @@ class CarrierWave::SanitizedFile
   #
   # [Regexp] the regexp for sanitizing the file name
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#267
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#277
   def sanitize_regexp; end
 
   # Returns the file's size.
@@ -1400,7 +1405,7 @@ class CarrierWave::SanitizedFile
   #
   # [Integer] the file's size in bytes.
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#69
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#68
   def size; end
 
   # Returns a File object, or nil if it does not exist.
@@ -1409,50 +1414,50 @@ class CarrierWave::SanitizedFile
   #
   # [File] a File object representing the SanitizedFile
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#229
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#239
   def to_file; end
 
   private
 
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#292
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#302
   def chmod!(path, permissions); end
 
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#307
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#317
   def declared_content_type; end
 
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#273
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#283
   def file=(file); end
 
   # Guess content type from its file extension. Limit what to be returned to prevent spoofing.
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#315
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#325
   def guessed_safe_content_type; end
 
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#322
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#332
   def identified_content_type; end
 
   # create the directory if it doesn't exist
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#286
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#296
   def mkdir!(path, directory_permissions); end
 
   # Sanitize the filename, to prevent hacking
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#297
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#307
   def sanitize(name); end
 
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#339
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#349
   def with_io(&block); end
 
   class << self
-    # source://carrierwave//lib/carrierwave/sanitized_file.rb#23
+    # source://carrierwave//lib/carrierwave/sanitized_file.rb#22
     def sanitize_regexp; end
 
     # Sets the attribute sanitize_regexp
     #
     # @param value the value to set the attribute sanitize_regexp to.
     #
-    # source://carrierwave//lib/carrierwave/sanitized_file.rb#21
+    # source://carrierwave//lib/carrierwave/sanitized_file.rb#20
     def sanitize_regexp=(_arg0); end
   end
 end

@@ -8,28 +8,28 @@
 # source://aws-sigv4//lib/aws-sigv4/asymmetric_credentials.rb#3
 module Aws
   class << self
-    # source://aws-sdk-core/3.211.0/lib/aws-sdk-core.rb#93
+    # source://aws-sdk-core/3.215.0/lib/aws-sdk-core.rb#93
     def config; end
 
-    # source://aws-sdk-core/3.211.0/lib/aws-sdk-core.rb#96
+    # source://aws-sdk-core/3.215.0/lib/aws-sdk-core.rb#96
     def config=(config); end
 
-    # source://aws-sdk-core/3.211.0/lib/aws-sdk-core.rb#155
+    # source://aws-sdk-core/3.215.0/lib/aws-sdk-core.rb#155
     def eager_autoload!(*args); end
 
-    # source://aws-sdk-core/3.211.0/lib/aws-sdk-core.rb#148
+    # source://aws-sdk-core/3.215.0/lib/aws-sdk-core.rb#148
     def empty_connection_pools!; end
 
-    # source://aws-sdk-core/3.211.0/lib/aws-sdk-core.rb#105
+    # source://aws-sdk-core/3.215.0/lib/aws-sdk-core.rb#105
     def partition(partition_name); end
 
-    # source://aws-sdk-core/3.211.0/lib/aws-sdk-core.rb#110
+    # source://aws-sdk-core/3.215.0/lib/aws-sdk-core.rb#110
     def partitions; end
 
-    # source://aws-sdk-core/3.211.0/lib/aws-sdk-core.rb#86
+    # source://aws-sdk-core/3.215.0/lib/aws-sdk-core.rb#86
     def shared_config; end
 
-    # source://aws-sdk-core/3.211.0/lib/aws-sdk-core.rb#125
+    # source://aws-sdk-core/3.215.0/lib/aws-sdk-core.rb#125
     def use_bundled_cert!; end
   end
 end
@@ -52,26 +52,24 @@ module Aws::Sigv4::AsymmetricCredentials
     # @api private
     # @return [Number] The value of the bytes interpreted as a big-endian
     #
-    # source://aws-sigv4//lib/aws-sigv4/asymmetric_credentials.rb#57
+    # source://aws-sigv4//lib/aws-sigv4/asymmetric_credentials.rb#55
     def be_bytes_to_num(bytes); end
 
     # @api private
     # @return [Array] value of the BigNumber as a big-endian unsigned byte array.
     #
-    # source://aws-sigv4//lib/aws-sigv4/asymmetric_credentials.rb#64
+    # source://aws-sigv4//lib/aws-sigv4/asymmetric_credentials.rb#62
     def bn_to_be_bytes(bn); end
 
     # @api private
     #
-    # source://aws-sigv4//lib/aws-sigv4/asymmetric_credentials.rb#90
+    # source://aws-sigv4//lib/aws-sigv4/asymmetric_credentials.rb#88
     def check_openssl_support!; end
 
     # @api private
-    # @param :access_key_id [String]
-    # @param :secret_access_key [String]
     # @return [OpenSSL::PKey::EC, Hash]
     #
-    # source://aws-sigv4//lib/aws-sigv4/asymmetric_credentials.rb#17
+    # source://aws-sigv4//lib/aws-sigv4/asymmetric_credentials.rb#15
     def derive_asymmetric_key(access_key_id, secret_access_key); end
 
     # Prior to openssl3 we could directly set public and private key on EC
@@ -80,7 +78,7 @@ module Aws::Sigv4::AsymmetricCredentials
     #
     # @api private
     #
-    # source://aws-sigv4//lib/aws-sigv4/asymmetric_credentials.rb#76
+    # source://aws-sigv4//lib/aws-sigv4/asymmetric_credentials.rb#74
     def generate_ec(public_key, d); end
   end
 end

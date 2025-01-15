@@ -4358,13 +4358,18 @@ class Aws::Log::ParamFormatter
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/log/param_formatter.rb#64
+  # source://aws-sdk-core//lib/aws-sdk-core/log/param_formatter.rb#68
   def summarize_array(array); end
 
   # @api private
   #
   # source://aws-sdk-core//lib/aws-sdk-core/log/param_formatter.rb#60
-  def summarize_file(path); end
+  def summarize_file(file); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/log/param_formatter.rb#64
+  def summarize_filepath(path); end
 
   # @api private
   #

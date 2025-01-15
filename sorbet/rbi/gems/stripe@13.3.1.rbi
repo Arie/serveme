@@ -29,10 +29,10 @@ module Stripe
     # Gets the application for a plugin that's identified some. See
     # #set_app_info.
     #
-    # source://stripe//lib/stripe.rb#114
+    # source://stripe//lib/stripe.rb#136
     def app_info; end
 
-    # source://stripe//lib/stripe.rb#118
+    # source://stripe//lib/stripe.rb#140
     def app_info=(info); end
 
     # source://forwardable/1.3.3/forwardable.rb#231
@@ -52,7 +52,7 @@ module Stripe
 
     # Returns the value of attribute config.
     #
-    # source://stripe//lib/stripe.rb#84
+    # source://stripe//lib/stripe.rb#106
     def config; end
 
     # source://forwardable/1.3.3/forwardable.rb#231
@@ -121,7 +121,7 @@ module Stripe
     #
     # Takes a name and optional partner program ID, plugin URL, and version.
     #
-    # source://stripe//lib/stripe.rb#127
+    # source://stripe//lib/stripe.rb#149
     def set_app_info(name, partner_id: T.unsafe(nil), url: T.unsafe(nil), version: T.unsafe(nil)); end
 
     # source://forwardable/1.3.3/forwardable.rb#231
@@ -4365,6 +4365,42 @@ end
 
 # source://stripe//lib/stripe/resources/event.rb#38
 Stripe::Event::OBJECT_NAME = T.let(T.unsafe(nil), String)
+
+# source://stripe//lib/stripe/thin_event.rb#13
+class Stripe::EventReason
+  # @return [EventReason] a new instance of EventReason
+  #
+  # source://stripe//lib/stripe/thin_event.rb#16
+  def initialize(event_reason_payload = T.unsafe(nil)); end
+
+  # Returns the value of attribute request.
+  #
+  # source://stripe//lib/stripe/thin_event.rb#14
+  def request; end
+
+  # Returns the value of attribute type.
+  #
+  # source://stripe//lib/stripe/thin_event.rb#14
+  def type; end
+end
+
+# source://stripe//lib/stripe/thin_event.rb#4
+class Stripe::EventReasonRequest
+  # @return [EventReasonRequest] a new instance of EventReasonRequest
+  #
+  # source://stripe//lib/stripe/thin_event.rb#7
+  def initialize(event_reason_request_payload = T.unsafe(nil)); end
+
+  # Returns the value of attribute id.
+  #
+  # source://stripe//lib/stripe/thin_event.rb#5
+  def id; end
+
+  # Returns the value of attribute idempotency_key.
+  #
+  # source://stripe//lib/stripe/thin_event.rb#5
+  def idempotency_key; end
+end
 
 # source://stripe//lib/stripe/services/event_service.rb#5
 class Stripe::EventService < ::Stripe::StripeService
@@ -9617,19 +9653,19 @@ class Stripe::StripeClient
   #
   # @return [StripeClient] a new instance of StripeClient
   #
-  # source://stripe//lib/stripe/stripe_client.rb#14
+  # source://stripe//lib/stripe/stripe_client.rb#18
   def initialize(api_key, stripe_account: T.unsafe(nil), stripe_context: T.unsafe(nil), stripe_version: T.unsafe(nil), api_base: T.unsafe(nil), uploads_base: T.unsafe(nil), connect_base: T.unsafe(nil), meter_events_base: T.unsafe(nil), client_id: T.unsafe(nil)); end
 
-  # source://stripe//lib/stripe/stripe_client.rb#51
+  # source://stripe//lib/stripe/stripe_client.rb#56
   def _deprecated_request(&block); end
 
-  # source://stripe//lib/stripe/stripe_client.rb#77
+  # source://stripe//lib/stripe/stripe_client.rb#82
   def deserialize(data, api_mode: T.unsafe(nil)); end
 
-  # source://stripe//lib/stripe/stripe_client.rb#57
+  # source://stripe//lib/stripe/stripe_client.rb#62
   def parse_thin_event(payload, sig_header, secret, tolerance: T.unsafe(nil)); end
 
-  # source://stripe//lib/stripe/stripe_client.rb#68
+  # source://stripe//lib/stripe/stripe_client.rb#73
   def raw_request(method, url, base_address: T.unsafe(nil), params: T.unsafe(nil), opts: T.unsafe(nil)); end
 
   def request(*args, **_arg1, &block); end
@@ -9644,6 +9680,12 @@ class Stripe::StripeClient
   # source://stripe//lib/stripe/stripe_client.rb#9
   def v2; end
 end
+
+# For internal use only. Does not provide a stable API and may be broken
+# with future non-major changes.
+#
+# source://stripe//lib/stripe/stripe_client.rb#15
+Stripe::StripeClient::CLIENT_OPTIONS = T.let(T.unsafe(nil), Set)
 
 # Configurable options:
 #
@@ -9673,7 +9715,7 @@ end
 class Stripe::StripeConfiguration
   # @return [StripeConfiguration] a new instance of StripeConfiguration
   #
-  # source://stripe//lib/stripe/stripe_configuration.rb#53
+  # source://stripe//lib/stripe/stripe_configuration.rb#72
   def initialize; end
 
   # Returns the value of attribute api_base.
@@ -9681,7 +9723,7 @@ class Stripe::StripeConfiguration
   # source://stripe//lib/stripe/stripe_configuration.rb#30
   def api_base; end
 
-  # source://stripe//lib/stripe/stripe_configuration.rb#151
+  # source://stripe//lib/stripe/stripe_configuration.rb#171
   def api_base=(api_base); end
 
   # Returns the value of attribute api_key.
@@ -9718,7 +9760,7 @@ class Stripe::StripeConfiguration
   # source://stripe//lib/stripe/stripe_configuration.rb#30
   def ca_bundle_path; end
 
-  # source://stripe//lib/stripe/stripe_configuration.rb#157
+  # source://stripe//lib/stripe/stripe_configuration.rb#177
   def ca_bundle_path=(path); end
 
   # A certificate store initialized from the the bundle in #ca_bundle_path and
@@ -9731,7 +9773,7 @@ class Stripe::StripeConfiguration
   # `Stripe.ca_store`) in their initialization code because it marshals lazily
   # and is itself not thread safe.
   #
-  # source://stripe//lib/stripe/stripe_configuration.rb#175
+  # source://stripe//lib/stripe/stripe_configuration.rb#195
   def ca_store; end
 
   # Returns the value of attribute client_id.
@@ -9751,7 +9793,7 @@ class Stripe::StripeConfiguration
   # source://stripe//lib/stripe/stripe_configuration.rb#30
   def connect_base; end
 
-  # source://stripe//lib/stripe/stripe_configuration.rb#145
+  # source://stripe//lib/stripe/stripe_configuration.rb#165
   def connect_base=(connect_base); end
 
   # Returns the value of attribute enable_telemetry.
@@ -9768,7 +9810,7 @@ class Stripe::StripeConfiguration
 
   # @return [Boolean]
   #
-  # source://stripe//lib/stripe/stripe_configuration.rb#183
+  # source://stripe//lib/stripe/stripe_configuration.rb#203
   def enable_telemetry?; end
 
   # Returns the value of attribute initial_network_retry_delay.
@@ -9776,13 +9818,13 @@ class Stripe::StripeConfiguration
   # source://stripe//lib/stripe/stripe_configuration.rb#30
   def initial_network_retry_delay; end
 
-  # source://stripe//lib/stripe/stripe_configuration.rb#102
+  # source://stripe//lib/stripe/stripe_configuration.rb#122
   def initial_network_retry_delay=(val); end
 
   # Generates a deterministic key to identify configuration objects with
   # identical configuration values.
   #
-  # source://stripe//lib/stripe/stripe_configuration.rb#189
+  # source://stripe//lib/stripe/stripe_configuration.rb#209
   def key; end
 
   # Returns the value of attribute log_level.
@@ -9790,7 +9832,7 @@ class Stripe::StripeConfiguration
   # source://stripe//lib/stripe/stripe_configuration.rb#30
   def log_level; end
 
-  # source://stripe//lib/stripe/stripe_configuration.rb#74
+  # source://stripe//lib/stripe/stripe_configuration.rb#94
   def log_level=(val); end
 
   # Returns the value of attribute logger.
@@ -9810,7 +9852,7 @@ class Stripe::StripeConfiguration
   # source://stripe//lib/stripe/stripe_configuration.rb#30
   def max_network_retries; end
 
-  # source://stripe//lib/stripe/stripe_configuration.rb#94
+  # source://stripe//lib/stripe/stripe_configuration.rb#114
   def max_network_retries=(val); end
 
   # Returns the value of attribute max_network_retry_delay.
@@ -9818,7 +9860,7 @@ class Stripe::StripeConfiguration
   # source://stripe//lib/stripe/stripe_configuration.rb#30
   def max_network_retry_delay; end
 
-  # source://stripe//lib/stripe/stripe_configuration.rb#98
+  # source://stripe//lib/stripe/stripe_configuration.rb#118
   def max_network_retry_delay=(val); end
 
   # Returns the value of attribute meter_events_base.
@@ -9826,7 +9868,7 @@ class Stripe::StripeConfiguration
   # source://stripe//lib/stripe/stripe_configuration.rb#30
   def meter_events_base; end
 
-  # source://stripe//lib/stripe/stripe_configuration.rb#133
+  # source://stripe//lib/stripe/stripe_configuration.rb#153
   def meter_events_base=(meter_events_base); end
 
   # Returns the value of attribute open_timeout.
@@ -9834,7 +9876,7 @@ class Stripe::StripeConfiguration
   # source://stripe//lib/stripe/stripe_configuration.rb#30
   def open_timeout; end
 
-  # source://stripe//lib/stripe/stripe_configuration.rb#106
+  # source://stripe//lib/stripe/stripe_configuration.rb#126
   def open_timeout=(open_timeout); end
 
   # Returns the value of attribute proxy.
@@ -9842,7 +9884,7 @@ class Stripe::StripeConfiguration
   # source://stripe//lib/stripe/stripe_configuration.rb#30
   def proxy; end
 
-  # source://stripe//lib/stripe/stripe_configuration.rb#123
+  # source://stripe//lib/stripe/stripe_configuration.rb#143
   def proxy=(proxy); end
 
   # Returns the value of attribute read_timeout.
@@ -9850,13 +9892,13 @@ class Stripe::StripeConfiguration
   # source://stripe//lib/stripe/stripe_configuration.rb#30
   def read_timeout; end
 
-  # source://stripe//lib/stripe/stripe_configuration.rb#111
+  # source://stripe//lib/stripe/stripe_configuration.rb#131
   def read_timeout=(read_timeout); end
 
   # Create a new config based off an existing one. This is useful when the
   # caller wants to override the global configuration
   #
-  # source://stripe//lib/stripe/stripe_configuration.rb#42
+  # source://stripe//lib/stripe/stripe_configuration.rb#61
   def reverse_duplicate_merge(hash); end
 
   # Returns the value of attribute stripe_account.
@@ -9888,7 +9930,7 @@ class Stripe::StripeConfiguration
   # source://stripe//lib/stripe/stripe_configuration.rb#30
   def uploads_base; end
 
-  # source://stripe//lib/stripe/stripe_configuration.rb#139
+  # source://stripe//lib/stripe/stripe_configuration.rb#159
   def uploads_base=(uploads_base); end
 
   # Returns the value of attribute verify_ssl_certs.
@@ -9896,7 +9938,7 @@ class Stripe::StripeConfiguration
   # source://stripe//lib/stripe/stripe_configuration.rb#30
   def verify_ssl_certs; end
 
-  # source://stripe//lib/stripe/stripe_configuration.rb#128
+  # source://stripe//lib/stripe/stripe_configuration.rb#148
   def verify_ssl_certs=(verify_ssl_certs); end
 
   # Returns the value of attribute write_timeout.
@@ -9906,10 +9948,17 @@ class Stripe::StripeConfiguration
 
   # @raise [NotImplementedError]
   #
-  # source://stripe//lib/stripe/stripe_configuration.rb#116
+  # source://stripe//lib/stripe/stripe_configuration.rb#136
   def write_timeout=(write_timeout); end
 
   class << self
+    # Set options to the StripeClient configured options, if valid as a client option and provided
+    # Otherwise, for user configurable global options, set them to the global configuration
+    # For all other options, set them to the StripeConfiguration default value
+    #
+    # source://stripe//lib/stripe/stripe_configuration.rb#43
+    def client_init(config_opts); end
+
     # source://stripe//lib/stripe/stripe_configuration.rb#34
     def setup; end
   end
@@ -12071,36 +12120,46 @@ class Stripe::TestHelpersService < ::Stripe::StripeService
   def treasury; end
 end
 
-# source://stripe//lib/stripe/thin_event.rb#4
+# source://stripe//lib/stripe/thin_event.rb#22
 class Stripe::ThinEvent
   # @return [ThinEvent] a new instance of ThinEvent
   #
-  # source://stripe//lib/stripe/thin_event.rb#7
+  # source://stripe//lib/stripe/thin_event.rb#25
   def initialize(event_payload = T.unsafe(nil)); end
 
   # Returns the value of attribute context.
   #
-  # source://stripe//lib/stripe/thin_event.rb#5
+  # source://stripe//lib/stripe/thin_event.rb#23
   def context; end
 
   # Returns the value of attribute created.
   #
-  # source://stripe//lib/stripe/thin_event.rb#5
+  # source://stripe//lib/stripe/thin_event.rb#23
   def created; end
 
   # Returns the value of attribute id.
   #
-  # source://stripe//lib/stripe/thin_event.rb#5
+  # source://stripe//lib/stripe/thin_event.rb#23
   def id; end
+
+  # Returns the value of attribute livemode.
+  #
+  # source://stripe//lib/stripe/thin_event.rb#23
+  def livemode; end
+
+  # Returns the value of attribute reason.
+  #
+  # source://stripe//lib/stripe/thin_event.rb#23
+  def reason; end
 
   # Returns the value of attribute related_object.
   #
-  # source://stripe//lib/stripe/thin_event.rb#5
+  # source://stripe//lib/stripe/thin_event.rb#23
   def related_object; end
 
   # Returns the value of attribute type.
   #
-  # source://stripe//lib/stripe/thin_event.rb#5
+  # source://stripe//lib/stripe/thin_event.rb#23
   def type; end
 end
 
@@ -13131,6 +13190,11 @@ class Stripe::TreasuryService < ::Stripe::StripeService
   # source://stripe//lib/stripe/services/treasury_service.rb#6
   def transactions; end
 end
+
+# Options that can be configured globally by users
+#
+# source://stripe//lib/stripe.rb#78
+Stripe::USER_CONFIGURABLE_GLOBAL_OPTIONS = T.let(T.unsafe(nil), Set)
 
 # Usage records allow you to report customer usage and metrics to Stripe for
 # metered billing of subscription prices.

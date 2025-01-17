@@ -4999,47 +4999,34 @@ end
 class Aws::Plugins::ChecksumAlgorithm < ::Seahorse::Client::Plugin
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#56
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#153
   def add_handlers(handlers, _config); end
 
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#251
-    def calculate_checksum(algorithm, body); end
-
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#261
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#78
     def digest_for_algorithm(algorithm); end
 
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#79
-    def operation_response_algorithms(context); end
-
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#65
-    def request_algorithm_selection(context); end
-
-    # @api private
-    #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#72
-    def request_validation_mode(context); end
-
-    # The trailer size (in bytes) is the overhead + the trailer name +
-    # the length of the base64 encoded checksum
+    # The trailer size (in bytes) is the overhead (0, \r, \n) + the trailer
+    # name + the bytesize of the base64 encoded checksum.
     #
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#277
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#98
     def trailer_length(algorithm, location_name); end
 
+    private
+
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#281
-    def update_in_chunks(digest, io); end
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#104
+    def resolve_request_checksum_calculation(cfg); end
+
+    # @api private
+    #
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#118
+    def resolve_response_checksum_validation(cfg); end
   end
 end
 
@@ -5048,50 +5035,51 @@ end
 #
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#292
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#454
 class Aws::Plugins::ChecksumAlgorithm::AwsChunkedTrailerDigestIO
   # @api private
   # @return [AwsChunkedTrailerDigestIO] a new instance of AwsChunkedTrailerDigestIO
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#295
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#457
   def initialize(io, algorithm, location_name); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#320
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#482
   def read(length, buf = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#316
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#478
   def rewind; end
 
   # the size of the application layer aws-chunked + trailer body
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#304
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#466
   def size; end
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#293
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#455
 Aws::Plugins::ChecksumAlgorithm::AwsChunkedTrailerDigestIO::CHUNK_SIZE = T.let(T.unsafe(nil), Integer)
 
-# priority order of checksum algorithms to validate responses against
-# Remove any algorithms not supported by client (ie, depending on CRT availability)
+# Priority order of checksum algorithms to validate responses against.
+# Remove any algorithms not supported by client (ie, depending on CRT availability).
+# This list was chosen based on average performance.
 #
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#23
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#28
 Aws::Plugins::ChecksumAlgorithm::CHECKSUM_ALGORITHM_PRIORITIES = T.let(T.unsafe(nil), Array)
 
 # byte size of checksums, used in computing the trailer length
 #
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#26
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#31
 Aws::Plugins::ChecksumAlgorithm::CHECKSUM_SIZE = T.let(T.unsafe(nil), Hash)
 
 # one MB
@@ -5111,14 +5099,34 @@ Aws::Plugins::ChecksumAlgorithm::CLIENT_ALGORITHMS = T.let(T.unsafe(nil), Array)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#116
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#23
+Aws::Plugins::ChecksumAlgorithm::CRT_ALGORITHMS = T.let(T.unsafe(nil), Array)
+
+# @api private
+#
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#182
 class Aws::Plugins::ChecksumAlgorithm::ChecksumHandler < ::Seahorse::Client::Handler
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#118
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#183
   def call(context); end
 
   private
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#233
+  def add_request_checksum_metrics(algorithm, metrics); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#215
+  def add_request_config_metric(config, metrics); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#224
+  def add_response_config_metric(config, metrics); end
 
   # Add events to the http_response to verify the checksum as its read
   # This prevents the body from being read multiple times
@@ -5126,86 +5134,167 @@ class Aws::Plugins::ChecksumAlgorithm::ChecksumHandler < ::Seahorse::Client::Han
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#194
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#393
   def add_verify_response_checksum_handlers(context); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#166
-  def apply_request_trailer_checksum(context, checksum_properties); end
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#422
+  def add_verify_response_data_handler(context, checksum_context); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#152
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#400
+  def add_verify_response_headers_handler(context, checksum_context); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#428
+  def add_verify_response_success_handler(context, checksum_context); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#333
+  def apply_request_checksum(context, headers, checksum_properties); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#362
+  def apply_request_trailer_checksum(context, headers, checksum_properties); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#342
+  def calculate_checksum(algorithm, body); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#318
   def calculate_request_checksum(context, checksum_properties); end
 
-  # determine where (header vs trailer) a request checksum should be added
+  # @api private
+  # @return [Boolean]
   #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#280
+  def checksum_optional?(context); end
+
+  # @api private
+  # @return [Boolean]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#285
+  def checksum_provided_as_header?(headers); end
+
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#240
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#309
   def checksum_request_in(context); end
 
-  # returns nil if no headers to verify
+  # @api private
+  # @return [Boolean]
   #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#274
+  def checksum_required?(context); end
+
+  # @api private
+  # @raise [ArgumentError]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#295
+  def choose_request_algorithm!(context); end
+
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#231
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#268
+  def operation_response_algorithms(context); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#255
+  def request_algorithm_header(context); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#248
+  def request_algorithm_selection(context); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#261
+  def request_validation_mode(context); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#443
   def response_header_to_verify(headers, validation_list); end
 
   # @api private
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#142
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#289
   def should_calculate_request_checksum?(context); end
 
   # @api private
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#148
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#386
   def should_verify_response_checksum?(context); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#352
+  def update_in_chunks(digest, io); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#207
+  def with_metrics(config, algorithm, &block); end
 end
 
+# @api private
+#
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#40
+Aws::Plugins::ChecksumAlgorithm::DEFAULT_CHECKSUM = T.let(T.unsafe(nil), String)
+
 # Interface for computing digests on request/response bodies
-# which may be files, strings or IO like objects
-# Applies only to digest functions that produce 32 bit integer checksums
-# (eg CRC32)
+# which may be files, strings or IO like objects.
+# Applies only to digest functions that produce 32 or 64 bit
+# integer checksums (eg CRC32 or CRC64).
 #
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#37
-class Aws::Plugins::ChecksumAlgorithm::Digest32
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#137
+class Aws::Plugins::ChecksumAlgorithm::Digest
   # @api private
-  # @param digest_fn [Object]
-  # @return [Digest32] a new instance of Digest32
+  # @return [Digest] a new instance of Digest
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#42
-  def initialize(digest_fn); end
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#138
+  def initialize(digest_fn, directive); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#51
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#148
   def base64digest; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#47
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#144
   def update(chunk); end
-
-  # @api private
-  #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#39
-  def value; end
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#87
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#160
 class Aws::Plugins::ChecksumAlgorithm::OptionHandler < ::Seahorse::Client::Handler
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#88
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#161
   def call(context); end
+
+  private
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#174
+  def enable_request_validation_mode(context); end
 end
 
 # @api private
@@ -5522,7 +5611,7 @@ end
 class Aws::Plugins::HttpChecksum < ::Seahorse::Client::Plugin
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/http_checksum.rb#57
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/http_checksum.rb#51
   def add_handlers(handlers, _config); end
 end
 
@@ -5538,21 +5627,15 @@ class Aws::Plugins::HttpChecksum::Handler < ::Seahorse::Client::Handler
   private
 
   # @api private
-  # @return [Boolean]
-  #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/http_checksum.rb#25
-  def checksum_required?(context); end
-
-  # @api private
   # @param value [File, Tempfile, IO#read, String]
   # @return [String<MD5>]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/http_checksum.rb#33
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/http_checksum.rb#27
   def md5(value); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/http_checksum.rb#46
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/http_checksum.rb#40
   def update_in_chunks(digest, io); end
 end
 
@@ -6902,44 +6985,44 @@ class Aws::Plugins::UserAgent < ::Seahorse::Client::Plugin
     #
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#52
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#61
     def feature(_feature, &block); end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#56
+    # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#65
     def metric(*metrics, &block); end
   end
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#66
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#75
 class Aws::Plugins::UserAgent::Handler < ::Seahorse::Client::Handler
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#67
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#76
   def call(context); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#72
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#81
   def set_user_agent(context); end
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#76
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#85
 class Aws::Plugins::UserAgent::Handler::UserAgent
   # @api private
   # @return [UserAgent] a new instance of UserAgent
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#77
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#86
   def initialize(context); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#81
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#90
   def to_s; end
 
   private
@@ -6948,41 +7031,41 @@ class Aws::Plugins::UserAgent::Handler::UserAgent
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#110
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#119
   def api_metadata; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#149
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#158
   def app_id_metadata; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#143
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#152
   def env_metadata; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#157
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#166
   def framework_metadata; end
 
   # Used to be RUBY_ENGINE/RUBY_VERSION
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#139
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#148
   def language_metadata; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#174
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#183
   def metric_metadata; end
 
   # Used to be RUBY_PLATFORM
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#120
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/user_agent.rb#129
   def os_metadata; end
 end
 
@@ -8491,13 +8574,13 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   # @overload initialize
   # @return [Client] a new instance of Client
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#444
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#467
   def initialize(*args); end
 
   # @api private
   # @param params [{}]
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#658
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#681
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Returns the STS short-term credentials for a given role name that is
@@ -8526,7 +8609,7 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   #   * {Types::GetRoleCredentialsResponse#role_credentials #role_credentials} => Types::RoleCredentials
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/GetRoleCredentials AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#491
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#514
   def get_role_credentials(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Lists all roles that are assigned to the user for a given AWS account.
@@ -8559,7 +8642,7 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   #   * {Types::ListAccountRolesResponse#role_list #role_list} => Array&lt;Types::RoleInfo&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/ListAccountRoles AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#544
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#567
   def list_account_roles(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Lists all AWS accounts assigned to the user. These AWS accounts are
@@ -8598,7 +8681,7 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   #   * {Types::ListAccountsResponse#account_list #account_list} => Array&lt;Types::AccountInfo&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/ListAccounts AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#601
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#624
   def list_accounts(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Removes the locally stored SSO tokens from the client-side cache and
@@ -8634,24 +8717,24 @@ class Aws::SSO::Client < ::Seahorse::Client::Base
   # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-2019-06-10/Logout AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#649
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#672
   def logout(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#678
+  # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#701
   def waiter_names; end
 
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#688
+    # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#711
     def errors_module; end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#685
+    # source://aws-sdk-core//lib/aws-sdk-sso/client.rb#708
     def identifier; end
   end
 end
@@ -9322,13 +9405,13 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   # @overload initialize
   # @return [Client] a new instance of Client
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#444
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#467
   def initialize(*args); end
 
   # @api private
   # @param params [{}]
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1011
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1034
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Creates and returns access and refresh tokens for clients that are
@@ -9411,7 +9494,7 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   #   * {Types::CreateTokenResponse#id_token #id_token} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/CreateToken AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#586
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#609
   def create_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Creates and returns access and refresh tokens for clients and
@@ -9563,7 +9646,7 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   #   * {Types::CreateTokenWithIAMResponse#scope #scope} => Array&lt;String&gt;
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/CreateTokenWithIAM AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#821
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#844
   def create_token_with_iam(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Registers a client with IAM Identity Center. This allows clients to
@@ -9635,7 +9718,7 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   #   * {Types::RegisterClientResponse#token_endpoint #token_endpoint} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/RegisterClient AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#927
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#950
   def register_client(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Initiates device authorization by requesting a pair of verification
@@ -9688,24 +9771,24 @@ class Aws::SSOOIDC::Client < ::Seahorse::Client::Base
   #   * {Types::StartDeviceAuthorizationResponse#interval #interval} => Integer
   # @see http://docs.aws.amazon.com/goto/WebAPI/sso-oidc-2019-06-10/StartDeviceAuthorization AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1002
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1025
   def start_device_authorization(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1031
+  # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1054
   def waiter_names; end
 
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1041
+    # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1064
     def errors_module; end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1038
+    # source://aws-sdk-core//lib/aws-sdk-ssooidc/client.rb#1061
     def identifier; end
   end
 end
@@ -10827,7 +10910,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   # @overload initialize
   # @return [Client] a new instance of Client
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#451
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#474
   def initialize(*args); end
 
   # Returns a set of temporary security credentials that you can use to
@@ -11045,7 +11128,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::AssumeRoleResponse#source_identity #source_identity} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRole AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#950
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#973
   def assume_role(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary security credentials for users who have
@@ -11278,7 +11361,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::AssumeRoleWithSAMLResponse#source_identity #source_identity} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithSAML AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1305
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1328
   def assume_role_with_saml(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary security credentials for users who have
@@ -11512,7 +11595,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::AssumeRoleWithWebIdentityResponse#source_identity #source_identity} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithWebIdentity AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1706
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1729
   def assume_role_with_web_identity(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of short term credentials you can use to perform
@@ -11589,13 +11672,13 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::AssumeRootResponse#source_identity #source_identity} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoot AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1821
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1844
   def assume_root(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @param params [{}]
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2561
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2584
   def build_request(operation_name, params = T.unsafe(nil)); end
 
   # Decodes additional information about the authorization status of a
@@ -11667,7 +11750,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::DecodeAuthorizationMessageResponse#decoded_message #decoded_message} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/DecodeAuthorizationMessage AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1902
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1925
   def decode_authorization_message(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns the account identifier for the specified access key ID.
@@ -11717,7 +11800,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetAccessKeyInfoResponse#account #account} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetAccessKeyInfo AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1963
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#1986
   def get_access_key_info(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns details about the IAM user or role whose credentials are used
@@ -11793,7 +11876,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetCallerIdentityResponse#arn #arn} => String
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetCallerIdentity AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2047
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2070
   def get_caller_identity(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary security credentials (consisting of an
@@ -11988,7 +12071,7 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetFederationTokenResponse#packed_policy_size #packed_policy_size} => Integer
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetFederationToken AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2395
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2418
   def get_federation_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Returns a set of temporary credentials for an Amazon Web Services
@@ -12106,24 +12189,24 @@ class Aws::STS::Client < ::Seahorse::Client::Base
   #   * {Types::GetSessionTokenResponse#credentials #credentials} => Types::Credentials
   # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetSessionToken AWS API Documentation
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2552
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2575
   def get_session_token(params = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # @api private
   # @deprecated
   #
-  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2581
+  # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2604
   def waiter_names; end
 
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2591
+    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2614
     def errors_module; end
 
     # @api private
     #
-    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2588
+    # source://aws-sdk-core//lib/aws-sdk-sts/client.rb#2611
     def identifier; end
   end
 end
@@ -13291,7 +13374,13 @@ class Aws::SharedConfig
   def region(opts = T.unsafe(nil)); end
 
   # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#195
+  def request_checksum_calculation(opts = T.unsafe(nil)); end
+
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#195
   def request_min_compression_size_bytes(opts = T.unsafe(nil)); end
+
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#195
+  def response_checksum_validation(opts = T.unsafe(nil)); end
 
   # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#195
   def retry_mode(opts = T.unsafe(nil)); end
@@ -13345,52 +13434,52 @@ class Aws::SharedConfig
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#244
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#246
   def assume_role_from_profile(cfg, profile, opts, chain_config); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#337
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#339
   def assume_role_process_credentials_from_config(profile); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#352
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#354
   def credentials_from_config(profile, _opts); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#414
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#416
   def credentials_from_profile(prof_config); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#346
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#348
   def credentials_from_shared(profile, _opts); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#322
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#324
   def credentials_from_source(credential_source, config); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#442
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#444
   def default_shared_config_path(file); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#438
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#440
   def determine_config_path; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#434
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#436
   def determine_credentials_path; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#458
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#460
   def determine_profile(options); end
 
   # Get a config value from from shared credential/config files.
@@ -13399,22 +13488,22 @@ class Aws::SharedConfig
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#236
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#238
   def get_config_value(key, opts); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#430
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#432
   def load_config_file; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#424
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#426
   def load_credentials_file; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#297
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#299
   def resolve_source_profile(profile, opts = T.unsafe(nil)); end
 
   # If any of the sso_ profile values are present, attempt to construct
@@ -13422,12 +13511,12 @@ class Aws::SharedConfig
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#360
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#362
   def sso_credentials_from_profile(cfg, profile); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#465
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#467
   def sso_session(cfg, profile, sso_session_name); end
 
   # If the required sso_ profile values are present, attempt to construct
@@ -13435,12 +13524,12 @@ class Aws::SharedConfig
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#399
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#401
   def sso_token_from_profile(cfg, profile); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#449
+  # source://aws-sdk-core//lib/aws-sdk-core/shared_config.rb#451
   def validate_profile_exists(profile); end
 
   class << self
@@ -18111,7 +18200,6 @@ class Seahorse::Client::Plugins::ReadCallbackIO
   # source://aws-sdk-core//lib/seahorse/client/plugins/request_callback.rb#34
   def read(*args); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def size(*args, **_arg1, &block); end
 
   private

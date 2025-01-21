@@ -144,7 +144,7 @@ GEM
     autoprefixer-rails (10.4.19.0)
       execjs (~> 2)
     aws-eventstream (1.3.0)
-    aws-partitions (1.1040.0)
+    aws-partitions (1.1041.0)
     aws-sdk-core (3.216.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -153,7 +153,7 @@ GEM
     aws-sdk-kms (1.97.0)
       aws-sdk-core (~> 3, >= 3.216.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.177.0)
+    aws-sdk-s3 (1.176.1)
       aws-sdk-core (~> 3, >= 3.210.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
@@ -774,7 +774,7 @@ PLATFORMS
 DEPENDENCIES
   actionpack-action_caching
   american_date
-  aws-sdk-s3 (= 1.177.0)
+  aws-sdk-s3 (= 1.176.1)
   base32_pure
   bcrypt_pbkdf
   better_errors

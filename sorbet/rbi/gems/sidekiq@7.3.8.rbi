@@ -768,10 +768,7 @@ class Sidekiq::Config
   # source://sidekiq//lib/sidekiq/config.rb#53
   def initialize(options = T.unsafe(nil)); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def [](*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def []=(*args, **_arg1, &block); end
 
   # How frequently Redis should be checked by a random Sidekiq process for
@@ -824,7 +821,6 @@ class Sidekiq::Config
   # source://sidekiq//lib/sidekiq/config.rb#118
   def default_capsule(&block); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def dig(*args, **_arg1, &block); end
 
   # Register a proc to handle any error which occurs within the Sidekiq process.
@@ -838,7 +834,6 @@ class Sidekiq::Config
   # source://sidekiq//lib/sidekiq/config.rb#247
   def error_handlers; end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def fetch(*args, **_arg1, &block); end
 
   # source://sidekiq//lib/sidekiq/config.rb#212
@@ -849,13 +844,11 @@ class Sidekiq::Config
   # source://sidekiq//lib/sidekiq/config.rb#291
   def handle_exception(ex, ctx = T.unsafe(nil)); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def has_key?(*args, **_arg1, &block); end
 
   # source://sidekiq//lib/sidekiq/config.rb#64
   def inspect; end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def key?(*args, **_arg1, &block); end
 
   # source://sidekiq//lib/sidekiq/config.rb#265
@@ -869,7 +862,6 @@ class Sidekiq::Config
   # source://sidekiq//lib/sidekiq/config.rb#204
   def lookup(name, default_class = T.unsafe(nil)); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def merge!(*args, **_arg1, &block); end
 
   # source://sidekiq//lib/sidekiq/config.rb#148

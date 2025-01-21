@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 gem 'actionpack-action_caching'
 gem 'american_date'
-gem 'aws-sdk-s3', require: false
+gem 'aws-sdk-s3', '1.177.0', require: false
 gem 'base32_pure'
 gem 'bcrypt_pbkdf'
 gem 'bootsnap', require: false

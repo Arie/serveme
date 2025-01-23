@@ -4,6 +4,8 @@ source 'https://rubygems.org'
 
 gem 'actionpack-action_caching'
 gem 'american_date'
+gem 'aws-sigv4', '1.10.1'
+gem 'aws-sdk-core', '3.214.1', require: false
 gem 'aws-sdk-s3', '1.176.1', require: false
 gem 'base32_pure'
 gem 'bcrypt_pbkdf'

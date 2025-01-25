@@ -616,10 +616,10 @@ class Launchy::Error < ::StandardError; end
 #
 # source://launchy//lib/launchy/runner.rb#7
 class Launchy::Runner
-  # source://launchy//lib/launchy/runner.rb#47
+  # source://launchy//lib/launchy/runner.rb#48
   def commandline_normalize(cmdline); end
 
-  # source://launchy//lib/launchy/runner.rb#32
+  # source://launchy//lib/launchy/runner.rb#33
   def dry_run(cmd, *args); end
 
   # source://launchy//lib/launchy/runner.rb#8
@@ -630,7 +630,7 @@ class Launchy::Runner
   # args are not escaped because the whole set is passed to system as *args
   # and in that case system shell escaping rules are not done.
   #
-  # source://launchy//lib/launchy/runner.rb#41
+  # source://launchy//lib/launchy/runner.rb#42
   def shell_commands(cmd, args); end
 
   # source://launchy//lib/launchy/runner.rb#21

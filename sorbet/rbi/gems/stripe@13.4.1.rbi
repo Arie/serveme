@@ -8,22 +8,11 @@
 # source://stripe//lib/stripe/api_version.rb#4
 module Stripe
   class << self
-    # source://forwardable/1.3.3/forwardable.rb#231
     def api_base(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def api_base=(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def api_key(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def api_key=(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def api_version(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def api_version=(*args, **_arg1, &block); end
 
     # Gets the application for a plugin that's identified some. See
@@ -35,19 +24,10 @@ module Stripe
     # source://stripe//lib/stripe.rb#140
     def app_info=(info); end
 
-    # source://forwardable/1.3.3/forwardable.rb#231
     def ca_bundle_path(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def ca_bundle_path=(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def ca_store(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def client_id(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def client_id=(*args, **_arg1, &block); end
 
     # Returns the value of attribute config.
@@ -55,64 +35,25 @@ module Stripe
     # source://stripe//lib/stripe.rb#106
     def config; end
 
-    # source://forwardable/1.3.3/forwardable.rb#231
     def connect_base(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def connect_base=(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def enable_telemetry=(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def enable_telemetry?(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def initial_network_retry_delay(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def log_level(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def log_level=(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def logger(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def logger=(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def max_network_retries(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def max_network_retries=(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def max_network_retry_delay(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def meter_events_base(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def meter_events_base=(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def open_timeout(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def open_timeout=(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def proxy(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def proxy=(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def read_timeout(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def read_timeout=(*args, **_arg1, &block); end
 
     # Sets some basic information about the running application that's sent along
@@ -124,28 +65,13 @@ module Stripe
     # source://stripe//lib/stripe.rb#149
     def set_app_info(name, partner_id: T.unsafe(nil), url: T.unsafe(nil), version: T.unsafe(nil)); end
 
-    # source://forwardable/1.3.3/forwardable.rb#231
     def stripe_account(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def stripe_account=(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def uploads_base(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def uploads_base=(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def verify_ssl_certs(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def verify_ssl_certs=(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def write_timeout(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def write_timeout=(*args, **_arg1, &block); end
   end
 end
@@ -1229,7 +1155,7 @@ class Stripe::Account < ::Stripe::APIResource
     # If you want to delete your own account, use the [account information tab in your account settings](https://dashboard.stripe.com/settings/account) instead.
     #
     # source://stripe//lib/stripe/resources/account.rb#54
-    def delete(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def delete(account, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/api_operations/nested_resource.rb#77
     def delete_external_account(id, nested_id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -1305,7 +1231,7 @@ class Stripe::Account < ::Stripe::APIResource
     # [Connect](https://stripe.com/docs/connect/updating-accounts) documentation to learn more about updating accounts.
     #
     # source://stripe//lib/stripe/resources/account.rb#141
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(account, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/api_operations/nested_resource.rb#67
     def update_capability(id, nested_id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -1594,7 +1520,7 @@ class Stripe::ApplePayDomain < ::Stripe::APIResource
     # Delete an apple pay domain.
     #
     # source://stripe//lib/stripe/resources/apple_pay_domain.rb#27
-    def delete(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def delete(domain, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # List apple pay domains.
     #
@@ -2424,7 +2350,7 @@ class Stripe::BillingPortal::Configuration < ::Stripe::APIResource
     # Updates a configuration that describes the functionality of the customer portal.
     #
     # source://stripe//lib/stripe/resources/billing_portal/configuration.rb#38
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(configuration, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -2739,7 +2665,7 @@ class Stripe::Charge < ::Stripe::APIResource
     # Updates the specified charge by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
     #
     # source://stripe//lib/stripe/resources/charge.rb#72
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(charge, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -2854,7 +2780,7 @@ class Stripe::Checkout::Session < ::Stripe::APIResource
     # Updates a Session object.
     #
     # source://stripe//lib/stripe/resources/checkout/session.rb#95
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(session, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -2970,7 +2896,7 @@ class Stripe::Climate::Order < ::Stripe::APIResource
     # Updates the specified order by setting the values of the parameters passed.
     #
     # source://stripe//lib/stripe/resources/climate/order.rb#57
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(order, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -3284,7 +3210,7 @@ class Stripe::Coupon < ::Stripe::APIResource
     # You can delete coupons via the [coupon management](https://dashboard.stripe.com/coupons) page of the Stripe dashboard. However, deleting a coupon does not affect any customers who have already applied the coupon; it means that new customers can't redeem the coupon. You can also delete coupons via the API.
     #
     # source://stripe//lib/stripe/resources/coupon.rb#27
-    def delete(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def delete(coupon, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Returns a list of your coupons.
     #
@@ -3297,7 +3223,7 @@ class Stripe::Coupon < ::Stripe::APIResource
     # Updates the metadata of a coupon. Other coupon details (currency, duration, amount_off) are, by design, not editable.
     #
     # source://stripe//lib/stripe/resources/coupon.rb#52
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(coupon, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -3570,7 +3496,7 @@ class Stripe::Customer < ::Stripe::APIResource
     # Permanently deletes a customer. It cannot be undone. Also immediately cancels any active subscriptions on the customer.
     #
     # source://stripe//lib/stripe/resources/customer.rb#55
-    def delete(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def delete(customer, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Removes the currently applied discount on a customer.
     #
@@ -3650,7 +3576,7 @@ class Stripe::Customer < ::Stripe::APIResource
     # This request accepts mostly the same arguments as the customer creation call.
     #
     # source://stripe//lib/stripe/resources/customer.rb#160
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(customer, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/api_operations/nested_resource.rb#67
     def update_balance_transaction(id, nested_id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -4060,7 +3986,7 @@ class Stripe::Dispute < ::Stripe::APIResource
     # Depending on your dispute type, different evidence fields will give you a better chance of winning your dispute. To figure out which evidence fields to provide, see our [guide to dispute types](https://stripe.com/docs/disputes/categories).
     #
     # source://stripe//lib/stripe/resources/dispute.rb#51
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(dispute, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -4223,7 +4149,7 @@ class Stripe::EphemeralKey < ::Stripe::APIResource
     # Invalidates a short-lived API key for a given resource.
     #
     # source://stripe//lib/stripe/resources/ephemeral_key.rb#15
-    def delete(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def delete(key, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/ephemeral_key.rb#10
     def object_name; end
@@ -4557,7 +4483,7 @@ class Stripe::FileLink < ::Stripe::APIResource
     # Updates an existing file link object. Expired links can no longer be updated.
     #
     # source://stripe//lib/stripe/resources/file_link.rb#29
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(link, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -5098,7 +5024,7 @@ class Stripe::Identity::VerificationSession < ::Stripe::APIResource
     # verification check and options.
     #
     # source://stripe//lib/stripe/resources/identity/verification_session.rb#137
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(session, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -5523,7 +5449,7 @@ class Stripe::Invoice < ::Stripe::APIResource
     # Permanently deletes a one-off invoice draft. This cannot be undone. Attempts to delete invoices that are no longer in a draft state will fail; once an invoice has been finalized or if an invoice is for a subscription, it must be [voided](https://stripe.com/docs/api#void_invoice).
     #
     # source://stripe//lib/stripe/resources/invoice.rb#94
-    def delete(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def delete(invoice, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Stripe automatically finalizes drafts before sending and attempting payment on invoices. However, if you'd like to finalize a draft invoice manually, you can do so using this method.
     #
@@ -5596,7 +5522,7 @@ class Stripe::Invoice < ::Stripe::APIResource
     # auto_advance=false.
     #
     # source://stripe//lib/stripe/resources/invoice.rb#257
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(invoice, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Updates multiple line items on an invoice. This is only possible when an invoice is still a draft.
     #
@@ -5650,7 +5576,7 @@ class Stripe::InvoiceItem < ::Stripe::APIResource
     # Deletes an invoice item, removing it from an invoice. Deleting invoice items is only possible when they're not attached to invoices, or if it's attached to a draft invoice.
     #
     # source://stripe//lib/stripe/resources/invoice_item.rb#33
-    def delete(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def delete(invoiceitem, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Returns a list of your invoice items. Invoice items are returned sorted by creation date, with the most recently created invoice items appearing first.
     #
@@ -5663,7 +5589,7 @@ class Stripe::InvoiceItem < ::Stripe::APIResource
     # Updates the amount or description of an invoice item on an upcoming invoice. Updating an invoice item is only possible before the invoice it's attached to is closed.
     #
     # source://stripe//lib/stripe/resources/invoice_item.rb#58
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(invoiceitem, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -5717,7 +5643,7 @@ class Stripe::InvoiceLineItem < ::Stripe::StripeObject
     # Updating an invoice's line item is only possible before the invoice is finalized.
     #
     # source://stripe//lib/stripe/resources/invoice_line_item.rb#20
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(invoice, line_item_id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -5953,7 +5879,7 @@ class Stripe::Issuing::Authorization < ::Stripe::APIResource
   # source://stripe//lib/stripe/resources/issuing/authorization.rb#23
   def _deprecated_approve(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-  # source://stripe//lib/stripe/resources/issuing/authorization.rb#50
+  # source://stripe//lib/stripe/resources/issuing/authorization.rb#51
   def _deprecated_decline(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # [Deprecated] Approves a pending Issuing Authorization object. This request should be made within the timeout window of the [real-time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
@@ -5964,14 +5890,14 @@ class Stripe::Issuing::Authorization < ::Stripe::APIResource
   # This method is deprecated. Instead, [respond directly to the webhook request to decline an authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations#authorization-handling).
   def decline(*args, **_arg1, &block); end
 
-  # source://stripe//lib/stripe/resources/issuing/authorization.rb#95
+  # source://stripe//lib/stripe/resources/issuing/authorization.rb#97
   def test_helpers; end
 
   class << self
     # source://stripe//lib/stripe/resources/issuing/authorization.rb#35
     def _deprecated_approve(authorization, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-    # source://stripe//lib/stripe/resources/issuing/authorization.rb#62
+    # source://stripe//lib/stripe/resources/issuing/authorization.rb#63
     def _deprecated_decline(authorization, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # [Deprecated] Approves a pending Issuing Authorization object. This request should be made within the timeout window of the [real-time authorization](https://stripe.com/docs/issuing/controls/real-time-authorizations) flow.
@@ -5984,7 +5910,7 @@ class Stripe::Issuing::Authorization < ::Stripe::APIResource
 
     # Returns a list of Issuing Authorization objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
     #
-    # source://stripe//lib/stripe/resources/issuing/authorization.rb#76
+    # source://stripe//lib/stripe/resources/issuing/authorization.rb#78
     def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/issuing/authorization.rb#17
@@ -5992,88 +5918,88 @@ class Stripe::Issuing::Authorization < ::Stripe::APIResource
 
     # Updates the specified Issuing Authorization object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
     #
-    # source://stripe//lib/stripe/resources/issuing/authorization.rb#86
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    # source://stripe//lib/stripe/resources/issuing/authorization.rb#88
+    def update(authorization, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
 # source://stripe//lib/stripe/resources/issuing/authorization.rb#16
 Stripe::Issuing::Authorization::OBJECT_NAME = T.let(T.unsafe(nil), String)
 
-# source://stripe//lib/stripe/resources/issuing/authorization.rb#99
+# source://stripe//lib/stripe/resources/issuing/authorization.rb#101
 class Stripe::Issuing::Authorization::TestHelpers < ::Stripe::APIResourceTestHelpers
   # Capture a test-mode authorization.
   #
-  # source://stripe//lib/stripe/resources/issuing/authorization.rb#116
+  # source://stripe//lib/stripe/resources/issuing/authorization.rb#118
   def capture(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Expire a test-mode Authorization.
   #
-  # source://stripe//lib/stripe/resources/issuing/authorization.rb#146
+  # source://stripe//lib/stripe/resources/issuing/authorization.rb#148
   def expire(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Finalize the amount on an Authorization prior to capture, when the initial authorization was for an estimated amount.
   #
-  # source://stripe//lib/stripe/resources/issuing/authorization.rb#166
+  # source://stripe//lib/stripe/resources/issuing/authorization.rb#168
   def finalize_amount(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Increment a test-mode Authorization.
   #
-  # source://stripe//lib/stripe/resources/issuing/authorization.rb#186
+  # source://stripe//lib/stripe/resources/issuing/authorization.rb#188
   def increment(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Respond to a fraud challenge on a testmode Issuing authorization, simulating either a confirmation of fraud or a correction of legitimacy.
   #
-  # source://stripe//lib/stripe/resources/issuing/authorization.rb#206
+  # source://stripe//lib/stripe/resources/issuing/authorization.rb#208
   def respond(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Reverse a test-mode Authorization.
   #
-  # source://stripe//lib/stripe/resources/issuing/authorization.rb#226
+  # source://stripe//lib/stripe/resources/issuing/authorization.rb#228
   def reverse(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   class << self
     # Capture a test-mode authorization.
     #
-    # source://stripe//lib/stripe/resources/issuing/authorization.rb#106
+    # source://stripe//lib/stripe/resources/issuing/authorization.rb#108
     def capture(authorization, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Create a test-mode authorization.
     #
-    # source://stripe//lib/stripe/resources/issuing/authorization.rb#126
+    # source://stripe//lib/stripe/resources/issuing/authorization.rb#128
     def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Expire a test-mode Authorization.
     #
-    # source://stripe//lib/stripe/resources/issuing/authorization.rb#136
+    # source://stripe//lib/stripe/resources/issuing/authorization.rb#138
     def expire(authorization, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Finalize the amount on an Authorization prior to capture, when the initial authorization was for an estimated amount.
     #
-    # source://stripe//lib/stripe/resources/issuing/authorization.rb#156
+    # source://stripe//lib/stripe/resources/issuing/authorization.rb#158
     def finalize_amount(authorization, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Increment a test-mode Authorization.
     #
-    # source://stripe//lib/stripe/resources/issuing/authorization.rb#176
+    # source://stripe//lib/stripe/resources/issuing/authorization.rb#178
     def increment(authorization, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
-    # source://stripe//lib/stripe/resources/issuing/authorization.rb#101
+    # source://stripe//lib/stripe/resources/issuing/authorization.rb#103
     def resource_class; end
 
     # Respond to a fraud challenge on a testmode Issuing authorization, simulating either a confirmation of fraud or a correction of legitimacy.
     #
-    # source://stripe//lib/stripe/resources/issuing/authorization.rb#196
+    # source://stripe//lib/stripe/resources/issuing/authorization.rb#198
     def respond(authorization, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Reverse a test-mode Authorization.
     #
-    # source://stripe//lib/stripe/resources/issuing/authorization.rb#216
+    # source://stripe//lib/stripe/resources/issuing/authorization.rb#218
     def reverse(authorization, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
-# source://stripe//lib/stripe/resources/issuing/authorization.rb#100
+# source://stripe//lib/stripe/resources/issuing/authorization.rb#102
 Stripe::Issuing::Authorization::TestHelpers::RESOURCE_CLASS = Stripe::Issuing::Authorization
 
 # source://stripe//lib/stripe/services/issuing/authorization_service.rb#6
@@ -6135,7 +6061,7 @@ class Stripe::Issuing::Card < ::Stripe::APIResource
     # Updates the specified Issuing Card object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
     #
     # source://stripe//lib/stripe/resources/issuing/card.rb#28
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(card, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -6254,7 +6180,7 @@ class Stripe::Issuing::Cardholder < ::Stripe::APIResource
     # Updates the specified Issuing Cardholder object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
     #
     # source://stripe//lib/stripe/resources/issuing/cardholder.rb#40
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(cardholder, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -6322,7 +6248,7 @@ class Stripe::Issuing::Dispute < ::Stripe::APIResource
     # Updates the specified Issuing Dispute object by setting the values of the parameters passed. Any parameters not provided will be left unchanged. Properties on the evidence object can be unset by passing in an empty string.
     #
     # source://stripe//lib/stripe/resources/issuing/dispute.rb#60
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(dispute, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -6386,7 +6312,7 @@ class Stripe::Issuing::PersonalizationDesign < ::Stripe::APIResource
     # Updates a card personalization object.
     #
     # source://stripe//lib/stripe/resources/issuing/personalization_design.rb#38
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(personalization_design, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -6510,7 +6436,7 @@ class Stripe::Issuing::Token < ::Stripe::APIResource
     # Attempts to update the specified Issuing Token object to the status specified.
     #
     # source://stripe//lib/stripe/resources/issuing/token.rb#22
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(token, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -6562,7 +6488,7 @@ class Stripe::Issuing::Transaction < ::Stripe::APIResource
     # Updates the specified Issuing Transaction object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
     #
     # source://stripe//lib/stripe/resources/issuing/transaction.rb#31
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(transaction, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -7266,7 +7192,7 @@ class Stripe::PaymentIntent < ::Stripe::APIResource
     # the [confirm API](https://stripe.com/docs/api/payment_intents/confirm) instead.
     #
     # source://stripe//lib/stripe/resources/payment_intent.rb#276
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(intent, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Verifies microdeposits on a PaymentIntent object.
     #
@@ -7453,7 +7379,7 @@ class Stripe::PaymentLink < ::Stripe::APIResource
     # Updates a payment link.
     #
     # source://stripe//lib/stripe/resources/payment_link.rb#51
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(payment_link, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -7577,7 +7503,7 @@ class Stripe::PaymentMethod < ::Stripe::APIResource
     # Updates a PaymentMethod object. A PaymentMethod must be attached a customer to be updated.
     #
     # source://stripe//lib/stripe/resources/payment_method.rb#97
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(payment_method, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -7623,7 +7549,7 @@ class Stripe::PaymentMethodConfiguration < ::Stripe::APIResource
     # Update payment method configuration
     #
     # source://stripe//lib/stripe/resources/payment_method_configuration.rb#50
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(configuration, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -7692,7 +7618,7 @@ class Stripe::PaymentMethodDomain < ::Stripe::APIResource
     # Updates an existing payment method domain.
     #
     # source://stripe//lib/stripe/resources/payment_method_domain.rb#40
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(payment_method_domain, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Some payment methods such as Apple Pay require additional steps to verify a domain. If the requirements weren't satisfied when the domain was created, the payment method will be inactive on the domain.
     # The payment method doesn't appear in Elements for this domain until it is active.
@@ -7850,7 +7776,7 @@ class Stripe::Payout < ::Stripe::APIResource
     # Updates the specified payout by setting the values of the parameters you pass. We don't change parameters that you don't provide. This request only accepts the metadata as arguments.
     #
     # source://stripe//lib/stripe/resources/payout.rb#82
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(payout, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -7967,7 +7893,7 @@ class Stripe::Plan < ::Stripe::APIResource
     # Deleting plans means new subscribers can't be added. Existing subscribers aren't affected.
     #
     # source://stripe//lib/stripe/resources/plan.rb#30
-    def delete(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def delete(plan, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Returns a list of your plans.
     #
@@ -7980,7 +7906,7 @@ class Stripe::Plan < ::Stripe::APIResource
     # Updates the specified plan by setting the values of the parameters passed. Any parameters not provided are left unchanged. By design, you cannot change a plan's ID, amount, currency, or billing cycle.
     #
     # source://stripe//lib/stripe/resources/plan.rb#55
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(plan, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -8053,7 +7979,7 @@ class Stripe::Price < ::Stripe::APIResource
     # Updates the specified price by setting the values of the parameters passed. Any parameters not provided are left unchanged.
     #
     # source://stripe//lib/stripe/resources/price.rb#41
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(price, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -8276,7 +8202,7 @@ class Stripe::PromotionCode < ::Stripe::APIResource
     # Updates the specified promotion code by setting the values of the parameters passed. Most fields are, by design, not editable.
     #
     # source://stripe//lib/stripe/resources/promotion_code.rb#28
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(promotion_code, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -8393,7 +8319,7 @@ class Stripe::Quote < ::Stripe::APIResource
     # A quote models prices and services for a customer.
     #
     # source://stripe//lib/stripe/resources/quote.rb#154
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(quote, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -8542,7 +8468,7 @@ class Stripe::Radar::ValueList < ::Stripe::APIResource
     # Deletes a ValueList object, also deleting any items contained within the value list. To be deleted, a value list must not be referenced in any rules.
     #
     # source://stripe//lib/stripe/resources/radar/value_list.rb#31
-    def delete(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def delete(value_list, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Returns a list of ValueList objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
     #
@@ -8555,7 +8481,7 @@ class Stripe::Radar::ValueList < ::Stripe::APIResource
     # Updates a ValueList object by setting the values of the parameters passed. Any parameters not provided will be left unchanged. Note that item_type is immutable.
     #
     # source://stripe//lib/stripe/resources/radar/value_list.rb#61
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(value_list, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -8587,7 +8513,7 @@ class Stripe::Radar::ValueListItem < ::Stripe::APIResource
     # Deletes a ValueListItem object, removing it from its parent value list.
     #
     # source://stripe//lib/stripe/resources/radar/value_list_item.rb#30
-    def delete(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def delete(item, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Returns a list of ValueListItem objects. The objects are sorted in descending order by creation date, with the most recently created object appearing first.
     #
@@ -8742,7 +8668,7 @@ class Stripe::Refund < ::Stripe::APIResource
     # This request only accepts metadata as an argument.
     #
     # source://stripe//lib/stripe/resources/refund.rb#67
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(refund, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -9293,7 +9219,7 @@ class Stripe::SetupIntent < ::Stripe::APIResource
     # Updates a SetupIntent object.
     #
     # source://stripe//lib/stripe/resources/setup_intent.rb#120
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(intent, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Verifies microdeposits on a SetupIntent object.
     #
@@ -9392,7 +9318,7 @@ class Stripe::ShippingRate < ::Stripe::APIResource
     # Updates an existing shipping rate object.
     #
     # source://stripe//lib/stripe/resources/shipping_rate.rb#28
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(shipping_rate_token, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -9569,7 +9495,7 @@ class Stripe::Source < ::Stripe::APIResource
     # This request accepts the metadata and owner as arguments. It is also possible to update type specific information for selected payment methods. Please refer to our [payment method guides](https://stripe.com/docs/sources) for more detail.
     #
     # source://stripe//lib/stripe/resources/source.rb#35
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(source, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Verify a given source.
     #
@@ -10575,7 +10501,7 @@ class Stripe::Subscription < ::Stripe::APIResource
     # Updating the quantity on a subscription many times in an hour may result in [rate limiting. If you need to bill for a frequently changing quantity, consider integrating <a href="/docs/billing/subscriptions/usage-based">usage-based billing](https://stripe.com/docs/rate-limits) instead.
     #
     # source://stripe//lib/stripe/resources/subscription.rb#137
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(subscription_exposed_id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -10612,7 +10538,7 @@ class Stripe::SubscriptionItem < ::Stripe::APIResource
     # Deletes an item from the subscription. Removing a subscription item from a subscription will not cancel the subscription.
     #
     # source://stripe//lib/stripe/resources/subscription_item.rb#35
-    def delete(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def delete(item, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Returns a list of your subscription items for a given subscription.
     #
@@ -10628,7 +10554,7 @@ class Stripe::SubscriptionItem < ::Stripe::APIResource
     # Updates the plan or quantity of an item on a current subscription.
     #
     # source://stripe//lib/stripe/resources/subscription_item.rb#65
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(item, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/api_operations/nested_resource.rb#22
     def usage_record_summarys_url(id, nested_id = T.unsafe(nil)); end
@@ -10756,7 +10682,7 @@ class Stripe::SubscriptionSchedule < ::Stripe::APIResource
     # Updates an existing subscription schedule.
     #
     # source://stripe//lib/stripe/resources/subscription_schedule.rb#79
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(schedule, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -11251,7 +11177,7 @@ class Stripe::TaxRate < ::Stripe::APIResource
     # Updates an existing tax rate.
     #
     # source://stripe//lib/stripe/resources/tax_rate.rb#29
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(tax_rate, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -11342,7 +11268,7 @@ class Stripe::Terminal::Configuration < ::Stripe::APIResource
     # Deletes a Configuration object.
     #
     # source://stripe//lib/stripe/resources/terminal/configuration.rb#29
-    def delete(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def delete(configuration, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Returns a list of Configuration objects.
     #
@@ -11355,7 +11281,7 @@ class Stripe::Terminal::Configuration < ::Stripe::APIResource
     # Updates a new Configuration object.
     #
     # source://stripe//lib/stripe/resources/terminal/configuration.rb#59
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(configuration, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -11448,7 +11374,7 @@ class Stripe::Terminal::Location < ::Stripe::APIResource
     # Deletes a Location object.
     #
     # source://stripe//lib/stripe/resources/terminal/location.rb#32
-    def delete(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def delete(location, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Returns a list of Location objects.
     #
@@ -11461,7 +11387,7 @@ class Stripe::Terminal::Location < ::Stripe::APIResource
     # Updates a Location object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
     #
     # source://stripe//lib/stripe/resources/terminal/location.rb#62
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(location, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -11557,7 +11483,7 @@ class Stripe::Terminal::Reader < ::Stripe::APIResource
     # Deletes a Reader object.
     #
     # source://stripe//lib/stripe/resources/terminal/reader.rb#51
-    def delete(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def delete(reader, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Returns a list of Reader objects.
     #
@@ -11590,7 +11516,7 @@ class Stripe::Terminal::Reader < ::Stripe::APIResource
     # Updates a Reader object by setting the values of the parameters passed. Any parameters not provided will be left unchanged.
     #
     # source://stripe//lib/stripe/resources/terminal/reader.rb#161
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(reader, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -11918,7 +11844,7 @@ class Stripe::TestHelpers::TestClock < ::Stripe::APIResource
     # Deletes a test clock.
     #
     # source://stripe//lib/stripe/resources/test_helpers/test_clock.rb#50
-    def delete(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def delete(test_clock, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Returns a list of your test clocks.
     #
@@ -12257,7 +12183,7 @@ class Stripe::Topup < ::Stripe::APIResource
     # Updates the metadata of a top-up. Other top-up details are not editable by design.
     #
     # source://stripe//lib/stripe/resources/topup.rb#51
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(topup, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 
@@ -12342,7 +12268,7 @@ class Stripe::Transfer < ::Stripe::APIResource
     # This request accepts only metadata as an argument.
     #
     # source://stripe//lib/stripe/resources/transfer.rb#41
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(transfer, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/api_operations/nested_resource.rb#67
     def update_reversal(id, nested_id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
@@ -12517,25 +12443,35 @@ class Stripe::Treasury::FinancialAccount < ::Stripe::APIResource
   extend ::Stripe::APIOperations::List
   extend ::Stripe::APIOperations::Save::ClassMethods
 
+  # Closes a FinancialAccount. A FinancialAccount can only be closed if it has a zero balance, has no pending InboundTransfers, and has canceled all attached Issuing cards.
+  #
+  # source://stripe//lib/stripe/resources/treasury/financial_account.rb#19
+  def close(params = T.unsafe(nil), opts = T.unsafe(nil)); end
+
   # Retrieves Features information associated with the FinancialAccount.
   #
-  # source://stripe//lib/stripe/resources/treasury/financial_account.rb#39
+  # source://stripe//lib/stripe/resources/treasury/financial_account.rb#59
   def retrieve_features(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Updates the Features associated with a FinancialAccount.
   #
-  # source://stripe//lib/stripe/resources/treasury/financial_account.rb#69
+  # source://stripe//lib/stripe/resources/treasury/financial_account.rb#89
   def update_features(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   class << self
+    # Closes a FinancialAccount. A FinancialAccount can only be closed if it has a zero balance, has no pending InboundTransfers, and has canceled all attached Issuing cards.
+    #
+    # source://stripe//lib/stripe/resources/treasury/financial_account.rb#29
+    def close(financial_account, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+
     # Creates a new FinancialAccount. For now, each connected account can only have one FinancialAccount.
     #
-    # source://stripe//lib/stripe/resources/treasury/financial_account.rb#19
+    # source://stripe//lib/stripe/resources/treasury/financial_account.rb#39
     def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Returns a list of FinancialAccounts.
     #
-    # source://stripe//lib/stripe/resources/treasury/financial_account.rb#29
+    # source://stripe//lib/stripe/resources/treasury/financial_account.rb#49
     def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # source://stripe//lib/stripe/resources/treasury/financial_account.rb#14
@@ -12543,17 +12479,17 @@ class Stripe::Treasury::FinancialAccount < ::Stripe::APIResource
 
     # Retrieves Features information associated with the FinancialAccount.
     #
-    # source://stripe//lib/stripe/resources/treasury/financial_account.rb#49
+    # source://stripe//lib/stripe/resources/treasury/financial_account.rb#69
     def retrieve_features(financial_account, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Updates the details of a FinancialAccount.
     #
-    # source://stripe//lib/stripe/resources/treasury/financial_account.rb#59
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    # source://stripe//lib/stripe/resources/treasury/financial_account.rb#79
+    def update(financial_account, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Updates the Features associated with a FinancialAccount.
     #
-    # source://stripe//lib/stripe/resources/treasury/financial_account.rb#79
+    # source://stripe//lib/stripe/resources/treasury/financial_account.rb#99
     def update_features(financial_account, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
@@ -12595,9 +12531,14 @@ class Stripe::Treasury::FinancialAccountService < ::Stripe::StripeService
   # source://stripe//lib/stripe/services/treasury/financial_account_service.rb#9
   def initialize(requestor); end
 
-  # Creates a new FinancialAccount. For now, each connected account can only have one FinancialAccount.
+  # Closes a FinancialAccount. A FinancialAccount can only be closed if it has a zero balance, has no pending InboundTransfers, and has canceled all attached Issuing cards.
   #
   # source://stripe//lib/stripe/services/treasury/financial_account_service.rb#15
+  def close(financial_account, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+
+  # Creates a new FinancialAccount. For now, each connected account can only have one FinancialAccount.
+  #
+  # source://stripe//lib/stripe/services/treasury/financial_account_service.rb#26
   def create(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Returns the value of attribute features.
@@ -12607,17 +12548,17 @@ class Stripe::Treasury::FinancialAccountService < ::Stripe::StripeService
 
   # Returns a list of FinancialAccounts.
   #
-  # source://stripe//lib/stripe/services/treasury/financial_account_service.rb#26
+  # source://stripe//lib/stripe/services/treasury/financial_account_service.rb#37
   def list(params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Retrieves the details of a FinancialAccount.
   #
-  # source://stripe//lib/stripe/services/treasury/financial_account_service.rb#37
+  # source://stripe//lib/stripe/services/treasury/financial_account_service.rb#48
   def retrieve(financial_account, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
   # Updates the details of a FinancialAccount.
   #
-  # source://stripe//lib/stripe/services/treasury/financial_account_service.rb#48
+  # source://stripe//lib/stripe/services/treasury/financial_account_service.rb#59
   def update(financial_account, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 end
 
@@ -14181,7 +14122,7 @@ class Stripe::WebhookEndpoint < ::Stripe::APIResource
     # You can also delete webhook endpoints via the [webhook endpoint management](https://dashboard.stripe.com/account/webhooks) page of the Stripe dashboard.
     #
     # source://stripe//lib/stripe/resources/webhook_endpoint.rb#34
-    def delete(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def delete(webhook_endpoint, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 
     # Returns a list of your webhook endpoints.
     #
@@ -14194,7 +14135,7 @@ class Stripe::WebhookEndpoint < ::Stripe::APIResource
     # Updates the webhook endpoint. You may edit the url, the list of enabled_events, and the status of your endpoint.
     #
     # source://stripe//lib/stripe/resources/webhook_endpoint.rb#59
-    def update(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
+    def update(webhook_endpoint, params = T.unsafe(nil), opts = T.unsafe(nil)); end
   end
 end
 

@@ -8,34 +8,34 @@
 # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/expressions.rb#3
 module Cucumber
   class << self
-    # source://cucumber/9.2.0/lib/cucumber/deprecate.rb#7
+    # source://cucumber/9.2.1-f87096308e2c9c63bc3c6c0858f511d34c99e9b3/lib/cucumber/deprecate.rb#7
     def deprecate(message, method, remove_after_version); end
 
-    # source://cucumber/9.2.0/lib/cucumber/platform.rb#17
+    # source://cucumber/9.2.1-f87096308e2c9c63bc3c6c0858f511d34c99e9b3/lib/cucumber/platform.rb#17
     def file_mode(mode, encoding = T.unsafe(nil)); end
 
-    # source://cucumber/9.2.0/lib/cucumber.rb#15
+    # source://cucumber/9.2.1-f87096308e2c9c63bc3c6c0858f511d34c99e9b3/lib/cucumber.rb#15
     def logger; end
 
-    # source://cucumber/9.2.0/lib/cucumber.rb#23
+    # source://cucumber/9.2.1-f87096308e2c9c63bc3c6c0858f511d34c99e9b3/lib/cucumber.rb#23
     def logger=(logger); end
 
-    # source://cucumber/9.2.0/lib/cucumber/platform.rb#14
+    # source://cucumber/9.2.1-f87096308e2c9c63bc3c6c0858f511d34c99e9b3/lib/cucumber/platform.rb#14
     def use_full_backtrace; end
 
-    # source://cucumber/9.2.0/lib/cucumber/platform.rb#14
+    # source://cucumber/9.2.1-f87096308e2c9c63bc3c6c0858f511d34c99e9b3/lib/cucumber/platform.rb#14
     def use_full_backtrace=(_arg0); end
 
-    # source://cucumber/9.2.0/lib/cucumber.rb#13
+    # source://cucumber/9.2.1-f87096308e2c9c63bc3c6c0858f511d34c99e9b3/lib/cucumber.rb#13
     def use_legacy_autoloader; end
 
-    # source://cucumber/9.2.0/lib/cucumber.rb#13
+    # source://cucumber/9.2.1-f87096308e2c9c63bc3c6c0858f511d34c99e9b3/lib/cucumber.rb#13
     def use_legacy_autoloader=(_arg0); end
 
-    # source://cucumber/9.2.0/lib/cucumber.rb#13
+    # source://cucumber/9.2.1-f87096308e2c9c63bc3c6c0858f511d34c99e9b3/lib/cucumber.rb#13
     def wants_to_quit; end
 
-    # source://cucumber/9.2.0/lib/cucumber.rb#13
+    # source://cucumber/9.2.1-f87096308e2c9c63bc3c6c0858f511d34c99e9b3/lib/cucumber.rb#13
     def wants_to_quit=(_arg0); end
   end
 end

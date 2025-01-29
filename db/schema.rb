@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_08_13_083542) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_28_145040) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -130,8 +130,10 @@ ActiveRecord::Schema[8.0].define(version: 2024_08_13_083542) do
     t.datetime "updated_at", precision: nil
     t.boolean "gift", default: false
     t.string "type"
+    t.string "payment_method_id"
     t.index ["payer_id"], name: "index_paypal_orders_on_payer_id"
     t.index ["payment_id"], name: "index_paypal_orders_on_payment_id"
+    t.index ["payment_method_id"], name: "index_paypal_orders_on_payment_method_id"
     t.index ["product_id"], name: "index_paypal_orders_on_product_id"
     t.index ["user_id"], name: "index_paypal_orders_on_user_id"
   end
@@ -341,7 +343,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_08_13_083542) do
     t.float "longitude"
     t.integer "expired_reservations", default: 0
     t.string "demos_tf_api_key"
-    t.boolean "enforce_league_bans"
     t.index ["api_key"], name: "index_users_on_api_key", unique: true
     t.index ["latitude", "longitude"], name: "index_users_on_latitude_and_longitude"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

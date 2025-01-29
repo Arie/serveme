@@ -8,16 +8,16 @@
 # source://draper//lib/draper/railtie.rb#3
 module ActiveModel
   class << self
-    # source://activemodel/7.2.0/lib/active_model/deprecator.rb#4
+    # source://activemodel/8.0.1/lib/active_model/deprecator.rb#4
     def deprecator; end
 
-    # source://activemodel/7.2.0/lib/active_model.rb#76
+    # source://activemodel/8.0.1/lib/active_model.rb#76
     def eager_load!; end
 
-    # source://activemodel/7.2.0/lib/active_model/gem_version.rb#5
+    # source://activemodel/8.0.1/lib/active_model/gem_version.rb#5
     def gem_version; end
 
-    # source://activemodel/7.2.0/lib/active_model/version.rb#7
+    # source://activemodel/8.0.1/lib/active_model/version.rb#7
     def version; end
   end
 end
@@ -36,9 +36,6 @@ module Draper
     # source://draper//lib/draper.rb#48
     def setup_action_mailer(base); end
 
-    # source://draper//lib/draper.rb#54
-    def setup_orm(base); end
-
     # source://draper//lib/draper/undecorate.rb#2
     def undecorate(object); end
 
@@ -56,7 +53,7 @@ module Draper::AutomaticDelegation
   # @private
   # @return [Boolean]
   #
-  # source://draper//lib/draper/automatic_delegation.rb#22
+  # source://draper//lib/draper/automatic_delegation.rb#24
   def delegatable?(method); end
 
   # source://draper//lib/draper/automatic_delegation.rb#9
@@ -73,23 +70,23 @@ module Draper::AutomaticDelegation
   def respond_to_missing?(method, include_private = T.unsafe(nil)); end
 end
 
-# source://draper//lib/draper/automatic_delegation.rb#28
+# source://draper//lib/draper/automatic_delegation.rb#38
 module Draper::AutomaticDelegation::ClassMethods
   # Avoids reloading the model class when ActiveSupport clears autoloaded
   # dependencies in development mode.
   #
   # @private
   #
-  # source://draper//lib/draper/automatic_delegation.rb#50
+  # source://draper//lib/draper/automatic_delegation.rb#60
   def before_remove_const; end
 
   # @private
   # @return [Boolean]
   #
-  # source://draper//lib/draper/automatic_delegation.rb#43
+  # source://draper//lib/draper/automatic_delegation.rb#53
   def delegatable?(method); end
 
-  # source://draper//lib/draper/automatic_delegation.rb#30
+  # source://draper//lib/draper/automatic_delegation.rb#40
   def method_missing(method, *args, **_arg2, &block); end
 
   private
@@ -99,7 +96,7 @@ module Draper::AutomaticDelegation::ClassMethods
   #
   # @return [Boolean]
   #
-  # source://draper//lib/draper/automatic_delegation.rb#38
+  # source://draper//lib/draper/automatic_delegation.rb#48
   def respond_to_missing?(method, include_private = T.unsafe(nil)); end
 end
 
@@ -304,10 +301,16 @@ class Draper::CollectionDecorator
   def excluding(*_arg0, **_arg1, &_arg2); end
 
   # source://draper//lib/draper/delegation.rb#10
+  def extract!(*_arg0, **_arg1, &_arg2); end
+
+  # source://draper//lib/draper/delegation.rb#10
   def extract_options!(*_arg0, **_arg1, &_arg2); end
 
   # source://draper//lib/draper/delegation.rb#10
   def fetch(*_arg0, **_arg1, &_arg2); end
+
+  # source://draper//lib/draper/delegation.rb#10
+  def fetch_values(*_arg0, **_arg1, &_arg2); end
 
   # source://draper//lib/draper/delegation.rb#10
   def fifth(*_arg0, **_arg1, &_arg2); end
@@ -763,21 +766,21 @@ module Draper::Decoratable
   #
   # @return [Array<Class>] `[]`
   #
-  # source://draper//lib/draper/decoratable.rb#33
+  # source://draper//lib/draper/decoratable.rb#35
   def applied_decorators; end
 
   # Decorates the object using the inferred {#decorator_class}.
   #
   # @param options [Hash] see {Decorator#initialize}
   #
-  # source://draper//lib/draper/decoratable.rb#17
+  # source://draper//lib/draper/decoratable.rb#19
   def decorate(options = T.unsafe(nil)); end
 
   # Checks if this object is decorated.
   #
   # @return [false]
   #
-  # source://draper//lib/draper/decoratable.rb#46
+  # source://draper//lib/draper/decoratable.rb#48
   def decorated?; end
 
   # Checks if a given decorator has been applied to the object.
@@ -785,7 +788,7 @@ module Draper::Decoratable
   # @param decorator_class [Class]
   # @return [false]
   #
-  # source://draper//lib/draper/decoratable.rb#39
+  # source://draper//lib/draper/decoratable.rb#41
   def decorated_with?(decorator_class); end
 
   # Infers the decorator class to be used by {Decoratable#decorate} (e.g.
@@ -793,22 +796,22 @@ module Draper::Decoratable
   #
   # @return [Class] the inferred decorator class.
   #
-  # source://draper//lib/draper/decoratable.rb#22
+  # source://draper//lib/draper/decoratable.rb#24
   def decorator_class; end
 
   # @return [Boolean]
   #
-  # source://draper//lib/draper/decoratable.rb#26
+  # source://draper//lib/draper/decoratable.rb#28
   def decorator_class?; end
 end
 
-# source://draper//lib/draper/decoratable.rb#50
+# source://draper//lib/draper/decoratable.rb#52
 module Draper::Decoratable::ClassMethods
   # Compares with possibly-decorated objects.
   #
   # @return [Boolean]
   #
-  # source://draper//lib/draper/decoratable.rb#87
+  # source://draper//lib/draper/decoratable.rb#89
   def ===(other); end
 
   # Decorates a collection of objects. Used at the end of a scope chain.
@@ -817,7 +820,7 @@ module Draper::Decoratable::ClassMethods
   #   Product.popular.decorate
   # @param options [Hash] see {Decorator.decorate_collection}.
   #
-  # source://draper//lib/draper/decoratable.rb#57
+  # source://draper//lib/draper/decoratable.rb#59
   def decorate(options = T.unsafe(nil)); end
 
   # Infers the decorator class to be used by {Decoratable#decorate} (e.g.
@@ -825,13 +828,25 @@ module Draper::Decoratable::ClassMethods
   #
   # @return [Class] the inferred decorator class.
   #
-  # source://draper//lib/draper/decoratable.rb#71
+  # source://draper//lib/draper/decoratable.rb#73
   def decorator_class(called_on = T.unsafe(nil)); end
 
   # @return [Boolean]
   #
-  # source://draper//lib/draper/decoratable.rb#61
+  # source://draper//lib/draper/decoratable.rb#63
   def decorator_class?; end
+end
+
+# source://draper//lib/draper/decoratable/collection_proxy.rb#3
+module Draper::Decoratable::CollectionProxy
+  # Decorates a collection of objects. Used at the end of a scope chain.
+  #
+  # @example
+  #   company.products.popular.decorate
+  # @param options [Hash] see {Decorator.decorate_collection}.
+  #
+  # source://draper//lib/draper/decoratable/collection_proxy.rb#10
+  def decorate(options = T.unsafe(nil)); end
 end
 
 # source://draper//lib/draper/decoratable/equality.rb#3
@@ -993,10 +1008,10 @@ class Draper::Decorator
   # source://draper//lib/draper/decorator.rb#184
   def hash; end
 
-  # source://activemodel/7.2.0/lib/active_model/serializers/json.rb#15
+  # source://activemodel/8.0.1/lib/active_model/serializers/json.rb#15
   def include_root_in_json; end
 
-  # source://activemodel/7.2.0/lib/active_model/serializers/json.rb#15
+  # source://activemodel/8.0.1/lib/active_model/serializers/json.rb#15
   def include_root_in_json?; end
 
   # Checks if `self.instance_of?(klass)` or `object.instance_of?(klass)`
@@ -1144,13 +1159,13 @@ class Draper::Decorator
     # source://draper//lib/draper/decorator.rb#47
     def delegate_all; end
 
-    # source://activemodel/7.2.0/lib/active_model/serializers/json.rb#15
+    # source://activemodel/8.0.1/lib/active_model/serializers/json.rb#15
     def include_root_in_json; end
 
-    # source://activemodel/7.2.0/lib/active_model/serializers/json.rb#15
+    # source://activemodel/8.0.1/lib/active_model/serializers/json.rb#15
     def include_root_in_json=(value); end
 
-    # source://activemodel/7.2.0/lib/active_model/serializers/json.rb#15
+    # source://activemodel/8.0.1/lib/active_model/serializers/json.rb#15
     def include_root_in_json?; end
 
     # @raise [Draper::UninferrableObjectError]
@@ -1184,6 +1199,14 @@ class Draper::Decorator
 
     # source://draper//lib/draper/decorator.rb#246
     def object_class_name; end
+
+    private
+
+    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#15
+    def __class_attr_include_root_in_json; end
+
+    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#17
+    def __class_attr_include_root_in_json=(new_value); end
   end
 end
 
@@ -1406,23 +1429,23 @@ end
 
 # source://draper//lib/draper/railtie.rb#13
 class Draper::Railtie < ::Rails::Railtie
-  # source://draper//lib/draper/railtie.rb#49
+  # source://draper//lib/draper/railtie.rb#53
   def initialize_view_context; end
 end
 
-# source://draper//lib/draper.rb#60
+# source://draper//lib/draper.rb#54
 class Draper::UninferrableDecoratorError < ::NameError
   # @return [UninferrableDecoratorError] a new instance of UninferrableDecoratorError
   #
-  # source://draper//lib/draper.rb#61
+  # source://draper//lib/draper.rb#55
   def initialize(klass); end
 end
 
-# source://draper//lib/draper.rb#66
+# source://draper//lib/draper.rb#60
 class Draper::UninferrableObjectError < ::NameError
   # @return [UninferrableObjectError] a new instance of UninferrableObjectError
   #
-  # source://draper//lib/draper.rb#67
+  # source://draper//lib/draper.rb#61
   def initialize(klass); end
 end
 
@@ -1556,12 +1579,6 @@ class Draper::ViewContext::BuildStrategy::Full
 
   # source://draper//lib/draper/view_context/build_strategy.rb#38
   def controller; end
-
-  # source://draper//lib/draper/view_context/build_strategy.rb#49
-  def is_above_rails_5_1; end
-
-  # source://draper//lib/draper/view_context/build_strategy.rb#45
-  def new_test_request(controller); end
 end
 
 # Provides the {#helpers} method used in {Decorator} and {CollectionDecorator}

@@ -1276,7 +1276,7 @@ class Sentry::Client
   # @param span [Span] the span to generate trace from.
   # @return [String, nil]
   #
-  # source://sentry-ruby//lib/sentry/client.rb#261
+  # source://sentry-ruby//lib/sentry/client.rb#276
   def generate_baggage(span); end
 
   # Generates a Sentry trace for distribted tracing from the given Span.
@@ -1286,7 +1286,7 @@ class Sentry::Client
   # @param span [Span] the span to generate trace from.
   # @return [String, nil]
   #
-  # source://sentry-ruby//lib/sentry/client.rb#247
+  # source://sentry-ruby//lib/sentry/client.rb#262
   def generate_sentry_trace(span); end
 
   # @deprecated Use Sentry.logger to retrieve the current logger instead.
@@ -1299,7 +1299,7 @@ class Sentry::Client
   # @param envelope [Envelope] the envelope to be sent.
   # @return [void]
   #
-  # source://sentry-ruby//lib/sentry/client.rb#228
+  # source://sentry-ruby//lib/sentry/client.rb#243
   def send_envelope(envelope); end
 
   # source://sentry-ruby//lib/sentry/client.rb#178
@@ -1321,10 +1321,10 @@ class Sentry::Client
 
   private
 
-  # source://sentry-ruby//lib/sentry/client.rb#281
+  # source://sentry-ruby//lib/sentry/client.rb#296
   def dispatch_async_event(async_block, event, hint); end
 
-  # source://sentry-ruby//lib/sentry/client.rb#275
+  # source://sentry-ruby//lib/sentry/client.rb#290
   def dispatch_background_event(event, hint); end
 end
 
@@ -1900,7 +1900,7 @@ class Sentry::Configuration
   # source://sentry-ruby//lib/sentry/configuration.rb#204
   def rack_env_whitelist=(_arg0); end
 
-  # source://sentry-rails/5.22.2/lib/sentry/rails/configuration.rb#11
+  # source://sentry-rails/5.22.3/lib/sentry/rails/configuration.rb#11
   def rails; end
 
   # Release tag to be passed with every event sent to Sentry.
@@ -2017,7 +2017,7 @@ class Sentry::Configuration
   # source://sentry-ruby//lib/sentry/configuration.rb#535
   def session_tracking?; end
 
-  # source://sentry-sidekiq/5.22.2/lib/sentry/sidekiq/configuration.rb#5
+  # source://sentry-sidekiq/5.22.3/lib/sentry/sidekiq/configuration.rb#5
   def sidekiq; end
 
   # Allow to skip Sentry emails within rake tasks

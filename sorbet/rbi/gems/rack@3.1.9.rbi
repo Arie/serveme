@@ -1640,28 +1640,13 @@ class Rack::Lint::Wrapper::StreamWrapper
   # source://rack//lib/rack/lint.rb#974
   def initialize(stream); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def <<(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def close(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def close_read(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def close_write(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def closed?(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def flush(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def read(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def write(*args, **_arg1, &block); end
 end
 
@@ -1717,7 +1702,12 @@ class Rack::MediaType
     # this method responds with the following Hash:
     #   { 'charset' => 'utf-8' }
     #
-    # source://rack//lib/rack/media_type.rb#30
+    # This will pass back parameters with empty strings in the hash if they
+    # lack a value (e.g., "text/plain;charset=" will return { 'charset' => '' },
+    # and "text/plain;charset" will return { 'charset' => '' }, similarly to
+    # the query params parser (barring the latter case, which returns nil instead)).
+    #
+    # source://rack//lib/rack/media_type.rb#35
     def params(content_type); end
 
     # The media type (type/subtype) portion of the CONTENT_TYPE header
@@ -1732,7 +1722,7 @@ class Rack::MediaType
 
     private
 
-    # source://rack//lib/rack/media_type.rb#43
+    # source://rack//lib/rack/media_type.rb#48
     def strip_doublequotes(str); end
   end
 end

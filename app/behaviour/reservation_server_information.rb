@@ -39,24 +39,24 @@ module ReservationServerInformation
     (server&.sdr? && sdr_tv_port&.to_i) || server&.public_tv_port&.to_i
   end
 
-  sig { returns(String) }
+  sig { returns(T.nilable(String)) }
   def connect_string
-    server.connect_string(public_ip, public_port, password)
+    server&.connect_string(public_ip, public_port, password)
   end
 
-  sig { returns(String) }
+  sig { returns(T.nilable(String)) }
   def stv_connect_string
     server.connect_string(public_ip, public_tv_port, tv_password)
   end
 
-  sig { returns(String) }
+  sig { returns(T.nilable(String)) }
   def sdr_connect_string
-    server.connect_string(connect_sdr_ip, connect_sdr_port, password)
+    server&.connect_string(connect_sdr_ip, connect_sdr_port, password)
   end
 
-  sig { returns(String) }
+  sig { returns(T.nilable(String)) }
   def sdr_stv_connect_string
-    server.connect_string(connect_sdr_ip, connect_sdr_tv_port, tv_password)
+    server&.connect_string(connect_sdr_ip, connect_sdr_tv_port, tv_password)
   end
 
   sig { returns(String) }

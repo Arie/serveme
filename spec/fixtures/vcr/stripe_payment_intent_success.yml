@@ -1,0 +1,156 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.stripe.com/v1/payment_intents
+    body:
+      encoding: UTF-8
+      string: amount=900&currency=EUR&payment_method=pm_card_visa&confirm=true&description=http%3A%2F%2Flocalhost%3A3000+-+1+year&return_url=http%3A%2F%2Flocalhost%3A3000%2Forders%2Fstripe_return&automatic_payment_methods[enabled]=true&automatic_payment_methods[allow_redirects]=never&metadata[site_url]=http%3A%2F%2Flocalhost%3A3000&metadata[order_id]=861&metadata[steam_uid]=123456789&metadata[product_name]=1+year
+    headers:
+      User-Agent:
+      - Stripe/v1 RubyBindings/13.4.1
+      Authorization:
+      - Bearer <STRIPE_TEST_KEY>
+      X-Stripe-Client-Telemetry:
+      - '{"last_request_metrics":{"request_id":"req_6zgimEUhPo1IE8","request_duration_ms":1225}}'
+      Idempotency-Key:
+      - 4b5b3427-feca-4222-a955-dda0a8a77fd7
+      Stripe-Version:
+      - '2023-10-16'
+      X-Stripe-Client-User-Agent:
+      - '{"bindings_version":"13.4.1","lang":"ruby","lang_version":"3.4.1 p0 (2024-12-25)","platform":"x86_64-linux","engine":"ruby","publisher":"stripe","uname":"Linux
+        version 6.11.11-1-pve (build@proxmox) (gcc (Debian 12.2.0-14) 12.2.0, GNU
+        ld (GNU Binutils for Debian) 2.40) #1 SMP PREEMPT_DYNAMIC PMX 6.11.11-1 (2025-01-17T15:44Z)","hostname":"obnoxious"}'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Date:
+      - Mon, 03 Feb 2025 21:15:15 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1630'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, HEAD, PUT, PATCH, POST, DELETE
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required,
+        X-Stripe-Privileged-Session-Required
+      Access-Control-Max-Age:
+      - '300'
+      Cache-Control:
+      - no-cache, no-store
+      Content-Security-Policy:
+      - base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none';
+        img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; upgrade-insecure-requests;
+        report-uri https://q.stripe.com/csp-violation?q=2eERsj4tI09KJsYe5EOR3CD4dq4lCqGcMhAgvfMOn5oteYfdOq-QhLLSsnZhJTe2A3Xz8r3ar6GNhhW_
+      Cross-Origin-Opener-Policy-Report-Only:
+      - same-origin; report-to="coop"
+      Idempotency-Key:
+      - 4b5b3427-feca-4222-a955-dda0a8a77fd7
+      Original-Request:
+      - req_V5tRBO152Sq5tR
+      Report-To:
+      - '{"group":"coop","max_age":8640,"endpoints":[{"url":"https://q.stripe.com/coop-report"}],"include_subdomains":true}'
+      Reporting-Endpoints:
+      - coop="https://q.stripe.com/coop-report"
+      Request-Id:
+      - req_V5tRBO152Sq5tR
+      Stripe-Should-Retry:
+      - 'false'
+      Stripe-Version:
+      - '2023-10-16'
+      Vary:
+      - Origin
+      X-Stripe-Priority-Routing-Enabled:
+      - 'true'
+      X-Stripe-Routing-Context-Priority-Tier:
+      - api-testmode
+      X-Wc:
+      - AB
+      Strict-Transport-Security:
+      - max-age=63072000; includeSubDomains; preload
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "id": "pi_test_payment_intent",
+          "object": "payment_intent",
+          "amount": 900,
+          "amount_capturable": 0,
+          "amount_details": {
+            "tip": {}
+          },
+          "amount_received": 900,
+          "application": null,
+          "application_fee_amount": null,
+          "automatic_payment_methods": {
+            "allow_redirects": "never",
+            "enabled": true
+          },
+          "canceled_at": null,
+          "cancellation_reason": null,
+          "capture_method": "automatic",
+          "client_secret": "pi_test_payment_intent_secret_q4H8OE5P3NI2uEkVn6YVvMBl3",
+          "confirmation_method": "automatic",
+          "created": 1738617315,
+          "currency": "eur",
+          "customer": null,
+          "description": "http://localhost:3000 - 1 year",
+          "invoice": null,
+          "last_payment_error": null,
+          "latest_charge": "ch_test_charge",
+          "livemode": false,
+          "metadata": {
+            "order_id": "861",
+            "product_name": "1 year",
+            "site_url": "http://localhost:3000",
+            "steam_uid": "123456789"
+          },
+          "next_action": null,
+          "on_behalf_of": null,
+          "payment_method": "pm_test_payment_method",
+          "payment_method_configuration_details": {
+            "id": "pmc_test_config",
+            "parent": null
+          },
+          "payment_method_options": {
+            "card": {
+              "installments": null,
+              "mandate_options": null,
+              "network": null,
+              "request_three_d_secure": "automatic"
+            }
+          },
+          "payment_method_types": [
+            "card"
+          ],
+          "processing": null,
+          "receipt_email": null,
+          "review": null,
+          "setup_future_usage": null,
+          "shipping": null,
+          "source": null,
+          "statement_descriptor": null,
+          "statement_descriptor_suffix": null,
+          "status": "succeeded",
+          "transfer_data": null,
+          "transfer_group": null
+        }
+  recorded_at: Mon, 03 Feb 2025 21:15:15 GMT
+recorded_with: VCR 6.3.1

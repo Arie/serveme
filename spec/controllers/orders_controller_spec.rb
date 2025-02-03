@@ -50,38 +50,86 @@ describe OrdersController do
 
       get :redirect, params: { order_id: order.id, PayerID: 'PayerID' }
 
-      response.should redirect_to(settings_path('#your-vouchers'))
+      response.should redirect_to(settings_path(anchor: 'your-vouchers'))
       flash[:notice].should == "Your payment has been received and we've given you a premium code that you can give away"
     end
   end
 
-  describe '#order' do
-    it 'finds the orders limited to the current user' do
-      subject.stub(:params).and_return(order_id: order.id)
-      subject.order.should == order
+  describe '#create_payment_intent', :vcr do
+    let!(:product) { create(:product, active: true) }
 
-      other_user_order = create(:paypal_order)
-      subject.stub(:params).and_return(order_id: other_user_order.id)
-      expect { subject.order }.to raise_error(ActiveRecord::RecordNotFound)
+    it 'returns the payment intent information on a successful creation' do
+      post :create_payment_intent, params: { payment_method_id: 'pm_card_visa', product_id: product.id, gift: false }
+
+      expect(response.status).to eql(200)
+      expect(JSON.parse(response.body)).to include(
+        'success' => true,
+        'gift' => false,
+        'voucher' => nil
+      )
+    end
+
+    it 'returns a 422 if order creation failed' do
+      post :create_payment_intent, params: { payment_method_id: 'pm_card_visa', product_id: 0, gift: false }
+
+      expect(response.status).to eql(422)
+      expect(JSON.parse(response.body)).to include('error' => 'Could not create order')
     end
   end
 
-  describe '#stripe', :vcr do
+  describe '#stripe_return', :vcr do
     let!(:product) { create(:product, active: true) }
+    let!(:order) { create(:stripe_order, user: @user, product: product, payment_id: 'pi_123') }
 
-    it 'returns the order information on a succesful charge' do
-      post :stripe, params: { stripe_token: 'stripe-id', product_id: product.id, gift: false }
+    it 'redirects to root path on successful payment' do
+      allow_any_instance_of(StripeOrder).to receive(:confirm_payment).and_return({ success: true })
 
-      json = { charge_status: 'succeeded', product_name: product.name, gift: false, voucher: nil }
+      get :stripe_return, params: { payment_intent: 'pi_123' }
 
-      expect(response.status).to eql(200)
-      expect(response.body).to match_json_expression(json)
+      expect(response).to redirect_to(root_path)
+      expect(flash[:notice]).to eq('Your payment has been received and your donator perks are now activated, thanks! <3')
     end
 
-    it 'returns a 402 if charging failed' do
-      post :stripe, params: { stripe_token: 'stripe-id', product_id: product.id, gift: false }
+    it 'redirects to settings path if it was a gift' do
+      order.update(gift: true)
+      allow_any_instance_of(StripeOrder).to receive(:confirm_payment).and_return({ success: true })
 
-      expect(response.status).to eql(402)
+      get :stripe_return, params: { payment_intent: 'pi_123' }
+
+      expect(response).to redirect_to(settings_path(anchor: 'your-vouchers'))
+      expect(flash[:notice]).to eq("Your payment has been received and we've given you a premium code that you can give away")
+    end
+
+    it 'redirects to new order path if payment failed' do
+      allow_any_instance_of(StripeOrder).to receive(:confirm_payment).and_return({ error: 'Payment failed' })
+
+      get :stripe_return, params: { payment_intent: 'pi_123' }
+
+      expect(response).to redirect_to(new_order_path)
+      expect(flash[:alert]).to eq('Payment failed')
+    end
+  end
+
+  describe '#status', :vcr do
+    let!(:product) { create(:product, active: true) }
+    let!(:order) { create(:stripe_order, user: @user, product: product, payment_id: 'pi_123', gift: true) }
+
+    it 'returns the order status information' do
+      get :status, params: { payment_intent_id: 'pi_123' }
+
+      expect(response.status).to eql(200)
+      expect(JSON.parse(response.body)).to include(
+        'status' => order.status,
+        'gift' => true,
+        'voucher' => nil
+      )
+    end
+
+    it 'returns 404 if order not found' do
+      get :status, params: { payment_intent_id: 'pi_not_found' }
+
+      expect(response.status).to eql(404)
+      expect(JSON.parse(response.body)).to include('error' => 'Order not found')
     end
   end
 end

@@ -16,6 +16,9 @@ class AddGroupMembership
   end
 
   def new_expiration_time
+    # Refuse setting expiration time for existing eternal memberships
+    return nil if group_membership.expires_at.nil? && !group_membership.new_record?
+
     if first_time_member? || former_member?
       duration.from_now
     else
@@ -32,6 +35,8 @@ class AddGroupMembership
   end
 
   def former_member?
+    return false if group_membership.expires_at.nil?
+
     group_membership.expires_at < Time.current
   end
 end

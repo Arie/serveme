@@ -12,26 +12,65 @@ jQuery(document).on('turbo:load', function() {
     setupStripe();
   }
 
-
   function setupStripe() {
-    style = {
+    const style = {
       base: {
-        // Add your base input styles here. For example:
-        fontSize: '18px',
-        lineHeight: '24px'
+        fontSize: '16px',
+        color: '#32325d',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+        fontSmoothing: 'antialiased',
+        '::placeholder': {
+          color: '#aab7c4'
+        },
+        ':-webkit-autofill': {
+          color: '#32325d',
+        },
+      },
+      invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a',
+        '::placeholder': {
+          color: '#FFCCA5',
+        },
       }
     };
-    card = elements.create('card', {style: style});
+
+    // Create and mount the card element
+    card = elements.create('card', {
+      style: style,
+      hidePostalCode: true
+    });
     card.mount("#stripe-card");
 
+    // Handle real-time validation errors
     card.addEventListener('change', function(event) {
-      var displayError = document.getElementById('stripe-errors');
+      const displayError = document.getElementById('stripe-errors');
       if (event.error) {
-        displayError.textContent = event.error.message;
+        showError(event.error.message);
       } else {
-        displayError.textContent = '';
+        clearError();
       }
     });
+  }
+
+  function showError(message) {
+    const displayError = document.getElementById('stripe-errors');
+    displayError.textContent = message;
+    displayError.style.display = 'block';
+    orderFormSubmit().prop('disabled', false);
+    orderFormSubmit().html("Secure checkout with Stripe");
+  }
+
+  function clearError() {
+    const displayError = document.getElementById('stripe-errors');
+    displayError.textContent = '';
+    displayError.style.display = 'none';
+  }
+
+  function showProcessing(message) {
+    orderFormSubmit().prop('disabled', true);
+    orderFormSubmit().html(`<i class='fa fa-spinner fa-spin'></i> ${message}`);
+    clearError();
   }
 
   function enablePaypal(slide) {
@@ -43,7 +82,15 @@ jQuery(document).on('turbo:load', function() {
       creditCardRow().hide();
     }
     orderFormSubmit().html("Pay with PayPal");
+
+    // Add PayPal-specific handling
+    orderForm().off('submit.paypal').on('submit.paypal', function(event) {
+      if (!payingWithStripe()) {
+        showProcessing("Redirecting to PayPal...");
+      }
+    });
   }
+
   function enableStripe() {
     paypalButton().removeClass("selected");
     creditCardButton().addClass("selected");
@@ -53,85 +100,107 @@ jQuery(document).on('turbo:load', function() {
 
   orderForm().submit(function(event) {
     if (payingWithStripe()) {
-      $("#stripe-errors").html("");
-      // Disable the submit button to prevent repeated clicks:
-      orderFormSubmit().prop('disabled', true);
-      orderFormSubmit().html("<i class='fa fa-spinner fa-spin' '></i> Working...");
+      clearError();
+      showProcessing("Processing payment...");
 
-      stripe.createToken(card).then(function(result) {
+      // Create a payment method
+      stripe.createPaymentMethod({
+        type: 'card',
+        card: card,
+        billing_details: {}
+      }).then(function(result) {
         if (result.error) {
-          var errorElement = document.getElementById('stripe-errors');
-          errorElement.textContent = result.error.message;
+          showError(result.error.message);
         } else {
-          stripeResponseHandler(result.token.id);
+          createPaymentIntent(result.paymentMethod.id);
         }
       });
 
-      // Prevent the form from being submitted:
       event.preventDefault();
       return false;
     }
   });
 
-  function stripeResponseHandler(token) {
-    postOrder(token, productId(), gift());
+  function createPaymentIntent(paymentMethodId) {
+    showProcessing("Creating payment...");
+
+    $.post("/orders/create_payment_intent", {
+      payment_method_id: paymentMethodId,
+      product_id: productId(),
+      gift: gift()
+    }).done(function(response) {
+      if (response.success) {
+        handlePaymentSuccess(response);
+      } else if (response.requires_action) {
+        handleCardAction(response);
+      } else {
+        showError(response.error || "Payment failed");
+      }
+    }).fail(function(response) {
+      orderFailed(response);
+    });
   }
 
-  function postOrder(stripeToken, productId, gift) {
-    $.post("orders/stripe", { stripe_token: stripeToken, product_id: productId, gift: gift}).
-      done(function( data ) {
-        $(".premium-page").hide();
-        json = JSON.parse(data);
-        $(".stripe-result").show();
-        if (json['gift'] === true) {
-          href = $("#voucher-claim-url").attr('href');
-          href_with_code = href + "/" + json['voucher'];
+  function handleCardAction(response) {
+    showProcessing("Verifying payment...");
+
+    stripe.confirmCardPayment(response.payment_intent_client_secret).then(function(result) {
+      if (result.error) {
+        showError(result.error.message);
+      } else {
+        // After 3D Secure, check the payment status from server
+        $.get("/orders/status", {
+          payment_intent_id: result.paymentIntent.id
+        }).done(function(response) {
+          handlePaymentSuccess(response);
+        }).fail(function(response) {
+          orderFailed(response);
+        });
+      }
+    });
+  }
+
+  function handlePaymentSuccess(response) {
+    // Fade out the form
+    $(".premium-page").fadeOut(300, function() {
+      // Hide both success messages initially
+      $(".stripe-result .gift, .stripe-result .mine").hide();
+
+      // Show the appropriate success message
+      if (response.gift) {
+        if (response.voucher) {
+          var href = $("#voucher-claim-url").attr('href');
+          var href_with_code = href + "/" + response.voucher;
           $("#voucher-claim-url").attr('href', href_with_code);
-          $(".stripe-result .gift").show();
-        } else {
-          $(".stripe-result .mine").show();
+          $("#voucher-claim-url").parent().show();
         }
-      }).
-      fail(function( data ) {
-        orderFailed(data);
-      });
+        $(".stripe-result .gift").fadeIn(300);
+      } else {
+        $(".stripe-result .mine").fadeIn(300);
+      }
+
+      // Show the result container
+      $(".stripe-result").fadeIn(300);
+    });
   }
 
   function orderFailed(response) {
-    json = JSON.parse(response.responseText);
-    $("#stripe-errors").html(json["charge_status"]);
-    orderFormSubmit().prop('disabled', false);
+    try {
+      var json = JSON.parse(response.responseText);
+      showError(json.error || json.charge_status || "Payment failed. Please try again.");
+    } catch (e) {
+      showError("Payment failed. Please try again.");
+    }
     enableStripe();
   }
 
-  function orderForm() {
-    return $('form.new_order');
-  }
-  function orderFormSubmit() {
-    return orderForm().find(".submit");
-  }
-  function productId() {
-    return $("#order_product_id").val();
-  }
-  function gift() {
-    return $("#order_gift_true").is(':checked');
-  }
-  function amount() {
-    return $("#product-" + productId()).data("price");
-  }
-  function currency() {
-    return $("#product-" + productId()).data("currency");
-  }
-  function creditCardRow() {
-    return $(".credit-card-row");
-  }
-  function paypalButton() {
-    return $(".paypal-button");
-  }
-  function creditCardButton() {
-    return $(".credit-card-button");
-  }
-  function payingWithStripe() {
-    return creditCardButton().hasClass("selected");
-  }
-})
+  // Helper functions
+  function orderForm() { return $('form.new_order'); }
+  function orderFormSubmit() { return orderForm().find(".submit"); }
+  function productId() { return $("#order_product_id").val(); }
+  function gift() { return $("#order_gift_true").is(':checked'); }
+  function creditCardRow() { return $(".credit-card-row"); }
+  function paypalButton() { return $(".paypal-button"); }
+  function creditCardButton() { return $(".credit-card-button"); }
+  function payingWithStripe() { return creditCardButton().hasClass("selected"); }
+});

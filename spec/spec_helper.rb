@@ -47,6 +47,29 @@ VCR.configure do |c|
   c.cassette_library_dir = 'spec/fixtures/vcr'
   c.hook_into :webmock, :faraday
   c.configure_rspec_metadata!
+
+  # Filter out sensitive data
+  c.filter_sensitive_data('<STRIPE_TEST_KEY>') { ENV['STRIPE_TEST_KEY'] }
+  # Filter Authorization header
+  c.filter_sensitive_data('Bearer <STRIPE_TEST_KEY>') { |interaction|
+    interaction.request.headers['Authorization']&.first
+  }
+  # Filter all Stripe IDs and secrets
+  c.filter_sensitive_data('pi_test_payment_intent') { |interaction|
+    interaction.response.body.scan(/pi_[a-zA-Z0-9]{24}/).first
+  }
+  c.filter_sensitive_data('pi_test_secret') { |interaction|
+    interaction.response.body.scan(/pi_[a-zA-Z0-9]{24}_secret_[a-zA-Z0-9]{24}/).first
+  }
+  c.filter_sensitive_data('ch_test_charge') { |interaction|
+    interaction.response.body.scan(/ch_[a-zA-Z0-9]{24}/).first
+  }
+  c.filter_sensitive_data('pm_test_payment_method') { |interaction|
+    interaction.response.body.scan(/pm_[a-zA-Z0-9]{24}/).first
+  }
+  c.filter_sensitive_data('pmc_test_config') { |interaction|
+    interaction.response.body.scan(/pmc_[a-zA-Z0-9]{24}/).first
+  }
 end
 
 Zonebie.set_random_timezone

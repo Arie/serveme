@@ -101,6 +101,10 @@ Serveme::Application.routes.draw do
     collection do
       get :redirect
       post :stripe
+      post :create_payment_intent
+      post :confirm_payment
+      get :stripe_return
+      get :status
     end
   end
 
@@ -126,7 +130,10 @@ Serveme::Application.routes.draw do
     end
   end
 
-  # Pretty URLs
+  # Stripe webhook
+  post '/stripe/webhook', to: 'stripe_webhooks#create'
+
+  # Pretty URL
   get   '/donate',                        to: 'orders#new',                as: 'donate'
   get   '/voucher(/:code)',               to: 'vouchers#new',              as: 'claim'
   get   '/statistics',                    to: 'pages#statistics',          as: 'statistics'

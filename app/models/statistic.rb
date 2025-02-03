@@ -37,7 +37,7 @@ class Statistic
     {
       labels: data.map { |d| d[0] },
       values: data.map { |d| d[1] },
-      title: 'Reservations in the last 50 days',
+      title: 'Reservations',
       yAxisLabel: 'Number of Reservations'
     }
   end
@@ -51,16 +51,6 @@ class Statistic
       title: 'Hours played',
       yAxisLabel: 'Hours played'
     }
-  end
-
-  sig { params(time_unit: String, statistics_array: Array, title: String, bar_title: String).returns(GoogleVisualr::Interactive::ColumnChart) }
-  def self.reservations_per_time_unit(time_unit, statistics_array, title, bar_title = 'Reservation')
-    data_table = GoogleVisualr::DataTable.new
-    data_table.new_column('string', time_unit)
-    data_table.new_column('number', bar_title)
-    data_table.add_rows(statistics_array)
-    option = { width: 1100, height: 240, title: title, colors: ['#0044cc', '#0055cc', '#0066cc', '#0077cc', '0088cc'], legend: { position: 'none' } }
-    GoogleVisualr::Interactive::ColumnChart.new(data_table, option)
   end
 
   sig { returns(T::Array[Array]) }

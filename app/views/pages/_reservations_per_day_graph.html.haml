@@ -1,4 +1,2 @@
-- content_for :head do
-  %script{:src => 'http://www.google.com/jsapi'}
-.chart{:id => "reservations_per_day", :style => "height: 250px"}
-  = render_chart(Statistic.reservations_per_day_chart, 'reservations_per_day')
+.chart{data: { controller: "barchart", barchart_chart_data_value: Statistic.reservations_per_day_chart_data.to_json }}
+  %canvas{data: { barchart_target: "myChart" }, style: "height: 250px; width: 100%"}

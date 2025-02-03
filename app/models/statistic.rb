@@ -31,14 +31,26 @@ class Statistic
     Reservation.sum(:duration)
   end
 
-  sig { returns(GoogleVisualr::Interactive::ColumnChart) }
-  def self.reservations_per_day_chart
-    reservations_per_time_unit('Date', reservations_per_day, 'Reservations in the last 50 days')
+  sig { returns(T::Hash[Symbol, T.untyped]) }
+  def self.reservations_per_day_chart_data
+    data = reservations_per_day
+    {
+      labels: data.map { |d| d[0] },
+      values: data.map { |d| d[1] },
+      title: 'Reservations in the last 50 days',
+      yAxisLabel: 'Number of Reservations'
+    }
   end
 
-  sig { returns(GoogleVisualr::Interactive::ColumnChart) }
-  def self.reserved_hours_per_month_chart
-    reservations_per_time_unit('Month', reserved_hours_per_month, 'Hours played', 'Hours played')
+  sig { returns(T::Hash[Symbol, T.untyped]) }
+  def self.reserved_hours_per_month_chart_data
+    data = reserved_hours_per_month
+    {
+      labels: data.map { |d| d[0] },
+      values: data.map { |d| d[1] },
+      title: 'Hours played',
+      yAxisLabel: 'Hours played'
+    }
   end
 
   sig { params(time_unit: String, statistics_array: Array, title: String, bar_title: String).returns(GoogleVisualr::Interactive::ColumnChart) }

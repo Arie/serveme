@@ -587,7 +587,12 @@ class ReservationPlayer
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
     def rewhere(*args, &blk); end
 
-    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
+    sig { params(args: T.untyped).returns(PrivateAssociationRelation) }
+    sig do
+      params(
+        blk: T.proc.params(record: ::ReservationPlayer).returns(BasicObject)
+      ).returns(T::Array[::ReservationPlayer])
+    end
     def select(*args, &blk); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
@@ -1261,7 +1266,12 @@ class ReservationPlayer
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
     def rewhere(*args, &blk); end
 
-    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
+    sig { params(args: T.untyped).returns(PrivateRelation) }
+    sig do
+      params(
+        blk: T.proc.params(record: ::ReservationPlayer).returns(BasicObject)
+      ).returns(T::Array[::ReservationPlayer])
+    end
     def select(*args, &blk); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
@@ -1331,6 +1341,9 @@ class ReservationPlayer
 
     sig { params(column_name: T.any(String, Symbol)).returns(T::Hash[T.untyped, T.untyped]) }
     def minimum(column_name); end
+
+    sig { returns(T::Hash[T.untyped, Integer]) }
+    def size; end
 
     sig do
       params(
@@ -1459,6 +1472,9 @@ class ReservationPlayer
 
     sig { params(column_name: T.any(String, Symbol)).returns(T::Hash[T.untyped, T.untyped]) }
     def minimum(column_name); end
+
+    sig { returns(T::Hash[T.untyped, Integer]) }
+    def size; end
 
     sig do
       params(

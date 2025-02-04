@@ -9512,7 +9512,6 @@ RuboCop::Cop::Layout::EmptyLineAfterMultilineCondition::MSG = T.let(T.unsafe(nil
 #   end
 #   def b
 #   end
-# @example
 #
 #   # good
 #   def a
@@ -9530,7 +9529,6 @@ RuboCop::Cop::Layout::EmptyLineAfterMultilineCondition::MSG = T.let(T.unsafe(nil
 #   end
 #   def b
 #   end
-# @example
 #
 #   # good
 #   class A
@@ -9551,7 +9549,6 @@ RuboCop::Cop::Layout::EmptyLineAfterMultilineCondition::MSG = T.let(T.unsafe(nil
 #   end
 #   def b
 #   end
-# @example
 #
 #   # good
 #   module A
@@ -9589,15 +9586,15 @@ RuboCop::Cop::Layout::EmptyLineAfterMultilineCondition::MSG = T.let(T.unsafe(nil
 #
 #   class ErrorC < BaseError; end
 #
-# source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#108
+# source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#102
 class RuboCop::Cop::Layout::EmptyLineBetweenDefs < ::RuboCop::Cop::Base
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#145
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#139
   def autocorrect(corrector, prev_def, node, count); end
 
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#130
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#124
   def check_defs(nodes); end
 
   # We operate on `begin` nodes, instead of using `OnMethodDef`,
@@ -9606,100 +9603,100 @@ class RuboCop::Cop::Layout::EmptyLineBetweenDefs < ::RuboCop::Cop::Base
   # doing a linear scan over siblings, so we don't want to call
   # it on each def.
   #
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#123
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#117
   def on_begin(node); end
 
   private
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#293
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#287
   def allowance_range?; end
 
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#275
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#269
   def autocorrect_insert_lines(corrector, newline_pos, count); end
 
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#268
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#262
   def autocorrect_remove_lines(corrector, newline_pos, count); end
 
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#228
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#222
   def blank_lines_count_between(first_def_node, second_def_node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#172
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#166
   def candidate?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#192
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#186
   def class_candidate?(node); end
 
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#256
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#250
   def def_end(node); end
 
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#164
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#158
   def def_location(correction_node); end
 
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#248
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#242
   def def_start(node); end
 
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#179
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#173
   def empty_line_between_macros; end
 
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#260
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#254
   def end_loc(node); end
 
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#206
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#200
   def expected_lines; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#224
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#218
   def line_count_allowed?(count); end
 
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#240
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#234
   def lines_between_defs(first_def_node, second_def_node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#183
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#177
   def macro_candidate?(node); end
 
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#236
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#230
   def maximum_empty_lines; end
 
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#200
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#194
   def message(node, count: T.unsafe(nil)); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#188
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#182
   def method_candidate?(node); end
 
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#232
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#226
   def minimum_empty_lines; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#196
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#190
   def module_candidate?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#215
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#209
   def multiple_blank_lines_groups?(first_def_node, second_def_node); end
 
-  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#282
+  # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#276
   def node_type(node); end
 
   class << self
-    # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#114
+    # source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#108
     def autocorrect_incompatible_with; end
   end
 end
 
-# source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#112
+# source://rubocop//lib/rubocop/cop/layout/empty_line_between_defs.rb#106
 RuboCop::Cop::Layout::EmptyLineBetweenDefs::MSG = T.let(T.unsafe(nil), String)
 
 # Checks for two or more consecutive blank lines.
@@ -19610,7 +19607,6 @@ RuboCop::Cop::Lint::EmptyEnsure::MSG = T.let(T.unsafe(nil), String)
 #   if ()
 #   bar
 #   end
-# @example
 #
 #   # good
 #
@@ -19619,20 +19615,20 @@ RuboCop::Cop::Lint::EmptyEnsure::MSG = T.let(T.unsafe(nil), String)
 #   bar
 #   end
 #
-# source://rubocop//lib/rubocop/cop/lint/empty_expression.rb#25
+# source://rubocop//lib/rubocop/cop/lint/empty_expression.rb#23
 class RuboCop::Cop::Lint::EmptyExpression < ::RuboCop::Cop::Base
-  # source://rubocop//lib/rubocop/cop/lint/empty_expression.rb#28
+  # source://rubocop//lib/rubocop/cop/lint/empty_expression.rb#26
   def on_begin(node); end
 
   private
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/lint/empty_expression.rb#36
+  # source://rubocop//lib/rubocop/cop/lint/empty_expression.rb#34
   def empty_expression?(begin_node); end
 end
 
-# source://rubocop//lib/rubocop/cop/lint/empty_expression.rb#26
+# source://rubocop//lib/rubocop/cop/lint/empty_expression.rb#24
 RuboCop::Cop::Lint::EmptyExpression::MSG = T.let(T.unsafe(nil), String)
 
 # Enforces that Ruby source files are not empty.
@@ -26876,21 +26872,21 @@ class RuboCop::Cop::Lint::Void < ::RuboCop::Cop::Base
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/lint/void.rb#260
+  # source://rubocop//lib/rubocop/cop/lint/void.rb#255
   def all_keys_entirely_literal?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/lint/void.rb#264
+  # source://rubocop//lib/rubocop/cop/lint/void.rb#259
   def all_values_entirely_literal?(node); end
 
-  # source://rubocop//lib/rubocop/cop/lint/void.rb#238
+  # source://rubocop//lib/rubocop/cop/lint/void.rb#233
   def autocorrect_nonmutating_send(corrector, node, suggestion); end
 
-  # source://rubocop//lib/rubocop/cop/lint/void.rb#232
+  # source://rubocop//lib/rubocop/cop/lint/void.rb#227
   def autocorrect_void_expression(corrector, node); end
 
-  # source://rubocop//lib/rubocop/cop/lint/void.rb#219
+  # source://rubocop//lib/rubocop/cop/lint/void.rb#214
   def autocorrect_void_op(corrector, node); end
 
   # source://rubocop//lib/rubocop/cop/lint/void.rb#101
@@ -26922,12 +26918,12 @@ class RuboCop::Cop::Lint::Void < ::RuboCop::Cop::Base
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/lint/void.rb#247
+  # source://rubocop//lib/rubocop/cop/lint/void.rb#242
   def entirely_literal?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/lint/void.rb#212
+  # source://rubocop//lib/rubocop/cop/lint/void.rb#207
   def in_void_context?(node); end
 end
 
@@ -36750,34 +36746,34 @@ class RuboCop::Cop::Style::EachWithObject < ::RuboCop::Cop::Base
   #
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/each_with_object.rb#102
+  # source://rubocop//lib/rubocop/cop/style/each_with_object.rb#101
   def accumulator_param_assigned_to?(body, args); end
 
   # source://rubocop//lib/rubocop/cop/style/each_with_object.rb#69
   def autocorrect_block(corrector, node, return_value); end
 
-  # source://rubocop//lib/rubocop/cop/style/each_with_object.rb#84
+  # source://rubocop//lib/rubocop/cop/style/each_with_object.rb#83
   def autocorrect_numblock(corrector, node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/each_with_object.rb#121
+  # source://rubocop//lib/rubocop/cop/style/each_with_object.rb#120
   def first_argument_returned?(args, return_value); end
 
-  # source://rubocop//lib/rubocop/cop/style/each_with_object.rb#114
+  # source://rubocop//lib/rubocop/cop/style/each_with_object.rb#113
   def return_value(body); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/each_with_object.rb#129
+  # source://rubocop//lib/rubocop/cop/style/each_with_object.rb#128
   def return_value_occupies_whole_line?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/each_with_object.rb#96
+  # source://rubocop//lib/rubocop/cop/style/each_with_object.rb#95
   def simple_method_arg?(method_arg); end
 
-  # source://rubocop//lib/rubocop/cop/style/each_with_object.rb#133
+  # source://rubocop//lib/rubocop/cop/style/each_with_object.rb#132
   def whole_line_expression(node); end
 end
 
@@ -37871,8 +37867,11 @@ class RuboCop::Cop::Style::ExplicitBlockArgument < ::RuboCop::Cop::Base
   # source://rubocop//lib/rubocop/cop/style/explicit_block_argument.rb#108
   def add_block_argument(node, corrector, block_name); end
 
-  # source://rubocop//lib/rubocop/cop/style/explicit_block_argument.rb#147
+  # source://rubocop//lib/rubocop/cop/style/explicit_block_argument.rb#160
   def block_body_range(block_node, send_node); end
+
+  # source://rubocop//lib/rubocop/cop/style/explicit_block_argument.rb#153
+  def build_new_arguments_for_zsuper(node); end
 
   # @return [Boolean]
   #
@@ -53845,7 +53844,7 @@ RuboCop::Cop::Style::WhileUntilDo::MSG = T.let(T.unsafe(nil), String)
 #
 #   # good
 #   x += 1 until x > 10
-# @example
+#
 #   # bad
 #   x += 100 while x < 500 # a long comment that makes code too long if it were a single line
 #
@@ -53854,21 +53853,21 @@ RuboCop::Cop::Style::WhileUntilDo::MSG = T.let(T.unsafe(nil), String)
 #   x += 100
 #   end
 #
-# source://rubocop//lib/rubocop/cop/style/while_until_modifier.rb#35
+# source://rubocop//lib/rubocop/cop/style/while_until_modifier.rb#34
 class RuboCop::Cop::Style::WhileUntilModifier < ::RuboCop::Cop::Base
   include ::RuboCop::Cop::Alignment
   include ::RuboCop::Cop::LineLengthHelp
   include ::RuboCop::Cop::StatementModifier
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop//lib/rubocop/cop/style/while_until_modifier.rb#41
+  # source://rubocop//lib/rubocop/cop/style/while_until_modifier.rb#40
   def on_until(node); end
 
-  # source://rubocop//lib/rubocop/cop/style/while_until_modifier.rb#41
+  # source://rubocop//lib/rubocop/cop/style/while_until_modifier.rb#40
   def on_while(node); end
 end
 
-# source://rubocop//lib/rubocop/cop/style/while_until_modifier.rb#39
+# source://rubocop//lib/rubocop/cop/style/while_until_modifier.rb#38
 RuboCop::Cop::Style::WhileUntilModifier::MSG = T.let(T.unsafe(nil), String)
 
 # Checks for array literals made up of word-like
@@ -56174,93 +56173,101 @@ RuboCop::Cop::VariableForce::VARIABLE_REFERENCE_TYPE = T.let(T.unsafe(nil), Symb
 #
 # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#8
 class RuboCop::Cop::VariableForce::Variable
+  extend ::RuboCop::AST::NodePattern::Macros
+
   # @return [Variable] a new instance of Variable
   #
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#15
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#17
   def initialize(name, declaration_node, scope); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#98
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#110
   def argument?; end
 
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#31
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#33
   def assign(node); end
 
   # Returns the value of attribute assignments.
   #
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#11
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#13
   def assignments; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#106
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#118
   def block_argument?; end
 
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#78
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#49
+  def candidate_condition?(param0 = T.unsafe(nil)); end
+
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#90
   def capture_with_block!; end
 
   # Returns the value of attribute captured_by_block.
   #
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#11
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#13
   def captured_by_block; end
 
   # Returns the value of attribute captured_by_block.
   #
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#11
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#13
   def captured_by_block?; end
 
   # Returns the value of attribute declaration_node.
   #
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#11
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#13
   def declaration_node; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#114
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#126
   def explicit_block_local_variable?; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#70
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#82
   def in_modifier_conditional?(assignment); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#110
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#122
   def keyword_argument?; end
+
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#41
+  def mark_last_as_reassigned!(assignment); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#102
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#114
   def method_argument?; end
 
   # Returns the value of attribute name.
   #
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#11
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#13
   def name; end
 
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#44
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#56
   def reference!(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#39
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#51
   def referenced?; end
 
   # Returns the value of attribute references.
   #
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#11
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#13
   def references; end
 
   # Returns the value of attribute scope.
   #
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#11
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#13
   def scope; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#94
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#106
   def should_be_unused?; end
 
   # This is a convenient way to check whether the variable is used
@@ -56274,11 +56281,11 @@ class RuboCop::Cop::VariableForce::Variable
   #
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#90
+  # source://rubocop//lib/rubocop/cop/variable_force/variable.rb#102
   def used?; end
 end
 
-# source://rubocop//lib/rubocop/cop/variable_force/variable.rb#9
+# source://rubocop//lib/rubocop/cop/variable_force/variable.rb#11
 RuboCop::Cop::VariableForce::Variable::VARIABLE_DECLARATION_TYPES = T.let(T.unsafe(nil), Array)
 
 # @api private

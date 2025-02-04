@@ -37,6 +37,12 @@ module GeneratedPathHelpersModule
   def claim_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def confirm_payment_orders_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def create_payment_intent_orders_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def credits_pages_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -382,6 +388,9 @@ module GeneratedPathHelpersModule
   def stats_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def status_orders_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def status_reservation_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -392,6 +401,12 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def stripe_orders_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def stripe_return_orders_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def stripe_webhook_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def time_selection_reservations_path(*args); end

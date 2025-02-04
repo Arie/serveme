@@ -55,7 +55,7 @@ module RBI; end
 
 # source://tapioca//lib/tapioca/rbi_ext/model.rb#5
 class RBI::Tree < ::RBI::NodeWithComments
-  # source://rbi/0.2.3/lib/rbi/model.rb#121
+  # source://rbi/0.2.4/lib/rbi/model.rb#121
   sig do
     params(
       loc: T.nilable(::RBI::Loc),
@@ -65,15 +65,15 @@ class RBI::Tree < ::RBI::NodeWithComments
   end
   def initialize(loc: T.unsafe(nil), comments: T.unsafe(nil), &block); end
 
-  # source://rbi/0.2.3/lib/rbi/model.rb#128
+  # source://rbi/0.2.4/lib/rbi/model.rb#128
   sig { params(node: ::RBI::Node).void }
   def <<(node); end
 
-  # source://rbi/0.2.3/lib/rbi/rewriters/add_sig_templates.rb#66
+  # source://rbi/0.2.4/lib/rbi/rewriters/add_sig_templates.rb#66
   sig { params(with_todo_comment: T::Boolean).void }
   def add_sig_templates!(with_todo_comment: T.unsafe(nil)); end
 
-  # source://rbi/0.2.3/lib/rbi/rewriters/annotate.rb#49
+  # source://rbi/0.2.4/lib/rbi/rewriters/annotate.rb#49
   sig { params(annotation: ::String, annotate_scopes: T::Boolean, annotate_properties: T::Boolean).void }
   def annotate!(annotation, annotate_scopes: T.unsafe(nil), annotate_properties: T.unsafe(nil)); end
 
@@ -138,35 +138,35 @@ class RBI::Tree < ::RBI::NodeWithComments
   end
   def create_type_variable(name, type:, variance: T.unsafe(nil), fixed: T.unsafe(nil), upper: T.unsafe(nil), lower: T.unsafe(nil)); end
 
-  # source://rbi/0.2.3/lib/rbi/rewriters/deannotate.rb#41
+  # source://rbi/0.2.4/lib/rbi/rewriters/deannotate.rb#41
   sig { params(annotation: ::String).void }
   def deannotate!(annotation); end
 
-  # source://rbi/0.2.3/lib/rbi/model.rb#134
+  # source://rbi/0.2.4/lib/rbi/model.rb#134
   sig { returns(T::Boolean) }
   def empty?; end
 
-  # source://rbi/0.2.3/lib/rbi/rewriters/filter_versions.rb#118
+  # source://rbi/0.2.4/lib/rbi/rewriters/filter_versions.rb#118
   sig { params(version: ::Gem::Version).void }
   def filter_versions!(version); end
 
-  # source://rbi/0.2.3/lib/rbi/rewriters/flatten_singleton_methods.rb#60
+  # source://rbi/0.2.4/lib/rbi/rewriters/flatten_singleton_methods.rb#60
   sig { void }
   def flatten_singleton_methods!; end
 
-  # source://rbi/0.2.3/lib/rbi/rewriters/flatten_visibilities.rb#60
+  # source://rbi/0.2.4/lib/rbi/rewriters/flatten_visibilities.rb#60
   sig { void }
   def flatten_visibilities!; end
 
-  # source://rbi/0.2.3/lib/rbi/rewriters/group_nodes.rb#81
+  # source://rbi/0.2.4/lib/rbi/rewriters/group_nodes.rb#81
   sig { void }
   def group_nodes!; end
 
-  # source://rbi/0.2.3/lib/rbi/index.rb#68
+  # source://rbi/0.2.4/lib/rbi/index.rb#68
   sig { returns(::RBI::Index) }
   def index; end
 
-  # source://rbi/0.2.3/lib/rbi/rewriters/merge_trees.rb#324
+  # source://rbi/0.2.4/lib/rbi/rewriters/merge_trees.rb#324
   sig do
     params(
       other: ::RBI::Tree,
@@ -177,27 +177,27 @@ class RBI::Tree < ::RBI::NodeWithComments
   end
   def merge(other, left_name: T.unsafe(nil), right_name: T.unsafe(nil), keep: T.unsafe(nil)); end
 
-  # source://rbi/0.2.3/lib/rbi/rewriters/nest_non_public_members.rb#46
+  # source://rbi/0.2.4/lib/rbi/rewriters/nest_non_public_members.rb#46
   sig { void }
   def nest_non_public_members!; end
 
-  # source://rbi/0.2.3/lib/rbi/rewriters/nest_singleton_methods.rb#36
+  # source://rbi/0.2.4/lib/rbi/rewriters/nest_singleton_methods.rb#36
   sig { void }
   def nest_singleton_methods!; end
 
-  # source://rbi/0.2.3/lib/rbi/rewriters/nest_top_level_members.rb#63
+  # source://rbi/0.2.4/lib/rbi/rewriters/nest_top_level_members.rb#63
   sig { void }
   def nest_top_level_members!; end
 
-  # source://rbi/0.2.3/lib/rbi/model.rb#112
+  # source://rbi/0.2.4/lib/rbi/model.rb#112
   sig { returns(T::Array[::RBI::Node]) }
   def nodes; end
 
-  # source://rbi/0.2.3/lib/rbi/rewriters/attr_to_methods.rb#53
+  # source://rbi/0.2.4/lib/rbi/rewriters/attr_to_methods.rb#53
   sig { void }
   def replace_attributes_with_methods!; end
 
-  # source://rbi/0.2.3/lib/rbi/rewriters/sort_nodes.rb#119
+  # source://rbi/0.2.4/lib/rbi/rewriters/sort_nodes.rb#119
   sig { void }
   def sort_nodes!; end
 
@@ -218,7 +218,7 @@ class RBI::TypedParam < ::T::Struct
   const :type, ::String
 
   class << self
-    # source://sorbet-runtime/0.5.11763/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.11801/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -1143,7 +1143,7 @@ class Tapioca::ConfigHelper::ConfigError < ::T::Struct
   const :message_parts, T::Array[::Tapioca::ConfigHelper::ConfigErrorMessagePart]
 
   class << self
-    # source://sorbet-runtime/0.5.11763/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.11801/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -1154,7 +1154,7 @@ class Tapioca::ConfigHelper::ConfigErrorMessagePart < ::T::Struct
   const :colors, T::Array[::Symbol]
 
   class << self
-    # source://sorbet-runtime/0.5.11763/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.11801/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -2228,7 +2228,7 @@ class Tapioca::GemInfo < ::T::Struct
     sig { params(spec: ::Bundler::LazySpecification).returns(::Tapioca::GemInfo) }
     def from_spec(spec); end
 
-    # source://sorbet-runtime/0.5.11763/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.11801/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -2407,7 +2407,7 @@ module Tapioca::Loaders; end
 
 # source://tapioca//lib/tapioca/loaders/dsl.rb#6
 class Tapioca::Loaders::Dsl < ::Tapioca::Loaders::Loader
-  # source://tapioca//lib/tapioca/loaders/dsl.rb#53
+  # source://tapioca//lib/tapioca/loaders/dsl.rb#74
   sig do
     params(
       tapioca_path: ::String,
@@ -2426,19 +2426,29 @@ class Tapioca::Loaders::Dsl < ::Tapioca::Loaders::Loader
   sig { void }
   def load_dsl_extensions_and_compilers; end
 
+  # source://tapioca//lib/tapioca/loaders/dsl.rb#49
+  sig { void }
+  def reload_custom_compilers; end
+
   protected
 
-  # source://tapioca//lib/tapioca/loaders/dsl.rb#103
+  # source://tapioca//lib/tapioca/loaders/dsl.rb#120
   sig { void }
   def load_application; end
 
-  # source://tapioca//lib/tapioca/loaders/dsl.rb#78
+  # source://tapioca//lib/tapioca/loaders/dsl.rb#100
   sig { void }
   def load_dsl_compilers; end
 
-  # source://tapioca//lib/tapioca/loaders/dsl.rb#63
+  # source://tapioca//lib/tapioca/loaders/dsl.rb#85
   sig { void }
   def load_dsl_extensions; end
+
+  private
+
+  # source://tapioca//lib/tapioca/loaders/dsl.rb#136
+  sig { void }
+  def load_custom_dsl_compilers; end
 
   class << self
     # source://tapioca//lib/tapioca/loaders/dsl.rb#20
@@ -3381,6 +3391,58 @@ Tapioca::SorbetHelper::SORBET_PAYLOAD_URL = T.let(T.unsafe(nil), String)
 # source://tapioca//lib/tapioca/helpers/sorbet_helper.rb#22
 Tapioca::SorbetHelper::SPOOM_CONTEXT = T.let(T.unsafe(nil), Spoom::Context)
 
+# source://tapioca//lib/tapioca/helpers/source_uri.rb#7
+class Tapioca::SourceURI < ::URI::File
+  # source://tapioca//lib/tapioca/helpers/source_uri.rb#72
+  sig { params(v: T.nilable(::String)).returns(T::Boolean) }
+  def check_host(v); end
+
+  # source://tapioca//lib/tapioca/helpers/source_uri.rb#55
+  sig { returns(T.nilable(::String)) }
+  def gem_name; end
+
+  # source://tapioca//lib/tapioca/helpers/source_uri.rb#29
+  sig { returns(T.nilable(::String)) }
+  def gem_version; end
+
+  # source://tapioca//lib/tapioca/helpers/source_uri.rb#60
+  sig { returns(T.nilable(::String)) }
+  def line_number; end
+
+  # source://tapioca//lib/tapioca/helpers/source_uri.rb#65
+  sig { params(v: T.nilable(::String)).void }
+  def set_path(v); end
+
+  # source://tapioca//lib/tapioca/helpers/source_uri.rb#84
+  sig { returns(::String) }
+  def to_s; end
+
+  class << self
+    # source://tapioca//lib/tapioca/helpers/source_uri.rb#42
+    sig do
+      params(
+        gem_name: ::String,
+        gem_version: T.nilable(::String),
+        path: ::String,
+        line_number: T.nilable(::String)
+      ).returns(T.attached_class)
+    end
+    def build(gem_name:, gem_version:, path:, line_number:); end
+  end
+end
+
+# source://tapioca//lib/tapioca/helpers/source_uri.rb#10
+Tapioca::SourceURI::COMPONENT = T.let(T.unsafe(nil), Array)
+
+# `uri` for Ruby 3.4 switched the default parser from RFC2396 to RFC3986. The new parser emits a deprecation
+# warning on a few methods and delegates them to RFC2396, namely `extract`/`make_regexp`/`escape`/`unescape`.
+# On earlier versions of the uri gem, the RFC2396_PARSER constant doesn't exist, so it needs some special
+# handling to select a parser that doesn't emit deprecations. While it was backported to Ruby 3.1, users may
+# have the uri gem in their own bundle and thus not use a compatible version.
+#
+# source://tapioca//lib/tapioca/helpers/source_uri.rb#26
+Tapioca::SourceURI::PARSER = T.let(T.unsafe(nil), URI::RFC2396_Parser)
+
 # source://tapioca//lib/tapioca/static/symbol_table_parser.rb#5
 module Tapioca::Static; end
 
@@ -3556,55 +3618,3 @@ end
 
 # source://tapioca//lib/tapioca/version.rb#5
 Tapioca::VERSION = T.let(T.unsafe(nil), String)
-
-# source://tapioca//lib/tapioca/helpers/source_uri.rb#7
-class URI::Source < ::URI::File
-  # source://tapioca//lib/tapioca/helpers/source_uri.rb#72
-  sig { params(v: T.nilable(::String)).returns(T::Boolean) }
-  def check_host(v); end
-
-  # source://tapioca//lib/tapioca/helpers/source_uri.rb#55
-  sig { returns(T.nilable(::String)) }
-  def gem_name; end
-
-  # source://tapioca//lib/tapioca/helpers/source_uri.rb#29
-  sig { returns(T.nilable(::String)) }
-  def gem_version; end
-
-  # source://tapioca//lib/tapioca/helpers/source_uri.rb#60
-  sig { returns(T.nilable(::String)) }
-  def line_number; end
-
-  # source://tapioca//lib/tapioca/helpers/source_uri.rb#65
-  sig { params(v: T.nilable(::String)).void }
-  def set_path(v); end
-
-  # source://tapioca//lib/tapioca/helpers/source_uri.rb#84
-  sig { returns(::String) }
-  def to_s; end
-
-  class << self
-    # source://tapioca//lib/tapioca/helpers/source_uri.rb#42
-    sig do
-      params(
-        gem_name: ::String,
-        gem_version: T.nilable(::String),
-        path: ::String,
-        line_number: T.nilable(::String)
-      ).returns(::URI::Source)
-    end
-    def build(gem_name:, gem_version:, path:, line_number:); end
-  end
-end
-
-# source://tapioca//lib/tapioca/helpers/source_uri.rb#10
-URI::Source::COMPONENT = T.let(T.unsafe(nil), Array)
-
-# `uri` for Ruby 3.4 switched the default parser from RFC2396 to RFC3986. The new parser emits a deprecation
-# warning on a few methods and delegates them to RFC2396, namely `extract`/`make_regexp`/`escape`/`unescape`.
-# On earlier versions of the uri gem, the RFC2396_PARSER constant doesn't exist, so it needs some special
-# handling to select a parser that doesn't emit deprecations. While it was backported to Ruby 3.1, users may
-# have the uri gem in their own bundle and thus not use a compatible version.
-#
-# source://tapioca//lib/tapioca/helpers/source_uri.rb#26
-URI::Source::PARSER = T.let(T.unsafe(nil), URI::RFC2396_Parser)

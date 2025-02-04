@@ -37,6 +37,12 @@ module GeneratedUrlHelpersModule
   def claim_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def confirm_payment_orders_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def create_payment_intent_orders_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def credits_pages_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -382,6 +388,9 @@ module GeneratedUrlHelpersModule
   def stats_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def status_orders_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def status_reservation_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -392,6 +401,12 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def stripe_orders_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def stripe_return_orders_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def stripe_webhook_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def time_selection_reservations_url(*args); end

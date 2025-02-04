@@ -472,7 +472,8 @@ class StacLog
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
     def rewhere(*args, &blk); end
 
-    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
+    sig { params(args: T.untyped).returns(PrivateAssociationRelation) }
+    sig { params(blk: T.proc.params(record: ::StacLog).returns(BasicObject)).returns(T::Array[::StacLog]) }
     def select(*args, &blk); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
@@ -1074,7 +1075,8 @@ class StacLog
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
     def rewhere(*args, &blk); end
 
-    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
+    sig { params(args: T.untyped).returns(PrivateRelation) }
+    sig { params(blk: T.proc.params(record: ::StacLog).returns(BasicObject)).returns(T::Array[::StacLog]) }
     def select(*args, &blk); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
@@ -1141,6 +1143,9 @@ class StacLog
 
     sig { params(column_name: T.any(String, Symbol)).returns(T::Hash[T.untyped, T.untyped]) }
     def minimum(column_name); end
+
+    sig { returns(T::Hash[T.untyped, Integer]) }
+    def size; end
 
     sig do
       params(
@@ -1269,6 +1274,9 @@ class StacLog
 
     sig { params(column_name: T.any(String, Symbol)).returns(T::Hash[T.untyped, T.untyped]) }
     def minimum(column_name); end
+
+    sig { returns(T::Hash[T.untyped, Integer]) }
+    def size; end
 
     sig do
       params(

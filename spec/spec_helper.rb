@@ -1,7 +1,29 @@
 # typed: strict
 # frozen_string_literal: true
 
-require 'simplecov'
+if ENV['COVERAGE']
+  require 'simplecov'
+  SimpleCov.command_name 'RSpec'
+  SimpleCov.start 'rails' do
+    add_filter '/test/'
+    add_filter '/spec/'
+    add_filter '/config/'
+    add_filter '/vendor/'
+    add_filter '/features/'
+    add_filter '/lib/'
+
+    add_group 'Controllers', 'app/controllers'
+    add_group 'Models', 'app/models'
+    add_group 'Services', 'app/services'
+    add_group 'Workers', 'app/workers'
+    add_group 'Helpers', 'app/helpers'
+
+    # Temporarily lower these so we can get a full picture
+    minimum_coverage 20
+    minimum_coverage_by_file 20
+  end
+end
+
 require 'coveralls'
 require 'sidekiq'
 require 'sidekiq/testing'

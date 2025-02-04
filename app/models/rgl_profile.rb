@@ -27,8 +27,7 @@ class RglProfile
 
   sig { returns(T.nilable(String)) }
   def ban_reason
-    reason = json.dig('banInformation', 'reason')
-    ActionView::Base.full_sanitizer.sanitize(reason) if reason
+    json.dig('banInformation', 'reason')
   end
 
   def ban_expires_at

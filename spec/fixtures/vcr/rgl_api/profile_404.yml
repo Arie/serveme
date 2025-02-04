@@ -1,0 +1,21 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.rgl.gg/v0/profile/76561198012598620
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v1.10.4
+  response:
+    status:
+      code: 404
+      message: ''
+    headers: {}
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Tue, 04 Feb 2025 15:20:29 GMT
+recorded_with: VCR 6.3.1

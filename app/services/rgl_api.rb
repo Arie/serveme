@@ -22,6 +22,9 @@ class RglApi
     Rails.cache.write("rgl_profile_#{steam_uid}", response.body, expires_in: 1.day)
 
     response.body
+  rescue Faraday::ConnectionFailed, Faraday::TimeoutError => e
+    Rails.logger.error("RGL API request failed: #{e.message}")
+    nil
   end
 
   sig { returns(Faraday::Connection) }

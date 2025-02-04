@@ -1,23 +1,38 @@
 .row
   .col-md-12
-    %h2 Premium leaderboard
+    %h2 Premium Supporters
 
     %p
-      These are the top premium supporters. This doesn't include direct donations and TF2 items.
+      Top contributors ranked by total server time purchased.
 
     %table.table.table-hover.table-bordered.table-striped
       %thead
         %tr
-          %th Name
-          %th Awesomeness level
-          %th Amount
-      - @donators.each do |user, value|
+          %th Rank
+          %th Supporter
+          %th Total Time
+      - @donators.each_with_index do |(user, days), index|
         %tr
           %td
-            = link_to(user.nickname, user.steam_profile_url, :target => "_blank")
+            - case index
+            - when 0
+              %span{style: "color: #FFD700"} 1st
+            - when 1
+              %span{style: "color: #C0C0C0"} 2nd
+            - when 2
+              %span{style: "color: #CD7F32"} 3rd
+            - else
+              = "#{index + 1}th"
           %td
-            %span.donator
-              - (value / 10.0).round.times do
-                %i.fa.fa-star
-                  %nbsp
-          %td= number_to_currency(value.round, :precision => 2)
+            = link_to(user.nickname, user.steam_profile_url, target: "_blank")
+          %td
+            - years = days.to_i / 365
+            - remaining_days = days.to_i % 365
+            - months = remaining_days / 30
+            - days = remaining_days % 30
+            - parts = []
+            - parts << pluralize(years, 'year') if years > 0
+            - parts << pluralize(months, 'month') if months > 0
+            - parts << pluralize(days, 'day') if days > 0
+            - parts << "0 days" if parts.empty?
+            = parts.join(', ')

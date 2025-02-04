@@ -54,13 +54,6 @@ class Order < ActiveRecord::Base
       .where(arel_table[:created_at].lt(end_of_month))
   end
 
-  sig { returns(T::Array[T::Array[T.any(BigDecimal, User)]]) }
-  def self.leaderboard
-    completed.group(:user).joins(:user).joins(:product).sum('products.price').sort_by do |_user, amount|
-      amount
-    end.reverse
-  end
-
   sig { params(site_host: String).returns(Float) }
   def self.monthly_goal(site_host = SITE_HOST)
     case site_host
@@ -73,5 +66,12 @@ class Order < ActiveRecord::Base
     else
       50.0
     end
+  end
+
+  sig { returns(T::Array[T::Array[T.any(Integer, User)]]) }
+  def self.leaderboard_by_time
+    completed.group(:user).joins(:user).joins(:product).sum('products.days').sort_by do |_user, time|
+      time
+    end.reverse
   end
 end

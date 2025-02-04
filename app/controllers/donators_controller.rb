@@ -10,7 +10,7 @@ class DonatorsController < ApplicationController
   end
 
   def leaderboard
-    @donators = Order.leaderboard.first(25)
+    @donators = Order.leaderboard_by_time.first(25)
   end
 
   def new

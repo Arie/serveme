@@ -9,6 +9,7 @@ json.rcon reservation.rcon
 json.first_map reservation.first_map
 json.tv_password reservation.tv_password
 json.tv_relaypassword reservation.tv_relaypassword
+json.tv_port reservation.server&.tv_port
 json.server_config_id reservation.server_config_id
 json.whitelist_id reservation.whitelist_id
 json.custom_whitelist_id reservation.custom_whitelist_id

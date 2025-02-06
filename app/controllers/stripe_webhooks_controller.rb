@@ -38,19 +38,31 @@ class StripeWebhooksController < ApplicationController
   def verify_webhook_signature
     payload = request.raw_post
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
-    endpoint_secret = Rails.application.credentials.dig(:stripe, :webhook_signing_secret)
+
+    region_secret = case SITE_HOST
+                   when 'serveme.tf'
+                     :eu_wh_secret
+                   when 'na.serveme.tf'
+                     :na_wh_secret
+                   when 'sea.serveme.tf'
+                     :sea_wh_secret
+                   when 'au.serveme.tf'
+                     :au_wh_secret
+                   else
+                     :eu_wh_secret  # Fallback to EU
+                   end
+
+    endpoint_secret = Rails.application.credentials.dig(:stripe, region_secret)
 
     begin
       Stripe::Webhook.construct_event(
         payload, sig_header, endpoint_secret
       )
     rescue JSON::ParserError => e
-      # Invalid payload
       puts "Error parsing payload: #{e.message}"
       status 400
       nil
     rescue Stripe::SignatureVerificationError => e
-      # Invalid signature
       puts "Error verifying webhook signature: #{e.message}"
       status 400
       nil

@@ -427,6 +427,7 @@ class Server < ActiveRecord::Base
     version != Server.latest_version
   end
 
+  sig { returns(T.nilable(Integer)) }
   def self.latest_version
     Rails.cache.fetch('latest_server_version', expires_in: 5.minutes) do
       fetch_latest_version
@@ -488,16 +489,18 @@ class Server < ActiveRecord::Base
   end
 
   def save_version_info(server_info)
-    return unless server_info&.version.present?
+    version = server_info&.version
+    latest_version = self.class.latest_version
+    return if version.nil? || latest_version.nil?
 
-    if server_info.version < self.class.latest_version
-      Rails.logger.warn("Server #{name} was updating since #{I18n.l(update_started_at, format: :short)} but is now back online with old version #{server_info.version} instead of latest #{self.class.latest_version}") if update_status == 'Updating'
+    if version < latest_version
+      Rails.logger.warn("Server #{name} was updating since #{I18n.l(update_started_at, format: :short)} but is now back online with old version #{version} instead of latest #{latest_version}") if update_status == 'Updating'
 
-      update(update_status: 'Outdated', last_known_version: server_info.version)
+      update(update_status: 'Outdated', last_known_version: version)
     else
-      Rails.logger.info("Server #{name} was updating since #{I18n.l(update_started_at, format: :short)} from version #{last_known_version} and is now back online with latest version #{server_info.version}") if %w[Updating Outdated].include?(update_status)
+      Rails.logger.info("Server #{name} was updating since #{I18n.l(update_started_at, format: :short)} from version #{last_known_version} and is now back online with latest version #{version}") if %w[Updating Outdated].include?(update_status)
 
-      update(update_status: 'Updated', last_known_version: server_info.version)
+      update(update_status: 'Updated', last_known_version: version)
     end
   end
 

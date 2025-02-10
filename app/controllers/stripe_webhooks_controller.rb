@@ -40,17 +40,17 @@ class StripeWebhooksController < ApplicationController
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
 
     region_secret = case SITE_HOST
-                   when 'serveme.tf'
-                     :eu_wh_secret
-                   when 'na.serveme.tf'
-                     :na_wh_secret
-                   when 'sea.serveme.tf'
-                     :sea_wh_secret
-                   when 'au.serveme.tf'
-                     :au_wh_secret
-                   else
-                     :eu_wh_secret  # Fallback to EU
-                   end
+                    when 'serveme.tf'
+                      :eu_wh_secret
+                    when 'na.serveme.tf'
+                      :na_wh_secret
+                    when 'sea.serveme.tf'
+                      :sea_wh_secret
+                    when 'au.serveme.tf'
+                      :au_wh_secret
+                    else
+                      :eu_wh_secret # Fallback to EU
+                    end
 
     endpoint_secret = Rails.application.credentials.dig(:stripe, region_secret)
 

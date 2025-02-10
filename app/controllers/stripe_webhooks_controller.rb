@@ -40,8 +40,6 @@ class StripeWebhooksController < ApplicationController
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
 
     region_secret = case SITE_HOST
-                    when 'serveme.tf'
-                      :eu_wh_secret
                     when 'na.serveme.tf'
                       :na_wh_secret
                     when 'sea.serveme.tf'

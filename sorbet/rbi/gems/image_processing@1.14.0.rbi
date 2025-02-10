@@ -112,20 +112,23 @@ module ImageProcessing::MiniMagick
   extend ::ImageProcessing::Chainable
 
   class << self
+    # source://image_processing//lib/image_processing/mini_magick.rb#8
+    def convert_shim(&block); end
+
     # Returns whether the given image file is processable.
     #
     # @return [Boolean]
     #
-    # source://image_processing//lib/image_processing/mini_magick.rb#9
+    # source://image_processing//lib/image_processing/mini_magick.rb#17
     def valid_image?(file); end
   end
 end
 
-# source://image_processing//lib/image_processing/mini_magick.rb#19
+# source://image_processing//lib/image_processing/mini_magick.rb#27
 class ImageProcessing::MiniMagick::Processor < ::ImageProcessing::Processor
   # Appends a raw ImageMagick command-line argument to the command.
   #
-  # source://image_processing//lib/image_processing/mini_magick.rb#159
+  # source://image_processing//lib/image_processing/mini_magick.rb#167
   def append(*args); end
 
   # Overlays the specified image over the current one. Supports specifying
@@ -134,57 +137,57 @@ class ImageProcessing::MiniMagick::Processor < ::ImageProcessing::Processor
   #
   # @yield [magick]
   #
-  # source://image_processing//lib/image_processing/mini_magick.rb#115
+  # source://image_processing//lib/image_processing/mini_magick.rb#123
   def composite(overlay = T.unsafe(nil), mask: T.unsafe(nil), mode: T.unsafe(nil), gravity: T.unsafe(nil), offset: T.unsafe(nil), args: T.unsafe(nil), **options, &block); end
 
   # Crops the image with the specified crop points.
   #
-  # source://image_processing//lib/image_processing/mini_magick.rb#96
+  # source://image_processing//lib/image_processing/mini_magick.rb#104
   def crop(*args); end
 
   # Defines settings from the provided hash.
   #
-  # source://image_processing//lib/image_processing/mini_magick.rb#147
+  # source://image_processing//lib/image_processing/mini_magick.rb#155
   def define(options); end
 
   # Specifies resource limits from the provided hash.
   #
-  # source://image_processing//lib/image_processing/mini_magick.rb#153
+  # source://image_processing//lib/image_processing/mini_magick.rb#161
   def limits(options); end
 
   # Resizes the image to fit within the specified dimensions and fills
   # the remaining area with the specified background color.
   #
-  # source://image_processing//lib/image_processing/mini_magick.rb#82
+  # source://image_processing//lib/image_processing/mini_magick.rb#90
   def resize_and_pad(width, height, background: T.unsafe(nil), gravity: T.unsafe(nil), **options); end
 
   # Resizes the image to cover the specified dimensions, without
   # cropping the excess.
   #
-  # source://image_processing//lib/image_processing/mini_magick.rb#91
+  # source://image_processing//lib/image_processing/mini_magick.rb#99
   def resize_to_cover(width, height, **options); end
 
   # Resizes the image to fill the specified dimensions, applying any
   # necessary cropping.
   #
-  # source://image_processing//lib/image_processing/mini_magick.rb#73
+  # source://image_processing//lib/image_processing/mini_magick.rb#81
   def resize_to_fill(width, height, gravity: T.unsafe(nil), **options); end
 
   # Resizes the image to fit within the specified dimensions.
   #
-  # source://image_processing//lib/image_processing/mini_magick.rb#67
+  # source://image_processing//lib/image_processing/mini_magick.rb#75
   def resize_to_fit(width, height, **options); end
 
   # Resizes the image to not be larger than the specified dimensions.
   #
-  # source://image_processing//lib/image_processing/mini_magick.rb#62
+  # source://image_processing//lib/image_processing/mini_magick.rb#70
   def resize_to_limit(width, height, **options); end
 
   # Rotates the image by an arbitrary angle. For angles that are not
   # multiple of 90 degrees an optional background color can be specified to
   # fill in the gaps.
   #
-  # source://image_processing//lib/image_processing/mini_magick.rb#107
+  # source://image_processing//lib/image_processing/mini_magick.rb#115
   def rotate(degrees, background: T.unsafe(nil)); end
 
   protected
@@ -200,18 +203,18 @@ class ImageProcessing::MiniMagick::Processor < ::ImageProcessing::Processor
   #
   # @raise [ArgumentError]
   #
-  # source://image_processing//lib/image_processing/mini_magick.rb#172
+  # source://image_processing//lib/image_processing/mini_magick.rb#180
   def color(value); end
 
   # Converts the image on disk in various forms into a path.
   #
-  # source://image_processing//lib/image_processing/mini_magick.rb#195
+  # source://image_processing//lib/image_processing/mini_magick.rb#203
   def convert_to_path(file, name); end
 
   # Resizes the image using the specified geometry, and sharpens the
   # resulting thumbnail.
   #
-  # source://image_processing//lib/image_processing/mini_magick.rb#183
+  # source://image_processing//lib/image_processing/mini_magick.rb#191
   def thumbnail(geometry, sharpen: T.unsafe(nil)); end
 
   class << self
@@ -219,14 +222,14 @@ class ImageProcessing::MiniMagick::Processor < ::ImageProcessing::Processor
     # additional options related to loading the image (e.g. geometry).
     # Additionally auto-orients the image to be upright.
     #
-    # source://image_processing//lib/image_processing/mini_magick.rb#28
+    # source://image_processing//lib/image_processing/mini_magick.rb#36
     def load_image(path_or_magick, loader: T.unsafe(nil), page: T.unsafe(nil), geometry: T.unsafe(nil), auto_orient: T.unsafe(nil), **options); end
 
     # Calls the built ImageMagick command to perform processing and save
     # the result to disk. Accepts additional options related to saving the
     # image (e.g. quality).
     #
-    # source://image_processing//lib/image_processing/mini_magick.rb#52
+    # source://image_processing//lib/image_processing/mini_magick.rb#60
     def save_image(magick, destination_path, allow_splitting: T.unsafe(nil), **options); end
   end
 end
@@ -236,46 +239,46 @@ ImageProcessing::MiniMagick::Processor::ACCUMULATOR_CLASS = MiniMagick::Tool
 
 # Default sharpening parameters used on generated thumbnails.
 #
-# source://image_processing//lib/image_processing/mini_magick.rb#23
+# source://image_processing//lib/image_processing/mini_magick.rb#31
 ImageProcessing::MiniMagick::Processor::SHARPEN_PARAMETERS = T.let(T.unsafe(nil), Hash)
 
-# source://image_processing//lib/image_processing/mini_magick.rb#207
+# source://image_processing//lib/image_processing/mini_magick.rb#215
 module ImageProcessing::MiniMagick::Processor::Utils
   private
 
   # Applies settings from the provided (nested) hash.
   #
-  # source://image_processing//lib/image_processing/mini_magick.rb#236
+  # source://image_processing//lib/image_processing/mini_magick.rb#244
   def apply_define(magick, options); end
 
   # Applies options from the provided hash.
   #
-  # source://image_processing//lib/image_processing/mini_magick.rb#223
+  # source://image_processing//lib/image_processing/mini_magick.rb#231
   def apply_options(magick, define: T.unsafe(nil), **options); end
 
   # When a multi-layer format is being converted into a single-layer
   # format, ImageMagick will create multiple images, one for each layer.
   # We want to warn the user that this is probably not what they wanted.
   #
-  # source://image_processing//lib/image_processing/mini_magick.rb#213
+  # source://image_processing//lib/image_processing/mini_magick.rb#221
   def disallow_split_layers!(destination_path); end
 
   class << self
     # Applies settings from the provided (nested) hash.
     #
-    # source://image_processing//lib/image_processing/mini_magick.rb#236
+    # source://image_processing//lib/image_processing/mini_magick.rb#244
     def apply_define(magick, options); end
 
     # Applies options from the provided hash.
     #
-    # source://image_processing//lib/image_processing/mini_magick.rb#223
+    # source://image_processing//lib/image_processing/mini_magick.rb#231
     def apply_options(magick, define: T.unsafe(nil), **options); end
 
     # When a multi-layer format is being converted into a single-layer
     # format, ImageMagick will create multiple images, one for each layer.
     # We want to warn the user that this is probably not what they wanted.
     #
-    # source://image_processing//lib/image_processing/mini_magick.rb#213
+    # source://image_processing//lib/image_processing/mini_magick.rb#221
     def disallow_split_layers!(destination_path); end
   end
 end

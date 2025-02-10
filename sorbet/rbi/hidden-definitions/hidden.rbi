@@ -6240,9 +6240,6 @@ end
 class ExitCalledError
 end
 
-class ExitCalledError
-end
-
 class Faraday::RackBuilder
   extend ::VCR::LibraryHooks::Faraday::BuilderClassExtension
 end
@@ -11814,7 +11811,7 @@ class JSON::Ext::Generator::State
 end
 
 class JSON::Ext::Parser
-  def initialize(*arg); end
+  def initialize(source, opts = T.unsafe(nil)); end
 end
 
 class Jbuilder::DependencyTracker

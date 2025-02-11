@@ -16,7 +16,7 @@ A web-interface to reserve TF2 gameservers
 * [libmaxminddb](https://github.com/maxmind/libmaxminddb), for GeoIP lookups. Or you can configure another one in the
   [geocoder initializer](https://github.com/alexreisner/geocoder)
 
-## Running localy
+## Running locally
 1. Make sure you've installed the requirements.
 2. Review the yaml files in the `config` directory.
 3. Get a steam api key https://steamcommunity.com/dev/apikey

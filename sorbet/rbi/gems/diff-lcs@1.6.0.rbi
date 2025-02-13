@@ -59,7 +59,7 @@ module Diff; end
 module Diff::LCS
   # Returns the difference set between +self+ and +other+. See Diff::LCS#diff.
   #
-  # source://diff-lcs//lib/diff/lcs.rb#75
+  # source://diff-lcs//lib/diff/lcs.rb#76
   def diff(other, callbacks = T.unsafe(nil), &block); end
 
   # Returns an Array containing the longest common subsequence(s) between
@@ -68,80 +68,81 @@ module Diff::LCS
   #   lcs = seq1.lcs(seq2)
   #
   # A note when using objects: Diff::LCS only works properly when each object
-  # can be used as a key in a Hash, which typically means that the objects must
-  # implement Object#eql? in a way that two identical values compare
-  # identically for key purposes. That is:
+  # can be used as a key in a Hash. This means that those objects must implement
+  # the methods +#hash+ and +#eql?+ such that two objects containing identical values
+  # compare identically for key purposes. That is:
   #
-  #   O.new('a').eql?(O.new('a')) == true
+  #   O.new('a').eql?(O.new('a')) == true &&
+  #   O.new('a').hash == O.new('a').hash
   #
-  # source://diff-lcs//lib/diff/lcs.rb#70
+  # source://diff-lcs//lib/diff/lcs.rb#71
   def lcs(other, &block); end
 
   # Attempts to patch +self+ with the provided +patchset+. A new sequence based
   # on +self+ and the +patchset+ will be created. See Diff::LCS#patch. Attempts
   # to autodiscover the direction of the patch.
   #
-  # source://diff-lcs//lib/diff/lcs.rb#101
+  # source://diff-lcs//lib/diff/lcs.rb#102
   def patch(patchset); end
 
   # Attempts to patch +self+ with the provided +patchset+. A new sequence based
   # on +self+ and the +patchset+ will be created. See Diff::LCS#patch. Does no
   # patch direction autodiscovery.
   #
-  # source://diff-lcs//lib/diff/lcs.rb#109
+  # source://diff-lcs//lib/diff/lcs.rb#110
   def patch!(patchset); end
 
   # Attempts to patch +self+ with the provided +patchset+, using #patch!. If
   # the sequence this is used on supports #replace, the value of +self+ will be
   # replaced. See Diff::LCS#patch. Does no patch direction autodiscovery.
   #
-  # source://diff-lcs//lib/diff/lcs.rb#123
+  # source://diff-lcs//lib/diff/lcs.rb#124
   def patch_me(patchset); end
 
   # Returns the balanced ("side-by-side") difference set between +self+ and
   # +other+. See Diff::LCS#sdiff.
   #
-  # source://diff-lcs//lib/diff/lcs.rb#81
+  # source://diff-lcs//lib/diff/lcs.rb#82
   def sdiff(other, callbacks = T.unsafe(nil), &block); end
 
   # Traverses the discovered longest common subsequences between +self+ and
   # +other+ using the alternate, balanced algorithm. See
   # Diff::LCS#traverse_balanced.
   #
-  # source://diff-lcs//lib/diff/lcs.rb#94
+  # source://diff-lcs//lib/diff/lcs.rb#95
   def traverse_balanced(other, callbacks = T.unsafe(nil), &block); end
 
   # Traverses the discovered longest common subsequences between +self+ and
   # +other+. See Diff::LCS#traverse_sequences.
   #
-  # source://diff-lcs//lib/diff/lcs.rb#87
+  # source://diff-lcs//lib/diff/lcs.rb#88
   def traverse_sequences(other, callbacks = T.unsafe(nil), &block); end
 
   # Attempts to patch +self+ with the provided +patchset+. A new sequence based
   # on +self+ and the +patchset+ will be created. See Diff::LCS#patch. Attempts
   # to autodiscover the direction of the patch.
   #
-  # source://diff-lcs//lib/diff/lcs.rb#101
+  # source://diff-lcs//lib/diff/lcs.rb#102
   def unpatch(patchset); end
 
   # Attempts to unpatch +self+ with the provided +patchset+. A new sequence
   # based on +self+ and the +patchset+ will be created. See Diff::LCS#unpatch.
   # Does no patch direction autodiscovery.
   #
-  # source://diff-lcs//lib/diff/lcs.rb#116
+  # source://diff-lcs//lib/diff/lcs.rb#117
   def unpatch!(patchset); end
 
   # Attempts to unpatch +self+ with the provided +patchset+, using #unpatch!.
   # If the sequence this is used on supports #replace, the value of +self+ will
   # be replaced. See Diff::LCS#unpatch. Does no patch direction autodiscovery.
   #
-  # source://diff-lcs//lib/diff/lcs.rb#134
+  # source://diff-lcs//lib/diff/lcs.rb#135
   def unpatch_me(patchset); end
 
   class << self
     # :yields: seq1[i] for each matched
     #
-    # source://diff-lcs//lib/diff/lcs.rb#144
+    # source://diff-lcs//lib/diff/lcs.rb#145
     def LCS(seq1, seq2, &block); end
 
     # source://diff-lcs//lib/diff/lcs/callbacks.rb#52
@@ -157,12 +158,12 @@ module Diff::LCS
     # initialise it. If the +callbacks+ object (possibly initialised) responds to
     # #finish, it will be called.
     #
-    # source://diff-lcs//lib/diff/lcs.rb#168
+    # source://diff-lcs//lib/diff/lcs.rb#169
     def diff(seq1, seq2, callbacks = T.unsafe(nil), &block); end
 
     # :yields: seq1[i] for each matched
     #
-    # source://diff-lcs//lib/diff/lcs.rb#144
+    # source://diff-lcs//lib/diff/lcs.rb#145
     def lcs(seq1, seq2, &block); end
 
     # Applies a +patchset+ to the sequence +src+ according to the +direction+
@@ -206,13 +207,13 @@ module Diff::LCS
     # representations of those objects. Prior to application, array
     # representations of Diff::LCS::Change objects will be reified.
     #
-    # source://diff-lcs//lib/diff/lcs.rb#626
+    # source://diff-lcs//lib/diff/lcs.rb#627
     def patch(src, patchset, direction = T.unsafe(nil)); end
 
     # Given a set of patchset, convert the current version to the next version.
     # Does no auto-discovery.
     #
-    # source://diff-lcs//lib/diff/lcs.rb#736
+    # source://diff-lcs//lib/diff/lcs.rb#737
     def patch!(src, patchset); end
 
     # #sdiff computes all necessary components to show two sequences and their
@@ -244,7 +245,7 @@ module Diff::LCS
     #     end
     #   end
     #
-    # source://diff-lcs//lib/diff/lcs.rb#200
+    # source://diff-lcs//lib/diff/lcs.rb#201
     def sdiff(seq1, seq2, callbacks = T.unsafe(nil), &block); end
 
     # #traverse_balanced is an alternative to #traverse_sequences. It uses a
@@ -277,7 +278,7 @@ module Diff::LCS
     #                                 occurred.
     #
     # #traverse_balanced might be a bit slower than #traverse_sequences,
-    # noticable only while processing huge amounts of data.
+    # noticeable only while processing huge amounts of data.
     #
     # == Algorithm
     #
@@ -321,7 +322,7 @@ module Diff::LCS
     # The methods for <tt>callbacks#match</tt>, <tt>callbacks#discard_a</tt>,
     # <tt>callbacks#discard_b</tt>, and <tt>callbacks#change</tt> are invoked
     # with an event comprising the action ("=", "+", "-", or "!", respectively),
-    # the indicies +i+ and +j+, and the elements <tt>A[i]</tt> and <tt>B[j]</tt>.
+    # the indexes +i+ and +j+, and the elements <tt>A[i]</tt> and <tt>B[j]</tt>.
     # Return values are discarded by #traverse_balanced.
     #
     # === Context
@@ -329,7 +330,7 @@ module Diff::LCS
     # Note that +i+ and +j+ may not be the same index position, even if +a+ and
     # +b+ are considered to be pointing to matching or changed elements.
     #
-    # source://diff-lcs//lib/diff/lcs.rb#475
+    # source://diff-lcs//lib/diff/lcs.rb#476
     def traverse_balanced(seq1, seq2, callbacks = T.unsafe(nil)); end
 
     # #traverse_sequences is the most general facility provided by this module;
@@ -387,7 +388,7 @@ module Diff::LCS
     #
     # The methods for <tt>callbacks#match</tt>, <tt>callbacks#discard_a</tt>, and
     # <tt>callbacks#discard_b</tt> are invoked with an event comprising the
-    # action ("=", "+", or "-", respectively), the indicies +i+ and +j+, and the
+    # action ("=", "+", or "-", respectively), the indexes +i+ and +j+, and the
     # elements <tt>A[i]</tt> and <tt>B[j]</tt>. Return values are discarded by
     # #traverse_sequences.
     #
@@ -414,13 +415,13 @@ module Diff::LCS
     # is reached, if +a+ has not yet reached the end of +A+ or +b+ has not yet
     # reached the end of +B+.
     #
-    # source://diff-lcs//lib/diff/lcs.rb#285
+    # source://diff-lcs//lib/diff/lcs.rb#286
     def traverse_sequences(seq1, seq2, callbacks = T.unsafe(nil)); end
 
     # Given a set of patchset, convert the current version to the prior version.
     # Does no auto-discovery.
     #
-    # source://diff-lcs//lib/diff/lcs.rb#730
+    # source://diff-lcs//lib/diff/lcs.rb#731
     def unpatch!(src, patchset); end
 
     private
@@ -555,6 +556,8 @@ class Diff::LCS::Change
   end
 end
 
+# Fixnum is deprecated in Ruby 2.4 # standard:disable Naming/ConstantName
+#
 # source://diff-lcs//lib/diff/lcs/change.rb#7
 Diff::LCS::Change::IntClass = Integer
 
@@ -848,7 +851,7 @@ class Diff::LCS::Hunk
 
   # Returns the value of attribute blocks.
   #
-  # source://diff-lcs//lib/diff/lcs/hunk.rb#62
+  # source://diff-lcs//lib/diff/lcs/hunk.rb#64
   def blocks; end
 
   # Returns a diff string based on a format.
@@ -858,26 +861,26 @@ class Diff::LCS::Hunk
 
   # Returns the value of attribute end_new.
   #
-  # source://diff-lcs//lib/diff/lcs/hunk.rb#64
+  # source://diff-lcs//lib/diff/lcs/hunk.rb#66
   def end_new; end
 
   # Returns the value of attribute end_old.
   #
-  # source://diff-lcs//lib/diff/lcs/hunk.rb#64
+  # source://diff-lcs//lib/diff/lcs/hunk.rb#66
   def end_old; end
 
   # Returns the value of attribute file_length_difference.
   #
-  # source://diff-lcs//lib/diff/lcs/hunk.rb#65
+  # source://diff-lcs//lib/diff/lcs/hunk.rb#67
   def file_length_difference; end
 
   # Change the "start" and "end" fields to note that context should be added
   # to this hunk.
   #
-  # source://diff-lcs//lib/diff/lcs/hunk.rb#69
+  # source://diff-lcs//lib/diff/lcs/hunk.rb#71
   def flag_context; end
 
-  # source://diff-lcs//lib/diff/lcs/hunk.rb#71
+  # source://diff-lcs//lib/diff/lcs/hunk.rb#73
   def flag_context=(context); end
 
   # Merges this hunk and the provided hunk together if they overlap. Returns
@@ -889,7 +892,7 @@ class Diff::LCS::Hunk
 
   # @return [Boolean]
   #
-  # source://diff-lcs//lib/diff/lcs/hunk.rb#331
+  # source://diff-lcs//lib/diff/lcs/hunk.rb#347
   def missing_last_newline?(data); end
 
   # Determines whether there is an overlap between this hunk and the
@@ -903,12 +906,12 @@ class Diff::LCS::Hunk
 
   # Returns the value of attribute start_new.
   #
-  # source://diff-lcs//lib/diff/lcs/hunk.rb#63
+  # source://diff-lcs//lib/diff/lcs/hunk.rb#65
   def start_new; end
 
   # Returns the value of attribute start_old.
   #
-  # source://diff-lcs//lib/diff/lcs/hunk.rb#63
+  # source://diff-lcs//lib/diff/lcs/hunk.rb#65
   def start_old; end
 
   # Merges this hunk and the provided hunk together if they overlap. Returns
@@ -920,39 +923,39 @@ class Diff::LCS::Hunk
 
   private
 
-  # source://diff-lcs//lib/diff/lcs/hunk.rb#214
+  # source://diff-lcs//lib/diff/lcs/hunk.rb#222
   def context_diff(last = T.unsafe(nil)); end
 
   # Generate a range of item numbers to print. Only print 1 number if the
   # range has only one item in it. Otherwise, it's 'start,end'
   #
-  # source://diff-lcs//lib/diff/lcs/hunk.rb#298
-  def context_range(mode, op, last = T.unsafe(nil)); end
+  # source://diff-lcs//lib/diff/lcs/hunk.rb#316
+  def context_range(mode, op); end
 
-  # source://diff-lcs//lib/diff/lcs/hunk.rb#276
-  def ed_diff(format, _last = T.unsafe(nil)); end
+  # source://diff-lcs//lib/diff/lcs/hunk.rb#284
+  def ed_diff(format, last); end
 
-  # source://diff-lcs//lib/diff/lcs/hunk.rb#344
+  # source://diff-lcs//lib/diff/lcs/hunk.rb#360
   def encode(literal, target_encoding = T.unsafe(nil)); end
 
-  # source://diff-lcs//lib/diff/lcs/hunk.rb#348
+  # source://diff-lcs//lib/diff/lcs/hunk.rb#364
   def encode_as(string, *args); end
 
   # Note that an old diff can't have any context. Therefore, we know that
   # there's only one block in the hunk.
   #
   # source://diff-lcs//lib/diff/lcs/hunk.rb#134
-  def old_diff(_last = T.unsafe(nil)); end
+  def old_diff(last = T.unsafe(nil)); end
 
-  # source://diff-lcs//lib/diff/lcs/hunk.rb#159
+  # source://diff-lcs//lib/diff/lcs/hunk.rb#167
   def unified_diff(last = T.unsafe(nil)); end
 
   # Generate a range of item numbers to print for unified diff. Print number
   # where block starts, followed by number of lines in the block
   # (don't print number of lines if it's 1)
   #
-  # source://diff-lcs//lib/diff/lcs/hunk.rb#316
-  def unified_range(mode, last); end
+  # source://diff-lcs//lib/diff/lcs/hunk.rb#331
+  def unified_range(mode); end
 end
 
 # source://diff-lcs//lib/diff/lcs/hunk.rb#10

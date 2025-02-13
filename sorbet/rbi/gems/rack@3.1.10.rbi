@@ -526,7 +526,7 @@ class Rack::CommonLogger
   # Attempt to determine the content length for the response to
   # include it in the logged data.
   #
-  # source://rack//lib/rack/common_logger.rb#83
+  # source://rack//lib/rack/common_logger.rb#84
   def extract_content_length(headers); end
 
   # Log the request to the configured logger.

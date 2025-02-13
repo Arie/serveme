@@ -218,7 +218,7 @@ class RBI::TypedParam < ::T::Struct
   const :type, ::String
 
   class << self
-    # source://sorbet-runtime/0.5.11801/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.11826/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -453,24 +453,24 @@ class Tapioca::Cli < ::Thor
   include ::Tapioca::ConfigHelper
   include ::Tapioca::EnvHelper
 
-  # source://tapioca//lib/tapioca/cli.rb#377
+  # source://tapioca//lib/tapioca/cli.rb#372
   def __print_version; end
 
-  # source://tapioca//lib/tapioca/cli.rb#359
+  # source://tapioca//lib/tapioca/cli.rb#354
   def annotations; end
 
-  # source://tapioca//lib/tapioca/cli.rb#331
+  # source://tapioca//lib/tapioca/cli.rb#326
   def check_shims; end
 
   # source://tapioca//lib/tapioca/cli.rb#46
   def configure; end
 
-  # source://tapioca//lib/tapioca/cli.rb#151
+  # source://tapioca//lib/tapioca/cli.rb#146
   def dsl(*constant_or_paths); end
 
   # @raise [MalformattedArgumentError]
   #
-  # source://tapioca//lib/tapioca/cli.rb#274
+  # source://tapioca//lib/tapioca/cli.rb#269
   def gem(*gems); end
 
   # source://tapioca//lib/tapioca/cli.rb#27
@@ -484,11 +484,19 @@ class Tapioca::Cli < ::Thor
 
   private
 
-  # source://tapioca//lib/tapioca/cli.rb#391
+  # source://tapioca//lib/tapioca/cli.rb#399
   def print_init_next_steps; end
 
   class << self
     # source://tapioca//lib/tapioca/cli.rb#383
+    def addon_mode; end
+
+    # source://tapioca//lib/tapioca/cli.rb#386
+    sig { void }
+    def addon_mode!; end
+
+    # source://tapioca//lib/tapioca/cli.rb#391
+    sig { returns(T::Boolean) }
     def exit_on_failure?; end
   end
 end
@@ -1143,7 +1151,7 @@ class Tapioca::ConfigHelper::ConfigError < ::T::Struct
   const :message_parts, T::Array[::Tapioca::ConfigHelper::ConfigErrorMessagePart]
 
   class << self
-    # source://sorbet-runtime/0.5.11801/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.11826/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -1154,7 +1162,7 @@ class Tapioca::ConfigHelper::ConfigErrorMessagePart < ::T::Struct
   const :colors, T::Array[::Symbol]
 
   class << self
-    # source://sorbet-runtime/0.5.11801/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.11826/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -2228,7 +2236,7 @@ class Tapioca::GemInfo < ::T::Struct
     sig { params(spec: ::Bundler::LazySpecification).returns(::Tapioca::GemInfo) }
     def from_spec(spec); end
 
-    # source://sorbet-runtime/0.5.11801/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.11826/lib/types/struct.rb#13
     def inherited(s); end
   end
 end

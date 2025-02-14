@@ -70,8 +70,8 @@ class Order < ActiveRecord::Base
 
   sig { returns(T::Array[T::Array[T.any(Integer, User)]]) }
   def self.leaderboard_by_time
-    completed.group(:user).joins(:user).joins(:product).sum('products.days').sort_by do |_user, time|
-      time
-    end.reverse
+    completed.group(:user).joins(:user).joins(:product)
+             .sum('CASE WHEN products.days > 366 THEN 366 ELSE products.days END')
+             .sort_by { |_user, time| time }.reverse
   end
 end

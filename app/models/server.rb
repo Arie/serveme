@@ -171,13 +171,14 @@ class Server < ActiveRecord::Base
 
   sig { returns(String) }
   def sourcemod_body
-    <<-VDF
-    "Metamod Plugin"
-    {
-      "alias"		"sourcemod"
-      "file"		"addons/sourcemod/bin/sourcemod_mm"
-    }
-    VDF
+    # <<-VDF
+    # "Metamod Plugin"
+    # {
+    #   "alias"		"sourcemod"
+    #   "file"		"addons/sourcemod/bin/sourcemod_mm"
+    # }
+    # VDF
+    ""
   end
 
   sig { params(reservation: Reservation).returns(String) }

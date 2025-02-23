@@ -258,8 +258,8 @@ module Redis::Commands
   #
   # Redis error replies are raised as Ruby exceptions.
   #
-  # source://redis//lib/redis/commands.rb#202
-  def call(*command); end
+  # source://redis//lib/redis/commands.rb#204
+  def call(*command, &block); end
 
   # Interact with the sentinel command (masters, master, slaves, failover)
   #
@@ -267,12 +267,12 @@ module Redis::Commands
   # @param args [Array<String>] depends on subcommand
   # @return [Array<String>, Hash<String, String>, String] depends on subcommand
   #
-  # source://redis//lib/redis/commands.rb#211
+  # source://redis//lib/redis/commands.rb#213
   def sentinel(subcommand, *args); end
 
   private
 
-  # source://redis//lib/redis/commands.rb#233
+  # source://redis//lib/redis/commands.rb#235
   def method_missing(*command); end
 end
 
@@ -410,13 +410,16 @@ module Redis::Commands::Connection
   def select(db); end
 end
 
-# source://redis//lib/redis/commands.rb#110
+# source://redis//lib/redis/commands.rb#112
 Redis::Commands::EMPTY_STREAM_RESPONSE = T.let(T.unsafe(nil), Array)
 
 # source://redis//lib/redis/commands.rb#73
 Redis::Commands::Floatify = T.let(T.unsafe(nil), Proc)
 
 # source://redis//lib/redis/commands.rb#86
+Redis::Commands::FloatifyPair = T.let(T.unsafe(nil), Proc)
+
+# source://redis//lib/redis/commands.rb#90
 Redis::Commands::FloatifyPairs = T.let(T.unsafe(nil), Proc)
 
 # source://redis//lib/redis/commands/geo.rb#5
@@ -700,37 +703,37 @@ end
 # source://redis//lib/redis/commands.rb#57
 Redis::Commands::Hashify = T.let(T.unsafe(nil), Proc)
 
-# source://redis//lib/redis/commands.rb#155
+# source://redis//lib/redis/commands.rb#157
 Redis::Commands::HashifyClusterNodeInfo = T.let(T.unsafe(nil), Proc)
 
-# source://redis//lib/redis/commands.rb#184
+# source://redis//lib/redis/commands.rb#186
 Redis::Commands::HashifyClusterNodes = T.let(T.unsafe(nil), Proc)
 
-# source://redis//lib/redis/commands.rb#188
+# source://redis//lib/redis/commands.rb#190
 Redis::Commands::HashifyClusterSlaves = T.let(T.unsafe(nil), Proc)
 
-# source://redis//lib/redis/commands.rb#170
+# source://redis//lib/redis/commands.rb#172
 Redis::Commands::HashifyClusterSlots = T.let(T.unsafe(nil), Proc)
 
-# source://redis//lib/redis/commands.rb#94
+# source://redis//lib/redis/commands.rb#96
 Redis::Commands::HashifyInfo = T.let(T.unsafe(nil), Proc)
 
-# source://redis//lib/redis/commands.rb#119
+# source://redis//lib/redis/commands.rb#121
 Redis::Commands::HashifyStreamAutoclaim = T.let(T.unsafe(nil), Proc)
 
-# source://redis//lib/redis/commands.rb#128
+# source://redis//lib/redis/commands.rb#130
 Redis::Commands::HashifyStreamAutoclaimJustId = T.let(T.unsafe(nil), Proc)
 
-# source://redis//lib/redis/commands.rb#113
+# source://redis//lib/redis/commands.rb#115
 Redis::Commands::HashifyStreamEntries = T.let(T.unsafe(nil), Proc)
 
-# source://redis//lib/redis/commands.rb#144
+# source://redis//lib/redis/commands.rb#146
 Redis::Commands::HashifyStreamPendingDetails = T.let(T.unsafe(nil), Proc)
 
-# source://redis//lib/redis/commands.rb#135
+# source://redis//lib/redis/commands.rb#137
 Redis::Commands::HashifyStreamPendings = T.let(T.unsafe(nil), Proc)
 
-# source://redis//lib/redis/commands.rb#101
+# source://redis//lib/redis/commands.rb#103
 Redis::Commands::HashifyStreams = T.let(T.unsafe(nil), Proc)
 
 # source://redis//lib/redis/commands/hyper_log_log.rb#5
@@ -1371,7 +1374,7 @@ module Redis::Commands::Lists
   def _normalize_move_wheres(where_source, where_destination); end
 end
 
-# source://redis//lib/redis/commands.rb#192
+# source://redis//lib/redis/commands.rb#194
 Redis::Commands::Noop = T.let(T.unsafe(nil), Proc)
 
 # source://redis//lib/redis/commands.rb#65
@@ -1945,7 +1948,7 @@ module Redis::Commands::SortedSets
   #   - exclusive maximum score is specified by prefixing `(`
   # @return [Integer] number of members in within the specified range
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#678
+  # source://redis//lib/redis/commands/sorted_sets.rb#712
   def zcount(key, min, max); end
 
   # Return the difference between the first and all successive input sorted sets
@@ -1965,7 +1968,7 @@ module Redis::Commands::SortedSets
   # @return [Array<String>, Array<[String, Float]>] - when `:with_scores` is not specified, an array of members
   #   - when `:with_scores` is specified, an array with `[member, score]` pairs
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#787
+  # source://redis//lib/redis/commands/sorted_sets.rb#821
   def zdiff(*keys, with_scores: T.unsafe(nil)); end
 
   # Compute the difference between the first and all successive input sorted sets
@@ -1980,7 +1983,7 @@ module Redis::Commands::SortedSets
   # @param keys [Array<String>] source keys
   # @return [Integer] number of elements in the resulting sorted set
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#803
+  # source://redis//lib/redis/commands/sorted_sets.rb#837
   def zdiffstore(*args, **_arg1); end
 
   # Increment the score of a member in a sorted set.
@@ -2012,7 +2015,7 @@ module Redis::Commands::SortedSets
   # @return [Array<String>, Array<[String, Float]>] - when `:with_scores` is not specified, an array of members
   #   - when `:with_scores` is specified, an array with `[member, score]` pairs
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#701
+  # source://redis//lib/redis/commands/sorted_sets.rb#735
   def zinter(*args, **_arg1); end
 
   # Intersect multiple sorted sets and store the resulting sorted set in a new
@@ -2028,7 +2031,7 @@ module Redis::Commands::SortedSets
   #   - `:aggregate => String`: aggregate function to use (sum, min, max)
   # @return [Integer] number of elements in the resulting sorted set
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#720
+  # source://redis//lib/redis/commands/sorted_sets.rb#754
   def zinterstore(*args, **_arg1); end
 
   # Count the members, with the same score in a sorted set, within the given lexicographical range.
@@ -2046,7 +2049,7 @@ module Redis::Commands::SortedSets
   #   - exclusive maximum is specified by prefixing `[`
   # @return [Integer] number of members within the specified lexicographical range
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#509
+  # source://redis//lib/redis/commands/sorted_sets.rb#543
   def zlexcount(key, min, max); end
 
   # Removes and returns up to count members with scores in the sorted set stored at key.
@@ -2165,7 +2168,7 @@ module Redis::Commands::SortedSets
   #   `count` members
   # @return [Array<String>, Array<[String, Float]>]
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#534
+  # source://redis//lib/redis/commands/sorted_sets.rb#568
   def zrangebylex(key, min, max, limit: T.unsafe(nil)); end
 
   # Return a range of members in a sorted set, by score.
@@ -2190,7 +2193,7 @@ module Redis::Commands::SortedSets
   # @return [Array<String>, Array<[String, Float]>] - when `:with_scores` is not specified, an array of members
   #   - when `:with_scores` is specified, an array with `[member, score]` pairs
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#594
+  # source://redis//lib/redis/commands/sorted_sets.rb#628
   def zrangebyscore(key, min, max, withscores: T.unsafe(nil), with_scores: T.unsafe(nil), limit: T.unsafe(nil)); end
 
   # Select a range of members in a sorted set, by index, score or lexicographical ordering
@@ -2210,12 +2213,19 @@ module Redis::Commands::SortedSets
 
   # Determine the index of a member in a sorted set.
   #
+  # @example Retrieve member rank
+  #   redis.zrank("zset", "a")
+  #   # => 3
+  # @example Retrieve member rank with their score
+  #   redis.zrank("zset", "a", :with_score => true)
+  #   # => [3, 32.0]
   # @param key [String]
   # @param member [String]
-  # @return [Integer]
+  # @return [Integer, [Integer, Float]] - when `:with_score` is not specified, an Integer
+  #   - when `:with_score` is specified, a `[rank, score]` pair
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#460
-  def zrank(key, member); end
+  # source://redis//lib/redis/commands/sorted_sets.rb#470
+  def zrank(key, member, withscore: T.unsafe(nil), with_score: T.unsafe(nil)); end
 
   # Remove one or more members from a sorted set.
   #
@@ -2247,7 +2257,7 @@ module Redis::Commands::SortedSets
   # @param stop [Integer] stop index
   # @return [Integer] number of members that were removed
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#487
+  # source://redis//lib/redis/commands/sorted_sets.rb#521
   def zremrangebyrank(key, start, stop); end
 
   # Remove all members in a sorted set within the given scores.
@@ -2265,7 +2275,7 @@ module Redis::Commands::SortedSets
   #   - exclusive maximum score is specified by prefixing `(`
   # @return [Integer] number of members that were removed
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#657
+  # source://redis//lib/redis/commands/sorted_sets.rb#691
   def zremrangebyscore(key, min, max); end
 
   # Return a range of members in a sorted set, by index, with scores ordered
@@ -2293,7 +2303,7 @@ module Redis::Commands::SortedSets
   #   # => ["abbygail", "abby"]
   # @see #zrangebylex
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#556
+  # source://redis//lib/redis/commands/sorted_sets.rb#590
   def zrevrangebylex(key, max, min, limit: T.unsafe(nil)); end
 
   # Return a range of members in a sorted set, by score, with scores ordered
@@ -2310,18 +2320,25 @@ module Redis::Commands::SortedSets
   #   # => [["b", 64.0], ["a", 32.0]]
   # @see #zrangebyscore
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#624
+  # source://redis//lib/redis/commands/sorted_sets.rb#658
   def zrevrangebyscore(key, max, min, withscores: T.unsafe(nil), with_scores: T.unsafe(nil), limit: T.unsafe(nil)); end
 
   # Determine the index of a member in a sorted set, with scores ordered from
   # high to low.
   #
+  # @example Retrieve member rank
+  #   redis.zrevrank("zset", "a")
+  #   # => 3
+  # @example Retrieve member rank with their score
+  #   redis.zrevrank("zset", "a", :with_score => true)
+  #   # => [3, 32.0]
   # @param key [String]
   # @param member [String]
-  # @return [Integer]
+  # @return [Integer, [Integer, Float]] - when `:with_score` is not specified, an Integer
+  #   - when `:with_score` is specified, a `[rank, score]` pair
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#470
-  def zrevrank(key, member); end
+  # source://redis//lib/redis/commands/sorted_sets.rb#497
+  def zrevrank(key, member, withscore: T.unsafe(nil), with_score: T.unsafe(nil)); end
 
   # Scan a sorted set
   #
@@ -2335,7 +2352,7 @@ module Redis::Commands::SortedSets
   # @return [String, Array<[String, Float]>] the next cursor and all found
   #   members and scores
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#822
+  # source://redis//lib/redis/commands/sorted_sets.rb#856
   def zscan(key, cursor, **options); end
 
   # Scan a sorted set
@@ -2349,7 +2366,7 @@ module Redis::Commands::SortedSets
   #   - `:count => Integer`: return count keys at most per iteration
   # @return [Enumerator] an enumerator for all found scores and members
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#841
+  # source://redis//lib/redis/commands/sorted_sets.rb#875
   def zscan_each(key, **options, &block); end
 
   # Get the score associated with the given member in a sorted set.
@@ -2380,7 +2397,7 @@ module Redis::Commands::SortedSets
   # @return [Array<String>, Array<[String, Float]>] - when `:with_scores` is not specified, an array of members
   #   - when `:with_scores` is specified, an array with `[member, score]` pairs
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#744
+  # source://redis//lib/redis/commands/sorted_sets.rb#778
   def zunion(*args, **_arg1); end
 
   # Add multiple sorted sets and store the resulting sorted set in a new key.
@@ -2395,15 +2412,15 @@ module Redis::Commands::SortedSets
   #   - `:aggregate => String`: aggregate function to use (sum, min, max, ...)
   # @return [Integer] number of elements in the resulting sorted set
   #
-  # source://redis//lib/redis/commands/sorted_sets.rb#762
+  # source://redis//lib/redis/commands/sorted_sets.rb#796
   def zunionstore(*args, **_arg1); end
 
   private
 
-  # source://redis//lib/redis/commands/sorted_sets.rb#854
+  # source://redis//lib/redis/commands/sorted_sets.rb#888
   def _zsets_operation(cmd, *keys, weights: T.unsafe(nil), aggregate: T.unsafe(nil), with_scores: T.unsafe(nil)); end
 
-  # source://redis//lib/redis/commands/sorted_sets.rb#873
+  # source://redis//lib/redis/commands/sorted_sets.rb#907
   def _zsets_operation_store(cmd, destination, keys, weights: T.unsafe(nil), aggregate: T.unsafe(nil)); end
 end
 
@@ -2422,7 +2439,7 @@ module Redis::Commands::Streams
   # @param ids [Array<String>] one or multiple entry ids
   # @return [Integer] the number of entries successfully acknowledged
   #
-  # source://redis//lib/redis/commands/streams.rb#266
+  # source://redis//lib/redis/commands/streams.rb#273
   def xack(key, group, *ids); end
 
   # Add new entry to the stream.
@@ -2435,13 +2452,14 @@ module Redis::Commands::Streams
   # @option opts
   # @option opts
   # @option opts
+  # @option opts
   # @param key [String] the stream key
   # @param entry [Hash] one or multiple field-value pairs
   # @param opts [Hash] several options for `XADD` command
   # @return [String] the entry id
   #
-  # source://redis//lib/redis/commands/streams.rb#49
-  def xadd(key, entry, approximate: T.unsafe(nil), maxlen: T.unsafe(nil), nomkstream: T.unsafe(nil), id: T.unsafe(nil)); end
+  # source://redis//lib/redis/commands/streams.rb#50
+  def xadd(key, entry, approximate: T.unsafe(nil), maxlen: T.unsafe(nil), minid: T.unsafe(nil), nomkstream: T.unsafe(nil), id: T.unsafe(nil)); end
 
   # Transfers ownership of pending stream entries that match the specified criteria.
   #
@@ -2464,7 +2482,7 @@ module Redis::Commands::Streams
   # @return [Hash{String => Hash}] the entries successfully claimed
   # @return [Array<String>] the entry ids successfully claimed if justid option is `true`
   #
-  # source://redis//lib/redis/commands/streams.rb#336
+  # source://redis//lib/redis/commands/streams.rb#343
   def xautoclaim(key, group, consumer, min_idle_time, start, count: T.unsafe(nil), justid: T.unsafe(nil)); end
 
   # Changes the ownership of a pending entry
@@ -2497,7 +2515,7 @@ module Redis::Commands::Streams
   # @return [Hash{String => Hash}] the entries successfully claimed
   # @return [Array<String>] the entry ids successfully claimed if justid option is `true`
   #
-  # source://redis//lib/redis/commands/streams.rb#303
+  # source://redis//lib/redis/commands/streams.rb#310
   def xclaim(key, group, consumer, min_idle_time, *ids, **opts); end
 
   # Delete entries by entry ids.
@@ -2510,7 +2528,7 @@ module Redis::Commands::Streams
   # @param ids [Array<String>] one or multiple entry ids
   # @return [Integer] the number of entries actually deleted
   #
-  # source://redis//lib/redis/commands/streams.rb#106
+  # source://redis//lib/redis/commands/streams.rb#113
   def xdel(key, *ids); end
 
   # Manages the consumer group of the stream.
@@ -2532,7 +2550,7 @@ module Redis::Commands::Streams
   # @return [String] `OK` if subcommand is `create` or `setid`
   # @return [Integer] effected count if subcommand is `destroy` or `delconsumer`
   #
-  # source://redis//lib/redis/commands/streams.rb#214
+  # source://redis//lib/redis/commands/streams.rb#221
   def xgroup(subcommand, key, group, id_or_consumer = T.unsafe(nil), mkstream: T.unsafe(nil)); end
 
   # Returns the stream information each subcommand.
@@ -2560,7 +2578,7 @@ module Redis::Commands::Streams
   # @param key [String] the stream key
   # @return [Integer] the number of entries
   #
-  # source://redis//lib/redis/commands/streams.rb#165
+  # source://redis//lib/redis/commands/streams.rb#172
   def xlen(key); end
 
   # Fetches not acknowledging pending entries
@@ -2584,7 +2602,7 @@ module Redis::Commands::Streams
   # @return [Hash] the summary of pending entries
   # @return [Array<Hash>] the pending entries details if options were specified
   #
-  # source://redis//lib/redis/commands/streams.rb#368
+  # source://redis//lib/redis/commands/streams.rb#375
   def xpending(key, group, *args, idle: T.unsafe(nil)); end
 
   # Fetches entries of the stream in ascending order.
@@ -2603,7 +2621,7 @@ module Redis::Commands::Streams
   # @param count [Integer] the number of entries as limit
   # @return [Array<Array<String, Hash>>] the ids and entries pairs
   #
-  # source://redis//lib/redis/commands/streams.rb#128
+  # source://redis//lib/redis/commands/streams.rb#135
   def xrange(key, start = T.unsafe(nil), range_end = T.unsafe(nil), count: T.unsafe(nil)); end
 
   # Fetches entries from one or multiple streams. Optionally blocking.
@@ -2622,7 +2640,7 @@ module Redis::Commands::Streams
   # @param block [Integer] the number of milliseconds as blocking timeout
   # @return [Hash{String => Hash{String => Hash}}] the entries
   #
-  # source://redis//lib/redis/commands/streams.rb#186
+  # source://redis//lib/redis/commands/streams.rb#193
   def xread(keys, ids, count: T.unsafe(nil), block: T.unsafe(nil)); end
 
   # Fetches a subset of the entries from one or multiple streams related with the consumer group.
@@ -2648,7 +2666,7 @@ module Redis::Commands::Streams
   # @param opts [Hash] several options for `XREADGROUP` command
   # @return [Hash{String => Hash{String => Hash}}] the entries
   #
-  # source://redis//lib/redis/commands/streams.rb#244
+  # source://redis//lib/redis/commands/streams.rb#251
   def xreadgroup(group, consumer, keys, ids, count: T.unsafe(nil), block: T.unsafe(nil), noack: T.unsafe(nil)); end
 
   # Fetches entries of the stream in descending order.
@@ -2666,7 +2684,7 @@ module Redis::Commands::Streams
   # @param start [String] last entry id of range, default value is `-`
   # @return [Array<Array<String, Hash>>] the ids and entries pairs
   #
-  # source://redis//lib/redis/commands/streams.rb#151
+  # source://redis//lib/redis/commands/streams.rb#158
   def xrevrange(key, range_end = T.unsafe(nil), start = T.unsafe(nil), count: T.unsafe(nil)); end
 
   # Trims older entries of the stream if needed.
@@ -2681,12 +2699,12 @@ module Redis::Commands::Streams
   # @overload xtrim
   # @return [Integer] the number of entries actually deleted
   #
-  # source://redis//lib/redis/commands/streams.rb#85
+  # source://redis//lib/redis/commands/streams.rb#92
   def xtrim(key, len_or_id, strategy: T.unsafe(nil), approximate: T.unsafe(nil), limit: T.unsafe(nil)); end
 
   private
 
-  # source://redis//lib/redis/commands/streams.rb#385
+  # source://redis//lib/redis/commands/streams.rb#392
   def _xread(args, keys, ids, blocking_timeout_msec); end
 end
 
@@ -3915,7 +3933,7 @@ class Redis::Distributed
   # Determine the index of a member in a sorted set.
   #
   # source://redis//lib/redis/distributed.rb#755
-  def zrank(key, member); end
+  def zrank(key, member, **options); end
 
   # Remove one or more members from a sorted set.
   #
@@ -3948,7 +3966,7 @@ class Redis::Distributed
   # high to low.
   #
   # source://redis//lib/redis/distributed.rb#761
-  def zrevrank(key, member); end
+  def zrevrank(key, member, **options); end
 
   # Get the score associated with the given member in a sorted set.
   #

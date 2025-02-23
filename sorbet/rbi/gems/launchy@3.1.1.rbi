@@ -178,40 +178,43 @@ class Launchy::Application::Browser < ::Launchy::Application
   # use a call back mechanism to get the right app_list that is decided by the
   # host_os_family class.
   #
-  # source://launchy//lib/launchy/applications/browser.rb#40
+  # source://launchy//lib/launchy/applications/browser.rb#42
   def app_list; end
 
   # Get the full commandline of what we are going to add the uri to
   #
   # @raise [Launchy::CommandNotFoundError]
   #
-  # source://launchy//lib/launchy/applications/browser.rb#54
+  # source://launchy//lib/launchy/applications/browser.rb#56
   def browser_cmdline; end
 
-  # source://launchy//lib/launchy/applications/browser.rb#44
+  # source://launchy//lib/launchy/applications/browser.rb#46
   def browser_env; end
 
-  # source://launchy//lib/launchy/applications/browser.rb#72
+  # source://launchy//lib/launchy/applications/browser.rb#74
   def cmd_and_args(uri, _options = T.unsafe(nil)); end
 
-  # source://launchy//lib/launchy/applications/browser.rb#23
+  # source://launchy//lib/launchy/applications/browser.rb#25
   def cygwin_app_list; end
 
   # hardcode this to open?
   #
-  # source://launchy//lib/launchy/applications/browser.rb#28
+  # source://launchy//lib/launchy/applications/browser.rb#30
   def darwin_app_list; end
 
-  # source://launchy//lib/launchy/applications/browser.rb#32
+  # source://launchy//lib/launchy/applications/browser.rb#34
   def nix_app_list; end
 
   # final assembly of the command and do %s substitution
   # http://www.catb.org/~esr/BROWSER/index.html
   #
-  # source://launchy//lib/launchy/applications/browser.rb#81
+  # source://launchy//lib/launchy/applications/browser.rb#83
   def open(uri, options = T.unsafe(nil)); end
 
-  # source://launchy//lib/launchy/applications/browser.rb#19
+  # The escaped \\ is necessary so that when shellsplit is done later,
+  # the "launchy", with quotes, goes through to the commandline, since that
+  #
+  # source://launchy//lib/launchy/applications/browser.rb#21
   def windows_app_list; end
 
   class << self

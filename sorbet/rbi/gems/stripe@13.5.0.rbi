@@ -2259,15 +2259,17 @@ end
 # A billing meter event summary represents an aggregated view of a customer's billing meter events within a specified timeframe. It indicates how much
 # usage was accrued by a customer for that period.
 #
-# source://stripe//lib/stripe/resources/billing/meter_event_summary.rb#8
+# Note: Meters events are aggregated asynchronously so the meter event summaries provide an eventually consistent view of the reported usage.
+#
+# source://stripe//lib/stripe/resources/billing/meter_event_summary.rb#10
 class Stripe::Billing::MeterEventSummary < ::Stripe::APIResource
   class << self
-    # source://stripe//lib/stripe/resources/billing/meter_event_summary.rb#10
+    # source://stripe//lib/stripe/resources/billing/meter_event_summary.rb#12
     def object_name; end
   end
 end
 
-# source://stripe//lib/stripe/resources/billing/meter_event_summary.rb#9
+# source://stripe//lib/stripe/resources/billing/meter_event_summary.rb#11
 Stripe::Billing::MeterEventSummary::OBJECT_NAME = T.let(T.unsafe(nil), String)
 
 # source://stripe//lib/stripe/services/billing/meter_event_summary_service.rb#6
@@ -5629,7 +5631,7 @@ end
 # Each line item is backed by either an [invoice item](https://stripe.com/docs/api/invoiceitems) or a [subscription item](https://stripe.com/docs/api/subscription_items).
 #
 # source://stripe//lib/stripe/resources/invoice_line_item.rb#8
-class Stripe::InvoiceLineItem < ::Stripe::StripeObject
+class Stripe::InvoiceLineItem < ::Stripe::APIResource
   include ::Stripe::APIOperations::Save
   extend ::Stripe::APIOperations::Save::ClassMethods
 
@@ -11149,9 +11151,9 @@ class Stripe::TaxIdService < ::Stripe::StripeService
   def retrieve(id, params = T.unsafe(nil), opts = T.unsafe(nil)); end
 end
 
-# Tax rates can be applied to [invoices](https://stripe.com/docs/billing/invoices/tax-rates), [subscriptions](https://stripe.com/docs/billing/subscriptions/taxes) and [Checkout Sessions](https://stripe.com/docs/payments/checkout/set-up-a-subscription#tax-rates) to collect tax.
+# Tax rates can be applied to [invoices](https://stripe.com/invoicing/taxes/tax-rates), [subscriptions](https://stripe.com/billing/taxes/tax-rates) and [Checkout Sessions](https://stripe.com/payments/checkout/use-manual-tax-rates) to collect tax.
 #
-# Related guide: [Tax rates](https://stripe.com/docs/billing/taxes/tax-rates)
+# Related guide: [Tax rates](https://stripe.com/billing/taxes/tax-rates)
 #
 # source://stripe//lib/stripe/resources/tax_rate.rb#8
 class Stripe::TaxRate < ::Stripe::APIResource

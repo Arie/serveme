@@ -141,6 +141,7 @@ end
 
 # source://omniauth//lib/omniauth.rb#28
 class OmniAuth::Configuration
+  include ::Singleton::SingletonInstanceMethods
   include ::Singleton
   extend ::Singleton::SingletonClassMethods
 
@@ -541,7 +542,7 @@ module OmniAuth::Strategy
   # source://omniauth//lib/omniauth/strategy.rb#116
   def app; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#390
+  # source://omniauth//lib/omniauth/strategy.rb#392
   def auth_hash; end
 
   # Duplicates this instance and runs #call! on it.
@@ -560,7 +561,7 @@ module OmniAuth::Strategy
   # source://omniauth//lib/omniauth/strategy.rb#177
   def call!(env); end
 
-  # source://omniauth//lib/omniauth/strategy.rb#469
+  # source://omniauth//lib/omniauth/strategy.rb#471
   def call_app!(env = T.unsafe(nil)); end
 
   # Performs the steps necessary to run the callback phase of a strategy.
@@ -568,22 +569,22 @@ module OmniAuth::Strategy
   # source://omniauth//lib/omniauth/strategy.rb#265
   def callback_call; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#445
+  # source://omniauth//lib/omniauth/strategy.rb#447
   def callback_path; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#416
+  # source://omniauth//lib/omniauth/strategy.rb#418
   def callback_phase; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#496
+  # source://omniauth//lib/omniauth/strategy.rb#498
   def callback_url; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#382
+  # source://omniauth//lib/omniauth/strategy.rb#384
   def credentials; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#461
+  # source://omniauth//lib/omniauth/strategy.rb#463
   def current_path; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#425
+  # source://omniauth//lib/omniauth/strategy.rb#427
   def custom_path(kind); end
 
   # Returns the value of attribute env.
@@ -591,16 +592,16 @@ module OmniAuth::Strategy
   # source://omniauth//lib/omniauth/strategy.rb#116
   def env; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#386
+  # source://omniauth//lib/omniauth/strategy.rb#388
   def extra; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#534
+  # source://omniauth//lib/omniauth/strategy.rb#536
   def fail!(message_key, exception = T.unsafe(nil)); end
 
-  # source://omniauth//lib/omniauth/strategy.rb#476
+  # source://omniauth//lib/omniauth/strategy.rb#478
   def full_host; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#378
+  # source://omniauth//lib/omniauth/strategy.rb#380
   def info; end
 
   # source://omniauth//lib/omniauth/strategy.rb#153
@@ -628,7 +629,7 @@ module OmniAuth::Strategy
   # source://omniauth//lib/omniauth/strategy.rb#317
   def mock_request_call; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#513
+  # source://omniauth//lib/omniauth/strategy.rb#515
   def name; end
 
   # Returns true if the environment recognizes either the
@@ -669,16 +670,16 @@ module OmniAuth::Strategy
   # source://omniauth//lib/omniauth/strategy.rb#297
   def options_request?; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#421
+  # source://omniauth//lib/omniauth/strategy.rb#423
   def path_prefix; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#465
+  # source://omniauth//lib/omniauth/strategy.rb#467
   def query_string; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#517
+  # source://omniauth//lib/omniauth/strategy.rb#519
   def redirect(uri); end
 
-  # source://omniauth//lib/omniauth/strategy.rb#509
+  # source://omniauth//lib/omniauth/strategy.rb#511
   def request; end
 
   # Performs the steps necessary to run the request phase of a strategy.
@@ -686,7 +687,7 @@ module OmniAuth::Strategy
   # source://omniauth//lib/omniauth/strategy.rb#233
   def request_call; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#436
+  # source://omniauth//lib/omniauth/strategy.rb#438
   def request_path; end
 
   # perform any information gathering you need to be able to authenticate
@@ -695,7 +696,7 @@ module OmniAuth::Strategy
   # @abstract This method is called when the user is on the request path. You should
   # @raise [NotImplementedError]
   #
-  # source://omniauth//lib/omniauth/strategy.rb#370
+  # source://omniauth//lib/omniauth/strategy.rb#372
   def request_phase; end
 
   # Returns the value of attribute response.
@@ -703,13 +704,13 @@ module OmniAuth::Strategy
   # source://omniauth//lib/omniauth/strategy.rb#116
   def response; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#500
+  # source://omniauth//lib/omniauth/strategy.rb#502
   def script_name; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#505
+  # source://omniauth//lib/omniauth/strategy.rb#507
   def session; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#455
+  # source://omniauth//lib/omniauth/strategy.rb#457
   def setup_path; end
 
   # The setup phase looks for the `:setup` option to exist and,
@@ -717,7 +718,7 @@ module OmniAuth::Strategy
   # `:setup` option or it will call out to the setup path of the
   # underlying application. This will default to `/auth/:provider/setup`.
   #
-  # source://omniauth//lib/omniauth/strategy.rb#356
+  # source://omniauth//lib/omniauth/strategy.rb#358
   def setup_phase; end
 
   # Determines whether or not user info should be retrieved. This
@@ -731,13 +732,13 @@ module OmniAuth::Strategy
   #   use MyStrategy, :skip_info => lambda{|uid| User.find_by_uid(uid)}
   # @return [Boolean]
   #
-  # source://omniauth//lib/omniauth/strategy.rb#409
+  # source://omniauth//lib/omniauth/strategy.rb#411
   def skip_info?; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#374
+  # source://omniauth//lib/omniauth/strategy.rb#376
   def uid; end
 
-  # source://omniauth//lib/omniauth/strategy.rb#530
+  # source://omniauth//lib/omniauth/strategy.rb#532
   def user_info; end
 
   # source://omniauth//lib/omniauth/strategy.rb#205
@@ -745,17 +746,17 @@ module OmniAuth::Strategy
 
   protected
 
-  # source://omniauth//lib/omniauth/strategy.rb#557
+  # source://omniauth//lib/omniauth/strategy.rb#559
   def merge_stack(stack); end
 
   # @return [Boolean]
   #
-  # source://omniauth//lib/omniauth/strategy.rb#564
+  # source://omniauth//lib/omniauth/strategy.rb#566
   def ssl?; end
 
   private
 
-  # source://omniauth//lib/omniauth/strategy.rb#552
+  # source://omniauth//lib/omniauth/strategy.rb#554
   def initialize_copy(*args); end
 
   class << self
@@ -764,7 +765,7 @@ module OmniAuth::Strategy
   end
 end
 
-# source://omniauth//lib/omniauth/strategy.rb#459
+# source://omniauth//lib/omniauth/strategy.rb#461
 OmniAuth::Strategy::CURRENT_PATH_REGEX = T.let(T.unsafe(nil), Regexp)
 
 # source://omniauth//lib/omniauth/strategy.rb#21
@@ -866,10 +867,10 @@ module OmniAuth::Strategy::ClassMethods
   def uid_proc; end
 end
 
-# source://omniauth//lib/omniauth/strategy.rb#460
+# source://omniauth//lib/omniauth/strategy.rb#462
 OmniAuth::Strategy::EMPTY_STRING = T.let(T.unsafe(nil), String)
 
-# source://omniauth//lib/omniauth/strategy.rb#548
+# source://omniauth//lib/omniauth/strategy.rb#550
 class OmniAuth::Strategy::Options < ::OmniAuth::KeyStore; end
 
 # Support for testing OmniAuth strategies.

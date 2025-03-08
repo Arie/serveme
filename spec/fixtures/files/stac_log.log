@@ -2599,3 +2599,2089 @@ Current server tick:
 5485
 <20:24:04> Held weapon: tf_weapon_rocketlauncher
 <20:24:04>
+
+----------
+
+[StAC] Cmdnum SPIKE of 11593 on Unico.
+Detections so far: 5188.
+<09:02:42>
+ Player: Unico<3><[U:1:111727295]><>
+ StAC cached SteamID: STEAM_0:1:55863647
+<09:02:42>
+Network:
+ 300.00 ms ping
+ 0.00 loss
+ 1.47 inchoke
+ 44.40 outchoke
+ 45.88 totalchoke
+ 485.31 kbps rate
+ 104.97 pps rate
+<09:02:42>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? yes
+ SequentialCmdnum? no
+<09:02:42>
+Previous cmdnums:
+0 51120
+1 39527
+2 20355
+3 19072
+4 18718
+<09:02:42>
+Previous tickcounts:
+0 22098
+1 22097
+2 22096
+3 22095
+4 22094
+<09:02:42>
+Current server tick:
+22118
+<09:02:42> Held weapon: tf_weapon_rocketlauncher
+<09:02:42> Demo file: auto-20250306-0857-mge_training_v8_beta4b.dem. Demo tick: 22051
+<09:02:42>
+
+----------
+
+[StAC] Aimsnap detection of 160.35° on Marqui2156.
+Detections so far: 1.
+<21:37:38>
+ Player: Marqui2156<9><[U:1:372150417]><>
+ StAC cached SteamID: STEAM_0:1:186075208
+<21:37:38>
+Network:
+ 71.34 ms ping
+ 0.00 loss
+ 1.86 inchoke
+ 0.00 outchoke
+ 1.86 totalchoke
+ 209.89 kbps rate
+ 133.55 pps rate
+<21:37:38>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<21:37:38>
+Angles:
+ angles0: x 0.078332 y -89.077926
+ angles1: x 0.048620 y -89.280509
+ angles2: x 38.618610 y 66.364532
+ angles3: x 38.618610 y 66.218673
+ angles4: x 38.569988 y 66.024192
+<21:37:38>
+Client eye positions:
+ eyepos 0: x -1364.878 y -0.861 z 286.389
+ eyepos 1: x -1365.108 y -1.195 z 286.389
+<21:37:38>
+Previous cmdnums:
+0 43725
+1 43724
+2 43723
+3 43722
+4 43721
+<21:37:38>
+Previous tickcounts:
+0 88135
+1 88134
+2 88133
+3 88132
+4 88131
+<21:37:38>
+Current server tick:
+88140
+<21:37:38>
+Mouse Movement (sens weighted):
+ abs(x): 2
+ abs(y): 0
+Mouse Movement (unweighted):
+ x: -5
+ y: 1
+Client Sens:
+ 2.210000
+<21:37:38>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 525
+1 525
+2 525
+3 13
+4 13
+<21:37:38>
+Angle deltas:
+0 0.204750
+1 160.352813
+2 0.145858
+3 0.200466
+
+<21:37:38>
+
+----------
+
+[StAC] Aimsnap detection of 160.35° on Marqui2156.
+Detections so far: 2.
+<21:37:38>
+ Player: Marqui2156<9><[U:1:372150417]><>
+ StAC cached SteamID: STEAM_0:1:186075208
+<21:37:38>
+Network:
+ 71.34 ms ping
+ 0.00 loss
+ 1.86 inchoke
+ 0.00 outchoke
+ 1.86 totalchoke
+ 209.89 kbps rate
+ 133.55 pps rate
+<21:37:38>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<21:37:38>
+Angles:
+ angles0: x 0.108044 y -88.872100
+ angles1: x 0.078332 y -89.077926
+ angles2: x 0.048620 y -89.280509
+ angles3: x 38.618610 y 66.364532
+ angles4: x 38.618610 y 66.218673
+<21:37:38>
+Client eye positions:
+ eyepos 0: x -1364.536 y -0.758 z 286.389
+ eyepos 1: x -1364.878 y -0.861 z 286.389
+<21:37:38>
+Previous cmdnums:
+0 43726
+1 43725
+2 43724
+3 43723
+4 43722
+<21:37:38>
+Previous tickcounts:
+0 88136
+1 88135
+2 88134
+3 88133
+4 88132
+<21:37:38>
+Current server tick:
+88141
+<21:37:38>
+Mouse Movement (sens weighted):
+ abs(x): 1
+ abs(y): 0
+Mouse Movement (unweighted):
+ x: -3
+ y: 0
+Client Sens:
+ 2.210000
+<21:37:38>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 525
+1 525
+2 525
+3 525
+4 13
+<21:37:38>
+Angle deltas:
+0 0.207959
+1 0.204750
+2 160.352813
+3 0.145858
+
+<21:37:52>
+
+----------
+
+[StAC] Aimsnap detection of 144.52° on Marqui2156.
+Detections so far: 3.
+<21:37:52>
+ Player: Marqui2156<9><[U:1:372150417]><>
+ StAC cached SteamID: STEAM_0:1:186075208
+<21:37:52>
+Network:
+ 71.05 ms ping
+ 0.00 loss
+ 1.74 inchoke
+ 0.00 outchoke
+ 1.74 totalchoke
+ 198.11 kbps rate
+ 133.63 pps rate
+<21:37:52>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<21:37:52>
+Angles:
+ angles0: x 0.029712 y -89.306442
+ angles1: x 0.000000 y -89.366409
+ angles2: x 17.912414 y 54.043926
+ angles3: x 17.888105 y 53.800827
+ angles4: x 17.863796 y 53.582035
+<21:37:52>
+Client eye positions:
+ eyepos 0: x -1365.630 y -2.761 z 309.389
+ eyepos 1: x -1365.630 y -2.761 z 309.389
+<21:37:52>
+Previous cmdnums:
+0 44721
+1 44720
+2 44719
+3 44718
+4 44717
+<21:37:52>
+Previous tickcounts:
+0 89131
+1 89130
+2 89129
+3 89128
+4 89127
+<21:37:52>
+Current server tick:
+89135
+<21:37:52>
+Mouse Movement (sens weighted):
+ abs(x): 0
+ abs(y): 0
+Mouse Movement (unweighted):
+ x: 0
+ y: 1
+Client Sens:
+ 2.210000
+<21:37:52>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<21:37:52>
+Angle deltas:
+0 0.066924
+1 144.524673
+2 0.244311
+3 0.220138
+
+<21:37:52>
+
+----------
+
+[StAC] Aimsnap detection of 144.52° on Marqui2156.
+Detections so far: 4.
+<21:37:52>
+ Player: Marqui2156<9><[U:1:372150417]><>
+ StAC cached SteamID: STEAM_0:1:186075208
+<21:37:52>
+Network:
+ 71.05 ms ping
+ 0.00 loss
+ 1.74 inchoke
+ 0.00 outchoke
+ 1.74 totalchoke
+ 198.11 kbps rate
+ 133.63 pps rate
+<21:37:52>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<21:37:52>
+Angles:
+ angles0: x 0.059424 y -89.277000
+ angles1: x 0.029712 y -89.306442
+ angles2: x 0.000000 y -89.366409
+ angles3: x 17.912414 y 54.043926
+ angles4: x 17.888105 y 53.800827
+<21:37:52>
+Client eye positions:
+ eyepos 0: x -1365.630 y -2.761 z 309.389
+ eyepos 1: x -1365.630 y -2.761 z 309.389
+<21:37:52>
+Previous cmdnums:
+0 44722
+1 44721
+2 44720
+3 44719
+4 44718
+<21:37:52>
+Previous tickcounts:
+0 89132
+1 89131
+2 89130
+3 89129
+4 89128
+<21:37:52>
+Current server tick:
+89136
+<21:37:52>
+Mouse Movement (sens weighted):
+ abs(x): 0
+ abs(y): 0
+Mouse Movement (unweighted):
+ x: -1
+ y: 0
+Client Sens:
+ 2.210000
+<21:37:52>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<21:37:52>
+Angle deltas:
+0 0.041828
+1 0.066924
+2 144.524673
+3 0.244311
+
+<21:38:04>
+
+----------
+
+[StAC] Aimsnap detection of 112.44° on Marqui2156.
+Detections so far: 5.
+<21:38:04>
+ Player: Marqui2156<9><[U:1:372150417]><>
+ StAC cached SteamID: STEAM_0:1:186075208
+<21:38:04>
+Network:
+ 71.87 ms ping
+ 0.00 loss
+ 2.59 inchoke
+ 0.00 outchoke
+ 2.59 totalchoke
+ 215.69 kbps rate
+ 133.43 pps rate
+<21:38:04>
+More network:
+ Approx client cmdrate: ≈68 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<21:38:04>
+Angles:
+ angles0: x 0.048620 y -89.275108
+ angles1: x 0.024310 y -89.353439
+ angles2: x 28.437862 y 19.442951
+ angles3: x 28.364934 y 19.175542
+ angles4: x 28.316316 y 19.029684
+<21:38:04>
+Client eye positions:
+ eyepos 0: x -1365.630 y -2.761 z 309.389
+ eyepos 1: x -1365.630 y -2.761 z 309.389
+<21:38:04>
+Previous cmdnums:
+0 45468
+1 45467
+2 45466
+3 45465
+4 45464
+<21:38:04>
+Previous tickcounts:
+0 89878
+1 89877
+2 89876
+3 89875
+4 89874
+<21:38:04>
+Current server tick:
+89883
+<21:38:04>
+Mouse Movement (sens weighted):
+ abs(x): 0
+ abs(y): 0
+Mouse Movement (unweighted):
+ x: -1
+ y: 0
+Client Sens:
+ 2.210000
+<21:38:04>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<21:38:04>
+Angle deltas:
+0 0.082016
+1 112.445465
+2 0.277174
+3 0.153748
+
+<21:38:04> Demo file: auto-20250217-2131-koth_product_final.dem. Demo tick: 24898
+<21:38:04>
+
+----------
+
+[StAC] Aimsnap detection of 112.44° on Marqui2156.
+Detections so far: 6.
+<21:38:04>
+ Player: Marqui2156<9><[U:1:372150417]><>
+ StAC cached SteamID: STEAM_0:1:186075208
+<21:38:04>
+Network:
+ 71.87 ms ping
+ 0.00 loss
+ 2.59 inchoke
+ 0.00 outchoke
+ 2.59 totalchoke
+ 215.69 kbps rate
+ 133.43 pps rate
+<21:38:04>
+More network:
+ Approx client cmdrate: ≈68 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<21:38:04>
+Angles:
+ angles0: x 0.048620 y -89.245399
+ angles1: x 0.048620 y -89.275108
+ angles2: x 0.024310 y -89.353439
+ angles3: x 28.437862 y 19.442951
+ angles4: x 28.364934 y 19.175542
+<21:38:04>
+Client eye positions:
+ eyepos 0: x -1365.630 y -2.761 z 309.389
+ eyepos 1: x -1365.630 y -2.761 z 309.389
+<21:38:04>
+Previous cmdnums:
+0 45469
+1 45468
+2 45467
+3 45466
+4 45465
+<21:38:04>
+Previous tickcounts:
+0 89879
+1 89878
+2 89877
+3 89876
+4 89875
+<21:38:04>
+Current server tick:
+89884
+<21:38:04>
+Mouse Movement (sens weighted):
+ abs(x): 0
+ abs(y): 0
+Mouse Movement (unweighted):
+ x: 0
+ y: 0
+Client Sens:
+ 2.210000
+<21:38:04>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<21:38:04>
+Angle deltas:
+0 0.029708
+1 0.082016
+2 112.445465
+3 0.277174
+
+
+
+    serveme.tf
+
+    Reservations
+    Servers
+    Upload map
+    FAQ
+    Stats
+    Credits
+    Premium
+    Settings
+
+    Join our Discord server
+    Fork me on GitHub
+    Arie - serveme.tf |
+
+<19:16:39>
+
+----------
+
+[StAC] SilentAim detection of 2.14° on BobiMarley420 swag.
+Detections so far: 1 norecoil = yes
+<19:16:39>
+ Player: BobiMarley420 swag<5><[U:1:1510855386]><>
+ StAC cached SteamID: STEAM_0:0:755427693
+<19:16:39>
+Network:
+ 180.94 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.26 outchoke
+ 0.26 totalchoke
+ 374.79 kbps rate
+ 134.24 pps rate
+<19:16:39>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:16:39>
+Angles:
+ angles0: x -4.230853 y -95.513969
+ angles1: x -2.645829 y -96.959228
+ angles2: x -4.230853 y -95.520103
+ angles3: x -2.435764 y -96.637939
+ angles4: x -4.230853 y -95.475738
+<19:16:39>
+Client eye positions:
+ eyepos 0: x -1115.661 y 783.919 z 236.273
+ eyepos 1: x -1116.184 y 785.484 z 235.813
+<19:16:39>
+Previous cmdnums:
+0 18983
+1 18982
+2 18981
+3 18980
+4 18979
+<19:16:39>
+Previous tickcounts:
+0 108184
+1 108183
+2 108182
+3 108181
+4 108180
+<19:16:39>
+Current server tick:
+108196
+<19:16:39>
+Mouse Movement (sens weighted):
+ abs(x): 0
+ abs(y): 0
+Mouse Movement (unweighted):
+ x: 0
+ y: 0
+Client Sens:
+ 2.000000
+<19:16:39>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 2569
+1 2569
+2 2569
+3 2569
+4 2569
+<19:16:42>
+
+----------
+
+[StAC] Possible triggerbot detection on Tieez.
+Detections so far: 1. Type: +attack2
+<19:16:42>
+ Player: Tieez<6><[U:1:209583146]><>
+ StAC cached SteamID: STEAM_0:0:104791573
+<19:16:42>
+Network:
+ 62.34 ms ping
+ 0.00 loss
+ 1.52 inchoke
+ 0.00 outchoke
+ 1.52 totalchoke
+ 324.72 kbps rate
+ 134.09 pps rate
+<19:16:42>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:16:42>
+Angles:
+ angles0: x 11.940062 y -154.133712
+ angles1: x 12.292722 y -156.098526
+ angles2: x 12.695763 y -157.912200
+ angles3: x 12.947663 y -158.970184
+ angles4: x 13.501843 y -160.683105
+<19:16:42>
+Client eye positions:
+ eyepos 0: x -833.735 y 588.646 z 448.251
+ eyepos 1: x -830.073 y 590.703 z 444.096
+<19:16:42>
+Previous cmdnums:
+0 20868
+1 20867
+2 20866
+3 20865
+4 20864
+<19:16:42>
+Previous tickcounts:
+0 108387
+1 108386
+2 108385
+3 108384
+4 108383
+<19:16:42>
+Current server tick:
+108392
+<19:16:42>
+Mouse Movement (sens weighted):
+ abs(x): 17
+ abs(y): 2
+Mouse Movement (unweighted):
+ x: -38
+ y: -4
+Client Sens:
+ 2.289999
+<19:16:42>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 11
+1 2059
+2 9
+3 9
+4 9
+<19:16:42> Weapon used: tf_weapon_pipebomblauncher
+<19:17:38>
+
+----------
+
+[StAC] SilentAim detection of 2.95° on BobiMarley420 swag.
+Detections so far: 2 norecoil = yes
+<19:17:38>
+ Player: BobiMarley420 swag<5><[U:1:1510855386]><>
+ StAC cached SteamID: STEAM_0:0:755427693
+<19:17:38>
+Network:
+ 182.11 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 4.10 outchoke
+ 4.10 totalchoke
+ 356.27 kbps rate
+ 132.03 pps rate
+<19:17:38>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:17:38>
+Angles:
+ angles0: x 4.134138 y -48.740093
+ angles1: x 6.645941 y -50.304008
+ angles2: x 4.064528 y -48.663543
+ angles3: x 4.927178 y -48.322025
+ angles4: x 7.393941 y -49.811088
+<19:17:38>
+Client eye positions:
+ eyepos 0: x -1273.108 y -708.629 z 255.591
+ eyepos 1: x -1274.753 y -708.507 z 255.591
+<19:17:38>
+Previous cmdnums:
+0 22901
+1 22900
+2 22899
+3 22898
+4 22897
+<19:17:38>
+Previous tickcounts:
+0 112124
+1 112123
+2 112122
+3 112121
+4 112120
+<19:17:38>
+Current server tick:
+112136
+<19:17:38>
+Mouse Movement (sens weighted):
+ abs(x): 17
+ abs(y): 30
+Mouse Movement (unweighted):
+ x: -34
+ y: -60
+Client Sens:
+ 2.000000
+<19:17:38>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 2569
+1 2569
+2 2569
+3 2569
+4 2569
+<19:19:28>
+
+----------
+
+[StAC] SilentAim detection of 1.69° on BobiMarley420 swag.
+Detections so far: 3 norecoil = yes
+<19:19:28>
+ Player: BobiMarley420 swag<5><[U:1:1510855386]><>
+ StAC cached SteamID: STEAM_0:0:755427693
+<19:19:28>
+Network:
+ 188.74 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 9.19 outchoke
+ 9.19 totalchoke
+ 451.05 kbps rate
+ 128.32 pps rate
+<19:19:28>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:19:28>
+Angles:
+ angles0: x 9.507633 y -94.691406
+ angles1: x 9.108004 y -93.042655
+ angles2: x 9.551621 y -94.603912
+ angles3: x 10.012452 y -94.192321
+ angles4: x 10.824004 y -91.804122
+<19:19:28>
+Client eye positions:
+ eyepos 0: x -1756.099 y -315.529 z 290.039
+ eyepos 1: x -1757.544 y -314.752 z 289.997
+<19:19:28>
+Previous cmdnums:
+0 30089
+1 30088
+2 30087
+3 30086
+4 30085
+<19:19:28>
+Previous tickcounts:
+0 119423
+1 119422
+2 119421
+3 119420
+4 119419
+<19:19:28>
+Current server tick:
+119436
+<19:19:28>
+Mouse Movement (sens weighted):
+ abs(x): 18
+ abs(y): 4
+Mouse Movement (unweighted):
+ x: 37
+ y: 9
+Client Sens:
+ 2.000000
+<19:19:28>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 2057
+1 2057
+2 2057
+3 2057
+4 2057
+<19:20:51>
+
+----------
+
+[StAC] SilentAim detection of 1.01° on BobiMarley420 swag.
+Detections so far: 4 norecoil = yes
+<19:20:51>
+ Player: BobiMarley420 swag<5><[U:1:1510855386]><>
+ StAC cached SteamID: STEAM_0:0:755427693
+<19:20:51>
+Network:
+ 180.97 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.00 outchoke
+ 0.00 totalchoke
+ 394.38 kbps rate
+ 134.87 pps rate
+<19:20:51>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:20:51>
+Angles:
+ angles0: x 0.036061 y -99.080627
+ angles1: x -0.784347 y -98.483886
+ angles2: x -0.005857 y -99.093811
+ angles3: x -0.024382 y -99.158416
+ angles4: x -0.020570 y -99.206665
+<19:20:51>
+Client eye positions:
+ eyepos 0: x -1130.925 y 613.616 z 279.405
+ eyepos 1: x -1131.267 y 615.024 z 279.065
+<19:20:51>
+Previous cmdnums:
+0 35626
+1 35625
+2 35624
+3 35623
+4 35622
+<19:20:51>
+Previous tickcounts:
+0 124960
+1 124959
+2 124958
+3 124957
+4 124956
+<19:20:51>
+Current server tick:
+124972
+<19:20:51>
+Mouse Movement (sens weighted):
+ abs(x): 1
+ abs(y): 8
+Mouse Movement (unweighted):
+ x: -2
+ y: 17
+Client Sens:
+ 2.000000
+<19:20:51>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 2561
+1 2561
+2 2561
+3 2561
+4 2569
+<19:20:51>
+
+----------
+
+[StAC] SilentAim detection of 1.14° on BobiMarley420 swag.
+Detections so far: 5 norecoil = yes
+<19:20:51>
+ Player: BobiMarley420 swag<5><[U:1:1510855386]><>
+ StAC cached SteamID: STEAM_0:0:755427693
+<19:20:51>
+Network:
+ 180.88 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.00 outchoke
+ 0.00 totalchoke
+ 396.46 kbps rate
+ 134.72 pps rate
+<19:20:51>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:20:51>
+Angles:
+ angles0: x -0.871136 y -98.034484
+ angles1: x -0.559900 y -96.930877
+ angles2: x -0.865770 y -98.034698
+ angles3: x -0.840931 y -98.134460
+ angles4: x -0.804543 y -98.210693
+<19:20:51>
+Client eye positions:
+ eyepos 0: x -1105.458 y 597.597 z 282.759
+ eyepos 1: x -1107.026 y 598.113 z 282.707
+<19:20:51>
+Previous cmdnums:
+0 35645
+1 35644
+2 35643
+3 35642
+4 35641
+<19:20:51>
+Previous tickcounts:
+0 124979
+1 124978
+2 124977
+3 124976
+4 124975
+<19:20:51>
+Current server tick:
+124991
+<19:20:51>
+Mouse Movement (sens weighted):
+ abs(x): 26
+ abs(y): 4
+Mouse Movement (unweighted):
+ x: -51
+ y: -7
+Client Sens:
+ 2.000000
+<19:20:51>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 2561
+1 2561
+2 2561
+3 2561
+4 2561
+<19:20:51> Demo file: match-20250217-1915-koth_product_final.dem. Demo tick: 21944
+<19:20:59>
+
+----------
+
+[StAC] SilentAim detection of 5.19° on BobiMarley420 swag.
+Detections so far: 6 norecoil = no
+<19:20:59>
+ Player: BobiMarley420 swag<5><[U:1:1510855386]><>
+ StAC cached SteamID: STEAM_0:0:755427693
+<19:20:59>
+Network:
+ 181.99 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.00 outchoke
+ 0.00 totalchoke
+ 365.19 kbps rate
+ 134.89 pps rate
+<19:20:59>
+More network:
+ Approx client cmdrate: ≈66 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:20:59>
+Angles:
+ angles0: x -39.511997 y -108.500480
+ angles1: x -37.155128 y -103.872924
+ angles2: x -39.555995 y -108.505638
+ angles3: x -39.555995 y -108.505638
+ angles4: x -39.643997 y -108.505638
+<19:20:59>
+Client eye positions:
+ eyepos 0: x -1032.431 y 692.844 z 258.662
+ eyepos 1: x -1031.960 y 689.793 z 259.393
+<19:20:59>
+Previous cmdnums:
+0 36168
+1 36167
+2 36166
+3 36165
+4 36164
+<19:20:59>
+Previous tickcounts:
+0 125502
+1 125501
+2 125500
+3 125499
+4 125498
+<19:20:59>
+Current server tick:
+125515
+<19:20:59>
+Mouse Movement (sens weighted):
+ abs(x): 0
+ abs(y): 1
+Mouse Movement (unweighted):
+ x: 0
+ y: 2
+Client Sens:
+ 2.000000
+<19:20:59>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1025
+1 1025
+2 1025
+3 1041
+4 17
+<19:21:34>
+
+----------
+
+[StAC] SilentAim detection of 4.77° on BobiMarley420 swag.
+Detections so far: 7 norecoil = no
+<19:21:34>
+ Player: BobiMarley420 swag<5><[U:1:1510855386]><>
+ StAC cached SteamID: STEAM_0:0:755427693
+<19:21:34>
+Network:
+ 180.08 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.41 outchoke
+ 0.41 totalchoke
+ 419.75 kbps rate
+ 134.45 pps rate
+<19:21:34>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:21:34>
+Angles:
+ angles0: x 45.804004 y -50.747005
+ angles1: x 43.467895 y -46.585502
+ angles2: x 45.848003 y -50.821674
+ angles3: x 43.684761 y -47.398139
+ angles4: x 43.762172 y -47.770130
+<19:21:34>
+Client eye positions:
+ eyepos 0: x -1786.212 y -1217.529 z 395.031
+ eyepos 1: x -1786.532 y -1215.910 z 395.031
+<19:21:34>
+Previous cmdnums:
+0 38520
+1 38519
+2 38518
+3 38517
+4 38516
+<19:21:34>
+Previous tickcounts:
+0 127854
+1 127853
+2 127852
+3 127851
+4 127850
+<19:21:34>
+Current server tick:
+127866
+<19:21:34>
+Mouse Movement (sens weighted):
+ abs(x): 2
+ abs(y): 1
+Mouse Movement (unweighted):
+ x: -4
+ y: -2
+Client Sens:
+ 2.000000
+<19:21:34>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 2057
+1 2057
+2 2057
+3 2057
+4 2057
+<19:21:35>
+
+----------
+
+[StAC] SilentAim detection of 4.10° on BobiMarley420 swag.
+Detections so far: 8 norecoil = no
+<19:21:35>
+ Player: BobiMarley420 swag<5><[U:1:1510855386]><>
+ StAC cached SteamID: STEAM_0:0:755427693
+<19:21:35>
+Network:
+ 180.14 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.31 outchoke
+ 0.31 totalchoke
+ 431.18 kbps rate
+ 134.43 pps rate
+<19:21:35>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:21:35>
+Angles:
+ angles0: x 44.015842 y -45.199058
+ angles1: x 41.536006 y -41.931919
+ angles2: x 44.064186 y -45.172019
+ angles3: x 43.841369 y -44.371196
+ angles4: x 43.625301 y -43.604991
+<19:21:35>
+Client eye positions:
+ eyepos 0: x -1765.923 y -1236.206 z 395.031
+ eyepos 1: x -1767.502 y -1235.726 z 395.031
+<19:21:35>
+Previous cmdnums:
+0 38538
+1 38537
+2 38536
+3 38535
+4 38534
+<19:21:35>
+Previous tickcounts:
+0 127872
+1 127871
+2 127870
+3 127869
+4 127868
+<19:21:35>
+Current server tick:
+127884
+<19:21:35>
+Mouse Movement (sens weighted):
+ abs(x): 36
+ abs(y): 28
+Mouse Movement (unweighted):
+ x: 71
+ y: 55
+Client Sens:
+ 2.000000
+<19:21:35>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 2057
+1 2057
+2 2569
+3 2569
+4 2569
+<19:21:35>
+
+----------
+
+[StAC] SilentAim detection of 4.63° on BobiMarley420 swag.
+Detections so far: 9 norecoil = no
+<19:21:35>
+ Player: BobiMarley420 swag<5><[U:1:1510855386]><>
+ StAC cached SteamID: STEAM_0:0:755427693
+<19:21:35>
+Network:
+ 180.14 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.31 outchoke
+ 0.31 totalchoke
+ 431.18 kbps rate
+ 134.43 pps rate
+<19:21:35>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:21:35>
+Angles:
+ angles0: x 41.624004 y -42.420188
+ angles1: x 40.920082 y -37.834785
+ angles2: x 41.624004 y -42.340858
+ angles3: x 44.015842 y -45.199058
+ angles4: x 41.536006 y -41.931919
+<19:21:35>
+Client eye positions:
+ eyepos 0: x -1761.360 y -1238.116 z 395.031
+ eyepos 1: x -1762.855 y -1237.420 z 395.031
+<19:21:35>
+Previous cmdnums:
+0 38541
+1 38540
+2 38539
+3 38538
+4 38537
+<19:21:35>
+Previous tickcounts:
+0 127875
+1 127874
+2 127873
+3 127872
+4 127871
+<19:21:35>
+Current server tick:
+127887
+<19:21:35>
+Mouse Movement (sens weighted):
+ abs(x): 0
+ abs(y): 0
+Mouse Movement (unweighted):
+ x: 0
+ y: 0
+Client Sens:
+ 2.000000
+<19:21:35>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 2057
+1 2057
+2 2057
+3 2057
+4 2057
+<19:23:52>
+
+----------
+
+[StAC] SilentAim detection of 4.18° on BobiMarley420 swag.
+Detections so far: 10 norecoil = no
+<19:23:52>
+ Player: BobiMarley420 swag<5><[U:1:1510855386]><>
+ StAC cached SteamID: STEAM_0:0:755427693
+<19:23:52>
+Network:
+ 180.47 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 1.36 outchoke
+ 1.36 totalchoke
+ 403.41 kbps rate
+ 134.38 pps rate
+<19:23:52>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:23:52>
+Angles:
+ angles0: x 1.716012 y -31.135734
+ angles1: x 3.174394 y -35.056846
+ angles2: x 1.716012 y -31.136445
+ angles3: x 2.413692 y -35.069606
+ angles4: x 2.434964 y -34.858642
+<19:23:52>
+Client eye positions:
+ eyepos 0: x -2493.863 y 538.257 z 331.031
+ eyepos 1: x -2494.447 y 536.714 z 331.031
+<19:23:52>
+Previous cmdnums:
+0 47709
+1 47708
+2 47707
+3 47706
+4 47705
+<19:23:52>
+Previous tickcounts:
+0 137043
+1 137042
+2 137041
+3 137040
+4 137039
+<19:23:52>
+Current server tick:
+137055
+<19:23:52>
+Mouse Movement (sens weighted):
+ abs(x): 0
+ abs(y): 0
+Mouse Movement (unweighted):
+ x: 0
+ y: 0
+Client Sens:
+ 2.000000
+<19:23:52>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 2561
+1 2561
+2 2561
+3 2561
+4 2561
+<19:23:52> Demo file: match-20250217-1915-koth_product_final.dem. Demo tick: 34008
+<19:26:15>
+
+----------
+
+[StAC] Possible triggerbot detection on Tieez.
+Detections so far: 2. Type: +attack2
+<19:26:15>
+ Player: Tieez<6><[U:1:209583146]><>
+ StAC cached SteamID: STEAM_0:0:104791573
+<19:26:15>
+Network:
+ 61.44 ms ping
+ 0.00 loss
+ 2.65 inchoke
+ 0.20 outchoke
+ 2.85 totalchoke
+ 302.95 kbps rate
+ 133.19 pps rate
+<19:26:15>
+More network:
+ Approx client cmdrate: ≈66 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:26:15>
+Angles:
+ angles0: x -34.056915 y -31.156154
+ angles1: x -34.006534 y -31.256916
+ angles2: x -33.805011 y -31.811096
+ angles3: x -33.754631 y -32.466037
+ angles4: x -33.653869 y -33.675159
+<19:26:15>
+Client eye positions:
+ eyepos 0: x -839.503 y 1397.131 z 134.849
+ eyepos 1: x -841.788 y 1393.607 z 134.692
+<19:26:15>
+Previous cmdnums:
+0 59046
+1 59045
+2 59044
+3 59043
+4 59042
+<19:26:15>
+Previous tickcounts:
+0 146565
+1 146564
+2 146563
+3 146562
+4 146561
+<19:26:15>
+Current server tick:
+146569
+<19:26:15>
+Mouse Movement (sens weighted):
+ abs(x): 1
+ abs(y): 0
+Mouse Movement (unweighted):
+ x: -2
+ y: 0
+Client Sens:
+ 2.289999
+<19:26:15>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 513
+1 2561
+2 513
+3 513
+4 513
+<19:26:15> Weapon used: tf_weapon_pipebomblauncher
+<19:26:23>
+
+----------
+
+[StAC] SilentAim detection of 1.43° on BobiMarley420 swag.
+Detections so far: 11 norecoil = yes
+<19:26:23>
+ Player: BobiMarley420 swag<5><[U:1:1510855386]><>
+ StAC cached SteamID: STEAM_0:0:755427693
+<19:26:23>
+Network:
+ 180.51 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.00 outchoke
+ 0.00 totalchoke
+ 366.46 kbps rate
+ 134.92 pps rate
+<19:26:23>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:26:23>
+Angles:
+ angles0: x -2.615338 y -91.982330
+ angles1: x -2.813719 y -93.398529
+ angles2: x -2.644778 y -91.979461
+ angles3: x -2.670295 y -91.931335
+ angles4: x -2.708344 y -91.887756
+<19:26:23>
+Client eye positions:
+ eyepos 0: x -1245.774 y 867.416 z 235.031
+ eyepos 1: x -1244.842 y 868.777 z 235.031
+<19:26:23>
+Previous cmdnums:
+0 57726
+1 57725
+2 57724
+3 57723
+4 57722
+<19:26:23>
+Previous tickcounts:
+0 147060
+1 147059
+2 147058
+3 147057
+4 147056
+<19:26:23>
+Current server tick:
+147072
+<19:26:23>
+Mouse Movement (sens weighted):
+ abs(x): 0
+ abs(y): 4
+Mouse Movement (unweighted):
+ x: 1
+ y: 8
+Client Sens:
+ 2.000000
+<19:26:23>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 3081
+1 3081
+2 3081
+3 3081
+4 3081
+<19:28:10>
+
+----------
+
+[StAC] SilentAim detection of 1.74° on fume..
+Detections so far: 1 norecoil = yes
+<19:28:10>
+ Player: fume.<22><[U:1:211073]><>
+ StAC cached SteamID: STEAM_0:1:105536
+<19:28:10>
+Network:
+ 64.65 ms ping
+ 0.00 loss
+ 2.72 inchoke
+ 0.06 outchoke
+ 2.78 totalchoke
+ 186.39 kbps rate
+ 132.66 pps rate
+<19:28:10>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:28:10>
+Angles:
+ angles0: x 16.897649 y -106.207542
+ angles1: x 16.770599 y -107.943893
+ angles2: x 16.897651 y -106.207542
+ angles3: x 17.532901 y -99.939735
+ angles4: x 18.549299 y -89.225189
+<19:28:10>
+Client eye positions:
+ eyepos 0: x -1317.598 y -2896.327 z 143.956
+ eyepos 1: x -1320.812 y -2897.947 z 140.161
+<19:28:10>
+Previous cmdnums:
+0 63026
+1 63025
+2 63024
+3 63023
+4 63022
+<19:28:10>
+Previous tickcounts:
+0 154244
+1 154243
+2 154242
+3 154241
+4 154240
+<19:28:10>
+Current server tick:
+154248
+<19:28:10>
+Mouse Movement (sens weighted):
+ abs(x): 7
+ abs(y): 1
+Mouse Movement (unweighted):
+ x: -26
+ y: 3
+Client Sens:
+ 3.849999
+<19:28:10>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 515
+1 515
+2 514
+3 514
+4 512
+<19:30:09>
+
+----------
+
+[StAC] Possible triggerbot detection on Tieez.
+Detections so far: 3. Type: +attack2
+<19:30:09>
+ Player: Tieez<6><[U:1:209583146]><>
+ StAC cached SteamID: STEAM_0:0:104791573
+<19:30:09>
+Network:
+ 60.10 ms ping
+ 0.00 loss
+ 1.55 inchoke
+ 0.00 outchoke
+ 1.55 totalchoke
+ 287.30 kbps rate
+ 133.74 pps rate
+<19:30:09>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:30:09>
+Angles:
+ angles0: x 16.697204 y -105.365509
+ angles1: x 16.747585 y -105.516647
+ angles2: x 16.797966 y -105.818923
+ angles3: x 16.797966 y -105.919677
+ angles4: x 16.848346 y -106.020431
+<19:30:09>
+Client eye positions:
+ eyepos 0: x -1753.870 y -632.555 z 203.895
+ eyepos 1: x -1751.696 y -628.962 z 204.821
+<19:30:09>
+Previous cmdnums:
+0 74673
+1 74672
+2 74671
+3 74670
+4 74669
+<19:30:09>
+Previous tickcounts:
+0 162192
+1 162191
+2 162190
+3 162189
+4 162188
+<19:30:09>
+Current server tick:
+162196
+<19:30:09>
+Mouse Movement (sens weighted):
+ abs(x): 2
+ abs(y): 0
+Mouse Movement (unweighted):
+ x: -4
+ y: 0
+Client Sens:
+ 2.289999
+<19:30:09>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 9
+1 2057
+2 9
+3 9
+4 9
+<19:30:09> Weapon used: tf_weapon_pipebomblauncher
+<19:31:11>
+
+----------
+
+[StAC] Possible triggerbot detection on Tieez.
+Detections so far: 4. Type: +attack2
+<19:31:11>
+ Player: Tieez<6><[U:1:209583146]><>
+ StAC cached SteamID: STEAM_0:0:104791573
+<19:31:11>
+Network:
+ 60.35 ms ping
+ 0.00 loss
+ 1.52 inchoke
+ 0.00 outchoke
+ 1.52 totalchoke
+ 299.52 kbps rate
+ 133.84 pps rate
+<19:31:11>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:31:11>
+Angles:
+ angles0: x 18.762750 y -65.511474
+ angles1: x 19.820730 y -65.511474
+ angles2: x 20.425289 y -65.511474
+ angles3: x 20.526048 y -65.511474
+ angles4: x 20.526048 y -65.511474
+<19:31:11>
+Client eye positions:
+ eyepos 0: x -1335.604 y 428.864 z 333.266
+ eyepos 1: x -1333.976 y 424.992 z 335.861
+<19:31:11>
+Previous cmdnums:
+0 78773
+1 78772
+2 78771
+3 78770
+4 78769
+<19:31:11>
+Previous tickcounts:
+0 166292
+1 166291
+2 166290
+3 166289
+4 166288
+<19:31:11>
+Current server tick:
+166296
+<19:31:11>
+Mouse Movement (sens weighted):
+ abs(x): 0
+ abs(y): 11
+Mouse Movement (unweighted):
+ x: 0
+ y: -25
+Client Sens:
+ 2.289999
+<19:31:11>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 22
+1 2070
+2 22
+3 22
+4 22
+<19:31:11> Weapon used: tf_weapon_pipebomblauncher
+<19:33:16>
+
+----------
+
+[StAC] SilentAim detection of 5.01° on BobiMarley420 swag.
+Detections so far: 12 norecoil = no
+<19:33:16>
+ Player: BobiMarley420 swag<5><[U:1:1510855386]><>
+ StAC cached SteamID: STEAM_0:0:755427693
+<19:33:16>
+Network:
+ 181.08 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 1.56 outchoke
+ 1.56 totalchoke
+ 318.95 kbps rate
+ 134.10 pps rate
+<19:33:16>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:33:16>
+Angles:
+ angles0: x 15.312055 y -97.235481
+ angles1: x 12.680955 y -101.499206
+ angles2: x 15.312055 y -97.276107
+ angles3: x 11.476471 y -101.450897
+ angles4: x 15.159693 y -97.849197
+<19:33:16>
+Client eye positions:
+ eyepos 0: x -2408.794 y -703.814 z 286.733
+ eyepos 1: x -2407.145 y -703.757 z 287.586
+<19:33:16>
+Previous cmdnums:
+0 85233
+1 85232
+2 85231
+3 85230
+4 85229
+<19:33:16>
+Previous tickcounts:
+0 174611
+1 174610
+2 174609
+3 174608
+4 174607
+<19:33:16>
+Current server tick:
+174623
+<19:33:16>
+Mouse Movement (sens weighted):
+ abs(x): 0
+ abs(y): 0
+Mouse Movement (unweighted):
+ x: 0
+ y: 0
+Client Sens:
+ 2.000000
+<19:33:16>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 3073
+1 3073
+2 3073
+3 3073
+4 3073
+<19:34:54>
+
+----------
+
+[StAC] Possible triggerbot detection on Tieez.
+Detections so far: 5. Type: +attack2
+<19:34:54>
+ Player: Tieez<6><[U:1:209583146]><>
+ StAC cached SteamID: STEAM_0:0:104791573
+<19:34:54>
+Network:
+ 60.70 ms ping
+ 0.00 loss
+ 1.56 inchoke
+ 0.00 outchoke
+ 1.57 totalchoke
+ 190.72 kbps rate
+ 133.76 pps rate
+<19:34:54>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:34:54>
+Angles:
+ angles0: x 23.225135 y -74.044914
+ angles1: x 23.225135 y -74.044914
+ angles2: x 23.426656 y -74.044914
+ angles3: x 24.131977 y -73.994537
+ angles4: x 24.232738 y -73.994537
+<19:34:54>
+Client eye positions:
+ eyepos 0: x -1437.466 y 2884.548 z 173.851
+ eyepos 1: x -1441.237 y 2895.841 z 168.488
+<19:34:54>
+Previous cmdnums:
+0 93635
+1 93634
+2 93633
+3 93632
+4 93631
+<19:34:54>
+Previous tickcounts:
+0 181154
+1 181153
+2 181152
+3 181151
+4 181150
+<19:34:54>
+Current server tick:
+181158
+<19:34:54>
+Mouse Movement (sens weighted):
+ abs(x): 0
+ abs(y): 0
+Mouse Movement (unweighted):
+ x: 0
+ y: 0
+Client Sens:
+ 2.289999
+<19:34:54>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 14
+1 2062
+2 14
+3 14
+4 14
+<19:34:54> Weapon used: tf_weapon_pipebomblauncher
+<19:34:54> Demo file: match-20250217-1915-koth_product_final.dem. Demo tick: 78111
+<19:37:02>
+
+----------
+
+[StAC] Possible triggerbot detection on Tieez.
+Detections so far: 6. Type: +attack2
+<19:37:02>
+ Player: Tieez<6><[U:1:209583146]><>
+ StAC cached SteamID: STEAM_0:0:104791573
+<19:37:02>
+Network:
+ 62.04 ms ping
+ 0.00 loss
+ 2.09 inchoke
+ 0.31 outchoke
+ 2.40 totalchoke
+ 293.86 kbps rate
+ 133.17 pps rate
+<19:37:02>
+More network:
+ Approx client cmdrate: ≈66 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:37:02>
+Angles:
+ angles0: x -9.169165 y 170.902465
+ angles1: x -9.118785 y 171.507034
+ angles2: x -9.068406 y 171.910079
+ angles3: x -9.068406 y 172.363510
+ angles4: x -9.068406 y 172.716156
+<19:37:02>
+Client eye positions:
+ eyepos 0: x -2011.711 y 1230.137 z 94.395
+ eyepos 1: x -2011.435 y 1229.747 z 94.395
+<19:37:02>
+Previous cmdnums:
+0 102206
+1 102205
+2 102204
+3 102203
+4 102202
+<19:37:02>
+Previous tickcounts:
+0 189725
+1 189724
+2 189723
+3 189722
+4 189721
+<19:37:02>
+Current server tick:
+189729
+<19:37:02>
+Mouse Movement (sens weighted):
+ abs(x): 2
+ abs(y): 0
+Mouse Movement (unweighted):
+ x: 4
+ y: 0
+Client Sens:
+ 2.289999
+<19:37:02>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1025
+1 3073
+2 1025
+3 3073
+4 3073
+<19:37:02> Weapon used: tf_weapon_grenadelauncher
+<19:37:33>
+
+----------
+
+[StAC] Possible triggerbot detection on Tieez.
+Detections so far: 7. Type: +attack2
+<19:37:33>
+ Player: Tieez<6><[U:1:209583146]><>
+ StAC cached SteamID: STEAM_0:0:104791573
+<19:37:33>
+Network:
+ 60.41 ms ping
+ 0.00 loss
+ 1.26 inchoke
+ 0.87 outchoke
+ 2.14 totalchoke
+ 317.35 kbps rate
+ 133.33 pps rate
+<19:37:33>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:37:33>
+Angles:
+ angles0: x 14.862078 y 32.423450
+ angles1: x 15.365879 y 32.020412
+ angles2: x 15.567399 y 31.516611
+ angles3: x 15.567399 y 29.904451
+ angles4: x 15.617778 y 27.687730
+<19:37:33>
+Client eye positions:
+ eyepos 0: x -2002.568 y -429.934 z 324.031
+ eyepos 1: x -2006.663 y -429.000 z 324.031
+<19:37:33>
+Previous cmdnums:
+0 104218
+1 104217
+2 104216
+3 104215
+4 104214
+<19:37:33>
+Previous tickcounts:
+0 191737
+1 191736
+2 191735
+3 191734
+4 191733
+<19:37:33>
+Current server tick:
+191741
+<19:37:33>
+Mouse Movement (sens weighted):
+ abs(x): 5
+ abs(y): 6
+Mouse Movement (unweighted):
+ x: -11
+ y: -13
+Client Sens:
+ 2.289999
+<19:37:33>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1033
+1 3081
+2 1033
+3 1033
+4 1033
+<19:37:33> Weapon used: tf_weapon_pipebomblauncher
+<19:37:56>
+
+----------
+
+[StAC] SilentAim detection of 2.94° on BobiMarley420 swag.
+Detections so far: 13 norecoil = yes
+<19:37:56>
+ Player: BobiMarley420 swag<5><[U:1:1510855386]><>
+ StAC cached SteamID: STEAM_0:0:755427693
+<19:37:56>
+Network:
+ 179.33 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.01 outchoke
+ 0.01 totalchoke
+ 304.78 kbps rate
+ 135.09 pps rate
+<19:37:56>
+More network:
+ Approx client cmdrate: ≈68 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:37:56>
+Angles:
+ angles0: x 17.638957 y -98.841644
+ angles1: x 15.608013 y -100.975044
+ angles2: x 17.590333 y -98.822814
+ angles3: x 17.639749 y -99.105743
+ angles4: x 15.564013 y -101.019905
+<19:37:56>
+Client eye positions:
+ eyepos 0: x -1650.244 y -252.091 z 299.031
+ eyepos 1: x -1650.350 y -252.646 z 299.031
+<19:37:56>
+Previous cmdnums:
+0 103868
+1 103867
+2 103866
+3 103865
+4 103864
+<19:37:56>
+Previous tickcounts:
+0 193290
+1 193289
+2 193288
+3 193287
+4 193286
+<19:37:56>
+Current server tick:
+193302
+<19:37:56>
+Mouse Movement (sens weighted):
+ abs(x): 16
+ abs(y): 20
+Mouse Movement (unweighted):
+ x: -31
+ y: 41
+Client Sens:
+ 2.000000
+<19:37:56>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 2065
+1 2065
+2 2065
+3 2065
+4 2065
+<19:39:05>
+
+----------
+
+[StAC] Possible triggerbot detection on Tieez.
+Detections so far: 8. Type: +attack2
+<19:39:05>
+ Player: Tieez<6><[U:1:209583146]><>
+ StAC cached SteamID: STEAM_0:0:104791573
+<19:39:05>
+Network:
+ 60.94 ms ping
+ 0.00 loss
+ 1.89 inchoke
+ 0.02 outchoke
+ 1.91 totalchoke
+ 335.86 kbps rate
+ 133.68 pps rate
+<19:39:05>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:39:05>
+Angles:
+ angles0: x 4.131151 y -166.376235
+ angles1: x 3.980011 y -166.829650
+ angles2: x 3.980011 y -166.829650
+ angles3: x 4.282291 y -165.217483
+ angles4: x 5.239511 y -160.129089
+<19:39:05>
+Client eye positions:
+ eyepos 0: x -1433.202 y -36.809 z 299.182
+ eyepos 1: x -1436.026 y -34.591 z 299.182
+<19:39:05>
+Previous cmdnums:
+0 110361
+1 110360
+2 110359
+3 110358
+4 110357
+<19:39:05>
+Previous tickcounts:
+0 197880
+1 197879
+2 197878
+3 197877
+4 197876
+<19:39:05>
+Current server tick:
+197884
+<19:39:05>
+Mouse Movement (sens weighted):
+ abs(x): 6
+ abs(y): 3
+Mouse Movement (unweighted):
+ x: -13
+ y: 6
+Client Sens:
+ 2.289999
+<19:39:05>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1040
+1 3088
+2 528
+3 528
+4 528
+<19:39:05> Weapon used: tf_weapon_pipebomblauncher
+<19:39:29>
+
+----------
+
+[StAC] SilentAim detection of 3.10° on BobiMarley420 swag.
+Detections so far: 14 norecoil = no
+<19:39:29>
+ Player: BobiMarley420 swag<5><[U:1:1510855386]><>
+ StAC cached SteamID: STEAM_0:0:755427693
+<19:39:29>
+Network:
+ 180.14 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.95 outchoke
+ 0.95 totalchoke
+ 239.00 kbps rate
+ 134.03 pps rate
+<19:39:29>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<19:39:29>
+Angles:
+ angles0: x 9.635957 y 4.112575
+ angles1: x 11.774525 y 6.368443
+ angles2: x 9.723957 y 4.019516
+ angles3: x 12.944216 y 5.416277
+ angles4: x 10.365493 y 4.329030
+<19:39:29>
+Client eye positions:
+ eyepos 0: x -2052.833 y -2124.353 z 186.907
+ eyepos 1: x -2052.568 y -2122.724 z 190.273
+<19:39:29>
+Previous cmdnums:
+0 110097
+1 110096
+2 110095
+3 110094
+4 110093
+<19:39:29>
+Previous tickcounts:
+0 199519
+1 199518
+2 199517
+3 199516
+4 199515
+<19:39:29>
+Current server tick:
+199531
+<19:39:29>
+Mouse Movement (sens weighted):
+ abs(x): 0
+ abs(y): 0
+Mouse Movement (unweighted):
+ x: 0
+ y: 0
+Client Sens:
+ 2.000000
+<19:39:29>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 3077
+1 3077
+2 3077
+3 3077
+4 3077
+

@@ -20,6 +20,12 @@ FactoryBot.define do
     provider { 'steam' }
     latitude { 52.5 }
     longitude { 5.75 }
+
+    trait :admin do
+      after(:create) do |user|
+        user.groups << Group.admin_group
+      end
+    end
   end
 
   factory :admin, class: 'User' do
@@ -27,7 +33,7 @@ FactoryBot.define do
     nickname { 'Admin' }
     name { 'Admin Abuse' }
     provider { 'steam' }
-    groups { [Group.donator_group] }
+    groups { [Group.admin_group] }
   end
 
   factory :reservation do
@@ -162,5 +168,12 @@ FactoryBot.define do
   factory :order do
     association :product
     association :user
+  end
+
+  factory :stac_log do
+    association :reservation
+    filename { 'stac_log.log' }
+    contents { 'log content' }
+    filesize { 1024 }
   end
 end

@@ -27,10 +27,10 @@ RSpec.describe StacLogsDownloaderWorker do
       server.should_receive(:copy_from_server).with([stac_log], anything)
       server.should_receive(:delete_from_server).with([stac_log])
 
-      # Expect the processor to be called
+      # Expect the processor to be called with process_content
       processor = instance_double(StacLogProcessor)
       expect(StacLogProcessor).to receive(:new).with(reservation).and_return(processor)
-      expect(processor).to receive(:process_logs).with(tmp_dir)
+      expect(processor).to receive(:process_content).with('foobarwidget')
 
       described_class.perform_async(reservation.id)
 

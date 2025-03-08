@@ -43,6 +43,7 @@ Serveme::Application.routes.draw do
       get :motd,                as: :motd
       patch :rcon_command, as: :rcon_command
       patch :motd_rcon_command, as: :motd_rcon_command
+      get :stac_log, as: :stac_log
     end
     collection do
       post :find_servers_for_user
@@ -80,7 +81,11 @@ Serveme::Application.routes.draw do
     end
   end
 
-  resources :stac_logs, only: %i[index show]
+  resources :stac_logs, only: %i[index show] do
+    member do
+      post :notify
+    end
+  end
 
   resources :server_configs, except: %i[show destroy]
   resources :whitelists, except: %i[show destroy]

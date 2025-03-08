@@ -1,1 +1,1 @@
-%pre= @stac_log.contents
+%pre= ActiveSupport::Multibyte::Chars.new(@stac_log.contents).tidy_bytes.to_s

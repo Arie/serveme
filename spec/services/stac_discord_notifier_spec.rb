@@ -3,6 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe StacDiscordNotifier do
+  include Rails.application.routes.url_helpers
+
   let(:reservation) { create(:reservation) }
   let(:notifier) { described_class.new(reservation) }
   let(:detections) do
@@ -14,16 +16,9 @@ RSpec.describe StacDiscordNotifier do
       }
     }
   end
-  let(:demo_info) do
-    {
-      filename: 'auto-20250307-1048-ctf_2fort.dem',
-      tick: '144641'
-    }
-  end
-  let(:demo_timeline) do
-    {
-      'auto-20250307-1048-ctf_2fort.dem' => [8411, 10747, 19994, 78659, 78983, 80660, 82420, 88258, 97681, 124684, 144641]
-    }
+
+  before do
+    self.default_url_options = { host: SITE_URL }
   end
 
   describe '#notify' do
@@ -43,24 +38,24 @@ RSpec.describe StacDiscordNotifier do
         # Check description
         description = embed['description']
         expect(description).to include(reservation.server.name)
-        expect(description).to include(demo_info[:filename])
-        expect(description).to include("Latest tick: #{demo_info[:tick]}")
-        expect(description).to include(demo_timeline.first[0])
-        expect(description).to include(demo_timeline.first[1].join(', '))
+        expect(description).to include("#{SITE_URL}/reservations/#{reservation.id}")
+        expect(description).to include("#{SITE_URL}/reservations/#{reservation.id}/stac_log")
 
         # Check player fields
         field = embed['fields'].first
         expect(field['name']).to eq('АБАРИГЕН')
+        expect(field['value']).to include('SteamID: [76561199543859315]')
+        expect(field['value']).to include("#{SITE_URL}/league-request?steam_uid=76561199543859315&cross_reference=true")
         expect(field['value']).to include('SilentAim: 37x')
         expect(field['value']).to include('OOB cvar/netvar value -1 on var cl_cmdrate: 4x')
       end
 
-      notifier.notify(detections, demo_info, demo_timeline)
+      notifier.notify(detections)
     end
 
     it 'returns early if detections are empty' do
       expect(Net::HTTP).not_to receive(:new)
-      notifier.notify({}, demo_info, demo_timeline)
+      notifier.notify({})
     end
   end
 end

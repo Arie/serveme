@@ -11,7 +11,7 @@ RSpec.describe StacLogProcessor do
     it 'processes logs and sends notifications for detections' do
       discord_notifier = instance_double(StacDiscordNotifier)
       expect(StacDiscordNotifier).to receive(:new).with(reservation).and_return(discord_notifier)
-      expect(discord_notifier).to receive(:notify) do |detections, demo_info, demo_timeline|
+      expect(discord_notifier).to receive(:notify) do |detections|
         # Check detections
         abarigin = detections[76561199543859315]
         expect(abarigin[:name]).to eq('АБАРИГЕН')
@@ -20,21 +20,29 @@ RSpec.describe StacLogProcessor do
           'OOB cvar/netvar value -1 on var cl_cmdrate' => 4
         })
 
-        aerial = detections[76561199537797286]
-        expect(aerial[:name]).to eq('Aerial Denial System')
+        aerial = detections[76561198169848874]
+        expect(aerial[:name]).to eq('Tieez')
         expect(aerial[:detections].tally).to eq({
-          'CmdNum SPIKE' => 1
+          'Triggerbot' => 8
         })
 
-        # Check demo info
-        expect(demo_info[:filename]).to eq('auto-20250307-1048-ctf_2fort.dem')
-        expect(demo_info[:tick]).to eq('144641')
+        fume = detections[76561197960476801]
+        expect(fume[:name]).to eq('fume')
+        expect(fume[:detections].tally).to eq({
+          'SilentAim' => 1
+        })
 
-        # Check demo timeline
-        expect(demo_timeline.keys).to eq(['auto-20250307-1048-ctf_2fort.dem'])
-        expect(demo_timeline['auto-20250307-1048-ctf_2fort.dem']).to eq([
-          8411, 10747, 19994, 78659, 78983, 80660, 82420, 88258, 97681, 124684, 144641
-        ])
+        bobimarley = detections[76561198332416145]
+        expect(bobimarley[:name]).to eq('Marqui2156')
+        expect(bobimarley[:detections].tally).to eq({
+          'Aimsnap' => 6
+        })
+
+        unico = detections[76561198071993023]
+        expect(unico[:name]).to eq('Unico')
+        expect(unico[:detections].tally).to eq({
+          'CmdNum SPIKE' => 1
+        })
       end
 
       dir = Dir.mktmpdir
@@ -53,34 +61,20 @@ RSpec.describe StacLogProcessor do
     end
   end
 
-  describe '#parse_stac_detections' do
-    it 'correctly parses player detections' do
-      parsed_detections = processor.send(:parse_stac_detections, stac_log_content)
-      expect(parsed_detections.keys.length).to eq(2) # Two unique players
+  describe '#process_content' do
+    it 'processes content and sends notifications for detections' do
+      discord_notifier = instance_double(StacDiscordNotifier)
+      expect(StacDiscordNotifier).to receive(:new).with(reservation).and_return(discord_notifier)
+      expect(discord_notifier).to receive(:notify) do |detections|
+        # Check detections
+        unico = detections[76561198071993023]
+        expect(unico[:name]).to eq('Unico')
+        expect(unico[:detections].tally).to eq({
+          'CmdNum SPIKE' => 1
+        })
+      end
 
-      abarigin = parsed_detections[76561199543859315]
-      expect(abarigin[:name]).to eq('АБАРИГЕН')
-      expect(abarigin[:detections].tally).to eq({
-        'SilentAim' => 37,
-        'OOB cvar/netvar value -1 on var cl_cmdrate' => 4
-      })
-
-      aerial = parsed_detections[76561199537797286]
-      expect(aerial[:name]).to eq('Aerial Denial System')
-      expect(aerial[:detections].tally).to eq({
-        'CmdNum SPIKE' => 1
-      })
-    end
-  end
-
-  describe '#collect_demo_ticks' do
-    it 'collects all demo ticks grouped by filename' do
-      demos = processor.send(:collect_demo_ticks, stac_log_content)
-
-      expect(demos.keys).to eq(['auto-20250307-1048-ctf_2fort.dem'])
-      expect(demos['auto-20250307-1048-ctf_2fort.dem']).to eq([
-        8411, 10747, 19994, 78659, 78983, 80660, 82420, 88258, 97681, 124684, 144641
-      ])
+      processor.process_content(stac_log_content)
     end
   end
 end

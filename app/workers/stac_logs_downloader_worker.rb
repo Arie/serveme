@@ -34,7 +34,7 @@ class StacLogsDownloaderWorker
     logs.each do |f|
       s = StacLog.new(reservation_id: reservation_id)
       s.filename = File.basename(f)
-      s.contents = File.read(f)
+      s.contents = ActiveSupport::Multibyte::Chars.new(File.read(f)).tidy_bytes.to_s
       s.filesize = File.size(f)
       s.save
     end
@@ -44,7 +44,10 @@ class StacLogsDownloaderWorker
     logs = find_non_empty_logs(tmp_dir)
     return if logs.empty?
 
-    StacLogProcessor.new(reservation).process_logs(tmp_dir)
+    processor = StacLogProcessor.new(reservation)
+    logs.each do |f|
+      processor.process_content(ActiveSupport::Multibyte::Chars.new(File.read(f)).tidy_bytes.to_s)
+    end
   end
 
   def find_non_empty_logs(tmp_dir)

@@ -6,20 +6,13 @@ class StacDiscordNotifier
     @reservation = reservation
   end
 
-  def notify(detections, demo_info, demo_timeline)
+  def notify(detections)
     return if detections.empty?
 
-    description = ["Server: [#{@reservation.server.name} (##{@reservation.id})](#{Rails.application.routes.url_helpers.reservation_url(@reservation, host: 'serveme.tf')})"]
-    if demo_info[:filename]
-      description << "Demo: #{demo_info[:filename]}"
-      description << "Latest tick: #{demo_info[:tick]}"
-    end
-
-    # Add demo timeline at the end
-    description << "\nDemo timeline:"
-    demo_timeline.each do |filename, ticks|
-      description << "#{filename}: #{ticks.join(', ')}"
-    end
+    description = [
+      "Server: [#{@reservation.server.name} (##{@reservation.id})](#{SITE_URL}/reservations/#{@reservation.id})",
+      "[View STAC Log](#{SITE_URL}/reservations/#{@reservation.id}/stac_log)"
+    ]
 
     payload = {
       embeds: [{
@@ -30,7 +23,7 @@ class StacDiscordNotifier
           {
             name: data[:name],
             value: [
-              "SteamID: [#{steam_id64}](https://steamid.io/lookup/#{steam_id64})",
+              "SteamID: [#{steam_id64}](#{SITE_URL}/league-request?steam_uid=#{steam_id64}&cross_reference=true)",
               "Detections:\n#{data[:detections].tally.map { |type, count| "• #{type}: #{count}x" }.join("\n")}"
             ].join("\n"),
             inline: false

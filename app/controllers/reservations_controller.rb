@@ -154,6 +154,26 @@ class ReservationsController < ApplicationController
     shared_rcon_command(motd_reservation_path(reservation))
   end
 
+  def stac_log
+    @reservation = Reservation.find(params[:id])
+    @stac_logs = @reservation.stac_logs
+
+    if @stac_logs.any?
+      contents = @stac_logs.map do |log|
+        content = ActiveSupport::Multibyte::Chars.new(log.contents).tidy_bytes.to_s
+        content.encode('UTF-8', invalid: :replace, undef: :replace, replace: '?')
+      end.join("\n")
+
+      send_data contents.force_encoding('UTF-8'),
+                filename: "stac_logs_#{@reservation.id}.log",
+                type: 'text/plain; charset=UTF-8',
+                disposition: 'inline',
+                status: :ok
+    else
+      render plain: 'No STAC logs found', status: :not_found
+    end
+  end
+
   private
 
   def shared_rcon_command(return_path)

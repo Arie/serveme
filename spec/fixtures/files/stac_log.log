@@ -1,0 +1,2601 @@
+<10:50:45>
+
+----------
+
+[StAC] [Detection] Player АБАРИГЕН is cheating - OOB cvar/netvar value -1 on var cl_cmdrate!
+<10:50:45>
+ Player: АБАРИГЕН<3><STEAM_ID_PENDING><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<10:50:45> Demo file: auto-20250307-1048-ctf_2fort.dem. Demo tick: 8411
+<10:51:20>
+
+----------
+
+[StAC] [Detection] Player АБАРИГЕН is cheating - OOB cvar/netvar value -1 on var cl_cmdrate!
+<10:51:20>
+ Player: АБАРИГЕН<4><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<10:51:20> Demo file: auto-20250307-1048-ctf_2fort.dem. Demo tick: 10747
+<10:53:39>
+
+----------
+
+[StAC] [Detection] Player АБАРИГЕН is cheating - OOB cvar/netvar value -1 on var cl_cmdrate!
+<10:53:39>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<10:53:39> Demo file: auto-20250307-1048-ctf_2fort.dem. Demo tick: 19994
+<11:03:51>
+
+----------
+
+            [StAC] SilentAim detection of 14.40° on АБАРИГЕН.
+Detections so far: 1 norecoil = no
+<11:03:51>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:03:51>
+Network:
+ 102.43 ms ping
+ 0.00 loss
+ 0.33 inchoke
+ 0.00 outchoke
+ 0.33 totalchoke
+ 133.80 kbps rate
+ 134.51 pps rate
+<11:03:51>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:03:51>
+Angles:
+ angles0: x 11.813997 y -76.545898
+ angles1: x 0.000000 y -84.786682
+ angles2: x 11.813997 y -76.545898
+ angles3: x 11.813997 y -76.545898
+ angles4: x 11.813997 y -76.545898
+<11:03:51>
+Client eye positions:
+ eyepos 0: x 722.996 y 1393.253 z 321.031
+ eyepos 1: x 716.997 y 1393.168 z 321.031
+<11:03:51>
+Previous cmdnums:
+0 40690
+1 40689
+2 40688
+3 40687
+4 40686
+<11:03:51>
+Previous tickcounts:
+0 60871
+1 60872
+2 60869
+3 60868
+4 60867
+<11:03:51>
+Current server tick:
+60878
+<11:03:51>
+Mouse Movement (sens weighted):
+ abs(x): 2485
+ abs(y): 6498
+Mouse Movement (unweighted):
+ x: -7455
+ y: 19494
+Client Sens:
+ 3.000000
+<11:03:51>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 513
+1 513
+2 513
+3 513
+4 513
+<11:04:53>
+
+----------
+
+            [StAC] SilentAim detection of 17.44° on АБАРИГЕН.
+Detections so far: 2 norecoil = no
+<11:04:53>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:04:53>
+Network:
+ 96.27 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.00 outchoke
+ 0.00 totalchoke
+ 164.35 kbps rate
+ 134.88 pps rate
+<11:04:53>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:04:53>
+Angles:
+ angles0: x 6.666004 y 41.795864
+ angles1: x -0.202287 y 57.835250
+ angles2: x 6.732004 y 41.729862
+ angles3: x 6.732004 y 41.729862
+ angles4: x 6.732004 y 41.729862
+<11:04:53>
+Client eye positions:
+ eyepos 0: x 135.986 y 623.198 z 70.892
+ eyepos 1: x 133.010 y 619.823 z 70.892
+<11:04:53>
+Previous cmdnums:
+0 44806
+1 44805
+2 44804
+3 44803
+4 44802
+<11:04:53>
+Previous tickcounts:
+0 64987
+1 64986
+2 64985
+3 64984
+4 64983
+<11:04:53>
+Current server tick:
+64994
+<11:04:53>
+Mouse Movement (sens weighted):
+ abs(x): 2660
+ abs(y): 6498
+Mouse Movement (unweighted):
+ x: 7980
+ y: 19495
+Client Sens:
+ 3.000000
+<11:04:53>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 9
+1 9
+2 9
+3 9
+4 9
+<11:07:33>
+
+----------
+
+            [StAC] SilentAim detection of 8.07° on АБАРИГЕН.
+Detections so far: 3 norecoil = no
+<11:07:33>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:07:33>
+Network:
+ 101.03 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.00 outchoke
+ 0.00 totalchoke
+ 148.18 kbps rate
+ 134.71 pps rate
+<11:07:33>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:07:33>
+Angles:
+ angles0: x -2.080072 y -31.943452
+ angles1: x 0.000000 y -39.747417
+ angles2: x -2.146072 y -32.009452
+ angles3: x -2.476072 y -32.207454
+ angles4: x -3.070072 y -32.603454
+<11:07:33>
+Client eye positions:
+ eyepos 0: x -239.669 y -348.568 z -188.789
+ eyepos 1: x -242.381 y -347.696 z -189.077
+<11:07:33>
+Previous cmdnums:
+0 55442
+1 55441
+2 55440
+3 55439
+4 55438
+<11:07:33>
+Previous tickcounts:
+0 75623
+1 75625
+2 75621
+3 75620
+4 75619
+<11:07:33>
+Current server tick:
+75630
+<11:07:33>
+Mouse Movement (sens weighted):
+ abs(x): 5890
+ abs(y): 6498
+Mouse Movement (unweighted):
+ x: -17671
+ y: 19495
+Client Sens:
+ 3.000000
+<11:07:33>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 521
+1 521
+2 521
+3 521
+4 521
+<11:08:18>
+
+----------
+
+            [StAC] SilentAim detection of 27.57° on АБАРИГЕН.
+Detections so far: 4 norecoil = no
+<11:08:18>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:08:18>
+Network:
+ 95.87 ms ping
+ 0.00 loss
+ 0.08 inchoke
+ 0.00 outchoke
+ 0.08 totalchoke
+ 120.15 kbps rate
+ 134.54 pps rate
+<11:08:18>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:08:18>
+Angles:
+ angles0: x 41.843955 y 22.933553
+ angles1: x 14.479381 y 26.308120
+ angles2: x 41.843955 y 22.933553
+ angles3: x 41.843955 y 22.933553
+ angles4: x 41.843955 y 22.933553
+<11:08:18>
+Client eye positions:
+ eyepos 0: x -1207.405 y -1377.776 z 324.031
+ eyepos 1: x -1207.405 y -1377.776 z 324.031
+<11:08:18>
+Previous cmdnums:
+0 58484
+1 58483
+2 58482
+3 58481
+4 58480
+<11:08:18>
+Previous tickcounts:
+0 78665
+1 78664
+2 78663
+3 78662
+4 78661
+<11:08:18>
+Current server tick:
+78672
+<11:08:18>
+Mouse Movement (sens weighted):
+ abs(x): 2088
+ abs(y): 6498
+Mouse Movement (unweighted):
+ x: -6263
+ y: 19495
+Client Sens:
+ 3.000000
+<11:08:18>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:08:19>
+
+----------
+
+            [StAC] SilentAim detection of 27.21° on АБАРИГЕН.
+Detections so far: 5 norecoil = no
+<11:08:19>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:08:19>
+Network:
+ 95.14 ms ping
+ 0.00 loss
+ 0.93 inchoke
+ 0.00 outchoke
+ 0.93 totalchoke
+ 117.30 kbps rate
+ 134.19 pps rate
+<11:08:19>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:08:19>
+Angles:
+ angles0: x 41.513957 y 23.197553
+ angles1: x 14.479381 y 26.308120
+ angles2: x 41.513957 y 23.197553
+ angles3: x 41.513957 y 23.197553
+ angles4: x 41.513957 y 23.197553
+<11:08:19>
+Client eye positions:
+ eyepos 0: x -1207.405 y -1377.776 z 324.031
+ eyepos 1: x -1207.405 y -1377.776 z 324.031
+<11:08:19>
+Previous cmdnums:
+0 58538
+1 58537
+2 58536
+3 58535
+4 58534
+<11:08:19>
+Previous tickcounts:
+0 78719
+1 78718
+2 78717
+3 78716
+4 78715
+<11:08:19>
+Current server tick:
+78726
+<11:08:19>
+Mouse Movement (sens weighted):
+ abs(x): 2020
+ abs(y): 6498
+Mouse Movement (unweighted):
+ x: -6061
+ y: 19495
+Client Sens:
+ 3.000000
+<11:08:19>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:08:19> Demo file: auto-20250307-1048-ctf_2fort.dem. Demo tick: 78659
+<11:08:20>
+
+----------
+
+            [StAC] SilentAim detection of 27.29° on АБАРИГЕН.
+Detections so far: 6 norecoil = no
+<11:08:20>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:08:20>
+Network:
+ 94.02 ms ping
+ 0.00 loss
+ 1.51 inchoke
+ 0.00 outchoke
+ 1.51 totalchoke
+ 115.07 kbps rate
+ 133.53 pps rate
+<11:08:20>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:08:20>
+Angles:
+ angles0: x 41.579959 y 23.065553
+ angles1: x 14.479381 y 26.308120
+ angles2: x 41.579959 y 23.065553
+ angles3: x 41.579959 y 23.065553
+ angles4: x 41.579959 y 23.065553
+<11:08:20>
+Client eye positions:
+ eyepos 0: x -1207.405 y -1377.776 z 324.031
+ eyepos 1: x -1207.405 y -1377.776 z 324.031
+<11:08:20>
+Previous cmdnums:
+0 58592
+1 58591
+2 58590
+3 58589
+4 58588
+<11:08:20>
+Previous tickcounts:
+0 78773
+1 78772
+2 78771
+3 78770
+4 78769
+<11:08:20>
+Current server tick:
+78780
+<11:08:20>
+Mouse Movement (sens weighted):
+ abs(x): 1953
+ abs(y): 6498
+Mouse Movement (unweighted):
+ x: -5858
+ y: 19495
+Client Sens:
+ 3.000000
+<11:08:20>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:08:21>
+
+----------
+
+            [StAC] SilentAim detection of 26.58° on АБАРИГЕН.
+Detections so far: 7 norecoil = no
+<11:08:21>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:08:21>
+Network:
+ 94.78 ms ping
+ 0.00 loss
+ 1.76 inchoke
+ 0.00 outchoke
+ 1.76 totalchoke
+ 115.18 kbps rate
+ 133.77 pps rate
+<11:08:21>
+More network:
+ Approx client cmdrate: ≈68 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:08:21>
+Angles:
+ angles0: x 40.985946 y 24.319553
+ angles1: x 14.479381 y 26.308120
+ angles2: x 40.985946 y 24.319553
+ angles3: x 40.985946 y 24.319553
+ angles4: x 40.985946 y 24.253553
+<11:08:21>
+Client eye positions:
+ eyepos 0: x -1207.405 y -1377.776 z 324.031
+ eyepos 1: x -1207.405 y -1377.776 z 324.031
+<11:08:21>
+Previous cmdnums:
+0 58646
+1 58645
+2 58644
+3 58643
+4 58642
+<11:08:21>
+Previous tickcounts:
+0 78827
+1 78826
+2 78825
+3 78824
+4 78823
+<11:08:21>
+Current server tick:
+78834
+<11:08:21>
+Mouse Movement (sens weighted):
+ abs(x): 1885
+ abs(y): 6498
+Mouse Movement (unweighted):
+ x: -5656
+ y: 19495
+Client Sens:
+ 3.000000
+<11:08:21>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:08:21>
+
+----------
+
+            [StAC] SilentAim detection of 26.28° on АБАРИГЕН.
+Detections so far: 8 norecoil = no
+<11:08:21>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:08:21>
+Network:
+ 96.81 ms ping
+ 0.00 loss
+ 1.79 inchoke
+ 0.00 outchoke
+ 1.79 totalchoke
+ 114.18 kbps rate
+ 133.39 pps rate
+<11:08:21>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:08:21>
+Angles:
+ angles0: x 40.721942 y 24.781553
+ angles1: x 14.479381 y 26.308120
+ angles2: x 40.721942 y 24.781553
+ angles3: x 40.721942 y 24.781553
+ angles4: x 40.721942 y 24.781553
+<11:08:21>
+Client eye positions:
+ eyepos 0: x -1207.405 y -1377.776 z 324.031
+ eyepos 1: x -1207.405 y -1377.776 z 324.031
+<11:08:21>
+Previous cmdnums:
+0 58700
+1 58699
+2 58698
+3 58697
+4 58696
+<11:08:21>
+Previous tickcounts:
+0 78881
+1 78880
+2 78879
+3 78878
+4 78877
+<11:08:21>
+Current server tick:
+78888
+<11:08:21>
+Mouse Movement (sens weighted):
+ abs(x): 1818
+ abs(y): 6498
+Mouse Movement (unweighted):
+ x: -5453
+ y: 19495
+Client Sens:
+ 3.000000
+<11:08:21>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:08:23>
+
+----------
+
+            [StAC] SilentAim detection of 24.52° on АБАРИГЕН.
+Detections so far: 9 norecoil = no
+<11:08:23>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:08:23>
+Network:
+ 94.07 ms ping
+ 0.00 loss
+ 1.60 inchoke
+ 0.00 outchoke
+ 1.60 totalchoke
+ 111.20 kbps rate
+ 133.70 pps rate
+<11:08:23>
+More network:
+ Approx client cmdrate: ≈68 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:08:23>
+Angles:
+ angles0: x 39.005928 y 26.563554
+ angles1: x 14.479381 y 26.308120
+ angles2: x 39.005928 y 26.563554
+ angles3: x 39.005928 y 26.563554
+ angles4: x 39.005928 y 26.563554
+<11:08:23>
+Client eye positions:
+ eyepos 0: x -1207.405 y -1377.776 z 324.031
+ eyepos 1: x -1207.405 y -1377.776 z 324.031
+<11:08:23>
+Previous cmdnums:
+0 58808
+1 58807
+2 58806
+3 58805
+4 58804
+<11:08:23>
+Previous tickcounts:
+0 78989
+1 78988
+2 78987
+3 78986
+4 78985
+<11:08:23>
+Current server tick:
+78996
+<11:08:23>
+Mouse Movement (sens weighted):
+ abs(x): 1683
+ abs(y): 6498
+Mouse Movement (unweighted):
+ x: -5048
+ y: 19495
+Client Sens:
+ 3.000000
+<11:08:23>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:08:24>
+
+----------
+
+            [StAC] SilentAim detection of 25.32° on АБАРИГЕН.
+Detections so far: 10 norecoil = no
+<11:08:24>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:08:24>
+Network:
+ 94.56 ms ping
+ 0.00 loss
+ 1.79 inchoke
+ 0.00 outchoke
+ 1.79 totalchoke
+ 114.33 kbps rate
+ 133.88 pps rate
+<11:08:24>
+More network:
+ Approx client cmdrate: ≈68 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:08:24>
+Angles:
+ angles0: x 39.797935 y 26.761554
+ angles1: x 14.479381 y 26.308120
+ angles2: x 39.797935 y 26.761554
+ angles3: x 39.797935 y 26.761554
+ angles4: x 39.797935 y 26.761554
+<11:08:24>
+Client eye positions:
+ eyepos 0: x -1207.405 y -1377.776 z 324.031
+ eyepos 1: x -1207.405 y -1377.776 z 324.031
+<11:08:24>
+Previous cmdnums:
+0 58862
+1 58861
+2 58860
+3 58859
+4 58858
+<11:08:24>
+Previous tickcounts:
+0 79043
+1 79042
+2 79041
+3 79040
+4 79039
+<11:08:24>
+Current server tick:
+79050
+<11:08:24>
+Mouse Movement (sens weighted):
+ abs(x): 1615
+ abs(y): 6498
+Mouse Movement (unweighted):
+ x: -4846
+ y: 19495
+Client Sens:
+ 3.000000
+<11:08:24>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:08:24> Demo file: auto-20250307-1048-ctf_2fort.dem. Demo tick: 78983
+<11:08:25>
+
+----------
+
+            [StAC] SilentAim detection of 18.46° on АБАРИГЕН.
+Detections so far: 11 norecoil = no
+<11:08:25>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:08:25>
+Network:
+ 94.63 ms ping
+ 0.00 loss
+ 1.88 inchoke
+ 0.90 outchoke
+ 2.78 totalchoke
+ 114.39 kbps rate
+ 133.10 pps rate
+<11:08:25>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:08:25>
+Angles:
+ angles0: x 32.801918 y 28.609554
+ angles1: x 14.479381 y 26.308120
+ angles2: x 32.801918 y 28.609554
+ angles3: x 32.801918 y 28.609554
+ angles4: x 32.801918 y 28.609554
+<11:08:25>
+Client eye positions:
+ eyepos 0: x -1207.405 y -1377.776 z 324.031
+ eyepos 1: x -1207.405 y -1377.776 z 324.031
+<11:08:25>
+Previous cmdnums:
+0 58916
+1 58915
+2 58914
+3 58913
+4 58912
+<11:08:25>
+Previous tickcounts:
+0 79097
+1 79096
+2 79095
+3 79094
+4 79093
+<11:08:25>
+Current server tick:
+79104
+<11:08:25>
+Mouse Movement (sens weighted):
+ abs(x): 1548
+ abs(y): 6498
+Mouse Movement (unweighted):
+ x: -4643
+ y: 19495
+Client Sens:
+ 3.000000
+<11:08:25>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:08:26>
+
+----------
+
+            [StAC] SilentAim detection of 30.13° on АБАРИГЕН.
+Detections so far: 12 norecoil = no
+<11:08:26>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:08:26>
+Network:
+ 94.62 ms ping
+ 0.00 loss
+ 1.93 inchoke
+ 0.25 outchoke
+ 2.18 totalchoke
+ 108.54 kbps rate
+ 133.28 pps rate
+<11:08:26>
+More network:
+ Approx client cmdrate: ≈68 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:08:26>
+Angles:
+ angles0: x 44.483955 y 29.071554
+ angles1: x 14.479381 y 26.308120
+ angles2: x 44.483955 y 29.071554
+ angles3: x 44.483955 y 29.071554
+ angles4: x 44.483955 y 29.071554
+<11:08:26>
+Client eye positions:
+ eyepos 0: x -1207.405 y -1377.776 z 324.031
+ eyepos 1: x -1207.405 y -1377.776 z 324.031
+<11:08:26>
+Previous cmdnums:
+0 59024
+1 59023
+2 59022
+3 59021
+4 59020
+<11:08:26>
+Previous tickcounts:
+0 79205
+1 79204
+2 79203
+3 79202
+4 79201
+<11:08:26>
+Current server tick:
+79212
+<11:08:26>
+Mouse Movement (sens weighted):
+ abs(x): 1413
+ abs(y): 6498
+Mouse Movement (unweighted):
+ x: -4238
+ y: 19495
+Client Sens:
+ 3.000000
+<11:08:26>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:08:27>
+
+----------
+
+            [StAC] SilentAim detection of 12.93° on АБАРИГЕН.
+Detections so far: 13 norecoil = no
+<11:08:27>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:08:27>
+Network:
+ 96.01 ms ping
+ 0.00 loss
+ 1.71 inchoke
+ 0.10 outchoke
+ 1.82 totalchoke
+ 114.63 kbps rate
+ 133.93 pps rate
+<11:08:27>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:08:27>
+Angles:
+ angles0: x 42.173957 y 24.121555
+ angles1: x 29.422178 y 26.308120
+ angles2: x 42.173957 y 24.121555
+ angles3: x 42.173957 y 24.121555
+ angles4: x 42.173957 y 24.121555
+<11:08:27>
+Client eye positions:
+ eyepos 0: x -1207.405 y -1377.776 z 339.571
+ eyepos 1: x -1207.405 y -1377.776 z 335.956
+<11:08:27>
+Previous cmdnums:
+0 59078
+1 59077
+2 59076
+3 59075
+4 59074
+<11:08:27>
+Previous tickcounts:
+0 79259
+1 79258
+2 79257
+3 79256
+4 79255
+<11:08:27>
+Current server tick:
+79266
+<11:08:27>
+Mouse Movement (sens weighted):
+ abs(x): 1345
+ abs(y): 6498
+Mouse Movement (unweighted):
+ x: -4036
+ y: 19495
+Client Sens:
+ 3.000000
+<11:08:27>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 3
+1 3
+2 3
+3 3
+4 3
+<11:08:40>
+
+----------
+
+            [StAC] SilentAim detection of 21.23° on АБАРИГЕН.
+Detections so far: 14 norecoil = no
+<11:08:40>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:08:40>
+Network:
+ 96.17 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.00 outchoke
+ 0.00 totalchoke
+ 128.33 kbps rate
+ 134.60 pps rate
+<11:08:40>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:08:40>
+Angles:
+ angles0: x 35.705974 y 23.857469
+ angles1: x 14.799681 y 27.582845
+ angles2: x 35.705974 y 23.857469
+ angles3: x 35.705974 y 23.923469
+ angles4: x 35.705974 y 24.187469
+<11:08:40>
+Client eye positions:
+ eyepos 0: x -1205.876 y -1378.252 z 324.031
+ eyepos 1: x -1205.876 y -1379.772 z 324.031
+<11:08:40>
+Previous cmdnums:
+0 59925
+1 59924
+2 59923
+3 59922
+4 59921
+<11:08:40>
+Previous tickcounts:
+0 80106
+1 80105
+2 80104
+3 80103
+4 80102
+<11:08:40>
+Current server tick:
+80113
+<11:08:40>
+Mouse Movement (sens weighted):
+ abs(x): 286
+ abs(y): 6498
+Mouse Movement (unweighted):
+ x: -859
+ y: 19495
+Client Sens:
+ 3.000000
+<11:08:40>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:08:49>
+
+----------
+
+            [StAC] SilentAim detection of 24.38° on АБАРИГЕН.
+Detections so far: 15 norecoil = no
+<11:08:49>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:08:49>
+Network:
+ 94.59 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.00 outchoke
+ 0.00 totalchoke
+ 108.35 kbps rate
+ 134.77 pps rate
+<11:08:49>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:08:49>
+Angles:
+ angles0: x 40.523960 y 9.667472
+ angles1: x 16.252468 y 12.035984
+ angles2: x 40.589962 y 9.733472
+ angles3: x 40.853961 y 9.931472
+ angles4: x 41.249965 y 10.129472
+<11:08:49>
+Client eye positions:
+ eyepos 0: x -1205.876 y -1364.638 z 324.031
+ eyepos 1: x -1205.876 y -1364.638 z 324.031
+<11:08:49>
+Previous cmdnums:
+0 60539
+1 60538
+2 60537
+3 60536
+4 60535
+<11:08:49>
+Previous tickcounts:
+0 80720
+1 80719
+2 80718
+3 80717
+4 80716
+<11:08:49>
+Current server tick:
+80727
+<11:08:49>
+Mouse Movement (sens weighted):
+ abs(x): 481
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: 1443
+ y: 19496
+Client Sens:
+ 3.000000
+<11:08:49>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:08:49> Demo file: auto-20250307-1048-ctf_2fort.dem. Demo tick: 80660
+<11:08:55>
+
+----------
+
+            [StAC] SilentAim detection of 29.92° on АБАРИГЕН.
+Detections so far: 16 norecoil = no
+<11:08:55>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:08:55>
+Network:
+ 95.91 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.00 outchoke
+ 0.00 totalchoke
+ 105.91 kbps rate
+ 134.80 pps rate
+<11:08:55>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:08:55>
+Angles:
+ angles0: x 31.217918 y 1.777513
+ angles1: x 2.031113 y 8.365197
+ angles2: x 31.217918 y 1.777513
+ angles3: x 31.217918 y 1.777513
+ angles4: x 31.217918 y 1.777513
+<11:08:55>
+Client eye positions:
+ eyepos 0: x -1178.783 y -1486.061 z 324.031
+ eyepos 1: x -1178.842 y -1485.668 z 324.031
+<11:08:55>
+Previous cmdnums:
+0 60958
+1 60957
+2 60956
+3 60955
+4 60954
+<11:08:55>
+Previous tickcounts:
+0 81139
+1 81138
+2 81137
+3 81136
+4 81135
+<11:08:55>
+Current server tick:
+81146
+<11:08:55>
+Mouse Movement (sens weighted):
+ abs(x): 1005
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: 3014
+ y: 19496
+Client Sens:
+ 3.000000
+<11:08:55>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:08:56>
+
+----------
+
+            [StAC] SilentAim detection of 30.06° on АБАРИГЕН.
+Detections so far: 17 norecoil = no
+<11:08:56>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:08:56>
+Network:
+ 94.01 ms ping
+ 0.00 loss
+ 0.90 inchoke
+ 0.00 outchoke
+ 0.90 totalchoke
+ 113.78 kbps rate
+ 133.94 pps rate
+<11:08:56>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:08:56>
+Angles:
+ angles0: x 31.349918 y 2.371513
+ angles1: x 2.031071 y 9.024604
+ angles2: x 31.349918 y 2.371513
+ angles3: x 31.349918 y 2.371513
+ angles4: x 31.349918 y 2.371513
+<11:08:56>
+Client eye positions:
+ eyepos 0: x -1178.680 y -1486.743 z 324.031
+ eyepos 1: x -1178.680 y -1486.743 z 324.031
+<11:08:56>
+Previous cmdnums:
+0 61012
+1 61011
+2 61010
+3 61009
+4 61008
+<11:08:56>
+Previous tickcounts:
+0 81193
+1 81192
+2 81191
+3 81190
+4 81189
+<11:08:56>
+Current server tick:
+81200
+<11:08:56>
+Mouse Movement (sens weighted):
+ abs(x): 1072
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: 3217
+ y: 19496
+Client Sens:
+ 3.000000
+<11:08:56>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:08:57>
+
+----------
+
+            [StAC] SilentAim detection of 30.06° on АБАРИГЕН.
+Detections so far: 18 norecoil = no
+<11:08:57>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:08:57>
+Network:
+ 93.02 ms ping
+ 0.00 loss
+ 1.51 inchoke
+ 0.00 outchoke
+ 1.51 totalchoke
+ 110.79 kbps rate
+ 133.62 pps rate
+<11:08:57>
+More network:
+ Approx client cmdrate: ≈68 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:08:57>
+Angles:
+ angles0: x 31.349918 y 2.371513
+ angles1: x 2.031071 y 9.024604
+ angles2: x 31.349918 y 2.371513
+ angles3: x 31.349918 y 2.371513
+ angles4: x 31.349918 y 2.371513
+<11:08:57>
+Client eye positions:
+ eyepos 0: x -1178.680 y -1486.743 z 324.031
+ eyepos 1: x -1178.680 y -1486.743 z 324.031
+<11:08:57>
+Previous cmdnums:
+0 61066
+1 61065
+2 61064
+3 61063
+4 61062
+<11:08:57>
+Previous tickcounts:
+0 81247
+1 81246
+2 81245
+3 81244
+4 81243
+<11:08:57>
+Current server tick:
+81254
+<11:08:57>
+Mouse Movement (sens weighted):
+ abs(x): 1140
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: 3419
+ y: 19496
+Client Sens:
+ 3.000000
+<11:08:57>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:08:58>
+
+----------
+
+            [StAC] SilentAim detection of 30.06° on АБАРИГЕН.
+Detections so far: 19 norecoil = no
+<11:08:58>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:08:58>
+Network:
+ 94.15 ms ping
+ 0.00 loss
+ 1.54 inchoke
+ 0.00 outchoke
+ 1.54 totalchoke
+ 108.67 kbps rate
+ 133.71 pps rate
+<11:08:58>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:08:58>
+Angles:
+ angles0: x 31.349918 y 2.371513
+ angles1: x 2.031071 y 9.024604
+ angles2: x 31.349918 y 2.371513
+ angles3: x 31.349918 y 2.371513
+ angles4: x 31.349918 y 2.371513
+<11:08:58>
+Client eye positions:
+ eyepos 0: x -1178.680 y -1486.743 z 324.031
+ eyepos 1: x -1178.680 y -1486.743 z 324.031
+<11:08:58>
+Previous cmdnums:
+0 61120
+1 61119
+2 61118
+3 61117
+4 61116
+<11:08:58>
+Previous tickcounts:
+0 81301
+1 81300
+2 81299
+3 81298
+4 81297
+<11:08:58>
+Current server tick:
+81308
+<11:08:58>
+Mouse Movement (sens weighted):
+ abs(x): 1207
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: 3622
+ y: 19496
+Client Sens:
+ 3.000000
+<11:08:58>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:09:15>
+
+----------
+
+            [StAC] SilentAim detection of 22.20° on АБАРИГЕН.
+Detections so far: 20 norecoil = no
+<11:09:15>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:09:15>
+Network:
+ 93.74 ms ping
+ 0.00 loss
+ 0.04 inchoke
+ 0.00 outchoke
+ 0.04 totalchoke
+ 109.39 kbps rate
+ 134.70 pps rate
+<11:09:15>
+More network:
+ Approx client cmdrate: ≈68 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:09:15>
+Angles:
+ angles0: x 23.165933 y -28.912498
+ angles1: x 1.436455 y -24.324007
+ angles2: x 23.165933 y -28.912498
+ angles3: x 23.165933 y -28.912498
+ angles4: x 23.165933 y -28.912498
+<11:09:15>
+Client eye positions:
+ eyepos 0: x -1196.721 y -1442.437 z 324.031
+ eyepos 1: x -1200.042 y -1440.251 z 324.031
+<11:09:15>
+Previous cmdnums:
+0 62299
+1 62298
+2 62297
+3 62296
+4 62295
+<11:09:15>
+Previous tickcounts:
+0 82480
+1 82479
+2 82478
+3 82477
+4 82476
+<11:09:15>
+Current server tick:
+82487
+<11:09:15>
+Mouse Movement (sens weighted):
+ abs(x): 2681
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: 8043
+ y: 19496
+Client Sens:
+ 3.000000
+<11:09:15>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 9
+4 9
+<11:09:15> Demo file: auto-20250307-1048-ctf_2fort.dem. Demo tick: 82420
+<11:09:35>
+
+----------
+
+            [StAC] SilentAim detection of 34.92° on АБАРИГЕН.
+Detections so far: 21 norecoil = no
+<11:09:35>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:09:35>
+Network:
+ 96.32 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.00 outchoke
+ 0.00 totalchoke
+ 109.32 kbps rate
+ 134.96 pps rate
+<11:09:35>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:09:35>
+Angles:
+ angles0: x 36.761985 y -11.884477
+ angles1: x 2.324865 y -6.076309
+ angles2: x 36.761985 y -11.884477
+ angles3: x 36.761985 y -11.884477
+ angles4: x 36.761985 y -11.884477
+<11:09:35>
+Client eye positions:
+ eyepos 0: x -1171.548 y -1471.803 z 324.031
+ eyepos 1: x -1171.548 y -1471.803 z 324.031
+<11:09:35>
+Previous cmdnums:
+0 63587
+1 63586
+2 63585
+3 63584
+4 63583
+<11:09:35>
+Previous tickcounts:
+0 83768
+1 83767
+2 83766
+3 83765
+4 83764
+<11:09:35>
+Current server tick:
+83775
+<11:09:35>
+Mouse Movement (sens weighted):
+ abs(x): 4291
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: 12873
+ y: 19496
+Client Sens:
+ 3.000000
+<11:09:35>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:09:47>
+
+----------
+
+            [StAC] SilentAim detection of 34.54° on АБАРИГЕН.
+Detections so far: 22 norecoil = no
+<11:09:47>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:09:47>
+Network:
+ 97.26 ms ping
+ 0.00 loss
+ 1.35 inchoke
+ 0.00 outchoke
+ 1.35 totalchoke
+ 138.10 kbps rate
+ 133.92 pps rate
+<11:09:47>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:09:47>
+Angles:
+ angles0: x 34.517963 y 88.831741
+ angles1: x 0.000000 y 87.595527
+ angles2: x 34.517963 y 88.831741
+ angles3: x 34.451961 y 88.897743
+ angles4: x 34.451961 y 88.897743
+<11:09:47>
+Client eye positions:
+ eyepos 0: x -11.005 y -302.475 z 77.088
+ eyepos 1: x -11.005 y -302.475 z 77.088
+<11:09:47>
+Previous cmdnums:
+0 64413
+1 64412
+2 64411
+3 64410
+4 64409
+<11:09:47>
+Previous tickcounts:
+0 84594
+1 84593
+2 84592
+3 84591
+4 84590
+<11:09:47>
+Current server tick:
+84601
+<11:09:47>
+Mouse Movement (sens weighted):
+ abs(x): 5324
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: 15971
+ y: 19496
+Client Sens:
+ 3.000000
+<11:09:47>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:10:41>
+
+----------
+
+            [StAC] SilentAim detection of 6.27° on АБАРИГЕН.
+Detections so far: 23 norecoil = no
+<11:10:41>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:10:41>
+Network:
+ 95.23 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.00 outchoke
+ 0.00 totalchoke
+ 128.74 kbps rate
+ 134.55 pps rate
+<11:10:41>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:10:41>
+Angles:
+ angles0: x 6.534006 y 82.084312
+ angles1: x 0.261663 y 82.393249
+ angles2: x 6.534006 y 82.084312
+ angles3: x 6.534006 y 82.084312
+ angles4: x 6.534006 y 82.084312
+<11:10:41>
+Client eye positions:
+ eyepos 0: x -249.972 y -996.433 z 324.031
+ eyepos 1: x -249.972 y -996.433 z 324.031
+<11:10:41>
+Previous cmdnums:
+0 67975
+1 67974
+2 67973
+3 67972
+4 67971
+<11:10:41>
+Previous tickcounts:
+0 88156
+1 88157
+2 88154
+3 88153
+4 88152
+<11:10:41>
+Current server tick:
+88163
+<11:10:41>
+Mouse Movement (sens weighted):
+ abs(x): 9776
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: 29328
+ y: 19496
+Client Sens:
+ 3.000000
+<11:10:41>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 0
+3 0
+4 0
+<11:10:42>
+
+----------
+
+            [StAC] SilentAim detection of 6.32° on АБАРИГЕН.
+Detections so far: 24 norecoil = no
+<11:10:42>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:10:42>
+Network:
+ 94.18 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.00 outchoke
+ 0.00 totalchoke
+ 135.60 kbps rate
+ 135.01 pps rate
+<11:10:42>
+More network:
+ Approx client cmdrate: ≈68 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:10:42>
+Angles:
+ angles0: x 7.062005 y 80.500282
+ angles1: x 0.770376 y 79.898254
+ angles2: x 7.062005 y 80.500282
+ angles3: x 7.062005 y 80.500282
+ angles4: x 7.062005 y 80.500282
+<11:10:42>
+Client eye positions:
+ eyepos 0: x -335.448 y -985.586 z 324.031
+ eyepos 1: x -339.900 y -986.242 z 324.031
+<11:10:42>
+Previous cmdnums:
+0 68094
+1 68093
+2 68092
+3 68091
+4 68090
+<11:10:42>
+Previous tickcounts:
+0 88275
+1 88275
+2 88273
+3 88272
+4 88271
+<11:10:42>
+Current server tick:
+88282
+<11:10:42>
+Mouse Movement (sens weighted):
+ abs(x): 9925
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: 29774
+ y: 19496
+Client Sens:
+ 3.000000
+<11:10:42>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1025
+1 1025
+2 1024
+3 1024
+4 1024
+<11:10:43>
+
+----------
+
+            [StAC] SilentAim detection of 7.70° on АБАРИГЕН.
+Detections so far: 25 norecoil = no
+<11:10:43>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:10:43>
+Network:
+ 93.57 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.00 outchoke
+ 0.00 totalchoke
+ 139.52 kbps rate
+ 134.77 pps rate
+<11:10:43>
+More network:
+ Approx client cmdrate: ≈68 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:10:43>
+Angles:
+ angles0: x 7.062005 y 80.500282
+ angles1: x 0.067302 y 83.736785
+ angles2: x 7.062005 y 80.500282
+ angles3: x 7.062005 y 80.500282
+ angles4: x 7.062005 y 80.500282
+<11:10:43>
+Client eye positions:
+ eyepos 0: x -254.289 y -982.208 z 324.031
+ eyepos 1: x -254.289 y -982.208 z 324.031
+<11:10:43>
+Previous cmdnums:
+0 68137
+1 68136
+2 68135
+3 68134
+4 68133
+<11:10:43>
+Previous tickcounts:
+0 88318
+1 88320
+2 88316
+3 88315
+4 88314
+<11:10:43>
+Current server tick:
+88325
+<11:10:43>
+Mouse Movement (sens weighted):
+ abs(x): 9979
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: 29936
+ y: 19496
+Client Sens:
+ 3.000000
+<11:10:43>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 0
+3 1
+4 1
+<11:10:43> Demo file: auto-20250307-1048-ctf_2fort.dem. Demo tick: 88258
+<11:11:41>
+
+----------
+
+            [StAC] SilentAim detection of 4.26° on АБАРИГЕН.
+Detections so far: 26 norecoil = no
+<11:11:41>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:11:41>
+Network:
+ 98.98 ms ping
+ 0.00 loss
+ 0.35 inchoke
+ 0.00 outchoke
+ 0.35 totalchoke
+ 153.24 kbps rate
+ 134.55 pps rate
+<11:11:41>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:11:41>
+Angles:
+ angles0: x -1.847998 y 68.307922
+ angles1: x -1.230651 y 72.529388
+ angles2: x -1.847998 y 68.307922
+ angles3: x -1.451998 y 68.175918
+ angles4: x -1.055999 y 67.515914
+<11:11:41>
+Client eye positions:
+ eyepos 0: x -288.389 y -676.983 z 72.390
+ eyepos 1: x -292.120 y -674.466 z 72.441
+<11:11:41>
+Previous cmdnums:
+0 71981
+1 71980
+2 71979
+3 71978
+4 71977
+<11:11:41>
+Previous tickcounts:
+0 92162
+1 92161
+2 92160
+3 92159
+4 92158
+<11:11:41>
+Current server tick:
+92169
+<11:11:41>
+Mouse Movement (sens weighted):
+ abs(x): 7062
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: -21185
+ y: 19496
+Client Sens:
+ 3.000000
+<11:11:41>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1025
+1 1025
+2 1025
+3 1025
+4 1025
+<11:11:47>
+
+----------
+
+            [StAC] SilentAim detection of 9.05° on АБАРИГЕН.
+Detections so far: 27 norecoil = no
+<11:11:47>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:11:47>
+Network:
+ 98.89 ms ping
+ 0.00 loss
+ 0.37 inchoke
+ 0.00 outchoke
+ 0.37 totalchoke
+ 130.73 kbps rate
+ 134.74 pps rate
+<11:11:47>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:11:47>
+Angles:
+ angles0: x -0.725998 y 91.606010
+ angles1: x -0.133666 y 82.572700
+ angles2: x -0.725998 y 91.606010
+ angles3: x -0.593999 y 91.474006
+ angles4: x -0.197999 y 91.210006
+<11:11:47>
+Client eye positions:
+ eyepos 0: x -357.882 y -783.439 z 99.596
+ eyepos 1: x -358.336 y -783.316 z 102.821
+<11:11:47>
+Previous cmdnums:
+0 72388
+1 72387
+2 72386
+3 72385
+4 72384
+<11:11:47>
+Previous tickcounts:
+0 92569
+1 92568
+2 92567
+3 92566
+4 92565
+<11:11:47>
+Current server tick:
+92576
+<11:11:47>
+Mouse Movement (sens weighted):
+ abs(x): 6553
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: -19659
+ y: 19496
+Client Sens:
+ 3.000000
+<11:11:47>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1025
+1 1025
+2 1025
+3 1025
+4 1025
+<11:12:27>
+
+----------
+
+            [StAC] SilentAim detection of 1.56° on АБАРИГЕН.
+Detections so far: 28 norecoil = yes
+<11:12:27>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:12:27>
+Network:
+ 99.85 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 0.00 outchoke
+ 0.00 totalchoke
+ 156.40 kbps rate
+ 134.68 pps rate
+<11:12:27>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:12:27>
+Angles:
+ angles0: x 1.650003 y 33.355144
+ angles1: x 1.476377 y 31.796266
+ angles2: x 1.650003 y 33.355144
+ angles3: x 1.386003 y 33.157142
+ angles4: x 0.792003 y 32.827140
+<11:12:27>
+Client eye positions:
+ eyepos 0: x -226.716 y 418.826 z 59.271
+ eyepos 1: x -224.296 y 418.213 z 63.411
+<11:12:27>
+Previous cmdnums:
+0 75045
+1 75044
+2 75043
+3 75042
+4 75041
+<11:12:27>
+Previous tickcounts:
+0 95226
+1 95226
+2 95224
+3 95223
+4 95222
+<11:12:27>
+Current server tick:
+95233
+<11:12:27>
+Mouse Movement (sens weighted):
+ abs(x): 3232
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: -9695
+ y: 19496
+Client Sens:
+ 3.000000
+<11:12:27>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 531
+1 529
+2 529
+3 529
+4 529
+<11:13:04>
+
+----------
+
+            [StAC] SilentAim detection of 2.65° on АБАРИГЕН.
+Detections so far: 29 norecoil = yes
+<11:13:04>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:13:04>
+Network:
+ 94.81 ms ping
+ 0.00 loss
+ 0.10 inchoke
+ 0.00 outchoke
+ 0.10 totalchoke
+ 144.95 kbps rate
+ 134.88 pps rate
+<11:13:04>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:13:04>
+Angles:
+ angles0: x 1.914001 y -128.344787
+ angles1: x 1.700930 y -130.990875
+ angles2: x 1.914001 y -128.344787
+ angles3: x 1.914001 y -128.344787
+ angles4: x 1.914001 y -128.344787
+<11:13:04>
+Client eye positions:
+ eyepos 0: x 469.467 y 736.378 z 80.599
+ eyepos 1: x 469.467 y 736.378 z 80.599
+<11:13:04>
+Previous cmdnums:
+0 77536
+1 77535
+2 77534
+3 77533
+4 77532
+<11:13:04>
+Previous tickcounts:
+0 97717
+1 97717
+2 97715
+3 97714
+4 97713
+<11:13:04>
+Current server tick:
+97724
+<11:13:04>
+Mouse Movement (sens weighted):
+ abs(x): 118
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: -354
+ y: 19496
+Client Sens:
+ 3.000000
+<11:13:04>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:13:04>
+
+----------
+
+            [StAC] SilentAim detection of 3.01° on АБАРИГЕН.
+Detections so far: 30 norecoil = no
+<11:13:04>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:13:04>
+Network:
+ 97.11 ms ping
+ 0.00 loss
+ 0.06 inchoke
+ 0.00 outchoke
+ 0.06 totalchoke
+ 150.98 kbps rate
+ 134.77 pps rate
+<11:13:04>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:13:04>
+Angles:
+ angles0: x 2.508001 y -125.440765
+ angles1: x 2.714020 y -128.453186
+ angles2: x 2.442001 y -125.374763
+ angles3: x 2.442001 y -125.374763
+ angles4: x 2.442001 y -125.374763
+<11:13:04>
+Client eye positions:
+ eyepos 0: x 469.467 y 736.378 z 80.599
+ eyepos 1: x 469.467 y 736.378 z 80.599
+<11:13:04>
+Previous cmdnums:
+0 77560
+1 77559
+2 77558
+3 77557
+4 77556
+<11:13:04>
+Previous tickcounts:
+0 97741
+1 97741
+2 97739
+3 97738
+4 97737
+<11:13:04>
+Current server tick:
+97748
+<11:13:04>
+Mouse Movement (sens weighted):
+ abs(x): 88
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: -264
+ y: 19496
+Client Sens:
+ 3.000000
+<11:13:04>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:13:04> Demo file: auto-20250307-1048-ctf_2fort.dem. Demo tick: 97681
+<11:13:05>
+
+----------
+
+            [StAC] SilentAim detection of 1.23° on АБАРИГЕН.
+Detections so far: 31 norecoil = yes
+<11:13:05>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:13:05>
+Network:
+ 96.24 ms ping
+ 0.00 loss
+ 0.04 inchoke
+ 0.39 outchoke
+ 0.43 totalchoke
+ 154.17 kbps rate
+ 134.39 pps rate
+<11:13:05>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:13:05>
+Angles:
+ angles0: x 2.508001 y -130.720748
+ angles1: x 2.668561 y -131.949707
+ angles2: x 2.508001 y -130.654754
+ angles3: x 2.508001 y -130.654754
+ angles4: x 2.640001 y -130.522766
+<11:13:05>
+Client eye positions:
+ eyepos 0: x 469.467 y 736.378 z 80.599
+ eyepos 1: x 469.467 y 736.378 z 80.599
+<11:13:05>
+Previous cmdnums:
+0 77584
+1 77583
+2 77582
+3 77581
+4 77580
+<11:13:05>
+Previous tickcounts:
+0 97765
+1 97766
+2 97763
+3 97762
+4 97761
+<11:13:05>
+Current server tick:
+97772
+<11:13:05>
+Mouse Movement (sens weighted):
+ abs(x): 58
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: -174
+ y: 19496
+Client Sens:
+ 3.000000
+<11:13:05>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1
+1 1
+2 1
+3 1
+4 1
+<11:15:26>
+
+----------
+
+            [StAC] SilentAim detection of 18.22° on АБАРИГЕН.
+Detections so far: 32 norecoil = no
+<11:15:26>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:15:26>
+Network:
+ 102.38 ms ping
+ 0.00 loss
+ 0.90 inchoke
+ 0.00 outchoke
+ 0.90 totalchoke
+ 121.18 kbps rate
+ 134.13 pps rate
+<11:15:26>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:15:26>
+Angles:
+ angles0: x 15.510000 y 83.495040
+ angles1: x 0.000000 y 73.916145
+ angles2: x 15.510000 y 83.495040
+ angles3: x 15.510000 y 83.495040
+ angles4: x 15.510000 y 83.495040
+<11:15:26>
+Client eye positions:
+ eyepos 0: x 38.762 y 445.161 z 77.528
+ eyepos 1: x 39.056 y 447.738 z 77.528
+<11:15:26>
+Previous cmdnums:
+0 86992
+1 86991
+2 86990
+3 86989
+4 86988
+<11:15:26>
+Previous tickcounts:
+0 107173
+1 107174
+2 107171
+3 107170
+4 107169
+<11:15:26>
+Current server tick:
+107180
+<11:15:26>
+Mouse Movement (sens weighted):
+ abs(x): 10143
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: -30430
+ y: 19497
+Client Sens:
+ 3.000000
+<11:15:26>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 17
+1 17
+2 17
+3 17
+4 17
+<11:19:40>
+
+----------
+
+            [StAC] SilentAim detection of 18.97° on АБАРИГЕН.
+Detections so far: 33 norecoil = no
+<11:19:40>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:19:40>
+Network:
+ 99.55 ms ping
+ 0.00 loss
+ 0.60 inchoke
+ 0.00 outchoke
+ 0.60 totalchoke
+ 159.09 kbps rate
+ 134.18 pps rate
+<11:19:40>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:19:40>
+Angles:
+ angles0: x 17.621997 y 127.561531
+ angles1: x 5.413749 y 142.082046
+ angles2: x 17.687997 y 127.627532
+ angles3: x 17.621997 y 126.967529
+ angles4: x 6.076118 y 135.863494
+<11:19:40>
+Client eye positions:
+ eyepos 0: x 342.300 y -663.358 z 69.284
+ eyepos 1: x 337.856 y -664.068 z 69.284
+<11:19:40>
+Previous cmdnums:
+0 103970
+1 103969
+2 103968
+3 103967
+4 103966
+<11:19:40>
+Previous tickcounts:
+0 124151
+1 124150
+2 124149
+3 124148
+4 124147
+<11:19:40>
+Current server tick:
+124158
+<11:19:40>
+Mouse Movement (sens weighted):
+ abs(x): 10766
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: -32299
+ y: 19498
+Client Sens:
+ 3.000000
+<11:19:40>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1025
+1 1025
+2 1025
+3 1025
+4 1025
+<11:19:45>
+
+----------
+
+            [StAC] SilentAim detection of 12.50° on АБАРИГЕН.
+Detections so far: 34 norecoil = no
+<11:19:45>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:19:45>
+Network:
+ 99.56 ms ping
+ 0.00 loss
+ 0.34 inchoke
+ 0.01 outchoke
+ 0.35 totalchoke
+ 123.64 kbps rate
+ 134.45 pps rate
+<11:19:45>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:19:45>
+Angles:
+ angles0: x 0.660001 y 96.145599
+ angles1: x -1.125793 y 108.525459
+ angles2: x 0.660001 y 96.145599
+ angles3: x 0.660001 y 96.145599
+ angles4: x 0.660001 y 96.211601
+<11:19:45>
+Client eye positions:
+ eyepos 0: x 485.065 y -646.018 z 68.586
+ eyepos 1: x 483.239 y -650.130 z 68.586
+<11:19:45>
+Previous cmdnums:
+0 104294
+1 104293
+2 104292
+3 104291
+4 104290
+<11:19:45>
+Previous tickcounts:
+0 124475
+1 124474
+2 124473
+3 124472
+4 124471
+<11:19:45>
+Current server tick:
+124482
+<11:19:45>
+Mouse Movement (sens weighted):
+ abs(x): 10361
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: -31084
+ y: 19498
+Client Sens:
+ 3.000000
+<11:19:45>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 1033
+1 1033
+2 1033
+3 1033
+4 1033
+<11:19:49>
+
+----------
+
+            [StAC] SilentAim detection of 14.30° on АБАРИГЕН.
+Detections so far: 35 norecoil = no
+<11:19:49>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:19:49>
+Network:
+ 99.84 ms ping
+ 0.00 loss
+ 0.37 inchoke
+ 0.04 outchoke
+ 0.42 totalchoke
+ 134.79 kbps rate
+ 134.44 pps rate
+<11:19:49>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:19:49>
+Angles:
+ angles0: x 3.828001 y 98.785606
+ angles1: x -0.895935 y 85.279212
+ angles2: x 3.828001 y 98.785606
+ angles3: x 3.828001 y 98.785606
+ angles4: x 3.828001 y 98.983612
+<11:19:49>
+Client eye positions:
+ eyepos 0: x 124.852 y -546.208 z 68.037
+ eyepos 1: x 129.325 y -545.721 z 68.037
+<11:19:49>
+Previous cmdnums:
+0 104563
+1 104562
+2 104561
+3 104560
+4 104559
+<11:19:49>
+Previous tickcounts:
+0 124744
+1 124743
+2 124742
+3 124741
+4 124740
+<11:19:49>
+Current server tick:
+124751
+<11:19:49>
+Mouse Movement (sens weighted):
+ abs(x): 10025
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: -30075
+ y: 19498
+Client Sens:
+ 3.000000
+<11:19:49>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 513
+1 513
+2 513
+3 513
+4 513
+<11:19:49> Demo file: auto-20250307-1048-ctf_2fort.dem. Demo tick: 124684
+<11:20:12>
+
+----------
+
+            [StAC] SilentAim detection of 16.67° on АБАРИГЕН.
+Detections so far: 36 norecoil = no
+<11:20:12>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:20:12>
+Network:
+ 97.19 ms ping
+ 0.00 loss
+ 0.10 inchoke
+ 0.00 outchoke
+ 0.10 totalchoke
+ 153.79 kbps rate
+ 134.78 pps rate
+<11:20:12>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:20:12>
+Angles:
+ angles0: x -1.056014 y 169.837371
+ angles1: x 0.326345 y -173.482650
+ angles2: x -1.056014 y 169.837371
+ angles3: x -1.056014 y 169.837371
+ angles4: x -0.858014 y 169.639373
+<11:20:12>
+Client eye positions:
+ eyepos 0: x 481.171 y 593.673 z 71.878
+ eyepos 1: x 481.725 y 598.139 z 72.166
+<11:20:12>
+Previous cmdnums:
+0 106092
+1 106091
+2 106090
+3 106089
+4 106088
+<11:20:12>
+Previous tickcounts:
+0 126273
+1 126272
+2 126271
+3 126270
+4 126269
+<11:20:12>
+Current server tick:
+126280
+<11:20:12>
+Mouse Movement (sens weighted):
+ abs(x): 8114
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: -24341
+ y: 19498
+Client Sens:
+ 3.000000
+<11:20:12>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 513
+1 513
+2 512
+3 512
+4 512
+<11:20:31>
+
+----------
+
+            [StAC] SilentAim detection of 9.39° on АБАРИГЕН.
+Detections so far: 37 norecoil = no
+<11:20:31>
+ Player: АБАРИГЕН<5><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:20:31>
+Network:
+ 96.66 ms ping
+ 0.00 loss
+ 0.34 inchoke
+ 0.00 outchoke
+ 0.34 totalchoke
+ 133.64 kbps rate
+ 134.49 pps rate
+<11:20:31>
+More network:
+ Approx client cmdrate: ≈67 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? no
+ SequentialCmdnum? yes
+<11:20:31>
+Angles:
+ angles0: x -3.761999 y 75.238212
+ angles1: x -1.459747 y 66.126617
+ angles2: x -3.761999 y 75.238212
+ angles3: x -3.761999 y 75.238212
+ angles4: x -3.695999 y 75.172210
+<11:20:31>
+Client eye positions:
+ eyepos 0: x -127.375 y -655.416 z 70.553
+ eyepos 1: x -122.955 y -656.262 z 70.517
+<11:20:31>
+Previous cmdnums:
+0 107323
+1 107322
+2 107321
+3 107320
+4 107319
+<11:20:31>
+Previous tickcounts:
+0 127504
+1 127503
+2 127502
+3 127501
+4 127500
+<11:20:31>
+Current server tick:
+127511
+<11:20:31>
+Mouse Movement (sens weighted):
+ abs(x): 6575
+ abs(y): 6499
+Mouse Movement (unweighted):
+ x: -19725
+ y: 19498
+Client Sens:
+ 3.000000
+<11:20:31>
+Previous buttons - use https://sapphonie.github.io/flags.html to convert to readable input
+0 513
+1 513
+2 513
+3 513
+4 513
+<11:24:49>
+
+----------
+
+[StAC] [Detection] Player АБАРИГЕН is cheating - OOB cvar/netvar value -1 on var cl_cmdrate!
+<11:24:49>
+ Player: АБАРИГЕН<8><[U:1:1583593587]><>
+ StAC cached SteamID: STEAM_0:1:791796793
+<11:24:49> Demo file: auto-20250307-1048-ctf_2fort.dem. Demo tick: 144641
+
+----------
+
+[StAC] Cmdnum SPIKE of 41 on Aerial Denial System.
+Detections so far: 32.
+<20:24:04>
+ Player: Aerial Denial System<4><[U:1:1577531558]><>
+ StAC cached SteamID: STEAM_0:0:788765779
+<20:24:04>
+Network:
+ 143.65 ms ping
+ 0.00 loss
+ 0.00 inchoke
+ 3.50 outchoke
+ 3.50 totalchoke
+ 159.04 kbps rate
+ 132.74 pps rate
+<20:24:04>
+More network:
+ Approx client cmdrate: ≈68 cmd/sec
+ Approx server tickrate: ≈67 tick/sec
+ Failing lag check? yes
+ SequentialCmdnum? no
+<20:24:04>
+Previous cmdnums:
+0 3745
+1 3704
+2 3669
+3 3631
+4 3606
+<20:24:04>
+Previous tickcounts:
+0 5475
+1 5474
+2 5473
+3 5472
+4 5471
+<20:24:04>
+Current server tick:
+5485
+<20:24:04> Held weapon: tf_weapon_rocketlauncher
+<20:24:04>

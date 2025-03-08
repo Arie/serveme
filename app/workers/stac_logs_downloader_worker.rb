@@ -16,15 +16,17 @@ class StacLogsDownloaderWorker
       tmp_dir = Dir.mktmpdir
       reservation.server.copy_from_server(server_stac_logs, tmp_dir)
       insert_stac_logs(tmp_dir)
+      process_logs(tmp_dir)
       remove_server_stac_logs
     ensure
       FileUtils.remove_entry tmp_dir
     end
   end
 
-  def insert_stac_logs(tmp_dir)
-    logs = Dir.glob(File.join(tmp_dir, '*.log')).reject { |f| File.empty?(f) }
+  private
 
+  def insert_stac_logs(tmp_dir)
+    logs = find_non_empty_logs(tmp_dir)
     return if logs.empty?
 
     reservation.status_update("Found #{logs.size} non-empty STAC log(s)")
@@ -36,6 +38,17 @@ class StacLogsDownloaderWorker
       s.filesize = File.size(f)
       s.save
     end
+  end
+
+  def process_logs(tmp_dir)
+    logs = find_non_empty_logs(tmp_dir)
+    return if logs.empty?
+
+    StacLogProcessor.new(reservation).process_logs(tmp_dir)
+  end
+
+  def find_non_empty_logs(tmp_dir)
+    Dir.glob(File.join(tmp_dir, '*.log')).reject { |f| File.empty?(f) }
   end
 
   def remove_server_stac_logs

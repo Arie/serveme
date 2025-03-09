@@ -81,11 +81,7 @@ Serveme::Application.routes.draw do
     end
   end
 
-  resources :stac_logs, only: %i[index show] do
-    member do
-      post :notify
-    end
-  end
+  resources :stac_logs, only: %i[index show]
 
   resources :server_configs, except: %i[show destroy]
   resources :whitelists, except: %i[show destroy]

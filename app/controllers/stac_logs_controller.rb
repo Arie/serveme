@@ -12,11 +12,4 @@ class StacLogsController < ApplicationController
   def show
     @stac_log = StacLog.find(params[:id])
   end
-
-  def notify
-    @stac_log = StacLog.find(params[:id])
-    processor = StacLogProcessor.new(@stac_log.reservation)
-    processor.process_content(@stac_log.contents)
-    redirect_to stac_logs_path, notice: 'Discord notification sent'
-  end
 end

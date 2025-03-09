@@ -17,7 +17,8 @@ class StacDiscordNotifier
       end
 
       data.merge(detections: filtered_detections)
-    end.reject { |_, data| data[:detections].empty? }
+    end
+    filtered_detections.reject! { |_, data| data[:detections].empty? }
 
     return if filtered_detections.empty?
 

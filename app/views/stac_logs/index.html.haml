@@ -15,7 +15,6 @@
           %th Created
           %th Filename
           %th Size
-          %th Actions
       %tbody
         - @stac_logs.each do |log|
           %tr[log]
@@ -29,6 +28,3 @@
             %td
               = link_to(log) do
                 = number_to_human_size(log.filesize)
-            %td
-              = button_to 'Send to Discord', notify_stac_log_path(log), class: 'btn btn-sm btn-warning', data: { confirm: 'Are you sure?' }
-

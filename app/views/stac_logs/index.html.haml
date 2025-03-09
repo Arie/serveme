@@ -20,11 +20,11 @@
           %tr[log]
             %td= link_to(log.reservation)
             %td
-              = link_to(log) do
+              = link_to(stac_log_reservation_path(log.reservation)) do
                 = I18n.l(log.created_at, format: :short_with_dayname_and_seconds)
             %td
-              = link_to(log) do
+              = link_to(stac_log_reservation_path(log.reservation)) do
                 = log.filename
             %td
-              = link_to(log) do
+              = link_to(stac_log_reservation_path(log.reservation)) do
                 = number_to_human_size(log.filesize)

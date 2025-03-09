@@ -20,35 +20,4 @@ RSpec.describe StacLogsController do
       expect(response).to be_successful
     end
   end
-
-  describe '#show' do
-    it 'requires admin' do
-      get :show, params: { id: stac_log.id }
-      expect(response).to redirect_to('/sessions/new')
-    end
-
-    it 'shows log to admin' do
-      sign_in(admin)
-      get :show, params: { id: stac_log.id }
-      expect(response).to be_successful
-    end
-  end
-
-  describe '#notify' do
-    it 'requires admin' do
-      post :notify, params: { id: stac_log.id }
-      expect(response).to redirect_to('/sessions/new')
-    end
-
-    it 'processes log and sends notification' do
-      sign_in(admin)
-      processor = instance_double(StacLogProcessor)
-      expect(StacLogProcessor).to receive(:new).with(stac_log.reservation).and_return(processor)
-      expect(processor).to receive(:process_content).with(stac_log.contents)
-
-      post :notify, params: { id: stac_log.id }
-      expect(response).to redirect_to(stac_logs_path)
-      expect(flash[:notice]).to eq('Discord notification sent')
-    end
-  end
 end

@@ -9,6 +9,18 @@ class StacDiscordNotifier
   def notify(detections)
     return if detections.empty?
 
+    filtered_detections = detections.transform_values do |data|
+      detection_counts = data[:detections].tally
+      filtered_detections = data[:detections].reject do |detection|
+        (detection.match?(/Silent ?Aim/i) || detection.match?(/Trigger ?Bot/i) || detection == 'CmdNum SPIKE' || detection == 'Aimsnap') &&
+          detection_counts[detection] < 3
+      end
+
+      data.merge(detections: filtered_detections)
+    end.reject { |_, data| data[:detections].empty? }
+
+    return if filtered_detections.empty?
+
     description = [
       "Server: [#{@reservation.server.name} (##{@reservation.id})](#{SITE_URL}/reservations/#{@reservation.id})",
       "[View STAC Log](#{SITE_URL}/reservations/#{@reservation.id}/stac_log)"
@@ -19,7 +31,7 @@ class StacDiscordNotifier
         title: 'StAC Detection Report',
         description: description.join("\n"),
         color: 0xFF0000,
-        fields: detections.map do |steam_id64, data|
+        fields: filtered_detections.map do |steam_id64, data|
           {
             name: data[:name],
             value: [

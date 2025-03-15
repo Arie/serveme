@@ -1,0 +1,6 @@
+---
+description: Include context about the project
+globs: 
+alwaysApply: false
+---
+Use context.md to understand what this project is about

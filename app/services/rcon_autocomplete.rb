@@ -15,8 +15,13 @@ class RconAutocomplete
     return [] if @query.blank?
 
     # Check for special commands first
-    return [{ command: '!extend', description: 'Extend your reservation' }] if @query.start_with?('!e')
-    return [{ command: '!end', description: 'End your reservation' }] if @query.start_with?('!en')
+    special_commands = [
+      { command: '!extend', description: 'Extend your reservation' },
+      { command: '!end', description: 'End your reservation' }
+    ]
+
+    return [special_commands.last] if @query.start_with?('!en')
+    return special_commands if @query.start_with?('!e')
 
     # Check for deep suggestions (commands with parameters)
     deep_suggestions = autocomplete_deep_suggestions

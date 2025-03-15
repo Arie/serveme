@@ -69,11 +69,11 @@ class RconAutocomplete
       param = query.split(' ', 2)[1]
       return command_with_value[:values].select { |val| val.to_s.start_with?(param.to_s) }
                                         .map do |val|
-        {
-          command: "#{command_with_value[:command]} #{val}",
-          description: command_with_value[:description]
-        }
-      end
+                                          {
+                                            command: "#{command_with_value[:command]} #{val}",
+                                            description: command_with_value[:description]
+                                          }
+                                        end
     end
 
     nil
@@ -165,49 +165,55 @@ class RconAutocomplete
     # Find commands where query matches the start of a word (after a word boundary)
     word_boundary_pattern = /(?:^|\W)#{Regexp.escape(query)}/
 
-    self.class.commands_to_suggest
-        .select { |command| command[:command] =~ word_boundary_pattern && !command[:command].start_with?(query) }
-        .map do |command|
-          # Find the word that matches
-          match = command[:command].match(/(?:^|\W)(#{Regexp.escape(query)}[^\s_]*)/)
-          distance = match ? Text::Levenshtein.distance(match[1], query) : 999
-          [command, distance]
-        end
-        .sort_by { |command, distance| [distance, command[:command].length, command[:command]] }
-        .map(&:first)
+    commands = self.class.commands_to_suggest
+                   .select { |command| command[:command] =~ word_boundary_pattern && !command[:command].start_with?(query) }
+
+    command_data = commands.map do |command|
+      # Find the word that matches
+      match = command[:command].match(/(?:^|\W)(#{Regexp.escape(query)}[^\s_]*)/)
+      distance = match ? Text::Levenshtein.distance(match[1], query) : 999
+      [command, distance]
+    end
+
+    sorted_data = command_data.sort_by { |command, distance| [distance, command[:command].length, command[:command]] }
+    sorted_data.map(&:first)
   end
 
   def autocomplete_substring
     # Find commands where query appears anywhere, excluding those already matched by more specific methods
-    self.class.commands_to_suggest
-        .select { |command| command[:command].include?(query) }
-        .reject do |command|
-          command[:command].start_with?(query) ||
-            command[:command] =~ /(?:^|\W)#{Regexp.escape(query)}/
-        end
-        .map do |command|
-          # Find the substring that contains our query
-          index = command[:command].index(query)
-          word = command[:command][index..(index + query.length - 1)]
-          distance = Text::Levenshtein.distance(word, query)
-          [command, distance, index]
-        end
-        .sort_by { |command, distance, index| [distance, index, command[:command].length, command[:command]] }
-        .map(&:first)
+    commands = self.class.commands_to_suggest
+                   .select { |command| command[:command].include?(query) }
+                   .reject do |command|
+      command[:command].start_with?(query) ||
+        command[:command] =~ /(?:^|\W)#{Regexp.escape(query)}/
+    end
+
+    command_data = commands.map do |command|
+      # Find the substring that contains our query
+      index = command[:command].index(query)
+      word = command[:command][index..(index + query.length - 1)]
+      distance = Text::Levenshtein.distance(word, query)
+      [command, distance, index]
+    end
+
+    sorted_data = command_data.sort_by { |command, distance, index| [distance, index, command[:command].length, command[:command]] }
+    sorted_data.map(&:first)
   end
 
   def autocomplete_description_match
-    self.class.commands_to_suggest
-        .select { |command| command[:description].downcase.include?(query) }
-        .map do |command|
-          # Find the word in description that best matches the query
-          words = command[:description].downcase.split(/\W+/)
-          best_word = words.min_by { |word| Text::Levenshtein.distance(word, query) }
-          distance = Text::Levenshtein.distance(best_word || '', query)
-          [command, distance]
-        end
-        .sort_by { |command, distance| [distance, command[:command].length, command[:command]] }
-        .map(&:first)
+    commands = self.class.commands_to_suggest
+                   .select { |command| command[:description].downcase.include?(query) }
+
+    command_data = commands.map do |command|
+      # Find the word in description that best matches the query
+      words = command[:description].downcase.split(/\W+/)
+      best_word = words.min_by { |word| Text::Levenshtein.distance(word, query) }
+      distance = Text::Levenshtein.distance(best_word || '', query)
+      [command, distance]
+    end
+
+    sorted_data = command_data.sort_by { |command, distance| [distance, command[:command].length, command[:command]] }
+    sorted_data.map(&:first)
   end
 
   def autocomplete_best_match

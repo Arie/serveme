@@ -1,17 +1,92 @@
 <%= turbo_stream_from "reservation_#{@logsecret}_log_lines" %>
+
 <div class="row">
   <div class="col-md-12">
     <% if @reservation.now? %>
-      <%= simple_form_for(@reservation, url: url_for(controller: "reservations", action: @action || "rcon_command"), html: { class: "form-inline rcon-command", autocomplete: "off"}, data: { controller: "rcon", action: "turbo:submit-end->rcon#reset"}) do |f| %>
-        <div class="suggestions" data-controller="suggestions" data-suggestions-input-field="query" data-suggestions-url-value="<%= rcon_autocomplete_url(reservation_id: @reservation.id) %>">
-          <%= f.input :query, label: false, class: "col-md-12 form-control required" do %>
-            <%= text_field_tag :query, nil, placeholder: "RCON command (e.g., changelevel cp_badlands)", class: "col-md-12 form-control required", autocomplete: "off", autofocus: true, spellcheck: false, data: { action: "keyup->suggestions#fetchResults keydown->suggestions#navigateResults", suggestions_target: "query" } %>
-          <% end %>
-          <div data-suggestions-target="results"></div>
-        </div>
-        <%= submit_tag "Send", name: "commit", class: "btn btn-primary" %>
-      <% end %>
-      <small class="form-text text-muted">Type help for example commands. You can also !extend and !end the reservation</small>
+      <div data-controller="command-list" id="command-list-container">
+        <%= simple_form_for(@reservation, url: url_for(controller: "reservations", action: @action || "rcon_command"), html: { class: "form-inline rcon-command", autocomplete: "off"}, data: { controller: "suggestions", action: "turbo:submit-end->suggestions#resetForm", suggestions_url_value: rcon_autocomplete_url(reservation_id: @reservation.id), suggestions_debounce_value: "150", suggestions_prevent_default_submission: true }) do |f| %>
+          <div class="suggestions">
+            <%= f.input :query, label: false, class: "col-md-12 form-control required" do %>
+              <%= text_field_tag :query, nil, placeholder: "RCON command (e.g., changelevel cp_badlands)", class: "col-md-12 form-control required", autocomplete: "off", autofocus: true, spellcheck: false, data: { action: "keyup->suggestions#fetchResults keydown->suggestions#navigateResults", suggestions_target: "query", command_list_target: "input" } %>
+            <% end %>
+            <div data-suggestions-target="results"></div>
+          </div>
+          <%= submit_tag "Send", name: "commit", class: "btn btn-primary", data: { action: "click->suggestions#submitForm" } %>
+        <% end %>
+
+        <small class="form-text text-muted">
+          <a href="#" data-action="click->command-list#show" class="help-link">View available commands</a>
+          <div data-command-list-target="list" style="display: none;" class="mt-2 p-2 border rounded command-list-popup">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h6 class="mb-0 text-light">Available Commands</h6>
+              <button type="button" class="close text-light" data-action="click->command-list#hide" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div class="mb-2">
+              <input type="text" class="form-control form-control-sm bg-dark text-light border-secondary" placeholder="Search commands..."
+                     data-command-list-target="search"
+                     data-action="input->command-list#filterCommands">
+            </div>
+
+            <div class="commands-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; max-height: 300px; overflow-y: auto;">
+              <% RconAutocomplete.commands_to_suggest.each do |cmd| %>
+                <div class="command-item"
+                     data-command-list-target="commandItem"
+                     data-command-text="<%= cmd[:command] %>"
+                     data-command-desc="<%= cmd[:description] %>">
+                  <a href="#" class="command-link" data-action="click->command-list#selectCommand" data-command="<%= cmd[:command] %>">
+                    <strong class="command-name"><%= cmd[:command] %></strong>
+                    <small class="d-block command-desc"><%= cmd[:description] %></small>
+                  </a>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </small>
+
+        <style>
+          .command-list-popup {
+            position: absolute;
+            z-index: 1000;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            background-color: #343a40;
+            border-color: #495057 !important;
+          }
+          .command-link {
+            display: block;
+            padding: 4px 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            color: #adb5bd;
+          }
+          .command-link:hover {
+            background-color: #495057;
+            color: #f8f9fa;
+            text-decoration: none;
+          }
+          .command-item {
+            margin-bottom: 4px;
+          }
+          .command-name {
+            color: #e9ecef;
+          }
+          .command-desc {
+            color: #adb5bd;
+          }
+          .help-link {
+            color: #ffc107;
+          }
+          .help-link:hover {
+            color: #ffda6a;
+            text-decoration: none;
+          }
+        </style>
+      </div>
     <% end %>
     <br />
     <pre class="web-rcon-log-lines" id="<%= "reservation_#{@logsecret}_log_lines" %>">

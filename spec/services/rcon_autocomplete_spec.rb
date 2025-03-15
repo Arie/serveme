@@ -7,15 +7,17 @@ describe RconAutocomplete do
   subject { described_class.new(nil) }
 
   it 'returns a list of suggestions' do
-    expect(subject.autocomplete('tf_bot').map { |c| c[:command] }).to start_with %w[
-      tf_bot_add
-      tf_bot_difficulty
-      tf_bot_kick
-    ]
+    expect(subject.autocomplete('tf_bot').map { |c| c[:command] }).to include(
+      'tf_bot_add',
+      'tf_bot_difficulty',
+      'tf_bot_kick',
+      'tf_bot_kill',
+      'tf_bot_quota'
+    )
   end
 
-  it 'limits auto completion to 5 suggestions' do
-    expect(subject.autocomplete('tf_').length).to be(5)
+  it 'limits auto completion to 10 suggestions' do
+    expect(subject.autocomplete('tf_').length).to be(10)
   end
 
   it 'completes changelevel further' do
@@ -65,5 +67,41 @@ describe RconAutocomplete do
         display_text: 'ban "Arie - serveme.tf"'
       }
     ]
+  end
+
+  # Tests for the new search functionality
+  describe 'enhanced search' do
+    it 'finds matches at the start of words' do
+      results = subject.autocomplete('forced')
+      expect(results.map { |c| c[:command] }).to include('tf_forced_holiday')
+    end
+
+    it 'prioritizes exact start matches over word start matches' do
+      # Create a temporary test command list with both types of matches
+      allow(described_class).to receive(:commands_to_suggest).and_return([
+        { command: 'forced_foo', description: 'Test command starting with forced' },
+        { command: 'tf_forced_holiday', description: 'Control TF2 holiday mode' }
+      ])
+
+      results = subject.autocomplete('forced')
+      expect(results.map { |c| c[:command] }).to eq(['forced_foo', 'tf_forced_holiday'])
+    end
+
+    it 'finds substring matches anywhere in the command' do
+      results = subject.autocomplete('oliday')
+      expect(results.map { |c| c[:command] }).to include('tf_forced_holiday')
+    end
+
+    it 'prioritizes matches in the correct order: exact start, word start, substring' do
+      # Create a temporary test command list with all types of matches
+      allow(described_class).to receive(:commands_to_suggest).and_return([
+        { command: 'holiday_mode', description: 'Exact start match' },
+        { command: 'tf_holiday_setting', description: 'Word start match' },
+        { command: 'set_holiday', description: 'Substring match' }
+      ])
+
+      results = subject.autocomplete('holiday')
+      expect(results.map { |c| c[:command] }).to eq(['holiday_mode', 'tf_holiday_setting', 'set_holiday'])
+    end
   end
 end

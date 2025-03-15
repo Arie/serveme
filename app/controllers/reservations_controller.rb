@@ -192,8 +192,6 @@ class ReservationsController < ApplicationController
 
   def handle_rcon_command(rcon_command)
     case rcon_command
-    when '?', 'help', '!help'
-      rcon_help
     when 'extend', '!extend'
       if reservation.extend!
         "Reservation extended to #{I18n.l(reservation.ends_at, format: :datepicker)}"
@@ -206,12 +204,6 @@ class ReservationsController < ApplicationController
     else
       reservation.server.rcon_exec(rcon_command).to_s
     end
-  end
-
-  def rcon_help
-    RconAutocomplete.commands_to_suggest.map do |c|
-      "#{c[:command]} : #{c[:description]}"
-    end.join("\n")
   end
 
   def reservation

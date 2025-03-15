@@ -3,6 +3,18 @@
     input
       width: 400px
 
+    [data-suggestions-target="results"]
+      &:empty, &.hidden
+        display: none
+        visibility: hidden
+        opacity: 0
+        height: 0
+        min-height: 0
+        padding: 0
+        margin: 0
+        border: 0
+        outline: 0
+
 pre.web-rcon-log-lines
   overflow: hidden
 
@@ -12,17 +24,70 @@ ul.rcon-autocomplete
   top: 3.5em
   left: 1.1em
   display: inline-block
-  padding-inline-start: 0em
+  padding-inline-start: 0
   width: 400px
+  max-height: 400px
+  overflow-y: auto
+  border: 1px solid #ccc
+  border-radius: 4px
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2)
+  z-index: 1000
+
+  &.hidden
+    display: none
+    visibility: hidden
+    opacity: 0
+    height: 0
+    min-height: 0
+    padding: 0
+    margin: 0
+    border: 0
+    outline: 0
+    box-shadow: none
+    overflow: hidden
+
+  &:empty
+    display: none
+    visibility: hidden
+    opacity: 0
+    height: 0
+    min-height: 0
+    padding: 0
+    margin: 0
+    border: 0
+    outline: 0
+    box-shadow: none
+    overflow: hidden
+
   li
     color: #000
-    padding: 0 1em
+    padding: 0
     list-style-type: none
-    &:hover
+    border-bottom: 1px solid #f0f0f0
+
+    > div
+      padding: 0.5em 1em
       cursor: pointer
-      color: #fff
-      background-color: #82b4ff
+
+      &:hover
+        color: #fff
+        background-color: #0154d1
+
+        .description
+          color: #e6e6e6
+
     &.current-result
-      cursor: pointer
-      color: #fff
-      background-color: #0154d1
+      > div
+        color: #fff
+        background-color: #0033a0
+
+        .description
+          color: #e6e6e6
+
+    .command
+      font-weight: bold
+
+    .description
+      font-size: 0.85em
+      color: #666
+      margin-top: 0.2em

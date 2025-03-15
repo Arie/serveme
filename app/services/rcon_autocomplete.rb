@@ -11,19 +11,67 @@ class RconAutocomplete
   def autocomplete(query)
     @query = query.downcase
 
-    deep_suggestions = autocomplete_deep_suggestions
+    # Return empty array for empty query
+    return [] if @query.blank?
 
+    # Check for special commands first
+    return [{ command: '!extend', description: 'Extend your reservation' }] if @query.start_with?('!e')
+    return [{ command: '!end', description: 'End your reservation' }] if @query.start_with?('!en')
+
+    # Check for deep suggestions (commands with parameters)
+    deep_suggestions = autocomplete_deep_suggestions
     return deep_suggestions if deep_suggestions
 
-    suggestions = autocomplete_exact_start.sort_by { |command| command[:command] }
+    # Check for exact start matches in command
+    command_matches = autocomplete_exact_start
 
-    return suggestions.first(5) if suggestions
+    # Check for word start matches (e.g. "forced" matching "tf_forced_holiday")
+    word_start_matches = autocomplete_word_start
 
-    autocomplete_best_match.first(5).sort_by { |command| command[:command] }
+    # Check for substring matches (anywhere in the command)
+    substring_matches = autocomplete_substring
+
+    # Check for matches in description
+    description_matches = autocomplete_description_match
+
+    # Combine results, prioritizing in order: exact start, word start, substring, description
+    # Limit to 10 results for consistency
+    combined_results = command_matches + word_start_matches
+
+    # Only add substring and description matches if we don't have enough primary matches
+    combined_results += substring_matches + description_matches if combined_results.length < 5
+
+    combined_results = combined_results.uniq { |cmd| cmd[:command] }
+
+    return combined_results.first(10) if combined_results.any?
+
+    # Fall back to fuzzy matching
+    autocomplete_best_match.first(10)
   end
 
   def autocomplete_deep_suggestions
-    send("autocomplete_deep_#{query.split.first}") if self.class.deep_complete_commands.any? { |command| query.split[0] == command[:command] }
+    return nil unless query.split.first
+
+    # Check if the first word matches any deep complete command
+    if self.class.deep_complete_commands.any? { |command| query.split[0] == command[:command] }
+      method_name = "autocomplete_deep_#{query.split.first}"
+      return send(method_name) if respond_to?(method_name, true)
+    end
+
+    # Check for commands with common values
+    command_with_value = self.class.commands_with_values.find { |cmd| query.start_with?("#{cmd[:command]} ") }
+    if command_with_value
+      param = query.split(' ', 2)[1]
+      return command_with_value[:values].select { |val| val.to_s.start_with?(param.to_s) }
+                                        .map do |val|
+        {
+          command: "#{command_with_value[:command]} #{val}",
+          description: command_with_value[:description]
+        }
+      end
+    end
+
+    nil
   end
 
   def autocomplete_deep_changelevel
@@ -58,7 +106,11 @@ class RconAutocomplete
     autocomplete_players
       .map do |ps|
         uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(ps.reservation_player.steam_uid.to_i)
-        { command: "kickid \"#{uid3}\"", display_text: "kick \"#{ps.reservation_player.name}\"", description: "Kick #{ps.reservation_player.name}" }
+        {
+          command: "kickid \"#{uid3}\"",
+          display_text: "kick \"#{ps.reservation_player.name}\"",
+          description: "Kick #{ps.reservation_player.name}"
+        }
       end
   end
 
@@ -70,7 +122,11 @@ class RconAutocomplete
     autocomplete_players
       .map do |ps|
         uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(ps.reservation_player.steam_uid.to_i)
-        { command: "banid 0 #{uid3} kick", display_text: "ban \"#{ps.reservation_player.name}\"", description: "Ban #{ps.reservation_player.name}" }
+        {
+          command: "banid 0 #{uid3} kick",
+          display_text: "ban \"#{ps.reservation_player.name}\"",
+          description: "Ban #{ps.reservation_player.name}"
+        }
       end
   end
 
@@ -91,12 +147,72 @@ class RconAutocomplete
   def autocomplete_exact_start
     self.class.commands_to_suggest
         .select { |command| command[:command].start_with?(query) }
-        .sort_by { |command| Text::Levenshtein.distance(command[:command], query) }
+        .sort_by do |command|
+      [
+        Text::Levenshtein.distance(command[:command][0, query.length], query),
+        command[:command].length,
+        command[:command]
+      ]
+    end
+  end
+
+  def autocomplete_word_start
+    # Find commands where query matches the start of a word (after a word boundary)
+    word_boundary_pattern = /(?:^|\W)#{Regexp.escape(query)}/
+
+    self.class.commands_to_suggest
+        .select { |command| command[:command] =~ word_boundary_pattern && !command[:command].start_with?(query) }
+        .map do |command|
+          # Find the word that matches
+          match = command[:command].match(/(?:^|\W)(#{Regexp.escape(query)}[^\s_]*)/)
+          distance = match ? Text::Levenshtein.distance(match[1], query) : 999
+          [command, distance]
+        end
+        .sort_by { |command, distance| [distance, command[:command].length, command[:command]] }
+        .map(&:first)
+  end
+
+  def autocomplete_substring
+    # Find commands where query appears anywhere, excluding those already matched by more specific methods
+    self.class.commands_to_suggest
+        .select { |command| command[:command].include?(query) }
+        .reject do |command|
+          command[:command].start_with?(query) ||
+            command[:command] =~ /(?:^|\W)#{Regexp.escape(query)}/
+        end
+        .map do |command|
+          # Find the substring that contains our query
+          index = command[:command].index(query)
+          word = command[:command][index..(index + query.length - 1)]
+          distance = Text::Levenshtein.distance(word, query)
+          [command, distance, index]
+        end
+        .sort_by { |command, distance, index| [distance, index, command[:command].length, command[:command]] }
+        .map(&:first)
+  end
+
+  def autocomplete_description_match
+    self.class.commands_to_suggest
+        .select { |command| command[:description].downcase.include?(query) }
+        .map do |command|
+          # Find the word in description that best matches the query
+          words = command[:description].downcase.split(/\W+/)
+          best_word = words.min_by { |word| Text::Levenshtein.distance(word, query) }
+          distance = Text::Levenshtein.distance(best_word || '', query)
+          [command, distance]
+        end
+        .sort_by { |command, distance| [distance, command[:command].length, command[:command]] }
+        .map(&:first)
   end
 
   def autocomplete_best_match
     self.class.commands_to_suggest
-        .sort_by { |command| Text::Levenshtein.distance(command[:command], query) }
+        .sort_by do |command|
+      [
+        Text::Levenshtein.distance(command[:command], query),
+        command[:description].downcase.include?(query) ? 0 : 1
+      ]
+    end
   end
 
   def self.deep_complete_commands
@@ -109,6 +225,51 @@ class RconAutocomplete
       { command: 'kickid', description: 'Kick a player by unique ID' },
       { command: 'mp_tournament_whitelist', description: 'Set the item/weapon whitelist' },
       { command: 'tftrue_whitelist_id', description: 'Set and download the latest whitelist from whitelist.tf' }
+    ]
+  end
+
+  def self.commands_with_values
+    [
+      {
+        command: 'mp_timelimit',
+        description: 'Set the map time limit',
+        values: [5, 10, 15, 20, 30, 45, 60]
+      },
+      {
+        command: 'mp_winlimit',
+        description: 'Set the match win limit',
+        values: [0, 1, 2, 3, 4, 5]
+      },
+      {
+        command: 'sv_gravity',
+        description: 'Set the gravity',
+        values: [400, 600, 800, 1000]
+      },
+      {
+        command: 'mp_friendlyfire',
+        description: 'Control friendly fire',
+        values: [0, 1]
+      },
+      {
+        command: 'sv_cheats',
+        description: 'Enable/disable cheats',
+        values: [0, 1]
+      },
+      {
+        command: 'sv_alltalk',
+        description: 'Control all talk',
+        values: [0, 1]
+      },
+      {
+        command: 'mp_tournament',
+        description: 'Control tournament mode',
+        values: [0, 1]
+      },
+      {
+        command: 'tf_weapon_criticals',
+        description: 'Toggle critical hits',
+        values: [0, 1]
+      }
     ]
   end
 

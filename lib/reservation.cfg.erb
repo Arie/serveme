@@ -67,5 +67,5 @@ tv_snapshotrate 66
 <%= %{say "Whitelist: http://whitelist.tf/#{custom_whitelist_id}"} %><% end %>
 
 <% if !custom_whitelist_id && whitelist %>
-tftrue_whitelist_id -1
+tftrue_whitelist_id <%= whitelist.to_s.chomp('.txt') %>
 <%= %{mp_tournament_whitelist "cfg/#{whitelist}"} %><% end %>

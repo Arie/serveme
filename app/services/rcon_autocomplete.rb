@@ -360,6 +360,7 @@ class RconAutocomplete
       ozfortress_4v4_koth
       ozfortress_ultiduo
       ozfortress_bball
+      noobpugs_cup_5cp
     ]
   end
 

@@ -67,7 +67,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def now?
-    times_entered? && (T.must(starts_at) < Time.current && T.must(ends_at) > Time.current)
+    times_entered? && T.must(starts_at) < Time.current && T.must(ends_at) > Time.current
   end
 
   def active?

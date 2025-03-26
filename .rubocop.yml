@@ -1,4 +1,4 @@
-require: rubocop-sorbet
+plugins: rubocop-sorbet
 
 AllCops:
    SuggestExtensions: false

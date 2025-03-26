@@ -44,8 +44,8 @@ jobs:
         run: bundle exec rubocop app
       - name: Run type check
         run: bundle exec srb tc
-      # - name: Verify gem RBIs are up-to-date
-      #   run: bundle exec tapioca gem --verify
+      - name: Verify gem RBIs are up-to-date
+        run: bundle exec tapioca gem --verify
   rspec:
     name: RSpec
     runs-on: ubuntu-latest

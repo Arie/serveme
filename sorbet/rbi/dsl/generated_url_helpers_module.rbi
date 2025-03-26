@@ -373,7 +373,7 @@ module GeneratedUrlHelpersModule
   def sidekiq_web_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def stac_log_url(*args); end
+  def stac_log_reservation_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def stac_logs_url(*args); end

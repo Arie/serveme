@@ -373,7 +373,7 @@ module GeneratedPathHelpersModule
   def sidekiq_web_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def stac_log_path(*args); end
+  def stac_log_reservation_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def stac_logs_path(*args); end

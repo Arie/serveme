@@ -6,10 +6,10 @@ class RconFtpServer < RemoteServer
 
   def restart
     Rails.logger.info("Attempting RCON restart of server #{name}")
-    rcon_exec('_restart')
+    rcon_exec("_restart")
   end
 
   def current_reservation
-    reservations.where('reservations.starts_at <= ? AND reservations.ended = ?', Time.current, false).first
+    reservations.where("reservations.starts_at <= ? AND reservations.ended = ?", Time.current, false).first
   end
 end

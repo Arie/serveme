@@ -12,12 +12,12 @@ class Etf2lProfile
 
   sig { returns(String) }
   def league_name
-    'ETF2L'
+    "ETF2L"
   end
 
   sig { returns(T.nilable(String)) }
   def name
-    json.dig('player', 'name')
+    json.dig("player", "name")
   end
 
   sig { returns(T::Boolean) }
@@ -29,14 +29,14 @@ class Etf2lProfile
   def ban_reason
     return nil if active_bans.none?
 
-    active_bans.map { |b| b['reason'] }.join(', ')
+    active_bans.map { |b| b["reason"] }.join(", ")
   end
 
   sig { returns(T.nilable(String)) }
   def ban_expires_at
     return nil if active_bans.none?
 
-    active_bans.map { |b| Time.at(b['end']).to_date }.join(', ')
+    active_bans.map { |b| Time.at(b["end"]).to_date }.join(", ")
   end
 
   sig { params(steam_uid: T.any(Integer, String)).returns(T.nilable(Etf2lProfile)) }
@@ -51,9 +51,9 @@ class Etf2lProfile
   def active_bans
     @active_bans ||= begin
       now = Time.now.to_i
-      bans = json.dig('player', 'bans')
+      bans = json.dig("player", "bans")
       if bans&.any?
-        bans.reject { |b| now > b['end'].to_i }
+        bans.reject { |b| now > b["end"].to_i }
       else
         []
       end

@@ -6,8 +6,8 @@ class Voucher < ActiveRecord::Base
 
   belongs_to :product, optional: true
   belongs_to :order, optional: true
-  belongs_to :claimed_by,  class_name: 'User', optional: true
-  belongs_to :created_by,  class_name: 'User', optional: true
+  belongs_to :claimed_by,  class_name: "User", optional: true
+  belongs_to :created_by,  class_name: "User", optional: true
 
   sig { returns(String) }
   def hyphenate

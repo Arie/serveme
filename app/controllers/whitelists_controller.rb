@@ -19,7 +19,7 @@ class WhitelistsController < ApplicationController
         @whitelist = Whitelist.new(params[:whitelist].permit(:file, :hidden))
 
         if @whitelist.save
-          flash[:notice] = 'Whitelist added'
+          flash[:notice] = "Whitelist added"
           redirect_to whitelists_path
         else
           render :new, status: :unprocessable_entity
@@ -35,7 +35,7 @@ class WhitelistsController < ApplicationController
   def update
     find_whitelist
     @whitelist.update(params[:whitelist].permit(:file, :hidden))
-    flash[:notice] = 'Whitelist updated'
+    flash[:notice] = "Whitelist updated"
     redirect_to whitelists_path
   end
 

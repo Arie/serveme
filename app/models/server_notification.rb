@@ -6,11 +6,11 @@ class ServerNotification < ActiveRecord::Base
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.for_everyone
-    where(notification_type: 'public')
+    where(notification_type: "public")
   end
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.ads
-    where(notification_type: 'ad')
+    where(notification_type: "ad")
   end
 end

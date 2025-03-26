@@ -27,7 +27,7 @@ class LogUpload < ActiveRecord::Base
 
   sig { params(reservation_id: T.any(String, Integer)).returns(String) }
   def self.log_matcher(reservation_id)
-    File.join(Rails.root.join, 'server_logs', reservation_id.to_s, '*.log')
+    File.join(Rails.root.join, "server_logs", reservation_id.to_s, "*.log")
   end
 
   def upload
@@ -35,7 +35,7 @@ class LogUpload < ActiveRecord::Base
     logs_tf_upload  = LogsTF::Upload.new(logs_tf_log)
     begin
       logs_tf_upload.send
-      message = 'success'
+      message = "success"
       url     = logs_tf_upload.url
     rescue StandardError => e
       message = e.message
@@ -61,7 +61,7 @@ class LogUpload < ActiveRecord::Base
 
   sig { returns(Pathname) }
   def log_file_name_and_path
-    Rails.root.join('server_logs', reservation_id.to_s, T.must(file_name))
+    Rails.root.join("server_logs", reservation_id.to_s, T.must(file_name))
   end
 
   private
@@ -85,10 +85,10 @@ class LogUpload < ActiveRecord::Base
   def validate_log_file_exists
     return if log_file_and_name_present?
 
-    errors.add(:file_name, 'file does not exist')
+    errors.add(:file_name, "file does not exist")
   end
 
   def tftrue_upload?
-    status == 'TFTrue upload'
+    status == "TFTrue upload"
   end
 end

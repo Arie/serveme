@@ -18,7 +18,7 @@ class IAmFeelingLucky
 
   def base_attributes
     if previous_reservation
-      previous_reservation.reusable_attributes.merge('server' => best_matching_server, 'enable_plugins' => previous_reservation.enable_plugins?)
+      previous_reservation.reusable_attributes.merge("server" => best_matching_server, "enable_plugins" => previous_reservation.enable_plugins?)
     else
       new_reservation_attributes
     end
@@ -26,16 +26,16 @@ class IAmFeelingLucky
 
   def new_reservation_attributes
     {
-      'rcon' => rand(10**5),
-      'password' => rand(10**5),
-      'tv_password' => rand(10**5),
-      'auto_end' => true,
-      'server' => first_available_server
+      "rcon" => rand(10**5),
+      "password" => rand(10**5),
+      "tv_password" => rand(10**5),
+      "auto_end" => true,
+      "server" => first_available_server
     }
   end
 
   def previous_reservation
-    @previous_reservation ||= user.reservations.joins(:server).where('reservations.ends_at < ?', Time.current).last
+    @previous_reservation ||= user.reservations.joins(:server).where("reservations.ends_at < ?", Time.current).last
   end
 
   def previous_server

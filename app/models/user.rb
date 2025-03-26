@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
 
   has_many :reservations
   has_many :log_uploads, through: :reservations
-  has_many :group_users, -> { where('group_users.expires_at IS NULL OR group_users.expires_at > ?', Time.current) }
+  has_many :group_users, -> { where("group_users.expires_at IS NULL OR group_users.expires_at > ?", Time.current) }
   has_many :groups,   through: :group_users
   has_many :servers,  through: :groups
   has_many :orders
@@ -156,13 +156,13 @@ class User < ActiveRecord::Base
   def na_timezone?
     return false unless time_zone
 
-    ['US & Canada', 'Canada', 'Chicago', 'New_York', 'Los_Angeles', 'Denver', 'Phoenix', 'Halifax', 'Goose_Bay', 'St_Johns', 'Anchorage'].any? do |zone|
+    [ "US & Canada", "Canada", "Chicago", "New_York", "Los_Angeles", "Denver", "Phoenix", "Halifax", "Goose_Bay", "St_Johns", "Anchorage" ].any? do |zone|
       time_zone&.match(/#{zone}/)
     end
   end
 
   sig { returns(T::Boolean) }
   def na_sign_in_ip?
-    geocoded&.data&.[]('continent')&.[]('code') == 'NA'
+    geocoded&.data&.[]("continent")&.[]("code") == "NA"
   end
 end

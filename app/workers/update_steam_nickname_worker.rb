@@ -33,6 +33,6 @@ class UpdateSteamNicknameWorker
   end
 
   def rename_user(steam_uid)
-    User.find_by_uid(steam_uid)&.update(nickname: 'idiot', name: 'idiot')
+    User.find_by_uid(steam_uid)&.update(nickname: "idiot", name: "idiot")
   end
 end

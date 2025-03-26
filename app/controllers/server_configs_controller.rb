@@ -19,7 +19,7 @@ class ServerConfigsController < ApplicationController
         @server_config = ServerConfig.new(params[:server_config].permit(:file, :hidden))
 
         if @server_config.save
-          flash[:notice] = 'Server config added'
+          flash[:notice] = "Server config added"
           redirect_to server_configs_path
         else
           render :new, status: :unprocessable_entity
@@ -35,7 +35,7 @@ class ServerConfigsController < ApplicationController
   def update
     find_server_config
     @server_config.update(params[:server_config].permit(:file, :hidden))
-    flash[:notice] = 'Server config updated'
+    flash[:notice] = "Server config updated"
     redirect_to server_configs_path
   end
 

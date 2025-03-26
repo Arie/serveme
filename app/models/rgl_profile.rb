@@ -12,26 +12,26 @@ class RglProfile
 
   sig { returns(String) }
   def league_name
-    'RGL'
+    "RGL"
   end
 
   sig { returns(String) }
   def name
-    json['name']
+    json["name"]
   end
 
   sig { returns(T::Boolean) }
   def banned?
-    json.dig('status', 'isBanned') == true
+    json.dig("status", "isBanned") == true
   end
 
   sig { returns(T.nilable(String)) }
   def ban_reason
-    json.dig('banInformation', 'reason')
+    json.dig("banInformation", "reason")
   end
 
   def ban_expires_at
-    expires_at = json.dig('banInformation', 'endsAt')
+    expires_at = json.dig("banInformation", "endsAt")
     expires_at && Date.parse(expires_at)
   end
 

@@ -14,9 +14,9 @@ class LeagueBan
 
   sig { returns(T.nilable(T.any(T.class_of(Etf2lProfile), T.class_of(RglProfile)))) }
   def self.klass
-    if SITE_HOST == 'serveme.tf'
+    if SITE_HOST == "serveme.tf"
       Etf2lProfile
-    elsif SITE_HOST == 'na.serveme.tf'
+    elsif SITE_HOST == "na.serveme.tf"
       RglProfile
     end
   end

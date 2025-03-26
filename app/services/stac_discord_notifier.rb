@@ -12,7 +12,7 @@ class StacDiscordNotifier
     filtered_detections = detections.transform_values do |data|
       detection_counts = data[:detections].tally
       filtered_detections = data[:detections].reject do |detection|
-        (detection.match?(/Silent ?Aim/i) || detection.match?(/Trigger ?Bot/i) || detection == 'CmdNum SPIKE' || detection == 'Aimsnap') &&
+        (detection.match?(/Silent ?Aim/i) || detection.match?(/Trigger ?Bot/i) || detection == "CmdNum SPIKE" || detection == "Aimsnap") &&
           detection_counts[detection] < 3
       end
 
@@ -28,8 +28,8 @@ class StacDiscordNotifier
     ]
 
     payload = {
-      embeds: [{
-        title: 'StAC Detection Report',
+      embeds: [ {
+        title: "StAC Detection Report",
         description: description.join("\n"),
         color: 0xFF0000,
         fields: filtered_detections.map do |steam_id64, data|
@@ -43,7 +43,7 @@ class StacDiscordNotifier
           }
         end,
         timestamp: Time.now.iso8601
-      }]
+      } ]
     }
 
     send_to_discord(payload)
@@ -58,7 +58,7 @@ class StacDiscordNotifier
 
     request = Net::HTTP::Post.new(
       uri.path,
-      'Content-Type' => 'application/json'
+      "Content-Type" => "application/json"
     )
     request.body = payload.to_json
 

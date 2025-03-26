@@ -14,19 +14,19 @@ class LeagueMaps
   sig { returns(T::Array[LeagueMaps]) }
   def self.all
     [
-      new(name: 'ETF2L 6v6', maps: etf2l_sixes_maps.uniq.sort),
-      new(name: 'ETF2L HL', maps: etf2l_hl_maps.uniq.sort),
-      new(name: 'ETF2L HL Prem', maps: etf2l_hl_prem_maps.uniq.sort),
-      new(name: 'ozfortress Ultiduo', maps: ozfortress_ultiduo_maps.uniq.sort),
-      new(name: 'ozfortress 6v6', maps: ozfortress_sixes_maps.uniq.sort),
-      new(name: 'ozfortress HL', maps: ozfortress_hl_maps.uniq.sort),
-      new(name: 'RGL 6v6', maps: rgl_sixes_maps.uniq.sort),
-      new(name: 'RGL HL', maps: rgl_hl_maps.uniq.sort),
-      new(name: 'UGC 6v6', maps: ugc_sixes_maps.uniq.sort),
-      new(name: 'UGC HL', maps: ugc_hl_maps.uniq.sort),
-      new(name: 'UGC 4v4', maps: ugc_fours_maps.uniq.sort),
-      new(name: 'UGC Ultiduo', maps: ugc_ultiduo_maps.uniq.sort),
-      new(name: 'All maps', maps: MapUpload.available_maps)
+      new(name: "ETF2L 6v6", maps: etf2l_sixes_maps.uniq.sort),
+      new(name: "ETF2L HL", maps: etf2l_hl_maps.uniq.sort),
+      new(name: "ETF2L HL Prem", maps: etf2l_hl_prem_maps.uniq.sort),
+      new(name: "ozfortress Ultiduo", maps: ozfortress_ultiduo_maps.uniq.sort),
+      new(name: "ozfortress 6v6", maps: ozfortress_sixes_maps.uniq.sort),
+      new(name: "ozfortress HL", maps: ozfortress_hl_maps.uniq.sort),
+      new(name: "RGL 6v6", maps: rgl_sixes_maps.uniq.sort),
+      new(name: "RGL HL", maps: rgl_hl_maps.uniq.sort),
+      new(name: "UGC 6v6", maps: ugc_sixes_maps.uniq.sort),
+      new(name: "UGC HL", maps: ugc_hl_maps.uniq.sort),
+      new(name: "UGC 4v4", maps: ugc_fours_maps.uniq.sort),
+      new(name: "UGC Ultiduo", maps: ugc_ultiduo_maps.uniq.sort),
+      new(name: "All maps", maps: MapUpload.available_maps)
     ]
   end
 

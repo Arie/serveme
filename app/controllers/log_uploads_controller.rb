@@ -18,7 +18,7 @@ class LogUploadsController < ApplicationController
 
         if @log_upload.save
           @log_upload.upload
-          flash[:notice] = 'Logfile uploaded to logs.tf'
+          flash[:notice] = "Logfile uploaded to logs.tf"
           redirect_to(reservation_log_uploads_path(reservation))
         else
           render :new, status: :unprocessable_entity
@@ -53,7 +53,7 @@ class LogUploadsController < ApplicationController
                        else
                          current_user.reservations.find(params[:reservation_id].to_i)
                        end
-                     end
+    end
   end
   helper_method :reservation
 
@@ -66,7 +66,7 @@ class LogUploadsController < ApplicationController
   end
 
   def log_uploads
-    @log_uploads ||= reservation.log_uploads.order('created_at DESC')
+    @log_uploads ||= reservation.log_uploads.order("created_at DESC")
   end
 
   def upload_params

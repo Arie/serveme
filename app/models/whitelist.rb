@@ -15,7 +15,7 @@ class Whitelist < ActiveRecord::Base
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.ordered
-    order('lower(file)')
+    order("lower(file)")
   end
 
   def to_s

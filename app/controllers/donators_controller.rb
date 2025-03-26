@@ -6,7 +6,7 @@ class DonatorsController < ApplicationController
   before_action :require_donator, only: :leaderboard
 
   def index
-    @donators = Group.donator_group.users.order('group_users.id DESC').paginate(page: params[:page], per_page: 20)
+    @donators = Group.donator_group.users.order("group_users.id DESC").paginate(page: params[:page], per_page: 20)
   end
 
   def leaderboard
@@ -63,7 +63,7 @@ class DonatorsController < ApplicationController
       flash[:notice] = "Extended donator from #{I18n.l(old_expires_at, format: :long)} to #{I18n.l(gu.expires_at, format: :long)}"
     else
       user.group_users&.create(group_id: Group.donator_group.id, expires_at: params[:group_user][:expires_at])
-      flash[:notice] = 'New donator added'
+      flash[:notice] = "New donator added"
     end
     redirect_to donators_path
   end

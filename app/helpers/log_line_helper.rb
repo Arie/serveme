@@ -4,7 +4,7 @@
 module LogLineHelper
   def clean_log_line(line)
     line
-      .gsub(ip_regex, '0.0.0.0')
+      .gsub(ip_regex, "0.0.0.0")
       .gsub(rcon_password_regex, 'rcon_password "*****"')
       .gsub(sv_password_regex, 'sv_password "*****"')
       .gsub(tv_password_regex, 'tv_password "*****"')

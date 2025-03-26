@@ -40,7 +40,7 @@ class LocalServer < Server
     Dir.glob(stac_log_match)
   end
   sig { params(dir: String, pattern: String).returns(T::Array[String]) }
-  def list_files(dir, pattern = '*')
+  def list_files(dir, pattern = "*")
     Dir.glob(File.join(tf_dir, dir, pattern)).map do |f|
       File.basename(f)
     end

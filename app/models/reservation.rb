@@ -29,7 +29,7 @@ class Reservation < ActiveRecord::Base
 
   sig { returns(Integer) }
   def self.cleanup_age_in_days
-    (SITE_HOST == 'au.serveme.tf' && 7) || 30
+    (SITE_HOST == "au.serveme.tf" && 7) || 30
   end
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
@@ -39,7 +39,7 @@ class Reservation < ActiveRecord::Base
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.ordered
-    with_user_and_server.order('starts_at DESC')
+    with_user_and_server.order("starts_at DESC")
   end
 
   sig { params(start_time: ActiveSupport::TimeWithZone, end_time: ActiveSupport::TimeWithZone).returns(Array) }
@@ -50,12 +50,12 @@ class Reservation < ActiveRecord::Base
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.future
-    where('reservations.starts_at >= ?', Time.current)
+    where("reservations.starts_at >= ?", Time.current)
   end
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.current
-    where('reservations.starts_at <= ? AND reservations.ends_at >= ?', Time.current, Time.current)
+    where("reservations.starts_at <= ? AND reservations.ends_at >= ?", Time.current, Time.current)
   end
 
   def to_s
@@ -156,17 +156,17 @@ class Reservation < ActiveRecord::Base
 
   sig { returns(String) }
   def tv_password
-    self[:tv_password].presence || 'tv'
+    self[:tv_password].presence || "tv"
   end
 
   sig { returns(String) }
   def tv_relaypassword
-    self[:tv_relaypassword].presence || self[:tv_password].presence || 'tv'
+    self[:tv_relaypassword].presence || self[:tv_password].presence || "tv"
   end
 
   sig { returns(String) }
   def formatted_starts_at
-    T.must(starts_at).utc.strftime('%Y%m%d')
+    T.must(starts_at).utc.strftime("%Y%m%d")
   end
 
   sig { returns(T::Boolean) }
@@ -196,7 +196,7 @@ class Reservation < ActiveRecord::Base
 
   sig { params(steam_uid: T.any(String, Integer)).returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.played_in(steam_uid)
-    ordered.joins(:reservation_players).where('reservation_players.steam_uid = ? AND reservations.starts_at > ? AND reservations.ended = ?', steam_uid, 31.days.ago, true)
+    ordered.joins(:reservation_players).where("reservation_players.steam_uid = ? AND reservations.starts_at > ? AND reservations.ended = ?", steam_uid, 31.days.ago, true)
   end
 
   def start_reservation
@@ -212,7 +212,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def reusable_attributes
-    attributes.slice('server_id', 'password', 'rcon', 'tv_password', 'server_config_id', 'whitelist_id', 'custom_whitelist_id', 'first_map', 'enable_demos_tf')
+    attributes.slice("server_id", "password", "rcon", "tv_password", "server_config_id", "whitelist_id", "custom_whitelist_id", "first_map", "enable_demos_tf")
   end
 
   def template_attributes
@@ -242,8 +242,8 @@ class Reservation < ActiveRecord::Base
   sig { returns(T::Boolean) }
   def lobby?
     Rails.cache.fetch("reservation_#{id}_lobby") do
-      tags = server&.rcon_exec('sv_tags').to_s
-      tags.include?('TF2Center') || tags.include?('TF2Stadium') || tags.include?('TF2Pickup')
+      tags = server&.rcon_exec("sv_tags").to_s
+      tags.include?("TF2Center") || tags.include?("TF2Stadium") || tags.include?("TF2Pickup")
     end
   end
 
@@ -259,24 +259,24 @@ class Reservation < ActiveRecord::Base
 
   sig { returns(String) }
   def status
-    return 'Ended' if past?
+    return "Ended" if past?
 
     status_messages = reservation_statuses.pluck(:status)
-    return 'Ended' if status_messages.include?('Finished zipping logs and demos')
+    return "Ended" if status_messages.include?("Finished zipping logs and demos")
 
-    return 'Ending' if status_messages.include?('Ending')
+    return "Ending" if status_messages.include?("Ending")
 
-    return 'SDR Ready' if server&.sdr? && sdr_ip.present?
-    return 'Ready' if server_statistics.any? && !server&.sdr?
-    return 'Ready' if status_messages.grep(/\AServer finished loading map/).any? && !server&.sdr?
+    return "SDR Ready" if server&.sdr? && sdr_ip.present?
+    return "Ready" if server_statistics.any? && !server&.sdr?
+    return "Ready" if status_messages.grep(/\AServer finished loading map/).any? && !server&.sdr?
 
-    return 'Server updating, please be patient' if status_messages.grep(/\AServer outdated/).any?
+    return "Server updating, please be patient" if status_messages.grep(/\AServer outdated/).any?
 
-    return 'Starting' if status_messages.include?('Starting')
+    return "Starting" if status_messages.include?("Starting")
 
-    return 'Waiting to start' if status_messages.include?('Waiting to start')
+    return "Waiting to start" if status_messages.include?("Waiting to start")
 
-    'Unknown'
+    "Unknown"
   end
 
   sig { returns(T::Boolean) }
@@ -327,14 +327,14 @@ class Reservation < ActiveRecord::Base
     status_update("SDR ready, server available at #{server_info.ip}:#{server_info.port}")
 
     server&.reload&.add_sourcemod_servers(self)
-    server&.rcon_exec('sm plugins reload serverhop')
+    server&.rcon_exec("sm plugins reload serverhop")
   end
 
   def broadcast_connect_info
-    broadcast_replace_to self, target: "reservation_connect_info_#{id}", partial: 'reservations/connect_info', locals: { reservation: self }
-    broadcast_replace_to self, target: "reservation_sdr_connect_info_#{id}", partial: 'reservations/sdr_connect_info', locals: { reservation: self }
-    broadcast_replace_to self, target: "reservation_stv_connect_info_#{id}", partial: 'reservations/stv_connect_info', locals: { reservation: self }
-    broadcast_replace_to self, target: "reservation_actions_#{id}", partial: 'reservations/actions', locals: { reservation: self }
+    broadcast_replace_to self, target: "reservation_connect_info_#{id}", partial: "reservations/connect_info", locals: { reservation: self }
+    broadcast_replace_to self, target: "reservation_sdr_connect_info_#{id}", partial: "reservations/sdr_connect_info", locals: { reservation: self }
+    broadcast_replace_to self, target: "reservation_stv_connect_info_#{id}", partial: "reservations/stv_connect_info", locals: { reservation: self }
+    broadcast_replace_to self, target: "reservation_actions_#{id}", partial: "reservations/actions", locals: { reservation: self }
   end
 
   private
@@ -346,6 +346,6 @@ class Reservation < ActiveRecord::Base
 
   sig { returns(T.nilable(ReservationStatus)) }
   def generate_initial_status
-    status_update('Waiting to start') if future?
+    status_update("Waiting to start") if future?
   end
 end

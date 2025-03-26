@@ -8,9 +8,9 @@ class StripeWebhooksController < ApplicationController
 
   def create
     case event.type
-    when 'payment_intent.succeeded'
+    when "payment_intent.succeeded"
       handle_payment_intent_succeeded(event.data.object)
-    when 'payment_intent.payment_failed'
+    when "payment_intent.payment_failed"
       handle_payment_intent_failed(event.data.object)
     end
 
@@ -25,30 +25,30 @@ class StripeWebhooksController < ApplicationController
     order = StripeOrder.find_by(payment_id: payment_intent.id)
     return unless order
 
-    order.handle_successful_payment! unless order.status == 'Completed'
+    order.handle_successful_payment! unless order.status == "Completed"
   end
 
   def handle_payment_intent_failed(payment_intent)
     order = StripeOrder.find_by(payment_id: payment_intent.id)
     return unless order
 
-    order.update(status: 'Failed')
+    order.update(status: "Failed")
   end
 
   def verify_webhook_signature
     payload = request.raw_post
-    sig_header = request.env['HTTP_STRIPE_SIGNATURE']
+    sig_header = request.env["HTTP_STRIPE_SIGNATURE"]
 
     region_secret = case SITE_HOST
-                    when 'na.serveme.tf'
+    when "na.serveme.tf"
                       :na_wh_secret
-                    when 'sea.serveme.tf'
+    when "sea.serveme.tf"
                       :sea_wh_secret
-                    when 'au.serveme.tf'
+    when "au.serveme.tf"
                       :au_wh_secret
-                    else
+    else
                       :eu_wh_secret # Fallback to EU
-                    end
+    end
 
     endpoint_secret = Rails.application.credentials.dig(:stripe, region_secret)
 

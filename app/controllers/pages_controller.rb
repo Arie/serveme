@@ -17,7 +17,7 @@ class PagesController < ApplicationController
   def credits; end
 
   def recent_reservations
-    @recent_reservations = Reservation.order('starts_at DESC').includes(user: :groups, server: :location).paginate(page: params[:page], per_page: 50)
+    @recent_reservations = Reservation.order("starts_at DESC").includes(user: :groups, server: :location).paginate(page: params[:page], per_page: 50)
   end
 
   def statistics
@@ -32,7 +32,7 @@ class PagesController < ApplicationController
     current_reservations_count = Reservation.current.count
     servers_for_non_premium_in_use = Reservation.current.where(server_id: Server.without_group).count
     servers_for_premium_in_use = Reservation.current.where(server_id: Server.for_donators).count
-    current_players_count = PlayerStatistic.joins(:reservation_player).where('created_at > ?', 90.seconds.ago).pluck('reservation_players.steam_uid').uniq.count
+    current_players_count = PlayerStatistic.joins(:reservation_player).where("created_at > ?", 90.seconds.ago).pluck("reservation_players.steam_uid").uniq.count
 
     render json: {
       current_reservations: current_reservations_count,
@@ -52,16 +52,16 @@ class PagesController < ApplicationController
   def private_servers; end
 
   def no_vatnik
-    cookies.permanent[:not_a_vatnik] = (params[:not_a_vatnik] == 'true')
+    cookies.permanent[:not_a_vatnik] = (params[:not_a_vatnik] == "true")
     redirect_to root_path
   end
 
   def not_found
-    render 'not_found', status: 404, formats: :html
+    render "not_found", status: 404, formats: :html
   end
 
   def error
-    Sentry.capture_exception(request.env['action_dispatch.exception']) if Rails.env.production? && request.env['action_dispatch.exception']
-    render 'error', status: 500, formats: :html
+    Sentry.capture_exception(request.env["action_dispatch.exception"]) if Rails.env.production? && request.env["action_dispatch.exception"]
+    render "error", status: 500, formats: :html
   end
 end

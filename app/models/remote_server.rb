@@ -3,7 +3,7 @@
 
 class RemoteServer < Server
   def write_configuration(output_filename, output_content)
-    file = Tempfile.new('config_file')
+    file = Tempfile.new("config_file")
     file.sync = true
     file.write(output_content)
     upload_configuration(file.path, output_filename)
@@ -13,7 +13,7 @@ class RemoteServer < Server
   end
 
   def upload_configuration(configuration_file, upload_file)
-    copy_to_server([configuration_file], upload_file)
+    copy_to_server([ configuration_file ], upload_file)
   end
 
   def remove_configuration

@@ -15,7 +15,7 @@ class ServerConfig < ActiveRecord::Base
 
   sig { returns(ActiveRecord::Relation) }
   def self.ordered
-    order('lower(file)')
+    order("lower(file)")
   end
 
   sig { returns(T.nilable(String)) }

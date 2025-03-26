@@ -14,7 +14,7 @@ class PlayerStatisticDecorator < Draper::Decorator
   end
 
   def flag
-    geocoded && h.content_tag(:span, '', class: "flags flags-#{flag_abbreviation}", title: geocoded.country)
+    geocoded && h.content_tag(:span, "", class: "flags flags-#{flag_abbreviation}", title: geocoded.country)
   end
 
   def flag_abbreviation

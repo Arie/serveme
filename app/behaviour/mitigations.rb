@@ -44,7 +44,7 @@ module Mitigations
   end
 
   def allow_limited_udp_rule
-    return '' if server.sdr?
+    return "" if server.sdr?
 
     "#{iptables} -A #{chain_name} -t raw -p udp -m limit --limit 300/s --limit-burst 300 -j ACCEPT &&"
   end

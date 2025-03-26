@@ -40,7 +40,7 @@ class RconStatusParser
     end
 
     def active?
-      state == 'active'
+      state == "active"
     end
 
     def steam_uid
@@ -48,7 +48,7 @@ class RconStatusParser
     end
 
     def minutes_connected
-      splitted_time = connect_duration.split(':').map(&:to_i)
+      splitted_time = connect_duration.split(":").map(&:to_i)
       case splitted_time.size
       when 2
         splitted_time.first

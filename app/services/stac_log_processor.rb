@@ -13,7 +13,7 @@ class StacLogProcessor
 
   # Detection type normalization
   DETECTION_TYPE_MAPPING = {
-    'Possible triggerbot' => 'Triggerbot'
+    "Possible triggerbot" => "Triggerbot"
   }.freeze
 
   def initialize(reservation)
@@ -27,8 +27,8 @@ class StacLogProcessor
     all_detections = {}
 
     logs.each do |log_file|
-      content = File.read(log_file).force_encoding('UTF-8')
-      content = content.encode('UTF-8', 'UTF-8', invalid: :replace, undef: :replace, replace: '')
+      content = File.read(log_file).force_encoding("UTF-8")
+      content = content.encode("UTF-8", "UTF-8", invalid: :replace, undef: :replace, replace: "")
       process_log_content(content, all_detections)
     end
 
@@ -39,8 +39,8 @@ class StacLogProcessor
     all_detections = {}
 
     # Ensure content is UTF-8 encoded
-    content = content.force_encoding('UTF-8')
-    content = content.encode('UTF-8', 'UTF-8', invalid: :replace, undef: :replace, replace: '')
+    content = content.force_encoding("UTF-8")
+    content = content.encode("UTF-8", "UTF-8", invalid: :replace, undef: :replace, replace: "")
 
     process_log_content(content, all_detections)
     notify_detections(all_detections) if all_detections.any?
@@ -69,7 +69,7 @@ class StacLogProcessor
   end
 
   def find_non_empty_logs(tmp_dir)
-    Dir.glob(File.join(tmp_dir, '*.log')).reject { |f| File.empty?(f) }
+    Dir.glob(File.join(tmp_dir, "*.log")).reject { |f| File.empty?(f) }
   end
 
   def parse_stac_detections(content)
@@ -103,7 +103,7 @@ class StacLogProcessor
       steam_id = match[3]
       steam_id64 = convert_steam_id(steam_id)
 
-      add_detection(detections, steam_id64, name, steam_id, 'CmdNum SPIKE')
+      add_detection(detections, steam_id64, name, steam_id, "CmdNum SPIKE")
     end
   end
 
@@ -128,7 +128,7 @@ class StacLogProcessor
   end
 
   def parse_player_name(name)
-    name.strip.split('<').first
+    name.strip.split("<").first
   end
 
   def convert_steam_id(steam_id)

@@ -3,12 +3,12 @@
 
 class UploadsController < ApplicationController
   def show
-    reservation_id = params[:id]&.split('-')&.[](1)&.to_i
+    reservation_id = params[:id]&.split("-")&.[](1)&.to_i
     respond_to do |format|
       format.zip do
         reservation = find_reservation(reservation_id)
         if reservation
-          zip_file_path = Rails.root.join('public', 'uploads', reservation.zipfile_name)
+          zip_file_path = Rails.root.join("public", "uploads", reservation.zipfile_name)
           if File.exist?(zip_file_path)
             send_file(zip_file_path)
           else

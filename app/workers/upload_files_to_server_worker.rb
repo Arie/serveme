@@ -5,8 +5,8 @@ class UploadFilesToServerWorker
   include Sidekiq::Worker
 
   def perform(options)
-    files_with_path = options['files_with_path']
-    server_upload = ServerUpload.find_by_id(options['server_upload_id'])
+    files_with_path = options["files_with_path"]
+    server_upload = ServerUpload.find_by_id(options["server_upload_id"])
     s = Server.find(server_upload.server_id)
 
     server_upload.update(started_at: Time.now)

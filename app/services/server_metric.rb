@@ -66,7 +66,7 @@ class ServerMetric
   def firewall_allow_players
     steam_uids = parser&.players&.map(&:steam_uid)
 
-    ReservationPlayer.where(reservation: current_reservation, steam_uid: steam_uids).where(whitelisted: [nil, false]).each do |rp|
+    ReservationPlayer.where(reservation: current_reservation, steam_uid: steam_uids).where(whitelisted: [ nil, false ]).each do |rp|
       Rails.logger.info("Found unwhitelisted player with uid #{rp.steam_uid} for reservation #{current_reservation.id}")
       current_reservation.allow_reservation_player(rp)
     end
@@ -89,7 +89,7 @@ class ServerMetric
   end
 
   def sanitize_name(name)
-    return 'banned' if ReservationPlayer.banned_name?(name)
+    return "banned" if ReservationPlayer.banned_name?(name)
 
     name
   end

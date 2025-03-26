@@ -15,7 +15,7 @@ class StripeOrder < Order
       return_url: "#{SITE_URL}/orders/stripe_return",
       automatic_payment_methods: {
         enabled: true,
-        allow_redirects: 'never'
+        allow_redirects: "never"
       },
       metadata: {
         site_url: SITE_URL,
@@ -27,12 +27,12 @@ class StripeOrder < Order
 
     update(payment_id: intent.id)
 
-    if intent.status == 'requires_action'
+    if intent.status == "requires_action"
       {
         requires_action: true,
         payment_intent_client_secret: intent.client_secret
       }
-    elsif intent.status == 'succeeded'
+    elsif intent.status == "succeeded"
       handle_successful_payment!
       {
         success: true,
@@ -40,7 +40,7 @@ class StripeOrder < Order
         voucher: voucher&.code
       }
     else
-      { error: 'Payment failed' }
+      { error: "Payment failed" }
     end
   rescue Stripe::CardError => e
     { error: e.message }
@@ -50,23 +50,23 @@ class StripeOrder < Order
   def confirm_payment(payment_intent_id)
     intent = Stripe::PaymentIntent.retrieve(payment_intent_id)
 
-    if intent.status == 'succeeded'
+    if intent.status == "succeeded"
       handle_successful_payment!
       {
         success: true,
         gift: gift?,
         voucher: voucher&.code
       }
-    elsif intent.status == 'requires_confirmation'
+    elsif intent.status == "requires_confirmation"
       # Confirm the payment if needed
       intent.confirm({
                        return_url: "#{SITE_URL}/orders/stripe_return",
                        automatic_payment_methods: {
                          enabled: true,
-                         allow_redirects: 'never'
+                         allow_redirects: "never"
                        }
                      })
-      if intent.status == 'succeeded'
+      if intent.status == "succeeded"
         handle_successful_payment!
         {
           success: true,
@@ -74,7 +74,7 @@ class StripeOrder < Order
           voucher: voucher&.code
         }
       else
-        { error: 'Payment confirmation failed', status: intent.status }
+        { error: "Payment confirmation failed", status: intent.status }
       end
     else
       { error: "Payment confirmation failed - status: #{intent.status}" }

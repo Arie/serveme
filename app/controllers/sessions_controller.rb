@@ -11,7 +11,7 @@ class SessionsController < Devise::OmniauthCallbacksController
   def new; end
 
   def steam
-    user = User.find_for_steam_auth(request.env['omniauth.auth'])
+    user = User.find_for_steam_auth(request.env["omniauth.auth"])
 
     return unless user
 
@@ -20,12 +20,12 @@ class SessionsController < Devise::OmniauthCallbacksController
 
     return unless is_navigational_format?
 
-    set_flash_message(:notice, :success, kind: 'Steam')
+    set_flash_message(:notice, :success, kind: "Steam")
   end
 
   def failure; end
 
   def passthru
-    render template: 'pages/not_found', status: 404
+    render template: "pages/not_found", status: 404
   end
 end

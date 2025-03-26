@@ -120,6 +120,6 @@ class SshServer < RemoteServer
 
   sig { returns(String) }
   def scp_command
-    'scp -O -T -l 200000'
+    "scp -O -T -l 200000"
   end
 end

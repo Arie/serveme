@@ -30,7 +30,7 @@ class FileUpload < ActiveRecord::Base
 
       next if filename.match(/(__MACOSX|.DS_Store)/) || zipped_file.directory?
 
-      target_dir = zipped_file.name.split('/')[0..-2].join('/')
+      target_dir = zipped_file.name.split("/")[0..-2].join("/")
       files_with_path[target_dir] ||= []
 
       zipped_file.extract(File.join(tmp_dir, target_dir, filename)) { false }
@@ -48,6 +48,6 @@ class FileUpload < ActiveRecord::Base
 
   def upload_files_to_server(server, files_with_path)
     server_upload = ServerUpload.where(file_upload_id: id, server_id: server.id).first_or_create!
-    UploadFilesToServerWorker.perform_async('server_upload_id' => server_upload.id, 'files_with_path' => files_with_path)
+    UploadFilesToServerWorker.perform_async("server_upload_id" => server_upload.id, "files_with_path" => files_with_path)
   end
 end

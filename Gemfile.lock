@@ -614,6 +614,20 @@ GEM
     rubocop-ast (1.43.0)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
+    rubocop-performance (1.24.0)
+      lint_roller (~> 1.1)
+      rubocop (>= 1.72.1, < 2.0)
+      rubocop-ast (>= 1.38.0, < 2.0)
+    rubocop-rails (2.30.3)
+      activesupport (>= 4.2.0)
+      lint_roller (~> 1.1)
+      rack (>= 1.1)
+      rubocop (>= 1.72.1, < 2.0)
+      rubocop-ast (>= 1.38.0, < 2.0)
+    rubocop-rails-omakase (1.1.0)
+      rubocop (>= 1.72)
+      rubocop-performance (>= 1.24)
+      rubocop-rails (>= 2.30)
     rubocop-sorbet (0.9.0)
       lint_roller (~> 1.1)
       rubocop (>= 1)
@@ -868,6 +882,9 @@ DEPENDENCIES
   rspec-sorbet
   rspec-support
   rubocop
+  rubocop-performance
+  rubocop-rails
+  rubocop-rails-omakase
   rubocop-sorbet
   ruby_parser
   rubyzip

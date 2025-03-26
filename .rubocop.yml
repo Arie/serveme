@@ -1,4 +1,11 @@
-plugins: rubocop-sorbet
+plugins:
+   - rubocop-sorbet
+   - rubocop-performance
+   - rubocop-rails
+   - rubocop-sorbet
+
+inherit_gem:
+   rubocop-rails-omakase: rubocop.yml
 
 AllCops:
    SuggestExtensions: false

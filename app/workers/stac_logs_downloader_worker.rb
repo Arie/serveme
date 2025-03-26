@@ -51,7 +51,7 @@ class StacLogsDownloaderWorker
   end
 
   def find_non_empty_logs(tmp_dir)
-    Dir.glob(File.join(tmp_dir, '*.log')).reject { |f| File.empty?(f) }
+    Dir.glob(File.join(tmp_dir, "*.log")).reject { |f| File.empty?(f) }
   end
 
   def remove_server_stac_logs

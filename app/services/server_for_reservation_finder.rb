@@ -11,7 +11,7 @@ class ServerForReservationFinder
   def servers
     colliding_reservations = CollisionFinder.new(Reservation.where(server_id: available_for_user), reservation).colliding_reservations
     if colliding_reservations.any?
-      available_for_user.where('id NOT IN (?)', colliding_reservations.map(&:server_id))
+      available_for_user.where("id NOT IN (?)", colliding_reservations.map(&:server_id))
     else
       available_for_user
     end

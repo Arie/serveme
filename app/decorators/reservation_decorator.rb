@@ -6,13 +6,13 @@ class ReservationDecorator < Draper::Decorator
   delegate_all
 
   def server_name
-    (server && (flag + server.name)) || 'Unknown server'
+    (server && (flag + server.name)) || "Unknown server"
   end
 
   def flag
     abbreviation = server_location_flag
     location_name = server_location
-    tag.span '', class: "flags flags-#{abbreviation}", title: location_name
+    tag.span "", class: "flags flags-#{abbreviation}", title: location_name
   end
 
   def server_location_name

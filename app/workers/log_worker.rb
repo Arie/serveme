@@ -33,14 +33,14 @@ class LogWorker
       mapstart = event.unknown.match(MAP_START)
       handle_mapstart(mapstart[2]) if mapstart
     end
-    Turbo::StreamsChannel.broadcast_prepend_to "reservation_#{reservation.logsecret}_log_lines", target: "reservation_#{reservation.logsecret}_log_lines", partial: 'reservations/log_line', locals: { log_line: line }
+    Turbo::StreamsChannel.broadcast_prepend_to "reservation_#{reservation.logsecret}_log_lines", target: "reservation_#{reservation.logsecret}_log_lines", partial: "reservations/log_line", locals: { log_line: line }
   end
 
   def handle_mapstart(mapname)
     reservation.broadcast_connect_info
     ActiveReservationCheckerWorker.perform_in(10.seconds, reservation.id)
-    if mapname == 'ctf_turbine'
-      reservation.status_update('Server startup complete, switching map')
+    if mapname == "ctf_turbine"
+      reservation.status_update("Server startup complete, switching map")
     else
       reservation.status_update("Server finished loading map \"#{mapname}\"")
     end
@@ -57,7 +57,7 @@ class LogWorker
 
   def handle_connect
     community_id = SteamCondenser::Community::SteamId.steam_id_to_community_id(event.player.steam_id)
-    ip = event.message.to_s.split(':').first
+    ip = event.message.to_s.split(":").first
     rp = ReservationPlayer.where(reservation_id: reservation_id, ip: ip, steam_uid: community_id).first_or_create
     rp.update(name: event.player.name)
 
@@ -78,8 +78,8 @@ class LogWorker
 
   def handle_end
     Rails.logger.info "Ending #{reservation} from chat"
-    reservation.server.rcon_say 'Ending your reservation...'
-    ReservationWorker.perform_async(reservation.id, 'end')
+    reservation.server.rcon_say "Ending your reservation..."
+    ReservationWorker.perform_async(reservation.id, "end")
   end
 
   def handle_extend
@@ -98,12 +98,12 @@ class LogWorker
       reservation.server.rcon_say "SDR info: connect #{reservation.sdr_ip}:#{reservation.sdr_port}"
     else
       Rails.logger.info "Couldn't send SDR info #{reservation} after chat request from #{sayer_steam_uid}"
-      reservation.server.rcon_say 'SDR currently not available for this server, please try again in a minute or two'
+      reservation.server.rcon_say "SDR currently not available for this server, please try again in a minute or two"
     end
   end
 
   def handle_rcon
-    rcon_command = message.split[1..].join(' ')
+    rcon_command = message.split[1..].join(" ")
     return if rcon_command.empty?
 
     if !reservation.server.sdr? && (reservation.enable_plugins? || reservation.enable_demos_tf?)
@@ -122,7 +122,7 @@ class LogWorker
 
   def handle_timeleft
     minutes_until_reservation_ends = ((reservation.ends_at - Time.current) / 60).round
-    minutes = [minutes_until_reservation_ends, 0].max
+    minutes = [ minutes_until_reservation_ends, 0 ].max
     timeleft = minutes.positive? ? "#{minutes} minutes" : "#{minutes} minute"
     reservation.server.rcon_say "Reservation time left: #{timeleft}"
   end

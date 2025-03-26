@@ -21,7 +21,7 @@ class LogCopier
   end
 
   def directory_to_copy_to
-    Rails.root.join('server_logs', reservation.id.to_s)
+    Rails.root.join("server_logs", reservation.id.to_s)
   end
 
   def make_directory

@@ -4,8 +4,8 @@
 class ReservationPlayer < ActiveRecord::Base
   extend T::Sig
 
-  require 'csv'
-  require 'ipaddr'
+  require "csv"
+  require "ipaddr"
   belongs_to :reservation, optional: true
   has_one :server, through: :reservation, autosave: false
   belongs_to :user, primary_key: :uid, foreign_key: :steam_uid, optional: true
@@ -30,7 +30,7 @@ class ReservationPlayer < ActiveRecord::Base
 
   sig { params(nickname: String).returns(T::Boolean) }
   def self.banned_name?(nickname)
-    nickname.include?('﷽')
+    nickname.include?("﷽")
   end
 
   sig { params(steam_id64: T.nilable(T.any(Integer, String))).returns(T.nilable(T.any(String, T::Boolean))) }
@@ -42,7 +42,7 @@ class ReservationPlayer < ActiveRecord::Base
 
   sig { returns(T::Hash[Integer, String]) }
   def self.whitelisted_uids
-    @whitelisted_uids ||= CSV.read(Rails.root.join('doc', 'whitelisted_steam_ids.csv'), headers: true).to_h { |row| [row['steam_id64'].to_i, row['reason']] }
+    @whitelisted_uids ||= CSV.read(Rails.root.join("doc", "whitelisted_steam_ids.csv"), headers: true).to_h { |row| [ row["steam_id64"].to_i, row["reason"] ] }
   end
 
   sig { params(steam_id64: T.nilable(T.any(Integer, String))).returns(T.nilable(String)) }
@@ -66,17 +66,17 @@ class ReservationPlayer < ActiveRecord::Base
 
   sig { returns(T::Hash[Integer, String]) }
   def self.banned_uids
-    @banned_uids ||= CSV.read(Rails.root.join('doc', 'banned_steam_ids.csv'), headers: true).to_h { |row| [row['steam_id64'].to_i, row['reason']] }
+    @banned_uids ||= CSV.read(Rails.root.join("doc", "banned_steam_ids.csv"), headers: true).to_h { |row| [ row["steam_id64"].to_i, row["reason"] ] }
   end
 
   sig { returns(T::Array[String]) }
   def self.banned_ips
-    @banned_ips ||= CSV.read(Rails.root.join('doc', 'banned_ips.csv'), headers: true).map { |row| [IPAddr.new(row['ip']), row['reason']] }
+    @banned_ips ||= CSV.read(Rails.root.join("doc", "banned_ips.csv"), headers: true).map { |row| [ IPAddr.new(row["ip"]), row["reason"] ] }
   end
 
   sig { returns(T::Array[String]) }
   def self.vpn_ranges
-    @vpn_ranges ||= CSV.read(Rails.root.join('doc', 'vpn_ips.csv'), headers: true).map { |row| IPAddr.new(row['ip']) }
+    @vpn_ranges ||= CSV.read(Rails.root.join("doc", "vpn_ips.csv"), headers: true).map { |row| IPAddr.new(row["ip"]) }
   end
 
   sig { params(ip: T.nilable(String)).returns(T.nilable(T::Boolean)) }
@@ -91,7 +91,7 @@ class ReservationPlayer < ActiveRecord::Base
 
   sig { params(ip: T.nilable(String)).returns(T.nilable(MaxMind::GeoIP2::Model::ASN)) }
   def self.asn(ip)
-    return nil if IPAddr.new('169.254.0.0/16').include?(ip)
+    return nil if IPAddr.new("169.254.0.0/16").include?(ip)
 
     begin
       $maxmind_asn.asn(ip)
@@ -102,7 +102,7 @@ class ReservationPlayer < ActiveRecord::Base
 
   sig { returns(T::Array[Integer]) }
   def self.banned_asns
-    @banned_asns ||= CSV.read(Rails.root.join('doc', 'bad-asn-list.csv'), headers: true).map { |row| row['ASN'].to_i }
+    @banned_asns ||= CSV.read(Rails.root.join("doc", "bad-asn-list.csv"), headers: true).map { |row| row["ASN"].to_i }
   end
 
   sig { returns(T::Array[Integer]) }

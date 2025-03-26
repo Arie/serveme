@@ -73,7 +73,7 @@ class ApplicationController < ActionController::Base
   def require_donator
     return if current_user&.donator?
 
-    flash[:alert] = 'Only donators can do that...'
+    flash[:alert] = "Only donators can do that..."
     redirect_to root_path
   end
 
@@ -86,20 +86,20 @@ class ApplicationController < ActionController::Base
         sign_out_and_redirect(current_user)
       elsif current_user.current_sign_in_ip && ReservationPlayer.banned_asn_ip?(current_user.current_sign_in_ip) && !current_user.admin?
         Rails.logger.info "Logging out player on VPN with user id #{current_user.id} steam uid #{current_user.uid}, IP #{current_user.current_sign_in_ip}, name #{current_user.name}"
-        flash[:notice] = 'You appear to be on a VPN, please log in without it'
+        flash[:notice] = "You appear to be on a VPN, please log in without it"
         sign_out_and_redirect(current_user)
       else
         super
       end
     else
       session[:user_return_to] = request.url
-      flash[:notice] = 'Please log in first'
+      flash[:notice] = "Please log in first"
       redirect_to new_session_path
     end
   end
 
   def redirect_if_country_banned
-    return if cookies['not_a_vatnik'] == 'true' || current_user&.donator? || ReservationPlayer.whitelisted_uid?(current_user&.uid)
+    return if cookies["not_a_vatnik"] == "true" || current_user&.donator? || ReservationPlayer.whitelisted_uid?(current_user&.uid)
 
     redirect_to no_to_war_path if current_user&.banned_country? || ReservationPlayer.banned_country?(request.remote_ip) || recent_banned_country_ips?
   end
@@ -110,7 +110,7 @@ class ApplicationController < ActionController::Base
     current_user
       .reservation_players
       .joins(:reservation)
-      .where('reservations.created_at > ?', Date.new(2022, 1, 1))
+      .where("reservations.created_at > ?", Date.new(2022, 1, 1))
       .pluck(:ip)
       .compact
       .uniq

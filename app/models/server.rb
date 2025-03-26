@@ -8,9 +8,9 @@ class Server < ActiveRecord::Base
   has_many :group_servers
   has_many :groups, through: :group_servers
   has_many :reservations
-  has_many :current_reservations, -> { where('reservations.starts_at <= ? AND reservations.ends_at >=?', Time.current, Time.current) }, class_name: 'Reservation'
+  has_many :current_reservations, -> { where("reservations.starts_at <= ? AND reservations.ends_at >=?", Time.current, Time.current) }, class_name: "Reservation"
   has_many :ratings, through: :reservations
-  has_many :recent_server_statistics, -> { where('server_statistics.created_at >= ?', 2.minutes.ago).order('server_statistics.id DESC') }, class_name: 'ServerStatistic'
+  has_many :recent_server_statistics, -> { where("server_statistics.created_at >= ?", 2.minutes.ago).order("server_statistics.id DESC") }, class_name: "ServerStatistic"
   has_many :server_statistics
   belongs_to :location
 
@@ -33,13 +33,13 @@ class Server < ActiveRecord::Base
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.ordered
-    order('servers.position ASC, servers.name ASC')
+    order("servers.position ASC, servers.name ASC")
   end
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.without_group
     if with_group.exists?
-      where('servers.id NOT IN (?)', with_group.pluck(:id))
+      where("servers.id NOT IN (?)", with_group.pluck(:id))
     else
       all
     end
@@ -52,14 +52,14 @@ class Server < ActiveRecord::Base
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy, T.untyped)) }
   def self.active
-    where('servers.active = ?', true)
+    where("servers.active = ?", true)
   end
 
   sig { params(groups: T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)).returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.member_of_groups(groups)
     with_group
       .where(groups: { id: groups.pluck(:id) })
-      .group('servers.id')
+      .group("servers.id")
   end
 
   sig { returns(ActiveRecord::Relation) }
@@ -71,19 +71,19 @@ class Server < ActiveRecord::Base
   def self.outdated(latest_version = nil)
     latest_version ||= self.latest_version
 
-    where('last_known_version is not null and last_known_version < ?', latest_version)
+    where("last_known_version is not null and last_known_version < ?", latest_version)
   end
 
   sig { params(latest_version: T.nilable(Integer)).returns(ActiveRecord::Relation) }
   def self.updated(latest_version = nil)
     latest_version ||= self.latest_version
 
-    where('last_known_version is null or last_known_version = ?', latest_version)
+    where("last_known_version is null or last_known_version = ?", latest_version)
   end
 
   sig { returns(ActiveRecord::Relation) }
   def self.updating
-    where('update_status = ?', 'Updating')
+    where("update_status = ?", "Updating")
   end
 
   sig { returns(T.nilable(String)) }
@@ -129,14 +129,14 @@ class Server < ActiveRecord::Base
 
   sig { params(reservation: Reservation).returns(ReservationStatus) }
   def update_configuration(reservation)
-    reservation.status_update('Sending reservation config files')
-    ['reservation.cfg', 'ctf_turbine.cfg'].each do |config_file|
+    reservation.status_update("Sending reservation config files")
+    [ "reservation.cfg", "ctf_turbine.cfg" ].each do |config_file|
       config_body = generate_config_file(reservation, config_file)
       write_configuration(server_config_file(config_file), config_body)
     end
     add_motd(reservation)
     write_custom_whitelist(reservation) if reservation.custom_whitelist_id.present?
-    reservation.status_update('Finished sending reservation config files')
+    reservation.status_update("Finished sending reservation config files")
   end
 
   sig { returns(T.nilable(T.any(String, T::Boolean))) }
@@ -161,7 +161,7 @@ class Server < ActiveRecord::Base
 
   sig { returns(T.nilable(T.any(T::Boolean, String))) }
   def disable_plugins
-    delete_from_server([sourcemod_file, sourcemod_admin_file])
+    delete_from_server([ sourcemod_file, sourcemod_admin_file ])
   end
 
   sig { returns(String) }
@@ -198,7 +198,7 @@ class Server < ActiveRecord::Base
   sig { params(user: User).returns(String) }
   def sourcemod_admin_body(user)
     uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(user.uid.to_i)
-    flags = sdr? ? 'abcdefghijkln' : 'z'
+    flags = sdr? ? "abcdefghijkln" : "z"
     <<-INI
     "#{uid3}" "99:#{flags}"
     INI
@@ -251,7 +251,7 @@ class Server < ActiveRecord::Base
 
   sig { returns(String) }
   def tf_dir
-    File.join(path, 'tf')
+    File.join(path, "tf")
   end
 
   sig { returns(T.nilable(String)) }
@@ -285,34 +285,34 @@ class Server < ActiveRecord::Base
 
     update_configuration(reservation)
     if reservation.enable_plugins? || reservation.enable_demos_tf? || au_system?
-      reservation.status_update('Enabling plugins')
+      reservation.status_update("Enabling plugins")
       enable_plugins
       add_sourcemod_admin(reservation.user)
       add_sourcemod_servers(reservation)
-      reservation.status_update('Enabled plugins')
+      reservation.status_update("Enabled plugins")
       if reservation.enable_demos_tf? || au_system?
-        reservation.status_update('Enabling demos.tf')
+        reservation.status_update("Enabling demos.tf")
         enable_demos_tf
-        reservation.status_update('Enabled demos.tf')
+        reservation.status_update("Enabled demos.tf")
       end
     end
     ensure_map_on_server(reservation)
     if reservation.server.outdated?
-      reservation.status_update('Server outdated, restarting server to update')
+      reservation.status_update("Server outdated, restarting server to update")
       clear_sdr_info!
       restart
-      reservation.status_update('Restarted server, waiting to boot')
+      reservation.status_update("Restarted server, waiting to boot")
     else
-      reservation.status_update('Attempting fast start')
+      reservation.status_update("Attempting fast start")
       if rcon_exec("removeip 1; removeip 1; removeip 1; sv_logsecret #{reservation.logsecret}; logaddress_add direct.#{SITE_HOST}:40001", allow_blocked: true)
-        first_map = reservation.first_map.presence || 'ctf_turbine'
+        first_map = reservation.first_map.presence || "ctf_turbine"
         rcon_exec("changelevel #{first_map}; exec reservation.cfg")
-        reservation.status_update('Fast start attempted, waiting to boot')
+        reservation.status_update("Fast start attempted, waiting to boot")
       else
-        reservation.status_update('Fast start failed, starting server normally')
+        reservation.status_update("Fast start failed, starting server normally")
         clear_sdr_info!
         restart
-        reservation.status_update('Restarted server, waiting to boot')
+        reservation.status_update("Restarted server, waiting to boot")
       end
     end
   end
@@ -331,7 +331,7 @@ class Server < ActiveRecord::Base
 
   def upload_map_to_server(reservation)
     tempfile = Down.download("https://fastdl.serveme.tf/maps/#{reservation.first_map}.bsp")
-    copy_to_server([tempfile.path], "#{tf_dir}/maps/#{reservation.first_map}.bsp")
+    copy_to_server([ tempfile.path ], "#{tf_dir}/maps/#{reservation.first_map}.bsp")
     reservation.status_update("Uploaded map #{reservation.first_map} to server")
   end
 
@@ -352,11 +352,11 @@ class Server < ActiveRecord::Base
     zip_demos_and_logs(reservation)
     copy_logs(reservation)
     remove_logs_and_demos
-    reservation.status_update('Restarting server')
+    reservation.status_update("Restarting server")
     rcon_disconnect
     clear_sdr_info!
     restart
-    reservation.status_update('Restarted server')
+    reservation.status_update("Restarted server")
   end
 
   def download_stac_logs(reservation)
@@ -364,12 +364,12 @@ class Server < ActiveRecord::Base
   end
 
   def enable_demos_tf
-    demos_tf_file = Rails.root.join('doc', 'demostf.smx').to_s
-    copy_to_server([demos_tf_file], "#{tf_dir}/addons/sourcemod/plugins")
+    demos_tf_file = Rails.root.join("doc", "demostf.smx").to_s
+    copy_to_server([ demos_tf_file ], "#{tf_dir}/addons/sourcemod/plugins")
   end
 
   def disable_demos_tf
-    delete_from_server(["#{tf_dir}/addons/sourcemod/plugins/demostf.smx"])
+    delete_from_server([ "#{tf_dir}/addons/sourcemod/plugins/demostf.smx" ])
   end
 
   def zip_demos_and_logs(reservation)
@@ -420,7 +420,7 @@ class Server < ActiveRecord::Base
   end
 
   def version
-    @version ||= /Network\ PatchVersion:\s+(\d+)/ =~ rcon_exec('version').to_s && Regexp.last_match(1).to_i
+    @version ||= /Network\ PatchVersion:\s+(\d+)/ =~ rcon_exec("version").to_s && Regexp.last_match(1).to_i
   end
 
   def outdated?
@@ -429,7 +429,7 @@ class Server < ActiveRecord::Base
 
   sig { returns(T.nilable(Integer)) }
   def self.latest_version
-    Rails.cache.fetch('latest_server_version', expires_in: 5.minutes) do
+    Rails.cache.fetch("latest_server_version", expires_in: 5.minutes) do
       fetch_latest_version
     end
   rescue Net::ReadTimeout, Faraday::TimeoutError
@@ -437,16 +437,16 @@ class Server < ActiveRecord::Base
   end
 
   def self.fetch_latest_version
-    return 100_000_000 if Rails.env == 'test'
+    return 100_000_000 if Rails.env == "test"
 
-    response = Faraday.new(url: 'http://api.steampowered.com').get('ISteamApps/UpToDateCheck/v1?appid=440&version=0') do |req|
+    response = Faraday.new(url: "http://api.steampowered.com").get("ISteamApps/UpToDateCheck/v1?appid=440&version=0") do |req|
       req.options.timeout = 5
       req.options.open_timeout = 2
     end
     return unless response.success?
 
     json = JSON.parse(response.body)
-    json['response']['required_version'].to_i
+    json["response"]["required_version"].to_i
   end
 
   def number_of_players
@@ -494,57 +494,57 @@ class Server < ActiveRecord::Base
     return if version.nil? || latest_version.nil?
 
     if version < latest_version
-      Rails.logger.warn("Server #{name} was updating since #{I18n.l(update_started_at, format: :short)} but is now back online with old version #{version} instead of latest #{latest_version}") if update_status == 'Updating'
+      Rails.logger.warn("Server #{name} was updating since #{I18n.l(update_started_at, format: :short)} but is now back online with old version #{version} instead of latest #{latest_version}") if update_status == "Updating"
 
-      update(update_status: 'Outdated', last_known_version: version)
+      update(update_status: "Outdated", last_known_version: version)
     else
       Rails.logger.info("Server #{name} was updating since #{I18n.l(update_started_at, format: :short)} from version #{last_known_version} and is now back online with latest version #{version}") if %w[Updating Outdated].include?(update_status)
 
-      update(update_status: 'Updated', last_known_version: version)
+      update(update_status: "Updated", last_known_version: version)
     end
   end
 
   def write_configuration(_filename, _contents)
-    raise 'not implemented'
+    raise "not implemented"
   end
 
   def remove_configuration
-    raise 'not implemented'
+    raise "not implemented"
   end
 
   def find_process_id
-    raise 'not implemented'
+    raise "not implemented"
   end
 
   def restart
-    raise 'not implemented'
+    raise "not implemented"
   end
 
   sig { params(_files: T::Array[String], _destination: String).returns(T.nilable(T::Boolean)) }
   def copy_to_server(_files, _destination)
-    raise 'not implemented'
+    raise "not implemented"
   end
 
   sig { params(_files: T::Array[String]).returns(T.nilable(T::Boolean)) }
   def delete_from_server(_files)
-    raise 'not implemented'
+    raise "not implemented"
   end
 
   def logs
-    raise 'not implemented'
+    raise "not implemented"
   end
 
   def demos
-    raise 'not implemented'
+    raise "not implemented"
   end
 
   def remove_logs_and_demos
-    raise 'not implemented'
+    raise "not implemented"
   end
 
   sig { params(_file: String).returns(T.nilable(T::Boolean)) }
   def file_present?(_file)
-    raise 'not implemented'
+    raise "not implemented"
   end
 
   private
@@ -554,15 +554,15 @@ class Server < ActiveRecord::Base
   end
 
   def log_match
-    File.join(tf_dir, 'logs', '*.log')
+    File.join(tf_dir, "logs", "*.log")
   end
 
   def stac_log_match
-    File.join(tf_dir, 'addons', 'sourcemod', 'logs', 'stac', '*.log')
+    File.join(tf_dir, "addons", "sourcemod", "logs", "stac", "*.log")
   end
 
   def demo_match
-    File.join(tf_dir, '*.dem')
+    File.join(tf_dir, "*.dem")
   end
 
   def server_config_file(config_file)
@@ -570,23 +570,23 @@ class Server < ActiveRecord::Base
   end
 
   def configuration_files
-    [reservation_config_file, initial_map_config_file, banned_user_file, banned_ip_file, motd_file]
+    [ reservation_config_file, initial_map_config_file, banned_user_file, banned_ip_file, motd_file ]
   end
 
   def reservation_config_file
-    server_config_file('reservation.cfg')
+    server_config_file("reservation.cfg")
   end
 
   def initial_map_config_file
-    server_config_file('ctf_turbine.cfg')
+    server_config_file("ctf_turbine.cfg")
   end
 
   def banned_user_file
-    server_config_file('banned_user.cfg')
+    server_config_file("banned_user.cfg")
   end
 
   def banned_ip_file
-    server_config_file('banned_ip.cfg')
+    server_config_file("banned_ip.cfg")
   end
 
   def motd_file
@@ -595,7 +595,7 @@ class Server < ActiveRecord::Base
 
   sig { returns(T.nilable(String)) }
   def host_to_ip
-    Resolv.getaddress(T.must(ip)) unless Rails.env == 'test'
+    Resolv.getaddress(T.must(ip)) unless Rails.env == "test"
   end
 
   def blocked_commands

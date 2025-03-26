@@ -4,7 +4,7 @@
 class ReservationWorker
   include Sidekiq::Worker
 
-  sidekiq_options retry: 3, queue: 'priority'
+  sidekiq_options retry: 3, queue: "priority"
 
   attr_accessor :reservation, :reservation_id
 

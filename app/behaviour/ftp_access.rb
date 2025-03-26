@@ -4,20 +4,20 @@
 module FtpAccess
   extend T::Sig
 
-  require 'net/ftp'
+  require "net/ftp"
 
   sig { returns(T::Array[String]) }
   def demos
-    @demos ||= list_files('/', '*.dem').map { |file| "#{tf_dir}/#{file}" }
+    @demos ||= list_files("/", "*.dem").map { |file| "#{tf_dir}/#{file}" }
   end
 
   sig { returns(T::Array[String]) }
   def logs
-    @logs ||= list_files('logs', '*.log').map { |file| "#{tf_dir}/logs/#{file}" }
+    @logs ||= list_files("logs", "*.log").map { |file| "#{tf_dir}/logs/#{file}" }
   end
 
   sig { params(dir: String, pattern: String).returns(T::Array[String]) }
-  def list_files(dir, pattern = '*')
+  def list_files(dir, pattern = "*")
     ftp.nlst(File.join(tf_dir, dir, pattern)).collect do |f|
       File.basename(f)
     end
@@ -29,7 +29,7 @@ module FtpAccess
     ftp.putbinaryfile(configuration_file, upload_file)
   end
 
-  sig { params(files: [String], destination_dir: String).returns(T.untyped) }
+  sig { params(files: [ String ], destination_dir: String).returns(T.untyped) }
   def copy_to_server(files, destination_dir)
     logger.debug "FTP PUT, FILES: #{files} DESTINATION: #{destination_dir}"
     files.each do |file|
@@ -38,7 +38,7 @@ module FtpAccess
     end
   end
 
-  sig { params(files: [String], destination: String).returns(T.untyped) }
+  sig { params(files: [ String ], destination: String).returns(T.untyped) }
   def copy_from_server(files, destination)
     return if files.none?
 
@@ -57,7 +57,7 @@ module FtpAccess
     threads.map { |t| t.join(60) }
   end
 
-  sig { params(files: [String]).returns(T.untyped) }
+  sig { params(files: [ String ]).returns(T.untyped) }
   def delete_from_server(files)
     return if files.none?
 

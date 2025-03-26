@@ -31,6 +31,6 @@ class WhitelistTf < ActiveRecord::Base
 
   sig { returns(Faraday::Connection) }
   def self.whitelist_connection
-    Faraday.new(url: 'http://whitelist.tf')
+    Faraday.new(url: "http://whitelist.tf")
   end
 end

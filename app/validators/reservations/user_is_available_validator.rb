@@ -6,7 +6,7 @@ module Reservations
     def validate(record)
       return unless record.collides_with_own_reservation?
 
-      msg = 'you already have a reservation in this timeframe'
+      msg = "you already have a reservation in this timeframe"
       record.errors.add(:starts_at, msg)
       record.errors.add(:ends_at,   msg)
     end

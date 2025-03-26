@@ -16,12 +16,12 @@ class RconAutocomplete
 
     # Check for special commands first
     special_commands = [
-      { command: '!extend', description: 'Extend your reservation' },
-      { command: '!end', description: 'End your reservation' }
+      { command: "!extend", description: "Extend your reservation" },
+      { command: "!end", description: "End your reservation" }
     ]
 
-    return [special_commands.last] if @query.start_with?('!en')
-    return special_commands if @query.start_with?('!e')
+    return [ special_commands.last ] if @query.start_with?("!en")
+    return special_commands if @query.start_with?("!e")
 
     # Check for deep suggestions (commands with parameters)
     deep_suggestions = autocomplete_deep_suggestions
@@ -66,7 +66,7 @@ class RconAutocomplete
     # Check for commands with common values
     command_with_value = self.class.commands_with_values.find { |cmd| query.start_with?("#{cmd[:command]} ") }
     if command_with_value
-      param = query.split(' ', 2)[1]
+      param = query.split(" ", 2)[1]
       return command_with_value[:values].select { |val| val.to_s.start_with?(param.to_s) }
                                         .map do |val|
                                           {
@@ -81,29 +81,29 @@ class RconAutocomplete
 
   def autocomplete_deep_changelevel
     LeagueMaps.all_league_maps
-              .select { |map_name| map_name.downcase.start_with?(query.split[1..].join(' ')) }
-              .map { |map_name| { command: "changelevel #{map_name}", description: 'Changes the map' } }
+              .select { |map_name| map_name.downcase.start_with?(query.split[1..].join(" ")) }
+              .map { |map_name| { command: "changelevel #{map_name}", description: "Changes the map" } }
               .sort_by { |command| command[:command] }
   end
 
   def autocomplete_deep_exec
     self.class.league_configs
-        .select { |config| config.downcase.start_with?(query.split[1..].join(' ')) }
-        .map { |config| { command: "exec #{config}", description: 'Executes a config' } }
+        .select { |config| config.downcase.start_with?(query.split[1..].join(" ")) }
+        .map { |config| { command: "exec #{config}", description: "Executes a config" } }
         .sort_by { |command| command[:command] }
   end
 
   def autocomplete_deep_mp_tournament_whitelist
     self.class.league_whitelists
-        .select { |whitelist| whitelist.downcase.start_with?(query.split[1..].join(' ')) }
-        .map { |whitelist| { command: "mp_tournament_whitelist #{whitelist}", description: 'Set the tournament whitelist' } }
+        .select { |whitelist| whitelist.downcase.start_with?(query.split[1..].join(" ")) }
+        .map { |whitelist| { command: "mp_tournament_whitelist #{whitelist}", description: "Set the tournament whitelist" } }
         .sort_by { |command| command[:command] }
   end
 
   def autocomplete_deep_tftrue_whitelist_id
     self.class.whitelist_tf_whitelists
-        .select { |whitelist| whitelist.downcase.start_with?(query.split[1..].join(' ')) }
-        .map { |whitelist| { command: "tftrue_whitelist_id #{whitelist}", description: 'Download and set the latest whitelist from whitelist.tf' } }
+        .select { |whitelist| whitelist.downcase.start_with?(query.split[1..].join(" ")) }
+        .map { |whitelist| { command: "tftrue_whitelist_id #{whitelist}", description: "Download and set the latest whitelist from whitelist.tf" } }
         .sort_by { |command| command[:command] }
   end
 
@@ -142,9 +142,9 @@ class RconAutocomplete
   def autocomplete_players
     PlayerStatistic
       .joins(:reservation_player)
-      .order('lower(reservation_players.name) ASC')
-      .where('reservation_players.reservation_id = ?', reservation.id)
-      .where('player_statistics.created_at > ?', 90.seconds.ago)
+      .order("lower(reservation_players.name) ASC")
+      .where("reservation_players.reservation_id = ?", reservation.id)
+      .where("player_statistics.created_at > ?", 90.seconds.ago)
       .to_a
       .uniq { |ps| ps.reservation_player.steam_uid }
   end
@@ -172,10 +172,10 @@ class RconAutocomplete
       # Find the word that matches
       match = command[:command].match(/(?:^|\W)(#{Regexp.escape(query)}[^\s_]*)/)
       distance = match ? Text::Levenshtein.distance(match[1], query) : 999
-      [command, distance]
+      [ command, distance ]
     end
 
-    sorted_data = command_data.sort_by { |command, distance| [distance, command[:command].length, command[:command]] }
+    sorted_data = command_data.sort_by { |command, distance| [ distance, command[:command].length, command[:command] ] }
     sorted_data.map(&:first)
   end
 
@@ -193,10 +193,10 @@ class RconAutocomplete
       index = command[:command].index(query)
       word = command[:command][index..(index + query.length - 1)]
       distance = Text::Levenshtein.distance(word, query)
-      [command, distance, index]
+      [ command, distance, index ]
     end
 
-    sorted_data = command_data.sort_by { |command, distance, index| [distance, index, command[:command].length, command[:command]] }
+    sorted_data = command_data.sort_by { |command, distance, index| [ distance, index, command[:command].length, command[:command] ] }
     sorted_data.map(&:first)
   end
 
@@ -208,11 +208,11 @@ class RconAutocomplete
       # Find the word in description that best matches the query
       words = command[:description].downcase.split(/\W+/)
       best_word = words.min_by { |word| Text::Levenshtein.distance(word, query) }
-      distance = Text::Levenshtein.distance(best_word || '', query)
-      [command, distance]
+      distance = Text::Levenshtein.distance(best_word || "", query)
+      [ command, distance ]
     end
 
-    sorted_data = command_data.sort_by { |command, distance| [distance, command[:command].length, command[:command]] }
+    sorted_data = command_data.sort_by { |command, distance| [ distance, command[:command].length, command[:command] ] }
     sorted_data.map(&:first)
   end
 
@@ -228,58 +228,58 @@ class RconAutocomplete
 
   def self.deep_complete_commands
     [
-      { command: 'ban', description: 'Ban a player by name' },
-      { command: 'banid', description: 'Ban a player by unique ID' },
-      { command: 'changelevel', description: 'Change the map' },
-      { command: 'exec', description: 'Execute a config' },
-      { command: 'kick', description: 'Kick a player by name' },
-      { command: 'kickid', description: 'Kick a player by unique ID' },
-      { command: 'mp_tournament_whitelist', description: 'Set the item/weapon whitelist' },
-      { command: 'tftrue_whitelist_id', description: 'Set and download the latest whitelist from whitelist.tf' }
+      { command: "ban", description: "Ban a player by name" },
+      { command: "banid", description: "Ban a player by unique ID" },
+      { command: "changelevel", description: "Change the map" },
+      { command: "exec", description: "Execute a config" },
+      { command: "kick", description: "Kick a player by name" },
+      { command: "kickid", description: "Kick a player by unique ID" },
+      { command: "mp_tournament_whitelist", description: "Set the item/weapon whitelist" },
+      { command: "tftrue_whitelist_id", description: "Set and download the latest whitelist from whitelist.tf" }
     ]
   end
 
   def self.commands_with_values
     [
       {
-        command: 'mp_timelimit',
-        description: 'Set the map time limit',
-        values: [5, 10, 15, 20, 30, 45, 60]
+        command: "mp_timelimit",
+        description: "Set the map time limit",
+        values: [ 5, 10, 15, 20, 30, 45, 60 ]
       },
       {
-        command: 'mp_winlimit',
-        description: 'Set the match win limit',
-        values: [0, 1, 2, 3, 4, 5]
+        command: "mp_winlimit",
+        description: "Set the match win limit",
+        values: [ 0, 1, 2, 3, 4, 5 ]
       },
       {
-        command: 'sv_gravity',
-        description: 'Set the gravity',
-        values: [400, 600, 800, 1000]
+        command: "sv_gravity",
+        description: "Set the gravity",
+        values: [ 400, 600, 800, 1000 ]
       },
       {
-        command: 'mp_friendlyfire',
-        description: 'Control friendly fire',
-        values: [0, 1]
+        command: "mp_friendlyfire",
+        description: "Control friendly fire",
+        values: [ 0, 1 ]
       },
       {
-        command: 'sv_cheats',
-        description: 'Enable/disable cheats',
-        values: [0, 1]
+        command: "sv_cheats",
+        description: "Enable/disable cheats",
+        values: [ 0, 1 ]
       },
       {
-        command: 'sv_alltalk',
-        description: 'Control all talk',
-        values: [0, 1]
+        command: "sv_alltalk",
+        description: "Control all talk",
+        values: [ 0, 1 ]
       },
       {
-        command: 'mp_tournament',
-        description: 'Control tournament mode',
-        values: [0, 1]
+        command: "mp_tournament",
+        description: "Control tournament mode",
+        values: [ 0, 1 ]
       },
       {
-        command: 'tf_weapon_criticals',
-        description: 'Toggle critical hits',
-        values: [0, 1]
+        command: "tf_weapon_criticals",
+        description: "Toggle critical hits",
+        values: [ 0, 1 ]
       }
     ]
   end
@@ -404,64 +404,64 @@ class RconAutocomplete
 
   def self.commands_to_suggest
     [
-      { command: 'ban', description: 'Ban a player' },
-      { command: 'banid', description: 'Ban a player by ID' },
-      { command: 'banip', description: 'Ban an IP address' },
-      { command: 'changelevel', description: 'Change the map' },
-      { command: 'exec', description: 'Execute a config' },
-      { command: 'host_timescale', description: 'Set the timescale' },
-      { command: 'kick', description: 'Kick a player by name' },
-      { command: 'kickall', description: 'Kick all players' },
-      { command: 'kickid', description: 'Kick a player by ID' },
-      { command: 'listid', description: 'List banned STEAM IDs' },
-      { command: 'listip', description: 'List banned IPs' },
-      { command: 'mp_autoteambalance', description: 'Control autoteambalance' },
-      { command: 'mp_disable_respawn_times', description: 'Disable respawn times' },
-      { command: 'mp_friendlyfire', description: 'Control friendly fire' },
-      { command: 'mp_respawnwavetime', description: 'Set the respawn wave time' },
-      { command: 'mp_restartround', description: 'Restart the round' },
-      { command: 'mp_scrambleteams', description: 'Scramble teams' },
-      { command: 'mp_teams_unbalance_limit', description: 'Set the teams unbalance limit' },
-      { command: 'mp_timelimit', description: 'Set the map time limit' },
-      { command: 'mp_tournament', description: 'Control tournament mode' },
-      { command: 'mp_tournament_restart', description: 'Restart the match' },
-      { command: 'mp_tournament_whitelist', description: 'Set the whitelist' },
-      { command: 'mp_waitingforplayers_cancel', description: 'Cancel the waiting for players' },
-      { command: 'mp_winlimit', description: 'Set the match win limit' },
-      { command: 'pause', description: 'Pauses the match' },
-      { command: 'removeid', description: 'Remove banned STEAM ID' },
-      { command: 'removeip', description: 'Remove banned IP' },
-      { command: 'say', description: 'Say something' },
-      { command: 'stats', description: 'Show server statistics' },
-      { command: 'status', description: 'Show server status' },
-      { command: 'sv_alltalk', description: 'Control all talk' },
-      { command: 'sv_cheats', description: 'Enable/disable cheats' },
-      { command: 'sv_gravity', description: 'Set the gravity' },
-      { command: 'sv_pausable', description: 'Control pausability of the match' },
-      { command: 'tf_bot_add', description: 'Add a bot' },
-      { command: 'tf_bot_difficulty', description: 'Set the bot difficulty' },
-      { command: 'tf_bot_kick', description: 'Kick a bot' },
-      { command: 'tf_bot_kill', description: 'Kill a bot' },
-      { command: 'tf_bot_quota', description: 'Set the bot quota' },
-      { command: 'tf_forced_holiday', description: 'Control TF2 holiday mode' },
-      { command: 'tf_tournament_classlimit_demoman', description: 'Set the demoman class limit' },
-      { command: 'tf_tournament_classlimit_engineer', description: 'Set the engineer class limit' },
-      { command: 'tf_tournament_classlimit_heavy', description: 'Set the heavy class limit' },
-      { command: 'tf_tournament_classlimit_medic', description: 'Set the medic class limit' },
-      { command: 'tf_tournament_classlimit_pyro', description: 'Set the pyro class limit' },
-      { command: 'tf_tournament_classlimit_scout', description: 'Set the scout class limit' },
-      { command: 'tf_tournament_classlimit_sniper', description: 'Set the sniper class limit' },
-      { command: 'tf_tournament_classlimit_soldier', description: 'Set the soldier class limit' },
-      { command: 'tf_tournament_classlimit_spy', description: 'Set the spy class limit' },
-      { command: 'tf_use_fixed_weaponspreads', description: 'Control random weapon spread' },
-      { command: 'tf_weapon_criticals', description: 'Toggle critical hits' },
-      { command: 'tf_avoidteammates_pushaway', description: 'Whether or not teammates push each other away when occupying the same space' },
-      { command: 'tftrue_whitelist_id', description: 'Set the whitelist with TFTrue' },
-      { command: 'tv_delay', description: 'Set the STV delay' },
-      { command: 'tv_delaymapchange', description: 'Control map change delay to allow STV to finish broadcasting' },
-      { command: 'tv_delaymapchange_protect', description: 'Protect against doing a manual map change if HLTV is broadcasting and has not caught up with a major game event such as round_end' },
-      { command: 'tv_record', description: 'Start STV recording' },
-      { command: 'tv_stoprecord', description: 'Stop STV recording' }
+      { command: "ban", description: "Ban a player" },
+      { command: "banid", description: "Ban a player by ID" },
+      { command: "banip", description: "Ban an IP address" },
+      { command: "changelevel", description: "Change the map" },
+      { command: "exec", description: "Execute a config" },
+      { command: "host_timescale", description: "Set the timescale" },
+      { command: "kick", description: "Kick a player by name" },
+      { command: "kickall", description: "Kick all players" },
+      { command: "kickid", description: "Kick a player by ID" },
+      { command: "listid", description: "List banned STEAM IDs" },
+      { command: "listip", description: "List banned IPs" },
+      { command: "mp_autoteambalance", description: "Control autoteambalance" },
+      { command: "mp_disable_respawn_times", description: "Disable respawn times" },
+      { command: "mp_friendlyfire", description: "Control friendly fire" },
+      { command: "mp_respawnwavetime", description: "Set the respawn wave time" },
+      { command: "mp_restartround", description: "Restart the round" },
+      { command: "mp_scrambleteams", description: "Scramble teams" },
+      { command: "mp_teams_unbalance_limit", description: "Set the teams unbalance limit" },
+      { command: "mp_timelimit", description: "Set the map time limit" },
+      { command: "mp_tournament", description: "Control tournament mode" },
+      { command: "mp_tournament_restart", description: "Restart the match" },
+      { command: "mp_tournament_whitelist", description: "Set the whitelist" },
+      { command: "mp_waitingforplayers_cancel", description: "Cancel the waiting for players" },
+      { command: "mp_winlimit", description: "Set the match win limit" },
+      { command: "pause", description: "Pauses the match" },
+      { command: "removeid", description: "Remove banned STEAM ID" },
+      { command: "removeip", description: "Remove banned IP" },
+      { command: "say", description: "Say something" },
+      { command: "stats", description: "Show server statistics" },
+      { command: "status", description: "Show server status" },
+      { command: "sv_alltalk", description: "Control all talk" },
+      { command: "sv_cheats", description: "Enable/disable cheats" },
+      { command: "sv_gravity", description: "Set the gravity" },
+      { command: "sv_pausable", description: "Control pausability of the match" },
+      { command: "tf_bot_add", description: "Add a bot" },
+      { command: "tf_bot_difficulty", description: "Set the bot difficulty" },
+      { command: "tf_bot_kick", description: "Kick a bot" },
+      { command: "tf_bot_kill", description: "Kill a bot" },
+      { command: "tf_bot_quota", description: "Set the bot quota" },
+      { command: "tf_forced_holiday", description: "Control TF2 holiday mode" },
+      { command: "tf_tournament_classlimit_demoman", description: "Set the demoman class limit" },
+      { command: "tf_tournament_classlimit_engineer", description: "Set the engineer class limit" },
+      { command: "tf_tournament_classlimit_heavy", description: "Set the heavy class limit" },
+      { command: "tf_tournament_classlimit_medic", description: "Set the medic class limit" },
+      { command: "tf_tournament_classlimit_pyro", description: "Set the pyro class limit" },
+      { command: "tf_tournament_classlimit_scout", description: "Set the scout class limit" },
+      { command: "tf_tournament_classlimit_sniper", description: "Set the sniper class limit" },
+      { command: "tf_tournament_classlimit_soldier", description: "Set the soldier class limit" },
+      { command: "tf_tournament_classlimit_spy", description: "Set the spy class limit" },
+      { command: "tf_use_fixed_weaponspreads", description: "Control random weapon spread" },
+      { command: "tf_weapon_criticals", description: "Toggle critical hits" },
+      { command: "tf_avoidteammates_pushaway", description: "Whether or not teammates push each other away when occupying the same space" },
+      { command: "tftrue_whitelist_id", description: "Set the whitelist with TFTrue" },
+      { command: "tv_delay", description: "Set the STV delay" },
+      { command: "tv_delaymapchange", description: "Control map change delay to allow STV to finish broadcasting" },
+      { command: "tv_delaymapchange_protect", description: "Protect against doing a manual map change if HLTV is broadcasting and has not caught up with a major game event such as round_end" },
+      { command: "tv_record", description: "Start STV recording" },
+      { command: "tv_stoprecord", description: "Stop STV recording" }
     ]
   end
 end

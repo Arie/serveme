@@ -7,7 +7,7 @@ class ReservationsController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[motd]
   skip_before_action :store_current_location, only: %i[extend_reservation destroy]
   helper LogLineHelper
-  layout 'simple', only: %i[rcon motd]
+  layout "simple", only: %i[rcon motd]
   caches_action :motd, cache_path: -> { "motd_#{params[:id]}" }, unless: -> { current_user }, expires_in: 30.seconds
   include RconHelper
   include LogLineHelper
@@ -15,7 +15,7 @@ class ReservationsController < ApplicationController
 
   def new
     if user_made_two_very_short_reservations_in_last_ten_minutes?
-      flash[:alert] = 'You made 2 very short reservations in the last ten minutes, please wait a bit before making another one. If there was a problem with your server, let us know in the comments below'
+      flash[:alert] = "You made 2 very short reservations in the last ten minutes, please wait a bit before making another one. If there was a problem with your server, let us know in the comments below"
       redirect_to root_path
     end
     @reservation ||= new_reservation
@@ -74,7 +74,7 @@ class ReservationsController < ApplicationController
     if reservation.extend!
       flash[:notice] = "Reservation extended to #{I18n.l(reservation.ends_at, format: :datepicker)}"
     else
-      flash[:alert] = 'Could not extend, conflicting reservation'
+      flash[:alert] = "Could not extend, conflicting reservation"
     end
     redirect_to stored_location_for(:user) || root_path
   end
@@ -93,7 +93,7 @@ class ReservationsController < ApplicationController
       redirect_to root_path
       return
     elsif reservation.just_started?
-      flash[:alert] = 'Your reservation was started in the last 2 minutes. Please give the server some time to start before ending your reservation'
+      flash[:alert] = "Your reservation was started in the last 2 minutes. Please give the server some time to start before ending your reservation"
     else
       end_reservation
     end
@@ -106,7 +106,7 @@ class ReservationsController < ApplicationController
   end
 
   def streaming
-    filename = Rails.root.join('log', 'streaming', "#{reservation.logsecret}.log")
+    filename = Rails.root.join("log", "streaming", "#{reservation.logsecret}.log")
     begin
       @streaming_log = File.open(filename)
     rescue Errno::ENOENT
@@ -117,9 +117,9 @@ class ReservationsController < ApplicationController
 
   def rcon
     @logsecret = reservation.logsecret
-    filename = Rails.root.join('log', 'streaming', "#{@logsecret}.log")
+    filename = Rails.root.join("log", "streaming", "#{@logsecret}.log")
     begin
-      seek = [File.size(filename), 50_000].min
+      seek = [ File.size(filename), 50_000 ].min
       @log_lines = File.open(filename) do |f|
         f.seek(-seek, IO::SEEK_END)
         f.readlines.last(1000).reverse.select do |line|
@@ -161,16 +161,16 @@ class ReservationsController < ApplicationController
     if @stac_logs.any?
       contents = @stac_logs.map do |log|
         content = ActiveSupport::Multibyte::Chars.new(log.contents).tidy_bytes.to_s
-        content.encode('UTF-8', invalid: :replace, undef: :replace, replace: '?')
+        content.encode("UTF-8", invalid: :replace, undef: :replace, replace: "?")
       end.join("\n")
 
-      send_data contents.force_encoding('UTF-8'),
+      send_data contents.force_encoding("UTF-8"),
                 filename: "stac_logs_#{@reservation.id}.log",
-                type: 'text/plain; charset=UTF-8',
-                disposition: 'inline',
+                type: "text/plain; charset=UTF-8",
+                disposition: "inline",
                 status: :ok
     else
-      render plain: 'No STAC logs found', status: :not_found
+      render plain: "No STAC logs found", status: :not_found
     end
   end
 
@@ -182,25 +182,25 @@ class ReservationsController < ApplicationController
       Rails.logger.info("User #{current_user.name} (#{current_user.uid}) executed rcon command \"#{rcon_command}\" for reservation #{reservation.id}")
       result = handle_rcon_command(rcon_command)
       respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.prepend("reservation_#{reservation.logsecret}_log_lines", target: "reservation_#{reservation.logsecret}_log_lines", partial: 'reservations/log_line', locals: { log_line: result }) }
+        format.turbo_stream { render turbo_stream: turbo_stream.prepend("reservation_#{reservation.logsecret}_log_lines", target: "reservation_#{reservation.logsecret}_log_lines", partial: "reservations/log_line", locals: { log_line: result }) }
         format.html { redirect_to return_path }
       end
     else
-      render 'pages/not_found', status: 404
+      render "pages/not_found", status: 404
     end
   end
 
   def handle_rcon_command(rcon_command)
     case rcon_command
-    when 'extend', '!extend'
+    when "extend", "!extend"
       if reservation.extend!
         "Reservation extended to #{I18n.l(reservation.ends_at, format: :datepicker)}"
       else
-        'Could not extend, conflicting reservation'
+        "Could not extend, conflicting reservation"
       end
-    when 'end', '!end'
+    when "end", "!end"
       end_reservation
-      'Ending reservation'
+      "Ending reservation"
     else
       reservation.server.rcon_exec(rcon_command).to_s
     end
@@ -222,8 +222,8 @@ class ReservationsController < ApplicationController
 
   def user_made_two_very_short_reservations_in_last_ten_minutes?
     count = current_user.reservations
-                        .where('starts_at > ?', 10.minutes.ago)
-                        .where('ended = ?', true)
+                        .where("starts_at > ?", 10.minutes.ago)
+                        .where("ended = ?", true)
                         .count
     !current_user.admin? && count >= 2
   end

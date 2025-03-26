@@ -22,12 +22,12 @@ class ServerUpdateWorker
 
     to_upgrade_count = MAX_CONCURRENT_UPDATES_PER_IP - currently_updating_count
 
-    outdated_servers.where(ip: ip).where(update_status: nil).or(outdated_servers.where(ip: ip).where.not(update_status: 'Updating')).all.sample(to_upgrade_count).each do |s|
+    outdated_servers.where(ip: ip).where(update_status: nil).or(outdated_servers.where(ip: ip).where.not(update_status: "Updating")).all.sample(to_upgrade_count).each do |s|
       next if s.current_reservation
 
       Rails.logger.info("Server #{s.name} was found to be outdated, restarting to update")
 
-      s.update_columns(update_status: 'Updating', update_started_at: Time.current)
+      s.update_columns(update_status: "Updating", update_started_at: Time.current)
       s.restart
     end
   end
@@ -41,7 +41,7 @@ class ServerUpdateWorker
   end
 
   def currently_updating
-    outdated_servers.where(update_status: 'Updating')
+    outdated_servers.where(update_status: "Updating")
   end
 
   def reserved_server_ids

@@ -13,20 +13,20 @@ class LeagueRequest
   sig { params(user: User, ip: T.nilable(String), steam_uid: T.nilable(String), reservation_ids: T.nilable(T.any(String, T::Array[Integer])), cross_reference: T.nilable(String)).void }
   def initialize(user, ip: nil, steam_uid: nil, reservation_ids: nil, cross_reference: nil)
     @user = user
-    @ip = ip&.gsub(/[[:space:]]/, '')&.split(',')
-    @steam_uid = steam_uid&.gsub(/[[:space:]]/, '')&.split(',')
+    @ip = ip&.gsub(/[[:space:]]/, "")&.split(",")
+    @steam_uid = steam_uid&.gsub(/[[:space:]]/, "")&.split(",")
     @reservation_ids =
       if reservation_ids.is_a?(String)
-        reservation_ids.presence && reservation_ids.to_s.split(',').map(&:to_i)
+        reservation_ids.presence && reservation_ids.to_s.split(",").map(&:to_i)
       else
         reservation_ids
       end
-    @cross_reference = (cross_reference == '1')
+    @cross_reference = (cross_reference == "1")
   end
 
   sig { returns(ActiveRecord::Relation) }
   def search
-    @target = [@ip, @steam_uid, @reservation_ids].reject(&:blank?).join(', ')
+    @target = [ @ip, @steam_uid, @reservation_ids ].reject(&:blank?).join(", ")
     if @cross_reference
       Rails.logger.info("Cross reference search started by #{@user.name} (#{@user.uid}) for #{@target}")
       find_with_cross_reference(ip: @ip, steam_uid: @steam_uid)
@@ -103,6 +103,6 @@ class LeagueRequest
   end
 
   def players_query
-    ReservationPlayer.eager_load(:reservation).joins(reservation: :server).where('servers.sdr = ?', false).where('reservation_players.ip not like ?', '169.254.%').order('reservations.starts_at DESC')
+    ReservationPlayer.eager_load(:reservation).joins(reservation: :server).where("servers.sdr = ?", false).where("reservation_players.ip not like ?", "169.254.%").order("reservations.starts_at DESC")
   end
 end

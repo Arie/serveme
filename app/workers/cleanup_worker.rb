@@ -23,7 +23,7 @@ class CleanupWorker
   end
 
   def grant_api_keys_to_week_old_users
-    User.where('created_at < ?', 7.days.ago).where(api_key: nil).find_in_batches do |group|
+    User.where("created_at < ?", 7.days.ago).where(api_key: nil).find_in_batches do |group|
       group.each do |u|
         u.api_key = SecureRandom.hex(16)
         u.save
@@ -32,18 +32,18 @@ class CleanupWorker
   end
 
   def old_reservations
-    Reservation.where('ends_at < ? AND ends_at > ?', 28.days.ago, 35.days.ago)
+    Reservation.where("ends_at < ? AND ends_at > ?", 28.days.ago, 35.days.ago)
   end
 
   def old_reservation_statuses
-    ReservationStatus.where('created_at < ?', 31.days.ago)
+    ReservationStatus.where("created_at < ?", 31.days.ago)
   end
 
   def old_player_statistics
-    PlayerStatistic.where('created_at < ?', 7.days.ago)
+    PlayerStatistic.where("created_at < ?", 7.days.ago)
   end
 
   def old_server_statistics
-    ServerStatistic.where('created_at < ?', 35.days.ago)
+    ServerStatistic.where("created_at < ?", 35.days.ago)
   end
 end

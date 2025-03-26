@@ -5,9 +5,9 @@ class UploadFilesToServersWorker
   include Sidekiq::Worker
 
   def perform(options)
-    files = options['files']
-    destination = options['destination']
-    overwrite = options.fetch('overwrite', true)
+    files = options["files"]
+    destination = options["destination"]
+    overwrite = options.fetch("overwrite", true)
 
     self.class.servers.each do |s|
       if overwrite == false

@@ -8,7 +8,7 @@ class PaypalOrder < Order
     set_redirect_urls
     add_transaction
     if payment.create
-      update(status: 'Redirected', payment_id: payment.id)
+      update(status: "Redirected", payment_id: payment.id)
     else
       Sentry.capture_exception(payment.error) if Rails.env.production?
       false
@@ -20,7 +20,7 @@ class PaypalOrder < Order
     if payment.execute(payer_id: payer_id)
       handle_successful_payment!
     else
-      update(status: 'Failed')
+      update(status: "Failed")
       false
     end
   end
@@ -33,13 +33,13 @@ class PaypalOrder < Order
   end
 
   def checkout_url
-    @checkout_url ||= payment.links.find { |v| v.method == 'REDIRECT' }.href
+    @checkout_url ||= payment.links.find { |v| v.method == "REDIRECT" }.href
   end
 
   def payment
-    @payment ||= Payment.new(intent: 'sale',
+    @payment ||= Payment.new(intent: "sale",
                              payer: {
-                               payment_method: 'paypal'
+                               payment_method: "paypal"
                              })
   end
 
@@ -71,6 +71,6 @@ class PaypalOrder < Order
   private
 
   def format_price(price)
-    format('%.2f', price.round(2))
+    format("%.2f", price.round(2))
   end
 end

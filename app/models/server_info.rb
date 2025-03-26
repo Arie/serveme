@@ -21,7 +21,7 @@ class ServerInfo
 
   sig { returns(String) }
   def server_name
-    status.fetch(:server_name, 'unknown').to_s
+    status.fetch(:server_name, "unknown").to_s
   end
 
   sig { returns(T.nilable(Integer)) }
@@ -51,7 +51,7 @@ class ServerInfo
 
   sig { returns(String) }
   def map_name
-    status.fetch(:map_name,           'unknown')
+    status.fetch(:map_name,           "unknown")
   end
 
   sig { returns(Hash) }
@@ -84,7 +84,7 @@ class ServerInfo
   def fetch_stats
     Rails.cache.fetch "stats_#{server.id}", expires_in: 1.minute do
       auth
-      server_connection.rcon_exec('stats').to_s
+      server_connection.rcon_exec("stats").to_s
     end
   end
 
@@ -92,7 +92,7 @@ class ServerInfo
   def fetch_rcon_status
     Rails.cache.fetch "rcon_status_#{server.id}", expires_in: 1.minute do
       auth
-      server_connection.rcon_exec('status').to_s
+      server_connection.rcon_exec("status").to_s
     end
   end
 
@@ -133,7 +133,7 @@ class ServerInfo
 
   sig { returns(Hash) }
   def stats
-    stats_line = ''
+    stats_line = ""
     # CPU    In (KB/s)  Out (KB/s)  Uptime  Map changes  FPS      Players  Connects
     # 24.88  35.29      54.48       6       2            66.67    9        12
     fetch_stats.each_line do |line|

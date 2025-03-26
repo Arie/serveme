@@ -5,9 +5,9 @@ class DownloadThenZipFileCreator < ZipFileCreator
   def create_zip
     tmp_dir = Dir.mktmpdir
     begin
-      reservation.status_update('Downloading logs and demos from server')
+      reservation.status_update("Downloading logs and demos from server")
       server.copy_from_server(files_to_zip, tmp_dir)
-      reservation.status_update('Finished downloading logs and demos from server')
+      reservation.status_update("Finished downloading logs and demos from server")
       strip_ips_and_api_keys_from_log_files(tmp_dir)
       zip(tmp_dir)
       chmod
@@ -23,7 +23,7 @@ class DownloadThenZipFileCreator < ZipFileCreator
   end
 
   def zip(tmp_dir)
-    reservation.status_update('Zipping logs and demos')
+    reservation.status_update("Zipping logs and demos")
     Zip::File.open(zipfile_name_and_path, Zip::File::CREATE) do |zipfile|
       files_to_zip_in_dir(tmp_dir).each do |filename_with_path|
         filename_without_path = File.basename(filename_with_path)
@@ -34,10 +34,10 @@ class DownloadThenZipFileCreator < ZipFileCreator
         end
       end
     end
-    reservation.status_update('Finished zipping logs and demos')
+    reservation.status_update("Finished zipping logs and demos")
   end
 
   def files_to_zip_in_dir(dir)
-    Dir.glob(File.join(dir, '*'))
+    Dir.glob(File.join(dir, "*"))
   end
 end

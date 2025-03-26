@@ -4,7 +4,7 @@
 class OrdersController < ApplicationController
   def new
     @products = Product.active.ordered
-    @order = Order.new(gift: params[:gift], product: Product.find_by_name('1 year'))
+    @order = Order.new(gift: params[:gift], product: Product.find_by_name("1 year"))
   end
 
   def create
@@ -16,7 +16,7 @@ class OrdersController < ApplicationController
         if paypal_order.save && paypal_order.prepare
           redirect_to paypal_order.checkout_url, allow_other_host: true
         else
-          flash[:alert] = 'Something went wrong creating your order, please try again'
+          flash[:alert] = "Something went wrong creating your order, please try again"
           render :new, status: :unprocessable_entity
         end
       end
@@ -34,7 +34,7 @@ class OrdersController < ApplicationController
       result[:payment_intent_id] = order.payment_id
       render json: result
     else
-      render json: { error: 'Could not create order' }, status: :unprocessable_entity
+      render json: { error: "Could not create order" }, status: :unprocessable_entity
     end
   end
 
@@ -45,7 +45,7 @@ class OrdersController < ApplicationController
       result = order.confirm_payment(params[:payment_intent_id])
       render json: result
     else
-      render json: { error: 'Order not found' }, status: :not_found
+      render json: { error: "Order not found" }, status: :not_found
     end
   end
 
@@ -53,13 +53,13 @@ class OrdersController < ApplicationController
     if order.charge(params[:PayerID])
       if order.gift?
         flash[:notice] = "Your payment has been received and we've given you a premium code that you can give away"
-        redirect_to settings_path(anchor: 'your-vouchers'), data: { turbo: false }
+        redirect_to settings_path(anchor: "your-vouchers"), data: { turbo: false }
       else
-        flash[:notice] = 'Your payment has been received and your donator perks are now activated, thanks! <3'
+        flash[:notice] = "Your payment has been received and your donator perks are now activated, thanks! <3"
         redirect_to root_path
       end
     else
-      flash[:alert] = 'Something went wrong while trying to activate your donator status, please check if you have sufficient funds in your PayPal account'
+      flash[:alert] = "Something went wrong while trying to activate your donator status, please check if you have sufficient funds in your PayPal account"
       redirect_to root_path
     end
   end
@@ -76,9 +76,9 @@ class OrdersController < ApplicationController
       if result[:success]
         if order.gift?
           flash[:notice] = "Your payment has been received and we've given you a premium code that you can give away"
-          redirect_to settings_path(anchor: 'your-vouchers'), data: { turbo: false }
+          redirect_to settings_path(anchor: "your-vouchers"), data: { turbo: false }
         else
-          flash[:notice] = 'Your payment has been received and your donator perks are now activated, thanks! <3'
+          flash[:notice] = "Your payment has been received and your donator perks are now activated, thanks! <3"
           redirect_to root_path
         end
       else
@@ -86,13 +86,13 @@ class OrdersController < ApplicationController
         redirect_to new_order_path
       end
     else
-      flash[:alert] = 'Order not found'
+      flash[:alert] = "Order not found"
       redirect_to new_order_path
     end
   rescue StandardError => e
     Rails.logger.error "Error in stripe_return: #{e.class} - #{e.message}"
     Rails.logger.error e.backtrace.join("\n")
-    flash[:alert] = 'An error occurred while processing your payment. Please contact support.'
+    flash[:alert] = "An error occurred while processing your payment. Please contact support."
     redirect_to new_order_path
   end
 
@@ -106,7 +106,7 @@ class OrdersController < ApplicationController
         voucher: order.voucher&.code
       }
     else
-      render json: { error: 'Order not found' }, status: :not_found
+      render json: { error: "Order not found" }, status: :not_found
     end
   end
 

@@ -6,7 +6,7 @@ class MapUploadsController < ApplicationController
   before_action :require_donator, only: %i[new create]
   before_action :require_admin, only: :destroy
 
-  layout 'maps', only: :index
+  layout "maps", only: :index
 
   def new
     @map_upload = MapUpload.new
@@ -31,7 +31,7 @@ class MapUploadsController < ApplicationController
         @map_upload.user = current_user
 
         if @map_upload.save
-          flash[:notice] = 'Map upload succeeded. It can take a few minutes for it to get synced to all servers.'
+          flash[:notice] = "Map upload succeeded. It can take a few minutes for it to get synced to all servers."
           redirect_to new_map_upload_path
         else
           render :new, status: :unprocessable_entity
@@ -59,9 +59,9 @@ class MapUploadsController < ApplicationController
     sort_by_attribute = friendly_sort_name_to_attribute(sort_by)
     sort_by_object = if %i[map_name size].include?(sort_by_attribute)
                        :self
-                     else
+    else
                        :statistics
-                     end
+    end
     maybe_reverse(
       objects.sort do |a, b|
         if sort_by_object == :self
@@ -90,13 +90,13 @@ class MapUploadsController < ApplicationController
 
   def friendly_sort_name_to_attribute(sort_by)
     case sort_by
-    when 'times-played'
+    when "times-played"
       :times_played
-    when 'first-played'
+    when "first-played"
       :first_played
-    when 'last-played'
+    when "last-played"
       :last_played
-    when 'size'
+    when "size"
       :size
     else
       :map_name

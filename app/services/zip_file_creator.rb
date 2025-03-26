@@ -23,7 +23,7 @@ class ZipFileCreator
   end
 
   def zipfile_name_and_path
-    Rails.root.join('public', 'uploads', zipfile_name)
+    Rails.root.join("public", "uploads", zipfile_name)
   end
 
   def shell_escaped_files_to_zip

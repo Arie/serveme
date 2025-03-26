@@ -19,7 +19,7 @@ module ApplicationHelper
   end
 
   def eu_system?
-    ('https://serveme.tf' || 'https://www.serveme.tf') == SITE_URL
+    ("https://serveme.tf" || "https://www.serveme.tf") == SITE_URL
   end
 
   %w[au na sa sea].each do |subdomain|
@@ -34,7 +34,7 @@ module ApplicationHelper
     if user
       "https://demos.tf/profiles/#{user.uid}"
     else
-      'https://demos.tf'
+      "https://demos.tf"
     end
   end
 
@@ -44,18 +44,18 @@ module ApplicationHelper
 
   def reservation_status_spinner_class(reservation)
     case reservation.status
-    when 'Ended'
-      'fa-flag-checkered'
-    when 'Ready'
-      'fa-check'
-    when 'SDR Ready'
-      'fa-lock'
-    when 'Server updating, please be patient'
-      'fa-gear fa-spin'
-    when 'Waiting to start'
-      'fa-clock-o'
+    when "Ended"
+      "fa-flag-checkered"
+    when "Ready"
+      "fa-check"
+    when "SDR Ready"
+      "fa-lock"
+    when "Server updating, please be patient"
+      "fa-gear fa-spin"
+    when "Waiting to start"
+      "fa-clock-o"
     else
-      'fa-spinner fa-spin'
+      "fa-spinner fa-spin"
     end
   end
 end

@@ -35,7 +35,7 @@ class LogScanWorker
   end
 
   def logs
-    log_pattern = Rails.root.join('server_logs', reservation_id.to_s, '*.log')
+    log_pattern = Rails.root.join("server_logs", reservation_id.to_s, "*.log")
     Dir.glob(log_pattern)
   end
 end

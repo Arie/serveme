@@ -97,6 +97,9 @@ group :development do
   gem 'capistrano-sidekiq', git: 'https://github.com/Pharmony/capistrano-sidekiq.git', require: false
   gem 'rubocop', require: false
   gem 'rubocop-sorbet', require: false
+  gem 'rubocop-rails-omakase', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
   gem 'tapioca', require: false
 end
 

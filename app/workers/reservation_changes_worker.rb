@@ -9,12 +9,14 @@ class ReservationChangesWorker
   def perform(reservation_id, changes)
     @reservation = Reservation.find(reservation_id)
 
-    reservation.server.update_configuration(reservation)
+    if reservation.now?
+      reservation.server.update_configuration(reservation)
 
-    if changes["first_map"]
-      reservation.server.rcon_exec("changelevel #{reservation.first_map}")
-    else
-      reservation.server.rcon_exec("exec reservation.cfg")
+      if changes["first_map"]
+        reservation.server.rcon_exec("changelevel #{reservation.first_map}")
+      else
+        reservation.server.rcon_exec("exec reservation.cfg")
+      end
     end
   end
 end

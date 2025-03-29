@@ -235,7 +235,7 @@ class LogWorker
     @event ||= TF2LineParser::Parser.new(line).parse
   end
 
-  sig { returns(Reservation) }
+  sig { returns(T.nilable(Reservation)) }
   def reservation
     @reservation ||= Reservation.current.includes(:user).find_by_id(reservation_id) if reservation_id
   end

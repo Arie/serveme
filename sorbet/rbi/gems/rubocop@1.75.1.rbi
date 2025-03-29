@@ -5733,19 +5733,24 @@ end
 module RuboCop::Cop::EnforceSuperclass
   # @api private
   #
-  # source://rubocop//lib/rubocop/cop/mixin/enforce_superclass.rb#35
+  # source://rubocop-rails/2.30.3/lib/rubocop/cop/mixin/enforce_superclass.rb#19
   def on_class(node); end
 
   # @api private
   #
-  # source://rubocop//lib/rubocop/cop/mixin/enforce_superclass.rb#39
+  # source://rubocop-rails/2.30.3/lib/rubocop/cop/mixin/enforce_superclass.rb#25
   def on_send(node); end
+
+  private
+
+  # source://rubocop-rails/2.30.3/lib/rubocop/cop/mixin/enforce_superclass.rb#33
+  def register_offense(offense_node); end
 
   class << self
     # @api private
     # @private
     #
-    # source://rubocop//lib/rubocop/cop/mixin/enforce_superclass.rb#16
+    # source://rubocop-rails/2.30.3/lib/rubocop/cop/mixin/enforce_superclass.rb#7
     def included(base); end
   end
 end
@@ -26363,7 +26368,7 @@ class RuboCop::Cop::Lint::UnusedMethodArgument < ::RuboCop::Cop::Base
   def message(variable); end
 
   class << self
-    # source://rubocop//lib/rubocop/cop/lint/unused_method_argument.rb#80
+    # source://rubocop-performance/1.24.0/lib/rubocop-performance.rb#12
     def autocorrect_incompatible_with; end
 
     # source://rubocop//lib/rubocop/cop/lint/unused_method_argument.rb#84
@@ -41975,7 +41980,7 @@ class RuboCop::Cop::Style::InverseMethods < ::RuboCop::Cop::Base
   def safe_navigation_incompatible?(node); end
 
   class << self
-    # source://rubocop//lib/rubocop/cop/style/inverse_methods.rb#56
+    # source://rubocop-rails/2.30.3/lib/rubocop-rails.rb#22
     def autocorrect_incompatible_with; end
   end
 end
@@ -42180,13 +42185,13 @@ RuboCop::Cop::Style::ItAssignment::MSG = T.let(T.unsafe(nil), String)
 #
 # It provides three `EnforcedStyle` options:
 #
-# 1. `allow_named_parameter` (default) ... Detects only numbered block parameters.
+# 1. `only_numbered_parameters` (default) ... Detects only numbered block parameters.
 # 2. `always` ... Always uses the `it` block parameter.
 # 3. `disallow` ... Disallows the `it` block parameter.
 #
-# A single numbered parameter is detected when `allow_named_parameter` or `always`.
+# A single numbered parameter is detected when `only_numbered_parameters` or `always`.
 #
-# @example EnforcedStyle: allow_named_parameter (default)
+# @example EnforcedStyle: only_numbered_parameters (default)
 #   # bad
 #   block { do_something(_1) }
 #
@@ -43306,7 +43311,7 @@ class RuboCop::Cop::Style::MethodCallWithArgsParentheses < ::RuboCop::Cop::Base
   def args_parenthesized?(node); end
 
   class << self
-    # source://rubocop//lib/rubocop/cop/style/method_call_with_args_parentheses.rb#215
+    # source://rubocop-rails/2.30.3/lib/rubocop-rails.rb#30
     def autocorrect_incompatible_with; end
   end
 end
@@ -47497,15 +47502,15 @@ RuboCop::Cop::Style::QuotedSymbols::MSG_DOUBLE = T.let(T.unsafe(nil), String)
 # source://rubocop//lib/rubocop/cop/style/quoted_symbols.rb#39
 RuboCop::Cop::Style::QuotedSymbols::MSG_SINGLE = T.let(T.unsafe(nil), String)
 
-# Checks the args passed to `fail` and `raise`. For exploded
-# style (default), it recommends passing the exception class and message
-# to `raise`, rather than construct an instance of the error. It will
-# still allow passing just a message, or the construction of an error
-# with more than one argument.
+# Checks the args passed to `fail` and `raise`.
 #
-# The exploded style works identically, but with the addition that it
-# will also suggest constructing error objects when the exception is
-# passed multiple arguments.
+# Exploded style (default) enforces passing the exception class and message
+# arguments separately, rather than constructing an instance of the error.
+#
+# Compact style enforces constructing an error instance.
+#
+# Both styles allow passing just a message, or an error instance when there is more
+# than one argument.
 #
 # The exploded style has an `AllowedCompactTypes` configuration
 # option that takes an `Array` of exception name Strings.
@@ -50232,7 +50237,7 @@ class RuboCop::Cop::Style::RedundantSelf < ::RuboCop::Cop::Base
   def regular_method_call?(node); end
 
   class << self
-    # source://rubocop//lib/rubocop/cop/style/redundant_self.rb#56
+    # source://rubocop-rails/2.30.3/lib/rubocop-rails.rb#38
     def autocorrect_incompatible_with; end
   end
 end

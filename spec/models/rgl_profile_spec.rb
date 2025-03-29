@@ -56,7 +56,7 @@ RSpec.describe RglProfile do
   describe '#ban_reason' do
     it 'returns raw ban reason for banned players' do
       profile = RglProfile.new(banned_profile_json)
-      expect(profile.ban_reason).to eq('Cheating <script>alert("xss")</script>')
+      expect(profile.ban_reason).to eq('Cheating alert("xss")')
     end
 
     it 'returns nil for clean players' do

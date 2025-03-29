@@ -1,6 +1,8 @@
 # typed: true
 # frozen_string_literal: true
 
+require 'nokogiri'
+
 class RglProfile
   extend T::Sig
   attr_accessor :json
@@ -27,7 +29,10 @@ class RglProfile
 
   sig { returns(T.nilable(String)) }
   def ban_reason
-    json.dig("banInformation", "reason")
+    reason = json.dig("banInformation", "reason")
+    return unless reason
+    reason = reason.gsub(/<br\s*\/?>/, ' ')
+    Nokogiri::HTML(reason).text.strip
   end
 
   def ban_expires_at

@@ -1,7 +1,7 @@
 # typed: true
 # frozen_string_literal: true
 
-require 'nokogiri'
+require "nokogiri"
 
 class RglProfile
   extend T::Sig
@@ -31,7 +31,7 @@ class RglProfile
   def ban_reason
     reason = json.dig("banInformation", "reason")
     return unless reason
-    reason = reason.gsub(/<br\s*\/?>/, ' ')
+    reason = reason.gsub(/<br\s*\/?>/, " ")
     Nokogiri::HTML(reason).text.strip
   end
 

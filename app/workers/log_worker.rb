@@ -23,6 +23,8 @@ class LogWorker
     handle_event if reservation
   end
 
+  private
+
   def handle_event
     case event
     when TF2LineParser::Events::Say, TF2LineParser::Events::TeamSay
@@ -34,16 +36,16 @@ class LogWorker
       mapstart = event.unknown.match(MAP_START)
       handle_mapstart(mapstart[2]) if mapstart
     end
-    Turbo::StreamsChannel.broadcast_prepend_to "reservation_#{T.must(reservation).logsecret}_log_lines", target: "reservation_#{T.must(reservation).logsecret}_log_lines", partial: "reservations/log_line", locals: { log_line: line }
+    Turbo::StreamsChannel.broadcast_prepend_to "reservation_#{reservation&.logsecret}_log_lines", target: "reservation_#{reservation&.logsecret}_log_lines", partial: "reservations/log_line", locals: { log_line: line }
   end
 
   def handle_mapstart(mapname)
-    T.must(reservation).broadcast_connect_info
-    ActiveReservationCheckerWorker.perform_in(10.seconds, T.must(reservation).id)
+    reservation&.broadcast_connect_info
+    ActiveReservationCheckerWorker.perform_in(10.seconds, reservation&.id)
     if mapname == "ctf_turbine"
-      T.must(reservation).status_update("Server startup complete, switching map")
+      reservation&.status_update("Server startup complete, switching map")
     else
-      T.must(reservation).status_update("Server finished loading map \"#{mapname}\"")
+      reservation&.status_update("Server finished loading map \"#{mapname}\"")
     end
   end
 
@@ -51,9 +53,9 @@ class LogWorker
     action = action_by_reserver || action_for_message_said_by_anyone
     return unless action
 
-    T.must(reservation).status_update("#{event.player.name} (#{sayer_steam_uid}): #{event.message}")
+    reservation&.status_update("#{event.player.name} (#{sayer_steam_uid}): #{event.message}")
     send(action)
-    T.must(T.must(reservation).server).rcon_disconnect
+    reservation&.server&.rcon_disconnect
   end
 
   def handle_connect
@@ -67,8 +69,6 @@ class LogWorker
       whitelist_player_in_firewall(rp)
   end
 
-  private
-
   sig { params(community_id: Integer, ip: String).returns(ReservationPlayer) }
   def create_or_update_reservation_player(community_id, ip)
     rp = ReservationPlayer.where(reservation_id: reservation_id, ip: ip, steam_uid: community_id).first_or_create
@@ -80,8 +80,8 @@ class LogWorker
   def handle_banned_vpn_player(community_id, ip, event)
     return false unless ReservationPlayer.banned_asn_ip?(ip) && !ReservationPlayer.whitelisted_uid?(community_id)
 
-    T.must(T.must(reservation).server).rcon_exec "kickid \"#{event.player.steam_id}\"[#{SITE_HOST}] Please play without VPN\""
-    T.must(T.must(reservation).server).rcon_exec "addip 0 #{ip}"
+    reservation&.server&.rcon_exec "kickid \"#{event.player.steam_id}\"[#{SITE_HOST}] Please play without VPN\""
+    reservation&.server&.rcon_exec "addip 0 #{ip}"
     Rails.logger.info "Removed player on VPN with UID #{community_id}, IP #{event.message}, name #{event.player.name}, from reservation #{reservation_id}"
     true
   end
@@ -90,7 +90,7 @@ class LogWorker
   def handle_banned_player(community_id, ip, event)
     return false unless (ReservationPlayer.banned_uid?(community_id) || ReservationPlayer.banned_ip?(ip)) && !ReservationPlayer.whitelisted_uid?(community_id)
 
-    T.must(T.must(reservation).server).rcon_exec "banid 0 #{event.player.steam_id} kick; addip 0 #{ip}"
+    reservation&.server&.rcon_exec "banid 0 #{event.player.steam_id} kick; addip 0 #{ip}"
     Rails.logger.info "Removed banned player with UID #{community_id}, IP #{event.message}, name #{event.player.name}, from reservation #{reservation_id}"
     true
   end
@@ -103,16 +103,16 @@ class LogWorker
     Rails.logger.info "League banned player with UID #{community_id}, IP #{event.message}, name #{event.player.name} connected to reservation #{reservation_id}: #{banned_league_profile.ban_reason}"
 
     if banned_league_profile.ban_reason.to_s.match?(/^(cheat|vac)/i)
-      T.must(T.must(reservation).server).rcon_exec "banid 0 #{event.player.steam_id} kick; addip 0 #{ip}"
+      reservation&.server&.rcon_exec "banid 0 #{event.player.steam_id} kick; addip 0 #{ip}"
     end
 
-    T.must(T.must(reservation).server).rcon_say "#{banned_league_profile.league_name} banned player #{event.player.name} connected: #{banned_league_profile.ban_reason}"
+    reservation&.server&.rcon_say "#{banned_league_profile.league_name} banned player #{event.player.name} connected: #{banned_league_profile.ban_reason}"
     true
   end
 
   sig { params(reservation_player: ReservationPlayer).void }
   def whitelist_player_in_firewall(reservation_player)
-    return unless T.must(T.must(reservation).server).supports_mitigations?
+    return unless reservation&.server&.supports_mitigations?
 
     AllowReservationPlayerWorker.perform_async(reservation_player.id)
   end
@@ -120,29 +120,29 @@ class LogWorker
   sig { void }
   def handle_end
     Rails.logger.info "Ending #{reservation} from chat"
-    T.must(T.must(reservation).server).rcon_say "Ending your reservation..."
-    ReservationWorker.perform_async(T.must(reservation).id, "end")
+    reservation&.server&.rcon_say "Ending your reservation..."
+    ReservationWorker.perform_async(reservation&.id, "end")
   end
 
   sig { void }
   def handle_extend
-    if T.must(reservation).extend!
+    if reservation&.extend!
       Rails.logger.info "Extended #{reservation} from chat"
-      T.must(T.must(reservation).server).rcon_say "Extended your reservation by #{(reserver.reservation_extension_time / 60.0).round} minutes"
+      reservation&.server&.rcon_say "Extended your reservation by #{(reserver.reservation_extension_time / 60.0).round} minutes"
     else
       Rails.logger.info "Couldn't extend #{reservation} from chat"
-      T.must(T.must(reservation).server).rcon_say "Couldn't extend your reservation: you can only extend when there's less than 1 hour left and no one else has booked the server."
+      reservation&.server&.rcon_say "Couldn't extend your reservation: you can only extend when there's less than 1 hour left and no one else has booked the server."
     end
   end
 
   sig { void }
   def handle_sdr_connect
-    if T.must(reservation).sdr_ip && T.must(reservation).sdr_port
+    if reservation&.sdr_ip && reservation&.sdr_port
       Rails.logger.info "Sending SDR info for #{reservation} after chat request from #{sayer_steam_uid}"
-      T.must(T.must(reservation).server).rcon_say "SDR info: connect #{T.must(reservation).sdr_ip}:#{T.must(reservation).sdr_port}"
+      reservation&.server&.rcon_say "SDR info: connect #{reservation&.sdr_ip}:#{reservation&.sdr_port}"
     else
       Rails.logger.info "Couldn't send SDR info #{reservation} after chat request from #{sayer_steam_uid}"
-      T.must(T.must(reservation).server).rcon_say "SDR currently not available for this server, please try again in a minute or two"
+      reservation&.server&.rcon_say "SDR currently not available for this server, please try again in a minute or two"
     end
   end
 
@@ -151,24 +151,24 @@ class LogWorker
     rcon_command = message.split[1..].join(" ")
     return if rcon_command.empty?
 
-    if !T.must(T.must(reservation).server).sdr? && (T.must(reservation).enable_plugins? || T.must(reservation).enable_demos_tf?)
+    if !reservation&.server&.sdr? && (reservation&.enable_plugins? || reservation&.enable_demos_tf?)
       Rails.logger.info "Ignoring rcon command #{rcon_command} from chat for reservation #{reservation}"
     else
       Rails.logger.info "Sending rcon command #{rcon_command} from chat for reservation #{reservation}"
-      T.must(T.must(reservation).server).rcon_exec(rcon_command)
+      reservation&.server&.rcon_exec(rcon_command)
     end
   end
 
   sig { void }
   def handle_web_rcon
-    return if T.must(reservation).enable_plugins? || T.must(reservation).enable_demos_tf?
+    return if reservation&.enable_plugins? || reservation&.enable_demos_tf?
 
-    T.must(T.must(reservation).server).rcon_say "Plugins need to be enabled for us to show you the Web RCON page. Instead, open #{SITE_URL}/reservations/#{T.must(reservation).id}/rcon to use Web RCON."
+    reservation&.server&.rcon_say "Plugins need to be enabled for us to show you the Web RCON page. Instead, open #{SITE_URL}/reservations/#{reservation&.id}/rcon to use Web RCON."
   end
 
   sig { void }
   def handle_timeleft
-    minutes_until_reservation_ends = ((T.must(reservation&.ends_at) - Time.current) / 60).round
+    minutes_until_reservation_ends = ((T.must(T.must(reservation).ends_at) - Time.current) / 60).round
     minutes = [ minutes_until_reservation_ends, 0 ].max
     timeleft = minutes.positive? ? "#{minutes} minutes" : "#{minutes} minute"
     reservation&.server&.rcon_say "Reservation time left: #{timeleft}"

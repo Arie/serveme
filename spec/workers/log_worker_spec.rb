@@ -28,6 +28,8 @@ describe LogWorker do
   let(:connect_banned_uid)    { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:153029208]><>" connected, address "1.128.0.1:1234"' }
   let(:connect_league_banned_uid) { '1234567L 03/29/2014 - 13:15:53: "Troll<3><[U:1:1127291858]><>" connected, address "1.128.0.1:1234"' }
   let(:connect_allowed_uid) { '1234567L 03/29/2014 - 13:15:53: "NonTroll<3><[U:1:400545468]><>" connected, address "1.128.0.1:1234"' }
+  let(:ai_command_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!ai change map to process"' }
+  let(:ai_command_troll_line) { '1234567L 03/29/2014 - 13:15:53: "TRoll<3><[U:0:1337]><Red>" say "!ai change map to process"' }
 
   subject(:logworker) { LogWorker.perform_async(line) }
 
@@ -191,6 +193,22 @@ describe LogWorker do
     it 'sends the info through rcon' do
       server.should_receive(:rcon_say).with('SDR info: connect 123.123.123.123:4567')
       LogWorker.perform_async(sdr_line)
+    end
+  end
+
+  describe 'ai commands' do
+    let(:ai_handler) { instance_double(AiCommandHandler) }
+
+    before do
+      allow(AiCommandHandler).to receive(:new).and_return(ai_handler)
+      allow(ai_handler).to receive(:process_request)
+      allow(server).to receive(:rcon_say)
+      user.groups << Group.donator_group
+    end
+
+    it 'allows the reservation owner to use AI commands' do
+      expect(ai_handler).to receive(:process_request).with("change map to process")
+      LogWorker.perform_async(ai_command_line)
     end
   end
 end

@@ -1,0 +1,60 @@
+- content_for(:title) { "AI Assistant" }
+
+.row
+  .col-md-12
+    .bg-dark.mt-4
+      %h5.text-warning
+        %i.fa.fa-robot
+        In-game AI Assistant
+      %p.text-light
+        Use the new !ai command in-game to get instant help with gameplay, configs, and server management.
+      .embed-responsive.embed-responsive-16by9.mb-3
+        %iframe{src: "https://www.youtube.com/embed/uhY2x35tX5A", allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen: true}
+
+      %p.text-light.mt-3
+        Get creative! The AI understands natural language, so you can ask for anything. Here are some examples to get you started:
+
+      .row.mt-4
+        .col-md-6
+          %h6.text-warning Game Setup
+          %ul.text-light
+            %li
+              %code !ai execute the hl config
+            %li
+              %code !ai switch to sunshine
+            %li
+              %code !ai lets play a highlander koth map
+            %li
+              %code !ai start a mapvote with 3 5cp maps
+
+        .col-md-6
+          %h6.text-warning Bot Management
+          %ul.text-light
+            %li
+              %code !ai add a 6s team of bots to the blu team
+            %li
+              %code !ai make the bots jump
+            %li
+              %code !ai kick all the bots
+
+        .col-md-6.mt-3
+          %h6.text-warning Fun Stuff
+          %ul.text-light
+            %li
+              %code !ai give us moon gravity
+            %li
+              %code !ai slap the entire enemy red team for 50 damage
+            %li
+              %code !ai start a vote for the most washed up gamer on the server
+            %li
+              %code !ai firebomb the red team
+            %li
+              %code !ai rename the red players to div 7 shitnerd
+
+        .col-md-6.mt-3
+          %h6.text-warning Server Info
+          %ul.text-light
+            %li
+              %code !ai does anyone have packet loss?
+            %li
+              %code !ai who has the highest ping?

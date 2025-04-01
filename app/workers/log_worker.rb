@@ -16,7 +16,9 @@ class LogWorker
   WEB_RCON_COMMAND = /^(\.|!)webrcon.*/
   TIMELEFT_COMMAND  = /^!timeleft.*/
   WHOIS_RESERVER    = /^!who$/
+  AI_COMMAND        = /^!ai\s+(.+)/
   LOG_LINE_REGEX    = '(?\'secret\'\d*)(?\'line\'.*)'
+
 
   def perform(raw_line)
     @raw_line = raw_line
@@ -188,6 +190,8 @@ class LogWorker
       :handle_rcon
     when WEB_RCON_COMMAND
       :handle_web_rcon
+    when AI_COMMAND
+      :handle_ai
     end
   end
 
@@ -250,6 +254,47 @@ class LogWorker
 
     Rails.cache.fetch("reservation_secret_#{matches[:secret]}", expires_in: 1.minute) do
       @reservation_id = Reservation.where(logsecret: matches[:secret]).pluck(:id).last
+    end
+  end
+
+  sig { void }
+  def handle_ai
+    return unless reservation
+
+    unless said_by_reserver?
+      reservation&.server&.rcon_say("AI commands are only available to reservation creators")
+      return
+    end
+
+    # Rate limit AI commands per user
+    user_key = "ai_command_count:user_#{today.to_s}:#{sayer_steam_uid}"
+    user_count = Rails.cache.increment(user_key, 1, expires_in: 24.hours)
+
+    if user_count > 100
+      reservation&.server&.rcon_say "Rate limited: Maximum daily AI commands (100) reached for your Steam ID"
+      return
+    end
+
+    Rails.logger.info "Processing AI command #{message} from #{event.player.name} (#{SteamCondenser::Community::SteamId.steam_id_to_community_id(event.player.steam_id)})"
+
+    ai_command = message.match(AI_COMMAND)[1]
+    AiCommandHandler.new(reservation).process_request(ai_command)
+  end
+
+  def today
+    @today ||= Time.current.in_time_zone(time_zone).to_date
+  end
+
+  def time_zone
+    @time_zone ||= case SITE_HOST
+    when 'na.serveme.tf'
+      'America/Chicago'
+    when 'sea.serveme.tf'
+      'Asia/Singapore'
+    when 'au.serveme.tf'
+      'Australia/Sydney'
+    else
+      'Europe/Amsterdam'
     end
   end
 end

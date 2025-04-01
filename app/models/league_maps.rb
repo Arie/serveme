@@ -13,20 +13,26 @@ class LeagueMaps
 
   sig { returns(T::Array[LeagueMaps]) }
   def self.all
+    grouped_league_maps + [ new(name: "All maps", maps: MapUpload.available_maps) ]
+  end
+
+  sig { returns(T::Array[LeagueMaps]) }
+  def self.grouped_league_maps
     [
       new(name: "ETF2L 6v6", maps: etf2l_sixes_maps.uniq.sort),
       new(name: "ETF2L HL", maps: etf2l_hl_maps.uniq.sort),
       new(name: "ETF2L HL Prem", maps: etf2l_hl_prem_maps.uniq.sort),
+      new(name: "ETF2L Ultiduo", maps: etf2l_ultiduo_maps.uniq.sort),
       new(name: "ozfortress Ultiduo", maps: ozfortress_ultiduo_maps.uniq.sort),
       new(name: "ozfortress 6v6", maps: ozfortress_sixes_maps.uniq.sort),
       new(name: "ozfortress HL", maps: ozfortress_hl_maps.uniq.sort),
       new(name: "RGL 6v6", maps: rgl_sixes_maps.uniq.sort),
       new(name: "RGL HL", maps: rgl_hl_maps.uniq.sort),
+      new(name: "RGL Pass Time", maps: rgl_pass_time_maps.uniq.sort),
       new(name: "UGC 6v6", maps: ugc_sixes_maps.uniq.sort),
       new(name: "UGC HL", maps: ugc_hl_maps.uniq.sort),
       new(name: "UGC 4v4", maps: ugc_fours_maps.uniq.sort),
-      new(name: "UGC Ultiduo", maps: ugc_ultiduo_maps.uniq.sort),
-      new(name: "All maps", maps: MapUpload.available_maps)
+      new(name: "UGC Ultiduo", maps: ugc_ultiduo_maps.uniq.sort)
     ]
   end
 
@@ -75,6 +81,18 @@ class LeagueMaps
     ]
   end
 
+  def self.etf2l_ultiduo_maps
+    %w[
+      koth_ultiduo_r_b7
+      ultiduo_baloo_v2
+      ultiduo_grove_b4
+      ultiduo_lookout_b1
+      ultiduo_cooked_rc2
+      ultiduo_process_f10
+      ultiduo_babty_f3
+    ]
+  end
+
   def self.rgl_sixes_maps
     sixes =
       %w[
@@ -110,6 +128,19 @@ class LeagueMaps
       pl_swiftwater_final1
       pl_upward_f12
       pl_vigil_rc10
+    ]
+  end
+
+  def self.rgl_pass_time_maps
+    %w[
+      pass_arena2_b14b
+      pass_ruin_a12_waterless
+      pass_boutique_b8c
+      pass_plexiglass_b5
+      pass_maple_a10
+      pass_stadium_rc3a
+      pass_stonework_rc2
+      pass_torii_a7
     ]
   end
 

@@ -82,6 +82,7 @@ gem 'tf2_line_parser'
 gem 'uri'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap4'
+gem 'ruby-openai'
 
 group :development do
   gem 'better_errors'

@@ -17,6 +17,7 @@ describe ServerNotificationWorker do
 
   describe '#send_notification' do
     before do
+      ServerNotification.delete_all
       create :server_notification, notification_type: 'ad', message: 'this is an ad'
     end
 

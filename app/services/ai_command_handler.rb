@@ -81,6 +81,8 @@ class AiCommandHandler
     - Ultitrio 3v3. Map: ultitrio_caffapro_b6 ultitrio_bound_rc1b ultitrio_aesthetic_b9 ultitrio_staten_rc1 ultitrio_dockport_final6 ultitrio_eruption_v6 ulti_fira_b2a
 
     When changing maps and modes try to execute a relevant config before changing the map, prefer a league map over an exact match to what was requested.
+    Don't change the map if only a config change was requested.
+
     Map prefixes:
       cp_ (control points, use configs ending in _5cp)
       koth_ (king of the hill, use configs ending in _koth)

@@ -267,7 +267,7 @@ class LogWorker
     end
 
     # Rate limit AI commands per user
-    user_key = "ai_command_count:user_#{today.to_s}:#{sayer_steam_uid}"
+    user_key = "ai_command_count:user_#{today}:#{sayer_steam_uid}"
     user_count = Rails.cache.increment(user_key, 1, expires_in: 24.hours)
 
     if user_count > 100
@@ -287,14 +287,14 @@ class LogWorker
 
   def time_zone
     @time_zone ||= case SITE_HOST
-    when 'na.serveme.tf'
-      'America/Chicago'
-    when 'sea.serveme.tf'
-      'Asia/Singapore'
-    when 'au.serveme.tf'
-      'Australia/Sydney'
+    when "na.serveme.tf"
+      "America/Chicago"
+    when "sea.serveme.tf"
+      "Asia/Singapore"
+    when "au.serveme.tf"
+      "Australia/Sydney"
     else
-      'Europe/Amsterdam'
+      "Europe/Amsterdam"
     end
   end
 end

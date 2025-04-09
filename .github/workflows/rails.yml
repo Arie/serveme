@@ -76,6 +76,8 @@ jobs:
         run: bin/rubocop -f github
 
   typecheck:
+    env:
+      RAILS_ENV: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

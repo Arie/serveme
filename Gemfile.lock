@@ -153,7 +153,6 @@ GEM
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.10.1)
       aws-eventstream (~> 1, >= 1.0.2)
-    base32_pure (0.1.0)
     base64 (0.2.0)
     bcrypt (3.1.20)
     bcrypt_pbkdf (1.1.1)
@@ -802,7 +801,6 @@ DEPENDENCIES
   aws-sdk-core (= 3.214.1)
   aws-sdk-s3 (= 1.176.1)
   aws-sigv4 (= 1.10.1)
-  base32_pure
   bcrypt_pbkdf
   better_errors
   binding_of_caller

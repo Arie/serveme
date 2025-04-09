@@ -33,7 +33,7 @@ class AiCommandHandler
       "response" => result["response"],
       "command" => result["command"]
     })
-    history = history.take(MAX_CONTEXT_HISTORY)
+    history = history.last(MAX_CONTEXT_HISTORY)
 
     Rails.cache.write(key, history, expires_in: REDIS_CONTEXT_TTL)
   end

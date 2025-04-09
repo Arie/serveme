@@ -45,6 +45,8 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 # No need to type FactoryBot all the time
 World(FactoryBot::Syntax::Methods)
 
+Sidekiq.default_configuration.logger.level = Logger::WARN
+
 if ENV['COVERAGE']
   require 'simplecov'
   SimpleCov.command_name 'Cucumber'

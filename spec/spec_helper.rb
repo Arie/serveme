@@ -71,4 +71,6 @@ VCR.configure do |c|
   }
 end
 
+Sidekiq.default_configuration.logger.level = Logger::WARN
+
 Zonebie.set_random_timezone

@@ -30,6 +30,7 @@ jobs:
           bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
   scan_ruby:
+    name: Brakeman
     runs-on: ubuntu-latest
 
     steps:
@@ -45,6 +46,7 @@ jobs:
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bin/brakeman --no-pager
   scan_js:
+    name: Importmap audit
     runs-on: ubuntu-latest
 
     steps:
@@ -61,6 +63,7 @@ jobs:
         run: bin/importmap audit
 
   lint:
+    name: Rubocop
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -76,7 +79,7 @@ jobs:
         run: bin/rubocop -f github
 
   linters:
-    name: Linters
+    name: Typecheck
     needs: [ruby-dependencies]
     runs-on: ubuntu-latest
     steps:
@@ -86,8 +89,6 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-      - name: Check code
-        run: bundle exec rubocop app
       - name: Verify gem RBIs are up-to-date
         run: bundle exec tapioca gem --verify
       - name: Verify DSL RBIs are up-to-date

@@ -29,8 +29,8 @@ jobs:
         run: |
           bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
-  scan_ruby:
-    name: Brakeman
+  linters:
+    name: Linters
     runs-on: ubuntu-latest
 
     steps:
@@ -45,56 +45,52 @@ jobs:
 
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bin/brakeman --no-pager
-  scan_js:
-    name: Importmap audit
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
 
       - name: Scan for security vulnerabilities in JavaScript dependencies
         run: bin/importmap audit
 
-  lint:
-    name: Rubocop
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: .ruby-version
-          bundler-cache: true
-
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
-  linters:
-    name: Typecheck
+      - name: Perform Sorbet typechecks
+        run: bin/srb tc
+
+      - name: Verify Tapioca Gems
+        run: bin/tapioca gem --verify
+
+  dsl_typecheck:
+    name: DSL Typecheck
     needs: [ruby-dependencies]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          sudo add-apt-repository ppa:maxmind/ppa
+          sudo apt update
+          sudo apt install libmaxminddb0 libmaxminddb-dev redis-server memcached
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-      - name: Verify gem RBIs are up-to-date
-        run: bundle exec tapioca gem --verify
-      - name: Verify DSL RBIs are up-to-date
-        run: bundle exec tapioca dsl --verify
-      - name: Run type check
-        run: bundle exec srb tc
+      - name: Setup test database
+        env:
+          RAILS_ENV: test
+          PGHOST: localhost
+          PGUSER: serveme
+          PGPASSWORD: secret
+        run: |
+          bin/rails db:create db:migrate
+
+      - name: Run DSL type check
+        env:
+          RAILS_ENV: test
+          PGHOST: localhost
+          PGUSER: serveme
+          PGPASSWORD: secret
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: RAILS_ENV=test bundle exec tapioca dsl --verify
   rspec:
     name: RSpec
     runs-on: ubuntu-latest

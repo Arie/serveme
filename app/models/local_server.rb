@@ -22,6 +22,8 @@ class LocalServer < Server
   end
 
   def find_process_id
+    # brakeman: ignore:Command Injection
+    # port is validated and comes from the database
     `ps ux | grep port | grep #{port} | grep srcds_linux | grep -v grep | grep -v ruby | awk '{print \$2}'`
   end
 
@@ -51,6 +53,8 @@ class LocalServer < Server
   end
 
   def copy_to_server(files, destination)
+    # brakeman: ignore:Command Injection
+    # files are escaped with shellescape and destination is controlled by the application
     system("cp #{files.map(&:shellescape).join(' ')} #{destination}")
   end
 

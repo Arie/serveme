@@ -3,24 +3,325 @@
     {
       "warning_type": "Command Injection",
       "warning_code": 14,
-      "fingerprint": "any",
+      "fingerprint": "1164a60713df0321c8614c02950a397027bf79cf61efe80f793ea94e85929161",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/models/local_server.rb",
+      "line": 27,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "`ps ux | grep port | grep #{port} | grep srcds_linux | grep -v grep | grep -v ruby | awk '{print $2}'`",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "LocalServer",
+        "method": "find_process_id"
+      },
+      "user_input": "port",
+      "confidence": "Medium",
+      "cwe_id": [
+        77
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "33bc99c7c37396d2f19f97b596101d9f66a86e6ca42f03a6bf99ae23bbdcf287",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/services/remote_log_copier.rb",
+      "line": 9,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"unzip #{Rails.root.join(\"public\", \"uploads\", reservation.zipfile_name)} *.log -d #{directory_to_copy_to}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "RemoteLogCopier",
+        "method": "copy_logs"
+      },
+      "user_input": "Rails.root.join(\"public\", \"uploads\", reservation.zipfile_name)",
+      "confidence": "Medium",
+      "cwe_id": [
+        77
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "4316d5192d6e2aaf4e068cb35280b97a63a6c4d25a83398acbd075f6ba11fb60",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/services/local_log_copier.rb",
+      "line": 10,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"#{\"LANG=ALL LC_ALL=C sed -i -r 's/(\\\\b[0-9]{1,3}\\\\.){3}[0-9]{1,3}\\\\b/0.0.0.0/g'\"} #{logs.map(&:shellescape).join(\" \")}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "LocalLogCopier",
+        "method": "copy_logs"
+      },
+      "user_input": "logs.map(&:shellescape).join(\" \")",
+      "confidence": "Medium",
+      "cwe_id": [
+        77
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "5c13513c490134f811a9ce40fb0710583328ce4ec8d6e3c6be682fe780c78f5a",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/services/local_zip_file_creator.rb",
+      "line": 14,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"zip -j #{zipfile_name_and_path} #{shell_escaped_files_to_zip.join(\" \")}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "LocalZipFileCreator",
+        "method": "zip"
+      },
+      "user_input": "zipfile_name_and_path",
+      "confidence": "Medium",
+      "cwe_id": [
+        77
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "71f71f60027b567f5d9965c9c442c54c8d0c9cec143312e2ee840320b106f8bb",
       "check_name": "Execute",
       "message": "Possible command injection",
       "file": "app/workers/cleanup_worker.rb",
-      "line": null,
+      "line": 14,
       "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
-      "code": null,
+      "code": "`find /var/www/serveme/shared/server_logs/ -type d -ctime +#{Reservation.cleanup_age_in_days} -exec rm -rf {} \\;`",
       "render_path": null,
       "location": {
         "type": "method",
         "class": "CleanupWorker",
         "method": "remove_old_reservation_logs_and_zips"
       },
-      "user_input": null,
+      "user_input": "Reservation.cleanup_age_in_days",
       "confidence": "High",
-      "note": "cleanup_age_in_days returns a number and paths are hardcoded, so these commands are safe"
+      "cwe_id": [
+        77
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "7d41c856358c51bb164b0cdc34c07543915573fa90d0d957afa7fe8fa7bdcba5",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/models/ssh_server.rb",
+      "line": 83,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"#{scp_command} #{ip}:\\\"#{files.map(&:shellescape).join(\" \")}\\\" #{destination}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SshServer",
+        "method": "copy_from_server"
+      },
+      "user_input": "scp_command",
+      "confidence": "Medium",
+      "cwe_id": [
+        77
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "9654d8232151f712325f5f72bfdb23da919a3e5b2826f694ef2a1a88da73452d",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/workers/cleanup_worker.rb",
+      "line": 15,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "`find /var/www/serveme/shared/log/streaming/*.log -type f -mtime +#{Reservation.cleanup_age_in_days} -exec rm -f {} \\;`",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CleanupWorker",
+        "method": "remove_old_reservation_logs_and_zips"
+      },
+      "user_input": "Reservation.cleanup_age_in_days",
+      "confidence": "High",
+      "cwe_id": [
+        77
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "9d2537f94d31cea3433132e338a68812fb8cdf1888521644bbab43aa12567e73",
+      "check_name": "FileAccess",
+      "message": "Parameter value used in file name",
+      "file": "app/controllers/log_uploads_controller.rb",
+      "line": 39,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "File.read(find_log_file(params[:file_name].to_s)[:file_name_and_path])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "LogUploadsController",
+        "method": "show_log"
+      },
+      "user_input": "params[:file_name].to_s",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "a0b9451e9116bcb89f3efb7d7b6211637630d552114465502ebc9eaf72779d39",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/models/local_server.rb",
+      "line": 58,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"cp #{files.map(&:shellescape).join(\" \")} #{destination}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "LocalServer",
+        "method": "copy_to_server"
+      },
+      "user_input": "files.map(&:shellescape).join(\" \")",
+      "confidence": "Medium",
+      "cwe_id": [
+        77
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "aa6dcb45d307418ebc30d93d098f4589bceb06c9e8ffe63c088a29d0dce072a7",
+      "check_name": "SendFile",
+      "message": "Parameter value used in file name",
+      "file": "app/controllers/uploads_controller.rb",
+      "line": 15,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(Rails.root.join(\"public\", \"uploads\", find_reservation(params[:id].split(\"-\")[1].to_i).zipfile_name))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "UploadsController",
+        "method": "show"
+      },
+      "user_input": "params[:id].split(\"-\")[1]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "af2dbfada77eecbe0b7569c5238a943faeb719b78d414444a97375418206a718",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/workers/cleanup_worker.rb",
+      "line": 16,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "`find /var/www/serveme/shared/public/uploads/*.zip -type f -mtime +#{Reservation.cleanup_age_in_days} -exec rm -f {} \\;`",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CleanupWorker",
+        "method": "remove_old_reservation_logs_and_zips"
+      },
+      "user_input": "Reservation.cleanup_age_in_days",
+      "confidence": "High",
+      "cwe_id": [
+        77
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "bd285912e5f534af989f66277b64f5083f62c7675df69bfc8736c5379aeffefa",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/services/local_log_copier.rb",
+      "line": 11,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"cp #{logs.map(&:shellescape).join(\" \")} #{directory_to_copy_to}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "LocalLogCopier",
+        "method": "copy_logs"
+      },
+      "user_input": "logs.map(&:shellescape).join(\" \")",
+      "confidence": "Medium",
+      "cwe_id": [
+        77
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "d2acc52a2f48e90f33d7ac20daa1df714fe5f3848ff251143f73ae40bd396563",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/models/ssh_server.rb",
+      "line": 75,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"#{scp_command} #{files.map(&:shellescape).join(\" \")} #{ip}:#{destination}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SshServer",
+        "method": "copy_to_server"
+      },
+      "user_input": "scp_command",
+      "confidence": "Medium",
+      "cwe_id": [
+        77
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "f6fc3ae15212f2e291062a9066b4d3ecf2d27067682dcad1e41cc394b77d96f4",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/services/download_then_zip_file_creator.rb",
+      "line": 24,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"#{\"LANG=ALL LC_ALL=C sed -i -r 's/(\\\\b[0-9]{1,3}\\\\.){3}[0-9]{1,3}\\\\b/0.0.0.0/g;s/logstf_apikey \\\\\\\"\\\\S+\\\\\\\"/logstf_apikey \\\\\\\"apikey\\\\\\\"/g;s/tftrue_logs_apikey \\\\\\\"\\\\S+\\\\\\\"/tftrue_logs_apikey \\\\\\\"apikey\\\\\\\"/g;s/sm_demostf_apikey \\\\\\\"\\\\S+\\\\\\\"/sm_demostf_apikey \\\\\\\"apikey\\\\\\\"/g'\"} #{\"#{tmp_dir}/*.log\"}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "DownloadThenZipFileCreator",
+        "method": "strip_ips_and_api_keys_from_log_files"
+      },
+      "user_input": "tmp_dir",
+      "confidence": "Medium",
+      "cwe_id": [
+        77
+      ],
+      "note": ""
     }
   ],
-  "updated": "2024-04-09 17:45:00 +0200",
-  "brakeman_version": "6.1.2"
+  "brakeman_version": "7.0.2"
 }

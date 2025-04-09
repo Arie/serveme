@@ -1,0 +1,116 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "fileutils"
+require "open3"
+
+APP_ROOT = File.expand_path("..", __dir__)
+
+def system!(*args)
+  if !system(*args)
+    puts
+    abort "❌ #{args.first} failed"
+  end
+end
+
+def measure_time
+  start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+  yield
+  (Process.clock_gettime(Process::CLOCK_MONOTONIC) - start).round(3)
+end
+
+TESTS = {
+  brakeman: "bin/brakeman --no-pager --quiet --no-summary",
+  importmap: "bin/importmap audit",
+  rubocop: "bin/rubocop -f github",
+  sorbet: "bin/srb tc",
+  tapioca_gem: "bin/tapioca gem --verify",
+  tapioca_dsl: "bin/tapioca dsl --verify",
+  rspec: "bin/rails spec",
+  cucumber: "bin/rails cucumber"
+}
+
+CHECKS = %i[brakeman importmap rubocop sorbet tapioca_gem tapioca_dsl]
+
+FRAMES = [ "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" ]
+
+spinner = Thread.new do
+  puts
+  i = 0
+  loop do
+    print "\r#{FRAMES[i % FRAMES.size]} "
+    i += 1
+    sleep 0.1
+  end
+end
+
+class Test
+  attr_reader :name
+
+  def initialize(name)
+    @name = name
+    @command = TESTS.fetch(name)
+    @status = nil
+    @output = nil
+    @duration = 0
+  end
+
+  def run
+    @duration = measure_time do
+      @output, @status = Open3.capture2e(@command)
+    end
+  end
+
+  def message
+    if @status.success?
+      "\r✅ #{@name} check passed in #{@duration} seconds"
+    else
+      "\r❌ #{@name} check failed in #{@duration} seconds:\n\n#{@output}\n"
+    end
+  end
+
+  def success?
+    @status.success?
+  end
+end
+
+FileUtils.chdir APP_ROOT do
+  threads = []
+  check_time = measure_time do
+    threads = CHECKS.map do |name|
+      Thread.new do
+        test = Test.new(name)
+        Thread.current[:test] = test
+        test.run
+        puts test.message
+      end
+    end
+    threads.map(&:join)
+  end
+  spinner.kill
+  print "\r \r"
+
+  failed_tests = threads.map { _1[:test] }.reject(&:success?)
+  if failed_tests.none?
+    puts
+    puts "✅ All checks passed in #{check_time} seconds"
+    puts
+  else
+    puts
+    abort "❌ Checks #{failed_tests.map(&:name).join(", ")} failed in #{check_time} seconds"
+  end
+
+  duration = measure_time do
+    system! TESTS.fetch(:rspec)
+  end
+  puts
+  puts "✅ RSpec tests passed in #{duration} seconds"
+  puts
+
+  duration = measure_time do
+    system! TESTS.fetch(:cucumber)
+  end
+
+  puts
+  puts "✅ Cucumber features passed in #{duration} seconds"
+end

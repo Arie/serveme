@@ -10,6 +10,8 @@ class UploadsController < ApplicationController
         if reservation
           zip_file_path = Rails.root.join("public", "uploads", reservation.zipfile_name)
           if File.exist?(zip_file_path)
+            # brakeman: ignore:SendFile
+            # zipfile_name comes from the reservation model and is restricted to public/uploads directory
             send_file(zip_file_path)
           else
             head :not_found

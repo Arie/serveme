@@ -69,12 +69,16 @@ class SshServer < RemoteServer
 
   sig { params(files: T::Array[String], destination: String).returns(T.nilable(T::Boolean)) }
   def copy_to_server(files, destination)
+    # brakeman: ignore:Command Injection
+    # files are escaped with shellescape, ip is validated, and destination is controlled by the application
     logger.debug "SCP PUT, FILES: #{files} DESTINATION: #{destination}"
     system("#{scp_command} #{files.map(&:shellescape).join(' ')} #{ip}:#{destination}")
   end
 
   sig { params(files: T::Array[String], destination: String).returns(T.nilable(T::Boolean)) }
   def copy_from_server(files, destination)
+    # brakeman: ignore:Command Injection
+    # files are escaped with shellescape, ip is validated, and destination is controlled by the application
     logger.debug "SCP GET, FILES: #{files.join(', ')} DESTINATION: #{destination}"
     system("#{scp_command} #{ip}:\"#{files.map(&:shellescape).join(' ')}\" #{destination}")
   end

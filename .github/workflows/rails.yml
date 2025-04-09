@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Install dependencies
         run: |
           sudo add-apt-repository ppa:maxmind/ppa
@@ -29,23 +29,69 @@ jobs:
         run: |
           bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
-  linters:
-    name: Linters
-    needs: [ruby-dependencies]
+  scan_ruby:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Scan for common Rails security vulnerabilities using static analysis
+        run: bin/brakeman --no-pager
+  scan_js:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Scan for security vulnerabilities in JavaScript dependencies
+        run: bin/importmap audit
+
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Setup Ruby
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
+          ruby-version: .ruby-version
           bundler-cache: true
-      - name: Check code
-        run: bundle exec rubocop app
-      - name: Run type check
-        run: bundle exec srb tc
-      - name: Verify gem RBIs are up-to-date
-        run: bundle exec tapioca gem --verify
+
+      - name: Lint code for consistent style
+        run: bin/rubocop -f github
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Perform Sorbet typechecks
+        run: bin/rails db:prepare &&
+          bin/tapioca gem --verify &&
+          bin/tapioca dsl --verify &&
+          bin/srb tc
   rspec:
     name: RSpec
     runs-on: ubuntu-latest
@@ -62,7 +108,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Install dependencies
         run: |
           sudo add-apt-repository ppa:maxmind/ppa

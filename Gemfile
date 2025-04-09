@@ -142,3 +142,5 @@ end
 group :development, :production do
   gem "hive_geoip2"
 end
+
+gem "brakeman", "~> 7.0", groups: %i[development test]

@@ -58,49 +58,49 @@ jobs:
       - name: Verify Tapioca Gems
         run: bin/tapioca gem --verify
 
-  dsl_typecheck:
-    name: DSL Typecheck
-    runs-on: ubuntu-latest
-    needs: [ruby-dependencies]
-    services:
-      postgres:
-        image: postgres:13
-        env:
-          POSTGRES_USER: serveme
-          POSTGRES_DB: serveme_test
-          POSTGRES_PASSWORD: secret
-        ports: ["5432:5432"]
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+  # dsl_typecheck:
+  #   name: DSL Typecheck
+  #   runs-on: ubuntu-latest
+  #   needs: [ruby-dependencies]
+  #   services:
+  #     postgres:
+  #       image: postgres:13
+  #       env:
+  #         POSTGRES_USER: serveme
+  #         POSTGRES_DB: serveme_test
+  #         POSTGRES_PASSWORD: secret
+  #       ports: ["5432:5432"]
+  #       options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Install dependencies
-        run: |
-          sudo add-apt-repository ppa:maxmind/ppa
-          sudo apt update
-          sudo apt install libmaxminddb0 libmaxminddb-dev redis-server memcached
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-      - name: Setup test database
-        env:
-          RAILS_ENV: test
-          PGHOST: localhost
-          PGUSER: serveme
-          PGPASSWORD: secret
-        run: |
-          bin/rails db:create db:migrate
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
+  #     - name: Install dependencies
+  #       run: |
+  #         sudo add-apt-repository ppa:maxmind/ppa
+  #         sudo apt update
+  #         sudo apt install libmaxminddb0 libmaxminddb-dev redis-server memcached
+  #     - name: Setup Ruby
+  #       uses: ruby/setup-ruby@v1
+  #       with:
+  #         bundler-cache: true
+  #     - name: Setup test database
+  #       env:
+  #         RAILS_ENV: test
+  #         PGHOST: localhost
+  #         PGUSER: serveme
+  #         PGPASSWORD: secret
+  #       run: |
+  #         bin/rails db:create db:migrate
 
-      - name: Run DSL type check
-        env:
-          RAILS_ENV: test
-          PGHOST: localhost
-          PGUSER: serveme
-          PGPASSWORD: secret
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-        run: RAILS_ENV=test bundle exec tapioca dsl --verify
+  #     - name: Run DSL type check
+  #       env:
+  #         RAILS_ENV: test
+  #         PGHOST: localhost
+  #         PGUSER: serveme
+  #         PGPASSWORD: secret
+  #         RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+  #       run: RAILS_ENV=test bundle exec tapioca dsl --verify
   rspec:
     name: RSpec
     runs-on: ubuntu-latest

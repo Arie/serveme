@@ -13,27 +13,27 @@ RSpec.describe StacDiscordNotifier do
       76561199543859315 => {
         name: 'АБАРИГЕН',
         steam_id64: 76561199543859315,
-        detections: ['SilentAim'] * 37 + ['OOB cvar/netvar value -1 on var cl_cmdrate'] * 4
+        detections: [ 'SilentAim' ] * 37 + [ 'OOB cvar/netvar value -1 on var cl_cmdrate' ] * 4
       },
       76561198123456789 => {
         name: 'Player2',
         steam_id64: 76561198123456789,
-        detections: ['SilentAim'] * 2  # Should be filtered out
+        detections: [ 'SilentAim' ] * 2  # Should be filtered out
       },
       76561198987654321 => {
         name: 'Player3',
         steam_id64: 76561198987654321,
-        detections: ['Triggerbot'] * 3  # Should be included
+        detections: [ 'Triggerbot' ] * 3  # Should be included
       },
       76561198111111111 => {
         name: 'Player4',
         steam_id64: 76561198111111111,
-        detections: ['CmdNum SPIKE'] * 2  # Should be filtered out
+        detections: [ 'CmdNum SPIKE' ] * 2  # Should be filtered out
       },
       76561198222222222 => {
         name: 'Player5',
         steam_id64: 76561198222222222,
-        detections: ['Aimsnap'] * 3  # Should be included
+        detections: [ 'Aimsnap' ] * 3  # Should be included
       }
     }
   end
@@ -100,7 +100,7 @@ RSpec.describe StacDiscordNotifier do
         76561198123456789 => {
           name: 'Player2',
           steam_id64: 76561198123456789,
-          detections: ['SilentAim'] * 2  # Below threshold
+          detections: [ 'SilentAim' ] * 2  # Below threshold
         }
       }
       expect(Net::HTTP).not_to receive(:new)

@@ -8,11 +8,11 @@ describe LocalServer do
     it 'should find servers in a group' do
       group       = create :group, name: 'Great group'
       other_group = create :group, name: 'Other group'
-      server_in_group = create :server, groups: [group], name: 'server in group'
+      server_in_group = create :server, groups: [ group ], name: 'server in group'
       server_not_in_group = create :server, name: 'server in no groups'
-      server_other_group  = create :server, groups: [other_group], name: 'server other group'
+      server_other_group  = create :server, groups: [ other_group ], name: 'server other group'
 
-      Server.with_group.should =~ [server_in_group, server_other_group]
+      Server.with_group.should =~ [ server_in_group, server_other_group ]
     end
   end
 
@@ -20,7 +20,7 @@ describe LocalServer do
     it 'returns active servers' do
       active_server   = create :server, name: 'Active'
       inactive_server = create :server, name: 'Inactive', active: false
-      Server.active.should == [active_server]
+      Server.active.should == [ active_server ]
     end
   end
 
@@ -28,22 +28,22 @@ describe LocalServer do
     it 'should find servers belonging to a certain group' do
       group       = create :group, name: 'Great group'
       other_group = create :group, name: 'Other group'
-      server_in_group = create :server, groups: [group], name: 'server in group'
+      server_in_group = create :server, groups: [ group ], name: 'server in group'
       server_not_in_group = create :server, name: 'server in no groups'
-      server_other_group  = create :server, name: 'server other group', groups: [other_group]
+      server_other_group  = create :server, name: 'server other group', groups: [ other_group ]
 
-      Server.member_of_groups(Group.where(id: group.id)).should eq [server_in_group]
+      Server.member_of_groups(Group.where(id: group.id)).should eq [ server_in_group ]
     end
 
     it 'should only return servers once even with multiple matching groups' do
       group       = create :group, name: 'Great group'
       group2      = create :group, name: 'Great group 2'
       other_group = create :group, name: 'Other group'
-      server_in_group = create :server, groups: [group, group2], name: 'server in group'
+      server_in_group = create :server, groups: [ group, group2 ], name: 'server in group'
       server_not_in_group = create :server, name: 'server in no groups'
-      server_other_group  = create :server, name: 'server other group', groups: [other_group]
+      server_other_group  = create :server, name: 'server other group', groups: [ other_group ]
 
-      Server.member_of_groups(Group.where(id: [group.id, group2.id])).should eq [server_in_group]
+      Server.member_of_groups(Group.where(id: [ group.id, group2.id ])).should eq [ server_in_group ]
     end
   end
 
@@ -54,7 +54,7 @@ describe LocalServer do
       first   = create :server, position: 1, name: 'A0'
       third   = create :server, position: 2, name: 'B0'
 
-      Server.ordered.should == [first, second, third, fourth]
+      Server.ordered.should == [ first, second, third, fourth ]
     end
   end
 
@@ -75,7 +75,7 @@ describe LocalServer do
       create :reservation, server: busy_server_in_users_group, user: user
       create :reservation, server: busy_server_no_group
 
-      Server.reservable_by_user(user).should =~ [free_server_in_users_group, busy_server_in_users_group, free_server_no_group, busy_server_no_group]
+      Server.reservable_by_user(user).should =~ [ free_server_in_users_group, busy_server_in_users_group, free_server_no_group, busy_server_no_group ]
     end
   end
 
@@ -278,19 +278,19 @@ describe LocalServer do
 
   describe '#list_files' do
     it 'takes the globbed files and returns just the basename' do
-      complete_filepaths = ['/foo/bar/baz.bsp', '/foo/bar/qux.txt']
+      complete_filepaths = [ '/foo/bar/baz.bsp', '/foo/bar/qux.txt' ]
       subject.stub(tf_dir: 'foo')
       dir = 'bar'
       Dir.should_receive(:glob).with(File.join(subject.tf_dir, dir, '*')).and_return(complete_filepaths)
 
-      subject.list_files('bar').should == ['baz.bsp', 'qux.txt']
+      subject.list_files('bar').should == [ 'baz.bsp', 'qux.txt' ]
     end
   end
 
   describe '#remove_logs_and_demos' do
     it 'removes the logs and demos from disk' do
-      subject.stub(logs: [double])
-      subject.stub(demos: [double])
+      subject.stub(logs: [ double ])
+      subject.stub(demos: [ double ])
       files = subject.logs + subject.demos
       FileUtils.should_receive(:rm).with(files)
       subject.remove_logs_and_demos

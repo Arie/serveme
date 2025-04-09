@@ -1,22 +1,22 @@
 # typed: false
 # frozen_string_literal: true
 
-require 'sidekiq/web'
-require 'sidekiq/cron/web'
+require "sidekiq/web"
+require "sidekiq/cron/web"
 
 # rubocop:disable Metrics/BlockLength
 Serveme::Application.routes.draw do
-  get '/404', to: 'pages#not_found'
-  get '/500', to: 'pages#error'
+  get "/404", to: "pages#not_found"
+  get "/500", to: "pages#error"
 
-  devise_for :users, controllers: { omniauth_callbacks: 'sessions' }
+  devise_for :users, controllers: { omniauth_callbacks: "sessions" }
 
   devise_scope :user do
-    get '/sessions/auth/:provider', to: 'sessions#passthru'
-    get '/sessions/new', to: 'sessions#new'
-    post '/users/auth/:provider/callback', to: 'sessions#steam'
-    get '/users/auth/:provider/callback', to: 'sessions#steam'
-    delete '/users/logout', to: 'devise/sessions#destroy'
+    get "/sessions/auth/:provider", to: "sessions#passthru"
+    get "/sessions/new", to: "sessions#new"
+    post "/users/auth/:provider/callback", to: "sessions#steam"
+    get "/users/auth/:provider/callback", to: "sessions#steam"
+    delete "/users/logout", to: "devise/sessions#destroy"
   end
 
   resources :sessions do
@@ -62,8 +62,8 @@ Serveme::Application.routes.draw do
   resources :file_uploads, only: %i[new create show]
   resources :uploads, only: %i[show]
 
-  get 'league-request', to: 'league_requests#new'
-  post 'league-request', to: 'league_requests#create'
+  get "league-request", to: "league_requests#new"
+  post "league-request", to: "league_requests#create"
 
   resources :pages do
     collection do
@@ -113,7 +113,7 @@ Serveme::Application.routes.draw do
   resources :vouchers
 
   authenticate :user, ->(u) { u.admin? } do
-    mount Sidekiq::Web, at: '/sidekiq'
+    mount Sidekiq::Web, at: "/sidekiq"
   end
 
   namespace :api do
@@ -133,46 +133,46 @@ Serveme::Application.routes.draw do
   end
 
   # Stripe webhook
-  post '/stripe/webhook', to: 'stripe_webhooks#create'
+  post "/stripe/webhook", to: "stripe_webhooks#create"
 
   # Pretty URL
-  get   '/donate',                        to: 'orders#new',                as: 'donate'
-  get   '/voucher(/:code)',               to: 'vouchers#new',              as: 'claim'
-  get   '/statistics',                    to: 'pages#statistics',          as: 'statistics'
-  get   '/stats',                         to: 'pages#stats',               as: 'stats'
-  get   '/faq',                           to: 'pages#faq',                 as: 'faq'
-  get   '/credits',                       to: 'pages#credits',             as: 'credits'
-  get   '/server-providers',              to: 'pages#server_providers',    as: 'server_providers'
-  get   '/no-to-war',                     to: 'pages#no_to_war',           as: 'no_to_war'
-  post  '/no-to-war',                     to: 'pages#no_vatnik',           as: 'no_vatnik'
-  get   '/your-reservations',             to: 'reservations#index',        as: 'your_reservations'
-  get   '/reservations-played',           to: 'reservations#played_in',    as: 'played_in'
-  get   '/recent-reservations',           to: 'pages#recent_reservations', as: 'recent_reservations'
-  get   '/settings',                      to: 'users#edit',                as: 'settings'
-  get   '/upload-map',                    to: 'map_uploads#new',           as: 'upload_map'
-  get   '/upload-file',                   to: 'file_uploads#new',          as: 'upload_file'
-  get   '/maps',                          to: 'map_uploads#index',         as: 'maps'
-  get   '/maps/:sort_by',                 to: 'map_uploads#index',         as: 'maps_sorted'
-  get   '/private-servers',               to: 'pages#private_servers',     as: 'private_server_info'
+  get   "/donate",                        to: "orders#new",                as: "donate"
+  get   "/voucher(/:code)",               to: "vouchers#new",              as: "claim"
+  get   "/statistics",                    to: "pages#statistics",          as: "statistics"
+  get   "/stats",                         to: "pages#stats",               as: "stats"
+  get   "/faq",                           to: "pages#faq",                 as: "faq"
+  get   "/credits",                       to: "pages#credits",             as: "credits"
+  get   "/server-providers",              to: "pages#server_providers",    as: "server_providers"
+  get   "/no-to-war",                     to: "pages#no_to_war",           as: "no_to_war"
+  post  "/no-to-war",                     to: "pages#no_vatnik",           as: "no_vatnik"
+  get   "/your-reservations",             to: "reservations#index",        as: "your_reservations"
+  get   "/reservations-played",           to: "reservations#played_in",    as: "played_in"
+  get   "/recent-reservations",           to: "pages#recent_reservations", as: "recent_reservations"
+  get   "/settings",                      to: "users#edit",                as: "settings"
+  get   "/upload-map",                    to: "map_uploads#new",           as: "upload_map"
+  get   "/upload-file",                   to: "file_uploads#new",          as: "upload_file"
+  get   "/maps",                          to: "map_uploads#index",         as: "maps"
+  get   "/maps/:sort_by",                 to: "map_uploads#index",         as: "maps_sorted"
+  get   "/private-servers",               to: "pages#private_servers",     as: "private_server_info"
 
-  get   '/player_statistics/sdr',                                          to: 'player_statistics#show_for_sdr',                     as: 'show_sdr'
-  get   '/player_statistics/reservation/:reservation_id',                  to: 'player_statistics#show_for_reservation',             as: 'show_reservation_statistic'
-  get   '/player_statistics/steam/:steam_uid',                             to: 'player_statistics#show_for_player',                  as: 'show_player_statistic'
-  get   '/player_statistics/ip/:ip',                                       to: 'player_statistics#show_for_ip',                      as: 'show_ip_statistic'
-  get   '/player_statistics/reservation/:reservation_id/steam/:steam_uid', to: 'player_statistics#show_for_reservation_and_player',  as: 'show_reservation_and_player_statistic'
-  get   '/player_statistics/server/:server_id',                            to: 'player_statistics#show_for_server',                  as: 'show_server_player_statistic'
-  get   '/player_statistics/server-ip/:server_id',                         to: 'player_statistics#show_for_server_ip',               as: 'show_server_ip_player_statistic'
+  get   "/player_statistics/sdr",                                          to: "player_statistics#show_for_sdr",                     as: "show_sdr"
+  get   "/player_statistics/reservation/:reservation_id",                  to: "player_statistics#show_for_reservation",             as: "show_reservation_statistic"
+  get   "/player_statistics/steam/:steam_uid",                             to: "player_statistics#show_for_player",                  as: "show_player_statistic"
+  get   "/player_statistics/ip/:ip",                                       to: "player_statistics#show_for_ip",                      as: "show_ip_statistic"
+  get   "/player_statistics/reservation/:reservation_id/steam/:steam_uid", to: "player_statistics#show_for_reservation_and_player",  as: "show_reservation_and_player_statistic"
+  get   "/player_statistics/server/:server_id",                            to: "player_statistics#show_for_server",                  as: "show_server_player_statistic"
+  get   "/player_statistics/server-ip/:server_id",                         to: "player_statistics#show_for_server_ip",               as: "show_server_ip_player_statistic"
 
-  get   '/server_statistics/server/:server_id',                            to: 'server_statistics#show_for_server',                  as: 'show_server_statistic'
-  get   '/server_statistics/reservation/:reservation_id',                  to: 'server_statistics#show_for_reservation',             as: 'show_reservation_server_statistic'
+  get   "/server_statistics/server/:server_id",                            to: "server_statistics#show_for_server",                  as: "show_server_statistic"
+  get   "/server_statistics/reservation/:reservation_id",                  to: "server_statistics#show_for_reservation",             as: "show_reservation_server_statistic"
 
-  get   '/login',                         to: 'sessions#new', as: :login
-  get   '/users/auth/failure',            to: 'sessions#failure'
-  post  '/users/auth/failure',            to: 'sessions#failure'
+  get   "/login",                         to: "sessions#new", as: :login
+  get   "/users/auth/failure",            to: "sessions#failure"
+  post  "/users/auth/failure",            to: "sessions#failure"
 
-  get '/rcon-autocomplete/:id', to: 'reservations#rcon_autocomplete', as: 'rcon_autocomplete'
+  get "/rcon-autocomplete/:id", to: "reservations#rcon_autocomplete", as: "rcon_autocomplete"
 
-  root to: 'pages#welcome'
-  match '*path', via: :all, to: 'pages#not_found' unless Rails.env.test?
+  root to: "pages#welcome"
+  match "*path", via: :all, to: "pages#not_found" unless Rails.env.test?
 end
 # rubocop:enable Metrics/BlockLength

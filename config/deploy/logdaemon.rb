@@ -3,22 +3,22 @@
 
 namespace :logdaemon do
   def logdaemon_log
-    fetch :logdaemon_log, 'log/logdaemon.log'
+    fetch :logdaemon_log, "log/logdaemon.log"
   end
 
   def logdaemon_pid
-    fetch :logdaemon_pid, 'tmp/pids/logdaemon.pid'
+    fetch :logdaemon_pid, "tmp/pids/logdaemon.pid"
   end
 
   def logdaemon_command
-    fetch(:logdaemon_command, 'script/logdaemon')
+    fetch(:logdaemon_command, "script/logdaemon")
   end
 
   def logdaemon_host
     fetch(:logdaemon_host, fetch(:main_server))
   end
 
-  desc 'Stop the logdaemon process'
+  desc "Stop the logdaemon process"
   task :stop do
     on roles(:web, :app) do
       within current_path do
@@ -27,7 +27,7 @@ namespace :logdaemon do
     end
   end
 
-  desc 'Start the logdaemon process'
+  desc "Start the logdaemon process"
   task :start do
     on roles(:web, :app) do
       within current_path do
@@ -36,7 +36,7 @@ namespace :logdaemon do
     end
   end
 
-  desc 'Restart the logdaemon process'
+  desc "Restart the logdaemon process"
   task :restart do
     on roles(:web, :app) do
       within current_path do

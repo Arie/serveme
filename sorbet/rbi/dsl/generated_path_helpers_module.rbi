@@ -10,6 +10,9 @@ module GeneratedPathHelpersModule
   include ::ActionDispatch::Routing::PolymorphicRoutes
 
   sig { params(args: T.untyped).returns(String) }
+  def ai_pages_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def api_donator_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

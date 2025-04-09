@@ -1,4 +1,5 @@
 # typed: true
+
 # This migration comes from action_text (originally 20180528164100)
 class CreateActionTextTables < ActiveRecord::Migration[6.0]
   def change
@@ -22,6 +23,6 @@ class CreateActionTextTables < ActiveRecord::Migration[6.0]
       setting = config.options[config.orm][:primary_key_type]
       primary_key_type = setting || :primary_key
       foreign_key_type = setting || :bigint
-      [primary_key_type, foreign_key_type]
+      [ primary_key_type, foreign_key_type ]
     end
 end

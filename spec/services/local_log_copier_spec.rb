@@ -6,7 +6,7 @@ require 'spec_helper'
 describe LocalLogCopier do
   describe '#copy_logs' do
     it 'shells out to do the copying' do
-      logs = ['foo', 'bar', "b'az"]
+      logs = [ 'foo', 'bar', "b'az" ]
       server = double(logs: logs)
       reservation = double(id: 1)
       log_copier = LocalLogCopier.new(reservation, server)

@@ -24,9 +24,9 @@ RSpec.describe StacLogsDownloaderWorker do
       Dir.should_receive(:mktmpdir).and_return(tmp_dir)
       File.write("#{tmp_dir}/stac.log", 'foobarwidget')
 
-      server.should_receive(:stac_logs).and_return([stac_log])
-      server.should_receive(:copy_from_server).with([stac_log], anything)
-      server.should_receive(:delete_from_server).with([stac_log])
+      server.should_receive(:stac_logs).and_return([ stac_log ])
+      server.should_receive(:copy_from_server).with([ stac_log ], anything)
+      server.should_receive(:delete_from_server).with([ stac_log ])
 
       # Expect the processor to be called with process_content
       processor = instance_double(StacLogProcessor)

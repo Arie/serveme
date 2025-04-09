@@ -108,7 +108,7 @@ describe SshServer do
 
   describe '#copy_to_server' do
     it 'uses scp to copy files to the server' do
-      files = [File.join('foo')]
+      files = [ File.join('foo') ]
       destination = 'bar'
 
       subject.should_receive('system').with("#{scp_command} foo #{subject.ip}:bar")
@@ -125,13 +125,13 @@ describe SshServer do
       sftp_dir.should_receive(:foreach).with(File.join(subject.tf_dir, dir)).and_yield(sftp_entry)
       sftp = double(:sftp, dir: sftp_dir)
       Net::SFTP.should_receive(:start).with(subject.ip, nil).and_yield(sftp)
-      subject.list_files(dir).should == ['file_entry']
+      subject.list_files(dir).should == [ 'file_entry' ]
     end
   end
 
   describe '#copy_from_server' do
     it 'uses the sftp instance to copy files from the server' do
-      files = [File.join('foo')]
+      files = [ File.join('foo') ]
       destination = 'bar'
 
       subject.should_receive(:system).with("#{scp_command} #{subject.ip}:\"foo\" bar")
@@ -142,7 +142,7 @@ describe SshServer do
 
   describe '#upload_configuration' do
     it 'uses copy_to_server to transfer the configuration to the reservation file destination' do
-      subject.should_receive(:copy_to_server).with(['foo.cfg'], 'reservation.cfg')
+      subject.should_receive(:copy_to_server).with([ 'foo.cfg' ], 'reservation.cfg')
       subject.upload_configuration('foo.cfg', 'reservation.cfg')
     end
   end

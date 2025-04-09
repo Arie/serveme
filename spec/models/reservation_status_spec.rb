@@ -11,7 +11,7 @@ describe ReservationStatus do
       last    = create :reservation_status, reservation_id: reservation.id, created_at: 3.hour.ago
       middle  = create :reservation_status, reservation_id: reservation.id, created_at: 2.hour.ago
 
-      ReservationStatus.ordered.to_a.should eql [first, middle, last]
+      ReservationStatus.ordered.to_a.should eql [ first, middle, last ]
     end
   end
 end

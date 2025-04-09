@@ -21,19 +21,19 @@ describe RconAutocomplete do
   end
 
   it 'completes changelevel further' do
-    expect(subject.autocomplete('changelevel cp_r').map { |c| c[:command] }).to start_with ['changelevel cp_reckoner']
+    expect(subject.autocomplete('changelevel cp_r').map { |c| c[:command] }).to start_with [ 'changelevel cp_reckoner' ]
   end
 
   it 'completes exec further' do
-    expect(subject.autocomplete('exec etf').map { |c| c[:command] }).to start_with ['exec etf2l', 'exec etf2l_6v6']
+    expect(subject.autocomplete('exec etf').map { |c| c[:command] }).to start_with [ 'exec etf2l', 'exec etf2l_6v6' ]
   end
 
   it 'completes mp_tournament_whitelist further' do
-    expect(subject.autocomplete('mp_tournament_whitelist etf2l_whitelist_6').map { |c| c[:command] }).to start_with ['mp_tournament_whitelist etf2l_whitelist_6v6.txt']
+    expect(subject.autocomplete('mp_tournament_whitelist etf2l_whitelist_6').map { |c| c[:command] }).to start_with [ 'mp_tournament_whitelist etf2l_whitelist_6v6.txt' ]
   end
 
   it 'completes tftrue_whitelist_id further' do
-    expect(subject.autocomplete('tftrue_whitelist_id etf').map { |c| c[:command] }).to start_with ['tftrue_whitelist_id etf2l_whitelist_6v6']
+    expect(subject.autocomplete('tftrue_whitelist_id etf').map { |c| c[:command] }).to start_with [ 'tftrue_whitelist_id etf2l_whitelist_6v6' ]
   end
 
   it 'completes kick command with current players' do
@@ -84,7 +84,7 @@ describe RconAutocomplete do
       ])
 
       results = subject.autocomplete('forced')
-      expect(results.map { |c| c[:command] }).to eq(['forced_foo', 'tf_forced_holiday'])
+      expect(results.map { |c| c[:command] }).to eq([ 'forced_foo', 'tf_forced_holiday' ])
     end
 
     it 'finds substring matches anywhere in the command' do
@@ -101,7 +101,7 @@ describe RconAutocomplete do
       ])
 
       results = subject.autocomplete('holiday')
-      expect(results.map { |c| c[:command] }).to eq(['holiday_mode', 'tf_holiday_setting', 'set_holiday'])
+      expect(results.map { |c| c[:command] }).to eq([ 'holiday_mode', 'tf_holiday_setting', 'set_holiday' ])
     end
   end
 end

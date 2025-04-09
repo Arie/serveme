@@ -1,9 +1,11 @@
+# typed: false
+
 require 'spec_helper'
 
 RSpec.describe OpenaiClient do
   let(:openai_client) { instance_double(::OpenAI::Client) }
   let(:parameters) { { model: "test-model", messages: [] } }
-  let(:response) { { "choices" => [{ "message" => { "content" => "test" } }] } }
+  let(:response) { { "choices" => [ { "message" => { "content" => "test" } } ] } }
   let(:api_key) { "test-api-key" }
 
   before(:each) do

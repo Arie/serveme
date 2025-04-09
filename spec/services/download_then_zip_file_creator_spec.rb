@@ -13,7 +13,7 @@ describe DownloadThenZipFileCreator do
 
   describe '#create_zip' do
     it 'makes a tmpdir locally to store the files to be zipped' do
-      zip_file = described_class.new(reservation, ["foo'bar"])
+      zip_file = described_class.new(reservation, [ "foo'bar" ])
       server.should_receive(:copy_from_server).with(Array, String)
       zip_file.stub(zipfile_name: '/tmp/foo.zip')
       zip_file.should_receive(:chmod)
@@ -32,7 +32,7 @@ describe DownloadThenZipFileCreator do
   describe '#zip' do
     it 'zips the file in the tmp dir' do
       zip_file_stub = double
-      files = ['/tmp/foo']
+      files = [ '/tmp/foo' ]
       tmp_dir = 'tmp_dir'
       zipfile_name_and_path = '/tmp/foo.zip'
 

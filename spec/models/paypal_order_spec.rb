@@ -95,7 +95,7 @@ describe PaypalOrder do
 
       describe '.monthly' do
         it 'returns the orders for the month' do
-          PaypalOrder.monthly(Time.zone.local(2013, 11, 11, 12)).should =~ [first_of_month, middle_of_month, end_of_month]
+          PaypalOrder.monthly(Time.zone.local(2013, 11, 11, 12)).should =~ [ first_of_month, middle_of_month, end_of_month ]
         end
       end
 

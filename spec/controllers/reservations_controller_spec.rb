@@ -70,7 +70,7 @@ describe ReservationsController do
       reservation = create :reservation, user: @user
       patch :find_servers_for_reservation, format: :json, params: { id: reservation.id }
       free_server = reservation.server
-      response.body.should == { servers: [{ id: free_server.id, name: free_server.name, flag: free_server.location.flag, ip: free_server.ip, port: free_server.port, ip_and_port: "#{free_server.ip}:#{free_server.port}", sdr: false, latitude: free_server.latitude, longitude: free_server.longitude }] }.to_json
+      response.body.should == { servers: [ { id: free_server.id, name: free_server.name, flag: free_server.location.flag, ip: free_server.ip, port: free_server.port, ip_and_port: "#{free_server.ip}:#{free_server.port}", sdr: false, latitude: free_server.latitude, longitude: free_server.longitude } ] }.to_json
     end
   end
 
@@ -107,7 +107,7 @@ describe ReservationsController do
 
       get :played_in
 
-      assigns(:users_games).should == [reservation]
+      assigns(:users_games).should == [ reservation ]
     end
   end
 

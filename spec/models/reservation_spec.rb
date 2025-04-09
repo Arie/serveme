@@ -51,7 +51,7 @@ describe Reservation do
 
     it 'wont allow passwords with invalid characters' do
       valid_chars = "azAZ0123456789!@- #$^&*/()_+}'|\\:<>?,.[]"
-      invalid_chars = ['"', '💩', ';', '%']
+      invalid_chars = [ '"', '💩', ';', '%' ]
 
       reservation = build(:reservation)
 
@@ -471,7 +471,7 @@ describe Reservation do
   context 'finding collisions' do
     describe '#collides?' do
       it 'collides if there are any colliding reservations' do
-        subject.stub(colliding_reservations: ['foo'])
+        subject.stub(colliding_reservations: [ 'foo' ])
         expect(subject.collides?).to eql(true)
       end
     end
@@ -493,10 +493,10 @@ describe Reservation do
         rear_overlap = build(:reservation,   user: user, starts_at: 55.minutes.from_now, ends_at: 2.hours.from_now)
         complete_overlap = build(:reservation, user: user, starts_at: 10.minutes.ago, ends_at: 2.hours.from_now)
 
-        front_overlap.own_colliding_reservations.should eql [reservation]
-        rear_overlap.own_colliding_reservations.should eql [reservation]
-        complete_overlap.own_colliding_reservations.should eql [reservation]
-        internal.own_colliding_reservations.should eql [reservation]
+        front_overlap.own_colliding_reservations.should eql [ reservation ]
+        rear_overlap.own_colliding_reservations.should eql [ reservation ]
+        complete_overlap.own_colliding_reservations.should eql [ reservation ]
+        internal.own_colliding_reservations.should eql [ reservation ]
       end
     end
 
@@ -514,7 +514,7 @@ describe Reservation do
 
     describe '#collides_with_own_reservations?' do
       it 'collides with own reservations if there are any' do
-        subject.stub(own_colliding_reservations: ['foo'])
+        subject.stub(own_colliding_reservations: [ 'foo' ])
         expect(subject.collides_with_own_reservation?).to eql(true)
       end
     end
@@ -528,16 +528,16 @@ describe Reservation do
         rear_overlap = build(:reservation, server: server, starts_at: 55.minutes.from_now, ends_at: 2.hours.from_now)
         complete_overlap = build(:reservation, server: server, starts_at: 10.minutes.ago, ends_at: 2.hours.from_now)
 
-        front_overlap.other_users_colliding_reservations.should eql [reservation]
-        rear_overlap.other_users_colliding_reservations.should eql [reservation]
-        complete_overlap.other_users_colliding_reservations.should eql [reservation]
-        internal.other_users_colliding_reservations.should eql [reservation]
+        front_overlap.other_users_colliding_reservations.should eql [ reservation ]
+        rear_overlap.other_users_colliding_reservations.should eql [ reservation ]
+        complete_overlap.other_users_colliding_reservations.should eql [ reservation ]
+        internal.other_users_colliding_reservations.should eql [ reservation ]
       end
     end
 
     describe '#collides_with_other_users_reservations?' do
       it 'collides with other users reservations if there are any' do
-        subject.stub(other_users_colliding_reservations: ['foo'])
+        subject.stub(other_users_colliding_reservations: [ 'foo' ])
         expect(subject.collides_with_other_users_reservation?).to eql(true)
       end
     end

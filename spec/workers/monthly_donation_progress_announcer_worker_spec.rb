@@ -15,7 +15,7 @@ describe MonthlyDonationProgressAnnouncerWorker do
 
     human_date = Date.today.strftime('%B %-d')
 
-    mock_reservation_class = double(:reservations, current: [non_donator_reservation, donator_reservation])
+    mock_reservation_class = double(:reservations, current: [ non_donator_reservation, donator_reservation ])
     Reservation.should_receive(:includes).with(:user, :server).and_return(mock_reservation_class)
 
     expect(server).to receive(:rcon_say).with("Today is #{human_date}, this month's donations have paid for 0 percent of our server bills. Please donate at #{SITE_HOST} to keep this service alive")

@@ -6,7 +6,7 @@ require 'spec_helper'
 describe ServerNotificationWorker do
   let(:reservation)   { create :reservation, starts_at: 10.minutes.ago, ends_at: 1.hour.from_now, provisioned: true }
   let(:non_donator)   { create :user }
-  let(:donator)       { create :user, groups: [Group.donator_group] }
+  let(:donator)       { create :user, groups: [ Group.donator_group ] }
   let(:server)        { double(:server) }
 
   before do

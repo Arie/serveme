@@ -20,7 +20,7 @@ describe ServersController do
       reservation = create :reservation, server: first
       _stat = create :server_statistic, server: first, reservation: reservation, created_at: 1.minute.ago
       get :index
-      assigns(:servers).map(&:name).should eql [first.name, second.name, third.name]
+      assigns(:servers).map(&:name).should eql [ first.name, second.name, third.name ]
     end
   end
 end

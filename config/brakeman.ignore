@@ -1,0 +1,26 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "any",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/workers/cleanup_worker.rb",
+      "line": null,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": null,
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CleanupWorker",
+        "method": "remove_old_reservation_logs_and_zips"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "note": "cleanup_age_in_days returns a number and paths are hardcoded, so these commands are safe"
+    }
+  ],
+  "updated": "2024-04-09 17:45:00 +0200",
+  "brakeman_version": "6.1.2"
+}

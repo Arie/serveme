@@ -19,7 +19,7 @@ describe Product do
     it 'returns only active products' do
       active = create :product, active: true
       _inactive = create :product, active: false
-      Product.active.should == [active]
+      Product.active.should == [ active ]
     end
   end
 
@@ -29,7 +29,7 @@ describe Product do
       last    = create :product, price: 15
       first   = create :product, price: 5
 
-      Product.ordered.should == [first, middle, last]
+      Product.ordered.should == [ first, middle, last ]
     end
   end
 

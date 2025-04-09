@@ -10,7 +10,7 @@ describe RconFtpServer do
 
   describe '#remove_configuration' do
     it 'deletes the reservation configs' do
-      configuration_files = ['/foo/bar/cfg/reservation.cfg', '/foo/bar/cfg/ctf_turbine.cfg', '/foo/bar/cfg/banned_user.cfg', '/foo/bar/cfg/banned_ip.cfg', '/foo/bar/motd.txt']
+      configuration_files = [ '/foo/bar/cfg/reservation.cfg', '/foo/bar/cfg/ctf_turbine.cfg', '/foo/bar/cfg/banned_user.cfg', '/foo/bar/cfg/banned_ip.cfg', '/foo/bar/motd.txt' ]
       subject.should_receive(:delete_from_server).with(configuration_files)
       subject.remove_configuration
     end
@@ -27,14 +27,14 @@ describe RconFtpServer do
     it 'finds the demo files' do
       ftp = double
       subject.stub(ftp: ftp)
-      ftp.should_receive(:nlst).with("#{subject.tf_dir}/*.dem").and_return(['bla.dem', 'foo.dem'])
-      subject.demos.should eql ["#{subject.tf_dir}/bla.dem", "#{subject.tf_dir}/foo.dem"]
+      ftp.should_receive(:nlst).with("#{subject.tf_dir}/*.dem").and_return([ 'bla.dem', 'foo.dem' ])
+      subject.demos.should eql [ "#{subject.tf_dir}/bla.dem", "#{subject.tf_dir}/foo.dem" ]
     end
   end
 
   describe '#delete_from_server' do
     it 'sends the ftp delete command for the given files' do
-      files = ['foo.log']
+      files = [ 'foo.log' ]
       ftp = double
       subject.stub(make_ftp_connection: ftp)
       ftp.should_receive(:delete).with(files.first)
@@ -42,7 +42,7 @@ describe RconFtpServer do
     end
 
     it 'logs an error when deleting failed' do
-      files = ['foo.log']
+      files = [ 'foo.log' ]
       ftp = double
       subject.stub(make_ftp_connection: ftp)
       logger = double
@@ -59,18 +59,18 @@ describe RconFtpServer do
       ftp = double
       subject.stub(ftp: ftp)
       ftp.should_receive(:nlst).with("#{subject.tf_dir}/logs/*.log").and_return(%w[foo bar])
-      subject.logs.should eql ["#{subject.tf_dir}/logs/foo", "#{subject.tf_dir}/logs/bar"]
+      subject.logs.should eql [ "#{subject.tf_dir}/logs/foo", "#{subject.tf_dir}/logs/bar" ]
     end
   end
 
   describe '#list_files' do
     it 'lists the files in a given dir' do
       dir = 'cfg'
-      files = ['/foo/bar/etf2l.cfg', '/foo/bar/koth.cfg']
+      files = [ '/foo/bar/etf2l.cfg', '/foo/bar/koth.cfg' ]
       ftp = double
       subject.stub(ftp: ftp)
       ftp.should_receive(:nlst).with(File.join(subject.tf_dir, dir, '*')).and_return(files)
-      subject.list_files(dir).should == ['etf2l.cfg', 'koth.cfg']
+      subject.list_files(dir).should == [ 'etf2l.cfg', 'koth.cfg' ]
     end
   end
 
@@ -122,7 +122,7 @@ describe RconFtpServer do
 
   describe '#copy_to_server' do
     it 'uses the ftp instance to copy files to the server' do
-      files = [File.join('foo')]
+      files = [ File.join('foo') ]
       destination = 'bar'
       ftp = double
       destination_file = File.join(destination, 'foo')
@@ -135,7 +135,7 @@ describe RconFtpServer do
 
   describe '#copy_from_server' do
     it 'uses the ftp instance to copy files from the server' do
-      files = [File.join('foo')]
+      files = [ File.join('foo') ]
       destination = 'bar'
       ftp = double
       subject.stub(make_ftp_connection: ftp)
@@ -145,7 +145,7 @@ describe RconFtpServer do
     end
 
     it 'logs an error when downloading failed' do
-      files = ['foo.log']
+      files = [ 'foo.log' ]
       destination = 'bar'
       ftp = double
       subject.stub(make_ftp_connection: ftp)

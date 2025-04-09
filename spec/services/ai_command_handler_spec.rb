@@ -1,3 +1,5 @@
+# typed: false
+
 require 'spec_helper'
 
 RSpec.describe AiCommandHandler do

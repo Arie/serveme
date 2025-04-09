@@ -70,7 +70,7 @@ describe LogUpload do
   describe '#log_file_exists?' do
     it 'returns true if the requested logfile is available or this reservation' do
       subject.stub(reservation_id: 1337)
-      LogUpload.should_receive(:find_log_files).with(1337).and_return([{ file_name: 'foo.log' }])
+      LogUpload.should_receive(:find_log_files).with(1337).and_return([ { file_name: 'foo.log' } ])
       subject.log_file_exists?('foo.log').should eql true
     end
   end

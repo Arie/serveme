@@ -144,7 +144,7 @@ Loaded plugins:
     it 'handles players that have been connected for over an hour' do
       r = RconStatusParser.new(playing_over_an_hour)
       r.players.size.should == 11
-      r.players.map(&:minutes_connected).should eql [14, 7, 98, 109, 108, 106, 2, 94, 92, 91, 80]
+      r.players.map(&:minutes_connected).should eql [ 14, 7, 98, 109, 108, 106, 2, 94, 92, 91, 80 ]
     end
   end
 end

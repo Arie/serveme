@@ -12,7 +12,7 @@ describe Voucher do
     it 'finds a voucher by its crockforded code' do
       voucher = create :voucher, code: '64S36D1N6RVKGE9G'
 
-      valid_codes = ['64-S36D-1N6R-VKGE9G', '64S3-6D1N6R-VKGE9G', '6-4S36D-I-N6RVKG-E9G']
+      valid_codes = [ '64-S36D-1N6R-VKGE9G', '64S3-6D1N6R-VKGE9G', '6-4S36D-I-N6RVKG-E9G' ]
 
       valid_codes.each do |code|
         described_class.find_voucher(code).should eql voucher

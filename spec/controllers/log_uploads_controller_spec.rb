@@ -21,13 +21,13 @@ describe LogUploadsController do
       end
 
       it 'finds the file from the params' do
-        subject.stub(logs: [{ file_name: 'foo.log' }])
+        subject.stub(logs: [ { file_name: 'foo.log' } ])
         get :new, params: { reservation_id: @reservation.id, file_name: 'foo.log' }
         assigns(:log_upload).file_name.should eql 'foo.log'
       end
 
       it "sets the file to nil if it wasn't found" do
-        subject.stub(logs: [{ file_name: 'bar.log' }])
+        subject.stub(logs: [ { file_name: 'bar.log' } ])
         get :new, params: { reservation_id: @reservation.id, file_name: 'foo.log' }
         assigns(:log_upload).file_name.should eql nil
       end
@@ -81,7 +81,7 @@ describe LogUploadsController do
     describe '#show_log' do
       it 'assigns the log_file variable' do
         log = double.as_null_object
-        subject.stub(logs: [{ file_name: 'foo.log', file_name_and_path: 'bar.log' }])
+        subject.stub(logs: [ { file_name: 'foo.log', file_name_and_path: 'bar.log' } ])
         File.should_receive(:read).with('bar.log').and_return(log)
         get :show_log, params: { reservation_id: @reservation.id, file_name: 'foo.log' }
       end

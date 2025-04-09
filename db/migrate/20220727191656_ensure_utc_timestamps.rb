@@ -1,4 +1,5 @@
 # typed: true
+
 class EnsureUtcTimestamps < ActiveRecord::Migration[7.0]
   def switcheroo(table, columns)
     puts "Doing the switcheroo for #{table} and columns #{columns.join(', ')}"

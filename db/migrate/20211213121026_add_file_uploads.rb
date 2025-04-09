@@ -1,4 +1,5 @@
 # typed: true
+
 class AddFileUploads < ActiveRecord::Migration[6.1]
   def change
     create_table :file_uploads do |t|

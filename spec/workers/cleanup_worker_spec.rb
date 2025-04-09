@@ -17,15 +17,15 @@ describe CleanupWorker do
   end
 
   it 'finds the old reservations' do
-    subject.old_reservations.to_a.should == [old_reservation]
+    subject.old_reservations.to_a.should == [ old_reservation ]
   end
 
   it 'finds the old player stats' do
-    subject.old_player_statistics.to_a.should == [old_player_statistic]
+    subject.old_player_statistics.to_a.should == [ old_player_statistic ]
   end
 
   it 'finds the old server stats' do
-    subject.old_server_statistics.to_a.should == [old_server_statistic]
+    subject.old_server_statistics.to_a.should == [ old_server_statistic ]
   end
 
   it 'deletes the logs and zip of old reservations and removes server/player stats' do

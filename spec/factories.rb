@@ -33,7 +33,7 @@ FactoryBot.define do
     nickname { 'Admin' }
     name { 'Admin Abuse' }
     provider { 'steam' }
-    groups { [Group.admin_group] }
+    groups { [ Group.admin_group ] }
   end
 
   factory :reservation do
@@ -89,7 +89,7 @@ FactoryBot.define do
   factory :map_upload do
     association :user
     file do
-      temp = Tempfile.new(['map', '.bsp'], MAPS_DIR)
+      temp = Tempfile.new([ 'map', '.bsp' ], MAPS_DIR)
       temp.write('VBSP foobar')
       temp.close
       temp
@@ -99,7 +99,7 @@ FactoryBot.define do
   factory :file_upload do
     association :user
     file do
-      temp = Tempfile.new(['map', '.bsp'], MAPS_DIR)
+      temp = Tempfile.new([ 'map', '.bsp' ], MAPS_DIR)
       temp.write('VBSP foobar')
       temp.close
       temp

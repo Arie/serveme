@@ -1,4 +1,5 @@
 # typed: strict
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
@@ -29,7 +30,7 @@ unless Server.all.any?
           rcon: 'secret',
           latitude: 51,
           longitude: 9 }
-  servers = [fb1, fb2, fb4]
+  servers = [ fb1, fb2, fb4 ]
 
   servers.each do |server|
     LocalServer.where(name: server[:name], path: server[:path], ip: server[:ip], port: server[:port], rcon: server[:rcon], latitude: server[:latitude], longitude: server[:longitude]).first_or_create
@@ -46,7 +47,7 @@ unless ServerConfig.all.any?
 end
 
 unless Whitelist.all.any?
-  whitelists = ['etf2l_whitelist_6thcup.txt', 'etf2l_whitelist_6v6.txt', 'etf2l_whitelist_9v9.txt', 'etf2l_whitelist_bball.txt', 'etf2l_whitelist_quickfix.txt', 'etf2l_whitelist_vanilla.txt', 'item_whitelist_ugc_HL.txt']
+  whitelists = [ 'etf2l_whitelist_6thcup.txt', 'etf2l_whitelist_6v6.txt', 'etf2l_whitelist_9v9.txt', 'etf2l_whitelist_bball.txt', 'etf2l_whitelist_quickfix.txt', 'etf2l_whitelist_vanilla.txt', 'item_whitelist_ugc_HL.txt' ]
   whitelists.each do |whitelist|
     Whitelist.create(file: whitelist)
   end

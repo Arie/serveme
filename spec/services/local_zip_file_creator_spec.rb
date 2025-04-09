@@ -10,9 +10,9 @@ describe LocalZipFileCreator do
 
   describe '#zip' do
     it 'it adds the files to zip to a zipfile' do
-      zip_creator = LocalZipFileCreator.new(reservation, ["foo'bar"])
+      zip_creator = LocalZipFileCreator.new(reservation, [ "foo'bar" ])
       zip_creator.stub(server: server)
-      zip_creator.stub(files_to_zip: ['foo/qux.dem'])
+      zip_creator.stub(files_to_zip: [ 'foo/qux.dem' ])
       zip_creator.stub(zipfile_name_and_path: 'bar.zip')
 
       zip_creator.should_receive(:system).with('zip -j bar.zip foo/qux.dem')

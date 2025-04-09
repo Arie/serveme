@@ -41,7 +41,7 @@ Then 'I see a message that the map upload was succesful' do
 end
 
 def generate_fake_map(name, contents = 'VBSP')
-  temp_file = Tempfile.new([name, '.bsp'])
+  temp_file = Tempfile.new([ name, '.bsp' ])
   temp_file.write contents
   temp_file.close
   temp_file

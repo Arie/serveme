@@ -1,4 +1,5 @@
 # typed: true
+
 class CreateStacLogs < ActiveRecord::Migration[7.1]
   def change
     create_table :stac_logs do |t|

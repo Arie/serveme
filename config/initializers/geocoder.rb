@@ -10,26 +10,26 @@ else
     ip_lookup: :geoip2,
     cache: Rails.cache,
     geoip2: {
-      lib: 'hive_geoip2',
-      file: File.join(Rails.root, 'doc', 'GeoLite2-City.mmdb')
+      lib: "hive_geoip2",
+      file: File.join(Rails.root, "doc", "GeoLite2-City.mmdb")
     }
   )
 end
 Geocoder::Lookup::Test.set_default_stub(
   [
     {
-      'latitude' => 40.7143528,
-      'longitude' => -74.0059731,
-      'address' => 'New York, NY, USA',
-      'state' => 'New York',
-      'state_code' => 'NY',
-      'country' => 'United States',
-      'country_code' => 'US'
+      "latitude" => 40.7143528,
+      "longitude" => -74.0059731,
+      "address" => "New York, NY, USA",
+      "state" => "New York",
+      "state_code" => "NY",
+      "country" => "United States",
+      "country_code" => "US"
     }
   ]
 )
 # Monkeypatch Geocoder so it caches maxmind local lookups
-require 'geocoder/lookups/maxmind_local'
+require "geocoder/lookups/maxmind_local"
 
 module Geocoder
   module Lookup
@@ -41,7 +41,7 @@ module Geocoder
           if configuration[:file]
             geoip_class = MaxMind::GeoIP2
             result = geoip_class.new(configuration[:file]).city(query.to_s)
-            out = result.nil? ? [] : [result.to_hash]
+            out = result.nil? ? [] : [ result.to_hash ]
           elsif configuration[:package] == :city
             addr = IPAddr.new(query.text).to_i
             q = "SELECT l.country, l.region, l.city, l.latitude, l.longitude

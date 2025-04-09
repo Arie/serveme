@@ -35,7 +35,7 @@ describe CronWorker do
     it 'triggers the active reservation checker worker for active reservations' do
       reservation.update_attribute(:provisioned, true)
       reservation.update_attribute(:ended,       false)
-      ActiveReservationsCheckerWorker.should_receive(:perform_async).with([reservation.id])
+      ActiveReservationsCheckerWorker.should_receive(:perform_async).with([ reservation.id ])
       CronWorker.perform_async
     end
   end

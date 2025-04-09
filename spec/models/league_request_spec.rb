@@ -50,7 +50,7 @@ describe LeagueRequest do
       results = request.search
 
       expect(results.size).to eql(3)
-      expect(results.map(&:id).sort).to eql([player.id, alt.id, other_ip.id])
+      expect(results.map(&:id).sort).to eql([ player.id, alt.id, other_ip.id ])
     end
 
     it 'cross references players by steam uid' do
@@ -63,7 +63,7 @@ describe LeagueRequest do
       results = request.search
 
       expect(results.size).to eql(3)
-      expect(results.map(&:id).sort).to eql([player.id, alt.id, other_ip.id])
+      expect(results.map(&:id).sort).to eql([ player.id, alt.id, other_ip.id ])
     end
 
     it 'can filter by reservation_ids' do
@@ -78,11 +78,11 @@ describe LeagueRequest do
       other_ip = create(:reservation_player, steam_uid: 'abc', ip: '1.1.1.1', reservation_id: reservation.id)
       _other_player = create(:reservation_player, steam_uid: 'ghj', ip: '4.4.2.2', reservation_id: reservation.id)
 
-      request = LeagueRequest.new(user, steam_uid: 'abc', reservation_ids: [reservation.id, other_reservation.id], cross_reference: '1')
+      request = LeagueRequest.new(user, steam_uid: 'abc', reservation_ids: [ reservation.id, other_reservation.id ], cross_reference: '1')
       results = request.search
 
       expect(results.size).to eql(4)
-      expect(results.map(&:id).sort).to eql([player.id, alt.id, alt_other_reservation.id, other_ip.id])
+      expect(results.map(&:id).sort).to eql([ player.id, alt.id, alt_other_reservation.id, other_ip.id ])
     end
   end
 end

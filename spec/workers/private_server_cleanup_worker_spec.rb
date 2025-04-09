@@ -15,11 +15,11 @@ describe PrivateServerCleanupWorker do
   let!(:young_private_group_server) { create :group_server, group: young_group, server: young_private_server }
 
   it 'finds the expired groups' do
-    subject.expired_private_groups.should == [old_group]
+    subject.expired_private_groups.should == [ old_group ]
   end
 
   it 'finds the expired servers for these groups' do
-    subject.expired_private_servers.should == [old_private_group_server]
+    subject.expired_private_servers.should == [ old_private_group_server ]
   end
 
   it 'deletes private server link for these expired groups' do

@@ -5202,116 +5202,116 @@ class RuboCop::AST::NodePattern::Parser < ::Racc::Parser
   # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.rb#19
   def initialize(builder = T.unsafe(nil)); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#333
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#335
   def _reduce_10(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#337
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#339
   def _reduce_11(val, _values); end
 
   # reduce 12 omitted
   #
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#343
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#345
   def _reduce_13(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#347
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#349
   def _reduce_14(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#351
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#353
   def _reduce_15(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#355
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#357
   def _reduce_16(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#359
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#361
   def _reduce_17(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#363
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#365
   def _reduce_18(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#367
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#369
   def _reduce_19(val, _values); end
 
   # reduce 1 omitted
   #
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#301
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#303
   def _reduce_2(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#371
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#373
   def _reduce_20(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#375
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#377
   def _reduce_21(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#379
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#381
   def _reduce_22(val, _values); end
 
   # reduce 24 omitted
   #
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#387
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#389
   def _reduce_25(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#393
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#395
   def _reduce_26(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#305
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#307
   def _reduce_3(val, _values); end
 
   # reduce 32 omitted
   #
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#413
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#415
   def _reduce_33(val, _values); end
 
   # reduce 36 omitted
   #
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#423
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#425
   def _reduce_37(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#427
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#429
   def _reduce_38(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#431
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#433
   def _reduce_39(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#309
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#311
   def _reduce_4(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#435
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#437
   def _reduce_40(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#439
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#441
   def _reduce_41(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#443
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#445
   def _reduce_42(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#447
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#449
   def _reduce_43(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#451
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#453
   def _reduce_44(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#455
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#457
   def _reduce_45(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#459
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#461
   def _reduce_46(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#313
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#315
   def _reduce_5(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#317
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#319
   def _reduce_6(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#321
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#323
   def _reduce_7(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#325
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#327
   def _reduce_8(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#329
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#331
   def _reduce_9(val, _values); end
 
-  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#463
+  # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#465
   def _reduce_none(val, _values); end
 
   # source://rubocop-ast//lib/rubocop/ast/utilities/simple_forwardable.rb#19
@@ -5371,10 +5371,10 @@ RuboCop::AST::NodePattern::Parser::Lexer = RuboCop::AST::NodePattern::Lexer
 # source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#227
 RuboCop::AST::NodePattern::Parser::Racc_arg = T.let(T.unsafe(nil), Array)
 
-# source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#293
+# source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#295
 RuboCop::AST::NodePattern::Parser::Racc_debug_parser = T.let(T.unsafe(nil), FalseClass)
 
-# source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#243
+# source://rubocop-ast//lib/rubocop/ast/node_pattern/parser.racc.rb#244
 RuboCop::AST::NodePattern::Parser::Racc_token_to_s_table = T.let(T.unsafe(nil), Array)
 
 # Overrides Parser to use `WithMeta` variants and provide additional methods
@@ -7162,7 +7162,7 @@ module RuboCop::AST::Traversal
   # source://rubocop-ast//lib/rubocop/ast/traversal.rb#145
   def on_dsym(node); end
 
-  # source://rubocop-ast//lib/rubocop/ast/traversal.rb#145
+  # source://rubocop-ast//lib/rubocop/ast/traversal.rb#148
   def on_eflipflop(node); end
 
   # source://rubocop-ast//lib/rubocop/ast/traversal.rb#132
@@ -7219,7 +7219,7 @@ module RuboCop::AST::Traversal
   # source://rubocop-ast//lib/rubocop/ast/traversal.rb#137
   def on_if_guard(node); end
 
-  # source://rubocop-ast//lib/rubocop/ast/traversal.rb#145
+  # source://rubocop-ast//lib/rubocop/ast/traversal.rb#148
   def on_iflipflop(node); end
 
   # source://rubocop-ast//lib/rubocop/ast/traversal.rb#145

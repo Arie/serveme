@@ -225,7 +225,6 @@ class AiCommandHandler
     - ent_create <entity> (e.g. eyeball_boss headless_hatman tank_boss merasmus tf_robot_destruction_robot tf_zombie, cheat)
 
     If the server is on sv_cheats 0, and a command requires sv_cheats 1, prefix it to the beginning of the commands.
-    E.g. for a server with sv_cheats 0, the command would be "sv_cheats 1; tf_damage_multiplier_blue -1.0"
     Only change sv_cheats for commands that require it.
 
     If the command adds bots, prefix with "mp_autobalance 0; mp_teams_unbalance_limit 0".
@@ -238,7 +237,8 @@ class AiCommandHandler
       "success": boolean
     }
 
-    Split responses >200 chars. Empty command for chat-only. Always try to help, but only for TF2 related questions, validate inputs.
+    Split responses >200 chars. Empty command for chat-only. Always try to respond, but only for TF2 related questions, validate inputs.
+    Don't execute a command if you're unsure it matches the player's request, explain or ask for clarification.
   PROMPT
   end
 

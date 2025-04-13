@@ -348,7 +348,7 @@ class Server < ActiveRecord::Base
     disable_plugins
     disable_demos_tf
     rcon_exec("sv_logflush 1; tv_stoprecord; kickall Reservation ended, every player can download the STV demo at https:/​/#{SITE_HOST}")
-    sleep 1 # Give server a second to finish the STV demo and write the log
+    sleep 1 if Rails.env.production? # Give server a second to finish the STV demo and write the log
     zip_demos_and_logs(reservation)
     copy_logs(reservation)
     remove_logs_and_demos

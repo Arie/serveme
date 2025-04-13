@@ -273,7 +273,7 @@ class AiCommandHandler
       Rails.logger.info("AI response for #{reservation.id}: #{result}")
       reservation&.server&.rcon_say(result["response"])
       if result["success"] && result["command"].present?
-        sleep 2
+        sleep 2 if Rails.env.production?
         reservation&.server&.rcon_exec(result["command"])
       end
       save_context(request, result)

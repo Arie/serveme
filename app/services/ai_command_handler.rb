@@ -271,9 +271,7 @@ class AiCommandHandler
       result = JSON.parse(response.dig("choices", 0, "message", "content"))
       Rails.logger.info("AI request for #{reservation.id}: #{request}")
       Rails.logger.info("AI response for #{reservation.id}: #{result}")
-      result["response"].split("\n").each do |line|
-        line.scan(/.{1,200}(?:\s|$)/).map(&:strip).each { |chunk| reservation&.server&.rcon_say(chunk) }
-      end
+      reservation&.server&.rcon_say(result["response"])
       if result["success"] && result["command"].present?
         sleep 2
         reservation&.server&.rcon_exec(result["command"])

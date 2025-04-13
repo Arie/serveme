@@ -390,9 +390,11 @@ class Server < ActiveRecord::Base
     nil
   end
 
-  sig { params(message: String).returns(T.nilable(T.any(String, ActiveSupport::Multibyte::Chars))) }
+  sig { params(message: String).returns(T::Array[T.nilable(T.any(String, ActiveSupport::Multibyte::Chars))]) }
   def rcon_say(message)
-    rcon_exec("say #{message}")
+    message.split("\n").flat_map do |line|
+      T.cast(line.scan(/.{1,200}(?:\s|$)/), T::Array[String]).map(&:strip).map { |chunk| rcon_exec("say #{chunk}") }
+    end
   end
 
   sig { params(command: String, allow_blocked: T::Boolean).returns(T.nilable(T.any(String, ActiveSupport::Multibyte::Chars))) }

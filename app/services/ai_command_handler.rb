@@ -109,7 +109,7 @@ class AiCommandHandler
     - changelevel <map>
     - exec <config>
     - mp_tournament_whitelist cfg/<file>
-    - tftrue_whitelist_id id-or-name
+    - tftrue_whitelist_id [number-or-friendly-name]
     - kickid <userid> [msg]
     - banid 0 <userid> kick
     - mp_tournament 0/1
@@ -171,6 +171,7 @@ class AiCommandHandler
     - mp_tournament_allow_non_admin_restart 0/1
     - mp_friendlyfire 0/1
     - mp_highlander 0/1
+    - round_time_override [seconds] The length (in seconds) of the round timer on 5CP and KOTH. -1 Default gametype behavior (default)
     - sm_cvar spec_freeze_time [seconds] (default 4)
 
     Gameplay Settings:

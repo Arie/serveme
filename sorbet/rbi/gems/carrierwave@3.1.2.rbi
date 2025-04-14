@@ -774,7 +774,7 @@ class CarrierWave::Mounter
   # source://carrierwave//lib/carrierwave/mounter.rb#107
   def cache_names=(cache_names); end
 
-  # source://carrierwave//lib/carrierwave/mounter.rb#184
+  # source://carrierwave//lib/carrierwave/mounter.rb#185
   def clear!; end
 
   # Returns the value of attribute column.
@@ -833,7 +833,7 @@ class CarrierWave::Mounter
   # source://carrierwave//lib/carrierwave/mounter.rb#34
   def remove; end
 
-  # source://carrierwave//lib/carrierwave/mounter.rb#179
+  # source://carrierwave//lib/carrierwave/mounter.rb#180
   def remove!; end
 
   # source://carrierwave//lib/carrierwave/mounter.rb#170
@@ -841,19 +841,19 @@ class CarrierWave::Mounter
 
   # @return [Boolean]
   #
-  # source://carrierwave//lib/carrierwave/mounter.rb#175
+  # source://carrierwave//lib/carrierwave/mounter.rb#176
   def remove?; end
 
-  # source://carrierwave//lib/carrierwave/mounter.rb#207
+  # source://carrierwave//lib/carrierwave/mounter.rb#208
   def remove_added; end
 
-  # source://carrierwave//lib/carrierwave/mounter.rb#199
+  # source://carrierwave//lib/carrierwave/mounter.rb#200
   def remove_previous; end
 
-  # source://carrierwave//lib/carrierwave/mounter.rb#190
+  # source://carrierwave//lib/carrierwave/mounter.rb#191
   def reset_changes!; end
 
-  # source://carrierwave//lib/carrierwave/mounter.rb#195
+  # source://carrierwave//lib/carrierwave/mounter.rb#196
   def serialization_column; end
 
   # source://carrierwave//lib/carrierwave/mounter.rb#142
@@ -885,19 +885,19 @@ class CarrierWave::Mounter
 
   private
 
-  # source://carrierwave//lib/carrierwave/mounter.rb#222
+  # source://carrierwave//lib/carrierwave/mounter.rb#223
   def clear_unstaged; end
 
-  # source://carrierwave//lib/carrierwave/mounter.rb#229
+  # source://carrierwave//lib/carrierwave/mounter.rb#230
   def handle_error; end
 
-  # source://carrierwave//lib/carrierwave/mounter.rb#217
+  # source://carrierwave//lib/carrierwave/mounter.rb#218
   def option(name); end
 
-  # source://carrierwave//lib/carrierwave/mounter.rb#248
+  # source://carrierwave//lib/carrierwave/mounter.rb#249
   def temporary_identifiers; end
 
-  # source://carrierwave//lib/carrierwave/mounter.rb#242
+  # source://carrierwave//lib/carrierwave/mounter.rb#243
   def write_temporary_identifier; end
 
   class << self
@@ -2933,58 +2933,58 @@ class CarrierWave::Uploader::Base
 
     private
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
     def __class_attr__after_callbacks; end
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#17
+    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
     def __class_attr__after_callbacks=(new_value); end
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
     def __class_attr__before_callbacks; end
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#17
+    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
     def __class_attr__before_callbacks=(new_value); end
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
     def __class_attr__cache_storage; end
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#17
+    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
     def __class_attr__cache_storage=(new_value); end
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
     def __class_attr__storage; end
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#17
+    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
     def __class_attr__storage=(new_value); end
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
     def __class_attr_filename_safeguard_checked; end
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#17
+    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
     def __class_attr_filename_safeguard_checked=(new_value); end
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
     def __class_attr_processors; end
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#17
+    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
     def __class_attr_processors=(new_value); end
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
     def __class_attr_version_names; end
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#17
+    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
     def __class_attr_version_names=(new_value); end
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
     def __class_attr_version_options; end
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#17
+    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
     def __class_attr_version_options=(new_value); end
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#15
+    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
     def __class_attr_versions; end
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#17
+    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
     def __class_attr_versions=(new_value); end
   end
 end
@@ -3075,7 +3075,7 @@ module CarrierWave::Uploader::Cache
   # source://carrierwave//lib/carrierwave/uploader/cache.rb#165
   def retrieve_from_cache!(cache_name); end
 
-  # source://activesupport/8.0.1/lib/active_support/deprecation/method_wrappers.rb#46
+  # source://activesupport/8.0.2/lib/active_support/deprecation/method_wrappers.rb#46
   def sanitized_file(*args, **_arg1, &block); end
 
   protected
@@ -4125,7 +4125,7 @@ module CarrierWave::Uploader::Versions
   #
   # @return [Boolean]
   #
-  # source://activesupport/8.0.1/lib/active_support/deprecation/method_wrappers.rb#46
+  # source://activesupport/8.0.2/lib/active_support/deprecation/method_wrappers.rb#46
   def version_exists?(*args, **_arg1, &block); end
 
   # === Returns

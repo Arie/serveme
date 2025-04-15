@@ -11,6 +11,10 @@ class OpenaiClient
     deepseek: {
       uri_base: "https://api.deepseek.com/v1/",
       default_model: "deepseek-chat"
+    },
+    gemini: {
+      uri_base: "https://generativelanguage.googleapis.com/v1beta/openai/",
+      default_model: "gemini-2.0-flash"
     }
   }
 

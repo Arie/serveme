@@ -160,9 +160,9 @@ describe LogWorker do
 
   describe 'connects' do
     it 'bans banned IPs' do
-      server.should_receive(:rcon_exec).with('banid 0 [U:1:12345] kick; addip 0 109.81.174.1')
+      ReservationPlayer.should_receive(:banned_ip?).with('109.81.174.1').and_return("match invader")
       ReservationPlayer.should_receive(:banned_asn_ip?).with('109.81.174.1').and_return(false)
-
+      server.should_receive(:rcon_exec).with('banid 0 [U:1:12345]; addip 0 109.81.174.1; kickid [U:1:12345] match invader')
       LogWorker.perform_async(connect_banned_ip)
     end
 
@@ -171,8 +171,9 @@ describe LogWorker do
       LogWorker.perform_async(connect_allowed_uid)
     end
 
-    it 'bans banned UIDs' do
-      server.should_receive(:rcon_exec).with('banid 0 [U:1:153029208] kick; addip 0 1.128.0.1')
+    it 'bans banned UIDs with reason' do
+      ReservationPlayer.should_receive(:banned_uid?).with(76561198113294936).and_return("Cheating")
+      server.should_receive(:rcon_exec).with('banid 0 [U:1:153029208]; addip 0 1.128.0.1; kickid [U:1:153029208] Cheating')
       LogWorker.perform_async(connect_banned_uid)
     end
 

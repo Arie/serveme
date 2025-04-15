@@ -90,9 +90,9 @@ class LogWorker
 
   sig { params(community_id: Integer, ip: String, event: TF2LineParser::Events::Event).returns(T::Boolean) }
   def handle_banned_player(community_id, ip, event)
-    return false unless (ReservationPlayer.banned_uid?(community_id) || ReservationPlayer.banned_ip?(ip)) && !ReservationPlayer.whitelisted_uid?(community_id)
+    return false unless (ban_reason = ReservationPlayer.banned_uid?(community_id) || ReservationPlayer.banned_ip?(ip)) && !ReservationPlayer.whitelisted_uid?(community_id)
 
-    reservation&.server&.rcon_exec "banid 0 #{event.player.steam_id} kick; addip 0 #{ip}"
+    reservation&.server&.rcon_exec "banid 0 #{event.player.steam_id}; addip 0 #{ip}; kickid #{event.player.steam_id} #{ban_reason}"
     Rails.logger.info "Removed banned player with UID #{community_id}, IP #{event.message}, name #{event.player.name}, from reservation #{reservation_id}"
     true
   end

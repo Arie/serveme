@@ -14,7 +14,7 @@ class OpenaiClient
     },
     gemini: {
       uri_base: "https://generativelanguage.googleapis.com/v1beta/openai/",
-      default_model: "gemini-2.0-flash"
+      default_model: "gemini-2.5-flash-preview-04-17"
     }
   }
 

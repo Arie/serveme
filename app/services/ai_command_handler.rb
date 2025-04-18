@@ -9,7 +9,7 @@ class AiCommandHandler
   MAX_CONTEXT_HISTORY = 10
 
   def server_status
-    reservation.server.rcon_exec("status;mp_tournament_whitelist;sv_gravity;sv_cheats;mp_timelimit;mp_winlimit;mp_windifference;tf_weapon_criticals;host_timescale;sv_password;tv_status;meta list;sm plugins list;tftrue_whitelist_id").gsub(/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/, "0.0.0.0")
+    reservation.server.rcon_exec("status;mp_tournament_whitelist;sv_gravity;sv_cheats;mp_timelimit;mp_winlimit;mp_windifference;tf_weapon_criticals;host_timescale;sv_password;tv_status;sm plugins list;tftrue_whitelist_id").gsub(/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/, "0.0.0.0")
   end
 
   def get_previous_context
@@ -122,7 +122,7 @@ class AiCommandHandler
     - mp_forcewin
     - mp_switchteams
     - mp_forcerespawnplayers
-    - mp_disable_respawn_times 0/1
+    - mp_disable_respawn_times 0/1 (combine with sm_cvar spec_freeze_time 0 for instant respawn)
     - tf_playergib 0/1/2 (2 is highest gib chance)
     - tf_forced_holiday 0/1/2/3 Forces the server to have holidays (0= none, 1= Birthday, 2= Halloween, default none)
     - tf_bot_add [count] [class] [team] [difficulty] [name] (difficulty can be easy, normal, hard, or expert)

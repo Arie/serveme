@@ -9,7 +9,7 @@ class AiCommandHandler
   MAX_CONTEXT_HISTORY = 10
 
   def server_status
-    reservation.server.rcon_exec("status;mp_tournament_whitelist;sv_gravity;sv_cheats;mp_timelimit;mp_winlimit;mp_windifference;tf_weapon_criticals;host_timescale;sv_password;tv_status;meta list;tftrue_whitelist_id").gsub(/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/, "0.0.0.0")
+    reservation.server.rcon_exec("status;mp_tournament_whitelist;sv_gravity;sv_cheats;mp_timelimit;mp_winlimit;mp_windifference;tf_weapon_criticals;host_timescale;sv_password;tv_status;meta list;sm plugins list;tftrue_whitelist_id").gsub(/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/, "0.0.0.0")
   end
 
   def get_previous_context

@@ -8,6 +8,74 @@ class AiCommandHandler
   REDIS_CONTEXT_TTL = 1.hour
   MAX_CONTEXT_HISTORY = 10
 
+  MAP_SEARCH_TOOL = {
+    type: "function",
+    function: {
+      name: "find_maps",
+      description: "Search for TF2 maps based on a query string. Returns a ranked list of matching map names.",
+      parameters: {
+        type: :object,
+        properties: { query: { type: :string, description: "The search query for map names (e.g., 'koth nucleus', 'pl_badwater')." } },
+        required: [ "query" ]
+      }
+    }
+  }.freeze
+
+  COMMAND_SEARCH_TOOL = {
+    type: "function",
+    function: {
+      name: "find_server_commands",
+      description: "Search for commands and settings, use a single word as the query. Use '.' as the query to list all available commands and cvars.",
+      parameters: {
+        type: :object,
+        properties: { query: { type: :string, description: "Query is a single word, for commands or cvars (e.g., 'mp_timelimit', 'kick'). Use '.' to list everything." } },
+        required: [ "query" ]
+      }
+    }
+  }.freeze
+
+  SUBMIT_ACTION_TOOL = {
+    type: "function",
+    function: {
+      name: "submit_server_action",
+      description: "Submits the final server command(s) and user response after processing the request.",
+      parameters: {
+        type: :object,
+        properties: {
+          command: { type: [ :string, :null ], description: "The rcon command(s) to execute, separated by semicolons. Null if no command should run." },
+          response: { type: :string, description: "The message to display to the user in chat." },
+          success: { type: :boolean, description: "True if the request was successfully processed, False otherwise (e.g., needs clarification)." }
+        },
+        required: [ "command", "response", "success" ]
+      }
+    }
+  }.freeze
+
+  AVAILABLE_TOOLS = [ MAP_SEARCH_TOOL, COMMAND_SEARCH_TOOL, SUBMIT_ACTION_TOOL ].freeze
+
+  def initialize(reservation)
+    @reservation = reservation
+  end
+
+  def process_request(request)
+    begin
+      messages = build_openai_messages(request)
+      result = call_openai_and_handle_tools(messages)
+      process_ai_result(result, request)
+      result
+    rescue JSON::ParserError, NoMethodError => e
+      Rails.logger.error("[AI ##{reservation&.id || 'N/A'}] Error processing AI response structure: #{e.message}")
+      Rails.logger.error(e.backtrace.join("\n"))
+      { "success" => false, "response" => "Sorry, I had trouble understanding the AI's response format. Please try again.", "command" => nil }
+    rescue StandardError => e
+      Rails.logger.error("[AI ##{reservation&.id || 'N/A'}] General error processing AI request: #{e.message}")
+      Rails.logger.error(e.backtrace.join("\n"))
+      { "success" => false, "response" => "An unexpected error occurred. Please try again.", "command" => nil }
+    end
+  end
+
+  private
+
   def server_status
     reservation.server.rcon_exec("status;mp_tournament_whitelist;sv_gravity;sv_cheats;mp_timelimit;mp_winlimit;mp_windifference;tf_weapon_criticals;host_timescale;sv_password;tv_status;sm plugins list;tftrue_whitelist_id").gsub(/(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/, "0.0.0.0")
   end
@@ -15,16 +83,11 @@ class AiCommandHandler
   def get_previous_context
     return unless reservation
     key = "ai_context_history:#{reservation.id}"
-    history = Rails.cache.read(key) || []
-    return if history.empty?
-
-    history.map.with_index(1) do |ctx, i|
-      "\nInteraction #{i}:\nRequest: #{ctx['request']}\nResponse: #{ctx['response']}\nCommand: #{ctx['command']}"
-    end.join("\n")
+    Rails.cache.read(key) || []
   end
 
   def save_context(request, result)
-    return unless reservation && result
+    return unless reservation && result && result["success"]
     key = "ai_context_history:#{reservation.id}"
 
     history = Rails.cache.read(key) || []
@@ -39,8 +102,24 @@ class AiCommandHandler
   end
 
   def system_prompt(reservation)
-  <<~PROMPT
-    You are a TF2 server assistant that converts user requests into server commands. Respond in Genuine People Personalities style (Hitchhiker's Guide) via rcon say. No emojis/special chars.
+    <<~PROMPT
+    You are a serveme.tf's TF2 server assistant that converts user requests into server commands. Respond in Genuine People Personalities style (Hitchhiker's Guide). No emojis/special chars.
+
+    Your primary goal is to determine the correct rcon command(s), a response message for the user, and whether the operation was successful.
+    Use the available tools ('find_maps', 'find_server_commands') if you need more information to fulfill the request.
+
+    Once you have determined the final command(s) and response message, you MUST use the 'submit_server_action' tool to provide the result.
+    Do NOT output raw JSON or any text outside of the tool call for the final response.
+    Even if the request is purely informational and requires no command (i.e., command should be null), you must still use the 'submit_server_action' tool to provide the informative response.
+
+    Example Refusal: If asked "make me admin", use the tool with command: null, response: "Sorry, I cannot grant admin privileges.", success: false.
+
+    Example Command: If asked to "add 6 easy blue scouts", use the tool with command: "mp_autoteambalance 0; mp_teams_unbalance_limit 0; tf_bot_add 6 scout blue easy", response: "Okay, adding 6 easy blue scouts.", success: true.
+
+    'submit_server_action' tool parameters:
+    - command: RCON command(s) separated by semicolons, or null if no command should be run.
+    - response: The message to display to the user in chat.
+    - success: Boolean indicating if the request was successfully understood and translated into a command (or determined no command was needed).
 
     Command Syntax:
     - Multiple commands: separate with semicolon
@@ -72,7 +151,7 @@ class AiCommandHandler
     sm_psay <target> <msg> - Private message
 
     Maps per league and gamemode:
-    #{LeagueMaps.grouped_league_maps.map do |l| "#{l.name}: #{l.maps.join(' ')}" end.join("\n")}
+    #{LeagueMaps.grouped_league_maps.map { |l| "#{l.name}: #{l.maps.join(' ')}" }.join("\n")}
 
     Special modes:
     - MGE for 1v1 practice. Maps: mge_chillypunch_final4_fix2 mge_training_v8_beta4b mge_oihguv_sucks_a12
@@ -113,7 +192,7 @@ class AiCommandHandler
     - banid 0 <userid> kick
     - mp_tournament 0/1
     - sm_slap/sm_slay <target>
-    - mp_autobalance 0/1
+    - mp_autoteambalance 0/1
     - mp_restartgame
     - mp_restartround
     - mp_teams_unbalance_limit 0/1
@@ -228,64 +307,194 @@ class AiCommandHandler
     If the server is on sv_cheats 0, and a command requires sv_cheats 1, prefix it to the beginning of the commands.
     Only change sv_cheats for commands that require it.
 
-    If the command adds bots, prefix with "mp_autobalance 0; mp_teams_unbalance_limit 0".
-    e.g. "mp_autobalance 0; mp_teams_unbalance_limit 0; tf_bot_add 6 heavyweapons blue easy"
+    If the command adds bots, prefix with "mp_autoteambalance 0; mp_teams_unbalance_limit 0".
+    e.g. "mp_autoteambalance 0; mp_teams_unbalance_limit 0; tf_bot_add 6 heavyweapons blue easy"
 
-    Return JSON:
+    Split responses >200 chars (applies to the 'response' field in the tool call). Always try to respond, but only for TF2 related questions, validate inputs.
+    Only execute a command if you're sure it matches the player's request, else ask for clarification using the 'submit_server_action' tool with success: false and an appropriate response message.
+    PROMPT
+  end
+
+  def build_openai_messages(request)
+    messages = []
+    messages << { role: "system", content: system_prompt(reservation) }
+
+    history = get_previous_context
+    history.each do |ctx|
+      messages << { role: "user", content: ctx["request"] }
+      messages << { role: "assistant", content: "replied: #{ctx['response']}\ncommand: #{ctx['command']}" }
+    end
+
+    messages << { role: "user", content: "#{request}\n\nServer Status (all ip addresses hidden for privacy reasons): #{server_status}" }
+    messages
+  end
+
+  def call_openai_and_handle_tools(messages)
+    response = OpenaiClient.chat({
+      messages: messages,
+      temperature: 0.7,
+      tools: AVAILABLE_TOOLS,
+      tool_choice: "auto"
+    })
+
+    message = response.dig("choices", 0, "message")
+
+    if message["tool_calls"]
+      tool_call = message["tool_calls"][0] # Assuming one tool call per response for now
+      function_name = tool_call.dig("function", "name")
+      arguments_json = tool_call.dig("function", "arguments")
+
+      begin
+        arguments = JSON.parse(arguments_json)
+      rescue JSON::ParserError => e
+        return handle_argument_parse_error(function_name, arguments_json, e)
+      end
+
+      messages << message
+
+      case function_name
+      when "submit_server_action"
+        handle_submit_action(arguments)
+      when "find_maps", "find_server_commands"
+        handle_intermediate_tool(messages, tool_call, function_name, arguments)
+      else
+        handle_unknown_tool(function_name)
+      end
+
+    elsif message["content"]
+      handle_unexpected_content(message["content"])
+    else
+      handle_empty_response(response)
+    end
+  end
+
+  def handle_submit_action(arguments)
+    Rails.logger.info("[AI ##{reservation.id}] Submitted final action via tool: #{arguments.inspect}")
     {
-      "command": "rcon_command_or_commands_separated_by_semicolons_here",
-      "response": "player_message_here",
-      "success": boolean
+      "command" => arguments["command"],
+      "response" => arguments["response"],
+      "success" => arguments["success"]
+    }
+  end
+
+  def handle_intermediate_tool(messages, tool_call, function_name, arguments)
+    tool_result_content = perform_tool_action(function_name, arguments)
+
+    messages << {
+      role: "tool",
+      tool_call_id: tool_call["id"],
+      name: function_name,
+      content: tool_result_content.to_json
     }
 
-    Split responses >200 chars. Empty command for chat-only. Always try to respond, but only for TF2 related questions, validate inputs.
-    Only execute a command if you're sure it matches the player's request, else ask for clarification.
-  PROMPT
-  end
+    final_response = OpenaiClient.chat({
+      messages: messages,
+      temperature: 0.7,
+      tools: AVAILABLE_TOOLS, # Still provide all tools
+      tool_choice: "auto"     # Let AI choose (hopefully submit_server_action)
+    })
 
-  def initialize(reservation)
-    @reservation = reservation
-  end
+    final_message = final_response.dig("choices", 0, "message")
 
-  def process_request(request)
-    begin
-      messages = []
-
-
-      messages << { role: "system", content: system_prompt(reservation) }
-
-      if history = Rails.cache.read("ai_context_history:#{reservation.id}")
-        history.each do |ctx|
-          messages << { role: "user", content: ctx["request"] }
-          messages << { role: "assistant", content: "replied: #{ctx['response']}\ncommand: #{ctx['command']}" }
-        end
+    if final_message["tool_calls"] && final_message.dig("tool_calls", 0, "function", "name") == "submit_server_action"
+      final_tool_call = final_message["tool_calls"][0]
+      final_arguments_json = final_tool_call.dig("function", "arguments")
+      begin
+        final_arguments = JSON.parse(final_arguments_json)
+        handle_submit_action(final_arguments)
+      rescue JSON::ParserError => e
+        handle_argument_parse_error("submit_server_action", final_arguments_json, e, after_intermediate: true)
       end
-
-      messages << { role: "user", content: "#{request}\n\nServer Status (all ip addresses hidden for privacy reasons): #{server_status}" }
-
-      response = OpenaiClient.chat({
-        messages: messages,
-        temperature: 0.7,
-        response_format: { type: "json_object" }
-      })
-
-      result = JSON.parse(response.dig("choices", 0, "message", "content"))
-      Rails.logger.info("AI request for #{reservation.id}: #{request}")
-      Rails.logger.info("AI response for #{reservation.id}: #{result}")
-      reservation&.server&.rcon_say(result["response"])
-      if result["success"] && result["command"].present?
-        sleep 2 if Rails.env.production?
-        reservation&.server&.rcon_exec(result["command"])
-      end
-      save_context(request, result)
-      result
-    rescue JSON::ParserError, NoMethodError => e
-      Rails.logger.error("Error processing AI response: #{e.message}")
-      {
-        "success" => false,
-        "response" => "Sorry, I had trouble understanding that request. Please try again.",
-        "command" => nil
-      }
+    else
+      handle_missing_submit_tool_error(final_message)
     end
+  end
+
+  def perform_tool_action(function_name, arguments)
+    case function_name
+    when "find_maps"
+      perform_map_search(arguments)
+    when "find_server_commands"
+      perform_command_search(arguments)
+    else
+      Rails.logger.error("[AI ##{reservation.id}] Unknown action requested in perform_tool_action: #{function_name}")
+      { error: "Unknown tool action" } # Return an error indicator
+    end
+  end
+
+  def perform_map_search(arguments)
+    map_query = arguments["query"]
+    Rails.logger.info("[AI ##{reservation.id}] Requesting map search for query: #{map_query}")
+    search_results = MapSearchService.new(map_query).search
+    Rails.logger.info("[AI ##{reservation.id}] Map search results: #{search_results.join(', ')}")
+    { maps: search_results }
+  end
+
+  def perform_command_search(arguments)
+    command_query = arguments["query"]
+    Rails.logger.info("[AI ##{reservation.id}] Requesting command search for query: #{command_query}")
+    safe_query = command_query.gsub(/[^\w\.\-\*\s]/, "").strip
+    find_command = "find \"#{safe_query}\""
+    command_results = reservation.server.rcon_exec(find_command)
+    Rails.logger.info("[AI ##{reservation.id}] Command search results: #{command_results}")
+    { results: command_results }
+  end
+
+  def handle_argument_parse_error(function_name, json, error, after_intermediate: false)
+    context = after_intermediate ? "final submit_server_action call" : "tool '#{function_name}'"
+    Rails.logger.error("[AI ##{reservation&.id || 'N/A'}] Failed to parse arguments for #{context}: #{error.message}. Arguments JSON: #{json.inspect}")
+    { "success" => false, "response" => "Internal error processing AI tool arguments.", "command" => nil }
+  end
+
+  def handle_unknown_tool(function_name)
+    Rails.logger.error("[AI ##{reservation.id}] Requested unknown tool: #{function_name}")
+    { "success" => false, "response" => "Internal error: AI requested an unknown tool.", "command" => nil }
+  end
+
+  def handle_missing_submit_tool_error(final_message)
+    Rails.logger.error("[AI ##{reservation.id}] Failed to use 'submit_server_action' tool after intermediate tool call. Response message: #{final_message.inspect}")
+    { "success" => false, "response" => "AI failed to provide a structured final response. Please try again.", "command" => nil }
+  end
+
+  def handle_unexpected_content(content)
+    Rails.logger.error("[AI ##{reservation.id}] Responded with text instead of using 'submit_server_action' tool. Content: #{content.inspect}")
+    { "success" => false, "response" => "AI response format error. It should have used a tool.", "command" => nil }
+  end
+
+  def handle_empty_response(response)
+     Rails.logger.error("[AI ##{reservation.id}] Response had neither content nor tool calls. Full response: #{response.inspect}")
+     { "success" => false, "response" => "AI returned an empty or invalid response.", "command" => nil }
+  end
+
+  def process_ai_result(result, request)
+    Rails.logger.info("[AI ##{reservation.id}] Request: #{request}")
+    Rails.logger.info("[AI ##{reservation.id}] Processed result: #{result.inspect}")
+
+    is_valid_command = false
+    final_response_to_send = result["response"]
+
+    if result["success"] && result["command"].present?
+      if CommandValidator.validate(result["command"])
+        is_valid_command = true
+      else
+        Rails.logger.error("[AI ##{reservation.id}] Proposed disallowed command: #{result['command']}")
+        final_response_to_send = "Sorry, I can't run that command as parts of it might not be allowed."
+        result["success"] = false
+        result["command"] = nil
+      end
+    end
+
+    if final_response_to_send.present?
+      reservation&.server&.rcon_say(final_response_to_send)
+    end
+
+    if is_valid_command
+      sleep 1 if Rails.env.production?
+      Rails.logger.info("[AI ##{reservation.id}] Executing validated command: #{result['command']}")
+      reservation&.server&.rcon_exec(result["command"])
+    end
+
+    result["response"] = final_response_to_send
+    save_context(request, result)
   end
 end

@@ -94,29 +94,17 @@ class LeagueMaps
   end
 
   def self.rgl_sixes_maps
-    sixes =
-      %w[
-        cp_gullywash_f9
-        cp_metalworks_f5
-        cp_process_f12
-        cp_snakewater_final1
-        cp_sultry_b8a
-        cp_sunshine
-        koth_bagel_rc10
-        koth_clearcut_b17
-      ]
-    sixes_invite =
-      %w[
-        cp_granary_pro_rc8
-        cp_gullywash_f9
-        cp_process_f12
-        cp_snakewater_final1
-        cp_sultry_b8a
-        cp_sunshine
-        koth_bagel_rc10
-        koth_product_final
-      ]
-    sixes + sixes_invite
+    %w[
+      cp_snakewater_final1
+      cp_gullywash_f9
+      koth_clearcut_b17
+      cp_metalworks_f5
+      cp_sultry_b8a
+      koth_bagel_rc10
+      cp_sunshine
+      cp_process_f12
+      cp_granary_pro_rc17a2
+    ]
   end
 
   def self.rgl_hl_maps

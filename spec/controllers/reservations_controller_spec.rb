@@ -119,8 +119,10 @@ describe ReservationsController do
     it 'shows the streaming log file for the reservation' do
       reservation = create :reservation
 
-      allow(File).to receive(:open)
-      expect(File).to receive(:open).with(Rails.root.join('log', 'streaming', "#{reservation.logsecret}.log"))
+      log_path = Rails.root.join('log', 'streaming', "#{reservation.logsecret}.log")
+      allow(File).to receive(:open).and_call_original
+      allow(File).to receive(:open).with(log_path).and_return(StringIO.new("Log content"))
+
       get :streaming, params: { id: reservation.id }
     end
   end

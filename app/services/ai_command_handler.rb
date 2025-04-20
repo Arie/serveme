@@ -25,10 +25,10 @@ class AiCommandHandler
     type: "function",
     function: {
       name: "find_server_commands",
-      description: "Search for commands and settings, use a single word as the query. Use '.' as the query to list all available commands and cvars.",
+      description: "Search for commands and settings, use a single word as the query. Prefer shortest word possible. Use '.' as the query to list all available commands and cvars.",
       parameters: {
         type: :object,
-        properties: { query: { type: :string, description: "Query is a single word, for commands or cvars (e.g., 'mp_timelimit', 'kick'). Use '.' to list everything." } },
+        properties: { query: { type: :string, description: "Query is a single word, use shortest word possible, for commands or cvars (e.g., 'mp_timelimit', 'kick'). Use '.' to list everything." } },
         required: [ "query" ]
       }
     }
@@ -334,7 +334,7 @@ class AiCommandHandler
       messages: messages,
       temperature: 0.7,
       tools: AVAILABLE_TOOLS,
-      tool_choice: "auto"
+      tool_choice: "required"
     })
 
     message = response.dig("choices", 0, "message")
@@ -391,7 +391,7 @@ class AiCommandHandler
       messages: messages,
       temperature: 0.7,
       tools: AVAILABLE_TOOLS, # Still provide all tools
-      tool_choice: "auto"     # Let AI choose (hopefully submit_server_action)
+      tool_choice: { type: "function", function: { name: "submit_server_action" } } # Force the final tool
     })
 
     final_message = final_response.dig("choices", 0, "message")

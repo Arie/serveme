@@ -347,7 +347,7 @@ class Server < ActiveRecord::Base
     download_stac_logs(reservation)
     disable_plugins
     disable_demos_tf
-    rcon_exec("sv_logflush 1; tv_stoprecord; kickall Reservation ended, every player can download the STV demo at https:/​/#{SITE_HOST}")
+    rcon_exec("sv_logflush 1; tv_stoprecord; kickall Reservation ended, every player can download the STV demo at https://#{SITE_HOST}")
     sleep 1 if Rails.env.production? # Give server a second to finish the STV demo and write the log
     zip_demos_and_logs(reservation)
     copy_logs(reservation)
@@ -399,6 +399,7 @@ class Server < ActiveRecord::Base
 
   sig { params(command: String, allow_blocked: T::Boolean).returns(T.nilable(T.any(String, ActiveSupport::Multibyte::Chars))) }
   def rcon_exec(command, allow_blocked: false)
+    command = command.gsub("//", "/\u200B/")
     return nil if blocked_command?(command) && !allow_blocked
 
     condenser.rcon_exec(command) if rcon_auth

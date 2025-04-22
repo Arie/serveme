@@ -34,6 +34,21 @@ class AiCommandHandler
     }
   }.freeze
 
+  RESERVATION_TOOL = {
+    type: "function",
+    function: {
+      name: "modify_reservation",
+      description: "Modify the server reservation. Can be used to end the reservation immediately or extend it by the standard duration.",
+      parameters: {
+        type: :object,
+        properties: {
+          action: { type: :string, enum: [ "end", "extend" ], description: "Whether to 'end' the reservation now or 'extend' it." }
+        },
+        required: [ "action" ]
+      }
+    }
+  }.freeze
+
   SUBMIT_ACTION_TOOL = {
     type: "function",
     function: {
@@ -51,7 +66,7 @@ class AiCommandHandler
     }
   }.freeze
 
-  AVAILABLE_TOOLS = [ MAP_SEARCH_TOOL, COMMAND_SEARCH_TOOL, SUBMIT_ACTION_TOOL ].freeze
+  AVAILABLE_TOOLS = [ MAP_SEARCH_TOOL, COMMAND_SEARCH_TOOL, RESERVATION_TOOL, SUBMIT_ACTION_TOOL ].freeze
 
   def initialize(reservation)
     @reservation = reservation
@@ -59,6 +74,7 @@ class AiCommandHandler
 
   def process_request(request)
     begin
+      Rails.logger.info("[AI ##{reservation&.id || 'N/A'}] Processing request: #{request}")
       messages = build_openai_messages(request)
       result = call_openai_and_handle_tools(messages)
       process_ai_result(result, request)
@@ -107,8 +123,10 @@ class AiCommandHandler
 
     Your primary goal is to determine the correct rcon command(s), a response message for the user, and whether the operation was successful.
     Use the available tools ('find_maps', 'find_server_commands') if you need more information to fulfill the request.
+    You can also use the 'modify_reservation' tool to end the reservation immediately or extend it if requested by the user.
 
     Once you have determined the final command(s) and response message, you MUST use the 'submit_server_action' tool to provide the result.
+    If you use the 'modify_reservation' tool, you should still use 'submit_server_action' afterwards to confirm the outcome to the user.
     Do NOT output raw JSON or any text outside of the tool call for the final response.
     Even if the request is purely informational and requires no command (i.e., command should be null), you must still use the 'submit_server_action' tool to provide the informative response.
 
@@ -310,6 +328,10 @@ class AiCommandHandler
     If the command adds bots, prefix with "mp_autoteambalance 0; mp_teams_unbalance_limit 0".
     e.g. "mp_autoteambalance 0; mp_teams_unbalance_limit 0; tf_bot_add 6 heavyweapons blue easy"
 
+    Reservation Time Management:
+    - Use the 'modify_reservation' tool with action 'end' for requests like "end the server now".
+    - Use the 'modify_reservation' tool with action 'extend' for requests like "add more time" or "extend the server". The standard extension duration will be applied.
+
     Split responses >200 chars (applies to the 'response' field in the tool call). Always try to respond, but only for TF2 related questions, validate inputs.
     Only execute a command if you're sure it matches the player's request, else ask for clarification using the 'submit_server_action' tool with success: false and an appropriate response message.
     PROMPT
@@ -355,7 +377,7 @@ class AiCommandHandler
       case function_name
       when "submit_server_action"
         handle_submit_action(arguments)
-      when "find_maps", "find_server_commands"
+      when "find_maps", "find_server_commands", "modify_reservation"
         handle_intermediate_tool(messages, tool_call, function_name, arguments)
       else
         handle_unknown_tool(function_name)
@@ -369,7 +391,6 @@ class AiCommandHandler
   end
 
   def handle_submit_action(arguments)
-    Rails.logger.info("[AI ##{reservation.id}] Submitted final action via tool: #{arguments.inspect}")
     {
       "command" => arguments["command"],
       "response" => arguments["response"],
@@ -378,6 +399,7 @@ class AiCommandHandler
   end
 
   def handle_intermediate_tool(messages, tool_call, function_name, arguments)
+    Rails.logger.info("[AI ##{reservation.id}] Calling tool '#{function_name}' with arguments: #{arguments.inspect}")
     tool_result_content = perform_tool_action(function_name, arguments)
 
     messages << {
@@ -416,6 +438,8 @@ class AiCommandHandler
       perform_map_search(arguments)
     when "find_server_commands"
       perform_command_search(arguments)
+    when "modify_reservation"
+      perform_reservation_modification(arguments)
     else
       Rails.logger.error("[AI ##{reservation.id}] Unknown action requested in perform_tool_action: #{function_name}")
       { error: "Unknown tool action" } # Return an error indicator
@@ -424,20 +448,44 @@ class AiCommandHandler
 
   def perform_map_search(arguments)
     map_query = arguments["query"]
-    Rails.logger.info("[AI ##{reservation.id}] Requesting map search for query: #{map_query}")
     search_results = MapSearchService.new(map_query).search
-    Rails.logger.info("[AI ##{reservation.id}] Map search results: #{search_results.join(', ')}")
     { maps: search_results }
   end
 
   def perform_command_search(arguments)
     command_query = arguments["query"]
-    Rails.logger.info("[AI ##{reservation.id}] Requesting command search for query: #{command_query}")
     safe_query = command_query.gsub(/[^\w\.\-\*\s]/, "").strip
     find_command = "find \"#{safe_query}\""
     command_results = reservation.server.rcon_exec(find_command)
-    Rails.logger.info("[AI ##{reservation.id}] Command search results: #{command_results}")
     { results: command_results }
+  end
+
+  def perform_reservation_modification(arguments)
+    action = arguments["action"]
+    begin
+      case action
+      when "end"
+        if reservation.end_reservation
+          { success: true, message: "Reservation ended successfully." }
+        else
+          { success: false, message: "Could not end the reservation." }
+        end
+      when "extend"
+        extension_duration = reservation.user&.reservation_extension_time || 30.minutes
+        if reservation.extend!
+          { success: true, message: "Reservation extended by #{extension_duration / 60} minutes." }
+        else
+          { success: false, message: "Could not extend the reservation. Is it already at maximum duration?" }
+        end
+      else
+        Rails.logger.error("[AI ##{reservation.id}] Unknown action requested in modify_reservation: #{action}")
+        { success: false, message: "Internal error: Unknown reservation action requested." }
+      end
+    rescue StandardError => e
+      Rails.logger.error("[AI ##{reservation.id}] Error during reservation modification (#{action}): #{e.message}")
+      Rails.logger.error(e.backtrace.join("\n"))
+      { success: false, message: "An error occurred while trying to #{action} the reservation." }
+    end
   end
 
   def handle_argument_parse_error(function_name, json, error, after_intermediate: false)
@@ -467,7 +515,6 @@ class AiCommandHandler
   end
 
   def process_ai_result(result, request)
-    Rails.logger.info("[AI ##{reservation.id}] Request: #{request}")
     Rails.logger.info("[AI ##{reservation.id}] Processed result: #{result.inspect}")
 
     is_valid_command = false
@@ -495,6 +542,6 @@ class AiCommandHandler
     end
 
     result["response"] = final_response_to_send
-    save_context(request, result)
+    save_context(request, result) if result["success"]
   end
 end

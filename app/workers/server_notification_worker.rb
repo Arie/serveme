@@ -17,7 +17,7 @@ class ServerNotificationWorker
     notification = notifications_for_non_donators.sample
     return unless notification
 
-    reservation&.server&.rcon_say(notification.message.gsub("%{name}", reservation.user.nickname))
+    reservation&.server&.rcon_say(notification.message.gsub("%{name}", reservation.user.nickname || reservation.user.uid))
     reservation&.server&.rcon_disconnect
   end
 

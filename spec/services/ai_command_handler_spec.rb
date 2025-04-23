@@ -646,33 +646,5 @@ RSpec.describe AiCommandHandler do
         end
       end
     end
-  end # describe '#process_request with reservation modification'
-
-  # Add the context saving tests here, potentially using the helpers if needed
-
-  # context 'context saving' do
-  #   let(:request_text) { "set timelimit to 30" }
-  #   let(:submit_arguments) { { command: "mp_timelimit 30", response: "Setting timelimit to 30", success: true } }
-  #   let(:openai_response) { build_openai_submit_response(submit_arguments) }
-  #   let(:expected_saved_context) do
-  #     [
-  #       { role: "user", content: request_text },
-  #       { role: "assistant", tool_calls: openai_response["choices"][0]["message"]["tool_calls"] }
-  #       # Potentially add tool result if applicable, depends on implementation
-  #     ]
-  #   end
-  #
-  #   before do
-  #     allow(OpenaiClient).to receive(:chat).and_return(openai_response)
-  #     allow(Rails.cache).to receive(:read).with(/ai_context_history/).and_return([])
-  #   end
-  #
-  #   it 'saves the user request and successful assistant tool call response' do
-  #     # Expect write with the specific structure
-  #     expect(Rails.cache).to receive(:write)
-  #       .with("ai_context_history_#{reservation.id}", expected_saved_context, expires_in: 1.hour)
-  #
-  #     handler.process_request(request_text)
-  #   end
-  # end
+  end
 end

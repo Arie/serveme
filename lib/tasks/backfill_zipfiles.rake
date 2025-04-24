@@ -1,10 +1,8 @@
 # typed: false
 
-# desc "Enqueues Sidekiq jobs to upload existing local zip files to Active Storage (Minio)."
 namespace :backfill do
   task enqueue_zipfiles: :environment do
     uploads_dir = Rails.root.join("public", "uploads")
-    # Match only the specific numeric/hyphenated format
     zip_pattern = uploads_dir.join("[0-9]*-[0-9]*-[0-9]*-[0-9]*.zip")
     processed_count = 0
     enqueued_count = 0
@@ -16,7 +14,6 @@ namespace :backfill do
       processed_count += 1
       filename = File.basename(file_path)
 
-      # Extract reservation ID (second number) from filename, e.g., "STEAMID-RESERVATIONID-SERVERID-DATE.zip"
       match = filename.match(/^\d+-(\d+)-\d+-\d+\.zip$/)
       unless match
         puts "Skipping file with unexpected name format: #{filename}"
@@ -29,16 +26,13 @@ namespace :backfill do
         next
       end
 
-      # Execute the worker's logic synchronously instead of enqueuing.
       begin
         BackfillZipfileWorker.new.perform(reservation_id)
-        enqueued_count += 1 # Technically "processed" count now
+        enqueued_count += 1
       rescue StandardError => e
-        # Log errors but continue with the next file
         puts "ERROR processing #{filename} for reservation #{reservation_id}: #{e.message}"
       end
 
-      # Log progress periodically
       if processed_count % 10 == 0
         puts "Processed #{processed_count} files, attempted upload for #{enqueued_count} files..."
       end

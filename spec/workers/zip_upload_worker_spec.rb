@@ -34,8 +34,7 @@ RSpec.describe ZipUploadWorker, type: :worker do
         allow(File).to receive(:exist?).and_call_original
         allow(File).to receive(:exist?).with(zipfile_path.to_s).and_return(true)
 
-        expect_any_instance_of(Reservation).to receive(:status_update).with('Uploading zip file to storage')
-        expect_any_instance_of(Reservation).to receive(:status_update).with('Finished uploading zip file to storage')
+        expect_any_instance_of(Reservation).to receive(:status_update).with('Finished uploading zip file to storage').and_call_original
 
         worker.perform(reservation.id, zipfile_path.to_s)
 
@@ -50,7 +49,6 @@ RSpec.describe ZipUploadWorker, type: :worker do
         allow(File).to receive(:exist?).and_call_original
         allow(File).to receive(:exist?).with(zipfile_path.to_s).and_return(true)
         worker.perform(reservation.id, zipfile_path.to_s)
-        expect(reservation.reservation_statuses.pluck(:status)).to include('Uploading zip file to storage')
         expect(reservation.reservation_statuses.pluck(:status)).to include('Finished uploading zip file to storage')
       end
     end
@@ -77,27 +75,49 @@ RSpec.describe ZipUploadWorker, type: :worker do
       end
     end
 
-    context 'when attaching the file fails' do
-      let(:error_message) { 'Upload failed!' }
-      let(:upload_error) { StandardError.new(error_message) }
+    context 'when blob creation fails' do
+      let(:error_message) { 'Blob creation failed!' }
+      let(:creation_error) { StandardError.new(error_message) }
 
       before do
         allow(File).to receive(:exist?).with(zipfile_path.to_s).and_return(true)
-        allow(upload_error).to receive(:message).and_return(error_message)
+        allow(ActiveStorage::Blob).to receive(:create_and_upload!).and_raise(creation_error)
       end
 
       it 'logs an error, updates status, and re-raises the error' do
-        expect_any_instance_of(Reservation).to receive(:status_update).with('Uploading zip file to storage')
-        expect(Rails.logger).to receive(:error).with(/Failed to upload zip for reservation #{reservation.id}: #{error_message}/)
-        expect_any_instance_of(Reservation).to receive(:status_update).with("Failed to upload zip file")
+        expect(ActiveStorage::Attachment.any_instance).not_to receive(:save)
+        expect_any_instance_of(Reservation).not_to receive(:status_update).with('Finished uploading zip file to storage')
 
-        allow_any_instance_of(ActiveStorage::Attached::One).to receive(:attach).and_raise(upload_error)
+        expect(Rails.logger).to receive(:error).with(/Error during Blob creation.*#{error_message}/)
+        expect_any_instance_of(Reservation).to receive(:status_update).with("Failed to upload zip file (blob creation)")
 
         expect {
           worker.perform(reservation.id, zipfile_path.to_s)
-        }.to raise_error(upload_error)
+        }.to raise_error(creation_error)
+      end
+    end
 
-        expect(reservation.reservation_statuses.pluck(:status)).not_to include("Finished uploading zip file to storage")
+    context 'when attachment save fails' do
+      let(:error_message) { 'Attachment save failed!' }
+      let(:save_error) { StandardError.new(error_message) }
+      let(:blob) { instance_double(ActiveStorage::Blob, id: 1, key: 'fakekey') }
+
+      before do
+        allow(File).to receive(:exist?).with(zipfile_path.to_s).and_return(true)
+        allow(ActiveStorage::Blob).to receive(:create_and_upload!).and_return(blob)
+        allow_any_instance_of(ActiveStorage::Attachment).to receive(:save).with(validate: false).and_raise(save_error)
+        allow(reservation).to receive(:valid?).and_return(true)
+      end
+
+      it 'logs an error, updates status, but does not re-raise (by default)' do
+        expect_any_instance_of(Reservation).not_to receive(:status_update).with('Finished uploading zip file to storage')
+
+        expect(Rails.logger).to receive(:error).with(/Error during Attachment save.*#{error_message}/)
+        expect_any_instance_of(Reservation).to receive(:status_update).with("Failed to attach zip file (attachment error)")
+
+        expect {
+          worker.perform(reservation.id, zipfile_path.to_s)
+        }.not_to raise_error
       end
     end
   end

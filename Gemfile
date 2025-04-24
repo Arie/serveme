@@ -50,12 +50,10 @@ gem "pg"
 gem "puma"
 gem "rack"
 gem "rack-attack"
-gem "rack-cache"
 gem "rails", "~> 8.0.0"
 gem "rbzip2"
 # Use Redis for Action Cable
 gem "redis"
-gem "redis-rack-cache"
 gem "remote_lock", git: "https://github.com/Arie/remote_lock.git"
 gem "rexml"
 gem "ruby_parser", require: false

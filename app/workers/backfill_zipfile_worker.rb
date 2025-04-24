@@ -15,10 +15,10 @@ class BackfillZipfileWorker
       return
     end
 
-    # if T.unsafe(reservation).zipfile.attached?
-    #   Rails.logger.info("BackfillZipfileWorker: Reservation #{reservation_id} already has zipfile attached, skipping.")
-    #   return
-    # end
+    if reservation.zipfile.attached?
+      Rails.logger.info("BackfillZipfileWorker: Reservation #{reservation_id} already has zipfile attached, skipping.")
+      return
+    end
 
     local_path = reservation.local_zipfile_path
     unless local_path && File.exist?(local_path)

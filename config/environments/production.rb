@@ -46,11 +46,6 @@ Serveme::Application.configure do
 
   # Use a different cache store in production
   config.cache_store = :redis_cache_store, { db: 0, expires_in: 1.hour }
-  config.action_dispatch.rack_cache = {
-    metastore: "redis://localhost:6379/4/metastore",
-    entitystore: "file:tmp/cache/rack/body",
-    allow_reload: false
-  }
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"

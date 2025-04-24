@@ -44,6 +44,7 @@ Serveme::Application.routes.draw do
       patch :rcon_command, as: :rcon_command
       patch :motd_rcon_command, as: :motd_rcon_command
       get :stac_log, as: :stac_log
+      post :prepare_zip
     end
     collection do
       post :find_servers_for_user

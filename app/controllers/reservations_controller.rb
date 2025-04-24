@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 class ReservationsController < ApplicationController
+  include ActionView::RecordIdentifier # Include for dom_id helper
   before_action :require_admin, only: %i[streaming]
   skip_before_action :redirect_if_country_banned, only: :played_in
   skip_before_action :authenticate_user!, only: %i[motd]
@@ -173,6 +174,31 @@ class ReservationsController < ApplicationController
                 status: :ok
     else
       render plain: "No STAC logs found", status: :not_found
+    end
+  end
+
+  def prepare_zip
+    @reservation = find_reservation
+    if @reservation && T.unsafe(@reservation).zipfile.attached? && !@reservation.local_zipfile_available?
+      Rails.logger.info("Prepare zip requested for reservation #{@reservation.id}. Enqueuing DownloadZipWorker.")
+      DownloadZipWorker.perform_async(@reservation.id)
+
+      stream_actions = [
+        turbo_stream.replace(
+          dom_id(@reservation, :zip_prepare_button_form),
+          partial: "reservations/zip_download_progress",
+          locals: { reservation: @reservation, progress: 0, message: "Preparing download..." }
+        ),
+        turbo_stream.append(
+          dom_id(@reservation, :zip_download_status),
+          partial: "reservations/turbo_stream_source",
+          locals: { reservation: @reservation }
+        )
+      ]
+      render turbo_stream: stream_actions, status: :ok, content_type: "text/vnd.turbo-stream.html"
+    else
+      Rails.logger.warn("Prepare zip requested for reservation #{params[:id]} but condition not met (reservation: #{@reservation.present?}, attached: #{T.unsafe(@reservation)&.zipfile&.attached?}, not_local: #{!@reservation&.local_zipfile_available?})")
+      head :unprocessable_entity
     end
   end
 

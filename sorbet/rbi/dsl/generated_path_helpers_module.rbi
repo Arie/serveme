@@ -226,6 +226,9 @@ module GeneratedPathHelpersModule
   def player_statistics_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def prepare_zip_reservation_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def private_server_info_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

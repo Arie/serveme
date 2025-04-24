@@ -226,6 +226,9 @@ module GeneratedUrlHelpersModule
   def player_statistics_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def prepare_zip_reservation_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def private_server_info_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

@@ -2,8 +2,6 @@
 # frozen_string_literal: true
 
 class UploadsController < ApplicationController
-  include ActionController::Streaming
-
   extend T::Sig
 
   sig { void }
@@ -25,28 +23,8 @@ class UploadsController < ApplicationController
       local_path = T.must(reservation.local_zipfile_path)
       Rails.logger.info("Serving local zip for reservation #{reservation.id} from #{local_path}")
       send_file(local_path, filename: reservation.zipfile_name, type: "application/zip", disposition: "attachment")
-    elsif T.unsafe(reservation).zipfile.attached?
-      begin
-        zip_blob = T.unsafe(reservation).zipfile.blob
-        Rails.logger.info("Streaming Active Storage zip for reservation #{reservation.id} (key: #{zip_blob.key}, filename: #{zip_blob.filename})")
-
-        response.headers["Content-Type"] = zip_blob.content_type
-        response.headers["Content-Disposition"] = ActionDispatch::Http::ContentDisposition.format(disposition: "attachment", filename: zip_blob.filename.to_s)
-
-        zip_blob.download do |chunk|
-          response.stream.write(chunk)
-        end
-      rescue ActiveStorage::FileNotFoundError
-        Rails.logger.error("UploadsController: Active Storage file not found for reservation #{reservation.id} (key: #{T.unsafe(reservation).zipfile&.blob&.key})")
-        head :not_found
-      rescue StandardError => e
-        Rails.logger.error("UploadsController: Error downloading/streaming Active Storage zip for reservation #{reservation.id}: #{e.message}\n#{e.backtrace.join("\n")}")
-        head :internal_server_error unless response.committed?
-      ensure
-        response.stream.close if response.stream.respond_to?(:close)
-      end
     else
-      Rails.logger.warn("UploadsController: No local or Active Storage zip found for reservation #{reservation.id}")
+      Rails.logger.warn("UploadsController: Local zip not found for reservation #{reservation.id}. File might be in cloud or not available.")
       head :not_found
     end
   end

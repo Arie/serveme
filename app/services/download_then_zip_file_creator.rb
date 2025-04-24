@@ -11,6 +11,8 @@ class DownloadThenZipFileCreator < ZipFileCreator
       strip_ips_and_api_keys_from_log_files(tmp_dir)
       zip(tmp_dir)
       chmod
+      # Enqueue the worker instead of uploading directly
+      ZipUploadWorker.perform_async(reservation.id, zipfile_name_and_path.to_s)
     ensure
       FileUtils.remove_entry tmp_dir
     end

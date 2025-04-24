@@ -1,0 +1,74 @@
+---
+http_interactions:
+- request:
+    method: put
+    uri: http://minio:9000/localhost/tl3z10e99hqjzohofl73wew5p6q6
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        UEsDBBQAAAAIAO5ZmFpdZ/RXDgAAAAwAAAAIAAAAdGVzdC50eHQrSS0uUUjOzytJzSsBAFBLAQI0AxQAAAAIAO5ZmFpdZ/RXDgAAAAwAAAAIAAAAAAAAAAEAAACkgQAAAAB0ZXN0LnR4dFBLBQYAAAAAAQABADYAAAA0AAAAAAA=
+    headers:
+      Accept-Encoding:
+      - ''
+      Amz-Sdk-Invocation-Id:
+      - 481c3234-3c95-4f8e-82fa-c178bbf3d50e
+      Content-Disposition:
+      - attachment; filename="test.zip"; filename*=UTF-8''test.zip
+      Content-Md5:
+      - qEQL6pOKRzBPG0C3pseQDg==
+      Content-Type:
+      - application/zip
+      Expect:
+      - 100-continue
+      User-Agent:
+      - aws-sdk-ruby3/3.214.1 ua/2.1 api/s3#1.176.1 os/linux md/x86_64 lang/ruby#3.4.1
+        md/3.4.1 m/A,N,D
+      Host:
+      - minio:9000
+      X-Amz-Date:
+      - 20250424T091529Z
+      X-Amz-Content-Sha256:
+      - 3cb5f7b1a8bf154e2f809432e07fab1f06c827fb2d031af124d72d3da1578dab
+      Authorization:
+      - Bearer <STRIPE_TEST_KEY>
+      Content-Length:
+      - '128'
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '0'
+      Etag:
+      - '"a8440bea938a47304f1b40b7a6c7900e"'
+      Server:
+      - MinIO
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      - Origin
+      X-Amz-Id-2:
+      - dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8
+      X-Amz-Request-Id:
+      - 1839366313C688CC
+      X-Content-Type-Options:
+      - nosniff
+      X-Ratelimit-Limit:
+      - '1200'
+      X-Ratelimit-Remaining:
+      - '1200'
+      X-Xss-Protection:
+      - 1; mode=block
+      Date:
+      - Thu, 24 Apr 2025 09:15:29 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Thu, 24 Apr 2025 09:15:29 GMT
+recorded_with: VCR 6.3.1

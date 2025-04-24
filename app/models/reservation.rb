@@ -14,6 +14,7 @@ class Reservation < ActiveRecord::Base
   has_many :reservation_statuses
   has_many :server_statistics
   has_many :stac_logs
+  has_one_attached :zipfile, service: :minio
 
   before_validation :calculate_duration
   before_create :generate_logsecret
@@ -335,6 +336,21 @@ class Reservation < ActiveRecord::Base
     broadcast_replace_to self, target: "reservation_sdr_connect_info_#{id}", partial: "reservations/sdr_connect_info", locals: { reservation: self }
     broadcast_replace_to self, target: "reservation_stv_connect_info_#{id}", partial: "reservations/stv_connect_info", locals: { reservation: self }
     broadcast_replace_to self, target: "reservation_actions_#{id}", partial: "reservations/actions", locals: { reservation: self }
+  end
+
+  sig { returns(T::Boolean) }
+  def zipfile_available?
+    local_zipfile_available? || zipfile.attached?
+  end
+
+  sig { returns(T::Boolean) }
+  def local_zipfile_available?
+    !!(younger_than_cleanup_age? && local_zipfile_path && File.exist?(local_zipfile_path))
+  end
+
+  sig { returns(T.nilable(Pathname)) }
+  def local_zipfile_path
+    Rails.root.join("public", "uploads", zipfile_name)
   end
 
   private

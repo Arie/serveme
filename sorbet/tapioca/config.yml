@@ -11,3 +11,6 @@ dsl:
   # exclude:
   # - SomeGeneratorName
   # workers: 5
+  exclude:
+    - ActionMailbox::PipeCompiler # Doesn't work because of some classloading issue
+  halt_upon_load_error: false

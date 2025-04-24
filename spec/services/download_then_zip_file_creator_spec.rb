@@ -4,27 +4,31 @@
 require 'spec_helper'
 
 describe DownloadThenZipFileCreator do
-  let!(:server)        { double(zip_file_creator_class: DownloadThenZipFileCreator) }
-  let!(:reservation)   { double(server: server, status_update: nil) }
+  let!(:server)        { double('Server', zip_file_creator_class: DownloadThenZipFileCreator) }
+  let!(:reservation)   { double('Reservation', id: 1, server: server, status_update: nil) }
 
   before do
+    allow(ZipUploadWorker).to receive(:perform_async)
     described_class.any_instance.stub(:strip_ips_and_api_keys_from_log_files)
   end
 
   describe '#create_zip' do
     it 'makes a tmpdir locally to store the files to be zipped' do
       zip_file = described_class.new(reservation, [ "foo'bar" ])
-      server.should_receive(:copy_from_server).with(Array, String)
-      zip_file.stub(zipfile_name: '/tmp/foo.zip')
-      zip_file.should_receive(:chmod)
+      allow(server).to receive(:copy_from_server).with(Array, String)
+      allow(zip_file).to receive(:zipfile_name_and_path).and_return('/tmp/foo.zip')
+      allow(zip_file).to receive(:chmod)
+      expect(ZipUploadWorker).to receive(:perform_async).with(reservation.id, '/tmp/foo.zip')
       zip_file.create_zip
     end
 
     it 'gets the files from the server' do
       files = %w[foo bar]
-      server.should_receive(:copy_from_server).with(files, String)
+      allow(server).to receive(:copy_from_server).with(files, String)
       zip_file = described_class.new(reservation, files)
-      zip_file.stub(zipfile_name: '/tmp/foo.zip')
+      allow(zip_file).to receive(:zipfile_name_and_path).and_return('/tmp/foo.zip')
+      allow(zip_file).to receive(:chmod)
+      expect(ZipUploadWorker).to receive(:perform_async).with(reservation.id, '/tmp/foo.zip')
       zip_file.create_zip
     end
   end

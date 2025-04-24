@@ -11,6 +11,12 @@ class Reservation
   extend CommonRelationMethods
   extend GeneratedRelationMethods
 
+  sig { returns(ActiveStorage::Attached::One) }
+  def zipfile; end
+
+  sig { params(attachable: T.untyped).returns(T.untyped) }
+  def zipfile=(attachable); end
+
   private
 
   sig { returns(NilClass) }
@@ -391,6 +397,12 @@ class Reservation
     sig { params(args: T.untyped, blk: T.untyped).returns(::Whitelist) }
     def build_whitelist(*args, &blk); end
 
+    sig { params(args: T.untyped, blk: T.untyped).returns(::ActiveStorage::Attachment) }
+    def build_zipfile_attachment(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::ActiveStorage::Blob) }
+    def build_zipfile_blob(*args, &blk); end
+
     sig { params(args: T.untyped, blk: T.untyped).returns(::Server) }
     def create_server(*args, &blk); end
 
@@ -414,6 +426,18 @@ class Reservation
 
     sig { params(args: T.untyped, blk: T.untyped).returns(::Whitelist) }
     def create_whitelist!(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::ActiveStorage::Attachment) }
+    def create_zipfile_attachment(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::ActiveStorage::Attachment) }
+    def create_zipfile_attachment!(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::ActiveStorage::Blob) }
+    def create_zipfile_blob(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::ActiveStorage::Blob) }
+    def create_zipfile_blob!(*args, &blk); end
 
     sig { returns(T::Array[T.untyped]) }
     def log_upload_ids; end
@@ -440,6 +464,12 @@ class Reservation
 
     sig { returns(T.nilable(::Whitelist)) }
     def reload_whitelist; end
+
+    sig { returns(T.nilable(::ActiveStorage::Attachment)) }
+    def reload_zipfile_attachment; end
+
+    sig { returns(T.nilable(::ActiveStorage::Blob)) }
+    def reload_zipfile_blob; end
 
     sig { returns(T::Array[T.untyped]) }
     def reservation_player_ids; end
@@ -480,6 +510,12 @@ class Reservation
 
     sig { void }
     def reset_whitelist; end
+
+    sig { void }
+    def reset_zipfile_attachment; end
+
+    sig { void }
+    def reset_zipfile_blob; end
 
     sig { returns(T.nilable(::Server)) }
     def server; end
@@ -556,6 +592,18 @@ class Reservation
 
     sig { returns(T::Boolean) }
     def whitelist_previously_changed?; end
+
+    sig { returns(T.nilable(::ActiveStorage::Attachment)) }
+    def zipfile_attachment; end
+
+    sig { params(value: T.nilable(::ActiveStorage::Attachment)).void }
+    def zipfile_attachment=(value); end
+
+    sig { returns(T.nilable(::ActiveStorage::Blob)) }
+    def zipfile_blob; end
+
+    sig { params(value: T.nilable(::ActiveStorage::Blob)).void }
+    def zipfile_blob=(value); end
   end
 
   module GeneratedAssociationRelationMethods
@@ -695,6 +743,9 @@ class Reservation
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
     def with(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
+    def with_attached_zipfile(*args, &blk); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateAssociationRelation) }
     def with_recursive(*args, &blk); end
@@ -2706,6 +2757,9 @@ class Reservation
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
     def with(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
+    def with_attached_zipfile(*args, &blk); end
 
     sig { params(args: T.untyped, blk: T.untyped).returns(PrivateRelation) }
     def with_recursive(*args, &blk); end

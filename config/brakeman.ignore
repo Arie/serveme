@@ -116,6 +116,29 @@
       "note": ""
     },
     {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "7af1acced361a690b279fb97be1e60f6c0057a3dc53d5aaeb50ba0d4da353d85",
+      "check_name": "FileAccess",
+      "message": "Model attribute used in file name",
+      "file": "app/workers/backfill_zipfile_worker.rb",
+      "line": 32,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "File.open(Reservation.find_by(:id => reservation_id).local_zipfile_path, \"rb\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "BackfillZipfileWorker",
+        "method": "perform"
+      },
+      "user_input": "Reservation.find_by(:id => reservation_id).local_zipfile_path",
+      "confidence": "Medium",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "Command Injection",
       "warning_code": 14,
       "fingerprint": "7d41c856358c51bb164b0cdc34c07543915573fa90d0d957afa7fe8fa7bdcba5",
@@ -208,29 +231,6 @@
       "note": ""
     },
     {
-      "warning_type": "File Access",
-      "warning_code": 16,
-      "fingerprint": "aa6dcb45d307418ebc30d93d098f4589bceb06c9e8ffe63c088a29d0dce072a7",
-      "check_name": "SendFile",
-      "message": "Parameter value used in file name",
-      "file": "app/controllers/uploads_controller.rb",
-      "line": 15,
-      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
-      "code": "send_file(Rails.root.join(\"public\", \"uploads\", find_reservation(params[:id].split(\"-\")[1].to_i).zipfile_name))",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "UploadsController",
-        "method": "show"
-      },
-      "user_input": "params[:id].split(\"-\")[1]",
-      "confidence": "Weak",
-      "cwe_id": [
-        22
-      ],
-      "note": ""
-    },
-    {
       "warning_type": "Command Injection",
       "warning_code": 14,
       "fingerprint": "af2dbfada77eecbe0b7569c5238a943faeb719b78d414444a97375418206a718",
@@ -300,13 +300,36 @@
       "note": ""
     },
     {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "e6069e275cda02fa7242446d657d6f10445ab4b9f4d34dea586cc45e84568551",
+      "check_name": "SendFile",
+      "message": "Parameter value used in file name",
+      "file": "app/controllers/uploads_controller.rb",
+      "line": 27,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(T.must(find_permissible_reservation(params[:id].split(\"-\")[1].to_i).local_zipfile_path), :filename => find_permissible_reservation(params[:id].split(\"-\")[1].to_i).zipfile_name, :type => \"application/zip\", :disposition => \"attachment\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "UploadsController",
+        "method": "show"
+      },
+      "user_input": "params[:id].split(\"-\")[1]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "Command Injection",
       "warning_code": 14,
       "fingerprint": "f6fc3ae15212f2e291062a9066b4d3ecf2d27067682dcad1e41cc394b77d96f4",
       "check_name": "Execute",
       "message": "Possible command injection",
       "file": "app/services/download_then_zip_file_creator.rb",
-      "line": 24,
+      "line": 26,
       "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
       "code": "system(\"#{\"LANG=ALL LC_ALL=C sed -i -r 's/(\\\\b[0-9]{1,3}\\\\.){3}[0-9]{1,3}\\\\b/0.0.0.0/g;s/logstf_apikey \\\\\\\"\\\\S+\\\\\\\"/logstf_apikey \\\\\\\"apikey\\\\\\\"/g;s/tftrue_logs_apikey \\\\\\\"\\\\S+\\\\\\\"/tftrue_logs_apikey \\\\\\\"apikey\\\\\\\"/g;s/sm_demostf_apikey \\\\\\\"\\\\S+\\\\\\\"/sm_demostf_apikey \\\\\\\"apikey\\\\\\\"/g'\"} #{\"#{tmp_dir}/*.log\"}\")",
       "render_path": null,

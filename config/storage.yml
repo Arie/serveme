@@ -10,3 +10,13 @@ cloudflare:
   region: auto
   bucket: <%= Rails.application.credentials.dig(:cloudflare, :bucket) %>
   public: true
+
+minio:
+  service: S3
+  endpoint: <%= Rails.application.credentials.dig(:minio, :endpoint) %>
+  access_key_id: <%= Rails.application.credentials.dig(:minio, :access_key_id) %>
+  secret_access_key: <%= Rails.application.credentials.dig(:minio, :secret_access_key) %>
+  region: auto
+  bucket: <%= Rails.application.credentials.dig(:minio, :bucket) || SITE_HOST %>
+  public: false
+  force_path_style: true

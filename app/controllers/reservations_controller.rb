@@ -50,11 +50,13 @@ class ReservationsController < ApplicationController
   end
 
   def index
-    @users_reservations = current_user.reservations.ordered.paginate(page: params[:page], per_page: 20)
+    @users_reservations = current_user.reservations.ordered.with_attached_zipfile.paginate(page: params[:page], per_page: 20)
   end
 
   def played_in
-    @users_games = Reservation.includes(:user, server: :location).played_in(current_user.uid)
+    @users_games = Reservation.includes(:user, server: :location)
+                              .played_in(current_user.uid)
+                              .with_attached_zipfile
   end
 
   def edit

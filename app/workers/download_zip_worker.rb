@@ -28,11 +28,11 @@ class DownloadZipWorker # Renamed class
     zip_blob = T.unsafe(reservation).zipfile.blob
     local_path = T.must(reservation.local_zipfile_path)
 
-    if File.exist?(local_path)
-      Rails.logger.info("DownloadZipWorker: Local file already exists for Reservation #{reservation_id} at #{local_path}. Broadcasting completion.")
-      broadcast_completion(reservation)
-      return
-    end
+    # === Removed File.exist? check here. Worker is only called if file is NOT local. ===
+
+    # Broadcast the stream source tag *first* before starting download loop
+    Rails.logger.info("DownloadZipWorker: Broadcasting stream source for Reservation #{reservation_id} before download.")
+    Turbo::StreamsChannel.broadcast_append_to(reservation, target: dom_id(reservation, :zip_download_status), partial: "reservations/turbo_stream_source", locals: { reservation: reservation })
 
     tmp_path = "#{local_path}.tmp"
 

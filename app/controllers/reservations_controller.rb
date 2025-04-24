@@ -179,25 +179,31 @@ class ReservationsController < ApplicationController
 
   def prepare_zip
     @reservation = find_reservation
-    if @reservation && T.unsafe(@reservation).zipfile.attached? && !@reservation.local_zipfile_available?
-      Rails.logger.info("Prepare zip requested for reservation #{@reservation.id}. Enqueuing DownloadZipWorker.")
+    # Check if file exists locally first, regardless of age or cloud status
+    local_file_path = @reservation&.local_zipfile_path
+    if local_file_path && File.exist?(local_file_path)
+      Rails.logger.info("Prepare zip requested for Reservation #{@reservation.id}, but file already exists locally. Rendering direct link.")
+      # Replace the entire status container with the direct download link
+      render turbo_stream: turbo_stream.replace(
+        dom_id(@reservation, :zip_download_status),
+        partial: "reservations/direct_zip_download_link",
+        locals: { reservation: @reservation }
+      )
+    # If not local, proceed with cloud check and worker logic
+    elsif @reservation && T.unsafe(@reservation).zipfile.attached?
+      Rails.logger.info("Prepare zip requested for reservation #{@reservation.id}. File not local. Enqueuing DownloadZipWorker.")
       DownloadZipWorker.perform_async(@reservation.id)
 
-      stream_actions = [
-        turbo_stream.replace(
-          dom_id(@reservation, :zip_prepare_button_form),
-          partial: "reservations/zip_download_progress",
-          locals: { reservation: @reservation, progress: 0, message: "Preparing download..." }
-        ),
-        turbo_stream.append(
-          dom_id(@reservation, :zip_download_status),
-          partial: "reservations/turbo_stream_source",
-          locals: { reservation: @reservation }
-        )
-      ]
-      render turbo_stream: stream_actions, status: :ok, content_type: "text/vnd.turbo-stream.html"
+      # Replace the button form with the initial progress bar
+      render turbo_stream: turbo_stream.replace(
+        dom_id(@reservation, :zip_prepare_button_form),
+        partial: "reservations/zip_download_progress",
+        locals: { reservation: @reservation, progress: 0, message: "Preparing download..." }
+      ),
+      status: :ok, content_type: "text/vnd.turbo-stream.html"
     else
-      Rails.logger.warn("Prepare zip requested for reservation #{params[:id]} but condition not met (reservation: #{@reservation.present?}, attached: #{T.unsafe(@reservation)&.zipfile&.attached?}, not_local: #{!@reservation&.local_zipfile_available?})")
+      # Handle cases where reservation not found, zip not attached, etc.
+      Rails.logger.warn("Prepare zip requested for reservation #{params[:id]} but condition not met (reservation: #{@reservation.present?}, attached: #{T.unsafe(@reservation)&.zipfile&.attached?})")
       head :unprocessable_entity
     end
   end

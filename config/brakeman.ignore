@@ -53,7 +53,7 @@
       "check_name": "FileAccess",
       "message": "Model attribute used in file name",
       "file": "app/workers/download_zip_worker.rb",
-      "line": 61,
+      "line": 68,
       "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
       "code": "FileUtils.rm_f(\"#{T.must(Reservation.find_by(:id => reservation_id).local_zipfile_path)}.tmp\")",
       "render_path": null,
@@ -76,7 +76,7 @@
       "check_name": "FileAccess",
       "message": "Model attribute used in file name",
       "file": "app/workers/download_zip_worker.rb",
-      "line": 65,
+      "line": 72,
       "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
       "code": "FileUtils.rm_f(\"#{T.must(Reservation.find_by(:id => reservation_id).local_zipfile_path)}.tmp\")",
       "render_path": null,
@@ -122,7 +122,7 @@
       "check_name": "FileAccess",
       "message": "Model attribute used in file name",
       "file": "app/workers/download_zip_worker.rb",
-      "line": 53,
+      "line": 60,
       "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
       "code": "File.rename(\"#{T.must(Reservation.find_by(:id => reservation_id).local_zipfile_path)}.tmp\", T.must(Reservation.find_by(:id => reservation_id).local_zipfile_path))",
       "render_path": null,
@@ -132,6 +132,29 @@
         "method": "perform"
       },
       "user_input": "Reservation.find_by(:id => reservation_id).local_zipfile_path",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "File Access",
+      "warning_code": 16,
+      "fingerprint": "511f53654b5c8af1beec82da34bc9999a71e655c190f8cefaf59c15a57d2e011",
+      "check_name": "SendFile",
+      "message": "Parameter value used in file name",
+      "file": "app/controllers/uploads_controller.rb",
+      "line": 25,
+      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
+      "code": "send_file(find_permissible_reservation(params[:id].split(\"-\")[1].to_i).local_zipfile_path, :filename => find_permissible_reservation(params[:id].split(\"-\")[1].to_i).zipfile_name, :type => \"application/zip\", :disposition => \"attachment\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "UploadsController",
+        "method": "show"
+      },
+      "user_input": "params[:id].split(\"-\")[1]",
       "confidence": "Weak",
       "cwe_id": [
         22
@@ -306,7 +329,7 @@
       "check_name": "FileAccess",
       "message": "Model attribute used in file name",
       "file": "app/workers/download_zip_worker.rb",
-      "line": 40,
+      "line": 47,
       "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
       "code": "File.open(\"#{T.must(Reservation.find_by(:id => reservation_id).local_zipfile_path)}.tmp\", \"wb\")",
       "render_path": null,
@@ -394,34 +417,11 @@
     {
       "warning_type": "File Access",
       "warning_code": 16,
-      "fingerprint": "e6069e275cda02fa7242446d657d6f10445ab4b9f4d34dea586cc45e84568551",
-      "check_name": "SendFile",
-      "message": "Parameter value used in file name",
-      "file": "app/controllers/uploads_controller.rb",
-      "line": 27,
-      "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
-      "code": "send_file(T.must(find_permissible_reservation(params[:id].split(\"-\")[1].to_i).local_zipfile_path), :filename => find_permissible_reservation(params[:id].split(\"-\")[1].to_i).zipfile_name, :type => \"application/zip\", :disposition => \"attachment\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "UploadsController",
-        "method": "show"
-      },
-      "user_input": "params[:id].split(\"-\")[1]",
-      "confidence": "Weak",
-      "cwe_id": [
-        22
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "File Access",
-      "warning_code": 16,
       "fingerprint": "ec79205bc871b53b6038e98f857eb76bfdbec4eb55258418f137734954c90124",
       "check_name": "FileAccess",
       "message": "Model attribute used in file name",
       "file": "app/workers/download_zip_worker.rb",
-      "line": 34,
+      "line": 41,
       "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
       "code": "FileUtils.mkdir_p(File.dirname(T.must(Reservation.find_by(:id => reservation_id).local_zipfile_path)))",
       "render_path": null,

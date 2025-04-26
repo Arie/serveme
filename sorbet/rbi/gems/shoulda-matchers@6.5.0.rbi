@@ -1755,25 +1755,15 @@ class Shoulda::Matchers::ActionController::SetFlashMatcher
   # source://shoulda-matchers//lib/shoulda/matchers/action_controller/set_flash_matcher.rb#190
   def [](key); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def description(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def failure_message(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def failure_message_for_should(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def failure_message_for_should_not(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def failure_message_when_negated(*args, **_arg1, &block); end
 
   # source://shoulda-matchers//lib/shoulda/matchers/action_controller/set_flash_matcher.rb#185
   def in_context(context); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def matches?(*args, **_arg1, &block); end
 
   # source://shoulda-matchers//lib/shoulda/matchers/action_controller/set_flash_matcher.rb#175
@@ -1822,25 +1812,15 @@ class Shoulda::Matchers::ActionController::SetSessionMatcher
   # source://shoulda-matchers//lib/shoulda/matchers/action_controller/set_session_matcher.rb#147
   def [](key); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def description(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def failure_message(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def failure_message_for_should(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def failure_message_for_should_not(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def failure_message_when_negated(*args, **_arg1, &block); end
 
   # source://shoulda-matchers//lib/shoulda/matchers/action_controller/set_session_matcher.rb#142
   def in_context(context); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def matches?(*args, **_arg1, &block); end
 
   # source://shoulda-matchers//lib/shoulda/matchers/action_controller/set_session_matcher.rb#152
@@ -4862,7 +4842,6 @@ class Shoulda::Matchers::ActiveModel::AllowValueMatcher::AttributeSetterAndValid
   # source://shoulda-matchers//lib/shoulda/matchers/active_model/allow_value_matcher/attribute_setter_and_validator.rb#22
   def initialize(allow_value_matcher, attribute_name, value); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def after_setting_value_callback(*args, **_arg1, &block); end
 
   # source://shoulda-matchers//lib/shoulda/matchers/active_model/allow_value_matcher/attribute_setter_and_validator.rb#30
@@ -4871,22 +4850,11 @@ class Shoulda::Matchers::ActiveModel::AllowValueMatcher::AttributeSetterAndValid
   # source://shoulda-matchers//lib/shoulda/matchers/active_model/allow_value_matcher/attribute_setter_and_validator.rb#41
   def attribute_setter_description; end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def attribute_to_check_message_against(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def context(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def expected_message(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def expects_strict?(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def ignore_interference_by_writer(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def instance(*args, **_arg1, &block); end
 
   # source://shoulda-matchers//lib/shoulda/matchers/active_model/allow_value_matcher/attribute_setter_and_validator.rb#45
@@ -5121,16 +5089,9 @@ class Shoulda::Matchers::ActiveModel::DisallowValueMatcher
   # source://shoulda-matchers//lib/shoulda/matchers/active_model/disallow_value_matcher.rb#27
   def initialize(value); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def _after_setting_value(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def attribute_changed_value_message=(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def attribute_to_set(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def description(*args, **_arg1, &block); end
 
   # @return [Boolean]
@@ -5138,16 +5099,12 @@ class Shoulda::Matchers::ActiveModel::DisallowValueMatcher
   # source://shoulda-matchers//lib/shoulda/matchers/active_model/disallow_value_matcher.rb#35
   def does_not_match?(subject); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def expects_strict?(*args, **_arg1, &block); end
 
   # source://shoulda-matchers//lib/shoulda/matchers/active_model/disallow_value_matcher.rb#64
   def failure_message; end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def failure_message_preface(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def failure_message_preface=(*args, **_arg1, &block); end
 
   # source://shoulda-matchers//lib/shoulda/matchers/active_model/disallow_value_matcher.rb#68
@@ -5156,16 +5113,12 @@ class Shoulda::Matchers::ActiveModel::DisallowValueMatcher
   # source://shoulda-matchers//lib/shoulda/matchers/active_model/disallow_value_matcher.rb#39
   def for(attribute); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def ignore_interference_by_writer(*args, **_arg1, &block); end
 
   # source://shoulda-matchers//lib/shoulda/matchers/active_model/disallow_value_matcher.rb#59
   def ignoring_interference_by_writer(value = T.unsafe(nil)); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def last_attribute_setter_used(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def last_value_set(*args, **_arg1, &block); end
 
   # @return [Boolean]
@@ -5173,19 +5126,16 @@ class Shoulda::Matchers::ActiveModel::DisallowValueMatcher
   # source://shoulda-matchers//lib/shoulda/matchers/active_model/disallow_value_matcher.rb#31
   def matches?(subject); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def model(*args, **_arg1, &block); end
 
   # source://shoulda-matchers//lib/shoulda/matchers/active_model/disallow_value_matcher.rb#44
   def on(context); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def simple_description(*args, **_arg1, &block); end
 
   # source://shoulda-matchers//lib/shoulda/matchers/active_model/disallow_value_matcher.rb#54
   def strict(strict = T.unsafe(nil)); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def values_to_preset=(*args, **_arg1, &block); end
 
   # source://shoulda-matchers//lib/shoulda/matchers/active_model/disallow_value_matcher.rb#49
@@ -5343,37 +5293,16 @@ class Shoulda::Matchers::ActiveModel::NumericalityMatchers::NumericTypeMatcher
   # source://shoulda-matchers//lib/shoulda/matchers/active_model/numericality_matchers/numeric_type_matcher.rb#39
   def diff_to_compare; end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def does_not_match?(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def expects_custom_validation_message?(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def expects_strict?(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def failure_message(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def failure_message_when_negated(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def ignore_interference_by_writer(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def ignoring_interference_by_writer(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def matches?(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def on(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def strict(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def with_message(*args, **_arg1, &block); end
 
   protected
@@ -9490,10 +9419,37 @@ module Shoulda::Matchers::ActiveRecord
   #       should validate_uniqueness_of(:author_id).allow_blank
   #     end
   #
+  # ##### alternatives
+  #
+  # Use `alternatives` to specify alternative valid values to use
+  #   for testing uniqueness.
+  #
+  #     class Post < ActiveRecord::Base
+  #       validates :title, uniqueness: true
+  #     end
+  #
+  #     # RSpec
+  #     RSpec.describe Post, type: :model do
+  #       it do
+  #         should validate_uniqueness_of(:title).alternatives('Alternative Title')
+  #       end
+  #     end
+  #
+  #     # Minitest (Shoulda)
+  #     class PostTest < ActiveSupport::TestCase
+  #       should validate_uniqueness_of(:title).alternatives(['Alternative Title', 'Another Title'])
+  #     end
+  #
+  # @example
+  #   it { should validate_uniqueness_of(:title).alternatives('Alternative Title') }
+  #   it { should validate_uniqueness_of(:title).alternatives(['Title 1', 'Title 2']) }
+  # @param values [String, Array<String>] Alternative value(s) to use for testing uniqueness instead of using
+  #   the `succ` operator on the existing value.
+  # @return [ValidateUniquenessOfMatcher]
   # @return [ValidateUniquenessOfMatcher]
   # @return [ValidateUniquenessOfMatcher]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#261
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#291
   def validate_uniqueness_of(attr); end
 end
 
@@ -11869,424 +11825,434 @@ end
 
 # @private
 #
-# source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#266
+# source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#296
 class Shoulda::Matchers::ActiveRecord::ValidateUniquenessOfMatcher < ::Shoulda::Matchers::ActiveModel::ValidationMatcher
   include ::Shoulda::Matchers::ActiveModel::Helpers
 
   # @return [ValidateUniquenessOfMatcher] a new instance of ValidateUniquenessOfMatcher
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#269
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#299
   def initialize(attribute); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#308
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#352
   def allow_blank; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#299
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#343
   def allow_nil; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#289
+  # @example
+  #   it { should validate_uniqueness_of(:title).alternatives('Alternative Title') }
+  #   it { should validate_uniqueness_of(:title).alternatives(['Title 1', 'Title 2']) }
+  # @param values [String, Array<String>] Alternative value(s) to use for testing uniqueness instead of using
+  #   the `succ` operator on the existing value.
+  # @return [ValidateUniquenessOfMatcher]
+  #
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#328
+  def alternatives(values); end
+
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#333
   def case_insensitive; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#345
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#389
   def does_not_match?(given_record); end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#313
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#357
   def expects_to_allow_blank?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#304
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#348
   def expects_to_allow_nil?; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#294
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#338
   def ignoring_case_sensitivity; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#329
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#373
   def matches?(given_record); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#284
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#314
   def scoped_to(*scopes); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#317
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#361
   def simple_description; end
 
   protected
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#370
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#414
   def build_allow_or_disallow_value_matcher(args); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#362
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#406
   def failure_reason; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#366
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#410
   def failure_reason_when_negated; end
 
   private
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#503
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#547
   def actual_sets_of_scopes; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#850
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#897
   def all_scopes_are_booleans?; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#579
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#623
   def arbitrary_non_blank_value; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#992
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1039
   def attribute_changed_value_message; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#913
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#960
   def attribute_names_under_test; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#628
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#672
   def attribute_present_on_model?; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1040
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1087
   def attribute_setter_descriptions_for_new_record; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#904
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#951
   def attribute_setter_for_existing_record; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#908
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#955
   def attribute_setters_for_new_record; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#869
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#916
   def available_enum_values_for(scope, previous_value); end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#856
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#903
   def boolean_value?(value); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#917
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#964
   def build_attribute_setter(record, attribute_name, value); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#434
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#478
   def build_failure_reason; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#595
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#639
   def build_new_record; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#380
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#424
   def case_sensitivity_strategy; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#940
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#987
   def column_for(scope); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#944
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#991
   def column_limit_for(attribute); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#560
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#604
   def create_existing_record; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#860
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#907
   def defined_as_enum?(scope); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1007
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1054
   def description_for_attribute_setter(attribute_setter, same_as_existing: T.unsafe(nil)); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#393
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#437
   def description_for_case_sensitive_qualifier; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1036
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1083
   def descriptions_for_attribute_setters_for_new_record; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#532
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#576
   def does_not_match_allow_blank?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#516
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#560
   def does_not_match_allow_nil?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#618
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#662
   def does_not_match_presence_of_attribute?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#656
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#700
   def does_not_match_presence_of_scopes?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#452
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#496
   def does_not_match_scopes_configuration?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#732
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#776
   def does_not_match_uniqueness_with_case_sensitivity_strategy?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#779
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#823
   def does_not_match_uniqueness_with_scopes?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#699
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#743
   def does_not_match_uniqueness_without_scopes?; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#817
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#861
   def dummy_scalar_value_for(column); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#807
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#851
   def dummy_value_for(scope); end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1053
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1100
   def existing_and_new_values_are_same?; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#539
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#583
   def existing_record; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#928
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#975
   def existing_value_read; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#932
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#979
   def existing_value_written; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#499
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#543
   def expected_scopes; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#952
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#999
   def failure_message_preface; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#556
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#600
   def find_existing_record; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#547
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#591
   def find_or_create_existing_record; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#591
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#635
   def has_secure_password?; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#480
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#524
   def inspected_actual_scopes; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#487
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#531
   def inspected_actual_sets_of_scopes; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#476
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#520
   def inspected_expected_scopes; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1057
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1104
   def last_attribute_setter_used_on_new_record; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1061
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1108
   def last_value_set_on_new_record; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#525
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#569
   def matches_allow_blank?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#509
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#553
   def matches_allow_nil?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#608
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#652
   def matches_presence_of_attribute?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#633
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#677
   def matches_presence_of_scopes?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#410
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#454
   def matches_scopes_configuration?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#709
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#753
   def matches_uniqueness_with_case_sensitivity_strategy?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#769
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#813
   def matches_uniqueness_with_scopes?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#691
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#735
   def matches_uniqueness_without_scopes?; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#948
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#995
   def model; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#763
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#807
   def model_class?(model_name); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#384
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#428
   def new_record; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#829
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#873
   def next_scalar_value_for(scope, previous_value); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#821
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#865
   def next_value_for(scope, previous_value); end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#865
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#912
   def polymorphic_type_attribute?(scope, previous_value); end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#471
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#515
   def scopes_match?; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#685
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#729
   def scopes_missing_on_model; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#679
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#723
   def scopes_present_on_model; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#875
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#922
   def set_attribute_on!(record_type, record, attribute_name, value); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#886
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#933
   def set_attribute_on_existing_record!(attribute_name, value); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#895
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#942
   def set_attribute_on_new_record!(attribute_name, value); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#790
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#834
   def setting_next_value_for(scope); end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#757
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#801
   def should_test_case_sensitivity?; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#384
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#428
   def subject; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#568
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#612
   def update_existing_record!(value); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#404
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#448
   def validations; end
 end
 
 # @private
 #
-# source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1066
+# source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1113
 class Shoulda::Matchers::ActiveRecord::ValidateUniquenessOfMatcher::AttributeSetters
   include ::Enumerable
 
   # @return [AttributeSetters] a new instance of AttributeSetters
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1069
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1116
   def initialize; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1083
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1130
   def +(other_attribute_setters); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1073
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1120
   def <<(given_attribute_setter); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1091
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1138
   def each(&block); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1095
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1142
   def last; end
 
   private
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1101
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1148
   def find_index_of(given_attribute_setter); end
 end
 
 # @private
 #
-# source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1137
+# source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1184
 class Shoulda::Matchers::ActiveRecord::ValidateUniquenessOfMatcher::ExistingRecordInvalid < ::Shoulda::Matchers::Error
   include ::Shoulda::Matchers::ActiveModel::Helpers
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1142
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1189
   def message; end
 
   # Returns the value of attribute underlying_exception.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1140
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1187
   def underlying_exception; end
 
   # Sets the attribute underlying_exception
   #
   # @param value the value to set the attribute underlying_exception to.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1140
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1187
   def underlying_exception=(_arg0); end
 end
 
 # @private
 #
-# source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1110
+# source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1157
 class Shoulda::Matchers::ActiveRecord::ValidateUniquenessOfMatcher::NonCaseSwappableValueError < ::Shoulda::Matchers::Error
   # Returns the value of attribute attribute.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1111
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1158
   def attribute; end
 
   # Sets the attribute attribute
   #
   # @param value the value to set the attribute attribute to.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1111
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1158
   def attribute=(_arg0); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1113
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1160
   def message; end
 
   # Returns the value of attribute model.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1111
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1158
   def model; end
 
   # Sets the attribute model
   #
   # @param value the value to set the attribute model to.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1111
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1158
   def model=(_arg0); end
 
   # Returns the value of attribute value.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1111
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1158
   def value; end
 
   # Sets the attribute value
   #
   # @param value the value to set the attribute value to.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1111
+  # source://shoulda-matchers//lib/shoulda/matchers/active_record/validate_uniqueness_of_matcher.rb#1158
   def value=(_arg0); end
 end
 
@@ -12354,10 +12320,7 @@ module Shoulda::Matchers::Doublespeak
     # source://shoulda-matchers//lib/shoulda/matchers/doublespeak.rb#17
     def debugging_enabled?; end
 
-    # source://forwardable/1.3.3/forwardable.rb#231
     def double_collection_for(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def with_doubles_activated(*args, **_arg1, &block); end
 
     # source://shoulda-matchers//lib/shoulda/matchers/doublespeak.rb#13
@@ -12623,7 +12586,6 @@ class Shoulda::Matchers::Doublespeak::ProxyImplementation
   # source://shoulda-matchers//lib/shoulda/matchers/doublespeak/proxy_implementation.rb#20
   def call(call); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def returns(*args, **_arg1, &block); end
 
   protected
@@ -12906,178 +12868,219 @@ module Shoulda::Matchers::Independent
   #       should delegate_method(:plan).to(:subscription).allow_nil
   #     end
   #
+  # ##### with_private
+  #
+  # Use `with_private` if the delegation accounts for the fact that your
+  # delegation is private. (This is mostly intended as an analogue to
+  # the `private` option that Rails' `delegate` helper takes.)
+  #
+  #     class Account
+  #       delegate :plan, to: :subscription, private: true
+  #     end
+  #
+  #     # RSpec
+  #     describe Account do
+  #       it { should delegate_method(:plan).to(:subscription).with_private }
+  #     end
+  #
+  #     # Minitest
+  #     class PageTest < Minitest::Test
+  #       should delegate_method(:plan).to(:subscription).with_private
+  #     end
+  #
   # @return [DelegateMethodMatcher]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#173
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#192
   def delegate_method(delegating_method); end
 end
 
 # @private
 #
-# source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#178
+# source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#197
 class Shoulda::Matchers::Independent::DelegateMethodMatcher
   # @return [DelegateMethodMatcher] a new instance of DelegateMethodMatcher
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#179
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#198
   def initialize(delegating_method); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#252
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#277
   def allow_nil; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#235
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#260
   def as(delegate_method); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#257
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#287
   def build_delegating_method_prefix(prefix); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#208
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#229
   def description; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#264
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#294
   def failure_message; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#286
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#321
   def failure_message_when_negated; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#192
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#212
   def in_context(context); end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#197
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#217
   def matches?(subject); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#230
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#255
   def to(delegate_object_reader_method); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#240
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#265
   def with_arguments(*arguments); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#245
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#270
   def with_prefix(prefix = T.unsafe(nil)); end
+
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#282
+  def with_private; end
 
   protected
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#419
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#492
   def call_delegating_method_with_delegate_method_returning(value); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#438
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#519
   def calls_on_delegate_object; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#434
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#515
   def calls_to_delegate_method; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#351
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#390
   def class_or_instance_method_indicator; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#313
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#348
   def class_under_test; end
 
   # Returns the value of attribute context.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#292
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#327
   def context; end
 
   # Returns the value of attribute delegate_method.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#292
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#327
   def delegate_method; end
 
   # Returns the value of attribute delegate_object.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#292
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#327
   def delegate_object; end
 
   # Returns the value of attribute delegate_object_reader_method.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#292
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#327
   def delegate_object_reader_method; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#359
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#398
   def delegate_object_received_call?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#363
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#402
   def delegate_object_received_call_with_delegated_arguments?; end
 
   # Returns the value of attribute delegated_arguments.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#292
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#327
   def delegated_arguments; end
 
   # Returns the value of attribute delegating_method.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#292
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#327
   def delegating_method; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#377
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#420
   def ensure_delegate_object_has_been_specified!; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#321
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#360
+  def expects_private_delegation?; end
+
+  # @return [Boolean]
+  #
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#356
   def expects_to_allow_nil_delegate_object?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#414
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#482
   def failed_to_allow_nil_delegate_object?; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#442
+  # @return [Boolean]
+  #
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#487
+  def failed_to_handle_private_delegation?; end
+
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#523
   def formatted_calls_on_delegate_object; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#325
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#364
   def formatted_delegate_method(options = T.unsafe(nil)); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#333
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#372
   def formatted_delegate_object_reader_method_name(options = T.unsafe(nil)); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#329
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#368
   def formatted_delegating_method_name(options = T.unsafe(nil)); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#337
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#376
   def formatted_method_name_for(method_name, options); end
 
   # Returns the value of attribute method.
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#292
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#327
   def method; end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#343
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#382
   def possible_class_under_test(options); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#427
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#500
+  def privately_call_delegating_method_with_delegate_method_returning(value); end
+
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#508
   def register_subject_double_collection_to(returned_value); end
 
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#301
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#336
   def subject; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#383
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#426
   def subject_delegates_to_delegate_object_correctly?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#393
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#440
   def subject_handles_nil_delegate_object?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#373
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#461
+  def subject_handles_private_delegation?; end
+
+  # @return [Boolean]
+  #
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#416
   def subject_has_delegate_object_reader_method?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#369
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#408
   def subject_has_delegating_method?; end
 
   # @return [Boolean]
   #
-  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#305
+  # source://shoulda-matchers//lib/shoulda/matchers/independent/delegate_method_matcher.rb#340
   def subject_is_a_class?; end
 end
 

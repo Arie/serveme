@@ -5,7 +5,7 @@
 # Please instead update this file by running `bin/tapioca gem sidekiq`.
 
 
-# source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#3
+# source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#36
 module ActiveJob
   class << self
     # source://activejob/8.0.2/lib/active_job/queue_adapter.rb#7
@@ -37,6 +37,9 @@ module ActiveJob
 end
 
 class ActiveJob::Base
+  include ::Sidekiq::Job::Options
+  extend ::Sidekiq::Job::Options::ClassMethods
+
   # source://activesupport/8.0.2/lib/active_support/callbacks.rb#69
   def __callbacks; end
 
@@ -333,7 +336,7 @@ class ActiveJob::Base
   end
 end
 
-# source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#4
+# source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#37
 module ActiveJob::QueueAdapters
   class << self
     # source://activejob/8.0.2/lib/active_job/queue_adapters.rb#135
@@ -341,44 +344,22 @@ module ActiveJob::QueueAdapters
   end
 end
 
-# Sidekiq adapter for Active Job
-#
-# To use Sidekiq set the queue_adapter config to +:sidekiq+.
-#
-#   Rails.application.config.active_job.queue_adapter = :sidekiq
-#
-# source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#13
+# source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#46
 class ActiveJob::QueueAdapters::SidekiqAdapter
-  # @api private
-  #
-  # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#22
+  # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#55
   def enqueue(job); end
 
-  # Defines whether enqueuing should happen implicitly to after commit when called
-  # from inside a transaction.
-  #
-  # @api private
-  # @return [Boolean]
-  #
-  # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#17
+  # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#50
   def enqueue_after_transaction_commit?; end
 
-  # @api private
-  #
-  # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#38
+  # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#71
   def enqueue_all(jobs); end
 
-  # @api private
-  #
-  # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#30
+  # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#63
   def enqueue_at(job, timestamp); end
 end
 
-# Defines a class alias for backwards compatibility with enqueued Active Job jobs.
-#
-# @api private
-#
-# source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#71
+# source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#104
 class ActiveJob::QueueAdapters::SidekiqAdapter::JobWrapper < ::Sidekiq::ActiveJob::Wrapper; end
 
 # Use `Sidekiq.transactional_push!` in your sidekiq.rb initializer
@@ -474,21 +455,17 @@ module Sidekiq
   end
 end
 
-# source://sidekiq//lib/sidekiq/rails.rb#7
+# source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#8
 module Sidekiq::ActiveJob; end
 
-# @api private
-#
-# source://sidekiq//lib/sidekiq/rails.rb#9
+# source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#10
 class Sidekiq::ActiveJob::Wrapper
   include ::Sidekiq::Job
   include ::Sidekiq::Job::Options
   extend ::Sidekiq::Job::Options::ClassMethods
   extend ::Sidekiq::Job::ClassMethods
 
-  # @api private
-  #
-  # source://sidekiq//lib/sidekiq/rails.rb#12
+  # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#13
   def perform(job_data); end
 
   # source://sidekiq//lib/sidekiq/job.rb#141
@@ -1952,7 +1929,7 @@ end
 # source://sidekiq//lib/sidekiq.rb#42
 Sidekiq::NAME = T.let(T.unsafe(nil), String)
 
-# source://sidekiq//lib/sidekiq/rails.rb#18
+# source://sidekiq//lib/sidekiq/rails.rb#11
 class Sidekiq::Rails < ::Rails::Engine
   class << self
     private
@@ -1965,20 +1942,18 @@ class Sidekiq::Rails < ::Rails::Engine
   end
 end
 
-# source://sidekiq//lib/sidekiq/rails.rb#19
+# source://sidekiq//lib/sidekiq/rails.rb#12
 class Sidekiq::Rails::Reloader
-  # @return [Reloader] a new instance of Reloader
-  #
-  # source://sidekiq//lib/sidekiq/rails.rb#20
+  # source://sidekiq//lib/sidekiq/rails.rb#13
   def initialize(app = T.unsafe(nil)); end
 
-  # source://sidekiq//lib/sidekiq/rails.rb#24
+  # source://sidekiq//lib/sidekiq/rails.rb#17
   def call; end
 
-  # source://sidekiq//lib/sidekiq/rails.rb#31
+  # source://sidekiq//lib/sidekiq/rails.rb#24
   def inspect; end
 
-  # source://sidekiq//lib/sidekiq/rails.rb#35
+  # source://sidekiq//lib/sidekiq/rails.rb#28
   def to_hash; end
 end
 

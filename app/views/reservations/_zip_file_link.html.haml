@@ -1,4 +1,4 @@
-%div{id: dom_id(reservation, :zip_download_status)}
+%div{class: "zip-download-status", id: dom_id(reservation, :zip_download_status)}
   - if reservation.local_zipfile_available?
     = link_to reservation.zipfile_url, class: 'btn btn-sm btn-info', title: 'Download a zip with the logs and demos of the match' do
       Zip file

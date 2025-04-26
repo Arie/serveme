@@ -1,11 +1,12 @@
 %div{class: "zip-download-status", id: dom_id(reservation, :zip_download_status)}
-  - if reservation.local_zipfile_available?
+  - if reservation.younger_than_cleanup_age?
     = link_to reservation.zipfile_url, class: 'btn btn-sm btn-info', title: 'Download a zip with the logs and demos of the match' do
       Zip file
       %i.fa.fa-download
   - elsif reservation.zipfile.attached?
-    = button_to prepare_zip_reservation_path(reservation), method: :post, class: 'btn btn-sm btn-secondary', title: 'Request zip file download from cloud storage', form_class: 'd-inline', form: { id: dom_id(reservation, :zip_prepare_button_form) } do
-      Cloud Download
-      %i.fa.fa-cloud-download
+    = form_with(model: reservation, url: prepare_zip_reservation_path(reservation), method: :post, id: dom_id(reservation, :zip_prepare_button_form), class: 'd-inline') do |f|
+      = f.button class: 'btn btn-sm btn-secondary', title: 'Request zip file download from cloud storage', data: { turbo_submits_with: '...' } do
+        Cloud Download
+        %i.fa.fa-cloud-download
   - else
-    %span.text-muted No zip file available
+    %span.text-muted No zip

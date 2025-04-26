@@ -1,0 +1,4 @@
+%div{style: "position: relative; width: 100%; height: 100%;"}
+  .progress-bar.bg-secondary{role: "progressbar", style: "position: absolute; top: 0; left: 0; height: 100%; width: #{progress}%;", "aria-valuenow": progress, "aria-valuemin": "0", "aria-valuemax": "100"}
+  %span{style: "position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"}
+    %span.text-white.px-2= message

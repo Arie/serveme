@@ -179,32 +179,15 @@ class ReservationsController < ApplicationController
 
   def prepare_zip
     @reservation = find_reservation
-    # Check if file exists locally first, regardless of age or cloud status
-    local_file_path = @reservation&.local_zipfile_path
-    if local_file_path && File.exist?(local_file_path)
-      Rails.logger.info("Prepare zip requested for Reservation #{@reservation.id}, but file already exists locally. Rendering direct link.")
-      # Replace the entire status container with the direct download link
-      render turbo_stream: turbo_stream.replace(
-        dom_id(@reservation, :zip_download_status),
-        partial: "reservations/direct_zip_download_link",
-        locals: { reservation: @reservation }
-      )
-    # If not local, proceed with cloud check and worker logic
-    elsif @reservation && T.unsafe(@reservation).zipfile.attached?
-      Rails.logger.info("Prepare zip requested for reservation #{@reservation.id}. File not local. Enqueuing DownloadZipWorker.")
-      DownloadZipWorker.perform_async(@reservation.id)
+    head :not_found unless @reservation
 
-      # Replace the button form with the initial progress bar
-      render turbo_stream: turbo_stream.replace(
-        dom_id(@reservation, :zip_prepare_button_form),
-        partial: "reservations/zip_download_progress",
-        locals: { reservation: @reservation, progress: 0, message: "Preparing download..." }
-      ),
-      status: :ok, content_type: "text/vnd.turbo-stream.html"
+    local_file_path = @reservation.local_zipfile_path
+    if local_file_path && File.exist?(local_file_path)
+      render_direct_zip_link
+    elsif T.unsafe(@reservation).zipfile.attached?
+      enqueue_zip_download_and_render_progress
     else
-      # Handle cases where reservation not found, zip not attached, etc.
-      Rails.logger.warn("Prepare zip requested for reservation #{params[:id]} but condition not met (reservation: #{@reservation.present?}, attached: #{T.unsafe(@reservation)&.zipfile&.attached?})")
-      head :unprocessable_entity
+      render_zip_unavailable_error
     end
   end
 
@@ -260,5 +243,37 @@ class ReservationsController < ApplicationController
                         .where("ended = ?", true)
                         .count
     !current_user.admin? && count >= 2
+  end
+
+  def render_direct_zip_link
+    Rails.logger.info("Prepare zip for Reservation #{@reservation.id}: File exists locally. Rendering direct link.")
+    render turbo_stream: turbo_stream.replace(
+      dom_id(@reservation, :zip_download_status),
+      partial: "reservations/direct_zip_download_link",
+      locals: { reservation: @reservation }
+    )
+  end
+
+  def enqueue_zip_download_and_render_progress
+    Rails.logger.info("Prepare zip for Reservation #{@reservation.id}: File not local, zip attached. Enqueuing worker and rendering progress.")
+    DownloadZipWorker.perform_async(@reservation.id)
+
+    render turbo_stream: [
+      turbo_stream.replace(
+        dom_id(@reservation, :zip_prepare_button_form),
+        partial: "reservations/zip_download_progress",
+        locals: { reservation: @reservation, progress: 0, message: "Preparing... 0%" }
+      ),
+      turbo_stream.append_all(
+        "body",
+        helpers.turbo_stream_from(@reservation)
+      )
+    ]
+  end
+
+  def render_zip_unavailable_error
+    Rails.logger.warn("Prepare zip for Reservation #{@reservation.id}: File not local and no zip attached.")
+    # Consider a Turbo Stream update here too, to inform the user
+    head :unprocessable_entity
   end
 end

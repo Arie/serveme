@@ -1,3 +1,2 @@
 .progress.my-2{id: dom_id(reservation, :zip_download_progress), style: "height: 20px;"}
-  .progress-bar.bg-primary.progress-bar-striped.progress-bar-animated{role: "progressbar", style: "width: #{progress}%; overflow: visible;", "aria-valuenow": progress, "aria-valuemin": "0", "aria-valuemax": "100"}
-    %span.text-white.mx-2= message
+  = render partial: "reservations/zip_download_progress_bar", locals: { reservation: reservation, progress: progress, message: message }

@@ -4,7 +4,7 @@
 class ZipUploadWorker
   extend T::Sig
   include Sidekiq::Worker
-  sidekiq_options retry: 3
+  sidekiq_options retry: 20
 
   sig { params(reservation_id: Integer, zipfile_path: String).void }
   def perform(reservation_id, zipfile_path)

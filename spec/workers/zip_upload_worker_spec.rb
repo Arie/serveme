@@ -85,7 +85,7 @@ RSpec.describe ZipUploadWorker, type: :worker do
       end
 
       it 'logs an error, updates status, and re-raises the error' do
-        expect(ActiveStorage::Attachment.any_instance).not_to receive(:save)
+        expect_any_instance_of(ActiveStorage::Attachment).not_to receive(:save)
         expect_any_instance_of(Reservation).not_to receive(:status_update).with('Finished uploading zip file to storage')
 
         expect(Rails.logger).to receive(:error).with(/Error during Blob creation.*#{error_message}/)

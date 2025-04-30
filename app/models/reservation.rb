@@ -14,7 +14,7 @@ class Reservation < ActiveRecord::Base
   has_many :reservation_statuses
   has_many :server_statistics
   has_many :stac_logs
-  has_one_attached :zipfile, service: :minio
+  has_one_attached :zipfile, service: :seaweedfs
 
   before_validation :calculate_duration
   before_create :generate_logsecret

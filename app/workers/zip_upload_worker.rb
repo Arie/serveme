@@ -31,7 +31,7 @@ class ZipUploadWorker
           io: file,
           filename: File.basename(zipfile_path),
           content_type: "application/zip",
-          service_name: :minio
+          service_name: :seaweedfs
         )
       end
       Rails.logger.info("ZipUploadWorker: Blob created for reservation #{reservation_id}, key: #{blob&.key}")

@@ -42,7 +42,7 @@ RSpec.describe ZipUploadWorker, type: :worker do
         expect(reservation.zipfile).to be_attached
         expect(reservation.zipfile.filename.to_s).to eq('test.zip')
         expect(reservation.zipfile.content_type).to eq('application/zip')
-        expect(reservation.zipfile.blob.service_name).to eq('minio')
+        expect(reservation.zipfile.blob.service_name).to eq('seaweedfs')
       end
 
       it 'logs success status updates', vcr: { cassette_name: 'minio_upload_success', match_requests_on: [ :method ] } do

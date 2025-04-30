@@ -20,3 +20,13 @@ minio:
   bucket: <%= Rails.application.credentials.dig(:minio, :bucket) || SITE_HOST %>
   public: false
   force_path_style: true
+
+seaweedfs:
+  service: S3
+  endpoint: <%= Rails.application.credentials.dig(:seaweedfs, :endpoint) %>
+  access_key_id: "dummy"
+  secret_access_key: "dummy"
+  region: auto
+  bucket: <%= Rails.application.credentials.dig(:seaweedfs, :bucket) || SITE_HOST %>
+  public: false
+  force_path_style: true

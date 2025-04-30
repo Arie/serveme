@@ -37,7 +37,7 @@ class BackfillZipfileWorker
           io: file,
           filename: filename,
           content_type: "application/zip",
-          service_name: :minio
+          service_name: :seaweedfs
         )
       end
       unless blob

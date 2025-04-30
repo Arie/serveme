@@ -7,7 +7,7 @@ class StacLogProcessor
   TIMESTAMP_PATTERN = /<.*?>/
 
   # Detection-specific patterns
-  AIM_DETECTION_PATTERN = /\s*\[StAC\] (?:(?:Possible )?[Tt]riggerbot|SilentAim|Aimsnap) detection(?:s)? (?:of \d+\.\d+° )?on (.*?)[\.\n]/m
+  AIM_DETECTION_PATTERN = /\s*\[StAC\] ((?:Possible )?[Tt]riggerbot|SilentAim|Aimsnap) detection(?:s)? (?:of \d+\.\d+° )?on (.*?)[\.\n]/m
   CMDNUM_SPIKE_PATTERN = /\s*\[StAC\] Cmdnum SPIKE of \d+ on (.*?)\..*?Player: (.*?)<.*?\[U:1:(\d+)\].*?#{STEAM_ID_PATTERN}/m
   GENERAL_DETECTION_PATTERN = /\s*\[StAC\] \[Detection\] Player (.*?) is cheating - (.*?)!.*?#{STEAM_ID_PATTERN}/m
 
@@ -38,11 +38,12 @@ class StacLogProcessor
   def process_content(content)
     all_detections = {}
 
-    # Ensure content is UTF-8 encoded
-    content = content.force_encoding("UTF-8")
-    content = content.encode("UTF-8", "UTF-8", invalid: :replace, undef: :replace, replace: "")
+    # Ensure content is UTF-8 encoded and mutable
+    mutable_content = content.dup
+    mutable_content.force_encoding("UTF-8")
+    mutable_content = mutable_content.encode("UTF-8", "UTF-8", invalid: :replace, undef: :replace, replace: "")
 
-    process_log_content(content, all_detections)
+    process_log_content(mutable_content, all_detections)
     notify_detections(all_detections) if all_detections.any?
   end
 
@@ -84,14 +85,18 @@ class StacLogProcessor
 
   def parse_aim_detections(content, detections)
     content.scan(AIM_DETECTION_PATTERN).each do |match|
-      name = parse_player_name(match[0])
-      next unless content =~ /#{Regexp.escape(name)}.*?#{STEAM_ID_PATTERN}/m
+      detection_type_raw = match[0]
+      name_raw = match[1]
+
+      name = parse_player_name(name_raw)
+
+      log_segment_after_detection = content[content.index(match[0])..-1]
+      next unless log_segment_after_detection =~ /Player: #{Regexp.escape(name)}.*?#{STEAM_ID_PATTERN}/m
 
       steam_id = ::Regexp.last_match(1)
       steam_id64 = convert_steam_id(steam_id)
 
-      # Get the specific detection type from the original match
-      detection_type = normalize_detection_type(::Regexp.last_match(1)) if content =~ /\[StAC\] ((?:Possible )?[^d]*?) detection(?:s)? (?:of \d+\.\d+° )?on #{Regexp.escape(name)}/
+      detection_type = normalize_detection_type(detection_type_raw)
 
       add_detection(detections, steam_id64, name, steam_id, detection_type)
     end

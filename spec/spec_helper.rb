@@ -5,6 +5,8 @@ require 'coveralls'
 require 'sidekiq'
 require 'sidekiq/testing'
 require 'rspec/sorbet'
+require 'delorean'
+require 'vcr'
 RSpec::Sorbet.allow_doubles!
 Sidekiq::Testing.inline!
 

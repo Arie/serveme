@@ -6,30 +6,21 @@ class ZipUploadWorker
   include Sidekiq::Worker
   sidekiq_options retry: 20
 
-  sig { params(reservation_id: Integer, zipfile_path: String).void }
-  def perform(reservation_id, zipfile_path)
-    unless Reservation.exists?(reservation_id)
-      Rails.logger.error("ZipUploadWorker: Reservation not found with ID #{reservation_id}")
-      return
-    end
+  sig { params(reservation_id: Integer).void }
+  def perform(reservation_id)
+    reservation = Reservation.find(reservation_id)
 
     if ActiveStorage::Attachment.exists?(record_type: "Reservation", record_id: reservation_id, name: "zipfile")
       Rails.logger.info("ZipUploadWorker: Reservation #{reservation_id} already has zipfile attached, skipping.")
       return
     end
 
-    unless File.exist?(zipfile_path)
-      Rails.logger.error("ZipUploadWorker: Zip file not found at path #{zipfile_path} for reservation #{reservation_id}")
-      Reservation.find_by(id: reservation_id)&.status_update("Failed to upload zip file: File not found at #{zipfile_path}")
-      return
-    end
-
     blob = T.let(nil, T.untyped)
     begin
-      File.open(zipfile_path, "rb") do |file|
+      File.open(reservation.local_zipfile_path.to_s, "rb") do |file|
         blob = ActiveStorage::Blob.create_and_upload!(
           io: file,
-          filename: File.basename(zipfile_path),
+          filename: File.basename(reservation.local_zipfile_path.to_s),
           content_type: "application/zip",
           service_name: :seaweedfs
         )
@@ -37,7 +28,7 @@ class ZipUploadWorker
       Rails.logger.info("ZipUploadWorker: Blob created for reservation #{reservation_id}, key: #{blob&.key}")
     rescue StandardError => e
       backtrace_str = e.backtrace&.join("\n") || "No backtrace available"
-      Rails.logger.error("ZipUploadWorker: Error during Blob creation for reservation #{reservation_id}, path: #{zipfile_path}: #{e.message}\n#{backtrace_str}")
+      Rails.logger.error("ZipUploadWorker: Error during Blob creation for reservation #{reservation_id}, path: #{reservation.local_zipfile_path}: #{e.message}\n#{backtrace_str}")
       Reservation.find_by(id: reservation_id)&.status_update("Failed to upload zip file (blob creation)")
       raise e
     end

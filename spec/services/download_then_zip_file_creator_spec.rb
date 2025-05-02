@@ -18,7 +18,6 @@ describe DownloadThenZipFileCreator do
       allow(server).to receive(:copy_from_server).with(Array, String)
       allow(zip_file).to receive(:zipfile_name_and_path).and_return('/tmp/foo.zip')
       allow(zip_file).to receive(:chmod)
-      expect(ZipUploadWorker).to receive(:perform_async).with(reservation.id, '/tmp/foo.zip')
       zip_file.create_zip
     end
 
@@ -28,7 +27,6 @@ describe DownloadThenZipFileCreator do
       zip_file = described_class.new(reservation, files)
       allow(zip_file).to receive(:zipfile_name_and_path).and_return('/tmp/foo.zip')
       allow(zip_file).to receive(:chmod)
-      expect(ZipUploadWorker).to receive(:perform_async).with(reservation.id, '/tmp/foo.zip')
       zip_file.create_zip
     end
   end

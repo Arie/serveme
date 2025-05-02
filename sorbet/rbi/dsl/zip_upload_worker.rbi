@@ -7,13 +7,13 @@
 
 class ZipUploadWorker
   class << self
-    sig { params(reservation_id: ::Integer, zipfile_path: ::String).returns(String) }
-    def perform_async(reservation_id, zipfile_path); end
+    sig { params(reservation_id: ::Integer).returns(String) }
+    def perform_async(reservation_id); end
 
-    sig { params(interval: T.any(DateTime, Time), reservation_id: ::Integer, zipfile_path: ::String).returns(String) }
-    def perform_at(interval, reservation_id, zipfile_path); end
+    sig { params(interval: T.any(DateTime, Time), reservation_id: ::Integer).returns(String) }
+    def perform_at(interval, reservation_id); end
 
-    sig { params(interval: Numeric, reservation_id: ::Integer, zipfile_path: ::String).returns(String) }
-    def perform_in(interval, reservation_id, zipfile_path); end
+    sig { params(interval: Numeric, reservation_id: ::Integer).returns(String) }
+    def perform_in(interval, reservation_id); end
   end
 end

@@ -44,6 +44,25 @@ FactoryBot.define do
     rcon { 'supersecret' }
     starts_at { 1.minute.ago }
     ends_at { starts_at + 1.hour }
+
+    trait :with_zipfile do
+      after(:create) do |reservation|
+        blob = ActiveStorage::Blob.create!(
+          key: SecureRandom.hex,
+          filename: 'foo.zip',
+          content_type: 'application/zip',
+          byte_size: 100,
+          checksum: SecureRandom.hex,
+          service_name: 'seaweedfs'
+        )
+        ActiveStorage::Attachment.create!(
+          name: 'zipfile',
+          record_type: 'Reservation',
+          record_id: reservation.id,
+          blob_id: blob.id
+        )
+      end
+    end
   end
 
   factory :server_config do

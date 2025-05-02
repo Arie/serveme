@@ -123,29 +123,46 @@ function loadReservationPage() {
     $("." + field + ' .fa-refresh').removeClass('fast-spin');
   };
 
-  $("#reservation_enable_demos_tf").change(function(event) {
-    togglePluginsAndDemosTf($(event.currentTarget));
-  });
+  var pluginsCheckbox = $("#reservation_enable_plugins");
+  var demosTfCheckbox = $("#reservation_enable_demos_tf");
 
-  function togglePluginsAndDemosTf(target) {
-    if (target.prop("checked") == true) {
-      enablePlugins().prop("disabled", true);
-      enablePlugins().prop("checked", true);
-    } else {
-      if (canEnablePlugins == false) {
-        enablePlugins().prop("disabled", false);
-        enablePlugins().prop("checked", false);
-      } else {
-        enablePlugins().prop("disabled", false);
-        enablePlugins().prop("checked", true);
+  function updateCheckboxesState() {
+    if (pluginsCheckbox.length === 0 || demosTfCheckbox.length === 0) {
+      return;
+    }
+
+    var pluginsChecked = pluginsCheckbox.prop("checked");
+    var demosTfChecked = demosTfCheckbox.prop("checked");
+
+    if (demosTfChecked) {
+      pluginsCheckbox.prop("checked", true);
+      if (canEnablePlugins) {
+          pluginsCheckbox.prop("disabled", true);
       }
+      if (canEnablePlugins) {
+        demosTfCheckbox.prop("disabled", false);
+      }
+    } else {
+      pluginsCheckbox.prop("disabled", !canEnablePlugins);
 
+      if (!pluginsCheckbox.prop("checked")) {
+          demosTfCheckbox.prop("checked", false);
+          demosTfCheckbox.prop("disabled", true);
+      } else {
+          if (canEnablePlugins) {
+            demosTfCheckbox.prop("disabled", false);
+          }
+      }
     }
   }
 
-  if (enableDemosTf().size > 0) {
-    togglePluginsAndDemosTf(enableDemosTf());
-  }
+  pluginsCheckbox.change(function() {
+    updateCheckboxesState();
+  });
+
+  demosTfCheckbox.change(function() {
+    updateCheckboxesState();
+  });
 
   $("#reservation_starts_at").change(function() {
 
@@ -252,6 +269,7 @@ function loadReservationPage() {
         selectCurrentServer();
       };
     };
+    updateCheckboxesState();
   };
 
   loadServers();

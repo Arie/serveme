@@ -6859,7 +6859,7 @@ class RuboCop::Cop::HashAlignmentStyles::KeyAlignment
   def deltas(first_pair, current_pair); end
 
   # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#13
-  def deltas_for_first_pair(first_pair, _node); end
+  def deltas_for_first_pair(first_pair); end
 
   private
 
@@ -6874,30 +6874,30 @@ end
 # This is a special case that just ensures the kwsplat is aligned with the rest of the hash
 # since a `kwsplat` does not have a key, separator or value.
 #
-# source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#145
+# source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#146
 class RuboCop::Cop::HashAlignmentStyles::KeywordSplatAlignment
-  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#146
+  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#147
   def deltas(first_pair, current_pair); end
 end
 
 # Handles calculation of deltas when the enforced style is 'separator'.
 #
-# source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#120
+# source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#121
 class RuboCop::Cop::HashAlignmentStyles::SeparatorAlignment
   include ::RuboCop::Cop::HashAlignmentStyles::ValueAlignment
 
-  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#123
-  def deltas_for_first_pair(*_nodes); end
+  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#124
+  def deltas_for_first_pair(_first_pair); end
 
   private
 
-  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#133
+  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#134
   def hash_rocket_delta(first_pair, current_pair); end
 
-  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#129
+  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#130
   def key_delta(first_pair, current_pair); end
 
-  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#137
+  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#138
   def value_delta(first_pair, current_pair); end
 end
 
@@ -6907,35 +6907,24 @@ end
 class RuboCop::Cop::HashAlignmentStyles::TableAlignment
   include ::RuboCop::Cop::HashAlignmentStyles::ValueAlignment
 
-  # @return [TableAlignment] a new instance of TableAlignment
-  #
   # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#84
-  def initialize; end
-
-  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#88
-  def deltas_for_first_pair(first_pair, node); end
+  def deltas_for_first_pair(first_pair); end
 
   private
 
-  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#106
+  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#98
   def hash_rocket_delta(first_pair, current_pair); end
 
-  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#102
+  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#94
   def key_delta(first_pair, current_pair); end
 
-  # Returns the value of attribute max_key_width.
-  #
-  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#100
-  def max_key_width; end
+  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#115
+  def max_delimiter_width(hash_node); end
 
-  # Sets the attribute max_key_width
-  #
-  # @param value the value to set the attribute max_key_width to.
-  #
-  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#100
-  def max_key_width=(_arg0); end
+  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#111
+  def max_key_width(hash_node); end
 
-  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#110
+  # source://rubocop//lib/rubocop/cop/mixin/hash_alignment_styles.rb#103
   def value_delta(first_pair, current_pair); end
 end
 
@@ -12866,6 +12855,12 @@ RuboCop::Cop::Layout::InitialIndentation::MSG = T.let(T.unsafe(nil), String)
 #
 #   attr_reader :name #: String
 #   attr_reader :age  #: Integer?
+#
+#   #: (
+#   #|   Integer,
+#   #|   String
+#   #| ) -> void
+#   def foo; end
 # @example AllowRBSInlineAnnotation: true
 #
 #   # good
@@ -12874,6 +12869,12 @@ RuboCop::Cop::Layout::InitialIndentation::MSG = T.let(T.unsafe(nil), String)
 #
 #   attr_reader :name #: String
 #   attr_reader :age  #: Integer?
+#
+#   #: (
+#   #|   Integer,
+#   #|   String
+#   #| ) -> void
+#   def foo; end
 # @example AllowSteepAnnotation: false (default)
 #
 #   # bad
@@ -12892,96 +12893,96 @@ RuboCop::Cop::Layout::InitialIndentation::MSG = T.let(T.unsafe(nil), String)
 #
 #   name = 'John'      #: String
 #
-# source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#89
+# source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#101
 class RuboCop::Cop::Layout::LeadingCommentSpace < ::RuboCop::Cop::Base
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#95
+  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#107
   def on_new_investigation; end
 
   private
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#149
+  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#161
   def allow_doxygen_comment?; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#157
+  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#169
   def allow_gemfile_ruby_comment?; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#173
+  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#185
   def allow_rbs_inline_annotation?; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#181
+  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#193
   def allow_steep_annotation?; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#119
+  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#131
   def allowed_on_first_line?(comment); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#153
+  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#165
   def doxygen_comment_style?(comment); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#161
+  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#173
   def gemfile?; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#169
+  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#181
   def gemfile_ruby_comment?(comment); end
 
-  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#115
+  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#127
   def hash_mark(expr); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#145
+  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#157
   def rackup_config_file?; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#141
+  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#153
   def rackup_options?(comment); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#177
+  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#189
   def rbs_inline_annotation?(comment); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#165
+  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#177
   def ruby_comment_in_gemfile?(comment); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#123
+  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#135
   def shebang?(comment); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#127
+  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#139
   def shebang_continuation?(comment); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#185
+  # source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#197
   def steep_annotation?(comment); end
 end
 
-# source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#93
+# source://rubocop//lib/rubocop/cop/layout/leading_comment_space.rb#105
 RuboCop::Cop::Layout::LeadingCommentSpace::MSG = T.let(T.unsafe(nil), String)
 
 # Checks for unnecessary leading blank lines at the beginning
@@ -15220,8 +15221,20 @@ class RuboCop::Cop::Layout::SpaceAfterSemicolon < ::RuboCop::Cop::Base
   # source://rubocop//lib/rubocop/cop/layout/space_after_semicolon.rb#23
   def kind(token); end
 
+  # @return [Boolean]
+  #
+  # source://rubocop//lib/rubocop/cop/layout/space_after_semicolon.rb#27
+  def space_missing?(token1, token2); end
+
   # source://rubocop//lib/rubocop/cop/layout/space_after_semicolon.rb#18
   def space_style_before_rcurly; end
+
+  private
+
+  # @return [Boolean]
+  #
+  # source://rubocop//lib/rubocop/cop/layout/space_after_semicolon.rb#33
+  def semicolon_sequence?(token, next_token); end
 end
 
 # Checks the spacing inside and after block parameters pipes. Line breaks
@@ -16166,6 +16179,8 @@ RuboCop::Cop::Layout::SpaceInLambdaLiteral::MSG_REQUIRE_SPACE = T.let(T.unsafe(n
 # Checks that brackets used for array literals have or don't have
 # surrounding space depending on configuration.
 #
+# Array pattern matching is handled in the same way.
+#
 # @example EnforcedStyle: no_space (default)
 #   # The `no_space` style enforces that array literals have
 #   # no surrounding space.
@@ -16229,83 +16244,86 @@ RuboCop::Cop::Layout::SpaceInLambdaLiteral::MSG_REQUIRE_SPACE = T.let(T.unsafe(n
 #   foo = [ ]
 #   bar = [ ]
 #
-# source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#76
+# source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#78
 class RuboCop::Cop::Layout::SpaceInsideArrayLiteralBrackets < ::RuboCop::Cop::Base
   include ::RuboCop::Cop::RangeHelp
   include ::RuboCop::Cop::SurroundingSpace
   include ::RuboCop::Cop::ConfigurableEnforcedStyle
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#84
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#86
   def on_array(node); end
+
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#86
+  def on_array_pattern(node); end
 
   private
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#115
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#118
   def array_brackets(node); end
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#101
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#104
   def autocorrect(corrector, node); end
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#223
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#226
   def compact(corrector, bracket, side); end
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#209
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#212
   def compact_corrections(corrector, node, left, right); end
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#201
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#204
   def compact_offense(node, token, side: T.unsafe(nil)); end
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#163
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#166
   def compact_offenses(node, left, right, start_ok, end_ok); end
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#124
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#127
   def empty_config; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#132
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#135
   def end_has_own_line?(token); end
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#139
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#142
   def index_for(node, token); end
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#147
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#150
   def issue_offenses(node, left, right, start_ok, end_ok); end
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#143
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#146
   def line_and_column_for(token); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#184
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#187
   def multi_dimensional_array?(node, token, side: T.unsafe(nil)); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#195
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#198
   def next_to_bracket?(token, side: T.unsafe(nil)); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#159
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#162
   def next_to_comment?(node, token); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#128
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#131
   def next_to_newline?(node, token); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#176
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#179
   def qualifies_for_compact?(node, token, side: T.unsafe(nil)); end
 end
 
-# source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#82
+# source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#84
 RuboCop::Cop::Layout::SpaceInsideArrayLiteralBrackets::EMPTY_MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#81
+# source://rubocop//lib/rubocop/cop/layout/space_inside_array_literal_brackets.rb#83
 RuboCop::Cop::Layout::SpaceInsideArrayLiteralBrackets::MSG = T.let(T.unsafe(nil), String)
 
 # Checks for unnecessary additional spaces inside array percent literals
@@ -16493,6 +16511,8 @@ end
 # Checks that braces used for hash literals have or don't have
 # surrounding space depending on configuration.
 #
+# Hash pattern matching is handled in the same way.
+#
 # @example EnforcedStyle: space (default)
 #   # The `space` style enforces that hash literals have
 #   # surrounding space.
@@ -16554,65 +16574,68 @@ end
 #   foo = {
 #   }
 #
-# source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#74
+# source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#76
 class RuboCop::Cop::Layout::SpaceInsideHashLiteralBraces < ::RuboCop::Cop::Base
   include ::RuboCop::Cop::RangeHelp
   include ::RuboCop::Cop::SurroundingSpace
   include ::RuboCop::Cop::ConfigurableEnforcedStyle
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#82
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#84
   def on_hash(node); end
+
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#84
+  def on_hash_pattern(node); end
 
   private
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#141
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#144
   def ambiguous_or_unexpected_style_detected(style, is_match); end
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#133
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#136
   def autocorrect(corrector, range); end
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#93
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#96
   def check(token1, token2); end
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#188
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#191
   def check_whitespace_only_hash(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#206
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#209
   def enforce_no_space_style_for_empty_braces?; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#108
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#111
   def expect_space?(token1, token2); end
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#121
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#124
   def incorrect_style_detected(token1, token2, expect_space, is_empty_braces); end
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#154
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#157
   def message(brace, is_empty_braces, expect_space); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#149
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#152
   def offense?(token1, expect_space); end
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#200
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#203
   def range_inside_hash(node); end
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#180
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#183
   def range_of_space_to_the_left(range); end
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#172
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#175
   def range_of_space_to_the_right(range); end
 
-  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#164
+  # source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#167
   def space_range(token_range); end
 end
 
-# source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#80
+# source://rubocop//lib/rubocop/cop/layout/space_inside_hash_literal_braces.rb#82
 RuboCop::Cop::Layout::SpaceInsideHashLiteralBraces::MSG = T.let(T.unsafe(nil), String)
 
 # Checks for spaces inside ordinary round parentheses.
@@ -17667,32 +17690,32 @@ class RuboCop::Cop::Lint::ArrayLiteralInRegexp < ::RuboCop::Cop::Base
 
   private
 
-  # source://rubocop//lib/rubocop/cop/lint/array_literal_in_regexp.rb#107
+  # source://rubocop//lib/rubocop/cop/lint/array_literal_in_regexp.rb#106
   def alternation_for(values); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/lint/array_literal_in_regexp.rb#68
+  # source://rubocop//lib/rubocop/cop/lint/array_literal_in_regexp.rb#67
   def array_of_literal_values?(node); end
 
-  # source://rubocop//lib/rubocop/cop/lint/array_literal_in_regexp.rb#93
+  # source://rubocop//lib/rubocop/cop/lint/array_literal_in_regexp.rb#92
   def array_values(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/lint/array_literal_in_regexp.rb#99
+  # source://rubocop//lib/rubocop/cop/lint/array_literal_in_regexp.rb#98
   def character_class?(values); end
 
-  # source://rubocop//lib/rubocop/cop/lint/array_literal_in_regexp.rb#103
+  # source://rubocop//lib/rubocop/cop/lint/array_literal_in_regexp.rb#102
   def character_class_for(values); end
 
-  # source://rubocop//lib/rubocop/cop/lint/array_literal_in_regexp.rb#111
+  # source://rubocop//lib/rubocop/cop/lint/array_literal_in_regexp.rb#110
   def escape_values(values); end
 
-  # source://rubocop//lib/rubocop/cop/lint/array_literal_in_regexp.rb#72
+  # source://rubocop//lib/rubocop/cop/lint/array_literal_in_regexp.rb#71
   def register_array_of_literal_values(begin_node, node); end
 
-  # source://rubocop//lib/rubocop/cop/lint/array_literal_in_regexp.rb#88
+  # source://rubocop//lib/rubocop/cop/lint/array_literal_in_regexp.rb#87
   def register_array_of_nonliteral_values(node); end
 end
 
@@ -33357,7 +33380,7 @@ class RuboCop::Cop::Style::ArgumentsForwarding < ::RuboCop::Cop::Base
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#561
+  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#564
   def explicit_block_name?; end
 
   # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#184
@@ -33460,25 +33483,25 @@ class RuboCop::Cop::Style::ArgumentsForwarding::SendNodeClassifier
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#532
+  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#535
   def additional_kwargs?; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#528
+  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#531
   def additional_kwargs_or_forwarded_kwargs?; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#542
+  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#545
   def allow_offense_for_no_block?; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#513
+  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#516
   def any_arg_referenced?; end
 
-  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#497
+  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#500
   def arguments; end
 
   # @return [Boolean]
@@ -33488,45 +33511,45 @@ class RuboCop::Cop::Style::ArgumentsForwarding::SendNodeClassifier
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#536
+  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#539
   def forward_additional_kwargs?; end
 
-  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#493
+  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#496
   def forwarded_rest_and_kwrest_args; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#555
+  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#558
   def missing_rest_arg_or_kwrest_arg?; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#546
+  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#549
   def no_additional_args?; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#521
+  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#524
   def no_post_splat_args?; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#489
+  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#492
   def offensive_block_forwarding?; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#509
+  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#512
   def referenced_block_arg?; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#505
+  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#508
   def referenced_kwrest_arg?; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#501
+  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#504
   def referenced_rest_arg?; end
 
   # def foo(a = 41, ...) is a syntax error in 3.0.
@@ -33543,10 +33566,10 @@ class RuboCop::Cop::Style::ArgumentsForwarding::SendNodeClassifier
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#485
+  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#488
   def ruby_32_or_higher_missing_rest_or_kwest?; end
 
-  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#517
+  # source://rubocop//lib/rubocop/cop/style/arguments_forwarding.rb#520
   def target_ruby_version; end
 end
 
@@ -43341,12 +43364,12 @@ module RuboCop::Cop::Style::MethodCallWithArgsParentheses::OmitParentheses
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/method_call_with_args_parentheses/omit_parentheses.rb#229
+  # source://rubocop//lib/rubocop/cop/style/method_call_with_args_parentheses/omit_parentheses.rb#232
   def assigned_before?(node, target); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/method_call_with_args_parentheses/omit_parentheses.rb#237
+  # source://rubocop//lib/rubocop/cop/style/method_call_with_args_parentheses/omit_parentheses.rb#240
   def assignment_in_condition?(node); end
 
   # source://rubocop//lib/rubocop/cop/style/method_call_with_args_parentheses/omit_parentheses.rb#34
@@ -43399,7 +43422,7 @@ module RuboCop::Cop::Style::MethodCallWithArgsParentheses::OmitParentheses
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/method_call_with_args_parentheses/omit_parentheses.rb#247
+  # source://rubocop//lib/rubocop/cop/style/method_call_with_args_parentheses/omit_parentheses.rb#250
   def forwards_anonymous_rest_arguments?(node); end
 
   # @return [Boolean]
@@ -43419,7 +43442,7 @@ module RuboCop::Cop::Style::MethodCallWithArgsParentheses::OmitParentheses
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/method_call_with_args_parentheses/omit_parentheses.rb#233
+  # source://rubocop//lib/rubocop/cop/style/method_call_with_args_parentheses/omit_parentheses.rb#236
   def inside_string_interpolation?(node); end
 
   # Require hash value omission be enclosed in parentheses to prevent the following issue:
@@ -56068,13 +56091,13 @@ module RuboCop::Cop::TrailingComma
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/mixin/trailing_comma.rb#178
+  # source://rubocop//lib/rubocop/cop/mixin/trailing_comma.rb#182
   def any_heredoc?(items); end
 
-  # source://rubocop//lib/rubocop/cop/mixin/trailing_comma.rb#170
+  # source://rubocop//lib/rubocop/cop/mixin/trailing_comma.rb#174
   def autocorrect_range(item); end
 
-  # source://rubocop//lib/rubocop/cop/mixin/trailing_comma.rb#144
+  # source://rubocop//lib/rubocop/cop/mixin/trailing_comma.rb#148
   def avoid_comma(kind, comma_begin_pos, extra_info); end
 
   # Returns true if the node has round/square/curly brackets.
@@ -56104,12 +56127,12 @@ module RuboCop::Cop::TrailingComma
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/mixin/trailing_comma.rb#182
+  # source://rubocop//lib/rubocop/cop/mixin/trailing_comma.rb#186
   def heredoc?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/mixin/trailing_comma.rb#200
+  # source://rubocop//lib/rubocop/cop/mixin/trailing_comma.rb#204
   def heredoc_send?(node); end
 
   # @return [Boolean]
@@ -56119,7 +56142,7 @@ module RuboCop::Cop::TrailingComma
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/mixin/trailing_comma.rb#138
+  # source://rubocop//lib/rubocop/cop/mixin/trailing_comma.rb#142
   def last_item_precedes_newline?(node); end
 
   # @return [Boolean]
@@ -56141,12 +56164,15 @@ module RuboCop::Cop::TrailingComma
   # source://rubocop//lib/rubocop/cop/mixin/trailing_comma.rb#128
   def no_elements_on_same_line?(node); end
 
+  # source://rubocop//lib/rubocop/cop/mixin/trailing_comma.rb#134
+  def node_end_location(node); end
+
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/mixin/trailing_comma.rb#134
+  # source://rubocop//lib/rubocop/cop/mixin/trailing_comma.rb#138
   def on_same_line?(range1, range2); end
 
-  # source://rubocop//lib/rubocop/cop/mixin/trailing_comma.rb#158
+  # source://rubocop//lib/rubocop/cop/mixin/trailing_comma.rb#162
   def put_comma(items, kind); end
 
   # @return [Boolean]

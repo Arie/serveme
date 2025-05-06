@@ -183,14 +183,14 @@ end
 #
 # @private
 #
-# source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#762
+# source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#765
 class RSpec::Mocks::AndInvokeImplementation
   # @return [AndInvokeImplementation] a new instance of AndInvokeImplementation
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#763
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#766
   def initialize(procs_to_invoke); end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#767
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#770
   def call(*args, **_arg1, &block); end
 end
 
@@ -198,14 +198,14 @@ end
 #
 # @private
 #
-# source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#746
+# source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#749
 class RSpec::Mocks::AndReturnImplementation
   # @return [AndReturnImplementation] a new instance of AndReturnImplementation
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#747
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#750
   def initialize(values_to_return); end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#751
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#754
   def call(*_args_to_ignore, &_block); end
 end
 
@@ -213,54 +213,54 @@ end
 #
 # @private
 #
-# source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#805
+# source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#808
 class RSpec::Mocks::AndWrapOriginalImplementation
   # @return [AndWrapOriginalImplementation] a new instance of AndWrapOriginalImplementation
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#806
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#809
   def initialize(method, block); end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#833
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#836
   def call(*args, **_arg1, &block); end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#813
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#816
   def initial_action=(_value); end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#829
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#832
   def inner_action; end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#817
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#820
   def inner_action=(_value); end
 
   # @return [Boolean]
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#825
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#828
   def present?; end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#821
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#824
   def terminal_action=(_value); end
 
   private
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#840
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#843
   def cannot_modify_further_error; end
 end
 
-# source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#811
+# source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#814
 class RSpec::Mocks::AndWrapOriginalImplementation::CannotModifyFurtherError < ::StandardError; end
 
 # Handles the implementation of an `and_yield` declaration.
 #
 # @private
 #
-# source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#719
+# source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#722
 class RSpec::Mocks::AndYieldImplementation
   # @return [AndYieldImplementation] a new instance of AndYieldImplementation
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#720
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#723
   def initialize(args_to_yield, eval_context, error_generator); end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#726
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#729
   def call(*_args_to_ignore, &block); end
 end
 
@@ -2615,55 +2615,55 @@ RSpec::Mocks::IGNORED_BACKTRACE_LINE = T.let(T.unsafe(nil), String)
 #
 # @private
 #
-# source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#782
+# source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#785
 class RSpec::Mocks::Implementation
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#785
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#788
   def call(*args, **_arg1, &block); end
 
   # Returns the value of attribute initial_action.
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#783
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#786
   def initial_action; end
 
   # Sets the attribute initial_action
   #
   # @param value the value to set the attribute initial_action to.
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#783
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#786
   def initial_action=(_arg0); end
 
   # Returns the value of attribute inner_action.
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#783
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#786
   def inner_action; end
 
   # Sets the attribute inner_action
   #
   # @param value the value to set the attribute inner_action to.
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#783
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#786
   def inner_action=(_arg0); end
 
   # @return [Boolean]
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#792
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#795
   def present?; end
 
   # Returns the value of attribute terminal_action.
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#783
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#786
   def terminal_action; end
 
   # Sets the attribute terminal_action
   #
   # @param value the value to set the attribute terminal_action to.
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#783
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#786
   def terminal_action=(_arg0); end
 
   private
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#798
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#801
   def actions; end
 end
 
@@ -3543,13 +3543,13 @@ module RSpec::Mocks::MessageExpectation::ImplementationDetails
 
   # @return [Boolean]
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#601
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#602
   def actual_received_count_matters?; end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#588
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#589
   def additional_expected_calls; end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#545
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#546
   def advise(*args); end
 
   # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#459
@@ -3564,13 +3564,13 @@ module RSpec::Mocks::MessageExpectation::ImplementationDetails
 
   # @return [Boolean]
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#500
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#501
   def called_max_times?; end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#577
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#578
   def description_for(verb); end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#520
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#521
   def ensure_expected_ordering_received!; end
 
   # Returns the value of attribute error_generator.
@@ -3578,7 +3578,7 @@ module RSpec::Mocks::MessageExpectation::ImplementationDetails
   # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#413
   def error_generator; end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#571
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#572
   def expectation_count_type; end
 
   # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#455
@@ -3586,15 +3586,15 @@ module RSpec::Mocks::MessageExpectation::ImplementationDetails
 
   # @return [Boolean]
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#516
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#517
   def expected_messages_received?; end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#553
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#554
   def generate_error; end
 
   # @return [Boolean]
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#525
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#526
   def ignoring_args?; end
 
   # Returns the value of attribute implementation.
@@ -3602,13 +3602,13 @@ module RSpec::Mocks::MessageExpectation::ImplementationDetails
   # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#413
   def implementation; end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#605
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#606
   def increase_actual_received_count!; end
 
   # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#478
   def invoke(parent_stub, *args, **_arg2, &block); end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#491
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#492
   def invoke_without_incrementing_received_count(parent_stub, *args, **_arg2, &block); end
 
   # @return [Boolean]
@@ -3618,20 +3618,20 @@ module RSpec::Mocks::MessageExpectation::ImplementationDetails
 
   # @return [Boolean]
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#529
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#530
   def matches_at_least_count?; end
 
   # @return [Boolean]
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#533
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#534
   def matches_at_most_count?; end
 
   # @return [Boolean]
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#537
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#538
   def matches_exact_count?; end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#507
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#508
   def matches_name_but_not_args(message, *args); end
 
   # Returns the value of attribute message.
@@ -3641,17 +3641,17 @@ module RSpec::Mocks::MessageExpectation::ImplementationDetails
 
   # @return [Boolean]
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#496
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#497
   def negative?; end
 
   # @return [Boolean]
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#597
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#598
   def negative_expectation_for?(message); end
 
   # @return [Boolean]
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#593
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#594
   def ordered?; end
 
   # Returns the value of attribute orig_object.
@@ -3659,19 +3659,19 @@ module RSpec::Mocks::MessageExpectation::ImplementationDetails
   # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#415
   def orig_object; end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#584
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#585
   def raise_out_of_order_error; end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#567
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#568
   def raise_unexpected_message_args_error(args_for_multiple_calls); end
 
   # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#473
   def safe_invoke(parent_stub, *args, **_arg2, &block); end
 
   # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#487
-  def safe_invoke_without_incrementing_received_count(parent_stub, *args, &block); end
+  def safe_invoke_without_incrementing_received_count(parent_stub, *args, **_arg2, &block); end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#541
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#542
   def similar_messages; end
 
   # @private
@@ -3679,10 +3679,10 @@ module RSpec::Mocks::MessageExpectation::ImplementationDetails
   # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#420
   def type; end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#549
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#550
   def unadvise(args); end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#511
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#512
   def verify_messages_received; end
 
   # @return [Boolean]
@@ -3722,42 +3722,42 @@ module RSpec::Mocks::MessageExpectation::ImplementationDetails
 
   private
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#613
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#614
   def exception_source_id; end
 
   # @return [Boolean]
   #
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#656
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#659
   def has_been_invoked?; end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#679
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#682
   def initial_implementation_action=(action); end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#683
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#686
   def inner_implementation_action=(action); end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#625
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#626
   def invoke_incrementing_actual_calls_by(increment, allowed_to_fail, parent_stub, *args, **_arg4, &block); end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#617
-  def invoking; end
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#618
+  def invoking_internals; end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#621
-  def invoking=(value); end
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#622
+  def invoking_internals=(value); end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#660
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#663
   def raise_already_invoked_error_if_necessary(calling_customization); end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#666
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#669
   def set_expected_received_count(relativity, n); end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#689
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#692
   def terminal_implementation_action=(action); end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#693
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#696
   def warn_about_stub_override; end
 
-  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#700
+  # source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#703
   def wrap_original(method_name, &block); end
 end
 

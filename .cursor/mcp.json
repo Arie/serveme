@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "tidewave": {
+      "url": "http://localhost:3000/tidewave/mcp"
+    }
+  }
+}

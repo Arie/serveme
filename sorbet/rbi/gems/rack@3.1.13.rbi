@@ -1640,13 +1640,28 @@ class Rack::Lint::Wrapper::StreamWrapper
   # source://rack//lib/rack/lint.rb#974
   def initialize(stream); end
 
+  # source://forwardable/1.3.3/forwardable.rb#231
   def <<(*args, **_arg1, &block); end
+
+  # source://forwardable/1.3.3/forwardable.rb#231
   def close(*args, **_arg1, &block); end
+
+  # source://forwardable/1.3.3/forwardable.rb#231
   def close_read(*args, **_arg1, &block); end
+
+  # source://forwardable/1.3.3/forwardable.rb#231
   def close_write(*args, **_arg1, &block); end
+
+  # source://forwardable/1.3.3/forwardable.rb#231
   def closed?(*args, **_arg1, &block); end
+
+  # source://forwardable/1.3.3/forwardable.rb#231
   def flush(*args, **_arg1, &block); end
+
+  # source://forwardable/1.3.3/forwardable.rb#231
   def read(*args, **_arg1, &block); end
+
+  # source://forwardable/1.3.3/forwardable.rb#231
   def write(*args, **_arg1, &block); end
 end
 

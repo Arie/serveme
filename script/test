@@ -1,10 +1,15 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require "optparse"
 require "fileutils"
 require "open3"
+require "sorbet-runtime"
+require_relative "../lib/timing"
 
 APP_ROOT = File.expand_path("..", __dir__)
+OK = "\e[92m✓\e[0m"
+CROSS = "\e[91m✗\e[0m"
 
 def system!(*args)
   if !system(*args)
@@ -13,24 +18,43 @@ def system!(*args)
   end
 end
 
-def measure_time
-  start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-  yield
-  (Process.clock_gettime(Process::CLOCK_MONOTONIC) - start).round(3)
-end
+options = {
+  autocorrect: false
+}
+
+OptionParser.new do |parser|
+  parser.banner = "Usage: ./script/test [options]"
+
+  parser.on("-a", "--[no-]autocorrect", "Automatically autocorrects problems") do |v|
+    options[:autocorrect] = v
+  end
+
+  parser.on("-h", "--help", "Prints this help") do
+    puts parser
+    exit
+  end
+end.parse!
 
 TESTS = {
   brakeman: "bin/brakeman --no-pager --quiet --no-summary",
   importmap: "bin/importmap audit",
   rubocop: "bin/rubocop -f github",
+  rubocop_autocorrect: "bin/rubocop --autocorrect-all",
   sorbet: "bin/srb tc",
   tapioca_gem: "bin/tapioca gem --verify",
   tapioca_dsl: "bin/tapioca dsl --verify",
+  tapioca_gem_autocorrect: "bin/tapioca gem",
+  tapioca_dsl_autocorrect: "bin/tapioca dsl",
   rspec: "bin/rails spec",
-  cucumber: "bin/rails cucumber"
+  cucumber: "bin/rails cucumber",
+  test: "bin/rails test:all"
 }
 
-CHECKS = %i[brakeman importmap rubocop sorbet tapioca_gem tapioca_dsl]
+CHECKS = if options[:autocorrect]
+  %i[brakeman importmap rubocop_autocorrect sorbet tapioca_gem_autocorrect tapioca_dsl_autocorrect]
+else
+  %i[brakeman importmap rubocop sorbet tapioca_gem tapioca_dsl]
+end
 
 FRAMES = [ "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" ]
 
@@ -38,7 +62,7 @@ spinner = Thread.new do
   puts
   i = 0
   loop do
-    print "\r#{FRAMES[i % FRAMES.size]} "
+    print "\r\e[96m#{FRAMES[i % FRAMES.size]}\e[0m "
     i += 1
     sleep 0.1
   end
@@ -56,16 +80,16 @@ class Test
   end
 
   def run
-    @duration = measure_time do
+    @duration = Timing.measure(round: 3) do
       @output, @status = Open3.capture2e(@command)
     end
   end
 
   def message
     if @status.success?
-      "\r✅ #{@name} check passed in #{@duration} seconds"
+      "\r#{OK} #{@name} check passed in #{@duration} seconds"
     else
-      "\r❌ #{@name} check failed in #{@duration} seconds:\n\n#{@output}\n"
+      "\r#{CROSS} #{@name} check failed in #{@duration} seconds:\n\n#{@output}\n"
     end
   end
 
@@ -76,7 +100,7 @@ end
 
 FileUtils.chdir APP_ROOT do
   threads = []
-  check_time = measure_time do
+  check_time = Timing.measure(round: 3) do
     threads = CHECKS.map do |name|
       Thread.new do
         test = Test.new(name)
@@ -100,17 +124,17 @@ FileUtils.chdir APP_ROOT do
     abort "❌ Checks #{failed_tests.map(&:name).join(", ")} failed in #{check_time} seconds"
   end
 
-  duration = measure_time do
+  duration = Timing.measure(round: 3) do
     system! TESTS.fetch(:rspec)
   end
   puts
   puts "✅ RSpec tests passed in #{duration} seconds"
   puts
 
-  duration = measure_time do
+  duration = Timing.measure(round: 3) do
     system! TESTS.fetch(:cucumber)
   end
-
   puts
   puts "✅ Cucumber features passed in #{duration} seconds"
+  puts
 end

@@ -12,102 +12,105 @@ module MIME; end
 class MIME::Types
   extend ::Enumerable
 
-  # source://mime-types/3.6.2/lib/mime/types.rb#72
+  # source://mime-types/3.7.0/lib/mime/types.rb#72
   def initialize; end
 
-  # source://mime-types/3.6.2/lib/mime/types.rb#122
+  # source://mime-types/3.7.0/lib/mime/types.rb#122
   def [](type_id, complete: T.unsafe(nil), registered: T.unsafe(nil)); end
 
-  # source://mime-types/3.6.2/lib/mime/types.rb#164
+  # source://mime-types/3.7.0/lib/mime/types.rb#198
+  def __fully_loaded?; end
+
+  # source://mime-types/3.7.0/lib/mime/types.rb#166
   def add(*types); end
 
-  # source://mime-types/3.6.2/lib/mime/types.rb#185
+  # source://mime-types/3.7.0/lib/mime/types.rb#187
   def add_type(type, quiet = T.unsafe(nil)); end
 
-  # source://mime-types/3.6.2/lib/mime/types.rb#78
+  # source://mime-types/3.7.0/lib/mime/types.rb#78
   def count; end
 
-  # source://mime-types/3.6.2/lib/mime/types.rb#87
+  # source://mime-types/3.7.0/lib/mime/types.rb#87
   def each; end
 
-  # source://mime-types/3.6.2/lib/mime/types.rb#82
+  # source://mime-types/3.7.0/lib/mime/types.rb#82
   def inspect; end
 
-  # source://mime-types/3.6.2/lib/mime/types.rb#150
+  # source://mime-types/3.7.0/lib/mime/types.rb#148
   def of(filename); end
 
-  # source://mime-types/3.6.2/lib/mime/types.rb#150
+  # source://mime-types/3.7.0/lib/mime/types.rb#148
   def type_for(filename); end
 
   private
 
-  # source://mime-types/3.6.2/lib/mime/types.rb#198
+  # source://mime-types/3.7.0/lib/mime/types.rb#204
   def add_type_variant!(mime_type); end
 
-  # source://mime-types/3.6.2/lib/mime/types.rb#208
+  # source://mime-types/3.7.0/lib/mime/types.rb#214
   def index_extensions!(mime_type); end
 
-  # source://mime-types/3.6.2/lib/mime/types.rb#218
+  # source://mime-types/3.7.0/lib/mime/types.rb#224
   def match(pattern); end
 
-  # source://mime-types/3.6.2/lib/mime/types.rb#212
+  # source://mime-types/3.7.0/lib/mime/types.rb#218
   def prune_matches(matches, complete, registered); end
 
-  # source://mime-types/3.6.2/lib/mime/types.rb#202
+  # source://mime-types/3.7.0/lib/mime/types.rb#208
   def reindex_extensions!(mime_type); end
 
   class << self
-    # source://mime-types/3.6.2/lib/mime/types/registry.rb#16
+    # source://mime-types/3.7.0/lib/mime/types/registry.rb#16
     def [](type_id, complete: T.unsafe(nil), registered: T.unsafe(nil)); end
 
-    # source://mime-types/3.6.2/lib/mime/types/registry.rb#41
+    # source://mime-types/3.7.0/lib/mime/types/registry.rb#41
     def add(*types); end
 
-    # source://mime-types/3.6.2/lib/mime/types/registry.rb#21
+    # source://mime-types/3.7.0/lib/mime/types/registry.rb#21
     def count; end
 
-    # source://mime-types/3.6.2/lib/mime/types/deprecations.rb#7
+    # source://mime-types/3.7.0/lib/mime/types/deprecations.rb#7
     def deprecated(options = T.unsafe(nil), &block); end
 
-    # source://mime-types/3.6.2/lib/mime/types/registry.rb#26
+    # source://mime-types/3.7.0/lib/mime/types/registry.rb#26
     def each; end
 
-    # source://mime-types/3.6.2/lib/mime/types/logger.rb#13
+    # source://mime-types/3.7.0/lib/mime/types/logger.rb#13
     def logger; end
 
-    # source://mime-types/3.6.2/lib/mime/types/logger.rb#16
+    # source://mime-types/3.7.0/lib/mime/types/logger.rb#16
     def logger=(logger); end
 
-    # source://mime-types/3.6.2/lib/mime/types/registry.rb#9
+    # source://mime-types/3.7.0/lib/mime/types/registry.rb#9
     def new(*_arg0); end
 
-    # source://mime-types/3.6.2/lib/mime/types/registry.rb#35
+    # source://mime-types/3.7.0/lib/mime/types/registry.rb#35
     def of(filename); end
 
-    # source://mime-types/3.6.2/lib/mime/types/registry.rb#35
+    # source://mime-types/3.7.0/lib/mime/types/registry.rb#35
     def type_for(filename); end
 
     private
 
-    # source://mime-types/3.6.2/lib/mime/types/deprecations.rb#50
+    # source://mime-types/3.7.0/lib/mime/types/deprecations.rb#50
     def __deprecation_logged?(message, once); end
 
-    # source://mime-types/3.6.2/lib/mime/types/registry.rb#77
+    # source://mime-types/3.7.0/lib/mime/types/registry.rb#77
     def __instances__; end
 
-    # source://mime-types/3.6.2/lib/mime/types/registry.rb#57
+    # source://mime-types/3.7.0/lib/mime/types/registry.rb#57
     def __types__; end
 
-    # source://mime-types/3.6.2/lib/mime/types/registry.rb#47
+    # source://mime-types/3.7.0/lib/mime/types/registry.rb#47
     def lazy_load?; end
 
-    # source://mime-types/3.6.2/lib/mime/types/registry.rb#67
+    # source://mime-types/3.7.0/lib/mime/types/registry.rb#67
     def load_default_mime_types(mode = T.unsafe(nil)); end
 
-    # source://mime-types/3.6.2/lib/mime/types/registry.rb#62
+    # source://mime-types/3.7.0/lib/mime/types/registry.rb#62
     def load_mode; end
 
-    # source://mime-types/3.6.2/lib/mime/types/registry.rb#81
+    # source://mime-types/3.7.0/lib/mime/types/registry.rb#81
     def reindex_extensions(type); end
   end
 end

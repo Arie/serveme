@@ -61,7 +61,10 @@ module ReservationsHelper
 
   def free_servers
     @free_servers ||= if current_user.geocoded?
-                        free_server_finder.servers.near(current_user, 50_000, order: "distance, position, name")
+                        servers = free_server_finder.servers
+                        geocoded_servers = servers.geocoded.near(current_user, 50_000)
+                        non_geocoded_servers = servers.where(latitude: nil)
+                        (geocoded_servers.or(non_geocoded_servers)).order(Arel.sql("CASE WHEN latitude IS NULL THEN 1 ELSE 0 END, distance, position, name"))
     else
                         free_server_finder.servers.order("position, name")
     end

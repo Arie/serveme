@@ -136,4 +136,49 @@ describe ReservationsController do
       expect(response.body).to include 'waiting_to_start'
     end
   end
+
+  describe "#free_servers" do
+    render_views
+
+    let(:user) { create(:user, latitude: 52.3676, longitude: 4.9041) }
+    let(:london_server) { create(:server, latitude: 51.5074, longitude: -0.1278, position: 1) }
+    let(:berlin_server) { create(:server, latitude: 52.5200, longitude: 13.4050, position: 2) }
+    let(:non_geocoded_server) { create(:server, latitude: nil, longitude: nil, position: 3) }
+    let(:another_non_geocoded) { create(:server, latitude: nil, longitude: nil, position: 4) }
+
+    before do
+      sign_in user
+      server_ids = [ london_server.id, berlin_server.id, non_geocoded_server.id, another_non_geocoded.id ].shuffle
+      allow_any_instance_of(ServerForUserFinder).to receive(:servers).and_return(
+        Server.where(id: server_ids)
+      )
+    end
+
+    context "when user is geocoded" do
+      before do
+        allow(user).to receive(:geocoded?).and_return(true)
+      end
+
+      it "orders servers by geocoded status, distance, position and name" do
+        get :find_servers_for_user, format: :json
+        servers = JSON.parse(response.body)["servers"]
+        ids = servers.map { |s| s["id"] }
+        ids.first(2).should == [ london_server.id, berlin_server.id ]
+        ids.last(2).should == [ non_geocoded_server.id, another_non_geocoded.id ]
+      end
+    end
+
+    context "when user is not geocoded" do
+      before do
+        allow(user).to receive(:geocoded?).and_return(false)
+      end
+
+      it "orders servers by position and name" do
+        get :find_servers_for_user, format: :json
+        servers = JSON.parse(response.body)["servers"]
+        ids = servers.map { |s| s["id"] }
+        ids.should == [ london_server.id, berlin_server.id, non_geocoded_server.id, another_non_geocoded.id ]
+      end
+    end
+  end
 end

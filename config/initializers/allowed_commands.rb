@@ -1253,6 +1253,15 @@ ALLOWED_SERVER_COMMANDS = Set.new(%w[
   sm_datetime_format
   sm_deadtalk
   sm_debug_connect
+  sm_democheck_announce_discord
+  sm_democheck_all
+  sm_democheck_disable
+  sm_democheck_enable
+  sm_democheck
+  sm_democheck_announce
+  sm_democheck_warn
+  sm_democheck_onreadyup
+  sm_democheck_enabled
   sm_demostf_apikey
   sm_demostf_url
   sm_deterministic_fall_damage

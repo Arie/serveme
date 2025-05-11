@@ -1,0 +1,33 @@
+%h1 Server Notifications
+
+%h2= @server_notification.new_record? ? 'New Server Notification' : 'Edit Server Notification'
+
+= simple_form_for @server_notification, local: true do |f|
+  = f.error_notification
+  = f.error_notification message: false, class: 'alert alert-danger' if f.object.errors[:base].present?
+
+  .form-inputs
+    = f.input :message, as: :text, input_html: { rows: 3 }
+    = f.input :notification_type, collection: [['Public Message', 'public'], ['Advertisement', 'ad']], include_blank: 'Select a type'
+
+  .form-actions
+    = f.button :submit, @server_notification.new_record? ? 'Create Notification' : 'Update Notification'
+
+%hr
+
+%h2 Existing Server Notifications
+
+%table.table.table-striped_alt
+  %thead
+    %tr
+      %th Message
+      %th Type
+      %th Actions
+  %tbody
+    - @server_notifications.each do |notification|
+      %tr
+        %td= notification.message
+        %td= notification.notification_type
+        %td
+          = link_to 'Edit', edit_server_notification_path(notification), class: 'btn btn-sm btn-secondary'
+          = button_to 'Delete', server_notification_path(notification), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger ml-2'

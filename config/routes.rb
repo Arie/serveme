@@ -87,6 +87,7 @@ Serveme::Application.routes.draw do
 
   resources :server_configs, except: %i[show destroy]
   resources :whitelists, except: %i[show destroy]
+  resources :server_notifications, except: [ :show, :new ]
 
   resources :player_statistics, only: :index
   resources :server_statistics, only: :index

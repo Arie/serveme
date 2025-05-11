@@ -4,6 +4,9 @@
 class ServerNotification < ActiveRecord::Base
   extend T::Sig
 
+  validates :message, presence: true
+  validates :notification_type, presence: true
+
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.for_everyone
     where(notification_type: "public")

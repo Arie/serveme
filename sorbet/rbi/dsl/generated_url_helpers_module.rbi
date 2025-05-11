@@ -76,6 +76,9 @@ module GeneratedUrlHelpersModule
   def edit_server_config_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def edit_server_notification_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def edit_server_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -317,6 +320,12 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def server_configs_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def server_notification_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def server_notifications_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def server_providers_pages_url(*args); end

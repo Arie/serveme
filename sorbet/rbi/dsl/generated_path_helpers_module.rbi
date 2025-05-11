@@ -76,6 +76,9 @@ module GeneratedPathHelpersModule
   def edit_server_config_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def edit_server_notification_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def edit_server_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -317,6 +320,12 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def server_configs_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def server_notification_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def server_notifications_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def server_path(*args); end

@@ -60,20 +60,7 @@ class LeagueMaps
   def self.etf2l_hl_maps
     %w[
       cp_steel_f12
-      koth_product_final
-      koth_proot_b5b
-      koth_proplant_v8
-      koth_warmtic_f10
-      pl_upward_f12
-      pl_vigil_rc10
-    ]
-  end
-
-  def self.etf2l_hl_prem_maps
-    %w[
-      cp_steel_f12
       koth_ashville_final1
-      koth_lakeside_f5
       koth_product_final
       koth_proot_b5b
       pl_upward_f12
@@ -95,15 +82,14 @@ class LeagueMaps
 
   def self.rgl_sixes_maps
     %w[
-      cp_snakewater_final1
+      cp_granary_pro_rc8
       cp_gullywash_f9
-      koth_clearcut_b17
       cp_metalworks_f5
-      cp_sultry_b8a
-      koth_bagel_rc10
-      cp_sunshine
       cp_process_f12
-      cp_granary_pro_rc17a2
+      cp_snakewater_final1
+      cp_sunshine
+      koth_bagel_rc11
+      koth_product_final
     ]
   end
 
@@ -111,7 +97,7 @@ class LeagueMaps
     %w[
       cp_steel_f12
       koth_ashville_final1
-      koth_lakeside_f5
+      koth_cascade_rc1a
       koth_product_final
       pl_swiftwater_final1
       pl_upward_f12
@@ -121,13 +107,13 @@ class LeagueMaps
 
   def self.rgl_pass_time_maps
     %w[
-      pass_arena2_b14b
+      pass_arena2_b15
       pass_ruin_a12_waterless
-      pass_boutique_b8c
-      pass_plexiglass_b5
+      pass_boutique_rc5
+      pass_plexiglass_b6
       pass_maple_a10
-      pass_stadium_rc3a
-      pass_stonework_rc2
+      pass_stadium_rc4
+      pass_stonework_rc4
       pass_torii_a7
     ]
   end

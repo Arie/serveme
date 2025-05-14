@@ -21,7 +21,6 @@ class LeagueMaps
     [
       new(name: "ETF2L 6v6", maps: etf2l_sixes_maps.uniq.sort),
       new(name: "ETF2L HL", maps: etf2l_hl_maps.uniq.sort),
-      new(name: "ETF2L HL Prem", maps: etf2l_hl_prem_maps.uniq.sort),
       new(name: "ETF2L Ultiduo", maps: etf2l_ultiduo_maps.uniq.sort),
       new(name: "ozfortress Ultiduo", maps: ozfortress_ultiduo_maps.uniq.sort),
       new(name: "ozfortress 6v6", maps: ozfortress_sixes_maps.uniq.sort),

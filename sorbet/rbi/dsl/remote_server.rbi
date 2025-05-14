@@ -1606,6 +1606,51 @@ class RemoteServer
     sig { void }
     def rcon_will_change!; end
 
+    sig { returns(::Integer) }
+    def reservations_count; end
+
+    sig { params(value: ::Integer).returns(::Integer) }
+    def reservations_count=(value); end
+
+    sig { returns(T::Boolean) }
+    def reservations_count?; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def reservations_count_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def reservations_count_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def reservations_count_came_from_user?; end
+
+    sig { returns(T.nilable([::Integer, ::Integer])) }
+    def reservations_count_change; end
+
+    sig { returns(T.nilable([::Integer, ::Integer])) }
+    def reservations_count_change_to_be_saved; end
+
+    sig { params(from: ::Integer, to: ::Integer).returns(T::Boolean) }
+    def reservations_count_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Integer)) }
+    def reservations_count_in_database; end
+
+    sig { returns(T.nilable([::Integer, ::Integer])) }
+    def reservations_count_previous_change; end
+
+    sig { params(from: ::Integer, to: ::Integer).returns(T::Boolean) }
+    def reservations_count_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Integer)) }
+    def reservations_count_previously_was; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def reservations_count_was; end
+
+    sig { void }
+    def reservations_count_will_change!; end
+
     sig { void }
     def restore_active!; end
 
@@ -1668,6 +1713,9 @@ class RemoteServer
 
     sig { void }
     def restore_rcon!; end
+
+    sig { void }
+    def restore_reservations_count!; end
 
     sig { void }
     def restore_sdr!; end
@@ -1812,6 +1860,12 @@ class RemoteServer
 
     sig { returns(T::Boolean) }
     def saved_change_to_rcon?; end
+
+    sig { returns(T.nilable([::Integer, ::Integer])) }
+    def saved_change_to_reservations_count; end
+
+    sig { returns(T::Boolean) }
+    def saved_change_to_reservations_count?; end
 
     sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
     def saved_change_to_sdr; end
@@ -2201,6 +2255,9 @@ class RemoteServer
 
     sig { returns(T::Boolean) }
     def will_save_change_to_rcon?; end
+
+    sig { returns(T::Boolean) }
+    def will_save_change_to_reservations_count?; end
 
     sig { returns(T::Boolean) }
     def will_save_change_to_sdr?; end

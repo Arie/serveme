@@ -162,7 +162,7 @@ GEM
     bigdecimal (3.1.9)
     binding_of_caller (1.0.1)
       debug_inspector (>= 1.2.0)
-    bootsnap (1.18.4)
+    bootsnap (1.18.6)
       msgpack (~> 1.2)
     bootstrap (5.3.5)
       popper_js (>= 2.11.8, < 3)
@@ -256,7 +256,7 @@ GEM
     dante (0.2.0)
     database_cleaner (2.1.0)
       database_cleaner-active_record (>= 2, < 3)
-    database_cleaner-active_record (2.2.0)
+    database_cleaner-active_record (2.2.1)
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
@@ -353,7 +353,6 @@ GEM
       json (~> 2.0)
       mime-types (~> 3.4)
       rack (~> 3.1)
-    ffi (1.17.2-arm64-darwin)
     ffi (1.17.2-x86_64-linux-gnu)
     ffi-compiler (1.3.2)
       ffi (>= 1.15.5)
@@ -418,7 +417,6 @@ GEM
       addressable (~> 2.8)
       childprocess (~> 5.0)
       logger (~> 1.6)
-    libv8-node (23.6.1.0-arm64-darwin)
     libv8-node (23.6.1.0-x86_64-linux)
     lint_roller (1.1.0)
     llhttp-ffi (0.5.1)
@@ -453,7 +451,7 @@ GEM
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
-    mime-types-data (3.2025.0507)
+    mime-types-data (3.2025.0514)
     mini_magick (5.2.0)
       benchmark
       logger
@@ -486,8 +484,6 @@ GEM
     net-ssh (7.3.0)
     netrc (0.11.0)
     nio4r (2.7.4)
-    nokogiri (1.18.8-arm64-darwin)
-      racc (~> 1.4)
     nokogiri (1.18.8-x86_64-linux-gnu)
       racc (~> 1.4)
     oily_png (1.2.1)
@@ -591,7 +587,7 @@ GEM
       prism (~> 1.0)
       rbs (>= 3.4.4)
       sorbet-runtime (>= 0.5.9204)
-    rbs (3.9.3)
+    rbs (3.9.4)
       logger
     rbzip2 (0.3.0)
     rdoc (6.13.1)
@@ -635,7 +631,7 @@ GEM
     rspec-sorbet (1.9.2)
       sorbet-runtime
     rspec-support (3.13.3)
-    rubocop (1.75.5)
+    rubocop (1.75.6)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -696,14 +692,14 @@ GEM
       tilt
     sd_notify (0.1.1)
     securerandom (0.4.1)
-    sentry-rails (5.23.0)
+    sentry-rails (5.24.0)
       railties (>= 5.0)
-      sentry-ruby (~> 5.23.0)
-    sentry-ruby (5.23.0)
+      sentry-ruby (~> 5.24.0)
+    sentry-ruby (5.24.0)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.23.0)
-      sentry-ruby (~> 5.23.0)
+    sentry-sidekiq (5.24.0)
+      sentry-ruby (~> 5.24.0)
       sidekiq (>= 3.0)
     sexp_processor (4.17.3)
     shoulda-matchers (6.5.0)
@@ -727,14 +723,13 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    sorbet (0.5.12087)
-      sorbet-static (= 0.5.12087)
-    sorbet-runtime (0.5.12087)
-    sorbet-static (0.5.12087-universal-darwin)
-    sorbet-static (0.5.12087-x86_64-linux)
-    sorbet-static-and-runtime (0.5.12087)
-      sorbet (= 0.5.12087)
-      sorbet-runtime (= 0.5.12087)
+    sorbet (0.5.12104)
+      sorbet-static (= 0.5.12104)
+    sorbet-runtime (0.5.12104)
+    sorbet-static (0.5.12104-x86_64-linux)
+    sorbet-static-and-runtime (0.5.12104)
+      sorbet (= 0.5.12104)
+      sorbet-runtime (= 0.5.12104)
     spoom (1.6.3)
       erubi (>= 1.10.0)
       prism (>= 0.28.0)
@@ -833,7 +828,6 @@ GEM
     zonebie (0.6.1)
 
 PLATFORMS
-  arm64-darwin-24
   x86_64-linux
 
 DEPENDENCIES

@@ -9615,7 +9615,7 @@ class RuboCop::Cop::Rails::TimeZone < ::RuboCop::Cop::Base
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#230
+  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#232
   def acceptable_methods(klass, method_name, node); end
 
   # @return [Boolean]
@@ -9629,24 +9629,24 @@ class RuboCop::Cop::Rails::TimeZone < ::RuboCop::Cop::Base
   # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#99
   def autocorrect_time_new(node, corrector); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#141
+  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#143
   def build_message(klass, method_name, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#190
+  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#192
   def check_localtime(node); end
 
   # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#119
   def check_time_node(klass, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#154
+  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#156
   def extract_method_chain(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#214
+  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#216
   def flexible?; end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#222
+  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#224
   def good_methods; end
 
   # Only add the method to the chain if the method being
@@ -9654,7 +9654,7 @@ class RuboCop::Cop::Rails::TimeZone < ::RuboCop::Cop::Base
   #
   # @return [Boolean]
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#165
+  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#167
   def method_from_time_class?(node); end
 
   # checks that parent node of send_type
@@ -9662,22 +9662,22 @@ class RuboCop::Cop::Rails::TimeZone < ::RuboCop::Cop::Base
   #
   # @return [Boolean]
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#176
+  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#178
   def method_send?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#210
+  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#212
   def need_check_localtime?(chain); end
 
   # @return [Boolean]
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#206
+  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#208
   def not_danger_chain?(chain); end
 
   # @return [Boolean]
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#253
+  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#255
   def offset_option_provided?(node); end
 
   # Time.new, Time.at, and Time.now can be called with a time zone offset
@@ -9687,7 +9687,7 @@ class RuboCop::Cop::Rails::TimeZone < ::RuboCop::Cop::Base
   #
   # @return [Boolean]
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#244
+  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#246
   def offset_provided?(node); end
 
   # remove redundant `.in_time_zone` from `Time.zone.now.in_time_zone`
@@ -9695,15 +9695,15 @@ class RuboCop::Cop::Rails::TimeZone < ::RuboCop::Cop::Base
   # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#106
   def remove_redundant_in_time_zone(corrector, node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#261
+  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#263
   def replacement(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#182
+  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#184
   def safe_method(method_name, node); end
 
   # @return [Boolean]
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#218
+  # source://rubocop-rails//lib/rubocop/cop/rails/time_zone.rb#220
   def strict?; end
 end
 

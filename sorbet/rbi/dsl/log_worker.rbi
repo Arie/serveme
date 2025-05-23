@@ -10,10 +10,10 @@ class LogWorker
     sig { params(raw_line: T.untyped).returns(String) }
     def perform_async(raw_line); end
 
-    sig { params(interval: T.any(DateTime, Time), raw_line: T.untyped).returns(String) }
+    sig { params(interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone), raw_line: T.untyped).returns(String) }
     def perform_at(interval, raw_line); end
 
-    sig { params(interval: Numeric, raw_line: T.untyped).returns(String) }
+    sig { params(interval: T.any(Numeric, ActiveSupport::Duration), raw_line: T.untyped).returns(String) }
     def perform_in(interval, raw_line); end
   end
 end

@@ -10,10 +10,15 @@ class ActiveReservationCheckerWorker
     sig { params(reservation_id: T.untyped).returns(String) }
     def perform_async(reservation_id); end
 
-    sig { params(interval: T.any(DateTime, Time), reservation_id: T.untyped).returns(String) }
+    sig do
+      params(
+        interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone),
+        reservation_id: T.untyped
+      ).returns(String)
+    end
     def perform_at(interval, reservation_id); end
 
-    sig { params(interval: Numeric, reservation_id: T.untyped).returns(String) }
+    sig { params(interval: T.any(Numeric, ActiveSupport::Duration), reservation_id: T.untyped).returns(String) }
     def perform_in(interval, reservation_id); end
   end
 end

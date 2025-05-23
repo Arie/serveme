@@ -10,10 +10,15 @@ class AllowReservationPlayerWorker
     sig { params(reservation_player_id: T.untyped).returns(String) }
     def perform_async(reservation_player_id); end
 
-    sig { params(interval: T.any(DateTime, Time), reservation_player_id: T.untyped).returns(String) }
+    sig do
+      params(
+        interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone),
+        reservation_player_id: T.untyped
+      ).returns(String)
+    end
     def perform_at(interval, reservation_player_id); end
 
-    sig { params(interval: Numeric, reservation_player_id: T.untyped).returns(String) }
+    sig { params(interval: T.any(Numeric, ActiveSupport::Duration), reservation_player_id: T.untyped).returns(String) }
     def perform_in(interval, reservation_player_id); end
   end
 end

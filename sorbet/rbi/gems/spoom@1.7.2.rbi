@@ -14,17 +14,11 @@
 # source://spoom//lib/spoom.rb#7
 module Spoom
   class << self
-    # : (String ruby, file: String) -> Prism::Node
+    # : (String ruby, file: String, ?comments: bool) -> Prism::Node
     #
     # source://spoom//lib/spoom/parse.rb#11
-    sig { params(ruby: ::String, file: ::String).returns(::Prism::Node) }
-    def parse_ruby(ruby, file:); end
-
-    # : (String ruby, file: String) -> [Prism::Node, Array[Prism::Comment]]
-    #
-    # source://spoom//lib/spoom/parse.rb#27
-    sig { params(ruby: ::String, file: ::String).returns([::Prism::Node, T::Array[::Prism::Comment]]) }
-    def parse_ruby_with_comments(ruby, file:); end
+    sig { params(ruby: ::String, file: ::String, comments: T::Boolean).returns(::Prism::Node) }
+    def parse_ruby(ruby, file:, comments: T.unsafe(nil)); end
   end
 end
 
@@ -341,7 +335,7 @@ class Spoom::Cli::Srb::LSP < ::Thor
   def types(file, line, col); end
 end
 
-# source://spoom//lib/spoom/cli/srb.rb#14
+# source://spoom//lib/spoom/cli/srb.rb#15
 class Spoom::Cli::Srb::Main < ::Thor
   # source://thor/1.3.2/lib/thor.rb#334
   def assertions(*args); end
@@ -358,32 +352,46 @@ class Spoom::Cli::Srb::Main < ::Thor
   def lsp(*args); end
 
   # source://thor/1.3.2/lib/thor.rb#334
+  def metrics(*args); end
+
+  # source://thor/1.3.2/lib/thor.rb#334
   def sigs(*args); end
 
   # source://thor/1.3.2/lib/thor.rb#334
   def tc(*args); end
 end
 
-# source://spoom//lib/spoom/cli/srb/sigs.rb#9
+# source://spoom//lib/spoom/cli/srb/metrics.rb#7
+class Spoom::Cli::Srb::Metrics < ::Thor
+  include ::Spoom::Colorize
+  include ::Spoom::Cli::Helper
+
+  def help(command = T.unsafe(nil), subcommand = T.unsafe(nil)); end
+
+  # source://spoom//lib/spoom/cli/srb/metrics.rb#14
+  def show(*paths); end
+end
+
+# source://spoom//lib/spoom/cli/srb/sigs.rb#7
 class Spoom::Cli::Srb::Sigs < ::Thor
   include ::Spoom::Colorize
   include ::Spoom::Cli::Helper
 
-  # source://spoom//lib/spoom/cli/srb/sigs.rb#198
+  # source://spoom//lib/spoom/cli/srb/sigs.rb#196
   def exec(context, command); end
 
-  # source://spoom//lib/spoom/cli/srb/sigs.rb#69
+  # source://spoom//lib/spoom/cli/srb/sigs.rb#67
   def export(output_path = T.unsafe(nil)); end
 
   def help(command = T.unsafe(nil), subcommand = T.unsafe(nil)); end
 
-  # source://spoom//lib/spoom/cli/srb/sigs.rb#50
+  # source://spoom//lib/spoom/cli/srb/sigs.rb#48
   def strip(*paths); end
 
-  # source://spoom//lib/spoom/cli/srb/sigs.rb#175
+  # source://spoom//lib/spoom/cli/srb/sigs.rb#173
   def transform_files(files, &block); end
 
-  # source://spoom//lib/spoom/cli/srb/sigs.rb#21
+  # source://spoom//lib/spoom/cli/srb/sigs.rb#19
   def translate(*paths); end
 end
 
@@ -886,6 +894,31 @@ module Spoom::Context::Sorbet
   def write_sorbet_config!(contents, append: T.unsafe(nil)); end
 end
 
+# : [K = String, V = Integer, Elem = [String, Integer]]
+#
+# source://spoom//lib/spoom/counters.rb#6
+class Spoom::Counters < ::Hash
+  # : -> void
+  #
+  # @return [Counters] a new instance of Counters
+  #
+  # source://spoom//lib/spoom/counters.rb#8
+  sig { void }
+  def initialize; end
+
+  # : (String) -> Integer
+  #
+  # source://spoom//lib/spoom/counters.rb#18
+  sig { params(key: ::String).returns(::Integer) }
+  def [](key); end
+
+  # : (String) -> void
+  #
+  # source://spoom//lib/spoom/counters.rb#13
+  sig { params(key: ::String).void }
+  def increment(key); end
+end
+
 # source://spoom//lib/spoom/coverage/snapshot.rb#5
 module Spoom::Coverage
   class << self
@@ -1271,7 +1304,7 @@ class Spoom::Coverage::D3::ColorPalette < ::T::Struct
   prop :strong, ::String
 
   class << self
-    # source://sorbet-runtime/0.5.12083/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.12124/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -1751,7 +1784,7 @@ class Spoom::Coverage::Snapshot < ::T::Struct
     sig { params(obj: T::Hash[::String, T.untyped]).returns(::Spoom::Coverage::Snapshot) }
     def from_obj(obj); end
 
-    # source://sorbet-runtime/0.5.12083/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.12124/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -1942,7 +1975,7 @@ class Spoom::Deadcode::Definition < ::T::Struct
   def to_json(*args); end
 
   class << self
-    # source://sorbet-runtime/0.5.12083/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.12124/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -2226,14 +2259,14 @@ end
 class Spoom::Deadcode::Plugins::ActiveRecord < ::Spoom::Deadcode::Plugins::Base
   # : (Send send) -> void
   #
-  # source://spoom//lib/spoom/deadcode/plugins/active_record.rb#64
+  # source://spoom//lib/spoom/deadcode/plugins/active_record.rb#69
   sig { override.params(send: ::Spoom::Deadcode::Send).void }
   def on_send(send); end
 end
 
 # : Array[String]
 #
-# source://spoom//lib/spoom/deadcode/plugins/active_record.rb#56
+# source://spoom//lib/spoom/deadcode/plugins/active_record.rb#61
 Spoom::Deadcode::Plugins::ActiveRecord::ARRAY_METHODS = T.let(T.unsafe(nil), Array)
 
 # source://spoom//lib/spoom/deadcode/plugins/active_record.rb#18
@@ -2242,6 +2275,11 @@ Spoom::Deadcode::Plugins::ActiveRecord::CALLBACKS = T.let(T.unsafe(nil), Array)
 # : Array[String]
 #
 # source://spoom//lib/spoom/deadcode/plugins/active_record.rb#44
+Spoom::Deadcode::Plugins::ActiveRecord::CALLBACK_CONDITIONS = T.let(T.unsafe(nil), Array)
+
+# : Array[String]
+#
+# source://spoom//lib/spoom/deadcode/plugins/active_record.rb#49
 Spoom::Deadcode::Plugins::ActiveRecord::CRUD_METHODS = T.let(T.unsafe(nil), Array)
 
 # source://spoom//lib/spoom/deadcode/plugins/active_support.rb#7
@@ -3097,7 +3135,7 @@ class Spoom::Deadcode::Send < ::T::Struct
   def each_arg_assoc(&block); end
 
   class << self
-    # source://sorbet-runtime/0.5.12083/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.12124/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -3119,7 +3157,7 @@ class Spoom::ExecResult < ::T::Struct
   def to_s; end
 
   class << self
-    # source://sorbet-runtime/0.5.12083/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.12124/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -3384,7 +3422,7 @@ class Spoom::FileTree::Node < ::T::Struct
   def path; end
 
   class << self
-    # source://sorbet-runtime/0.5.12083/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.12124/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -3466,7 +3504,7 @@ class Spoom::Git::Commit < ::T::Struct
   def timestamp; end
 
   class << self
-    # source://sorbet-runtime/0.5.12083/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.12124/lib/types/struct.rb#13
     def inherited(s); end
 
     # Parse a line formatted as `%h %at` into a `Commit`
@@ -3615,7 +3653,7 @@ class Spoom::LSP::Diagnostic < ::T::Struct
     sig { params(json: T::Hash[T.untyped, T.untyped]).returns(::Spoom::LSP::Diagnostic) }
     def from_json(json); end
 
-    # source://sorbet-runtime/0.5.12083/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.12124/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -3656,7 +3694,7 @@ class Spoom::LSP::DocumentSymbol < ::T::Struct
     sig { params(json: T::Hash[T.untyped, T.untyped]).returns(::Spoom::LSP::DocumentSymbol) }
     def from_json(json); end
 
-    # source://sorbet-runtime/0.5.12083/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.12124/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -3730,7 +3768,7 @@ class Spoom::LSP::Hover < ::T::Struct
     sig { params(json: T::Hash[T.untyped, T.untyped]).returns(::Spoom::LSP::Hover) }
     def from_json(json); end
 
-    # source://sorbet-runtime/0.5.12083/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.12124/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -3761,7 +3799,7 @@ class Spoom::LSP::Location < ::T::Struct
     sig { params(json: T::Hash[T.untyped, T.untyped]).returns(::Spoom::LSP::Location) }
     def from_json(json); end
 
-    # source://sorbet-runtime/0.5.12083/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.12124/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -3846,7 +3884,7 @@ class Spoom::LSP::Position < ::T::Struct
     sig { params(json: T::Hash[T.untyped, T.untyped]).returns(::Spoom::LSP::Position) }
     def from_json(json); end
 
-    # source://sorbet-runtime/0.5.12083/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.12124/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -3890,7 +3928,7 @@ class Spoom::LSP::Range < ::T::Struct
     sig { params(json: T::Hash[T.untyped, T.untyped]).returns(::Spoom::LSP::Range) }
     def from_json(json); end
 
-    # source://sorbet-runtime/0.5.12083/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.12124/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -3980,7 +4018,7 @@ class Spoom::LSP::SignatureHelp < ::T::Struct
     sig { params(json: T::Hash[T.untyped, T.untyped]).returns(::Spoom::LSP::SignatureHelp) }
     def from_json(json); end
 
-    # source://sorbet-runtime/0.5.12083/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.12124/lib/types/struct.rb#13
     def inherited(s); end
   end
 end
@@ -4228,59 +4266,59 @@ class Spoom::Model::AttrWriter < ::Spoom::Model::Attr; end
 #
 # source://spoom//lib/spoom/model/builder.rb#7
 class Spoom::Model::Builder < ::Spoom::Model::NamespaceVisitor
-  # : (Model model, String file, ?comments: Array[Prism::Comment]) -> void
+  # : (Model model, String file) -> void
   #
   # @return [Builder] a new instance of Builder
   #
   # source://spoom//lib/spoom/model/builder.rb#9
-  sig { params(model: ::Spoom::Model, file: ::String, comments: T::Array[::Prism::Comment]).void }
-  def initialize(model, file, comments:); end
+  sig { params(model: ::Spoom::Model, file: ::String).void }
+  def initialize(model, file); end
 
   # : (Prism::CallNode node) -> void
   #
-  # source://spoom//lib/spoom/model/builder.rb#162
+  # source://spoom//lib/spoom/model/builder.rb#159
   sig { override.params(node: ::Prism::CallNode).void }
   def visit_call_node(node); end
 
   # : (Prism::ClassNode node) -> void
   #
-  # source://spoom//lib/spoom/model/builder.rb#26
+  # source://spoom//lib/spoom/model/builder.rb#23
   sig { override.params(node: ::Prism::ClassNode).void }
   def visit_class_node(node); end
 
   # : (Prism::ConstantPathWriteNode node) -> void
   #
-  # source://spoom//lib/spoom/model/builder.rb#79
+  # source://spoom//lib/spoom/model/builder.rb#76
   sig { override.params(node: ::Prism::ConstantPathWriteNode).void }
   def visit_constant_path_write_node(node); end
 
   # : (Prism::ConstantWriteNode node) -> void
   #
-  # source://spoom//lib/spoom/model/builder.rb#102
+  # source://spoom//lib/spoom/model/builder.rb#99
   sig { override.params(node: ::Prism::ConstantWriteNode).void }
   def visit_constant_write_node(node); end
 
   # : (Prism::DefNode node) -> void
   #
-  # source://spoom//lib/spoom/model/builder.rb#141
+  # source://spoom//lib/spoom/model/builder.rb#138
   sig { override.params(node: ::Prism::DefNode).void }
   def visit_def_node(node); end
 
   # : (Prism::ModuleNode node) -> void
   #
-  # source://spoom//lib/spoom/model/builder.rb#61
+  # source://spoom//lib/spoom/model/builder.rb#58
   sig { override.params(node: ::Prism::ModuleNode).void }
   def visit_module_node(node); end
 
   # : (Prism::MultiWriteNode node) -> void
   #
-  # source://spoom//lib/spoom/model/builder.rb#118
+  # source://spoom//lib/spoom/model/builder.rb#115
   sig { override.params(node: ::Prism::MultiWriteNode).void }
   def visit_multi_write_node(node); end
 
   # : (Prism::SingletonClassNode node) -> void
   #
-  # source://spoom//lib/spoom/model/builder.rb#43
+  # source://spoom//lib/spoom/model/builder.rb#40
   sig { override.params(node: ::Prism::SingletonClassNode).void }
   def visit_singleton_class_node(node); end
 
@@ -4288,25 +4326,25 @@ class Spoom::Model::Builder < ::Spoom::Model::NamespaceVisitor
 
   # : -> Array[Sig]
   #
-  # source://spoom//lib/spoom/model/builder.rb#253
+  # source://spoom//lib/spoom/model/builder.rb#250
   sig { returns(T::Array[::Spoom::Model::Sig]) }
   def collect_sigs; end
 
   # : -> Visibility
   #
-  # source://spoom//lib/spoom/model/builder.rb#248
+  # source://spoom//lib/spoom/model/builder.rb#245
   sig { returns(::Spoom::Model::Visibility) }
   def current_visibility; end
 
   # : (Prism::Node node) -> Array[Comment]
   #
-  # source://spoom//lib/spoom/model/builder.rb#265
+  # source://spoom//lib/spoom/model/builder.rb#262
   sig { params(node: ::Prism::Node).returns(T::Array[::Spoom::Model::Comment]) }
   def node_comments(node); end
 
   # : (Prism::Node node) -> Location
   #
-  # source://spoom//lib/spoom/model/builder.rb#260
+  # source://spoom//lib/spoom/model/builder.rb#257
   sig { params(node: ::Prism::Node).returns(::Spoom::Location) }
   def node_location(node); end
 end
@@ -4559,7 +4597,7 @@ class Spoom::Model::Reference < ::T::Struct
     sig { params(name: ::String, location: ::Spoom::Location).returns(::Spoom::Model::Reference) }
     def constant(name, location); end
 
-    # source://sorbet-runtime/0.5.12083/lib/types/struct.rb#13
+    # source://sorbet-runtime/0.5.12124/lib/types/struct.rb#13
     def inherited(s); end
 
     # : (String name, Spoom::Location location) -> Reference
@@ -4826,7 +4864,7 @@ end
 class Spoom::Model::SymbolDef
   abstract!
 
-  # : (Symbol symbol, owner: Namespace?, location: Location, ?comments: Array[Comment]) -> void
+  # : (Symbol symbol, owner: Namespace?, location: Location, comments: Array[Comment]) -> void
   #
   # @return [SymbolDef] a new instance of SymbolDef
   #
@@ -4912,10 +4950,6 @@ class Spoom::ParseError < ::Spoom::Error; end
 #
 # source://spoom//lib/spoom/poset.rb#9
 class Spoom::Poset
-  extend T::Generic
-
-  E = type_member { { upper: Object } }
-
   # : -> void
   #
   # @return [Poset] a new instance of Poset
@@ -4932,7 +4966,7 @@ class Spoom::Poset
   # @raise [Error]
   #
   # source://spoom//lib/spoom/poset.rb#25
-  sig { params(value: E).returns(Spoom::Poset::Element[E]) }
+  sig { params(value: T.untyped).returns(Spoom::Poset::Element[T.untyped]) }
   def [](value); end
 
   # Add a direct edge from one element to another
@@ -4943,14 +4977,14 @@ class Spoom::Poset
   # : (E from, E to) -> void
   #
   # source://spoom//lib/spoom/poset.rb#53
-  sig { params(from: E, to: E).void }
+  sig { params(from: T.untyped, to: T.untyped).void }
   def add_direct_edge(from, to); end
 
   # Add an element to the POSet
   # : (E value) -> Element[E]
   #
   # source://spoom//lib/spoom/poset.rb#34
-  sig { params(value: E).returns(Spoom::Poset::Element[E]) }
+  sig { params(value: T.untyped).returns(Spoom::Poset::Element[T.untyped]) }
   def add_element(value); end
 
   # Is there a direct edge from `from` to `to`?
@@ -4959,7 +4993,7 @@ class Spoom::Poset
   # @return [Boolean]
   #
   # source://spoom//lib/spoom/poset.rb#100
-  sig { params(from: E, to: E).returns(T::Boolean) }
+  sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
   def direct_edge?(from, to); end
 
   # Is there an edge (direct or indirect) from `from` to `to`?
@@ -4968,7 +5002,7 @@ class Spoom::Poset
   # @return [Boolean]
   #
   # source://spoom//lib/spoom/poset.rb#91
-  sig { params(from: E, to: E).returns(T::Boolean) }
+  sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
   def edge?(from, to); end
 
   # Is the given value a element in the POSet?
@@ -4977,7 +5011,7 @@ class Spoom::Poset
   # @return [Boolean]
   #
   # source://spoom//lib/spoom/poset.rb#43
-  sig { params(value: E).returns(T::Boolean) }
+  sig { params(value: T.untyped).returns(T::Boolean) }
   def element?(value); end
 
   # Show the POSet as a DOT graph using xdot (used for debugging)
@@ -4999,17 +5033,14 @@ end
 #
 # source://spoom//lib/spoom/poset.rb#135
 class Spoom::Poset::Element
-  extend T::Generic
   include ::Comparable
-
-  E = type_member { { upper: Object } }
 
   # : (E value) -> void
   #
   # @return [Element] a new instance of Element
   #
   # source://spoom//lib/spoom/poset.rb#150
-  sig { params(value: E).void }
+  sig { params(value: T.untyped).void }
   def initialize(value); end
 
   # : (untyped other) -> Integer?
@@ -5022,21 +5053,21 @@ class Spoom::Poset::Element
   # : -> Array[E]
   #
   # source://spoom//lib/spoom/poset.rb#178
-  sig { returns(T::Array[E]) }
+  sig { returns(T::Array[T.untyped]) }
   def ancestors; end
 
   # Direct children of this element
   # : -> Array[E]
   #
   # source://spoom//lib/spoom/poset.rb#184
-  sig { returns(T::Array[E]) }
+  sig { returns(T::Array[T.untyped]) }
   def children; end
 
   # Direct and indirect descendants of this element
   # : -> Array[E]
   #
   # source://spoom//lib/spoom/poset.rb#190
-  sig { returns(T::Array[E]) }
+  sig { returns(T::Array[T.untyped]) }
   def descendants; end
 
   # Edges (direct and indirect) from this element to other elements in the same POSet
@@ -5049,7 +5080,7 @@ class Spoom::Poset::Element
   # : Set[Element[E]]
   #
   # source://spoom//lib/spoom/poset.rb#147
-  sig { returns(T::Set[Spoom::Poset::Element[E]]) }
+  sig { returns(T::Set[Spoom::Poset::Element[T.untyped]]) }
   def dtos; end
 
   # Edges (direct and indirect) from this element to other elements in the same POSet
@@ -5062,7 +5093,7 @@ class Spoom::Poset::Element
   # : -> Array[E]
   #
   # source://spoom//lib/spoom/poset.rb#172
-  sig { returns(T::Array[E]) }
+  sig { returns(T::Array[T.untyped]) }
   def parents; end
 
   # Edges (direct and indirect) from this element to other elements in the same POSet
@@ -5075,7 +5106,7 @@ class Spoom::Poset::Element
   # : E
   #
   # source://spoom//lib/spoom/poset.rb#143
-  sig { returns(E) }
+  sig { returns(T.untyped) }
   def value; end
 end
 
@@ -5164,296 +5195,85 @@ class Spoom::Printer
   def printt; end
 end
 
+# source://spoom//lib/spoom/rbs.rb#5
+module Spoom::RBS; end
+
+# source://spoom//lib/spoom/rbs.rb#39
+class Spoom::RBS::Annotations < ::Spoom::RBS::Comment; end
+
+# source://spoom//lib/spoom/rbs.rb#25
+class Spoom::RBS::Comment
+  # : (String, Prism::Location) -> void
+  #
+  # @return [Comment] a new instance of Comment
+  #
+  # source://spoom//lib/spoom/rbs.rb#33
+  sig { params(string: ::String, location: ::Prism::Location).void }
+  def initialize(string, location); end
+
+  # : Prism::Location
+  #
+  # source://spoom//lib/spoom/rbs.rb#30
+  sig { returns(::Prism::Location) }
+  def location; end
+
+  # : String
+  #
+  # source://spoom//lib/spoom/rbs.rb#27
+  sig { returns(::String) }
+  def string; end
+end
+
+# source://spoom//lib/spoom/rbs.rb#6
+class Spoom::RBS::Comments
+  # : -> void
+  #
+  # @return [Comments] a new instance of Comments
+  #
+  # source://spoom//lib/spoom/rbs.rb#14
+  sig { void }
+  def initialize; end
+
+  # : Array[Annotations]
+  #
+  # source://spoom//lib/spoom/rbs.rb#8
+  sig { returns(T::Array[::Spoom::RBS::Annotations]) }
+  def annotations; end
+
+  # : -> bool
+  #
+  # @return [Boolean]
+  #
+  # source://spoom//lib/spoom/rbs.rb#20
+  sig { returns(T::Boolean) }
+  def empty?; end
+
+  # : Array[Signature]
+  #
+  # source://spoom//lib/spoom/rbs.rb#11
+  sig { returns(T::Array[::Spoom::RBS::Signature]) }
+  def signatures; end
+end
+
+# source://spoom//lib/spoom/rbs.rb#42
+module Spoom::RBS::ExtractRBSComments
+  # : (Prism::Node) -> Comments
+  #
+  # source://spoom//lib/spoom/rbs.rb#44
+  sig { params(node: ::Prism::Node).returns(::Spoom::RBS::Comments) }
+  def node_rbs_comments(node); end
+end
+
+# source://spoom//lib/spoom/rbs.rb#40
+class Spoom::RBS::Signature < ::Spoom::RBS::Comment; end
+
 # : String
 #
 # source://spoom//lib/spoom.rb#8
 Spoom::SPOOM_PATH = T.let(T.unsafe(nil), String)
 
-# source://spoom//lib/spoom/sorbet/assertions.rb#7
+# source://spoom//lib/spoom/sorbet/config.rb#5
 module Spoom::Sorbet; end
-
-# source://spoom//lib/spoom/sorbet/assertions.rb#8
-class Spoom::Sorbet::Assertions
-  class << self
-    # : (String, file: String) -> String
-    #
-    # source://spoom//lib/spoom/sorbet/assertions.rb#11
-    sig { params(ruby_contents: ::String, file: ::String).returns(::String) }
-    def rbi_to_rbs(ruby_contents, file:); end
-
-    private
-
-    # : (String, file: String) -> Array[AssignNode]
-    #
-    # source://spoom//lib/spoom/sorbet/assertions.rb#46
-    sig { params(ruby_contents: ::String, file: ::String).returns(T::Array[::Spoom::Sorbet::Assertions::AssignNode]) }
-    def collect_assigns(ruby_contents, file:); end
-
-    # : (AssignNode) -> String
-    #
-    # source://spoom//lib/spoom/sorbet/assertions.rb#54
-    sig { params(assign: ::Spoom::Sorbet::Assertions::AssignNode).returns(::String) }
-    def dedent_value(assign); end
-  end
-end
-
-# source://spoom//lib/spoom/sorbet/assertions.rb#122
-class Spoom::Sorbet::Assertions::AssignNode
-  # : (AssignType, Prism::Location, Prism::Node, Prism::Node) -> void
-  #
-  # @return [AssignNode] a new instance of AssignNode
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#133
-  sig do
-    params(
-      node: T.any(::Prism::ClassVariableAndWriteNode, ::Prism::ClassVariableOperatorWriteNode, ::Prism::ClassVariableOrWriteNode, ::Prism::ClassVariableWriteNode, ::Prism::ConstantAndWriteNode, ::Prism::ConstantOperatorWriteNode, ::Prism::ConstantOrWriteNode, ::Prism::ConstantPathAndWriteNode, ::Prism::ConstantPathOperatorWriteNode, ::Prism::ConstantPathOrWriteNode, ::Prism::ConstantPathWriteNode, ::Prism::ConstantWriteNode, ::Prism::GlobalVariableAndWriteNode, ::Prism::GlobalVariableOperatorWriteNode, ::Prism::GlobalVariableOrWriteNode, ::Prism::GlobalVariableWriteNode, ::Prism::InstanceVariableAndWriteNode, ::Prism::InstanceVariableOperatorWriteNode, ::Prism::InstanceVariableOrWriteNode, ::Prism::InstanceVariableWriteNode, ::Prism::LocalVariableAndWriteNode, ::Prism::LocalVariableOperatorWriteNode, ::Prism::LocalVariableOrWriteNode, ::Prism::LocalVariableWriteNode),
-      operator_loc: ::Prism::Location,
-      value: ::Prism::Node,
-      type: ::Prism::Node
-    ).void
-  end
-  def initialize(node, operator_loc, value, type); end
-
-  # : AssignType
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#124
-  sig do
-    returns(T.any(::Prism::ClassVariableAndWriteNode, ::Prism::ClassVariableOperatorWriteNode, ::Prism::ClassVariableOrWriteNode, ::Prism::ClassVariableWriteNode, ::Prism::ConstantAndWriteNode, ::Prism::ConstantOperatorWriteNode, ::Prism::ConstantOrWriteNode, ::Prism::ConstantPathAndWriteNode, ::Prism::ConstantPathOperatorWriteNode, ::Prism::ConstantPathOrWriteNode, ::Prism::ConstantPathWriteNode, ::Prism::ConstantWriteNode, ::Prism::GlobalVariableAndWriteNode, ::Prism::GlobalVariableOperatorWriteNode, ::Prism::GlobalVariableOrWriteNode, ::Prism::GlobalVariableWriteNode, ::Prism::InstanceVariableAndWriteNode, ::Prism::InstanceVariableOperatorWriteNode, ::Prism::InstanceVariableOrWriteNode, ::Prism::InstanceVariableWriteNode, ::Prism::LocalVariableAndWriteNode, ::Prism::LocalVariableOperatorWriteNode, ::Prism::LocalVariableOrWriteNode, ::Prism::LocalVariableWriteNode))
-  end
-  def node; end
-
-  # : Prism::Location
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#127
-  sig { returns(::Prism::Location) }
-  def operator_loc; end
-
-  # : -> String
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#141
-  sig { returns(::String) }
-  def rbs_type; end
-
-  # : Prism::Node
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#130
-  def type; end
-
-  # : Prism::Node
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#130
-  sig { returns(::Prism::Node) }
-  def value; end
-end
-
-# source://spoom//lib/spoom/sorbet/assertions.rb#93
-Spoom::Sorbet::Assertions::AssignType = T.type_alias { T.any(::Prism::ClassVariableAndWriteNode, ::Prism::ClassVariableOperatorWriteNode, ::Prism::ClassVariableOrWriteNode, ::Prism::ClassVariableWriteNode, ::Prism::ConstantAndWriteNode, ::Prism::ConstantOperatorWriteNode, ::Prism::ConstantOrWriteNode, ::Prism::ConstantPathAndWriteNode, ::Prism::ConstantPathOperatorWriteNode, ::Prism::ConstantPathOrWriteNode, ::Prism::ConstantPathWriteNode, ::Prism::ConstantWriteNode, ::Prism::GlobalVariableAndWriteNode, ::Prism::GlobalVariableOperatorWriteNode, ::Prism::GlobalVariableOrWriteNode, ::Prism::GlobalVariableWriteNode, ::Prism::InstanceVariableAndWriteNode, ::Prism::InstanceVariableOperatorWriteNode, ::Prism::InstanceVariableOrWriteNode, ::Prism::InstanceVariableWriteNode, ::Prism::LocalVariableAndWriteNode, ::Prism::LocalVariableOperatorWriteNode, ::Prism::LocalVariableOrWriteNode, ::Prism::LocalVariableWriteNode) }
-
-# source://spoom//lib/spoom/sorbet/assertions.rb#146
-class Spoom::Sorbet::Assertions::Locator < ::Spoom::Visitor
-  # : -> void
-  #
-  # @return [Locator] a new instance of Locator
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#153
-  sig { void }
-  def initialize; end
-
-  # : Array[AssignNode]
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#150
-  sig { returns(T::Array[::Spoom::Sorbet::Assertions::AssignNode]) }
-  def assigns; end
-
-  # : (Prism::Node) -> bool
-  #
-  # @return [Boolean]
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#245
-  sig { params(node: ::Prism::Node).returns(T::Boolean) }
-  def contains_heredoc?(node); end
-
-  # Is this node a `T` or `::T` constant?
-  # : (Prism::Node?) -> bool
-  #
-  # @return [Boolean]
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#223
-  sig { params(node: T.nilable(::Prism::Node)).returns(T::Boolean) }
-  def t?(node); end
-
-  # Is this node a `T.let` or `T.cast`?
-  # : (Prism::CallNode) -> bool
-  #
-  # @return [Boolean]
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#236
-  sig { params(node: ::Prism::CallNode).returns(T::Boolean) }
-  def t_annotation?(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  sig do
-    params(
-      node: T.any(::Prism::ClassVariableAndWriteNode, ::Prism::ClassVariableOperatorWriteNode, ::Prism::ClassVariableOrWriteNode, ::Prism::ClassVariableWriteNode, ::Prism::ConstantAndWriteNode, ::Prism::ConstantOperatorWriteNode, ::Prism::ConstantOrWriteNode, ::Prism::ConstantPathAndWriteNode, ::Prism::ConstantPathOperatorWriteNode, ::Prism::ConstantPathOrWriteNode, ::Prism::ConstantPathWriteNode, ::Prism::ConstantWriteNode, ::Prism::GlobalVariableAndWriteNode, ::Prism::GlobalVariableOperatorWriteNode, ::Prism::GlobalVariableOrWriteNode, ::Prism::GlobalVariableWriteNode, ::Prism::InstanceVariableAndWriteNode, ::Prism::InstanceVariableOperatorWriteNode, ::Prism::InstanceVariableOrWriteNode, ::Prism::InstanceVariableWriteNode, ::Prism::LocalVariableAndWriteNode, ::Prism::LocalVariableOperatorWriteNode, ::Prism::LocalVariableOrWriteNode, ::Prism::LocalVariableWriteNode)
-    ).void
-  end
-  def visit_assign(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_class_variable_and_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_class_variable_operator_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_class_variable_or_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_class_variable_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_constant_and_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_constant_operator_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_constant_or_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_constant_path_and_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_constant_path_operator_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_constant_path_or_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_constant_path_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_constant_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_global_variable_and_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_global_variable_operator_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_global_variable_or_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_global_variable_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_instance_variable_and_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_instance_variable_operator_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_instance_variable_or_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_instance_variable_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_local_variable_and_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_local_variable_operator_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_local_variable_or_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_local_variable_write_node(node); end
-
-  # : (AssignType) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#159
-  def visit_multi_write_node(node); end
-end
-
-# : Array[Symbol]
-#
-# source://spoom//lib/spoom/sorbet/assertions.rb#147
-Spoom::Sorbet::Assertions::Locator::ANNOTATION_METHODS = T.let(T.unsafe(nil), Array)
-
-# source://spoom//lib/spoom/sorbet/assertions.rb#251
-class Spoom::Sorbet::Assertions::Locator::HeredocVisitor < ::Spoom::Visitor
-  # : -> void
-  #
-  # @return [HeredocVisitor] a new instance of HeredocVisitor
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#256
-  sig { void }
-  def initialize; end
-
-  # : bool
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#253
-  sig { returns(T::Boolean) }
-  def contains_heredoc; end
-
-  # : (Prism::Node?) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/assertions.rb#264
-  sig { override.params(node: T.nilable(::Prism::Node)).void }
-  def visit(node); end
-end
 
 # : String
 #
@@ -5790,31 +5610,150 @@ Spoom::Sorbet::GEM_VERSION = T.let(T.unsafe(nil), String)
 # source://spoom//lib/spoom/sorbet.rb#35
 Spoom::Sorbet::KILLED_CODE = T.let(T.unsafe(nil), Integer)
 
-# source://spoom//lib/spoom/sorbet/metrics.rb#8
-module Spoom::Sorbet::MetricsParser
+# source://spoom//lib/spoom/sorbet/metrics/code_metrics_visitor.rb#6
+module Spoom::Sorbet::Metrics
+  class << self
+    # : (Array[String]) -> Spoom::Counters
+    #
+    # source://spoom//lib/spoom/sorbet/metrics/code_metrics_visitor.rb#9
+    sig { params(files: T::Array[::String]).returns(Spoom::Counters) }
+    def collect_code_metrics(files); end
+  end
+end
+
+# Collects metrics about how Sorbet is used in the codebase.
+#
+# This approach is different from the metrics file we get directly from Sorbet.
+#
+# This visitor actually visits the codebase and collects metrics about the amount of signatures, `T.` calls,
+# and other metrics. It also knows about RBS comments.
+#
+# On the other hand, the metrics file is a snapshot of the metrics at type checking time and knows about
+# is calls are typed, how many assertions are done, etc.
+#
+# source://spoom//lib/spoom/sorbet/metrics/code_metrics_visitor.rb#34
+class Spoom::Sorbet::Metrics::CodeMetricsVisitor < ::Spoom::Visitor
+  include ::Spoom::RBS::ExtractRBSComments
+
+  # : (Spoom::Counters) -> void
+  #
+  # @return [CodeMetricsVisitor] a new instance of CodeMetricsVisitor
+  #
+  # source://spoom//lib/spoom/sorbet/metrics/code_metrics_visitor.rb#41
+  sig { params(counters: Spoom::Counters).void }
+  def initialize(counters); end
+
+  # : Counters
+  #
+  # source://spoom//lib/spoom/sorbet/metrics/code_metrics_visitor.rb#38
+  sig { returns(Spoom::Counters) }
+  def counters; end
+
+  # : (Prism::Node?) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/metrics/code_metrics_visitor.rb#52
+  sig { override.params(node: T.nilable(::Prism::Node)).void }
+  def visit(node); end
+
+  # : (Prism::CallNode) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/metrics/code_metrics_visitor.rb#127
+  sig { override.params(node: ::Prism::CallNode).void }
+  def visit_call_node(node); end
+
+  # : (Prism::ClassNode) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/metrics/code_metrics_visitor.rb#78
+  sig { override.params(node: ::Prism::ClassNode).void }
+  def visit_class_node(node); end
+
+  # : (Prism::DefNode) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/metrics/code_metrics_visitor.rb#102
+  sig { override.params(node: ::Prism::DefNode).void }
+  def visit_def_node(node); end
+
+  # : (Prism::ModuleNode) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/metrics/code_metrics_visitor.rb#86
+  sig { override.params(node: ::Prism::ModuleNode).void }
+  def visit_module_node(node); end
+
+  # : (Prism::SingletonClassNode) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/metrics/code_metrics_visitor.rb#94
+  sig { override.params(node: ::Prism::SingletonClassNode).void }
+  def visit_singleton_class_node(node); end
+
+  private
+
+  # : -> Array[Prism::CallNode]
+  #
+  # source://spoom//lib/spoom/sorbet/metrics/code_metrics_visitor.rb#216
+  sig { returns(T::Array[::Prism::CallNode]) }
+  def collect_last_srb_sigs; end
+
+  # : (Prism::ClassNode | Prism::ModuleNode | Prism::SingletonClassNode) -> String
+  #
+  # source://spoom//lib/spoom/sorbet/metrics/code_metrics_visitor.rb#223
+  sig { params(node: T.any(::Prism::ClassNode, ::Prism::ModuleNode, ::Prism::SingletonClassNode)).returns(::String) }
+  def node_key(node); end
+
+  # : (Prism::CallNode) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/metrics/code_metrics_visitor.rb#170
+  sig { params(node: ::Prism::CallNode).void }
+  def visit_attr_accessor(node); end
+
+  # : (Prism::ClassNode | Prism::ModuleNode | Prism::SingletonClassNode) { -> void } -> void
+  #
+  # source://spoom//lib/spoom/sorbet/metrics/code_metrics_visitor.rb#154
+  sig do
+    params(
+      node: T.any(::Prism::ClassNode, ::Prism::ModuleNode, ::Prism::SingletonClassNode),
+      block: T.proc.void
+    ).void
+  end
+  def visit_scope(node, &block); end
+
+  # : (Prism::CallNode) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/metrics/code_metrics_visitor.rb#190
+  sig { params(node: ::Prism::CallNode).void }
+  def visit_sig(node); end
+
+  # : (Prism::CallNode) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/metrics/code_metrics_visitor.rb#200
+  sig { params(node: ::Prism::CallNode).void }
+  def visit_type_member(node); end
+end
+
+# source://spoom//lib/spoom/sorbet/metrics/metrics_file_parser.rb#9
+module Spoom::Sorbet::Metrics::MetricsFileParser
   class << self
     # : (String path, ?String prefix) -> Hash[String, Integer]
     #
-    # source://spoom//lib/spoom/sorbet/metrics.rb#13
+    # source://spoom//lib/spoom/sorbet/metrics/metrics_file_parser.rb#14
     sig { params(path: ::String, prefix: ::String).returns(T::Hash[::String, ::Integer]) }
     def parse_file(path, prefix = T.unsafe(nil)); end
 
-    # : (Hash[String, untyped] obj, ?String prefix) -> Hash[String, Integer]
+    # : (Hash[String, untyped] obj, ?String prefix) -> Counters
     #
-    # source://spoom//lib/spoom/sorbet/metrics.rb#23
-    sig { params(obj: T::Hash[::String, T.untyped], prefix: ::String).returns(T::Hash[::String, ::Integer]) }
+    # source://spoom//lib/spoom/sorbet/metrics/metrics_file_parser.rb#24
+    sig { params(obj: T::Hash[::String, T.untyped], prefix: ::String).returns(Spoom::Counters) }
     def parse_hash(obj, prefix = T.unsafe(nil)); end
 
     # : (String string, ?String prefix) -> Hash[String, Integer]
     #
-    # source://spoom//lib/spoom/sorbet/metrics.rb#18
+    # source://spoom//lib/spoom/sorbet/metrics/metrics_file_parser.rb#19
     sig { params(string: ::String, prefix: ::String).returns(T::Hash[::String, ::Integer]) }
     def parse_string(string, prefix = T.unsafe(nil)); end
   end
 end
 
-# source://spoom//lib/spoom/sorbet/metrics.rb#9
-Spoom::Sorbet::MetricsParser::DEFAULT_PREFIX = T.let(T.unsafe(nil), String)
+# source://spoom//lib/spoom/sorbet/metrics/metrics_file_parser.rb#10
+Spoom::Sorbet::Metrics::MetricsFileParser::DEFAULT_PREFIX = T.let(T.unsafe(nil), String)
 
 # source://spoom//lib/spoom/sorbet.rb#36
 Spoom::Sorbet::SEGFAULT_CODE = T.let(T.unsafe(nil), Integer)
@@ -5902,154 +5841,539 @@ Spoom::Sorbet::Sigils::STRICTNESS_TRUE = T.let(T.unsafe(nil), String)
 # source://spoom//lib/spoom/sorbet/sigils.rb#17
 Spoom::Sorbet::Sigils::VALID_STRICTNESS = T.let(T.unsafe(nil), Array)
 
-# source://spoom//lib/spoom/sorbet/sigs.rb#8
-class Spoom::Sorbet::Sigs
+# source://spoom//lib/spoom/sorbet/translate/translator.rb#6
+module Spoom::Sorbet::Translate
   class << self
-    # : (String ruby_contents, positional_names: bool) -> String
+    # Converts all the RBS comments in the given Ruby code to `sig` nodes.
+    # It also handles type members and class annotations.
+    # : (String ruby_contents, file: String) -> String
     #
-    # source://spoom//lib/spoom/sorbet/sigs.rb#24
-    sig { params(ruby_contents: ::String, positional_names: T::Boolean).returns(::String) }
-    def rbi_to_rbs(ruby_contents, positional_names: T.unsafe(nil)); end
+    # source://spoom//lib/spoom/sorbet/translate.rb#36
+    sig { params(ruby_contents: ::String, file: ::String).returns(::String) }
+    def rbs_comments_to_sorbet_sigs(ruby_contents, file:); end
 
-    # : (String ruby_contents) -> String
+    # Converts all `T.let` and `T.cast` nodes to RBS comments in the given Ruby code.
+    # It also handles type members and class annotations.
+    # : (String ruby_contents, file: String) -> String
     #
-    # source://spoom//lib/spoom/sorbet/sigs.rb#46
-    sig { params(ruby_contents: ::String).returns(::String) }
-    def rbs_to_rbi(ruby_contents); end
+    # source://spoom//lib/spoom/sorbet/translate.rb#43
+    sig { params(ruby_contents: ::String, file: ::String).returns(::String) }
+    def sorbet_assertions_to_rbs_comments(ruby_contents, file:); end
 
-    # : (String ruby_contents) -> String
+    # Converts all `sig` nodes to RBS comments in the given Ruby code.
+    # It also handles type members and class annotations.
+    # : (String ruby_contents, file: String, ?positional_names: bool) -> String
     #
-    # source://spoom//lib/spoom/sorbet/sigs.rb#12
-    sig { params(ruby_contents: ::String).returns(::String) }
-    def strip(ruby_contents); end
+    # source://spoom//lib/spoom/sorbet/translate.rb#29
+    sig { params(ruby_contents: ::String, file: ::String, positional_names: T::Boolean).returns(::String) }
+    def sorbet_sigs_to_rbs_comments(ruby_contents, file:, positional_names: T.unsafe(nil)); end
 
-    private
-
-    # : (String ruby_contents) -> Array[[RBI::RBSComment, (RBI::Method | RBI::Attr)]]
+    # Deletes all `sig` nodes from the given Ruby code.
+    # It doesn't handle type members and class annotations.
+    # : (String ruby_contents, file: String) -> String
     #
-    # source://spoom//lib/spoom/sorbet/sigs.rb#80
-    sig { params(ruby_contents: ::String).returns(T::Array[[::RBI::RBSComment, T.any(::RBI::Attr, ::RBI::Method)]]) }
-    def collect_rbs_comments(ruby_contents); end
-
-    # : (String ruby_contents) -> Array[[RBI::Sig, (RBI::Method | RBI::Attr)]]
-    #
-    # source://spoom//lib/spoom/sorbet/sigs.rb#72
-    sig { params(ruby_contents: ::String).returns(T::Array[[::RBI::Sig, T.any(::RBI::Attr, ::RBI::Method)]]) }
-    def collect_sorbet_sigs(ruby_contents); end
+    # source://spoom//lib/spoom/sorbet/translate.rb#22
+    sig { params(ruby_contents: ::String, file: ::String).returns(::String) }
+    def strip_sorbet_sigs(ruby_contents, file:); end
   end
 end
 
-# source://spoom//lib/spoom/sorbet/sigs.rb#9
-class Spoom::Sorbet::Sigs::Error < ::Spoom::Error; end
+# source://spoom//lib/spoom/sorbet/translate.rb#16
+class Spoom::Sorbet::Translate::Error < ::Spoom::Error; end
 
-# source://spoom//lib/spoom/sorbet/sigs.rb#123
-class Spoom::Sorbet::Sigs::RBIToRBSTranslator
-  class << self
-    # : (RBI::Sig sig, (RBI::Method | RBI::Attr) node, positional_names: bool) -> String
-    #
-    # source://spoom//lib/spoom/sorbet/sigs.rb#126
-    sig do
-      params(
-        sig: ::RBI::Sig,
-        node: T.any(::RBI::Attr, ::RBI::Method),
-        positional_names: T::Boolean
-      ).returns(::String)
-    end
-    def translate(sig, node, positional_names: T.unsafe(nil)); end
+# source://spoom//lib/spoom/sorbet/translate/rbs_comments_to_sorbet_sigs.rb#7
+class Spoom::Sorbet::Translate::RBSCommentsToSorbetSigs < ::Spoom::Sorbet::Translate::Translator
+  include ::Spoom::RBS::ExtractRBSComments
 
-    private
+  # : (Prism::CallNode node) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/rbs_comments_to_sorbet_sigs.rb#66
+  sig { override.params(node: ::Prism::CallNode).void }
+  def visit_call_node(node); end
 
-    # : (RBI::Sig sig, RBI::Attr node, positional_names: bool) -> String
-    #
-    # source://spoom//lib/spoom/sorbet/sigs.rb#178
-    sig { params(sig: ::RBI::Sig, node: ::RBI::Attr, positional_names: T::Boolean).returns(::String) }
-    def translate_attr_sig(sig, node, positional_names: T.unsafe(nil)); end
+  # : (Prism::ClassNode node) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/rbs_comments_to_sorbet_sigs.rb#12
+  sig { override.params(node: ::Prism::ClassNode).void }
+  def visit_class_node(node); end
 
-    # : (RBI::Sig sig, RBI::Method node, positional_names: bool) -> String
-    #
-    # source://spoom//lib/spoom/sorbet/sigs.rb#138
-    sig { params(sig: ::RBI::Sig, node: ::RBI::Method, positional_names: T::Boolean).returns(::String) }
-    def translate_method_sig(sig, node, positional_names: T.unsafe(nil)); end
+  # : (Prism::DefNode node) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/rbs_comments_to_sorbet_sigs.rb#36
+  sig { override.params(node: ::Prism::DefNode).void }
+  def visit_def_node(node); end
+
+  # : (Prism::ModuleNode node) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/rbs_comments_to_sorbet_sigs.rb#20
+  sig { override.params(node: ::Prism::ModuleNode).void }
+  def visit_module_node(node); end
+
+  # : (Prism::SingletonClassNode node) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/rbs_comments_to_sorbet_sigs.rb#28
+  sig { override.params(node: ::Prism::SingletonClassNode).void }
+  def visit_singleton_class_node(node); end
+
+  private
+
+  # : (Prism::ClassNode | Prism::ModuleNode | Prism::SingletonClassNode, Regexp) -> bool
+  #
+  # @return [Boolean]
+  #
+  # source://spoom//lib/spoom/sorbet/translate/rbs_comments_to_sorbet_sigs.rb#225
+  sig do
+    params(
+      node: T.any(::Prism::ClassNode, ::Prism::ModuleNode, ::Prism::SingletonClassNode),
+      constant_regex: ::Regexp
+    ).returns(T::Boolean)
   end
+  def already_extends?(node, constant_regex); end
+
+  # : (Prism::ClassNode | Prism::ModuleNode | Prism::SingletonClassNode) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/rbs_comments_to_sorbet_sigs.rb#113
+  sig { params(node: T.any(::Prism::ClassNode, ::Prism::ModuleNode, ::Prism::SingletonClassNode)).void }
+  def apply_class_annotations(node); end
+
+  # : (Array[RBS::Annotations], RBI::Sig) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/rbs_comments_to_sorbet_sigs.rb#204
+  sig { params(annotations: T::Array[::Spoom::RBS::Annotations], sig: ::RBI::Sig).void }
+  def apply_member_annotations(annotations, sig); end
+
+  # : (Prism::CallNode) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/rbs_comments_to_sorbet_sigs.rb#78
+  sig { params(node: ::Prism::CallNode).void }
+  def visit_attr(node); end
 end
 
-# source://spoom//lib/spoom/sorbet/sigs.rb#187
-class Spoom::Sorbet::Sigs::RBSToRBITranslator
-  class << self
-    # : (RBI::RBSComment comment, (RBI::Method | RBI::Attr) node) -> String?
-    #
-    # source://spoom//lib/spoom/sorbet/sigs.rb#192
-    sig { params(comment: ::RBI::RBSComment, node: T.any(::RBI::Attr, ::RBI::Method)).returns(T.nilable(::String)) }
-    def translate(comment, node); end
-
-    private
-
-    # : (RBI::RBSComment comment, RBI::Attr node) -> String
-    #
-    # source://spoom//lib/spoom/sorbet/sigs.rb#235
-    sig { params(comment: ::RBI::RBSComment, node: ::RBI::Attr).returns(::String) }
-    def translate_attr_sig(comment, node); end
-
-    # : (RBI::RBSComment rbs_comment, RBI::Method node) -> String
-    #
-    # source://spoom//lib/spoom/sorbet/sigs.rb#206
-    sig { params(rbs_comment: ::RBI::RBSComment, node: ::RBI::Method).returns(::String) }
-    def translate_method_sig(rbs_comment, node); end
-  end
-end
-
-# From https://github.com/Shopify/ruby-lsp/blob/9154bfc6ef/lib/ruby_lsp/document.rb#L127
+# Translates Sorbet assertions to RBS comments.
 #
-# source://spoom//lib/spoom/sorbet/sigs.rb#255
-class Spoom::Sorbet::Sigs::Scanner
-  # : (String source) -> void
+# source://spoom//lib/spoom/sorbet/translate/sorbet_assertions_to_rbs_comments.rb#8
+class Spoom::Sorbet::Translate::SorbetAssertionsToRBSComments < ::Spoom::Sorbet::Translate::Translator
+  # : (Prism::CallNode) -> void
   #
-  # @return [Scanner] a new instance of Scanner
-  #
-  # source://spoom//lib/spoom/sorbet/sigs.rb#259
-  sig { params(source: ::String).void }
-  def initialize(source); end
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_assertions_to_rbs_comments.rb#13
+  sig { override.params(node: ::Prism::CallNode).void }
+  def visit_call_node(node); end
 
-  # Finds the character index inside the source string for a given line and column
-  # : (Integer line, Integer character) -> Integer
+  private
+
+  # : (Prism::Node) -> bool
   #
-  # source://spoom//lib/spoom/sorbet/sigs.rb#267
-  sig { params(line: ::Integer, character: ::Integer).returns(::Integer) }
-  def find_char_position(line, character); end
+  # @return [Boolean]
+  #
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_assertions_to_rbs_comments.rb#76
+  sig { params(node: ::Prism::Node).returns(T::Boolean) }
+  def at_end_of_line?(node); end
+
+  # : (Prism::CallNode) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_assertions_to_rbs_comments.rb#28
+  sig { params(call: ::Prism::CallNode).void }
+  def build_rbs_annotation(call); end
+
+  # : (Prism::Node, Prism::Node) -> String
+  #
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_assertions_to_rbs_comments.rb#83
+  sig { params(assign: ::Prism::Node, value: ::Prism::Node).returns(::String) }
+  def dedent_value(assign, value); end
+
+  # Is this node a `T` or `::T` constant?
+  # : (Prism::Node?) -> bool
+  #
+  # @return [Boolean]
+  #
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_assertions_to_rbs_comments.rb#49
+  sig { params(node: T.nilable(::Prism::Node)).returns(T::Boolean) }
+  def t?(node); end
+
+  # Is this node a `T.let` or `T.cast`?
+  # : (Prism::CallNode) -> bool
+  #
+  # @return [Boolean]
+  #
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_assertions_to_rbs_comments.rb#62
+  sig { params(node: ::Prism::CallNode).returns(T::Boolean) }
+  def t_annotation?(node); end
 end
 
 # : Integer
 #
-# source://spoom//lib/spoom/sorbet/sigs.rb#256
-Spoom::Sorbet::Sigs::Scanner::LINE_BREAK = T.let(T.unsafe(nil), Integer)
+# source://spoom//lib/spoom/sorbet/translate/sorbet_assertions_to_rbs_comments.rb#9
+Spoom::Sorbet::Translate::SorbetAssertionsToRBSComments::LINE_BREAK = T.let(T.unsafe(nil), Integer)
 
-# source://spoom//lib/spoom/sorbet/sigs.rb#88
-class Spoom::Sorbet::Sigs::SigsLocator < ::RBI::Visitor
+# Converts all `sig` nodes to RBS comments in the given Ruby code.
+# It also handles type members and class annotations.
+#
+# source://spoom//lib/spoom/sorbet/translate/sorbet_sigs_to_rbs_comments.rb#9
+class Spoom::Sorbet::Translate::SorbetSigsToRBSComments < ::Spoom::Sorbet::Translate::Translator
+  # : (String, file: String, positional_names: bool) -> void
+  #
+  # @return [SorbetSigsToRBSComments] a new instance of SorbetSigsToRBSComments
+  #
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_sigs_to_rbs_comments.rb#11
+  sig { params(ruby_contents: ::String, file: ::String, positional_names: T::Boolean).void }
+  def initialize(ruby_contents, file:, positional_names:); end
+
+  # : (Prism::CallNode) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_sigs_to_rbs_comments.rb#65
+  sig { override.params(node: ::Prism::CallNode).void }
+  def visit_call_node(node); end
+
+  # : (Prism::ClassNode) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_sigs_to_rbs_comments.rb#22
+  sig { override.params(node: ::Prism::ClassNode).void }
+  def visit_class_node(node); end
+
+  # : (Prism::ConstantWriteNode) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_sigs_to_rbs_comments.rb#82
+  sig { override.params(node: ::Prism::ConstantWriteNode).void }
+  def visit_constant_write_node(node); end
+
+  # : (Prism::DefNode) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_sigs_to_rbs_comments.rb#40
+  sig { override.params(node: ::Prism::DefNode).void }
+  def visit_def_node(node); end
+
+  # : (Prism::ModuleNode) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_sigs_to_rbs_comments.rb#28
+  sig { override.params(node: ::Prism::ModuleNode).void }
+  def visit_module_node(node); end
+
+  # : (Prism::SingletonClassNode) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_sigs_to_rbs_comments.rb#34
+  sig { override.params(node: ::Prism::SingletonClassNode).void }
+  def visit_singleton_class_node(node); end
+
+  private
+
+  # : (Array[[Prism::CallNode, RBI::Sig]]) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_sigs_to_rbs_comments.rb#214
+  sig { params(sigs: T::Array[[::Prism::CallNode, ::RBI::Sig]]).void }
+  def apply_member_annotations(sigs); end
+
+  # : (Prism::ConstantWriteNode) -> String
+  #
+  # @raise [Error]
+  #
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_sigs_to_rbs_comments.rb#246
+  sig { params(node: ::Prism::ConstantWriteNode).returns(::String) }
+  def build_type_member_string(node); end
+
+  # : (Prism::CallNode) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_sigs_to_rbs_comments.rb#128
+  sig { params(node: ::Prism::CallNode).void }
+  def visit_attr(node); end
+
+  # : (Prism::CallNode node) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_sigs_to_rbs_comments.rb#172
+  sig { params(node: ::Prism::CallNode).void }
+  def visit_class_annotation(node); end
+
+  # : (Prism::CallNode node) -> void
+  #
+  # @raise [Error]
+  #
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_sigs_to_rbs_comments.rb#155
+  sig { params(node: ::Prism::CallNode).void }
+  def visit_extend(node); end
+
+  # : (Prism::ClassNode | Prism::ModuleNode | Prism::SingletonClassNode) { -> void } -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_sigs_to_rbs_comments.rb#99
+  sig do
+    params(
+      node: T.any(::Prism::ClassNode, ::Prism::ModuleNode, ::Prism::SingletonClassNode),
+      block: T.proc.void
+    ).void
+  end
+  def visit_scope(node, &block); end
+
+  # : (Prism::CallNode) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/sorbet_sigs_to_rbs_comments.rb#116
+  sig { params(node: ::Prism::CallNode).void }
+  def visit_sig(node); end
+end
+
+# Deletes all `sig` nodes from the given Ruby code.
+# It doesn't handle type members and class annotations.
+#
+# source://spoom//lib/spoom/sorbet/translate/strip_sorbet_sigs.rb#9
+class Spoom::Sorbet::Translate::StripSorbetSigs < ::Spoom::Sorbet::Translate::Translator
+  # : (Prism::CallNode node) -> void
+  #
+  # source://spoom//lib/spoom/sorbet/translate/strip_sorbet_sigs.rb#12
+  sig { override.params(node: ::Prism::CallNode).void }
+  def visit_call_node(node); end
+end
+
+# @abstract
+#
+# source://spoom//lib/spoom/sorbet/translate/translator.rb#8
+class Spoom::Sorbet::Translate::Translator < ::Spoom::Visitor
+  abstract!
+
+  # : (String, file: String) -> void
+  #
+  # @return [Translator] a new instance of Translator
+  #
+  # source://spoom//lib/spoom/sorbet/translate/translator.rb#10
+  sig { params(ruby_contents: ::String, file: ::String).void }
+  def initialize(ruby_contents, file:); end
+
+  # : -> String
+  #
+  # source://spoom//lib/spoom/sorbet/translate/translator.rb#29
+  sig { returns(::String) }
+  def rewrite; end
+
+  private
+
+  # : (Integer) -> Integer
+  #
+  # source://spoom//lib/spoom/sorbet/translate/translator.rb#54
+  sig { params(offset: ::Integer).returns(::Integer) }
+  def adjust_to_line_end(offset); end
+
+  # : (Integer) -> Integer
+  #
+  # source://spoom//lib/spoom/sorbet/translate/translator.rb#48
+  sig { params(offset: ::Integer).returns(::Integer) }
+  def adjust_to_line_start(offset); end
+
+  # Consume the next blank line if any
+  # : (Integer) -> Integer
+  #
+  # source://spoom//lib/spoom/sorbet/translate/translator.rb#61
+  sig { params(offset: ::Integer).returns(::Integer) }
+  def adjust_to_new_line(offset); end
+
+  # : (Prism::CallNode node) -> bool
+  #
+  # @return [Boolean]
+  #
+  # source://spoom//lib/spoom/sorbet/translate/translator.rb#38
+  sig { params(node: ::Prism::CallNode).returns(T::Boolean) }
+  def sorbet_sig?(node); end
+end
+
+# This module provides a simple API to rewrite source code.
+#
+# Using a `Rewriter`, you can build a list of changes to apply to a source file
+# and apply them all at once. Edits are applied from bottom to top, so that the
+# line numbers are not remapped after each edit.
+#
+# The source code is represented as an array of bytes, so that it can be
+# manipulated in place. The client is responsible for `string <-> bytes`
+# conversions and encoding handling.
+#
+# ```ruby
+# bytes = "def foo; end".bytes
+#
+# rewriter = Spoom::Source::Rewriter.new
+# rewriter << Spoom::Source::Replace.new(4, 6, "baz")
+# rewriter << Spoom::Source::Insert.new(0, "def bar; end\n")
+# rewriter.rewrite!(bytes)
+#
+# puts bytes.pack("C*") # => "def bar; end\ndef baz; end"
+# ```
+#
+# source://spoom//lib/spoom/source/rewriter.rb#25
+module Spoom::Source; end
+
+# source://spoom//lib/spoom/source/rewriter.rb#113
+class Spoom::Source::Delete < ::Spoom::Source::Edit
+  # : (Integer, Integer) -> void
+  #
+  # @return [Delete] a new instance of Delete
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#118
+  sig { params(from: ::Integer, to: ::Integer).void }
+  def initialize(from, to); end
+
+  # : (Array[untyped]) -> void
+  #
+  # @raise [PositionError]
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#127
+  sig { override.params(bytes: T::Array[T.untyped]).void }
+  def apply(bytes); end
+
+  # : Integer
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#115
+  sig { returns(::Integer) }
+  def from; end
+
+  # : -> [Integer, Integer]
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#135
+  sig { override.returns([::Integer, ::Integer]) }
+  def range; end
+
+  # : Integer
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#115
+  def to; end
+
+  # : -> String
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#141
+  sig { override.returns(::String) }
+  def to_s; end
+end
+
+# @abstract
+#
+# source://spoom//lib/spoom/source/rewriter.rb#29
+class Spoom::Source::Edit
+  abstract!
+
+  # : (Array[Integer]) -> void
+  #
+  # @abstract
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#32
+  sig { abstract.params(bytes: T::Array[::Integer]).void }
+  def apply(bytes); end
+
+  # : -> [Integer, Integer]
+  #
+  # @abstract
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#36
+  sig { abstract.returns([::Integer, ::Integer]) }
+  def range; end
+end
+
+# source://spoom//lib/spoom/source/rewriter.rb#39
+class Spoom::Source::Insert < ::Spoom::Source::Edit
+  # : (Integer, String) -> void
+  #
+  # @return [Insert] a new instance of Insert
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#47
+  sig { params(position: ::Integer, text: ::String).void }
+  def initialize(position, text); end
+
+  # : (Array[Integer]) -> void
+  #
+  # @raise [PositionError]
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#56
+  sig { override.params(bytes: T::Array[::Integer]).void }
+  def apply(bytes); end
+
+  # : Integer
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#41
+  sig { returns(::Integer) }
+  def position; end
+
+  # : -> [Integer, Integer]
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#65
+  sig { override.returns([::Integer, ::Integer]) }
+  def range; end
+
+  # : String
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#44
+  sig { returns(::String) }
+  def text; end
+
+  # : -> String
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#71
+  sig { override.returns(::String) }
+  def to_s; end
+end
+
+# source://spoom//lib/spoom/source/rewriter.rb#26
+class Spoom::Source::PositionError < ::Spoom::Error; end
+
+# source://spoom//lib/spoom/source/rewriter.rb#76
+class Spoom::Source::Replace < ::Spoom::Source::Edit
+  # : (Integer, Integer, String) -> void
+  #
+  # @return [Replace] a new instance of Replace
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#84
+  sig { params(from: ::Integer, to: ::Integer, text: ::String).void }
+  def initialize(from, to, text); end
+
+  # : (Array[Integer]) -> void
+  #
+  # @raise [PositionError]
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#94
+  sig { override.params(bytes: T::Array[::Integer]).void }
+  def apply(bytes); end
+
+  # : Integer
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#78
+  sig { returns(::Integer) }
+  def from; end
+
+  # : -> [Integer, Integer]
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#102
+  sig { override.returns([::Integer, ::Integer]) }
+  def range; end
+
+  # : String
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#81
+  sig { returns(::String) }
+  def text; end
+
+  # : Integer
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#78
+  def to; end
+
+  # : -> String
+  #
+  # source://spoom//lib/spoom/source/rewriter.rb#108
+  sig { override.returns(::String) }
+  def to_s; end
+end
+
+# source://spoom//lib/spoom/source/rewriter.rb#146
+class Spoom::Source::Rewriter
   # : -> void
   #
-  # @return [SigsLocator] a new instance of SigsLocator
+  # @return [Rewriter] a new instance of Rewriter
   #
-  # source://spoom//lib/spoom/sorbet/sigs.rb#96
+  # source://spoom//lib/spoom/source/rewriter.rb#148
   sig { void }
   def initialize; end
 
-  # : Array[[RBI::RBSComment, (RBI::Method | RBI::Attr)]]
+  # : (Edit) -> void
   #
-  # source://spoom//lib/spoom/sorbet/sigs.rb#93
-  sig { returns(T::Array[[::RBI::RBSComment, T.any(::RBI::Attr, ::RBI::Method)]]) }
-  def rbs_comments; end
+  # source://spoom//lib/spoom/source/rewriter.rb#153
+  sig { params(other: ::Spoom::Source::Edit).void }
+  def <<(other); end
 
-  # : Array[[RBI::Sig, (RBI::Method | RBI::Attr)]]
+  # : (Array[Integer]) -> void
   #
-  # source://spoom//lib/spoom/sorbet/sigs.rb#90
-  sig { returns(T::Array[[::RBI::Sig, T.any(::RBI::Attr, ::RBI::Method)]]) }
-  def sigs; end
-
-  # : (RBI::Node? node) -> void
-  #
-  # source://spoom//lib/spoom/sorbet/sigs.rb#104
-  sig { override.params(node: T.nilable(::RBI::Node)).void }
-  def visit(node); end
+  # source://spoom//lib/spoom/source/rewriter.rb#158
+  sig { params(bytes: T::Array[::Integer]).void }
+  def rewrite!(bytes); end
 end
 
 # source://spoom//lib/spoom/timeline.rb#5

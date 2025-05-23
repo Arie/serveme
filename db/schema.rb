@@ -215,6 +215,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_23_070549) do
     t.string "sdr_ip"
     t.string "sdr_port"
     t.string "sdr_tv_port"
+    t.string "zip_upload_status"
+    t.string "local_zip_path"
     t.boolean "disable_democheck", default: false
     t.index ["auto_end"], name: "index_reservations_on_auto_end"
     t.index ["custom_whitelist_id"], name: "index_reservations_on_custom_whitelist_id"
@@ -302,6 +304,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_23_070549) do
     t.integer "last_known_version"
     t.datetime "update_started_at"
     t.string "update_status"
+    t.integer "reservations_count", default: 0, null: false
     t.index ["active"], name: "index_servers_on_active"
     t.index ["ip"], name: "index_servers_on_ip"
     t.index ["latitude", "longitude"], name: "index_servers_on_latitude_and_longitude"
@@ -344,6 +347,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_23_070549) do
     t.float "longitude"
     t.integer "expired_reservations", default: 0
     t.string "demos_tf_api_key"
+    t.integer "reservations_count", default: 0, null: false
     t.index ["api_key"], name: "index_users_on_api_key", unique: true
     t.index ["latitude", "longitude"], name: "index_users_on_latitude_and_longitude"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

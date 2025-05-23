@@ -10,10 +10,22 @@ class InactiveServerCheckerWorker
     sig { params(server_id: T.untyped, latest_version: T.untyped).returns(String) }
     def perform_async(server_id, latest_version); end
 
-    sig { params(interval: T.any(DateTime, Time), server_id: T.untyped, latest_version: T.untyped).returns(String) }
+    sig do
+      params(
+        interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone),
+        server_id: T.untyped,
+        latest_version: T.untyped
+      ).returns(String)
+    end
     def perform_at(interval, server_id, latest_version); end
 
-    sig { params(interval: Numeric, server_id: T.untyped, latest_version: T.untyped).returns(String) }
+    sig do
+      params(
+        interval: T.any(Numeric, ActiveSupport::Duration),
+        server_id: T.untyped,
+        latest_version: T.untyped
+      ).returns(String)
+    end
     def perform_in(interval, server_id, latest_version); end
   end
 end

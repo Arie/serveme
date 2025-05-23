@@ -10,10 +10,15 @@ class ZipUploadWorker
     sig { params(reservation_id: ::Integer).returns(String) }
     def perform_async(reservation_id); end
 
-    sig { params(interval: T.any(DateTime, Time), reservation_id: ::Integer).returns(String) }
+    sig do
+      params(
+        interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone),
+        reservation_id: ::Integer
+      ).returns(String)
+    end
     def perform_at(interval, reservation_id); end
 
-    sig { params(interval: Numeric, reservation_id: ::Integer).returns(String) }
+    sig { params(interval: T.any(Numeric, ActiveSupport::Duration), reservation_id: ::Integer).returns(String) }
     def perform_in(interval, reservation_id); end
   end
 end

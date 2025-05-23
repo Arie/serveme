@@ -10,10 +10,15 @@ class ServerUpdateWorker
     sig { params(latest_version: T.untyped).returns(String) }
     def perform_async(latest_version); end
 
-    sig { params(interval: T.any(DateTime, Time), latest_version: T.untyped).returns(String) }
+    sig do
+      params(
+        interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone),
+        latest_version: T.untyped
+      ).returns(String)
+    end
     def perform_at(interval, latest_version); end
 
-    sig { params(interval: Numeric, latest_version: T.untyped).returns(String) }
+    sig { params(interval: T.any(Numeric, ActiveSupport::Duration), latest_version: T.untyped).returns(String) }
     def perform_in(interval, latest_version); end
   end
 end

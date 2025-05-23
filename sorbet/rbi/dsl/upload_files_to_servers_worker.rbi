@@ -10,10 +10,10 @@ class UploadFilesToServersWorker
     sig { params(options: T.untyped).returns(String) }
     def perform_async(options); end
 
-    sig { params(interval: T.any(DateTime, Time), options: T.untyped).returns(String) }
+    sig { params(interval: T.any(DateTime, Time, ActiveSupport::TimeWithZone), options: T.untyped).returns(String) }
     def perform_at(interval, options); end
 
-    sig { params(interval: Numeric, options: T.untyped).returns(String) }
+    sig { params(interval: T.any(Numeric, ActiveSupport::Duration), options: T.untyped).returns(String) }
     def perform_in(interval, options); end
   end
 end

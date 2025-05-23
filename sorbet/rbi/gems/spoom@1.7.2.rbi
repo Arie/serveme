@@ -4234,7 +4234,7 @@ class Spoom::Model
   # : Poset[Symbol]
   #
   # source://spoom//lib/spoom/model/model.rb#232
-  sig { returns(Spoom::Poset[::Spoom::Model::Symbol]) }
+  sig { returns(Spoom::Poset) }
   def symbols_hierarchy; end
 
   private
@@ -4966,7 +4966,7 @@ class Spoom::Poset
   # @raise [Error]
   #
   # source://spoom//lib/spoom/poset.rb#25
-  sig { params(value: T.untyped).returns(Spoom::Poset::Element[T.untyped]) }
+  sig { params(value: T.untyped).returns(Spoom::Poset::Element) }
   def [](value); end
 
   # Add a direct edge from one element to another
@@ -4984,7 +4984,7 @@ class Spoom::Poset
   # : (E value) -> Element[E]
   #
   # source://spoom//lib/spoom/poset.rb#34
-  sig { params(value: T.untyped).returns(Spoom::Poset::Element[T.untyped]) }
+  sig { params(value: T.untyped).returns(Spoom::Poset::Element) }
   def add_element(value); end
 
   # Is there a direct edge from `from` to `to`?
@@ -5080,7 +5080,7 @@ class Spoom::Poset::Element
   # : Set[Element[E]]
   #
   # source://spoom//lib/spoom/poset.rb#147
-  sig { returns(T::Set[Spoom::Poset::Element[T.untyped]]) }
+  sig { returns(T::Set[Spoom::Poset::Element]) }
   def dtos; end
 
   # Edges (direct and indirect) from this element to other elements in the same POSet

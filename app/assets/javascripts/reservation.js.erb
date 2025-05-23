@@ -125,33 +125,46 @@ function loadReservationPage() {
 
   var pluginsCheckbox = $("#reservation_enable_plugins");
   var demosTfCheckbox = $("#reservation_enable_demos_tf");
+  var disableDemocheckCheckbox = $("#reservation_disable_democheck");
 
   function updateCheckboxesState() {
-    if (pluginsCheckbox.length === 0 || demosTfCheckbox.length === 0) {
+    if (pluginsCheckbox.length === 0) {
       return;
     }
 
     var pluginsChecked = pluginsCheckbox.prop("checked");
-    var demosTfChecked = demosTfCheckbox.prop("checked");
 
-    if (demosTfChecked) {
-      pluginsCheckbox.prop("checked", true);
-      if (canEnablePlugins) {
+    if (demosTfCheckbox.length > 0) {
+      var demosTfChecked = demosTfCheckbox.prop("checked");
+      if (demosTfChecked) {
+        pluginsCheckbox.prop("checked", true);
+        pluginsChecked = true;
+        if (canEnablePlugins) {
           pluginsCheckbox.prop("disabled", true);
-      }
-      if (canEnablePlugins) {
-        demosTfCheckbox.prop("disabled", false);
-      }
-    } else {
-      pluginsCheckbox.prop("disabled", !canEnablePlugins);
+        }
+        if (canEnablePlugins) {
+          demosTfCheckbox.prop("disabled", false);
+        }
+      } else {
+        pluginsCheckbox.prop("disabled", !canEnablePlugins);
 
-      if (!pluginsCheckbox.prop("checked")) {
+        if (!pluginsChecked) {
           demosTfCheckbox.prop("checked", false);
           demosTfCheckbox.prop("disabled", true);
-      } else {
+        } else {
           if (canEnablePlugins) {
             demosTfCheckbox.prop("disabled", false);
           }
+        }
+      }
+    }
+
+    if (disableDemocheckCheckbox.length > 0) {
+      if (!pluginsChecked) {
+        disableDemocheckCheckbox.prop("checked", false);
+        disableDemocheckCheckbox.prop("disabled", true);
+      } else {
+        disableDemocheckCheckbox.prop("disabled", !canEnablePlugins);
       }
     }
   }

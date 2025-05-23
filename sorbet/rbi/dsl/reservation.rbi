@@ -900,6 +900,51 @@ class Reservation
     sig { void }
     def custom_whitelist_id_will_change!; end
 
+    sig { returns(T.nilable(T::Boolean)) }
+    def disable_democheck; end
+
+    sig { params(value: T.nilable(T::Boolean)).returns(T.nilable(T::Boolean)) }
+    def disable_democheck=(value); end
+
+    sig { returns(T::Boolean) }
+    def disable_democheck?; end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def disable_democheck_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def disable_democheck_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def disable_democheck_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
+    def disable_democheck_change; end
+
+    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
+    def disable_democheck_change_to_be_saved; end
+
+    sig { params(from: T.nilable(T::Boolean), to: T.nilable(T::Boolean)).returns(T::Boolean) }
+    def disable_democheck_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def disable_democheck_in_database; end
+
+    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
+    def disable_democheck_previous_change; end
+
+    sig { params(from: T.nilable(T::Boolean), to: T.nilable(T::Boolean)).returns(T::Boolean) }
+    def disable_democheck_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def disable_democheck_previously_was; end
+
+    sig { returns(T.nilable(T::Boolean)) }
+    def disable_democheck_was; end
+
+    sig { void }
+    def disable_democheck_will_change!; end
+
     sig { returns(T.nilable(::Integer)) }
     def duration; end
 
@@ -1685,6 +1730,9 @@ class Reservation
     def restore_custom_whitelist_id!; end
 
     sig { void }
+    def restore_disable_democheck!; end
+
+    sig { void }
     def restore_duration!; end
 
     sig { void }
@@ -1788,6 +1836,12 @@ class Reservation
 
     sig { returns(T::Boolean) }
     def saved_change_to_custom_whitelist_id?; end
+
+    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
+    def saved_change_to_disable_democheck; end
+
+    sig { returns(T::Boolean) }
+    def saved_change_to_disable_democheck?; end
 
     sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
     def saved_change_to_duration; end
@@ -2531,6 +2585,9 @@ class Reservation
 
     sig { returns(T::Boolean) }
     def will_save_change_to_custom_whitelist_id?; end
+
+    sig { returns(T::Boolean) }
+    def will_save_change_to_disable_democheck?; end
 
     sig { returns(T::Boolean) }
     def will_save_change_to_duration?; end

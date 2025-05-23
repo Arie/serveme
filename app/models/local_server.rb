@@ -77,6 +77,9 @@ class LocalServer < Server
   end
 
   def write_configuration(output_filename, output_content)
+    dir = File.dirname(output_filename)
+    FileUtils.mkdir_p(dir) unless File.directory?(dir)
     File.write(output_filename, output_content)
+    true
   end
 end

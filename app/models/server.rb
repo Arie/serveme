@@ -134,9 +134,34 @@ class Server < ActiveRecord::Base
       config_body = generate_config_file(reservation, config_file)
       write_configuration(server_config_file(config_file), config_body)
     end
+    handle_rgl_base_cfg(reservation)
     add_motd(reservation)
     write_custom_whitelist(reservation) if reservation.custom_whitelist_id.present?
     reservation.status_update("Finished sending reservation config files")
+  end
+
+  sig { params(reservation: Reservation).returns(T.nilable(T.any(String, T::Boolean))) }
+  def handle_rgl_base_cfg(reservation)
+    original_cfg_path = Rails.root.join("doc", "rgl_base.cfg")
+    content = File.read(original_cfg_path)
+
+    if reservation.disable_democheck?
+      modified_content = content.gsub(/sm_democheck_enabled\\s+1/, "sm_democheck_enabled 0")
+      write_configuration(server_config_file("rgl_base.cfg"), modified_content)
+    else
+      write_configuration(server_config_file("rgl_base.cfg"), content)
+    end
+    true
+  end
+
+  sig { returns(T.nilable(T.any(String, T::Boolean))) }
+  def restore_rgl_base_cfg
+    original_cfg_path = Rails.root.join("doc", "rgl_base.cfg")
+    content = File.read(original_cfg_path)
+    write_configuration(server_config_file("rgl_base.cfg"), content)
+    # We don't send rcon here, as handle_rgl_base_cfg's else branch will do it (or start_reservation/end_reservation handles it)
+    # Return true to satisfy potential Sorbet signature expectations if this were public and called elsewhere.
+    true
   end
 
   sig { returns(T.nilable(T.any(String, T::Boolean))) }
@@ -347,6 +372,7 @@ class Server < ActiveRecord::Base
     download_stac_logs(reservation)
     disable_plugins
     disable_demos_tf
+    restore_rgl_base_cfg
     rcon_exec("sv_logflush 1; tv_stoprecord; kickall Reservation ended, every player can download the STV demo at https://#{SITE_HOST}")
     sleep 1 if Rails.env.production? # Give server a second to finish the STV demo and write the log
     zip_demos_and_logs(reservation)

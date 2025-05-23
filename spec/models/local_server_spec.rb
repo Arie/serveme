@@ -91,13 +91,20 @@ describe LocalServer do
     end
 
     it 'writes a config file', :vcr do
-      reservation = stubbed_reservation(id: 1337, password: 'secret', enable_plugins?: false, enable_mitigations: true)
+      reservation = stubbed_reservation(id: 1337, password: 'secret', enable_plugins?: false, enable_mitigations: true, disable_democheck?: false)
       subject.should_receive(:restart)
       file = double
       subject.stub(tf_dir: '/tmp')
-      File.should_receive(:write).with('/tmp/cfg/ctf_turbine.cfg', 'config file contents').and_return(file)
-      File.should_receive(:write).with('/tmp/cfg/reservation.cfg', 'config file contents').and_return(file)
-      File.should_receive(:write).with('/tmp/motd.txt', 'http://localhost:3000/reservations/1337/motd?password=secret').and_return(file)
+
+      rgl_base_cfg_content = File.read(Rails.root.join('doc', 'rgl_base.cfg'))
+      allow(File).to receive(:read).and_call_original
+      allow(File).to receive(:read).with(Rails.root.join('doc', 'rgl_base.cfg')).and_return(rgl_base_cfg_content)
+
+      expect(File).to receive(:write).with('/tmp/cfg/reservation.cfg', 'config file contents').ordered.and_return(file)
+      expect(File).to receive(:write).with('/tmp/cfg/ctf_turbine.cfg', 'config file contents').ordered.and_return(file)
+      expect(File).to receive(:write).with('/tmp/cfg/rgl_base.cfg', rgl_base_cfg_content).ordered.and_return(file)
+      expect(File).to receive(:write).with('/tmp/motd.txt', 'http://localhost:3000/reservations/1337/motd?password=secret').ordered.and_return(file)
+
       subject.should_receive(:generate_config_file).exactly(2).times.with(reservation, anything).and_return('config file contents')
       subject.start_reservation(reservation)
     end
@@ -116,6 +123,8 @@ describe LocalServer do
   end
 
   describe '#end_reservation' do
+    subject { described_class.new(path: '/tmp/test_server_path') }
+
     it 'should zip demos and logs, remove configuration and restart' do
       reservation_id = 1
       StacLogsDownloaderWorker.should_receive(:perform_async).with(reservation_id).and_return nil
@@ -402,11 +411,11 @@ Server AppID:           232250%)
     end
   end
 
+  private
+
   def stubbed_reservation(stubs = {})
-    reservation = instance_double(Reservation, first_map: nil, custom_whitelist_id: false, status_update: instance_double(ReservationStatus), enable_plugins?: false, enable_demos_tf?: false, user: build(:user), server: build(:server))
-    stubs.each do |k, v|
-      reservation.stub(k) { v }
-    end
+    reservation = instance_double(Reservation, first_map: nil, custom_whitelist_id: false, status_update: instance_double(ReservationStatus), enable_plugins?: false, enable_demos_tf?: false, user: build(:user), server: build(:server), disable_democheck?: false)
+    allow(reservation).to receive_messages(stubs) if stubs.any?
     reservation
   end
 end

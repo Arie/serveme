@@ -159,8 +159,6 @@ class Server < ActiveRecord::Base
     original_cfg_path = Rails.root.join("doc", "rgl_base.cfg")
     content = File.read(original_cfg_path)
     write_configuration(server_config_file("rgl_base.cfg"), content)
-    # We don't send rcon here, as handle_rgl_base_cfg's else branch will do it (or start_reservation/end_reservation handles it)
-    # Return true to satisfy potential Sorbet signature expectations if this were public and called elsewhere.
     true
   end
 
@@ -319,6 +317,10 @@ class Server < ActiveRecord::Base
         reservation.status_update("Enabling demos.tf")
         enable_demos_tf
         reservation.status_update("Enabled demos.tf")
+      end
+      if reservation.disable_democheck?
+        reservation.status_update("Disabling RGL democheck")
+        handle_rgl_base_cfg(reservation)
       end
     end
     ensure_map_on_server(reservation)

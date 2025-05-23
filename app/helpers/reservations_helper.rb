@@ -53,7 +53,7 @@ module ReservationsHelper
       new_reservation_attributes.merge!(previous_reservation_attributes)
     end
 
-    permitted_params = params.permit([ :authenticity_token, :whitelist_type, { reservation: %i[starts_at ends_at server_id password rcon tv_password enable_plugins enable_demos_tf auto_end first_map server_config_id whitelist_id custom_whitelist_id] } ])
+    permitted_params = params.permit([ :authenticity_token, :whitelist_type, { reservation: %i[starts_at ends_at server_id password rcon tv_password enable_plugins enable_demos_tf auto_end first_map server_config_id whitelist_id custom_whitelist_id disable_democheck] } ])
     new_reservation_attributes.merge!(permitted_params[:reservation]) if permitted_params[:reservation]
 
     current_user.reservations.build(new_reservation_attributes)

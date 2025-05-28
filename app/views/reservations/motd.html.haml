@@ -80,6 +80,14 @@
           %td Initial whitelist
           %td= reservation.whitelist
 
+      - if na_system?
+        %tr
+          %td Democheck status (required for RGL matches)
+          - if reservation.disable_democheck?
+            %td.bg-danger.text-white= "Disabled"
+          - else
+            %td.bg-success.text-white= "Enabled"
+
 - if current_user && reservation.user == current_user
   .row
     .col-md-12

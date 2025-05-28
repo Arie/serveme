@@ -146,7 +146,7 @@ class Server < ActiveRecord::Base
     content = File.read(original_cfg_path)
 
     if reservation.disable_democheck?
-      modified_content = content.gsub("sm_democheck_enabled 1", "sm_democheck_enabled 0")
+      modified_content = content.gsub("sm_democheck_warn 0", "sm_democheck_warn 1")
       write_configuration(server_config_file("rgl_base.cfg"), modified_content)
     else
       write_configuration(server_config_file("rgl_base.cfg"), content)

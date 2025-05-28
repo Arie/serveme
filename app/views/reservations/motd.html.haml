@@ -86,7 +86,7 @@
           - if reservation.disable_democheck?
             %td.bg-danger.text-white= "Disabled"
           - else
-            %td.bg-success.text-white= "Enabled"
+            %td Enabled
 
 - if current_user && reservation.user == current_user
   .row

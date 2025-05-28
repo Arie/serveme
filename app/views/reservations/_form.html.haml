@@ -47,7 +47,7 @@
       = f.input :enable_plugins,      as: :boolean,  hint: "Enable plugins",                                        disabled: !@reservation.schedulable?
       = f.input :enable_demos_tf,     as: :boolean,  hint: "Enable uploading STVs to demos.tf",                     disabled: !@reservation.schedulable?
       - if na_system?
-        = f.input :disable_democheck, as: :boolean, hint: "Disable RGL democheck", disabled: !@reservation.schedulable?, input_html: { checked: @reservation.disable_democheck }
+        = f.input :disable_democheck, as: :boolean, hint: "Disable RGL democheck (only do this for scrims)", disabled: !@reservation.schedulable?, input_html: { checked: @reservation.disable_democheck }
       = f.association :server_config, collection: ServerConfig.active.ordered, hint: "Specify a league config to run on each map start", input_html: { class: "select2" }
       = f.input :whitelist_type, :label => "Item whitelist" do
         .form-control.whitelist

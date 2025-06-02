@@ -1521,51 +1521,6 @@ class Reservation
     def last_number_of_players_will_change!; end
 
     sig { returns(T.nilable(::String)) }
-    def local_zip_path; end
-
-    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
-    def local_zip_path=(value); end
-
-    sig { returns(T::Boolean) }
-    def local_zip_path?; end
-
-    sig { returns(T.nilable(::String)) }
-    def local_zip_path_before_last_save; end
-
-    sig { returns(T.untyped) }
-    def local_zip_path_before_type_cast; end
-
-    sig { returns(T::Boolean) }
-    def local_zip_path_came_from_user?; end
-
-    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
-    def local_zip_path_change; end
-
-    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
-    def local_zip_path_change_to_be_saved; end
-
-    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def local_zip_path_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
-
-    sig { returns(T.nilable(::String)) }
-    def local_zip_path_in_database; end
-
-    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
-    def local_zip_path_previous_change; end
-
-    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def local_zip_path_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
-
-    sig { returns(T.nilable(::String)) }
-    def local_zip_path_previously_was; end
-
-    sig { returns(T.nilable(::String)) }
-    def local_zip_path_was; end
-
-    sig { void }
-    def local_zip_path_will_change!; end
-
-    sig { returns(T.nilable(::String)) }
     def logsecret; end
 
     sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
@@ -1797,9 +1752,6 @@ class Reservation
     def restore_last_number_of_players!; end
 
     sig { void }
-    def restore_local_zip_path!; end
-
-    sig { void }
     def restore_logsecret!; end
 
     sig { void }
@@ -1846,9 +1798,6 @@ class Reservation
 
     sig { void }
     def restore_whitelist_id!; end
-
-    sig { void }
-    def restore_zip_upload_status!; end
 
     sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
     def saved_change_to_auto_end; end
@@ -1953,12 +1902,6 @@ class Reservation
     def saved_change_to_last_number_of_players?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
-    def saved_change_to_local_zip_path; end
-
-    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def saved_change_to_local_zip_path?(from: T.unsafe(nil), to: T.unsafe(nil)); end
-
-    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
     def saved_change_to_logsecret; end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
@@ -2053,12 +1996,6 @@ class Reservation
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_whitelist_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
-
-    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
-    def saved_change_to_zip_upload_status; end
-
-    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def saved_change_to_zip_upload_status?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable(::String)) }
     def sdr_ip; end
@@ -2652,9 +2589,6 @@ class Reservation
     def will_save_change_to_last_number_of_players?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def will_save_change_to_local_zip_path?(from: T.unsafe(nil), to: T.unsafe(nil)); end
-
-    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_logsecret?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
@@ -2701,54 +2635,6 @@ class Reservation
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_whitelist_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
-
-    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def will_save_change_to_zip_upload_status?(from: T.unsafe(nil), to: T.unsafe(nil)); end
-
-    sig { returns(T.nilable(::String)) }
-    def zip_upload_status; end
-
-    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
-    def zip_upload_status=(value); end
-
-    sig { returns(T::Boolean) }
-    def zip_upload_status?; end
-
-    sig { returns(T.nilable(::String)) }
-    def zip_upload_status_before_last_save; end
-
-    sig { returns(T.untyped) }
-    def zip_upload_status_before_type_cast; end
-
-    sig { returns(T::Boolean) }
-    def zip_upload_status_came_from_user?; end
-
-    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
-    def zip_upload_status_change; end
-
-    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
-    def zip_upload_status_change_to_be_saved; end
-
-    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def zip_upload_status_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
-
-    sig { returns(T.nilable(::String)) }
-    def zip_upload_status_in_database; end
-
-    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
-    def zip_upload_status_previous_change; end
-
-    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def zip_upload_status_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
-
-    sig { returns(T.nilable(::String)) }
-    def zip_upload_status_previously_was; end
-
-    sig { returns(T.nilable(::String)) }
-    def zip_upload_status_was; end
-
-    sig { void }
-    def zip_upload_status_will_change!; end
   end
 
   module GeneratedRelationMethods

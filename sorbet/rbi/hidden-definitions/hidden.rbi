@@ -4922,8 +4922,6 @@ module CGI::Util
 
   def escape_uri_component(arg); end
 
-  def unescapeURIComponent(*arg); end
-
   def unescape_uri_component(*arg); end
 end
 

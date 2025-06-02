@@ -1309,19 +1309,19 @@ module Sidekiq::Job::Iterable
 
   private
 
-  # source://sidekiq//lib/sidekiq/job/iterable.rb#251
+  # source://sidekiq//lib/sidekiq/job/iterable.rb#254
   def assert_enumerator!(enum); end
 
-  # source://sidekiq//lib/sidekiq/job/iterable.rb#283
+  # source://sidekiq//lib/sidekiq/job/iterable.rb#286
   def cleanup; end
 
   # source://sidekiq//lib/sidekiq/job/iterable.rb#177
   def fetch_previous_iteration_state; end
 
-  # source://sidekiq//lib/sidekiq/job/iterable.rb#266
+  # source://sidekiq//lib/sidekiq/job/iterable.rb#269
   def flush_state; end
 
-  # source://sidekiq//lib/sidekiq/job/iterable.rb#290
+  # source://sidekiq//lib/sidekiq/job/iterable.rb#293
   def handle_completed(completed); end
 
   # @return [Boolean]
@@ -1336,10 +1336,10 @@ module Sidekiq::Job::Iterable
 
   # @raise [Interrupted]
   #
-  # source://sidekiq//lib/sidekiq/job/iterable.rb#244
+  # source://sidekiq//lib/sidekiq/job/iterable.rb#247
   def reenqueue_iteration_job; end
 
-  # source://sidekiq//lib/sidekiq/job/iterable.rb#234
+  # source://sidekiq//lib/sidekiq/job/iterable.rb#237
   def verify_iteration_time(time_limit, object); end
 
   class << self

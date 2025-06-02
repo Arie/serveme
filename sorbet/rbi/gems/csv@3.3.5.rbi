@@ -2912,7 +2912,7 @@ CSV::Parser::STRING_SCANNER_SCAN_ACCEPT_STRING = T.let(T.unsafe(nil), TrueClass)
 # Uses StringScanner (the official strscan gem). Strscan provides lexical
 # scanning operations on a String. We inherit its object and take advantage
 # on the methods. For more information, please visit:
-# https://ruby-doc.org/stdlib-2.6.1/libdoc/strscan/rdoc/StringScanner.html
+# https://docs.ruby-lang.org/en/master/StringScanner.html
 #
 # source://csv//lib/csv/parser.rb#52
 class CSV::Parser::Scanner < ::StringScanner

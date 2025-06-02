@@ -198,10 +198,10 @@ end
 #
 # @private
 #
-# source://rspec-core//lib/rspec/core/example_group.rb#775
+# source://rspec-core//lib/rspec/core/example_group.rb#782
 class RSpec::Core::AnonymousExampleGroup < ::RSpec::Core::ExampleGroup
   class << self
-    # source://rspec-core//lib/rspec/core/example_group.rb#776
+    # source://rspec-core//lib/rspec/core/example_group.rb#783
     def metadata; end
   end
 end
@@ -3632,7 +3632,7 @@ class RSpec::Core::ExampleGroup
   extend ::RSpec::Core::MemoizedHelpers::ClassMethods
   extend ::RSpec::Core::SharedExampleGroup
 
-  # source://rspec-core//lib/rspec/core/example_group.rb#707
+  # source://rspec-core//lib/rspec/core/example_group.rb#714
   def initialize(inspect_output = T.unsafe(nil)); end
 
   # Returns the class or module passed to the `describe` method (or alias).
@@ -3648,31 +3648,67 @@ class RSpec::Core::ExampleGroup
   # source://rspec-core//lib/rspec/core/example_group.rb#99
   def described_class; end
 
-  # source://rspec-core//lib/rspec/core/example_group.rb#713
+  # source://rspec-core//lib/rspec/core/example_group.rb#720
   def inspect; end
 
   private
 
-  # source://rspec-core//lib/rspec/core/example_group.rb#758
+  # source://rspec-core//lib/rspec/core/example_group.rb#765
   def method_missing(name, *args, **_arg2); end
 
   class << self
     # Adds an example to the example group
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#367
+    # source://rspec-core//lib/rspec/core/example_group.rb#374
     def add_example(example); end
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#529
+    # source://rspec-core//lib/rspec/core/example_group.rb#536
     def before_context_ivars; end
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#466
+    # source://rspec-core//lib/rspec/core/example_group.rb#473
     def children; end
 
-    # source://rspec-core//lib/rspec/core/example_group.rb#247
+    # An alias of `example_group`. Generally used when grouping examples
+    # contextually (e.g. "with xyz", "when xyz" or "if xyz").
+    # Generates a subclass of this example group which inherits
+    # everything except the examples themselves.
+    #
+    # @example
+    #
+    #   RSpec.describe "something" do # << This describe method is defined in
+    #   # << RSpec::Core::DSL, included in the
+    #   # << global namespace (optional)
+    #   before do
+    #   do_something_before
+    #   end
+    #
+    #   before(:example, :clean_env) do
+    #   env.clear!
+    #   end
+    #
+    #   let(:thing) { Thing.new }
+    #
+    #   context "attribute (of something)" do
+    #   # examples in the group get the before hook
+    #   # declared above, and can access `thing`
+    #   end
+    #
+    #   context "needs additional setup", :clean_env, :implementation => JSON do
+    #   # specifies that hooks with matching metadata
+    #   # should be be run additionally
+    #   end
+    #   end
+    # @overload context
+    # @overload context
+    # @overload context
+    # @return [RSpec::Core::ExampleGroup]
+    # @see example_group
+    #
+    # source://rspec-core//lib/rspec/core/example_group.rb#249
     def context(*args, &example_group_block); end
 
     # Returns true if a `before(:context)` or `after(:context)`
@@ -3680,18 +3716,18 @@ class RSpec::Core::ExampleGroup
     #
     # @return [Boolean]
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#542
+    # source://rspec-core//lib/rspec/core/example_group.rb#549
     def currently_executing_a_context_hook?; end
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#667
+    # source://rspec-core//lib/rspec/core/example_group.rb#674
     def declaration_locations; end
 
     # @private
     # @see DSL#describe
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#246
+    # source://rspec-core//lib/rspec/core/example_group.rb#248
     def define_example_group_method(name, metadata = T.unsafe(nil)); end
 
     # @example
@@ -3705,7 +3741,7 @@ class RSpec::Core::ExampleGroup
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#317
+    # source://rspec-core//lib/rspec/core/example_group.rb#324
     def define_nested_shared_group_method(new_name, report_label = T.unsafe(nil)); end
 
     # @private
@@ -3715,15 +3751,51 @@ class RSpec::Core::ExampleGroup
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#460
+    # source://rspec-core//lib/rspec/core/example_group.rb#467
     def descendant_filtered_examples; end
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#503
+    # source://rspec-core//lib/rspec/core/example_group.rb#510
     def descendants; end
 
-    # source://rspec-core//lib/rspec/core/example_group.rb#247
+    # An alias of `example_group`. Generally used when grouping examples by a
+    # thing you are describing (e.g. an object, class or method).
+    # Generates a subclass of this example group which inherits
+    # everything except the examples themselves.
+    #
+    # @example
+    #
+    #   RSpec.describe "something" do # << This describe method is defined in
+    #   # << RSpec::Core::DSL, included in the
+    #   # << global namespace (optional)
+    #   before do
+    #   do_something_before
+    #   end
+    #
+    #   before(:example, :clean_env) do
+    #   env.clear!
+    #   end
+    #
+    #   let(:thing) { Thing.new }
+    #
+    #   describe "attribute (of something)" do
+    #   # examples in the group get the before hook
+    #   # declared above, and can access `thing`
+    #   end
+    #
+    #   describe "needs additional setup", :clean_env, :implementation => JSON do
+    #   # specifies that hooks with matching metadata
+    #   # should be be run additionally
+    #   end
+    #   end
+    # @overload describe
+    # @overload describe
+    # @overload describe
+    # @return [RSpec::Core::ExampleGroup]
+    # @see example_group
+    #
+    # source://rspec-core//lib/rspec/core/example_group.rb#249
     def describe(*args, &example_group_block); end
 
     # source://rspec-core//lib/rspec/core/example_group.rb#78
@@ -3736,12 +3808,12 @@ class RSpec::Core::ExampleGroup
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#700
+    # source://rspec-core//lib/rspec/core/example_group.rb#707
     def each_instance_variable_for_example(group); end
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#518
+    # source://rspec-core//lib/rspec/core/example_group.rb#525
     def ensure_example_groups_are_configured; end
 
     # Defines an example within a group.
@@ -3771,18 +3843,121 @@ class RSpec::Core::ExampleGroup
     # source://rspec-core//lib/rspec/core/example_group.rb#146
     def example(*all_args, &block); end
 
-    # source://rspec-core//lib/rspec/core/example_group.rb#247
+    # Generates a subclass of this example group which inherits
+    # everything except the examples themselves.
+    #
+    # @example
+    #
+    #   RSpec.describe "something" do # << This describe method is defined in
+    #   # << RSpec::Core::DSL, included in the
+    #   # << global namespace (optional)
+    #   before do
+    #   do_something_before
+    #   end
+    #
+    #   before(:example, :clean_env) do
+    #   env.clear!
+    #   end
+    #
+    #   let(:thing) { Thing.new }
+    #
+    #   example_group "attribute (of something)" do
+    #   # examples in the group get the before hook
+    #   # declared above, and can access `thing`
+    #   end
+    #
+    #   example_group "needs additional setup", :clean_env, :implementation => JSON do
+    #   # specifies that hooks with matching metadata
+    #   # should be be run additionally
+    #   end
+    #   end
+    # @overload example_group
+    # @overload example_group
+    # @overload example_group
+    # @return [RSpec::Core::ExampleGroup]
+    #
+    # source://rspec-core//lib/rspec/core/example_group.rb#249
     def example_group(*args, &example_group_block); end
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#450
+    # source://rspec-core//lib/rspec/core/example_group.rb#457
     def examples; end
 
-    # source://rspec-core//lib/rspec/core/example_group.rb#247
+    # Shortcut to define an example group with `:focus => true`.
+    # Generates a subclass of this example group which inherits
+    # everything except the examples themselves.
+    #
+    # @example
+    #
+    #   RSpec.describe "something" do # << This describe method is defined in
+    #   # << RSpec::Core::DSL, included in the
+    #   # << global namespace (optional)
+    #   before do
+    #   do_something_before
+    #   end
+    #
+    #   before(:example, :clean_env) do
+    #   env.clear!
+    #   end
+    #
+    #   let(:thing) { Thing.new }
+    #
+    #   fcontext "attribute (of something)" do
+    #   # examples in the group get the before hook
+    #   # declared above, and can access `thing`
+    #   end
+    #
+    #   fcontext "needs additional setup", :clean_env, :implementation => JSON do
+    #   # specifies that hooks with matching metadata
+    #   # should be be run additionally
+    #   end
+    #   end
+    # @overload fcontext
+    # @overload fcontext
+    # @overload fcontext
+    # @return [RSpec::Core::ExampleGroup]
+    # @see example_group
+    #
+    # source://rspec-core//lib/rspec/core/example_group.rb#249
     def fcontext(*args, &example_group_block); end
 
-    # source://rspec-core//lib/rspec/core/example_group.rb#247
+    # Shortcut to define an example group with `:focus => true`.
+    # Generates a subclass of this example group which inherits
+    # everything except the examples themselves.
+    #
+    # @example
+    #
+    #   RSpec.describe "something" do # << This describe method is defined in
+    #   # << RSpec::Core::DSL, included in the
+    #   # << global namespace (optional)
+    #   before do
+    #   do_something_before
+    #   end
+    #
+    #   before(:example, :clean_env) do
+    #   env.clear!
+    #   end
+    #
+    #   let(:thing) { Thing.new }
+    #
+    #   fdescribe "attribute (of something)" do
+    #   # examples in the group get the before hook
+    #   # declared above, and can access `thing`
+    #   end
+    #
+    #   fdescribe "needs additional setup", :clean_env, :implementation => JSON do
+    #   # specifies that hooks with matching metadata
+    #   # should be be run additionally
+    #   end
+    #   end
+    # @overload fdescribe
+    # @overload fdescribe
+    # @overload fdescribe
+    # @return [RSpec::Core::ExampleGroup]
+    # @see example_group
+    #
+    # source://rspec-core//lib/rspec/core/example_group.rb#249
     def fdescribe(*args, &example_group_block); end
 
     # Shortcut to define an example with `:focus => true`.
@@ -3818,12 +3993,12 @@ class RSpec::Core::ExampleGroup
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#455
+    # source://rspec-core//lib/rspec/core/example_group.rb#462
     def filtered_examples; end
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#379
+    # source://rspec-core//lib/rspec/core/example_group.rb#386
     def find_and_eval_shared(label, name, inclusion_location, *args, &customization_block); end
 
     # Shortcut to define an example with `:focus => true`.
@@ -3884,7 +4059,7 @@ class RSpec::Core::ExampleGroup
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#655
+    # source://rspec-core//lib/rspec/core/example_group.rb#662
     def for_filtered_examples(reporter, &block); end
 
     # Shortcut to define an example with `:focus => true`.
@@ -3918,7 +4093,7 @@ class RSpec::Core::ExampleGroup
     # @return [String] the unique id of this example group. Pass
     #   this at the command line to re-run this exact example group.
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#675
+    # source://rspec-core//lib/rspec/core/example_group.rb#682
     def id; end
 
     # Define a singleton method for the singleton class (remove the method if
@@ -3936,7 +4111,7 @@ class RSpec::Core::ExampleGroup
     #
     # @see SharedExampleGroup
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#343
+    # source://rspec-core//lib/rspec/core/example_group.rb#350
     def include_context(name, *args, &block); end
 
     # Includes shared content mapped to `name` directly in the group in which
@@ -3946,7 +4121,7 @@ class RSpec::Core::ExampleGroup
     #
     # @see SharedExampleGroup
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#353
+    # source://rspec-core//lib/rspec/core/example_group.rb#360
     def include_examples(name, *args, &block); end
 
     # Defines an example within a group.
@@ -3977,10 +4152,20 @@ class RSpec::Core::ExampleGroup
     # source://rspec-core//lib/rspec/core/example_group.rb#146
     def it(*all_args, &block); end
 
-    # source://rspec-core//lib/rspec/core/example_group.rb#318
+    # @param name [String, Symbol] The name of the shared group to include.
+    # @param args [Array] Pass parameters to a shared example group
+    # @param block [Block] Additional context to pass to the shared group.
+    # @return [RSpec::Core::ExampleGroup]
+    #
+    # source://rspec-core//lib/rspec/core/example_group.rb#325
     def it_behaves_like(name, *args, &customization_block); end
 
-    # source://rspec-core//lib/rspec/core/example_group.rb#318
+    # @param name [String, Symbol] The name of the shared group to include.
+    # @param args [Array] Pass parameters to a shared example group
+    # @param block [Block] Additional context to pass to the shared group.
+    # @return [RSpec::Core::ExampleGroup]
+    #
+    # source://rspec-core//lib/rspec/core/example_group.rb#325
     def it_should_behave_like(name, *args, &customization_block); end
 
     # source://rspec-core//lib/rspec/core/example_group.rb#78
@@ -3995,17 +4180,17 @@ class RSpec::Core::ExampleGroup
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#485
+    # source://rspec-core//lib/rspec/core/example_group.rb#492
     def next_runnable_index_for(file); end
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#625
+    # source://rspec-core//lib/rspec/core/example_group.rb#632
     def ordering_strategy; end
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#508
+    # source://rspec-core//lib/rspec/core/example_group.rb#515
     def parent_groups; end
 
     # Shortcut to define an example with `:pending => true`
@@ -4038,44 +4223,44 @@ class RSpec::Core::ExampleGroup
 
     # Removes an example from the example group
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#373
+    # source://rspec-core//lib/rspec/core/example_group.rb#380
     def remove_example(example); end
 
     # Clear memoized values when adding/removing examples
     #
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#359
+    # source://rspec-core//lib/rspec/core/example_group.rb#366
     def reset_memoized; end
 
     # Runs all the examples in this group.
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#599
+    # source://rspec-core//lib/rspec/core/example_group.rb#606
     def run(reporter = T.unsafe(nil)); end
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#585
+    # source://rspec-core//lib/rspec/core/example_group.rb#592
     def run_after_context_hooks(example_group_instance); end
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#547
+    # source://rspec-core//lib/rspec/core/example_group.rb#554
     def run_before_context_hooks(example_group_instance); end
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#641
+    # source://rspec-core//lib/rspec/core/example_group.rb#648
     def run_examples(reporter); end
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#410
+    # source://rspec-core//lib/rspec/core/example_group.rb#417
     def set_it_up(description, args, registration_collection, &example_group_block); end
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#685
+    # source://rspec-core//lib/rspec/core/example_group.rb#692
     def set_ivars(instance, ivars); end
 
     # Shortcut to define an example with `:skip => true`
@@ -4142,19 +4327,19 @@ class RSpec::Core::ExampleGroup
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#534
+    # source://rspec-core//lib/rspec/core/example_group.rb#541
     def store_before_context_ivars(example_group_instance); end
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#395
+    # source://rspec-core//lib/rspec/core/example_group.rb#402
     def subclass(parent, description, args, registration_collection, &example_group_block); end
 
     # :nocov:
     #
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#562
+    # source://rspec-core//lib/rspec/core/example_group.rb#569
     def superclass_before_context_ivars; end
 
     # @private
@@ -4166,12 +4351,12 @@ class RSpec::Core::ExampleGroup
     # @private
     # @return [Boolean]
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#513
+    # source://rspec-core//lib/rspec/core/example_group.rb#520
     def top_level?; end
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#680
+    # source://rspec-core//lib/rspec/core/example_group.rb#687
     def top_level_description; end
 
     # Traverses the tree of groups, starting with `self`, then the children, recursively.
@@ -4182,12 +4367,12 @@ class RSpec::Core::ExampleGroup
     #
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#476
+    # source://rspec-core//lib/rspec/core/example_group.rb#483
     def traverse_tree_until(&block); end
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#727
+    # source://rspec-core//lib/rspec/core/example_group.rb#734
     def update_inherited_metadata(updates); end
 
     # Temporarily replace the provided metadata.
@@ -4201,10 +4386,80 @@ class RSpec::Core::ExampleGroup
     # source://rspec-core//lib/rspec/core/example_group.rb#61
     def with_replaced_metadata(meta); end
 
-    # source://rspec-core//lib/rspec/core/example_group.rb#247
+    # Shortcut to temporarily make an example group skipped.
+    # Generates a subclass of this example group which inherits
+    # everything except the examples themselves.
+    #
+    # @example
+    #
+    #   RSpec.describe "something" do # << This describe method is defined in
+    #   # << RSpec::Core::DSL, included in the
+    #   # << global namespace (optional)
+    #   before do
+    #   do_something_before
+    #   end
+    #
+    #   before(:example, :clean_env) do
+    #   env.clear!
+    #   end
+    #
+    #   let(:thing) { Thing.new }
+    #
+    #   xcontext "attribute (of something)" do
+    #   # examples in the group get the before hook
+    #   # declared above, and can access `thing`
+    #   end
+    #
+    #   xcontext "needs additional setup", :clean_env, :implementation => JSON do
+    #   # specifies that hooks with matching metadata
+    #   # should be be run additionally
+    #   end
+    #   end
+    # @overload xcontext
+    # @overload xcontext
+    # @overload xcontext
+    # @return [RSpec::Core::ExampleGroup]
+    # @see example_group
+    #
+    # source://rspec-core//lib/rspec/core/example_group.rb#249
     def xcontext(*args, &example_group_block); end
 
-    # source://rspec-core//lib/rspec/core/example_group.rb#247
+    # Shortcut to temporarily make an example group skipped.
+    # Generates a subclass of this example group which inherits
+    # everything except the examples themselves.
+    #
+    # @example
+    #
+    #   RSpec.describe "something" do # << This describe method is defined in
+    #   # << RSpec::Core::DSL, included in the
+    #   # << global namespace (optional)
+    #   before do
+    #   do_something_before
+    #   end
+    #
+    #   before(:example, :clean_env) do
+    #   env.clear!
+    #   end
+    #
+    #   let(:thing) { Thing.new }
+    #
+    #   xdescribe "attribute (of something)" do
+    #   # examples in the group get the before hook
+    #   # declared above, and can access `thing`
+    #   end
+    #
+    #   xdescribe "needs additional setup", :clean_env, :implementation => JSON do
+    #   # specifies that hooks with matching metadata
+    #   # should be be run additionally
+    #   end
+    #   end
+    # @overload xdescribe
+    # @overload xdescribe
+    # @overload xdescribe
+    # @return [RSpec::Core::ExampleGroup]
+    # @see example_group
+    #
+    # source://rspec-core//lib/rspec/core/example_group.rb#249
     def xdescribe(*args, &example_group_block); end
 
     # Shortcut to define an example with `:skip => 'Temporarily skipped with xexample'`.
@@ -4293,21 +4548,21 @@ class RSpec::Core::ExampleGroup
 
     private
 
-    # source://rspec-core//lib/rspec/core/example_group.rb#742
+    # source://rspec-core//lib/rspec/core/example_group.rb#749
     def method_missing(name, *args); end
   end
 end
 
 # @private
 #
-# source://rspec-core//lib/rspec/core/example_group.rb#696
+# source://rspec-core//lib/rspec/core/example_group.rb#703
 RSpec::Core::ExampleGroup::INSTANCE_VARIABLE_TO_IGNORE = T.let(T.unsafe(nil), Symbol)
 
 # Raised when an RSpec API is called in the wrong scope, such as `before`
 # being called from within an example rather than from within an example
 # group block.
 #
-# source://rspec-core//lib/rspec/core/example_group.rb#740
+# source://rspec-core//lib/rspec/core/example_group.rb#747
 class RSpec::Core::ExampleGroup::WrongScopeError < ::NoMethodError; end
 
 # Dumps a list of hashes in a pretty, human readable format
@@ -10603,49 +10858,49 @@ end
 
 # Contains information about the inclusion site of a shared example group.
 #
-# source://rspec-core//lib/rspec/core/example_group.rb#782
+# source://rspec-core//lib/rspec/core/example_group.rb#789
 class RSpec::Core::SharedExampleGroupInclusionStackFrame
   # @private
   # @return [SharedExampleGroupInclusionStackFrame] a new instance of SharedExampleGroupInclusionStackFrame
   #
-  # source://rspec-core//lib/rspec/core/example_group.rb#789
+  # source://rspec-core//lib/rspec/core/example_group.rb#796
   def initialize(shared_group_name, inclusion_location); end
 
   # @return [String] Description of this stack frame, in the form used by
   #   RSpec's built-in formatters.
   #
-  # source://rspec-core//lib/rspec/core/example_group.rb#805
+  # source://rspec-core//lib/rspec/core/example_group.rb#812
   def description; end
 
   # @return [String] The {#inclusion_location}, formatted for display by a formatter.
   #
-  # source://rspec-core//lib/rspec/core/example_group.rb#795
+  # source://rspec-core//lib/rspec/core/example_group.rb#802
   def formatted_inclusion_location; end
 
   # @return [String] the location where the shared example was included
   #
-  # source://rspec-core//lib/rspec/core/example_group.rb#786
+  # source://rspec-core//lib/rspec/core/example_group.rb#793
   def inclusion_location; end
 
   # @return [String] the name of the shared example group
   #
-  # source://rspec-core//lib/rspec/core/example_group.rb#784
+  # source://rspec-core//lib/rspec/core/example_group.rb#791
   def shared_group_name; end
 
   class << self
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#811
+    # source://rspec-core//lib/rspec/core/example_group.rb#818
     def current_backtrace; end
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#829
+    # source://rspec-core//lib/rspec/core/example_group.rb#836
     def shared_example_group_inclusions; end
 
     # @private
     #
-    # source://rspec-core//lib/rspec/core/example_group.rb#816
+    # source://rspec-core//lib/rspec/core/example_group.rb#823
     def with_frame(name, location); end
   end
 end
@@ -11105,24 +11360,24 @@ end
 #
 # @private
 #
-# source://rspec-core//lib/rspec/core/example_group.rb#839
+# source://rspec-core//lib/rspec/core/example_group.rb#846
 module RSpec::ExampleGroups
   extend ::RSpec::Support::RecursiveConstMethods
 
   class << self
-    # source://rspec-core//lib/rspec/core/example_group.rb#842
+    # source://rspec-core//lib/rspec/core/example_group.rb#849
     def assign_const(group); end
 
-    # source://rspec-core//lib/rspec/core/example_group.rb#862
+    # source://rspec-core//lib/rspec/core/example_group.rb#869
     def base_name_for(group); end
 
-    # source://rspec-core//lib/rspec/core/example_group.rb#850
+    # source://rspec-core//lib/rspec/core/example_group.rb#857
     def constant_scope_for(group); end
 
-    # source://rspec-core//lib/rspec/core/example_group.rb#895
+    # source://rspec-core//lib/rspec/core/example_group.rb#902
     def disambiguate(name, const_scope); end
 
-    # source://rspec-core//lib/rspec/core/example_group.rb#856
+    # source://rspec-core//lib/rspec/core/example_group.rb#863
     def remove_all_constants; end
   end
 end

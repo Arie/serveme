@@ -3,7 +3,7 @@
     .col-md-12
       .flash_message.flash.alert.alert-success
         %h5
-          - if current_user.geocoded
+          - if current_user.geocoded && current_user.na_sign_in_ip?
             %span.flags{class: "flags-#{current_user.geocoded.country_code.downcase}"}
             - if current_user.geocoded.country_code == "US"
               - country_name = "the United States"

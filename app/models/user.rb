@@ -150,8 +150,6 @@ class User < ActiveRecord::Base
     current_sign_in_ip_ipv4? && ReservationPlayer.banned_country?(current_sign_in_ip.to_s)
   end
 
-  private
-
   sig { returns(T::Boolean) }
   def na_timezone?
     return false unless time_zone

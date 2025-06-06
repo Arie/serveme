@@ -6,7 +6,7 @@ require 'spec_helper'
 describe ApplicationController do
   controller(PagesController) do
     skip_before_action :authenticate_user!
-    def index
+    define_method(:index) do ||
       render plain: 'foo'
     end
   end

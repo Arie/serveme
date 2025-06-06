@@ -444,27 +444,33 @@ describe Reservation do
     end
   end
 
-  describe '#server_connect_url' do
-    it 'returns a steam connect url for the server' do
-      subject.stub(:server).and_return(Server.new(ip: 'fakkelbrigade.eu', port: '27015'))
-      subject.stub(:password).and_return('foo')
-      subject.server_connect_url.should eql 'steam://connect/176.9.138.143:27015/foo'
+  context "connect urls" do
+    before do
+      Resolv.stub(:getaddress).and_return('176.9.138.143')
     end
-  end
 
-  describe '#stv_connect_url' do
-    it 'returns a steam connect url for the STV' do
-      subject.stub(:server).and_return(Server.new(ip: 'fakkelbrigade.eu', port: '27015', tv_port: '27025'))
-      subject.stub(:tv_password).and_return('bar')
-      subject.stv_connect_url.should eql 'steam://connect/176.9.138.143:27025/bar'
+    describe '#server_connect_url' do
+      it 'returns a steam connect url for the server' do
+        subject.stub(:server).and_return(Server.new(ip: 'fakkelbrigade.eu', port: '27015'))
+        subject.stub(:password).and_return('foo')
+        subject.server_connect_url.should eql 'steam://connect/176.9.138.143:27015/foo'
+      end
     end
-  end
 
-  describe '#connect_string' do
-    it 'returns a console connect string' do
-      subject.stub(:server).and_return(Server.new(ip: 'fakkelbrigade.eu', port: '27015'))
-      subject.stub(:password).and_return('foo')
-      subject.connect_string.should eql 'connect fakkelbrigade.eu:27015; password "foo"'
+    describe '#stv_connect_url' do
+      it 'returns a steam connect url for the STV' do
+        subject.stub(:server).and_return(Server.new(ip: 'fakkelbrigade.eu', port: '27015', tv_port: '27025'))
+        subject.stub(:tv_password).and_return('bar')
+        subject.stv_connect_url.should eql 'steam://connect/176.9.138.143:27025/bar'
+      end
+    end
+
+    describe '#connect_string' do
+      it 'returns a console connect string' do
+        subject.stub(:server).and_return(Server.new(ip: 'fakkelbrigade.eu', port: '27015'))
+        subject.stub(:password).and_return('foo')
+        subject.connect_string.should eql 'connect fakkelbrigade.eu:27015; password "foo"'
+      end
     end
   end
 

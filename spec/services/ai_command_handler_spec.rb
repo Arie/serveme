@@ -15,7 +15,7 @@ RSpec.describe AiCommandHandler do
   let(:request_text) { "Please extend the reservation" }
 
   # Helper methods for building OpenAI responses
-  def build_openai_submit_response(arguments_hash, call_id = "call_123")
+  define_method(:build_openai_submit_response) do |arguments_hash, call_id = "call_123"|
     {
       "choices" => [
         {
@@ -37,7 +37,7 @@ RSpec.describe AiCommandHandler do
     }
   end
 
-  def build_openai_tool_request_response(tool_name, arguments_hash, call_id = "call_tool")
+  define_method(:build_openai_tool_request_response) do |tool_name, arguments_hash, call_id = "call_tool"|
     {
       "choices" => [
         {

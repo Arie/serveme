@@ -86,7 +86,7 @@ RSpec.describe MapSearchService do
     end
 
     # Helper method to stub map creation easily
-    def create_maps(*maps)
+    define_method(:create_maps) do |*maps|
       allow(MapUpload).to receive(:available_maps).and_return(maps)
     end
 

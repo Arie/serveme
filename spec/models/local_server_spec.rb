@@ -413,7 +413,7 @@ Server AppID:           232250%)
 
   private
 
-  def stubbed_reservation(stubs = {})
+  define_method(:stubbed_reservation) do |stubs = {}|
     reservation = instance_double(Reservation, first_map: nil, custom_whitelist_id: false, status_update: instance_double(ReservationStatus), enable_plugins?: false, enable_demos_tf?: false, user: build(:user), server: build(:server), disable_democheck?: false)
     allow(reservation).to receive_messages(stubs) if stubs.any?
     reservation

@@ -19,7 +19,7 @@ module ReservationValidations
       validates_with Reservations::CustomWhitelistValidator
       validates_with Reservations::PasswordValidator, fields: %i[password tv_password tv_relaypassword rcon]
 
-      def check_server_available?
+      define_method(:check_server_available?) do ||
         times_entered?
       end
     end

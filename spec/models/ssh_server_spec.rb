@@ -158,7 +158,7 @@ describe SshServer do
     end
   end
 
-  def scp_command
+  define_method(:scp_command) do ||
     'scp -O -T -l 200000'
   end
 end

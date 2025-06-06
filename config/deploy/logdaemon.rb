@@ -2,19 +2,19 @@
 # frozen_string_literal: true
 
 namespace :logdaemon do
-  def logdaemon_log
+  define_method(:logdaemon_log) do ||
     fetch :logdaemon_log, "log/logdaemon.log"
   end
 
-  def logdaemon_pid
+  define_method(:logdaemon_pid) do ||
     fetch :logdaemon_pid, "tmp/pids/logdaemon.pid"
   end
 
-  def logdaemon_command
+  define_method(:logdaemon_command) do ||
     fetch(:logdaemon_command, "script/logdaemon")
   end
 
-  def logdaemon_host
+  define_method(:logdaemon_host) do ||
     fetch(:logdaemon_host, fetch(:main_server))
   end
 

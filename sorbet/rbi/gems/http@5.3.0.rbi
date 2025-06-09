@@ -9,30 +9,50 @@
 #
 # source://http//lib/http/errors.rb#3
 module HTTP
+  extend ::HTTP::Base64
   extend ::HTTP::Chainable
 
   class << self
     # HTTP[:accept => 'text/html'].get(...)
     #
-    # source://http//lib/http/chainable.rb#182
+    # source://http//lib/http/chainable.rb#183
     def [](headers); end
   end
 end
 
-# source://http//lib/http/chainable.rb#8
+# source://http//lib/http/base64.rb#4
+module HTTP::Base64
+  private
+
+  # Equivalent to Base64.strict_encode64
+  #
+  # source://http//lib/http/base64.rb#8
+  def encode64(input); end
+
+  class << self
+    # Equivalent to Base64.strict_encode64
+    #
+    # source://http//lib/http/base64.rb#8
+    def encode64(input); end
+  end
+end
+
+# source://http//lib/http/chainable.rb#7
 module HTTP::Chainable
+  include ::HTTP::Base64
+
   # Accept the given MIME type(s)
   #
   # @param type
   #
-  # source://http//lib/http/chainable.rb#198
+  # source://http//lib/http/chainable.rb#199
   def accept(type); end
 
   # Make a request with the given Authorization header
   #
   # @param value [#to_s] Authorization header value
   #
-  # source://http//lib/http/chainable.rb#204
+  # source://http//lib/http/chainable.rb#205
   def auth(value); end
 
   # Make a request with the given Basic authorization header
@@ -42,12 +62,12 @@ module HTTP::Chainable
   # @param opts [#fetch]
   # @see http://tools.ietf.org/html/rfc2617
   #
-  # source://http//lib/http/chainable.rb#213
+  # source://http//lib/http/chainable.rb#214
   def basic_auth(opts); end
 
   # Prepare an HTTP request with the given verb
   #
-  # source://http//lib/http/chainable.rb#80
+  # source://http//lib/http/chainable.rb#81
   def build_request(*args); end
 
   # Convert to a transparent TCP/IP tunnel
@@ -56,19 +76,19 @@ module HTTP::Chainable
   # @param uri
   # @param options [Hash] a customizable set of options
   #
-  # source://http//lib/http/chainable.rb#61
+  # source://http//lib/http/chainable.rb#62
   def connect(uri, options = T.unsafe(nil)); end
 
   # Make a request with the given cookies
   #
-  # source://http//lib/http/chainable.rb#187
+  # source://http//lib/http/chainable.rb#188
   def cookies(cookies); end
 
   # Get options for HTTP
   #
   # @return [HTTP::Options]
   #
-  # source://http//lib/http/chainable.rb#223
+  # source://http//lib/http/chainable.rb#224
   def default_options; end
 
   # Set options for HTTP
@@ -76,7 +96,7 @@ module HTTP::Chainable
   # @param opts
   # @return [HTTP::Options]
   #
-  # source://http//lib/http/chainable.rb#230
+  # source://http//lib/http/chainable.rb#231
   def default_options=(opts); end
 
   # Delete a resource
@@ -85,12 +105,12 @@ module HTTP::Chainable
   # @param uri
   # @param options [Hash] a customizable set of options
   #
-  # source://http//lib/http/chainable.rb#40
+  # source://http//lib/http/chainable.rb#41
   def delete(uri, options = T.unsafe(nil)); end
 
   # Force a specific encoding for response body
   #
-  # source://http//lib/http/chainable.rb#192
+  # source://http//lib/http/chainable.rb#193
   def encoding(encoding); end
 
   # Make client follow redirects.
@@ -99,7 +119,7 @@ module HTTP::Chainable
   # @return [HTTP::Client]
   # @see Redirector#initialize
   #
-  # source://http//lib/http/chainable.rb#176
+  # source://http//lib/http/chainable.rb#177
   def follow(options = T.unsafe(nil)); end
 
   # Get a resource
@@ -108,7 +128,7 @@ module HTTP::Chainable
   # @param uri
   # @param options [Hash] a customizable set of options
   #
-  # source://http//lib/http/chainable.rb#19
+  # source://http//lib/http/chainable.rb#20
   def get(uri, options = T.unsafe(nil)); end
 
   # Request a get sans response body
@@ -117,19 +137,19 @@ module HTTP::Chainable
   # @param uri
   # @param options [Hash] a customizable set of options
   #
-  # source://http//lib/http/chainable.rb#12
+  # source://http//lib/http/chainable.rb#13
   def head(uri, options = T.unsafe(nil)); end
 
   # Make a request with the given headers
   #
   # @param headers
   #
-  # source://http//lib/http/chainable.rb#182
+  # source://http//lib/http/chainable.rb#183
   def headers(headers); end
 
   # Set TCP_NODELAY on the socket
   #
-  # source://http//lib/http/chainable.rb#235
+  # source://http//lib/http/chainable.rb#236
   def nodelay; end
 
   # Return the methods supported on the given URI
@@ -138,7 +158,7 @@ module HTTP::Chainable
   # @param uri
   # @param options [Hash] a customizable set of options
   #
-  # source://http//lib/http/chainable.rb#54
+  # source://http//lib/http/chainable.rb#55
   def options(uri, options = T.unsafe(nil)); end
 
   # Apply partial modifications to a resource
@@ -147,13 +167,13 @@ module HTTP::Chainable
   # @param uri
   # @param options [Hash] a customizable set of options
   #
-  # source://http//lib/http/chainable.rb#68
+  # source://http//lib/http/chainable.rb#69
   def patch(uri, options = T.unsafe(nil)); end
 
   # @overload persistent
   # @overload persistent
   #
-  # source://http//lib/http/chainable.rb#144
+  # source://http//lib/http/chainable.rb#145
   def persistent(host, timeout: T.unsafe(nil)); end
 
   # Post to a resource
@@ -162,7 +182,7 @@ module HTTP::Chainable
   # @param uri
   # @param options [Hash] a customizable set of options
   #
-  # source://http//lib/http/chainable.rb#26
+  # source://http//lib/http/chainable.rb#27
   def post(uri, options = T.unsafe(nil)); end
 
   # Put to a resource
@@ -171,26 +191,46 @@ module HTTP::Chainable
   # @param uri
   # @param options [Hash] a customizable set of options
   #
-  # source://http//lib/http/chainable.rb#33
+  # source://http//lib/http/chainable.rb#34
   def put(uri, options = T.unsafe(nil)); end
 
   # Make an HTTP request with the given verb
   #
-  # source://http//lib/http/chainable.rb#74
+  # source://http//lib/http/chainable.rb#75
   def request(*args); end
+
+  # Returns retriable client instance, which retries requests if they failed
+  # due to some socket errors or response status is `5xx`.
+  #
+  # @example Usage
+  #
+  #   # Retry max 5 times with randomly growing delay between retries
+  #   HTTP.retriable.get(url)
+  #
+  #   # Retry max 3 times with randomly growing delay between retries
+  #   HTTP.retriable(times: 3).get(url)
+  #
+  #   # Retry max 3 times with 1 sec delay between retries
+  #   HTTP.retriable(times: 3, delay: proc { 1 }).get(url)
+  #
+  #   # Retry max 3 times with geometrically progressed delay between retries
+  #   HTTP.retriable(times: 3, delay: proc { |i| 1 + i*i }).get(url)
+  #
+  # source://http//lib/http/chainable.rb#270
+  def retriable(**options); end
 
   # Make a request through an HTTP proxy
   #
   # @param proxy [Array]
   # @raise [Request::Error] if HTTP proxy is invalid
   #
-  # source://http//lib/http/chainable.rb#157
+  # source://http//lib/http/chainable.rb#158
   def through(*proxy); end
 
   # @overload timeout
   # @overload timeout
   #
-  # source://http//lib/http/chainable.rb#93
+  # source://http//lib/http/chainable.rb#94
   def timeout(options); end
 
   # Echo the request back to the client
@@ -199,7 +239,7 @@ module HTTP::Chainable
   # @param uri
   # @param options [Hash] a customizable set of options
   #
-  # source://http//lib/http/chainable.rb#47
+  # source://http//lib/http/chainable.rb#48
   def trace(uri, options = T.unsafe(nil)); end
 
   # Turn on given features. Available features are:
@@ -208,10 +248,11 @@ module HTTP::Chainable
   # * instrumentation
   # * logging
   # * normalize_uri
+  # * raise_error
   #
   # @param features
   #
-  # source://http//lib/http/chainable.rb#246
+  # source://http//lib/http/chainable.rb#248
   def use(*features); end
 
   # Make a request through an HTTP proxy
@@ -219,12 +260,12 @@ module HTTP::Chainable
   # @param proxy [Array]
   # @raise [Request::Error] if HTTP proxy is invalid
   #
-  # source://http//lib/http/chainable.rb#157
+  # source://http//lib/http/chainable.rb#158
   def via(*proxy); end
 
   private
 
-  # source://http//lib/http/chainable.rb#253
+  # source://http//lib/http/chainable.rb#277
   def branch(options); end
 end
 
@@ -232,6 +273,7 @@ end
 #
 # source://http//lib/http/client.rb#15
 class HTTP::Client
+  include ::HTTP::Base64
   include ::HTTP::Chainable
   extend ::Forwardable
 
@@ -253,13 +295,11 @@ class HTTP::Client
 
   # Perform a single (no follow) HTTP request
   #
-  # source://webmock/3.23.1/lib/webmock/http_lib_adapters/http_rb/client.rb#7
+  # source://webmock/3.25.1/lib/webmock/http_lib_adapters/http_rb/client.rb#7
   def perform(request, options); end
 
   # @return [Boolean] whenever client is persistent
   # @see Options#persistent?
-  #
-  # source://forwardable/1.3.3/forwardable.rb#231
   def persistent?(*args, **_arg1, &block); end
 
   # Make an HTTP request
@@ -267,7 +307,7 @@ class HTTP::Client
   # source://http//lib/http/client.rb#28
   def request(verb, uri, opts = T.unsafe(nil)); end
 
-  # source://webmock/3.23.1/lib/webmock/http_lib_adapters/http_rb/client.rb#13
+  # source://webmock/3.25.1/lib/webmock/http_lib_adapters/http_rb/client.rb#13
   def webmock_enabled?; end
 
   private
@@ -310,7 +350,7 @@ HTTP::Client::HTTP_OR_HTTPS_RE = T.let(T.unsafe(nil), Regexp)
 
 # Timeout when first establishing the conncetion
 #
-# source://http//lib/http/errors.rb#23
+# source://http//lib/http/errors.rb#39
 class HTTP::ConnectTimeoutError < ::HTTP::TimeoutError; end
 
 # A connection to the HTTP server
@@ -331,14 +371,14 @@ class HTTP::Connection
   #
   # @return [void]
   #
-  # source://http//lib/http/connection.rb#131
+  # source://http//lib/http/connection.rb#132
   def close; end
 
   # Whether our connection has expired
   #
   # @return [Boolean]
   #
-  # source://http//lib/http/connection.rb#150
+  # source://http//lib/http/connection.rb#151
   def expired?; end
 
   # @return [Boolean] whenever proxy connect failed
@@ -350,25 +390,22 @@ class HTTP::Connection
   #
   # @return [void]
   #
-  # source://http//lib/http/connection.rb#119
+  # source://http//lib/http/connection.rb#120
   def finish_response; end
 
   # @return [Boolean]
   #
-  # source://http//lib/http/connection.rb#138
+  # source://http//lib/http/connection.rb#139
   def finished_request?; end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def headers(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def http_version(*args, **_arg1, &block); end
 
   # Whether we're keeping the conn alive
   #
   # @return [Boolean]
   #
-  # source://http//lib/http/connection.rb#144
+  # source://http//lib/http/connection.rb#145
   def keep_alive?; end
 
   # Returned after HTTP CONNECT (via proxy)
@@ -378,9 +415,10 @@ class HTTP::Connection
 
   # Reads data from socket up until headers are loaded
   #
+  # @raise [ResponseHeaderError] when unable to read response headers
   # @return [void]
   #
-  # source://http//lib/http/connection.rb#108
+  # source://http//lib/http/connection.rb#109
   def read_headers!; end
 
   # Read a chunk of the body
@@ -399,28 +437,28 @@ class HTTP::Connection
   # source://http//lib/http/connection.rb#72
   def send_request(req); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def status_code(*args, **_arg1, &block); end
 
   private
 
   # Feeds some more data into parser
   #
+  # @raise [SocketReadError] when unable to read from socket
   # @return [void]
   #
-  # source://http//lib/http/connection.rb#220
+  # source://http//lib/http/connection.rb#222
   def read_more(size); end
 
   # Resets expiration of persistent connection.
   #
   # @return [void]
   #
-  # source://http//lib/http/connection.rb#197
+  # source://http//lib/http/connection.rb#198
   def reset_timer; end
 
   # Open tunnel through proxy
   #
-  # source://http//lib/http/connection.rb#173
+  # source://http//lib/http/connection.rb#174
   def send_proxy_connect_request(req); end
 
   # Store whether the connection should be kept alive.
@@ -428,7 +466,7 @@ class HTTP::Connection
   #
   # @return [void]
   #
-  # source://http//lib/http/connection.rb#204
+  # source://http//lib/http/connection.rb#205
   def set_keep_alive; end
 
   # Sets up SSL context and starts TLS if needed.
@@ -437,7 +475,7 @@ class HTTP::Connection
   # @param options [HTTP::Options]
   # @return [void]
   #
-  # source://http//lib/http/connection.rb#159
+  # source://http//lib/http/connection.rb#160
   def start_tls(req, options); end
 end
 
@@ -767,9 +805,22 @@ class HTTP::Features::NormalizeUri < ::HTTP::Feature
   def normalizer; end
 end
 
+# source://http//lib/http/features/raise_error.rb#5
+class HTTP::Features::RaiseError < ::HTTP::Feature
+  # @return [RaiseError] a new instance of RaiseError
+  #
+  # source://http//lib/http/features/raise_error.rb#6
+  def initialize(ignore: T.unsafe(nil)); end
+
+  # @raise [HTTP::StatusError]
+  #
+  # source://http//lib/http/features/raise_error.rb#12
+  def wrap_response(response); end
+end
+
 # Header value is of unexpected format (similar to Net::HTTPHeaderSyntaxError)
 #
-# source://http//lib/http/errors.rb#26
+# source://http//lib/http/errors.rb#42
 class HTTP::HeaderError < ::HTTP::Error; end
 
 # HTTP Headers container.
@@ -783,14 +834,14 @@ class HTTP::Headers
   #
   # @return [Headers] a new instance of Headers
   #
-  # source://http//lib/http/headers.rb#23
+  # source://http//lib/http/headers.rb#43
   def initialize; end
 
   # Compares headers to another Headers or Array of key/value pairs
   #
   # @return [Boolean]
   #
-  # source://http//lib/http/headers.rb#142
+  # source://http//lib/http/headers.rb#162
   def ==(other); end
 
   # Smart version of {#get}.
@@ -799,14 +850,14 @@ class HTTP::Headers
   # @return [String] if header has exactly one value
   # @return [Array<String>] if header has more than one value
   #
-  # source://http//lib/http/headers.rb#92
+  # source://http//lib/http/headers.rb#112
   def [](name); end
 
   # Sets header.
   #
   # @return [void]
   #
-  # source://http//lib/http/headers.rb#35
+  # source://http//lib/http/headers.rb#55
   def []=(name, value); end
 
   # Appends header.
@@ -820,7 +871,7 @@ class HTTP::Headers
   # @param value [Array<#to_s>, #to_s] header value(s) to be appended
   # @return [void]
   #
-  # source://http//lib/http/headers.rb#60
+  # source://http//lib/http/headers.rb#80
   def add(name, value); end
 
   # Removes header.
@@ -828,7 +879,7 @@ class HTTP::Headers
   # @param name [#to_s] header name
   # @return [void]
   #
-  # source://http//lib/http/headers.rb#45
+  # source://http//lib/http/headers.rb#65
   def delete(name); end
 
   # Calls the given block once for each key/value pair in headers container.
@@ -836,21 +887,19 @@ class HTTP::Headers
   # @return [Enumerator] if no block given
   # @return [Headers] self-reference
   #
-  # source://http//lib/http/headers.rb#152
+  # source://http//lib/http/headers.rb#172
   def each; end
 
   # Returns `true` if `self` has no key/value pairs
   #
   # @return [Boolean]
-  #
-  # source://forwardable/1.3.3/forwardable.rb#231
   def empty?(*args, **_arg1, &block); end
 
   # Returns list of header values if any.
   #
   # @return [Array<String>]
   #
-  # source://http//lib/http/headers.rb#82
+  # source://http//lib/http/headers.rb#102
   def get(name); end
 
   # Compute a hash-code for this headers container.
@@ -858,29 +907,27 @@ class HTTP::Headers
   #
   # @return [Fixnum]
   # @see http://www.ruby-doc.org/core/Object.html#method-i-hash
-  #
-  # source://forwardable/1.3.3/forwardable.rb#231
   def hash(*args, **_arg1, &block); end
 
   # Tells whenever header with given `name` is set or not.
   #
   # @return [Boolean]
   #
-  # source://http//lib/http/headers.rb#105
+  # source://http//lib/http/headers.rb#125
   def include?(name); end
 
   # Returns human-readable representation of `self` instance.
   #
   # @return [String]
   #
-  # source://http//lib/http/headers.rb#128
+  # source://http//lib/http/headers.rb#148
   def inspect; end
 
   # Returns list of header names.
   #
   # @return [Array<String>]
   #
-  # source://http//lib/http/headers.rb#135
+  # source://http//lib/http/headers.rb#155
   def keys; end
 
   # Returns new instance with `other` headers merged in.
@@ -888,7 +935,7 @@ class HTTP::Headers
   # @return [Headers]
   # @see #merge!
   #
-  # source://http//lib/http/headers.rb#193
+  # source://http//lib/http/headers.rb#213
   def merge(other); end
 
   # Merges `other` headers into `self`.
@@ -896,7 +943,7 @@ class HTTP::Headers
   # @return [void]
   # @see #merge
   #
-  # source://http//lib/http/headers.rb#185
+  # source://http//lib/http/headers.rb#205
   def merge!(other); end
 
   # Sets header.
@@ -910,28 +957,28 @@ class HTTP::Headers
   # @param value [Array<#to_s>, #to_s] header value(s) to be appended
   # @return [void]
   #
-  # source://http//lib/http/headers.rb#35
+  # source://http//lib/http/headers.rb#55
   def set(name, value); end
 
   # Returns headers key/value pairs.
   #
   # @return [Array<[String, String]>]
   #
-  # source://http//lib/http/headers.rb#121
+  # source://http//lib/http/headers.rb#141
   def to_a; end
 
   # Returns Rack-compatible headers Hash
   #
   # @return [Hash]
   #
-  # source://http//lib/http/headers.rb#113
+  # source://http//lib/http/headers.rb#133
   def to_h; end
 
   # Returns Rack-compatible headers Hash
   #
   # @return [Hash]
   #
-  # source://http//lib/http/headers.rb#113
+  # source://http//lib/http/headers.rb#133
   def to_hash; end
 
   private
@@ -940,17 +987,12 @@ class HTTP::Headers
   #
   # @api private
   #
-  # source://http//lib/http/headers.rb#176
+  # source://http//lib/http/headers.rb#196
   def initialize_copy(orig); end
 
   # Transforms `name` to canonical HTTP header capitalization
   #
-  # @param name [String]
-  # @raise [HeaderError] if normalized name does not
-  #   match {HEADER_NAME_RE}
-  # @return [String] canonical HTTP header name
-  #
-  # source://http//lib/http/headers.rb#228
+  # source://http//lib/http/headers.rb#220
   def normalize_header(name); end
 
   # Ensures there is no new line character in the header value
@@ -959,7 +1001,7 @@ class HTTP::Headers
   # @raise [HeaderError] if value includes new line character
   # @return [String] stringified header value
   #
-  # source://http//lib/http/headers.rb#243
+  # source://http//lib/http/headers.rb#229
   def validate_value(value); end
 
   class << self
@@ -969,7 +1011,7 @@ class HTTP::Headers
     # @raise [Error] if object can't be coerced
     # @return [Headers]
     #
-    # source://http//lib/http/headers.rb#203
+    # source://http//lib/http/headers.rb#22
     def [](object); end
 
     # Coerces given `object` into Headers.
@@ -978,8 +1020,11 @@ class HTTP::Headers
     # @raise [Error] if object can't be coerced
     # @return [Headers]
     #
-    # source://http//lib/http/headers.rb#203
+    # source://http//lib/http/headers.rb#22
     def coerce(object); end
+
+    # source://http//lib/http/headers.rb#37
+    def normalizer; end
   end
 end
 
@@ -1008,18 +1053,6 @@ HTTP::Headers::AUTHORIZATION = T.let(T.unsafe(nil), String)
 #
 # source://http//lib/http/headers/known.rb#19
 HTTP::Headers::CACHE_CONTROL = T.let(T.unsafe(nil), String)
-
-# Matches HTTP header names when in "Canonical-Http-Format"
-#
-# source://http//lib/http/headers.rb#16
-HTTP::Headers::CANONICAL_NAME_RE = T.let(T.unsafe(nil), Regexp)
-
-# Matches valid header field name according to RFC.
-#
-# @see http://tools.ietf.org/html/rfc7230#section-3.2
-#
-# source://http//lib/http/headers.rb#20
-HTTP::Headers::COMPLIANT_NAME_RE = T.let(T.unsafe(nil), Regexp)
 
 # Control options for the current connection and list
 # of hop-by-hop request fields.
@@ -1117,15 +1150,11 @@ module HTTP::Headers::Mixin
   # @return [nil] if header was not set
   # @return [String] if header has exactly one value
   # @return [Array<String>] if header has more than one value
-  #
-  # source://forwardable/1.3.3/forwardable.rb#231
   def [](*args, **_arg1, &block); end
 
   # Sets header.
   #
   # @return [void]
-  #
-  # source://forwardable/1.3.3/forwardable.rb#231
   def []=(*args, **_arg1, &block); end
 
   # @return [HTTP::Headers]
@@ -1133,6 +1162,73 @@ module HTTP::Headers::Mixin
   # source://http//lib/http/headers/mixin.rb#23
   def headers; end
 end
+
+# source://http//lib/http/headers/normalizer.rb#5
+class HTTP::Headers::Normalizer
+  # @return [Normalizer] a new instance of Normalizer
+  #
+  # source://http//lib/http/headers/normalizer.rb#38
+  def initialize; end
+
+  # Transforms `name` to canonical HTTP header capitalization
+  #
+  # source://http//lib/http/headers/normalizer.rb#43
+  def call(name); end
+
+  private
+
+  # Transforms `name` to canonical HTTP header capitalization
+  #
+  # @param name [String]
+  # @raise [HeaderError] if normalized name does not
+  #   match {COMPLIANT_NAME_RE}
+  # @return [String] canonical HTTP header name
+  #
+  # source://http//lib/http/headers/normalizer.rb#58
+  def normalize_header(name); end
+end
+
+# Matches HTTP header names when in "Canonical-Http-Format"
+#
+# source://http//lib/http/headers/normalizer.rb#7
+HTTP::Headers::Normalizer::CANONICAL_NAME_RE = T.let(T.unsafe(nil), Regexp)
+
+# Matches valid header field name according to RFC.
+#
+# @see http://tools.ietf.org/html/rfc7230#section-3.2
+#
+# source://http//lib/http/headers/normalizer.rb#11
+HTTP::Headers::Normalizer::COMPLIANT_NAME_RE = T.let(T.unsafe(nil), Regexp)
+
+# Normalized header names cache
+#
+# @private
+#
+# source://http//lib/http/headers/normalizer.rb#17
+class HTTP::Headers::Normalizer::Cache
+  # @return [Cache] a new instance of Cache
+  #
+  # source://http//lib/http/headers/normalizer.rb#20
+  def initialize; end
+
+  # source://http//lib/http/headers/normalizer.rb#24
+  def [](key); end
+
+  # source://http//lib/http/headers/normalizer.rb#29
+  def []=(key, value); end
+
+  # source://http//lib/http/headers/normalizer.rb#24
+  def get(key); end
+
+  # source://http//lib/http/headers/normalizer.rb#29
+  def set(key, value); end
+end
+
+# source://http//lib/http/headers/normalizer.rb#18
+HTTP::Headers::Normalizer::Cache::MAX_SIZE = T.let(T.unsafe(nil), Integer)
+
+# source://http//lib/http/headers/normalizer.rb#13
+HTTP::Headers::Normalizer::NAME_PARTS_SEPARATOR_RE = T.let(T.unsafe(nil), Regexp)
 
 # Authorization credentials for connecting to a proxy.
 #
@@ -1234,6 +1330,7 @@ end
 #
 # source://http//lib/http/mime_type/adapter.rb#9
 class HTTP::MimeType::Adapter
+  include ::Singleton::SingletonInstanceMethods
   include ::Singleton
   extend ::Singleton::SingletonClassMethods
 
@@ -1244,10 +1341,7 @@ class HTTP::MimeType::Adapter
   def encode(*_arg0); end
 
   class << self
-    # source://forwardable/1.3.3/forwardable.rb#231
     def decode(*args, **_arg1, &block); end
-
-    # source://forwardable/1.3.3/forwardable.rb#231
     def encode(*args, **_arg1, &block); end
 
     private
@@ -1548,6 +1642,33 @@ class HTTP::Options
   end
 end
 
+# Retriable performance ran out of attempts
+#
+# source://http//lib/http/retriable/errors.rb#5
+class HTTP::OutOfRetriesError < ::HTTP::Error
+  # source://http//lib/http/retriable/errors.rb#10
+  def cause; end
+
+  # Sets the attribute cause
+  #
+  # @param value the value to set the attribute cause to.
+  #
+  # source://http//lib/http/retriable/errors.rb#8
+  def cause=(_arg0); end
+
+  # Returns the value of attribute response.
+  #
+  # source://http//lib/http/retriable/errors.rb#6
+  def response; end
+
+  # Sets the attribute response
+  #
+  # @param value the value to set the attribute response to.
+  #
+  # source://http//lib/http/retriable/errors.rb#6
+  def response=(_arg0); end
+end
+
 # source://http//lib/http/redirector.rb#8
 class HTTP::Redirector
   # @option opts
@@ -1650,6 +1771,7 @@ HTTP::Redirector::UNSAFE_VERBS = T.let(T.unsafe(nil), Set)
 
 # source://http//lib/http/request/body.rb#4
 class HTTP::Request
+  include ::HTTP::Base64
   include ::HTTP::Headers::Mixin
   extend ::Forwardable
 
@@ -1664,37 +1786,35 @@ class HTTP::Request
   # @raise [UnsupportedMethodError]
   # @return [Request] a new instance of Request
   #
-  # source://http//lib/http/request.rb#89
+  # source://http//lib/http/request.rb#90
   def initialize(opts); end
 
   # Returns the value of attribute body.
   #
-  # source://http//lib/http/request.rb#80
+  # source://http//lib/http/request.rb#81
   def body; end
 
   # Setup tunnel through proxy for SSL request
   #
-  # source://http//lib/http/request.rb#167
+  # source://http//lib/http/request.rb#168
   def connect_using_proxy(socket); end
 
   # Compute HTTP request header for direct or proxy request
   #
   # @raise [RequestError]
   #
-  # source://http//lib/http/request.rb#172
+  # source://http//lib/http/request.rb#173
   def headline; end
 
   # @return [String]
-  #
-  # source://forwardable/1.3.3/forwardable.rb#231
   def host(*args, **_arg1, &block); end
 
   # Compute and add the Proxy-Authorization header
   #
-  # source://http//lib/http/request.rb#157
+  # source://http//lib/http/request.rb#158
   def include_proxy_authorization_header; end
 
-  # source://http//lib/http/request.rb#151
+  # source://http//lib/http/request.rb#152
   def include_proxy_headers; end
 
   # Human-readable representation of base request info.
@@ -1705,88 +1825,88 @@ class HTTP::Request
   #   # => #<HTTP::Request/1.1 GET https://example.com>
   # @return [String]
   #
-  # source://http//lib/http/request.rb#220
+  # source://http//lib/http/request.rb#221
   def inspect; end
 
   # Returns the value of attribute proxy.
   #
-  # source://http//lib/http/request.rb#80
+  # source://http//lib/http/request.rb#81
   def proxy; end
 
-  # source://http//lib/http/request.rb#161
+  # source://http//lib/http/request.rb#162
   def proxy_authorization_header; end
 
   # Compute HTTP request header SSL proxy connection
   #
-  # source://http//lib/http/request.rb#186
+  # source://http//lib/http/request.rb#187
   def proxy_connect_header; end
 
   # Headers to send with proxy connect request
   #
-  # source://http//lib/http/request.rb#191
+  # source://http//lib/http/request.rb#192
   def proxy_connect_headers; end
 
   # Returns new Request with updated uri
   #
-  # source://http//lib/http/request.rb#106
+  # source://http//lib/http/request.rb#107
   def redirect(uri, verb = T.unsafe(nil)); end
 
   # Scheme is normalized to be a lowercase symbol e.g. :http, :https
   #
-  # source://http//lib/http/request.rb#73
+  # source://http//lib/http/request.rb#74
   def scheme; end
 
   # Host for tcp socket
   #
-  # source://http//lib/http/request.rb#203
+  # source://http//lib/http/request.rb#204
   def socket_host; end
 
   # Port for tcp socket
   #
-  # source://http//lib/http/request.rb#208
+  # source://http//lib/http/request.rb#209
   def socket_port; end
 
   # Stream the request to a socket
   #
-  # source://http//lib/http/request.rb#136
+  # source://http//lib/http/request.rb#137
   def stream(socket); end
 
   # "Request URI" as per RFC 2616
   # http://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html
   #
-  # source://http//lib/http/request.rb#79
+  # source://http//lib/http/request.rb#80
   def uri; end
 
   # Returns the value of attribute uri_normalizer.
   #
-  # source://http//lib/http/request.rb#75
+  # source://http//lib/http/request.rb#76
   def uri_normalizer; end
 
   # Is this request using an authenticated proxy?
   #
   # @return [Boolean]
   #
-  # source://http//lib/http/request.rb#147
+  # source://http//lib/http/request.rb#148
   def using_authenticated_proxy?; end
 
   # Is this request using a proxy?
   #
   # @return [Boolean]
   #
-  # source://http//lib/http/request.rb#142
+  # source://http//lib/http/request.rb#143
   def using_proxy?; end
 
   # Method is given as a lowercase symbol e.g. :get, :post
   #
-  # source://http//lib/http/request.rb#70
+  # source://http//lib/http/request.rb#71
   def verb; end
 
   # Returns the value of attribute version.
   #
-  # source://http//lib/http/request.rb#80
+  # source://http//lib/http/request.rb#81
   def version; end
 
-  # source://webmock/3.23.1/lib/webmock/http_lib_adapters/http_rb/request.rb#5
+  # source://webmock/3.25.1/lib/webmock/http_lib_adapters/http_rb/request.rb#5
   def webmock_signature; end
 
   private
@@ -1794,16 +1914,16 @@ class HTTP::Request
   # @raise [RequestError]
   # @return [String] Default host (with port if needed) header value.
   #
-  # source://http//lib/http/request.rb#237
+  # source://http//lib/http/request.rb#238
   def default_host_header_value; end
 
-  # source://http//lib/http/request.rb#232
+  # source://http//lib/http/request.rb#233
   def port; end
 
-  # source://http//lib/http/request.rb#245
+  # source://http//lib/http/request.rb#246
   def prepare_body(body); end
 
-  # source://http//lib/http/request.rb#249
+  # source://http//lib/http/request.rb#250
   def prepare_headers(headers); end
 end
 
@@ -1864,32 +1984,32 @@ class HTTP::Request::Body::ProcIO
   def write(data); end
 end
 
-# source://http//lib/http/request.rb#29
+# source://http//lib/http/request.rb#30
 HTTP::Request::METHODS = T.let(T.unsafe(nil), Array)
 
 # Default ports of supported schemes
 #
-# source://http//lib/http/request.rb#62
+# source://http//lib/http/request.rb#63
 HTTP::Request::PORTS = T.let(T.unsafe(nil), Hash)
 
 # Allowed schemes
 #
-# source://http//lib/http/request.rb#59
+# source://http//lib/http/request.rb#60
 HTTP::Request::SCHEMES = T.let(T.unsafe(nil), Array)
 
 # Default User-Agent header value
 #
-# source://http//lib/http/request.rb#27
+# source://http//lib/http/request.rb#28
 HTTP::Request::USER_AGENT = T.let(T.unsafe(nil), String)
 
 # The method given was not understood
 #
-# source://http//lib/http/request.rb#21
+# source://http//lib/http/request.rb#22
 class HTTP::Request::UnsupportedMethodError < ::HTTP::RequestError; end
 
 # The scheme of given URI was not understood
 #
-# source://http//lib/http/request.rb#24
+# source://http//lib/http/request.rb#25
 class HTTP::Request::UnsupportedSchemeError < ::HTTP::RequestError; end
 
 # source://http//lib/http/request/writer.rb#7
@@ -1957,7 +2077,9 @@ class HTTP::Request::Writer
 
   private
 
-  # source://http//lib/http/request/writer.rb#111
+  # @raise [SocketWriteError] when unable to write to socket
+  #
+  # source://http//lib/http/request/writer.rb#112
   def write(data); end
 end
 
@@ -1983,7 +2105,7 @@ HTTP::Request::Writer::ZERO = T.let(T.unsafe(nil), String)
 
 # Generic Request error
 #
-# source://http//lib/http/errors.rb#11
+# source://http//lib/http/errors.rb#16
 class HTTP::RequestError < ::HTTP::Error; end
 
 # source://http//lib/http/response/status/reasons.rb#8
@@ -2016,8 +2138,6 @@ class HTTP::Response
   # Charset of response (if any)
   #
   # @return [String, nil]
-  #
-  # source://forwardable/1.3.3/forwardable.rb#231
   def charset(*args, **_arg1, &block); end
 
   # @return [Boolean]
@@ -2026,15 +2146,11 @@ class HTTP::Response
   def chunked?; end
 
   # @return [Fixnum] status code
-  #
-  # source://forwardable/1.3.3/forwardable.rb#231
   def code(*args, **_arg1, &block); end
 
   # The connection object used to make the corresponding request.
   #
   # @return [HTTP::Connection]
-  #
-  # source://forwardable/1.3.3/forwardable.rb#231
   def connection(*args, **_arg1, &block); end
 
   # Value of the Content-Length header.
@@ -2071,8 +2187,6 @@ class HTTP::Response
   # MIME type of response (if any)
   #
   # @return [String, nil]
-  #
-  # source://forwardable/1.3.3/forwardable.rb#231
   def mime_type(*args, **_arg1, &block); end
 
   # Parse response body with corresponding MIME type adapter.
@@ -2089,12 +2203,9 @@ class HTTP::Response
   # source://http//lib/http/response.rb#32
   def proxy_headers; end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def readpartial(*args, **_arg1, &block); end
 
   # @return [String, nil] status message
-  #
-  # source://forwardable/1.3.3/forwardable.rb#231
   def reason(*args, **_arg1, &block); end
 
   # @return [Request]
@@ -2115,19 +2226,14 @@ class HTTP::Response
   def to_a; end
 
   # @return [String] eagerly consume the entire body as a string
-  #
-  # source://forwardable/1.3.3/forwardable.rb#231
   def to_s(*args, **_arg1, &block); end
 
   # @return [String] eagerly consume the entire body as a string
-  #
-  # source://forwardable/1.3.3/forwardable.rb#231
   def to_str(*args, **_arg1, &block); end
 
-  # source://webmock/3.23.1/lib/webmock/http_lib_adapters/http_rb/response.rb#5
+  # source://webmock/3.25.1/lib/webmock/http_lib_adapters/http_rb/response.rb#5
   def to_webmock; end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def uri(*args, **_arg1, &block); end
 
   # @return [String]
@@ -2148,17 +2254,17 @@ class HTTP::Response
   # source://http//lib/http/response.rb#180
   def init_request(opts); end
 
-  # source://webmock/3.23.1/lib/webmock/http_lib_adapters/http_rb/response.rb#83
+  # source://webmock/3.25.1/lib/webmock/http_lib_adapters/http_rb/response.rb#83
   def reset_body_to_allow_it_to_be_streamed!(webmock_response); end
 
   class << self
-    # source://webmock/3.23.1/lib/webmock/http_lib_adapters/http_rb/response.rb#58
+    # source://webmock/3.25.1/lib/webmock/http_lib_adapters/http_rb/response.rb#58
     def build_http_rb_response_body_from_webmock_response(webmock_response); end
 
-    # source://webmock/3.23.1/lib/webmock/http_lib_adapters/http_rb/response.rb#26
+    # source://webmock/3.25.1/lib/webmock/http_lib_adapters/http_rb/response.rb#26
     def from_webmock(request, webmock_response, request_signature = T.unsafe(nil)); end
 
-    # source://webmock/3.23.1/lib/webmock/http_lib_adapters/http_rb/response.rb#71
+    # source://webmock/3.25.1/lib/webmock/http_lib_adapters/http_rb/response.rb#71
     def normalize_uri(uri); end
   end
 end
@@ -2187,7 +2293,6 @@ class HTTP::Response::Body
   # source://http//lib/http/response/body.rb#36
   def each; end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def empty?(*args, **_arg1, &block); end
 
   # Easier to interpret string inspect
@@ -2713,13 +2818,198 @@ HTTP::Response::Status::SYMBOL_CODES = T.let(T.unsafe(nil), Hash)
 
 # Generic Response error
 #
-# source://http//lib/http/errors.rb#14
+# source://http//lib/http/errors.rb#19
 class HTTP::ResponseError < ::HTTP::Error; end
+
+# Types of Connection errors
+#
+# source://http//lib/http/errors.rb#11
+class HTTP::ResponseHeaderError < ::HTTP::ConnectionError; end
+
+# source://http//lib/http/retriable/delay_calculator.rb#4
+module HTTP::Retriable; end
+
+# Retriable version of HTTP::Client.
+#
+# @see http://www.rubydoc.info/gems/http/HTTP/Client
+#
+# source://http//lib/http/retriable/client.rb#10
+class HTTP::Retriable::Client < ::HTTP::Client
+  # @param performer [Performer]
+  # @param options [HTTP::Options, Hash]
+  # @return [Client] a new instance of Client
+  #
+  # source://http//lib/http/retriable/client.rb#13
+  def initialize(performer, options); end
+
+  # Overriden version of `HTTP::Client#make_request`.
+  #
+  # Monitors request/response phase with performer.
+  #
+  # @see http://www.rubydoc.info/gems/http/HTTP/Client:perform
+  #
+  # source://http//lib/http/retriable/client.rb#23
+  def perform(req, options); end
+
+  private
+
+  # Overriden version of `HTTP::Chainable#branch`.
+  #
+  # @return [HTTP::Retriable::Client]
+  #
+  # source://http//lib/http/retriable/client.rb#32
+  def branch(options); end
+end
+
+# @api private
+#
+# source://http//lib/http/retriable/delay_calculator.rb#6
+class HTTP::Retriable::DelayCalculator
+  # @api private
+  # @return [DelayCalculator] a new instance of DelayCalculator
+  #
+  # source://http//lib/http/retriable/delay_calculator.rb#7
+  def initialize(opts); end
+
+  # @api private
+  #
+  # source://http//lib/http/retriable/delay_calculator.rb#47
+  def calculate_delay_from_iteration(iteration); end
+
+  # @api private
+  #
+  # source://http//lib/http/retriable/delay_calculator.rb#16
+  def call(iteration, response); end
+
+  # Spec for Retry-After header
+  # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After
+  #
+  # @api private
+  #
+  # source://http//lib/http/retriable/delay_calculator.rb#37
+  def delay_from_retry_header(value); end
+
+  # @api private
+  #
+  # source://http//lib/http/retriable/delay_calculator.rb#59
+  def ensure_dealy_in_bounds(delay); end
+end
+
+# @api private
+#
+# source://http//lib/http/retriable/delay_calculator.rb#26
+HTTP::Retriable::DelayCalculator::RFC2822_DATE_REGEX = T.let(T.unsafe(nil), Regexp)
+
+# Request performing watchdog.
+#
+# @api private
+#
+# source://http//lib/http/retriable/performer.rb#12
+class HTTP::Retriable::Performer
+  # @api private
+  # @option opts
+  # @option opts
+  # @option opts
+  # @option opts
+  # @option opts
+  # @option opts
+  # @option opts
+  # @param opts [Hash]
+  # @return [Performer] a new instance of Performer
+  #
+  # source://http//lib/http/retriable/performer.rb#34
+  def initialize(opts); end
+
+  # @api private
+  #
+  # source://http//lib/http/retriable/performer.rb#76
+  def calculate_delay(iteration, response); end
+
+  # Watches request/response execution.
+  #
+  # If any of {RETRIABLE_ERRORS} occur or response status is `5xx`, retries
+  # up to `:tries` amount of times. Sleeps for amount of seconds calculated
+  # with `:delay` proc before each retry.
+  #
+  # @api private
+  # @see #initialize
+  #
+  # source://http//lib/http/retriable/performer.rb#51
+  def perform(client, req, &block); end
+
+  private
+
+  # Builds OutOfRetriesError
+  #
+  # @api private
+  # @param request [HTTP::Request]
+  # @param status [HTTP::Response, nil]
+  # @param exception [Exception, nil]
+  #
+  # source://http//lib/http/retriable/performer.rb#140
+  def out_of_retries_error(request, response, exception); end
+
+  # @api private
+  # @return [Boolean]
+  #
+  # source://http//lib/http/retriable/performer.rb#106
+  def retry_exception?(err); end
+
+  # @api private
+  # @return [Boolean]
+  #
+  # source://http//lib/http/retriable/performer.rb#96
+  def retry_request?(req, err, res, attempt); end
+
+  # @api private
+  # @return [Boolean]
+  #
+  # source://http//lib/http/retriable/performer.rb#110
+  def retry_response?(res); end
+
+  # @api private
+  #
+  # source://http//lib/http/retriable/performer.rb#83
+  def try_request; end
+
+  # @api private
+  #
+  # source://http//lib/http/retriable/performer.rb#125
+  def wait_for_retry_or_raise(req, err, res, attempt); end
+end
+
+# Exceptions we should retry
+#
+# @api private
+#
+# source://http//lib/http/retriable/performer.rb#14
+HTTP::Retriable::Performer::RETRIABLE_ERRORS = T.let(T.unsafe(nil), Array)
+
+# source://http//lib/http/errors.rb#12
+class HTTP::SocketReadError < ::HTTP::ConnectionError; end
+
+# source://http//lib/http/errors.rb#13
+class HTTP::SocketWriteError < ::HTTP::ConnectionError; end
 
 # Requested to do something when we're in the wrong state
 #
-# source://http//lib/http/errors.rb#17
+# source://http//lib/http/errors.rb#22
 class HTTP::StateError < ::HTTP::ResponseError; end
+
+# When status code indicates an error
+#
+# source://http//lib/http/errors.rb#25
+class HTTP::StatusError < ::HTTP::ResponseError
+  # @return [StatusError] a new instance of StatusError
+  #
+  # source://http//lib/http/errors.rb#28
+  def initialize(response); end
+
+  # Returns the value of attribute response.
+  #
+  # source://http//lib/http/errors.rb#26
+  def response; end
+end
 
 # source://http//lib/http/timeout/null.rb#6
 module HTTP::Timeout; end
@@ -2895,7 +3185,7 @@ HTTP::Timeout::PerOperation::WRITE_TIMEOUT = T.let(T.unsafe(nil), Float)
 
 # Generic Timeout error
 #
-# source://http//lib/http/errors.rb#20
+# source://http//lib/http/errors.rb#36
 class HTTP::TimeoutError < ::HTTP::Error; end
 
 # source://http//lib/http/uri.rb#6
@@ -2926,10 +3216,7 @@ class HTTP::URI
   # source://http//lib/http/uri.rb#123
   def ==(other); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def authority(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def authority=(*args, **_arg1, &block); end
 
   # @return [Object] duplicated URI
@@ -2945,10 +3232,7 @@ class HTTP::URI
   # source://http//lib/http/uri.rb#132
   def eql?(other); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def fragment(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def fragment=(*args, **_arg1, &block); end
 
   # Hash value based off the normalized form of a URI
@@ -2991,16 +3275,9 @@ class HTTP::URI
   # source://http//lib/http/uri.rb#187
   def inspect; end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def join(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def normalize(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def normalized_authority(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def normalized_fragment(*args, **_arg1, &block); end
 
   # Normalized host, either a domain name or IP address. If the host is an IPv6 address, it will
@@ -3011,43 +3288,18 @@ class HTTP::URI
   # source://http//lib/http/uri.rb#32
   def normalized_host; end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def normalized_password(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def normalized_path(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def normalized_port(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def normalized_query(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def normalized_scheme(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def normalized_user(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def omit(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def origin(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def origin=(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def password(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def password=(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def path(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def path=(*args, **_arg1, &block); end
 
   # Port number, either as specified or the default if unspecified
@@ -3057,31 +3309,14 @@ class HTTP::URI
   # source://http//lib/http/uri.rb#157
   def port; end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def port=(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def query(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def query=(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def query_values(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def query_values=(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def request_uri(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def request_uri=(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def scheme(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def scheme=(*args, **_arg1, &block); end
 
   # Convert an HTTP::URI to a String
@@ -3098,10 +3333,7 @@ class HTTP::URI
   # source://http//lib/http/uri.rb#181
   def to_str; end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
   def user(*args, **_arg1, &block); end
-
-  # source://forwardable/1.3.3/forwardable.rb#231
   def user=(*args, **_arg1, &block); end
 
   private

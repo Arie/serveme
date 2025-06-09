@@ -821,51 +821,6 @@ class Order
     sig { void }
     def payment_id_will_change!; end
 
-    sig { returns(T.nilable(::String)) }
-    def payment_method_id; end
-
-    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
-    def payment_method_id=(value); end
-
-    sig { returns(T::Boolean) }
-    def payment_method_id?; end
-
-    sig { returns(T.nilable(::String)) }
-    def payment_method_id_before_last_save; end
-
-    sig { returns(T.untyped) }
-    def payment_method_id_before_type_cast; end
-
-    sig { returns(T::Boolean) }
-    def payment_method_id_came_from_user?; end
-
-    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
-    def payment_method_id_change; end
-
-    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
-    def payment_method_id_change_to_be_saved; end
-
-    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def payment_method_id_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
-
-    sig { returns(T.nilable(::String)) }
-    def payment_method_id_in_database; end
-
-    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
-    def payment_method_id_previous_change; end
-
-    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def payment_method_id_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
-
-    sig { returns(T.nilable(::String)) }
-    def payment_method_id_previously_was; end
-
-    sig { returns(T.nilable(::String)) }
-    def payment_method_id_was; end
-
-    sig { void }
-    def payment_method_id_will_change!; end
-
     sig { returns(T.nilable(::Integer)) }
     def product_id; end
 
@@ -930,9 +885,6 @@ class Order
     def restore_payment_id!; end
 
     sig { void }
-    def restore_payment_method_id!; end
-
-    sig { void }
     def restore_product_id!; end
 
     sig { void }
@@ -982,12 +934,6 @@ class Order
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_payment_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
-
-    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
-    def saved_change_to_payment_method_id; end
-
-    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def saved_change_to_payment_method_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
     def saved_change_to_product_id; end
@@ -1216,9 +1162,6 @@ class Order
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_payment_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
-
-    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def will_save_change_to_payment_method_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_product_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end

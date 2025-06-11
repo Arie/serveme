@@ -223,6 +223,9 @@ module GeneratedPathHelpersModule
   def passthru_sessions_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def pings_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def played_in_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

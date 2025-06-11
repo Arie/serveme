@@ -223,6 +223,9 @@ module GeneratedUrlHelpersModule
   def passthru_sessions_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def pings_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def played_in_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

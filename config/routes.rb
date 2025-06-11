@@ -156,6 +156,7 @@ Serveme::Application.routes.draw do
   get   "/maps",                          to: "map_uploads#index",         as: "maps"
   get   "/maps/:sort_by",                 to: "map_uploads#index",         as: "maps_sorted"
   get   "/private-servers",               to: "pages#private_servers",     as: "private_server_info"
+  get   "/pings",                         to: "pings#index",        as: "pings"
 
   get   "/player_statistics/sdr",                                          to: "player_statistics#show_for_sdr",                     as: "show_sdr"
   get   "/player_statistics/reservation/:reservation_id",                  to: "player_statistics#show_for_reservation",             as: "show_reservation_statistic"

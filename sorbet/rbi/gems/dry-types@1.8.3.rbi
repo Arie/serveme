@@ -12,12 +12,6 @@
 # source://dry-types//lib/dry/types/constraints.rb#3
 module Dry
   class << self
-    # source://dry-configurable/1.3.0/lib/dry/configurable.rb#11
-    def Configurable(**options); end
-
-    # source://dry-core/1.1.0/lib/dry/core.rb#52
-    def Equalizer(*keys, **options); end
-
     # Export registered types as a module with constants
     #
     # @api public
@@ -150,7 +144,7 @@ module Dry::Types
 
     # @api public
     #
-    # source://dry-core/1.1.0/lib/dry/core/deprecations.rb#202
+    # source://dry-types//lib/dry/types.rb#65
     def module(*args, &block); end
 
     # Register a new built-in type
@@ -373,7 +367,7 @@ module Dry::Types::Builder
   # @param block [#call, nil]
   # @return [Constructor]
   #
-  # source://dry-types//lib/dry/types/builder.rb#138
+  # source://dry-types//lib/dry/types/builder.rb#144
   def <<(constructor = T.unsafe(nil), **options, &block); end
 
   # Compose two types into an Implication type
@@ -393,7 +387,7 @@ module Dry::Types::Builder
   # @param block [#call, nil]
   # @return [Constructor]
   #
-  # source://dry-types//lib/dry/types/builder.rb#138
+  # source://dry-types//lib/dry/types/builder.rb#143
   def >>(constructor = T.unsafe(nil), **options, &block); end
 
   # Define a constructor for the type
@@ -404,7 +398,7 @@ module Dry::Types::Builder
   # @param block [#call, nil]
   # @return [Constructor]
   #
-  # source://dry-types//lib/dry/types/builder.rb#138
+  # source://dry-types//lib/dry/types/builder.rb#141
   def append(constructor = T.unsafe(nil), **options, &block); end
 
   # Turn a type into a constrained type
@@ -498,7 +492,7 @@ module Dry::Types::Builder
   # @param block [#call, nil]
   # @return [Constructor]
   #
-  # source://dry-types//lib/dry/types/builder.rb#138
+  # source://dry-types//lib/dry/types/builder.rb#142
   def prepend(constructor = T.unsafe(nil), **options, &block); end
 
   # Compose two types into a Sum type
@@ -544,7 +538,7 @@ module Dry::Types::BuilderMethods
   # @param object [Object]
   # @return [Dry::Types::Type]
   #
-  # source://dry-types//lib/dry/types/builder_methods.rb#63
+  # source://dry-types//lib/dry/types/builder_methods.rb#70
   def Constant(object); end
 
   # Build a constructor type
@@ -556,7 +550,7 @@ module Dry::Types::BuilderMethods
   # @param block [#call, nil] Value constructor
   # @return [Dry::Types::Type]
   #
-  # source://dry-types//lib/dry/types/builder_methods.rb#73
+  # source://dry-types//lib/dry/types/builder_methods.rb#80
   def Constructor(klass, cons = T.unsafe(nil), &block); end
 
   # Build a hash schema
@@ -592,7 +586,7 @@ module Dry::Types::BuilderMethods
   # @param methods [Array<String, Symbol>] Method names
   # @return [Dry::Types::Contrained]
   #
-  # source://dry-types//lib/dry/types/builder_methods.rb#124
+  # source://dry-types//lib/dry/types/builder_methods.rb#131
   def Interface(*methods); end
 
   # Build a map type
@@ -605,7 +599,7 @@ module Dry::Types::BuilderMethods
   # @param value_type [Type] Value type
   # @return [Dry::Types::Map]
   #
-  # source://dry-types//lib/dry/types/builder_methods.rb#110
+  # source://dry-types//lib/dry/types/builder_methods.rb#117
   def Map(key_type, value_type); end
 
   # Build a nominal type
@@ -614,7 +608,7 @@ module Dry::Types::BuilderMethods
   # @param klass [Class]
   # @return [Dry::Types::Type]
   #
-  # source://dry-types//lib/dry/types/builder_methods.rb#90
+  # source://dry-types//lib/dry/types/builder_methods.rb#97
   def Nominal(klass); end
 
   # Build a type which values are instances of a given class
@@ -628,7 +622,7 @@ module Dry::Types::BuilderMethods
   # @param klass [Class, Module] Class or module
   # @return [Dry::Types::Type]
   #
-  # source://dry-types//lib/dry/types/builder_methods.rb#46
+  # source://dry-types//lib/dry/types/builder_methods.rb#54
   def Strict(klass); end
 
   # Build a type with a single value
@@ -638,7 +632,7 @@ module Dry::Types::BuilderMethods
   # @param value [Object]
   # @return [Dry::Types::Type]
   #
-  # source://dry-types//lib/dry/types/builder_methods.rb#55
+  # source://dry-types//lib/dry/types/builder_methods.rb#62
   def Value(value); end
 
   # @api private
@@ -964,7 +958,7 @@ class Dry::Types::Compiler
   # source://dry-types//lib/dry/types/compiler.rb#50
   def visit_rule(node); end
 
-  # source://dry-core/1.1.0/lib/dry/core/deprecations.rb#168
+  # source://dry-types//lib/dry/types/compiler.rb#37
   def visit_safe(*args, &block); end
 
   # @api private
@@ -1276,7 +1270,7 @@ class Dry::Types::ConstraintError < ::Dry::Types::CoercionError
   # @api public
   # @return [String]
   #
-  # source://dry-types//lib/dry/types/errors.rb#132
+  # source://dry-types//lib/dry/types/errors.rb#135
   def to_s; end
 end
 
@@ -1306,7 +1300,7 @@ class Dry::Types::Constructor < ::Dry::Types::Nominal
   # @param block [#call, nil]
   # @return [Constructor]
   #
-  # source://dry-types//lib/dry/types/constructor.rb#140
+  # source://dry-types//lib/dry/types/constructor.rb#143
   def <<(new_fn = T.unsafe(nil), **options, &block); end
 
   # Build a new constructor by appending a block to the coercion function
@@ -1317,7 +1311,7 @@ class Dry::Types::Constructor < ::Dry::Types::Nominal
   # @param block [#call, nil]
   # @return [Constructor]
   #
-  # source://dry-types//lib/dry/types/constructor.rb#107
+  # source://dry-types//lib/dry/types/constructor.rb#117
   def >>(new_fn = T.unsafe(nil), **options, &block); end
 
   # Build a new constructor by appending a block to the coercion function
@@ -1328,7 +1322,7 @@ class Dry::Types::Constructor < ::Dry::Types::Nominal
   # @param block [#call, nil]
   # @return [Constructor]
   #
-  # source://dry-types//lib/dry/types/constructor.rb#107
+  # source://dry-types//lib/dry/types/constructor.rb#116
   def append(new_fn = T.unsafe(nil), **options, &block); end
 
   # @api private
@@ -1487,7 +1481,7 @@ class Dry::Types::Constructor::Function
   # @api private
   # @return [Object]
   #
-  # source://dry-types//lib/dry/types/constructor/function.rb#172
+  # source://dry-types//lib/dry/types/constructor/function.rb#173
   def [](input, &_arg1); end
 
   # @api private
@@ -1642,7 +1636,7 @@ class Dry::Types::Constructor::Function::Wrapper < ::Dry::Types::Constructor::Fu
   # @api private
   # @return [Object]
   #
-  # source://dry-types//lib/dry/types/constructor/function.rb#121
+  # source://dry-types//lib/dry/types/constructor/function.rb#126
   def [](input, type, &_arg2); end
 
   # @api private
@@ -1669,7 +1663,7 @@ module Dry::Types::Constructor::Wrapper
   # @param block [#call, nil]
   # @return [Constructor]
   #
-  # source://dry-types//lib/dry/types/constructor/wrapper.rb#56
+  # source://dry-types//lib/dry/types/constructor/wrapper.rb#68
   def <<(new_fn = T.unsafe(nil), **options, &block); end
 
   # Define a constructor for the type
@@ -1680,7 +1674,7 @@ module Dry::Types::Constructor::Wrapper
   # @param block [#call, nil]
   # @return [Constructor]
   #
-  # source://dry-types//lib/dry/types/builder.rb#138
+  # source://dry-types//lib/dry/types/constructor/wrapper.rb#45
   def >>(constructor = T.unsafe(nil), **options, &block); end
 
   # Define a constructor for the type
@@ -1691,7 +1685,7 @@ module Dry::Types::Constructor::Wrapper
   # @param block [#call, nil]
   # @return [Constructor]
   #
-  # source://dry-types//lib/dry/types/builder.rb#138
+  # source://dry-types//lib/dry/types/constructor/wrapper.rb#44
   def append(constructor = T.unsafe(nil), **options, &block); end
 
   # @api private
@@ -1714,7 +1708,7 @@ module Dry::Types::Constructor::Wrapper
   # @param block [#call, nil]
   # @return [Constructor]
   #
-  # source://dry-types//lib/dry/types/builder.rb#138
+  # source://dry-types//lib/dry/types/constructor/wrapper.rb#43
   def constructor(constructor = T.unsafe(nil), **options, &block); end
 
   # @api public
@@ -1767,7 +1761,7 @@ class Dry::Types::Container
   extend ::Dry::Configurable::Methods
   extend ::Dry::Configurable::ClassMethods
 
-  # source://dry-core/1.1.0/lib/dry/core/container/mixin.rb#83
+  # source://dry-types//lib/dry/types/container.rb#9
   def config; end
 end
 
@@ -1915,7 +1909,7 @@ class Dry::Types::Default
   # @api public
   # @return [Object]
   #
-  # source://dry-types//lib/dry/types/default.rb#32
+  # source://dry-types//lib/dry/types/default.rb#34
   def evaluate; end
 
   # @api public
@@ -2020,13 +2014,13 @@ class Dry::Types::Enum
   #
   # @api public
   #
-  # source://dry-types//lib/dry/types/type.rb#18
+  # source://dry-types//lib/dry/types/enum.rb#58
   def include?(input = T.unsafe(nil)); end
 
   # @api public
   # @return [String]
   #
-  # source://dry-types//lib/dry/types/enum.rb#70
+  # source://dry-types//lib/dry/types/enum.rb#81
   def inspect; end
 
   # @api public
@@ -2141,7 +2135,7 @@ class Dry::Types::Hash < ::Dry::Types::Nominal
 
   # @api private
   #
-  # source://dry-types//lib/dry/types/hash.rb#50
+  # source://dry-types//lib/dry/types/hash.rb#54
   def permissive(*_arg0); end
 
   # @api public
@@ -2153,17 +2147,17 @@ class Dry::Types::Hash < ::Dry::Types::Nominal
 
   # @api private
   #
-  # source://dry-types//lib/dry/types/hash.rb#50
+  # source://dry-types//lib/dry/types/hash.rb#55
   def strict(*_arg0); end
 
   # @api private
   #
-  # source://dry-types//lib/dry/types/hash.rb#50
+  # source://dry-types//lib/dry/types/hash.rb#56
   def strict_with_defaults(*_arg0); end
 
   # @api private
   #
-  # source://dry-types//lib/dry/types/hash.rb#50
+  # source://dry-types//lib/dry/types/hash.rb#57
   def symbolized(*_arg0); end
 
   # @api public
@@ -2285,10 +2279,10 @@ class Dry::Types::Implication
   def try(input, &_arg1); end
 
   class << self
-    # source://dry-types//lib/dry/types/composition.rb#40
+    # source://dry-types//lib/dry/types/implication.rb#9
     def ast_type; end
 
-    # source://dry-types//lib/dry/types/composition.rb#41
+    # source://dry-types//lib/dry/types/implication.rb#9
     def composition_name; end
 
     # @api public
@@ -2298,7 +2292,7 @@ class Dry::Types::Implication
   end
 end
 
-# source://dry-types//lib/dry/types/implication.rb#0
+# source://dry-types//lib/dry/types/implication.rb#9
 class Dry::Types::Implication::Constrained < ::Dry::Types::Implication
   include ::Dry::Types::Composition::Constrained
 end
@@ -2368,10 +2362,10 @@ class Dry::Types::Intersection
   def try_sides(input, &block); end
 
   class << self
-    # source://dry-types//lib/dry/types/composition.rb#40
+    # source://dry-types//lib/dry/types/intersection.rb#13
     def ast_type; end
 
-    # source://dry-types//lib/dry/types/composition.rb#41
+    # source://dry-types//lib/dry/types/intersection.rb#13
     def composition_name; end
 
     # @api public
@@ -2381,7 +2375,7 @@ class Dry::Types::Intersection
   end
 end
 
-# source://dry-types//lib/dry/types/intersection.rb#0
+# source://dry-types//lib/dry/types/intersection.rb#13
 class Dry::Types::Intersection::Constrained < ::Dry::Types::Intersection
   include ::Dry::Types::Composition::Constrained
 end
@@ -2411,7 +2405,7 @@ class Dry::Types::Lax
   # @param input [Object]
   # @return [Object]
   #
-  # source://dry-types//lib/dry/types/lax.rb#22
+  # source://dry-types//lib/dry/types/lax.rb#25
   def [](input, &_arg1); end
 
   # @api public
@@ -2425,14 +2419,14 @@ class Dry::Types::Lax
   # @param input [Object]
   # @return [Object]
   #
-  # source://dry-types//lib/dry/types/lax.rb#22
+  # source://dry-types//lib/dry/types/lax.rb#26
   def call_safe(input, &_arg1); end
 
   # @api public
   # @param input [Object]
   # @return [Object]
   #
-  # source://dry-types//lib/dry/types/lax.rb#22
+  # source://dry-types//lib/dry/types/lax.rb#27
   def call_unsafe(input, &_arg1); end
 
   # @api public
@@ -3025,7 +3019,7 @@ class Dry::Types::PredicateInferrer::Compiler
 
   # @api private
   #
-  # source://dry-types//lib/dry/types/predicate_inferrer.rb#107
+  # source://dry-types//lib/dry/types/predicate_inferrer.rb#110
   def visit_schema(_); end
 
   # @api private
@@ -3183,7 +3177,7 @@ class Dry::Types::PrimitiveInferrer::Compiler
 
   # @api private
   #
-  # source://dry-types//lib/dry/types/primitive_inferrer.rb#28
+  # source://dry-types//lib/dry/types/primitive_inferrer.rb#29
   def visit_schema(_); end
 
   # @api private
@@ -3199,7 +3193,7 @@ module Dry::Types::Printable
   # @api private
   # @return [String]
   #
-  # source://dry-types//lib/dry/types/printable.rb#10
+  # source://dry-types//lib/dry/types/printable.rb#11
   def inspect; end
 
   # @api private
@@ -3877,10 +3871,10 @@ class Dry::Types::Sum
   def try(input); end
 
   class << self
-    # source://dry-types//lib/dry/types/composition.rb#40
+    # source://dry-types//lib/dry/types/sum.rb#9
     def ast_type; end
 
-    # source://dry-types//lib/dry/types/composition.rb#41
+    # source://dry-types//lib/dry/types/sum.rb#9
     def composition_name; end
 
     # @api public
@@ -3890,7 +3884,7 @@ class Dry::Types::Sum
   end
 end
 
-# source://dry-types//lib/dry/types/sum.rb#0
+# source://dry-types//lib/dry/types/sum.rb#9
 class Dry::Types::Sum::Constrained < ::Dry::Types::Sum
   include ::Dry::Types::Composition::Constrained
 end
@@ -3914,7 +3908,7 @@ module Dry::Types::Type
   # @api private
   # @return [Boolean]
   #
-  # source://dry-types//lib/dry/types/type.rb#18
+  # source://dry-types//lib/dry/types/type.rb#23
   def ===(input = T.unsafe(nil)); end
 
   # Apply type to a value
@@ -3923,7 +3917,7 @@ module Dry::Types::Type
   # @overload call
   # @overload call
   #
-  # source://dry-types//lib/dry/types/type.rb#43
+  # source://dry-types//lib/dry/types/type.rb#50
   def [](input = T.unsafe(nil), &_arg1); end
 
   # Apply type to a value
@@ -3935,7 +3929,7 @@ module Dry::Types::Type
   # source://dry-types//lib/dry/types/type.rb#43
   def call(input = T.unsafe(nil), &_arg1); end
 
-  # source://dry-core/1.1.0/lib/dry/core/deprecations.rb#168
+  # source://dry-types//lib/dry/types/type.rb#11
   def safe(*args, &block); end
 
   # Whether a value is a valid member of the type

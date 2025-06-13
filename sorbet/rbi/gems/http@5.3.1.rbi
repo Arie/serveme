@@ -15,7 +15,7 @@ module HTTP
   class << self
     # HTTP[:accept => 'text/html'].get(...)
     #
-    # source://http//lib/http/chainable.rb#183
+    # source://http//lib/http.rb#25
     def [](headers); end
   end
 end
@@ -224,7 +224,7 @@ module HTTP::Chainable
   # @param proxy [Array]
   # @raise [Request::Error] if HTTP proxy is invalid
   #
-  # source://http//lib/http/chainable.rb#158
+  # source://http//lib/http/chainable.rb#171
   def through(*proxy); end
 
   # @overload timeout
@@ -282,9 +282,6 @@ class HTTP::Client
   # source://http//lib/http/client.rb#21
   def initialize(default_options = T.unsafe(nil)); end
 
-  # source://http//lib/http/client.rb#64
-  def __perform__(req, options); end
-
   # Prepare an HTTP request
   #
   # source://http//lib/http/client.rb#40
@@ -295,20 +292,19 @@ class HTTP::Client
 
   # Perform a single (no follow) HTTP request
   #
-  # source://webmock/3.25.1/lib/webmock/http_lib_adapters/http_rb/client.rb#7
+  # source://http//lib/http/client.rb#64
   def perform(request, options); end
 
   # @return [Boolean] whenever client is persistent
   # @see Options#persistent?
+  #
+  # source://http//lib/http/client.rb#61
   def persistent?(*args, **_arg1, &block); end
 
   # Make an HTTP request
   #
   # source://http//lib/http/client.rb#28
   def request(verb, uri, opts = T.unsafe(nil)); end
-
-  # source://webmock/3.25.1/lib/webmock/http_lib_adapters/http_rb/client.rb#13
-  def webmock_enabled?; end
 
   private
 
@@ -398,7 +394,10 @@ class HTTP::Connection
   # source://http//lib/http/connection.rb#139
   def finished_request?; end
 
+  # source://http//lib/http/connection.rb#61
   def headers(*args, **_arg1, &block); end
+
+  # source://http//lib/http/connection.rb#58
   def http_version(*args, **_arg1, &block); end
 
   # Whether we're keeping the conn alive
@@ -437,6 +436,7 @@ class HTTP::Connection
   # source://http//lib/http/connection.rb#72
   def send_request(req); end
 
+  # source://http//lib/http/connection.rb#55
   def status_code(*args, **_arg1, &block); end
 
   private
@@ -857,7 +857,7 @@ class HTTP::Headers
   #
   # @return [void]
   #
-  # source://http//lib/http/headers.rb#55
+  # source://http//lib/http/headers.rb#59
   def []=(name, value); end
 
   # Appends header.
@@ -893,6 +893,8 @@ class HTTP::Headers
   # Returns `true` if `self` has no key/value pairs
   #
   # @return [Boolean]
+  #
+  # source://http//lib/http/headers.rb#183
   def empty?(*args, **_arg1, &block); end
 
   # Returns list of header values if any.
@@ -907,6 +909,8 @@ class HTTP::Headers
   #
   # @return [Fixnum]
   # @see http://www.ruby-doc.org/core/Object.html#method-i-hash
+  #
+  # source://http//lib/http/headers.rb#191
   def hash(*args, **_arg1, &block); end
 
   # Tells whenever header with given `name` is set or not.
@@ -978,7 +982,7 @@ class HTTP::Headers
   #
   # @return [Hash]
   #
-  # source://http//lib/http/headers.rb#133
+  # source://http//lib/http/headers.rb#136
   def to_hash; end
 
   private
@@ -1011,7 +1015,7 @@ class HTTP::Headers
     # @raise [Error] if object can't be coerced
     # @return [Headers]
     #
-    # source://http//lib/http/headers.rb#22
+    # source://http//lib/http/headers.rb#35
     def [](object); end
 
     # Coerces given `object` into Headers.
@@ -1150,11 +1154,15 @@ module HTTP::Headers::Mixin
   # @return [nil] if header was not set
   # @return [String] if header has exactly one value
   # @return [Array<String>] if header has more than one value
+  #
+  # source://http//lib/http/headers/mixin.rb#27
   def [](*args, **_arg1, &block); end
 
   # Sets header.
   #
   # @return [void]
+  #
+  # source://http//lib/http/headers/mixin.rb#31
   def []=(*args, **_arg1, &block); end
 
   # @return [HTTP::Headers]
@@ -1211,10 +1219,10 @@ class HTTP::Headers::Normalizer::Cache
   # source://http//lib/http/headers/normalizer.rb#20
   def initialize; end
 
-  # source://http//lib/http/headers/normalizer.rb#24
+  # source://http//lib/http/headers/normalizer.rb#27
   def [](key); end
 
-  # source://http//lib/http/headers/normalizer.rb#29
+  # source://http//lib/http/headers/normalizer.rb#35
   def []=(key, value); end
 
   # source://http//lib/http/headers/normalizer.rb#24
@@ -1334,19 +1342,25 @@ class HTTP::MimeType::Adapter
   include ::Singleton
   extend ::Singleton::SingletonClassMethods
 
-  # source://http//lib/http/mime_type/adapter.rb#20
+  # source://http//lib/http/mime_type/adapter.rb#19
   def decode(*_arg0); end
 
-  # source://http//lib/http/mime_type/adapter.rb#20
+  # source://http//lib/http/mime_type/adapter.rb#19
   def encode(*_arg0); end
 
   class << self
+    # source://http//lib/http/mime_type/adapter.rb#14
     def decode(*args, **_arg1, &block); end
+
+    # source://http//lib/http/mime_type/adapter.rb#14
     def encode(*args, **_arg1, &block); end
 
     private
 
+    # source://http//lib/http/mime_type/adapter.rb#10
     def allocate; end
+
+    # source://http//lib/http/mime_type/adapter.rb#10
     def new(*_arg0); end
   end
 end
@@ -1807,6 +1821,8 @@ class HTTP::Request
   def headline; end
 
   # @return [String]
+  #
+  # source://http//lib/http/request.rb#229
   def host(*args, **_arg1, &block); end
 
   # Compute and add the Proxy-Authorization header
@@ -1905,9 +1921,6 @@ class HTTP::Request
   #
   # source://http//lib/http/request.rb#81
   def version; end
-
-  # source://webmock/3.25.1/lib/webmock/http_lib_adapters/http_rb/request.rb#5
-  def webmock_signature; end
 
   private
 
@@ -2138,6 +2151,8 @@ class HTTP::Response
   # Charset of response (if any)
   #
   # @return [String, nil]
+  #
+  # source://http//lib/http/response.rb#138
   def charset(*args, **_arg1, &block); end
 
   # @return [Boolean]
@@ -2146,11 +2161,15 @@ class HTTP::Response
   def chunked?; end
 
   # @return [Fixnum] status code
+  #
+  # source://http//lib/http/response.rb#68
   def code(*args, **_arg1, &block); end
 
   # The connection object used to make the corresponding request.
   #
   # @return [HTTP::Connection]
+  #
+  # source://http//lib/http/response.rb#81
   def connection(*args, **_arg1, &block); end
 
   # Value of the Content-Length header.
@@ -2187,6 +2206,8 @@ class HTTP::Response
   # MIME type of response (if any)
   #
   # @return [String, nil]
+  #
+  # source://http//lib/http/response.rb#133
   def mime_type(*args, **_arg1, &block); end
 
   # Parse response body with corresponding MIME type adapter.
@@ -2203,9 +2224,12 @@ class HTTP::Response
   # source://http//lib/http/response.rb#32
   def proxy_headers; end
 
+  # source://http//lib/http/response.rb#77
   def readpartial(*args, **_arg1, &block); end
 
   # @return [String, nil] status message
+  #
+  # source://http//lib/http/response.rb#64
   def reason(*args, **_arg1, &block); end
 
   # @return [Request]
@@ -2226,14 +2250,16 @@ class HTTP::Response
   def to_a; end
 
   # @return [String] eagerly consume the entire body as a string
+  #
+  # source://http//lib/http/response.rb#72
   def to_s(*args, **_arg1, &block); end
 
   # @return [String] eagerly consume the entire body as a string
+  #
+  # source://http//lib/http/response.rb#73
   def to_str(*args, **_arg1, &block); end
 
-  # source://webmock/3.25.1/lib/webmock/http_lib_adapters/http_rb/response.rb#5
-  def to_webmock; end
-
+  # source://http//lib/http/response.rb#85
   def uri(*args, **_arg1, &block); end
 
   # @return [String]
@@ -2253,20 +2279,6 @@ class HTTP::Response
   #
   # source://http//lib/http/response.rb#180
   def init_request(opts); end
-
-  # source://webmock/3.25.1/lib/webmock/http_lib_adapters/http_rb/response.rb#83
-  def reset_body_to_allow_it_to_be_streamed!(webmock_response); end
-
-  class << self
-    # source://webmock/3.25.1/lib/webmock/http_lib_adapters/http_rb/response.rb#58
-    def build_http_rb_response_body_from_webmock_response(webmock_response); end
-
-    # source://webmock/3.25.1/lib/webmock/http_lib_adapters/http_rb/response.rb#26
-    def from_webmock(request, webmock_response, request_signature = T.unsafe(nil)); end
-
-    # source://webmock/3.25.1/lib/webmock/http_lib_adapters/http_rb/response.rb#71
-    def normalize_uri(uri); end
-  end
 end
 
 # A streamable response body, also easily converted into a string
@@ -2293,6 +2305,7 @@ class HTTP::Response::Body
   # source://http//lib/http/response/body.rb#36
   def each; end
 
+  # source://http//lib/http/response/body.rb#12
   def empty?(*args, **_arg1, &block); end
 
   # Easier to interpret string inspect
@@ -2319,7 +2332,7 @@ class HTTP::Response::Body
   # @raise [StateError]
   # @return [String] eagerly consume the entire body as a string
   #
-  # source://http//lib/http/response/body.rb#43
+  # source://http//lib/http/response/body.rb#63
   def to_str; end
 
   private
@@ -2363,7 +2376,7 @@ class HTTP::Response::Parser
 
   # @api private
   #
-  # source://http//lib/http/response/parser.rb#28
+  # source://http//lib/http/response/parser.rb#36
   def <<(data); end
 
   # @api private
@@ -2492,16 +2505,16 @@ class HTTP::Response::Status
   # source://http//lib/http/response/status.rb#142
   def __setobj__(obj); end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def accepted?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def already_reported?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def bad_gateway?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def bad_request?; end
 
   # Check if status code is client error (4XX)
@@ -2516,37 +2529,37 @@ class HTTP::Response::Status
   # source://http//lib/http/response/status.rb#75
   def code; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def conflict?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def continue?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def created?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def expectation_failed?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def failed_dependency?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def forbidden?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def found?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def gateway_timeout?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def gone?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def http_version_not_supported?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def im_used?; end
 
   # Check if status code is informational (1XX)
@@ -2564,88 +2577,88 @@ class HTTP::Response::Status
   # source://http//lib/http/response/status.rb#130
   def inspect; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def insufficient_storage?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def internal_server_error?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def length_required?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def locked?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def loop_detected?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def method_not_allowed?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def misdirected_request?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def moved_permanently?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def multi_status?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def multiple_choices?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def network_authentication_required?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def no_content?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def non_authoritative_information?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def not_acceptable?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def not_extended?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def not_found?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def not_implemented?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def not_modified?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def ok?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def partial_content?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def payload_too_large?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def payment_required?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def permanent_redirect?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def precondition_failed?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def precondition_required?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def processing?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def proxy_authentication_required?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def range_not_satisfiable?; end
 
   # @return [String, nil] status message
@@ -2661,16 +2674,16 @@ class HTTP::Response::Status
   # source://http//lib/http/response/status.rb#102
   def redirect?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def request_header_fields_too_large?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def request_timeout?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def reset_content?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def see_other?; end
 
   # Check if status code is server error (5XX)
@@ -2680,7 +2693,7 @@ class HTTP::Response::Status
   # source://http//lib/http/response/status.rb#114
   def server_error?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def service_unavailable?; end
 
   # Check if status code is successful (2XX)
@@ -2690,10 +2703,10 @@ class HTTP::Response::Status
   # source://http//lib/http/response/status.rb#96
   def success?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def switching_protocols?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def temporary_redirect?; end
 
   # @return [String] string representation of HTTP status
@@ -2709,31 +2722,31 @@ class HTTP::Response::Status
   # source://http//lib/http/response/status.rb#122
   def to_sym; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def too_many_requests?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def unauthorized?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def unavailable_for_legal_reasons?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def unprocessable_entity?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def unsupported_media_type?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def upgrade_required?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def uri_too_long?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def use_proxy?; end
 
-  # source://http//lib/http/response/status.rb#136
+  # source://http//lib/http/response/status.rb#135
   def variant_also_negotiates?; end
 
   class << self
@@ -2747,7 +2760,7 @@ class HTTP::Response::Status
     # @raise [Error] if coercion is impossible
     # @return [Status]
     #
-    # source://http//lib/http/response/status.rb#22
+    # source://http//lib/http/response/status.rb#33
     def [](object); end
 
     # Coerces given value to Status.
@@ -3023,7 +3036,7 @@ class HTTP::Timeout::Global < ::HTTP::Timeout::Null
 
   # Write to the socket
   #
-  # source://http//lib/http/timeout/global.rb#52
+  # source://http//lib/http/timeout/global.rb#56
   def <<(data); end
 
   # source://http//lib/http/timeout/global.rb#22
@@ -3091,7 +3104,7 @@ class HTTP::Timeout::Null
 
   # Write to the socket
   #
-  # source://http//lib/http/timeout/null.rb#55
+  # source://http//lib/http/timeout/null.rb#58
   def <<(data); end
 
   # source://http//lib/http/timeout/null.rb#25
@@ -3216,7 +3229,10 @@ class HTTP::URI
   # source://http//lib/http/uri.rb#123
   def ==(other); end
 
+  # source://http//lib/http/uri.rb#12
   def authority(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#12
   def authority=(*args, **_arg1, &block); end
 
   # @return [Object] duplicated URI
@@ -3232,7 +3248,10 @@ class HTTP::URI
   # source://http//lib/http/uri.rb#132
   def eql?(other); end
 
+  # source://http//lib/http/uri.rb#19
   def fragment(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#19
   def fragment=(*args, **_arg1, &block); end
 
   # Hash value based off the normalized form of a URI
@@ -3275,9 +3294,16 @@ class HTTP::URI
   # source://http//lib/http/uri.rb#187
   def inspect; end
 
+  # source://http//lib/http/uri.rb#20
   def join(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#20
   def normalize(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#12
   def normalized_authority(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#19
   def normalized_fragment(*args, **_arg1, &block); end
 
   # Normalized host, either a domain name or IP address. If the host is an IPv6 address, it will
@@ -3288,18 +3314,43 @@ class HTTP::URI
   # source://http//lib/http/uri.rb#32
   def normalized_host; end
 
+  # source://http//lib/http/uri.rb#11
   def normalized_password(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#15
   def normalized_path(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#14
   def normalized_port(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#16
   def normalized_query(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#9
   def normalized_scheme(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#10
   def normalized_user(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#20
   def omit(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#13
   def origin(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#13
   def origin=(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#11
   def password(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#11
   def password=(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#15
   def path(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#15
   def path=(*args, **_arg1, &block); end
 
   # Port number, either as specified or the default if unspecified
@@ -3309,14 +3360,31 @@ class HTTP::URI
   # source://http//lib/http/uri.rb#157
   def port; end
 
+  # source://http//lib/http/uri.rb#14
   def port=(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#16
   def query(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#16
   def query=(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#17
   def query_values(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#17
   def query_values=(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#18
   def request_uri(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#18
   def request_uri=(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#9
   def scheme(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#9
   def scheme=(*args, **_arg1, &block); end
 
   # Convert an HTTP::URI to a String
@@ -3330,10 +3398,13 @@ class HTTP::URI
   #
   # @return [String] URI serialized as a String
   #
-  # source://http//lib/http/uri.rb#181
+  # source://http//lib/http/uri.rb#184
   def to_str; end
 
+  # source://http//lib/http/uri.rb#10
   def user(*args, **_arg1, &block); end
+
+  # source://http//lib/http/uri.rb#10
   def user=(*args, **_arg1, &block); end
 
   private

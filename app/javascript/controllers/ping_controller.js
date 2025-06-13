@@ -79,9 +79,20 @@ class PingManager {
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        interaction: {
+          mode: "index",
+          intersect: false,
+        },
         plugins: {
           legend: {
             display: false,
+          },
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                return `${context.parsed.y}ms`;
+              },
+            },
           },
         },
         scales: {
@@ -211,16 +222,18 @@ class PingManager {
     this.isPinging = true;
 
     try {
-      for (const row of rows) {
-        const ip = row.dataset.ip;
-        const result = await this.ping(ip);
-        const pingCell = row.querySelector(".ping");
-        if (typeof result === "number") {
-          pingCell.textContent = result + " ms";
-        } else {
-          pingCell.textContent = result;
-        }
-      }
+      await Promise.all(
+        rows.map(async (row) => {
+          const ip = row.dataset.ip;
+          const result = await this.ping(ip);
+          const pingCell = row.querySelector(".ping");
+          if (typeof result === "number") {
+            pingCell.textContent = result + " ms";
+          } else {
+            pingCell.textContent = result;
+          }
+        })
+      );
     } finally {
       this.isPinging = false;
     }

@@ -1,14 +1,8 @@
 - content_for(:title) { "pings" }
 %h2 Server Pings (continuous updates)
 
-:javascript
-  // Add Chart.js from CDN
-  const script = document.createElement('script');
-  script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
-  document.head.appendChild(script);
-
-#server-pings
-  %table.table.table-hover.table-bordered.table-striped
+#server-pings{data: { controller: "ping" }}
+  %table.table.table-hover.table-bordered.table-striped{data: { ping_target: "table" }}
     %thead
       %tr
         %th Name
@@ -26,6 +20,8 @@
           %canvas.ping-graph{style: "width: 200px; height: 100px;"}
 
 :javascript
+  import { Chart } from "chart.js";
+
   class PingManager {
     constructor() {
       this.sockets = {};
@@ -227,14 +223,12 @@
   const pingManager = new PingManager();
   const rows = Array.from(document.querySelectorAll('#server-pings tr[data-ip]'));
 
-  // Initialize charts after Chart.js is loaded
-  script.onload = () => {
-    rows.forEach(row => {
-      const ip = row.dataset.ip;
-      const canvas = row.querySelector('.ping-graph');
-      pingManager.initChart(canvas, ip);
-    });
-  };
+  // Initialize charts
+  rows.forEach(row => {
+    const ip = row.dataset.ip;
+    const canvas = row.querySelector('.ping-graph');
+    pingManager.initChart(canvas, ip);
+  });
 
   let isFirstCycle = true;
   async function cycle() {

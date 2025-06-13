@@ -313,10 +313,9 @@ class PingManager {
     this.isPinging = true;
 
     try {
-      await Promise.all(
-        rows.map(async (row) => {
-          const ip = row.dataset.ip;
-          const result = await this.ping(ip);
+      rows.forEach((row) => {
+        const ip = row.dataset.ip;
+        this.ping(ip).then((result) => {
           const pingCell = row.querySelector(".ping");
           if (typeof result === "number") {
             pingCell.textContent = result + " ms";
@@ -325,8 +324,8 @@ class PingManager {
             pingCell.textContent = result;
             this.updateChart(ip, null, true);
           }
-        })
-      );
+        });
+      });
     } catch (error) {
       console.error("Error in pingAll:", error);
     } finally {

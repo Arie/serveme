@@ -186,7 +186,7 @@ class PingManager {
               display: true,
               min: 0,
               suggestedMin: 50,
-              suggestedMax: 150,
+              suggestedMax: 100,
               ticks: {
                 display: true,
                 callback: function (value) {

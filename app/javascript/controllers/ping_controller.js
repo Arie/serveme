@@ -1,29 +1,54 @@
 import { Controller } from "@hotwired/stimulus";
-import { Chart } from "chart.js";
+import { Chart, registerables } from "chart.js";
 
-export default class extends Controller {
-  static targets = ["table"];
+// Register all Chart.js components
+Chart.register(...registerables);
+
+const COLORS = [
+  "rgb(75, 192, 192)",
+  "rgb(255, 99, 132)",
+  "rgb(54, 162, 235)",
+  "rgb(255, 206, 86)",
+  "rgb(153, 102, 255)",
+  "rgb(255, 159, 64)",
+  "rgb(199, 199, 199)",
+  "rgb(83, 102, 255)",
+  "rgb(40, 159, 64)",
+  "rgb(210, 199, 199)",
+];
+
+export default class PingController extends Controller {
+  static targets = ["table", "chart"];
 
   connect() {
-    this.pingManager = new PingManager();
+    console.log("Ping controller connected");
+    this.pingManager = new PingManager(this.chartTarget);
     this.rows = Array.from(this.tableTarget.querySelectorAll("tr[data-ip]"));
-    this.initializeCharts();
+    console.log("Found rows:", this.rows.length);
+    this.initializeChart();
     this.startPingCycle();
   }
 
   disconnect() {
+    console.log("Ping controller disconnected");
     this.pingManager.cleanup();
   }
 
-  initializeCharts() {
-    this.rows.forEach((row) => {
-      const ip = row.dataset.ip;
-      const canvas = row.querySelector(".ping-graph");
-      this.pingManager.initChart(canvas, ip);
-    });
+  initializeChart() {
+    console.log("Initializing chart");
+    const datasets = this.rows.map((row, index) => ({
+      label: row.dataset.ip,
+      data: Array(this.pingManager.maxHistoryLength).fill(null),
+      borderColor: COLORS[index % COLORS.length],
+      tension: 0.1,
+      pointRadius: 0,
+    }));
+
+    this.pingManager.initChart(datasets);
   }
 
   async startPingCycle() {
+    console.log("Starting ping cycle");
     let isFirstCycle = true;
     const cycle = async () => {
       await this.pingManager.pingAll(this.rows);
@@ -39,42 +64,53 @@ export default class extends Controller {
 }
 
 class PingManager {
-  constructor() {
+  constructor(canvas) {
+    this.canvas = canvas;
     this.sockets = {};
     this.isPinging = false;
-    this.pingHistory = {};
-    this.charts = {};
+    this.chart = null;
     this.maxHistoryLength = 20;
   }
 
-  updateChart(ip, ping) {
-    if (!this.charts[ip]) return;
+  updateChart(ip, ping, isError = false) {
+    if (!this.chart) return;
 
-    const chart = this.charts[ip];
-    const data = chart.data.datasets[0].data;
-
-    data.push(ping);
-    if (data.length > this.maxHistoryLength) {
-      data.shift();
+    const datasetIndex = this.chart.data.datasets.findIndex(
+      (ds) => ds.label === ip
+    );
+    if (datasetIndex === -1) {
+      return;
     }
 
-    chart.update("none");
+    const dataset = this.chart.data.datasets[datasetIndex];
+    dataset.data.push(isError ? null : ping);
+    if (dataset.data.length > this.maxHistoryLength) {
+      dataset.data.shift();
+    }
+
+    dataset.borderColor = isError
+      ? "rgba(255, 99, 132, 0.5)"
+      : dataset.originalColor;
+    dataset.backgroundColor = isError
+      ? "rgba(255, 99, 132, 0.1)"
+      : dataset.originalColor;
+
+    this.chart.update("none");
   }
 
-  initChart(canvas, ip) {
-    const ctx = canvas.getContext("2d");
-    this.charts[ip] = new Chart(ctx, {
+  initChart(datasets) {
+    const ctx = this.canvas.getContext("2d");
+
+    this.chart = new Chart(ctx, {
       type: "line",
       data: {
         labels: Array(this.maxHistoryLength).fill(""),
-        datasets: [
-          {
-            data: Array(this.maxHistoryLength).fill(null),
-            borderColor: "rgb(75, 192, 192)",
-            tension: 0.1,
-            pointRadius: 0,
-          },
-        ],
+        datasets: datasets.map((ds) => ({
+          ...ds,
+          originalColor: ds.borderColor,
+          data: Array(this.maxHistoryLength).fill(null),
+          spanGaps: true,
+        })),
       },
       options: {
         responsive: true,
@@ -85,12 +121,14 @@ class PingManager {
         },
         plugins: {
           legend: {
-            display: false,
+            display: true,
+            position: "top",
           },
           tooltip: {
             callbacks: {
               label: function (context) {
-                return `${context.parsed.y}ms`;
+                const value = context.parsed.y;
+                return `${context.dataset.label}: ${value === null ? "error" : value + "ms"}`;
               },
             },
           },
@@ -104,7 +142,8 @@ class PingManager {
             beginAtZero: true,
             display: true,
             min: 0,
-            max: 150,
+            suggestedMin: 50,
+            suggestedMax: 150,
             ticks: {
               display: true,
               callback: function (value) {
@@ -146,7 +185,6 @@ class PingManager {
             const onMessage = () => {
               cleanup();
               const ping = Date.now() - start;
-              this.updateChart(ip, ping);
               resolve(ping);
             };
 
@@ -189,7 +227,6 @@ class PingManager {
         const onMessage = () => {
           cleanup();
           const ping = Date.now() - start;
-          this.updateChart(ip, ping);
           resolve(ping);
         };
 
@@ -229,8 +266,10 @@ class PingManager {
           const pingCell = row.querySelector(".ping");
           if (typeof result === "number") {
             pingCell.textContent = result + " ms";
+            this.updateChart(ip, result, false);
           } else {
             pingCell.textContent = result;
+            this.updateChart(ip, null, true);
           }
         })
       );

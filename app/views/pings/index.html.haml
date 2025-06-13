@@ -9,11 +9,19 @@
         %th Location
         %th IP
         %th Ping
-    - @servers.uniq { |s| s.public_ip }.each do |server|
-      %tr{data: { ip: server.public_ip }}
-        %td= server.name.gsub(/\s+#?\d+.*$/, '')
+    - @servers.uniq { |s| s.ip }.each do |server|
+      %tr{data: { ip: server.ip }}
+        %td= link_to server.name.gsub(/\s+#?\d+.*$/, ''), new_reservation_path(ip: server.ip), class: 'hover-underline'
         %td= server.location&.name
-        %td= server.public_ip
+        %td= link_to server.ip, new_reservation_path(ip: server.ip), class: 'hover-underline'
         %td.ping Checking...
   .mt-4
     %canvas{data: { ping_target: "chart" }, style: "width: 100%; height: 400px;"}
+
+:css
+  .hover-underline {
+    text-decoration: none;
+  }
+  .hover-underline:hover {
+    text-decoration: underline;
+  }

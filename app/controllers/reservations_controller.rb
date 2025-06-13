@@ -20,6 +20,12 @@ class ReservationsController < ApplicationController
       redirect_to root_path
     end
     @reservation ||= new_reservation
+    if params[:ip].present?
+      available_servers = ServerForUserFinder.new(current_user, @reservation.starts_at, @reservation.ends_at).servers
+      matching_servers = available_servers.where(ip: params[:ip])
+      server = matching_servers.sample if matching_servers.any?
+      @reservation.server_id = server.id if server
+    end
     @reservation.generate_rcon_password! if @reservation.poor_rcon_password?
   end
 
@@ -275,5 +281,11 @@ class ReservationsController < ApplicationController
     Rails.logger.warn("Prepare zip for Reservation #{@reservation.id}: File not local and no zip attached.")
     # Consider a Turbo Stream update here too, to inform the user
     head :unprocessable_entity
+  end
+
+  def reservation_params
+    permitted_params = %i[id password tv_password tv_relaypassword server_config_id whitelist_id custom_whitelist_id first_map auto_end enable_plugins enable_demos_tf disable_democheck]
+    permitted_params += %i[rcon server_id starts_at ends_at] if reservation.nil? || reservation&.schedulable?
+    params.require(:reservation).permit(permitted_params)
   end
 end

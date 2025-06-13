@@ -25,6 +25,39 @@ describe ReservationsController do
   end
 
   describe '#new' do
+    context 'when an IP is provided' do
+      let!(:available_server1) { create :server, ip: '1.2.3.4' }
+      let!(:available_server2) { create :server, ip: '1.2.3.4' }
+      let!(:unavailable_server) { create :server, ip: '1.2.3.4' }
+      let!(:different_ip_server) { create :server, ip: '5.6.7.8' }
+
+      before do
+        allow_any_instance_of(ServerForUserFinder).to receive(:servers).and_return(Server.where(id: [ available_server1.id, available_server2.id ]))
+      end
+
+      it 'pre-selects a random available server with the matching IP' do
+        get :new, params: { ip: '1.2.3.4' }
+        expect(assigns(:reservation).server_id).to be_in([ available_server1.id, available_server2.id ])
+      end
+
+      it 'does not select a server with a different IP' do
+        get :new, params: { ip: '1.2.3.4' }
+        expect(assigns(:reservation).server_id).not_to eq(different_ip_server.id)
+      end
+
+      it 'does not select an unavailable server' do
+        get :new, params: { ip: '1.2.3.4' }
+        expect(assigns(:reservation).server_id).not_to eq(unavailable_server.id)
+      end
+    end
+
+    context 'when no IP is provided' do
+      it 'does not pre-select a server' do
+        get :new
+        expect(assigns(:reservation).server_id).to be_nil
+      end
+    end
+
     it 'redirects to root if 2 short reservations were made recently' do
       @user.group_ids = nil
       @user.groups << Group.donator_group

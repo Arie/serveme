@@ -203,6 +203,39 @@ class PingManager {
     }
   }
 
+  async pingAll(rows) {
+    if (this.isPinging) return;
+    this.isPinging = true;
+
+    try {
+      rows.forEach((row) => {
+        const ip = row.dataset.ip;
+        this.ping(ip)
+          .then((result) => {
+            if (!document.body.contains(row)) return;
+
+            const pingCell = row.querySelector(".ping");
+            if (!pingCell) return;
+
+            if (typeof result === "number") {
+              pingCell.textContent = result + " ms";
+              this.updateChart(ip, result, false);
+            } else {
+              pingCell.textContent = result;
+              this.updateChart(ip, null, true);
+            }
+          })
+          .catch((error) => {
+            console.error(`Error pinging ${ip}:`, error);
+          });
+      });
+    } catch (error) {
+      console.error("Error in pingAll:", error);
+    } finally {
+      this.isPinging = false;
+    }
+  }
+
   async ping(ip) {
     return new Promise((resolve) => {
       try {
@@ -222,14 +255,21 @@ class PingManager {
               };
             }).then(() => {
               const socket = this.sockets[ip];
+              if (!socket || socket.readyState !== WebSocket.OPEN) {
+                resolve("error");
+                return;
+              }
+
               const start = Date.now();
               let timeout;
 
               const cleanup = () => {
                 clearTimeout(timeout);
-                socket.removeEventListener("message", onMessage);
-                socket.removeEventListener("error", onError);
-                socket.removeEventListener("close", onClose);
+                if (socket) {
+                  socket.removeEventListener("message", onMessage);
+                  socket.removeEventListener("error", onError);
+                  socket.removeEventListener("close", onClose);
+                }
               };
 
               const onMessage = () => {
@@ -264,14 +304,21 @@ class PingManager {
           }
         } else {
           const socket = this.sockets[ip];
+          if (!socket || socket.readyState !== WebSocket.OPEN) {
+            resolve("error");
+            return;
+          }
+
           const start = Date.now();
           let timeout;
 
           const cleanup = () => {
             clearTimeout(timeout);
-            socket.removeEventListener("message", onMessage);
-            socket.removeEventListener("error", onError);
-            socket.removeEventListener("close", onClose);
+            if (socket) {
+              socket.removeEventListener("message", onMessage);
+              socket.removeEventListener("error", onError);
+              socket.removeEventListener("close", onClose);
+            }
           };
 
           const onMessage = () => {
@@ -306,31 +353,6 @@ class PingManager {
         resolve("error");
       }
     });
-  }
-
-  async pingAll(rows) {
-    if (this.isPinging) return;
-    this.isPinging = true;
-
-    try {
-      rows.forEach((row) => {
-        const ip = row.dataset.ip;
-        this.ping(ip).then((result) => {
-          const pingCell = row.querySelector(".ping");
-          if (typeof result === "number") {
-            pingCell.textContent = result + " ms";
-            this.updateChart(ip, result, false);
-          } else {
-            pingCell.textContent = result;
-            this.updateChart(ip, null, true);
-          }
-        });
-      });
-    } catch (error) {
-      console.error("Error in pingAll:", error);
-    } finally {
-      this.isPinging = false;
-    }
   }
 
   cleanup() {

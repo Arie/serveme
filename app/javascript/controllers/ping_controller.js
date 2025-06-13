@@ -1,7 +1,5 @@
 import { Controller } from "@hotwired/stimulus";
 import { Chart, registerables } from "chart.js";
-
-// Register all Chart.js components
 Chart.register(...registerables);
 
 const COLORS = [
@@ -22,7 +20,6 @@ export default class extends Controller {
 
   connect() {
     try {
-      console.log("Ping controller connecting...");
       if (!this.hasChartTarget) {
         console.error("Chart target not found");
         return;
@@ -34,7 +31,6 @@ export default class extends Controller {
 
       this.pingManager = new PingManager(this.chartTarget);
       this.rows = Array.from(this.tableTarget.querySelectorAll("tr[data-ip]"));
-      console.log("Found rows:", this.rows.length);
 
       if (this.rows.length === 0) {
         console.error("No server rows found");
@@ -43,7 +39,6 @@ export default class extends Controller {
 
       this.initializeChart();
       this.startPingCycle();
-      console.log("Ping controller connected successfully");
     } catch (error) {
       console.error("Error in ping controller connect:", error);
     }
@@ -51,11 +46,9 @@ export default class extends Controller {
 
   disconnect() {
     try {
-      console.log("Ping controller disconnecting...");
       if (this.pingManager) {
         this.pingManager.cleanup();
       }
-      console.log("Ping controller disconnected");
     } catch (error) {
       console.error("Error in ping controller disconnect:", error);
     }
@@ -63,7 +56,6 @@ export default class extends Controller {
 
   initializeChart() {
     try {
-      console.log("Initializing chart...");
       const datasets = this.rows.map((row, index) => ({
         label: row.dataset.ip,
         data: Array(this.pingManager.maxHistoryLength).fill(null),
@@ -73,7 +65,6 @@ export default class extends Controller {
       }));
 
       this.pingManager.initChart(datasets);
-      console.log("Chart initialized successfully");
     } catch (error) {
       console.error("Error initializing chart:", error);
     }
@@ -81,7 +72,6 @@ export default class extends Controller {
 
   async startPingCycle() {
     try {
-      console.log("Starting ping cycle...");
       let isFirstCycle = true;
       const cycle = async () => {
         try {
@@ -93,12 +83,10 @@ export default class extends Controller {
             setTimeout(cycle, 1000);
           }
         } catch (error) {
-          console.error("Error in ping cycle:", error);
           setTimeout(cycle, 1000); // Keep trying even if there's an error
         }
       };
       cycle();
-      console.log("Ping cycle started");
     } catch (error) {
       console.error("Error starting ping cycle:", error);
     }
@@ -108,13 +96,11 @@ export default class extends Controller {
 class PingManager {
   constructor(canvas) {
     try {
-      console.log("Initializing PingManager...");
       this.canvas = canvas;
       this.sockets = {};
       this.isPinging = false;
       this.chart = null;
       this.maxHistoryLength = 20;
-      console.log("PingManager initialized");
     } catch (error) {
       console.error("Error initializing PingManager:", error);
     }
@@ -156,7 +142,6 @@ class PingManager {
 
   initChart(datasets) {
     try {
-      console.log("Initializing chart with datasets:", datasets.length);
       const ctx = this.canvas.getContext("2d");
 
       this.chart = new Chart(ctx, {
@@ -213,7 +198,6 @@ class PingManager {
           animation: false,
         },
       });
-      console.log("Chart initialized successfully");
     } catch (error) {
       console.error("Error initializing chart:", error);
     }

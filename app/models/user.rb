@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   has_many :reservation_players, primary_key: :uid, foreign_key: :steam_uid
   has_many :player_statistics,   primary_key: :uid, foreign_key: :steam_uid
   has_many :vouchers,            foreign_key: :created_by_id
+  has_one :file_upload_permission, dependent: :destroy
   geocoded_by :current_sign_in_ip
   before_save :geocode, if: :current_sign_in_ip_changed_and_ipv4?
 
@@ -162,5 +163,11 @@ class User < ActiveRecord::Base
   sig { returns(T::Boolean) }
   def na_sign_in_ip?
     geocoded&.data&.[]("continent")&.[]("code") == "NA"
+  end
+
+  sig { params(path: String).returns(T::Boolean) }
+  def can_upload_to?(path)
+    return true if admin?
+    file_upload_permission&.path_allowed?(path) || false
   end
 end

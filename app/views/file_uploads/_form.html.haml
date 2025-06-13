@@ -1,4 +1,10 @@
 = simple_form_for(@file_upload, :html => { :class => 'form-inline' }) do |f|
+  - if @file_upload.errors.any?
+    .alert.alert-danger
+      %h4= "#{pluralize(@file_upload.errors.count, "error")} prohibited this file from being uploaded:"
+      %ul
+        - @file_upload.errors.full_messages.each do |msg|
+          %li= msg
 
   = f.input :file, :as => :file, :label => false, :placeholder => 'Zip file assuming /tf/ as base directory'
 

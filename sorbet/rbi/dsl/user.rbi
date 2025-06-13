@@ -329,6 +329,21 @@ class User
   end
 
   module GeneratedAssociationMethods
+    sig { params(args: T.untyped, blk: T.untyped).returns(::FileUploadPermission) }
+    def build_file_upload_permission(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::FileUploadPermission) }
+    def create_file_upload_permission(*args, &blk); end
+
+    sig { params(args: T.untyped, blk: T.untyped).returns(::FileUploadPermission) }
+    def create_file_upload_permission!(*args, &blk); end
+
+    sig { returns(T.nilable(::FileUploadPermission)) }
+    def file_upload_permission; end
+
+    sig { params(value: T.nilable(::FileUploadPermission)).void }
+    def file_upload_permission=(value); end
+
     sig { returns(T::Array[T.untyped]) }
     def group_ids; end
 
@@ -413,6 +428,9 @@ class User
     sig { params(value: T::Enumerable[::PlayerStatistic]).void }
     def player_statistics=(value); end
 
+    sig { returns(T.nilable(::FileUploadPermission)) }
+    def reload_file_upload_permission; end
+
     sig { returns(T::Array[T.untyped]) }
     def reservation_ids; end
 
@@ -440,6 +458,9 @@ class User
 
     sig { params(value: T::Enumerable[::Reservation]).void }
     def reservations=(value); end
+
+    sig { void }
+    def reset_file_upload_permission; end
 
     sig { returns(T::Array[T.untyped]) }
     def server_ids; end

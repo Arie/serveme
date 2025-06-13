@@ -2,6 +2,11 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
+  factory :file_upload_permission do
+    user
+    allowed_paths { [ 'addons/sourcemod/configs/' ] }
+  end
+
   factory :server, class: 'LocalServer' do
     name { 'TF2 1' }
     path { '/tmp' }

@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 class FileUploadsController < ApplicationController
-  before_action :require_admin
+  before_action :require_admin_or_upload_permission
 
   def new
     @file_upload = FileUpload.new
@@ -32,5 +32,14 @@ class FileUploadsController < ApplicationController
     @servers = Server.active.order(:name)
 
     render :show
+  end
+
+  private
+
+  def require_admin_or_upload_permission
+    return if current_user.admin? || current_user.file_upload_permission.present?
+
+    flash[:error] = "You don't have permission to upload files"
+    redirect_to root_path
   end
 end

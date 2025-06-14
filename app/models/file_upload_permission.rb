@@ -26,7 +26,7 @@ class FileUploadPermission < ActiveRecord::Base
     return if allowed_paths.blank?
 
     allowed_paths&.each do |path|
-      unless path.match?(%r{^[a-zA-Z0-9_\-/]+$})
+      unless path.match?(%r{^[a-zA-Z0-9_\.\-/]+$})
         errors.add(:allowed_paths, "contains invalid path format: #{path}")
         break
       end

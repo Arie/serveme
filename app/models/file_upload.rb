@@ -84,10 +84,13 @@ class FileUpload < ActiveRecord::Base
     return unless zip_path && File.exist?(zip_path)
 
     files = extract_zip_to_tmp_dir
-    files.each do |path, _files|
-      normalized_path = path.end_with?("/") ? path : "#{path}/"
-      unless user&.can_upload_to?(normalized_path)
-        errors.add(:file, "contains files in unauthorized path: #{path}")
+    files.each do |path, file_paths|
+      file_paths.each do |file_path|
+        full_path = File.join(path, File.basename(file_path))
+        unless user&.can_upload_to?(full_path)
+          errors.add(:file, "contains files in unauthorized path: #{path}")
+          break
+        end
       end
     end
   end

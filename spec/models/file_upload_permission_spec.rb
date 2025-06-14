@@ -12,6 +12,9 @@ RSpec.describe FileUploadPermission do
       permission = build(:file_upload_permission, allowed_paths: [])
       expect(permission).not_to be_valid
       expect(permission.errors[:allowed_paths]).to include("can't be blank")
+
+      permission = build(:file_upload_permission, allowed_paths: [ 'addons/sourcemod/configs/mgemod_spawns.cfg' ])
+      expect(permission).to be_valid
     end
   end
 

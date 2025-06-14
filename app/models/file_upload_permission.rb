@@ -13,10 +13,15 @@ class FileUploadPermission < ActiveRecord::Base
   def path_allowed?(path)
     return false if allowed_paths.nil? || allowed_paths&.empty?
 
-    normalized_path = path.end_with?("/") ? path : "#{path}/"
     allowed_paths&.any? do |allowed_path|
-      normalized_allowed = allowed_path.end_with?("/") ? allowed_path : "#{allowed_path}/"
-      normalized_path.start_with?(normalized_allowed)
+      if allowed_path.end_with?("/")
+        # If allowed_path ends with /, it's a directory permission
+        normalized_path = path.end_with?("/") ? path : "#{path}/"
+        normalized_path.start_with?(allowed_path)
+      else
+        # If allowed_path doesn't end with /, it's a specific file permission
+        path == allowed_path
+      end
     end
   end
 

@@ -44,8 +44,8 @@ describe FileUpload do
 
       it 'allows any file path' do
         allow(file_upload).to receive(:extract_zip_to_tmp_dir).and_return({
-          'addons/sourcemod/configs/mgemod_spawns.cfg' => [ '/tmp/file1.cfg' ],
-          'maps/cp_badlands.bsp' => [ '/tmp/file2.bsp' ]
+          'addons/sourcemod/configs' => [ '/tmp/mgemod_spawns.cfg' ],
+          'maps' => [ '/tmp/cp_badlands.bsp' ]
         })
         expect(file_upload).to be_valid
       end
@@ -58,36 +58,57 @@ describe FileUpload do
 
       it 'allows files in permitted paths' do
         allow(file_upload).to receive(:extract_zip_to_tmp_dir).and_return({
-          'addons/sourcemod/configs/mgemod_spawns.cfg' => [ '/tmp/file1.cfg' ]
+          'addons/sourcemod/configs' => [ '/tmp/mgemod_spawns.cfg' ]
         })
         expect(file_upload).to be_valid
       end
 
       it 'denies files outside permitted paths' do
         allow(file_upload).to receive(:extract_zip_to_tmp_dir).and_return({
-          'maps/cp_badlands.bsp' => [ '/tmp/file2.bsp' ]
+          'maps' => [ '/tmp/cp_badlands.bsp' ]
         })
         expect(file_upload).not_to be_valid
-        expect(file_upload.errors[:file]).to include('contains files in unauthorized path: maps/cp_badlands.bsp')
+        expect(file_upload.errors[:file]).to include('contains files in unauthorized path: maps')
       end
 
       it 'denies mixed permitted and non-permitted paths' do
         allow(file_upload).to receive(:extract_zip_to_tmp_dir).and_return({
-          'addons/sourcemod/configs/mgemod_spawns.cfg' => [ '/tmp/file1.cfg' ],
-          'maps/cp_badlands.bsp' => [ '/tmp/file2.bsp' ]
+          'addons/sourcemod/configs' => [ '/tmp/mgemod_spawns.cfg' ],
+          'maps' => [ '/tmp/cp_badlands.bsp' ]
         })
         expect(file_upload).not_to be_valid
-        expect(file_upload.errors[:file]).to include('contains files in unauthorized path: maps/cp_badlands.bsp')
+        expect(file_upload.errors[:file]).to include('contains files in unauthorized path: maps')
       end
     end
 
     context 'when user has no file upload permission' do
       it 'denies all files' do
         allow(file_upload).to receive(:extract_zip_to_tmp_dir).and_return({
-          'addons/sourcemod/configs/mgemod_spawns.cfg' => [ '/tmp/file1.cfg' ]
+          'addons/sourcemod/configs' => [ '/tmp/mgemod_spawns.cfg' ]
         })
         expect(file_upload).not_to be_valid
-        expect(file_upload.errors[:file]).to include('contains files in unauthorized path: addons/sourcemod/configs/mgemod_spawns.cfg')
+        expect(file_upload.errors[:file]).to include('contains files in unauthorized path: addons/sourcemod/configs')
+      end
+    end
+
+    context 'when user has specific file upload permission' do
+      before do
+        user.create_file_upload_permission(allowed_paths: [ 'addons/sourcemod/configs/mgemod_spawns.cfg' ])
+      end
+
+      it 'allows files in permitted paths' do
+        allow(file_upload).to receive(:extract_zip_to_tmp_dir).and_return({
+          'addons/sourcemod/configs' => [ '/tmp/mgemod_spawns.cfg' ]
+        })
+        expect(file_upload).to be_valid
+      end
+
+      it 'denies files outside permitted paths' do
+        allow(file_upload).to receive(:extract_zip_to_tmp_dir).and_return({
+          'maps' => [ '/tmp/cp_badlands.bsp' ]
+        })
+        expect(file_upload).not_to be_valid
+        expect(file_upload.errors[:file]).to include('contains files in unauthorized path: maps')
       end
     end
   end

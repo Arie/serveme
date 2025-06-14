@@ -1596,6 +1596,51 @@ class TragicServer
     sig { void }
     def rcon_will_change!; end
 
+    sig { returns(T.nilable(::String)) }
+    def resolved_ip; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def resolved_ip=(value); end
+
+    sig { returns(T::Boolean) }
+    def resolved_ip?; end
+
+    sig { returns(T.nilable(::String)) }
+    def resolved_ip_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def resolved_ip_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def resolved_ip_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def resolved_ip_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def resolved_ip_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def resolved_ip_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def resolved_ip_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def resolved_ip_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def resolved_ip_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def resolved_ip_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def resolved_ip_was; end
+
+    sig { void }
+    def resolved_ip_will_change!; end
+
     sig { void }
     def restore_active!; end
 
@@ -1658,6 +1703,9 @@ class TragicServer
 
     sig { void }
     def restore_rcon!; end
+
+    sig { void }
+    def restore_resolved_ip!; end
 
     sig { void }
     def restore_sdr!; end
@@ -1802,6 +1850,12 @@ class TragicServer
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_rcon?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_resolved_ip; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_resolved_ip?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
     def saved_change_to_sdr; end
@@ -2171,6 +2225,9 @@ class TragicServer
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_rcon?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_resolved_ip?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_sdr?(from: T.unsafe(nil), to: T.unsafe(nil)); end

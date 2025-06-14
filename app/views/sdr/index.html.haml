@@ -1,0 +1,24 @@
+- content_for(:title) { "SDR IP:Port" }
+%h2 Find SDR IP:Port
+
+.row
+  .col-md-6
+    = form_with url: sdr_path, method: :get, data: { turbo_frame: "sdr_result" } do |f|
+      .form-group
+        = f.label :ip_port, "Normal IP:port or connect string"
+        = f.text_field :ip_port, class: "form-control", placeholder: "bolus.fakkelbrigade.eu:27015", value: params[:ip_port]
+      = f.submit "Get SDR IP:Port", class: "btn btn-primary mt-3"
+
+    = turbo_frame_tag "sdr_result" do
+      - if params[:ip_port].present?
+        .mt-4
+          - if !params[:ip_port].match?(/:[0-9]+/)
+            .alert.alert-warning Invalid format. Please enter server address in format: domain:port or ip:port
+          - elsif @server.nil?
+            .alert.alert-warning Server not found
+          - elsif @server.last_sdr_ip.blank? && (!@server.current_reservation || @server.current_reservation.sdr_ip.blank?)
+            .alert.alert-warning No SDR IP available for this server
+          - elsif @sdr_ip_port.present?
+            %h4 SDR IP:Port:
+            = @sdr_ip_port
+            = render 'shared/copy_button', :copy_button_id => "sdr_ip_port", :copy_text => @sdr_ip_port

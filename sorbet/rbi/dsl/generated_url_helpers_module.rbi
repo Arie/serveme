@@ -319,6 +319,12 @@ module GeneratedUrlHelpersModule
   def root_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def sdr_server_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def sdr_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def server_config_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

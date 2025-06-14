@@ -18,6 +18,7 @@ class Server < ActiveRecord::Base
 
   geocoded_by :host_to_ip
   before_save :geocode, if: :ip_changed?
+  after_save :update_resolved_ip, if: :ip_changed?
 
   delegate :flag, to: :location, prefix: true, allow_nil: true
 
@@ -631,5 +632,11 @@ class Server < ActiveRecord::Base
 
   def blocked_commands
     @blocked_commands ||= %w[logaddress rcon_password sv_downloadurl]
+  end
+
+  def update_resolved_ip
+    return if ip.blank?
+
+    PopulateResolvedIpsService.new.update_server(self)
   end
 end

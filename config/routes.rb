@@ -98,6 +98,7 @@ Serveme::Application.routes.draw do
     member do
       post :force_update, as: :force_update
       post :restart, as: :restart
+      get :sdr
     end
   end
 
@@ -174,6 +175,8 @@ Serveme::Application.routes.draw do
   post  "/users/auth/failure",            to: "sessions#failure"
 
   get "/rcon-autocomplete/:id", to: "reservations#rcon_autocomplete", as: "rcon_autocomplete"
+
+  get "sdr", to: "sdr#index"
 
   root to: "pages#welcome"
   match "*path", via: :all, to: "pages#not_found" unless Rails.env.test?

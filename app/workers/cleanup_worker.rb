@@ -8,6 +8,7 @@ class CleanupWorker
     remove_old_reservation_logs_and_zips
     remove_old_statistics
     grant_api_keys_to_week_old_users
+    PopulateResolvedIpsService.call
   end
 
   def remove_old_reservation_logs_and_zips

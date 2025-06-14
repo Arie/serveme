@@ -319,6 +319,12 @@ module GeneratedPathHelpersModule
   def root_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def sdr_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def sdr_server_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def server_config_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

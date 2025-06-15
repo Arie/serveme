@@ -38,6 +38,7 @@ class ReservationsController < ApplicationController
       end
       reservation_saved if @reservation.persisted?
     else
+      @servers = Server.active.ordered.includes(:location)
       respond_to do |format|
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -68,6 +69,7 @@ class ReservationsController < ApplicationController
   end
 
   def edit
+    @servers = Server.active.ordered.includes(:location)
     @reservation = reservation
   end
 

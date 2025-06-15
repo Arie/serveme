@@ -1063,11 +1063,6 @@ class FactoryBot::DefinitionProxy
   # source://factory_bot//lib/factory_bot/definition_proxy.rb#24
   def child_factories; end
 
-  # Returns the value of attribute definition.
-  #
-  # source://factory_bot//lib/factory_bot/definition_proxy.rb#24
-  def definition; end
-
   # source://factory_bot//lib/factory_bot/definition_proxy.rb#175
   def factory(name, options = T.unsafe(nil), &block); end
 
@@ -1362,10 +1357,10 @@ class FactoryBot::Evaluator
 
     private
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
+    # source://factory_bot//lib/factory_bot/evaluator.rb#7
     def __class_attr_attribute_lists; end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
+    # source://factory_bot//lib/factory_bot/evaluator.rb#7
     def __class_attr_attribute_lists=(new_value); end
   end
 end
@@ -1889,7 +1884,7 @@ class FactoryBot::Registry
   # source://factory_bot//lib/factory_bot/registry.rb#9
   def initialize(name); end
 
-  # source://factory_bot//lib/factory_bot/registry.rb#22
+  # source://factory_bot//lib/factory_bot/registry.rb#28
   def [](name); end
 
   # source://factory_bot//lib/factory_bot/registry.rb#14
@@ -2379,21 +2374,21 @@ module FactoryBot::Syntax::Methods
   #
   # @return [Hash] hash of attributes for the factory
   #
-  # source://factory_bot//lib/factory_bot/strategy_syntax_method_registrar.rb#27
+  # source://factory_bot//lib/factory_bot.rb#122
   def attributes_for(name, *traits_and_overrides, &block); end
 
   # (see #strategy_method_list)
   #
   # @return [Array<Hash>] array of attribute hashes for the factory
   #
-  # source://factory_bot//lib/factory_bot/strategy_syntax_method_registrar.rb#35
+  # source://factory_bot//lib/factory_bot.rb#122
   def attributes_for_list(name, amount, *traits_and_overrides, &block); end
 
   # (see #strategy_method_pair)
   #
   # @return [Array<Hash>] pair of attribute hashes for the factory
   #
-  # source://factory_bot//lib/factory_bot/strategy_syntax_method_registrar.rb#50
+  # source://factory_bot//lib/factory_bot.rb#122
   def attributes_for_pair(name, *traits_and_overrides, &block); end
 
   # (see #strategy_method)
@@ -2401,21 +2396,21 @@ module FactoryBot::Syntax::Methods
   #
   # @return [Object] instantiated object defined by the factory
   #
-  # source://factory_bot//lib/factory_bot/strategy_syntax_method_registrar.rb#27
+  # source://factory_bot//lib/factory_bot.rb#122
   def build(name, *traits_and_overrides, &block); end
 
   # (see #strategy_method_list)
   #
   # @return [Array] array of built objects defined by the factory
   #
-  # source://factory_bot//lib/factory_bot/strategy_syntax_method_registrar.rb#35
+  # source://factory_bot//lib/factory_bot.rb#122
   def build_list(name, amount, *traits_and_overrides, &block); end
 
   # (see #strategy_method_pair)
   #
   # @return [Array] pair of built objects defined by the factory
   #
-  # source://factory_bot//lib/factory_bot/strategy_syntax_method_registrar.rb#50
+  # source://factory_bot//lib/factory_bot.rb#122
   def build_pair(name, *traits_and_overrides, &block); end
 
   # (see #strategy_method)
@@ -2423,21 +2418,21 @@ module FactoryBot::Syntax::Methods
   #
   # @return [Object] instantiated object defined by the factory
   #
-  # source://factory_bot//lib/factory_bot/strategy_syntax_method_registrar.rb#27
+  # source://factory_bot//lib/factory_bot.rb#122
   def build_stubbed(name, *traits_and_overrides, &block); end
 
   # (see #strategy_method_list)
   #
   # @return [Array] array of stubbed objects defined by the factory
   #
-  # source://factory_bot//lib/factory_bot/strategy_syntax_method_registrar.rb#35
+  # source://factory_bot//lib/factory_bot.rb#122
   def build_stubbed_list(name, amount, *traits_and_overrides, &block); end
 
   # (see #strategy_method_pair)
   #
   # @return [Array] pair of stubbed objects defined by the factory
   #
-  # source://factory_bot//lib/factory_bot/strategy_syntax_method_registrar.rb#50
+  # source://factory_bot//lib/factory_bot.rb#122
   def build_stubbed_pair(name, *traits_and_overrides, &block); end
 
   # (see #strategy_method)
@@ -2445,21 +2440,21 @@ module FactoryBot::Syntax::Methods
   #
   # @return [Object] instantiated object defined by the factory
   #
-  # source://factory_bot//lib/factory_bot/strategy_syntax_method_registrar.rb#27
+  # source://factory_bot//lib/factory_bot.rb#122
   def create(name, *traits_and_overrides, &block); end
 
   # (see #strategy_method_list)
   #
   # @return [Array] array of created objects defined by the factory
   #
-  # source://factory_bot//lib/factory_bot/strategy_syntax_method_registrar.rb#35
+  # source://factory_bot//lib/factory_bot.rb#122
   def create_list(name, amount, *traits_and_overrides, &block); end
 
   # (see #strategy_method_pair)
   #
   # @return [Array] pair of created objects defined by the factory
   #
-  # source://factory_bot//lib/factory_bot/strategy_syntax_method_registrar.rb#50
+  # source://factory_bot//lib/factory_bot.rb#122
   def create_pair(name, *traits_and_overrides, &block); end
 
   # Generates and returns the next value in a global or factory sequence.
@@ -2498,13 +2493,13 @@ module FactoryBot::Syntax::Methods
   # source://factory_bot//lib/factory_bot/syntax/methods.rb#144
   def generate_list(*uri_parts, count, scope: T.unsafe(nil)); end
 
-  # source://factory_bot//lib/factory_bot/strategy_syntax_method_registrar.rb#27
+  # source://factory_bot//lib/factory_bot.rb#122
   def null(name, *traits_and_overrides, &block); end
 
-  # source://factory_bot//lib/factory_bot/strategy_syntax_method_registrar.rb#35
+  # source://factory_bot//lib/factory_bot.rb#122
   def null_list(name, amount, *traits_and_overrides, &block); end
 
-  # source://factory_bot//lib/factory_bot/strategy_syntax_method_registrar.rb#50
+  # source://factory_bot//lib/factory_bot.rb#122
   def null_pair(name, *traits_and_overrides, &block); end
 
   private

@@ -20,6 +20,7 @@ class ReservationsController < ApplicationController
       redirect_to root_path
     end
     @reservation ||= new_reservation
+    @servers = Server.active.ordered.includes(:location)
     if params[:ip].present?
       available_servers = ServerForUserFinder.new(current_user, @reservation.starts_at, @reservation.ends_at).servers
       matching_servers = available_servers.where(ip: params[:ip])

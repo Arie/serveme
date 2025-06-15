@@ -12,7 +12,7 @@
     - @servers.uniq { |s| s.ip }.each do |server|
       %tr{data: { ip: server.ip }}
         %td= link_to server.name.gsub(/\s+#?\d+.*$/, ''), new_reservation_path(ip: server.ip), class: 'hover-underline'
-        %td= server.location&.name
+        %td= link_to server.location&.name, new_reservation_path(ip: server.ip), class: 'hover-underline'
         %td= link_to server.ip, new_reservation_path(ip: server.ip), class: 'hover-underline'
         %td.ping Checking...
   .mt-4

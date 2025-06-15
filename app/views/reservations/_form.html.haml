@@ -33,12 +33,11 @@
                 Premium users have #{I18n.t(:available, :count => free_donator_servers_count, :scope => :server)} right now.
                 = link_to("Buy premium and get instant access!", donate_path, data: { turbo: false })
 
-      #refresh-ping.form-group.row.string.readonly.reservation_ping.form-group-valid
+      #refresh-ping.form-group.row.string.readonly.reservation_ping.form-group-valid{data: { controller: "ping" }}
         %label.col-sm-3.col-md-3.col-form-label.string{for: 'reservation_ping'}
           Ping
-          %i.fa.fa-refresh
         .col-sm-3.col-md-3
-          %input#reservation_ping.string.optional.readonly.disabled.form-control{disabled: "disabled", type: "text"}
+          %input#reservation_ping.string.optional.readonly.disabled.form-control{disabled: "disabled", type: "text", data: { ping_target: "selected" }}
 
       = f.input :password,            as: :string, placeholder: "The server password to join the game"
       = f.input :rcon,                as: :string, placeholder: "The RCON password to control the server",          disabled: !@reservation.schedulable?
@@ -78,3 +77,27 @@
     :javascript
       var canEnablePlugins = #{@reservation.schedulable?};
       var reservationSchedulable = #{@reservation.schedulable?}
+
+.modal.fade#pingsModal{tabindex: "-1"}
+  .modal-dialog.modal-lg
+    .modal-content.bg-dark.text-light
+      .modal-header.border-secondary
+        %h5.modal-title Server Pings
+        %button.btn-close.btn-close-white{"data-bs-dismiss" => "modal"}
+      .modal-body
+        #server-pings{data: { controller: "ping" }}
+          %table.table.table-hover.table-bordered.table-striped.table-dark{data: { ping_target: "table" }}
+            %thead
+              %tr
+                %th Name
+                %th Location
+                %th IP
+                %th Ping
+            - @servers.uniq { |s| s.ip }.each do |server|
+              %tr{data: { ip: server.ip }}
+                %td= link_to server.name.gsub(/\s+#?\d+.*$/, ''), new_reservation_path(ip: server.ip), class: 'hover-underline text-light'
+                %td= server.location&.name
+                %td= link_to server.ip, new_reservation_path(ip: server.ip), class: 'hover-underline text-light'
+                %td.ping Checking...
+          .mt-3
+            %canvas{data: { ping_target: "chart" }, style: "width: 100%; height: 200px;"}

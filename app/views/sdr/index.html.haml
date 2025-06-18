@@ -14,11 +14,11 @@
         .mt-4
           - if !params[:ip_port].match?(/:[0-9]+/)
             .alert.alert-warning Invalid format. Please enter server address in format: domain:port or ip:port
-          - elsif @server.nil?
+          - elsif @server.nil? && @result.nil?
             .alert.alert-warning Server not found
-          - elsif @server.last_sdr_ip.blank? && (!@server.current_reservation || @server.current_reservation.sdr_ip.blank?)
+          - elsif @result.blank?
             .alert.alert-warning No SDR IP available for this server
-          - elsif @sdr_ip_port.present?
+          - else
             %h4 SDR IP:Port:
-            = @sdr_ip_port
-            = render 'shared/copy_button', :copy_button_id => "sdr_ip_port", :copy_text => @sdr_ip_port
+            = @result
+            = render 'shared/copy_button', :copy_button_id => "sdr_result", :copy_text => @result

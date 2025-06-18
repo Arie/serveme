@@ -1,43 +1,64 @@
 # typed: false
 
 class SdrController < ApplicationController
+  skip_before_action :authenticate_user!, only: [ :index ]
+  skip_before_action :redirect_if_country_banned, only: [ :index ]
+
   def index
-    if params[:ip_port].present?
-      ip, port = extract_ip_port(params[:ip_port])
-      if ip && port
-        resolved_ip = nil
-        begin
-          unless ip.match?(/^\d+\.\d+\.\d+\.\d+$/)
-            resolved_ip = Addrinfo.getaddrinfo(ip, nil, Socket::AF_INET)
-              .first&.ip_address
-          end
-        rescue SocketError
-        end
+    @result = nil
+    return unless params[:ip_port].present?
 
-        @server = Server.active.where(port: port)
-          .where("ip = ? OR resolved_ip = ? OR ip = ? OR resolved_ip = ?",
-            ip, ip, resolved_ip, resolved_ip)
-          .first
+    original = params[:ip_port]
+    ip, port = extract_ip_port(original)
+    return unless ip && port
 
-        if @server
-          reservation = @server.current_reservation
-          if reservation&.sdr_ip.present?
-            @sdr_ip_port = "#{reservation.sdr_ip}:#{reservation.sdr_port}"
-          elsif @server.last_sdr_ip.present?
-            @sdr_ip_port = "#{@server.last_sdr_ip}:#{@server.last_sdr_port}"
-          end
-        end
-      end
-    end
+    resolved_ip = resolve_ip(ip)
+    server = find_server(ip, port, resolved_ip)
+    return unless server
+
+    sdr_ip, sdr_port = get_sdr_details(server)
+    return unless sdr_ip && sdr_port
+
+    @result = build_result(original, sdr_ip, sdr_port)
   end
 
   private
 
+  def resolve_ip(ip)
+    return ip if ip.match?(/^\d+\.\d+\.\d+\.\d+$/)
+    Addrinfo.getaddrinfo(ip, nil, Socket::AF_INET).first&.ip_address
+  rescue SocketError
+    nil
+  end
+
+  def find_server(ip, port, resolved_ip)
+    Server.active.where(port: port)
+      .where("ip = ? OR resolved_ip = ? OR ip = ? OR resolved_ip = ?",
+        ip, ip, resolved_ip, resolved_ip)
+      .first
+  end
+
+  def get_sdr_details(server)
+    reservation = server.current_reservation
+    sdr_ip = reservation&.sdr_ip.presence || server.last_sdr_ip
+    sdr_port = reservation&.sdr_port.presence || server.last_sdr_port
+    [ sdr_ip, sdr_port ]
+  end
+
+  def build_result(original, sdr_ip, sdr_port)
+    sdr = "#{sdr_ip}:#{sdr_port}"
+    if original.match?(/connect|connet/i)
+      result = original.gsub(/([^:]+):(\d+)/, sdr)
+      result = "connect #{result.strip}" unless result.strip.start_with?("connect ")
+      result
+    else
+      sdr
+    end
+  end
+
   def extract_ip_port(input)
     input = input.gsub(/^(?:connect|connet)\s+/i, "")
-
     input = input.split(";").first.strip
-
     if match = input.match(/([^:]+):(\d+)$/)
       [ match[1], match[2] ]
     end

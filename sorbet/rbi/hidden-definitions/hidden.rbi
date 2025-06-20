@@ -13277,10 +13277,6 @@ class OpenStruct
 
   def enum_for!(*arg); end
 
-  def exit!(*arg); end
-
-  def extend!(mod, *args); end
-
   def freeze!(); end
 
   def gem!(dep, *reqs); end
@@ -13350,8 +13346,6 @@ class OpenStruct
   def to_enum!(*arg); end
 
   def to_h!(&block); end
-
-  def to_json!(options=T.unsafe(nil)); end
 
   def to_param!(); end
 

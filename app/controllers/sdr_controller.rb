@@ -1,7 +1,6 @@
 # typed: false
 
 class SdrController < ApplicationController
-  skip_before_action :authenticate_user!, only: [ :index ]
   skip_before_action :redirect_if_country_banned, only: [ :index ]
 
   def index

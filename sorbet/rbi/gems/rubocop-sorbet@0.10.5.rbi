@@ -564,30 +564,29 @@ RuboCop::Cop::Sorbet::EnforceSigilOrder::PREFERRED_ORDER = T.let(T.unsafe(nil), 
 #
 # * `ParameterTypePlaceholder`: placeholders used for parameter types (default: 'T.untyped')
 # * `ReturnTypePlaceholder`: placeholders used for return types (default: 'T.untyped')
+# * `Style`: signature style to enforce - 'sig' for sig blocks, 'rbs' for RBS comments, 'both' to allow either (default: 'sig')
 #
-# source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#27
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#26
 class RuboCop::Cop::Sorbet::EnforceSignatures < ::RuboCop::Cop::Base
   include ::RuboCop::Cop::Sorbet::SignatureHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # @return [EnforceSignatures] a new instance of EnforceSignatures
-  #
   # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#33
-  def initialize(config = T.unsafe(nil), options = T.unsafe(nil)); end
-
-  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#39
   def accessor?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#43
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#37
   def on_def(node); end
 
-  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#47
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#41
   def on_defs(node); end
 
-  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#51
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#53
+  def on_new_investigation; end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#45
   def on_send(node); end
 
-  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#55
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#49
   def on_signature(node); end
 
   # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#59
@@ -595,72 +594,202 @@ class RuboCop::Cop::Sorbet::EnforceSignatures < ::RuboCop::Cop::Base
 
   private
 
-  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#97
-  def autocorrect(corrector, node); end
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#154
+  def add_accessor_parameter_if_needed(suggest, symbol, method); end
+
+  # @return [Boolean]
+  #
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#176
+  def allow_rbs?; end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#113
+  def autocorrect_with_signature_type(corrector, node, type); end
 
   # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#68
   def check_node(node); end
 
-  # @return [Boolean]
-  #
-  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#81
-  def has_rbs_comment?(node); end
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#119
+  def create_signature_suggestion(node, type); end
 
-  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#114
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#168
   def param_type_placeholder; end
 
-  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#93
-  def preceeding_comments(node); end
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#146
+  def populate_accessor_suggestion(suggest, node); end
 
-  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#118
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#136
+  def populate_method_definition_suggestion(suggest, node); end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#128
+  def populate_signature_suggestion(suggest, node); end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#109
+  def rbs_checker; end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#172
   def return_type_placeholder; end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#160
+  def set_void_return_for_writer(suggest, method); end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#105
+  def sig_checker; end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#180
+  def signature_style; end
+
+  # @return [Boolean]
+  #
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#164
+  def writer_or_accessor?(method); end
 end
 
-# source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#31
-RuboCop::Cop::Sorbet::EnforceSignatures::RBS_COMMENT_REGEX = T.let(T.unsafe(nil), Regexp)
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#209
+class RuboCop::Cop::Sorbet::EnforceSignatures::RBSSignatureChecker < ::RuboCop::Cop::Sorbet::EnforceSignatures::SignatureChecker
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#212
+  def signature_node(node); end
 
-# source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#122
-class RuboCop::Cop::Sorbet::EnforceSignatures::SigSuggestion
-  # @return [SigSuggestion] a new instance of SigSuggestion
+  private
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#225
+  def find_non_send_ancestor(node); end
+end
+
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#210
+RuboCop::Cop::Sorbet::EnforceSignatures::RBSSignatureChecker::RBS_COMMENT_REGEX = T.let(T.unsafe(nil), Regexp)
+
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#285
+class RuboCop::Cop::Sorbet::EnforceSignatures::RBSSuggestion
+  # @return [RBSSuggestion] a new instance of RBSSuggestion
   #
-  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#125
-  def initialize(indent, param_placeholder, return_placeholder); end
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#288
+  def initialize(indent); end
+
+  # Returns the value of attribute has_block.
+  #
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#286
+  def has_block; end
+
+  # Sets the attribute has_block
+  #
+  # @param value the value to set the attribute has_block to.
+  #
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#286
+  def has_block=(_arg0); end
 
   # Returns the value of attribute params.
   #
-  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#123
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#286
   def params; end
 
   # Sets the attribute params
   #
   # @param value the value to set the attribute params to.
   #
-  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#123
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#286
   def params=(_arg0); end
 
   # Returns the value of attribute returns.
   #
-  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#123
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#286
   def returns; end
 
   # Sets the attribute returns
   #
   # @param value the value to set the attribute returns to.
   #
-  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#123
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#286
   def returns=(_arg0); end
 
-  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#133
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#295
   def to_autocorrect; end
 
   private
 
-  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#145
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#301
+  def generate_signature; end
+end
+
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#231
+class RuboCop::Cop::Sorbet::EnforceSignatures::SigSignatureChecker < ::RuboCop::Cop::Sorbet::EnforceSignatures::SignatureChecker
+  # @return [SigSignatureChecker] a new instance of SigSignatureChecker
+  #
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#232
+  def initialize(processed_source); end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#245
+  def clear_signature(scope); end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#241
+  def on_signature(node, scope); end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#237
+  def signature_node(scope); end
+end
+
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#250
+class RuboCop::Cop::Sorbet::EnforceSignatures::SigSuggestion
+  # @return [SigSuggestion] a new instance of SigSuggestion
+  #
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#253
+  def initialize(indent, param_placeholder, return_placeholder); end
+
+  # Returns the value of attribute params.
+  #
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#251
+  def params; end
+
+  # Sets the attribute params
+  #
+  # @param value the value to set the attribute params to.
+  #
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#251
+  def params=(_arg0); end
+
+  # Returns the value of attribute returns.
+  #
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#251
+  def returns; end
+
+  # Sets the attribute returns
+  #
+  # @param value the value to set the attribute returns to.
+  #
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#251
+  def returns=(_arg0); end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#261
+  def to_autocorrect; end
+
+  private
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#267
   def generate_params; end
 
-  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#157
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#274
   def generate_return; end
 end
+
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#195
+class RuboCop::Cop::Sorbet::EnforceSignatures::SignatureChecker
+  # @return [SignatureChecker] a new instance of SignatureChecker
+  #
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#196
+  def initialize(processed_source); end
+
+  protected
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#204
+  def preceding_comments(node); end
+
+  # Returns the value of attribute processed_source.
+  #
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#202
+  def processed_source; end
+end
+
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/signatures/enforce_signatures.rb#30
+RuboCop::Cop::Sorbet::EnforceSignatures::VALID_STYLES = T.let(T.unsafe(nil), Array)
 
 # Checks that there is only one Sorbet sigil in a given file
 #
@@ -1016,6 +1145,90 @@ end
 # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_superclass_const_literal.rb#29
 RuboCop::Cop::Sorbet::ForbidSuperclassConstLiteral::MSG = T.let(T.unsafe(nil), String)
 
+# Disallows using `T.absurd` anywhere.
+#
+# @example
+#
+#   # bad
+#   T.absurd(foo)
+#
+#   # good
+#   x #: absurd
+#
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_absurd.rb#17
+class RuboCop::Cop::Sorbet::ForbidTAbsurd < ::RuboCop::Cop::Base
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_absurd.rb#27
+  def on_csend(node); end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_absurd.rb#24
+  def on_send(node); end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_absurd.rb#22
+  def t_absurd?(param0 = T.unsafe(nil)); end
+end
+
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_absurd.rb#18
+RuboCop::Cop::Sorbet::ForbidTAbsurd::MSG = T.let(T.unsafe(nil), String)
+
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_absurd.rb#19
+RuboCop::Cop::Sorbet::ForbidTAbsurd::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
+
+# Disallows using `T.bind` anywhere.
+#
+# @example
+#
+#   # bad
+#   T.bind(self, Integer)
+#
+#   # good
+#   #: self as Integer
+#
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_bind.rb#17
+class RuboCop::Cop::Sorbet::ForbidTBind < ::RuboCop::Cop::Base
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_bind.rb#27
+  def on_csend(node); end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_bind.rb#24
+  def on_send(node); end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_bind.rb#22
+  def t_bind?(param0 = T.unsafe(nil)); end
+end
+
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_bind.rb#18
+RuboCop::Cop::Sorbet::ForbidTBind::MSG = T.let(T.unsafe(nil), String)
+
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_bind.rb#19
+RuboCop::Cop::Sorbet::ForbidTBind::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
+
+# Disallows using `T.cast` anywhere.
+#
+# @example
+#
+#   # bad
+#   T.cast(foo, Integer)
+#
+#   # good
+#   foo #: as Integer
+#
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_cast.rb#17
+class RuboCop::Cop::Sorbet::ForbidTCast < ::RuboCop::Cop::Base
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_cast.rb#27
+  def on_csend(node); end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_cast.rb#24
+  def on_send(node); end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_cast.rb#22
+  def t_cast?(param0 = T.unsafe(nil)); end
+end
+
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_cast.rb#18
+RuboCop::Cop::Sorbet::ForbidTCast::MSG = T.let(T.unsafe(nil), String)
+
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_cast.rb#19
+RuboCop::Cop::Sorbet::ForbidTCast::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
+
 # Disallow using `T::Enum`.
 #
 # @example
@@ -1046,6 +1259,62 @@ end
 
 # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_enum.rb#27
 RuboCop::Cop::Sorbet::ForbidTEnum::MSG = T.let(T.unsafe(nil), String)
+
+# Disallows using `T.let` anywhere.
+#
+# @example
+#
+#   # bad
+#   T.let(foo, Integer)
+#
+#   # good
+#   foo #: Integer
+#
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_let.rb#17
+class RuboCop::Cop::Sorbet::ForbidTLet < ::RuboCop::Cop::Base
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_let.rb#27
+  def on_csend(node); end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_let.rb#24
+  def on_send(node); end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_let.rb#22
+  def t_let?(param0 = T.unsafe(nil)); end
+end
+
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_let.rb#18
+RuboCop::Cop::Sorbet::ForbidTLet::MSG = T.let(T.unsafe(nil), String)
+
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_let.rb#19
+RuboCop::Cop::Sorbet::ForbidTLet::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
+
+# Disallows using `T.must` anywhere.
+#
+# @example
+#
+#   # bad
+#   T.must(foo)
+#
+#   # good
+#   foo #: as !nil
+#
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_must.rb#17
+class RuboCop::Cop::Sorbet::ForbidTMust < ::RuboCop::Cop::Base
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_must.rb#27
+  def on_csend(node); end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_must.rb#24
+  def on_send(node); end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_must.rb#22
+  def t_must?(param0 = T.unsafe(nil)); end
+end
+
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_must.rb#18
+RuboCop::Cop::Sorbet::ForbidTMust::MSG = T.let(T.unsafe(nil), String)
+
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_must.rb#19
+RuboCop::Cop::Sorbet::ForbidTMust::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Disallow using `T::Struct` and `T::Props`.
 #
@@ -1205,6 +1474,31 @@ class RuboCop::Cop::Sorbet::ForbidTStruct::TStructWalker
   # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_struct.rb#68
   def t_struct_prop?(param0 = T.unsafe(nil)); end
 end
+
+# Disallows using `T.type_alias` anywhere.
+#
+# @example
+#
+#   # bad
+#   STRING_OR_INTEGER = T.type_alias { T.any(Integer, String) }
+#
+#   # good
+#   #: type string_or_integer = Integer | String
+#
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_type_alias.rb#17
+class RuboCop::Cop::Sorbet::ForbidTTypeAlias < ::RuboCop::Cop::Base
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_type_alias.rb#23
+  def on_block(node); end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_type_alias.rb#26
+  def on_numblock(node); end
+
+  # source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_type_alias.rb#21
+  def t_type_alias?(param0 = T.unsafe(nil)); end
+end
+
+# source://rubocop-sorbet//lib/rubocop/cop/sorbet/forbid_t_type_alias.rb#18
+RuboCop::Cop::Sorbet::ForbidTTypeAlias::MSG = T.let(T.unsafe(nil), String)
 
 # Disallows using `T.unsafe` anywhere.
 #

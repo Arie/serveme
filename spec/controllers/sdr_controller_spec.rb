@@ -3,6 +3,8 @@
 require "spec_helper"
 
 RSpec.describe SdrController, type: :controller do
+  let(:user) { create(:user) }
+  before { sign_in user }
   describe "GET #index" do
     it "returns success" do
       get :index

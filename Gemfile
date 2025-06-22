@@ -119,7 +119,7 @@ end
 
 group :test do
   gem "capybara"
-  gem "cucumber" , require: false
+  gem "cucumber", require: false
   gem "cucumber-rails", require: false
   gem "database_cleaner"
   gem "delorean"

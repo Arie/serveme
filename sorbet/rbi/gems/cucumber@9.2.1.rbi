@@ -694,7 +694,7 @@ class Cucumber::Configuration
   # @param handler_object [Object optional] an object to be called when the event occurs
   # @yield [Object] Block to be called when the event occurs
   #
-  # source://forwardable/1.3.3/forwardable.rb#231
+  # source://cucumber//lib/cucumber/configuration.rb#30
   def on_event(*args, **_arg1, &block); end
 
   # source://cucumber//lib/cucumber/configuration.rb#45
@@ -2160,22 +2160,22 @@ class Cucumber::Glue::ArityMismatchError < ::StandardError; end
 #
 # source://cucumber//lib/cucumber/glue/dsl.rb#10
 module Cucumber::Glue::Dsl
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def A(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def AN(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Aber(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ac(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ach(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Adott(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
   # Registers a proc that will run after each Scenario. You can register as many
@@ -2196,79 +2196,79 @@ module Cucumber::Glue::Dsl
   # source://cucumber//lib/cucumber/glue/dsl.rb#86
   def AfterStep(*tag_expressions, name: T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Agus(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ak(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Akkor(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Alavez(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ale(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Aleshores(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ali(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Allgitout(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Allora(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Alors(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Als(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ama(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Amennyiben(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Amikor(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Amma(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ampak(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def An(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ananging(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ancaq(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def And(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Angenommen(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Anrhegediga(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ansin(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Antonces(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Apabila(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
   # Registers a proc that will be wrapped around each scenario. The proc
@@ -2280,40 +2280,40 @@ module Cucumber::Glue::Dsl
   # source://cucumber//lib/cucumber/glue/dsl.rb#80
   def Around(*tag_expressions, name: T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ataktiež(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ataké(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Atesa(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Atiež(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Atunci(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Atès(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Avast(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Aye(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Azároveň(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def BUT(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Bagi(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Banjur(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
   # Registers a proc that will run before each Scenario. You can register as many
@@ -2328,322 +2328,322 @@ module Cucumber::Glue::Dsl
   # source://cucumber//lib/cucumber/glue/dsl.rb#117
   def BeforeAll(name: T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Belgilangan(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Bet(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Bila(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Biết(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Blimey(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Buh(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def But(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ButattheendofthedayIreckon(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Bæþsealf(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Bæþsealfa(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Bæþsealfe(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Cal(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Cand(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Cando(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ce(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Cho(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ciricæw(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ciricæwa(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ciricæwe(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Comehellorhighwater(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Cuan(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Cuando(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Cuirigcásgo(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Cuirigcásgur(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Cuirigcásnach(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Cuirigcásnár(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Când(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def DEN(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def DaHghubejlu(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Dada(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Dadas(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Dadena(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Dadeno(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Dado(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Dados(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Daes(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Dan(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Dann(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Dano(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Daos(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Dar(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Data(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Date(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Datefiind(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Datfiind(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Dati(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Datifiind(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Dato(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Datăfiind(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Dau(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Daus(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Daţifiind(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Dațifiind(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def De(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Dengan(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Denyousegotta(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Diasumsikan(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Diberi(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Diketahui(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Diyelimki(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Do(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Donada(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Donat(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Donc(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Donitaĵo(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Dun(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Duota(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Dáu(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def E(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ed(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Eeldades(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ef(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def En(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Entao(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Entonces(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Então(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Entón(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Entós(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Epi(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Et(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Etantdonné(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Etantdonnée(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Etantdonnées(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Etantdonnéqu(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Etantdonnéque(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Etantdonnés(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Etqu(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Etque(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Eğerki(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Fakat(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Fixinto(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Gangway(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Gdy(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Gegebensei(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Gegebenseien(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Gegeven(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Gegewe(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Gitt(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Given(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Givet(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Givun(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ha(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Həm(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def I(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ICANHAZ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def In(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
   # Registers a proc that will run after Cucumber is configured in order to install an external plugin.
@@ -2651,385 +2651,385 @@ module Cucumber::Glue::Dsl
   # source://cucumber//lib/cucumber/glue/dsl.rb#111
   def InstallPlugin(name: T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ir(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Itsjustunbelievable(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ja(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Jeśli(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Jeżeli(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Jika(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Kad(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Kada(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Kadar(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Kai(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Kaj(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Když(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Kemudian(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ketika(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Keď(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Khi(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Kiedy(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ko(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Koga(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Komence(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Kui(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Kuid(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Kun(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Lan(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Le(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Lesaa(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Letgoandhaul(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Logo(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Lorsqu(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Lorsque(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Lè(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Lèsaa(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ma(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Maar(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Mais(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Maisqu(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Maisque(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Majd(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Mając(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Maka(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Manawa(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Mas(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Men(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Menawa(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Mutta(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Nalika(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Nalikaning(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Nanging(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Nato(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Nhưng(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Niin(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Njuk(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def No(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Nuaira(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Nuairba(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Nuairnach(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Nuairnár(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def När(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Når(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Nəvaxtki(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Och(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Og(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ohalda(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Oletetaan(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ond(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Onda(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Oraz(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ozaman(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Pak(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
   # source://cucumber//lib/cucumber/glue/dsl.rb#90
   def ParameterType(options); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Pero(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Peru(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Però(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Podano(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Pokiaľ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Pokud(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Potem(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Potom(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Privzeto(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Pryd(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Quan(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Quand(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Quando(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Quickoutofthechute(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Sachant(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Sachantqu(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Sachantque(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Se(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Sed(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Si(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Siis(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Sipoze(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def SipozeKe(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Sipozeke(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Soit(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Stel(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Så(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Tad(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Tada(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Tak(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Takrat(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Tapi(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ter(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Tetapi(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Tha(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Thathe(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Then(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def There’snotreebutbearssomefruit(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Thurh(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Thì(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Toda(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Togash(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Tooright(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Tutaqki(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ukoliko(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Un(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Und(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ve(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Vendar(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Verilir(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Và(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Və(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def WEN(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Wanneer(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def WellnowholdonIllyouwhat(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Wenn(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def When(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
   # Registers any number of +world_modules+ (Ruby Modules) and/or a Proc.
@@ -3059,100 +3059,100 @@ module Cucumber::Glue::Dsl
   # source://cucumber//lib/cucumber/glue/dsl.rb#59
   def World(*world_modules, **namespaced_world_modules, &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Wtedy(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Wun(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Y(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ya(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Yeahnah(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Yknow(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Yna(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Youseknowlikewhen(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Youseknowwhenyousegot(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Zadan(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Zadani(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Zadano(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Zadate(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Zadati(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Zadato(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Zakładając(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Zakładającże(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Zapredpokladu(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Zapředpokladu(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Zaradi(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Zatim(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def a(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ach(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def an(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def awer(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def dann(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ej(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ghunoblu(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
   # source://cucumber//lib/cucumber/glue/dsl.rb#106
   def if_nil(value, default); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def latlh(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def mä(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def qaSDI(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
   # Registers a new Ruby StepDefinition. This method is aliased
@@ -3174,727 +3174,727 @@ module Cucumber::Glue::Dsl
   # source://cucumber//lib/cucumber/glue/dsl.rb#142
   def register_rb_step_definition(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ugeholl(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def vaj(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def wann(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def És(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Étantdonné(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Étantdonnée(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Étantdonnées(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Étantdonnéqu(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Étantdonnéque(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Étantdonnés(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ða(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ðaðe(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ðurh(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Þa(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Þaþe(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Þegar(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Þurh(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Þá(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Če(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Şi(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Əgər(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Și(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Όταν(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Αλλά(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Δεδομένου(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Και(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Τότε(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def І(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Інакш(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def А(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Агар(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Але(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Али(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Аммо(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Анх(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Атакож(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Бирок(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ва(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Вә(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Гэхдээ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Дадена(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Дадено(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Дадзена(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Дано(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Допустим(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ды(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Если(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Задате(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Задати(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Задато(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Затем(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def И(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Иначе(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Кад(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Када(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Калі(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Кога(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Когато(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Когда(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Коли(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ктомуже(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Лекин(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ләкин(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Мөн(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Нехай(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Но(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Няхай(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Нәтиҗәдә(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Онда(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Припустимо(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Припустимощо(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Пусть(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Та(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Тады(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Также(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Таксама(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def То(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Тогаш(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Тогда(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Тоді(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Тэгэхэд(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Тэгээд(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Унда(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Харин(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Хэрэв(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Якщо(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Үүнийдараа(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Һәм(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Әгәр(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Әйтик(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Әмма(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Өгөгдсөннь(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Ապա(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Բայց(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Դիցուք(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Եթե(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Եվ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def Երբ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def אבל(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def אז(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def אזי(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def בהינתן(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def וגם(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def כאשר(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def آنگاه(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def اذاً(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def اما(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def اور(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def اگر(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def بافرض(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def بالفرض(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def بفرض(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def تب(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ثم(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def جب(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def عندما(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def فرضکیا(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def لكن(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def لیکن(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def متى(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def هنگامی(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def و(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def پھر(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def अगर(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def अनि(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def अनी(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def आणि(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def और(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def कदा(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def किन्तु(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def चूंकि(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def जब(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def जर(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def जेव्हा(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def तथा(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def तदा(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def तब(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def तर(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def तसेच(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def तेव्हा(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def त्यसपछि(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def दिइएको(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def दिएको(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def दिलेल्याप्रमाणे(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def पण(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def पर(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def परंतु(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def परन्तु(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def मग(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def यदि(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def र(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ਅਤੇ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ਜਦੋਂ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ਜਿਵੇਂਕਿ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ਜੇਕਰ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ਤਦ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ਪਰ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def અને(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def આપેલછે(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ક્યારે(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def પછી(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def પણ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def அப்பொழுது(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ஆனால்(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def எப்போது(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def கொடுக்கப்பட்ட(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def மற்றும்(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def மேலும்(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def అప్పుడు(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ఈపరిస్థితిలో(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def కాని(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def చెప్పబడినది(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def మరియు(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ಆದರೆ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ನಂತರ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ನೀಡಿದ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ಮತ್ತು(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ಸ್ಥಿತಿಯನ್ನು(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def എപ്പോൾ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ഒപ്പം(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def നൽകിയത്(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def പക്ഷേ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def പിന്നെ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def กำหนดให้(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ดังนั้น(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def เมื่อ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def แต่(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def และ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ასევე(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def და(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ვთქვათ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def თუ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def თუმცა(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def მაგრამ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def მაშინ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def მოცემული(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def მოცემულია(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def როგორცკი(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def როდესაც(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def როცა(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def መቼ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def እና(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ከዚያ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def የተሰጠ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ግን(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def かつ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def しかし(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ただし(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def ならば(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def もし(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 且つ(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 並且(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 但し(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 但是(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 假如(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 假定(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 假設(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 假设(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 前提(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 同时(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 同時(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 并且(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 当(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 然し(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 當(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 而且(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 那么(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 那麼(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 그러면(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 그리고(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 단(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 만약(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 만일(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 먼저(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 조건(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 하지만(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 🎬(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 😂(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 😐(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 😔(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
-  # source://cucumber//lib/cucumber/glue/dsl.rb#142
+  # source://cucumber//lib/cucumber/glue/registry_and_more.rb#54
   def 🙏(regexp, symbol = T.unsafe(nil), options = T.unsafe(nil), &proc); end
 
   class << self
@@ -4096,9 +4096,6 @@ module Cucumber::Glue::ProtoWorld
   # be a String:
   #
   #   table(%{
-  #     | account | description | amount |
-  #     | INT-100 | Taxi        | 114    |
-  #     | CUC-101 | Peeler      | 22     |
   #   })
   #
   # or a 2D Array:
@@ -4687,7 +4684,7 @@ module Cucumber::LoadPath
   def add_dirs(*dirs); end
 
   class << self
-    # source://cucumber//lib/cucumber/load_path.rb#5
+    # source://cucumber//lib/cucumber/load_path.rb#11
     def add_dirs(*dirs); end
   end
 end
@@ -4716,8 +4713,6 @@ end
 # For example:
 #
 #   Given I have:
-#     | a | b |
-#     | c | d |
 #
 # And a matching StepDefinition:
 #
@@ -4823,9 +4818,6 @@ class Cucumber::MultilineArgument::DataTable
   # Hash are the headers in the table. For example, a Table built from
   # the following plain text:
   #
-  #   | a | b | sum |
-  #   | 2 | 3 | 5   |
-  #   | 7 | 9 | 16  |
   #
   # Gets converted into the following:
   #
@@ -4875,9 +4867,6 @@ class Cucumber::MultilineArgument::DataTable
   #
   # Example:
   #
-  #   | Phone Number | Address |
-  #   | 123456       | xyz     |
-  #   | 345678       | abc     |
   #
   # A StepDefinition receiving this table can then map the columns
   # with both Regexp and String:
@@ -4905,8 +4894,6 @@ class Cucumber::MultilineArgument::DataTable
   # This is used especially for argument transforms.
   #
   # Example:
-  #  | column_1_name | column_2_name |
-  #  | x             | y             |
   #
   #  table.match(/table:column_1_name,column_2_name/) #=> non-nil
   #
@@ -4918,8 +4905,6 @@ class Cucumber::MultilineArgument::DataTable
   # Gets the raw data of this table. For example, a Table built from
   # the following plain text:
   #
-  #   | a | b |
-  #   | c | d |
   #
   # gets converted into the following:
   #
@@ -4934,8 +4919,6 @@ class Cucumber::MultilineArgument::DataTable
   # Converts this table into a Hash where the first column is
   # used as keys and the second column is used as values
   #
-  #   | a | 2 |
-  #   | b | 3 |
   #
   # Gets converted into the following:
   #
@@ -4949,9 +4932,6 @@ class Cucumber::MultilineArgument::DataTable
   # Converts this table into an Array of Hashes where the keys are symbols.
   # For example, a Table built from the following plain text:
   #
-  #   | foo | Bar | Foo Bar |
-  #   | 2   | 3   | 5       |
-  #   | 7   | 9   | 16      |
   #
   # Gets converted into the following:
   #
@@ -4982,14 +4962,9 @@ class Cucumber::MultilineArgument::DataTable
 
   # Returns a new, transposed table. Example:
   #
-  #   | a | 7 | 4 |
-  #   | b | 9 | 2 |
   #
   # Gets converted into the following:
   #
-  #   | a | b |
-  #   | 7 | 9 |
-  #   | 4 | 2 |
   #
   # source://cucumber//lib/cucumber/multiline_argument/data_table.rb#124
   def transpose; end
@@ -5668,28 +5643,28 @@ class Cucumber::Runtime::ForProgrammingLanguages
   # source://cucumber//lib/cucumber/runtime/for_programming_languages.rb#16
   def initialize(support_code, user_interface); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
+  # source://cucumber//lib/cucumber/runtime/for_programming_languages.rb#21
   def ask(*args, **_arg1, &block); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
+  # source://cucumber//lib/cucumber/runtime/for_programming_languages.rb#21
   def attach(*args, **_arg1, &block); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
+  # source://cucumber//lib/cucumber/runtime/for_programming_languages.rb#21
   def embed(*args, **_arg1, &block); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
+  # source://cucumber//lib/cucumber/runtime/for_programming_languages.rb#21
   def features_paths(*args, **_arg1, &block); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
+  # source://cucumber//lib/cucumber/runtime/for_programming_languages.rb#29
   def invoke_dynamic_step(*args, **_arg1, &block); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
+  # source://cucumber//lib/cucumber/runtime/for_programming_languages.rb#29
   def invoke_dynamic_steps(*args, **_arg1, &block); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
+  # source://cucumber//lib/cucumber/runtime/for_programming_languages.rb#21
   def puts(*args, **_arg1, &block); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
+  # source://cucumber//lib/cucumber/runtime/for_programming_languages.rb#21
   def step_match(*args, **_arg1, &block); end
 
   # Returns the value of attribute support_code.
@@ -6249,7 +6224,7 @@ module Cucumber::Term::ANSIColor
     # Returns true, if the coloring function of this module
     # is switched on, false otherwise.
     #
-    # source://cucumber//lib/cucumber/term/ansicolor.rb#74
+    # source://cucumber//lib/cucumber/term/ansicolor.rb#78
     def coloring?; end
 
     # @private

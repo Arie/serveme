@@ -48,7 +48,7 @@ module Api
     private
 
     def require_admin
-      api_user&.admin? || unauthorized
+      api_user&.admin? || head(:forbidden)
     end
   end
 end

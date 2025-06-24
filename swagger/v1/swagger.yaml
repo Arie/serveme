@@ -1,0 +1,1182 @@
+---
+openapi: 3.0.1
+info:
+  title: serveme.tf API
+  description: |
+    API for Team Fortress 2 server reservations
+
+    ## Authentication
+    Most endpoints require authentication via API key. Users can find their API key in their settings page after creating an account.
+
+    **Important**: API keys are unique per region. You must use the API key from the same region as the server you're calling:
+    - EU server requires EU API key from https://serveme.tf
+    - NA server requires NA API key from https://na.serveme.tf
+    - AU server requires AU API key from https://au.serveme.tf
+    - SEA server requires SEA API key from https://sea.serveme.tf
+
+    ## Permission Levels
+    - **Public**: No authentication required
+    - **User**: Basic API key authentication
+    - **Admin**: Admin group membership required
+    - **League Admin**: Admin or League Admin group membership required
+    - **Trusted API**: Admin or Trusted API group membership required
+
+    ## Groups
+    The serveme.tf platform uses a group-based permission system:
+    - **Admins**: Full access to all features and admin endpoints
+    - **League Admins**: Access to league-related features and searches
+    - **Trusted API**: Enhanced API access for automated systems - can manage reservations for any user by providing `steam_uid` parameter
+    - **Donators**: Extended reservation times and features
+    - **Streamers**: Special streaming-related features
+  version: v1
+  contact:
+    name: serveme.tf
+    url: https://serveme.tf
+servers:
+- url: https://serveme.tf
+  description: Production server (EU)
+- url: https://na.serveme.tf
+  description: Production server (NA)
+- url: https://au.serveme.tf
+  description: Production server (AU)
+- url: https://sea.serveme.tf
+  description: Production server (SEA)
+- url: http://localhost:3000
+  description: Development server
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: query
+      description: API key for authentication. Users can find their API key in settings.
+    token_auth:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: 'Legacy token authentication. Use format: "Token token=your_api_key"'
+    bearer_token:
+      type: http
+      scheme: bearer
+      description: Bearer token authentication using API key as token.
+paths:
+  "/api/users/{id}":
+    get:
+      summary: Get user information
+      tags:
+      - Users
+      parameters:
+      - name: id
+        in: path
+        description: User ID (Steam UID)
+        required: true
+        schema:
+          type: integer
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      uid:
+                        type: string
+                      nickname:
+                        type: string
+                      name:
+                        type: string
+                      donator:
+                        type: boolean
+                      donator_until:
+                        type: string
+                        nullable: true
+                      reservations_made:
+                        type: integer
+                      total_reservation_seconds:
+                        type: integer
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+  "/api/maps":
+    get:
+      summary: List available maps
+      tags:
+      - Maps
+      responses:
+        '200':
+          description: List of maps
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  maps:
+                    type: array
+                    items:
+                      type: string
+  "/api/servers":
+    get:
+      summary: List available servers
+      tags:
+      - Servers
+      parameters:
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '200':
+          description: List of servers
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  servers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        location:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                            flag:
+                              type: string
+        '401':
+          description: Unauthorized
+  "/api/reservations/new":
+    get:
+      summary: Get prefilled reservation template (Step 1)
+      tags:
+      - Reservations
+      parameters:
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '200':
+          description: Prefilled reservation template
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reservation:
+                    type: object
+                    properties:
+                      starts_at:
+                        type: string
+                        format: date-time
+                      ends_at:
+                        type: string
+                        format: date-time
+                  actions:
+                    type: object
+                    properties:
+                      find_servers:
+                        type: string
+        '401':
+          description: Unauthorized
+  "/api/reservations/find_servers":
+    post:
+      summary: Find available servers for reservation (Step 2)
+      tags:
+      - Reservations
+      parameters:
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      - name: steam_uid
+        in: query
+        required: false
+        description: Steam UID
+        schema:
+          type: string
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '200':
+          description: Available servers with reservation template
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reservation:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                      starts_at:
+                        type: string
+                        format: date-time
+                      ends_at:
+                        type: string
+                        format: date-time
+                      server_id:
+                        type: integer
+                        nullable: true
+                      password:
+                        type: string
+                        nullable: true
+                      rcon:
+                        type: string
+                        nullable: true
+                      first_map:
+                        type: string
+                        nullable: true
+                      tv_password:
+                        type: string
+                      tv_relaypassword:
+                        type: string
+                      tv_port:
+                        type: integer
+                        nullable: true
+                      server_config_id:
+                        type: integer
+                        nullable: true
+                      whitelist_id:
+                        type: integer
+                        nullable: true
+                      custom_whitelist_id:
+                        type: integer
+                        nullable: true
+                      auto_end:
+                        type: boolean
+                      enable_plugins:
+                        type: boolean
+                      enable_demos_tf:
+                        type: boolean
+                      sdr_ip:
+                        type: string
+                        nullable: true
+                      sdr_port:
+                        type: integer
+                        nullable: true
+                      sdr_tv_port:
+                        type: integer
+                        nullable: true
+                      sdr_final:
+                        type: boolean
+                      disable_democheck:
+                        type: boolean
+                  servers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        location:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                            flag:
+                              type: string
+                  server_configs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        file:
+                          type: string
+                  whitelists:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        file:
+                          type: string
+                  actions:
+                    type: object
+                    properties:
+                      create:
+                        type: string
+        '401':
+          description: Unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reservation:
+                  type: object
+                  properties:
+                    starts_at:
+                      type: string
+                      format: date-time
+                    ends_at:
+                      type: string
+                      format: date-time
+                  required:
+                  - starts_at
+                  - ends_at
+  "/api/reservations":
+    get:
+      summary: List reservations
+      tags:
+      - Reservations
+      parameters:
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      - name: steam_uid
+        in: query
+        required: false
+        description: Steam UID to filter reservations
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        description: Limit number of results
+        schema:
+          type: integer
+      - name: offset
+        in: query
+        required: false
+        description: Offset for pagination
+        schema:
+          type: integer
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '200':
+          description: List of reservations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reservations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        server_id:
+                          type: integer
+                        user_id:
+                          type: integer
+                        starts_at:
+                          type: string
+                          format: date-time
+                        ends_at:
+                          type: string
+                          format: date-time
+        '401':
+          description: Unauthorized
+    post:
+      summary: Create new reservation (Step 3)
+      tags:
+      - Reservations
+      parameters:
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      - name: steam_uid
+        in: query
+        required: false
+        description: Steam UID (for Trusted API users)
+        schema:
+          type: string
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '200':
+          description: Reservation created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reservation:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      server_id:
+                        type: integer
+                      starts_at:
+                        type: string
+                        format: date-time
+                      ends_at:
+                        type: string
+                        format: date-time
+                      password:
+                        type: string
+                      rcon:
+                        type: string
+                      tv_password:
+                        type: string
+                      tv_relaypassword:
+                        type: string
+                      logsecret:
+                        type: string
+                      status:
+                        type: string
+                      first_map:
+                        type: string
+                        nullable: true
+                      tv_port:
+                        type: integer
+                      server_config_id:
+                        type: integer
+                        nullable: true
+                      whitelist_id:
+                        type: integer
+                        nullable: true
+                      custom_whitelist_id:
+                        type: integer
+                        nullable: true
+                      auto_end:
+                        type: boolean
+                      enable_plugins:
+                        type: boolean
+                      enable_demos_tf:
+                        type: boolean
+                      sdr_ip:
+                        type: string
+                        nullable: true
+                      sdr_port:
+                        type: integer
+                        nullable: true
+                      sdr_tv_port:
+                        type: integer
+                        nullable: true
+                      sdr_final:
+                        type: boolean
+                      disable_democheck:
+                        type: boolean
+                      last_number_of_players:
+                        type: integer
+                      inactive_minute_counter:
+                        type: integer
+                      start_instantly:
+                        type: boolean
+                      end_instantly:
+                        type: boolean
+                      provisioned:
+                        type: boolean
+                      ended:
+                        type: boolean
+                      steam_uid:
+                        type: string
+                      server:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                          flag:
+                            type: string
+                          ip:
+                            type: string
+                          port:
+                            type: string
+                          ip_and_port:
+                            type: string
+                          sdr:
+                            type: boolean
+                          latitude:
+                            type: number
+                          longitude:
+                            type: number
+                  actions:
+                    type: object
+                    properties:
+                      patch:
+                        type: string
+                      delete:
+                        type: string
+        '422':
+          description: Invalid JSON
+        '401':
+          description: Unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reservation:
+                  type: object
+                  properties:
+                    starts_at:
+                      type: string
+                      format: date-time
+                    ends_at:
+                      type: string
+                      format: date-time
+                    server_id:
+                      type: integer
+                    password:
+                      type: string
+                    rcon:
+                      type: string
+                    tv_password:
+                      type: string
+                    tv_relaypassword:
+                      type: string
+                    first_map:
+                      type: string
+                    server_config_id:
+                      type: integer
+                    whitelist_id:
+                      type: integer
+                    custom_whitelist_id:
+                      type: integer
+                    auto_end:
+                      type: boolean
+                  required:
+                  - starts_at
+                  - ends_at
+                  - server_id
+  "/api/reservations/{id}":
+    get:
+      summary: Get reservation details (Step 5)
+      tags:
+      - Reservations
+      parameters:
+      - name: id
+        in: path
+        description: Reservation ID
+        required: true
+        schema:
+          type: integer
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '200':
+          description: Reservation details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reservation:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      server_id:
+                        type: integer
+                      starts_at:
+                        type: string
+                        format: date-time
+                      ends_at:
+                        type: string
+                        format: date-time
+                      password:
+                        type: string
+                      rcon:
+                        type: string
+                      tv_password:
+                        type: string
+                      tv_relaypassword:
+                        type: string
+                      status:
+                        type: string
+                      first_map:
+                        type: string
+                        nullable: true
+                      tv_port:
+                        type: integer
+                      server_config_id:
+                        type: integer
+                        nullable: true
+                      whitelist_id:
+                        type: integer
+                        nullable: true
+                      custom_whitelist_id:
+                        type: integer
+                        nullable: true
+                      auto_end:
+                        type: boolean
+                      enable_plugins:
+                        type: boolean
+                      enable_demos_tf:
+                        type: boolean
+                      sdr_ip:
+                        type: string
+                        nullable: true
+                      sdr_port:
+                        type: integer
+                        nullable: true
+                      sdr_tv_port:
+                        type: integer
+                        nullable: true
+                      sdr_final:
+                        type: boolean
+                      disable_democheck:
+                        type: boolean
+                      last_number_of_players:
+                        type: integer
+                      inactive_minute_counter:
+                        type: integer
+                      logsecret:
+                        type: string
+                      start_instantly:
+                        type: boolean
+                      end_instantly:
+                        type: boolean
+                      provisioned:
+                        type: boolean
+                      ended:
+                        type: boolean
+                      steam_uid:
+                        type: string
+                      server:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                          flag:
+                            type: string
+                          ip:
+                            type: string
+                          port:
+                            type: string
+                          ip_and_port:
+                            type: string
+                          sdr:
+                            type: boolean
+                          latitude:
+                            type: number
+                          longitude:
+                            type: number
+                  actions:
+                    type: object
+                    properties:
+                      patch:
+                        type: string
+                      delete:
+                        type: string
+        '401':
+          description: Unauthorized
+        '404':
+          description: Reservation not found
+    patch:
+      summary: Update reservation (Step 4)
+      tags:
+      - Reservations
+      parameters:
+      - name: id
+        in: path
+        description: Reservation ID
+        required: true
+        schema:
+          type: integer
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '200':
+          description: Reservation updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reservation:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      server_id:
+                        type: integer
+                      starts_at:
+                        type: string
+                        format: date-time
+                      ends_at:
+                        type: string
+                        format: date-time
+                      password:
+                        type: string
+                      rcon:
+                        type: string
+                      tv_password:
+                        type: string
+                      tv_relaypassword:
+                        type: string
+                      status:
+                        type: string
+                      first_map:
+                        type: string
+                        nullable: true
+                      tv_port:
+                        type: integer
+                      server_config_id:
+                        type: integer
+                        nullable: true
+                      whitelist_id:
+                        type: integer
+                        nullable: true
+                      custom_whitelist_id:
+                        type: integer
+                        nullable: true
+                      auto_end:
+                        type: boolean
+                      enable_plugins:
+                        type: boolean
+                      enable_demos_tf:
+                        type: boolean
+                      sdr_ip:
+                        type: string
+                        nullable: true
+                      sdr_port:
+                        type: integer
+                        nullable: true
+                      sdr_tv_port:
+                        type: integer
+                        nullable: true
+                      sdr_final:
+                        type: boolean
+                      disable_democheck:
+                        type: boolean
+                      last_number_of_players:
+                        type: integer
+                      inactive_minute_counter:
+                        type: integer
+                      logsecret:
+                        type: string
+                      start_instantly:
+                        type: boolean
+                      end_instantly:
+                        type: boolean
+                      provisioned:
+                        type: boolean
+                      ended:
+                        type: boolean
+                      steam_uid:
+                        type: string
+                      server:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                          flag:
+                            type: string
+                          ip:
+                            type: string
+                          port:
+                            type: string
+                          ip_and_port:
+                            type: string
+                          sdr:
+                            type: boolean
+                          latitude:
+                            type: number
+                          longitude:
+                            type: number
+                  actions:
+                    type: object
+                    properties:
+                      patch:
+                        type: string
+                      delete:
+                        type: string
+        '401':
+          description: Unauthorized
+        '404':
+          description: Reservation not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reservation:
+                  type: object
+                  properties:
+                    ends_at:
+                      type: string
+                      format: date-time
+                    password:
+                      type: string
+                    rcon:
+                      type: string
+                    tv_password:
+                      type: string
+                    tv_relaypassword:
+                      type: string
+                    first_map:
+                      type: string
+                    server_config_id:
+                      type: integer
+                    whitelist_id:
+                      type: integer
+                    custom_whitelist_id:
+                      type: integer
+    put:
+      summary: Update reservation (Step 4 - PUT method)
+      tags:
+      - Reservations
+      parameters:
+      - name: id
+        in: path
+        description: Reservation ID
+        required: true
+        schema:
+          type: integer
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '200':
+          description: Reservation updated successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Reservation not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reservation:
+                  type: object
+                  properties:
+                    ends_at:
+                      type: string
+                      format: date-time
+                    password:
+                      type: string
+                    rcon:
+                      type: string
+                    tv_password:
+                      type: string
+                    tv_relaypassword:
+                      type: string
+                    first_map:
+                      type: string
+                    server_config_id:
+                      type: integer
+                    whitelist_id:
+                      type: integer
+                    custom_whitelist_id:
+                      type: integer
+    delete:
+      summary: Cancel/end reservation (Step 5)
+      tags:
+      - Reservations
+      parameters:
+      - name: id
+        in: path
+        description: Reservation ID
+        required: true
+        schema:
+          type: integer
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '204':
+          description: Future reservation cancelled
+        '200':
+          description: Current reservation ended
+        '401':
+          description: Unauthorized
+        '404':
+          description: Reservation not found
+  "/api/reservations/{id}/extend":
+    post:
+      summary: Extend reservation duration
+      tags:
+      - Reservations
+      parameters:
+      - name: id
+        in: path
+        description: Reservation ID
+        required: true
+        schema:
+          type: integer
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '200':
+          description: Reservation extended successfully
+        '400':
+          description: Cannot extend reservation
+        '401':
+          description: Unauthorized
+        '404':
+          description: Reservation not found
+  "/api/donators/new":
+    get:
+      summary: Get new donator form template
+      tags:
+      - Donators
+      parameters:
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '200':
+          description: New donator template
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Admin access required
+  "/api/donators/{id}":
+    get:
+      summary: Get donator details
+      tags:
+      - Donators
+      parameters:
+      - name: id
+        in: path
+        description: Steam UID of the user
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Admin access required
+        '404':
+          description: Donator not found
+    delete:
+      summary: Remove donator status
+      tags:
+      - Donators
+      parameters:
+      - name: id
+        in: path
+        description: Steam UID of the user
+        required: true
+        schema:
+          type: string
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Admin access required
+        '404':
+          description: Donator not found
+  "/api/donators":
+    post:
+      summary: Create or update donator status
+      tags:
+      - Donators
+      parameters:
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Admin access required
+        '404':
+          description: User not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                donator:
+                  type: object
+                  properties:
+                    steam_uid:
+                      type: string
+                      description: Steam UID of the user
+                    expires_at:
+                      type: string
+                      format: date-time
+                      description: When donator status expires
+                  required:
+                  - steam_uid
+                  - expires_at
+  "/api/league_requests":
+    get:
+      summary: Search league requests
+      tags:
+      - League Requests
+      parameters:
+      - name: api_key
+        in: query
+        required: false
+        description: API key for authentication
+        schema:
+          type: string
+      - name: league_request[ip]
+        in: query
+        required: false
+        description: IP address to search for
+        schema:
+          type: string
+      - name: league_request[steam_uid]
+        in: query
+        required: false
+        description: Steam UID to search for
+        schema:
+          type: string
+      - name: league_request[reservation_ids]
+        in: query
+        required: false
+        description: Reservation IDs to search for
+        schema:
+          type: string
+      - name: league_request[cross_reference]
+        in: query
+        required: false
+        description: Enable cross-referencing in search
+        schema:
+          type: boolean
+      security:
+      - api_key: []
+      - token_auth: []
+      - bearer_token: []
+      responses:
+        '401':
+          description: Unauthorized
+        '403':
+          description: Admin or league admin access required

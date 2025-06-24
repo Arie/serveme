@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -e
+
+echo "Checking if swagger.yaml is in sync with swagger specs..."
+
+cp swagger/v1/swagger.yaml swagger/v1/swagger.yaml.backup
+
+bundle exec rake rswag:specs:swaggerize > /dev/null 2>&1
+
+if ! diff -q swagger/v1/swagger.yaml swagger/v1/swagger.yaml.backup > /dev/null 2>&1; then
+  mv swagger/v1/swagger.yaml.backup swagger/v1/swagger.yaml
+  echo "❌ swagger.yaml is out of sync with swagger specs!"
+  echo "Run 'bundle exec rake rswag:specs:swaggerize' to update it."
+  exit 1
+fi
+
+rm swagger/v1/swagger.yaml.backup
+echo "✅ swagger.yaml is in sync with swagger specs"

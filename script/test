@@ -41,6 +41,8 @@ TESTS = {
   rubocop: "bin/rubocop -f github",
   rubocop_autocorrect: "bin/rubocop --autocorrect-all",
   sorbet: "bin/srb tc",
+  swagger_sync: "script/check_swagger_sync",
+  swagger_regenerate: "bundle exec rake rswag:specs:swaggerize",
   tapioca_gem: "bin/tapioca gem --verify",
   tapioca_dsl: "bin/tapioca dsl --verify",
   tapioca_gem_autocorrect: "bin/tapioca gem",
@@ -51,9 +53,9 @@ TESTS = {
 }
 
 CHECKS = if options[:autocorrect]
-  %i[brakeman importmap rubocop_autocorrect sorbet tapioca_gem_autocorrect tapioca_dsl_autocorrect]
+  %i[brakeman importmap rubocop_autocorrect sorbet swagger_regenerate tapioca_gem_autocorrect tapioca_dsl_autocorrect]
 else
-  %i[brakeman importmap rubocop sorbet tapioca_gem tapioca_dsl]
+  %i[brakeman importmap rubocop sorbet swagger_sync tapioca_gem tapioca_dsl]
 end
 
 FRAMES = [ "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" ]

@@ -80,6 +80,8 @@ gem "uri"
 gem "will_paginate"
 gem "will_paginate-bootstrap4"
 gem "ruby-openai"
+gem "rswag"
+gem "rswag-ui"
 
 group :development do
   gem "better_errors"

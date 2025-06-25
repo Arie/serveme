@@ -319,6 +319,12 @@ module GeneratedPathHelpersModule
   def root_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def rswag_api_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def rswag_ui_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def sdr_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

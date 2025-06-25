@@ -26,8 +26,7 @@ class CleanupWorker
   def grant_api_keys_to_week_old_users
     User.where("created_at < ?", 7.days.ago).where(api_key: nil).find_in_batches do |group|
       group.each do |u|
-        u.api_key = SecureRandom.hex(16)
-        u.save
+        u.generate_api_key!
       end
     end
   end

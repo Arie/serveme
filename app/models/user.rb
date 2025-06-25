@@ -1,6 +1,8 @@
 # typed: true
 # frozen_string_literal: true
 
+require "securerandom"
+
 class User < ActiveRecord::Base
   extend T::Sig
   devise :omniauthable, :rememberable, :trackable
@@ -169,5 +171,17 @@ class User < ActiveRecord::Base
   def can_upload_to?(path)
     return true if admin?
     file_upload_permission&.path_allowed?(path) || false
+  end
+
+  sig { returns(String) }
+  def generate_api_key!
+    self.api_key = SecureRandom.hex(16)
+    save!
+    T.must(api_key)
+  end
+
+  sig { returns(String) }
+  def self.generate_api_key
+    SecureRandom.hex(16)
   end
 end

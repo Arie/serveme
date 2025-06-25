@@ -55,7 +55,7 @@ module ReservationsHelper
     end
 
     filtered_params = params.except(:ip)
-    permitted_params = filtered_params.permit([ :authenticity_token, :whitelist_type, { reservation: %i[starts_at ends_at server_id password rcon tv_password enable_plugins enable_demos_tf auto_end first_map server_config_id whitelist_id custom_whitelist_id disable_democheck] } ])
+    permitted_params = filtered_params.permit([ :authenticity_token, :whitelist_type, :api_key, :steam_uid, { reservation: %i[starts_at ends_at server_id password rcon tv_password enable_plugins enable_demos_tf auto_end first_map server_config_id whitelist_id custom_whitelist_id disable_democheck] } ])
     new_reservation_attributes.merge!(permitted_params[:reservation]) if permitted_params[:reservation]
 
     current_user.reservations.build(new_reservation_attributes)

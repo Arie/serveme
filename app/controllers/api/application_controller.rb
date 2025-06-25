@@ -70,7 +70,7 @@ module Api
     end
 
     def require_site_or_league_admin
-      redirect_to root_path unless current_admin || current_league_admin
+      head :forbidden unless current_admin || current_league_admin
     end
   end
 end

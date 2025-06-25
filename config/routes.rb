@@ -124,7 +124,7 @@ Serveme::Application.routes.draw do
     resources :league_requests, only: :index
     resources :maps, only: :index
     resources :servers, only: :index
-    resources :donators, except: %i[edit update]
+    resources :donators, except: %i[edit update index]
     resources :reservations do
       member do
         post :extend
@@ -134,6 +134,12 @@ Serveme::Application.routes.draw do
       end
     end
   end
+
+  # Serve swagger YAML dynamically with current server first (before rswag engine)
+  get "/api-docs/v1/swagger.yaml", to: "api_docs#swagger_spec"
+
+  mount Rswag::Ui::Engine => "/api-docs"
+  mount Rswag::Api::Engine => "/api-docs"
 
   # Stripe webhook
   post "/stripe/webhook", to: "stripe_webhooks#create"

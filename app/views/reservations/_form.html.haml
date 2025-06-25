@@ -12,7 +12,7 @@
 = render "server_reservations_table"
 
 .row
-  .col-md-12.col-lg-6.offset-lg-2
+  .col-12.col-lg-8.offset-lg-2
     = simple_form_for(@reservation, wrapper: :horizontal_form, html: { class: 'form-horizontal reservation' }) do |f|
       - if @reservation.schedulable?
         = f.input :starts_at, as: :string, input_html: { value: I18n.l(@reservation.starts_at || Time.now, format: :datepicker), data: { :"datepicker-format" => "dd-mm-yyyy hh:ii", :"datepicker-nodefault" => "false" } }, label: "Starts at"
@@ -86,18 +86,20 @@
         %button.btn-close.btn-close-white{"data-bs-dismiss" => "modal"}
       .modal-body
         #server-pings{data: { controller: "ping" }}
-          %table.table.table-hover.table-bordered.table-striped.table-dark{data: { ping_target: "table" }}
-            %thead
-              %tr
-                %th Name
-                %th Location
-                %th IP
-                %th Ping
-            - @servers.uniq { |s| s.ip }.each do |server|
-              %tr{data: { ip: server.ip }}
-                %td= link_to server.name.gsub(/\s+#?\d+.*$/, ''), new_reservation_path(ip: server.ip), class: 'hover-underline text-light'
-                %td= server.location&.name
-                %td= link_to server.ip, new_reservation_path(ip: server.ip), class: 'hover-underline text-light'
-                %td.ping Checking...
+          .table-responsive
+            %table.table.table-hover.table-bordered.table-striped.table-dark{data: { ping_target: "table" }}
+              %thead
+                %tr
+                  %th Name
+                  %th Location
+                  %th IP
+                  %th Ping
+              %tbody
+                - @servers.uniq { |s| s.ip }.each do |server|
+                  %tr{data: { ip: server.ip }}
+                    %td= link_to server.name.gsub(/\s+#?\d+.*$/, ''), new_reservation_path(ip: server.ip), class: 'hover-underline text-light'
+                    %td= server.location&.name
+                    %td= link_to server.ip, new_reservation_path(ip: server.ip), class: 'hover-underline text-light'
+                    %td.ping Checking...
           .mt-3
             %canvas{data: { ping_target: "chart" }, style: "width: 100%; height: 200px;"}

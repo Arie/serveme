@@ -1,4 +1,4 @@
-%nav.navbar.navbar-expand-xl.navbar-dark.bg-primary
+%nav.navbar.navbar-expand-md.navbar-dark.bg-primary
   .navbar-brand{href: "#"}
     %ul.nav.navbar-nav
       %li.dropdown
@@ -47,12 +47,12 @@
               %i.fa.fa-warning
               1-click reservation
       - if current_user && (current_user.donator? || current_user.streamer? || current_user.league_admin? || current_user.admin?)
-        %li.nav-item
+        %li.nav-item.d-xl-block.d-md-none
           = link_to servers_path, class: "nav-link" do
             %i.fa.fa-tasks
             Servers
       - if current_user && current_user.donator?
-        %li.nav-item
+        %li.nav-item.d-xl-block.d-md-none
           = link_to upload_map_path, class: "nav-link" do
             %i.fa.fa-upload
             Upload map
@@ -60,12 +60,45 @@
         = link_to faq_path, class: "nav-link" do
           %i.fa.fa-question
           FAQ
-      %li.nav-item
+      %li.dropdown.nav-item.d-xl-none.d-none.d-md-block
+        %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
+          %i.fa.fa-ellipsis-h
+          More
+          %b.caret>
+        .dropdown-menu
+          - if current_user && (current_user.donator? || current_user.streamer? || current_user.league_admin? || current_user.admin?)
+            = link_to servers_path, class: "dropdown-item" do
+              %i.fa.fa-tasks
+              Servers
+          - if current_user && current_user.donator?
+            = link_to upload_map_path, class: "dropdown-item" do
+              %i.fa.fa-upload
+              Upload map
+          = link_to statistics_path, class: "dropdown-item", data: { turbo: false } do
+            %i.fa.fa-bar-chart-o
+            Stats
+          = link_to server_providers_path, class: "dropdown-item" do
+            %i.fa.fa-heart
+            Sponsors
+          = link_to credits_path, class: "dropdown-item" do
+            %i.fa.fa-thumbs-up
+            Credits
+          - if current_user
+            = link_to donate_path, class: "dropdown-item", data: { turbo: false } do
+              %i.fa.fa-paypal
+              Buy Premium
+            = link_to leaderboard_donators_path, class: "dropdown-item" do
+              %i.fa.fa-money
+              Leaderboard
+            = link_to settings_path, class: "dropdown-item" do
+              %i.fa.fa-cogs
+              Settings
+      %li.nav-item.d-xl-block.d-md-none
         = link_to statistics_path, class: "nav-link", data: { turbo: false } do
           %i.fa.fa-bar-chart-o
           Stats
 
-      %li.dropdown.nav-item
+      %li.dropdown.nav-item.d-xl-block.d-md-none
         %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
           %i.fa.fa-trophy
           Credits
@@ -78,7 +111,7 @@
             %i.fa.fa-thumbs-up
             Credits
       - if current_user
-        %li.dropdown.nav-item
+        %li.dropdown.nav-item.d-xl-block.d-md-none
           %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
             %i.fa.fa-star
             Premium
@@ -90,22 +123,41 @@
             = link_to leaderboard_donators_path, class: "dropdown-item" do
               %i.fa.fa-money
               Leaderboard
-        %li.nav-item
+        %li.nav-item.d-xl-block.d-md-none
           = link_to settings_path, class: "nav-link" do
             %i.fa.fa-cogs
             Settings
-    %ul.nav.navbar-nav.navbar-right
-      %span
-        = link_to("https://discord.gg/0s38RdItLiCmARMm", title: "serveme.tf on discord", class: "nav-item discord", target: "_blank") do
-          = image_tag "discord.png", alt: "Join our Discord server"
-        = link_to "https://github.com/Arie/serveme", title: "serveme.tf source code", class: "nav-item octocat"  do
-          = image_tag "octocat.png", alt: "Fork me on GitHub"
-      .account
-        - if current_user
-          = link_to current_user.decorate.nickname, settings_path
-          |
-          = link_to users_logout_path, method: :delete do
+      %li.nav-item.d-md-none
+        = link_to("https://discord.gg/0s38RdItLiCmARMm", title: "serveme.tf on discord", class: "nav-link", target: "_blank") do
+          = image_tag "discord.png", alt: "Join our Discord server", style: "width: 1.5rem; height: 1.5rem; vertical-align: middle; margin-right: 0.5rem;"
+          Discord
+      %li.nav-item.d-md-none
+        = link_to "https://github.com/Arie/serveme", title: "serveme.tf source code", class: "nav-link", target: "_blank" do
+          = image_tag "octocat.png", alt: "Fork me on GitHub", style: "width: 1.5rem; height: 1.5rem; vertical-align: middle; margin-right: 0.5rem;"
+          GitHub
+      - if current_user
+        %li.nav-item.d-md-none
+          = link_to users_logout_path, method: :delete, class: "nav-link" do
             %i.fa.fa-sign-out
-        - else
-          = link_to '/users/auth/steam', method: :post do
-            = image_tag 'sits_small.png', alt: "Sign in with Steam"
+            Logout
+      - else
+        %li.nav-item.d-md-none
+          = link_to '/users/auth/steam', method: :post, class: "nav-link" do
+            = image_tag 'sits_small.png', alt: "Sign in with Steam", style: "height: 1.5rem; vertical-align: middle; margin-right: 0.5rem;"
+            Login with Steam
+    %ul.nav.navbar-nav.ms-auto.d-none.d-md-flex
+      %li.nav-item
+        = link_to("https://discord.gg/0s38RdItLiCmARMm", title: "serveme.tf on discord", class: "discord", target: "_blank") do
+          = image_tag "discord.png", alt: "Join our Discord server", style: "width: 1.5rem; height: 1.5rem;"
+        = link_to "https://github.com/Arie/serveme", title: "serveme.tf source code", class: "octocat", target: "_blank" do
+          = image_tag "octocat.png", alt: "Fork me on GitHub", style: "width: 1.5rem; height: 1.5rem;"
+      %li.nav-item
+        .account
+          - if current_user
+            = link_to current_user.decorate.nickname, settings_path
+            |
+            = link_to users_logout_path, method: :delete do
+              %i.fa.fa-sign-out
+          - else
+            = link_to '/users/auth/steam', method: :post do
+              = image_tag 'sits_small.png', alt: "Sign in with Steam"

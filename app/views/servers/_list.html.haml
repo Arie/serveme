@@ -1,16 +1,18 @@
 #server-list
-  %table.table.table-hover.table-bordered.table-striped
-    %thead
-      %tr
-        %th Name
-        %th Map name
-        %th Players
-        %th FPS
-        %th Inactive
-    - active_servers = servers.order(:name).select { |s| s.recent_server_statistics.any? }
-    - inactive_servers = servers.order(:name).select { |s| s.recent_server_statistics.none? }
+  .table-responsive
+    %table.table.table-hover.table-bordered.table-striped
+      %thead
+        %tr
+          %th Name
+          %th Map name
+          %th Players
+          %th FPS
+          %th Inactive
+      %tbody
+        - active_servers = servers.order(:name).select { |s| s.recent_server_statistics.any? }
+        - inactive_servers = servers.order(:name).select { |s| s.recent_server_statistics.none? }
 
-    - active_servers.each do |server|
-      = render 'servers/server_info', server: server.decorate
-    - inactive_servers.each do |server|
-      = render 'servers/server_info', server: server.decorate
+        - active_servers.each do |server|
+          = render 'servers/server_info', server: server.decorate
+        - inactive_servers.each do |server|
+          = render 'servers/server_info', server: server.decorate

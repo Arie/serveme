@@ -1,19 +1,20 @@
-%table.table.table-condensed.your-reservations
-  %thead
-    %tr
-      %th Server
-      %th Reserved from
-      %th Reserved until
-      %th Actions
-  %tbody
-    - @users_reservations.each do |reservation|
-      %tr[reservation]
-        - reservation = reservation.decorate
-        - server_name = reservation.server_name
-        - if reservation.active?
-          %td= "#{server_name} (#{pluralize(reservation.last_number_of_players, 'player')})".html_safe
-        - else
-          %td= server_name
-        %td= I18n.l(reservation.starts_at,  :format => :short)
-        %td= I18n.l(reservation.ends_at,    :format => :short)
-        %td.actions= render 'reservations/actions', :reservation => reservation
+.table-responsive
+  %table.table.table-condensed.your-reservations
+    %thead
+      %tr
+        %th Server
+        %th Reserved from
+        %th Reserved until
+        %th Actions
+    %tbody
+      - @users_reservations.each do |reservation|
+        %tr[reservation]
+          - reservation = reservation.decorate
+          - server_name = reservation.server_name
+          - if reservation.active?
+            %td= "#{server_name} (#{pluralize(reservation.last_number_of_players, 'player')})".html_safe
+          - else
+            %td= server_name
+          %td= I18n.l(reservation.starts_at,  :format => :short)
+          %td= I18n.l(reservation.ends_at,    :format => :short)
+          %td.actions= render 'reservations/actions', :reservation => reservation

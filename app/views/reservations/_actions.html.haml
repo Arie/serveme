@@ -1,5 +1,5 @@
-%div{id: "reservation_actions_#{reservation.id}"}
-  %span
+%div{id: "reservation_actions_#{reservation.id}", class: "reservation-actions d-sm-flex d-sm-flex-wrap flex-column d-sm-flex-row gap-1"}
+  %span.d-contents
     = link_to reservation_path(reservation), :class => 'btn btn-sm btn-success' do
       Details
       %i.fa.fa-list

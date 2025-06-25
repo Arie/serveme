@@ -4,7 +4,7 @@
   .jumbotron
     .container
       .row
-        .col-md-8.buttons
+        .col-12.col-md-8.buttons
           %h1 Welcome to #{SITE_HOST}!
           %p The easiest way to get a TF2 server
           = link_to new_reservation_path, :class => 'btn btn-lg btn-primary', :title => "Get a server right now, or make a reservation" do
@@ -17,20 +17,20 @@
           = link_to ai_pages_path, class: 'text-sm text-warning' do
             New: AI Assistant
 
-        .col-md-4.align-self-end
+        .col-12.col-md-4.align-self-end
           = render 'reservations/available_servers'
 
 = render 'shared/point_to_na'
 
 .row
-  .col-md-12
+  .col-12
     %p.lead
       = link_to("Book a server", new_reservation_path)
       and within a few seconds your server will be ready and yours to use.
       Feel free to use the server for any kind of match you want.
 
 .row
-  .col-md-12
+  .col-12
     %p
       Please
       = link_to('consider contributing to the operating costs by donating.', donate_path)
@@ -77,17 +77,17 @@
 - if @users_games && @users_games.any?
   %h3 Reservations you played in
   .row
-    .col-md-12
+    .col-12
       = render 'reservations/users_games'
 
 - if @users_reservations && @users_reservations.any?
   %h3 Your most recent reservations
   .row
-    .col-md-12
+    .col-12
       = render 'reservations/users_reservations'
 
 .row
-  .col-md-12
+  .col-12
     %h3 Comments
 
     #leave-a-comment

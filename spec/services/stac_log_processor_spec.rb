@@ -28,7 +28,7 @@ describe StacLogProcessor do
         })
 
         fume = detections[76561197960476801]
-        expect(fume[:name]).to eq('fume')
+        expect(fume[:name]).to eq('fume.')
         expect(fume[:detections].tally).to eq({
           'SilentAim' => 1
         })
@@ -395,6 +395,64 @@ describe StacLogProcessor do
           }
         }
         expect(notifier_double).to have_received(:notify).with(expected_detections)
+      end
+    end
+
+    context "with edge case player names" do
+      let(:reservation) { create(:reservation) }
+      let(:processor) { described_class.new(reservation) }
+
+      it "handles player names starting with dots that cause empty regex captures" do
+        log_content = <<~LOG
+          [StAC] SilentAim detection of 1.16° on .͜..
+          Detections so far: 1 norecoil = yes
+          <22:08:23>
+           Player: .͜.<10><[U:1:108319474]><>
+           StAC cached SteamID: STEAM_0:0:54159737
+        LOG
+
+        expect { processor.process_content(log_content) }.not_to raise_error
+      end
+
+      it "handles the full problematic log that was causing errors" do
+        log_content = <<~LOG
+          <22:06:01>
+
+          ----------
+
+          [StAC] Possible triggerbot detection on adesh.
+          Detections so far: 1. Type: +attack2
+          <22:06:01>
+           Player: adesh<7><[U:1:79817144]><>
+           StAC cached SteamID: STEAM_0:0:39908572
+          <22:06:01>
+          Network:
+           51.05 ms ping
+          <22:08:23>
+
+          ----------
+
+          [StAC] SilentAim detection of 1.16° on .͜..
+          Detections so far: 1 norecoil = yes
+          <22:08:23>
+           Player: .͜.<10><[U:1:108319474]><>
+           StAC cached SteamID: STEAM_0:0:54159737
+        LOG
+
+        discord_notifier = instance_double(StacDiscordNotifier)
+        expect(StacDiscordNotifier).to receive(:new).with(reservation).and_return(discord_notifier)
+
+        expect(discord_notifier).to receive(:notify) do |detections|
+          expect(detections).to have_key(76561198040082872)
+          expect(detections[76561198040082872][:name]).to eq('adesh')
+          expect(detections[76561198040082872][:detections]).to include('Triggerbot')
+
+          expect(detections).to have_key(76561198068585202)
+          expect(detections[76561198068585202][:name]).to eq('.͜.')
+          expect(detections[76561198068585202][:detections]).to include('SilentAim')
+        end
+
+        expect { processor.process_content(log_content) }.not_to raise_error
       end
     end
   end

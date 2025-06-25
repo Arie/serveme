@@ -7,7 +7,7 @@ class StacLogProcessor
   TIMESTAMP_PATTERN = /<.*?>/
 
   # Detection-specific patterns
-  AIM_DETECTION_PATTERN = /\s*\[StAC\] ((?:Possible )?[Tt]riggerbot|SilentAim|Aimsnap) detection(?:s)? (?:of \d+\.\d+° )?on (.*?)[\.\n]/m
+  AIM_DETECTION_PATTERN = /\s*\[StAC\] ((?:Possible )?[Tt]riggerbot|SilentAim|Aimsnap) detection(?:s)? (?:of \d+\.\d+° )?on (.+?)$/m
   CMDNUM_SPIKE_PATTERN = /\s*\[StAC\] Cmdnum SPIKE of \d+ on (.*?)\..*?Player: (.*?)<.*?\[U:1:(\d+)\].*?#{STEAM_ID_PATTERN}/m
   GENERAL_DETECTION_PATTERN = /\s*\[StAC\] \[Detection\] Player (.*?) is cheating - (.*?)!.*?#{STEAM_ID_PATTERN}/m
 
@@ -89,6 +89,7 @@ class StacLogProcessor
       name_raw = match[1]
 
       name = parse_player_name(name_raw)
+      next if name.nil?
 
       log_segment_after_detection = content[content.index(match[0])..-1]
       next unless log_segment_after_detection =~ /Player: #{Regexp.escape(name)}.*?#{STEAM_ID_PATTERN}/m
@@ -133,7 +134,11 @@ class StacLogProcessor
   end
 
   def parse_player_name(name)
-    name.strip.split("<").first
+    return nil if name.nil?
+    cleaned_name = name.strip
+    # Remove trailing dot - it's always a sentence terminator, never part of the player name
+    cleaned_name = cleaned_name.end_with?(".") ? cleaned_name[0...-1] : cleaned_name
+    cleaned_name.split("<").first
   end
 
   def convert_steam_id(steam_id)

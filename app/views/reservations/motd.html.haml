@@ -1,9 +1,6 @@
 
 %h2 Welcome to this #{SITE_HOST} server
 
-= link_to ai_pages_path, class: 'text-sm text-warning' do
-  New: AI Assistant
-
 - if current_user && reservation.user == current_user
   = turbo_stream_from @reservation
 - else
@@ -12,8 +9,6 @@
     = link_to 'log in', '/users/auth/steam', method: :post
     for additional information and controls
 
-- if current_user && reservation.user == current_user
-  = turbo_stream_from @reservation
 
 .row
   .col-md-12

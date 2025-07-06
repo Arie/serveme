@@ -260,7 +260,7 @@ class GroupServer
     sig { returns(::GroupServer) }
     def fourth!; end
 
-    sig { returns(Array) }
+    sig { returns(T::Array[T.untyped]) }
     def ids; end
 
     sig do

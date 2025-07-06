@@ -259,7 +259,7 @@ class WhitelistTf
     sig { returns(::WhitelistTf) }
     def fourth!; end
 
-    sig { returns(Array) }
+    sig { returns(T::Array[T.untyped]) }
     def ids; end
 
     sig do

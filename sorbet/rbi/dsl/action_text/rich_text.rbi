@@ -287,7 +287,7 @@ class ActionText::RichText
     sig { returns(::ActionText::RichText) }
     def fourth!; end
 
-    sig { returns(Array) }
+    sig { returns(T::Array[T.untyped]) }
     def ids; end
 
     sig do

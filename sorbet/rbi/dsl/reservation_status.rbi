@@ -265,7 +265,7 @@ class ReservationStatus
     sig { returns(::ReservationStatus) }
     def fourth!; end
 
-    sig { returns(Array) }
+    sig { returns(T::Array[T.untyped]) }
     def ids; end
 
     sig do

@@ -8,9 +8,9 @@ class Server < ActiveRecord::Base
   has_many :group_servers
   has_many :groups, through: :group_servers
   has_many :reservations
-  has_many :current_reservations, -> { where("reservations.starts_at <= ? AND reservations.ends_at >=?", Time.current, Time.current) }, class_name: "Reservation"
+  has_many :current_reservations, -> { where(starts_at: ..Time.current).where(ends_at: Time.current..) }, class_name: "Reservation"
   has_many :ratings, through: :reservations
-  has_many :recent_server_statistics, -> { where("server_statistics.created_at >= ?", 2.minutes.ago).order("server_statistics.id DESC") }, class_name: "ServerStatistic"
+  has_many :recent_server_statistics, -> { where(created_at: 2.minutes.ago..).order(id: :desc) }, class_name: "ServerStatistic"
   has_many :server_statistics
   belongs_to :location
 
@@ -34,13 +34,13 @@ class Server < ActiveRecord::Base
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.ordered
-    order("servers.position ASC, servers.name ASC")
+    order(:position, :name)
   end
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.without_group
     if with_group.exists?
-      where("servers.id NOT IN (?)", with_group.pluck(:id))
+      where.not(id: with_group.select(:id))
     else
       all
     end
@@ -53,14 +53,14 @@ class Server < ActiveRecord::Base
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy, T.untyped)) }
   def self.active
-    where("servers.active = ?", true)
+    where(active: true)
   end
 
   sig { params(groups: T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)).returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.member_of_groups(groups)
     with_group
       .where(groups: { id: groups.pluck(:id) })
-      .group("servers.id")
+      .group(:id)
   end
 
   sig { returns(ActiveRecord::Relation) }
@@ -72,19 +72,19 @@ class Server < ActiveRecord::Base
   def self.outdated(latest_version = nil)
     latest_version ||= self.latest_version
 
-    where("last_known_version is not null and last_known_version < ?", latest_version)
+    where.not(last_known_version: nil).where(last_known_version: ...latest_version)
   end
 
   sig { params(latest_version: T.nilable(Integer)).returns(ActiveRecord::Relation) }
   def self.updated(latest_version = nil)
     latest_version ||= self.latest_version
 
-    where("last_known_version is null or last_known_version = ?", latest_version)
+    where(last_known_version: [ nil, latest_version ])
   end
 
   sig { returns(ActiveRecord::Relation) }
   def self.updating
-    where("update_status = ?", "Updating")
+    where(update_status: "Updating")
   end
 
   sig { returns(T.nilable(String)) }

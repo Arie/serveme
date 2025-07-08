@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 
   has_many :reservations
   has_many :log_uploads, through: :reservations
-  has_many :group_users, -> { where("group_users.expires_at IS NULL OR group_users.expires_at > ?", Time.current) }
+  has_many :group_users, -> { where(expires_at: nil).or(where(expires_at: Time.current..)) }
   has_many :groups,   through: :group_users
   has_many :servers,  through: :groups
   has_many :orders
@@ -91,9 +91,9 @@ class User < ActiveRecord::Base
     end
   end
 
-  sig { returns(T.nilable(Integer)) }
+  sig { returns(T.any(Integer, Float, BigDecimal)) }
   def total_reservation_seconds
-    reservations.to_a.sum(&:duration)
+    reservations.sum(:duration)
   end
 
   sig { returns(T::Boolean) }

@@ -17,7 +17,7 @@ class ServerUpdateWorker
   end
 
   def attempt_update(ip)
-    currently_updating_count = currently_updating.where(ip: ip).size
+    currently_updating_count = currently_updating.where(ip: ip).count
     return unless currently_updating_count < MAX_CONCURRENT_UPDATES_PER_IP
 
     to_upgrade_count = MAX_CONCURRENT_UPDATES_PER_IP - currently_updating_count

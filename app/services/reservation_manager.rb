@@ -41,6 +41,10 @@ class ReservationManager
   private
 
   def previous_reservation_ended_fully?
-    Reservation.where.not(id: reservation.id).where(server_id: reservation.server_id, ended: false).where("reservations.starts_at < ? and reservations.ends_at > ?", Time.current, 15.minutes.ago).none?
+    Reservation.where.not(id: reservation.id)
+      .where(server_id: reservation.server_id, ended: false)
+      .where(starts_at: ...Time.current)
+      .where(ends_at: (15.minutes.ago..))
+      .none?
   end
 end

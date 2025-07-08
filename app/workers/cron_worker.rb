@@ -18,15 +18,15 @@ class CronWorker
   end
 
   def unended_past_normal_reservations
-    unended_past_reservations.where("end_instantly = ?", false)
+    unended_past_reservations.where(end_instantly: false)
   end
 
   def unended_past_reservations
-    Reservation.where("ends_at < ? AND provisioned = ? AND ended = ?", Time.current, true, false)
+    Reservation.where(ends_at: ...Time.current).where(provisioned: true, ended: false)
   end
 
   def start_active_reservations
-    unstarted_now_reservations = now_reservations.where("provisioned = ? AND start_instantly = ?", false, false)
+    unstarted_now_reservations = now_reservations.where(provisioned: false, start_instantly: false)
     start_reservations(unstarted_now_reservations)
   end
 
@@ -39,8 +39,8 @@ class CronWorker
   end
 
   def check_active_reservations
-    unended_now_reservations      = now_reservations.where("ended = ?", false)
-    provisioned_now_reservations  = unended_now_reservations.where("provisioned = ?", true)
+    unended_now_reservations      = now_reservations.where(ended: false)
+    provisioned_now_reservations  = unended_now_reservations.where(provisioned: true)
     ActiveReservationsCheckerWorker.perform_async(provisioned_now_reservations.pluck(:id))
   end
 

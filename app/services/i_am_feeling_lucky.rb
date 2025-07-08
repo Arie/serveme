@@ -35,7 +35,7 @@ class IAmFeelingLucky
   end
 
   def previous_reservation
-    @previous_reservation ||= user.reservations.joins(:server).where("reservations.ends_at < ?", Time.current).last
+    @previous_reservation ||= user.reservations.joins(:server).where(ends_at: ...Time.current).last
   end
 
   def previous_server

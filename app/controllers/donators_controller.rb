@@ -6,7 +6,7 @@ class DonatorsController < ApplicationController
   before_action :require_donator, only: :leaderboard
 
   def index
-    @donators = Group.donator_group.users.order("group_users.id DESC").paginate(page: params[:page], per_page: 20)
+    @donators = Group.donator_group.users.order(group_users: { id: :desc }).paginate(page: params[:page], per_page: 20)
   end
 
   def leaderboard

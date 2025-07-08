@@ -19,8 +19,8 @@ class PrivateServerCleanupWorker
   def expired_private_group_ids
     GroupUser
       .joins(:group)
-      .where("group_users.expires_at < ? AND group_users.expires_at > ?", Time.current, 2.days.ago)
-      .where("groups.name != ?", "Donators")
+      .where(expires_at: 2.days.ago...Time.current)
+      .where.not(groups: { name: "Donators" })
       .pluck(:group_id)
   end
 end

@@ -143,8 +143,8 @@ class RconAutocomplete
     PlayerStatistic
       .joins(:reservation_player)
       .order("lower(reservation_players.name) ASC")
-      .where("reservation_players.reservation_id = ?", reservation.id)
-      .where("player_statistics.created_at > ?", 90.seconds.ago)
+      .where(reservation_players: { reservation_id: reservation.id })
+      .where(created_at: (90.seconds.ago..))
       .to_a
       .uniq { |ps| ps.reservation_player.steam_uid }
   end

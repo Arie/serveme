@@ -110,10 +110,10 @@ class ApplicationController < ActionController::Base
     current_user
       .reservation_players
       .joins(:reservation)
-      .where("reservations.created_at > ?", Date.new(2022, 1, 1))
+      .where(reservations: { created_at: Date.new(2022, 1, 1).. })
+      .where.not(ip: nil)
+      .distinct
       .pluck(:ip)
-      .compact
-      .uniq
       .any? { |ip| ReservationPlayer.banned_country?(ip) }
   end
 

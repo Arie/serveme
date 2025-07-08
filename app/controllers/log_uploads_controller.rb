@@ -68,7 +68,7 @@ class LogUploadsController < ApplicationController
   end
 
   def log_uploads
-    @log_uploads ||= reservation.log_uploads.order("created_at DESC")
+    @log_uploads ||= reservation.log_uploads.order(created_at: :desc)
   end
 
   def upload_params

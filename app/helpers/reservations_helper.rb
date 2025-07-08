@@ -68,7 +68,7 @@ module ReservationsHelper
                         non_geocoded_servers = servers.where(latitude: nil)
                         (geocoded_servers.or(non_geocoded_servers)).order(Arel.sql("CASE WHEN latitude IS NULL THEN 1 ELSE 0 END, distance, position, name"))
     else
-                        free_server_finder.servers.order("position, name")
+                        free_server_finder.servers.order(:position, :name)
     end
   end
 

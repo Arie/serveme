@@ -36,7 +36,7 @@ class CollisionFinder
   # ------XXXXXX--------
   # ---YYYYYYYYYYYY-----
   def overlap_collisions
-    colliding_with.where(ended: false).where("reservations.starts_at <= ? AND reservations.ends_at >= ?", starts_at, ends_at)
+    colliding_with.where(ended: false).where(starts_at: ..ends_at).where(ends_at: starts_at..)
   end
 
   def range

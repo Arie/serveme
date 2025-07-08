@@ -9,6 +9,6 @@ class ReservationStatus < ActiveRecord::Base
   after_create_commit -> { broadcast_replace_to reservation, target: "reservation_status_message_#{reservation_id}", partial: "reservations/status", locals: { reservation: reservation } }
 
   def self.ordered
-    order("reservation_statuses.created_at DESC")
+    order(created_at: :desc)
   end
 end

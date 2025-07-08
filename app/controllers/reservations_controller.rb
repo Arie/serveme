@@ -248,8 +248,8 @@ class ReservationsController < ApplicationController
 
   def user_made_two_very_short_reservations_in_last_ten_minutes?
     count = current_user.reservations
-                        .where("starts_at > ?", 10.minutes.ago)
-                        .where("ended = ?", true)
+                        .where(starts_at: 10.minutes.ago..)
+                        .where(ended: true)
                         .count
     !current_user.admin? && count >= 2
   end

@@ -40,7 +40,7 @@ class Reservation < ActiveRecord::Base
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.ordered
-    with_user_and_server.order("starts_at DESC")
+    with_user_and_server.order(starts_at: :desc)
   end
 
   sig { params(start_time: ActiveSupport::TimeWithZone, end_time: ActiveSupport::TimeWithZone).returns(Array) }
@@ -51,12 +51,12 @@ class Reservation < ActiveRecord::Base
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.future
-    where("reservations.starts_at >= ?", Time.current)
+    where(starts_at: Time.current..)
   end
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.current
-    where("reservations.starts_at <= ? AND reservations.ends_at >= ?", Time.current, Time.current)
+    where(starts_at: ..Time.current).where(ends_at: Time.current..)
   end
 
   def to_s
@@ -197,7 +197,10 @@ class Reservation < ActiveRecord::Base
 
   sig { params(steam_uid: T.any(String, Integer)).returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def self.played_in(steam_uid)
-    ordered.joins(:reservation_players).where("reservation_players.steam_uid = ? AND reservations.starts_at > ? AND reservations.ended = ?", steam_uid, 31.days.ago, true)
+    ordered.joins(:reservation_players)
+      .where(reservation_players: { steam_uid: steam_uid })
+      .where(starts_at: (31.days.ago..))
+      .where(ended: true)
   end
 
   def start_reservation

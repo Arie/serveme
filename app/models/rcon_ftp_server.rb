@@ -10,6 +10,6 @@ class RconFtpServer < RemoteServer
   end
 
   def current_reservation
-    reservations.where("reservations.starts_at <= ? AND reservations.ended = ?", Time.current, false).first
+    reservations.where(starts_at: ..Time.current).where(ended: false).first
   end
 end

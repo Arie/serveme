@@ -32,8 +32,8 @@ class SdrController < ApplicationController
 
   def find_server(ip, port, resolved_ip)
     Server.active.where(port: port)
-      .where("ip = ? OR resolved_ip = ? OR ip = ? OR resolved_ip = ?",
-        ip, ip, resolved_ip, resolved_ip)
+      .where(ip: [ ip, resolved_ip ])
+      .or(Server.active.where(port: port).where(resolved_ip: [ ip, resolved_ip ]))
       .first
   end
 

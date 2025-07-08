@@ -17,7 +17,7 @@ class DailyZipfileUploadWorker
 
     reservations_to_check = Reservation
                             .where(ended: true)
-                            .where("reservations.ends_at >= ?", two_days_ago)
+                            .where(ends_at: two_days_ago..)
                             .where.missing(:zipfile_attachment)
 
     reservations_to_check.find_each do |reservation|

@@ -76,7 +76,7 @@ class LeagueRequest
   def self.lookup_asns(results)
     asns = {}
 
-    results.map(&:ip).uniq.each do |ip|
+    results.reorder("").distinct.pluck(:ip).each do |ip|
       asn = begin
         ReservationPlayer.asn(ip) if ip.present?
       rescue MaxMind::GeoIP2::AddressNotFoundError
@@ -99,10 +99,13 @@ class LeagueRequest
   end
 
   def pluck_uniques(query, to_pluck)
-    query.pluck(to_pluck).uniq.compact
+    query.reorder("").distinct.pluck(to_pluck).compact
   end
 
   def players_query
-    ReservationPlayer.eager_load(:reservation).joins(reservation: :server).where("servers.sdr = ?", false).where("reservation_players.ip not like ?", "169.254.%").order("reservations.starts_at DESC")
+    ReservationPlayer.eager_load(:reservation).joins(reservation: :server)
+      .where(servers: { sdr: false })
+      .where.not("reservation_players.ip LIKE ?", "169.254.%")
+      .order(reservations: { starts_at: :desc })
   end
 end

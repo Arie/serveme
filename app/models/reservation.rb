@@ -288,6 +288,11 @@ class Reservation < ActiveRecord::Base
     rcon.nil? || rcon.to_s.size < 8
   end
 
+  sig { returns(T::Boolean) }
+  def locked?
+    locked_at.present?
+  end
+
   sig { returns(String) }
   def generate_rcon_password!
     self.rcon = FriendlyPasswordGenerator.generate

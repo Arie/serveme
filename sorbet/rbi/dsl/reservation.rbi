@@ -1526,50 +1526,50 @@ class Reservation
     sig { void }
     def last_number_of_players_will_change!; end
 
-    sig { returns(T.nilable(T::Boolean)) }
-    def locked; end
+    sig { returns(T.nilable(::ActiveSupport::TimeWithZone)) }
+    def locked_at; end
 
-    sig { params(value: T.nilable(T::Boolean)).returns(T.nilable(T::Boolean)) }
-    def locked=(value); end
+    sig { params(value: T.nilable(::ActiveSupport::TimeWithZone)).returns(T.nilable(::ActiveSupport::TimeWithZone)) }
+    def locked_at=(value); end
 
     sig { returns(T::Boolean) }
-    def locked?; end
+    def locked_at?; end
 
-    sig { returns(T.nilable(T::Boolean)) }
-    def locked_before_last_save; end
+    sig { returns(T.nilable(::ActiveSupport::TimeWithZone)) }
+    def locked_at_before_last_save; end
 
     sig { returns(T.untyped) }
-    def locked_before_type_cast; end
+    def locked_at_before_type_cast; end
 
     sig { returns(T::Boolean) }
-    def locked_came_from_user?; end
+    def locked_at_came_from_user?; end
 
-    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
-    def locked_change; end
+    sig { returns(T.nilable([T.nilable(::ActiveSupport::TimeWithZone), T.nilable(::ActiveSupport::TimeWithZone)])) }
+    def locked_at_change; end
 
-    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
-    def locked_change_to_be_saved; end
-
-    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def locked_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
-
-    sig { returns(T.nilable(T::Boolean)) }
-    def locked_in_database; end
-
-    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
-    def locked_previous_change; end
+    sig { returns(T.nilable([T.nilable(::ActiveSupport::TimeWithZone), T.nilable(::ActiveSupport::TimeWithZone)])) }
+    def locked_at_change_to_be_saved; end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def locked_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+    def locked_at_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
-    sig { returns(T.nilable(T::Boolean)) }
-    def locked_previously_was; end
+    sig { returns(T.nilable(::ActiveSupport::TimeWithZone)) }
+    def locked_at_in_database; end
 
-    sig { returns(T.nilable(T::Boolean)) }
-    def locked_was; end
+    sig { returns(T.nilable([T.nilable(::ActiveSupport::TimeWithZone), T.nilable(::ActiveSupport::TimeWithZone)])) }
+    def locked_at_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def locked_at_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::ActiveSupport::TimeWithZone)) }
+    def locked_at_previously_was; end
+
+    sig { returns(T.nilable(::ActiveSupport::TimeWithZone)) }
+    def locked_at_was; end
 
     sig { void }
-    def locked_will_change!; end
+    def locked_at_will_change!; end
 
     sig { returns(T.nilable(::String)) }
     def logsecret; end
@@ -1848,7 +1848,7 @@ class Reservation
     def restore_last_number_of_players!; end
 
     sig { void }
-    def restore_locked!; end
+    def restore_locked_at!; end
 
     sig { void }
     def restore_logsecret!; end
@@ -2003,11 +2003,11 @@ class Reservation
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_last_number_of_players?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
-    sig { returns(T.nilable([T.nilable(T::Boolean), T.nilable(T::Boolean)])) }
-    def saved_change_to_locked; end
+    sig { returns(T.nilable([T.nilable(::ActiveSupport::TimeWithZone), T.nilable(::ActiveSupport::TimeWithZone)])) }
+    def saved_change_to_locked_at; end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def saved_change_to_locked?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+    def saved_change_to_locked_at?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
     def saved_change_to_logsecret; end
@@ -2703,7 +2703,7 @@ class Reservation
     def will_save_change_to_last_number_of_players?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
-    def will_save_change_to_locked?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+    def will_save_change_to_locked_at?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_logsecret?(from: T.unsafe(nil), to: T.unsafe(nil)); end

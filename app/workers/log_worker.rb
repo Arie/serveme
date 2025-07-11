@@ -17,6 +17,8 @@ class LogWorker
   TIMELEFT_COMMAND  = /^!timeleft.*/
   WHOIS_RESERVER    = /^!who$/
   AI_COMMAND        = /^!ai\s+(.+)/
+  LOCK_COMMAND      = /^!lock.*/
+  UNLOCK_COMMAND    = /^!unlock.*/
   LOG_LINE_REGEX    = '(?\'secret\'\d*)(?\'line\'.*)'
 
 
@@ -65,7 +67,8 @@ class LogWorker
     ip = event.message.to_s.split(":").first
     rp = create_or_update_reservation_player(community_id, ip)
 
-    handle_banned_vpn_player(community_id, ip, event) ||
+    handle_locked_server_player(community_id, ip, event) ||
+      handle_banned_vpn_player(community_id, ip, event) ||
       handle_banned_player(community_id, ip, event) ||
       handle_league_banned_player(community_id, ip, event) ||
       whitelist_player_in_firewall(rp)
@@ -76,6 +79,17 @@ class LogWorker
     rp = ReservationPlayer.where(reservation_id: reservation_id, ip: ip, steam_uid: community_id).first_or_create
     rp.update(name: event.player.name)
     rp
+  end
+
+  sig { params(community_id: Integer, ip: String, event: TF2LineParser::Events::Event).returns(T::Boolean) }
+  def handle_locked_server_player(community_id, ip, event)
+    return false unless reservation&.locked?
+
+    return false if event.player.steam_id == reserver_steam_id
+
+    reservation&.server&.rcon_exec "banid 0 #{event.player.steam_id}; kickid #{event.player.steam_id} Server locked by reservation owner"
+    Rails.logger.info "Kicked player #{event.player.name} (#{community_id}) from locked reservation #{reservation_id}"
+    true
   end
 
   sig { params(community_id: Integer, ip: String, event: TF2LineParser::Events::Event).returns(T::Boolean) }
@@ -192,6 +206,10 @@ class LogWorker
       :handle_web_rcon
     when AI_COMMAND
       :handle_ai
+    when LOCK_COMMAND
+      :handle_lock
+    when UNLOCK_COMMAND
+      :handle_unlock
     end
   end
 
@@ -279,6 +297,45 @@ class LogWorker
 
     ai_command = message.match(AI_COMMAND)[1]
     AiCommandHandler.new(reservation).process_request(ai_command)
+  end
+
+  sig { void }
+  def handle_lock
+    return unless reservation
+
+    lock_password = FriendlyPasswordGenerator.generate
+
+    # Use update_columns to bypass validations that might fail on expired reservations
+    reservation.update_columns(
+      locked_at: Time.current,
+      original_password: reservation.original_password || reservation.password
+    )
+
+    reservation.update_columns(password: lock_password)
+
+    reservation&.server&.rcon_exec "sv_password \"#{lock_password}\"; sm_psay @all \"New password: #{lock_password}\""
+
+    reservation&.status_update("Server locked by #{event.player.name}, password changed and no new connects allowed")
+    Rails.logger.info "Locked server for reservation #{reservation.id}"
+  end
+
+  sig { void }
+  def handle_unlock
+    return unless reservation&.locked?
+
+    original_password = reservation.original_password || FriendlyPasswordGenerator.generate
+
+    reservation.update_columns(
+      locked_at: nil,
+      password: original_password,
+      original_password: nil
+    )
+
+    reservation&.server&.rcon_exec "sv_password #{original_password}; removeid 1"
+
+    reservation&.server&.rcon_say "Server unlocked! Password restored to: #{original_password}"
+    reservation&.status_update("Server unlocked by #{event.player.name} (#{sayer_steam_uid})")
+    Rails.logger.info "Unlocked server for reservation #{reservation.id} by #{sayer_steam_uid}"
   end
 
   def today

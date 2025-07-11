@@ -30,6 +30,9 @@ describe LogWorker do
   let(:connect_allowed_uid) { '1234567L 03/29/2014 - 13:15:53: "NonTroll<3><[U:1:400545468]><>" connected, address "1.128.0.1:1234"' }
   let(:ai_command_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!ai change map to process"' }
   let(:ai_command_troll_line) { '1234567L 03/29/2014 - 13:15:53: "TRoll<3><[U:0:1337]><Red>" say "!ai change map to process"' }
+  let(:lock_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!lock"' }
+  let(:unlock_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!unlock"' }
+  let(:troll_lock_line) { '1234567L 03/29/2014 - 13:15:53: "TRoll<3><[U:0:1337]><Red>" say "!lock"' }
 
   subject(:logworker) { LogWorker.perform_async(line) }
 
@@ -210,6 +213,82 @@ describe LogWorker do
     it 'allows the reservation owner to use AI commands' do
       expect(ai_handler).to receive(:process_request).with("change map to process")
       LogWorker.perform_async(ai_command_line)
+    end
+  end
+
+  describe 'lock/unlock commands' do
+    before do
+      allow(FriendlyPasswordGenerator).to receive(:generate).and_return("strange-banny-123")
+      allow(server).to receive(:rcon_exec).with("status").and_return("status output")
+      allow(server).to receive(:rcon_exec)
+      allow(server).to receive(:rcon_say)
+      reservation.update(password: "original-password")
+    end
+
+    describe 'lock command' do
+      it 'locks the server when not already locked' do
+        expect(reservation).to receive(:update_columns).with(hash_including(locked_at: be_within(1.second).of(Time.current), original_password: "original-password"))
+        expect(reservation).to receive(:update_columns).with(password: "strange-banny-123")
+        expect(server).to receive(:rcon_exec).with('sv_password "strange-banny-123"; sm_psay @all "New password: strange-banny-123"')
+        LogWorker.perform_async(lock_line)
+      end
+
+      it 'preserves existing original_password when locking again' do
+        reservation.update(original_password: "existing-original")
+        expect(reservation).to receive(:update_columns).with(hash_including(locked_at: be_within(1.second).of(Time.current), original_password: "existing-original"))
+        expect(reservation).to receive(:update_columns).with(password: "strange-banny-123")
+        expect(server).to receive(:rcon_exec).with('sv_password "strange-banny-123"; sm_psay @all "New password: strange-banny-123"')
+        LogWorker.perform_async(lock_line)
+      end
+
+      it 'does not allow non-owners to lock' do
+        expect(server).not_to receive(:rcon_exec).with(/sv_password/)
+        LogWorker.perform_async(troll_lock_line)
+      end
+    end
+
+    describe 'unlock command' do
+      before do
+        reservation.update(locked_at: Time.current, original_password: "original-password")
+      end
+
+      it 'unlocks the server when locked' do
+        expect(reservation).to receive(:update_columns).with(locked_at: nil, password: "original-password", original_password: nil)
+        expect(server).to receive(:rcon_exec).with('sv_password original-password; removeid 1')
+        expect(server).to receive(:rcon_say).with("Server unlocked! Password restored to: original-password")
+        LogWorker.perform_async(unlock_line)
+      end
+
+      it 'generates new password when original_password is missing' do
+        reservation.update(original_password: nil)
+        expect(reservation).to receive(:update_columns).with(locked_at: nil, password: "strange-banny-123", original_password: nil)
+        expect(server).to receive(:rcon_exec).with('sv_password strange-banny-123; removeid 1')
+        expect(server).to receive(:rcon_say).with("Server unlocked! Password restored to: strange-banny-123")
+        LogWorker.perform_async(unlock_line)
+      end
+
+      it 'does nothing when server is not locked' do
+        reservation.update(locked_at: nil)
+        expect(server).not_to receive(:rcon_exec).with(/sv_password/)
+        LogWorker.perform_async(unlock_line)
+      end
+    end
+
+    describe 'connect when locked' do
+      before do
+        reservation.update(locked_at: Time.current)
+      end
+
+      it 'bans and kicks non-owner players when server is locked' do
+        expect(server).to receive(:rcon_exec).with('banid 0 [U:1:12345]; kickid [U:1:12345] Server locked by reservation owner')
+        LogWorker.perform_async(connect_normal)
+      end
+
+      it 'allows the reservation owner to connect when server is locked' do
+        owner_connect = '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><>" connected, address "1.128.0.1:1234"'
+        expect(server).not_to receive(:rcon_exec).with(/banid/)
+        LogWorker.perform_async(owner_connect)
+      end
     end
   end
 end

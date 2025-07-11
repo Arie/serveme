@@ -33,6 +33,8 @@ describe LogWorker do
   let(:lock_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!lock"' }
   let(:unlock_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!unlock"' }
   let(:troll_lock_line) { '1234567L 03/29/2014 - 13:15:53: "TRoll<3><[U:0:1337]><Red>" say "!lock"' }
+  let(:unbanall_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!unbanall"' }
+  let(:troll_unbanall_line) { '1234567L 03/29/2014 - 13:15:53: "TRoll<3><[U:0:1337]><Red>" say "!unbanall"' }
 
   subject(:logworker) { LogWorker.perform_async(line) }
 
@@ -284,6 +286,41 @@ describe LogWorker do
         expect(server).not_to receive(:rcon_exec).with(/banid/)
         LogWorker.perform_async(owner_connect)
       end
+    end
+  end
+
+  describe 'unbanall command' do
+    it 'unbans all players when reservation owner uses command' do
+      expect(server).to receive(:rcon_exec).with('listid').and_return('ID filter list: 3 entries')
+      expect(server).to receive(:rcon_exec).with('removeid 1; removeid 1; removeid 1')
+      expect(server).to receive(:rcon_say).with('Unbanned 3 players')
+      LogWorker.perform_async(unbanall_line)
+    end
+
+    it 'handles single ban entry' do
+      expect(server).to receive(:rcon_exec).with('listid').and_return('ID filter list: 1 entry')
+      expect(server).to receive(:rcon_exec).with('removeid 1')
+      expect(server).to receive(:rcon_say).with('Unbanned 1 player')
+      LogWorker.perform_async(unbanall_line)
+    end
+
+    it 'handles no bans' do
+      expect(server).to receive(:rcon_exec).with('listid').and_return('ID filter list: 0 entries')
+      expect(server).not_to receive(:rcon_exec).with(/removeid/)
+      expect(server).to receive(:rcon_say).with('No players are currently banned')
+      LogWorker.perform_async(unbanall_line)
+    end
+
+    it 'handles malformed listid response' do
+      expect(server).to receive(:rcon_exec).with('listid').and_return('Invalid response')
+      expect(server).not_to receive(:rcon_exec).with(/removeid/)
+      expect(server).to receive(:rcon_say).with('Unable to check ban list')
+      LogWorker.perform_async(unbanall_line)
+    end
+
+    it 'does not allow non-owners to unban all' do
+      expect(server).not_to receive(:rcon_exec).with('listid')
+      LogWorker.perform_async(troll_unbanall_line)
     end
   end
 end

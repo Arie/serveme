@@ -19,6 +19,7 @@ class LogWorker
   AI_COMMAND        = /^!ai\s+(.+)/
   LOCK_COMMAND      = /^!lock.*/
   UNLOCK_COMMAND    = /^!unlock.*/
+  UNBANALL_COMMAND  = /^!unbanall.*/
   LOG_LINE_REGEX    = '(?\'secret\'\d*)(?\'line\'.*)'
 
 
@@ -210,6 +211,8 @@ class LogWorker
       :handle_lock
     when UNLOCK_COMMAND
       :handle_unlock
+    when UNBANALL_COMMAND
+      :handle_unbanall
     end
   end
 
@@ -338,6 +341,35 @@ class LogWorker
     reservation&.status_update("Server unlocked by #{event.player.name} (#{sayer_steam_uid})")
     reservation.server.add_motd(reservation.reload)
     Rails.logger.info "Unlocked server for reservation #{reservation.id} by #{sayer_steam_uid}"
+  end
+
+  sig { void }
+  def handle_unbanall
+    return unless reservation
+
+    Rails.logger.info "Unbanning all players for reservation #{reservation.id} by #{sayer_steam_uid}"
+
+    listid_result = reservation&.server&.rcon_exec("listid")
+
+    if listid_result && listid_result.match?(/(\d+)\s+entr(?:y|ies)/)
+      entries_count = listid_result.match(/(\d+)\s+entr(?:y|ies)/)[1].to_i
+
+      if entries_count > 0
+        unban_commands = Array.new(entries_count) { "removeid 1" }
+        reservation&.server&.rcon_exec(unban_commands.join("; "))
+
+        player_text = entries_count == 1 ? "player" : "players"
+        reservation&.server&.rcon_say "Unbanned #{entries_count} #{player_text}"
+        reservation&.status_update("All #{entries_count} banned #{player_text} unbanned by #{event.player.name} (#{sayer_steam_uid})")
+        Rails.logger.info "Unbanned #{entries_count} #{player_text} for reservation #{reservation.id}"
+      else
+        reservation&.server&.rcon_say "No players are currently banned"
+        Rails.logger.info "No players to unban for reservation #{reservation.id}"
+      end
+    else
+      reservation&.server&.rcon_say "Unable to check ban list"
+      Rails.logger.warn "Failed to parse listid result for reservation #{reservation.id}"
+    end
   end
 
   def today

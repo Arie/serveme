@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 
 class PingsController < ApplicationController
   def index

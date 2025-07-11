@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 
 class SdrController < ApplicationController
   skip_before_action :redirect_if_country_banned, only: [ :index ]

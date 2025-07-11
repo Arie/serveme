@@ -1,3 +1,5 @@
+# typed: true
+
 class PopulateResolvedIp < ActiveRecord::Migration[7.0]
   def up
     PopulateResolvedIpsService.call

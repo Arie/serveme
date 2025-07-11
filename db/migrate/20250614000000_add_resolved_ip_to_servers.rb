@@ -1,3 +1,5 @@
+# typed: true
+
 class AddResolvedIpToServers < ActiveRecord::Migration[7.0]
   def change
     add_column :servers, :resolved_ip, :string

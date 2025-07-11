@@ -1,3 +1,5 @@
+# typed: true
+
 class AddAiCommandNotification < ActiveRecord::Migration[8.0]
   def up
     ServerNotification.create!(

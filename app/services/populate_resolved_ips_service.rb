@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 
 class PopulateResolvedIpsService
   def self.call

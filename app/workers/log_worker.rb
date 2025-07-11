@@ -316,6 +316,7 @@ class LogWorker
     reservation&.server&.rcon_exec "sv_password \"#{lock_password}\"; sm_hsay New password: #{lock_password}"
 
     reservation&.status_update("Server locked by #{event.player.name}, password changed and no new connects allowed")
+    reservation.server.add_motd(reservation.reload)
     Rails.logger.info "Locked server for reservation #{reservation.id}"
   end
 
@@ -335,6 +336,7 @@ class LogWorker
 
     reservation&.server&.rcon_exec "say Server unlocked!; sm_hsay New password: #{original_password}"
     reservation&.status_update("Server unlocked by #{event.player.name} (#{sayer_steam_uid})")
+    reservation.server.add_motd(reservation.reload)
     Rails.logger.info "Unlocked server for reservation #{reservation.id} by #{sayer_steam_uid}"
   end
 

@@ -230,6 +230,7 @@ describe LogWorker do
         expect(reservation).to receive(:update_columns).with(hash_including(locked_at: be_within(1.second).of(Time.current), original_password: "original-password"))
         expect(reservation).to receive(:update_columns).with(password: "strange-banny-123")
         expect(server).to receive(:rcon_exec).with('sv_password "strange-banny-123"; sm_hsay New password: strange-banny-123')
+        expect(server).to receive(:add_motd).with(reservation)
         LogWorker.perform_async(lock_line)
       end
 
@@ -238,6 +239,7 @@ describe LogWorker do
         expect(reservation).to receive(:update_columns).with(hash_including(locked_at: be_within(1.second).of(Time.current), original_password: "existing-original"))
         expect(reservation).to receive(:update_columns).with(password: "strange-banny-123")
         expect(server).to receive(:rcon_exec).with('sv_password "strange-banny-123"; sm_hsay New password: strange-banny-123')
+        expect(server).to receive(:add_motd).with(reservation)
         LogWorker.perform_async(lock_line)
       end
 
@@ -256,6 +258,7 @@ describe LogWorker do
         expect(reservation).to receive(:update_columns).with(locked_at: nil, password: "original-password", original_password: nil)
         expect(server).to receive(:rcon_exec).with('sv_password original-password; removeid 1')
         expect(server).to receive(:rcon_exec).with("say Server unlocked!; sm_hsay New password: original-password")
+        expect(server).to receive(:add_motd).with(reservation)
         LogWorker.perform_async(unlock_line)
       end
 

@@ -333,7 +333,7 @@ class LogWorker
 
     reservation&.server&.rcon_exec "sv_password #{original_password}; removeid 1"
 
-    reservation&.server&.rcon_say "Server unlocked! Password restored to: #{original_password}"
+    reservation&.server&.rcon_exec "say Server unlocked!; sm_hsay New password: #{original_password}"
     reservation&.status_update("Server unlocked by #{event.player.name} (#{sayer_steam_uid})")
     Rails.logger.info "Unlocked server for reservation #{reservation.id} by #{sayer_steam_uid}"
   end

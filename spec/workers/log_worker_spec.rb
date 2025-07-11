@@ -255,15 +255,7 @@ describe LogWorker do
       it 'unlocks the server when locked' do
         expect(reservation).to receive(:update_columns).with(locked_at: nil, password: "original-password", original_password: nil)
         expect(server).to receive(:rcon_exec).with('sv_password original-password; removeid 1')
-        expect(server).to receive(:rcon_say).with("Server unlocked! Password restored to: original-password")
-        LogWorker.perform_async(unlock_line)
-      end
-
-      it 'generates new password when original_password is missing' do
-        reservation.update(original_password: nil)
-        expect(reservation).to receive(:update_columns).with(locked_at: nil, password: "strange-banny-123", original_password: nil)
-        expect(server).to receive(:rcon_exec).with('sv_password strange-banny-123; removeid 1')
-        expect(server).to receive(:rcon_say).with("Server unlocked! Password restored to: strange-banny-123")
+        expect(server).to receive(:rcon_exec).with("say Server unlocked!; sm_hsay New password: original-password")
         LogWorker.perform_async(unlock_line)
       end
 

@@ -229,7 +229,7 @@ describe LogWorker do
       it 'locks the server when not already locked' do
         expect(reservation).to receive(:update_columns).with(hash_including(locked_at: be_within(1.second).of(Time.current), original_password: "original-password"))
         expect(reservation).to receive(:update_columns).with(password: "strange-banny-123")
-        expect(server).to receive(:rcon_exec).with('sv_password "strange-banny-123"; sm_psay @all "New password: strange-banny-123"')
+        expect(server).to receive(:rcon_exec).with('sv_password "strange-banny-123"; sm_hsay "New password: strange-banny-123"')
         LogWorker.perform_async(lock_line)
       end
 
@@ -237,7 +237,7 @@ describe LogWorker do
         reservation.update(original_password: "existing-original")
         expect(reservation).to receive(:update_columns).with(hash_including(locked_at: be_within(1.second).of(Time.current), original_password: "existing-original"))
         expect(reservation).to receive(:update_columns).with(password: "strange-banny-123")
-        expect(server).to receive(:rcon_exec).with('sv_password "strange-banny-123"; sm_psay @all "New password: strange-banny-123"')
+        expect(server).to receive(:rcon_exec).with('sv_password "strange-banny-123"; sm_hsay "New password: strange-banny-123"')
         LogWorker.perform_async(lock_line)
       end
 

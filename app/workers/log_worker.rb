@@ -313,7 +313,7 @@ class LogWorker
 
     reservation.update_columns(password: lock_password)
 
-    reservation&.server&.rcon_exec "sv_password \"#{lock_password}\"; sm_hsay \"New password: #{lock_password}\""
+    reservation&.server&.rcon_exec "sv_password \"#{lock_password}\"; sm_hsay New password: #{lock_password}"
 
     reservation&.status_update("Server locked by #{event.player.name}, password changed and no new connects allowed")
     Rails.logger.info "Locked server for reservation #{reservation.id}"

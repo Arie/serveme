@@ -104,6 +104,21 @@
                 !end
               %td
                 Ends the reservation and kicks all players
+            %tr
+              %td
+                !lock
+              %td
+                Locks the server to prevent new players from joining. Changes the password and kicks any players who join after locking.
+            %tr
+              %td
+                !unlock
+              %td
+                Unlocks the server and restores the original password, allowing players to join again.
+            %tr
+              %td
+                !unbanall
+              %td
+                Removes all banned players from the server's ban list.
       .card-body
         %em
         These commands are available to everyone:
@@ -118,6 +133,11 @@
               !timeleft
             %td
               Minutes left in the reservation
+          %tr
+            %td
+              !password
+            %td
+              Sends you the current server password via private message (requires SourceMod plugins to be enabled)
 
     .card.bg-faded
       .card-header.text-white

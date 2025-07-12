@@ -332,7 +332,7 @@ describe LogWorker do
 
     it 'sends password via DM when plugins are enabled' do
       expect(reservation).to receive(:enable_plugins?).and_return(true)
-      expect(server).to receive(:rcon_exec).with('sm_psay #3 "Server password: test-password-123"')
+      expect(server).to receive(:rcon_exec).with('sm_psay #3 Server password: test-password-123')
       LogWorker.perform_async(password_line)
     end
 

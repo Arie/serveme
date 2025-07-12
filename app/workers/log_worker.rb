@@ -309,19 +309,8 @@ class LogWorker
   def handle_lock
     return unless reservation
 
-    lock_password = FriendlyPasswordGenerator.generate
-
-    reservation.update_columns(
-      locked_at: Time.current,
-      original_password: reservation.original_password || reservation.password
-    )
-
-    reservation.update_columns(password: lock_password)
-
-    reservation&.server&.rcon_exec "sv_password \"#{lock_password}\""
-
+    reservation.lock!
     reservation&.status_update("Server locked by #{event.player.name}, password changed and no new connects allowed")
-    reservation.server.add_motd(reservation.reload)
     Rails.logger.info "Locked server for reservation #{reservation.id}"
   end
 
@@ -329,20 +318,11 @@ class LogWorker
   def handle_unlock
     return unless reservation&.locked?
 
-    original_password = reservation.original_password || FriendlyPasswordGenerator.generate
-
-    reservation.update_columns(
-      locked_at: nil,
-      password: original_password,
-      original_password: nil
-    )
-
-    reservation&.server&.rcon_exec "sv_password #{original_password}; removeid 1"
-
-    reservation&.server&.rcon_exec "say Server unlocked, original password restored!"
-    reservation&.status_update("Server unlocked by #{event.player.name} (#{sayer_steam_uid})")
-    reservation.server.add_motd(reservation.reload)
-    Rails.logger.info "Unlocked server for reservation #{reservation.id} by #{sayer_steam_uid}"
+    if reservation.unlock!
+      reservation&.server&.rcon_exec "say Server unlocked, original password restored!"
+      reservation&.status_update("Server unlocked by #{event.player.name} (#{sayer_steam_uid})")
+      Rails.logger.info "Unlocked server for reservation #{reservation.id} by #{sayer_steam_uid}"
+    end
   end
 
   sig { void }
@@ -351,25 +331,18 @@ class LogWorker
 
     Rails.logger.info "Unbanning all players for reservation #{reservation.id} by #{sayer_steam_uid}"
 
-    listid_result = reservation&.server&.rcon_exec("listid")
+    result = reservation.unban_all!
 
-    if listid_result && (listid_result.match?(/(\d+)\s+entr(?:y|ies)/) || listid_result.match?(/ID filter list: empty/i))
-      if listid_result.match?(/ID filter list: empty/i)
-        reservation&.server&.rcon_say "No players are currently banned"
-        Rails.logger.info "No players to unban for reservation #{reservation.id}"
-      else
-        entries_count = listid_result.match(/(\d+)\s+entr(?:y|ies)/)[1].to_i
-        unban_commands = Array.new(entries_count) { "removeid 1" }
-        reservation&.server&.rcon_exec(unban_commands.join("; "))
-
-        player_text = entries_count == 1 ? "player" : "players"
-        reservation&.server&.rcon_say "Unbanned #{entries_count} #{player_text}"
-        reservation&.status_update("All #{entries_count} banned #{player_text} unbanned by #{event.player.name} (#{sayer_steam_uid})")
-        Rails.logger.info "Unbanned #{entries_count} #{player_text} for reservation #{reservation.id}"
-      end
-    else
-      reservation&.server&.rcon_say "Unable to check ban list"
+    if result[:count].nil?
+      reservation&.server&.rcon_say result[:message]
       Rails.logger.warn "Failed to parse listid result for reservation #{reservation.id}"
+    elsif result[:count] == 0
+      reservation&.server&.rcon_say result[:message]
+      Rails.logger.info "No players to unban for reservation #{reservation.id}"
+    else
+      reservation&.server&.rcon_say result[:message]
+      reservation&.status_update("All #{result[:count]} banned player#{'s' if result[:count] != 1} unbanned by #{event.player.name} (#{sayer_steam_uid})")
+      Rails.logger.info "#{result[:message]} for reservation #{reservation.id}"
     end
   end
 

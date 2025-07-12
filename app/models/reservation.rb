@@ -298,6 +298,59 @@ class Reservation < ActiveRecord::Base
     self.rcon = FriendlyPasswordGenerator.generate
   end
 
+  sig { returns(T::Boolean) }
+  def lock!
+    lock_password = FriendlyPasswordGenerator.generate
+
+    update_columns(
+      locked_at: Time.current,
+      original_password: original_password || password
+    )
+
+    update_columns(password: lock_password)
+
+    server&.rcon_exec "sv_password \"#{lock_password}\""
+    server&.add_motd(reload)
+
+    true
+  end
+
+  sig { returns(T::Boolean) }
+  def unlock!
+    return false unless locked?
+
+    restore_password = original_password || FriendlyPasswordGenerator.generate
+
+    update_columns(
+      locked_at: nil,
+      password: restore_password,
+      original_password: nil
+    )
+
+    server&.rcon_exec "sv_password #{restore_password}; removeid 1"
+    server&.add_motd(reload)
+
+    true
+  end
+
+  sig { returns(T::Hash[Symbol, T.any(Integer, String)]) }
+  def unban_all!
+    listid_result = server&.rcon_exec("listid")&.to_s
+
+    if listid_result && (listid_result.match?(/(\d+)\s+entr(?:y|ies)/) || listid_result.match?(/ID filter list: empty/i))
+      if listid_result.match?(/ID filter list: empty/i)
+        { count: 0, message: "No players are currently banned" }
+      else
+        entries_count = listid_result.match(/(\d+)\s+entr(?:y|ies)/)[1].to_i
+        unban_commands = Array.new(entries_count) { "removeid 1" }
+        server&.rcon_exec(unban_commands.join("; "))
+        { count: entries_count, message: "Unbanned #{entries_count} player#{'s' if entries_count != 1}" }
+      end
+    else
+      { count: nil, message: "Unable to check ban list" }
+    end
+  end
+
   sig { returns(String) }
   def whitelist_ip
     return T.must(user&.current_sign_in_ip) if user&.current_sign_in_ip && IPAddr.new(user&.current_sign_in_ip).ipv4?

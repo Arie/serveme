@@ -38,11 +38,11 @@ class AiCommandHandler
     type: "function",
     function: {
       name: "modify_reservation",
-      description: "Modify the server reservation. Can be used to end the reservation immediately or extend it by the standard duration.",
+      description: "Modify the server reservation. Can be used to end the reservation, extend it, lock/unlock the server, or unban all players.",
       parameters: {
         type: :object,
         properties: {
-          action: { type: :string, enum: [ "end", "extend" ], description: "Whether to 'end' the reservation now or 'extend' it." }
+          action: { type: :string, enum: [ "end", "extend", "lock", "unlock", "unbanall" ], description: "The action to perform: 'end' the reservation, 'extend' it, 'lock' the server (prevents new players from joining), 'unlock' it, or 'unbanall' to remove all bans." }
         },
         required: [ "action" ]
       }
@@ -332,6 +332,11 @@ class AiCommandHandler
     - Use the 'modify_reservation' tool with action 'end' for requests like "end the server now".
     - Use the 'modify_reservation' tool with action 'extend' for requests like "add more time" or "extend the server". The standard extension duration will be applied.
 
+    Server Access Control:
+    - Use the 'modify_reservation' tool with action 'lock' for requests like "lock the server" or "keep people out". This changes the password and prevents new players from joining.
+    - Use the 'modify_reservation' tool with action 'unlock' for requests like "unlock the server". This restores the original password.
+    - Use the 'modify_reservation' tool with action 'unbanall' for requests like "unban everyone" or "remove all bans".
+
     Split responses >200 chars (applies to the 'response' field in the tool call). Always try to respond, but only for TF2 related questions, validate inputs.
     Only execute a command if you're sure it matches the player's request, else ask for clarification using the 'submit_server_action' tool with success: false and an appropriate response message.
     PROMPT
@@ -476,6 +481,26 @@ class AiCommandHandler
           { success: true, message: "Reservation extended by #{extension_duration / 60} minutes." }
         else
           { success: false, message: "Could not extend the reservation. Is it already at maximum duration?" }
+        end
+      when "lock"
+        reservation.lock!
+        reservation.status_update("Server locked via AI command, password changed and no new connects allowed")
+        { success: true, message: "Server locked. Password changed and no new connections allowed." }
+      when "unlock"
+        if reservation.unlock!
+          reservation.server.rcon_say "Server unlocked, original password restored!"
+          reservation.status_update("Server unlocked via AI command")
+          { success: true, message: "Server unlocked. Original password restored." }
+        else
+          { success: false, message: "Server is not currently locked." }
+        end
+      when "unbanall"
+        result = reservation.unban_all!
+        if result[:count].nil?
+          { success: false, message: result[:message] }
+        else
+          reservation.status_update("#{result[:message]} via AI command") if result[:count] > 0
+          { success: true, message: result[:message] }
         end
       else
         Rails.logger.error("[AI ##{reservation.id}] Unknown action requested in modify_reservation: #{action}")

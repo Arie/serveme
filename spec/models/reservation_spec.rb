@@ -442,6 +442,28 @@ describe Reservation do
       reservation.extending = true
       reservation.should have(:no).errors_on(:ends_at)
     end
+
+    context 'enable_demos_tf and enable_plugins' do
+      it 'automatically enables plugins when demos.tf is enabled' do
+        reservation = build :reservation, enable_demos_tf: true, enable_plugins: false
+        reservation.valid?
+        reservation.enable_plugins.should be true
+      end
+
+      it 'allows plugins to be enabled without demos.tf' do
+        reservation = build :reservation, enable_demos_tf: false, enable_plugins: true
+        reservation.valid?
+        reservation.enable_plugins.should be true
+        reservation.enable_demos_tf.should be false
+      end
+
+      it 'allows both to be disabled' do
+        reservation = build :reservation, enable_demos_tf: false, enable_plugins: false
+        reservation.valid?
+        reservation.enable_plugins.should be false
+        reservation.enable_demos_tf.should be false
+      end
+    end
   end
 
   context "connect urls" do

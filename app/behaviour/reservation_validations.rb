@@ -18,9 +18,16 @@ module ReservationValidations
       validates_with Reservations::MapIsValidValidator
       validates_with Reservations::CustomWhitelistValidator
       validates_with Reservations::PasswordValidator, fields: %i[password tv_password tv_relaypassword rcon]
+      validate :enable_plugins_when_demos_tf_enabled
 
       define_method(:check_server_available?) do ||
         times_entered?
+      end
+
+      define_method(:enable_plugins_when_demos_tf_enabled) do
+        if enable_demos_tf? && !enable_plugins?
+          self.enable_plugins = true
+        end
       end
     end
   end

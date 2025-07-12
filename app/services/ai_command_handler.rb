@@ -333,7 +333,7 @@ class AiCommandHandler
     - Use the 'modify_reservation' tool with action 'extend' for requests like "add more time" or "extend the server". The standard extension duration will be applied.
 
     Server Access Control:
-    - Use the 'modify_reservation' tool with action 'lock' for requests like "lock the server" or "keep people out". This changes the password and prevents new players from joining.
+    - Use the 'modify_reservation' tool with action 'lock' for requests like "lock the server" or "keep people out". This changes the password and bans new players if they join.
     - Use the 'modify_reservation' tool with action 'unlock' for requests like "unlock the server". This restores the original password.
     - Use the 'modify_reservation' tool with action 'unbanall' for requests like "unban everyone" or "remove all bans".
 

@@ -20,6 +20,7 @@ class LogWorker
   LOCK_COMMAND      = /^!lock.*/
   UNLOCK_COMMAND    = /^!unlock.*/
   UNBANALL_COMMAND  = /^!unbanall.*/
+  PASSWORD_COMMAND  = /^!password.*/
   LOG_LINE_REGEX    = '(?\'secret\'\d*)(?\'line\'.*)'
 
 
@@ -227,6 +228,8 @@ class LogWorker
       :handle_whois_reserver
     when SDR_INFO_COMMAND
       :handle_sdr_connect
+    when PASSWORD_COMMAND
+      :handle_password
     end
   end
 
@@ -308,7 +311,6 @@ class LogWorker
 
     lock_password = FriendlyPasswordGenerator.generate
 
-    # Use update_columns to bypass validations that might fail on expired reservations
     reservation.update_columns(
       locked_at: Time.current,
       original_password: reservation.original_password || reservation.password
@@ -316,7 +318,7 @@ class LogWorker
 
     reservation.update_columns(password: lock_password)
 
-    reservation&.server&.rcon_exec "sv_password \"#{lock_password}\"; sm_hsay New password: #{lock_password}"
+    reservation&.server&.rcon_exec "sv_password \"#{lock_password}\""
 
     reservation&.status_update("Server locked by #{event.player.name}, password changed and no new connects allowed")
     reservation.server.add_motd(reservation.reload)
@@ -337,7 +339,7 @@ class LogWorker
 
     reservation&.server&.rcon_exec "sv_password #{original_password}; removeid 1"
 
-    reservation&.server&.rcon_exec "say Server unlocked!; sm_hsay New password: #{original_password}"
+    reservation&.server&.rcon_exec "say Server unlocked, original password restored!"
     reservation&.status_update("Server unlocked by #{event.player.name} (#{sayer_steam_uid})")
     reservation.server.add_motd(reservation.reload)
     Rails.logger.info "Unlocked server for reservation #{reservation.id} by #{sayer_steam_uid}"
@@ -369,6 +371,22 @@ class LogWorker
     else
       reservation&.server&.rcon_say "Unable to check ban list"
       Rails.logger.warn "Failed to parse listid result for reservation #{reservation.id}"
+    end
+  end
+
+  sig { void }
+  def handle_password
+    return unless reservation
+
+    if reservation&.enable_plugins?
+      player_uniqueid = event.player.uid
+      player_name = event.player.name
+      current_password = reservation.password
+      reservation&.server&.rcon_exec "sm_psay ##{player_uniqueid} \"Server password: #{current_password}\""
+      Rails.logger.info "Sent password to #{player_name} (#{sayer_steam_uid}) for reservation #{reservation.id}"
+    else
+      reservation&.server&.rcon_say "Password can't be sent via DM - plugins are disabled for this reservation"
+      Rails.logger.info "Password request denied for #{event.player.name} (#{sayer_steam_uid}) - plugins disabled for reservation #{reservation.id}"
     end
   end
 

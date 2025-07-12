@@ -35,6 +35,7 @@ describe LogWorker do
   let(:troll_lock_line) { '1234567L 03/29/2014 - 13:15:53: "TRoll<3><[U:0:1337]><Red>" say "!lock"' }
   let(:unbanall_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!unbanall"' }
   let(:troll_unbanall_line) { '1234567L 03/29/2014 - 13:15:53: "TRoll<3><[U:0:1337]><Red>" say "!unbanall"' }
+  let(:password_line) { '1234567L 03/29/2014 - 13:15:53: "Player<3><[U:1:12345]><Red>" say "!password"' }
 
   subject(:logworker) { LogWorker.perform_async(line) }
 
@@ -231,7 +232,7 @@ describe LogWorker do
       it 'locks the server when not already locked' do
         expect(reservation).to receive(:update_columns).with(hash_including(locked_at: be_within(1.second).of(Time.current), original_password: "original-password"))
         expect(reservation).to receive(:update_columns).with(password: "strange-banny-123")
-        expect(server).to receive(:rcon_exec).with('sv_password "strange-banny-123"; sm_hsay New password: strange-banny-123')
+        expect(server).to receive(:rcon_exec).with('sv_password "strange-banny-123"')
         expect(server).to receive(:add_motd).with(reservation)
         LogWorker.perform_async(lock_line)
       end
@@ -240,7 +241,7 @@ describe LogWorker do
         reservation.update(original_password: "existing-original")
         expect(reservation).to receive(:update_columns).with(hash_including(locked_at: be_within(1.second).of(Time.current), original_password: "existing-original"))
         expect(reservation).to receive(:update_columns).with(password: "strange-banny-123")
-        expect(server).to receive(:rcon_exec).with('sv_password "strange-banny-123"; sm_hsay New password: strange-banny-123')
+        expect(server).to receive(:rcon_exec).with('sv_password "strange-banny-123"')
         expect(server).to receive(:add_motd).with(reservation)
         LogWorker.perform_async(lock_line)
       end
@@ -259,7 +260,7 @@ describe LogWorker do
       it 'unlocks the server when locked' do
         expect(reservation).to receive(:update_columns).with(locked_at: nil, password: "original-password", original_password: nil)
         expect(server).to receive(:rcon_exec).with('sv_password original-password; removeid 1')
-        expect(server).to receive(:rcon_exec).with("say Server unlocked!; sm_hsay New password: original-password")
+        expect(server).to receive(:rcon_exec).with("say Server unlocked, original password restored!")
         expect(server).to receive(:add_motd).with(reservation)
         LogWorker.perform_async(unlock_line)
       end
@@ -321,6 +322,25 @@ describe LogWorker do
     it 'does not allow non-owners to unban all' do
       expect(server).not_to receive(:rcon_exec).with('listid')
       LogWorker.perform_async(troll_unbanall_line)
+    end
+  end
+
+  describe 'password command' do
+    before do
+      reservation.update(password: "test-password-123")
+    end
+
+    it 'sends password via DM when plugins are enabled' do
+      expect(reservation).to receive(:enable_plugins?).and_return(true)
+      expect(server).to receive(:rcon_exec).with('sm_psay #3 "Server password: test-password-123"')
+      LogWorker.perform_async(password_line)
+    end
+
+    it 'shows error message when plugins are disabled' do
+      expect(reservation).to receive(:enable_plugins?).and_return(false)
+      expect(server).not_to receive(:rcon_exec).with(/sm_psay/)
+      expect(server).to receive(:rcon_say).with("Password can't be sent via DM - plugins are disabled for this reservation")
+      LogWorker.perform_async(password_line)
     end
   end
 end

@@ -118,6 +118,7 @@ function loadReservationPage() {
     }
 
     var pluginsChecked = pluginsCheckbox.prop("checked");
+    var hiddenField = $("#enable_plugins_hidden");
 
     if (demosTfCheckbox.length > 0) {
       var demosTfChecked = demosTfCheckbox.prop("checked");
@@ -126,12 +127,21 @@ function loadReservationPage() {
         pluginsChecked = true;
         if (canEnablePlugins) {
           pluginsCheckbox.prop("disabled", true);
+          if (hiddenField.length === 0) {
+            pluginsCheckbox.after($('<input>', {
+            type: 'hidden',
+            id: 'enable_plugins_hidden',
+            name: 'reservation[enable_plugins]',
+            value: '1'
+          }));
+          }
         }
         if (canEnablePlugins) {
           demosTfCheckbox.prop("disabled", false);
         }
       } else {
         pluginsCheckbox.prop("disabled", !canEnablePlugins);
+        hiddenField.remove();
 
         if (!pluginsChecked) {
           demosTfCheckbox.prop("checked", false);

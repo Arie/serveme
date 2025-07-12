@@ -306,7 +306,7 @@ describe LogWorker do
     end
 
     it 'handles no bans' do
-      expect(server).to receive(:rcon_exec).with('listid').and_return('ID filter list: 0 entries')
+      expect(server).to receive(:rcon_exec).with('listid').and_return('ID filter list: empty')
       expect(server).not_to receive(:rcon_exec).with(/removeid/)
       expect(server).to receive(:rcon_say).with('No players are currently banned')
       LogWorker.perform_async(unbanall_line)

@@ -353,10 +353,12 @@ class LogWorker
 
     listid_result = reservation&.server&.rcon_exec("listid")
 
-    if listid_result && listid_result.match?(/(\d+)\s+entr(?:y|ies)/)
-      entries_count = listid_result.match(/(\d+)\s+entr(?:y|ies)/)[1].to_i
-
-      if entries_count > 0
+    if listid_result && (listid_result.match?(/(\d+)\s+entr(?:y|ies)/) || listid_result.match?(/ID filter list: empty/i))
+      if listid_result.match?(/ID filter list: empty/i)
+        reservation&.server&.rcon_say "No players are currently banned"
+        Rails.logger.info "No players to unban for reservation #{reservation.id}"
+      else
+        entries_count = listid_result.match(/(\d+)\s+entr(?:y|ies)/)[1].to_i
         unban_commands = Array.new(entries_count) { "removeid 1" }
         reservation&.server&.rcon_exec(unban_commands.join("; "))
 
@@ -364,9 +366,6 @@ class LogWorker
         reservation&.server&.rcon_say "Unbanned #{entries_count} #{player_text}"
         reservation&.status_update("All #{entries_count} banned #{player_text} unbanned by #{event.player.name} (#{sayer_steam_uid})")
         Rails.logger.info "Unbanned #{entries_count} #{player_text} for reservation #{reservation.id}"
-      else
-        reservation&.server&.rcon_say "No players are currently banned"
-        Rails.logger.info "No players to unban for reservation #{reservation.id}"
       end
     else
       reservation&.server&.rcon_say "Unable to check ban list"

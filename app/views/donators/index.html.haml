@@ -17,10 +17,12 @@
           %th Name
           %th Donator until
           %th Product
+          %th Lifetime Value
       %tbody
         - @donators.each do |donator|
           %tr[donator]
             %td= link_to(donator.nickname, donator.steam_profile_url)
             %td= link_to(donator.donator_until, edit_donator_path(donator))
             %td= donator.orders.completed.map(&:product_name).join(",")
+            %td= number_to_currency(@lifetime_values[donator.id].to_f.round(2) || 0)
 

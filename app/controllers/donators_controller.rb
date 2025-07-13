@@ -7,6 +7,12 @@ class DonatorsController < ApplicationController
 
   def index
     @donators = Group.donator_group.users.order(group_users: { id: :desc }).paginate(page: params[:page], per_page: 20)
+
+    donator_ids = @donators.map(&:id)
+    @lifetime_values = User.joins(orders: :product)
+                           .where(id: donator_ids, paypal_orders: { status: "Completed" })
+                           .group(:id)
+                           .sum(:price)
   end
 
   def leaderboard

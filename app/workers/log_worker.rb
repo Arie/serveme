@@ -65,6 +65,8 @@ class LogWorker
   end
 
   def handle_connect
+    return if event.player.steam_id == "BOT"
+
     community_id = SteamCondenser::Community::SteamId.steam_id_to_community_id(event.player.steam_id)
     ip = event.message.to_s.split(":").first
     rp = create_or_update_reservation_player(community_id, ip)

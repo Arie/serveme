@@ -36,6 +36,7 @@ describe LogWorker do
   let(:unbanall_line) { '1234567L 03/29/2014 - 13:15:53: "Arie - serveme.tf<3><[U:1:231702]><Red>" say "!unbanall"' }
   let(:troll_unbanall_line) { '1234567L 03/29/2014 - 13:15:53: "TRoll<3><[U:0:1337]><Red>" say "!unbanall"' }
   let(:password_line) { '1234567L 03/29/2014 - 13:15:53: "Player<3><[U:1:12345]><Red>" say "!password"' }
+  let(:connect_bot) { '1234567L 03/29/2014 - 13:15:53: "SourceTV<1><BOT><>" connected, address "127.0.0.1:27020"' }
 
   subject(:logworker) { LogWorker.perform_async(line) }
 
@@ -193,6 +194,15 @@ describe LogWorker do
     it 'doesnt ban others' do
       server.should_not_receive(:rcon_exec)
       LogWorker.perform_async(connect_normal)
+    end
+
+    it 'skips processing BOT connections without errors' do
+      expect(ReservationPlayer).not_to receive(:banned_ip?)
+      expect(ReservationPlayer).not_to receive(:banned_uid?)
+      expect(server).not_to receive(:rcon_exec)
+      expect(server).not_to receive(:rcon_say)
+
+      expect { LogWorker.perform_async(connect_bot) }.not_to raise_error
     end
   end
 

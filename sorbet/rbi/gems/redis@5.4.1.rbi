@@ -45,108 +45,108 @@ class Redis
   # @param options [Hash]
   # @return [Redis] a new client instance
   #
-  # source://redis//lib/redis.rb#63
+  # source://redis//lib/redis.rb#65
   def initialize(options = T.unsafe(nil)); end
 
-  # source://redis//lib/redis.rb#98
+  # source://redis//lib/redis.rb#100
   def _client; end
 
   # Disconnect the client as quickly and silently as possible.
   #
-  # source://redis//lib/redis.rb#88
+  # source://redis//lib/redis.rb#90
   def close; end
 
   # Test whether or not the client is connected
   #
   # @return [Boolean]
   #
-  # source://redis//lib/redis.rb#83
+  # source://redis//lib/redis.rb#85
   def connected?; end
 
-  # source://redis//lib/redis.rb#122
+  # source://redis//lib/redis.rb#124
   def connection; end
 
   # Disconnect the client as quickly and silently as possible.
   #
-  # source://redis//lib/redis.rb#88
+  # source://redis//lib/redis.rb#94
   def disconnect!; end
 
-  # source://redis//lib/redis.rb#118
+  # source://redis//lib/redis.rb#120
   def dup; end
 
-  # source://redis//lib/redis.rb#110
+  # source://redis//lib/redis.rb#112
   def id; end
 
-  # source://redis//lib/redis.rb#114
+  # source://redis//lib/redis.rb#116
   def inspect; end
 
-  # source://redis//lib/redis.rb#102
+  # source://redis//lib/redis.rb#104
   def pipelined(exception: T.unsafe(nil)); end
 
   # @yield [_self]
   # @yieldparam _self [Redis] the object that the method was called on
   #
-  # source://redis//lib/redis.rb#94
+  # source://redis//lib/redis.rb#96
   def with; end
 
   # Run code without the client reconnecting
   #
-  # source://redis//lib/redis.rb#78
+  # source://redis//lib/redis.rb#80
   def without_reconnect(&block); end
 
   private
 
-  # source://redis//lib/redis.rb#164
+  # source://redis//lib/redis.rb#166
   def _subscription(method, timeout, channels, block); end
 
-  # source://redis//lib/redis.rb#134
+  # source://redis//lib/redis.rb#136
   def initialize_client(options); end
 
-  # source://redis//lib/redis.rb#158
+  # source://redis//lib/redis.rb#160
   def send_blocking_command(command, timeout, &block); end
 
-  # source://redis//lib/redis.rb#150
+  # source://redis//lib/redis.rb#152
   def send_command(command, &block); end
 
-  # source://redis//lib/redis.rb#146
+  # source://redis//lib/redis.rb#148
   def synchronize; end
 
   class << self
-    # source://redis//lib/redis.rb#14
+    # source://redis//lib/redis.rb#16
     def deprecate!(message); end
 
     # Returns the value of attribute raise_deprecations.
     #
-    # source://redis//lib/redis.rb#12
+    # source://redis//lib/redis.rb#14
     def raise_deprecations; end
 
     # Sets the attribute raise_deprecations
     #
     # @param value the value to set the attribute raise_deprecations to.
     #
-    # source://redis//lib/redis.rb#12
+    # source://redis//lib/redis.rb#14
     def raise_deprecations=(_arg0); end
 
     # Returns the value of attribute silence_deprecations.
     #
-    # source://redis//lib/redis.rb#12
+    # source://redis//lib/redis.rb#14
     def silence_deprecations; end
 
     # Sets the attribute silence_deprecations
     #
     # @param value the value to set the attribute silence_deprecations to.
     #
-    # source://redis//lib/redis.rb#12
+    # source://redis//lib/redis.rb#14
     def silence_deprecations=(_arg0); end
   end
 end
 
-# source://redis//lib/redis.rb#8
+# source://redis//lib/redis.rb#10
 Redis::BASE_PATH = T.let(T.unsafe(nil), String)
 
 # Base error for connection related errors.
 #
-# source://redis//lib/redis/errors.rb#33
+# source://redis//lib/redis/errors.rb#38
 class Redis::BaseConnectionError < ::Redis::BaseError; end
 
 # Base error for all redis-rb errors.
@@ -156,73 +156,76 @@ class Redis::BaseError < ::StandardError; end
 
 # Raised when connection to a Redis server cannot be made.
 #
-# source://redis//lib/redis/errors.rb#37
+# source://redis//lib/redis/errors.rb#42
 class Redis::CannotConnectError < ::Redis::BaseConnectionError; end
 
-# source://redis//lib/redis/client.rb#6
+# source://redis//lib/redis/client.rb#4
 class Redis::Client < ::RedisClient
-  # source://redis//lib/redis/client.rb#95
+  # source://redis//lib/redis/client.rb#102
   def blocking_call_v(timeout, command, &block); end
 
-  # source://redis//lib/redis/client.rb#89
+  # source://redis//lib/redis/client.rb#96
   def call_v(command, &block); end
 
-  # source://redis//lib/redis/client.rb#60
+  # source://redis//lib/redis/client.rb#61
   def db; end
 
-  # source://redis//lib/redis/client.rb#64
+  # source://redis//lib/redis/client.rb#90
+  def ensure_connected(retryable: T.unsafe(nil), &block); end
+
+  # source://redis//lib/redis/client.rb#65
   def host; end
 
-  # source://redis//lib/redis/client.rb#48
+  # source://redis//lib/redis/client.rb#49
   def id; end
 
-  # source://redis//lib/redis/client.rb#120
+  # source://redis//lib/redis/client.rb#127
   def inherit_socket!; end
 
-  # source://redis//lib/redis/client.rb#114
+  # source://redis//lib/redis/client.rb#121
   def multi(watch: T.unsafe(nil)); end
 
-  # source://redis//lib/redis/client.rb#80
+  # source://redis//lib/redis/client.rb#81
   def password; end
 
-  # source://redis//lib/redis/client.rb#72
+  # source://redis//lib/redis/client.rb#73
   def path; end
 
-  # source://redis//lib/redis/client.rb#108
+  # source://redis//lib/redis/client.rb#115
   def pipelined(exception: T.unsafe(nil)); end
 
-  # source://redis//lib/redis/client.rb#68
+  # source://redis//lib/redis/client.rb#69
   def port; end
 
-  # source://redis//lib/redis/client.rb#52
+  # source://redis//lib/redis/client.rb#53
   def server_url; end
 
-  # source://redis//lib/redis/client.rb#56
+  # source://redis//lib/redis/client.rb#57
   def timeout; end
 
-  # source://redis//lib/redis/client.rb#76
+  # source://redis//lib/redis/client.rb#77
   def username; end
 
   class << self
-    # source://redis//lib/redis/client.rb#22
+    # source://redis//lib/redis/client.rb#23
     def config(**kwargs); end
 
-    # source://redis//lib/redis/client.rb#26
+    # source://redis//lib/redis/client.rb#27
     def sentinel(**kwargs); end
 
     # @raise [redis_error]
     #
-    # source://redis//lib/redis/client.rb#30
+    # source://redis//lib/redis/client.rb#31
     def translate_error!(error, mapping: T.unsafe(nil)); end
 
     private
 
-    # source://redis//lib/redis/client.rb#37
+    # source://redis//lib/redis/client.rb#38
     def translate_error_class(error_class, mapping: T.unsafe(nil)); end
   end
 end
 
-# source://redis//lib/redis/client.rb#7
+# source://redis//lib/redis/client.rb#5
 Redis::Client::ERROR_MAPPING = T.let(T.unsafe(nil), Hash)
 
 # Raised by the client when command execution returns an error reply.
@@ -1121,20 +1124,20 @@ module Redis::Commands::Lists
   # Remove the first/last element in a list and append/prepend it
   # to another list and return it, or block until one is available.
   #
+  # @example Without timeout
+  #   element = redis.blmove("foo", "bar", "LEFT", "RIGHT")
+  #   # => "element"
   # @example With timeout
   #   element = redis.blmove("foo", "bar", "LEFT", "RIGHT", timeout: 5)
   #   # => nil on timeout
   #   # => "element" on success
-  # @example Without timeout
-  #   element = redis.blmove("foo", "bar", "LEFT", "RIGHT")
-  #   # => "element"
-  # @param source [String] source key
   # @param destination [String] destination key
-  # @param where_source [String, Symbol] from where to remove the element from the source list
-  #   e.g. 'LEFT' - from head, 'RIGHT' - from tail
   # @param where_destination [String, Symbol] where to push the element to the source list
   #   e.g. 'LEFT' - to head, 'RIGHT' - to tail
   # @param options [Hash] - `:timeout => [Float, Integer]`: timeout in seconds, defaults to no timeout
+  # @param where_source [String, Symbol] from where to remove the element from the source list
+  #   e.g. 'LEFT' - from head, 'RIGHT' - from tail
+  # @param source [String] source key
   # @return [nil, String] the element, or nil when the source key does not exist or the timeout expired
   #
   # source://redis//lib/redis/commands/lists.rb#55
@@ -1462,17 +1465,17 @@ end
 module Redis::Commands::Scripting
   # Evaluate Lua script.
   #
-  # @example EVAL without KEYS nor ARGV
-  #   redis.eval("return 1")
-  #   # => 1
   # @example EVAL with KEYS and ARGV as array arguments
   #   redis.eval("return { KEYS, ARGV }", ["k1", "k2"], ["a1", "a2"])
   #   # => [["k1", "k2"], ["a1", "a2"]]
+  # @example EVAL without KEYS nor ARGV
+  #   redis.eval("return 1")
+  #   # => 1
   # @example EVAL with KEYS and ARGV in a hash argument
   #   redis.eval("return { KEYS, ARGV }", :keys => ["k1", "k2"], :argv => ["a1", "a2"])
   #   # => [["k1", "k2"], ["a1", "a2"]]
-  # @param keys [Array<String>] optional array with keys to pass to the script
   # @param argv [Array<String>] optional array with arguments to pass to the script
+  # @param keys [Array<String>] optional array with keys to pass to the script
   # @param options [Hash] - `:keys => Array<String>`: optional array with keys to pass to the script
   #   - `:argv => Array<String>`: optional array with arguments to pass to the script
   # @return depends on the script
@@ -1484,17 +1487,17 @@ module Redis::Commands::Scripting
 
   # Evaluate Lua script by its SHA.
   #
-  # @example EVALSHA without KEYS nor ARGV
-  #   redis.evalsha(sha)
-  #   # => <depends on script>
   # @example EVALSHA with KEYS and ARGV as array arguments
   #   redis.evalsha(sha, ["k1", "k2"], ["a1", "a2"])
+  #   # => <depends on script>
+  # @example EVALSHA without KEYS nor ARGV
+  #   redis.evalsha(sha)
   #   # => <depends on script>
   # @example EVALSHA with KEYS and ARGV in a hash argument
   #   redis.evalsha(sha, :keys => ["k1", "k2"], :argv => ["a1", "a2"])
   #   # => <depends on script>
-  # @param keys [Array<String>] optional array with keys to pass to the script
   # @param argv [Array<String>] optional array with arguments to pass to the script
+  # @param keys [Array<String>] optional array with keys to pass to the script
   # @param options [Hash] - `:keys => Array<String>`: optional array with keys to pass to the script
   #   - `:argv => Array<String>`: optional array with arguments to pass to the script
   # @return depends on the script
@@ -2176,20 +2179,20 @@ module Redis::Commands::SortedSets
   # @example Retrieve members with score `>= 5` and `< 100`
   #   redis.zrangebyscore("zset", "5", "(100")
   #   # => ["a", "b"]
-  # @example Retrieve the first 2 members with score `>= 0`
-  #   redis.zrangebyscore("zset", "0", "+inf", :limit => [0, 2])
-  #   # => ["a", "b"]
   # @example Retrieve members and their scores with scores `> 5`
   #   redis.zrangebyscore("zset", "(5", "+inf", :with_scores => true)
   #   # => [["a", 32.0], ["b", 64.0]]
-  # @param key [String]
-  # @param min [String] - inclusive minimum score is specified verbatim
-  #   - exclusive minimum score is specified by prefixing `(`
-  # @param max [String] - inclusive maximum score is specified verbatim
-  #   - exclusive maximum score is specified by prefixing `(`
+  # @example Retrieve the first 2 members with score `>= 0`
+  #   redis.zrangebyscore("zset", "0", "+inf", :limit => [0, 2])
+  #   # => ["a", "b"]
   # @param options [Hash] - `:with_scores => true`: include scores in output
   #   - `:limit => [offset, count]`: skip `offset` members, return a maximum of
   #   `count` members
+  # @param min [String] - inclusive minimum score is specified verbatim
+  #   - exclusive minimum score is specified by prefixing `(`
+  # @param key [String]
+  # @param max [String] - inclusive maximum score is specified verbatim
+  #   - exclusive maximum score is specified by prefixing `(`
   # @return [Array<String>, Array<[String, Float]>] - when `:with_scores` is not specified, an array of members
   #   - when `:with_scores` is specified, an array with `[member, score]` pairs
   #
@@ -2463,22 +2466,22 @@ module Redis::Commands::Streams
 
   # Transfers ownership of pending stream entries that match the specified criteria.
   #
-  # @example Claim next pending message stuck > 5 minutes and mark as retry
-  #   redis.xautoclaim('mystream', 'mygroup', 'consumer1', 3600000, '0-0')
+  # @example Claim next pending message after this id stuck > 5 minutes and mark as retry
+  #   redis.xautoclaim('mystream', 'mygroup', 'consumer1', 3600000, '1641321233-0')
   # @example Claim 50 next pending messages stuck > 5 minutes and mark as retry
   #   redis.xclaim('mystream', 'mygroup', 'consumer1', 3600000, '0-0', count: 50)
   # @example Claim next pending message stuck > 5 minutes and don't mark as retry
   #   redis.xclaim('mystream', 'mygroup', 'consumer1', 3600000, '0-0', justid: true)
-  # @example Claim next pending message after this id stuck > 5 minutes and mark as retry
-  #   redis.xautoclaim('mystream', 'mygroup', 'consumer1', 3600000, '1641321233-0')
-  # @param key [String] the stream key
-  # @param group [String] the consumer group name
-  # @param consumer [String] the consumer name
-  # @param min_idle_time [Integer] the number of milliseconds
+  # @example Claim next pending message stuck > 5 minutes and mark as retry
+  #   redis.xautoclaim('mystream', 'mygroup', 'consumer1', 3600000, '0-0')
   # @param start [String] entry id to start scanning from or 0-0 for everything
   # @param count [Integer] number of messages to claim (default 1)
   # @param justid [Boolean] whether to fetch just an array of entry ids or not.
   #   Does not increment retry count when true
+  # @param consumer [String] the consumer name
+  # @param key [String] the stream key
+  # @param group [String] the consumer group name
+  # @param min_idle_time [Integer] the number of milliseconds
   # @return [Hash{String => Hash}] the entries successfully claimed
   # @return [Array<String>] the entry ids successfully claimed if justid option is `true`
   #
@@ -2487,14 +2490,14 @@ module Redis::Commands::Streams
 
   # Changes the ownership of a pending entry
   #
-  # @example With splatted entry ids
-  #   redis.xclaim('mystream', 'mygroup', 'consumer1', 3600000, '0-1', '0-2')
   # @example With arrayed entry ids
   #   redis.xclaim('mystream', 'mygroup', 'consumer1', 3600000, %w[0-1 0-2])
   # @example With idle option
   #   redis.xclaim('mystream', 'mygroup', 'consumer1', 3600000, %w[0-1 0-2], idle: 1000)
   # @example With time option
   #   redis.xclaim('mystream', 'mygroup', 'consumer1', 3600000, %w[0-1 0-2], time: 1542866959000)
+  # @example With splatted entry ids
+  #   redis.xclaim('mystream', 'mygroup', 'consumer1', 3600000, '0-1', '0-2')
   # @example With retrycount option
   #   redis.xclaim('mystream', 'mygroup', 'consumer1', 3600000, %w[0-1 0-2], retrycount: 10)
   # @example With force option
@@ -2535,18 +2538,18 @@ module Redis::Commands::Streams
   #
   # @example With `create` subcommand
   #   redis.xgroup(:create, 'mystream', 'mygroup', '$')
-  # @example With `setid` subcommand
-  #   redis.xgroup(:setid, 'mystream', 'mygroup', '$')
   # @example With `destroy` subcommand
   #   redis.xgroup(:destroy, 'mystream', 'mygroup')
   # @example With `delconsumer` subcommand
   #   redis.xgroup(:delconsumer, 'mystream', 'mygroup', 'consumer1')
-  # @param subcommand [String] `create` `setid` `destroy` `delconsumer`
+  # @example With `setid` subcommand
+  #   redis.xgroup(:setid, 'mystream', 'mygroup', '$')
+  # @param mkstream [Boolean] whether to create an empty stream automatically or not
   # @param key [String] the stream key
+  # @param subcommand [String] `create` `setid` `destroy` `delconsumer`
   # @param group [String] the consumer group name
   # @param id_or_consumer [String] * the entry id or `$`, required if subcommand is `create` or `setid`
   #   * the consumer name, required if subcommand is `delconsumer`
-  # @param mkstream [Boolean] whether to create an empty stream automatically or not
   # @return [String] `OK` if subcommand is `create` or `setid`
   # @return [Integer] effected count if subcommand is `destroy` or `delconsumer`
   #
@@ -2555,14 +2558,14 @@ module Redis::Commands::Streams
 
   # Returns the stream information each subcommand.
   #
-  # @example stream
-  #   redis.xinfo(:stream, 'mystream')
   # @example groups
   #   redis.xinfo(:groups, 'mystream')
+  # @example stream
+  #   redis.xinfo(:stream, 'mystream')
   # @example consumers
   #   redis.xinfo(:consumers, 'mystream', 'mygroup')
-  # @param subcommand [String] e.g. `stream` `groups` `consumers`
   # @param key [String] the stream key
+  # @param subcommand [String] e.g. `stream` `groups` `consumers`
   # @param group [String] the consumer group name, required if subcommand is `consumers`
   # @return [Hash] information of the stream if subcommand is `stream`
   # @return [Array<Hash>] information of the consumer groups if subcommand is `groups`
@@ -2585,20 +2588,20 @@ module Redis::Commands::Streams
   #
   # @example With key and group
   #   redis.xpending('mystream', 'mygroup')
+  # @example With range and consumer options
+  #   redis.xpending('mystream', 'mygroup', '-', '+', 10, 'consumer1')
   # @example With range options
   #   redis.xpending('mystream', 'mygroup', '-', '+', 10)
   # @example With range and idle time options
   #   redis.xpending('mystream', 'mygroup', '-', '+', 10, idle: 9000)
-  # @example With range and consumer options
-  #   redis.xpending('mystream', 'mygroup', '-', '+', 10, 'consumer1')
   # @option opts
-  # @param key [String] the stream key
-  # @param group [String] the consumer group name
-  # @param start [String] start first entry id of range
-  # @param end [String] end   last entry id of range
-  # @param count [Integer] count the number of entries as limit
   # @param consumer [String] the consumer name
   # @param opts [Hash] a customizable set of options
+  # @param start [String] start first entry id of range
+  # @param key [String] the stream key
+  # @param group [String] the consumer group name
+  # @param end [String] end   last entry id of range
+  # @param count [Integer] count the number of entries as limit
   # @return [Hash] the summary of pending entries
   # @return [Array<Hash>] the pending entries details if options were specified
   #
@@ -2646,12 +2649,12 @@ module Redis::Commands::Streams
   # Fetches a subset of the entries from one or multiple streams related with the consumer group.
   # Optionally blocking.
   #
-  # @example With a key
-  #   redis.xreadgroup('mygroup', 'consumer1', 'mystream', '>')
   # @example With multiple keys
   #   redis.xreadgroup('mygroup', 'consumer1', %w[mystream1 mystream2], %w[> >])
   # @example With count option
   #   redis.xreadgroup('mygroup', 'consumer1', 'mystream', '>', count: 2)
+  # @example With a key
+  #   redis.xreadgroup('mygroup', 'consumer1', 'mystream', '>')
   # @example With block option
   #   redis.xreadgroup('mygroup', 'consumer1', 'mystream', '>', block: 1000)
   # @example With noack option
@@ -3055,20 +3058,20 @@ end
 # soft-deprecated
 # We added this back for older sidekiq releases
 #
-# source://redis//lib/redis.rb#27
+# source://redis//lib/redis.rb#29
 module Redis::Connection
   class << self
-    # source://redis//lib/redis.rb#29
+    # source://redis//lib/redis.rb#31
     def drivers; end
   end
 end
 
 # Raised when connection to a Redis server is lost.
 #
-# source://redis//lib/redis/errors.rb#41
+# source://redis//lib/redis/errors.rb#46
 class Redis::ConnectionError < ::Redis::BaseConnectionError; end
 
-# source://redis//lib/redis.rb#9
+# source://redis//lib/redis.rb#11
 class Redis::Deprecated < ::StandardError; end
 
 # source://redis//lib/redis/distributed.rb#6
@@ -4115,12 +4118,12 @@ Redis::HashRing::POINTS_PER_SERVER = T.let(T.unsafe(nil), Integer)
 
 # Raised when the connection was inherited by a child process.
 #
-# source://redis//lib/redis/errors.rb#49
+# source://redis//lib/redis/errors.rb#54
 class Redis::InheritedError < ::Redis::BaseConnectionError; end
 
 # Raised when client options are invalid.
 #
-# source://redis//lib/redis/errors.rb#57
+# source://redis//lib/redis/errors.rb#62
 class Redis::InvalidClientOptionError < ::Redis::BaseError; end
 
 # source://redis//lib/redis/pipeline.rb#59
@@ -4150,6 +4153,9 @@ class Redis::MultiFuture < ::Redis::Future
   # source://redis//lib/redis/pipeline.rb#120
   def _set(replies); end
 end
+
+# source://redis//lib/redis/errors.rb#33
+class Redis::NoScriptError < ::Redis::CommandError; end
 
 # source://redis//lib/redis/errors.rb#29
 class Redis::OutOfMemoryError < ::Redis::CommandError; end
@@ -4232,10 +4238,10 @@ end
 
 # Generally raised during Redis failover scenarios
 #
-# source://redis//lib/redis/errors.rb#53
+# source://redis//lib/redis/errors.rb#58
 class Redis::ReadOnlyError < ::Redis::BaseConnectionError; end
 
-# source://redis//lib/redis.rb#37
+# source://redis//lib/redis.rb#39
 Redis::SERVER_URL_OPTIONS = T.let(T.unsafe(nil), Array)
 
 # source://redis//lib/redis/subscribe.rb#4
@@ -4326,12 +4332,12 @@ class Redis::Subscription
   def unsubscribe(&block); end
 end
 
-# source://redis//lib/redis/errors.rb#60
+# source://redis//lib/redis/errors.rb#65
 class Redis::SubscriptionError < ::Redis::BaseError; end
 
 # Raised when performing I/O times out.
 #
-# source://redis//lib/redis/errors.rb#45
+# source://redis//lib/redis/errors.rb#50
 class Redis::TimeoutError < ::Redis::BaseConnectionError; end
 
 # source://redis//lib/redis/version.rb#4

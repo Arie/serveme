@@ -367,6 +367,39 @@
         77
       ],
       "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "76ca7f8ce8f4ad05e26cd4242115e2c374530c45fc655158f33d0fff312eaf10",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/shared/_point_to_na.html.haml",
+      "line": 7,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "::Haml::AttributeBuilder.build_class(true, \"flags\", \"flags-#{current_user.geocoded.country_code.downcase}\")",
+      "render_path": [
+        {
+          "type": "template",
+          "name": "orders/new",
+          "line": 5,
+          "file": "app/views/orders/new.html.haml",
+          "rendered": {
+            "name": "shared/_point_to_na",
+            "file": "app/views/shared/_point_to_na.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "shared/_point_to_na"
+      },
+      "user_input": "current_user.geocoded.country_code",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": "False positive - country_code is a standard 2-letter ISO country code used for CSS classes"
     }
   ],
   "brakeman_version": "7.0.2"

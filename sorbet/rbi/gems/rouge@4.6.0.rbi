@@ -784,6 +784,7 @@ class Rouge::InheritableHash < ::Hash
   # source://rouge//lib/rouge/util.rb#32
   def keys; end
 
+  # source://rouge//lib/rouge/util.rb#31
   def own_keys; end
 
   # source://rouge//lib/rouge/util.rb#17
@@ -799,7 +800,7 @@ class Rouge::InheritableList
   # source://rouge//lib/rouge/util.rb#42
   def initialize(parent = T.unsafe(nil)); end
 
-  # source://rouge//lib/rouge/util.rb#61
+  # source://rouge//lib/rouge/util.rb#64
   def <<(o); end
 
   # source://rouge//lib/rouge/util.rb#50
@@ -1431,6 +1432,20 @@ end
 # source://rouge//lib/rouge/lexers/bibtex.rb#9
 class Rouge::Lexers::BibTeX < ::Rouge::RegexLexer; end
 
+# source://rouge//lib/rouge/lexers/bicep.rb#3
+class Rouge::Lexers::Bicep < ::Rouge::RegexLexer
+  class << self
+    # source://rouge//lib/rouge/lexers/bicep.rb#17
+    def datatypes; end
+
+    # source://rouge//lib/rouge/lexers/bicep.rb#21
+    def functions; end
+
+    # source://rouge//lib/rouge/lexers/bicep.rb#10
+    def keywords; end
+  end
+end
+
 # source://rouge//lib/rouge/lexers/brainfuck.rb#6
 class Rouge::Lexers::Brainfuck < ::Rouge::RegexLexer; end
 
@@ -1564,7 +1579,22 @@ end
 class Rouge::Lexers::CSVS < ::Rouge::RegexLexer; end
 
 # source://rouge//lib/rouge/lexers/csharp.rb#6
-class Rouge::Lexers::CSharp < ::Rouge::RegexLexer; end
+class Rouge::Lexers::CSharp < ::Rouge::RegexLexer
+  class << self
+    # source://rouge//lib/rouge/lexers/csharp.rb#43
+    def cpp_keywords; end
+
+    # Reserved Identifiers
+    # Contextual Keywords
+    # LINQ Query Expressions
+    #
+    # source://rouge//lib/rouge/lexers/csharp.rb#20
+    def keywords; end
+
+    # source://rouge//lib/rouge/lexers/csharp.rb#36
+    def keywords_type; end
+  end
+end
 
 # source://rouge//lib/rouge/lexers/cuda.rb#7
 class Rouge::Lexers::CUDA < ::Rouge::Lexers::Cpp
@@ -3637,14 +3667,14 @@ end
 
 # source://rouge//lib/rouge/lexers/python.rb#6
 class Rouge::Lexers::Python < ::Rouge::RegexLexer
-  # source://rouge//lib/rouge/lexers/python.rb#73
+  # source://rouge//lib/rouge/lexers/python.rb#76
   def current_string; end
 
   class << self
     # source://rouge//lib/rouge/lexers/python.rb#28
     def builtins; end
 
-    # source://rouge//lib/rouge/lexers/python.rb#42
+    # source://rouge//lib/rouge/lexers/python.rb#44
     def builtins_pseudo; end
 
     # @return [Boolean]
@@ -3652,7 +3682,7 @@ class Rouge::Lexers::Python < ::Rouge::RegexLexer
     # source://rouge//lib/rouge/lexers/python.rb#15
     def detect?(text); end
 
-    # source://rouge//lib/rouge/lexers/python.rb#46
+    # source://rouge//lib/rouge/lexers/python.rb#48
     def exceptions; end
 
     # source://rouge//lib/rouge/lexers/python.rb#19
@@ -3660,22 +3690,22 @@ class Rouge::Lexers::Python < ::Rouge::RegexLexer
   end
 end
 
-# source://rouge//lib/rouge/lexers/python.rb#247
+# source://rouge//lib/rouge/lexers/python.rb#274
 class Rouge::Lexers::Python::StringRegister < ::Array
   # @return [Boolean]
   #
-  # source://rouge//lib/rouge/lexers/python.rb#248
+  # source://rouge//lib/rouge/lexers/python.rb#275
   def delim?(delim); end
 
-  # source://rouge//lib/rouge/lexers/python.rb#252
+  # source://rouge//lib/rouge/lexers/python.rb#279
   def register(type: T.unsafe(nil), delim: T.unsafe(nil)); end
 
-  # source://rouge//lib/rouge/lexers/python.rb#256
+  # source://rouge//lib/rouge/lexers/python.rb#283
   def remove; end
 
   # @return [Boolean]
   #
-  # source://rouge//lib/rouge/lexers/python.rb#260
+  # source://rouge//lib/rouge/lexers/python.rb#287
   def type?(type); end
 end
 

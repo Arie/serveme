@@ -13,25 +13,25 @@ class ActiveJob::Base; end
 # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#37
 module ActiveJob::QueueAdapters; end
 
-# source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#46
+# source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#47
 class ActiveJob::QueueAdapters::SidekiqAdapter < ::ActiveJob::QueueAdapters::AbstractAdapter
-  # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#62
+  # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#63
   def enqueue(job); end
 
-  # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#57
+  # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#58
   def enqueue_after_transaction_commit?; end
 
-  # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#78
+  # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#79
   def enqueue_all(jobs); end
 
-  # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#70
+  # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#71
   def enqueue_at(job, timestamp); end
 
-  # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#110
+  # source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#111
   def stopping?; end
 end
 
-# source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#114
+# source://sidekiq//lib/active_job/queue_adapters/sidekiq_adapter.rb#115
 ActiveJob::QueueAdapters::SidekiqAdapter::JobWrapper = Sidekiq::ActiveJob::Wrapper
 
 # Use `Sidekiq.transactional_push!` in your sidekiq.rb initializer
@@ -119,7 +119,7 @@ module Sidekiq
     # source://sidekiq//lib/sidekiq.rb#77
     def strict_args!(mode = T.unsafe(nil)); end
 
-    # source://sidekiq//lib/sidekiq/transaction_aware_client.rb#40
+    # source://sidekiq//lib/sidekiq/transaction_aware_client.rb#46
     def transactional_push!; end
 
     # source://sidekiq//lib/sidekiq.rb#45
@@ -2013,17 +2013,17 @@ class Sidekiq::TransactionAwareClient
 
   # @return [Boolean]
   #
-  # source://sidekiq//lib/sidekiq/transaction_aware_client.rb#12
+  # source://sidekiq//lib/sidekiq/transaction_aware_client.rb#18
   def batching?; end
 
-  # source://sidekiq//lib/sidekiq/transaction_aware_client.rb#16
+  # source://sidekiq//lib/sidekiq/transaction_aware_client.rb#22
   def push(item); end
 
   # We don't provide transactionality for push_bulk because we don't want
   # to hold potentially hundreds of thousands of job records in memory due to
   # a long running enqueue process.
   #
-  # source://sidekiq//lib/sidekiq/transaction_aware_client.rb#31
+  # source://sidekiq//lib/sidekiq/transaction_aware_client.rb#37
   def push_bulk(items); end
 end
 

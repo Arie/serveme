@@ -42,7 +42,7 @@ Temple::ERB::Parser::ERB_PATTERN = T.let(T.unsafe(nil), Regexp)
 
 # ERB Template class
 #
-# source://temple//lib/temple/erb/template.rb#0
+# source://temple//lib/temple/erb/template.rb#10
 class Temple::ERB::Template < ::Temple::Templates::Tilt; end
 
 # ERB trimming like in erubis
@@ -1222,7 +1222,7 @@ module Temple::Mixins::EngineDSL
 
   # @api private
   #
-  # source://temple//lib/temple/mixins/engine_dsl.rb#9
+  # source://temple//lib/temple/mixins/engine_dsl.rb#25
   def use(*args, &block); end
 
   private
@@ -1266,13 +1266,13 @@ module Temple::Mixins::GrammarDSL
   # @api private
   # @return [Boolean]
   #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#123
+  # source://temple//lib/temple/mixins/grammar_dsl.rb#126
   def ===(exp); end
 
   # @api private
   # @return [Boolean]
   #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#123
+  # source://temple//lib/temple/mixins/grammar_dsl.rb#127
   def =~(exp); end
 
   # @api private
@@ -1355,7 +1355,7 @@ class Temple::Mixins::GrammarDSL::Or < ::Temple::Mixins::GrammarDSL::Rule
 
   # @api private
   #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#34
+  # source://temple//lib/temple/mixins/grammar_dsl.rb#39
   def |(rule); end
 end
 
@@ -1403,13 +1403,13 @@ class Temple::Mixins::GrammarDSL::Rule
   # @api private
   # @return [Boolean]
   #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#11
+  # source://temple//lib/temple/mixins/grammar_dsl.rb#14
   def ===(exp); end
 
   # @api private
   # @return [Boolean]
   #
-  # source://temple//lib/temple/mixins/grammar_dsl.rb#11
+  # source://temple//lib/temple/mixins/grammar_dsl.rb#15
   def =~(exp); end
 
   # @api private

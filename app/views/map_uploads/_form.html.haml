@@ -1,6 +1,10 @@
-= simple_form_for(@map_upload, :html => { :class => 'form-inline' }, data: { turbo: false} ) do |f|
+%div{data: { controller: 'map-upload' }}
+  = simple_form_for(@map_upload, :html => { :class => 'form-inline' }, data: { turbo: false, action: 'submit->map-upload#handleSubmit' } ) do |f|
+    = f.input :file, :as => :file, :label => false, :placeholder => 'Map file, .bsp only', input_html: { data: { 'map-upload-target': 'fileInput' } }
+    %button.btn.btn-primary{:type => :submit, data: { 'map-upload-target': 'submitButton' }}
+      Upload
 
-  = f.input :file, :as => :file, :label => false, :placeholder => 'Map file, .bsp only'
-
-  %button.btn.btn-primary{:type => :submit}
-    Upload
+  .upload-progress.mt-3{style: "display: none;", data: { 'map-upload-target': 'progressContainer' }}
+    .progress{style: "width: 100%; min-width: 300px;"}
+      .progress-bar.progress-bar-striped.progress-bar-animated.bg-success{role: "progressbar", style: "width: 0%;", "aria-valuenow": "0", "aria-valuemin": "0", "aria-valuemax": "100", data: { 'map-upload-target': 'progressBar' }}
+        %strong{data: { 'map-upload-target': 'progressText' }} 0%

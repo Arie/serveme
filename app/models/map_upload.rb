@@ -76,7 +76,16 @@ class MapUpload < ActiveRecord::Base
   end
 
   def validate_file_is_a_bsp
-    return unless attachment_changes["file"] && attachment_changes["file"].attachable.read(4) != "VBSP"
+    # Skip validation if this is an existing blob with maps/ prefix and no new attachment
+    return if file&.blob&.key&.start_with?("maps/") && !attachment_changes["file"]
+
+    return unless attachment_changes["file"]
+
+    attachable = attachment_changes["file"].attachable
+
+    return if attachable.is_a?(ActiveStorage::Blob)
+
+    return unless attachable.read(4) != "VBSP"
 
     errors.add(:file, "not a map (bsp) file")
   end
@@ -90,6 +99,10 @@ class MapUpload < ActiveRecord::Base
   def validate_not_already_present
     return unless file&.blob&.key
 
+    is_r2_upload = file.blob.persisted? && file.blob.key.start_with?("maps/")
+
+    return if is_r2_upload
+
     errors.add(:file, "already available") if ActiveStorage::Blob.service.exist?(file.blob.key)
   end
 
@@ -98,9 +111,79 @@ class MapUpload < ActiveRecord::Base
     target_filename&.starts_with?(invalid_types_regex)
   end
 
+  def self.create_from_direct_upload(user:, key:, filename:)
+    existing_blob = ActiveStorage::Blob.find_by(key: key)
+    return { success: false, error: "File already exists in database" } if existing_blob
+
+    validation_result = validate_direct_upload_file(key)
+    unless validation_result[:valid]
+      begin
+        ActiveStorage::Blob.service.delete(key)
+      rescue => e
+        Rails.logger.error "Failed to delete invalid file #{key}: #{e.message}"
+      end
+      return { success: false, error: validation_result[:error] }
+    end
+
+    begin
+      blob = ActiveStorage::Blob.create_before_direct_upload!(
+        filename: filename,
+        byte_size: validation_result[:size],
+        checksum: validation_result[:checksum],
+        content_type: "application/octet-stream",
+        service_name: "cloudflare"
+      )
+
+      blob.update!(key: key)
+
+      map_upload = new(user: user)
+      map_upload.file.attach(blob)
+
+      if map_upload.save
+        { success: true, map_upload: map_upload }
+      else
+        { success: false, error: map_upload.errors.full_messages.join(", ") }
+      end
+    rescue => e
+      Rails.logger.error "Error completing upload: #{e.message}"
+      { success: false, error: "Failed to complete upload" }
+    end
+  end
+
+  def self.validate_direct_upload_file(key)
+    begin
+      s3_resource = ActiveStorage::Blob.service.client
+      s3_client = s3_resource.client
+      bucket_name = Rails.application.credentials.dig(:cloudflare, :bucket)
+
+      head_response = s3_client.head_object(bucket: bucket_name, key: key)
+      file_size = head_response.content_length
+
+      range_response = s3_client.get_object(bucket: bucket_name, key: key, range: "bytes=0-3")
+      header = range_response.body.read
+
+      unless header == "VBSP"
+        return { valid: false, error: "Not a valid BSP file" }
+      end
+
+      full_response = s3_client.get_object(bucket: bucket_name, key: key)
+      checksum = Digest::MD5.base64digest(full_response.body.read)
+
+      { valid: true, size: file_size, checksum: checksum }
+    rescue Aws::S3::Errors::NoSuchKey
+      { valid: false, error: "File not found" }
+    rescue => e
+      Rails.logger.error "Error validating file #{key}: #{e.message}"
+      { valid: false, error: "Failed to validate file" }
+    end
+  end
+
   private
 
   def set_s3_prefix
+    return unless file.attached? && file.blob.present?
+    return if file.blob.key.start_with?("maps/")
+
     file.blob.key = "maps/#{file.blob.filename}"
   end
 end

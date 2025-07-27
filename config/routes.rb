@@ -59,7 +59,12 @@ Serveme::Application.routes.draw do
     end
   end
 
-  resources :map_uploads, only: %i[new create destroy]
+  resources :map_uploads, only: %i[new create destroy] do
+    collection do
+      post :presigned_url
+      post :complete
+    end
+  end
   resources :file_uploads, only: %i[new create show]
   resources :uploads, only: %i[show]
 

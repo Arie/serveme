@@ -40,6 +40,9 @@ module GeneratedUrlHelpersModule
   def claim_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def complete_map_uploads_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def confirm_payment_orders_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -233,6 +236,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def prepare_zip_reservation_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def presigned_url_map_uploads_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def private_server_info_url(*args); end

@@ -40,6 +40,9 @@ module GeneratedPathHelpersModule
   def claim_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def complete_map_uploads_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def confirm_payment_orders_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -233,6 +236,9 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def prepare_zip_reservation_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def presigned_url_map_uploads_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def private_server_info_path(*args); end

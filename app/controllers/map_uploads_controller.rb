@@ -3,7 +3,7 @@
 
 class MapUploadsController < ApplicationController
   skip_before_action :authenticate_user!, only: :index
-  before_action :require_donator, only: %i[new create]
+  before_action :require_donator, only: %i[new create presigned_url complete]
   before_action :require_admin, only: :destroy
 
   layout "maps", only: :index
@@ -37,6 +37,55 @@ class MapUploadsController < ApplicationController
           render :new, status: :unprocessable_entity
         end
       end
+    end
+  end
+
+  def presigned_url
+    return render json: { error: "Missing filename" }, status: :bad_request unless params[:filename].present?
+
+    filename = params[:filename]
+    content_type = params[:content_type] || "application/octet-stream"
+
+    unless filename.end_with?(".bsp")
+      return render json: { error: "Only .bsp files are allowed" }, status: :unprocessable_entity
+    end
+
+    key = "maps/#{filename}"
+    if ActiveStorage::Blob.service.exist?(key)
+      return render json: { error: "Map already exists" }, status: :unprocessable_entity
+    end
+
+    if MapUpload.blacklisted_type?(filename)
+      return render json: { error: "Game type not allowed" }, status: :unprocessable_entity
+    end
+
+    begin
+      presigned_data = generate_presigned_url(key, content_type)
+      render json: {
+        url: presigned_data[:url],
+        method: presigned_data[:method],
+        key: key,
+        generated_at: Time.current.iso8601,
+        expires_at: 1.hour.from_now.iso8601
+      }
+    rescue => e
+      Rails.logger.error "Error generating presigned URL: #{e.message}"
+      render json: { error: "Failed to generate upload URL" }, status: :internal_server_error
+    end
+  end
+
+  def complete
+    key = params[:key]
+    filename = params[:filename]
+
+    return render json: { error: "Missing parameters" }, status: :bad_request unless key.present? && filename.present?
+
+    result = MapUpload.create_from_direct_upload(user: current_user, key: key, filename: filename)
+
+    if result[:success]
+      render json: { message: "Upload completed successfully" }
+    else
+      render json: { error: result[:error] }, status: :unprocessable_entity
     end
   end
 
@@ -113,5 +162,27 @@ class MapUploadsController < ApplicationController
 
   def reversed_attribute?(attribute)
     %i[times_played last_played size].include?(attribute)
+  end
+
+  def generate_presigned_url(key, content_type)
+    s3_resource = ActiveStorage::Blob.service.client
+    s3_client = s3_resource.client
+
+    bucket_name = Rails.application.credentials.dig(:cloudflare, :bucket)
+
+    bucket = s3_resource.bucket(bucket_name)
+    object = bucket.object(key)
+
+    presigned_url = object.presigned_url(
+      :put,
+      expires_in: 3600,
+      content_type: content_type,
+      whitelist_headers: [ "content-type", "x-amz-content-sha256" ]
+    )
+
+    {
+      url: presigned_url,
+      method: "PUT"
+    }
   end
 end

@@ -34,7 +34,7 @@ Serveme::Application.configure do
 
   config.eager_load = true
 
-  config.cache_store = :redis_cache_store, { db: 2, expires_in: 1.second }
+  config.cache_store = :redis_cache_store, { db: ENV.fetch("REDIS_CACHE_DB", 2).to_i, expires_in: 1.second }
   config.active_storage.service = :local
   config.active_job.queue_adapter = :inline
 end

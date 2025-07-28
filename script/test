@@ -19,7 +19,9 @@ def system!(*args)
 end
 
 options = {
-  autocorrect: false
+  autocorrect: false,
+  seed: nil,
+  verbose: false
 }
 
 OptionParser.new do |parser|
@@ -27,6 +29,24 @@ OptionParser.new do |parser|
 
   parser.on("-a", "--[no-]autocorrect", "Automatically autocorrects problems") do |v|
     options[:autocorrect] = v
+  end
+
+  parser.on("--seed SEED", Integer, "Run tests with specific seed") do |v|
+    options[:seed] = v
+  end
+
+  parser.on("-v", "--verbose", "Show all command output") do |v|
+    options[:verbose] = v
+  end
+
+  parser.on("-l", "--list") do
+    puts "Tests:"
+    TESTS.each do |name, command|
+      command = command.call if command.is_a?(Proc)
+      puts
+      puts "# #{name}\n$ #{command}"
+    end
+    exit
   end
 
   parser.on("-h", "--help", "Prints this help") do
@@ -47,74 +67,178 @@ TESTS = {
   tapioca_dsl: "bin/tapioca dsl --verify",
   tapioca_gem_autocorrect: "bin/tapioca gem",
   tapioca_dsl_autocorrect: "bin/tapioca dsl",
-  rspec: "bin/rails spec",
-  cucumber: "bin/rails cucumber",
-  test: "bin/rails test:all"
+  db_prepare: -> {
+    "bin/rails db:test:prepare && " +
+    "(dropdb serveme_test_cucumber 2>/dev/null || true) && " +
+    "createdb --template serveme_test serveme_test_cucumber"
+  },
+  rspec: -> {
+    seed_arg = options[:seed] ? " --seed #{options[:seed]}" : ""
+    "REDIS_CACHE_DB=2 REDIS_LOCK_DB=3 bin/rails spec#{seed_arg}"
+  },
+  cucumber: -> {
+    seed_arg = options[:seed] ? " --seed #{options[:seed]}" : ""
+    debug = options[:verbose] ? "DEBUG=1 " : ""
+    "#{debug}TEST_DATABASE=serveme_test_cucumber REDIS_CACHE_DB=4 REDIS_LOCK_DB=5 SESSION_KEY_SUFFIX=_cucumber bundle exec cucumber#{seed_arg}"
+  }
 }
 
 CHECKS = if options[:autocorrect]
-  %i[brakeman importmap rubocop_autocorrect sorbet swagger_regenerate tapioca_gem_autocorrect tapioca_dsl_autocorrect]
+  %i[brakeman importmap rubocop_autocorrect sorbet swagger_regenerate tapioca_gem_autocorrect tapioca_dsl_autocorrect db_prepare]
 else
-  %i[brakeman importmap rubocop sorbet swagger_sync tapioca_gem tapioca_dsl]
+  %i[brakeman importmap rubocop sorbet swagger_sync tapioca_gem tapioca_dsl db_prepare]
 end
 
 FRAMES = [ "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" ]
 
-spinner = Thread.new do
-  puts
-  i = 0
-  loop do
-    print "\r\e[96m#{FRAMES[i % FRAMES.size]}\e[0m "
-    i += 1
-    sleep 0.1
+class ProgressDisplay
+  def initialize(verbose: false)
+    @verbose = verbose
+    @tasks = {}
+    @mutex = Mutex.new
+    @display_thread = nil
+    @running = false
+  end
+
+  def start_task(name, display_name)
+    return if @verbose
+
+    @mutex.synchronize do
+      @tasks[name] = {
+        display_name: display_name,
+        status: :running,
+        start_time: Time.now,
+        duration: nil
+      }
+      start_display unless @running
+    end
+  end
+
+  def complete_task(name, success:, duration:)
+    return if @verbose
+
+    @mutex.synchronize do
+      if @tasks[name]
+        @tasks[name][:status] = success ? :success : :failed
+        @tasks[name][:duration] = duration
+      end
+    end
+  end
+
+  def stop
+    return if @verbose
+
+    @mutex.synchronize do
+      @running = false
+    end
+
+    # Give display thread a brief moment to finish current cycle
+    @display_thread&.join(0.15) # Timeout after 150ms
+    @display_thread&.kill if @display_thread&.alive?
+    @display_thread = nil
+    print "\r\e[K" # Clear current line
+  end
+
+  private
+
+  def start_display
+    return if @running
+
+    @running = true
+    @display_thread = Thread.new do
+      frame_index = 0
+
+      loop do
+        @mutex.synchronize do
+          # Clear previous lines
+          task_count = @tasks.size
+          if task_count > 0
+            print "\e[#{task_count}A\e[J" unless frame_index == 0
+          end
+
+          @tasks.each do |name, task|
+            case task[:status]
+            when :running
+              elapsed = Time.now - task[:start_time]
+              spinner = "\e[96m#{FRAMES[frame_index % FRAMES.size]}\e[0m"
+              puts "#{spinner} #{task[:display_name]} (#{elapsed.round(1)}s)"
+            when :success
+              puts "#{OK} #{task[:display_name]} passed in #{task[:duration]} seconds"
+            when :failed
+              puts "#{CROSS} #{task[:display_name]} failed in #{task[:duration]} seconds"
+            end
+          end
+
+          break unless @running
+        end
+
+        frame_index += 1
+        sleep 0.1
+      end
+    end
   end
 end
 
 class Test
-  attr_reader :name
+  attr_reader :name, :duration, :output
 
-  def initialize(name)
+  def initialize(name, progress_display, verbose: false)
     @name = name
     @command = TESTS.fetch(name)
     @status = nil
     @output = nil
     @duration = 0
+    @verbose = verbose
+    @progress_display = progress_display
   end
 
   def run
-    @duration = Timing.measure(round: 3) do
-      @output, @status = Open3.capture2e(@command)
-    end
-  end
+    display_name = @name.to_s.tr('_', ' ')
+    @progress_display.start_task(@name, display_name)
 
-  def message
-    if @status.success?
-      "\r#{OK} #{@name} check passed in #{@duration} seconds"
-    else
-      "\r#{CROSS} #{@name} check failed in #{@duration} seconds:\n\n#{@output}\n"
+    @duration = Timing.measure(round: 3) do
+      command = @command.is_a?(Proc) ? @command.call : @command
+      if @verbose
+        puts "\n$ #{command}"
+        system(command)
+        @status = $?
+        @output = ""
+      else
+        @output, @status = Open3.capture2e(command)
+      end
     end
+
+    @progress_display.complete_task(@name, success: @status.success?, duration: @duration)
   end
 
   def success?
     @status.success?
   end
+
+  def failed_message
+    display_name = @name.to_s.tr('_', ' ')
+    "#{CROSS} #{display_name} failed in #{@duration} seconds:\n\n#{@output}\n"
+  end
 end
 
 FileUtils.chdir APP_ROOT do
+  # Run checks with live progress display
+  progress = ProgressDisplay.new(verbose: options[:verbose])
+  puts unless options[:verbose]
+
   threads = []
   check_time = Timing.measure(round: 3) do
     threads = CHECKS.map do |name|
       Thread.new do
-        test = Test.new(name)
+        test = Test.new(name, progress, verbose: options[:verbose])
         Thread.current[:test] = test
         test.run
-        puts test.message
       end
     end
     threads.map(&:join)
   end
-  spinner.kill
-  print "\r \r"
+
+  progress.stop
 
   failed_tests = threads.map { _1[:test] }.reject(&:success?)
   if failed_tests.none?
@@ -123,20 +247,39 @@ FileUtils.chdir APP_ROOT do
     puts
   else
     puts
+    failed_tests.each do |test|
+      puts test.failed_message unless options[:verbose]
+    end
     abort "❌ Checks #{failed_tests.map(&:name).join(", ")} failed in #{check_time} seconds"
   end
 
-  duration = Timing.measure(round: 3) do
-    system! TESTS.fetch(:rspec)
-  end
-  puts
-  puts "✅ RSpec tests passed in #{duration} seconds"
-  puts
+  # Run test suites with live progress display
+  test_progress = ProgressDisplay.new(verbose: options[:verbose])
 
-  duration = Timing.measure(round: 3) do
-    system! TESTS.fetch(:cucumber)
+  test_threads = []
+  test_time = Timing.measure(round: 3) do
+    test_threads = [ :rspec, :cucumber ].map do |name|
+      Thread.new do
+        test = Test.new(name, test_progress, verbose: options[:verbose])
+        Thread.current[:test] = test
+        test.run
+      end
+    end
+    test_threads.map(&:join)
   end
-  puts
-  puts "✅ Cucumber features passed in #{duration} seconds"
-  puts
+
+  test_progress.stop
+
+  failed_tests = test_threads.map { _1[:test] }.reject(&:success?)
+  if failed_tests.none?
+    puts
+    puts "✅ Tests passed in #{test_time} seconds"
+    puts
+  else
+    puts
+    failed_tests.each do |test|
+      puts test.failed_message unless options[:verbose]
+    end
+    abort "❌ Tests #{failed_tests.map(&:name).join(", ")} failed in #{test_time} seconds"
+  end
 end

@@ -3,6 +3,8 @@
 
 module Rack
   class Attack
-    throttle("req/ip", limit: 300, period: 5.minutes, &:ip)
+    unless Rails.env.test?
+      throttle("req/ip", limit: 300, period: 5.minutes, &:ip)
+    end
   end
 end

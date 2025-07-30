@@ -46,12 +46,12 @@ class LeagueMaps
     %w[
       cp_granary_pro_rc16f
       cp_gullywash_f9
-      cp_metalworks_f5
+      cp_metalworks_f7
       cp_process_f12
       cp_snakewater_final1
       cp_sultry_b8a
       cp_sunshine
-      koth_bagel_rc10
+      koth_bagel_rc11
       koth_product_final
     ]
   end
@@ -83,7 +83,7 @@ class LeagueMaps
     %w[
       cp_granary_pro_rc8
       cp_gullywash_f9
-      cp_metalworks_f5
+      cp_metalworks_f7
       cp_process_f12
       cp_snakewater_final1
       cp_sunshine
@@ -107,13 +107,13 @@ class LeagueMaps
   def self.rgl_pass_time_maps
     %w[
       pass_arena2_b15
-      pass_ruin_a12_waterless
       pass_boutique_rc5
-      pass_plexiglass_b6
       pass_maple_a10
+      pass_plexiglass_b6
+      pass_ruin_a12_waterless
       pass_stadium_rc4
       pass_stonework_rc4
-      pass_torii_a7
+      pass_torii_a8
     ]
   end
 
@@ -133,13 +133,13 @@ class LeagueMaps
   def self.ugc_sixes_maps
     %w[
       cp_granary_pro_rc16f
-      cp_metalworks_f5
+      cp_metalworks_f7
       cp_process_f12
       cp_reckoner
       cp_snakewater_final1
       cp_sunshine
-      koth_bagel_rc10
-      koth_govan_b6
+      koth_bagel_rc11
+      koth_govan_b9
     ]
   end
 
@@ -149,7 +149,7 @@ class LeagueMaps
       cp_warmfrost_rc1
       koth_airfield_b7
       koth_badlands
-      koth_bagel_rc10
+      koth_bagel_rc11
       koth_cornyard_b4
       koth_jamram_rc2b
       koth_maple_ridge_rc2
@@ -171,14 +171,14 @@ class LeagueMaps
 
   def self.ozfortress_sixes_maps
     %w[
+      cp_granary_pro_rc17a3
       cp_gullywash_f9
+      cp_metalworks_f7
       cp_process_f12
-      cp_metalworks_f5
-      cp_reckoner
       cp_snakewater_final1
       cp_sunshine
-      koth_bagel_rc10
-      koth_clearcut_b16a
+      koth_bagel_rc11
+      koth_clearcut_b17
       koth_product_final
     ]
   end
@@ -189,18 +189,19 @@ class LeagueMaps
       koth_ashville_final1
       koth_product_final
       koth_proot_b6c-alt2
+      koth_proside_v1
+      pl_eruption_b14
       pl_swiftwater_final1
       pl_upward_f12
       pl_vigil_rc10
-      pl_eruption_b14
     ]
   end
 
   def self.ozfortress_ultiduo_maps
     %w[
-      ultiduo_ozf_r
       ultiduo_baloo_v2
       ultiduo_champions_b1
+      ultiduo_ozf_r
       ultiduo_swine_b06
     ]
   end

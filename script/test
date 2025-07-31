@@ -4,6 +4,7 @@
 require "optparse"
 require "fileutils"
 require "open3"
+require "ostruct"
 require "sorbet-runtime"
 require_relative "../lib/timing"
 
@@ -24,6 +25,36 @@ options = {
   verbose: false
 }
 
+def get_tests(options)
+  {
+  brakeman: "bin/brakeman --no-pager --quiet --no-summary",
+  importmap: "bin/importmap audit",
+  rubocop: "bin/rubocop -f github",
+  rubocop_autocorrect: "bin/rubocop --autocorrect-all",
+  sorbet: "bin/srb tc",
+  swagger_sync: "script/check_swagger_sync",
+  swagger_regenerate: "bundle exec rake rswag:specs:swaggerize",
+  tapioca_gem: "bin/tapioca gem --verify",
+  tapioca_dsl: "bin/tapioca dsl --verify",
+  tapioca_gem_autocorrect: "bin/tapioca gem",
+  tapioca_dsl_autocorrect: "bin/tapioca dsl",
+  db_test_prepare: "bin/rails db:test:prepare",
+  db_copy: -> {
+    "(dropdb serveme_test_cucumber 2>/dev/null || true) && " +
+    "createdb --template serveme_test serveme_test_cucumber"
+  },
+  rspec: -> {
+    seed_arg = options[:seed] ? " --seed #{options[:seed]}" : ""
+    "REDIS_CACHE_DB=2 REDIS_LOCK_DB=3 bin/rails spec#{seed_arg}"
+  },
+  cucumber: -> {
+    seed_arg = options[:seed] ? " --seed #{options[:seed]}" : ""
+    debug = options[:verbose] ? "DEBUG=1 " : ""
+    "#{debug}TEST_DATABASE=serveme_test_cucumber REDIS_CACHE_DB=4 REDIS_LOCK_DB=5 SESSION_KEY_SUFFIX=_cucumber bundle exec cucumber#{seed_arg}"
+  }
+  }
+end
+
 OptionParser.new do |parser|
   parser.banner = "Usage: ./script/test [options]"
 
@@ -41,7 +72,7 @@ OptionParser.new do |parser|
 
   parser.on("-l", "--list") do
     puts "Tests:"
-    TESTS.each do |name, command|
+    get_tests(options).each do |name, command|
       command = command.call if command.is_a?(Proc)
       puts
       puts "# #{name}\n$ #{command}"
@@ -55,38 +86,18 @@ OptionParser.new do |parser|
   end
 end.parse!
 
-TESTS = {
-  brakeman: "bin/brakeman --no-pager --quiet --no-summary",
-  importmap: "bin/importmap audit",
-  rubocop: "bin/rubocop -f github",
-  rubocop_autocorrect: "bin/rubocop --autocorrect-all",
-  sorbet: "bin/srb tc",
-  swagger_sync: "script/check_swagger_sync",
-  swagger_regenerate: "bundle exec rake rswag:specs:swaggerize",
-  tapioca_gem: "bin/tapioca gem --verify",
-  tapioca_dsl: "bin/tapioca dsl --verify",
-  tapioca_gem_autocorrect: "bin/tapioca gem",
-  tapioca_dsl_autocorrect: "bin/tapioca dsl",
-  db_prepare: -> {
-    "bin/rails db:test:prepare && " +
-    "(dropdb serveme_test_cucumber 2>/dev/null || true) && " +
-    "createdb --template serveme_test serveme_test_cucumber"
-  },
-  rspec: -> {
-    seed_arg = options[:seed] ? " --seed #{options[:seed]}" : ""
-    "REDIS_CACHE_DB=2 REDIS_LOCK_DB=3 bin/rails spec#{seed_arg}"
-  },
-  cucumber: -> {
-    seed_arg = options[:seed] ? " --seed #{options[:seed]}" : ""
-    debug = options[:verbose] ? "DEBUG=1 " : ""
-    "#{debug}TEST_DATABASE=serveme_test_cucumber REDIS_CACHE_DB=4 REDIS_LOCK_DB=5 SESSION_KEY_SUFFIX=_cucumber bundle exec cucumber#{seed_arg}"
-  }
-}
-
-CHECKS = if options[:autocorrect]
-  %i[brakeman importmap rubocop_autocorrect sorbet swagger_regenerate tapioca_gem_autocorrect tapioca_dsl_autocorrect db_prepare]
+# Checks that can run independently in parallel
+INDEPENDENT_CHECKS = if options[:autocorrect]
+  %i[brakeman importmap rubocop_autocorrect sorbet tapioca_gem_autocorrect]
 else
-  %i[brakeman importmap rubocop sorbet swagger_sync tapioca_gem tapioca_dsl db_prepare]
+  %i[brakeman importmap rubocop sorbet tapioca_gem]
+end
+
+# Database preparation sub-steps that run after db_test_prepare
+DB_PREPARATION_SUBSTEPS = if options[:autocorrect]
+  %i[db_copy swagger_regenerate tapioca_dsl_autocorrect]
+else
+  %i[db_copy swagger_sync tapioca_dsl]
 end
 
 FRAMES = [ "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" ]
@@ -98,9 +109,15 @@ class ProgressDisplay
     @mutex = Mutex.new
     @display_thread = nil
     @running = false
+    @expected_task_count = 0
+    @last_display_lines = 0
   end
 
-  def start_task(name, display_name)
+  def set_expected_task_count(count)
+    @expected_task_count = count
+  end
+
+  def start_task(name, display_name, parent: nil)
     return if @verbose
 
     @mutex.synchronize do
@@ -108,7 +125,8 @@ class ProgressDisplay
         display_name: display_name,
         status: :running,
         start_time: Time.now,
-        duration: nil
+        duration: nil,
+        parent: parent
       }
       start_display unless @running
     end
@@ -121,6 +139,7 @@ class ProgressDisplay
       if @tasks[name]
         @tasks[name][:status] = success ? :success : :failed
         @tasks[name][:duration] = duration
+        @tasks[name][:end_time] = Time.now
       end
     end
   end
@@ -150,25 +169,42 @@ class ProgressDisplay
 
       loop do
         @mutex.synchronize do
-          # Clear previous lines
-          task_count = @tasks.size
-          if task_count > 0
-            print "\e[#{task_count}A\e[J" unless frame_index == 0
+          # Clear previous lines using the last display count, not current task count
+          if @last_display_lines > 0 && frame_index > 0
+            print "\e[#{@last_display_lines}A\e[J"
           end
 
-          @tasks.each do |name, task|
+          # Sort tasks to show parents immediately followed by their children
+          sorted_tasks = @tasks.sort_by do |name, task|
+            if task[:parent] == :db_test_prepare
+              # Children of db_test_prepare come right after db_test_prepare
+              [ "1_db_test_prepare", name.to_s ]
+            elsif name == :db_test_prepare
+              # db_test_prepare comes first in its group
+              [ "1_db_test_prepare", "0" ]
+            else
+              # All other tasks come before or after based on execution order
+              [ "0_independent", name.to_s ]
+            end
+          end
+
+          lines_displayed = 0
+          sorted_tasks.each do |name, task|
+            prefix = task[:parent] ? "  ├─ " : ""
             case task[:status]
             when :running
               elapsed = Time.now - task[:start_time]
               spinner = "\e[96m#{FRAMES[frame_index % FRAMES.size]}\e[0m"
-              puts "#{spinner} #{task[:display_name]} (#{elapsed.round(1)}s)"
+              puts "#{prefix}#{spinner} #{task[:display_name]} (#{elapsed.round(1)}s)"
             when :success
-              puts "#{OK} #{task[:display_name]} passed in #{task[:duration]} seconds"
+              puts "#{prefix}#{OK} #{task[:display_name]} passed in #{task[:duration]} seconds"
             when :failed
-              puts "#{CROSS} #{task[:display_name]} failed in #{task[:duration]} seconds"
+              puts "#{prefix}#{CROSS} #{task[:display_name]} failed in #{task[:duration]} seconds"
             end
+            lines_displayed += 1
           end
 
+          @last_display_lines = lines_displayed
           break unless @running
         end
 
@@ -182,19 +218,21 @@ end
 class Test
   attr_reader :name, :duration, :output
 
-  def initialize(name, progress_display, verbose: false)
+  def initialize(name, progress_display, options, verbose: false, parent: nil)
     @name = name
-    @command = TESTS.fetch(name)
+    @command = get_tests(options).fetch(name)
     @status = nil
     @output = nil
     @duration = 0
     @verbose = verbose
     @progress_display = progress_display
+    @options = options
+    @parent = parent
   end
 
   def run
     display_name = @name.to_s.tr('_', ' ')
-    @progress_display.start_task(@name, display_name)
+    @progress_display.start_task(@name, display_name, parent: @parent)
 
     @duration = Timing.measure(round: 3) do
       command = @command.is_a?(Proc) ? @command.call : @command
@@ -224,23 +262,60 @@ end
 FileUtils.chdir APP_ROOT do
   # Run checks with live progress display
   progress = ProgressDisplay.new(verbose: options[:verbose])
+  # Set expected task count: independent checks + db_test_prepare + substeps
+  total_expected = INDEPENDENT_CHECKS.size + 1 + DB_PREPARATION_SUBSTEPS.size
+  progress.set_expected_task_count(total_expected)
   puts unless options[:verbose]
 
-  threads = []
+  all_tests = []
   check_time = Timing.measure(round: 3) do
-    threads = CHECKS.map do |name|
+    # Phase 1: Start independent checks in parallel
+    independent_threads = INDEPENDENT_CHECKS.map do |name|
       Thread.new do
-        test = Test.new(name, progress, verbose: options[:verbose])
+        test = Test.new(name, progress, options, verbose: options[:verbose])
         Thread.current[:test] = test
         test.run
       end
     end
-    threads.map(&:join)
+
+    # Phase 2: Run db_test_prepare sequentially
+    db_test_prepare_test = Test.new(:db_test_prepare, progress, options, verbose: options[:verbose])
+    db_test_prepare_test.run
+    all_tests << db_test_prepare_test
+
+    # Phase 3: Start database preparation sub-steps immediately after db_test_prepare (don't wait for linters)
+    substep_threads = []
+    if db_test_prepare_test.success?
+      substep_threads = DB_PREPARATION_SUBSTEPS.map do |name|
+        Thread.new do
+          test = Test.new(name, progress, options, verbose: options[:verbose], parent: :db_test_prepare)
+          Thread.current[:test] = test
+          test.run
+        end
+      end
+    else
+      # If db_test_prepare failed, still create test objects for substeps to show they were skipped
+      DB_PREPARATION_SUBSTEPS.each do |name|
+        test = Test.new(name, progress, options, verbose: options[:verbose], parent: :db_test_prepare)
+        # Mark as failed without running since db_test_prepare failed
+        test.instance_variable_set(:@status, OpenStruct.new(success?: false))
+        test.instance_variable_set(:@output, "Skipped due to db test prepare failure")
+        test.instance_variable_set(:@duration, 0)
+        all_tests << test
+      end
+    end
+
+    # Phase 4: Wait for all checks to complete
+    independent_threads.each(&:join)
+    all_tests.concat(independent_threads.map { _1[:test] })
+
+    substep_threads.each(&:join)
+    all_tests.concat(substep_threads.map { _1[:test] })
   end
 
   progress.stop
 
-  failed_tests = threads.map { _1[:test] }.reject(&:success?)
+  failed_tests = all_tests.reject(&:success?)
   if failed_tests.none?
     puts
     puts "✅ All checks passed in #{check_time} seconds"
@@ -260,7 +335,7 @@ FileUtils.chdir APP_ROOT do
   test_time = Timing.measure(round: 3) do
     test_threads = [ :rspec, :cucumber ].map do |name|
       Thread.new do
-        test = Test.new(name, test_progress, verbose: options[:verbose])
+        test = Test.new(name, test_progress, options, verbose: options[:verbose])
         Thread.current[:test] = test
         test.run
       end

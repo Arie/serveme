@@ -11,6 +11,7 @@ require_relative "../lib/timing"
 APP_ROOT = File.expand_path("..", __dir__)
 OK = "\e[92m✓\e[0m"
 CROSS = "\e[91m✗\e[0m"
+FRAMES = [ "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" ]
 
 def system!(*args)
   if !system(*args)
@@ -100,8 +101,6 @@ else
   %i[db_copy swagger_sync tapioca_dsl]
 end
 
-FRAMES = [ "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" ]
-
 class ProgressDisplay
   def initialize(verbose: false)
     @verbose = verbose
@@ -189,8 +188,21 @@ class ProgressDisplay
           end
 
           lines_displayed = 0
-          sorted_tasks.each do |name, task|
-            prefix = task[:parent] ? "  ├─ " : ""
+          sorted_tasks.each_with_index do |(name, task), index|
+            # Determine if this is the last child of its parent
+            is_last_child_of_parent = if task[:parent]
+              # Find remaining tasks with same parent
+              remaining_tasks = sorted_tasks[(index + 1)..-1] || []
+              !remaining_tasks.any? { |_, t| t[:parent] == task[:parent] }
+            else
+              false
+            end
+
+            prefix = if task[:parent]
+              is_last_child_of_parent ? "  └─ " : "  ├─ "
+            else
+              ""
+            end
             case task[:status]
             when :running
               elapsed = Time.now - task[:start_time]
@@ -218,13 +230,13 @@ end
 class Test
   attr_reader :name, :duration, :output
 
-  def initialize(name, progress_display, options, verbose: false, parent: nil)
+  def initialize(name, progress_display, options, parent: nil)
     @name = name
     @command = get_tests(options).fetch(name)
     @status = nil
     @output = nil
     @duration = 0
-    @verbose = verbose
+    @verbose = options[:verbose]
     @progress_display = progress_display
     @options = options
     @parent = parent
@@ -272,14 +284,14 @@ FileUtils.chdir APP_ROOT do
     # Phase 1: Start independent checks in parallel
     independent_threads = INDEPENDENT_CHECKS.map do |name|
       Thread.new do
-        test = Test.new(name, progress, options, verbose: options[:verbose])
+        test = Test.new(name, progress, options)
         Thread.current[:test] = test
         test.run
       end
     end
 
     # Phase 2: Run db_test_prepare sequentially
-    db_test_prepare_test = Test.new(:db_test_prepare, progress, options, verbose: options[:verbose])
+    db_test_prepare_test = Test.new(:db_test_prepare, progress, options)
     db_test_prepare_test.run
     all_tests << db_test_prepare_test
 
@@ -288,7 +300,7 @@ FileUtils.chdir APP_ROOT do
     if db_test_prepare_test.success?
       substep_threads = DB_PREPARATION_SUBSTEPS.map do |name|
         Thread.new do
-          test = Test.new(name, progress, options, verbose: options[:verbose], parent: :db_test_prepare)
+          test = Test.new(name, progress, options, parent: :db_test_prepare)
           Thread.current[:test] = test
           test.run
         end
@@ -296,7 +308,7 @@ FileUtils.chdir APP_ROOT do
     else
       # If db_test_prepare failed, still create test objects for substeps to show they were skipped
       DB_PREPARATION_SUBSTEPS.each do |name|
-        test = Test.new(name, progress, options, verbose: options[:verbose], parent: :db_test_prepare)
+        test = Test.new(name, progress, options, parent: :db_test_prepare)
         # Mark as failed without running since db_test_prepare failed
         test.instance_variable_set(:@status, OpenStruct.new(success?: false))
         test.instance_variable_set(:@output, "Skipped due to db test prepare failure")
@@ -335,7 +347,7 @@ FileUtils.chdir APP_ROOT do
   test_time = Timing.measure(round: 3) do
     test_threads = [ :rspec, :cucumber ].map do |name|
       Thread.new do
-        test = Test.new(name, test_progress, options, verbose: options[:verbose])
+        test = Test.new(name, test_progress, options)
         Thread.current[:test] = test
         test.run
       end

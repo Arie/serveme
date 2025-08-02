@@ -32,7 +32,8 @@
                     %i.fa.fa-flag
               - else
                 = link_to(result.ip, league_request_path(ip: result.ip))
-          %td= result.name
+          %td
+            %span.player-name= result.name
           %td
             = link_to(result.steam_uid, league_request_path(steam_uid: result.steam_uid))
             - if ban_reason = ReservationPlayer.banned_uid?(result.steam_uid)

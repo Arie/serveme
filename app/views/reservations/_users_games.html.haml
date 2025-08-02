@@ -14,7 +14,8 @@
           %td= server.name
           %td= I18n.l(reservation.starts_at,  :format => :short)
           %td= I18n.l(reservation.ends_at,    :format => :short)
-          %td= reservation.user.nickname
+          %td
+            %span.player-name= reservation.user.nickname
           %td.actions
             - if reservation.younger_than_cleanup_age?
               = render 'reservations/zip_file_link', :reservation => reservation

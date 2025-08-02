@@ -51,7 +51,7 @@
         %td
           - if voucher.claimed_by
             - user = voucher.claimed_by
-            = link_to(user.nickname, user.steam_profile_url, :target => "_blank")
+            = link_to(user.nickname, user.steam_profile_url, :target => "_blank", :class => "player-name")
 
 = render 'statistics', :user => @user
 

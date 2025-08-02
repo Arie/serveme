@@ -154,7 +154,7 @@
       %li.nav-item
         .account
           - if current_user
-            = link_to current_user.decorate.nickname, settings_path
+            = link_to current_user.decorate.nickname, settings_path, class: "player-name-compact"
             |
             = link_to users_logout_path, method: :delete do
               %i.fa.fa-sign-out

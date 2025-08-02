@@ -8,7 +8,7 @@
         = "#{server.name} (#{reservation.id})".html_safe
         %br
         - user = reservation.user.decorate
-        = link_to(user.nickname, user.steam_profile_url, target: "_blank")
+        = link_to(user.nickname, user.steam_profile_url, target: "_blank", class: "player-name-compact")
       - else
         = server.name.html_safe
 

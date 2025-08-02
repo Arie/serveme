@@ -88,6 +88,19 @@
     .col-md-12
       %h3 Current Players
       %table.table.table-hover.table-bordered.table-striped
+        %colgroup
+          %col{style: "width: 25%; max-width: 200px;"}
+          %col{style: "width: 20%;"}
+          %col{style: "width: 15%;"}
+          %col{style: "width: 15%;"}
+          %col{style: "width: 12.5%;"}
+          %col{style: "width: 12.5%;"}
+        %style
+          :css
+            .table td:first-child {
+              max-width: 200px;
+              overflow: hidden;
+            }
         %thead
           %tr
             %th Player
@@ -102,9 +115,9 @@
               %td
                 - reservation_player = player_info[:reservation_player]
                 - if reservation_player&.steam_uid && reservation_player&.name
-                  = link_to(reservation_player.name, "https://steamcommunity.com/profiles/#{reservation_player.steam_uid}", target: "_blank")
+                  = link_to(reservation_player.name, "https://steamcommunity.com/profiles/#{reservation_player.steam_uid}", target: "_blank", class: "player-name")
                 - else
-                  = reservation_player&.name || "Unknown Player"
+                  %span.player-name= reservation_player&.name || "Unknown Player"
               %td
                 - if player_info[:country_code].present?
                   = image_tag("flags/#{player_info[:country_code].downcase}.png", alt: player_info[:country_name], class: "flag", style: "margin-right: 0.5em;")

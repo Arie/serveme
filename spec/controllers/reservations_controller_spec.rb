@@ -228,17 +228,17 @@ describe ReservationsController do
     it 'returns unique players only (no duplicates)' do
       reservation = create :reservation
       reservation_player = create :reservation_player, reservation: reservation, steam_uid: '76561198012345678', name: 'TestPlayer'
-      
+
       # Create multiple player statistics for the same player (simulating frequent updates)
       create :player_statistic, reservation_player: reservation_player, created_at: 1.minute.ago
       create :player_statistic, reservation_player: reservation_player, created_at: 2.minutes.ago
       create :player_statistic, reservation_player: reservation_player, created_at: 3.minutes.ago
-      
+
       get :motd, params: { id: reservation.id, password: reservation.password }
-      
+
       current_players = assigns(:current_players)
       player_names = current_players.map { |p| p[:reservation_player]&.name }
-      
+
       expect(player_names.count('TestPlayer')).to eq(1), "Expected 1 TestPlayer, got #{player_names.count('TestPlayer')}"
     end
   end

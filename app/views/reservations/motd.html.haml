@@ -83,6 +83,55 @@
           - else
             %td Enabled
 
+- if @current_players.present?
+  .row
+    .col-md-12
+      %h3 Current Players
+      %table.table.table-hover.table-bordered.table-striped
+        %thead
+          %tr
+            %th Player
+            %th Country
+            %th Distance
+            %th Connected
+            %th Ping
+            %th Loss
+        %tbody
+          - @current_players.each do |player_info|
+            %tr
+              %td
+                - reservation_player = player_info[:reservation_player]
+                - if reservation_player&.steam_uid && reservation_player&.name
+                  = link_to(reservation_player.name, "https://steamcommunity.com/profiles/#{reservation_player.steam_uid}", target: "_blank")
+                - else
+                  = reservation_player&.name || "Unknown Player"
+              %td
+                - if player_info[:country_code].present?
+                  = image_tag("flags/#{player_info[:country_code].downcase}.png", alt: player_info[:country_name], class: "flag", style: "margin-right: 0.5em;")
+                  = player_info[:country_name]
+                - else
+                  %span.text-muted Unknown
+              %td
+                - if player_info[:distance].present?
+                  = "#{player_info[:distance]} #{@distance_unit}"
+                - else
+                  %span.text-muted Unknown
+              %td
+                - if player_info[:player_statistic]&.minutes_connected.present?
+                  = "#{player_info[:player_statistic].minutes_connected} min"
+                - else
+                  %span.text-muted Unknown
+              %td
+                - if player_info[:player_statistic]&.ping.present?
+                  = "#{player_info[:player_statistic].ping} ms"
+                - else
+                  %span.text-muted Unknown
+              %td
+                - if player_info[:player_statistic]&.loss.present?
+                  = "#{player_info[:player_statistic].loss}%"
+                - else
+                  %span.text-muted Unknown
+
 - if current_user && reservation.user == current_user
   .row
     .col-md-12

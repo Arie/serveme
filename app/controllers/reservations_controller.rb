@@ -9,7 +9,7 @@ class ReservationsController < ApplicationController
   skip_before_action :store_current_location, only: %i[extend_reservation destroy]
   helper LogLineHelper
   layout "simple", only: %i[rcon motd]
-  caches_action :motd, cache_path: -> { "motd_#{params[:id]}" }, unless: -> { current_user }, expires_in: 30.seconds
+  caches_action :motd, cache_path: -> { "motd_#{params[:id]}" }, unless: -> { current_user }, expires_in: 1.seconds
   include RconHelper
   include LogLineHelper
   include ReservationsHelper
@@ -159,6 +159,8 @@ class ReservationsController < ApplicationController
 
     return head(:unauthorized) unless @reservation.password == params[:password]
 
+    @current_players = current_players_with_location_info(@reservation)
+    @distance_unit = distance_unit
     rcon if current_user && (current_user == @reservation.user || current_user.admin?)
   end
 
@@ -290,5 +292,92 @@ class ReservationsController < ApplicationController
     permitted_params = %i[id password tv_password tv_relaypassword server_config_id whitelist_id custom_whitelist_id first_map auto_end enable_plugins enable_demos_tf disable_democheck]
     permitted_params += %i[rcon server_id starts_at ends_at] if reservation.nil? || reservation&.schedulable?
     params.require(:reservation).permit(permitted_params)
+  end
+
+  def current_players_with_location_info(reservation)
+    players = PlayerStatistic.joins(:reservation_player)
+                           .where(reservation_player: { reservation: reservation })
+                           .where("player_statistics.created_at >= ?", 3.minutes.ago)
+                           .order(created_at: :desc)
+                           .limit(50)
+
+    # Group by steam_uid to get unique players, keeping the most recent stats
+    unique_players = players.group_by { |stat| stat.reservation_player.steam_uid }
+                           .values
+                           .map(&:first) # Take the first (most recent) stat for each player
+
+    player_data = unique_players.map do |player_stat|
+      reservation_player = player_stat.reservation_player
+      location_info = get_player_location_info(reservation_player)
+
+      {
+        player_statistic: player_stat,
+        reservation_player: reservation_player,
+        country_code: location_info[:country_code],
+        country_name: location_info[:country_name],
+        distance: location_info[:distance]
+      }
+    end
+
+    player_data.sort_by { |player| player[:reservation_player]&.name&.downcase || "zzz" }
+  end
+
+  def get_player_location_info(reservation_player)
+    return { country_code: nil, country_name: nil, distance: nil } unless reservation_player.ip.present?
+
+    if local_ip?(reservation_player.ip)
+      return { country_code: nil, country_name: nil, distance: nil }
+    end
+
+    if reservation_player.latitude.present? && reservation_player.longitude.present?
+      country_info = get_country_from_ip(reservation_player.ip)
+      distance = calculate_distance_to_server(reservation_player, reservation_player.reservation.server)
+
+      {
+        country_code: country_info[:country_code],
+        country_name: country_info[:country_name],
+        distance: distance
+      }
+    else
+      { country_code: nil, country_name: nil, distance: nil }
+    end
+  end
+
+  def local_ip?(ip)
+    ip.start_with?("169.254.") || ip.start_with?("10.") || ip.start_with?("192.168.") || ip.start_with?("172.")
+  end
+
+
+  def get_country_from_ip(ip)
+    geocode_result = Geocoder.search(ip).first
+    if geocode_result
+      {
+        country_code: geocode_result.country_code,
+        country_name: geocode_result.country
+      }
+    else
+      { country_code: nil, country_name: nil }
+    end
+  rescue
+    { country_code: nil, country_name: nil }
+  end
+
+  def calculate_distance_to_server(reservation_player, server)
+    return nil unless reservation_player.latitude.present? &&
+                      reservation_player.longitude.present? &&
+                      server.latitude.present? &&
+                      server.longitude.present?
+
+    Geocoder::Calculations.distance_between(
+      [ reservation_player.latitude, reservation_player.longitude ],
+      [ server.latitude, server.longitude ],
+      units: distance_unit.to_sym
+    ).round(0)
+  rescue
+    nil
+  end
+
+  def distance_unit
+    na_system? ? "mi" : "km"
   end
 end

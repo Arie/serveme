@@ -44,11 +44,11 @@ def get_tests(options)
     "createdb --template serveme_test serveme_test_cucumber"
   },
   rspec: -> {
-    seed_arg = options[:seed] ? " --seed #{options[:seed]}" : ""
-    "REDIS_CACHE_DB=2 REDIS_LOCK_DB=3 bin/rails spec#{seed_arg}"
+    seed_arg = options[:seed] ? " --order random:#{options[:seed]}" : ""
+    "REDIS_CACHE_DB=2 REDIS_LOCK_DB=3 bundle exec rspec spec#{seed_arg}"
   },
   cucumber: -> {
-    seed_arg = options[:seed] ? " --seed #{options[:seed]}" : ""
+    seed_arg = options[:seed] ? " --order random:#{options[:seed]}" : ""
     debug = options[:verbose] ? "DEBUG=1 " : ""
     "#{debug}TEST_DATABASE=serveme_test_cucumber REDIS_CACHE_DB=4 REDIS_LOCK_DB=5 SESSION_KEY_SUFFIX=_cucumber bundle exec cucumber#{seed_arg}"
   }

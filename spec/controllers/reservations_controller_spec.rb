@@ -241,5 +241,31 @@ describe ReservationsController do
 
       expect(player_names.count('TestPlayer')).to eq(1), "Expected 1 TestPlayer, got #{player_names.count('TestPlayer')}"
     end
+
+    it 'identifies SDR players correctly' do
+      reservation = create :reservation
+
+      # Create a regular player with normal IP
+      regular_player = create :reservation_player, reservation: reservation, steam_uid: '76561198012345678', name: 'RegularPlayer', ip: '192.168.1.100'
+      create :player_statistic, reservation_player: regular_player, created_at: 1.minute.ago
+
+      # Create an SDR player with 169.254.x.x IP
+      sdr_player = create :reservation_player, reservation: reservation, steam_uid: '76561198087654321', name: 'SDRPlayer', ip: '169.254.1.100'
+      create :player_statistic, reservation_player: sdr_player, created_at: 1.minute.ago
+
+      get :motd, params: { id: reservation.id, password: reservation.password }
+
+      current_players = assigns(:current_players)
+
+      # Find the SDR player in the results
+      sdr_player_data = current_players.find { |p| p[:reservation_player]&.name == 'SDRPlayer' }
+      regular_player_data = current_players.find { |p| p[:reservation_player]&.name == 'RegularPlayer' }
+
+      expect(sdr_player_data).to be_present
+      expect(sdr_player_data[:sdr]).to be_truthy
+
+      expect(regular_player_data).to be_present
+      expect(regular_player_data[:sdr]).to be_falsy
+    end
   end
 end

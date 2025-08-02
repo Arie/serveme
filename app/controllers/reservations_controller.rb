@@ -308,7 +308,7 @@ class ReservationsController < ApplicationController
 
     player_data = unique_players.map do |player_stat|
       reservation_player = player_stat.reservation_player
-      location_info = get_player_location_info(reservation_player)
+      location_info = CurrentPlayersService.get_player_location_info(reservation_player)
 
       {
         player_statistic: player_stat,
@@ -317,67 +317,11 @@ class ReservationsController < ApplicationController
         country_name: location_info[:country_name],
         distance: location_info[:distance],
         player_latitude: location_info[:player_latitude],
-        player_longitude: location_info[:player_longitude]
+        player_longitude: location_info[:player_longitude],
+        sdr: location_info[:sdr]
       }
     end
 
     player_data.sort_by { |player| player[:reservation_player]&.name&.downcase || "zzz" }
-  end
-
-  def get_player_location_info(reservation_player)
-    return { country_code: nil, country_name: nil, distance: nil, player_latitude: nil, player_longitude: nil } unless reservation_player.ip.present?
-
-    if local_ip?(reservation_player.ip)
-      return { country_code: nil, country_name: nil, distance: nil, player_latitude: nil, player_longitude: nil }
-    end
-
-    if reservation_player.latitude.present? && reservation_player.longitude.present?
-      country_info = get_country_from_ip(reservation_player.ip)
-      distance = calculate_distance_to_server(reservation_player, reservation_player.reservation.server)
-
-      {
-        country_code: country_info[:country_code],
-        country_name: country_info[:country_name],
-        distance: distance,
-        player_latitude: reservation_player.latitude,
-        player_longitude: reservation_player.longitude
-      }
-    else
-      { country_code: nil, country_name: nil, distance: nil, player_latitude: nil, player_longitude: nil }
-    end
-  end
-
-  def local_ip?(ip)
-    ip.start_with?("169.254.") || ip.start_with?("10.") || ip.start_with?("192.168.") || ip.start_with?("172.")
-  end
-
-
-  def get_country_from_ip(ip)
-    geocode_result = Geocoder.search(ip).first
-    if geocode_result
-      {
-        country_code: geocode_result.country_code,
-        country_name: geocode_result.country
-      }
-    else
-      { country_code: nil, country_name: nil }
-    end
-  rescue
-    { country_code: nil, country_name: nil }
-  end
-
-  def calculate_distance_to_server(reservation_player, server)
-    return nil unless reservation_player.latitude.present? &&
-                      reservation_player.longitude.present? &&
-                      server.latitude.present? &&
-                      server.longitude.present?
-
-    Geocoder::Calculations.distance_between(
-      [ reservation_player.latitude, reservation_player.longitude ],
-      [ server.latitude, server.longitude ],
-      units: distance_unit.to_sym
-    ).round(0)
-  rescue
-    nil
   end
 end

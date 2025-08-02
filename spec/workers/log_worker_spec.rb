@@ -169,7 +169,7 @@ describe LogWorker do
     it 'bans banned IPs' do
       ReservationPlayer.should_receive(:banned_ip?).with('109.81.174.1').and_return("match invader")
       ReservationPlayer.should_receive(:banned_asn_ip?).with('109.81.174.1').and_return(false)
-      server.should_receive(:rcon_exec).with('banid 0 [U:1:12345]; addip 0 109.81.174.1; kickid [U:1:12345] match invader')
+      server.should_receive(:rcon_exec).with('kickid 3 match invader; banid 0 [U:1:12345]; addip 0 109.81.174.1')
       LogWorker.perform_async(connect_banned_ip)
     end
 
@@ -180,7 +180,7 @@ describe LogWorker do
 
     it 'bans banned UIDs with reason' do
       ReservationPlayer.should_receive(:banned_uid?).with(76561198113294936).and_return("Cheating")
-      server.should_receive(:rcon_exec).with('banid 0 [U:1:153029208]; addip 0 1.128.0.1; kickid [U:1:153029208] Cheating')
+      server.should_receive(:rcon_exec).with('kickid 3 Cheating; banid 0 [U:1:153029208]; addip 0 1.128.0.1')
       LogWorker.perform_async(connect_banned_uid)
     end
 
@@ -189,6 +189,29 @@ describe LogWorker do
       LeagueBan.should_receive(:fetch).with(76561199087557586).and_return(profile)
       server.should_receive(:rcon_say).with('ETF2L banned player Troll connected: Ban Evasion')
       LogWorker.perform_async(connect_league_banned_uid)
+    end
+
+    it 'kicks league banned players with cheating/VAC ban reasons using fixed safe message' do
+      profile = instance_double(Etf2lProfile, banned?: true, league_name: 'ETF2L', ban_reason: 'cheating')
+      LeagueBan.should_receive(:fetch).with(76561199087557586).and_return(profile)
+      server.should_receive(:rcon_exec).with('kickid 3 Cheating (league ban); banid 0 [U:1:1127291858]; addip 0 1.128.0.1')
+      server.should_receive(:rcon_say).with('ETF2L banned player Troll connected: cheating')
+      LogWorker.perform_async(connect_league_banned_uid)
+    end
+
+    it 'kicks league banned players with VAC ban reasons using fixed safe message' do
+      profile = instance_double(Etf2lProfile, banned?: true, league_name: 'RGL', ban_reason: 'VAC banned user')
+      LeagueBan.should_receive(:fetch).with(76561199087557586).and_return(profile)
+      server.should_receive(:rcon_exec).with('kickid 3 Cheating (league ban); banid 0 [U:1:1127291858]; addip 0 1.128.0.1')
+      server.should_receive(:rcon_say).with('RGL banned player Troll connected: VAC banned user')
+      LogWorker.perform_async(connect_league_banned_uid)
+    end
+
+    it 'kicks VPN players with clean message format' do
+      ReservationPlayer.should_receive(:banned_asn_ip?).with('109.81.174.1').and_return(true)
+      ReservationPlayer.should_receive(:whitelisted_uid?).with(76561197960278073).and_return(false)
+      server.should_receive(:rcon_exec).with('kickid 3 [localhost] Please play without VPN; addip 0 109.81.174.1')
+      LogWorker.perform_async(connect_banned_ip)
     end
 
     it 'doesnt ban others' do
@@ -288,7 +311,7 @@ describe LogWorker do
       end
 
       it 'bans and kicks non-owner players when server is locked' do
-        expect(server).to receive(:rcon_exec).with('banid 0 [U:1:12345]; kickid [U:1:12345] Server locked by reservation owner')
+        expect(server).to receive(:rcon_exec).with('kickid 3 Server locked by reservation owner; banid 0 [U:1:12345]')
         LogWorker.perform_async(connect_normal)
       end
 

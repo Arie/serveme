@@ -88,4 +88,22 @@ RSpec.describe Server do
       end
     end
   end
+
+  describe '#rcon_exec' do
+    let(:server) { create(:server, rcon: 'secret') }
+
+    before do
+      allow(server).to receive(:condenser).and_return(double('condenser'))
+      allow(server.condenser).to receive(:rcon_auth).and_return(true)
+      allow(server.condenser).to receive(:rcon_exec).and_return("ok")
+    end
+
+    it 'escapes double slashes in commands to prevent Source engine parsing issues' do
+      command = 'say Visit https://steamcommunity.com/ and https://etf2l.org/ for more info'
+      escaped_command = 'say Visit https:/​/steamcommunity.com/ and https:/​/etf2l.org/ for more info'
+
+      expect(server.condenser).to receive(:rcon_exec).with(escaped_command)
+      server.rcon_exec(command)
+    end
+  end
 end

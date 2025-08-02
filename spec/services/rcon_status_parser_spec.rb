@@ -122,6 +122,7 @@ Loaded plugins:
       r.players.size.should == 2
 
       p1 = r.players.first
+      p1.user_id.should == 4
       p1.name.should == 'TNT-DEAD'
       p1.ping.should == 57
       p1.loss.should == 0
@@ -129,6 +130,7 @@ Loaded plugins:
       p1.should be_relevant
 
       p2 = r.players.last
+      p2.user_id.should == 5
       p2.name.should == 'Bloodyyy'
       p2.ping.should == 76
       p2.loss.should == 1

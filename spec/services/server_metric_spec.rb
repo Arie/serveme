@@ -65,4 +65,29 @@ Loaded plugins:
     player_statistic.loss.should == 1
     player_statistic.reservation_player.ip.should == '1.128.0.2'
   end
+
+  it 'kicks VPN players using numeric user ID' do
+    ReservationPlayer.should_receive(:banned_asn_ip?).with('1.128.0.1').twice.and_return(true)
+    ReservationPlayer.should_receive(:whitelisted_uid?).with(76561198011511324).and_return(false)
+    server.should_receive(:rcon_exec).with('kickid 4 [localhost] Please play without VPN; addip 0 1.128.0.1')
+
+    ReservationPlayer.should_receive(:banned_asn_ip?).with('1.128.0.2').and_return(false)
+    ReservationPlayer.should_receive(:whitelisted_uid?).with(76561198011189877).and_return(false)
+
+    ServerMetric.new(server_info)
+  end
+
+  it 'kicks banned players with proper command order and ban reason' do
+    ReservationPlayer.should_receive(:banned_asn_ip?).with('1.128.0.1').and_return(false)
+    ReservationPlayer.should_receive(:whitelisted_uid?).with(76561198011511324).and_return(false)
+    ReservationPlayer.should_receive(:banned_uid?).with(76561198011511324).twice.and_return('Cheating')
+    server.should_receive(:rcon_exec).with('kickid 4 Cheating; banid 0 [U:1:51245596]; addip 0 1.128.0.1')
+
+    ReservationPlayer.should_receive(:banned_asn_ip?).with('1.128.0.2').and_return(false)
+    ReservationPlayer.should_receive(:whitelisted_uid?).with(76561198011189877).and_return(false)
+    ReservationPlayer.should_receive(:banned_uid?).with(76561198011189877).and_return(false)
+    ReservationPlayer.should_receive(:banned_ip?).with('1.128.0.2').and_return(false)
+
+    ServerMetric.new(server_info)
+  end
 end

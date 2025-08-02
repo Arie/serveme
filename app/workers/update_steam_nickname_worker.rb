@@ -28,7 +28,9 @@ class UpdateSteamNicknameWorker
   def ban_user(steam_uid)
     uid3 = SteamCondenser::Community::SteamId.community_id_to_steam_id3(steam_uid.to_i)
     Server.active.each do |s|
-      s.rcon_exec "banid 0 #{uid3} kick"
+      # First kick if player is connected, then ban
+      s.rcon_exec "kick #{uid3} You are banned from this service"
+      s.rcon_exec "banid 0 #{uid3}"
     end
   end
 

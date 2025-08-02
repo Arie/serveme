@@ -4,7 +4,7 @@
 class RconStatusParser
   attr_accessor :rcon_status_output
 
-  PLAYER_REGEX = /\#\s+\d+\s+"(.*)"\s+(\[.*\])\s+(\d+:?\d+:\d+)\s+(\d+)\s+(\d+)\s(\w+)\s+(\d+.\d+.\d+.\d+)/
+  PLAYER_REGEX = /\#\s+(\d+)\s+"(.*)"\s+(\[.*\])\s+(\d+:?\d+:\d+)\s+(\d+)\s+(\d+)\s(\w+)\s+(\d+.\d+.\d+.\d+)/
 
   def initialize(rcon_status_output)
     @rcon_status_output = rcon_status_output
@@ -21,10 +21,11 @@ class RconStatusParser
   end
 
   class Player
-    attr_reader :name, :steam_id, :connect_duration, :ping, :loss, :state, :ip
+    attr_reader :user_id, :name, :steam_id, :connect_duration, :ping, :loss, :state, :ip
 
     # rubocop:disable Metrics/ParameterLists
-    def initialize(name, steam_id, connect_duration, ping, loss, state, ip)
+    def initialize(user_id, name, steam_id, connect_duration, ping, loss, state, ip)
+      @user_id          = user_id.to_i
       @name             = name
       @steam_id         = steam_id
       @connect_duration = connect_duration

@@ -1,5 +1,5 @@
 #players-content
-  %h2
+  %h2.mb-4
     Current Players
     = link_to(pluralize(servers_with_players.sum { |server_data| server_data[:players].length }, "player"), player_statistics_path, class: "badge badge-info", title: "View player statistics")
 

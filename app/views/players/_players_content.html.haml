@@ -1,7 +1,7 @@
 - cache "players_content", expires_in: 5.minutes do
-  - total_players = servers_with_players.sum { |server_data| server_data[:players].length }
-  %p.text-muted
-    = pluralize(total_players, "player")
+  %h2
+    Current Players
+    %span.badge.badge-info= pluralize(servers_with_players.sum { |server_data| server_data[:players].length }, "player")
 
 - if servers_with_players.present?
   - servers_with_players.each do |server_data|

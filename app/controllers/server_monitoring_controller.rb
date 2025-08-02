@@ -12,7 +12,7 @@ class ServerMonitoringController < ApplicationController
                  servers_with_current_reservations
     end
     @servers_json = @servers.map { |s| { id: s.id, name: s.name, ip: s.ip, port: s.port, rcon: s.rcon } }.to_json
-    @preselected_server_id = params[:server_id].to_i if params[:server_id].present? && params[:server_id].to_i > 0
+    @preselected_server_id = determine_preselected_server_id
   end
 
   def poll
@@ -81,5 +81,13 @@ class ServerMonitoringController < ApplicationController
         )
       end
     end
+  end
+
+  def determine_preselected_server_id
+    return params[:server_id].to_i if params[:server_id].present? && params[:server_id].to_i > 0
+
+    return @servers.first.id if @servers.count == 1
+
+    nil
   end
 end

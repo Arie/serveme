@@ -1,7 +1,7 @@
 - cache "players_content", expires_in: 5.minutes do
   %h2
     Current Players
-    %span.badge.badge-info= pluralize(servers_with_players.sum { |server_data| server_data[:players].length }, "player")
+    = link_to(pluralize(servers_with_players.sum { |server_data| server_data[:players].length }, "player"), player_statistics_path, class: "badge badge-info", title: "View player statistics")
 
 - if servers_with_players.present?
   - servers_with_players.each do |server_data|
@@ -9,7 +9,7 @@
       .col-md-12
         %h3
           = link_to(server_data[:server].name, show_server_statistic_path(server_data[:server].id), title: "View server statistics")
-          %span.badge.badge-info= pluralize(server_data[:players].length, "player")
+          = link_to(pluralize(server_data[:players].length, "player"), show_server_player_statistic_path(server_data[:server].id), class: "badge badge-info", title: "View player statistics for this server")
 
         %table.table.table-hover.table-bordered.table-striped
           %colgroup
@@ -25,8 +25,8 @@
               %th Country
               %th Distance
               %th Connected
-              %th Ping
-              %th Loss
+              %th= link_to("Ping", player_statistics_path, title: "View player statistics", class: "text-white")
+              %th= link_to("Loss", player_statistics_path, title: "View player statistics", class: "text-white")
           %tbody
             - server_data[:players].each do |player_info|
               %tr

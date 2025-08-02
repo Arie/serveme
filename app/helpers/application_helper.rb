@@ -58,4 +58,11 @@ module ApplicationHelper
       "fa-spinner fa-spin"
     end
   end
+
+  def show_server_monitoring_link?
+    return true if current_user&.admin?
+    return false unless current_user
+
+    current_user.reservations.current.exists?
+  end
 end

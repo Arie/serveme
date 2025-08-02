@@ -46,26 +46,47 @@
             = link_to i_am_feeling_lucky_reservations_path, method: :post, title: "Make a reservation in 1 click", class: "dropdown-item" do
               %i.fa.fa-warning
               1-click reservation
-      - if current_user && (current_user.donator? || current_user.streamer? || current_user.league_admin? || current_user.admin?)
+      - if show_server_monitoring_link?
         %li.nav-item.d-xl-block.d-md-none
-          = link_to servers_path, class: "nav-link" do
-            %i.fa.fa-tasks
-            Servers
+          = link_to server_monitoring_path, class: "nav-link" do
+            %i.fa.fa-tachometer
+            Monitoring
+      %li.dropdown.nav-item.d-xl-block.d-md-none
+        %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
+          %i.fa.fa-info-circle
+          Info
+          %b.caret>
+        .dropdown-menu
+          = link_to faq_path, class: "dropdown-item" do
+            %i.fa.fa-question
+            FAQ
+          = link_to players_path, class: "dropdown-item" do
+            %i.fa.fa-users
+            Current players
+          - if current_user && (current_user.donator? || current_user.streamer? || current_user.league_admin? || current_user.admin?)
+            = link_to servers_path, class: "dropdown-item" do
+              %i.fa.fa-tasks
+              Servers
+          = link_to statistics_path, class: "dropdown-item", data: { turbo: false } do
+            %i.fa.fa-bar-chart-o
+            Site stats
       - if current_user && current_user.donator?
         %li.nav-item.d-xl-block.d-md-none
           = link_to upload_map_path, class: "nav-link" do
             %i.fa.fa-upload
             Upload map
-      %li.nav-item
-        = link_to faq_path, class: "nav-link" do
-          %i.fa.fa-question
-          FAQ
       %li.dropdown.nav-item.d-xl-none.d-none.d-md-block
         %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
-          %i.fa.fa-ellipsis-h
-          More
+          %i.fa.fa-info-circle
+          Info
           %b.caret>
         .dropdown-menu
+          = link_to faq_path, class: "dropdown-item" do
+            %i.fa.fa-question
+            FAQ
+          = link_to players_path, class: "dropdown-item" do
+            %i.fa.fa-users
+            Current players
           - if current_user && (current_user.donator? || current_user.streamer? || current_user.league_admin? || current_user.admin?)
             = link_to servers_path, class: "dropdown-item" do
               %i.fa.fa-tasks
@@ -76,7 +97,13 @@
               Upload map
           = link_to statistics_path, class: "dropdown-item", data: { turbo: false } do
             %i.fa.fa-bar-chart-o
-            Stats
+            Site stats
+      %li.dropdown.nav-item.d-xl-none.d-none.d-md-block
+        %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
+          %i.fa.fa-ellipsis-h
+          More
+          %b.caret>
+        .dropdown-menu
           = link_to server_providers_path, class: "dropdown-item" do
             %i.fa.fa-heart
             Sponsors
@@ -93,11 +120,6 @@
             = link_to settings_path, class: "dropdown-item" do
               %i.fa.fa-cogs
               Settings
-      %li.nav-item.d-xl-block.d-md-none
-        = link_to statistics_path, class: "nav-link", data: { turbo: false } do
-          %i.fa.fa-bar-chart-o
-          Stats
-
       %li.dropdown.nav-item.d-xl-block.d-md-none
         %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
           %i.fa.fa-trophy

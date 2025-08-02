@@ -6,6 +6,7 @@ require 'spec_helper'
 describe PlayersController do
   before do
     Rails.cache.clear
+    sign_in create(:user)
   end
 
   describe '#index' do

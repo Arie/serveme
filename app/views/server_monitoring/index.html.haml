@@ -1,0 +1,123 @@
+- content_for(:title) { "Server Monitoring" }
+
+%h2 Server Real-time Monitoring
+
+%div{ data: { controller: "server-monitor", server_monitor_servers_value: @servers_json, server_monitor_preselected_server_id_value: @preselected_server_id }, class: "container-fluid" }
+  .row
+    .col-md-12
+      #loading-indicator.text-center{ style: "padding: 2rem;" }
+        %i.fa.fa-spinner.fa-spin
+        %span.ms-2 Loading server monitoring interface...
+
+      #main-content{ style: "display: none;" }
+        = form_with url: "#" do |f|
+          .row
+            .col-md-12
+              .form-group
+                = label_tag :server_id, "Select Server"
+                %select#server_id.form-control.select2{ name: "server_id", data: { "server-monitor-target": "serverSelect" } }
+                  %option{ value: "" } Choose a server...
+                  - @servers.each do |server|
+                    %option{ value: server.id, data: { flag: server.location&.flag || 'unknown' } }= server.name
+
+
+        .form-group
+          = button_tag "Start Monitoring",
+            type: "button",
+            class: "btn btn-primary",
+            data: { action: "click->server-monitor#start", "server-monitor-target": "startButton" }
+          = button_tag "Stop Monitoring",
+            type: "button",
+            class: "btn btn-danger ms-2",
+            disabled: true,
+            data: { action: "click->server-monitor#stop", "server-monitor-target": "stopButton" }
+
+        .row
+          .col-md-12
+            #server_metrics
+
+        .row.mt-4
+          .col-md-6
+            %h4 Server FPS
+            .chart-container{ style: "position: relative; height: 300px;" }
+              %canvas{ data: { "server-monitor-target": "fpsChart" } }
+          .col-md-6
+            %h4 CPU Usage (%)
+            .chart-container{ style: "position: relative; height: 300px;" }
+              %canvas{ data: { "server-monitor-target": "cpuChart" } }
+
+        .row.mt-4
+          .col-md-6
+            %h4 Network Traffic (KB/s)
+            .chart-container{ style: "position: relative; height: 300px;" }
+              %canvas{ data: { "server-monitor-target": "networkChart" } }
+          .col-md-6
+            %h4 Player Pings (ms)
+            .chart-container{ style: "position: relative; height: 300px;" }
+              %canvas{ data: { "server-monitor-target": "pingChart" } }
+
+:javascript
+  var servers_for_monitoring = #{@servers.map { |s| {id: s.id, name: s.name, ip: s.ip, port: s.port, rcon: s.rcon, flag: s.location&.flag || 'unknown'} }.to_json.html_safe};
+
+  function formatServerMonitoring(server) {
+    var flag = $(server.element).data('flag') || 'unknown';
+    return "<span class='flags flags-" + flag + "'></span>" + server.text;
+  }
+
+  function populateServerFields(serverId) {
+    var server = servers_for_monitoring.find(function(s) { return s.id == serverId; });
+    if (server) {
+      // Auto-start monitoring for the selected server
+      autoStartMonitoring();
+    }
+  }
+
+  function autoStartMonitoring() {
+    // Get the Stimulus controller and auto-start monitoring
+    const controllerElement = document.querySelector('[data-controller*="server-monitor"]');
+    if (controllerElement) {
+      const application = window.Stimulus || window.Application;
+      if (application && application.getControllerForElementAndIdentifier) {
+        const controller = application.getControllerForElementAndIdentifier(controllerElement, 'server-monitor');
+        if (controller) {
+          // Start method now handles stopping existing monitoring internally
+          controller.start();
+        }
+      }
+    }
+  }
+
+  $(document).on('turbo:load', function() {
+    if (typeof $.fn.select2 !== 'undefined') {
+      $("#server_id").select2({
+        formatResult: formatServerMonitoring,
+        formatSelection: formatServerMonitoring,
+        escapeMarkup: function(m) { return m; }
+      });
+
+      // Handle select2 change by populating fields directly
+      $("#server_id").on('change', function() {
+        var serverId = $(this).val();
+        if (serverId) {
+          populateServerFields(serverId);
+        }
+      });
+
+      // Check for preselected server and handle it immediately
+      var preselectedServerId = document.querySelector('[data-server-monitor-preselected-server-id-value]')?.dataset?.serverMonitorPreselectedServerIdValue;
+      if (preselectedServerId) {
+        $("#server_id").val(preselectedServerId).trigger('change');
+        // autoStartMonitoring() is called automatically by the change event via populateServerFields()
+      }
+
+      // Hide loading indicator and show main content
+      $("#loading-indicator").hide();
+      $("#main-content").show();
+    } else {
+      // If select2 is not available, show content anyway after a short delay
+      setTimeout(function() {
+        $("#loading-indicator").hide();
+        $("#main-content").show();
+      }, 1000);
+    }
+  });

@@ -238,6 +238,9 @@ module GeneratedUrlHelpersModule
   def players_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def poll_server_monitoring_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def prepare_zip_reservation_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -344,6 +347,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def server_configs_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def server_monitoring_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def server_notification_url(*args); end

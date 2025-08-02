@@ -1,0 +1,28 @@
+#server_metrics
+  .server-metrics-data{ data: { fps: stats[:fps], cpu: stats[:cpu], traffic_in: stats[:traffic_in], traffic_out: stats[:traffic_out], player_count: stats[:player_count], player_pings: stats[:player_pings].to_json, timestamp: timestamp, server_id: server_id } }
+  .row.mt-3
+    .col
+      .card
+        .card-body.text-center.py-2
+          %h6.card-title.mb-1.text-nowrap FPS
+          %h4.text-success.mb-0.text-nowrap= stats[:fps]
+    .col
+      .card
+        .card-body.text-center.py-2
+          %h6.card-title.mb-1.text-nowrap CPU
+          %h4.text-warning.mb-0.text-nowrap= "#{stats[:cpu]}%"
+    .col
+      .card
+        .card-body.text-center.py-2
+          %h6.card-title.mb-1.text-nowrap Traffic In
+          %h4.text-info.mb-0.text-nowrap= "#{stats[:traffic_in]} KB/s"
+    .col
+      .card
+        .card-body.text-center.py-2
+          %h6.card-title.mb-1.text-nowrap Traffic Out
+          %h4.text-warning.mb-0.text-nowrap= "#{stats[:traffic_out]} KB/s"
+    .col
+      .card
+        .card-body.text-center.py-2
+          %h6.card-title.mb-1.text-nowrap Players
+          %h4.text-light.mb-0.text-nowrap= stats[:player_count]

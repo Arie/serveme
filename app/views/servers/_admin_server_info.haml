@@ -42,3 +42,5 @@
       %i.fa.fa-check.text-success
       = server.last_known_version
       = link_to("Restart", restart_server_path(server), class: 'btn btn-sm btn-danger', method: :post, data: { confirm: "This will force a server restart, regardless if there are players on the servers" })
+    %br
+    = link_to("Monitor", server_monitoring_path(server_id: server.id), class: 'btn btn-sm btn-primary', target: '_blank')

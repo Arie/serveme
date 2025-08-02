@@ -7,7 +7,7 @@
         %th Players
         %th FPS
         %th Inactive
-        %th Version
+        %th Actions
     - active_servers = servers.order(:name).select { |s| s.recent_server_statistics.any? }
     - inactive_servers = servers.order(:name).select { |s| s.recent_server_statistics.none? }
 

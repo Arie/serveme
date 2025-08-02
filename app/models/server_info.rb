@@ -8,7 +8,7 @@ class ServerInfo
 
   delegate :condenser, to: :server, prefix: false
 
-  sig { params(server: Server).void }
+  sig { params(server: T.any(Server, OpenStruct)).void }
   def initialize(server)
     @server            = server
     @server_connection = condenser
@@ -149,5 +149,76 @@ class ServerInfo
       fps: items[-3],
       connects: items[-1].freeze
     }
+  end
+
+  sig { returns(Hash) }
+  def fetch_realtime_stats
+    cache_key = "realtime_stats_#{server.id}"
+    lock_key = "realtime_stats_lock_#{server.id}"
+
+    cached_result = T.let(Rails.cache.read(cache_key), T.untyped)
+    return cached_result if cached_result
+
+    lock_result = T.let(nil, T.nilable(Hash))
+    lock_result = $lock.synchronize(lock_key, retries: 5, initial_wait: 0.05, expiry: 3.seconds) do
+      cached_result_inner = T.let(Rails.cache.read(cache_key), T.untyped)
+      next cached_result_inner if cached_result_inner
+
+      auth
+      combined_output = server_connection.rcon_exec("stats; status").to_s
+
+      stats_section = combined_output.split("\n").first(2).join("\n")
+      Rails.cache.write("stats_#{server.id}", stats_section, expires_in: 1.second)
+      current_stats = stats
+
+      status_lines = combined_output.lines.drop_while { |line| !line.include?("hostname:") }
+      status_section = status_lines.join
+      Rails.cache.write("rcon_status_#{server.id}", status_section, expires_in: 1.second)
+      current_status = status
+
+      player_pings = []
+      player_count = 0
+
+      combined_output.each_line do |line|
+        next if line.match?(/^#\s*\d+\s+"[^"]+"\s+BOT\s+/)
+        match = line.match(/^#\s*\d+\s+"([^"]+)"\s+\[U:\d+:\d+\]\s+[\d:]+\s+(\d+)\s+\d+\s+active/)
+        if match
+          player_pings << { name: match[1], ping: match[2].to_i }
+          player_count += 1
+        end
+      end
+
+      result_hash = {
+        fps: current_stats[:fps]&.to_f || 0,
+        cpu: current_stats[:cpu]&.to_f || 0,
+        traffic_in: current_stats[:in]&.to_f || 0,
+        traffic_out: current_stats[:out]&.to_f || 0,
+        player_count: current_status[:number_of_players] || player_count,
+        player_pings: player_pings.sort_by { |player| player[:name].downcase }
+      }
+
+      Rails.cache.write(cache_key, result_hash, expires_in: 0.9.seconds)
+      Rails.cache.write("#{cache_key}_stale", result_hash, expires_in: 10.seconds)
+      result_hash
+    end
+
+    if lock_result.nil?
+      cached_result = Rails.cache.read(cache_key) || Rails.cache.read("#{cache_key}_stale")
+      return cached_result if cached_result
+
+      return {
+        fps: 0,
+        cpu: 0,
+        traffic_in: 0,
+        traffic_out: 0,
+        player_count: 0,
+        player_pings: []
+      }
+    end
+
+    lock_result
+  rescue => e
+    Rails.logger.error("Failed to fetch realtime stats: #{e.message}")
+    raise
   end
 end

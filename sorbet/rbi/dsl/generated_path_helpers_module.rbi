@@ -238,6 +238,9 @@ module GeneratedPathHelpersModule
   def players_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def poll_server_monitoring_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def prepare_zip_reservation_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -344,6 +347,9 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def server_configs_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def server_monitoring_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def server_notification_path(*args); end

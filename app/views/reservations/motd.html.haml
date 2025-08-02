@@ -119,13 +119,17 @@
                 - else
                   %span.player-name= reservation_player&.name || "Unknown Player"
               %td
-                - if player_info[:country_code].present?
+                - if player_info[:sdr]
+                  %span.text-muted SDR
+                - elsif player_info[:country_code].present?
                   = image_tag("flags/#{player_info[:country_code].downcase}.png", alt: player_info[:country_name], class: "flag", style: "margin-right: 0.5em;")
                   = player_info[:country_name]
                 - else
                   %span.text-muted Unknown
               %td
-                - if player_info[:distance].present?
+                - if player_info[:sdr]
+                  %span.text-muted SDR
+                - elsif player_info[:distance].present?
                   = "#{player_info[:distance]} #{@distance_unit}"
                 - else
                   %span.text-muted Unknown

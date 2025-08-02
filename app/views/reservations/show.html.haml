@@ -48,7 +48,9 @@
       - if reservation.now?
         %tr
           %td Server control
-          %td= link_to "Web RCON", rcon_reservation_path(reservation), class: "btn btn-sm btn-warning"
+          %td
+            = link_to "Web RCON", rcon_reservation_path(reservation), class: "btn btn-sm btn-warning"
+            = link_to "Monitoring", server_monitoring_path(server_id: reservation.server_id), class: "btn btn-sm btn-info", target: "_blank"
 
       %tr
         %td Connect info

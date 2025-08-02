@@ -13,11 +13,11 @@ class ServerMetric
 
     save_server_statistics
 
-    return unless players_playing?
-
-    save_player_statistics
-    remove_banned_players
-    firewall_allow_players if current_reservation.server.supports_mitigations?
+    if players_playing?
+      save_player_statistics
+      remove_banned_players
+      firewall_allow_players if current_reservation.server.supports_mitigations?
+    end
   end
 
   def save_server_statistics
@@ -45,9 +45,6 @@ class ServerMetric
                                 minutes_connected: player.minutes_connected)
       end
     end
-
-    CurrentPlayersService.expire_cache
-    broadcast_players_update
   end
 
   def remove_banned_players
@@ -121,18 +118,4 @@ class ServerMetric
     ReservationPlayer.banned_ip?(player.ip)
   end
 
-  def broadcast_players_update
-    servers_with_players = CurrentPlayersService.all_servers_with_current_players
-    distance_unit = CurrentPlayersService.distance_unit_for_region
-
-    Turbo::StreamsChannel.broadcast_replace_to(
-      "players",
-      target: "players-content",
-      partial: "players/players_content",
-      locals: {
-        servers_with_players: servers_with_players,
-        distance_unit: distance_unit
-      }
-    )
-  end
 end

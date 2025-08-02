@@ -11,6 +11,7 @@ class CronWorker
     check_active_reservations
     check_inactive_servers
     update_servers_page
+    broadcast_players_update
   end
 
   def end_past_reservations
@@ -51,5 +52,21 @@ class CronWorker
 
   def update_servers_page
     UpdateServerPageWorker.perform_in(5.seconds)
+  end
+
+  def broadcast_players_update
+    CurrentPlayersService.expire_cache
+    servers_with_players = CurrentPlayersService.all_servers_with_current_players
+    distance_unit = CurrentPlayersService.distance_unit_for_region
+
+    Turbo::StreamsChannel.broadcast_replace_to(
+      "players",
+      target: "players-content",
+      partial: "players/players_content",
+      locals: {
+        servers_with_players: servers_with_players,
+        distance_unit: distance_unit
+      }
+    )
   end
 end

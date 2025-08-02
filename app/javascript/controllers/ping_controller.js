@@ -394,6 +394,22 @@ export default class extends Controller {
           legend: {
             labels: {
               color: "rgba(255, 255, 255, 0.7)",
+              usePointStyle: true,
+              generateLabels: function(chart) {
+                const labels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+                
+                labels.forEach((label, index) => {
+                  const dataset = chart.data.datasets[index];
+                  if (dataset) {
+                    // Use solid colors for both text and legend circle
+                    label.color = "rgba(255, 255, 255, 0.9)"; // Keep text white for dark theme
+                    label.fillStyle = dataset.borderColor; // Make the circle solid, not transparent
+                    label.strokeStyle = dataset.borderColor;
+                  }
+                });
+                
+                return labels;
+              }
             },
           },
           tooltip: {
@@ -401,6 +417,12 @@ export default class extends Controller {
               label: function (context) {
                 const value = context.parsed.y;
                 return `${context.dataset.label}: ${value === null ? "error" : value + "ms"}`;
+              },
+              labelColor: function(context) {
+                return {
+                  borderColor: context.dataset.borderColor,
+                  backgroundColor: context.dataset.borderColor, // Use solid color instead of transparent
+                };
               },
             },
           },

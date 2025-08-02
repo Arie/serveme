@@ -43,14 +43,7 @@
                   - else
                     %span.text-muted Unknown
                 %td
-                  - if player_info[:distance].present? && player_info[:player_latitude] && player_info[:player_longitude]
-                    - server = player_info[:reservation_player].reservation.server
-                    - if server&.latitude && server&.longitude
-                      - google_maps_url = "https://www.google.com/maps/dir/#{player_info[:player_latitude]},#{player_info[:player_longitude]}/#{server.latitude},#{server.longitude}//@#{(player_info[:player_latitude] + server.latitude) / 2},#{(player_info[:player_longitude] + server.longitude) / 2},6z"
-                      = link_to("#{player_info[:distance]} #{distance_unit}", google_maps_url, target: "_blank", title: "View locations on Google Maps")
-                    - else
-                      = "#{player_info[:distance]} #{distance_unit}"
-                  - elsif player_info[:distance].present?
+                  - if player_info[:distance].present?
                     = "#{player_info[:distance]} #{distance_unit}"
                   - else
                     %span.text-muted Unknown

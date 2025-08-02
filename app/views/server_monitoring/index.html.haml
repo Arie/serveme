@@ -42,9 +42,9 @@
             .chart-container{ style: "position: relative; height: 300px;" }
               %canvas{ data: { "server-monitor-target": "fpsChart" } }
           .col-md-6
-            %h4 CPU Usage (%)
+            %h4 Player Pings (ms)
             .chart-container{ style: "position: relative; height: 300px;" }
-              %canvas{ data: { "server-monitor-target": "cpuChart" } }
+              %canvas{ data: { "server-monitor-target": "pingChart" } }
 
         .row.mt-4
           .col-md-6
@@ -52,9 +52,9 @@
             .chart-container{ style: "position: relative; height: 300px;" }
               %canvas{ data: { "server-monitor-target": "networkChart" } }
           .col-md-6
-            %h4 Player Pings (ms)
+            %h4 Player Loss (%)
             .chart-container{ style: "position: relative; height: 300px;" }
-              %canvas{ data: { "server-monitor-target": "pingChart" } }
+              %canvas{ data: { "server-monitor-target": "lossChart" } }
 
 :javascript
   var servers_for_monitoring = #{@servers.map { |s| {id: s.id, name: s.name, ip: s.ip, port: s.port, rcon: s.rcon, flag: s.location&.flag || 'unknown'} }.to_json.html_safe};

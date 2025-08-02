@@ -8,9 +8,9 @@ export default class extends Controller {
     "startButton",
     "stopButton",
     "fpsChart",
-    "cpuChart",
     "networkChart",
     "pingChart",
+    "lossChart",
   ];
   static values = { servers: Array };
 
@@ -64,8 +64,8 @@ export default class extends Controller {
         chart.data.datasets.forEach((dataset) => {
           dataset.data = Array(this.maxDataPoints).fill(null);
         });
-        // For ping chart, also clear all datasets since players will be different
-        if (chart === this.charts.ping) {
+        // For ping and loss charts, also clear all datasets since players will be different
+        if (chart === this.charts.ping || chart === this.charts.loss) {
           chart.data.datasets = [];
         }
         chart.update("none");
@@ -150,7 +150,6 @@ export default class extends Controller {
     const timestamp = new Date().toLocaleTimeString();
     const data = {
       fps: parseFloat(metricsData.dataset.fps) || 0,
-      cpu: parseFloat(metricsData.dataset.cpu) || 0,
       trafficIn: parseFloat(metricsData.dataset.trafficIn) || 0,
       trafficOut: parseFloat(metricsData.dataset.trafficOut) || 0,
       playerPings: JSON.parse(metricsData.dataset.playerPings || "[]"),
@@ -159,14 +158,14 @@ export default class extends Controller {
     // Update FPS chart
     this.updateChart("fps", data.fps, timestamp, "FPS", "#4CAF50");
 
-    // Update CPU chart
-    this.updateChart("cpu", data.cpu, timestamp, "CPU %", "#FF5722");
-
     // Update network chart (both in and out)
     this.updateNetworkChart(data.trafficIn, data.trafficOut, timestamp);
 
     // Update player pings chart
     this.updatePlayerPingsChart(data.playerPings, timestamp);
+
+    // Update player loss chart
+    this.updatePlayerLossChart(data.playerPings, timestamp);
   }
 
   updateChart(chartKey, value, timestamp, label, color) {
@@ -247,6 +246,49 @@ export default class extends Controller {
     chart.update("none");
   }
 
+  updatePlayerLossChart(playerPings, timestamp) {
+    const chart = this.charts.loss;
+    if (!chart) return;
+
+    // Update or create datasets for each player
+    playerPings.forEach((player, index) => {
+      let dataset = chart.data.datasets[index];
+
+      if (!dataset) {
+        // Create new dataset for this player
+        const color = this.getPlayerColor(index);
+        dataset = {
+          label: player.name,
+          data: Array(this.maxDataPoints).fill(null),
+          borderColor: color,
+          backgroundColor: color + "20",
+          fill: false,
+          tension: 0.4,
+          pointRadius: 1,
+          pointHoverRadius: 3,
+          spanGaps: true,
+        };
+        chart.data.datasets.push(dataset);
+      }
+
+      // Add current loss and shift if needed
+      dataset.data.push(player.loss);
+      if (dataset.data.length > this.maxDataPoints) {
+        dataset.data.shift();
+      }
+
+      // Update label in case player name changed
+      dataset.label = player.name;
+    });
+
+    // Remove datasets for players who left
+    if (chart.data.datasets.length > playerPings.length) {
+      chart.data.datasets.splice(playerPings.length);
+    }
+
+    chart.update("none");
+  }
+
   updatePingChartScale(chart) {
     // Collect all current ping values from all datasets
     let allPings = [];
@@ -287,16 +329,6 @@ export default class extends Controller {
       });
     }
 
-    // Initialize CPU Chart
-    if (this.hasCpuChartTarget) {
-      this.charts.cpu = this.createChart(this.cpuChartTarget, {
-        label: "CPU %",
-        color: "#FF5722",
-        yAxisLabel: "CPU Usage (%)",
-        suggestedMax: 100,
-      });
-    }
-
     // Initialize Network Chart (dual dataset)
     if (this.hasNetworkChartTarget) {
       this.charts.network = this.createNetworkChart(this.networkChartTarget);
@@ -305,6 +337,11 @@ export default class extends Controller {
     // Initialize Player Pings Chart
     if (this.hasPingChartTarget) {
       this.charts.ping = this.createPlayerPingsChart(this.pingChartTarget);
+    }
+
+    // Initialize Player Loss Chart
+    if (this.hasLossChartTarget) {
+      this.charts.loss = this.createPlayerLossChart(this.lossChartTarget);
     }
   }
 
@@ -374,6 +411,14 @@ export default class extends Controller {
           tooltip: {
             mode: "index",
             intersect: false,
+            callbacks: {
+              labelColor: function(context) {
+                return {
+                  borderColor: context.dataset.borderColor,
+                  backgroundColor: context.dataset.borderColor, // Use solid color instead of transparent
+                };
+              },
+            },
           },
         },
       },
@@ -454,6 +499,12 @@ export default class extends Controller {
                   2
                 )} KB/s`;
               },
+              labelColor: function(context) {
+                return {
+                  borderColor: context.dataset.borderColor,
+                  backgroundColor: context.dataset.borderColor, // Use solid color instead of transparent
+                };
+              },
             },
           },
         },
@@ -502,6 +553,24 @@ export default class extends Controller {
           legend: {
             display: true,
             position: "top",
+            labels: {
+              usePointStyle: true,
+              generateLabels: function(chart) {
+                const labels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+                
+                labels.forEach((label, index) => {
+                  const dataset = chart.data.datasets[index];
+                  if (dataset) {
+                    // Use solid colors for both text and legend square
+                    label.color = dataset.borderColor;
+                    label.fillStyle = dataset.borderColor; // Make the square solid, not transparent
+                    label.strokeStyle = dataset.borderColor;
+                  }
+                });
+                
+                return labels;
+              }
+            },
           },
           tooltip: {
             mode: "index",
@@ -512,6 +581,96 @@ export default class extends Controller {
                 return `${context.dataset.label}: ${
                   value === null ? "no data" : value + "ms"
                 }`;
+              },
+              labelColor: function(context) {
+                return {
+                  borderColor: context.dataset.borderColor,
+                  backgroundColor: context.dataset.borderColor, // Use solid color instead of transparent
+                };
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  createPlayerLossChart(canvas) {
+    const ctx = canvas.getContext("2d");
+
+    return new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: Array(this.maxDataPoints).fill(""),
+        datasets: [], // Will be populated dynamically when players are detected
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        interaction: {
+          mode: "index",
+          intersect: false,
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            suggestedMax: 10,
+            grid: {
+              color: "rgba(0, 0, 0, 0.1)",
+            },
+            title: {
+              display: true,
+              text: "Loss (%)",
+            },
+          },
+          x: {
+            grid: {
+              color: "rgba(0, 0, 0, 0.1)",
+            },
+            ticks: {
+              maxTicksLimit: 10,
+            },
+          },
+        },
+        plugins: {
+          legend: {
+            display: true,
+            position: "top",
+            labels: {
+              usePointStyle: true,
+              generateLabels: function(chart) {
+                const labels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+                
+                labels.forEach((label, index) => {
+                  const dataset = chart.data.datasets[index];
+                  if (dataset) {
+                    // Use solid colors for both text and legend square
+                    label.color = dataset.borderColor;
+                    label.fillStyle = dataset.borderColor; // Make the square solid, not transparent
+                    label.strokeStyle = dataset.borderColor;
+                  }
+                });
+                
+                return labels;
+              }
+            },
+          },
+          tooltip: {
+            mode: "index",
+            intersect: false,
+            callbacks: {
+              label: function (context) {
+                const value = context.parsed.y;
+                return `${context.dataset.label}: ${
+                  value === null ? "no data" : value + "%"
+                }`;
+              },
+              labelColor: function(context) {
+                return {
+                  borderColor: context.dataset.borderColor,
+                  backgroundColor: context.dataset.borderColor, // Use solid color instead of transparent
+                };
               },
             },
           },

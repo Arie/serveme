@@ -181,9 +181,9 @@ class ServerInfo
 
       combined_output.each_line do |line|
         next if line.match?(/^#\s*\d+\s+"[^"]+"\s+BOT\s+/)
-        match = line.match(/^#\s*\d+\s+"([^"]+)"\s+\[U:\d+:\d+\]\s+[\d:]+\s+(\d+)\s+\d+\s+active/)
+        match = line.match(/^#\s*\d+\s+"([^"]+)"\s+\[U:\d+:\d+\]\s+[\d:]+\s+(\d+)\s+(\d+)\s+active/)
         if match
-          player_pings << { name: match[1], ping: match[2].to_i }
+          player_pings << { name: match[1], ping: match[2].to_i, loss: match[3].to_i }
           player_count += 1
         end
       end

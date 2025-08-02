@@ -120,4 +120,8 @@ class ApplicationController < ActionController::Base
   def store_current_location
     store_location_for(:user, request.url)
   end
+
+  def distance_unit
+    na_system? ? "mi" : "km"
+  end
 end

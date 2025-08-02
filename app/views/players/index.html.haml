@@ -1,0 +1,8 @@
+- content_for(:title) { "Current Players" }
+
+= turbo_stream_from "players"
+
+%h2 Current Players
+
+#players-content
+  = render "players_content", servers_with_players: @servers_with_players, distance_unit: @distance_unit

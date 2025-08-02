@@ -315,7 +315,9 @@ class ReservationsController < ApplicationController
         reservation_player: reservation_player,
         country_code: location_info[:country_code],
         country_name: location_info[:country_name],
-        distance: location_info[:distance]
+        distance: location_info[:distance],
+        player_latitude: location_info[:player_latitude],
+        player_longitude: location_info[:player_longitude]
       }
     end
 
@@ -323,10 +325,10 @@ class ReservationsController < ApplicationController
   end
 
   def get_player_location_info(reservation_player)
-    return { country_code: nil, country_name: nil, distance: nil } unless reservation_player.ip.present?
+    return { country_code: nil, country_name: nil, distance: nil, player_latitude: nil, player_longitude: nil } unless reservation_player.ip.present?
 
     if local_ip?(reservation_player.ip)
-      return { country_code: nil, country_name: nil, distance: nil }
+      return { country_code: nil, country_name: nil, distance: nil, player_latitude: nil, player_longitude: nil }
     end
 
     if reservation_player.latitude.present? && reservation_player.longitude.present?
@@ -336,10 +338,12 @@ class ReservationsController < ApplicationController
       {
         country_code: country_info[:country_code],
         country_name: country_info[:country_name],
-        distance: distance
+        distance: distance,
+        player_latitude: reservation_player.latitude,
+        player_longitude: reservation_player.longitude
       }
     else
-      { country_code: nil, country_name: nil, distance: nil }
+      { country_code: nil, country_name: nil, distance: nil, player_latitude: nil, player_longitude: nil }
     end
   end
 
@@ -375,9 +379,5 @@ class ReservationsController < ApplicationController
     ).round(0)
   rescue
     nil
-  end
-
-  def distance_unit
-    na_system? ? "mi" : "km"
   end
 end

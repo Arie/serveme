@@ -12,11 +12,11 @@ module Api
     skip_forgery_protection
 
     def verify_api_key
-      api_user
+      unauthorized unless api_user
     end
 
     def api_user
-      @api_user ||= authenticate_params || authenticate_token || unauthorized
+      @api_user ||= authenticate_params || authenticate_token
     end
 
     def uid_user

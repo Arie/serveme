@@ -117,5 +117,4 @@ class ServerMetric
   def banned_ip?(player)
     ReservationPlayer.banned_ip?(player.ip)
   end
-
 end

@@ -13,7 +13,7 @@ RSpec.describe ZipUploadWorker, type: :worker do
   before(:all) do
     zip_path = Rails.root.join('spec', 'fixtures', 'files', 'test.zip')
     FileUtils.mkdir_p(File.dirname(zip_path))
-    Zip::File.open(zip_path, Zip::File::CREATE) do |zipfile|
+    Zip::File.open(zip_path, create: true) do |zipfile|
       zipfile.get_output_stream("test.txt") { |f| f.write "test content" }
     end
   end

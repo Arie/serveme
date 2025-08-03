@@ -42,7 +42,7 @@ describe DownloadThenZipFileCreator do
       zip_file = described_class.new(reservation, files)
       zip_file.should_receive(:files_to_zip_in_dir).with(tmp_dir).and_return(files)
       zip_file.stub(zipfile_name_and_path: zipfile_name_and_path)
-      Zip::File.should_receive(:open).with(zipfile_name_and_path, Zip::File::CREATE).and_yield(zip_file_stub)
+      Zip::File.should_receive(:open).with(zipfile_name_and_path, create: true).and_yield(zip_file_stub)
       zip_file.zip(tmp_dir)
     end
   end

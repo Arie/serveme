@@ -56,9 +56,10 @@ class FileUpload < ActiveRecord::Base
       target_dir = zipped_file.name.split("/")[0..-2].join("/")
       files_with_path[target_dir] ||= []
 
-      dest_path = File.join(tmp_dir, target_dir, filename)
+      dest_path = File.join(tmp_dir, zipped_file.name)
+      FileUtils.mkdir_p(File.dirname(dest_path))
       FileUtils.rm_rf(dest_path) if File.exist?(dest_path)
-      zipped_file.extract(dest_path) { false }
+      zipped_file.extract(zipped_file.name, destination_directory: tmp_dir) { true }
       files_with_path[target_dir] << dest_path
     end
     files_with_path

@@ -24,7 +24,7 @@ class DownloadThenZipFileCreator < ZipFileCreator
 
   def zip(tmp_dir)
     reservation.status_update("Zipping logs and demos")
-    Zip::File.open(zipfile_name_and_path, Zip::File::CREATE) do |zipfile|
+    Zip::File.open(zipfile_name_and_path, create: true) do |zipfile|
       files_to_zip_in_dir(tmp_dir).each do |filename_with_path|
         filename_without_path = File.basename(filename_with_path)
         begin

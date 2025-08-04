@@ -39,4 +39,47 @@ describe CronWorker do
       CronWorker.perform_async
     end
   end
+
+  describe '#broadcast_players_update' do
+    let(:worker) { CronWorker.new }
+    let(:servers_with_players) { [] }
+
+    before do
+      allow(CurrentPlayersService).to receive(:expire_cache)
+      allow(CurrentPlayersService).to receive(:all_servers_with_current_players).and_return(servers_with_players)
+      allow(CurrentPlayersService).to receive(:distance_unit_for_region).and_return('km')
+    end
+
+    it 'broadcasts to both regular and admin streams' do
+      expect(Turbo::StreamsChannel).to receive(:broadcast_replace_to).with(
+        "players",
+        target: "players-content",
+        partial: "players/players_content",
+        locals: {
+          servers_with_players: servers_with_players,
+          distance_unit: 'km'
+        }
+      )
+
+      expect(Turbo::StreamsChannel).to receive(:broadcast_replace_to).with(
+        "admin-players",
+        target: "admin-players-content",
+        partial: "players/admin_players_content",
+        locals: {
+          servers_with_players: servers_with_players,
+          distance_unit: 'km'
+        }
+      )
+
+      worker.broadcast_players_update
+    end
+
+    it 'expires the current players cache before broadcasting' do
+      allow(Turbo::StreamsChannel).to receive(:broadcast_replace_to)
+
+      expect(CurrentPlayersService).to receive(:expire_cache)
+
+      worker.broadcast_players_update
+    end
+  end
 end

@@ -59,10 +59,22 @@ class CronWorker
     servers_with_players = CurrentPlayersService.all_servers_with_current_players
     distance_unit = CurrentPlayersService.distance_unit_for_region
 
+    # Broadcast to regular users
     Turbo::StreamsChannel.broadcast_replace_to(
       "players",
       target: "players-content",
       partial: "players/players_content",
+      locals: {
+        servers_with_players: servers_with_players,
+        distance_unit: distance_unit
+      }
+    )
+
+    # Broadcast to admin users
+    Turbo::StreamsChannel.broadcast_replace_to(
+      "admin-players",
+      target: "admin-players-content",
+      partial: "players/admin_players_content",
       locals: {
         servers_with_players: servers_with_players,
         distance_unit: distance_unit

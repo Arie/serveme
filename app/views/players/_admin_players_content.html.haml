@@ -1,0 +1,84 @@
+#admin-players-content
+  %h2.mb-4
+    Current Players
+    = link_to(pluralize(servers_with_players.sum { |server_data| server_data[:players].length }, "player"), player_statistics_path, class: "badge badge-info", title: "View player statistics")
+
+  - if servers_with_players.present?
+    - servers_with_players.each do |server_data|
+      .row
+        .col-md-12
+          %h3
+            = link_to(server_data[:server].name, show_server_statistic_path(server_data[:server].id), title: "View server statistics")
+            - if server_data[:players].any? && server_data[:players].first[:reservation_player]&.reservation
+              - reservation = server_data[:players].first[:reservation_player].reservation
+              = link_to(pluralize(server_data[:players].length, "player"), reservation_path(reservation), class: "badge badge-info", title: "View reservation details")
+            - else
+              = link_to(pluralize(server_data[:players].length, "player"), show_server_player_statistic_path(server_data[:server].id), class: "badge badge-info", title: "View player statistics for this server")
+
+          %table.table.table-hover.table-bordered.table-striped
+            %colgroup
+              %col{style: "width: 25%; max-width: 200px;"}
+              %col{style: "width: 20%;"}
+              %col{style: "width: 15%;"}
+              %col{style: "width: 15%;"}
+              %col{style: "width: 12.5%;"}
+              %col{style: "width: 12.5%;"}
+            %thead
+              %tr
+                %th Player
+                %th Country
+                %th Distance
+                %th Connected
+                %th= link_to("Ping", player_statistics_path, title: "View player statistics", class: "text-white")
+                %th= link_to("Loss", player_statistics_path, title: "View player statistics", class: "text-white")
+            %tbody
+              - server_data[:players].each do |player_info|
+                %tr
+                  %td
+                    - reservation_player = player_info[:reservation_player]
+                    - if reservation_player&.steam_uid && reservation_player&.name
+                      = link_to(reservation_player.name, "https://steamcommunity.com/profiles/#{reservation_player.steam_uid}", target: "_blank", class: "player-name")
+                    - else
+                      %span.player-name= reservation_player&.name || "Unknown Player"
+                  %td
+                    - if player_info[:sdr]
+                      %span.text-muted SDR
+                    - elsif player_info[:country_code].present?
+                      = image_tag("flags/#{player_info[:country_code].downcase}.png", alt: player_info[:country_name], class: "flag", style: "margin-right: 0.5em;")
+                      = player_info[:country_name]
+                    - else
+                      %span.text-muted Unknown
+                  %td
+                    - if player_info[:sdr]
+                      %span.text-muted SDR
+                    - elsif player_info[:distance].present?
+                      = "#{player_info[:distance]} #{distance_unit}"
+                    - else
+                      %span.text-muted Unknown
+                  %td
+                    - if player_info[:player_statistic]&.minutes_connected.present?
+                      = "#{player_info[:player_statistic].minutes_connected} min"
+                    - else
+                      %span.text-muted Unknown
+                  %td
+                    - if player_info[:player_statistic]&.ping.present?
+                      - steam_uid = player_info[:reservation_player].steam_uid
+                      = link_to("#{player_info[:player_statistic].ping} ms", show_player_statistic_path(steam_uid), title: "View player statistics")
+                    - else
+                      %span.text-muted Unknown
+                  %td
+                    - if player_info[:player_statistic]&.loss.present?
+                      - steam_uid = player_info[:reservation_player].steam_uid
+                      = link_to("#{player_info[:player_statistic].loss}%", show_player_statistic_path(steam_uid), title: "View player statistics")
+                    - else
+                      %span.text-muted Unknown
+
+          %br
+
+  - else
+    .row
+      .col-md-12
+        %p Currently no players are active on any servers
+        %p
+          = link_to "View all reservations", your_reservations_path, class: "btn btn-primary"
+          = link_to "Make a reservation", new_reservation_path, class: "btn btn-success"

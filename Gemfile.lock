@@ -194,6 +194,13 @@ GEM
       logger (~> 1.5)
     chronic (0.10.2)
     chunky_png (1.3.15)
+    claude-on-rails (0.2.0)
+      claude_swarm (~> 0.1)
+      rails (>= 6.0)
+    claude_swarm (0.1.20)
+      fast-mcp-annotations
+      thor (~> 1.3)
+      zeitwerk (~> 2.7.3)
     coderay (1.1.3)
     coffee-rails (5.0.0)
       coffee-script (>= 2.2.0)
@@ -342,7 +349,7 @@ GEM
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
     faraday-retry (1.0.3)
-    fast-mcp (1.5.0)
+    fast-mcp-annotations (1.5.2)
       addressable (~> 2.8)
       base64
       dry-schema (~> 1.14)
@@ -804,10 +811,6 @@ GEM
     tf2_line_parser (0.3.0)
       activesupport
     thor (1.4.0)
-    tidewave (0.1.3)
-      fast-mcp (~> 1.5.0)
-      rack (>= 2.0)
-      rails (>= 7.1.0)
     tilt (2.6.1)
     time (0.4.1)
       date
@@ -880,6 +883,7 @@ DEPENDENCIES
   capistrano3-puma
   capybara
   carrierwave
+  claude-on-rails
   coffee-rails
   connection_pool
   coveralls
@@ -976,7 +980,6 @@ DEPENDENCIES
   terser
   text
   tf2_line_parser
-  tidewave
   uri
   vcr
   webmock

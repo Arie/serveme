@@ -14,6 +14,7 @@
               = link_to(pluralize(server_data[:players].length, "player"), reservation_path(reservation), class: "badge badge-info", title: "View reservation details")
             - else
               = link_to(pluralize(server_data[:players].length, "player"), show_server_player_statistic_path(server_data[:server].id), class: "badge badge-info", title: "View player statistics for this server")
+            = link_to("Server Monitor", server_monitoring_path(server_id: server_data[:server].id), class: "badge badge-secondary ml-2", title: "Monitor this server in real-time")
 
           %table.table.table-hover.table-bordered.table-striped
             %colgroup

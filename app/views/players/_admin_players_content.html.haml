@@ -52,6 +52,9 @@
                   %td
                     - if player_info[:sdr]
                       %span.text-muted SDR
+                    - elsif player_info[:distance].present? && player_info[:player_latitude].present? && player_info[:player_longitude].present? && server_data[:server].latitude.present? && server_data[:server].longitude.present?
+                      - maps_url = "https://www.google.com/maps/dir//#{player_info[:player_latitude]},#{player_info[:player_longitude]}/#{server_data[:server].latitude},#{server_data[:server].longitude}"
+                      = link_to("#{player_info[:distance]} #{distance_unit}", maps_url, target: "_blank", title: "View route on Google Maps")
                     - elsif player_info[:distance].present?
                       = "#{player_info[:distance]} #{distance_unit}"
                     - else

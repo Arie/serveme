@@ -8,4 +8,6 @@ set :puma_workers,       1
 set :sidekiq_processes,  1
 set :rvm_type,           :user
 
+set :puma_phased_restart, false
+
 server "direct.au.serveme.tf", user: "tf2", roles: %w[web app db]

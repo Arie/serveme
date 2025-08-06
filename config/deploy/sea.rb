@@ -8,4 +8,6 @@ set :puma_workers,       1
 set :sidekiq_processes,  1
 set :rvm_type,           :user
 
+set :puma_phased_restart, false
+
 server "139.99.42.241", user: "arie", roles: %w[web app db]

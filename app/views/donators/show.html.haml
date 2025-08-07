@@ -117,6 +117,7 @@
                   %th Amount
                   %th Status
                   %th Type
+                  %th
               %tbody
                 - @orders.each do |order|
                   %tr
@@ -138,5 +139,16 @@
                         %span.badge.bg-info.text-white Stripe
                       - else
                         %span.badge.bg-secondary.text-white Unknown
+                    %td.text-center
+                      - if order.gift?
+                        %i.fa.fa-gift.text-success{ title: "This was a gift purchase", data: { toggle: "tooltip", placement: "top" } }
         - else
           %p.text-muted.mb-0 No donation history
+
+:javascript
+  document.addEventListener('turbo:load', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  })

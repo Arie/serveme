@@ -88,7 +88,7 @@
                         %span.text-muted Never
                     %td
                       - if period.expires_at
-                        = distance_of_time_in_words(period.created_at, period.expires_at)
+                        = format_exact_duration(period.created_at, period.expires_at)
                       - else
                         %span.text-muted Permanent
                     %td

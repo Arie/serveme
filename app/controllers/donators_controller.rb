@@ -2,6 +2,8 @@
 # frozen_string_literal: true
 
 class DonatorsController < ApplicationController
+  include DonatorsHelper
+
   before_action :require_admin, except: :leaderboard
   before_action :require_donator, only: :leaderboard
 
@@ -112,19 +114,9 @@ class DonatorsController < ApplicationController
     # Convert to a more readable format
     return nil if total_seconds == 0
 
-    days = (total_seconds / 1.day).to_i
-
-    years = days / 365
-    remaining_days = days % 365
-    months = remaining_days / 30
-    days = remaining_days % 30
-
-    parts = []
-    parts << "#{years} #{'year'.pluralize(years)}" if years > 0
-    parts << "#{months} #{'month'.pluralize(months)}" if months > 0
-    parts << "#{days} #{'day'.pluralize(days)}" if days > 0
-
-    parts.join(", ")
+    # Use a fictional start time to get the duration formatted
+    start_time = Time.current - total_seconds
+    format_exact_duration(start_time, Time.current)
   end
 
   def find_donator

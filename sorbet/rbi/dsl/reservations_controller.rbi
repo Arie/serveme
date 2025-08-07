@@ -23,6 +23,7 @@ class ReservationsController
     include ::Importmap::ImportmapTagsHelper
     include ::ActionController::Base::HelperMethods
     include ::ApplicationHelper
+    include ::DonatorsHelper
     include ::LogLineHelper
     include ::RconHelper
     include ::ReservationsHelper

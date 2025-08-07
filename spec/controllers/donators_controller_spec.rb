@@ -127,6 +127,39 @@ describe DonatorsController do
       expect(donator_periods.first).to eq(current_group_user)
     end
 
+    it 'calculates total donator time correctly' do
+      # Create periods with known durations
+      expired_group_user = GroupUser.create!(
+        user: @donator,
+        group: Group.donator_group,
+        created_at: 30.days.ago,
+        expires_at: 20.days.ago
+      )
+
+      current_group_user = @donator.group_users.find_by(group: Group.donator_group)
+      current_group_user.update!(created_at: 10.days.ago, expires_at: 10.days.from_now)
+
+      get :show, params: { id: @donator.id }
+
+      # Should be 10 days for expired period + 10 days for current period = 20 days
+      expect(assigns(:total_donator_time)).to eq("20 days")
+    end
+
+    it 'formats total donator time with years and months' do
+      # Create a long-term donator
+      GroupUser.create!(
+        user: @donator,
+        group: Group.donator_group,
+        created_at: 400.days.ago,
+        expires_at: 50.days.ago
+      )
+
+      get :show, params: { id: @donator.id }
+
+      # 350 days = 11 months, 20 days (using 30-day months)
+      expect(assigns(:total_donator_time)).to eq("11 months, 20 days")
+    end
+
     it 'only shows completed orders in donation history' do
       completed_order = create :paypal_order, user: @donator, status: 'Completed', product: create(:product)
       pending_order = create :paypal_order, user: @donator, status: 'Pending', product: create(:product)
@@ -152,22 +185,25 @@ describe DonatorsController do
 
       post :lookup_user, params: { input: '76561197960497430' }, format: :turbo_stream
 
-      expect(assigns(:user)).to eq(target_user)
+      expect(assigns(:users)).to eq([ target_user ])
       expect(response).to render_template(:lookup_user)
     end
 
-    it 'finds user by nickname' do
-      target_user = create :user, nickname: 'TestPlayer'
+    it 'finds multiple users by nickname' do
+      user1 = create :user, nickname: 'TestPlayer'
+      user2 = create :user, nickname: 'TestPlayerTwo'
+      user3 = create :user, nickname: 'AnotherPlayer'
 
       post :lookup_user, params: { input: 'TestPl' }, format: :turbo_stream
 
-      expect(assigns(:user)).to eq(target_user)
+      expect(assigns(:users)).to include(user1, user2)
+      expect(assigns(:users)).not_to include(user3)
     end
 
-    it 'returns nil for invalid input' do
+    it 'returns empty array for invalid input' do
       post :lookup_user, params: { input: 'nonexistent' }, format: :turbo_stream
 
-      expect(assigns(:user)).to be_nil
+      expect(assigns(:users)).to eq([])
     end
   end
 

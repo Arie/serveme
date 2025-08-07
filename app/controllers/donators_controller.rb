@@ -46,7 +46,7 @@ class DonatorsController < ApplicationController
 
   def lookup_user
     input = params[:input]
-    @user = UserFinderService.new(input).find
+    @users = UserSearchService.new(input).search
 
     respond_to do |format|
       format.turbo_stream
@@ -77,6 +77,9 @@ class DonatorsController < ApplicationController
     @total_donations = @user.orders.completed.count
     @total_reservations = @user.reservations.count
     @total_reservation_hours = (@user.total_reservation_seconds / 3600.0).round(1)
+
+    # Calculate total donator time
+    @total_donator_time = calculate_total_donator_time(@donator_periods)
   end
 
   def edit
@@ -92,6 +95,37 @@ class DonatorsController < ApplicationController
   end
 
   private
+
+  def calculate_total_donator_time(periods)
+    total_seconds = 0
+
+    periods.each do |period|
+      start_time = period.created_at
+      end_time = period.expires_at || Time.current
+
+      # If the period is still active, count up to now
+      end_time = [ end_time, Time.current ].min
+
+      total_seconds += (end_time - start_time)
+    end
+
+    # Convert to a more readable format
+    return nil if total_seconds == 0
+
+    days = (total_seconds / 1.day).to_i
+
+    years = days / 365
+    remaining_days = days % 365
+    months = remaining_days / 30
+    days = remaining_days % 30
+
+    parts = []
+    parts << "#{years} #{'year'.pluralize(years)}" if years > 0
+    parts << "#{months} #{'month'.pluralize(months)}" if months > 0
+    parts << "#{days} #{'day'.pluralize(days)}" if days > 0
+
+    parts.join(", ")
+  end
 
   def find_donator
     @donator = GroupUser.where(user_id: params[:id],

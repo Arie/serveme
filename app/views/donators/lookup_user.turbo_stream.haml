@@ -1,21 +1,22 @@
 = turbo_stream.update "user-lookup-result" do
-  - if @user
-    .card.border-success
-      .card-body.p-3
-        .d-flex.align-items-center
-          %img.rounded-circle.me-3{src: @user.steam_avatar_url(:medium), width: "50", height: "50", alt: @user.nickname}
-          .flex-grow-1.px-3
-            %h6.mb-0= @user.nickname
-            %small.text-muted 
-              = "User ##{@user.id} • Steam ID: #{@user.uid}"
-              - if @user.donator? && @user.donator_until
-                %br
-                %span.badge.bg-success Donator until #{l(@user.donator_until, format: :short)}
-          %button.btn.btn-sm.btn-success{type: "button", 
-                                       data: {action: "click->user-lookup#selectUser",
-                                             user_id: @user.id,
-                                             user_name: @user.nickname}}
-            Select
+  - if @users.any?
+    - @users.each do |user|
+      .card.border-success.mb-2
+        .card-body.p-3
+          .d-flex.align-items-center
+            %img.rounded-circle.me-3{src: user.steam_avatar_url(:medium), width: "50", height: "50", alt: user.nickname}
+            .flex-grow-1.px-3
+              %h6.mb-0= user.nickname
+              %small.text-muted 
+                = "User ##{user.id} • Steam ID: #{user.uid}"
+                - if user.donator? && user.donator_until
+                  %br
+                  %h5.badge.bg-success.text-white.mb-0 Donator until #{l(user.donator_until, format: :short)}
+            %button.btn.btn-sm.btn-success{type: "button", 
+                                         data: {action: "click->user-lookup#selectUser",
+                                               user_id: user.id,
+                                               user_name: user.nickname}}
+              Select
   - else
     .alert.alert-warning.alert-sm.mb-0
-      No user found. Try using Steam ID, Steam ID64, User ID (#123), or nickname.
+      No users found. Try using Steam ID, Steam ID64, User ID (#123), or nickname.

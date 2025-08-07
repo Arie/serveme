@@ -62,7 +62,11 @@
   .col-md-8
     .card.mb-4
       .card-header
-        %h5.mb-0.text-white Donator Status History
+        .d-flex.justify-content-between.align-items-center
+          %h5.mb-0.text-white Donator Status History
+          - if @donator_periods.any? && @total_donator_time
+            %span.badge.bg-info.text-white
+              Total: #{@total_donator_time} as donator
       .card-body
         - if @donator_periods.any?
           .table-responsive
@@ -76,10 +80,10 @@
               %tbody
                 - @donator_periods.each do |period|
                   %tr
-                    %td= l(period.created_at, format: :short)
+                    %td= l(period.created_at, format: :long)
                     %td
                       - if period.expires_at
-                        = l(period.expires_at, format: :short)
+                        = l(period.expires_at, format: :long)
                       - else
                         %span.text-muted Never
                     %td

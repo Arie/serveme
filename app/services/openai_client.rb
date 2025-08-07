@@ -6,7 +6,7 @@ class OpenaiClient
   PROVIDERS = {
     openai: {
       uri_base: "https://api.openai.com/",
-      default_model: "gpt-5-mini"
+      default_model: "gpt-4.1-mini"
     },
     deepseek: {
       uri_base: "https://api.deepseek.com/v1/",

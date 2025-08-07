@@ -1,0 +1,138 @@
+- content_for(:title) { "Donator: #{@user.nickname}" }
+
+.row
+  .col-md-12
+    .d-flex.justify-content-between.align-items-center.mb-4
+      %h2.mb-0= link_to "Donators", donators_path, class: "text-decoration-none"
+
+.row
+  .col-md-4
+    .card.mb-4
+      .card-header
+        %h5.mb-0.text-white User Information
+      .card-body
+        .text-center.mb-3
+          %img.rounded-circle{src: @user.steam_avatar_url(:full), width: "120", height: "120", alt: @user.nickname}
+        
+        %h4.text-center= @user.nickname
+        
+        %dl.row.mt-3
+          %dt.col-sm-5 User ID:
+          %dd.col-sm-7= "##{@user.id}"
+          
+          %dt.col-sm-5 Steam ID64:
+          %dd.col-sm-7
+            %code= @user.uid
+          
+          %dt.col-sm-5 Joined:
+          %dd.col-sm-7= l(@user.created_at, format: :long)
+          
+          %dt.col-sm-5 Status:
+          %dd.col-sm-7
+            - if @user.donator?
+              %span.badge.bg-success.text-white Donator
+            - else
+              %span.badge.bg-secondary Not a donator
+        
+        .mt-3
+          = link_to "View Steam Profile", @user.steam_profile_url, target: "_blank", rel: "noopener", class: "btn btn-primary btn-block mb-2"
+          - if @user.donator?
+            = link_to edit_donator_path(@user), class: "btn btn-warning btn-block" do
+              %i.fa.fa-pencil.me-2
+              Edit Expiration
+
+    .card.mb-4
+      .card-header
+        %h5.mb-0.text-white Statistics
+      .card-body
+        %dl.row.mb-0
+          %dt.col-sm-7 Lifetime Value:
+          %dd.col-sm-5.text-end
+            %strong= number_to_currency(@lifetime_value)
+          
+          %dt.col-sm-7 Total Donations:
+          %dd.col-sm-5.text-end= @total_donations
+          
+          %dt.col-sm-7 Total Reservations:
+          %dd.col-sm-5.text-end= @total_reservations
+          
+          %dt.col-sm-7 Total Hours:
+          %dd.col-sm-5.text-end= "#{@total_reservation_hours}h"
+
+  .col-md-8
+    .card.mb-4
+      .card-header
+        %h5.mb-0.text-white Donator Status History
+      .card-body
+        - if @donator_periods.any?
+          .table-responsive
+            %table.table.table-sm.mb-0
+              %thead
+                %tr
+                  %th Started
+                  %th Expires
+                  %th Duration
+                  %th Status
+              %tbody
+                - @donator_periods.each do |period|
+                  %tr
+                    %td= l(period.created_at, format: :short)
+                    %td
+                      - if period.expires_at
+                        = l(period.expires_at, format: :short)
+                      - else
+                        %span.text-muted Never
+                    %td
+                      - if period.expires_at
+                        = distance_of_time_in_words(period.created_at, period.expires_at)
+                      - else
+                        %span.text-muted Permanent
+                    %td
+                      - if period.expires_at && period.expires_at < Time.current
+                        %span.badge.bg-secondary.text-white Expired
+                      - elsif period.expires_at && period.expires_at < 7.days.from_now
+                        %span.badge.bg-warning.text-dark Expiring Soon
+                      - else
+                        %span.badge.bg-success.text-white Active
+        - else
+          %p.text-muted.mb-0 No donator history
+
+    .card
+      .card-header
+        .d-flex.justify-content-between.align-items-center
+          %h5.mb-0.text-white Donation History
+          %span.badge.bg-primary= "#{@orders.count} total"
+      .card-body
+        - if @orders.any?
+          .table-responsive
+            %table.table.table-sm.mb-0
+              %thead
+                %tr
+                  %th Date
+                  %th Product
+                  %th Amount
+                  %th Status
+                  %th Type
+              %tbody
+                - @orders.each do |order|
+                  %tr
+                    %td= l(order.created_at, format: :short)
+                    %td= order.product_name
+                    %td= number_to_currency(order.product&.price || 0)
+                    %td
+                      - case order.status
+                      - when "Completed"
+                        %span.badge.bg-success.text-white= order.status
+                      - when "Failed"
+                        %span.badge.bg-danger.text-white= order.status
+                      - else
+                        %span.badge.bg-secondary.text-white= order.status
+                    %td
+                      - if order.is_a?(PaypalOrder)
+                        %span.badge.bg-info.text-white PayPal
+                      - elsif order.is_a?(StripeOrder)
+                        %span.badge.bg-info.text-white Stripe
+                      - else
+                        %span.badge.bg-secondary.text-white Unknown
+        - else
+          %p.text-muted.mb-0 No donation history

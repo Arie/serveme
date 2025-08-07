@@ -145,6 +145,9 @@ module GeneratedPathHelpersModule
   def login_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def lookup_user_donators_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def map_upload_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

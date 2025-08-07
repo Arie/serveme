@@ -6,13 +6,33 @@ class DonatorsController < ApplicationController
   before_action :require_donator, only: :leaderboard
 
   def index
-    @donators = Group.donator_group.users.order(group_users: { id: :desc }).paginate(page: params[:page], per_page: 20)
+    @donators = Group.donator_group.users
+                     .includes(:group_users, :orders)
+                     .order(group_users: { id: :desc })
+                     .paginate(page: params[:page], per_page: 20)
 
-    donator_ids = @donators.map(&:id)
+    current_page_ids = @donators.map(&:id)
+
     @lifetime_values = User.joins(orders: :product)
-                           .where(id: donator_ids, paypal_orders: { status: "Completed" })
+                           .where(id: current_page_ids, paypal_orders: { status: "Completed" })
                            .group(:id)
                            .sum(:price)
+
+    @donation_counts = Order.completed
+                           .where(user_id: current_page_ids)
+                           .group(:user_id)
+                           .count
+
+    @last_donation_dates = Order.completed
+                               .where(user_id: current_page_ids)
+                               .group(:user_id)
+                               .maximum(:created_at)
+
+    @latest_products = Order.completed
+                           .joins(:product)
+                           .where(user_id: current_page_ids)
+                           .group(:user_id)
+                           .maximum("products.name")
   end
 
   def leaderboard
@@ -24,12 +44,38 @@ class DonatorsController < ApplicationController
     render :new
   end
 
+  def lookup_user
+    input = params[:input]
+    @user = UserFinderService.new(input).find
+
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
+
   def create
     respond_to do |format|
       format.html do
         add_or_extend_donator || (new_donator && render(:new, status: :unprocessable_entity))
       end
     end
+  end
+
+  def show
+    @user = User.find(params[:id])
+
+    @donator_periods = @user.group_users
+                           .where(group_id: Group.donator_group)
+                           .order(created_at: :desc)
+
+    @orders = @user.orders
+                   .includes(:product)
+                   .order(created_at: :desc)
+
+    @lifetime_value = @user.orders.completed.joins(:product).sum(:price)
+    @total_donations = @user.orders.completed.count
+    @total_reservations = @user.reservations.count
+    @total_reservation_hours = (@user.total_reservation_seconds / 3600.0).round(1)
   end
 
   def edit
@@ -56,7 +102,7 @@ class DonatorsController < ApplicationController
   end
 
   def add_or_extend_donator
-    user = User.where(uid: params[:group_user][:user_id]).first
+    user = User.find_by(id: params[:group_user][:user_id])
 
     return false unless user
 

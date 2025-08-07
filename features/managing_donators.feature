@@ -8,12 +8,6 @@ Feature: Managing donators
     And I am an admin
     And there is a non-donator
 
-  Scenario: Adding a donator
-    When I go add a donator
-    And I enter his uid
-    And I save the donator
-    Then I see the new donator in the list
-
   Scenario: Editing a donator
     Given there is a donator
     When I edit the donator

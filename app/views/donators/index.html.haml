@@ -1,28 +1,66 @@
-- content_for(:title) { "donators" }
-
-%h2 Donators
-
-.row
-  .col-md-10
-    = will_paginate @donators
-  .col-md-2
-    = link_to("Add donator", new_donator_path)
-
+- content_for(:title) { "Donators" }
 
 .row
   .col-md-12
-    %table.table.table-condensed.table-hover
-      %thead
-        %tr
-          %th Name
-          %th Donator until
-          %th Product
-          %th Lifetime Value
-      %tbody
-        - @donators.each do |donator|
-          %tr[donator]
-            %td= link_to(donator.nickname, donator.steam_profile_url, class: "player-name")
-            %td= link_to(donator.donator_until, edit_donator_path(donator))
-            %td= donator.orders.completed.map(&:product_name).join(",")
-            %td= number_to_currency(@lifetime_values[donator.id].to_f.round(2) || 0)
+    .d-flex.justify-content-between.align-items-center.mb-4
+      %h2.mb-0 Donators
+      = link_to("Add donator", new_donator_path, class: "btn btn-primary")
 
+.row
+  .col-md-12
+    .card
+      .card-body.p-0
+        .table-responsive
+          %table.table.table-hover.mb-0
+            %thead
+              %tr
+                %th.pl-3 Name
+                %th.text-center Donator Until
+                %th.text-center Current Product
+                %th.text-center Total Donations
+                %th.text-center Lifetime Value
+                %th.text-center Last Donation
+                %th.text-center Joined
+                %th.text-center Actions
+            %tbody
+              - @donators.each do |donator|
+                %tr[donator]
+                  %td.pl-3
+                    = link_to(donator.nickname, donator.steam_profile_url, target: "_blank", rel: "noopener", class: "player-name")
+                    %br
+                    %small.text-muted= "##{donator.id}"
+                  %td.text-center
+                    - if donator.donator_until
+                      %span{class: (donator.donator_until < 7.days.from_now ? "text-warning" : "")}
+                        = l(donator.donator_until, format: :long)
+                      %br
+                      %small.text-muted= distance_of_time_in_words_to_now(donator.donator_until)
+                    - else
+                      %span.text-muted Never expires
+                  %td.text-center
+                    - current_product = @latest_products[donator.id]
+                    - if current_product.present?
+                      %span= current_product
+                    - else
+                      %span.text-muted -
+                  %td.text-center
+                    = @donation_counts[donator.id] || 0
+                  %td.text-center
+                    %strong= number_to_currency(@lifetime_values[donator.id].to_f.round(2) || 0)
+                  %td.text-center
+                    - if @last_donation_dates[donator.id]
+                      %span{title: l(@last_donation_dates[donator.id], format: :long), data: {toggle: "tooltip"}}
+                        = time_ago_in_words(@last_donation_dates[donator.id]) + " ago"
+                    - else
+                      %span.text-muted -
+                  %td.text-center
+                    %small= l(donator.created_at, format: :long)
+                  %td.text-center
+                    .btn-group.btn-group-sm{role: "group"}
+                      = link_to("View", donator_path(donator), class: "btn btn-info", title: "View details")
+                      = link_to("Edit", edit_donator_path(donator), class: "btn btn-warning", title: "Edit expiration")
+
+.row.mt-3
+  .col-md-12
+    .d-flex.justify-content-center
+      = will_paginate @donators

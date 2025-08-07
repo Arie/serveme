@@ -38,7 +38,22 @@ class User < ActiveRecord::Base
 
   sig { returns(String) }
   def steam_profile_url
-    "http://steamcommunity.com/profiles/#{uid}"
+    "https://steamcommunity.com/profiles/#{uid.to_i}"
+  end
+
+  sig { params(size: Symbol).returns(String) }
+  def steam_avatar_url(size = :medium)
+    steam_id = SteamCondenser::Community::SteamId.new(uid.to_i)
+    case size
+    when :full
+      steam_id.full_avatar_url
+    when :medium
+      steam_id.medium_avatar_url
+    else
+      steam_id.medium_avatar_url
+    end
+  rescue StandardError
+    "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_#{size}.jpg" # Default avatar
   end
 
   sig { returns(T::Boolean) }

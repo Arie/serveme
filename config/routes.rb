@@ -85,6 +85,7 @@ Serveme::Application.routes.draw do
   resources :donators do
     collection do
       get :leaderboard
+      post :lookup_user
     end
   end
 

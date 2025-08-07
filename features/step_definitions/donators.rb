@@ -21,7 +21,7 @@ When 'I edit the donator' do
 end
 
 When 'I change the expiration date' do
-  fill_in 'Expires at', with: '10-10-2100 10:10'
+  fill_in 'New expiration date', with: '10-10-2100 10:10'
   click_button 'Update'
 end
 
@@ -36,7 +36,7 @@ Given 'there is a non-donator' do
 end
 
 When 'I enter his uid' do
-  fill_in 'User', with: '1122334455'
+  fill_in 'Find User', with: '1122334455'
 end
 
 When 'I save the donator' do

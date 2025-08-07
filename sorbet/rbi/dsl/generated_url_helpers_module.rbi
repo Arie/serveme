@@ -145,6 +145,9 @@ module GeneratedUrlHelpersModule
   def login_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def lookup_user_donators_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def map_upload_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

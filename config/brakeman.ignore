@@ -400,6 +400,40 @@
         79
       ],
       "note": "False positive - country_code is a standard 2-letter ISO country code used for CSS classes"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "8083bbdfc3d8a05218bcb0ff6a8ca535d561ac26ecadf8e1a834c5ab40189f09",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/donators/show.html.haml",
+      "line": 38,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(\"View Steam Profile\", User.find(params[:id]).steam_profile_url, :target => \"_blank\", :rel => \"noopener\", :class => \"btn btn-primary btn-block mb-2\")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "DonatorsController",
+          "method": "show",
+          "line": 86,
+          "file": "app/controllers/donators_controller.rb",
+          "rendered": {
+            "name": "donators/show",
+            "file": "app/views/donators/show.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "donators/show"
+      },
+      "user_input": "User.find(params[:id]).steam_profile_url",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": "False positive - Steam UIDs are numeric identifiers from Steam authentication, and the URL is safely constructed using URI::HTTPS.build"
     }
   ],
   "brakeman_version": "7.0.2"

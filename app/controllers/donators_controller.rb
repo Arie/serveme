@@ -64,11 +64,12 @@ class DonatorsController < ApplicationController
   def show
     @user = User.find(params[:id])
 
-    @donator_periods = @user.group_users
-                           .where(group_id: Group.donator_group)
-                           .order(created_at: :desc)
+    @donator_periods = GroupUser.unscoped
+                               .where(user_id: @user.id, group_id: Group.donator_group)
+                               .order(created_at: :desc)
 
     @orders = @user.orders
+                   .completed
                    .includes(:product)
                    .order(created_at: :desc)
 

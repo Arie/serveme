@@ -106,6 +106,40 @@ describe DonatorsController do
       expect(assigns(:total_donations)).to eq(1)
       expect(assigns(:total_reservation_hours)).to eq(1.0)
     end
+
+    it 'includes expired donator periods in history' do
+      expired_group_user = GroupUser.create!(
+        user: @donator,
+        group: Group.donator_group,
+        created_at: 6.months.ago,
+        expires_at: 3.months.ago
+      )
+
+      current_group_user = @donator.group_users.find_by(group: Group.donator_group)
+      current_group_user.update!(expires_at: 1.month.from_now)
+
+      get :show, params: { id: @donator.id }
+
+      donator_periods = assigns(:donator_periods)
+      expect(donator_periods.count).to eq(2)
+      expect(donator_periods).to include(expired_group_user)
+      expect(donator_periods).to include(current_group_user)
+      expect(donator_periods.first).to eq(current_group_user)
+    end
+
+    it 'only shows completed orders in donation history' do
+      completed_order = create :paypal_order, user: @donator, status: 'Completed', product: create(:product)
+      pending_order = create :paypal_order, user: @donator, status: 'Pending', product: create(:product)
+      failed_order = create :paypal_order, user: @donator, status: 'Failed', product: create(:product)
+
+      get :show, params: { id: @donator.id }
+
+      orders = assigns(:orders)
+      expect(orders).to include(completed_order)
+      expect(orders).not_to include(pending_order)
+      expect(orders).not_to include(failed_order)
+      expect(orders.count).to eq(1)
+    end
   end
 
   describe '#lookup_user' do

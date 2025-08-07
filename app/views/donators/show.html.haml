@@ -121,7 +121,7 @@
               %tbody
                 - @orders.each do |order|
                   %tr
-                    %td= l(order.created_at, format: :short)
+                    %td= l(order.created_at, format: :long)
                     %td= order.product_name
                     %td= number_to_currency(order.product&.price || 0)
                     %td

@@ -53,12 +53,13 @@
           Community
           %b.caret>
         .dropdown-menu
-          = link_to players_path, class: "dropdown-item" do
-            %i.fa.fa-gamepad
-            Players
-          = link_to servers_path, class: "dropdown-item" do
-            %i.fa.fa-tasks
-            Servers
+          - if current_user
+            = link_to players_path, class: "dropdown-item" do
+              %i.fa.fa-gamepad
+              Players
+            = link_to servers_path, class: "dropdown-item" do
+              %i.fa.fa-tasks
+              Servers
           = link_to statistics_path, class: "dropdown-item", data: { turbo: false } do
             %i.fa.fa-bar-chart-o
             Statistics
@@ -66,9 +67,10 @@
             %i.fa.fa-question
             FAQ
           .dropdown-divider
-          = link_to leaderboard_donators_path, class: "dropdown-item" do
-            %i.fa.fa-trophy
-            Leaderboard
+          - if current_user
+            = link_to leaderboard_donators_path, class: "dropdown-item" do
+              %i.fa.fa-trophy
+              Leaderboard
           = link_to server_providers_path, class: "dropdown-item" do
             %i.fa.fa-handshake-o
             Sponsors

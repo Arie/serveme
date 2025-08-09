@@ -96,7 +96,7 @@ class DonatorsController < ApplicationController
 
     @orders = @user.orders
                    .completed
-                   .includes(:product, voucher: :claimed_by)
+                   .includes(:product, { voucher: :claimed_by })
                    .order(created_at: :desc)
 
     @redeemed_gifts = Voucher.joins(:order, :product)
@@ -104,8 +104,8 @@ class DonatorsController < ApplicationController
                              .includes(order: :user, product: nil)
                              .order(claimed_at: :desc)
 
-    @lifetime_value = @user.orders.completed.joins(:product).sum(:price)
-    @total_donations = @user.orders.completed.count
+    @lifetime_value = @orders.joins(:product).sum(:price)
+    @total_donations = @orders.count
     @total_reservations = @user.reservations.count
     @total_reservation_hours = (@user.total_reservation_seconds / 3600.0).round(1)
 

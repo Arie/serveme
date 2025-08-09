@@ -72,7 +72,7 @@ class DonatorsController < ApplicationController
 
     @orders = @user.orders
                    .completed
-                   .includes(:product)
+                   .includes(:product, voucher: :claimed_by)
                    .order(created_at: :desc)
 
     @lifetime_value = @user.orders.completed.joins(:product).sum(:price)

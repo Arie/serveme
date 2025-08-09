@@ -115,7 +115,7 @@
                   %th Date
                   %th Product
                   %th Amount
-                  %th Status
+                  %th Gift Status
                   %th Type
                   %th
               %tbody
@@ -125,13 +125,15 @@
                     %td= order.product_name
                     %td= number_to_currency(order.product&.price || 0)
                     %td
-                      - case order.status
-                      - when "Completed"
-                        %span.badge.bg-success.text-white= order.status
-                      - when "Failed"
-                        %span.badge.bg-danger.text-white= order.status
+                      - if order.gift?
+                        - if order.voucher&.claimed?
+                          %span.badge.bg-success.text-white
+                            Redeemed by 
+                            = link_to order.voucher.claimed_by.nickname, donator_path(order.voucher.claimed_by), class: "text-white text-decoration-underline"
+                        - else
+                          %span.badge.bg-warning.text-dark Gift (Not Redeemed)
                       - else
-                        %span.badge.bg-secondary.text-white= order.status
+                        %span.badge.bg-secondary.text-white Not a Gift
                     %td
                       - if order.is_a?(PaypalOrder)
                         %span.badge.bg-info.text-white PayPal
@@ -140,8 +142,6 @@
                       - else
                         %span.badge.bg-secondary.text-white Unknown
                     %td.text-center
-                      - if order.gift?
-                        %i.fa.fa-gift.text-success{ title: "This was a gift purchase", data: { toggle: "tooltip", placement: "top" } }
         - else
           %p.text-muted.mb-0 No donation history
 

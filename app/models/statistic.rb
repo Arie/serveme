@@ -7,7 +7,6 @@ class Statistic
   sig { returns(Hash) }
   def self.top_10_users
     Rails.cache.fetch "top_10_users_#{Date.current}", expires_in: 6.hours do
-      # Use counter cache for better performance when available
       if User.column_names.include?("reservations_count")
         top_users = User.includes(:groups)
                         .where("reservations_count > 0")
@@ -18,7 +17,6 @@ class Statistic
           hash[user] = user.reservations_count
         end
       else
-        # Fallback to old method if counter cache not available
         top_users = User.joins(:reservations)
                         .includes(:groups)
                         .group("users.id")
@@ -36,7 +34,6 @@ class Statistic
   sig { returns(Hash) }
   def self.top_10_servers
     Rails.cache.fetch "top_10_servers_#{Date.current}", expires_in: 6.hours do
-      # Optimized query with better column selection
       Reservation.joins(:server)
                  .group("servers.name")
                  .order(Arel.sql("COUNT(*) DESC"))
@@ -79,8 +76,7 @@ class Statistic
 
   sig { returns(T::Array[Array]) }
   def self.reservations_per_day
-    Rails.cache.fetch "reservations_per_day_#{Date.current}", expires_in: 6.hours do
-      # More efficient date grouping with proper indexing
+    Rails.cache.fetch "reservations_per_day_#{Date.current}", expires_in: 1.hour do
       Reservation.where(starts_at: 50.days.ago..)
                  .group(Arel.sql("DATE(starts_at)"))
                  .order(Arel.sql("DATE(starts_at) DESC"))
@@ -93,8 +89,7 @@ class Statistic
 
   sig { returns(T::Array[Array]) }
   def self.reserved_hours_per_month
-    Rails.cache.fetch "reserved_hours_per_month_#{Date.current}", expires_in: 6.hours do
-      # Optimized query with better date functions and indexing
+    Rails.cache.fetch "reserved_hours_per_month_#{Date.current}", expires_in: 1.hour do
       result = ActiveRecord::Base.connection.execute(<<~SQL.squish)
         SELECT TO_CHAR(starts_at, 'YYYY-MM') AS year_month,
                SUM(duration) as total_seconds

@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 class ServerConfigsController < ApplicationController
-  before_action :require_admin
+  before_action :require_site_or_league_admin
 
   def index
     @server_configs = ServerConfig.ordered.paginate(page: params[:page], per_page: 50)

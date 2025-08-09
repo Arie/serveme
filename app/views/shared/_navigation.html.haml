@@ -26,240 +26,135 @@
       - if current_user
         %li.nav-item.dropdown
           %a.nav-link.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#"}
-            %i.fa.fa-list
+            %i.fa.fa-calendar
             Reservations
             %b.caret>
           .dropdown-menu
+            = link_to new_reservation_path, class: "dropdown-item" do
+              %i.fa.fa-plus
+              Make reservation
+            = link_to i_am_feeling_lucky_reservations_path, method: :post, title: "Make a reservation in 1 click", class: "dropdown-item" do
+              %i.fa.fa-magic
+              1-click reservation
+            .dropdown-divider
             = link_to your_reservations_path, class: "dropdown-item" do
               %i.fa.fa-user
               Your reservations
             = link_to played_in_path, class: "dropdown-item" do
               %i.fa.fa-child
               Reservations you played in
-            - if current_user && (current_user.admin? || current_user.league_admin? || current_user.streamer?)
-              = link_to recent_reservations_path, class: "dropdown-item" do
-                %i.fa.fa-clock-o
-                Recent reservations
-            = link_to new_reservation_path, class: "dropdown-item" do
-              %i.fa.fa-edit
-              Make reservation
-            = link_to i_am_feeling_lucky_reservations_path, method: :post, title: "Make a reservation in 1 click", class: "dropdown-item" do
-              %i.fa.fa-warning
-              1-click reservation
-      - if show_server_monitoring_link?
-        %li.nav-item.d-xl-block.d-md-none
-          = link_to server_monitoring_path, class: "nav-link" do
-            %i.fa.fa-tachometer
-            Monitoring
-      %li.dropdown.nav-item.d-xl-block.d-md-none
+            = link_to recent_reservations_path, class: "dropdown-item" do
+              %i.fa.fa-clock-o
+              Recent reservations
+
+      %li.dropdown.nav-item
         %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
-          %i.fa.fa-info-circle
-          Info
+          %i.fa.fa-users
+          Community
           %b.caret>
         .dropdown-menu
+          = link_to players_path, class: "dropdown-item" do
+            %i.fa.fa-gamepad
+            Players
+          = link_to servers_path, class: "dropdown-item" do
+            %i.fa.fa-tasks
+            Servers
+          = link_to statistics_path, class: "dropdown-item", data: { turbo: false } do
+            %i.fa.fa-bar-chart-o
+            Statistics
           = link_to faq_path, class: "dropdown-item" do
             %i.fa.fa-question
             FAQ
-          = link_to players_path, class: "dropdown-item" do
-            %i.fa.fa-users
-            Current players
-          - if current_user && (current_user.donator? || current_user.streamer? || current_user.league_admin? || current_user.admin?)
-            = link_to servers_path, class: "dropdown-item" do
-              %i.fa.fa-tasks
-              Servers
-          = link_to statistics_path, class: "dropdown-item", data: { turbo: false } do
-            %i.fa.fa-bar-chart-o
-            Site stats
-      - if current_user && current_user.donator?
-        %li.nav-item.d-xl-block.d-md-none
-          = link_to upload_map_path, class: "nav-link" do
-            %i.fa.fa-upload
-            Upload map
-      %li.dropdown.nav-item.d-xl-none.d-none.d-md-block
-        %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
-          %i.fa.fa-info-circle
-          Info
-          %b.caret>
-        .dropdown-menu
-          = link_to faq_path, class: "dropdown-item" do
-            %i.fa.fa-question
-            FAQ
-          = link_to players_path, class: "dropdown-item" do
-            %i.fa.fa-users
-            Current players
-          - if current_user && (current_user.donator? || current_user.streamer? || current_user.league_admin? || current_user.admin?)
-            = link_to servers_path, class: "dropdown-item" do
-              %i.fa.fa-tasks
-              Servers
-          - if current_user && current_user.donator?
-            = link_to upload_map_path, class: "dropdown-item" do
-              %i.fa.fa-upload
-              Upload map
-          = link_to statistics_path, class: "dropdown-item", data: { turbo: false } do
-            %i.fa.fa-bar-chart-o
-            Site stats
-      %li.dropdown.nav-item.d-xl-none.d-none.d-md-block
-        %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
-          %i.fa.fa-ellipsis-h
-          More
-          %b.caret>
-        .dropdown-menu
+          .dropdown-divider
+          = link_to leaderboard_donators_path, class: "dropdown-item" do
+            %i.fa.fa-trophy
+            Leaderboard
           = link_to server_providers_path, class: "dropdown-item" do
-            %i.fa.fa-heart
+            %i.fa.fa-handshake-o
             Sponsors
           = link_to credits_path, class: "dropdown-item" do
             %i.fa.fa-thumbs-up
             Credits
-          - if current_user
-            = link_to donate_path, class: "dropdown-item", data: { turbo: false } do
-              %i.fa.fa-paypal
-              Buy Premium
-            = link_to leaderboard_donators_path, class: "dropdown-item" do
-              %i.fa.fa-money
-              Leaderboard
-            = link_to settings_path, class: "dropdown-item" do
+          .dropdown-divider
+          = link_to("https://discord.gg/0s38RdItLiCmARMm", title: "serveme.tf on discord", class: "dropdown-item", target: "_blank") do
+            = image_tag "discord.png", alt: "Join our Discord server", style: "width: 1rem; height: 1rem; vertical-align: middle; margin-right: 0.5rem;"
+            Discord
+          = link_to "https://github.com/Arie/serveme", title: "serveme.tf source code", class: "dropdown-item", target: "_blank" do
+            = image_tag "octocat.png", alt: "Fork me on GitHub", style: "width: 1rem; height: 1rem; vertical-align: middle; margin-right: 0.5rem;"
+            GitHub
+
+      - if current_user && current_user.donator?
+        %li.dropdown.nav-item
+          %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
+            %i.fa.fa-upload
+            Maps
+            %b.caret>
+          .dropdown-menu
+            = link_to upload_map_path, class: "dropdown-item" do
+              %i.fa.fa-plus
+              Upload map
+            = link_to maps_path, class: "dropdown-item" do
+              %i.fa.fa-list
+              Browse maps
+
+      - if current_user
+        %li.nav-item
+          = link_to donate_path, class: "nav-link btn-outline-warning", data: { turbo: false } do
+            %i.fa.fa-star
+            Premium
+
+        %li.nav-item
+          = link_to settings_path, class: "nav-link" do
+            %i.fa.fa-cogs
+            Settings
+
+      - if current_user && (current_user.admin? || current_user.league_admin?)
+        %li.dropdown.nav-item
+          %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
+            %i.fa.fa-shield
+            Admin
+            %b.caret>
+          .dropdown-menu
+            %h6.dropdown-header Server Management
+            = link_to server_configs_path, class: "dropdown-item" do
               %i.fa.fa-cogs
-              Settings
-            - if current_user && current_user.admin?
-              .dropdown-divider
-              %h6.dropdown-header Server Management
-              = link_to server_configs_path, class: "dropdown-item" do
-                %i.fa.fa-cogs
-                Server Configs
-              = link_to whitelists_path, class: "dropdown-item" do
-                %i.fa.fa-list
-                Whitelists
+              Server Configs
+            = link_to whitelists_path, class: "dropdown-item" do
+              %i.fa.fa-list
+              Whitelists
+            - if current_user.admin?
               = link_to server_notifications_path, class: "dropdown-item" do
                 %i.fa.fa-bell
                 Server Notifications
-              .dropdown-divider
-              %h6.dropdown-header Statistics & Monitoring
-              = link_to player_statistics_path, class: "dropdown-item" do
-                %i.fa.fa-user
-                Player Statistics
-              = link_to server_statistics_path, class: "dropdown-item" do
-                %i.fa.fa-bar-chart
-                Server Statistics
-              = link_to stac_logs_path, class: "dropdown-item" do
-                %i.fa.fa-warning
-                STAC Logs
+              = link_to upload_file_path, class: "dropdown-item" do
+                %i.fa.fa-file-o
+                Upload file
+            .dropdown-divider
+            %h6.dropdown-header Statistics & Monitoring
+            - if show_server_monitoring_link?
+              = link_to server_monitoring_path, class: "dropdown-item" do
+                %i.fa.fa-tachometer
+                Server Monitoring
+            = link_to player_statistics_path, class: "dropdown-item" do
+              %i.fa.fa-user
+              Player Statistics
+            = link_to server_statistics_path, class: "dropdown-item" do
+              %i.fa.fa-bar-chart
+              Server Statistics
+            = link_to stac_logs_path, class: "dropdown-item" do
+              %i.fa.fa-warning
+              STAC Logs
+            - if current_user.admin?
               = link_to "/sidekiq", class: "dropdown-item", target: "_blank" do
                 %i.fa.fa-tasks
                 Sidekiq Jobs
+            - if current_user.admin?
               .dropdown-divider
               %h6.dropdown-header User Management
               = link_to donators_path, class: "dropdown-item" do
                 %i.fa.fa-money
                 Manage Donators
-      %li.dropdown.nav-item.d-xl-block.d-md-none
-        %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
-          %i.fa.fa-trophy
-          Credits
-          %b.caret>
-        .dropdown-menu
-          = link_to server_providers_path, class: "dropdown-item" do
-            %i.fa.fa-heart
-            Sponsors
-          = link_to credits_path, class: "dropdown-item" do
-            %i.fa.fa-thumbs-up
-            Credits
-      - if current_user
-        %li.dropdown.nav-item.d-xl-block.d-md-none
-          %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
-            %i.fa.fa-star
-            Premium
-            %b.caret>
-          .dropdown-menu
-            = link_to donate_path, class: "dropdown-item", data: { turbo: false } do
-              %i.fa.fa-paypal
-              Buy
-            = link_to leaderboard_donators_path, class: "dropdown-item" do
-              %i.fa.fa-money
-              Leaderboard
-      - if current_user && current_user.admin?
-        %li.dropdown.nav-item.d-xl-block.d-md-none
-          %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
-            %i.fa.fa-shield
-            Admin
-            %b.caret>
-          .dropdown-menu
-            %h6.dropdown-header Server Management
-            = link_to server_configs_path, class: "dropdown-item" do
-              %i.fa.fa-cogs
-              Server Configs
-            = link_to whitelists_path, class: "dropdown-item" do
-              %i.fa.fa-list
-              Whitelists
-            = link_to server_notifications_path, class: "dropdown-item" do
-              %i.fa.fa-bell
-              Server Notifications
-            .dropdown-divider
-            %h6.dropdown-header Statistics & Monitoring
-            = link_to player_statistics_path, class: "dropdown-item" do
-              %i.fa.fa-user
-              Player Statistics
-            = link_to server_statistics_path, class: "dropdown-item" do
-              %i.fa.fa-bar-chart
-              Server Statistics
-            = link_to stac_logs_path, class: "dropdown-item" do
-              %i.fa.fa-warning
-              STAC Logs
-            = link_to "/sidekiq", class: "dropdown-item", target: "_blank" do
-              %i.fa.fa-tasks
-              Sidekiq Jobs
-            .dropdown-divider
-            %h6.dropdown-header User Management
-            = link_to donators_path, class: "dropdown-item" do
-              %i.fa.fa-money
-              Manage Donators
-        %li.nav-item.d-xl-block.d-md-none
-          = link_to settings_path, class: "nav-link" do
-            %i.fa.fa-cogs
-            Settings
-      %li.nav-item.d-md-none
-        = link_to("https://discord.gg/0s38RdItLiCmARMm", title: "serveme.tf on discord", class: "nav-link", target: "_blank") do
-          = image_tag "discord.png", alt: "Join our Discord server", style: "width: 1.5rem; height: 1.5rem; vertical-align: middle; margin-right: 0.5rem;"
-          Discord
-      %li.nav-item.d-md-none
-        = link_to "https://github.com/Arie/serveme", title: "serveme.tf source code", class: "nav-link", target: "_blank" do
-          = image_tag "octocat.png", alt: "Fork me on GitHub", style: "width: 1.5rem; height: 1.5rem; vertical-align: middle; margin-right: 0.5rem;"
-          GitHub
-      - if current_user && current_user.admin?
-        %li.dropdown.nav-item.d-md-none
-          %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
-            %i.fa.fa-shield
-            Admin
-            %b.caret>
-          .dropdown-menu
-            %h6.dropdown-header Server Management
-            = link_to server_configs_path, class: "dropdown-item" do
-              %i.fa.fa-cogs
-              Server Configs
-            = link_to whitelists_path, class: "dropdown-item" do
-              %i.fa.fa-list
-              Whitelists
-            = link_to server_notifications_path, class: "dropdown-item" do
-              %i.fa.fa-bell
-              Server Notifications
-            .dropdown-divider
-            %h6.dropdown-header Statistics & Monitoring
-            = link_to player_statistics_path, class: "dropdown-item" do
-              %i.fa.fa-user
-              Player Statistics
-            = link_to server_statistics_path, class: "dropdown-item" do
-              %i.fa.fa-bar-chart
-              Server Statistics
-            = link_to stac_logs_path, class: "dropdown-item" do
-              %i.fa.fa-warning
-              STAC Logs
-            = link_to "/sidekiq", class: "dropdown-item", target: "_blank" do
-              %i.fa.fa-tasks
-              Sidekiq Jobs
-            .dropdown-divider
-            %h6.dropdown-header User Management
-            = link_to donators_path, class: "dropdown-item" do
-              %i.fa.fa-money
-              Manage Donators
+
       - if current_user
         %li.nav-item.d-md-none
           = link_to users_logout_path, method: :delete, class: "nav-link" do

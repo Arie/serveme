@@ -55,6 +55,9 @@
     New search
 
 :javascript
-  $(document).ready(function() {
+  function initializeTooltips() {
     $('.asn-tooltip').tooltip({html: true});
-  });
+  }
+  
+  document.addEventListener('turbo:load', initializeTooltips);
+  document.addEventListener('turbo:render', initializeTooltips);

@@ -1,0 +1,24 @@
+- if asn.respond_to?(:autonomous_system_number)
+  %strong
+    ASN
+  #{asn.autonomous_system_number}
+  %br
+  %strong
+    ORG
+  #{asn.autonomous_system_organization}
+  %br
+  %strong
+    NET
+  #{asn.network}
+- else
+  %strong
+    ASN
+  #{asn[:asn_number]}
+  %br
+  %strong
+    ORG
+  #{asn[:asn_organization]}
+  %br
+  %strong
+    NET
+  #{asn[:asn_network]}

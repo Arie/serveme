@@ -25,7 +25,10 @@ class CurrentPlayersService
           distance: player_info[:distance],
           player_latitude: player_info[:player_latitude],
           player_longitude: player_info[:player_longitude],
-          sdr: player_info[:sdr]
+          sdr: player_info[:sdr],
+          asn_number: stat.reservation_player.asn_number,
+          asn_organization: stat.reservation_player.asn_organization,
+          asn_network: stat.reservation_player.asn_network
         }
       end
     end

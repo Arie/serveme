@@ -18,16 +18,18 @@
 
           %table.table.table-hover.table-bordered.table-striped
             %colgroup
-              %col{style: "width: 25%; max-width: 200px;"}
-              %col{style: "width: 20%;"}
+              %col{style: "width: 20%; max-width: 180px;"}
               %col{style: "width: 15%;"}
-              %col{style: "width: 15%;"}
-              %col{style: "width: 12.5%;"}
-              %col{style: "width: 12.5%;"}
+              %col{style: "width: 21%;"}
+              %col{style: "width: 12%;"}
+              %col{style: "width: 12%;"}
+              %col{style: "width: 10%;"}
+              %col{style: "width: 10%;"}
             %thead
               %tr
                 %th Player
                 %th Country
+                %th ASN
                 %th Distance
                 %th Connected
                 %th= link_to("Ping", player_statistics_path, title: "View player statistics", class: "text-white")
@@ -47,6 +49,14 @@
                     - elsif player_info[:country_code].present?
                       = image_tag("flags/#{player_info[:country_code].downcase}.png", alt: player_info[:country_name], class: "flag", style: "margin-right: 0.5em;")
                       = player_info[:country_name]
+                    - else
+                      %span.text-muted Unknown
+                  %td
+                    - if player_info[:sdr]
+                      %span.text-muted SDR
+                    - elsif player_info[:asn_number].present? && player_info[:asn_organization].present?
+                      %span.asn-tooltip{data: {toggle: "tooltip", html: true, placement: "top"}, title: render("asn_tooltip", asn: player_info)}
+                        = truncate(player_info[:asn_organization], length: 30)
                     - else
                       %span.text-muted Unknown
                   %td

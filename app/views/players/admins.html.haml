@@ -4,3 +4,8 @@
 
 #admin-players-content
   = render "admin_players_content", servers_with_players: @servers_with_players, distance_unit: @distance_unit
+
+:javascript
+  document.addEventListener('turbo:load', function() {
+    $('.asn-tooltip').tooltip({html: true});
+  })

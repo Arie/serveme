@@ -23,7 +23,7 @@ namespace :asn do
       within release_path do
         with rails_env: fetch(:rails_env) do
           info "Checking ASN backfill status..."
-          
+
           # Use rake command which handles bundler properly
           rake "reservation_players:asn_status"
         end

@@ -442,6 +442,9 @@ module GeneratedUrlHelpersModule
   def status_reservation_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def steam_avatar_user_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def steam_sessions_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

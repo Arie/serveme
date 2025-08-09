@@ -32,6 +32,9 @@ Serveme::Application.routes.draw do
       get :edit
       post :update
     end
+    member do
+      get :steam_avatar
+    end
     resources :reservations, only: :index
   end
 

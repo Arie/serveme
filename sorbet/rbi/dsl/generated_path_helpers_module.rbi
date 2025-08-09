@@ -442,6 +442,9 @@ module GeneratedPathHelpersModule
   def status_reservation_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def steam_avatar_user_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def steam_sessions_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

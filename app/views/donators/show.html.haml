@@ -12,28 +12,36 @@
         %h5.mb-0.text-white User Information
       .card-body
         .text-center.mb-3
-          %img.rounded-circle{src: @user.steam_avatar_url(:full), width: "120", height: "120", alt: @user.nickname}
-        
+          %div{data: { 
+                 controller: "steam-avatar", 
+                 "steam-avatar-user-id-value": @user.id,
+                 "steam-avatar-steam-uid-value": h(@user.uid),
+                 "steam-avatar-size-value": "full"
+               }}
+            %img.rounded-circle{src: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+                 width: "120", height: "120", alt: @user.nickname,
+                 data: { "steam-avatar-target": "image" }}
+
         %h4.text-center= @user.nickname
-        
+
         %dl.row.mt-3
           %dt.col-sm-5 User ID:
           %dd.col-sm-7= "##{@user.id}"
-          
+
           %dt.col-sm-5 Steam ID64:
           %dd.col-sm-7
             %code= @user.uid
-          
+
           %dt.col-sm-5 Joined:
           %dd.col-sm-7= l(@user.created_at, format: :long)
-          
+
           %dt.col-sm-5 Status:
           %dd.col-sm-7
             - if @user.donator?
               %span.badge.bg-success.text-white Donator
             - else
               %span.badge.bg-secondary Not a donator
-        
+
         .mt-3
           = link_to "View Steam Profile", @user.steam_profile_url, target: "_blank", rel: "noopener", class: "btn btn-primary btn-block mb-2"
           - if @user.donator?
@@ -49,14 +57,14 @@
           %dt.col-sm-7 Lifetime Value:
           %dd.col-sm-5.text-end
             %strong= number_to_currency(@lifetime_value)
-          
+
           %dt.col-sm-7 Total Donations:
           %dd.col-sm-5.text-end= @total_donations
-          
+
           %dt.col-sm-7 Total Reservations:
           %dd.col-sm-5.text-end
             = link_to @total_reservations, user_reservations_path(@user), class: "text-decoration-none"
-          
+
           %dt.col-sm-7 Total Hours:
           %dd.col-sm-5.text-end= "#{@total_reservation_hours}h"
 
@@ -129,7 +137,7 @@
                       - if order.gift?
                         - if order.voucher&.claimed?
                           %span.badge.bg-success.text-white
-                            Redeemed by 
+                            Redeemed by
                             = link_to order.voucher.claimed_by.nickname, donator_path(order.voucher.claimed_by), class: "text-white text-decoration-underline"
                         - else
                           %span.badge.bg-warning.text-dark Gift (Not Redeemed)

@@ -13,6 +13,28 @@ class UsersController < ApplicationController
     redirect_to root_path
   end
 
+  def steam_avatar
+    user = User.find(params[:id])
+    size = params[:size]&.to_sym || :medium
+
+    cache_key = "steam_avatar_#{user.id}_#{size}"
+
+    cached_response = Rails.cache.fetch(cache_key, expires_in: 1.week) do
+      begin
+        avatar_url = user.steam_avatar_url(size)
+        { avatar_url: avatar_url }
+      rescue StandardError => e
+        { error: e.message }
+      end
+    end
+
+    if cached_response[:error]
+      render json: cached_response, status: :unprocessable_entity
+    else
+      render json: cached_response
+    end
+  end
+
   private
 
   def user_params

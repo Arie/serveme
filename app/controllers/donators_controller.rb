@@ -30,11 +30,35 @@ class DonatorsController < ApplicationController
                                .group(:user_id)
                                .maximum(:created_at)
 
-    @latest_products = Order.completed
-                           .joins(:product)
-                           .where(user_id: current_page_ids)
-                           .group(:user_id)
-                           .maximum("products.name")
+    latest_orders = Order.completed
+                         .joins(:product)
+                         .where(user_id: current_page_ids, gift: false)
+                         .select("DISTINCT ON (user_id) user_id, products.name as product_name, paypal_orders.created_at as event_time")
+                         .order(:user_id, created_at: :desc)
+
+    latest_vouchers = Voucher.joins(:product)
+                            .where(claimed_by_id: current_page_ids)
+                            .where.not(claimed_at: nil)
+                            .select("DISTINCT ON (claimed_by_id) claimed_by_id as user_id, products.name as product_name, claimed_at as event_time")
+                            .order(:claimed_by_id, claimed_at: :desc)
+
+    @latest_products = Order.connection.select_all(
+      Order.sanitize_sql([
+        <<~SQL
+          WITH combined AS (
+            (#{latest_orders.to_sql})
+            UNION ALL
+            (#{latest_vouchers.to_sql})
+          ),
+          ranked AS (
+            SELECT user_id, product_name,
+                   ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY event_time DESC) as rn
+            FROM combined
+          )
+          SELECT user_id, product_name FROM ranked WHERE rn = 1
+        SQL
+      ])
+    ).to_h { |row| [ row["user_id"], row["product_name"] ] }
   end
 
   def leaderboard

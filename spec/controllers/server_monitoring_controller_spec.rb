@@ -45,7 +45,8 @@ describe ServerMonitoringController do
       it 'shows the monitoring page' do
         get :index
         expect(response).to be_successful
-        expect(assigns(:servers)).to match_array(servers)
+        expect(assigns(:servers)).to include(servers.first)
+        expect(assigns(:servers).count).to eq(1)
       end
     end
   end

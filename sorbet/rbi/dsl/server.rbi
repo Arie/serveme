@@ -1553,6 +1553,51 @@ class Server
     sig { void }
     def rcon_will_change!; end
 
+    sig { returns(::Integer) }
+    def reservations_count; end
+
+    sig { params(value: ::Integer).returns(::Integer) }
+    def reservations_count=(value); end
+
+    sig { returns(T::Boolean) }
+    def reservations_count?; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def reservations_count_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def reservations_count_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def reservations_count_came_from_user?; end
+
+    sig { returns(T.nilable([::Integer, ::Integer])) }
+    def reservations_count_change; end
+
+    sig { returns(T.nilable([::Integer, ::Integer])) }
+    def reservations_count_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def reservations_count_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Integer)) }
+    def reservations_count_in_database; end
+
+    sig { returns(T.nilable([::Integer, ::Integer])) }
+    def reservations_count_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def reservations_count_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Integer)) }
+    def reservations_count_previously_was; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def reservations_count_was; end
+
+    sig { void }
+    def reservations_count_will_change!; end
+
     sig { returns(T.nilable(::String)) }
     def resolved_ip; end
 
@@ -1660,6 +1705,9 @@ class Server
 
     sig { void }
     def restore_rcon!; end
+
+    sig { void }
+    def restore_reservations_count!; end
 
     sig { void }
     def restore_resolved_ip!; end
@@ -1807,6 +1855,12 @@ class Server
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_rcon?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([::Integer, ::Integer])) }
+    def saved_change_to_reservations_count; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_reservations_count?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
     def saved_change_to_resolved_ip; end
@@ -2182,6 +2236,9 @@ class Server
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_rcon?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_reservations_count?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_resolved_ip?(from: T.unsafe(nil), to: T.unsafe(nil)); end

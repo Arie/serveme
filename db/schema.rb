@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_09_103739) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_09_151906) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -229,6 +229,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_103739) do
     t.text "original_password"
     t.datetime "locked_at"
     t.index ["auto_end"], name: "idx_17175_index_reservations_on_auto_end"
+    t.index ["created_at"], name: "index_reservations_on_created_at"
     t.index ["custom_whitelist_id"], name: "idx_17175_index_reservations_on_custom_whitelist_id"
     t.index ["end_instantly"], name: "idx_17175_index_reservations_on_end_instantly"
     t.index ["ends_at"], name: "idx_17175_index_reservations_on_ends_at"
@@ -237,6 +238,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_103739) do
     t.index ["server_id", "starts_at"], name: "idx_17175_index_reservations_on_server_id_and_starts_at", unique: true
     t.index ["server_id"], name: "idx_17175_index_reservations_on_server_id"
     t.index ["start_instantly"], name: "idx_17175_index_reservations_on_start_instantly"
+    t.index ["starts_at", "duration"], name: "index_reservations_on_starts_at_and_duration"
     t.index ["starts_at"], name: "idx_17175_index_reservations_on_starts_at"
     t.index ["updated_at"], name: "idx_17175_index_reservations_on_updated_at"
     t.index ["user_id"], name: "idx_17175_index_reservations_on_user_id"
@@ -315,10 +317,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_103739) do
     t.datetime "update_started_at"
     t.string "update_status"
     t.string "resolved_ip"
+    t.integer "reservations_count", default: 0, null: false
     t.index ["active"], name: "idx_17217_index_servers_on_active"
     t.index ["ip"], name: "index_servers_on_ip"
     t.index ["latitude", "longitude"], name: "idx_17217_index_servers_on_latitude_and_longitude"
     t.index ["location_id"], name: "idx_17217_index_servers_on_location_id"
+    t.index ["reservations_count"], name: "index_servers_on_reservations_count"
     t.index ["resolved_ip"], name: "index_servers_on_resolved_ip"
     t.index ["type"], name: "index_servers_on_type"
   end
@@ -358,9 +362,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_103739) do
     t.float "longitude"
     t.bigint "expired_reservations", default: 0
     t.string "demos_tf_api_key"
+    t.integer "reservations_count", default: 0, null: false
+    t.bigint "total_reservation_seconds", default: 0, null: false
     t.index ["api_key"], name: "idx_17257_index_users_on_api_key", unique: true
     t.index ["latitude", "longitude"], name: "idx_17257_index_users_on_latitude_and_longitude"
+    t.index ["reservations_count"], name: "index_users_on_reservations_count"
     t.index ["reset_password_token"], name: "idx_17257_index_users_on_reset_password_token", unique: true
+    t.index ["total_reservation_seconds"], name: "index_users_on_total_reservation_seconds"
     t.index ["uid"], name: "idx_17257_index_users_on_uid"
   end
 

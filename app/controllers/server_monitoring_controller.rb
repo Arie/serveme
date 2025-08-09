@@ -8,6 +8,8 @@ class ServerMonitoringController < ApplicationController
     @servers = if current_user&.admin?
       Server.active
             .ordered
+            .joins(:current_reservations)
+            .distinct
     else
                  servers_with_current_reservations
     end

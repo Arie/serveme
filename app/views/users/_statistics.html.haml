@@ -17,7 +17,7 @@
 
       %tr
         %td Reservations made
-        %td= user.reservations.count
+        %td= user.has_attribute?(:reservations_count) ? user.reservations_count : user.reservations.count
 
       %tr
         %td Total reservation time

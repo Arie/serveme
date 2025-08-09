@@ -13,9 +13,15 @@
   .col-md-12
     %h2 Reservations graph
 
-    = render 'reservations_per_day_graph'
+    = turbo_frame_tag "reservations_chart", src: statistics_chart_path("reservations_per_day"), loading: "lazy" do
+      .d-flex.flex-column.align-items-center.py-4
+        .spinner-border.text-primary.mb-2{role: "status"}
+        %span.text-muted Loading reservations chart...
 
-    = render 'reserved_hours_per_month'
+    = turbo_frame_tag "hours_chart", src: statistics_chart_path("reserved_hours_per_month"), loading: "lazy" do
+      .d-flex.flex-column.align-items-center.py-4
+        .spinner-border.text-primary.mb-2{role: "status"}
+        %span.text-muted Loading hours chart...
 
 .row
   .col-md-12

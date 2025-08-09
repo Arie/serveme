@@ -108,7 +108,12 @@ class User < ActiveRecord::Base
 
   sig { returns(T.any(Integer, Float, BigDecimal)) }
   def total_reservation_seconds
-    reservations.sum(:duration)
+    # Use counter cache if available, fallback to calculation
+    if has_attribute?(:total_reservation_seconds) && read_attribute(:total_reservation_seconds)&.positive?
+      read_attribute(:total_reservation_seconds)
+    else
+      reservations.sum(:duration)
+    end
   end
 
   sig { returns(T::Boolean) }

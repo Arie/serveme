@@ -427,6 +427,9 @@ module GeneratedPathHelpersModule
   def stac_logs_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def statistics_chart_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def statistics_pages_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

@@ -158,6 +158,7 @@ Serveme::Application.routes.draw do
   get   "/donate",                        to: "orders#new",                as: "donate"
   get   "/voucher(/:code)",               to: "vouchers#new",              as: "claim"
   get   "/statistics",                    to: "pages#statistics",          as: "statistics"
+  get   "/statistics/chart/:chart_type",      to: "pages#chart",               as: "statistics_chart"
   get   "/stats",                         to: "pages#stats",               as: "stats"
   get   "/faq",                           to: "pages#faq",                 as: "faq"
   get   "/credits",                       to: "pages#credits",             as: "credits"

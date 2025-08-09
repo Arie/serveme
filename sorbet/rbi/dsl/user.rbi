@@ -1572,6 +1572,51 @@ class User
     sig { void }
     def remember_token_will_change!; end
 
+    sig { returns(::Integer) }
+    def reservations_count; end
+
+    sig { params(value: ::Integer).returns(::Integer) }
+    def reservations_count=(value); end
+
+    sig { returns(T::Boolean) }
+    def reservations_count?; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def reservations_count_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def reservations_count_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def reservations_count_came_from_user?; end
+
+    sig { returns(T.nilable([::Integer, ::Integer])) }
+    def reservations_count_change; end
+
+    sig { returns(T.nilable([::Integer, ::Integer])) }
+    def reservations_count_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def reservations_count_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Integer)) }
+    def reservations_count_in_database; end
+
+    sig { returns(T.nilable([::Integer, ::Integer])) }
+    def reservations_count_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def reservations_count_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Integer)) }
+    def reservations_count_previously_was; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def reservations_count_was; end
+
+    sig { void }
+    def reservations_count_will_change!; end
+
     sig { returns(T.nilable(::ActiveSupport::TimeWithZone)) }
     def reset_password_sent_at; end
 
@@ -1723,6 +1768,9 @@ class User
     def restore_remember_token!; end
 
     sig { void }
+    def restore_reservations_count!; end
+
+    sig { void }
     def restore_reset_password_sent_at!; end
 
     sig { void }
@@ -1733,6 +1781,9 @@ class User
 
     sig { void }
     def restore_time_zone!; end
+
+    sig { void }
+    def restore_total_reservation_seconds!; end
 
     sig { void }
     def restore_uid!; end
@@ -1860,6 +1911,12 @@ class User
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_remember_token?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
+    sig { returns(T.nilable([::Integer, ::Integer])) }
+    def saved_change_to_reservations_count; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_reservations_count?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
     sig { returns(T.nilable([T.nilable(::ActiveSupport::TimeWithZone), T.nilable(::ActiveSupport::TimeWithZone)])) }
     def saved_change_to_reset_password_sent_at; end
 
@@ -1883,6 +1940,12 @@ class User
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def saved_change_to_time_zone?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([::Integer, ::Integer])) }
+    def saved_change_to_total_reservation_seconds; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_total_reservation_seconds?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
     def saved_change_to_uid; end
@@ -1985,6 +2048,51 @@ class User
 
     sig { void }
     def time_zone_will_change!; end
+
+    sig { returns(::Integer) }
+    def total_reservation_seconds; end
+
+    sig { params(value: ::Integer).returns(::Integer) }
+    def total_reservation_seconds=(value); end
+
+    sig { returns(T::Boolean) }
+    def total_reservation_seconds?; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def total_reservation_seconds_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def total_reservation_seconds_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def total_reservation_seconds_came_from_user?; end
+
+    sig { returns(T.nilable([::Integer, ::Integer])) }
+    def total_reservation_seconds_change; end
+
+    sig { returns(T.nilable([::Integer, ::Integer])) }
+    def total_reservation_seconds_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def total_reservation_seconds_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Integer)) }
+    def total_reservation_seconds_in_database; end
+
+    sig { returns(T.nilable([::Integer, ::Integer])) }
+    def total_reservation_seconds_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def total_reservation_seconds_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Integer)) }
+    def total_reservation_seconds_previously_was; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def total_reservation_seconds_was; end
+
+    sig { void }
+    def total_reservation_seconds_will_change!; end
 
     sig { returns(T.nilable(::String)) }
     def uid; end
@@ -2137,6 +2245,9 @@ class User
     def will_save_change_to_remember_token?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_reservations_count?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_reset_password_sent_at?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
@@ -2147,6 +2258,9 @@ class User
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_time_zone?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_total_reservation_seconds?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_uid?(from: T.unsafe(nil), to: T.unsafe(nil)); end

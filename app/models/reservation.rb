@@ -4,8 +4,8 @@
 class Reservation < ActiveRecord::Base
   extend T::Sig
 
-  belongs_to :user
-  belongs_to :server
+  belongs_to :user, counter_cache: true
+  belongs_to :server, counter_cache: true
   belongs_to :server_config, optional: true
   belongs_to :whitelist, optional: true
   has_many :log_uploads
@@ -19,6 +19,9 @@ class Reservation < ActiveRecord::Base
   before_validation :calculate_duration
   before_create :generate_logsecret
   after_create :generate_initial_status
+  after_create :update_user_total_seconds_counter
+  after_update :update_user_total_seconds_counter, if: :saved_change_to_duration?
+  after_destroy :update_user_total_seconds_counter
 
   delegate :donator?, to: :user, prefix: false
 
@@ -424,5 +427,13 @@ class Reservation < ActiveRecord::Base
   sig { returns(T.nilable(ReservationStatus)) }
   def generate_initial_status
     status_update("Waiting to start") if future?
+  end
+
+  sig { void }
+  def update_user_total_seconds_counter
+    return unless T.must(user).has_attribute?(:total_reservation_seconds)
+
+    total_seconds = T.must(user).reservations.sum(:duration)
+    T.must(user).update_column(:total_reservation_seconds, total_seconds)
   end
 end

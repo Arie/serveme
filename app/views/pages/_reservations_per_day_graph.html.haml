@@ -1,2 +1,2 @@
-.chart{data: { controller: "barchart", barchart_chart_data_value: Statistic.reservations_per_day_chart_data.to_json }}
+.chart{data: { controller: "barchart", barchart_chart_data_value: (@chart_data || Statistic.reservations_per_day_chart_data).to_json }}
   %canvas{data: { barchart_target: "myChart" }, style: "height: 250px; width: 100%"}

@@ -25,6 +25,27 @@ class PagesController < ApplicationController
     @top_10_servers_hash = Statistic.top_10_servers
   end
 
+  def chart
+    @chart_type = params[:chart_type]
+
+    case @chart_type
+    when "reservations_per_day"
+      @chart_data = Statistic.reservations_per_day_chart_data
+      render "chart_frame", locals: {
+        partial_name: "reservations_per_day_graph",
+        frame_id: "reservations_chart"
+      }
+    when "reserved_hours_per_month"
+      @chart_data = Statistic.reserved_hours_per_month_chart_data
+      render "chart_frame", locals: {
+        partial_name: "reserved_hours_per_month",
+        frame_id: "hours_chart"
+      }
+    else
+      head :not_found
+    end
+  end
+
   def stats
     servers_count = Server.active.count
     servers_for_non_premium_count = Server.active.without_group.count

@@ -173,6 +173,16 @@ describe DonatorsController do
       expect(orders).not_to include(failed_order)
       expect(orders.count).to eq(1)
     end
+
+    it 'includes a link to view user reservations' do
+      create :reservation, user: @donator
+      create :reservation, user: @donator
+
+      get :show, params: { id: @donator.id }
+
+      expect(response.body).to include("href=\"/users/#{@donator.id}/reservations\"")
+      expect(assigns(:total_reservations)).to eq(2)
+    end
   end
 
   describe '#lookup_user' do

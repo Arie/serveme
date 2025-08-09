@@ -59,7 +59,13 @@ class ReservationsController < ApplicationController
   end
 
   def index
-    @users_reservations = current_user.reservations.ordered.with_attached_zipfile.paginate(page: params[:page], per_page: 20)
+    target_user = if params[:user_id].present?
+                    User.find(params[:user_id])
+    else
+                    current_user
+    end
+    @users_reservations = target_user.reservations.ordered.with_attached_zipfile.paginate(page: params[:page], per_page: 20)
+    @target_user = target_user
   end
 
   def played_in

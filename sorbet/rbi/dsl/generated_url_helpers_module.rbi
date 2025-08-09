@@ -481,6 +481,9 @@ module GeneratedUrlHelpersModule
   def upload_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def user_reservations_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def user_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

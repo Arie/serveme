@@ -32,6 +32,7 @@ Serveme::Application.routes.draw do
       get :edit
       post :update
     end
+    resources :reservations, only: :index
   end
 
   resources :reservations do

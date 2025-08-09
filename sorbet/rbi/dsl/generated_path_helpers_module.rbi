@@ -484,6 +484,9 @@ module GeneratedPathHelpersModule
   def user_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def user_reservations_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def users_auth_failure_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

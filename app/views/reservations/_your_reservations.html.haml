@@ -1,4 +1,12 @@
-%h2 Your reservations
+- if @target_user && @target_user != current_user
+  %h2
+    = @target_user.nickname
+    - if @target_user.nickname&.end_with?('s')
+      ' reservations
+    - else
+      's reservations
+- else
+  %h2 Your reservations
 
 .row
   .col-md-12

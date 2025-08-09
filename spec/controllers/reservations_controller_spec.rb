@@ -215,6 +215,33 @@ describe ReservationsController do
     end
   end
 
+  describe '#index' do
+    it 'shows current user reservations by default' do
+      reservation = create :reservation, user: @user
+      other_reservation = create :reservation
+
+      get :index
+
+      expect(assigns(:users_reservations)).to include(reservation)
+      expect(assigns(:users_reservations)).not_to include(other_reservation)
+      expect(assigns(:target_user)).to eq(@user)
+    end
+
+    context 'when viewing another user reservations' do
+      it 'shows specified user reservations when user_id param is present' do
+        other_user = create :user
+        reservation = create :reservation, user: other_user
+        own_reservation = create :reservation, user: @user
+
+        get :index, params: { user_id: other_user.id }
+
+        expect(assigns(:users_reservations)).to include(reservation)
+        expect(assigns(:users_reservations)).not_to include(own_reservation)
+        expect(assigns(:target_user)).to eq(other_user)
+      end
+    end
+  end
+
   describe '#motd' do
     it 'loads the reservation and current players with correct password' do
       reservation = create :reservation

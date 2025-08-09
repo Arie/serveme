@@ -54,7 +54,8 @@
           %dd.col-sm-5.text-end= @total_donations
           
           %dt.col-sm-7 Total Reservations:
-          %dd.col-sm-5.text-end= @total_reservations
+          %dd.col-sm-5.text-end
+            = link_to @total_reservations, user_reservations_path(@user), class: "text-decoration-none"
           
           %dt.col-sm-7 Total Hours:
           %dd.col-sm-5.text-end= "#{@total_reservation_hours}h"

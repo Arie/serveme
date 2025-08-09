@@ -75,6 +75,11 @@ class DonatorsController < ApplicationController
                    .includes(:product, voucher: :claimed_by)
                    .order(created_at: :desc)
 
+    @redeemed_gifts = Voucher.joins(:order, :product)
+                             .where(claimed_by: @user)
+                             .includes(order: :user, product: nil)
+                             .order(claimed_at: :desc)
+
     @lifetime_value = @user.orders.completed.joins(:product).sum(:price)
     @total_donations = @user.orders.completed.count
     @total_reservations = @user.reservations.count

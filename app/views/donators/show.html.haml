@@ -145,6 +145,40 @@
         - else
           %p.text-muted.mb-0 No donation history
 
+    .card.mt-4
+      .card-header
+        .d-flex.justify-content-between.align-items-center
+          %h5.mb-0.text-white Gift Redemption History
+          %span.badge.bg-primary= "#{@redeemed_gifts.count} total"
+      .card-body
+        - if @redeemed_gifts.any?
+          .table-responsive
+            %table.table.table-sm.mb-0
+              %thead
+                %tr
+                  %th Redeemed Date
+                  %th Product
+                  %th Amount
+                  %th Gift From
+                  %th Type
+              %tbody
+                - @redeemed_gifts.each do |voucher|
+                  %tr
+                    %td= l(voucher.claimed_at, format: :long)
+                    %td= voucher.product.name
+                    %td= number_to_currency(voucher.product.price)
+                    %td
+                      = link_to voucher.order.user.nickname, donator_path(voucher.order.user), class: "text-decoration-none"
+                    %td
+                      - if voucher.order.is_a?(PaypalOrder)
+                        %span.badge.bg-info.text-white PayPal
+                      - elsif voucher.order.is_a?(StripeOrder)
+                        %span.badge.bg-info.text-white Stripe
+                      - else
+                        %span.badge.bg-secondary.text-white Unknown
+        - else
+          %p.text-muted.mb-0 No gifts redeemed
+
 :javascript
   document.addEventListener('turbo:load', function() {
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))

@@ -631,6 +631,141 @@ class ReservationPlayer
   end
 
   module GeneratedAttributeMethods
+    sig { returns(T.nilable(::String)) }
+    def asn_network; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def asn_network=(value); end
+
+    sig { returns(T::Boolean) }
+    def asn_network?; end
+
+    sig { returns(T.nilable(::String)) }
+    def asn_network_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def asn_network_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def asn_network_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def asn_network_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def asn_network_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def asn_network_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def asn_network_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def asn_network_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def asn_network_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def asn_network_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def asn_network_was; end
+
+    sig { void }
+    def asn_network_will_change!; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def asn_number; end
+
+    sig { params(value: T.nilable(::Integer)).returns(T.nilable(::Integer)) }
+    def asn_number=(value); end
+
+    sig { returns(T::Boolean) }
+    def asn_number?; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def asn_number_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def asn_number_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def asn_number_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
+    def asn_number_change; end
+
+    sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
+    def asn_number_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def asn_number_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Integer)) }
+    def asn_number_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
+    def asn_number_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def asn_number_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::Integer)) }
+    def asn_number_previously_was; end
+
+    sig { returns(T.nilable(::Integer)) }
+    def asn_number_was; end
+
+    sig { void }
+    def asn_number_will_change!; end
+
+    sig { returns(T.nilable(::String)) }
+    def asn_organization; end
+
+    sig { params(value: T.nilable(::String)).returns(T.nilable(::String)) }
+    def asn_organization=(value); end
+
+    sig { returns(T::Boolean) }
+    def asn_organization?; end
+
+    sig { returns(T.nilable(::String)) }
+    def asn_organization_before_last_save; end
+
+    sig { returns(T.untyped) }
+    def asn_organization_before_type_cast; end
+
+    sig { returns(T::Boolean) }
+    def asn_organization_came_from_user?; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def asn_organization_change; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def asn_organization_change_to_be_saved; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def asn_organization_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def asn_organization_in_database; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def asn_organization_previous_change; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def asn_organization_previously_changed?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable(::String)) }
+    def asn_organization_previously_was; end
+
+    sig { returns(T.nilable(::String)) }
+    def asn_organization_was; end
+
+    sig { void }
+    def asn_organization_will_change!; end
+
     sig { returns(::Integer) }
     def id; end
 
@@ -947,6 +1082,15 @@ class ReservationPlayer
     def reservation_id_will_change!; end
 
     sig { void }
+    def restore_asn_network!; end
+
+    sig { void }
+    def restore_asn_number!; end
+
+    sig { void }
+    def restore_asn_organization!; end
+
+    sig { void }
     def restore_id!; end
 
     sig { void }
@@ -972,6 +1116,24 @@ class ReservationPlayer
 
     sig { void }
     def restore_whitelisted!; end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_asn_network; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_asn_network?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::Integer), T.nilable(::Integer)])) }
+    def saved_change_to_asn_number; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_asn_number?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { returns(T.nilable([T.nilable(::String), T.nilable(::String)])) }
+    def saved_change_to_asn_organization; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def saved_change_to_asn_organization?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { returns(T.nilable([::Integer, ::Integer])) }
     def saved_change_to_id; end
@@ -1116,6 +1278,15 @@ class ReservationPlayer
 
     sig { void }
     def whitelisted_will_change!; end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_asn_network?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_asn_number?(from: T.unsafe(nil), to: T.unsafe(nil)); end
+
+    sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
+    def will_save_change_to_asn_organization?(from: T.unsafe(nil), to: T.unsafe(nil)); end
 
     sig { params(from: T.untyped, to: T.untyped).returns(T::Boolean) }
     def will_save_change_to_id?(from: T.unsafe(nil), to: T.unsafe(nil)); end

@@ -12,6 +12,7 @@ class ReservationPlayer < ActiveRecord::Base
 
   geocoded_by :ip
   before_save :geocode, if: :ip_changed?
+  before_save :store_asn_data, if: :ip_changed?
 
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def duplicates
@@ -125,5 +126,28 @@ class ReservationPlayer < ActiveRecord::Base
     return false unless geocode_result
 
     %w[BY RU].include?(geocode_result.country_code)
+  end
+
+  sig { returns(T.nilable(MaxMind::GeoIP2::Model::ASN)) }
+  def asn
+    @asn ||= self.class.asn(ip)
+  end
+
+  private
+
+  sig { void }
+  def store_asn_data
+    return unless ip.present?
+
+    asn_data = self.class.asn(ip)
+    if asn_data
+      self.asn_number = asn_data.autonomous_system_number
+      self.asn_organization = asn_data.autonomous_system_organization
+      self.asn_network = asn_data.network.to_s
+    else
+      self.asn_number = nil
+      self.asn_organization = nil
+      self.asn_network = nil
+    end
   end
 end

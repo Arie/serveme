@@ -22,14 +22,20 @@
           %td= I18n.l(result.reservation.ends_at, format: :time_without_seconds)
           %td
             - if result.ip.present?
-              - if asn = @asns[result.ip]
+              - asn = result.asn_number.present? ? result : @asns[result.ip]
+              - if asn
                 = link_to(result.ip, league_request_path(ip: result.ip), class: "asn-tooltip", data: {toggle: "tooltip", html: true, placement: "top"}, title: render("asn_tooltip", asn: asn))
                 - if ban_reason = ReservationPlayer.banned_ip?(result.ip)
                   %span.badge.badge-danger{title: ban_reason}
                     %i.fa 💀
-                - if ReservationPlayer.banned_asn?(asn)
-                  %span.badge.badge-warning{title: "Possible VPN"}
-                    %i.fa.fa-flag
+                - if asn.respond_to?(:autonomous_system_number)
+                  - if ReservationPlayer.banned_asn?(asn)
+                    %span.badge.badge-warning{title: "Possible VPN"}
+                      %i.fa.fa-flag
+                - else
+                  - if ReservationPlayer.banned_asns.include?(asn.asn_number) || ReservationPlayer.custom_banned_asns.include?(asn.asn_number)
+                    %span.badge.badge-warning{title: "Possible VPN"}
+                      %i.fa.fa-flag
               - else
                 = link_to(result.ip, league_request_path(ip: result.ip))
           %td

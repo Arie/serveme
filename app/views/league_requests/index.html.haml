@@ -55,9 +55,6 @@
     New search
 
 :javascript
-  function initializeTooltips() {
-    $('.asn-tooltip').tooltip({html: true});
-  }
-  
-  document.addEventListener('turbo:load', initializeTooltips);
-  document.addEventListener('turbo:render', initializeTooltips);
+  document.addEventListener('turbo:load', function() {
+    $('[data-toggle="tooltip"]').tooltip({html: true});
+  });

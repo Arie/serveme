@@ -80,9 +80,13 @@ class DonatorsController < ApplicationController
   end
 
   def create
-    respond_to do |format|
-      format.html do
-        add_or_extend_donator || (new_donator && render(:new, status: :unprocessable_entity))
+    if add_or_extend_donator
+      redirect_to donators_path
+    else
+      new_donator
+      respond_to do |format|
+        format.html { render :new, status: :unprocessable_entity }
+        format.turbo_stream { redirect_to new_donator_path, status: :see_other }
       end
     end
   end
@@ -109,7 +113,6 @@ class DonatorsController < ApplicationController
     @total_reservations = @user.reservations.count
     @total_reservation_hours = (@user.total_reservation_seconds / 3600.0).round(1)
 
-    # Calculate total donator time
     @total_donator_time = calculate_total_donator_time(@donator_periods)
   end
 
@@ -134,16 +137,13 @@ class DonatorsController < ApplicationController
       start_time = period.created_at
       end_time = period.expires_at || Time.current
 
-      # If the period is still active, count up to now
       end_time = [ end_time, Time.current ].min
 
       total_seconds += (end_time - start_time)
     end
 
-    # Convert to a more readable format
     return nil if total_seconds == 0
 
-    # Use a fictional start time to get the duration formatted
     start_time = Time.current - total_seconds
     format_exact_duration(start_time, Time.current)
   end
@@ -166,13 +166,20 @@ class DonatorsController < ApplicationController
       gu = user.group_users.where(group_id: Group.donator_group).last
       duration = (Time.parse(params[:group_user][:expires_at]) - Time.current).to_i
       old_expires_at = gu.expires_at
-      gu.expires_at = gu.expires_at + duration
+
+      if gu.expires_at.nil?
+        gu.expires_at = Time.parse(params[:group_user][:expires_at])
+        flash[:notice] = "Set donator expiration to #{I18n.l(gu.expires_at, format: :long)}"
+      else
+        gu.expires_at = gu.expires_at + duration
+        flash[:notice] = "Extended donator from #{I18n.l(old_expires_at, format: :long)} to #{I18n.l(gu.expires_at, format: :long)}"
+      end
+
       gu.save
-      flash[:notice] = "Extended donator from #{I18n.l(old_expires_at, format: :long)} to #{I18n.l(gu.expires_at, format: :long)}"
     else
       user.group_users&.create(group_id: Group.donator_group.id, expires_at: params[:group_user][:expires_at])
       flash[:notice] = "New donator added"
     end
-    redirect_to donators_path
+    true
   end
 end

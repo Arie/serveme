@@ -17,7 +17,7 @@ export default class extends Controller {
   lookup() {
     clearTimeout(this.timeout)
     const input = this.inputTarget.value.trim()
-    
+
     if (input.length < 2) {
       this.clearResult()
       return
@@ -31,10 +31,7 @@ export default class extends Controller {
   async performLookup(input) {
     try {
       const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
-      
-      console.log("Looking up user:", input)
-      console.log("URL:", this.urlValue)
-      
+
       const response = await fetch(this.urlValue, {
         method: "POST",
         headers: {
@@ -64,10 +61,10 @@ export default class extends Controller {
   selectUser(event) {
     const userId = event.currentTarget.dataset.userId
     const userName = event.currentTarget.dataset.userName
-    
+
     this.userIdTarget.value = userId
     this.inputTarget.value = userName
-    this.clearResult()
+    this.resultTarget.innerHTML = ""
     this.enableSubmit()
   }
 
@@ -101,13 +98,15 @@ export default class extends Controller {
     const days = parseInt(event.currentTarget.dataset.days)
     const expiresAt = new Date()
     expiresAt.setDate(expiresAt.getDate() + days)
-    
-    const dateInput = document.getElementById('group_user_expires_at')
+
+    // Find the expires_at input within this form
+    const form = this.element.querySelector('form')
+    const dateInput = form.querySelector('input[name="group_user[expires_at]"]')
     if (dateInput) {
       // Format date for the datepicker
       const formattedDate = this.formatDateForPicker(expiresAt)
       dateInput.value = formattedDate
-      
+
       // Trigger change event for any other listeners
       dateInput.dispatchEvent(new Event('change'))
     }
@@ -119,7 +118,7 @@ export default class extends Controller {
     const year = date.getFullYear()
     const hours = String(date.getHours()).padStart(2, '0')
     const minutes = String(date.getMinutes()).padStart(2, '0')
-    
+
     return `${day}-${month}-${year} ${hours}:${minutes}`
   }
 }

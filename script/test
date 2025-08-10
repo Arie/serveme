@@ -39,7 +39,7 @@ def get_tests(options)
   tapioca_dsl: "bin/tapioca dsl --verify",
   tapioca_gem_autocorrect: "bin/tapioca gem",
   tapioca_dsl_autocorrect: "bin/tapioca dsl",
-  db_test_prepare: "bin/rails db:test:prepare",
+  db_test_prepare: "RAILS_ENV=test bin/rails db:test:prepare",
   db_copy: -> {
     "(dropdb serveme_test_cucumber 2>/dev/null || true) && " +
     "createdb --template serveme_test serveme_test_cucumber"

@@ -6,6 +6,7 @@ require 'spec_helper'
 describe Statistic do
   describe '.top_10_users' do
     it 'returns a hash with top users' do
+      Rails.cache.clear
       top_user = create :user, name: 'Top user'
       top_user.stub(donator?: true)
       other_user = create :user, name: 'Not top user'

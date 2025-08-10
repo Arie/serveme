@@ -63,8 +63,29 @@ describe User do
 
   describe '#top10?' do
     it 'returns if a user is in the top 10' do
+      # Clear cache to ensure clean test
+      Rails.cache.clear
+
+      # Create 9 other users with 1 reservation each (past reservations)
+      9.times do |i|
+        other_user = create(:user)
+        reservation = build(:reservation, user: other_user, starts_at: (i + 1).hours.ago, ends_at: i.hours.ago)
+        reservation.save(validate: false) # Skip validations for past reservations in test
+      end
+
+      # Create our test user with 2 reservations to ensure they're in top 10
       user = create(:user)
-      create(:reservation, user: user)
+      reservation1 = build(:reservation, user: user, starts_at: 10.hours.ago, ends_at: 9.hours.ago)
+      reservation1.save(validate: false)
+      reservation2 = build(:reservation, user: user, starts_at: 12.hours.ago, ends_at: 11.hours.ago)
+      reservation2.save(validate: false)
+
+      # Update reservations_count if the column exists
+      if User.column_names.include?("reservations_count")
+        User.find_each { |u| User.reset_counters(u.id, :reservations) }
+        user.reload
+      end
+
       user.should be_top10
     end
   end

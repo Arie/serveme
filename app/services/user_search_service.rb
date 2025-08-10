@@ -15,7 +15,8 @@ class UserSearchService
 
     # For exact ID matches, return just that user
     if (user = find_by_user_id || find_by_steam_id64 || find_by_steam_id || find_by_steam_id3 || find_by_steam_url)
-      return [ user ]
+      # Reload with includes to avoid N+1
+      return User.includes(:group_users).where(id: user.id).to_a
     end
 
     # For nickname search, return multiple results
@@ -87,7 +88,8 @@ class UserSearchService
   def search_by_nickname
     return [] if @input.match?(/^#?\d+$/) || @input.match?(/^\[U:\d:\d+\]$/i) || @input.match?(/^STEAM_[0-5]:[01]:\d+$/i)
 
-    User.where("LOWER(nickname) LIKE ?", "%#{@input.downcase}%")
+    User.includes(:group_users)
+        .where("LOWER(nickname) LIKE ?", "%#{@input.downcase}%")
         .order(
           Arel.sql("CASE WHEN LOWER(nickname) = #{User.connection.quote(@input.downcase)} THEN 0 WHEN LOWER(nickname) LIKE #{User.connection.quote("#{@input.downcase}%")} THEN 1 ELSE 2 END"),
           :nickname

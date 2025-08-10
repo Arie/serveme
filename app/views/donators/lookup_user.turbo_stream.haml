@@ -4,7 +4,15 @@
       .card.border-success.mb-2
         .card-body.p-3
           .d-flex.align-items-center
-            %img.rounded-circle.me-3{src: user.steam_avatar_url(:medium), width: "50", height: "50", alt: user.nickname}
+            %div.me-3{data: { 
+                       controller: "steam-avatar", 
+                       "steam-avatar-user-id-value": user.id,
+                       "steam-avatar-steam-uid-value": h(user.uid),
+                       "steam-avatar-size-value": "medium"
+                     }}
+              %img.rounded-circle{src: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg",
+                                  width: "50", height: "50", alt: user.nickname,
+                                  data: { "steam-avatar-target": "image" }}
             .flex-grow-1.px-3
               %h6.mb-0= user.nickname
               %small.text-muted 

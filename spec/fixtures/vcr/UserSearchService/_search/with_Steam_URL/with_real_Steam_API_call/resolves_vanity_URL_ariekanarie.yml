@@ -1,0 +1,41 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?format=json&key=<STEAM_API_KEY>&vanityurl=ariekanarie
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx
+      Content-Type:
+      - application/json; charset=UTF-8
+      Vary:
+      - Accept-Encoding
+      Expires:
+      - Sun, 10 Aug 2025 10:59:34 GMT
+      Date:
+      - Sun, 10 Aug 2025 10:59:34 GMT
+      Content-Length:
+      - '56'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"response":{"steamid":"76561197960497430","success":1}}'
+  recorded_at: Sun, 10 Aug 2025 10:59:34 GMT
+recorded_with: VCR 6.3.1

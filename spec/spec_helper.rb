@@ -72,6 +72,7 @@ VCR.configure do |c|
   c.filter_sensitive_data('pmc_test_config') { |interaction|
     interaction.response.body.scan(/pmc_[a-zA-Z0-9]{24}/).first
   }
+  c.filter_sensitive_data('<STEAM_API_KEY>') { Rails.application.credentials.dig(:steam, :api_key) }
 end
 
 Sidekiq.default_configuration.logger.level = Logger::WARN

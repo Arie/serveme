@@ -14,7 +14,7 @@ class UserSearchService
     return [] if @input.blank?
 
     # For exact ID matches, return just that user
-    if (user = find_by_user_id || find_by_steam_id64 || find_by_steam_id || find_by_steam_id3)
+    if (user = find_by_user_id || find_by_steam_id64 || find_by_steam_id || find_by_steam_id3 || find_by_steam_url)
       return [ user ]
     end
 
@@ -61,6 +61,26 @@ class UserSearchService
     rescue StandardError
       nil
     end
+  end
+
+  sig { returns(T.nilable(User)) }
+  def find_by_steam_url
+    return nil unless @input.match?(/steamcommunity\.com/)
+
+    if (match = @input.match(/steamcommunity\.com\/profiles\/(\d{17})/))
+      return User.find_by(uid: match[1])
+    end
+
+    if (match = @input.match(/steamcommunity\.com\/id\/([a-zA-Z0-9_-]+)/))
+      begin
+        steam_id64 = SteamCondenser::Community::SteamId.resolve_vanity_url(match[1])
+        return User.find_by(uid: steam_id64.to_s) if steam_id64
+      rescue StandardError => e
+        Rails.logger.error "Failed to resolve vanity URL: #{e.message}"
+      end
+    end
+
+    nil
   end
 
   sig { returns(T::Array[User]) }

@@ -12,11 +12,13 @@
           .mb-4
             %label.form-label Find User
             %input.form-control{type: "text", 
-                              placeholder: "Enter Steam ID, Steam ID64, User ID (#123), or nickname",
+                              placeholder: "Enter Steam ID, Steam ID64, User ID (#123), Steam URL, or nickname",
                               data: { user_lookup_target: "input",
                                      action: "input->user-lookup#lookup" }}
             %small.form-text.text-muted
-              Examples: STEAM_0:0:12345, 76561197960287930, [U:1:12345], #123, or partial nickname
+              Examples: STEAM_0:0:12345, 76561197960287930, [U:1:12345], #123, partial nickname,
+              %br
+              https://steamcommunity.com/profiles/76561197960497430, https://steamcommunity.com/id/ariekanarie
           
           #user-lookup-result{data: { user_lookup_target: "result" }}
           

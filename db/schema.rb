@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_09_151906) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_09_151350) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -327,6 +327,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_151906) do
     t.index ["type"], name: "index_servers_on_type"
   end
 
+  create_table "stac_detections", force: :cascade do |t|
+    t.bigint "stac_log_id", null: false
+    t.bigint "reservation_player_id", null: false
+    t.string "steam_uid", null: false
+    t.integer "triggerbot_count", default: 0, null: false
+    t.integer "silentaim_count", default: 0, null: false
+    t.integer "aimsnap_count", default: 0, null: false
+    t.integer "cmdnum_spike_count", default: 0, null: false
+    t.integer "other_detection_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reservation_player_id"], name: "index_stac_detections_on_reservation_player_id"
+    t.index ["stac_log_id", "steam_uid"], name: "index_stac_detections_on_stac_log_id_and_steam_uid", unique: true
+    t.index ["stac_log_id"], name: "index_stac_detections_on_stac_log_id"
+    t.index ["steam_uid"], name: "index_stac_detections_on_steam_uid"
+  end
+
   create_table "stac_logs", force: :cascade do |t|
     t.integer "reservation_id"
     t.string "filename"
@@ -405,4 +422,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_151906) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "file_upload_permissions", "users"
+  add_foreign_key "stac_detections", "reservation_players"
+  add_foreign_key "stac_detections", "stac_logs"
 end

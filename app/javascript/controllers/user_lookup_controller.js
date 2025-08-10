@@ -99,15 +99,13 @@ export default class extends Controller {
     const expiresAt = new Date()
     expiresAt.setDate(expiresAt.getDate() + days)
 
-    // Find the expires_at input within this form
     const form = this.element.querySelector('form')
-    const dateInput = form.querySelector('input[name="group_user[expires_at]"]')
+    const dateInput = form ? form.querySelector('[name$="[expires_at]"]') : null
+    
     if (dateInput) {
-      // Format date for the datepicker
       const formattedDate = this.formatDateForPicker(expiresAt)
       dateInput.value = formattedDate
 
-      // Trigger change event for any other listeners
       dateInput.dispatchEvent(new Event('change'))
     }
   }

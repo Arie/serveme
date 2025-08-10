@@ -39,6 +39,6 @@ set :linked_files, fetch(:linked_files, []).push("config/master.key", "config/cr
 set :linked_dirs, fetch(:linked_dirs, []).push("log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", "public/uploads", "public/system", "server_logs")
 
 # Configure asset dependencies for faster_assets
-set :assets_dependencies, %w(app/assets app/javascript lib/assets vendor/assets Gemfile.lock config/routes.rb)
+set :assets_dependencies, %w[app/assets app/javascript lib/assets vendor/assets Gemfile.lock config/routes.rb]
 
 after "deploy:finishing", "logdaemon:restart"

@@ -29,5 +29,6 @@
         %td= notification.message
         %td= notification.notification_type
         %td
-          = link_to 'Edit', edit_server_notification_path(notification), class: 'btn btn-sm btn-secondary'
-          = button_to 'Delete', server_notification_path(notification), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger ml-2'
+          .d-flex.gap-2.align-items-center
+            = link_to 'Edit', edit_server_notification_path(notification), class: 'btn btn-sm btn-secondary'
+            = button_to 'Delete', server_notification_path(notification), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger', form: { class: 'd-inline-block' }

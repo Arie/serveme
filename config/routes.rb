@@ -176,6 +176,7 @@ Serveme::Application.routes.draw do
   get   "/private-servers",               to: "pages#private_servers",     as: "private_server_info"
   get   "/pings",                         to: "pings#index",               as: "pings"
   get   "/players",                       to: "players#index",             as: "players"
+  get   "/players/globe",                 to: "players#globe",             as: "players_globe"
   get   "/server-monitoring",             to: "server_monitoring#index",   as: "server_monitoring"
   post  "/server-monitoring/poll",        to: "server_monitoring#poll",    as: "poll_server_monitoring"
 

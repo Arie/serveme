@@ -1,0 +1,30 @@
+- content_for(:title) { "Player Globe" }
+
+= turbo_stream_from "player_globe_updates"
+
+%script{ src: "//unpkg.com/globe.gl" }
+
+%div{ data: { controller: "globe" }, style: "width: 100vw; height: calc(100vh - 56px); position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; background-color: #000;" }
+  #globe-stats.position-absolute.top-0.start-0.w-100{ style: "display: none; z-index: 1000; background: rgba(0,0,0,0.7);" }
+    .container-fluid.py-2
+      .row.align-items-center
+        .col-auto
+          %h5.mb-0.text-white
+            %i.fa.fa-globe
+            Live Player Globe
+        .col-auto.ms-auto
+          .d-flex.text-white
+            %div.px-3
+              %small.text-muted.d-block Players
+              %span.h5.mb-0#total-players 0
+            %div.px-3.border-start.border-secondary
+              %small.text-muted.d-block Servers
+              %span.h5.mb-0#active-servers 0
+            %div.px-3.border-start.border-secondary
+              %small.text-muted.d-block Countries
+              %span.h5.mb-0#total-countries 0
+  
+  #globe-container{ style: "width: 100%; height: 100%; position: relative;" }
+    #globe-loading.text-center.py-5.text-white{ style: "position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" }
+      %i.fa.fa-spinner.fa-spin.fa-3x
+      %p.mt-3 Loading globe visualization...

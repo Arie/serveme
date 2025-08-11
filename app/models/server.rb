@@ -25,7 +25,7 @@ class Server < ActiveRecord::Base
   def detailed_location
     return "Unknown" unless latitude && longitude
 
-    Rails.cache.fetch("server_detailed_location_#{id}", expires_in: 1.week) do
+    Rails.cache.fetch("server_detailed_location_v2_#{id}", expires_in: 1.week) do
       # Try to geocode the coordinates to get city information
       result = Geocoder.search([ latitude, longitude ]).first
       if result && result.city.present?

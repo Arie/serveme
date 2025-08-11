@@ -4,6 +4,7 @@ export default class extends Controller {
   static values = { region: String }
   
   connect() {
+    this.currentArcs = new Map() // Track current arcs by unique key
     this.initializeGlobe()
     this.loadPlayerData()
 
@@ -110,12 +111,19 @@ export default class extends Controller {
       }
     })
 
-    const arcs = []
+    // Build new arcs with unique keys
+    const newArcs = []
+    const newArcKeys = new Set()
+    
     servers.forEach(server => {
       if (!server.latitude || !server.longitude) return
 
       server.players.forEach(player => {
         if (!player.latitude || !player.longitude) return
+        
+        // Create unique key for this arc
+        const arcKey = `${player.steam_uid}_${server.id}`
+        newArcKeys.add(arcKey)
 
         let color
         if (player.loss >= 10) {
@@ -133,7 +141,8 @@ export default class extends Controller {
         const distance = this.calculateDistance(player.latitude, player.longitude, server.latitude, server.longitude)
         const altitude = Math.min(0.4, distance / 20000)
 
-        arcs.push({
+        const arc = {
+          id: arcKey,
           startLat: player.latitude,
           startLng: player.longitude,
           endLat: server.latitude,
@@ -144,17 +153,55 @@ export default class extends Controller {
           label: player.city_name
             ? `${player.city_name}, ${player.country_name || 'Unknown'}: ${player.ping}ms (${player.loss}% loss)`
             : `${player.country_name || 'Unknown'}: ${player.ping}ms (${player.loss}% loss)`
-        })
+        }
+        
+        newArcs.push(arc)
+        this.currentArcs.set(arcKey, arc)
       })
     })
+    
+    // Remove arcs that are no longer present
+    const arcsToRemove = []
+    this.currentArcs.forEach((arc, key) => {
+      if (!newArcKeys.has(key)) {
+        arcsToRemove.push(key)
+      }
+    })
+    
+    // Animate removal of disconnected players
+    if (arcsToRemove.length > 0) {
+      const fadingArcs = [...newArcs]
+      arcsToRemove.forEach(key => {
+        const arc = this.currentArcs.get(key)
+        fadingArcs.push({
+          ...arc,
+          color: 'rgba(255, 255, 255, 0.1)', // Fade to very transparent
+          stroke: 0.1
+        })
+      })
+      
+      // Show fading arcs briefly
+      this.globe.arcsData(fadingArcs)
+      
+      // After animation, remove them and update to final state
+      setTimeout(() => {
+        arcsToRemove.forEach(key => this.currentArcs.delete(key))
+        this.updateArcs(newArcs)
+      }, 500)
+    } else {
+      this.updateArcs(newArcs)
+    }
 
+    // Always update server points
     this.globe
       .pointsData(serverPoints)
       .pointLabel('label')
       .pointColor('color')
       .pointRadius('size')
       .pointAltitude('altitude')
-
+  }
+  
+  updateArcs(arcs) {
     this.globe
       .arcsData(arcs)
       .arcColor('color')

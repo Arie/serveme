@@ -22,6 +22,7 @@ class CurrentPlayersService
           reservation_player: stat.reservation_player,
           country_code: player_info[:country_code],
           country_name: player_info[:country_name],
+          city_name: player_info[:city_name],
           distance: player_info[:distance],
           player_latitude: player_info[:player_latitude],
           player_longitude: player_info[:player_longitude],

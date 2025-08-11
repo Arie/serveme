@@ -148,7 +148,7 @@ export default class extends Controller {
           endLat: server.latitude,
           endLng: server.longitude,
           color: color,
-          stroke: Math.max(0.2, 0.8 - player.loss * 0.05),
+          stroke: Math.max(0.1, 0.4 - player.loss * 0.02),
           altitude: altitude,
           label: player.city_name
             ? `${player.city_name}, ${player.country_name || 'Unknown'}: ${player.ping}ms (${player.loss}% loss)`
@@ -176,7 +176,7 @@ export default class extends Controller {
         fadingArcs.push({
           ...arc,
           color: 'rgba(255, 255, 255, 0.1)', // Fade to very transparent
-          stroke: 0.1
+          stroke: 0.05
         })
       })
       

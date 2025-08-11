@@ -1,11 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+  static values = { region: String }
+  
   connect() {
     this.initializeGlobe()
     this.loadPlayerData()
-    
-    // Listen for Turbo Stream updates
+
     this.setupTurboStreamListeners()
   }
 
@@ -17,24 +18,21 @@ export default class extends Controller {
 
   initializeGlobe() {
     const container = document.getElementById('globe-container')
-    
-    // Check if Globe is loaded
+
     if (typeof Globe === 'undefined') {
       console.error('Globe.gl not loaded yet, retrying...')
       setTimeout(() => this.initializeGlobe(), 100)
       return
     }
-    
-    // Create a stylized globe with gaming aesthetic
+
     this.globe = Globe()
       .backgroundColor('rgba(0,0,0,0)')
       .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
       .showAtmosphere(true)
-      .atmosphereColor('rgba(255, 100, 50, 0.4)') // Orange glow like TF2
-      .atmosphereAltitude(0.25)
+      .atmosphereColor('rgba(63, 63, 150, 0.1)')
+      .atmosphereAltitude(0.15)
       (container)
-    
-    // Apply custom material properties for a more stylized look
+
     if (typeof THREE !== 'undefined') {
       const globeMaterial = this.globe.globeMaterial()
       globeMaterial.emissive = new THREE.Color(0x1a1a1a)
@@ -42,14 +40,21 @@ export default class extends Controller {
       globeMaterial.shininess = 0.7
     }
 
-    // Set initial view centered on Europe
-    this.globe.pointOfView({ lat: 50, lng: 10, altitude: 2.5 })
+    // Set initial view based on region
+    const regionViews = {
+      'eu': { lat: 50, lng: 10, altitude: 2.5 },
+      'na': { lat: 40, lng: -100, altitude: 3 },
+      'au': { lat: -25, lng: 135, altitude: 3 },
+      'sea': { lat: 5, lng: 115, altitude: 3 }
+    }
     
-    // Enable zoom and rotation
+    const region = this.regionValue || 'eu'
+    const viewConfig = regionViews[region] || regionViews['eu']
+    this.globe.pointOfView(viewConfig)
+
     this.globe.controls().enableZoom = true
     this.globe.controls().autoRotate = false
 
-    // Hide loading indicator
     const loadingEl = document.getElementById('globe-loading')
     const statsEl = document.getElementById('globe-stats')
     if (loadingEl) loadingEl.style.display = 'none'
@@ -60,8 +65,8 @@ export default class extends Controller {
     try {
       const response = await fetch('/players/globe.json')
       const data = await response.json()
-      
-      this.currentData = data // Store current data for disconnect notifications
+
+      this.currentData = data
       this.updateGlobeData(data.servers)
       this.updateStats(data.servers)
     } catch (error) {
@@ -70,7 +75,6 @@ export default class extends Controller {
   }
 
   updateGlobeData(servers) {
-    // Group servers by location (lat/lng)
     const locationGroups = {}
     servers.filter(s => s.latitude && s.longitude).forEach(server => {
       const key = `${server.latitude},${server.longitude}`
@@ -86,20 +90,19 @@ export default class extends Controller {
       locationGroups[key].servers.push(server)
       locationGroups[key].totalPlayers += server.players.length
     })
-    
-    // Prepare server points - one per location
+
     const serverPoints = Object.values(locationGroups).map(group => {
       const activeServers = group.servers.filter(s => s.players.length > 0).length
-      const label = group.servers.length > 1 
+      const label = group.servers.length > 1
         ? `${group.location} - ${group.servers.length} servers (${activeServers} active, ${group.totalPlayers} players)`
         : `${group.servers[0].name} (${group.location}) - ${group.totalPlayers} players`
-      
+
       return {
         lat: group.lat,
         lng: group.lng,
         label: label,
         color: group.totalPlayers > 0 ? '#ff0000' : '#ffff00',
-        size: group.totalPlayers > 0 
+        size: group.totalPlayers > 0
           ? Math.max(0.2, Math.min(0.5, group.servers.length * 0.05 + group.totalPlayers * 0.01))
           : 0.15,
         altitude: 0.01,
@@ -107,15 +110,13 @@ export default class extends Controller {
       }
     })
 
-    // Prepare player-to-server arcs
     const arcs = []
     servers.forEach(server => {
       if (!server.latitude || !server.longitude) return
-      
+
       server.players.forEach(player => {
         if (!player.latitude || !player.longitude) return
-        
-        // Color based on ping and loss
+
         let color
         if (player.loss >= 10) {
           color = 'rgba(255, 0, 0, 0.6)' // Red for high loss (10%+)
@@ -128,33 +129,32 @@ export default class extends Controller {
         } else {
           color = 'rgba(0, 255, 0, 0.6)' // Green for good connection (<100ms, <5% loss)
         }
-        
-        // Adjust arc height based on distance
+
         const distance = this.calculateDistance(player.latitude, player.longitude, server.latitude, server.longitude)
         const altitude = Math.min(0.4, distance / 20000)
-        
+
         arcs.push({
           startLat: player.latitude,
           startLng: player.longitude,
           endLat: server.latitude,
           endLng: server.longitude,
           color: color,
-          stroke: Math.max(0.2, 0.8 - player.loss * 0.05), // Much thinner lines
+          stroke: Math.max(0.2, 0.8 - player.loss * 0.05),
           altitude: altitude,
-          label: `${player.name}: ${player.ping}ms (${player.loss}% loss)`
+          label: player.city_name
+            ? `${player.city_name}, ${player.country_name || 'Unknown'}: ${player.ping}ms (${player.loss}% loss)`
+            : `${player.country_name || 'Unknown'}: ${player.ping}ms (${player.loss}% loss)`
         })
       })
     })
 
-    // Update globe points (servers)
     this.globe
       .pointsData(serverPoints)
       .pointLabel('label')
       .pointColor('color')
       .pointRadius('size')
       .pointAltitude('altitude')
-      
-    // Update globe arcs (player connections)
+
     this.globe
       .arcsData(arcs)
       .arcColor('color')
@@ -188,7 +188,7 @@ export default class extends Controller {
       const el = document.getElementById(id)
       if (el) el.textContent = value
     }
-    
+
     updateElement('total-players', totalPlayers)
     updateElement('active-servers', totalServers)
     updateElement('total-countries', countries.size)
@@ -204,14 +204,12 @@ export default class extends Controller {
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
     return R * c
   }
-  
+
   setupTurboStreamListeners() {
-    // Listen for player stats updates from ServerMetric
     document.addEventListener('turbo:before-stream-render', (event) => {
       const target = event.target.getAttribute('target')
-      
+
       if (target === 'player_stats_update') {
-        // Player statistics were updated - reload globe data
         this.loadPlayerData()
       }
     })

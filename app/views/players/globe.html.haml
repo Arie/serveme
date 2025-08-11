@@ -4,7 +4,7 @@
 
 %script{ src: "//unpkg.com/globe.gl" }
 
-%div{ data: { controller: "globe" }, style: "width: 100vw; height: calc(100vh - 56px); position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; background-color: #000;" }
+%div{ data: { controller: "globe", globe_region_value: current_region }, style: "width: 100vw; height: calc(100vh - 56px); position: relative; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; background-color: #000;" }
   #globe-stats.position-absolute.top-0.start-0.w-100{ style: "display: none; z-index: 1000; background: rgba(0,0,0,0.7);" }
     .container-fluid.py-2
       .row.align-items-center

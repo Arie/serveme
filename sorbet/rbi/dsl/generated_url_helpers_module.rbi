@@ -238,6 +238,9 @@ module GeneratedUrlHelpersModule
   def player_statistics_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def players_globe_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def players_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

@@ -54,16 +54,17 @@ class CurrentPlayersService
 
   def self.get_player_location_info(reservation_player)
     if reservation_player.ip && reservation_player.ip.start_with?("169.254.")
-      return { country_code: nil, country_name: nil, distance: nil, player_latitude: nil, player_longitude: nil, sdr: true }
+      return { country_code: nil, country_name: nil, city_name: nil, distance: nil, player_latitude: nil, player_longitude: nil, sdr: true }
     end
 
-    return { country_code: nil, country_name: nil, distance: nil, player_latitude: nil, player_longitude: nil } if local_ip?(reservation_player.ip)
+    return { country_code: nil, country_name: nil, city_name: nil, distance: nil, player_latitude: nil, player_longitude: nil } if local_ip?(reservation_player.ip)
 
     geocoding_result = Geocoder.search(reservation_player.ip).first
-    return { country_code: nil, country_name: nil, distance: nil, player_latitude: nil, player_longitude: nil } unless geocoding_result
+    return { country_code: nil, country_name: nil, city_name: nil, distance: nil, player_latitude: nil, player_longitude: nil } unless geocoding_result
 
     country_code = geocoding_result.country_code
     country_name = geocoding_result.country
+    city_name = geocoding_result.city
 
     server = reservation_player.reservation.server
     distance = nil
@@ -85,6 +86,7 @@ class CurrentPlayersService
     {
       country_code: country_code&.downcase,
       country_name: country_name,
+      city_name: city_name,
       distance: distance,
       player_latitude: geocoding_result.latitude,
       player_longitude: geocoding_result.longitude

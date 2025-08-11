@@ -89,10 +89,13 @@ end.parse!
 
 # Checks that can run independently in parallel
 INDEPENDENT_CHECKS = if options[:autocorrect]
-  %i[brakeman importmap rubocop_autocorrect sorbet tapioca_gem_autocorrect]
+  %i[brakeman importmap rubocop_autocorrect tapioca_gem_autocorrect]
 else
-  %i[brakeman importmap rubocop sorbet tapioca_gem]
+  %i[brakeman importmap rubocop tapioca_gem]
 end
+
+# Checks that depend on tapioca completion
+TAPIOCA_DEPENDENT_CHECKS = %i[sorbet]
 
 # Database preparation sub-steps that run after db_test_prepare
 DB_PREPARATION_SUBSTEPS = if options[:autocorrect]
@@ -175,9 +178,14 @@ class ProgressDisplay
 
           # Sort tasks to show parents immediately followed by their children
           sorted_tasks = @tasks.sort_by do |name, task|
-            if task[:parent] == :db_test_prepare
+            if task[:parent] == :db_test_prepare && name == :tapioca_dsl
+              [ "1_db_test_prepare", "2_tapioca_dsl" ]
+            elsif task[:parent] == :db_test_prepare
               # Children of db_test_prepare come right after db_test_prepare
-              [ "1_db_test_prepare", name.to_s ]
+              [ "1_db_test_prepare", "1_#{name}" ]
+            elsif task[:parent] == :tapioca_dsl
+              # Sorbet comes after tapioca_dsl
+              [ "1_db_test_prepare", "3_#{name}" ]
             elsif name == :db_test_prepare
               # db_test_prepare comes first in its group
               [ "1_db_test_prepare", "0" ]
@@ -190,15 +198,22 @@ class ProgressDisplay
           lines_displayed = 0
           sorted_tasks.each_with_index do |(name, task), index|
             # Determine if this is the last child of its parent
-            is_last_child_of_parent = if task[:parent]
+            is_last_child_of_parent = case task[:parent]
+            when :db_test_prepare
+              name == :tapioca_dsl
+            when :tapioca_dsl
+              name == :sorbet
+            when nil
+              false
+            else
               # Find remaining tasks with same parent
               remaining_tasks = sorted_tasks[(index + 1)..-1] || []
               !remaining_tasks.any? { |_, t| t[:parent] == task[:parent] }
-            else
-              false
             end
 
-            prefix = if task[:parent]
+            prefix = if task[:parent] == :tapioca_dsl
+              is_last_child_of_parent ? "    └─ " : "    ├─ "
+            elsif task[:parent]
               is_last_child_of_parent ? "  └─ " : "  ├─ "
             else
               ""
@@ -271,11 +286,42 @@ class Test
   end
 end
 
+def create_skipped_test(name, progress, options, parent, reason)
+  test = Test.new(name, progress, options, parent: parent)
+  test.instance_variable_set(:@status, OpenStruct.new(success?: false))
+  test.instance_variable_set(:@output, reason)
+  test.instance_variable_set(:@duration, 0)
+  test
+end
+
+def run_tapioca_dependent_checks(progress, options, all_tests, substep_threads)
+  # Find tapioca gem test (could be regular or autocorrect version)
+  tapioca_gem_test = all_tests.find { |test| test.name == :tapioca_gem || test.name == :tapioca_gem_autocorrect }
+  # Find tapioca dsl test (could be regular or autocorrect version)
+  tapioca_dsl_test = substep_threads.map { _1[:test] }.find { |test| test.name == :tapioca_dsl || test.name == :tapioca_dsl_autocorrect }
+
+  if tapioca_gem_test&.success? && tapioca_dsl_test&.success?
+    sorbet_threads = TAPIOCA_DEPENDENT_CHECKS.map do |name|
+      Thread.new do
+        test = Test.new(name, progress, options, parent: :tapioca_dsl)
+        Thread.current[:test] = test
+        test.run
+      end
+    end
+    sorbet_threads.each(&:join)
+    all_tests.concat(sorbet_threads.map { _1[:test] })
+  else
+    TAPIOCA_DEPENDENT_CHECKS.each do |name|
+      all_tests << create_skipped_test(name, progress, options, :tapioca_dsl, "Skipped due to tapioca failure")
+    end
+  end
+end
+
 FileUtils.chdir APP_ROOT do
   # Run checks with live progress display
   progress = ProgressDisplay.new(verbose: options[:verbose])
-  # Set expected task count: independent checks + db_test_prepare + substeps
-  total_expected = INDEPENDENT_CHECKS.size + 1 + DB_PREPARATION_SUBSTEPS.size
+  # Set expected task count: independent checks + db_test_prepare + substeps + tapioca dependent checks
+  total_expected = INDEPENDENT_CHECKS.size + 1 + DB_PREPARATION_SUBSTEPS.size + TAPIOCA_DEPENDENT_CHECKS.size
   progress.set_expected_task_count(total_expected)
   puts unless options[:verbose]
 
@@ -323,6 +369,9 @@ FileUtils.chdir APP_ROOT do
 
     substep_threads.each(&:join)
     all_tests.concat(substep_threads.map { _1[:test] })
+
+    # Phase 5: Run tapioca-dependent checks (sorbet) after tapioca gem and dsl complete
+    run_tapioca_dependent_checks(progress, options, all_tests, substep_threads)
   end
 
   progress.stop

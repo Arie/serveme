@@ -1,4 +1,5 @@
 steam_id64,name,reason
+76561198249548030,)I(NPHbIN nPNHU,ddos / z trolls (EU #1501081)
 76561199858504882,76561199858504882,cheater (hvh / NA #591454)
 76561198025169706,88 street,match invader
 76561198065316185,88 street,match invader
@@ -57,6 +58,9 @@ steam_id64,name,reason
 76561199811399986,avec,cheater (cmdnum spikes / EU #1499744)
 76561198449673836,Avenue,cheater (psilent / EU #1491307)
 76561199664741123,Aye,cheater (cmdnum spikes / bhops / EU #1488099)
+76561198916649534,banepp,ddos / z trolls (EU #1501081)
+76561199542173510,banepp alt (possible),ddos / z trolls (EU #1501081)
+76561199503302389,banepp alt (possible),ddos / z trolls(EU #1501081)
 76561198981229773,Big Papa,cheater / cheat dev (https://gist.github.com/Arie/732d455e763566e1ad090a3c27300593)
 76561199163540404,Big Papa,cheater / cheat dev (https://gist.github.com/Arie/732d455e763566e1ad090a3c27300593)
 76561199174076687,blade,cheater (cmdnum spikes / EU #1421979)
@@ -379,6 +383,7 @@ steam_id64,name,reason
 76561199811069795,cheeto and friends,https://rgl.gg/Public/PlayerProfile.aspx?p=76561198238170280
 76561199826783290,cheeto and friends,https://rgl.gg/Public/PlayerProfile.aspx?p=76561198238170280
 76561199827368850,cheeto and friends,https://rgl.gg/Public/PlayerProfile.aspx?p=76561198238170280
+76561198096186322,cherv,ddos / z trolls (EU #1501081)
 76561198049639319,chihuahuaspin.com,cheater (psilent / triggerbot / EU #1431477)
 76561198159287189,chihuahuaspin.com alt,cheater (psilent / triggerbot / EU #1431477)
 76561198167895476,chihuahuaspin.com alt,cheater (psilent / triggerbot / EU #1431477)
@@ -560,6 +565,7 @@ steam_id64,name,reason
 76561199675734437,Felon alt,match invader / racist spammer
 76561199681139845,Felon alt,match invader / racist spammer
 76561199745302421,Felon alt,match invader / racist spammer
+76561198400043154,figerok,ddos / z trolls (EU #1501081)
 76561198091004819,Fisherman Tom,cheater (psilent / EU #1424536)
 76561198200360157,Fisherman Tom alt,cheater (psilent / EU #1424536)7
 76561198018955070,freebond group,fake racist log spammers
@@ -645,6 +651,7 @@ steam_id64,name,reason
 76561198297747457,Marian alt,cheater hvh
 76561199182767481,Marian alt,cheater hvh
 76561199568031344,medic (real),cheater (silentaim / NA #587883)
+76561198289730691,mellz,ddos / z trolls (EU #1501081)
 76561199231855641,Melvix,cheater (EU #1438263 / https://etf2l.org/forum/user/144656/)
 76561199074766784,metal head,cheater (hvh)
 76561199564257262,Mia,cheater (psilent / NA #560720)
@@ -698,6 +705,7 @@ steam_id64,name,reason
 76561199183019051,Oxyi,cheater (cmdnum spikes)
 76561199569590760,Oxyi,cheater (cmdnum spikes)
 76561198453809829,Pansion,cheater (triggerbot / EU #1423700)
+76561198033018258,pendragon,ddos / z trolls (EU #1501081)
 76561199225518205,pendulum,cheater (cmdnum spikes / EU #1426774)
 76561198151075646,Perdomy,cheater (https://rgl.gg/Public/PlayerProfile?p=76561198151075646&r=40)
 76561198973521910,Perdomy,cheater (https://rgl.gg/Public/PlayerProfile?p=76561198151075646&r=40)
@@ -755,6 +763,7 @@ steam_id64,name,reason
 76561199382812239,robby2 alt,cheater (cvars / tick perfect bunnyhop)
 76561198087574237,rogo,cheater (https://etf2l.org/forum/user/96713/)
 76561198071962894,rogo alt,cheater (https://etf2l.org/forum/user/96713/)
+76561198123398130,Ross,ddos / z trolls (EU #1501081)
 76561199699795353,rule #1,cheater (silentaim / cmdnum spikes / EU #1470625)
 76561198201673975,Ryogi,cheater (psilent / tick perfect bhops / NA #559966)
 76561198081019811,sandstoner,fake racist log spammer / cheeto crew
@@ -766,6 +775,10 @@ steam_id64,name,reason
 76561198867749895,screwb alt,https://rgl.gg/Public/PlayerProfile.aspx?p=76561198036166266
 76561199366009537,screwb alt,https://rgl.gg/Public/PlayerProfile.aspx?p=76561198036166266
 76561199152162361,scroll,cheater (hvh)
+76561199003109337,serega,ddos (EU #1501081)
+76561199491469772,serega alt,ddos / z trolls (EU #1501081)
+76561199567892370,serega alt,ddos / z trolls (EU #1501081)
+76561198211050105,serega alt (possible),ddos / z trolls (EU #1501081)
 76561199232420553,SHADOW_WIZARD,cheater / cheat dev (https://gist.github.com/Arie/732d455e763566e1ad090a3c27300593)
 76561198840414529,shark,cheater (cmdnum spike / EU #141121)
 76561199740761053,Shippai,cheater (EU #1430756 / https://etf2l.org/forum/user/148987/)
@@ -970,10 +983,12 @@ steam_id64,name,reason
 76561198979540092,ZLO alt,cheater (cmdnum spikes / EU #1419164)
 76561199543859315,АБАРИГЕН,cheater (silentaim / EU #1471358)
 76561199249288513,живчик то сила,cheater (cmdnum spikes / fake angles / EU #1433877)
-76561198875215894,саморазвиваюсь,match invader (EU #1298063 #1298108)
-76561199390154388,саморазвиваюсь alt,match invader (EU #1298063 #1298108)
-76561199435705078,саморазвиваюсь alt,racist / match invader (EU #1298063 #1298108)
-76561199550565506,саморазвиваюсь alt,racist / match invader (EU #1298063 #1298108)
-76561199666263071,саморазвиваюсь alt,racist / match invader (EU #1298063 #1298108)
-76561199851720858,саморазвиваюсь alt,racist / match invader (EU #1298063 #1298108)
+76561198875215894,саморазвиваюсь,match invader (EU #1298063 #1298108) / ddos  / z troll (EU #1501081)
+76561199390154388,саморазвиваюсь alt,match invader (EU #1298063 #1298108) / ddos / z troll (EU #1501081)
+76561198125410403,саморазвиваюсь alt,racist / match invader (EU #1298063 #1298108) / ddos / z troll (EU #1501081)
+76561198875581259,саморазвиваюсь alt,racist / match invader (EU #1298063 #1298108) / ddos / z troll (EU #1501081)
+76561199435705078,саморазвиваюсь alt,racist / match invader (EU #1298063 #1298108) / ddos / z troll (EU #1501081)
+76561199550565506,саморазвиваюсь alt,racist / match invader (EU #1298063 #1298108) / ddos / z troll (EU #1501081)
+76561199666263071,саморазвиваюсь alt,racist / match invader (EU #1298063 #1298108) / ddos / z troll (EU #1501081)
+76561199851720858,саморазвиваюсь alt,racist / match invader (EU #1298063 #1298108) / ddos / z troll (EU #1501081)
 76561198856879912,создатель,cheater (silentaim / cmdnum spikes / EU #1469909)

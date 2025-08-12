@@ -157,14 +157,10 @@ export default class extends Controller {
         newArcKeys.add(arcKey)
 
         let color
-        if (player.loss >= 10) {
-          color = 'rgba(255, 0, 0, 0.6)' // Red for high loss (10%+)
-        } else if (player.loss >= 5) {
-          color = 'rgba(255, 255, 0, 0.6)' // Yellow for medium loss (5-10%)
-        } else if (player.ping >= 150) {
-          color = 'rgba(255, 0, 0, 0.6)' // Red for high ping (150ms+)
-        } else if (player.ping >= 100) {
-          color = 'rgba(255, 255, 0, 0.6)' // Yellow for medium ping (100-150ms)
+        if (player.loss >= 10 || player.ping >= 150) {
+          color = 'rgba(255, 0, 0, 0.6)' // Red for high loss (10%+) OR high ping (150ms+)
+        } else if (player.loss >= 5 || player.ping >= 100) {
+          color = 'rgba(255, 255, 0, 0.6)' // Yellow for medium loss (5-10%) OR medium ping (100-150ms)
         } else {
           color = 'rgba(0, 255, 0, 0.6)' // Green for good connection (<100ms, <5% loss)
         }
@@ -257,14 +253,10 @@ export default class extends Controller {
         newArcKeys.add(arcKey)
 
         let color
-        if (player.loss >= 10) {
-          color = 'rgba(255, 0, 0, 0.6)' // Red for high loss (10%+)
-        } else if (player.loss >= 5) {
-          color = 'rgba(255, 255, 0, 0.6)' // Yellow for medium loss (5-10%)
-        } else if (player.ping >= 150) {
-          color = 'rgba(255, 0, 0, 0.6)' // Red for high ping (150ms+)
-        } else if (player.ping >= 100) {
-          color = 'rgba(255, 255, 0, 0.6)' // Yellow for medium ping (100-150ms)
+        if (player.loss >= 10 || player.ping >= 150) {
+          color = 'rgba(255, 0, 0, 0.6)' // Red for high loss (10%+) OR high ping (150ms+)
+        } else if (player.loss >= 5 || player.ping >= 100) {
+          color = 'rgba(255, 255, 0, 0.6)' // Yellow for medium loss (5-10%) OR medium ping (100-150ms)
         } else {
           color = 'rgba(0, 255, 0, 0.6)' // Green for good connection (<100ms, <5% loss)
         }

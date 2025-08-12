@@ -45,12 +45,6 @@ class ServerMetric
                                 minutes_connected: player.minutes_connected)
       end
     end
-
-    Turbo::StreamsChannel.broadcast_replace_to(
-      "player_globe_updates",
-      target: "player_stats_update",
-      partial: "players/globe_stats_update"
-    )
   end
 
   def remove_banned_players

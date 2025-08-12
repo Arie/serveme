@@ -8,5 +8,7 @@ class ActiveReservationsCheckerWorker
     reservation_ids.each do |reservation_id|
       ActiveReservationCheckerWorker.perform_async(reservation_id)
     end
+
+    BroadcastGlobeUpdateWorker.perform_in(5.seconds)
   end
 end

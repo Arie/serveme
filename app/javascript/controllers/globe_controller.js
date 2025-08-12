@@ -324,6 +324,16 @@ export default class extends Controller {
     }
   }
 
+  updateFromTurboStream(data) {
+    this.currentData = data
+    
+    if (this.globe) {
+      // Only update arcs and stats, not server points
+      this.updateArcsOnly(data.servers)
+      this.updateStats(data.servers)
+    }
+  }
+
   updateStats(servers) {
     let totalPlayers = 0
     let activeServers = 0
@@ -368,8 +378,14 @@ export default class extends Controller {
       const target = event.target.getAttribute('target')
 
       if (target === 'player_stats_update') {
-        // Use incremental update to only update arcs, not server points
-        this.loadPlayerData(true)
+        // Extract globe data from the incoming stream
+        const template = event.detail.newStream.querySelector('template')
+        const content = template.content.querySelector('#player_stats_update')
+        
+        if (content && content.dataset.globeData) {
+          const data = JSON.parse(content.dataset.globeData)
+          this.updateFromTurboStream(data)
+        }
       }
     })
   }

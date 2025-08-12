@@ -1,0 +1,26 @@
+# Geocoding overrides for servers with incorrect MaxMind data
+# Format: IP or hostname -> location details
+
+overrides:
+  # monika.fakkelbrigade.eu is actually in Frankfurt, Germany
+  "135.125.189.176":
+    city: "Frankfurt am Main"
+    state: "Hesse"
+    country: "Germany"
+    latitude: 50.11552
+    longitude: 8.68417
+  
+  "monika.fakkelbrigade.eu":
+    city: "Frankfurt am Main"
+    state: "Hesse"
+    country: "Germany"
+    latitude: 50.11552
+    longitude: 8.68417
+  
+  # new.fakkelbrigade.eu is in Falkenstein, Germany
+  "new.fakkelbrigade.eu":
+    city: "Falkenstein"
+    state: "Saxony"
+    country: "Germany"
+    latitude: 50.4779
+    longitude: 12.3716

@@ -16,7 +16,16 @@ class Server < ActiveRecord::Base
 
   validates_presence_of :name, :ip, :port, :path, :rcon
 
-  geocoded_by :host_to_ip
+  geocoded_by :host_to_ip do |server|
+    # Check for override first
+    override = server.geocoding_override_for(server.ip)
+    if override && override["latitude"] && override["longitude"]
+      [ override["latitude"], override["longitude"] ]
+    else
+      nil # Let geocoder handle it normally
+    end
+  end
+
   before_save :geocode, if: :ip_changed?
   after_save :update_resolved_ip, if: :ip_changed?
 
@@ -25,21 +34,39 @@ class Server < ActiveRecord::Base
   def detailed_location
     return "Unknown" unless ip.present?
 
-    Rails.cache.fetch("server_detailed_location_v4_#{id}", expires_in: 1.week) do
-      result = Geocoder.search(ip).first
-      if result && result.city.present?
-        city = result.city
-        state = result.state
-        country = location&.name || result.country
+    Rails.cache.fetch("server_detailed_location_v5_#{id}", expires_in: 1.week) do
+      # Check for overrides first
+      override = geocoding_override_for(ip)
+
+      if override
+        city = override["city"]
+        state = override["state"]
+        country = override["country"] || location&.name
 
         if country == "USA" && state.present?
-          state_code = result.data.dig("subdivisions", 0, "iso_code") || state
-          "#{city}, #{state_code}"
+          "#{city}, #{state}"
+        elsif state.present? && country == "Germany"
+          "#{city}, #{country}"
         else
           "#{city}, #{country}"
         end
       else
-        location&.name || "Unknown"
+        # Use regular geocoding
+        result = Geocoder.search(ip).first
+        if result && result.city.present?
+          city = result.city
+          state = result.state
+          country = location&.name || result.country
+
+          if country == "USA" && state.present?
+            state_code = result.data.dig("subdivisions", 0, "iso_code") || state
+            "#{city}, #{state_code}"
+          else
+            "#{city}, #{country}"
+          end
+        else
+          location&.name || "Unknown"
+        end
       end
     end
   rescue => e
@@ -47,6 +74,12 @@ class Server < ActiveRecord::Base
     location&.name || "Unknown"
   end
 
+  def geocoding_override_for(ip_address)
+    @geocoding_overrides ||= load_geocoding_overrides
+
+    # Check by IP first, then by hostname
+    @geocoding_overrides[ip_address] || @geocoding_overrides[ip]
+  end
 
   sig { params(user: User).returns(ActiveRecord::Relation) }
   def self.reservable_by_user(user)
@@ -606,6 +639,17 @@ class Server < ActiveRecord::Base
   end
 
   private
+
+  def load_geocoding_overrides
+    override_file = Rails.root.join("config", "geocoding_overrides.yml")
+    return {} unless File.exist?(override_file)
+
+    config = YAML.load_file(override_file)
+    config["overrides"] || {}
+  rescue => e
+    Rails.logger.error "Error loading geocoding overrides: #{e.message}"
+    {}
+  end
 
   def logs_and_demos
     @logs_and_demos ||= logs + demos

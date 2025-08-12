@@ -1,8 +1,11 @@
 # typed: false
 # frozen_string_literal: true
 
+require File.expand_path('../models/concerns/steam_id_anonymizer', __dir__)
+
 class LogWorker
   include Sidekiq::Worker
+  include SteamIdAnonymizer
   extend T::Sig
   sidekiq_options retry: 1
 
@@ -383,7 +386,7 @@ class LogWorker
 
     server = reservation.server
     player_data = {
-      steam_uid: reservation_player.steam_uid.to_s,
+      steam_uid: anonymize_steam_id(reservation_player.steam_uid.to_s),
       server_id: server.id,
       server_latitude: server.latitude,
       server_longitude: server.longitude
@@ -418,7 +421,7 @@ class LogWorker
       target: "globe-container",
       partial: "players/globe_player_disconnect",
       locals: {
-        steam_uid: reservation_player.steam_uid,
+        steam_uid: anonymize_steam_id(reservation_player.steam_uid.to_s),
         server_id: reservation.server_id
       }
     )

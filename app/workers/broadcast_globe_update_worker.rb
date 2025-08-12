@@ -1,8 +1,11 @@
 # typed: true
 # frozen_string_literal: true
 
+require File.expand_path('../models/concerns/steam_id_anonymizer', __dir__)
+
 class BroadcastGlobeUpdateWorker
   include Sidekiq::Worker
+  include SteamIdAnonymizer
 
   def perform
     # Get all servers with current players
@@ -43,7 +46,7 @@ class BroadcastGlobeUpdateWorker
       location: server.detailed_location,
       players: players.map do |player|
         {
-          steam_uid: player[:reservation_player].steam_uid.to_s,
+          steam_uid: anonymize_steam_id(player[:reservation_player].steam_uid.to_s),
           latitude: player[:player_latitude],
           longitude: player[:player_longitude],
           country_code: player[:country_code],

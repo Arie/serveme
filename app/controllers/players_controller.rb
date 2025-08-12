@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 class PlayersController < ApplicationController
+  include SteamIdAnonymizer
   skip_before_action :authenticate_user!, only: [ :globe ]
   def index
     @servers_with_players = CurrentPlayersService.cached_servers_with_current_players
@@ -64,7 +65,7 @@ class PlayersController < ApplicationController
       location: server.detailed_location,
       players: players.map do |player|
         {
-          steam_uid: player[:reservation_player].steam_uid.to_s,
+          steam_uid: anonymize_steam_id(player[:reservation_player].steam_uid.to_s),
           latitude: player[:player_latitude],
           longitude: player[:player_longitude],
           country_code: player[:country_code],

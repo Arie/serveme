@@ -2,9 +2,12 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static values = { region: String }
-  
+
   connect() {
-    this.currentArcs = new Map() // Track current arcs by unique key
+    this.currentArcs = new Map()
+    this.pendingArcUpdates = new Map()
+    this.updateTimer = null
+
     this.initializeGlobe()
     this.loadPlayerData()
 
@@ -41,14 +44,13 @@ export default class extends Controller {
       globeMaterial.shininess = 0.7
     }
 
-    // Set initial view based on region
     const regionViews = {
       'eu': { lat: 50, lng: 10, altitude: 2.5 },
       'na': { lat: 40, lng: -100, altitude: 3 },
       'au': { lat: -25, lng: 135, altitude: 3 },
       'sea': { lat: 5, lng: 115, altitude: 3 }
     }
-    
+
     const region = this.regionValue || 'eu'
     const viewConfig = regionViews[region] || regionViews['eu']
     this.globe.pointOfView(viewConfig)
@@ -68,7 +70,19 @@ export default class extends Controller {
       const data = await response.json()
 
       this.currentData = data
+
       this.updateGlobeData(data.servers)
+
+      if (this.pendingArcUpdates.size > 0) {
+        this.pendingArcUpdates.forEach((update, arcKey) => {
+          if (update.action === 'add') {
+            this.currentArcs.set(arcKey, update.arc)
+          } else if (update.action === 'remove') {
+            this.currentArcs.delete(arcKey)
+          }
+        })
+      }
+
       this.updateStats(data.servers)
     } catch (error) {
       console.error('Error loading player data:', error)
@@ -78,34 +92,46 @@ export default class extends Controller {
   updateGlobeData(servers) {
     const locationGroups = {}
     servers.filter(s => s.latitude && s.longitude).forEach(server => {
-      const key = `${server.latitude},${server.longitude}`
+      const roundedLat = Math.round(server.latitude * 100) / 100
+      const roundedLng = Math.round(server.longitude * 100) / 100
+      const key = `${roundedLat},${roundedLng}`
+
       if (!locationGroups[key]) {
         locationGroups[key] = {
           lat: server.latitude,
           lng: server.longitude,
           location: server.location,
           servers: [],
-          totalPlayers: 0
+          totalPlayers: 0,
+          cities: new Set()
         }
       }
       locationGroups[key].servers.push(server)
       locationGroups[key].totalPlayers += server.players.length
+
+      const cityMatch = server.location.match(/^([^,]+)/)
+      if (cityMatch) {
+        locationGroups[key].cities.add(cityMatch[1].trim())
+      }
     })
 
     const serverPoints = Object.values(locationGroups).map(group => {
       const activeServers = group.servers.filter(s => s.players.length > 0).length
+      const totalServers = group.servers.length
+
+      const cityNames = Array.from(group.cities).join("/")
+      const locationLabel = cityNames || group.location
+
       const label = group.servers.length > 1
-        ? `${group.location} - ${group.servers.length} servers (${activeServers} active, ${group.totalPlayers} players)`
-        : `${group.servers[0].name} (${group.location}) - ${group.totalPlayers} players`
+        ? `${locationLabel} - ${activeServers}/${totalServers} servers in use (${group.totalPlayers} players)`
+        : `${group.servers[0].name} (${group.servers[0].location}) - ${group.totalPlayers > 0 ? 'In use' : 'Available'} (${group.totalPlayers} players)`
 
       return {
         lat: group.lat,
         lng: group.lng,
         label: label,
-        color: group.totalPlayers > 0 ? '#ff0000' : '#ffff00',
-        size: group.totalPlayers > 0
-          ? Math.max(0.2, Math.min(0.5, group.servers.length * 0.05 + group.totalPlayers * 0.01))
-          : 0.15,
+        color: group.totalPlayers > 0 ? '#00ff00' : '#0066ff',
+        size: 0.05,
         altitude: 0.01,
         servers: group.servers
       }
@@ -114,14 +140,13 @@ export default class extends Controller {
     // Build new arcs with unique keys
     const newArcs = []
     const newArcKeys = new Set()
-    
+
     servers.forEach(server => {
       if (!server.latitude || !server.longitude) return
 
       server.players.forEach(player => {
         if (!player.latitude || !player.longitude) return
-        
-        // Create unique key for this arc
+
         const arcKey = `${player.steam_uid}_${server.id}`
         newArcKeys.add(arcKey)
 
@@ -148,59 +173,57 @@ export default class extends Controller {
           endLat: server.latitude,
           endLng: server.longitude,
           color: color,
-          stroke: Math.max(0.1, 0.4 - player.loss * 0.02),
+          stroke: 0.05,
           altitude: altitude,
           label: player.city_name
             ? `${player.city_name}, ${player.country_name || 'Unknown'}: ${player.ping}ms (${player.loss}% loss)`
             : `${player.country_name || 'Unknown'}: ${player.ping}ms (${player.loss}% loss)`
         }
-        
+
         newArcs.push(arc)
         this.currentArcs.set(arcKey, arc)
       })
     })
-    
-    // Remove arcs that are no longer present
+
     const arcsToRemove = []
     this.currentArcs.forEach((arc, key) => {
       if (!newArcKeys.has(key)) {
         arcsToRemove.push(key)
       }
     })
-    
-    // Animate removal of disconnected players
+
     if (arcsToRemove.length > 0) {
       const fadingArcs = [...newArcs]
       arcsToRemove.forEach(key => {
         const arc = this.currentArcs.get(key)
         fadingArcs.push({
           ...arc,
-          color: 'rgba(255, 255, 255, 0.1)', // Fade to very transparent
-          stroke: 0.05
+          color: 'rgba(255, 255, 255, 0.1)',
+          stroke: 0.01
         })
       })
-      
-      // Show fading arcs briefly
+
       this.globe.arcsData(fadingArcs)
-      
-      // After animation, remove them and update to final state
+
       setTimeout(() => {
         arcsToRemove.forEach(key => this.currentArcs.delete(key))
-        this.updateArcs(newArcs)
+        const allArcs = Array.from(this.currentArcs.values())
+        this.updateArcs(allArcs)
       }, 500)
     } else {
-      this.updateArcs(newArcs)
+      const allArcs = Array.from(this.currentArcs.values())
+      this.updateArcs(allArcs)
     }
 
-    // Always update server points
     this.globe
       .pointsData(serverPoints)
       .pointLabel('label')
       .pointColor('color')
       .pointRadius('size')
       .pointAltitude('altitude')
+      .pointsTransitionDuration(0)
   }
-  
+
   updateArcs(arcs) {
     this.globe
       .arcsData(arcs)
@@ -242,7 +265,7 @@ export default class extends Controller {
   }
 
   calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371 // Earth's radius in km
+    const R = 6371
     const dLat = (lat2 - lat1) * Math.PI / 180
     const dLon = (lon2 - lon1) * Math.PI / 180
     const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
@@ -260,5 +283,78 @@ export default class extends Controller {
         this.loadPlayerData()
       }
     })
+  }
+
+  addPlayerConnection(playerData) {
+    const arcKey = `${playerData.steam_uid}_${playerData.server_id}`
+
+    if (playerData.player_latitude && playerData.player_longitude) {
+      const distance = this.calculateDistance(
+        playerData.player_latitude,
+        playerData.player_longitude,
+        playerData.server_latitude,
+        playerData.server_longitude
+      )
+      const altitude = Math.min(0.4, distance / 20000)
+
+      const arc = {
+        id: arcKey,
+        startLat: playerData.player_latitude,
+        startLng: playerData.player_longitude,
+        endLat: playerData.server_latitude,
+        endLng: playerData.server_longitude,
+        color: 'rgba(128, 128, 128, 0.6)',
+        stroke: 0.05,
+        altitude: altitude,
+        label: playerData.city_name
+          ? `${playerData.city_name}, ${playerData.country_name || 'Unknown'}: Connecting...`
+          : `${playerData.country_name || 'Unknown'}: Connecting...`
+      }
+
+      this.pendingArcUpdates.set(arcKey, {
+        action: 'add',
+        arc,
+        timestamp: Date.now()
+      })
+      this.scheduleUpdate()
+    }
+  }
+
+  removePlayerConnection(steamUid, serverId) {
+    const arcKey = `${steamUid}_${serverId}`
+
+    this.pendingArcUpdates.set(arcKey, {
+      action: 'remove',
+      timestamp: Date.now()
+    })
+    this.scheduleUpdate()
+  }
+
+  scheduleUpdate() {
+    if (this.updateTimer) {
+      clearTimeout(this.updateTimer)
+    }
+
+    this.updateTimer = setTimeout(() => {
+      this.processPendingUpdates()
+    }, 100)
+  }
+
+  processPendingUpdates() {
+    if (this.pendingArcUpdates.size === 0) return
+
+    this.pendingArcUpdates.forEach((update, arcKey) => {
+      if (update.action === 'add') {
+        this.currentArcs.set(arcKey, update.arc)
+      } else if (update.action === 'remove') {
+        this.currentArcs.delete(arcKey)
+      }
+    })
+
+    this.pendingArcUpdates.clear()
+    this.updateTimer = null
+
+    const currentArcs = Array.from(this.currentArcs.values())
+    this.updateArcs(currentArcs)
   }
 }

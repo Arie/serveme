@@ -1,0 +1,17 @@
+<script>
+  (function() {
+    const globeController = document.querySelector('[data-controller="globe"]');
+    const application = window.Stimulus || window.application;
+    
+    if (globeController && application && application.getControllerForElementAndIdentifier) {
+      const controller = application.getControllerForElementAndIdentifier(globeController, 'globe');
+      if (controller && controller.globe) {
+        const steamUid = "<%= steam_uid %>";
+        const serverId = <%= server_id %>;
+        
+        // Use the batched method instead of updating immediately
+        controller.removePlayerConnection(steamUid, serverId);
+      }
+    }
+  })();
+</script>

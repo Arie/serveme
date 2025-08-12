@@ -4,7 +4,7 @@
 class CurrentPlayersService
   def self.all_servers_with_current_players
     recent_stats = PlayerStatistic.joins(reservation_player: { reservation: :server })
-                                  .where("player_statistics.created_at >= ?", 2.minutes.ago)
+                                  .where("player_statistics.created_at >= ?", 90.seconds.ago)
                                   .includes(reservation_player: { reservation: :server })
                                   .order("servers.name ASC, player_statistics.created_at DESC")
 
@@ -48,7 +48,7 @@ class CurrentPlayersService
   end
 
   def self.cached_servers_with_current_players
-    Rails.cache.fetch("servers_with_current_players", expires_in: 5.minutes) do
+    Rails.cache.fetch("servers_with_current_players", expires_in: 30.seconds) do
       all_servers_with_current_players
     end
   end

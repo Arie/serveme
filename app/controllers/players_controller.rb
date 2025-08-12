@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 class PlayersController < ApplicationController
+  skip_before_action :authenticate_user!, only: [ :globe ]
   def index
     @servers_with_players = CurrentPlayersService.cached_servers_with_current_players
     @distance_unit = distance_unit
@@ -16,11 +17,23 @@ class PlayersController < ApplicationController
   def globe
     @servers_with_players = CurrentPlayersService.all_servers_with_current_players
 
+    # Get all servers that have location data
+    all_servers = Server.active.where.not(latitude: nil, longitude: nil)
+
+    # Create a hash of servers with players for quick lookup
+    servers_with_players_hash = @servers_with_players.to_h { |data| [ data[:server].id, data[:players] ] }
+
+    # Combine all servers with their player data (empty array if no players)
+    all_server_data = all_servers.map do |server|
+      players = servers_with_players_hash[server.id] || []
+      { server: server, players: players }
+    end
+
     respond_to do |format|
       format.html
       format.json do
         render json: {
-          servers: @servers_with_players.map { |data| server_globe_data(data[:server], data[:players]) }
+          servers: all_server_data.map { |data| server_globe_data(data[:server], data[:players]) }
         }
       end
     end
@@ -51,8 +64,7 @@ class PlayersController < ApplicationController
       location: server.detailed_location,
       players: players.map do |player|
         {
-          steam_uid: player[:reservation_player].steam_uid,
-          name: player[:reservation_player].name,
+          steam_uid: player[:reservation_player].steam_uid.to_s,
           latitude: player[:player_latitude],
           longitude: player[:player_longitude],
           country_code: player[:country_code],

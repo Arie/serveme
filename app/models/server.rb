@@ -23,13 +23,21 @@ class Server < ActiveRecord::Base
   delegate :flag, to: :location, prefix: true, allow_nil: true
 
   def detailed_location
-    return "Unknown" unless latitude && longitude
+    return "Unknown" unless ip.present?
 
-    Rails.cache.fetch("server_detailed_location_v2_#{id}", expires_in: 1.week) do
-      # Try to geocode the coordinates to get city information
-      result = Geocoder.search([ latitude, longitude ]).first
+    Rails.cache.fetch("server_detailed_location_v4_#{id}", expires_in: 1.week) do
+      result = Geocoder.search(ip).first
       if result && result.city.present?
-        "#{result.city}, #{location&.name || result.country}"
+        city = result.city
+        state = result.state
+        country = location&.name || result.country
+
+        if country == "USA" && state.present?
+          state_code = result.data.dig("subdivisions", 0, "iso_code") || state
+          "#{city}, #{state_code}"
+        else
+          "#{city}, #{country}"
+        end
       else
         location&.name || "Unknown"
       end
@@ -38,6 +46,7 @@ class Server < ActiveRecord::Base
     Rails.logger.error "Geocoding error for server #{id}: #{e.message}"
     location&.name || "Unknown"
   end
+
 
   sig { params(user: User).returns(ActiveRecord::Relation) }
   def self.reservable_by_user(user)

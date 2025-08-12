@@ -1,0 +1,15 @@
+<script>
+  (function() {
+    const globeController = document.querySelector('[data-controller="globe"]');
+    const application = window.Stimulus || window.application;
+
+    if (globeController && application && application.getControllerForElementAndIdentifier) {
+      const controller = application.getControllerForElementAndIdentifier(globeController, 'globe');
+      if (controller && controller.globe) {
+        const playerData = <%= player_data.to_json.html_safe %>;
+
+        controller.addPlayerConnection(playerData);
+      }
+    }
+  })();
+</script>

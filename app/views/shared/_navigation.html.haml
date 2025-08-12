@@ -57,13 +57,12 @@
             = link_to players_path, class: "dropdown-item" do
               %i.fa.fa-gamepad
               Players
-            - if current_user && (current_user.admin? || current_user.league_admin?)
-              = link_to players_globe_path, class: "dropdown-item", data: { turbo: false } do
-                %i.fa.fa-globe
-                Player Globe
             = link_to servers_path, class: "dropdown-item" do
               %i.fa.fa-tasks
               Servers
+          = link_to players_globe_path, class: "dropdown-item", data: { turbo: false } do
+            %i.fa.fa-globe
+            Player Globe
           = link_to statistics_path, class: "dropdown-item", data: { turbo: false } do
             %i.fa.fa-bar-chart-o
             Statistics

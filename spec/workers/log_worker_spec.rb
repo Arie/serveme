@@ -47,6 +47,8 @@ describe LogWorker do
     Reservation.should_receive(:includes).at_least(:once).with(:user).and_return(Reservation)
     Reservation.should_receive(:find_by_id).at_least(:once).with(reservation.id).and_return(reservation)
     reservation.stub(server: server)
+    allow(Turbo::StreamsChannel).to receive(:broadcast_append_to)
+    allow(Turbo::StreamsChannel).to receive(:broadcast_remove)
   end
 
   describe 'ending reservation' do

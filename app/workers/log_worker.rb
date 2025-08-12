@@ -38,6 +38,8 @@ class LogWorker
       handle_message
     when TF2LineParser::Events::Connect
       handle_connect
+    when TF2LineParser::Events::Disconnect
+      handle_disconnect
     when TF2LineParser::Events::Unknown
       mapstart = event.unknown.match(MAP_START)
       handle_mapstart(mapstart[2]) if mapstart
@@ -71,11 +73,15 @@ class LogWorker
     ip = event.message.to_s.split(":").first
     rp = create_or_update_reservation_player(community_id, ip)
 
-    handle_locked_server_player(community_id, ip, event) ||
-      handle_banned_vpn_player(community_id, ip, event) ||
-      handle_banned_player(community_id, ip, event) ||
-      handle_league_banned_player(community_id, ip, event) ||
-      whitelist_player_in_firewall(rp)
+    return unless reservation
+
+    return if handle_locked_server_player(community_id, ip, event)
+    return if handle_banned_vpn_player(community_id, ip, event)
+    return if handle_banned_player(community_id, ip, event)
+    return if handle_league_banned_player(community_id, ip, event)
+
+    broadcast_player_connect(rp)
+    whitelist_player_in_firewall(rp)
   end
 
   sig { params(community_id: Integer, ip: String).returns(ReservationPlayer) }
@@ -361,6 +367,61 @@ class LogWorker
       reservation&.server&.rcon_say "Password can't be sent via DM - plugins are disabled for this reservation"
       Rails.logger.info "Password request denied for #{event.player.name} (#{sayer_steam_uid}) - plugins disabled for reservation #{reservation.id}"
     end
+  end
+
+  def handle_disconnect
+    return if event.player.steam_id == "BOT"
+
+    community_id = SteamCondenser::Community::SteamId.steam_id_to_community_id(event.player.steam_id)
+
+    rp = ReservationPlayer.find_by(reservation: reservation, steam_uid: community_id)
+    broadcast_player_disconnect(rp) if rp && reservation
+  end
+
+  def broadcast_player_connect(reservation_player)
+    return unless reservation&.server
+
+    server = reservation.server
+    player_data = {
+      steam_uid: reservation_player.steam_uid.to_s,
+      server_id: server.id,
+      server_latitude: server.latitude,
+      server_longitude: server.longitude
+    }
+
+    if reservation_player.ip.present?
+      location_info = CurrentPlayersService.get_player_location_info(reservation_player)
+      if location_info[:player_latitude] && location_info[:player_longitude]
+        player_data.merge!(
+          player_latitude: location_info[:player_latitude],
+          player_longitude: location_info[:player_longitude],
+          country_code: location_info[:country_code],
+          country_name: location_info[:country_name],
+          city_name: location_info[:city_name]
+        )
+      end
+    end
+
+    Turbo::StreamsChannel.broadcast_append_to(
+      "player_globe_updates",
+      target: "globe-container",
+      partial: "players/globe_player_connect",
+      locals: { player_data: player_data }
+    )
+  end
+
+  def broadcast_player_disconnect(reservation_player)
+    return unless reservation&.server_id
+
+    Turbo::StreamsChannel.broadcast_append_to(
+      "player_globe_updates",
+      target: "globe-container",
+      partial: "players/globe_player_disconnect",
+      locals: {
+        steam_uid: reservation_player.steam_uid,
+        server_id: reservation.server_id
+      }
+    )
   end
 
   def today

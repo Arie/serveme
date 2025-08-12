@@ -64,14 +64,20 @@ export default class extends Controller {
     if (statsEl) statsEl.style.display = 'block'
   }
 
-  async loadPlayerData() {
+  async loadPlayerData(incremental = false) {
     try {
       const response = await fetch('/players/globe.json')
       const data = await response.json()
 
       this.currentData = data
 
-      this.updateGlobeData(data.servers)
+      if (incremental && this.globe) {
+        // Only update arcs and stats, keep server points unchanged
+        this.updateArcsOnly(data.servers)
+      } else {
+        // Full update on initial load
+        this.updateGlobeData(data.servers)
+      }
 
       if (this.pendingArcUpdates.size > 0) {
         this.pendingArcUpdates.forEach((update, arcKey) => {
@@ -130,7 +136,7 @@ export default class extends Controller {
         lat: group.lat,
         lng: group.lng,
         label: label,
-        color: group.totalPlayers > 0 ? '#00ff00' : '#0066ff',
+        color: '#0066ff',
         size: 0.05,
         altitude: 0.01,
         servers: group.servers
@@ -236,6 +242,88 @@ export default class extends Controller {
       .arcDashAnimateTime(1500)
   }
 
+  updateArcsOnly(servers) {
+    // Build new arcs with unique keys
+    const newArcs = []
+    const newArcKeys = new Set()
+
+    servers.forEach(server => {
+      if (!server.latitude || !server.longitude) return
+
+      server.players.forEach(player => {
+        if (!player.latitude || !player.longitude) return
+
+        const arcKey = `${player.steam_uid}_${server.id}`
+        newArcKeys.add(arcKey)
+
+        let color
+        if (player.loss >= 10) {
+          color = 'rgba(255, 0, 0, 0.6)' // Red for high loss (10%+)
+        } else if (player.loss >= 5) {
+          color = 'rgba(255, 255, 0, 0.6)' // Yellow for medium loss (5-10%)
+        } else if (player.ping >= 150) {
+          color = 'rgba(255, 0, 0, 0.6)' // Red for high ping (150ms+)
+        } else if (player.ping >= 100) {
+          color = 'rgba(255, 255, 0, 0.6)' // Yellow for medium ping (100-150ms)
+        } else {
+          color = 'rgba(0, 255, 0, 0.6)' // Green for good connection (<100ms, <5% loss)
+        }
+
+        const distance = this.calculateDistance(player.latitude, player.longitude, server.latitude, server.longitude)
+        const altitude = Math.min(0.4, distance / 20000)
+
+        const arc = {
+          id: arcKey,
+          startLat: player.latitude,
+          startLng: player.longitude,
+          endLat: server.latitude,
+          endLng: server.longitude,
+          color: color,
+          stroke: 0.05,
+          altitude: altitude,
+          label: player.city_name
+            ? `${player.city_name}, ${player.country_name || 'Unknown'}: ${player.ping}ms (${player.loss}% loss)`
+            : `${player.country_name || 'Unknown'}: ${player.ping}ms (${player.loss}% loss)`
+        }
+
+        newArcs.push(arc)
+        this.currentArcs.set(arcKey, arc)
+      })
+    })
+
+    // Identify arcs to remove
+    const arcsToRemove = []
+    this.currentArcs.forEach((arc, key) => {
+      if (!newArcKeys.has(key)) {
+        arcsToRemove.push(key)
+      }
+    })
+
+    // Handle arc removal with smooth transition
+    if (arcsToRemove.length > 0) {
+      const fadingArcs = [...newArcs]
+      arcsToRemove.forEach(key => {
+        const arc = this.currentArcs.get(key)
+        fadingArcs.push({
+          ...arc,
+          color: 'rgba(255, 255, 255, 0.1)',
+          stroke: 0.01
+        })
+      })
+
+      this.globe.arcsData(fadingArcs)
+
+      setTimeout(() => {
+        arcsToRemove.forEach(key => this.currentArcs.delete(key))
+        const allArcs = Array.from(this.currentArcs.values())
+        this.updateArcs(allArcs)
+      }, 500)
+    } else {
+      const allArcs = Array.from(this.currentArcs.values())
+      this.updateArcs(allArcs)
+    }
+  }
+
   updateStats(servers) {
     let totalPlayers = 0
     let activeServers = 0
@@ -280,7 +368,8 @@ export default class extends Controller {
       const target = event.target.getAttribute('target')
 
       if (target === 'player_stats_update') {
-        this.loadPlayerData()
+        // Use incremental update to only update arcs, not server points
+        this.loadPlayerData(true)
       }
     })
   }

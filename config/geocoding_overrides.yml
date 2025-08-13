@@ -24,3 +24,91 @@ overrides:
     country: "Germany"
     latitude: 50.4779
     longitude: 12.3716
+  
+  # Chicago servers
+  "chi5.serveme.tf":
+    city: "Chicago"
+    state: "IL"
+    country: "USA"
+    latitude: 41.8500
+    longitude: -87.6500
+    
+  "14.1.30.218":
+    city: "Chicago"
+    state: "IL"
+    country: "USA"
+    latitude: 41.8500
+    longitude: -87.6500
+    
+  "chi2.serveme.tf":
+    city: "Chicago"
+    state: "IL"
+    country: "USA"
+    latitude: 41.8500
+    longitude: -87.6500
+    
+  "104.128.50.71":
+    city: "Chicago"
+    state: "IL"
+    country: "USA"
+    latitude: 41.8500
+    longitude: -87.6500
+    
+  "chi3.serveme.tf":
+    city: "Chicago"
+    state: "IL"
+    country: "USA"
+    latitude: 41.8500
+    longitude: -87.6500
+    
+  "108.181.63.191":
+    city: "Chicago"
+    state: "IL"
+    country: "USA"
+    latitude: 41.8500
+    longitude: -87.6500
+    
+  # Dallas server
+  "dal3.serveme.tf":
+    city: "Dallas"
+    state: "TX"
+    country: "USA"
+    latitude: 32.7831
+    longitude: -96.8067
+    
+  "199.71.214.77":
+    city: "Dallas"
+    state: "TX"
+    country: "USA"
+    latitude: 32.7831
+    longitude: -96.8067
+    
+  # Kansas City server
+  "ks3.serveme.tf":
+    city: "Kansas City"
+    state: "MO"
+    country: "USA"
+    latitude: 39.0997
+    longitude: -94.5786
+    
+  "198.204.226.242":
+    city: "Kansas City"
+    state: "MO"
+    country: "USA"
+    latitude: 39.0997
+    longitude: -94.5786
+    
+  # Rotterdam server
+  "bolus.fakkelbrigade.eu":
+    city: "Rotterdam"
+    state: "South Holland"
+    country: "Netherlands"
+    latitude: 51.9291
+    longitude: 4.4203
+    
+  "5.200.27.207":
+    city: "Rotterdam"
+    state: "South Holland"
+    country: "Netherlands"
+    latitude: 51.9291
+    longitude: 4.4203

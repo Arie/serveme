@@ -1,7 +1,7 @@
 # typed: true
 # frozen_string_literal: true
 
-require File.expand_path('../models/concerns/steam_id_anonymizer', __dir__)
+require File.expand_path("../models/concerns/steam_id_anonymizer", __dir__)
 
 class BroadcastGlobeUpdateWorker
   include Sidekiq::Worker

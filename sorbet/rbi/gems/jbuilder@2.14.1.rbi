@@ -5,14 +5,14 @@
 # Please instead update this file by running `bin/tapioca gem jbuilder`.
 
 
-# source://jbuilder//lib/jbuilder/jbuilder.rb#1
+# source://jbuilder//lib/jbuilder/version.rb#3
 class Jbuilder < ::BasicObject
   # @return [Jbuilder] a new instance of Jbuilder
   # @yield [_self]
   # @yieldparam _self [Jbuilder] the object that the method was called on
   #
-  # source://jbuilder//lib/jbuilder.rb#15
-  def initialize(options = T.unsafe(nil)); end
+  # source://jbuilder//lib/jbuilder.rb#16
+  def initialize(key_formatter: T.unsafe(nil), ignore_nil: T.unsafe(nil), deep_format_keys: T.unsafe(nil), &block); end
 
   # Turns the current element into an array and iterates over the passed collection, adding each iteration as
   # an element of the resulting array.
@@ -45,15 +45,15 @@ class Jbuilder < ::BasicObject
   #
   #   [1,2,3]
   #
-  # source://jbuilder//lib/jbuilder.rb#212
+  # source://jbuilder//lib/jbuilder.rb#209
   def array!(collection = T.unsafe(nil), *attributes, &block); end
 
   # Returns the attributes of the current builder.
   #
-  # source://jbuilder//lib/jbuilder.rb#267
+  # source://jbuilder//lib/jbuilder.rb#260
   def attributes!; end
 
-  # source://jbuilder//lib/jbuilder.rb#251
+  # source://jbuilder//lib/jbuilder.rb#244
   def call(object, *attributes, &block); end
 
   # Turns the current element into an array and yields a builder to add a hash.
@@ -73,7 +73,7 @@ class Jbuilder < ::BasicObject
   #     json.content comment.formatted_content
   #   end
   #
-  # source://jbuilder//lib/jbuilder.rb#177
+  # source://jbuilder//lib/jbuilder.rb#174
   def child!; end
 
   # Deeply apply key format to nested hashes and arrays passed to
@@ -92,7 +92,7 @@ class Jbuilder < ::BasicObject
   #
   #   { "settings": { "someValue": "abc" }}
   #
-  # source://jbuilder//lib/jbuilder.rb#152
+  # source://jbuilder//lib/jbuilder.rb#149
   def deep_format_keys!(value = T.unsafe(nil)); end
 
   # Extracts the mentioned attributes or hash elements from the passed object and turns them into attributes of the JSON.
@@ -113,7 +113,7 @@ class Jbuilder < ::BasicObject
   #
   #   json.(@person, :name, :age)
   #
-  # source://jbuilder//lib/jbuilder.rb#243
+  # source://jbuilder//lib/jbuilder.rb#240
   def extract!(object, *attributes); end
 
   # If you want to skip adding nil values to your JSON hash. This is useful
@@ -131,7 +131,7 @@ class Jbuilder < ::BasicObject
   #
   #   {}
   #
-  # source://jbuilder//lib/jbuilder.rb#127
+  # source://jbuilder//lib/jbuilder.rb#124
   def ignore_nil!(value = T.unsafe(nil)); end
 
   # Specifies formatting to be applied to the key. Passing in a name of a function
@@ -162,261 +162,227 @@ class Jbuilder < ::BasicObject
   #
   #   { "_first_name": "David" }
   #
-  # source://jbuilder//lib/jbuilder.rb#103
-  def key_format!(*args); end
+  # source://jbuilder//lib/jbuilder.rb#100
+  def key_format!(*_arg0, **_arg1, &_arg2); end
 
   # Merges hash, array, or Jbuilder instance into current builder.
   #
-  # source://jbuilder//lib/jbuilder.rb#272
+  # source://jbuilder//lib/jbuilder.rb#265
   def merge!(object); end
 
-  # source://jbuilder//lib/jbuilder.rb#67
-  def method_missing(*args, &block); end
+  # source://jbuilder//lib/jbuilder.rb#277
+  def method_missing(key, value = T.unsafe(nil), *args, &block); end
 
   # Returns the nil JSON.
   #
-  # source://jbuilder//lib/jbuilder.rb#260
+  # source://jbuilder//lib/jbuilder.rb#253
   def nil!; end
 
   # Returns the nil JSON.
   #
-  # source://jbuilder//lib/jbuilder.rb#260
+  # source://jbuilder//lib/jbuilder.rb#257
   def null!; end
 
-  # source://jbuilder//lib/jbuilder.rb#32
+  # source://jbuilder//lib/jbuilder.rb#37
   def set!(key, value = T.unsafe(nil), *args, &block); end
 
   # Encodes the current builder as JSON.
   #
-  # source://jbuilder//lib/jbuilder.rb#278
+  # source://jbuilder//lib/jbuilder.rb#271
   def target!; end
 
   private
 
   # @return [Boolean]
   #
-  # source://jbuilder//lib/jbuilder.rb#356
+  # source://jbuilder//lib/jbuilder.rb#365
   def _blank?(value = T.unsafe(nil)); end
 
-  # source://jbuilder//lib/jbuilder.rb#284
+  # source://jbuilder//lib/jbuilder.rb#279
+  def _extract(object, attributes); end
+
+  # source://jbuilder//lib/jbuilder.rb#287
   def _extract_hash_values(object, attributes); end
 
-  # source://jbuilder//lib/jbuilder.rb#288
+  # source://jbuilder//lib/jbuilder.rb#291
   def _extract_method_values(object, attributes); end
 
-  # source://jbuilder//lib/jbuilder.rb#317
+  # source://jbuilder//lib/jbuilder.rb#326
   def _format_keys(hash_or_array); end
 
   # @return [Boolean]
   #
-  # source://jbuilder//lib/jbuilder.rb#352
+  # source://jbuilder//lib/jbuilder.rb#361
   def _is_collection?(object); end
 
-  # source://jbuilder//lib/jbuilder.rb#313
+  # source://jbuilder//lib/jbuilder.rb#316
   def _key(key); end
 
-  # source://jbuilder//lib/jbuilder.rb#337
+  # source://jbuilder//lib/jbuilder.rb#346
   def _map_collection(collection); end
 
-  # source://jbuilder//lib/jbuilder.rb#292
+  # source://jbuilder//lib/jbuilder.rb#295
   def _merge_block(key); end
 
-  # source://jbuilder//lib/jbuilder.rb#299
+  # source://jbuilder//lib/jbuilder.rb#302
   def _merge_values(current_value, updates); end
 
-  # @return [Boolean]
-  #
-  # source://jbuilder//lib/jbuilder.rb#360
-  def _object_respond_to?(object, *methods); end
-
-  # source://jbuilder//lib/jbuilder.rb#343
+  # source://jbuilder//lib/jbuilder.rb#352
   def _scope; end
 
-  # source://jbuilder//lib/jbuilder.rb#329
+  # source://jbuilder//lib/jbuilder.rb#338
   def _set_value(key, value); end
 
   class << self
     # Same as instance method deep_format_keys! except sets the default.
     #
-    # source://jbuilder//lib/jbuilder.rb#157
+    # source://jbuilder//lib/jbuilder.rb#154
     def deep_format_keys(value = T.unsafe(nil)); end
 
     # Yields a builder and automatically turns the result into a JSON string
     #
-    # source://jbuilder//lib/jbuilder.rb#26
-    def encode(*args, &block); end
+    # source://jbuilder//lib/jbuilder.rb#31
+    def encode(*_arg0, **_arg1, &_arg2); end
 
     # Same as instance method ignore_nil! except sets the default.
     #
-    # source://jbuilder//lib/jbuilder.rb#132
+    # source://jbuilder//lib/jbuilder.rb#129
     def ignore_nil(value = T.unsafe(nil)); end
 
     # Same as the instance method key_format! except sets the default.
     #
-    # source://jbuilder//lib/jbuilder.rb#108
-    def key_format(*args); end
+    # source://jbuilder//lib/jbuilder.rb#105
+    def key_format(*_arg0, **_arg1, &_arg2); end
   end
 end
 
-# source://jbuilder//lib/jbuilder/errors.rb#11
+# source://jbuilder//lib/jbuilder/errors.rb#13
 class Jbuilder::ArrayError < ::StandardError
   class << self
-    # source://jbuilder//lib/jbuilder/errors.rb#12
+    # source://jbuilder//lib/jbuilder/errors.rb#14
     def build(key); end
   end
 end
 
-# source://jbuilder//lib/jbuilder.rb#30
+# source://jbuilder//lib/jbuilder.rb#35
 Jbuilder::BLANK = T.let(T.unsafe(nil), Jbuilder::Blank)
 
-# source://jbuilder//lib/jbuilder/blank.rb#2
+# source://jbuilder//lib/jbuilder/blank.rb#4
 class Jbuilder::Blank
-  # source://jbuilder//lib/jbuilder/blank.rb#3
+  # source://jbuilder//lib/jbuilder/blank.rb#5
   def ==(other); end
 
   # @return [Boolean]
   #
-  # source://jbuilder//lib/jbuilder/blank.rb#7
+  # source://jbuilder//lib/jbuilder/blank.rb#9
   def empty?; end
 end
 
-# source://jbuilder//lib/jbuilder/collection_renderer.rb#12
-module Jbuilder::CollectionRenderable
-  extend ::ActiveSupport::Concern
-
-  mixes_in_class_methods ::Jbuilder::CollectionRenderable::ClassMethods
+# source://jbuilder//lib/jbuilder/collection_renderer.rb#8
+class Jbuilder::CollectionRenderer < ::ActionView::CollectionRenderer
+  # @return [CollectionRenderer] a new instance of CollectionRenderer
+  #
+  # source://jbuilder//lib/jbuilder/collection_renderer.rb#28
+  def initialize(lookup_context, options, &scope); end
 
   private
 
-  # source://jbuilder//lib/jbuilder/collection_renderer.rb#27
+  # source://jbuilder//lib/jbuilder/collection_renderer.rb#39
   def build_rendered_collection(templates, _spacer); end
 
-  # source://jbuilder//lib/jbuilder/collection_renderer.rb#23
+  # source://jbuilder//lib/jbuilder/collection_renderer.rb#35
   def build_rendered_template(content, template, layout = T.unsafe(nil)); end
 
-  # source://jbuilder//lib/jbuilder/collection_renderer.rb#31
+  # source://jbuilder//lib/jbuilder/collection_renderer.rb#47
+  def collection_with_template(view, template, layout, collection); end
+
+  # source://jbuilder//lib/jbuilder/collection_renderer.rb#43
   def json; end
 end
 
-# source://jbuilder//lib/jbuilder/collection_renderer.rb#0
-module Jbuilder::CollectionRenderable::ClassMethods
-  # source://jbuilder//lib/jbuilder/collection_renderer.rb#16
-  def supported?; end
-end
-
-# source://jbuilder//lib/jbuilder/collection_renderer.rb#35
-class Jbuilder::CollectionRenderable::ScopedIterator < ::SimpleDelegator
+# source://jbuilder//lib/jbuilder/collection_renderer.rb#9
+class Jbuilder::CollectionRenderer::ScopedIterator < ::SimpleDelegator
   include ::ActiveSupport::ToJsonWithActiveSupportEncoder
   include ::Enumerable
 
   # @return [ScopedIterator] a new instance of ScopedIterator
   #
-  # source://jbuilder//lib/jbuilder/collection_renderer.rb#38
+  # source://jbuilder//lib/jbuilder/collection_renderer.rb#12
   def initialize(obj, scope); end
 
-  # Rails 6.0 support:
-  #
-  # source://jbuilder//lib/jbuilder/collection_renderer.rb#44
-  def each; end
-
-  # Rails 6.1 support:
-  #
-  # source://jbuilder//lib/jbuilder/collection_renderer.rb#53
+  # source://jbuilder//lib/jbuilder/collection_renderer.rb#17
   def each_with_info; end
 end
 
-# Rails 6.0 support:
-#
-# source://jbuilder//lib/jbuilder/collection_renderer.rb#67
-class Jbuilder::CollectionRenderer < ::ActionView::CollectionRenderer
-  include ::Jbuilder::CollectionRenderable
-  extend ::Jbuilder::CollectionRenderable::ClassMethods
-
-  # @return [CollectionRenderer] a new instance of CollectionRenderer
-  #
-  # source://jbuilder//lib/jbuilder/collection_renderer.rb#70
-  def initialize(lookup_context, options, &scope); end
-
-  private
-
-  # source://jbuilder//lib/jbuilder/collection_renderer.rb#76
-  def collection_with_template(view, template, layout, collection); end
-end
-
-# source://jbuilder//lib/jbuilder/collection_renderer.rb#110
+# source://jbuilder//lib/jbuilder/collection_renderer.rb#52
 class Jbuilder::EnumerableCompat < ::SimpleDelegator
   # Rails 6.1 requires this.
   #
-  # source://jbuilder//lib/jbuilder/collection_renderer.rb#112
+  # source://jbuilder//lib/jbuilder/collection_renderer.rb#54
   def size(*args, &block); end
 end
 
-# source://jbuilder//lib/jbuilder/key_formatter.rb#5
+# source://jbuilder//lib/jbuilder/key_formatter.rb#6
 class Jbuilder::KeyFormatter
   # @return [KeyFormatter] a new instance of KeyFormatter
   #
-  # source://jbuilder//lib/jbuilder/key_formatter.rb#6
-  def initialize(*args); end
+  # source://jbuilder//lib/jbuilder/key_formatter.rb#7
+  def initialize(*formats, **formats_with_options); end
 
-  # source://jbuilder//lib/jbuilder/key_formatter.rb#23
+  # source://jbuilder//lib/jbuilder/key_formatter.rb#14
   def format(key); end
-
-  private
-
-  # source://jbuilder//lib/jbuilder/key_formatter.rb#19
-  def initialize_copy(original); end
 end
 
-# source://jbuilder//lib/jbuilder/errors.rb#18
+# source://jbuilder//lib/jbuilder/errors.rb#20
 class Jbuilder::MergeError < ::StandardError
   class << self
-    # source://jbuilder//lib/jbuilder/errors.rb#19
+    # source://jbuilder//lib/jbuilder/errors.rb#21
     def build(current_value, updates); end
   end
 end
 
-# source://jbuilder//lib/jbuilder/errors.rb#4
+# source://jbuilder//lib/jbuilder/errors.rb#6
 class Jbuilder::NullError < ::NoMethodError
   class << self
-    # source://jbuilder//lib/jbuilder/errors.rb#5
+    # source://jbuilder//lib/jbuilder/errors.rb#7
     def build(key); end
   end
 end
 
-# source://jbuilder//lib/jbuilder/railtie.rb#5
+# source://jbuilder//lib/jbuilder/railtie.rb#7
 class Jbuilder::Railtie < ::Rails::Railtie; end
 
-# source://jbuilder//lib/jbuilder/version.rb#2
+# source://jbuilder//lib/jbuilder/version.rb#4
 Jbuilder::VERSION = T.let(T.unsafe(nil), String)
 
-# source://jbuilder//lib/jbuilder/jbuilder_template.rb#280
+# source://jbuilder//lib/jbuilder/jbuilder_template.rb#257
 class JbuilderHandler
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#281
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#258
   def default_format; end
 
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#281
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#258
   def default_format=(val); end
 
   class << self
-    # source://jbuilder//lib/jbuilder/jbuilder_template.rb#284
+    # source://jbuilder//lib/jbuilder/jbuilder_template.rb#261
     def call(template, source = T.unsafe(nil)); end
 
-    # source://jbuilder//lib/jbuilder/jbuilder_template.rb#281
+    # source://jbuilder//lib/jbuilder/jbuilder_template.rb#258
     def default_format; end
 
-    # source://jbuilder//lib/jbuilder/jbuilder_template.rb#281
+    # source://jbuilder//lib/jbuilder/jbuilder_template.rb#258
     def default_format=(val); end
   end
 end
 
-# source://jbuilder//lib/jbuilder/jbuilder_template.rb#6
+# source://jbuilder//lib/jbuilder/jbuilder_template.rb#8
 class JbuilderTemplate < ::Jbuilder
   # @return [JbuilderTemplate] a new instance of JbuilderTemplate
   #
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#13
-  def initialize(context, *args); end
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#15
+  def initialize(context, options = T.unsafe(nil)); end
 
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#117
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#122
   def array!(collection = T.unsafe(nil), *args); end
 
   # Caches the json constructed within the block passed. Has the same signature as the `cache` helper
@@ -428,7 +394,7 @@ class JbuilderTemplate < ::Jbuilder
   #     json.extract! @person, :name, :age
   #   end
   #
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#67
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#72
   def cache!(key = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # Conditionally caches the json depending in the condition given as first parameter. Has the same
@@ -441,7 +407,7 @@ class JbuilderTemplate < ::Jbuilder
   #     json.extract! @person, :name, :age
   #   end
   #
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#109
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#114
   def cache_if!(condition, *args, &block); end
 
   # Caches the json structure at the root using a string rather than the hash structure. This is considerably
@@ -456,8 +422,11 @@ class JbuilderTemplate < ::Jbuilder
   #
   #   # json.extra 'This will not work either, the root must be exclusive'
   #
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#90
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#95
   def cache_root!(key = T.unsafe(nil), options = T.unsafe(nil)); end
+
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#146
+  def method_missing(name, object = T.unsafe(nil), *args); end
 
   # Generates JSON using the template specified with the `:partial` option. For example, the code below will render
   # the file `views/comments/_comments.json.jbuilder`, and set a local variable comments with all this message's
@@ -491,68 +460,65 @@ class JbuilderTemplate < ::Jbuilder
   #
   #   json.comments @post.comments, partial: "comments/comment", as: :comment, cached: true
   #
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#51
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#54
   def partial!(*args); end
 
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#127
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#134
   def set!(name, object = T.unsafe(nil), *args); end
 
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#113
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#118
   def target!; end
 
   private
 
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#193
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#186
   def _cache_fragment_for(key, options, &block); end
 
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#212
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#205
   def _cache_key(key, options); end
 
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#225
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#218
   def _fragment_name_with_digest(key, options); end
 
   # @return [Boolean]
   #
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#237
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#230
   def _is_active_model?(object); end
 
   # @return [Boolean]
   #
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#233
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#226
   def _partial_options?(options); end
 
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#198
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#191
   def _read_fragment_cache(key, options = T.unsafe(nil)); end
 
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#275
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#252
   def _render_active_model_partial(object); end
 
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#254
-  def _render_explicit_partial(name_or_options, locals = T.unsafe(nil)); end
-
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#188
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#181
   def _render_partial(options); end
 
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#139
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#148
   def _render_partial_with_options(options); end
 
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#241
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#234
   def _set_inline_partial(name, object, options); end
 
-  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#204
+  # source://jbuilder//lib/jbuilder/jbuilder_template.rb#197
   def _write_fragment_cache(key, options = T.unsafe(nil)); end
 
   class << self
     # Returns the value of attribute template_lookup_options.
     #
-    # source://jbuilder//lib/jbuilder/jbuilder_template.rb#8
+    # source://jbuilder//lib/jbuilder/jbuilder_template.rb#10
     def template_lookup_options; end
 
     # Sets the attribute template_lookup_options
     #
     # @param value the value to set the attribute template_lookup_options to.
     #
-    # source://jbuilder//lib/jbuilder/jbuilder_template.rb#8
+    # source://jbuilder//lib/jbuilder/jbuilder_template.rb#10
     def template_lookup_options=(_arg0); end
   end
 end

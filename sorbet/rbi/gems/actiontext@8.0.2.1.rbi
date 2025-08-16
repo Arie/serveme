@@ -27,19 +27,19 @@ module ActionText
     # source://actiontext//lib/action_text.rb#53
     def html_document_fragment_class; end
 
-    # source://railties/8.0.2/lib/rails/engine.rb#413
+    # source://actiontext//lib/action_text/engine.rb#14
     def railtie_helpers_paths; end
 
-    # source://railties/8.0.2/lib/rails/engine.rb#396
+    # source://actiontext//lib/action_text/engine.rb#14
     def railtie_namespace; end
 
-    # source://railties/8.0.2/lib/rails/engine.rb#417
+    # source://actiontext//lib/action_text/engine.rb#14
     def railtie_routes_url_helpers(include_path_helpers = T.unsafe(nil)); end
 
-    # source://railties/8.0.2/lib/rails/engine.rb#402
+    # source://actiontext//lib/action_text/engine.rb#14
     def table_name_prefix; end
 
-    # source://railties/8.0.2/lib/rails/engine.rb#409
+    # source://actiontext//lib/action_text/engine.rb#14
     def use_relative_model_naming?; end
 
     # Returns the currently loaded version of Action Text as a `Gem::Version`.
@@ -152,7 +152,7 @@ module ActionText::Attachable
   end
 end
 
-# source://actiontext//lib/action_text/attachable.rb#0
+# source://actiontext//lib/action_text/attachable.rb#57
 module ActionText::Attachable::ClassMethods
   # source://actiontext//lib/action_text/attachable.rb#58
   def from_attachable_sgid(sgid); end
@@ -189,19 +189,19 @@ class ActionText::Attachables::ContentAttachment
   extend ::ActiveModel::Validations::HelperMethods
   extend ::ActiveModel::Conversion::ClassMethods
 
-  # source://activesupport/8.0.2/lib/active_support/callbacks.rb#69
+  # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
   def __callbacks; end
 
-  # source://activesupport/8.0.2/lib/active_support/callbacks.rb#912
+  # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
   def _run_validate_callbacks(&block); end
 
-  # source://activesupport/8.0.2/lib/active_support/callbacks.rb#924
+  # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
   def _validate_callbacks; end
 
-  # source://activemodel/8.0.2/lib/active_model/validations.rb#50
+  # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
   def _validators; end
 
-  # source://activemodel/8.0.2/lib/active_model/validations.rb#50
+  # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
   def _validators?; end
 
   # source://actiontext//lib/action_text/attachables/content_attachment.rb#20
@@ -231,10 +231,10 @@ class ActionText::Attachables::ContentAttachment
   # source://actiontext//lib/action_text/attachables/content_attachment.rb#15
   def content_type=(_arg0); end
 
-  # source://activemodel/8.0.2/lib/active_model/naming.rb#255
+  # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
   def model_name(&_arg0); end
 
-  # source://activemodel/8.0.2/lib/active_model/conversion.rb#32
+  # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
   def param_delimiter=(_arg0); end
 
   # source://actiontext//lib/action_text/attachables/content_attachment.rb#24
@@ -252,57 +252,57 @@ class ActionText::Attachables::ContentAttachment
   def content_instance; end
 
   class << self
-    # source://activesupport/8.0.2/lib/active_support/callbacks.rb#69
+    # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
     def __callbacks; end
 
-    # source://activesupport/8.0.2/lib/active_support/callbacks.rb#69
+    # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
     def __callbacks=(value); end
 
-    # source://activesupport/8.0.2/lib/active_support/callbacks.rb#916
+    # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
     def _validate_callbacks; end
 
-    # source://activesupport/8.0.2/lib/active_support/callbacks.rb#920
+    # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
     def _validate_callbacks=(value); end
 
-    # source://activemodel/8.0.2/lib/active_model/validations.rb#50
+    # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
     def _validators; end
 
-    # source://activemodel/8.0.2/lib/active_model/validations.rb#50
+    # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
     def _validators=(value); end
 
-    # source://activemodel/8.0.2/lib/active_model/validations.rb#50
+    # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
     def _validators?; end
 
     # source://actiontext//lib/action_text/attachables/content_attachment.rb#10
     def from_node(node); end
 
-    # source://activemodel/8.0.2/lib/active_model/conversion.rb#32
+    # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
     def param_delimiter; end
 
-    # source://activemodel/8.0.2/lib/active_model/conversion.rb#32
+    # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
     def param_delimiter=(value); end
 
-    # source://activemodel/8.0.2/lib/active_model/conversion.rb#32
+    # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
     def param_delimiter?; end
 
     private
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
+    # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
     def __class_attr___callbacks; end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
+    # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
     def __class_attr___callbacks=(new_value); end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
+    # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
     def __class_attr__validators; end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
+    # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
     def __class_attr__validators=(new_value); end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
+    # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
     def __class_attr_param_delimiter; end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
+    # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
     def __class_attr_param_delimiter=(new_value); end
   end
 end
@@ -319,7 +319,7 @@ class ActionText::Attachables::MissingAttachable
   # source://actiontext//lib/action_text/attachables/missing_attachable.rb#24
   def model; end
 
-  # source://activemodel/8.0.2/lib/active_model/naming.rb#255
+  # source://actiontext//lib/action_text/attachables/missing_attachable.rb#8
   def model_name(&_arg0); end
 
   # source://actiontext//lib/action_text/attachables/missing_attachable.rb#16
@@ -351,7 +351,7 @@ class ActionText::Attachables::RemoteImage
   # source://actiontext//lib/action_text/attachables/remote_image.rb#30
   def height; end
 
-  # source://activemodel/8.0.2/lib/active_model/naming.rb#255
+  # source://actiontext//lib/action_text/attachables/remote_image.rb#8
   def model_name(&_arg0); end
 
   # source://actiontext//lib/action_text/attachables/remote_image.rb#43
@@ -422,7 +422,7 @@ class ActionText::Attachment
   # source://actiontext//lib/action_text/attachment.rb#131
   def inspect; end
 
-  # source://activesupport/8.0.2/lib/active_support/delegation.rb#185
+  # source://actiontext//lib/action_text/attachment.rb#66
   def method_missing(method, *_arg1, **_arg2, &_arg3); end
 
   # Returns the value of attribute node.
@@ -491,7 +491,7 @@ class ActionText::Attachment
   # source://actiontext//lib/action_text/attachment.rb#136
   def node_attributes; end
 
-  # source://activesupport/8.0.2/lib/active_support/delegation.rb#177
+  # source://actiontext//lib/action_text/attachment.rb#66
   def respond_to_missing?(name, include_private = T.unsafe(nil)); end
 
   # source://actiontext//lib/action_text/attachment.rb#144
@@ -557,19 +557,19 @@ class ActionText::AttachmentGallery
   # source://actiontext//lib/action_text/attachment_gallery.rb#54
   def initialize(node); end
 
-  # source://activesupport/8.0.2/lib/active_support/callbacks.rb#69
+  # source://actiontext//lib/action_text/attachment_gallery.rb#7
   def __callbacks; end
 
-  # source://activesupport/8.0.2/lib/active_support/callbacks.rb#912
+  # source://actiontext//lib/action_text/attachment_gallery.rb#7
   def _run_validate_callbacks(&block); end
 
-  # source://activesupport/8.0.2/lib/active_support/callbacks.rb#924
+  # source://actiontext//lib/action_text/attachment_gallery.rb#7
   def _validate_callbacks; end
 
-  # source://activemodel/8.0.2/lib/active_model/validations.rb#50
+  # source://actiontext//lib/action_text/attachment_gallery.rb#7
   def _validators; end
 
-  # source://activemodel/8.0.2/lib/active_model/validations.rb#50
+  # source://actiontext//lib/action_text/attachment_gallery.rb#7
   def _validators?; end
 
   # source://actiontext//lib/action_text/attachment_gallery.rb#58
@@ -578,7 +578,7 @@ class ActionText::AttachmentGallery
   # source://actiontext//lib/action_text/attachment_gallery.rb#68
   def inspect; end
 
-  # source://activemodel/8.0.2/lib/active_model/naming.rb#255
+  # source://actiontext//lib/action_text/attachment_gallery.rb#7
   def model_name(&_arg0); end
 
   # Returns the value of attribute node.
@@ -586,32 +586,32 @@ class ActionText::AttachmentGallery
   # source://actiontext//lib/action_text/attachment_gallery.rb#52
   def node; end
 
-  # source://activemodel/8.0.2/lib/active_model/conversion.rb#32
+  # source://actiontext//lib/action_text/attachment_gallery.rb#7
   def param_delimiter=(_arg0); end
 
   # source://actiontext//lib/action_text/attachment_gallery.rb#64
   def size; end
 
   class << self
-    # source://activesupport/8.0.2/lib/active_support/callbacks.rb#69
+    # source://actiontext//lib/action_text/attachment_gallery.rb#7
     def __callbacks; end
 
-    # source://activesupport/8.0.2/lib/active_support/callbacks.rb#69
+    # source://actiontext//lib/action_text/attachment_gallery.rb#7
     def __callbacks=(value); end
 
-    # source://activesupport/8.0.2/lib/active_support/callbacks.rb#916
+    # source://actiontext//lib/action_text/attachment_gallery.rb#7
     def _validate_callbacks; end
 
-    # source://activesupport/8.0.2/lib/active_support/callbacks.rb#920
+    # source://actiontext//lib/action_text/attachment_gallery.rb#7
     def _validate_callbacks=(value); end
 
-    # source://activemodel/8.0.2/lib/active_model/validations.rb#50
+    # source://actiontext//lib/action_text/attachment_gallery.rb#7
     def _validators; end
 
-    # source://activemodel/8.0.2/lib/active_model/validations.rb#50
+    # source://actiontext//lib/action_text/attachment_gallery.rb#7
     def _validators=(value); end
 
-    # source://activemodel/8.0.2/lib/active_model/validations.rb#50
+    # source://actiontext//lib/action_text/attachment_gallery.rb#7
     def _validators?; end
 
     # source://actiontext//lib/action_text/attachment_gallery.rb#43
@@ -629,13 +629,13 @@ class ActionText::AttachmentGallery
     # source://actiontext//lib/action_text/attachment_gallery.rb#39
     def from_node(node); end
 
-    # source://activemodel/8.0.2/lib/active_model/conversion.rb#32
+    # source://actiontext//lib/action_text/attachment_gallery.rb#7
     def param_delimiter; end
 
-    # source://activemodel/8.0.2/lib/active_model/conversion.rb#32
+    # source://actiontext//lib/action_text/attachment_gallery.rb#7
     def param_delimiter=(value); end
 
-    # source://activemodel/8.0.2/lib/active_model/conversion.rb#32
+    # source://actiontext//lib/action_text/attachment_gallery.rb#7
     def param_delimiter?; end
 
     # source://actiontext//lib/action_text/attachment_gallery.rb#47
@@ -643,22 +643,22 @@ class ActionText::AttachmentGallery
 
     private
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
+    # source://actiontext//lib/action_text/attachment_gallery.rb#7
     def __class_attr___callbacks; end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
+    # source://actiontext//lib/action_text/attachment_gallery.rb#7
     def __class_attr___callbacks=(new_value); end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
+    # source://actiontext//lib/action_text/attachment_gallery.rb#7
     def __class_attr__validators; end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
+    # source://actiontext//lib/action_text/attachment_gallery.rb#7
     def __class_attr__validators=(new_value); end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
+    # source://actiontext//lib/action_text/attachment_gallery.rb#7
     def __class_attr_param_delimiter; end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
+    # source://actiontext//lib/action_text/attachment_gallery.rb#7
     def __class_attr_param_delimiter=(new_value); end
   end
 end
@@ -689,7 +689,7 @@ module ActionText::Attachments::Minification
   mixes_in_class_methods ::ActionText::Attachments::Minification::ClassMethods
 end
 
-# source://actiontext//lib/action_text/attachments/minification.rb#0
+# source://actiontext//lib/action_text/attachments/minification.rb#10
 module ActionText::Attachments::Minification::ClassMethods
   # source://actiontext//lib/action_text/attachments/minification.rb#11
   def fragment_by_minifying_attachments(content); end
@@ -710,7 +710,7 @@ module ActionText::Attachments::TrixConversion
   def trix_attachment_content; end
 end
 
-# source://actiontext//lib/action_text/attachments/trix_conversion.rb#0
+# source://actiontext//lib/action_text/attachments/trix_conversion.rb#12
 module ActionText::Attachments::TrixConversion::ClassMethods
   # source://actiontext//lib/action_text/attachments/trix_conversion.rb#13
   def fragment_by_converting_trix_attachments(content); end
@@ -726,7 +726,7 @@ module ActionText::Attribute
   mixes_in_class_methods ::ActionText::Attribute::ClassMethods
 end
 
-# source://actiontext//lib/action_text/attribute.rb#0
+# source://actiontext//lib/action_text/attribute.rb#9
 module ActionText::Attribute::ClassMethods
   # source://actiontext//lib/action_text/attribute.rb#53
   def has_rich_text(name, encrypted: T.unsafe(nil), strict_loading: T.unsafe(nil), store_if_blank: T.unsafe(nil)); end
@@ -837,7 +837,7 @@ class ActionText::Content
   # source://actiontext//lib/action_text/content.rb#30
   def present?(*_arg0, **_arg1, &_arg2); end
 
-  # source://actiontext//lib/action_text/rendering.rb#14
+  # source://actiontext//lib/action_text/content.rb#25
   def render(*_arg0, **_arg1, &_arg2); end
 
   # source://actiontext//lib/action_text/content.rb#109
@@ -905,10 +905,10 @@ class ActionText::Content
     # source://actiontext//lib/action_text/content.rb#33
     def fragment_by_canonicalizing_content(content); end
 
-    # source://activesupport/8.0.2/lib/active_support/core_ext/module/attribute_accessors_per_thread.rb#49
+    # source://actiontext//lib/action_text/content.rb#25
     def renderer; end
 
-    # source://activesupport/8.0.2/lib/active_support/core_ext/module/attribute_accessors_per_thread.rb#108
+    # source://actiontext//lib/action_text/content.rb#25
     def renderer=(obj); end
   end
 end
@@ -949,22 +949,11 @@ class ActionText::EncryptedRichText < ::ActionText::RichText
   class << self
     private
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
     def __class_attr__validators; end
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
     def __class_attr__validators=(new_value); end
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
     def __class_attr_defined_enums; end
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
     def __class_attr_defined_enums=(new_value); end
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
     def __class_attr_encrypted_attributes; end
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
     def __class_attr_encrypted_attributes=(new_value); end
   end
 end
@@ -998,17 +987,7 @@ module ActionText::Encryption
 end
 
 # source://actiontext//lib/action_text/engine.rb#13
-class ActionText::Engine < ::Rails::Engine
-  class << self
-    private
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
-    def __class_attr___callbacks; end
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
-    def __class_attr___callbacks=(new_value); end
-  end
-end
+class ActionText::Engine < ::Rails::Engine; end
 
 # # Action Text FixtureSet
 #
@@ -1175,7 +1154,7 @@ module ActionText::PlainTextConversion
   # source://actiontext//lib/action_text/plain_text_conversion.rb#62
   def plain_text_for_figcaption_node(node, index); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#34
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#39
   def plain_text_for_h1_node(node, index = T.unsafe(nil)); end
 
   # source://actiontext//lib/action_text/plain_text_conversion.rb#76
@@ -1190,16 +1169,16 @@ module ActionText::PlainTextConversion
   # source://actiontext//lib/action_text/plain_text_conversion.rb#22
   def plain_text_for_node_children(node); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#42
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#47
   def plain_text_for_ol_node(node, index); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#34
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#39
   def plain_text_for_p_node(node, index = T.unsafe(nil)); end
 
   # source://actiontext//lib/action_text/plain_text_conversion.rb#54
   def plain_text_for_text_node(node, index); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#42
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#47
   def plain_text_for_ul_node(node, index); end
 
   # source://actiontext//lib/action_text/plain_text_conversion.rb#30
@@ -1216,16 +1195,9 @@ class ActionText::Record < ::ActiveRecord::Base
   class << self
     private
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
     def __class_attr__validators; end
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
     def __class_attr__validators=(new_value); end
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
     def __class_attr_defined_enums; end
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
     def __class_attr_defined_enums=(new_value); end
   end
 end
@@ -1240,7 +1212,7 @@ module ActionText::Rendering
   mixes_in_class_methods ::ActionText::Rendering::ClassMethods
 end
 
-# source://actiontext//lib/action_text/rendering.rb#0
+# source://actiontext//lib/action_text/rendering.rb#17
 module ActionText::Rendering::ClassMethods
   # source://actiontext//lib/action_text/rendering.rb#18
   def action_controller_renderer; end
@@ -1256,15 +1228,9 @@ class ActionText::RichText < ::ActionText::Record
   include ::ActionText::RichText::GeneratedAttributeMethods
   include ::ActionText::RichText::GeneratedAssociationMethods
 
-  # source://activerecord/8.0.2/lib/active_record/autosave_association.rb#162
   def autosave_associated_records_for_embeds_attachments(*args); end
-
-  # source://activerecord/8.0.2/lib/active_record/autosave_association.rb#162
   def autosave_associated_records_for_embeds_blobs(*args); end
-
-  # source://activerecord/8.0.2/lib/active_record/autosave_association.rb#162
   def autosave_associated_records_for_record(*args); end
-
   def blank?(*_arg0, **_arg1, &_arg2); end
   def empty?(*_arg0, **_arg1, &_arg2); end
   def nil?(*_arg0, **_arg1, &_arg2); end
@@ -1272,98 +1238,43 @@ class ActionText::RichText < ::ActionText::Record
   def to_plain_text; end
   def to_s(*_arg0, **_arg1, &_arg2); end
   def to_trix_html; end
-
-  # source://activerecord/8.0.2/lib/active_record/autosave_association.rb#162
   def validate_associated_records_for_embeds_attachments(*args); end
-
-  # source://activerecord/8.0.2/lib/active_record/autosave_association.rb#162
   def validate_associated_records_for_embeds_blobs(*args); end
 
   class << self
-    # source://activerecord/8.0.2/lib/active_record/scoping/named.rb#174
     def with_attached_embeds(*args, **_arg1); end
 
     private
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
     def __class_attr___callbacks; end
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
     def __class_attr___callbacks=(new_value); end
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
     def __class_attr__reflections; end
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
     def __class_attr__reflections=(new_value); end
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
     def __class_attr__validators; end
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
     def __class_attr__validators=(new_value); end
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
     def __class_attr_attachment_reflections; end
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
     def __class_attr_attachment_reflections=(new_value); end
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
     def __class_attr_defined_enums; end
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
     def __class_attr_defined_enums=(new_value); end
   end
 end
 
 module ActionText::RichText::GeneratedAssociationMethods
-  # source://activestorage/8.0.2/lib/active_storage/attached/model.rb#215
   def embeds; end
-
-  # source://activestorage/8.0.2/lib/active_storage/attached/model.rb#220
   def embeds=(attachables); end
-
-  # source://activerecord/8.0.2/lib/active_record/associations/builder/collection_association.rb#62
   def embeds_attachment_ids; end
-
-  # source://activerecord/8.0.2/lib/active_record/associations/builder/collection_association.rb#72
   def embeds_attachment_ids=(ids); end
-
-  # source://activerecord/8.0.2/lib/active_record/associations/builder/association.rb#104
   def embeds_attachments; end
-
-  # source://activerecord/8.0.2/lib/active_record/associations/builder/association.rb#112
   def embeds_attachments=(value); end
-
-  # source://activerecord/8.0.2/lib/active_record/associations/builder/collection_association.rb#62
   def embeds_blob_ids; end
-
-  # source://activerecord/8.0.2/lib/active_record/associations/builder/collection_association.rb#72
   def embeds_blob_ids=(ids); end
-
-  # source://activerecord/8.0.2/lib/active_record/associations/builder/association.rb#104
   def embeds_blobs; end
-
-  # source://activerecord/8.0.2/lib/active_record/associations/builder/association.rb#112
   def embeds_blobs=(value); end
-
-  # source://activerecord/8.0.2/lib/active_record/associations/builder/association.rb#104
   def record; end
-
-  # source://activerecord/8.0.2/lib/active_record/associations/builder/association.rb#112
   def record=(value); end
-
-  # source://activerecord/8.0.2/lib/active_record/associations/builder/belongs_to.rb#146
   def record_changed?; end
-
-  # source://activerecord/8.0.2/lib/active_record/associations/builder/belongs_to.rb#150
   def record_previously_changed?; end
-
-  # source://activerecord/8.0.2/lib/active_record/associations/builder/singular_association.rb#19
   def reload_record; end
-
-  # source://activerecord/8.0.2/lib/active_record/associations/builder/singular_association.rb#23
   def reset_record; end
 end
 
@@ -1379,9 +1290,9 @@ module ActionText::Serialization
   def _dump(*_arg0); end
 end
 
-# source://actiontext//lib/action_text/serialization.rb#0
+# source://actiontext//lib/action_text/serialization.rb#9
 module ActionText::Serialization::ClassMethods
-  # source://actiontext//lib/action_text/serialization.rb#10
+  # source://actiontext//lib/action_text/serialization.rb#31
   def _load(content); end
 
   # source://actiontext//lib/action_text/serialization.rb#14
@@ -1422,7 +1333,7 @@ module ActionText::SystemTestHelper
   #     # <trix-editor input="trix_input_1"></trix-editor>
   #     fill_in_rich_textarea "message[content]", with: "Hello <em>world!</em>"
   #
-  # source://actiontext//lib/action_text/system_test_helper.rb#35
+  # source://actiontext//lib/action_text/system_test_helper.rb#38
   def fill_in_rich_text_area(locator = T.unsafe(nil), with:); end
 
   # Locates a Trix editor and fills it in with the given HTML.
@@ -1545,7 +1456,7 @@ ActionText::VERSION::MAJOR = T.let(T.unsafe(nil), Integer)
 ActionText::VERSION::MINOR = T.let(T.unsafe(nil), Integer)
 
 # source://actiontext//lib/action_text/gem_version.rb#15
-ActionText::VERSION::PRE = T.let(T.unsafe(nil), T.untyped)
+ActionText::VERSION::PRE = T.let(T.unsafe(nil), String)
 
 # source://actiontext//lib/action_text/gem_version.rb#17
 ActionText::VERSION::STRING = T.let(T.unsafe(nil), String)
@@ -1565,238 +1476,11 @@ module ActionView::Helpers
 
   mixes_in_class_methods ::ActionView::Helpers::UrlHelper::ClassMethods
   mixes_in_class_methods ::ActionView::Helpers::SanitizeHelper::ClassMethods
-
-  class << self
-    # source://actionview/8.0.2/lib/action_view/helpers.rb#35
-    def eager_load!; end
-  end
 end
 
 class ActionView::Helpers::FormBuilder
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1720
-  def initialize(object_name, object, template, options); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2649
-  def button(value = T.unsafe(nil), options = T.unsafe(nil), &block); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2473
-  def check_box(method, options = T.unsafe(nil), checked_value = T.unsafe(nil), unchecked_value = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2473
-  def checkbox(method, options = T.unsafe(nil), checked_value = T.unsafe(nil), unchecked_value = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_options_helper.rb#909
-  def collection_check_boxes(method, collection, value_method, text_method, options = T.unsafe(nil), html_options = T.unsafe(nil), &block); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_options_helper.rb#909
-  def collection_checkboxes(method, collection, value_method, text_method, options = T.unsafe(nil), html_options = T.unsafe(nil), &block); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_options_helper.rb#922
-  def collection_radio_buttons(method, collection, value_method, text_method, options = T.unsafe(nil), html_options = T.unsafe(nil), &block); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_options_helper.rb#861
-  def collection_select(method, collection, value_method, text_method, options = T.unsafe(nil), html_options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2024
-  def color_field(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2024
-  def date_field(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/date_helper.rb#1237
-  def date_select(method, options = T.unsafe(nil), html_options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2024
-  def datetime_field(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2024
-  def datetime_local_field(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/date_helper.rb#1261
-  def datetime_select(method, options = T.unsafe(nil), html_options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2024
-  def email_field(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2670
-  def emitted_hidden_id?; end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1685
-  def field_helpers; end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1685
-  def field_helpers=(_arg0); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1685
-  def field_helpers?; end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1777
-  def field_id(method, *suffixes, namespace: T.unsafe(nil), index: T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1797
-  def field_name(method, *methods, multiple: T.unsafe(nil), index: T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2327
-  def fields(scope = T.unsafe(nil), model: T.unsafe(nil), **options, &block); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2289
-  def fields_for(record_name, record_object = T.unsafe(nil), fields_options = T.unsafe(nil), &block); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2557
-  def file_field(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_options_helper.rb#873
-  def grouped_collection_select(method, collection, group_method, group_label_method, option_key_method, option_value_method, options = T.unsafe(nil), html_options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2518
-  def hidden_field(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1757
-  def id; end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1697
-  def index; end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2404
-  def label(method, text = T.unsafe(nil), options = T.unsafe(nil), &block); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2024
-  def month_field(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1697
-  def multipart; end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1700
-  def multipart=(multipart); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1697
-  def multipart?; end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2024
-  def number_field(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1695
-  def object; end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1695
-  def object=(_arg0); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1695
-  def object_name; end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1695
-  def object_name=(_arg0); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1695
-  def options; end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1695
-  def options=(_arg0); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2024
-  def password_field(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2024
-  def phone_field(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2496
-  def radio_button(method, tag_value, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2024
-  def range_field(method, options = T.unsafe(nil)); end
-
   def rich_text_area(method, options = T.unsafe(nil)); end
   def rich_textarea(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2024
-  def search_field(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_options_helper.rb#849
-  def select(method, choices = T.unsafe(nil), options = T.unsafe(nil), html_options = T.unsafe(nil), &block); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2589
-  def submit(value = T.unsafe(nil), options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2024
-  def telephone_field(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2024
-  def text_area(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2024
-  def text_field(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2024
-  def textarea(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2024
-  def time_field(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/date_helper.rb#1249
-  def time_select(method, options = T.unsafe(nil), html_options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_options_helper.rb#885
-  def time_zone_select(method, priority_zones = T.unsafe(nil), options = T.unsafe(nil), html_options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1716
-  def to_model; end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1712
-  def to_partial_path; end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2024
-  def url_field(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2024
-  def week_field(method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_options_helper.rb#897
-  def weekday_select(method, options = T.unsafe(nil), html_options = T.unsafe(nil)); end
-
-  private
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2755
-  def convert_to_legacy_options(options); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2737
-  def fields_for_nested_model(name, object, fields_options, block); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2708
-  def fields_for_with_nested_attributes(association_name, association, options, block); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2704
-  def nested_attributes_association?(association_name); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2750
-  def nested_child_index(name); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2675
-  def objectify_options(options); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#2681
-  def submit_default_value; end
-
-  class << self
-    # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1708
-    def _to_partial_path; end
-
-    # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1685
-    def field_helpers; end
-
-    # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1685
-    def field_helpers=(value); end
-
-    # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1685
-    def field_helpers?; end
-
-    private
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
-    def __class_attr_field_helpers; end
-
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
-    def __class_attr_field_helpers=(new_value); end
-  end
 end
 
 module ActionView::Helpers::FormHelper
@@ -1808,150 +1492,8 @@ module ActionView::Helpers::FormHelper
   mixes_in_class_methods ::ActionView::Helpers::UrlHelper::ClassMethods
   mixes_in_class_methods ::ActionView::Helpers::SanitizeHelper::ClassMethods
 
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1591
-  def _object_for_form_builder(object); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1347
-  def check_box(object_name, method, options = T.unsafe(nil), checked_value = T.unsafe(nil), unchecked_value = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1347
-  def checkbox(object_name, method, options = T.unsafe(nil), checked_value = T.unsafe(nil), unchecked_value = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1378
-  def color_field(object_name, method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1442
-  def date_field(object_name, method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1515
-  def datetime_field(object_name, method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1515
-  def datetime_local_field(object_name, method, options = T.unsafe(nil)); end
-
-  def default_form_builder; end
-  def default_form_builder=(_arg0); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1569
-  def email_field(object_name, method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1080
-  def fields(scope = T.unsafe(nil), model: T.unsafe(nil), **options, &block); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1029
-  def fields_for(record_name, record_object = T.unsafe(nil), options = T.unsafe(nil), &block); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1248
-  def file_field(object_name, method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#436
-  def form_for(record, options = T.unsafe(nil), &block); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#756
-  def form_with(model: T.unsafe(nil), scope: T.unsafe(nil), url: T.unsafe(nil), format: T.unsafe(nil), **options, &block); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#482
-  def form_with_generates_ids; end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#482
-  def form_with_generates_ids=(val); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#480
-  def form_with_generates_remote_forms; end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#480
-  def form_with_generates_remote_forms=(val); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1215
-  def hidden_field(object_name, method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1152
-  def label(object_name, method, content_or_options = T.unsafe(nil), options = T.unsafe(nil), &block); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1534
-  def month_field(object_name, method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#484
-  def multiple_file_field_include_hidden; end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#484
-  def multiple_file_field_include_hidden=(val); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1578
-  def number_field(object_name, method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1197
-  def password_field(object_name, method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1410
-  def phone_field(object_name, method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1370
-  def radio_button(object_name, method, tag_value, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1587
-  def range_field(object_name, method, options = T.unsafe(nil)); end
-
   def rich_text_area(object_name, method, options = T.unsafe(nil)); end
   def rich_textarea(object_name, method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1401
-  def search_field(object_name, method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1410
-  def telephone_field(object_name, method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1278
-  def text_area(object_name, method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1176
-  def text_field(object_name, method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1278
-  def textarea(object_name, method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1480
-  def time_field(object_name, method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1560
-  def url_field(object_name, method, options = T.unsafe(nil)); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1551
-  def week_field(object_name, method, options = T.unsafe(nil)); end
-
-  private
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#466
-  def apply_form_for_options!(object, options); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1625
-  def default_form_builder_class; end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1596
-  def html_options_for_form_with(url_for_options = T.unsafe(nil), model = T.unsafe(nil), html: T.unsafe(nil), local: T.unsafe(nil), skip_enforcing_utf8: T.unsafe(nil), **options); end
-
-  # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#1611
-  def instantiate_builder(record_name, record_object, options); end
-
-  class << self
-    # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#482
-    def form_with_generates_ids; end
-
-    # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#482
-    def form_with_generates_ids=(val); end
-
-    # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#480
-    def form_with_generates_remote_forms; end
-
-    # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#480
-    def form_with_generates_remote_forms=(val); end
-
-    # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#484
-    def multiple_file_field_include_hidden; end
-
-    # source://actionview/8.0.2/lib/action_view/helpers/form_helper.rb#484
-    def multiple_file_field_include_hidden=(val); end
-  end
 end
 
 module ActionView::Helpers::Tags; end

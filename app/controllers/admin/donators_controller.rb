@@ -75,7 +75,7 @@ module Admin
       @lifetime_value = @orders.joins(:product).sum(:price)
       @total_donations = @orders.count
       @total_reservations = @donator.reservations.count
-      @total_reservation_hours = (@donator.reservations.sum(:duration) / 60.0).round(1)
+      @total_reservation_hours = (@donator.reservations.sum(:duration) / 3600.0).round(1)
 
       # Get donator periods (including expired ones)
       @donator_periods = GroupUser.where(user: @donator, group: Group.donator_group).order(created_at: :desc)

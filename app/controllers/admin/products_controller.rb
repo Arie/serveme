@@ -1,7 +1,8 @@
 # typed: true
 # frozen_string_literal: true
 
-class ProductsController < ApplicationController
+module Admin
+  class ProductsController < ApplicationController
   before_action :require_admin
   before_action :set_product, only: [ :edit, :update, :destroy ]
 
@@ -17,7 +18,7 @@ class ProductsController < ApplicationController
     @product = Product.new(product_params)
 
     if @product.save
-      redirect_to products_path, notice: "Product was successfully created."
+      redirect_to admin_products_path, notice: "Product was successfully created."
     else
       render :new
     end
@@ -28,7 +29,7 @@ class ProductsController < ApplicationController
 
   def update
     if @product.update(product_params)
-      redirect_to products_path, notice: "Product was successfully updated."
+      redirect_to admin_products_path, notice: "Product was successfully updated."
     else
       render :edit
     end
@@ -36,7 +37,7 @@ class ProductsController < ApplicationController
 
   def destroy
     @product.destroy
-    redirect_to products_path, notice: "Product was successfully destroyed."
+    redirect_to admin_products_path, notice: "Product was successfully destroyed."
   end
 
   private
@@ -47,5 +48,6 @@ class ProductsController < ApplicationController
 
   def product_params
     params.require(:product).permit(:name, :price, :currency, :days, :active)
+  end
   end
 end

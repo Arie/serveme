@@ -10,6 +10,24 @@ module GeneratedPathHelpersModule
   include ::ActionDispatch::Routing::PolymorphicRoutes
 
   sig { params(args: T.untyped).returns(String) }
+  def admin_donator_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def admin_donators_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def admin_product_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def admin_products_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def admin_server_notification_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def admin_server_notifications_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def admin_voucher_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -64,31 +82,25 @@ module GeneratedPathHelpersModule
   def donate_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def donator_path(*args); end
+  def edit_admin_donator_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def donators_path(*args); end
+  def edit_admin_product_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def edit_admin_server_notification_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def edit_api_reservation_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def edit_donator_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
   def edit_page_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
-  def edit_product_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def edit_reservation_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def edit_server_config_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
-  def edit_server_notification_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def edit_server_path(*args); end
@@ -154,7 +166,7 @@ module GeneratedPathHelpersModule
   def login_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def lookup_user_donators_path(*args); end
+  def lookup_user_admin_donators_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def map_upload_path(*args); end
@@ -175,6 +187,12 @@ module GeneratedPathHelpersModule
   def motd_reservation_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def new_admin_donator_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def new_admin_product_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def new_admin_voucher_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -182,9 +200,6 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def new_api_reservation_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
-  def new_donator_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def new_file_upload_path(*args); end
@@ -197,9 +212,6 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def new_page_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
-  def new_product_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def new_reservation_log_upload_path(*args); end
@@ -272,12 +284,6 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def private_servers_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
-  def product_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
-  def products_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def rails_blob_path(*args); end
@@ -377,12 +383,6 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def server_monitoring_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
-  def server_notification_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
-  def server_notifications_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def server_path(*args); end

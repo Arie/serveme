@@ -3,7 +3,7 @@
 
 require 'spec_helper'
 
-RSpec.describe ProductsController, type: :controller do
+RSpec.describe Admin::ProductsController, type: :controller do
   let(:admin) { create(:user, :admin) }
   let(:non_admin) { create(:user) }
   let(:product) { create(:product) }
@@ -53,7 +53,7 @@ RSpec.describe ProductsController, type: :controller do
             post :create, params: { product: valid_attributes }
           }.to change(Product, :count).by(1)
 
-          expect(response).to redirect_to(products_path)
+          expect(response).to redirect_to(admin_products_path)
         end
       end
     end
@@ -88,7 +88,7 @@ RSpec.describe ProductsController, type: :controller do
           product.reload
           expect(product.name).to eq('Updated Plan')
           expect(product.price).to eq(19.99)
-          expect(response).to redirect_to(products_path)
+          expect(response).to redirect_to(admin_products_path)
         end
       end
     end
@@ -103,7 +103,7 @@ RSpec.describe ProductsController, type: :controller do
         expect {
           delete :destroy, params: { id: product.id }
         }.to change(Product, :count).by(-1)
-        expect(response).to redirect_to(products_path)
+        expect(response).to redirect_to(admin_products_path)
       end
     end
   end

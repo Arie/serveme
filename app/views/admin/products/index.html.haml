@@ -4,7 +4,7 @@
   .col-md-12
     .d-flex.justify-content-between.align-items-center.mb-4
       %h2.mb-0 Products
-      = link_to("Add product", new_product_path, class: "btn btn-primary")
+      = link_to("Add product", new_admin_product_path, class: "btn btn-primary")
 
 .row
   .col-md-12
@@ -38,6 +38,6 @@
                       %span.badge.bg-secondary Inactive
                   %td.text-center
                     .btn-group.btn-group-sm{role: "group"}
-                      = link_to("Edit", edit_product_path(product), class: "btn btn-warning")
-                      = link_to("Delete", product_path(product), method: :delete, 
+                      = link_to("Edit", edit_admin_product_path(product), class: "btn btn-warning")
+                      = link_to("Delete", admin_product_path(product), method: :delete, 
                         data: { confirm: "Are you sure?" }, class: "btn btn-danger")

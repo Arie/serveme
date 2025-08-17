@@ -9,26 +9,28 @@
       .card-body
         .alert.alert-info.mb-4
           .d-flex.align-items-center
-            %img.rounded-circle.mr-3{src: @donator.user.steam_avatar_url(:medium), width: "60", height: "60", alt: @donator.user.nickname}
+            %img.rounded-circle.mr-3{src: @donator.steam_avatar_url(:medium), width: "60", height: "60", alt: @donator.nickname}
             .flex-grow-1
-              %h5.mb-1.text-white= @donator.user.nickname
+              %h5.mb-1.text-white= @donator.nickname
               .text-white
-                User ##{@donator.user.id} • 
-                - if @donator.expires_at
+                User ##{@donator.id} • 
+                - group_user = @donator.group_users.find_by(group: Group.donator_group)
+                - if group_user && group_user.expires_at
                   Currently expires: 
-                  %strong= l(@donator.expires_at, format: :long)
+                  %strong= l(group_user.expires_at, format: :long)
                 - else
                   %strong Never expires
         
-        = simple_form_for(@donator, url: url_for(controller: "donators", action: "update"), html: { class: 'form' }) do |f|
+        = simple_form_for(@donator, url: admin_donator_path(@donator), method: :patch, html: { class: 'form' }) do |f|
           %div{data: { 
                  controller: "date-extension", 
                  "date-extension-format-value": I18n.t('time.formats.javascript_datepicker'),
                  "date-extension-show-meridian-value": I18n.t(:show_meridian, :scope => :time)
                }}
             .mb-4
-              = f.input :expires_at, as: :string, 
-                        input_html: { value: @donator.expires_at && I18n.l(@donator.expires_at, format: :datepicker), 
+              - group_user = @donator.group_users.find_by(group: Group.donator_group)
+              = f.input :donator_until, as: :string, 
+                        input_html: { value: group_user && group_user.expires_at && I18n.l(group_user.expires_at, format: :datepicker), 
                                      data: { "datepicker-format": "dd-mm-yyyy hh:ii", 
                                             "datepicker-nodefault": "false",
                                             "date-extension-target": "dateInput" } }, 
@@ -54,7 +56,7 @@
                   Never expires
           
           .d-flex.justify-content-between
-            = link_to donators_path, class: "btn btn-secondary" do
+            = link_to admin_donators_path, class: "btn btn-secondary" do
               %i.fa.fa-times.me-2
               Cancel
             %button.btn.btn-primary{type: "submit"}

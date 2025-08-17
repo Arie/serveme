@@ -9,7 +9,7 @@ RSpec.configure do |config|
   config.include Rails.application.routes.url_helpers, type: :controller # Ensure controller context for URL helpers
 end
 
-RSpec.describe ServerNotificationsController, type: :controller do
+RSpec.describe Admin::ServerNotificationsController, type: :controller do
   render_views # Important for checking the content of the rendered template
 
   # Assuming Group.admin_group exists and assigns admin privileges
@@ -73,7 +73,7 @@ RSpec.describe ServerNotificationsController, type: :controller do
 
         it "redirects to the server_notifications index with a notice" do
           post :create, params: { server_notification: valid_attributes }
-          expect(response).to redirect_to(server_notifications_path)
+          expect(response).to redirect_to(admin_server_notifications_path)
           expect(flash[:notice]).to eq("Server notification was successfully created.")
         end
       end
@@ -116,7 +116,7 @@ RSpec.describe ServerNotificationsController, type: :controller do
 
         it "redirects to the server_notifications index with a notice" do
           patch :update, params: { id: notification_to_update.id, server_notification: new_attributes }
-          expect(response).to redirect_to(server_notifications_path)
+          expect(response).to redirect_to(admin_server_notifications_path)
           expect(flash[:notice]).to eq("Server notification was successfully updated.")
         end
       end
@@ -157,7 +157,7 @@ RSpec.describe ServerNotificationsController, type: :controller do
 
       it "redirects to the server_notifications list with a notice" do
         delete :destroy, params: { id: notification_to_delete.id }
-        expect(response).to redirect_to(server_notifications_path) # Changed from _url to _path
+        expect(response).to redirect_to(admin_server_notifications_path) # Changed from _url to _path
         expect(flash[:notice]).to eq("Server notification was successfully destroyed.")
       end
     end

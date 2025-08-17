@@ -2,7 +2,7 @@
 
 %h2= @server_notification.new_record? ? 'New Server Notification' : 'Edit Server Notification'
 
-= simple_form_for @server_notification, local: true do |f|
+= simple_form_for [:admin, @server_notification], local: true do |f|
   = f.error_notification
   = f.error_notification message: false, class: 'alert alert-danger' if f.object.errors[:base].present?
 
@@ -30,5 +30,5 @@
         %td= notification.notification_type
         %td
           .d-flex.gap-2.align-items-center
-            = link_to 'Edit', edit_server_notification_path(notification), class: 'btn btn-sm btn-secondary'
-            = button_to 'Delete', server_notification_path(notification), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger', form: { class: 'd-inline-block' }
+            = link_to 'Edit', edit_admin_server_notification_path(notification), class: 'btn btn-sm btn-secondary'
+            = button_to 'Delete', admin_server_notification_path(notification), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger', form: { class: 'd-inline-block' }

@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 Given 'I am on the donators page' do
-  visit donators_path
+  visit admin_donators_path
 end
 
 Given 'there is a donator' do
@@ -13,11 +13,11 @@ Given 'there is a donator' do
 end
 
 When 'I go add a donator' do
-  visit new_donator_path
+  visit new_admin_donator_path
 end
 
 When 'I edit the donator' do
-  visit edit_donator_path(@donator)
+  visit edit_admin_donator_path(@donator)
 end
 
 When 'I change the expiration date' do

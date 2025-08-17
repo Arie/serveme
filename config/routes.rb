@@ -86,10 +86,9 @@ Serveme::Application.routes.draw do
     end
   end
 
-  resources :donators do
+  resources :donators, only: [] do
     collection do
       get :leaderboard
-      post :lookup_user
     end
   end
 
@@ -97,7 +96,6 @@ Serveme::Application.routes.draw do
 
   resources :server_configs, except: %i[show destroy]
   resources :whitelists, except: %i[show destroy]
-  resources :server_notifications, except: [ :show, :new ]
 
   resources :player_statistics, only: :index
   resources :server_statistics, only: :index
@@ -124,10 +122,16 @@ Serveme::Application.routes.draw do
   end
 
   resources :vouchers
-  resources :products, except: :show
 
   namespace :admin do
+    resources :products, except: :show
     resources :vouchers, only: [ :index, :new, :create, :destroy ]
+    resources :server_notifications, except: [ :show, :new ]
+    resources :donators do
+      collection do
+        post :lookup_user
+      end
+    end
   end
 
   authenticate :user, ->(u) { u.admin? } do

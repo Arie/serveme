@@ -45,7 +45,7 @@
         %td
           = link_to voucher.hyphenate, claim_path(code: voucher.hyphenate)
           = render 'shared/copy_button', :copy_button_id => "voucher_code_#{voucher.id}", :copy_text => claim_url(code: voucher.hyphenate)
-        %td= voucher.product.name
+        %td= voucher.product&.name || "N/A"
         %td= I18n.l(voucher.created_at, format: :short)
         %td= I18n.l(voucher.claimed_at, format: :short) if voucher.claimed_at
         %td

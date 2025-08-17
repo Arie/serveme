@@ -7,7 +7,7 @@
         %h4.mb-0.text-white Add New Donator
       
       .card-body
-        = simple_form_for(@donator, url: url_for(controller: "donators", action: "create"), html: { class: 'form', data: { controller: "user-lookup", user_lookup_url_value: lookup_user_donators_path } }) do |f|
+        = simple_form_for((@donator || User.new), url: admin_donators_path, html: { class: 'form', data: { controller: "user-lookup", user_lookup_url_value: lookup_user_admin_donators_path } }) do |f|
           
           .mb-4
             %label.form-label Find User
@@ -22,10 +22,11 @@
           
           #user-lookup-result{data: { user_lookup_target: "result" }}
           
-          = f.input :user_id, as: :hidden, input_html: { data: { user_lookup_target: "userId" } }
+          = f.input :uid, as: :hidden, input_html: { data: { user_lookup_target: "userId" } }
           
           .mb-4
-            = f.input :expires_at, as: :string, input_html: { value: I18n.l(@donator.expires_at, format: :datepicker), data: { "datepicker-format": "dd-mm-yyyy hh:ii", "datepicker-nodefault": "false" } }, label: "Expires at"
+            - default_date = 1.month.from_now
+            = f.input :donator_until, as: :string, input_html: { value: I18n.l(default_date, format: :datepicker), data: { "datepicker-format": "dd-mm-yyyy hh:ii", "datepicker-nodefault": "false" } }, label: "Expires at"
             .btn-group.btn-group-sm.mt-2{role: "group"}
               %button.btn.btn-outline-light{type: "button", 
                                             data: { action: "click->user-lookup#quickDuration",
@@ -45,7 +46,7 @@
                 1 year
           
           .d-flex.justify-content-between
-            = link_to "Cancel", donators_path, class: "btn btn-secondary"
+            = link_to "Cancel", admin_donators_path, class: "btn btn-secondary"
             %button.btn.btn-primary{type: "submit", 
                                     disabled: true,
                                     data: { user_lookup_target: "submitButton" }}

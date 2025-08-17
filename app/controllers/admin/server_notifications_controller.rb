@@ -1,7 +1,8 @@
 # typed: true
 # frozen_string_literal: true
 
-class ServerNotificationsController < ApplicationController
+module Admin
+  class ServerNotificationsController < ApplicationController
   before_action :require_admin
   before_action :set_server_notification, only: [ :edit, :update, :destroy ]
 
@@ -18,7 +19,7 @@ class ServerNotificationsController < ApplicationController
   def create
     @server_notification = ServerNotification.new(server_notification_params)
     if @server_notification.save
-      redirect_to server_notifications_path, notice: "Server notification was successfully created."
+      redirect_to admin_server_notifications_path, notice: "Server notification was successfully created."
     else
       @server_notifications = ServerNotification.order(id: :desc)
       flash.now[:alert] = "Failed to create server notification."
@@ -28,7 +29,7 @@ class ServerNotificationsController < ApplicationController
 
   def update
     if @server_notification.update(server_notification_params)
-      redirect_to server_notifications_path, notice: "Server notification was successfully updated."
+      redirect_to admin_server_notifications_path, notice: "Server notification was successfully updated."
     else
       @server_notifications = ServerNotification.order(id: :desc)
       flash.now[:alert] = "Failed to update server notification."
@@ -38,7 +39,7 @@ class ServerNotificationsController < ApplicationController
 
   def destroy
     @server_notification.destroy
-    redirect_to server_notifications_path, notice: "Server notification was successfully destroyed."
+    redirect_to admin_server_notifications_path, notice: "Server notification was successfully destroyed."
   end
 
   private
@@ -49,5 +50,6 @@ class ServerNotificationsController < ApplicationController
 
   def server_notification_params
     params.require(:server_notification).permit(:message, :notification_type)
+  end
   end
 end

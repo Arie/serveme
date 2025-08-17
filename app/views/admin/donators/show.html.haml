@@ -1,9 +1,9 @@
-- content_for(:title) { "Donator: #{@user.nickname}" }
+- content_for(:title) { "Donator: #{@donator.nickname}" }
 
 .row
   .col-md-12
     .d-flex.justify-content-between.align-items-center.mb-4
-      %h2.mb-0= link_to "Donators", donators_path, class: "text-decoration-none"
+      %h2.mb-0= link_to "Donators", admin_donators_path, class: "text-decoration-none"
 
 .row
   .col-md-4
@@ -14,38 +14,38 @@
         .text-center.mb-3
           %div{data: { 
                  controller: "steam-avatar", 
-                 "steam-avatar-user-id-value": @user.id,
-                 "steam-avatar-steam-uid-value": h(@user.uid),
+                 "steam-avatar-user-id-value": @donator.id,
+                 "steam-avatar-steam-uid-value": h(@donator.uid),
                  "steam-avatar-size-value": "full"
                }}
             %img.rounded-circle{src: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
-                 width: "120", height: "120", alt: @user.nickname,
+                 width: "120", height: "120", alt: @donator.nickname,
                  data: { "steam-avatar-target": "image" }}
 
-        %h4.text-center= @user.nickname
+        %h4.text-center= @donator.nickname
 
         %dl.row.mt-3
           %dt.col-sm-5 User ID:
-          %dd.col-sm-7= "##{@user.id}"
+          %dd.col-sm-7= "##{@donator.id}"
 
           %dt.col-sm-5 Steam ID64:
           %dd.col-sm-7
-            %code= @user.uid
+            %code= @donator.uid
 
           %dt.col-sm-5 Joined:
-          %dd.col-sm-7= l(@user.created_at, format: :long)
+          %dd.col-sm-7= l(@donator.created_at, format: :long)
 
           %dt.col-sm-5 Status:
           %dd.col-sm-7
-            - if @user.donator?
+            - if @donator.donator?
               %span.badge.bg-success.text-white Donator
             - else
               %span.badge.bg-secondary Not a donator
 
         .mt-3
-          = link_to "View Steam Profile", @user.steam_profile_url, target: "_blank", rel: "noopener", class: "btn btn-primary btn-block mb-2"
-          - if @user.donator?
-            = link_to edit_donator_path(@user), class: "btn btn-warning btn-block" do
+          = link_to "View Steam Profile", @donator.steam_profile_url, target: "_blank", rel: "noopener nofollow", class: "btn btn-primary btn-block mb-2", data: { turbo: false }
+          - if @donator.donator?
+            = link_to edit_admin_donator_path(@donator), class: "btn btn-warning btn-block" do
               %i.fa.fa-pencil.me-2
               Edit Expiration
 
@@ -63,7 +63,7 @@
 
           %dt.col-sm-7 Total Reservations:
           %dd.col-sm-5.text-end
-            = link_to @total_reservations, user_reservations_path(@user), class: "text-decoration-none"
+            = link_to @total_reservations, user_reservations_path(@donator), class: "text-decoration-none"
 
           %dt.col-sm-7 Total Hours:
           %dd.col-sm-5.text-end= "#{@total_reservation_hours}h"
@@ -138,7 +138,7 @@
                         - if order.voucher&.claimed?
                           %span.badge.bg-success.text-white
                             Redeemed by
-                            = link_to order.voucher.claimed_by.nickname, donator_path(order.voucher.claimed_by), class: "text-white text-decoration-underline"
+                            = link_to order.voucher.claimed_by.nickname, admin_donator_path(order.voucher.claimed_by), class: "text-white text-decoration-underline"
                         - else
                           %span.badge.bg-warning.text-dark Gift (Not Redeemed)
                       - else
@@ -177,7 +177,7 @@
                     %td= voucher.product.name
                     %td= number_to_currency(voucher.product.price)
                     %td
-                      = link_to voucher.order.user.nickname, donator_path(voucher.order.user), class: "text-decoration-none"
+                      = link_to voucher.order.user.nickname, admin_donator_path(voucher.order.user), class: "text-decoration-none"
                     %td
                       - if voucher.order.is_a?(PaypalOrder)
                         %span.badge.bg-info.text-white PayPal

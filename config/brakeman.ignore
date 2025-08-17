@@ -434,6 +434,40 @@
         79
       ],
       "note": "False positive - Steam UIDs are numeric identifiers from Steam authentication, and the URL is safely constructed using URI::HTTPS.build"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "4b1d9e20748950978fdbaa39fd2a90f23186aac7a8e87d16ea77fe00a4008175",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/admin/donators/show.html.haml",
+      "line": 46,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(\"View Steam Profile\", User.find(params[:id]).steam_profile_url, :target => \"_blank\", :rel => \"noopener nofollow\", :class => \"btn btn-primary btn-block mb-2\", :data => ({ :turbo => false }))",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Admin::DonatorsController",
+          "method": "show",
+          "line": 73,
+          "file": "app/controllers/admin/donators_controller.rb",
+          "rendered": {
+            "name": "admin/donators/show",
+            "file": "app/views/admin/donators/show.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "admin/donators/show"
+      },
+      "user_input": "User.find(params[:id]).steam_profile_url",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": "False positive - Steam profile URLs are safely constructed from numeric Steam IDs via URI::HTTPS.build in the User model"
     }
   ],
   "brakeman_version": "7.0.2"

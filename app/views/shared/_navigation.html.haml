@@ -128,7 +128,7 @@
               %i.fa.fa-list
               Whitelists
             - if current_user.admin?
-              = link_to server_notifications_path, class: "dropdown-item" do
+              = link_to admin_server_notifications_path, class: "dropdown-item" do
                 %i.fa.fa-bell
                 Server Notifications
               = link_to upload_file_path, class: "dropdown-item" do
@@ -156,13 +156,13 @@
             - if current_user.admin?
               .dropdown-divider
               %h6.dropdown-header Order Management
-              = link_to products_path, class: "dropdown-item" do
+              = link_to admin_products_path, class: "dropdown-item" do
                 %i.fa.fa-shopping-cart
                 Manage Products
               = link_to admin_vouchers_path, class: "dropdown-item" do
                 %i.fa.fa-ticket
                 Manage Vouchers
-              = link_to donators_path, class: "dropdown-item" do
+              = link_to admin_donators_path, class: "dropdown-item" do
                 %i.fa.fa-money
                 Manage Donators
 

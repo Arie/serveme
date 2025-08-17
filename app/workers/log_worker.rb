@@ -388,6 +388,8 @@ class LogWorker
     player_data = {
       steam_uid: anonymize_steam_id(reservation_player.steam_uid.to_s),
       server_id: server.id,
+      server_name: server.name,
+      server_location: server.detailed_location,
       server_latitude: server.latitude,
       server_longitude: server.longitude
     }

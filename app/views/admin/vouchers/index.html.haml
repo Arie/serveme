@@ -1,0 +1,64 @@
+- content_for(:title) { "Vouchers" }
+
+.row
+  .col-md-12
+    .d-flex.justify-content-between.align-items-center.mb-4
+      %h2.mb-0 Vouchers
+      = link_to("Create vouchers", new_admin_voucher_path, class: "btn btn-primary")
+
+.row
+  .col-md-12
+    .card
+      .card-body.p-0
+        .table-responsive
+          %table.table.table-hover.mb-0
+            %thead
+              %tr
+                %th.pl-3 Code
+                %th.text-center Product
+                %th.text-center Claimed By
+                %th.text-center Claimed At
+                %th.text-center Created By
+                %th.text-center Created At
+                %th.text-center Actions
+            %tbody
+              - @vouchers.each do |voucher|
+                %tr[voucher]
+                  %td.pl-3
+                    %code= voucher.hyphenate
+                    - unless voucher.claimed?
+                      = render 'shared/copy_button', copy_button_id: "voucher_#{voucher.id}", 
+                        copy_text: new_voucher_url(code: voucher.hyphenate)
+                  %td.text-center
+                    - if voucher.product
+                      = voucher.product.name
+                    - else
+                      %span.text-muted No product
+                  %td.text-center
+                    - if voucher.claimed_by
+                      = link_to(voucher.claimed_by.nickname, voucher.claimed_by.steam_profile_url, 
+                        target: "_blank", rel: "noopener", class: "player-name")
+                    - else
+                      %span.text-muted -
+                  %td.text-center
+                    - if voucher.claimed_at
+                      %span{title: l(voucher.claimed_at, format: :long), data: {toggle: "tooltip"}}
+                        = time_ago_in_words(voucher.claimed_at) + " ago"
+                    - else
+                      %span.text-muted -
+                  %td.text-center
+                    - if voucher.created_by
+                      = voucher.created_by.nickname
+                    - else
+                      %span.text-muted System
+                  %td.text-center
+                    %small= l(voucher.created_at, format: :long)
+                  %td.text-center
+                    - unless voucher.claimed?
+                      = link_to("Delete", admin_voucher_path(voucher), method: :delete,
+                        data: { confirm: "Are you sure?" }, class: "btn btn-danger btn-sm")
+
+.row.mt-3
+  .col-md-12
+    .d-flex.justify-content-center
+      = will_paginate @vouchers

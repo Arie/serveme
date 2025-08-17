@@ -1,0 +1,43 @@
+- content_for(:title) { "Products" }
+
+.row
+  .col-md-12
+    .d-flex.justify-content-between.align-items-center.mb-4
+      %h2.mb-0 Products
+      = link_to("Add product", new_product_path, class: "btn btn-primary")
+
+.row
+  .col-md-12
+    .card
+      .card-body.p-0
+        .table-responsive
+          %table.table.table-hover.mb-0
+            %thead
+              %tr
+                %th.pl-3 Name
+                %th.text-center Price
+                %th.text-center Currency
+                %th.text-center Days
+                %th.text-center Active
+                %th.text-center Actions
+            %tbody
+              - @products.each do |product|
+                %tr[product]
+                  %td.pl-3
+                    = product.name
+                  %td.text-center
+                    = number_to_currency(product.price, unit: "")
+                  %td.text-center
+                    = product.currency
+                  %td.text-center
+                    = product.days
+                  %td.text-center
+                    - if product.active
+                      %span.badge.bg-success Active
+                    - else
+                      %span.badge.bg-secondary Inactive
+                  %td.text-center
+                    .btn-group.btn-group-sm{role: "group"}
+                      = link_to("Edit", edit_product_path(product), class: "btn btn-warning")
+                      = link_to("Delete", product_path(product), method: :delete, 
+                        data: { confirm: "Are you sure?" }, class: "btn btn-danger")

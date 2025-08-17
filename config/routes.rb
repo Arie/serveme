@@ -124,6 +124,11 @@ Serveme::Application.routes.draw do
   end
 
   resources :vouchers
+  resources :products, except: :show
+
+  namespace :admin do
+    resources :vouchers, only: [ :index, :new, :create, :destroy ]
+  end
 
   authenticate :user, ->(u) { u.admin? } do
     mount Sidekiq::Web, at: "/sidekiq"

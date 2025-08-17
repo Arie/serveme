@@ -10,6 +10,12 @@ module GeneratedUrlHelpersModule
   include ::ActionDispatch::Routing::PolymorphicRoutes
 
   sig { params(args: T.untyped).returns(String) }
+  def admin_voucher_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def admin_vouchers_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def ai_pages_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -71,6 +77,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def edit_page_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def edit_product_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def edit_reservation_url(*args); end
@@ -166,6 +175,9 @@ module GeneratedUrlHelpersModule
   def motd_reservation_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def new_admin_voucher_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def new_api_donator_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -185,6 +197,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def new_page_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def new_product_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def new_reservation_log_upload_url(*args); end
@@ -257,6 +272,12 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def private_servers_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def product_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def products_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def rails_blob_representation_proxy_url(*args); end

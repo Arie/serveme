@@ -177,6 +177,15 @@ export default class extends Controller {
           color: color,
           stroke: 0.05,
           altitude: altitude,
+          // Data for tooltip
+          playerCity: player.city_name,
+          playerCountry: player.country_name,
+          serverName: server.name,
+          serverLocation: server.location,
+          ping: player.ping,
+          loss: player.loss,
+          minutes_connected: player.minutes_connected,
+          distance: distance,
           label: player.city_name
             ? `${player.city_name}, ${player.country_name || 'Unknown'}: ${player.ping}ms (${player.loss}% loss)`
             : `${player.country_name || 'Unknown'}: ${player.ping}ms (${player.loss}% loss)`
@@ -232,10 +241,85 @@ export default class extends Controller {
       .arcColor('color')
       .arcStroke('stroke')
       .arcAltitude('altitude')
-      .arcLabel('label')
+      .arcLabel(arc => this.createArcTooltip(arc))
       .arcDashLength(0.5)
       .arcDashGap(0.1)
       .arcDashAnimateTime(1500)
+      .onArcClick(arc => this.handleArcClick(arc))
+      .onArcHover(arc => this.handleArcHover(arc))
+  }
+
+  createArcTooltip(arc) {
+    if (!arc) return ''
+    
+    const qualityEmoji = arc.loss >= 10 || arc.ping >= 150 ? '🔴' : 
+                        arc.loss >= 5 || arc.ping >= 100 ? '🟡' : '🟢'
+    
+    const connectionTime = arc.minutes_connected ? `${arc.minutes_connected} min` : 'Just connected'
+    
+    // Localize distance based on region
+    const distanceStr = this.formatDistance(arc.distance || 0)
+    
+    return `
+      <div style="font-family: monospace; padding: 8px; min-width: 250px;">
+        <strong style="color: #4CAF50;">Player → Server Connection</strong><br/>
+        <hr style="margin: 4px 0; opacity: 0.3;"/>
+        
+        <strong>📍 Player:</strong><br/>
+        ${arc.playerCity || arc.playerCountry || 'Unknown'}<br/>
+        
+        <strong>🖥️ Server:</strong><br/>
+        ${arc.serverName}<br/>
+        ${arc.serverLocation}<br/>
+        
+        <hr style="margin: 4px 0; opacity: 0.3;"/>
+        
+        <strong>📊 Connection:</strong><br/>
+        ${qualityEmoji} Ping: ${arc.ping}ms<br/>
+        ${qualityEmoji} Loss: ${arc.loss}%<br/>
+        ⏱️ Time: ${connectionTime}<br/>
+        📏 Distance: ${distanceStr}
+      </div>
+    `
+  }
+
+  formatDistance(distanceKm) {
+    if (this.regionValue === 'na') {
+      // Convert to miles for North America
+      const miles = distanceKm * 0.621371
+      return `${Math.round(miles)} mi`
+    } else {
+      // Use kilometers for everyone else
+      return `${Math.round(distanceKm)} km`
+    }
+  }
+
+  handleArcClick(arc) {
+    if (!arc) return
+    
+    // Calculate midpoint between player and server
+    const midLat = (arc.startLat + arc.endLat) / 2
+    const midLng = (arc.startLng + arc.endLng) / 2
+    
+    // Calculate appropriate altitude based on distance
+    const distance = this.calculateDistance(arc.startLat, arc.startLng, arc.endLat, arc.endLng)
+    const altitude = Math.min(2.5, Math.max(0.5, distance / 5000))
+    
+    // Animate to focus on the connection
+    this.globe.pointOfView({
+      lat: midLat,
+      lng: midLng,
+      altitude: altitude
+    }, 1000) // 1 second animation
+  }
+
+  handleArcHover(arc) {
+    // You could add hover effects here, like temporarily increasing stroke width
+    if (arc) {
+      this.element.style.cursor = 'pointer'
+    } else {
+      this.element.style.cursor = 'default'
+    }
   }
 
   updateArcsOnly(servers) {
@@ -273,6 +357,15 @@ export default class extends Controller {
           color: color,
           stroke: 0.05,
           altitude: altitude,
+          // Data for tooltip
+          playerCity: player.city_name,
+          playerCountry: player.country_name,
+          serverName: server.name,
+          serverLocation: server.location,
+          ping: player.ping,
+          loss: player.loss,
+          minutes_connected: player.minutes_connected,
+          distance: distance,
           label: player.city_name
             ? `${player.city_name}, ${player.country_name || 'Unknown'}: ${player.ping}ms (${player.loss}% loss)`
             : `${player.country_name || 'Unknown'}: ${player.ping}ms (${player.loss}% loss)`
@@ -403,6 +496,15 @@ export default class extends Controller {
         color: 'rgba(128, 128, 128, 0.6)',
         stroke: 0.05,
         altitude: altitude,
+        // Data for tooltip
+        playerCity: playerData.city_name,
+        playerCountry: playerData.country_name,
+        serverName: playerData.server_name,
+        serverLocation: playerData.server_location,
+        ping: 0,
+        loss: 0,
+        minutes_connected: 0,
+        distance: distance,
         label: playerData.city_name
           ? `${playerData.city_name}, ${playerData.country_name || 'Unknown'}: Connecting...`
           : `${playerData.country_name || 'Unknown'}: Connecting...`

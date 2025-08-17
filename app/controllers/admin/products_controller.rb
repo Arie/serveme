@@ -36,8 +36,8 @@ module Admin
   end
 
   def destroy
-    @product.destroy
-    redirect_to admin_products_path, notice: "Product was successfully destroyed."
+    @product.update(active: false)
+    redirect_to admin_products_path, notice: "Product was successfully deactivated."
   end
 
   private

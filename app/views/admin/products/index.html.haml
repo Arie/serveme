@@ -39,5 +39,6 @@
                   %td.text-center
                     .btn-group.btn-group-sm{role: "group"}
                       = link_to("Edit", edit_admin_product_path(product), class: "btn btn-warning")
-                      = link_to("Delete", admin_product_path(product), method: :delete, 
-                        data: { confirm: "Are you sure?" }, class: "btn btn-danger")
+                      - if product.active
+                        = link_to("Deactivate", admin_product_path(product), method: :delete, 
+                          data: { confirm: "Are you sure you want to deactivate this product?" }, class: "btn btn-danger")

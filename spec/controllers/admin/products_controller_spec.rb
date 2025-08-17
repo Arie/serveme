@@ -98,11 +98,16 @@ RSpec.describe Admin::ProductsController, type: :controller do
     context 'when user is admin' do
       before { sign_in admin }
 
-      it 'destroys the product' do
+      it 'deactivates the product instead of destroying it' do
         product
+        expect(product.active).to be true
+        
         expect {
           delete :destroy, params: { id: product.id }
-        }.to change(Product, :count).by(-1)
+        }.to change(Product, :count).by(0)
+        
+        product.reload
+        expect(product.active).to be false
         expect(response).to redirect_to(admin_products_path)
       end
     end

@@ -7,7 +7,7 @@ module Admin
   before_action :set_product, only: [ :edit, :update, :destroy ]
 
   def index
-    @products = Product.all
+    @products = Product.order(active: :desc, name: :asc)
   end
 
   def new

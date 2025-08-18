@@ -44,13 +44,15 @@ class LeagueMaps
 
   def self.etf2l_sixes_maps
     %w[
-      cp_granary_pro_rc16f
+      cp_granary_pro_rc17a3
       cp_gullywash_f9
       cp_metalworks_f7
       cp_process_f12
+      cp_reckoner
       cp_snakewater_final1
       cp_sultry_b8a
       cp_sunshine
+      cp_villa_b19
       koth_bagel_rc11
       koth_product_final
     ]

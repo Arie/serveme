@@ -131,25 +131,32 @@ module Admin
     def lookup_user
       input = params[:input] || params[:uid]
       if input.present?
-        # Try exact UID match first
-        users = User.where(uid: input)
+        # For Steam ID64 format, create user if not found
+        if input.to_s.match?(/^\d{17}$/)
+          user = User.find_or_create_by(uid: input) do |u|
+            u.name = input
+            u.nickname = input
+          end
+          users = [ user ]
+        else
+          users = User.where(uid: input)
 
-        # If no exact match, search by nickname
-        if users.empty?
-          users = User.where("nickname ILIKE ?", "%#{input}%").limit(10)
+          if users.empty?
+            users = User.where("nickname ILIKE ?", "%#{input}%").limit(10)
+          end
         end
 
         if users.count == 1
           @donator = users.first
-          @users = users  # Set @users for the turbo_stream template
+          @users = users
           respond_to do |format|
-            format.turbo_stream  # Will render lookup_user.turbo_stream.haml
+            format.turbo_stream
             format.html { render :new }
           end
         elsif users.count > 1
           @users = users
           respond_to do |format|
-            format.turbo_stream  # Will render lookup_user.turbo_stream.haml
+            format.turbo_stream
             format.html {
               @donator = User.new
               flash.now[:notice] = "Multiple users found"
@@ -158,9 +165,9 @@ module Admin
           end
         else
           @donator = User.new
-          @users = []  # Empty array for the turbo_stream template
+          @users = []
           respond_to do |format|
-            format.turbo_stream  # Will render lookup_user.turbo_stream.haml
+            format.turbo_stream
             format.html {
               flash.now[:alert] = "User not found"
               render :new
@@ -180,23 +187,18 @@ module Admin
     end
 
     def donator_params
-      params.require(:user).permit(:id)
+      params.require(:user).permit(:id, :uid)
     end
 
     def handle_donator_creation
-      user = User.find_by(id: donator_params[:id])
+      identifier = donator_params[:id] || donator_params[:uid]
+      user = find_or_create_user(identifier)
 
       if user
         if user.donator?
           redirect_to edit_admin_donator_path(user), alert: "User is already a donator"
         else
-          user.groups << Group.donator_group
-          GroupUser.create!(
-            user: user,
-            group: Group.donator_group,
-            expires_at: 1.month.from_now
-          )
-          redirect_to admin_donator_path(user), notice: "User added as donator"
+          add_donator_status(user, identifier)
         end
       else
         redirect_to new_admin_donator_path, alert: "User not found"
@@ -243,6 +245,38 @@ module Admin
                     Time.current
       end
       base_date + days.days
+    end
+
+    def find_or_create_user(identifier)
+      return nil unless identifier.present?
+
+      if identifier.to_s.match?(/^\d{1,7}$/) # Likely a database ID
+        User.find_by(id: identifier)
+      elsif identifier.to_s.match?(/^\d{17}$/) # Steam ID64 format
+        User.find_or_create_by(uid: identifier) do |u|
+          u.name = identifier
+          u.nickname = identifier
+        end
+      else
+        User.find_by(uid: identifier)
+      end
+    end
+
+    def add_donator_status(user, identifier)
+      user.groups << Group.donator_group
+      GroupUser.create!(
+        user: user,
+        group: Group.donator_group,
+        expires_at: 1.month.from_now
+      )
+
+      message = if user.name == identifier
+                  "User added as donator. They will be set up when they first log in with Steam."
+      else
+                  "User added as donator"
+      end
+
+      redirect_to admin_donator_path(user), notice: message
     end
 
     def calculate_latest_donator_until(user)

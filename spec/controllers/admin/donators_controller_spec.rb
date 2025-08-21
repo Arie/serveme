@@ -65,6 +65,24 @@ describe Admin::DonatorsController do
 
       response.should redirect_to(edit_admin_donator_path(donator))
     end
+
+    it 'creates a new user and makes them a donator when given a Steam ID64' do
+      steam_id64 = '76561197960287930'
+
+      User.find_by(uid: steam_id64).should be_nil
+
+      post :create, params: { user: { uid: steam_id64 } }
+
+      new_user = User.find_by(uid: steam_id64)
+      new_user.should_not be_nil
+      new_user.name.should == steam_id64
+      new_user.nickname.should == steam_id64
+
+      new_user.groups.should include(Group.donator_group)
+
+      response.should redirect_to(admin_donator_path(new_user))
+      flash[:notice].should include("They will be set up when they first log in with Steam")
+    end
   end
 
   describe '#show' do
@@ -239,7 +257,6 @@ describe Admin::DonatorsController do
     it 'updates expiration date' do
       new_date = 1.year.from_now
 
-      # Create an existing GroupUser record
       group_user = @donator.group_users.find_by(group: Group.donator_group)
 
       patch :update, params: {

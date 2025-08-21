@@ -22,7 +22,7 @@
           
           #user-lookup-result{data: { user_lookup_target: "result" }}
           
-          = f.input :uid, as: :hidden, input_html: { data: { user_lookup_target: "userId" } }
+          = f.input :id, as: :hidden, input_html: { data: { user_lookup_target: "userId" } }
           
           .mb-4
             - default_date = 1.month.from_now

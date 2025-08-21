@@ -95,18 +95,24 @@ export default class extends Controller {
   }
 
   quickDuration(event) {
+    event.preventDefault()
     const days = parseInt(event.currentTarget.dataset.days)
     const expiresAt = new Date()
     expiresAt.setDate(expiresAt.getDate() + days)
 
-    const form = this.element.querySelector('form')
-    const dateInput = form ? form.querySelector('[name$="[expires_at]"]') : null
+    const dateInput = document.querySelector('#user_donator_until')
     
     if (dateInput) {
       const formattedDate = this.formatDateForPicker(expiresAt)
       dateInput.value = formattedDate
 
+      // Trigger change event for any datepicker listeners
       dateInput.dispatchEvent(new Event('change'))
+      
+      // Also trigger jQuery change event if jQuery is available (for bootstrap datepicker)
+      if (typeof $ !== 'undefined' && $(dateInput).datetimepicker) {
+        $(dateInput).trigger('change')
+      }
     }
   }
 

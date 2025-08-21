@@ -129,25 +129,27 @@ module Admin
     end
 
     def lookup_user
-      if params[:uid].present?
+      input = params[:input] || params[:uid]
+      if input.present?
         # Try exact UID match first
-        users = User.where(uid: params[:uid])
+        users = User.where(uid: input)
 
         # If no exact match, search by nickname
         if users.empty?
-          users = User.where("nickname ILIKE ?", "%#{params[:uid]}%").limit(10)
+          users = User.where("nickname ILIKE ?", "%#{input}%").limit(10)
         end
 
         if users.count == 1
           @donator = users.first
+          @users = users  # Set @users for the turbo_stream template
           respond_to do |format|
-            format.turbo_stream
+            format.turbo_stream  # Will render lookup_user.turbo_stream.haml
             format.html { render :new }
           end
         elsif users.count > 1
           @users = users
           respond_to do |format|
-            format.turbo_stream { render turbo_stream: turbo_stream.replace("user-lookup-result", partial: "multiple_users", locals: { users: @users }) }
+            format.turbo_stream  # Will render lookup_user.turbo_stream.haml
             format.html {
               @donator = User.new
               flash.now[:notice] = "Multiple users found"
@@ -156,8 +158,9 @@ module Admin
           end
         else
           @donator = User.new
+          @users = []  # Empty array for the turbo_stream template
           respond_to do |format|
-            format.turbo_stream { render turbo_stream: turbo_stream.replace("user-lookup-result", partial: "not_found") }
+            format.turbo_stream  # Will render lookup_user.turbo_stream.haml
             format.html {
               flash.now[:alert] = "User not found"
               render :new
@@ -177,11 +180,11 @@ module Admin
     end
 
     def donator_params
-      params.require(:user).permit(:uid)
+      params.require(:user).permit(:id)
     end
 
     def handle_donator_creation
-      user = User.find_by(uid: donator_params[:uid])
+      user = User.find_by(id: donator_params[:id])
 
       if user
         if user.donator?

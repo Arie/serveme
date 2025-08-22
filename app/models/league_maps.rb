@@ -82,14 +82,14 @@ class LeagueMaps
 
   def self.rgl_sixes_maps
     %w[
-      cp_granary_pro_rc8
+      cp_granary_pro_rc17a3
       cp_gullywash_f9
       cp_metalworks_f7
       cp_process_f12
-      cp_snakewater_final1
+      cp_reckoner
       cp_sunshine
       koth_bagel_rc11
-      koth_product_final
+      koth_clearcut_b18
     ]
   end
 

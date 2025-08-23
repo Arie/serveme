@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 Given 'I am on the donators page' do
-  visit admin_donators_path
+  visit admin_users_path(group_id: Group.donator_group.id)
 end
 
 Given 'there is a donator' do
@@ -13,22 +13,23 @@ Given 'there is a donator' do
 end
 
 When 'I go add a donator' do
-  visit new_admin_donator_path
+  visit new_admin_user_path
 end
 
 When 'I edit the donator' do
-  visit edit_admin_donator_path(@donator)
+  visit edit_admin_user_path(@donator)
 end
 
 When 'I change the expiration date' do
-  fill_in 'New expiration date', with: '10-10-2100 10:10'
-  click_button 'Update'
+  click_button 'Update Expiry'
+  within "#updateExpiryModal#{@donator.group_users.first.id}" do
+    fill_in 'expires_at', with: '2100-10-10T10:10'
+    click_button 'Update'
+  end
 end
 
 Then 'I can see the new expiration date' do
-  within "tr#user_#{@donator.id}" do
-    page.should have_content '2100-10-10 10:10'
-  end
+  page.should have_content '2100-10-10 10:10'
 end
 
 Given 'there is a non-donator' do

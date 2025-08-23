@@ -1,0 +1,274 @@
+- content_for(:title) { "User: #{@user.nickname}" }
+
+.row
+  .col-md-12
+    .d-flex.justify-content-between.align-items-center.mb-4
+      %h2.mb-0= link_to "User Management", admin_users_path, class: "text-decoration-none"
+
+.row
+  .col-md-4
+    .card.mb-4
+      .card-header
+        %h5.mb-0.text-white User Information
+      .card-body
+        .text-center.mb-3
+          %div{data: { 
+                 controller: "steam-avatar", 
+                 "steam-avatar-user-id-value": @user.id,
+                 "steam-avatar-steam-uid-value": h(@user.uid),
+                 "steam-avatar-size-value": "full"
+               }}
+            %img.rounded-circle{src: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+                 width: "120", height: "120", alt: @user.nickname,
+                 data: { "steam-avatar-target": "image" }}
+
+        %h4.text-center= @user.nickname
+
+        %dl.row.mt-3
+          %dt.col-sm-5 User ID:
+          %dd.col-sm-7= "##{@user.id}"
+
+          %dt.col-sm-5 Steam ID64:
+          %dd.col-sm-7
+            %code= @user.uid
+
+          %dt.col-sm-5 Joined:
+          %dd.col-sm-7= l(@user.created_at, format: :long)
+
+          %dt.col-sm-5 Last Sign In:
+          %dd.col-sm-7
+            - if @user.last_sign_in_at
+              = l(@user.last_sign_in_at, format: :long)
+              %br
+              %small.text-muted= "#{time_ago_in_words(@user.last_sign_in_at)} ago"
+            - else
+              %span.text-muted Never
+
+          %dt.col-sm-5 Status:
+          %dd.col-sm-7
+            - if @user.admin?
+              %span.badge.bg-danger.text-white Admin
+            - elsif @user.donator?
+              %span.badge.bg-success.text-white Donator
+            - elsif @user.league_admin?
+              %span.badge.bg-warning.text-dark League Admin
+            - elsif @user.streamer?
+              %span.badge.bg-info.text-white Streamer
+            - else
+              %span.badge.bg-secondary Regular User
+
+        .mt-3
+          = link_to "View Steam Profile", @user.steam_profile_url, target: "_blank", rel: "noopener nofollow", class: "btn btn-primary btn-block mb-2", data: { turbo: false }
+          = link_to "Edit User", edit_admin_user_path(@user), class: "btn btn-warning btn-block"
+
+    .card.mb-4
+      .card-header
+        %h5.mb-0.text-white Statistics
+      .card-body
+        %dl.row.mb-0
+          %dt.col-sm-7 Lifetime Value:
+          %dd.col-sm-5.text-end
+            %strong= number_to_currency(@lifetime_value)
+
+          %dt.col-sm-7 Total Donations:
+          %dd.col-sm-5.text-end= @total_donations
+
+          %dt.col-sm-7 Total Reservations:
+          %dd.col-sm-5.text-end
+            = link_to @total_reservations, user_reservations_path(@user), class: "text-decoration-none"
+
+          %dt.col-sm-7 Total Hours:
+          %dd.col-sm-5.text-end= "#{@total_reservation_hours}h"
+
+          %dt.col-sm-7 Sign In Count:
+          %dd.col-sm-5.text-end= @user.sign_in_count || 0
+
+  .col-md-8
+    - if @user.donator?
+      .card.mb-4
+        .card-header
+          .d-flex.justify-content-between.align-items-center
+            %h5.mb-0.text-white Donator Status History
+            - if @group_memberships.any? && @total_donator_time
+              %span.badge.bg-info.text-white
+                Total: #{@total_donator_time} as donator
+        .card-body
+          - donator_periods = @group_memberships.select { |gm| gm.group.name == "Donators" }
+          - if donator_periods.any?
+            .table-responsive
+              %table.table.table-sm.mb-0
+                %thead
+                  %tr
+                    %th Started
+                    %th Expires
+                    %th Duration
+                    %th Status
+                %tbody
+                  - donator_periods.each do |period|
+                    %tr
+                      %td= l(period.created_at, format: :long)
+                      %td
+                        - if period.expires_at
+                          = l(period.expires_at, format: :long)
+                        - else
+                          %span.text-muted Never
+                      %td
+                        - if period.expires_at
+                          = format_exact_duration(period.created_at, period.expires_at)
+                        - else
+                          %span.text-muted Permanent
+                      %td
+                        - if period.expires_at && period.expires_at < Time.current
+                          %span.badge.bg-secondary.text-white Expired
+                        - elsif period.expires_at && period.expires_at < 7.days.from_now
+                          %span.badge.bg-warning.text-dark Expiring Soon
+                        - else
+                          %span.badge.bg-success.text-white Active
+          - else
+            %p.text-muted.mb-0 No donator history
+
+    .card.mb-4
+      .card-header
+        .d-flex.justify-content-between.align-items-center
+          %h5.mb-0.text-white Group Memberships
+          %span.badge.bg-primary= "#{@group_memberships.count} groups"
+      .card-body
+        - if @group_memberships.any?
+          .table-responsive
+            %table.table.table-sm.mb-0
+              %thead
+                %tr
+                  %th Group
+                  %th Joined
+                  %th Expires
+                  %th Status
+              %tbody
+                - @group_memberships.each do |group_user|
+                  - if group_user.group
+                    %tr
+                      %td
+                        %strong= group_user.group.name
+                      %td= l(group_user.created_at, format: :long)
+                      %td
+                        - if group_user.expires_at
+                          = l(group_user.expires_at, format: :long)
+                        - else
+                          %span.text-muted Never
+                      %td
+                        - if group_user.expires_at && group_user.expires_at < Time.current
+                          %span.badge.bg-secondary.text-white Expired
+                        - elsif group_user.expires_at && group_user.expires_at < 7.days.from_now
+                          %span.badge.bg-warning.text-dark Expiring Soon
+                        - else
+                          %span.badge.bg-success.text-white Active
+        - else
+          %p.text-muted.mb-0 No group memberships
+
+    .card.mb-4
+      .card-header
+        .d-flex.justify-content-between.align-items-center
+          %h5.mb-0.text-white Donation History
+          %span.badge.bg-primary= "#{@orders.count} total"
+      .card-body
+        - if @orders.any?
+          .table-responsive
+            %table.table.table-sm.mb-0
+              %thead
+                %tr
+                  %th Date
+                  %th Product
+                  %th Amount
+                  %th Gift Status
+                  %th Type
+              %tbody
+                - @orders.each do |order|
+                  %tr
+                    %td= l(order.created_at, format: :long)
+                    %td= order.product.name
+                    %td= number_to_currency(order.product.price)
+                    %td
+                      - if order.gift?
+                        - if order.voucher&.claimed?
+                          %span.badge.bg-success.text-white
+                            Redeemed by
+                            = link_to order.voucher.claimed_by.nickname, admin_user_path(order.voucher.claimed_by), class: "text-white text-decoration-underline"
+                        - else
+                          %span.badge.bg-warning.text-dark Gift (Not Redeemed)
+                      - else
+                        %span.badge.bg-secondary.text-white Not a Gift
+                    %td
+                      - if order.is_a?(PaypalOrder)
+                        %span.badge.bg-info.text-white PayPal
+                      - elsif order.is_a?(StripeOrder)
+                        %span.badge.bg-info.text-white Stripe
+                      - else
+                        %span.badge.bg-secondary.text-white Unknown
+        - else
+          %p.text-muted.mb-0 No donation history
+
+    .card.mb-4
+      .card-header
+        .d-flex.justify-content-between.align-items-center
+          %h5.mb-0.text-white Gift Redemption History
+          %span.badge.bg-primary= "#{@vouchers.count} total"
+      .card-body
+        - if @vouchers.any?
+          .table-responsive
+            %table.table.table-sm.mb-0
+              %thead
+                %tr
+                  %th Redeemed Date
+                  %th Product
+                  %th Amount
+                  %th Gift From
+                  %th Type
+              %tbody
+                - @vouchers.each do |voucher|
+                  %tr
+                    %td= l(voucher.claimed_at, format: :long)
+                    %td= voucher.product.name
+                    %td= number_to_currency(voucher.product.price)
+                    %td
+                      = link_to voucher.order.user.nickname, admin_user_path(voucher.order.user), class: "text-decoration-none"
+                    %td
+                      - if voucher.order.is_a?(PaypalOrder)
+                        %span.badge.bg-info.text-white PayPal
+                      - elsif voucher.order.is_a?(StripeOrder)
+                        %span.badge.bg-info.text-white Stripe
+                      - else
+                        %span.badge.bg-secondary.text-white Unknown
+        - else
+          %p.text-muted.mb-0 No gifts redeemed
+
+    .card
+      .card-header
+        %h5.mb-0.text-white Recent Reservations
+      .card-body
+        - if @reservations.any?
+          .table-responsive
+            %table.table.table-sm.mb-0
+              %thead
+                %tr
+                  %th Date
+                  %th Server
+                  %th Duration
+                  %th Status
+              %tbody
+                - @reservations.each do |reservation|
+                  %tr
+                    %td= link_to l(reservation.starts_at, format: :long), reservation_path(reservation), class: "text-decoration-none"
+                    %td= reservation.server.name
+                    %td= distance_of_time_in_words(reservation.duration)
+                    %td
+                      - badge_class = reservation.now? ? "bg-success" : (reservation.future? ? "bg-info" : "bg-secondary")
+                      %span.badge{class: badge_class + " text-white"}= reservation.status
+        - else
+          %p.text-muted.mb-0 No reservations found
+
+:javascript
+  document.addEventListener('turbo:load', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  })

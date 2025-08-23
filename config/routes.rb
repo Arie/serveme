@@ -127,7 +127,7 @@ Serveme::Application.routes.draw do
     resources :products, except: :show
     resources :vouchers, only: [ :index, :new, :create, :destroy ]
     resources :server_notifications, except: [ :show, :new ]
-    resources :donators do
+    resources :users do
       collection do
         post :lookup_user
       end

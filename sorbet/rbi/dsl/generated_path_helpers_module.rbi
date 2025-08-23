@@ -10,12 +10,6 @@ module GeneratedPathHelpersModule
   include ::ActionDispatch::Routing::PolymorphicRoutes
 
   sig { params(args: T.untyped).returns(String) }
-  def admin_donator_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
-  def admin_donators_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
   def admin_product_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -26,6 +20,12 @@ module GeneratedPathHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def admin_server_notifications_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def admin_user_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def admin_users_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def admin_voucher_path(*args); end
@@ -82,13 +82,13 @@ module GeneratedPathHelpersModule
   def donate_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def edit_admin_donator_path(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
   def edit_admin_product_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def edit_admin_server_notification_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def edit_admin_user_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def edit_api_reservation_path(*args); end
@@ -166,7 +166,7 @@ module GeneratedPathHelpersModule
   def login_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def lookup_user_admin_donators_path(*args); end
+  def lookup_user_admin_users_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def map_upload_path(*args); end
@@ -187,10 +187,10 @@ module GeneratedPathHelpersModule
   def motd_reservation_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def new_admin_donator_path(*args); end
+  def new_admin_product_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def new_admin_product_path(*args); end
+  def new_admin_user_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def new_admin_voucher_path(*args); end

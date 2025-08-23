@@ -1,0 +1,42 @@
+= turbo_stream.replace "user_results" do
+  = turbo_frame_tag "user_results" do
+    - if @users && @users.any?
+      .card.mt-3
+        .card-header
+          %h5.card-title.mb-0 Search Results
+        .card-body
+          - if @users.count == 1
+            .alert.alert-success
+              User found: #{@users.first.nickname}
+            = form_with model: [:admin, @users.first], url: admin_user_path(@users.first), method: :get do |f|
+              = f.submit "View User", class: "btn btn-primary"
+          - else
+            %p Found #{@users.count} matching users:
+            .list-group
+              - @users.each do |user|
+                = link_to admin_user_path(user), class: "list-group-item list-group-item-action" do
+                  .d-flex.justify-content-between
+                    %div
+                      %strong= user.nickname
+                      %br
+                      %small.text-muted
+                        Steam ID: #{user.uid}
+                        | ID: ##{user.id}
+                    %div
+                      - if user.donator?
+                        %span.badge.badge-success Donator
+                      - if user.admin?
+                        %span.badge.badge-danger Admin
+    
+    - elsif @users && @users.empty?
+      .card.mt-3
+        .card-body
+          .alert.alert-warning
+            No users found matching your search.
+            - if params[:input].to_s.match?(/^\d{17}$/)
+              %br
+              %br
+              = form_with model: [:admin, User.new], local: true do |f|
+                = f.hidden_field :uid, value: params[:input]
+                %p This looks like a Steam ID64. Would you like to create a new user?
+                = f.submit "Create User", class: "btn btn-success"

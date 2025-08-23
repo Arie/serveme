@@ -10,12 +10,6 @@ module GeneratedUrlHelpersModule
   include ::ActionDispatch::Routing::PolymorphicRoutes
 
   sig { params(args: T.untyped).returns(String) }
-  def admin_donator_url(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
-  def admin_donators_url(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
   def admin_product_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -26,6 +20,12 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def admin_server_notifications_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def admin_user_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def admin_users_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def admin_voucher_url(*args); end
@@ -82,13 +82,13 @@ module GeneratedUrlHelpersModule
   def donate_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def edit_admin_donator_url(*args); end
-
-  sig { params(args: T.untyped).returns(String) }
   def edit_admin_product_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def edit_admin_server_notification_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def edit_admin_user_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def edit_api_reservation_url(*args); end
@@ -166,7 +166,7 @@ module GeneratedUrlHelpersModule
   def login_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def lookup_user_admin_donators_url(*args); end
+  def lookup_user_admin_users_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def map_upload_url(*args); end
@@ -187,10 +187,10 @@ module GeneratedUrlHelpersModule
   def motd_reservation_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def new_admin_donator_url(*args); end
+  def new_admin_product_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
-  def new_admin_product_url(*args); end
+  def new_admin_user_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def new_admin_voucher_url(*args); end

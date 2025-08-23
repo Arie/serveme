@@ -1,0 +1,92 @@
+- content_for(:title) { "User Management" }
+
+.row
+  .col-md-12
+    .d-flex.justify-content-between.align-items-center.mb-4
+      %h2.mb-0 User Management
+      = link_to("Add user", new_admin_user_path, class: "btn btn-primary")
+
+.row.mb-3
+  .col-md-12
+    .card
+      .card-body
+        %div{"data-controller" => "user-search", "data-user-search-url-value" => admin_users_path}
+          = form_tag admin_users_path, method: :get, class: "row g-3", "data-user-search-target" => "form" do
+            .col-md-6
+              = text_field_tag :search, params[:search], 
+                placeholder: "Search by name, nickname or Steam ID", 
+                class: "form-control",
+                "data-user-search-target" => "search",
+                "data-action" => "input->user-search#search"
+            .col-md-4
+              = select_tag :group_id, 
+                options_for_select([["All Groups", ""]] + @filtered_groups.map { |g| [g.name, g.id] }, params[:group_id]),
+                class: "form-control",
+                "data-user-search-target" => "group",
+                "data-action" => "change->user-search#groupChange"
+            .col-md-2
+              = submit_tag "Filter", class: "btn btn-secondary w-100"
+
+= turbo_frame_tag "users-results" do
+  .row
+    .col-md-12
+      .card
+        .card-body.p-0
+          .table-responsive
+            %table.table.table-hover.mb-0
+              %thead
+                %tr
+                  %th.pl-3 User
+                  %th Groups
+                  %th.text-center Reservations
+                  %th.text-center Lifetime Value
+                  %th.text-center Last Sign In
+                  %th.text-center Joined
+                  %th.text-center Actions
+              %tbody
+                - @users.each do |user|
+                  %tr[user]
+                    %td.pl-3
+                      = link_to(user.nickname, user.steam_profile_url, target: "_blank", rel: "noopener", class: "player-name", "data-turbo-frame" => "_top")
+                      %br
+                      %small.text-muted= "##{user.id} | #{user.uid}"
+                    %td
+                      - if user.groups.any?
+                        - user.groups.each do |group|
+                          - group_user = user.group_users.find_by(group: group)
+                          - badge_class = case group.name
+                            - when "Admins" then "badge-danger"
+                            - when "Donators" then "badge-success"
+                            - when "League Admins" then "badge-warning"
+                            - when "Streamers" then "badge-info"
+                            - else "badge-secondary"
+                          %span.badge{class: badge_class}
+                            = group.name
+                            - if group_user&.expires_at
+                              %small (#{time_ago_in_words(group_user.expires_at)})
+                      - else
+                        %span.text-muted None
+                    %td.text-center
+                      = @reservation_counts[user.id] || 0
+                    %td.text-center
+                      - if @lifetime_values[user.id]
+                        %strong= number_to_currency(@lifetime_values[user.id].to_f.round(2))
+                      - else
+                        %span.text-muted -
+                    %td.text-center
+                      - if @last_sign_in_dates[user.id]
+                        %span{title: l(@last_sign_in_dates[user.id], format: :long), data: {toggle: "tooltip"}}
+                          = time_ago_in_words(@last_sign_in_dates[user.id]) + " ago"
+                      - else
+                        %span.text-muted Never
+                    %td.text-center
+                      %small= l(user.created_at, format: :long)
+                    %td.text-center
+                      .btn-group.btn-group-sm{role: "group"}
+                        = link_to("View", admin_user_path(user), class: "btn btn-info", title: "View details", "data-turbo-frame" => "_top")
+                        = link_to("Edit", edit_admin_user_path(user), class: "btn btn-warning", title: "Edit user", "data-turbo-frame" => "_top")
+
+  .row.mt-3
+    .col-md-12
+      .d-flex.justify-content-center
+        = will_paginate @users, params: request.query_parameters

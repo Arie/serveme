@@ -1,0 +1,149 @@
+- content_for(:title) { "Edit #{@user.nickname}" }
+
+.row
+  .col-md-12
+    .d-flex.justify-content-between.align-items-center.mb-4
+      %h2 Edit User: #{@user.nickname}
+      = link_to "Back to User", admin_user_path(@user), class: "btn btn-secondary"
+
+.row
+  .col-md-6
+    .card.mb-4
+      .card-header
+        %h5.card-title.mb-0 User Information
+      .card-body
+        = form_with model: [:admin, @user], local: true do |f|
+          .form-group
+            = f.label :name
+            = f.text_field :name, class: "form-control"
+          
+          .form-group
+            = f.label :nickname
+            = f.text_field :nickname, class: "form-control"
+          
+          = f.submit "Update User", class: "btn btn-primary"
+
+  .col-md-6
+    .card.mb-4
+      .card-header
+        %h5.card-title.mb-0 Group Management
+      .card-body
+        %h6 Current Groups
+        - if @user_groups.any?
+          %ul.list-group.mb-3
+            - @user_groups.each do |group_user|
+              %li.list-group-item.d-flex.justify-content-between.align-items-center
+                %div
+                  %strong= group_user.group.name
+                  - if group_user.expires_at
+                    %br
+                    %small.text-muted
+                      Expires: #{l(group_user.expires_at, format: :long)}
+                .btn-group.btn-group-sm
+                  - if group_user.expires_at
+                    %button.btn.btn-outline-warning{"data-bs-toggle" => "modal", "data-bs-target" => "#updateExpiryModal#{group_user.id}", type: "button"}
+                      Update Expiry
+                  = form_with url: admin_user_path(@user), method: :patch, local: true do |f|
+                    = hidden_field_tag :group_action, "remove"
+                    = hidden_field_tag :group_id, group_user.group_id
+                    = f.submit "Remove", class: "btn btn-outline-danger btn-sm", data: { confirm: "Remove user from #{group_user.group.name}?" }
+              
+              - if group_user.expires_at
+                .modal.fade{id: "updateExpiryModal#{group_user.id}", tabindex: "-1", role: "dialog"}
+                  .modal-dialog{role: "document"}
+                    .modal-content
+                      %div{data: { 
+                             controller: "date-extension", 
+                             "date-extension-format-value": I18n.t('time.formats.javascript_datepicker'),
+                             "date-extension-show-meridian-value": I18n.t(:show_meridian, :scope => :time)
+                           }}
+                        = form_with url: admin_user_path(@user), method: :patch, local: true do |f|
+                          .modal-header
+                            %h5.modal-title Update Expiry for #{group_user.group.name}
+                            %button.btn-close{"data-bs-dismiss" => "modal", type: "button", "aria-label" => "Close"}
+                          .modal-body
+                            = hidden_field_tag :group_action, "update_expiry"
+                            = hidden_field_tag :group_user_id, group_user.id
+                            .form-group
+                              = label_tag :expires_at, "Expires At"
+                              = datetime_field_tag :expires_at, 
+                                group_user.expires_at&.strftime("%Y-%m-%dT%H:%M"), 
+                                class: "form-control",
+                                "data-date-extension-target": "dateInput"
+                            
+                            .form-group
+                              %label.form-label Quick duration presets (extends from current expiry)
+                              .btn-group.btn-group-sm{role: "group"}
+                                %button.btn.btn-primary{type: "button", 
+                                                       "data-action" => "date-extension#extendDate", 
+                                                       "data-days" => "31"}
+                                  +1 month
+                                %button.btn.btn-primary{type: "button",
+                                                       "data-action" => "date-extension#extendDate", 
+                                                       "data-days" => "93"}
+                                  +3 months
+                                %button.btn.btn-primary{type: "button",
+                                                       "data-action" => "date-extension#extendDate", 
+                                                       "data-days" => "186"}
+                                  +6 months
+                                %button.btn.btn-primary{type: "button",
+                                                       "data-action" => "date-extension#extendDate", 
+                                                       "data-days" => "365"}
+                                  +1 year
+                                %button.btn.btn-secondary{type: "button",
+                                                         "data-action" => "date-extension#clearDate"}
+                                  Never expires
+                          .modal-footer
+                            %button.btn.btn-secondary{"data-bs-dismiss" => "modal", type: "button"} Cancel
+                            = f.submit "Update", class: "btn btn-primary"
+        - else
+          %p.text-muted User is not in any groups
+
+        %hr
+
+        %h6 Add to Group
+        %div{data: { 
+               controller: "date-extension", 
+               "date-extension-format-value": I18n.t('time.formats.javascript_datepicker'),
+               "date-extension-show-meridian-value": I18n.t(:show_meridian, :scope => :time)
+             }}
+          = form_with url: admin_user_path(@user), method: :patch, local: true do |f|
+            = hidden_field_tag :group_action, "add"
+            .form-group
+              = select_tag :group_id, 
+                options_for_select(@groups.reject { |g| @user.groups.include?(g) }.map { |g| [g.name, g.id] }),
+                class: "form-control",
+                prompt: "Select a group..."
+            
+            .form-group
+              = label_tag :expires_at, "Expires At (optional)"
+              = datetime_field_tag :expires_at, nil, 
+                class: "form-control",
+                "data-date-extension-target": "dateInput"
+              %small.form-text.text-muted Leave blank for permanent membership
+            
+            .form-group
+              %label.form-label Quick duration presets
+              .btn-group.btn-group-sm{role: "group"}
+                %button.btn.btn-primary{type: "button", 
+                                       "data-action" => "date-extension#extendDate", 
+                                       "data-days" => "31"}
+                  +1 month
+                %button.btn.btn-primary{type: "button",
+                                       "data-action" => "date-extension#extendDate", 
+                                       "data-days" => "93"}
+                  +3 months
+                %button.btn.btn-primary{type: "button",
+                                       "data-action" => "date-extension#extendDate", 
+                                       "data-days" => "186"}
+                  +6 months
+                %button.btn.btn-primary{type: "button",
+                                       "data-action" => "date-extension#extendDate", 
+                                       "data-days" => "365"}
+                  +1 year
+                %button.btn.btn-secondary{type: "button",
+                                         "data-action" => "date-extension#clearDate"}
+                  Never expires
+            
+            = f.submit "Add to Group", class: "btn btn-success"
+

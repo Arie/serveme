@@ -9,80 +9,20 @@ module Admin
     before_action :set_user, only: [ :show, :edit, :update, :destroy ]
 
     def index
-      @users = User.includes(:groups, :group_users, :orders)
-                   .order(created_at: :desc)
-
-      if params[:search].present?
-        search_term = params[:search]
-        @users = @users.where("users.nickname ILIKE ? OR users.name ILIKE ? OR users.uid = ?",
-                             "%#{search_term}%", "%#{search_term}%", search_term)
-      end
-
-      if params[:group_id].present?
-        @users = @users.joins(:groups).where(groups: { id: params[:group_id] })
-      end
-
+      @users = build_users_query
+      @users = apply_search_filter(@users)
+      @users = apply_group_filter(@users)
+      @users = apply_sorting(@users)
       @users = @users.paginate(page: params[:page], per_page: 30)
 
-      current_page_ids = @users.map(&:id)
-
-      @lifetime_values = User.joins(orders: :product)
-                             .where(id: current_page_ids, paypal_orders: { status: "Completed" })
-                             .group(:id)
-                             .sum(:price)
-
-      @reservation_counts = Reservation.where(user_id: current_page_ids)
-                                      .group(:user_id)
-                                      .count
-
-      @last_sign_in_dates = User.where(id: current_page_ids)
-                                .where.not(last_sign_in_at: nil)
-                                .pluck(:id, :last_sign_in_at)
-                                .to_h
-
-      @filtered_groups = Group.where("name NOT LIKE '7656%'").order(:name)
+      load_user_statistics
+      @filtered_groups = Group.non_private.order(:name)
     end
 
     def show
-      @orders = @user.orders.completed.includes(:product).order(created_at: :desc)
-      @vouchers = Voucher.where(claimed_by: @user).includes(:product).order(claimed_at: :desc)
-      @reservations = @user.reservations.includes(:server).order(created_at: :desc).limit(20)
-
-      @lifetime_value = @orders.joins(:product).sum(:price)
-      @total_donations = @orders.count
-      @total_reservations = @user.reservations.count
-      @total_reservation_hours = (@user.reservations.sum(:duration) / 3600.0).round(1)
-
-      @group_memberships = GroupUser.where(user: @user)
-                                   .joins(:group)
-                                   .includes(:group)
-                                   .order(created_at: :desc)
-
-      if @user.donator?
-        donator_periods = GroupUser.where(user: @user, group: Group.donator_group).order(created_at: :desc)
-
-        if donator_periods.any?
-          total_time = 0
-          donator_periods.each do |period|
-            if period.expires_at
-              total_time += (period.expires_at - period.created_at)
-            end
-          end
-
-          if total_time > 0
-            years = (total_time / 1.year).floor
-            months = ((total_time % 1.year) / 1.month).floor
-            days = ((total_time % 1.month) / 1.day).floor
-
-            parts = []
-            parts << "#{years} #{'year'.pluralize(years)}" if years > 0
-            parts << "#{months} #{'month'.pluralize(months)}" if months > 0
-            parts << "#{days} #{'day'.pluralize(days)}" if days > 0 && parts.empty?
-
-            @total_donator_time = parts.join(", ")
-          end
-        end
-      end
+      load_user_details
+      calculate_user_statistics
+      calculate_donator_time if @user.donator?
     end
 
     def new
@@ -102,7 +42,7 @@ module Admin
     end
 
     def edit
-      @groups = Group.where("name NOT LIKE '7656%'").order(:name)
+      @groups = Group.non_private.order(:name)
       @user_groups = @user.group_users.includes(:group)
     end
 
@@ -113,7 +53,7 @@ module Admin
         if @user.update(user_params)
           redirect_to admin_user_path(@user), notice: "User updated successfully"
         else
-          @groups = Group.where("name NOT LIKE '7656%'").order(:name)
+          @groups = Group.non_private.order(:name)
           @user_groups = @user.group_users.includes(:group)
           flash.now[:alert] = "Failed to update user"
           render :edit
@@ -121,64 +61,12 @@ module Admin
       end
     end
 
-    def destroy
-      if @user.reservations.any?
-        redirect_to admin_users_path, alert: "Cannot delete user with reservations"
-      else
-        @user.destroy
-        redirect_to admin_users_path, notice: "User deleted successfully"
-      end
-    end
-
     def lookup_user
       input = params[:input] || params[:uid]
-      if input.present?
-        if input.to_s.match?(/^\d{17}$/)
-          user = User.find_or_create_by(uid: input) do |u|
-            u.name = input
-            u.nickname = input
-          end
-          users = [ user ]
-        else
-          users = User.where(uid: input)
+      return render_new_user unless input.present?
 
-          if users.empty?
-            users = User.where("nickname ILIKE ?", "%#{input}%").limit(10)
-          end
-        end
-
-        if users.count == 1
-          @user = users.first
-          @users = users
-          respond_to do |format|
-            format.turbo_stream
-            format.html { render :new }
-          end
-        elsif users.count > 1
-          @users = users
-          respond_to do |format|
-            format.turbo_stream
-            format.html {
-              @user = User.new
-              flash.now[:notice] = "Multiple users found"
-              render :new
-            }
-          end
-        else
-          @user = User.new
-          @users = []
-          respond_to do |format|
-            format.turbo_stream
-            format.html {
-              flash.now[:alert] = "User not found"
-              render :new
-            }
-          end
-        end
-      else
-        @user = User.new
-        render :new
-      end
+      users = find_users_by_input(input)
+      handle_lookup_response(users)
     end
 
 
@@ -192,18 +80,196 @@ module Admin
       params.require(:user).permit(:uid, :name, :nickname, :latitude, :longitude)
     end
 
+    def build_users_query
+      User.includes(:groups, :group_users, :orders)
+    end
+
+    def apply_search_filter(users)
+      return users unless params[:search].present?
+
+      search_term = params[:search]
+      users.where("users.nickname ILIKE :search OR users.name ILIKE :search OR users.uid = :exact",
+                  search: "%#{search_term}%", exact: search_term)
+    end
+
+    def apply_group_filter(users)
+      return users unless params[:group_id].present?
+      users.joins(:groups).where(groups: { id: params[:group_id] })
+    end
+
+    def apply_sorting(users)
+      if filtering_by_donator_group?
+        sort_by_last_donation(users)
+      else
+        users.order(created_at: :desc)
+      end
+    end
+
+    def filtering_by_donator_group?
+      params[:group_id].present? && params[:group_id].to_i == Group.donator_group.id
+    end
+
+    def sort_by_last_donation(users)
+      last_donations = Order.completed
+                           .group(:user_id)
+                           .select("user_id, MAX(created_at) as last_donation_date")
+
+      users
+        .joins(Arel.sql("LEFT JOIN (#{last_donations.to_sql}) AS last_donations ON last_donations.user_id = users.id"))
+        .order(Arel.sql("last_donations.last_donation_date DESC NULLS LAST"))
+    end
+
+    def load_user_statistics
+      current_page_ids = @users.map(&:id)
+
+      @lifetime_values = calculate_lifetime_values(current_page_ids)
+      @reservation_counts = calculate_reservation_counts(current_page_ids)
+      @last_sign_in_dates = get_last_sign_in_dates(current_page_ids)
+      @last_donation_dates = filtering_by_donator_group? ? get_last_donation_dates(current_page_ids) : {}
+    end
+
+    def calculate_lifetime_values(user_ids)
+      User.joins(orders: :product)
+          .where(id: user_ids, paypal_orders: { status: "Completed" })
+          .group(:id)
+          .sum(:price)
+    end
+
+    def calculate_reservation_counts(user_ids)
+      Reservation.where(user_id: user_ids)
+                 .group(:user_id)
+                 .count
+    end
+
+    def get_last_sign_in_dates(user_ids)
+      User.where(id: user_ids)
+          .where.not(last_sign_in_at: nil)
+          .pluck(:id, :last_sign_in_at)
+          .to_h
+    end
+
+    def get_last_donation_dates(user_ids)
+      Order.completed
+           .where(user_id: user_ids)
+           .group(:user_id)
+           .maximum(:created_at)
+    end
+
+    def load_user_details
+      @orders = @user.orders.completed.includes(:product).order(created_at: :desc)
+      @vouchers = Voucher.where(claimed_by: @user).includes(:product).order(claimed_at: :desc)
+      @reservations = @user.reservations.includes(:server).order(created_at: :desc).limit(20)
+      @group_memberships = @user.group_users.joins(:group).includes(:group).order(created_at: :desc)
+    end
+
+    def calculate_user_statistics
+      @lifetime_value = @orders.joins(:product).sum(:price)
+      @total_donations = @orders.count
+      @total_reservations = @user.reservations.count
+      @total_reservation_hours = (@user.reservations.sum(:duration) / 3600.0).round(1)
+    end
+
+    def calculate_donator_time
+      donator_periods = GroupUser.where(user: @user, group: Group.donator_group)
+                                 .order(created_at: :desc)
+      return unless donator_periods.any?
+
+      total_time = calculate_total_donator_time(donator_periods)
+      @total_donator_time = format_duration(total_time) if total_time > 0
+    end
+
+    def calculate_total_donator_time(periods)
+      periods.sum { |period| period.expires_at ? (period.expires_at - period.created_at) : 0 }
+    end
+
+    def format_duration(total_time)
+      years = (total_time / 1.year).floor
+      months = ((total_time % 1.year) / 1.month).floor
+      days = ((total_time % 1.month) / 1.day).floor
+
+      parts = []
+      parts << "#{years} #{'year'.pluralize(years)}" if years > 0
+      parts << "#{months} #{'month'.pluralize(months)}" if months > 0
+      parts << "#{days} #{'day'.pluralize(days)}" if days > 0 && parts.empty?
+
+      parts.join(", ")
+    end
+
+    def find_users_by_input(input)
+      if steam_id64?(input)
+        user = User.find_or_create_by(uid: input) do |u|
+          u.name = input
+          u.nickname = input
+        end
+        [ user ]
+      else
+        users = User.where(uid: input)
+        users = User.where("nickname ILIKE :search", search: "%#{input}%").limit(10) if users.empty?
+        users
+      end
+    end
+
+    def handle_lookup_response(users)
+      case users.count
+      when 0
+        render_no_users_found
+      when 1
+        render_single_user_found(users.first)
+      else
+        render_multiple_users_found(users)
+      end
+    end
+
+    def render_new_user
+      @user = User.new
+      render :new
+    end
+
+    def render_no_users_found
+      @user = User.new
+      @users = []
+      respond_to do |format|
+        format.turbo_stream
+        format.html {
+          flash.now[:alert] = "User not found"
+          render :new
+        }
+      end
+    end
+
+    def render_single_user_found(user)
+      @user = user
+      @users = [ user ]
+      respond_to do |format|
+        format.turbo_stream
+        format.html { render :new }
+      end
+    end
+
+    def render_multiple_users_found(users)
+      @users = users
+      respond_to do |format|
+        format.turbo_stream
+        format.html {
+          @user = User.new
+          flash.now[:notice] = "Multiple users found"
+          render :new
+        }
+      end
+    end
+
     def find_or_create_user(identifier)
       return nil unless identifier.present?
 
       if identifier.to_s.match?(/^\d{1,7}$/)
         User.find_by(id: identifier)
-      elsif identifier.to_s.match?(/^\d{17}$/)
+      elsif steam_id64?(identifier)
         User.find_or_create_by(uid: identifier) do |u|
           u.name = identifier
           u.nickname = identifier
         end
       else
-        User.find_by(uid: identifier) || User.find_by("nickname ILIKE ?", identifier)
+        User.find_by(uid: identifier) || User.find_by("nickname ILIKE :identifier", identifier: identifier)
       end
     end
 
@@ -257,6 +323,10 @@ module Admin
       else
         redirect_to edit_admin_user_path(@user), alert: "Failed to update group membership"
       end
+    end
+
+    def steam_id64?(input)
+      input.to_s.match?(/^\d{17}$/)
     end
   end
 end

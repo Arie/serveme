@@ -16,6 +16,8 @@ class Group < ActiveRecord::Base
   has_many :group_servers, dependent: :destroy
   has_many :servers, through: :group_servers
 
+  scope :non_private, -> { where("name NOT LIKE '7656%'") }
+
   sig { returns(Group) }
   def self.donator_group
     find_or_create_by(name: "Donators")

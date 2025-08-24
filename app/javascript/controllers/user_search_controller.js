@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
+import { Turbo } from "@hotwired/turbo-rails"
 
 export default class extends Controller {
-  static targets = ["form", "search", "group"]
   static values = {
     url: String,
     debounceDelay: { type: Number, default: 300 }
@@ -9,21 +9,12 @@ export default class extends Controller {
 
   connect() {
     this.debounceTimer = null
-    console.log("User search controller connected")
   }
 
   disconnect() {
     if (this.debounceTimer) {
       clearTimeout(this.debounceTimer)
     }
-  }
-
-  search() {
-    this.debounceSearch()
-  }
-
-  groupChange() {
-    this.submitForm()
   }
 
   debounceSearch() {
@@ -36,17 +27,19 @@ export default class extends Controller {
     }, this.debounceDelayValue)
   }
 
+  submitNow() {
+    // Submit immediately when group changes
+    this.submitForm()
+  }
+
   submitForm() {
-    const formData = new FormData(this.formTarget)
+    const form = this.element
+    const formData = new FormData(form)
     const params = new URLSearchParams(formData)
-
-    const url = new URL(window.location)
-    url.search = params.toString()
-    history.replaceState({}, '', url)
-
-    const frame = document.getElementById('users-results')
-    if (frame) {
-      frame.src = `${this.urlValue}?${params.toString()}`
-    }
+    
+    // Use Turbo to submit the form with replace action
+    // This will update the page content and URL properly
+    const url = `${this.urlValue}?${params.toString()}`
+    Turbo.visit(url, { action: "replace" })
   }
 }

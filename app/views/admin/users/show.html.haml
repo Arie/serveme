@@ -229,14 +229,19 @@
                     %td= voucher.product.name
                     %td= number_to_currency(voucher.product.price)
                     %td
-                      = link_to voucher.order.user.nickname, admin_user_path(voucher.order.user), class: "text-decoration-none"
-                    %td
-                      - if voucher.order.is_a?(PaypalOrder)
-                        %span.badge.bg-info.text-white PayPal
-                      - elsif voucher.order.is_a?(StripeOrder)
-                        %span.badge.bg-info.text-white Stripe
+                      - if voucher.order&.user
+                        = link_to voucher.order.user.nickname, admin_user_path(voucher.order.user), class: "text-decoration-none"
                       - else
+                        %span.text-muted No order
+                    %td
+                      - if voucher.order&.is_a?(PaypalOrder)
+                        %span.badge.bg-info.text-white PayPal
+                      - elsif voucher.order&.is_a?(StripeOrder)
+                        %span.badge.bg-info.text-white Stripe
+                      - elsif voucher.order
                         %span.badge.bg-secondary.text-white Unknown
+                      - else
+                        %span.text-muted N/A
         - else
           %p.text-muted.mb-0 No gifts redeemed
 

@@ -17,6 +17,18 @@ module Admin
 
       load_user_statistics
       @filtered_groups = Group.non_private.order(:name)
+
+      respond_to do |format|
+        format.html do
+          if turbo_frame_request?
+            render partial: "users_list", layout: false
+          end
+        end
+        format.turbo_stream do
+          Rails.logger.debug "Rendering turbo_stream for users index"
+          render turbo_stream: turbo_stream.replace("users_list", partial: "users_list")
+        end
+      end
     end
 
     def show

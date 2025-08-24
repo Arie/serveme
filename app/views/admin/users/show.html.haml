@@ -230,7 +230,7 @@
                     %td= number_to_currency(voucher.product.price)
                     %td
                       - if voucher.order&.user
-                        = link_to voucher.order.user.nickname, admin_user_path(voucher.order.user), class: "text-decoration-none"
+                        = link_to voucher.order.user.nickname, admin_user_path(voucher.order.user), class: "text-decoration-none text-decoration-underline-hover"
                       - else
                         %span.text-muted No order
                     %td

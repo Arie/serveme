@@ -36,8 +36,8 @@
                       %span.text-muted No product
                   %td.text-center
                     - if voucher.claimed_by
-                      = link_to(voucher.claimed_by.nickname, voucher.claimed_by.steam_profile_url, 
-                        target: "_blank", rel: "noopener", class: "player-name")
+                      = link_to(voucher.claimed_by.nickname, admin_user_path(voucher.claimed_by), 
+                        class: "text-decoration-none text-decoration-underline-hover")
                     - else
                       %span.text-muted -
                   %td.text-center
@@ -48,7 +48,8 @@
                       %span.text-muted -
                   %td.text-center
                     - if voucher.created_by
-                      = voucher.created_by.nickname
+                      = link_to(voucher.created_by.nickname, admin_user_path(voucher.created_by), 
+                        class: "text-decoration-none text-decoration-underline-hover")
                     - else
                       %span.text-muted System
                   %td.text-center

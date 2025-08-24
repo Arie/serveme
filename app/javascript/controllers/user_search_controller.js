@@ -33,13 +33,6 @@ export default class extends Controller {
   }
 
   submitForm() {
-    const form = this.element
-    const formData = new FormData(form)
-    const params = new URLSearchParams(formData)
-    
-    // Use Turbo to submit the form with replace action
-    // This will update the page content and URL properly
-    const url = `${this.urlValue}?${params.toString()}`
-    Turbo.visit(url, { action: "replace" })
+    this.element.requestSubmit()
   }
 }

@@ -1,7 +1,7 @@
 - bucket_objects.each do |bucket_object|
   %tr
     %td
-      = bucket_object[:map_name]
+      %span.map-name-compact{data: {bs_toggle: "tooltip", bs_placement: "top"}, title: bucket_object[:map_name]}= bucket_object[:map_name]
     %td
       - if bucket_object[:uploader]
         = link_to bucket_object[:uploader].nickname, admin_user_path(bucket_object[:uploader]), title: "Uploaded #{time_ago_in_words(bucket_object[:upload_date])} ago"

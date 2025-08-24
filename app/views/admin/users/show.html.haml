@@ -83,6 +83,9 @@
           %dt.col-sm-7 Sign In Count:
           %dd.col-sm-5.text-end= @user.sign_in_count || 0
 
+          %dt.col-sm-7 Map Uploads:
+          %dd.col-sm-5.text-end= @total_map_uploads
+
   .col-md-8
     .card.mb-4
       .card-header
@@ -211,6 +214,44 @@
                         %span.text-muted N/A
         - else
           %p.text-muted.mb-0 No gifts redeemed
+
+    .card.mb-4
+      .card-header
+        .d-flex.justify-content-between.align-items-center
+          %h5.mb-0.text-white Map Uploads
+          %span.badge.bg-primary= "#{@map_uploads.count} total"
+      .card-body
+        - if @map_uploads.any?
+          .table-responsive
+            %table.table.table-sm.mb-0
+              %thead
+                %tr
+                  %th Upload Date
+                  %th Map Name
+                  %th File Size
+                  %th Actions
+              %tbody
+                - @map_uploads.each do |map_upload|
+                  %tr
+                    %td= l(map_upload.created_at, format: :long)
+                    %td
+                      - if map_upload.map_name.present?
+                        %code.map-name-compact{data: {bs_toggle: "tooltip", bs_placement: "top"}, title: map_upload.map_name}= map_upload.map_name
+                      - else
+                        %span.text-muted Unknown map name
+                    %td
+                      = map_upload.formatted_file_size
+                    %td
+                      - if map_upload.file.attached?
+                        = link_to("https://fastdl.serveme.tf/#{map_upload.file.blob.key}", class: "btn btn-xs btn-primary", title: "Download #{map_upload.filename}") do
+                          %i.fa.fa-download
+                      - elsif map_upload.filename.present?
+                        = link_to("https://fastdl.serveme.tf/maps/#{map_upload.filename}", class: "btn btn-xs btn-primary", title: "Download #{map_upload.filename}") do
+                          %i.fa.fa-download
+                      - else
+                        %span.text-muted No file
+        - else
+          %p.text-muted.mb-0 No map uploads
 
     .card
       .card-header

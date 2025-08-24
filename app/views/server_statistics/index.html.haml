@@ -30,7 +30,8 @@
                 = link_to(time, show_reservation_server_statistic_path(:reservation_id => server_statistic.reservation.id), :class => "server_reservation_statistics")
               %td= server_statistic.cpu_usage
               %td= server_statistic.fps
-              %td= server_statistic.map_name
+              %td
+                %span.map-name-compact{data: {bs_toggle: "tooltip", bs_placement: "top"}, title: server_statistic.map_name}= server_statistic.map_name
               %td= server_statistic.number_of_players
               %td
                 = server_statistic.traffic_in
@@ -38,3 +39,11 @@
               %td
                 = server_statistic.traffic_out
                 KB/s
+
+:javascript
+  document.addEventListener('turbo:load', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  })

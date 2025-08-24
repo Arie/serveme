@@ -57,7 +57,9 @@ describe MapUpload do
       end
 
       let!(:legacy_upload) do
-        MapUpload.create!(user: legacy_user, name: 'cp_dustbowl.bsp')
+        upload = MapUpload.create!(user: legacy_user)
+        upload.update_column(:file, 'cp_dustbowl.bsp')
+        upload
       end
 
       before do

@@ -27,7 +27,7 @@
       - next if bucket_object[:map_name].starts_with?(MapUpload.invalid_types_regex)
       %tr
         %td
-          = bucket_object[:map_name]
+          %span.map-name-compact{data: {bs_toggle: "tooltip", bs_placement: "top"}, title: bucket_object[:map_name]}= bucket_object[:map_name]
         - map_stat = @map_statistics[bucket_object[:map_name]]
         - if map_stat
           %td
@@ -43,3 +43,11 @@
           = link_to("https://fastdl.serveme.tf/#{bucket_object[:key]}", class: "btn btn-sm btn-primary", title: "#{bucket_object[:size]} bytes") do
             = number_to_human_size(bucket_object[:size])
             %i.fa.fa-download
+
+:javascript
+  document.addEventListener('turbo:load', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  })

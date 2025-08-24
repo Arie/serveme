@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
   has_many :reservation_players, primary_key: :uid, foreign_key: :steam_uid
   has_many :player_statistics,   primary_key: :uid, foreign_key: :steam_uid
   has_many :vouchers,            foreign_key: :created_by_id
+  has_many :map_uploads
   has_one :file_upload_permission, dependent: :destroy
   geocoded_by :current_sign_in_ip
   before_save :geocode, if: :current_sign_in_ip_changed_and_ipv4?

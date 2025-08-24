@@ -30,7 +30,7 @@
       - map_stat = @map_statistics[bucket_object[:map_name]]
       %tr
         %td
-          = bucket_object[:map_name]
+          %code.map-name-compact{data: {bs_toggle: "tooltip", bs_placement: "top"}, title: bucket_object[:map_name]}= bucket_object[:map_name]
         %td
           - if bucket_object[:uploader]
             = link_to bucket_object[:uploader].nickname, admin_user_path(bucket_object[:uploader]), title: "Uploaded #{bucket_object[:upload_date_formatted]}"
@@ -52,3 +52,11 @@
             %i.fa.fa-download
           = link_to admin_map_path(bucket_object[:map_name]), method: :delete, class: "btn btn-sm btn-danger", title: "Delete", data: { confirm: "Are you sure you want to delete #{bucket_object[:map_name]}?" } do
             %i.fa.fa-trash
+
+:javascript
+  document.addEventListener('turbo:load', function() {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  })

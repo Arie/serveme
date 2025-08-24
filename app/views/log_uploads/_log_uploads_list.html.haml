@@ -13,5 +13,6 @@
         - else
           = upload.file_name
       %td= upload.title
-      %td= upload.map_name
+      %td
+        %span.map-name-compact{data: {bs_toggle: "tooltip", bs_placement: "top"}, title: upload.map_name}= upload.map_name
       %td= upload.status

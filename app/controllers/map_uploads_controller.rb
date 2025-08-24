@@ -13,11 +13,11 @@ class MapUploadsController < ApplicationController
   end
 
   def index
-    @map_statistics = MapUpload.map_statistics
-    @bucket_objects = sort_bucket_objects(MapUpload.bucket_objects, @map_statistics, params[:sort_by])
     if current_admin
-      render :admin_index
+      redirect_to admin_maps_path(params.permit(:sort_by))
     else
+      @map_statistics = MapUpload.map_statistics
+      @bucket_objects = sort_bucket_objects(MapUpload.bucket_objects, @map_statistics, params[:sort_by])
       render :index
     end
   end

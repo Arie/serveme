@@ -39,31 +39,33 @@ class MapUpload < ActiveRecord::Base
   def self.fetch_bucket_objects
     return [] unless ActiveStorage::Blob.service.respond_to?(:bucket)
 
-    # Fetch all map uploads with their users and blob information in a single query
+    # Fetch all map uploads with their users in a single query
     # This avoids N+1 queries by eager loading all associations
     uploaders_by_name = {}
 
-    # Get legacy uploads (name field populated)
-    legacy_uploads = MapUpload.includes(:user)
-                             .where("name LIKE '%.bsp'")
-                             .where.not(name: [ nil, "" ])
+    # Get CarrierWave uploads (filename in file column)
+    carrierwave_uploads = MapUpload.includes(:user)
+                                  .where.not(file: [ nil, "" ])
+                                  .where("file LIKE '%.bsp'")
 
-    legacy_uploads.each do |upload|
-      map_name = upload.name.gsub(/\.bsp$/, "")
+    carrierwave_uploads.each do |upload|
+      map_name = upload.map_name
+      next unless map_name
+
       uploaders_by_name[map_name] = upload
     end
 
-    # Get new uploads (ActiveStorage attachments) with preloaded blob data
-    new_uploads = MapUpload.includes(:user, file_attachment: :blob)
-                          .joins(:file_attachment)
-                          .joins("JOIN active_storage_blobs ON active_storage_attachments.blob_id = active_storage_blobs.id")
-                          .where("active_storage_blobs.key LIKE 'maps/%'")
+    # Get ActiveStorage uploads with preloaded blob data
+    activestorage_uploads = MapUpload.includes(:user, file_attachment: :blob)
+                                    .joins(:file_attachment)
+                                    .joins("JOIN active_storage_blobs ON active_storage_attachments.blob_id = active_storage_blobs.id")
+                                    .where("active_storage_blobs.key LIKE 'maps/%'")
 
-    new_uploads.each do |upload|
-      # Since we preloaded the blob, this won't cause additional queries
-      blob_key = upload.file_attachment.blob.key
-      map_name = blob_key.match(%r{.*/(.*)\.bsp})[1]
-      # Prioritize ActiveStorage uploads over legacy ones for the same map name
+    activestorage_uploads.each do |upload|
+      map_name = upload.map_name
+      next unless map_name
+
+      # Prioritize ActiveStorage uploads over CarrierWave ones for the same map name
       uploaders_by_name[map_name] = upload
     end
 
@@ -216,6 +218,51 @@ class MapUpload < ActiveRecord::Base
       Rails.logger.error "Error validating file #{key}: #{e.message}"
       { valid: false, error: "Failed to validate file" }
     end
+  end
+
+  def filename
+    if file.attached?
+      # ActiveStorage upload
+      file.filename.to_s
+    elsif self[:file].present?
+      # CarrierWave upload (filename stored in file column)
+      self[:file]
+    elsif name.present?
+      # Fallback to name field
+      name
+    else
+      nil
+    end
+  end
+
+  def map_name
+    fname = filename
+    return nil unless fname
+
+    # Remove .bsp extension if present
+    fname.gsub(/\.bsp$/, "")
+  end
+
+  def file_size
+    if file.attached?
+      # ActiveStorage upload - size is stored in blob
+      file.blob.byte_size
+    elsif self[:file].present?
+      # CarrierWave upload - check the bucket for size
+      bucket_key = "maps/#{self[:file]}"
+      bucket_objects = self.class.bucket_objects
+      bucket_object = bucket_objects.find { |obj| obj[:key] == bucket_key }
+      bucket_object&.[](:size)
+    else
+      nil
+    end
+  end
+
+  def formatted_file_size
+    size = file_size
+    return "Unknown" unless size
+
+    "#{(size / 1024.0 / 1024.0).round(1)} MB"
   end
 
   private

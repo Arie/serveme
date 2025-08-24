@@ -173,6 +173,7 @@ module Admin
       @reservations = @user.reservations.includes(:server).order(created_at: :desc).limit(20)
       # Load ALL group memberships including expired ones
       @group_memberships = GroupUser.where(user: @user).joins(:group).includes(:group).order(created_at: :desc)
+      @map_uploads = @user.map_uploads.order(created_at: :desc)
     end
 
     def calculate_user_statistics
@@ -180,6 +181,7 @@ module Admin
       @total_donations = @orders.count
       @total_reservations = @user.reservations.count
       @total_reservation_hours = (@user.reservations.sum(:duration) / 3600.0).round(1)
+      @total_map_uploads = @user.map_uploads.count
     end
 
     def calculate_donator_time

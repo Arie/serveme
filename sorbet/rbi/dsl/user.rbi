@@ -393,6 +393,20 @@ class User
     def log_uploads=(value); end
 
     sig { returns(T::Array[T.untyped]) }
+    def map_upload_ids; end
+
+    sig { params(ids: T::Array[T.untyped]).returns(T::Array[T.untyped]) }
+    def map_upload_ids=(ids); end
+
+    # This method is created by ActiveRecord on the `User` class because it declared `has_many :map_uploads`.
+    # 🔗 [Rails guide for `has_many` association](https://guides.rubyonrails.org/association_basics.html#the-has-many-association)
+    sig { returns(::MapUpload::PrivateCollectionProxy) }
+    def map_uploads; end
+
+    sig { params(value: T::Enumerable[::MapUpload]).void }
+    def map_uploads=(value); end
+
+    sig { returns(T::Array[T.untyped]) }
     def order_ids; end
 
     sig { params(ids: T::Array[T.untyped]).returns(T::Array[T.untyped]) }

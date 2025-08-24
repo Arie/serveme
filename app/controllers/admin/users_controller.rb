@@ -34,7 +34,7 @@ module Admin
     def show
       load_user_details
       calculate_user_statistics
-      calculate_donator_time if @user.donator?
+      calculate_donator_time
     end
 
     def new
@@ -171,7 +171,8 @@ module Admin
       @orders = @user.orders.completed.includes(:product).order(created_at: :desc)
       @vouchers = Voucher.where(claimed_by: @user).includes(:product).order(claimed_at: :desc)
       @reservations = @user.reservations.includes(:server).order(created_at: :desc).limit(20)
-      @group_memberships = @user.group_users.joins(:group).includes(:group).order(created_at: :desc)
+      # Load ALL group memberships including expired ones
+      @group_memberships = GroupUser.where(user: @user).joins(:group).includes(:group).order(created_at: :desc)
     end
 
     def calculate_user_statistics
@@ -182,8 +183,7 @@ module Admin
     end
 
     def calculate_donator_time
-      donator_periods = GroupUser.where(user: @user, group: Group.donator_group)
-                                 .order(created_at: :desc)
+      donator_periods = @group_memberships.select { |gm| gm.group.name == "Donators" }
       return unless donator_periods.any?
 
       total_time = calculate_total_donator_time(donator_periods)

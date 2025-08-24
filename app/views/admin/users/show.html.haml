@@ -84,54 +84,15 @@
           %dd.col-sm-5.text-end= @user.sign_in_count || 0
 
   .col-md-8
-    - if @user.donator?
-      .card.mb-4
-        .card-header
-          .d-flex.justify-content-between.align-items-center
-            %h5.mb-0.text-white Donator Status History
-            - if @group_memberships.any? && @total_donator_time
-              %span.badge.bg-info.text-white
-                Total: #{@total_donator_time} as donator
-        .card-body
-          - donator_periods = @group_memberships.select { |gm| gm.group.name == "Donators" }
-          - if donator_periods.any?
-            .table-responsive
-              %table.table.table-sm.mb-0
-                %thead
-                  %tr
-                    %th Started
-                    %th Expires
-                    %th Duration
-                    %th Status
-                %tbody
-                  - donator_periods.each do |period|
-                    %tr
-                      %td= l(period.created_at, format: :long)
-                      %td
-                        - if period.expires_at
-                          = l(period.expires_at, format: :long)
-                        - else
-                          %span.text-muted Never
-                      %td
-                        - if period.expires_at
-                          = format_exact_duration(period.created_at, period.expires_at)
-                        - else
-                          %span.text-muted Permanent
-                      %td
-                        - if period.expires_at && period.expires_at < Time.current
-                          %span.badge.bg-secondary.text-white Expired
-                        - elsif period.expires_at && period.expires_at < 7.days.from_now
-                          %span.badge.bg-warning.text-dark Expiring Soon
-                        - else
-                          %span.badge.bg-success.text-white Active
-          - else
-            %p.text-muted.mb-0 No donator history
-
     .card.mb-4
       .card-header
         .d-flex.justify-content-between.align-items-center
-          %h5.mb-0.text-white Group Memberships
-          %span.badge.bg-primary= "#{@group_memberships.count} groups"
+          %h5.mb-0.text-white Group Membership History
+          .d-flex.align-items-center.gap-3
+            %span.badge.bg-primary= "#{@group_memberships.count} total"
+            - if @total_donator_time
+              %span.badge.bg-info.text-white
+                Total: #{@total_donator_time} as donator
       .card-body
         - if @group_memberships.any?
           .table-responsive
@@ -141,6 +102,7 @@
                   %th Group
                   %th Joined
                   %th Expires
+                  %th Duration
                   %th Status
               %tbody
                 - @group_memberships.each do |group_user|
@@ -154,6 +116,11 @@
                           = l(group_user.expires_at, format: :long)
                         - else
                           %span.text-muted Never
+                      %td
+                        - if group_user.expires_at
+                          = format_exact_duration(group_user.created_at, group_user.expires_at)
+                        - else
+                          %span.text-muted Permanent
                       %td
                         - if group_user.expires_at && group_user.expires_at < Time.current
                           %span.badge.bg-secondary.text-white Expired

@@ -139,6 +139,8 @@ Serveme::Application.routes.draw do
         post :force_sync
       end
     end
+
+    resources :maps, only: [ :index, :destroy ]
   end
 
   authenticate :user, ->(u) { u.admin? } do

@@ -13,6 +13,12 @@ module GeneratedUrlHelpersModule
   def admin_league_maps_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def admin_map_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def admin_maps_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def admin_product_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

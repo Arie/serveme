@@ -124,6 +124,11 @@ FactoryBot.define do
       temp.close
       temp
     end
+
+    trait :legacy do
+      name { 'cp_badlands.bsp' }
+      file { nil }
+    end
   end
 
   factory :file_upload do

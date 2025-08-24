@@ -13,6 +13,12 @@ module GeneratedPathHelpersModule
   def admin_league_maps_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def admin_map_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def admin_maps_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def admin_product_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

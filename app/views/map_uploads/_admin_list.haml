@@ -2,6 +2,11 @@
   %tr
     %td
       = bucket_object[:map_name]
+    %td
+      - if bucket_object[:uploader]
+        = link_to bucket_object[:uploader].nickname, admin_user_path(bucket_object[:uploader]), title: "Uploaded #{time_ago_in_words(bucket_object[:upload_date])} ago"
+      - else
+        %span.text-muted Unknown
     - map_stat = map_statistics[bucket_object[:map_name]]
     - if map_stat
       %td

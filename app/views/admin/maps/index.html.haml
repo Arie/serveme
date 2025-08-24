@@ -1,0 +1,54 @@
+%h2
+  Maps Administration
+  = link_to upload_map_path, class: "btn btn-sm btn-primary" do
+    %i.fa.fa-upload
+    Upload
+
+%table.table.table-condensed.table-hover
+  %thead
+    %tr
+      %td
+        %strong
+          = link_to('Map name', admin_maps_path(sort_by: "name"))
+      %td
+        %strong
+          Uploader
+      %td
+        %strong
+          = link_to('Times played', admin_maps_path(sort_by: "times-played"))
+      %td
+        %strong
+          = link_to('First played', admin_maps_path(sort_by: "first-played"))
+      %td
+        %strong
+          = link_to('Last played', admin_maps_path(sort_by: "last-played"))
+      %td
+        %strong
+          Actions
+  %tbody
+    - @bucket_objects.each do |bucket_object|
+      - map_stat = @map_statistics[bucket_object[:map_name]]
+      %tr
+        %td
+          = bucket_object[:map_name]
+        %td
+          - if bucket_object[:uploader]
+            = link_to bucket_object[:uploader].nickname, admin_user_path(bucket_object[:uploader]), title: "Uploaded #{bucket_object[:upload_date_formatted]}"
+          - else
+            %span.text-muted Unknown
+        - if map_stat
+          %td
+            = map_stat[:times_played]
+          %td
+            = map_stat[:first_played_formatted]
+          %td
+            = map_stat[:last_played_formatted]
+        - else
+          %td{colspan: 3}
+            %span.text-muted 0
+        %td
+          = link_to("https://fastdl.serveme.tf/#{bucket_object[:key]}", class: "btn btn-sm btn-primary", title: "#{bucket_object[:size]} bytes") do
+            = bucket_object[:size_formatted]
+            %i.fa.fa-download
+          = link_to admin_map_path(bucket_object[:map_name]), method: :delete, class: "btn btn-sm btn-danger", title: "Delete", data: { confirm: "Are you sure you want to delete #{bucket_object[:map_name]}?" } do
+            %i.fa.fa-trash

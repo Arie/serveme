@@ -39,7 +39,47 @@ class MapUpload < ActiveRecord::Base
   def self.fetch_bucket_objects
     return [] unless ActiveStorage::Blob.service.respond_to?(:bucket)
 
-    ActiveStorage::Blob.service.bucket.objects(prefix: "maps/").to_a.filter { |o| o.key.ends_with?(".bsp") }.map { |o| { key: o.key, map_name: o.key.match(%r{.*/(.*)\.bsp})[1], size: o.size } }.sort_by { |h| h[:map_name].downcase }
+    # Fetch all map uploads with their users and blob information in a single query
+    # This avoids N+1 queries by eager loading all associations
+    uploaders_by_name = {}
+
+    # Get legacy uploads (name field populated)
+    legacy_uploads = MapUpload.includes(:user)
+                             .where("name LIKE '%.bsp'")
+                             .where.not(name: [ nil, "" ])
+
+    legacy_uploads.each do |upload|
+      map_name = upload.name.gsub(/\.bsp$/, "")
+      uploaders_by_name[map_name] = upload
+    end
+
+    # Get new uploads (ActiveStorage attachments) with preloaded blob data
+    new_uploads = MapUpload.includes(:user, file_attachment: :blob)
+                          .joins(:file_attachment)
+                          .joins("JOIN active_storage_blobs ON active_storage_attachments.blob_id = active_storage_blobs.id")
+                          .where("active_storage_blobs.key LIKE 'maps/%'")
+
+    new_uploads.each do |upload|
+      # Since we preloaded the blob, this won't cause additional queries
+      blob_key = upload.file_attachment.blob.key
+      map_name = blob_key.match(%r{.*/(.*)\.bsp})[1]
+      # Prioritize ActiveStorage uploads over legacy ones for the same map name
+      uploaders_by_name[map_name] = upload
+    end
+
+    ActiveStorage::Blob.service.bucket.objects(prefix: "maps/").to_a.filter { |o| o.key.ends_with?(".bsp") }.map do |o|
+      map_name = o.key.match(%r{.*/(.*)\.bsp})[1]
+      uploader_info = uploaders_by_name[map_name]
+      uploader = uploader_info&.user
+
+      {
+        key: o.key,
+        map_name: map_name,
+        size: o.size,
+        uploader: uploader,
+        upload_date: uploader_info&.created_at
+      }
+    end.sort_by { |h| h[:map_name].downcase }
   end
 
   def self.map_statistics

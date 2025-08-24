@@ -132,6 +132,13 @@ Serveme::Application.routes.draw do
         post :lookup_user
       end
     end
+    resources :league_maps, only: [ :index ] do
+      collection do
+        post :fetch
+        post :apply
+        post :force_sync
+      end
+    end
   end
 
   authenticate :user, ->(u) { u.admin? } do

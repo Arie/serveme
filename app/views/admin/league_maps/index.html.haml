@@ -1,0 +1,99 @@
+- content_for :title, "League Maps Management"
+
+.container-fluid
+  .row
+    .col-md-12
+      %h1.mb-4 League Maps Management
+
+      .row.mb-4
+        .col-md-6
+          .card
+            .card-header
+              %h5.card-title Sync Status
+            .card-body
+              - if @last_sync_time
+                %p.mb-2
+                  %strong Last Sync:
+                  = time_ago_in_words(@last_sync_time)
+                  ago
+                  %small.text-muted
+                    (#{@last_sync_time.strftime("%Y-%m-%d %H:%M:%S %Z")})
+              - else
+                %p.mb-2.text-warning No sync performed yet
+
+              %p.mb-3
+                %strong Total Formats:
+                = @league_maps.size
+                |
+                %strong Total Unique Maps:
+                = @league_maps.flat_map(&:maps).uniq.size
+
+              = link_to "Manual Sync from GitHub",
+                        force_sync_admin_league_maps_path,
+                        method: :post,
+                        class: "btn btn-primary me-2",
+                        data: { confirm: "This will fetch and apply the latest configuration from GitHub. Continue?" }
+
+              = link_to "Fetch & Preview Changes",
+                        fetch_admin_league_maps_path,
+                        method: :post,
+                        class: "btn btn-secondary me-2"
+
+              = link_to "https://github.com/Arie/serveme/edit/master/config/league_maps.yml",
+                        target: "_blank",
+                        class: "btn btn-outline-success" do
+                %i.fa.fa-github
+                Edit on GitHub
+
+        .col-md-6
+          .card
+            .card-header
+              %h5.card-title Instructions
+            .card-body
+              %p.small To update league maps:
+              %ol.small
+                %li
+                  Edit the
+                  = link_to "league_maps.yml",
+                            "https://github.com/Arie/serveme/edit/master/config/league_maps.yml",
+                            target: "_blank",
+                            class: "text-decoration-none"
+                  file on GitHub
+                %li Click "Fetch & Preview Changes" to see what will change
+                %li Review the changes and click "Apply" if everything looks correct
+                %li Changes take effect immediately in the current region, synced every hour for other regions
+
+      .row
+        .col-md-12
+          .card
+            .card-header
+              %h5.card-title Current League Maps Configuration
+            .card-body
+              - if @league_maps.any?
+                .row
+                  - @league_maps.each do |league|
+                    .col-md-6.mb-4
+                      .card.border-light
+                        .card-header.bg-dark.text-white.league-card-header
+                          %h6.card-title.mb-0.text-white.fw-bold.league-card-title
+                            = league.name
+                            %span.badge.bg-secondary.ms-2
+                              = pluralize(league.maps.size, 'map')
+                        .card-body.p-2
+                          .map-list
+                            - league.maps.each do |map_name|
+                              - if map_name.start_with?('koth_')
+                                %span.badge.bg-warning.text-dark.me-1.mb-1.small= map_name
+                              - elsif map_name.start_with?('cp_')
+                                %span.badge.bg-dark.text-white.me-1.mb-1.small= map_name
+                              - elsif map_name.start_with?('pl_')
+                                %span.badge.bg-success.text-dark.me-1.mb-1.small= map_name
+                              - elsif map_name.start_with?('ulti_', 'ultiduo_')
+                                %span.badge.bg-danger.text-white.me-1.mb-1.small= map_name
+                              - elsif map_name.start_with?('pass_')
+                                %span.badge.bg-primary.text-white.me-1.mb-1.small= map_name
+                              - else
+                                %span.badge.bg-secondary.text-white.me-1.mb-1.small= map_name
+              - else
+                .alert.alert-warning
+                  No league maps configured. Use the sync functionality to load configuration from GitHub.

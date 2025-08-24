@@ -65,12 +65,20 @@ module Api
       @current_league_admin ||= current_user&.league_admin? && current_user
     end
 
+    def current_config_admin
+      @current_config_admin ||= current_user&.config_admin? && current_user
+    end
+
     def current_trusted_api
       @current_trusted_api ||= current_user&.trusted_api? && current_user
     end
 
     def require_site_or_league_admin
       head :forbidden unless current_admin || current_league_admin
+    end
+
+    def require_config_admin_or_above
+      head :forbidden unless current_config_admin || current_admin || current_league_admin
     end
   end
 end

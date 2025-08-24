@@ -72,6 +72,11 @@ class User < ActiveRecord::Base
   end
 
   sig { returns(T::Boolean) }
+  def config_admin?
+    @config_admin ||= admin? || league_admin? || group_ids.include?(Group.config_admin_group.id)
+  end
+
+  sig { returns(T::Boolean) }
   def streamer?
     @streamer ||= group_ids.include?(Group.streamer_group.id)
   end

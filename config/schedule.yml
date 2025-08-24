@@ -37,3 +37,8 @@ daily_zipfile_upload_tz:
   cron: "0 3 * * * Europe/Amsterdam"  # Run daily at 3 AM Amsterdam time
   class: "DailyZipfileUploadWorker"
   queue: default
+
+league_maps_sync_tz:
+  cron: "0 * * * * Europe/Amsterdam"  # Run hourly
+  class: "LeagueMapsSyncWorker"
+  queue: default

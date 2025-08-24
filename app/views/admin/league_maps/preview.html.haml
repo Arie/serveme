@@ -1,0 +1,122 @@
+- content_for :title, "League Maps Preview"
+
+.container-fluid
+  .row
+    .col-md-12
+      %h1.mb-4 League Maps Preview
+
+      .row.mb-4
+        .col-md-12
+          = link_to "← Back to League Maps", admin_league_maps_path, class: "btn btn-outline-secondary mb-3"
+
+      - if @validation_result[:valid]
+        .alert.alert-success
+          %h5.alert-heading ✓ Configuration Valid
+          %p.mb-0 The fetched configuration passed all validation checks and is ready to apply.
+
+        - if @validation_result[:warnings].any?
+          .alert.alert-warning
+            %h6 Warnings:
+            %ul.mb-0
+              - @validation_result[:warnings].each do |warning|
+                %li= warning
+      - else
+        .alert.alert-danger
+          %h5.alert-heading ✗ Configuration Invalid
+          %p The fetched configuration has validation errors and cannot be applied:
+          %ul.mb-0
+            - @validation_result[:errors].each do |error|
+              %li= error
+
+        .mt-3
+          = link_to "Back to Management", admin_league_maps_path, class: "btn btn-secondary"
+
+      - if @validation_result[:valid]
+        .row.mb-4
+          .col-md-6
+            .card
+              .card-header
+                %h5.card-title Changes Summary
+              .card-body
+                - if @diff[:added_leagues].any?
+                  %h6.text-success Added Leagues:
+                  %ul
+                    - @diff[:added_leagues].each do |league_name|
+                      %li.text-success= league_name
+
+                - if @diff[:removed_leagues].any?
+                  %h6.text-danger Removed Leagues:
+                  %ul
+                    - @diff[:removed_leagues].each do |league_name|
+                      %li.text-danger= league_name
+
+                - if @diff[:modified_leagues].any?
+                  %h6.text-warning Modified Leagues:
+                  %ul
+                    - @diff[:modified_leagues].each do |league|
+                      %li.text-warning
+                        %strong= league[:name]
+                        - if league[:added_maps].any?
+                          %br
+                          %small.text-success
+                            + #{league[:added_maps].join(', ')}
+                        - if league[:removed_maps].any?
+                          %br
+                          %small.text-danger
+                            - #{league[:removed_maps].join(', ')}
+
+                - if @diff[:added_leagues].empty? && @diff[:removed_leagues].empty? && @diff[:modified_leagues].empty?
+                  %p.text-muted No changes detected
+
+          .col-md-6
+            .card
+              .card-header
+                %h5.card-title Apply Configuration
+              .card-body
+                %p Apply the fetched configuration to make it active instantly in this region.
+
+                = form_with url: apply_admin_league_maps_path, method: :post, local: true do |f|
+                  = f.hidden_field :config, value: @new_config.to_json
+                  = f.submit "Apply Configuration",
+                            class: "btn btn-success",
+                            data: { confirm: "This will update the league maps configuration immediately. Continue?" }
+
+                .mt-2
+                  = link_to "Cancel", admin_league_maps_path, class: "btn btn-outline-secondary"
+
+        .row
+          .col-md-12
+            .card
+              .card-header
+                %h5.card-title New Configuration Preview
+              .card-body
+                - new_leagues = @new_config.dig("league_maps") || []
+                - if new_leagues.any?
+                  .row
+                    - new_leagues.each do |league|
+                      .col-md-6.mb-4
+                        .card.border-light
+                          .card-header.bg-dark.text-white.league-card-header
+                            %h6.card-title.mb-0.text-white.fw-bold.league-card-title
+                              = league["name"]
+                              %span.badge.bg-secondary.ms-2
+                                = pluralize((league["maps"] || []).size, 'map')
+                              - unless league["active"] != false
+                                %span.badge.bg-warning.ms-1 Inactive
+                          .card-body.p-2
+                            .map-list
+                              - (league["maps"] || []).each do |map_name|
+                                - if map_name.start_with?('koth_')
+                                  %span.badge.bg-warning.text-dark.me-1.mb-1.small= map_name
+                                - elsif map_name.start_with?('cp_')
+                                  %span.badge.bg-dark.text-white.me-1.mb-1.small= map_name
+                                - elsif map_name.start_with?('pl_')
+                                  %span.badge.bg-success.text-dark.me-1.mb-1.small= map_name
+                                - elsif map_name.start_with?('ulti_', 'ultiduo_')
+                                  %span.badge.bg-danger.text-white.me-1.mb-1.small= map_name
+                                - elsif map_name.start_with?('pass_')
+                                  %span.badge.bg-primary.text-white.me-1.mb-1.small= map_name
+                                - else
+                                  %span.badge.bg-secondary.text-white.me-1.mb-1.small= map_name
+                - else
+                  .alert.alert-warning No leagues found in fetched configuration.

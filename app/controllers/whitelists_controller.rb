@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 class WhitelistsController < ApplicationController
-  before_action :require_site_or_league_admin
+  before_action :require_config_admin_or_above
 
   def index
     @whitelists = Whitelist.ordered.paginate(page: params[:page], per_page: 50)

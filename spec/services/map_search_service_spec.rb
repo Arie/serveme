@@ -32,6 +32,7 @@ RSpec.describe MapSearchService do
     end
 
     it 'returns league maps higher in ranking for partial matches' do
+      allow(LeagueMaps).to receive(:all_league_maps).and_return([ 'cp_process_f12', 'cp_process_f11', 'cp_process_final', 'koth_product_final' ])
       service = described_class.new('process')
       results = service.search
       expect(results.first).to eq('cp_process_f12')
@@ -55,6 +56,7 @@ RSpec.describe MapSearchService do
     end
 
     it 'ranks league maps higher than non-league maps' do
+      allow(LeagueMaps).to receive(:all_league_maps).and_return([ 'koth_product_final', 'cp_process_f12' ])
       service = described_class.new('pro')
       results = service.search
       league_maps = [ 'koth_product_final', 'cp_process_f12' ]
@@ -66,6 +68,7 @@ RSpec.describe MapSearchService do
     end
 
     it 'ranks prefix matches higher than substring matches' do
+      allow(LeagueMaps).to receive(:all_league_maps).and_return([ 'cp_process_f12' ])
       service = described_class.new('process')
       results = service.search
       expect(results.index('cp_process_f12')).to be < results.index('cp_processed_b2')

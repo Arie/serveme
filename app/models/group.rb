@@ -7,6 +7,7 @@ class Group < ActiveRecord::Base
   DONATOR_GROUP = T.let(find_or_create_by(name: "Donators"), Group)
   ADMIN_GROUP = T.let(find_or_create_by(name: "Admins"), Group)
   LEAGUE_ADMIN_GROUP = T.let(find_or_create_by(name: "League Admins"), Group)
+  CONFIG_ADMIN_GROUP = T.let(find_or_create_by(name: "Config Admins"), Group)
   STREAMER_GROUP = T.let(find_or_create_by(name: "Streamers"), Group)
 
   validates_presence_of :name
@@ -31,6 +32,11 @@ class Group < ActiveRecord::Base
   sig { returns(Group) }
   def self.league_admin_group
     find_or_create_by(name: "League Admins")
+  end
+
+  sig { returns(Group) }
+  def self.config_admin_group
+    find_or_create_by(name: "Config Admins")
   end
 
   sig { returns(Group) }

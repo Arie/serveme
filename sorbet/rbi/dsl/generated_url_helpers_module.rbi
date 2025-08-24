@@ -10,6 +10,9 @@ module GeneratedUrlHelpersModule
   include ::ActionDispatch::Routing::PolymorphicRoutes
 
   sig { params(args: T.untyped).returns(String) }
+  def admin_league_maps_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def admin_product_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -59,6 +62,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def api_user_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def apply_admin_league_maps_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def claim_url(*args); end
@@ -136,6 +142,9 @@ module GeneratedUrlHelpersModule
   def faq_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def fetch_admin_league_maps_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def file_upload_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -149,6 +158,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def find_servers_for_user_reservations_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def force_sync_admin_league_maps_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def force_update_server_url(*args); end

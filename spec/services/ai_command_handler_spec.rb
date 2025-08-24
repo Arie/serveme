@@ -94,6 +94,7 @@ RSpec.describe AiCommandHandler do
     before do
       allow(reservation.server).to receive(:rcon_exec) # Stub by default, expect specific calls in tests
       allow(reservation.server).to receive(:rcon_say)  # Stub by default, expect specific calls in tests
+      allow(LeagueMaps).to receive(:grouped_league_maps).and_return([])
     end
 
     context 'when changing map' do
@@ -393,6 +394,7 @@ RSpec.describe AiCommandHandler do
     before do
       allow(reservation.server).to receive(:rcon_exec)
       allow(reservation.server).to receive(:rcon_say)
+      allow(LeagueMaps).to receive(:grouped_league_maps).and_return([])
     end
 
     context 'when extending the reservation' do

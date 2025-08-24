@@ -31,6 +31,12 @@ FactoryBot.define do
         user.groups << Group.admin_group
       end
     end
+
+    trait :config_admin do
+      after(:create) do |user|
+        user.groups << Group.config_admin_group
+      end
+    end
   end
 
   factory :admin, class: 'User' do

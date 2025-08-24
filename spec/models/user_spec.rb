@@ -142,6 +142,30 @@ describe User do
     end
   end
 
+  describe '#config_admin?' do
+    it 'is a config admin when in the config admin group' do
+      user = create(:user, :config_admin)
+      user.should be_config_admin
+    end
+
+    it 'is a config admin when in the league admin group (hierarchy)' do
+      user = create(:user)
+      user.groups << Group.league_admin_group
+      user.should be_config_admin
+    end
+
+    it 'is a config admin when in the admin group (hierarchy)' do
+      user = create(:user, :admin)
+      user.should be_config_admin
+    end
+
+    it 'is not a config admin when only a streamer' do
+      user = create(:user)
+      user.groups << Group.streamer_group
+      user.should_not be_config_admin
+    end
+  end
+
   describe '#banned?' do
     it 'is banned with a banned UID' do
       user = build(:user, uid: '76561199191964771')

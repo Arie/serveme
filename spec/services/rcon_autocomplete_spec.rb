@@ -21,6 +21,7 @@ describe RconAutocomplete do
   end
 
   it 'completes changelevel further' do
+    allow(LeagueMaps).to receive(:all_league_maps).and_return([ 'cp_reckoner', 'cp_process_f12', 'koth_product_final' ])
     expect(subject.autocomplete('changelevel cp_r').map { |c| c[:command] }).to start_with [ 'changelevel cp_reckoner' ]
   end
 

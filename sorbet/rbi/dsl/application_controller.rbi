@@ -38,6 +38,9 @@ class ApplicationController
     def current_admin; end
 
     sig { returns(T.untyped) }
+    def current_config_admin; end
+
+    sig { returns(T.untyped) }
     def current_league_admin; end
 
     sig { returns(T.untyped) }

@@ -113,7 +113,7 @@
             %i.fa.fa-cogs
             Settings
 
-      - if current_user && (current_user.admin? || current_user.league_admin?)
+      - if current_user && current_user.config_admin?
         %li.dropdown.nav-item
           %a.dropdown-toggle{data: {"bs-toggle" => "dropdown"}, href: "#", class: "nav-link"}
             %i.fa.fa-shield
@@ -127,6 +127,9 @@
             = link_to whitelists_path, class: "dropdown-item" do
               %i.fa.fa-list
               Whitelists
+            = link_to admin_league_maps_path, class: "dropdown-item" do
+              %i.fa.fa-map
+              League Maps
             - if current_user.admin?
               = link_to admin_server_notifications_path, class: "dropdown-item" do
                 %i.fa.fa-bell

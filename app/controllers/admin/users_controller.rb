@@ -173,7 +173,21 @@ module Admin
       @reservations = @user.reservations.includes(:server).order(created_at: :desc).limit(20)
       # Load ALL group memberships including expired ones
       @group_memberships = GroupUser.where(user: @user).joins(:group).includes(:group).order(created_at: :desc)
-      @map_uploads = @user.map_uploads.order(created_at: :desc)
+      @map_uploads = @user.map_uploads.includes(file_attachment: :blob).order(created_at: :desc)
+
+      # Create lookup hash of file sizes for CarrierWave uploads to avoid N+1 queries
+      carrierwave_uploads = @map_uploads.select { |upload| !upload.file.attached? && upload[:file].present? }
+      if carrierwave_uploads.any?
+        bucket_objects = MapUpload.bucket_objects
+        @file_size_lookup = {}
+        @file_exists_lookup = {}
+        carrierwave_uploads.each do |upload|
+          bucket_key = "maps/#{upload[:file]}"
+          bucket_object = bucket_objects.find { |obj| obj[:key] == bucket_key }
+          @file_size_lookup[upload.id] = bucket_object&.[](:size)
+          @file_exists_lookup[upload.id] = bucket_object.present?
+        end
+      end
     end
 
     def calculate_user_statistics

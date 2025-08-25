@@ -49,9 +49,11 @@ class MapUpload < ActiveRecord::Base
                                   .where("file LIKE '%.bsp'")
 
     carrierwave_uploads.each do |upload|
-      map_name = upload.map_name
-      next unless map_name
+      # Extract map name from CarrierWave file column without calling filename()
+      file_name = upload[:file]
+      next unless file_name&.end_with?(".bsp")
 
+      map_name = file_name.gsub(/\.bsp$/, "")
       uploaders_by_name[map_name] = upload
     end
 
@@ -62,7 +64,11 @@ class MapUpload < ActiveRecord::Base
                                     .where("active_storage_blobs.key LIKE 'maps/%'")
 
     activestorage_uploads.each do |upload|
-      map_name = upload.map_name
+      # Extract map name from ActiveStorage key without calling filename()
+      blob_key = upload.file_attachment&.blob&.key
+      next unless blob_key&.start_with?("maps/")
+
+      map_name = blob_key.match(%r{maps/(.*)\.bsp})[1]
       next unless map_name
 
       # Prioritize ActiveStorage uploads over CarrierWave ones for the same map name
@@ -243,26 +249,49 @@ class MapUpload < ActiveRecord::Base
     fname.gsub(/\.bsp$/, "")
   end
 
-  def file_size
+  def file_size(file_size_lookup = nil)
     if file.attached?
       # ActiveStorage upload - size is stored in blob
       file.blob.byte_size
     elsif self[:file].present?
-      # CarrierWave upload - check the bucket for size
-      bucket_key = "maps/#{self[:file]}"
-      bucket_objects = self.class.bucket_objects
-      bucket_object = bucket_objects.find { |obj| obj[:key] == bucket_key }
-      bucket_object&.[](:size)
+      # CarrierWave upload - use preloaded size if available, otherwise check bucket
+      if file_size_lookup && file_size_lookup.key?(id)
+        file_size_lookup[id]
+      else
+        bucket_key = "maps/#{self[:file]}"
+        bucket_objects = self.class.bucket_objects
+        bucket_object = bucket_objects.find { |obj| obj[:key] == bucket_key }
+        bucket_object&.[](:size)
+      end
     else
       nil
     end
   end
 
-  def formatted_file_size
-    size = file_size
+  def formatted_file_size(file_size_lookup = nil)
+    size = file_size(file_size_lookup)
     return "Unknown" unless size
 
     "#{(size / 1024.0 / 1024.0).round(1)} MB"
+  end
+
+  def file_exists?(file_exists_lookup = nil)
+    if file.attached?
+      # ActiveStorage upload - check if blob exists
+      file.blob.present?
+    elsif self[:file].present?
+      # CarrierWave upload - use preloaded existence if available
+      if file_exists_lookup && file_exists_lookup.key?(id)
+        file_exists_lookup[id]
+      else
+        # Fallback: check bucket objects
+        bucket_key = "maps/#{self[:file]}"
+        bucket_objects = self.class.bucket_objects
+        bucket_objects.any? { |obj| obj[:key] == bucket_key }
+      end
+    else
+      false
+    end
   end
 
   private

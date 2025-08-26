@@ -56,6 +56,12 @@ FactoryBot.define do
     starts_at { 1.minute.ago }
     ends_at { starts_at + 1.hour }
 
+    trait :old do
+      after(:create) do |reservation|
+        reservation.update_columns(starts_at: 33.days.ago, ends_at: 32.days.ago)
+      end
+    end
+
     trait :with_zipfile do
       after(:create) do |reservation|
         blob = ActiveStorage::Blob.create!(

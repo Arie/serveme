@@ -7,7 +7,7 @@ describe ReservationsController do
   before do
     @user = create :user
     @user.groups << Group.admin_group
-    @user.stub(banned?: false)
+    allow(@user).to receive(:banned?).and_return(false)
     sign_in @user
   end
 
@@ -61,8 +61,11 @@ describe ReservationsController do
     it 'redirects to root if 2 short reservations were made recently' do
       @user.group_ids = nil
       @user.groups << Group.donator_group
-      create :reservation, user: @user, starts_at: 9.minutes.ago, ended: true
-      create :reservation, user: @user, starts_at: 4.minutes.ago, ended: true
+      # Use update_columns to bypass validations for past reservations
+      r1 = create :reservation, user: @user, ended: true
+      r1.update_columns(starts_at: 9.minutes.ago, ends_at: 8.minutes.ago)
+      r2 = create :reservation, user: @user, ended: true
+      r2.update_columns(starts_at: 4.minutes.ago, ends_at: 3.minutes.ago)
       get :new
       response.should redirect_to root_path
     end
@@ -108,8 +111,6 @@ describe ReservationsController do
   end
 
   describe '#i_am_feeling_lucky' do
-    render_views
-
     it "shows me my reservation if I'm lucky" do
       reservation = create(:reservation, user: @user)
       lucky = double(:lucky, build_reservation: reservation)

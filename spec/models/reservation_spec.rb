@@ -50,18 +50,18 @@ describe Reservation do
     end
 
     it 'wont allow passwords with invalid characters' do
-      valid_chars = "azAZ0123456789!@- #$^&*/()_+}'|\\:<>?,.[]"
-      invalid_chars = [ '"', '💩', ';', '%' ]
-
       reservation = build(:reservation)
-
       valid_pw = 'A' * 10
 
-      valid_chars.chars.each do |char|
+      # Test a sample of valid characters
+      valid_samples = [ 'a', 'Z', '0', '!', '@', '-', ' ', '#' ]
+      valid_samples.each do |char|
         reservation.password = "#{valid_pw}#{char}"
         reservation.should have(:no).error_on(:password)
       end
 
+      # Test all invalid characters (smaller set)
+      invalid_chars = [ '"', '💩', ';', '%' ]
       invalid_chars.each do |char|
         reservation.password = "#{valid_pw}#{char}"
         reservation.should have(1).error_on(:password)

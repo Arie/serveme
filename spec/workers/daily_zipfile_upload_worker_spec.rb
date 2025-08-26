@@ -11,35 +11,23 @@ RSpec.describe DailyZipfileUploadWorker, type: :worker do
 
   let!(:eligible) do
     r = create(:reservation, ended: true)
-    r.update_column(:starts_at, now - 1.day - 1.hour)
-    r.update_column(:ends_at, now - 1.day)
-    r.reload
+    r.update_columns(starts_at: now - 1.day - 1.hour, ends_at: now - 1.day)
     r
   end
   let!(:too_old) do
     r = create(:reservation, ended: true)
-    r.update_column(:starts_at, now - 3.days - 1.hour)
-    r.update_column(:ends_at, now - 3.days)
-    r.reload
+    r.update_columns(starts_at: now - 3.days - 1.hour, ends_at: now - 3.days)
     r
   end
   let!(:not_ended) do
     r = create(:reservation, ended: false)
-    r.update_column(:starts_at, now - 1.day - 1.hour)
-    r.update_column(:ends_at, now - 1.day)
-    r.reload
+    r.update_columns(starts_at: now - 1.day - 1.hour, ends_at: now - 1.day)
     r
   end
   let!(:already_uploaded) do
     r = create(:reservation, :with_zipfile, ended: true)
-    r.update_column(:starts_at, now - 1.day - 1.hour)
-    r.update_column(:ends_at, now - 1.day)
-    r.reload
+    r.update_columns(starts_at: now - 1.day - 1.hour, ends_at: now - 1.day)
     r
-  end
-
-  before(:all) do
-    Reservation.delete_all
   end
 
   before do

@@ -4,7 +4,7 @@
 require 'spec_helper'
 
 describe CleanupWorker do
-  let!(:old_reservation)         { create :reservation }
+  let!(:old_reservation)         { create :reservation, :old }
   let!(:old_player_statistic)    { create :player_statistic, created_at: 40.days.ago }
   let!(:old_server_statistic)    { create :server_statistic, created_at: 40.days.ago }
   let!(:young_reservation)       { create :reservation, starts_at: Time.current }
@@ -12,8 +12,7 @@ describe CleanupWorker do
   let!(:old_user)                { create :user, api_key: nil, created_at: 8.days.ago }
 
   before do
-    old_reservation.update_column(:ends_at, 32.days.ago)
-    described_class.any_instance.stub(:remove_old_reservation_logs_and_zips)
+    allow_any_instance_of(described_class).to receive(:remove_old_reservation_logs_and_zips)
   end
 
   it 'finds the old reservations' do

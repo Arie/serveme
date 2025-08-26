@@ -4,7 +4,7 @@
 require 'spec_helper'
 
 describe CronWorker do
-  let(:reservation) { create :reservation }
+  let(:reservation) { build_stubbed :reservation }
 
   before do
     condenser = double.as_null_object
@@ -15,8 +15,8 @@ describe CronWorker do
 
   describe '#end_past_reservations' do
     it 'tells unended past reservations to end' do
-      reservation.update_column(:ends_at, 1.minute.ago)
-      reservation.update_column(:provisioned, true)
+      reservation = create :reservation, provisioned: true
+      reservation.update_columns(ends_at: 1.minute.ago)
       ReservationWorker.should_receive(:perform_async).with(reservation.id, 'end')
       CronWorker.perform_async
     end
@@ -24,8 +24,7 @@ describe CronWorker do
 
   describe '#start_active_reservations' do
     it 'tells unstarted active reservations to start' do
-      reservation.update_column(:starts_at, 1.minute.ago)
-      reservation.update_column(:provisioned, false)
+      reservation = create :reservation, starts_at: 1.minute.ago, provisioned: false
       ReservationWorker.should_receive(:perform_async).with(reservation.id, 'start')
       CronWorker.perform_async
     end
@@ -33,8 +32,7 @@ describe CronWorker do
 
   describe '#check_active_reservations' do
     it 'triggers the active reservation checker worker for active reservations' do
-      reservation.update_attribute(:provisioned, true)
-      reservation.update_attribute(:ended,       false)
+      reservation = create :reservation, provisioned: true, ended: false
       ActiveReservationsCheckerWorker.should_receive(:perform_async).with([ reservation.id ])
       CronWorker.perform_async
     end

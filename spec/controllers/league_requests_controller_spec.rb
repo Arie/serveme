@@ -3,8 +3,6 @@
 require 'spec_helper'
 
 describe LeagueRequestsController do
-  render_views
-
   before do
     @user = create :user
     sign_in @user

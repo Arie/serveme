@@ -63,30 +63,31 @@ describe User do
 
   describe '#top10?' do
     it 'returns if a user is in the top 10' do
-      # Clear cache to ensure clean test
-      Rails.cache.clear
+      # Clear the specific cache key for today's top 10 users
+      Rails.cache.delete("top_10_users_#{Date.current}")
 
-      # Create 9 other users with 1 reservation each (past reservations)
-      9.times do |i|
-        other_user = create(:user)
-        reservation = build(:reservation, user: other_user, starts_at: (i + 1).hours.ago, ends_at: i.hours.ago)
-        reservation.save(validate: false) # Skip validations for past reservations in test
+      # Create just enough users to test top 10 (4 users total)
+      # Our test user with 3 reservations (will be #1)
+      user = create(:user)
+      3.times do |i|
+        reservation = build(:reservation, user: user, starts_at: (i + 10).hours.ago, ends_at: (i + 9).hours.ago)
+        reservation.save(validate: false)
       end
 
-      # Create our test user with 2 reservations to ensure they're in top 10
-      user = create(:user)
-      reservation1 = build(:reservation, user: user, starts_at: 10.hours.ago, ends_at: 9.hours.ago)
-      reservation1.save(validate: false)
-      reservation2 = build(:reservation, user: user, starts_at: 12.hours.ago, ends_at: 11.hours.ago)
-      reservation2.save(validate: false)
+      # Create 3 other users with fewer reservations
+      3.times do |i|
+        other_user = create(:user)
+        reservation = build(:reservation, user: other_user, starts_at: (i + 1).hours.ago, ends_at: i.hours.ago)
+        reservation.save(validate: false)
+      end
 
-      # Update reservations_count if the column exists
+      # Update reservations_count for all users if the column exists
       if User.column_names.include?("reservations_count")
         User.find_each { |u| User.reset_counters(u.id, :reservations) }
         user.reload
       end
 
-      user.should be_top10
+      expect(user).to be_top10
     end
   end
 

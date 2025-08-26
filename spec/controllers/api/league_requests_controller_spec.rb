@@ -13,7 +13,7 @@ describe Api::LeagueRequestsController do
     @suspect_ip = '127.0.0.2'
     @reservation_player = create(:reservation_player, steam_uid: @suspect_uid, ip: @suspect_ip)
     @other_player = create(:reservation_player, steam_uid: 'other-uid', ip: '127.0.0.3')
-    controller.stub(api_user: @user)
+    allow(controller).to receive(:api_user).and_return(@user)
   end
 
   describe '#index' do

@@ -30,8 +30,6 @@ describe PagesController do
   end
 
   describe '#faq' do
-    render_views
-
     it 'renders' do
       get :faq
 

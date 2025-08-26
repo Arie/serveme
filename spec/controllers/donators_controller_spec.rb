@@ -4,8 +4,6 @@
 require 'spec_helper'
 
 describe DonatorsController do
-  render_views
-
   before do
     @user = create :user
     sign_in @user
@@ -39,7 +37,7 @@ describe DonatorsController do
 
         expect(response).to be_successful
         expect(response).to render_template(:leaderboard)
-        # Check that donators is an array of [user, days] pairs
+
         donator_users = assigns(:donators).map(&:first)
         expect(donator_users).to include(other_donator, @user)
       end

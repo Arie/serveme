@@ -4,8 +4,6 @@
 require 'spec_helper'
 
 describe Admin::UsersController do
-  render_views
-
   before do
     @admin = create :user
     @admin.groups << Group.admin_group

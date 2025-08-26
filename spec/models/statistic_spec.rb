@@ -6,15 +6,15 @@ require 'spec_helper'
 describe Statistic do
   describe '.top_10_users' do
     it 'returns a hash with top users' do
-      Rails.cache.clear
       top_user = create :user, name: 'Top user'
-      top_user.stub(donator?: true)
+      allow(top_user).to receive(:donator?).and_return(true)
       other_user = create :user, name: 'Not top user'
 
       create :reservation, user: top_user, starts_at: 10.minutes.ago, ends_at: 1.hour.from_now
       create :reservation, user: top_user, starts_at: 24.hours.from_now, ends_at: 25.hours.from_now
       create :reservation, user: other_user
 
+      Rails.cache.clear  # Clear cache to ensure clean state
       top_10_hash = Statistic.top_10_users
       top_10_hash[top_user].should eql 2
       top_10_hash[other_user].should eql 1
@@ -26,12 +26,15 @@ describe Statistic do
       server1 = create :server, name: '#1'
       server2 = create :server, name: '#2'
       server3 = create :server, name: '#3'
+
       user_1 = create :user
-      user_1.stub(donator?: true)
+      allow(user_1).to receive(:donator?).and_return(true)
+
       user_2 = create :user
-      user_2.stub(donator?: true)
+      allow(user_2).to receive(:donator?).and_return(true)
+
       user_3 = create :user
-      user_3.stub(donator?: true)
+      allow(user_3).to receive(:donator?).and_return(true)
 
       3.times do |i|
         starts_at = i.days.from_now
@@ -53,15 +56,15 @@ describe Statistic do
   describe '.reservations_per_day' do
     let(:today) { Date.today }
     let(:tomorrow) { Date.today + 1.day }
-    before do
-      Rails.cache.clear
-      User.any_instance.stub(donator?: true)
+
+    it 'returns an array with reservations per date' do
+      allow_any_instance_of(User).to receive(:donator?).and_return(true)
+
       create :reservation, starts_at: tomorrow + 13.hour, ends_at: tomorrow + 14.hours
       create :reservation, starts_at: tomorrow + 15.hour, ends_at: tomorrow + 16.hours
       create :reservation, starts_at: tomorrow + 17.hour, ends_at: tomorrow + 18.hours
-    end
 
-    it 'returns an array with reservations per date' do
+      Rails.cache.delete('reservations_per_day')  # Clear only the specific cache key
       stats = Statistic.reservations_per_day
       count = stats.first.last
       count.should == 3

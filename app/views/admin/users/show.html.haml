@@ -278,7 +278,7 @@
                   %tr
                     %td= link_to l(reservation.starts_at, format: :long), reservation_path(reservation), class: "text-decoration-none"
                     %td= reservation.server.name
-                    %td= distance_of_time_in_words(reservation.duration)
+                    %td= format_exact_duration(reservation.starts_at, reservation.ends_at)
                     %td
                       - badge_class = reservation.now? ? "bg-success" : (reservation.future? ? "bg-info" : "bg-secondary")
                       %span.badge{class: badge_class + " text-white"}= reservation.status

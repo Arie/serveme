@@ -75,7 +75,7 @@ module Zip
   # source://rubyzip//lib/zip.rb#46
   def on_exists_proc=(_arg0); end
 
-  # source://rubyzip//lib/zip.rb#63
+  # source://rubyzip//lib/zip.rb#67
   def reset!; end
 
   # Set options for RubyZip in one block.
@@ -83,7 +83,7 @@ module Zip
   # @yield [_self]
   # @yieldparam _self [Zip] the object that the method was called on
   #
-  # source://rubyzip//lib/zip.rb#78
+  # source://rubyzip//lib/zip.rb#82
   def setup; end
 
   # Returns the value of attribute sort_entries.
@@ -546,15 +546,15 @@ class Zip::Deflater < ::Zip::Compressor
 
   # Returns the value of attribute crc.
   #
-  # source://rubyzip//lib/zip/deflater.rb#30
+  # source://rubyzip//lib/zip/deflater.rb#32
   def crc; end
 
-  # source://rubyzip//lib/zip/deflater.rb#24
+  # source://rubyzip//lib/zip/deflater.rb#26
   def finish; end
 
   # Returns the value of attribute size.
   #
-  # source://rubyzip//lib/zip/deflater.rb#30
+  # source://rubyzip//lib/zip/deflater.rb#32
   def size; end
 end
 
@@ -2009,13 +2009,13 @@ module Zip::IOExtras::AbstractOutputStream
   # source://rubyzip//lib/zip/ioextras/abstract_output_stream.rb#15
   def print(*params); end
 
-  # source://rubyzip//lib/zip/ioextras/abstract_output_stream.rb#19
+  # source://rubyzip//lib/zip/ioextras/abstract_output_stream.rb#26
   def printf(a_format_string, *params); end
 
-  # source://rubyzip//lib/zip/ioextras/abstract_output_stream.rb#23
+  # source://rubyzip//lib/zip/ioextras/abstract_output_stream.rb#31
   def putc(an_object); end
 
-  # source://rubyzip//lib/zip/ioextras/abstract_output_stream.rb#35
+  # source://rubyzip//lib/zip/ioextras/abstract_output_stream.rb#43
   def puts(*params); end
 
   # source://rubyzip//lib/zip/ioextras/abstract_output_stream.rb#10
@@ -2573,3 +2573,8 @@ Zip::VERSION_NEEDED_TO_EXTRACT = T.let(T.unsafe(nil), Integer)
 
 # source://rubyzip//lib/zip/constants.rb#16
 Zip::VERSION_NEEDED_TO_EXTRACT_ZIP64 = T.let(T.unsafe(nil), Integer)
+
+# Remove this when JRuby#3962 is fixed.
+#
+# source://rubyzip//lib/zip.rb#65
+Zip::ZLIB_FLUSHING_STRATEGY = T.let(T.unsafe(nil), Integer)

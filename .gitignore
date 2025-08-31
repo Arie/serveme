@@ -25,3 +25,8 @@ cucumber.html
 /config/master.key
 
 /config/credentials/production.key
+
+# ClaudeOnRails
+.claude-on-rails/sessions/
+.claude-swarm/
+claude-swarm.log

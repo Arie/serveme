@@ -6257,8 +6257,6 @@ class Fiber
 
   def blocking?(); end
 
-  def initialize(*arg); end
-
   def kill(); end
 
   def storage(); end

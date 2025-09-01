@@ -265,20 +265,25 @@ class IO::Event::PriorityHeap
 
   # Empties out the heap, discarding all elements
   #
-  # source://io-event//lib/io/event/priority_heap.rb#78
+  # source://io-event//lib/io/event/priority_heap.rb#83
   def clear!; end
+
+  # @return [Boolean]
+  #
+  # source://io-event//lib/io/event/priority_heap.rb#32
+  def empty?; end
 
   # source://io-event//lib/io/event/priority_heap.rb#22
   def peek; end
 
   # Removes and returns the smallest element in the heap, or nil if the heap is empty.
   #
-  # source://io-event//lib/io/event/priority_heap.rb#34
+  # source://io-event//lib/io/event/priority_heap.rb#39
   def pop; end
 
   # Add a new element to the heap, then rearrange elements until the heap invariant is true again.
   #
-  # source://io-event//lib/io/event/priority_heap.rb#65
+  # source://io-event//lib/io/event/priority_heap.rb#70
   def push(element); end
 
   # source://io-event//lib/io/event/priority_heap.rb#27
@@ -288,12 +293,12 @@ class IO::Event::PriorityHeap
   #
   # @return [Boolean]
   #
-  # source://io-event//lib/io/event/priority_heap.rb#83
+  # source://io-event//lib/io/event/priority_heap.rb#88
   def valid?; end
 
   private
 
-  # source://io-event//lib/io/event/priority_heap.rb#108
+  # source://io-event//lib/io/event/priority_heap.rb#113
   def bubble_down(index); end
 
   # Left here for reference, but unused.
@@ -301,7 +306,7 @@ class IO::Event::PriorityHeap
   # 	@contents[i], @contents[j] = @contents[j], @contents[i]
   # end
   #
-  # source://io-event//lib/io/event/priority_heap.rb#95
+  # source://io-event//lib/io/event/priority_heap.rb#100
   def bubble_up(index); end
 end
 

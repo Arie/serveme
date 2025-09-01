@@ -6,39 +6,7 @@
 
 
 # source://cucumber-cucumber-expressions//lib/cucumber/cucumber_expressions/ast.rb#3
-module Cucumber
-  class << self
-    # source://cucumber/9.2.0/lib/cucumber/deprecate.rb#7
-    def deprecate(message, method, remove_after_version); end
-
-    # source://cucumber/9.2.0/lib/cucumber/platform.rb#17
-    def file_mode(mode, encoding = T.unsafe(nil)); end
-
-    # source://cucumber/9.2.0/lib/cucumber.rb#15
-    def logger; end
-
-    # source://cucumber/9.2.0/lib/cucumber.rb#23
-    def logger=(logger); end
-
-    # source://cucumber/9.2.0/lib/cucumber/platform.rb#14
-    def use_full_backtrace; end
-
-    # source://cucumber/9.2.0/lib/cucumber/platform.rb#14
-    def use_full_backtrace=(_arg0); end
-
-    # source://cucumber/9.2.0/lib/cucumber.rb#13
-    def use_legacy_autoloader; end
-
-    # source://cucumber/9.2.0/lib/cucumber.rb#13
-    def use_legacy_autoloader=(_arg0); end
-
-    # source://cucumber/9.2.0/lib/cucumber.rb#13
-    def wants_to_quit; end
-
-    # source://cucumber/9.2.0/lib/cucumber.rb#13
-    def wants_to_quit=(_arg0); end
-  end
-end
+module Cucumber; end
 
 # source://cucumber-cucumber-expressions//lib/cucumber/cucumber_expressions/ast.rb#4
 module Cucumber::CucumberExpressions; end

@@ -6,39 +6,7 @@
 
 
 # source://cucumber-core//lib/cucumber/core/platform.rb#7
-module Cucumber
-  class << self
-    # source://cucumber/9.2.0/lib/cucumber/deprecate.rb#7
-    def deprecate(message, method, remove_after_version); end
-
-    # source://cucumber/9.2.0/lib/cucumber/platform.rb#17
-    def file_mode(mode, encoding = T.unsafe(nil)); end
-
-    # source://cucumber/9.2.0/lib/cucumber.rb#15
-    def logger; end
-
-    # source://cucumber/9.2.0/lib/cucumber.rb#23
-    def logger=(logger); end
-
-    # source://cucumber/9.2.0/lib/cucumber/platform.rb#14
-    def use_full_backtrace; end
-
-    # source://cucumber/9.2.0/lib/cucumber/platform.rb#14
-    def use_full_backtrace=(_arg0); end
-
-    # source://cucumber/9.2.0/lib/cucumber.rb#13
-    def use_legacy_autoloader; end
-
-    # source://cucumber/9.2.0/lib/cucumber.rb#13
-    def use_legacy_autoloader=(_arg0); end
-
-    # source://cucumber/9.2.0/lib/cucumber.rb#13
-    def wants_to_quit; end
-
-    # source://cucumber/9.2.0/lib/cucumber.rb#13
-    def wants_to_quit=(_arg0); end
-  end
-end
+module Cucumber; end
 
 # source://cucumber-core//lib/cucumber/core/event.rb#4
 module Cucumber::Core
@@ -203,7 +171,7 @@ class Cucumber::Core::EventBus
   def validate_handler_and_event_id!(handler, event_id); end
 end
 
-# source://cucumber-core//lib/cucumber/core/events.rb#8
+# source://cucumber-core//lib/cucumber/core/events.rb#7
 module Cucumber::Core::Events
   class << self
     # Build an event registry to be passed to the {EventBus}
@@ -214,112 +182,112 @@ module Cucumber::Core::Events
     #
     # @return [Hash{Symbol => Class}]
     #
-    # source://cucumber-core//lib/cucumber/core/events.rb#89
+    # source://cucumber-core//lib/cucumber/core/events.rb#88
     def build_registry(*types); end
 
     # The registry contains all the events registered in the core,
     # that will be used by the {EventBus} by default.
     #
-    # source://cucumber-core//lib/cucumber/core/events.rb#69
+    # source://cucumber-core//lib/cucumber/core/events.rb#68
     def registry; end
   end
 end
 
-# source://cucumber-core//lib/cucumber/core/events.rb#9
+# source://cucumber-core//lib/cucumber/core/events.rb#8
 class Cucumber::Core::Events::Envelope < ::Cucumber::Core::Event
   # Returns the value of attribute envelope.
   #
-  # source://cucumber-core//lib/cucumber/core/events.rb#10
+  # source://cucumber-core//lib/cucumber/core/events.rb#9
   def envelope; end
 end
 
 # Signals that a gherkin source has been parsed
 #
-# source://cucumber-core//lib/cucumber/core/events.rb#14
+# source://cucumber-core//lib/cucumber/core/events.rb#13
 class Cucumber::Core::Events::GherkinSourceParsed < ::Cucumber::Core::Event
   # @return [GherkinDocument] the GherkinDocument Ast Node
   #
-  # source://cucumber-core//lib/cucumber/core/events.rb#16
+  # source://cucumber-core//lib/cucumber/core/events.rb#15
   def gherkin_document; end
 end
 
 # Signals that a Test::Case was created from a Pickle
 #
-# source://cucumber-core//lib/cucumber/core/events.rb#29
+# source://cucumber-core//lib/cucumber/core/events.rb#28
 class Cucumber::Core::Events::TestCaseCreated < ::Cucumber::Core::Event
   # The source pickle step
   #
-  # source://cucumber-core//lib/cucumber/core/events.rb#34
+  # source://cucumber-core//lib/cucumber/core/events.rb#33
   def pickle; end
 
   # The created test step
   #
-  # source://cucumber-core//lib/cucumber/core/events.rb#31
+  # source://cucumber-core//lib/cucumber/core/events.rb#30
   def test_case; end
 end
 
 # Signals that a {Test::Case} has finished executing
 #
-# source://cucumber-core//lib/cucumber/core/events.rb#59
+# source://cucumber-core//lib/cucumber/core/events.rb#58
 class Cucumber::Core::Events::TestCaseFinished < ::Cucumber::Core::Event
   # @return [Test::Result] the result of running the {Test::Step}
   #
-  # source://cucumber-core//lib/cucumber/core/events.rb#64
+  # source://cucumber-core//lib/cucumber/core/events.rb#63
   def result; end
 
   # @return [Test::Case] that was executed
   #
-  # source://cucumber-core//lib/cucumber/core/events.rb#61
+  # source://cucumber-core//lib/cucumber/core/events.rb#60
   def test_case; end
 end
 
 # Signals that a {Test::Case} is about to be executed
 #
-# source://cucumber-core//lib/cucumber/core/events.rb#38
+# source://cucumber-core//lib/cucumber/core/events.rb#37
 class Cucumber::Core::Events::TestCaseStarted < ::Cucumber::Core::Event
   # @return [Test::Case] the test case to be executed
   #
-  # source://cucumber-core//lib/cucumber/core/events.rb#40
+  # source://cucumber-core//lib/cucumber/core/events.rb#39
   def test_case; end
 end
 
 # Signals that a Test::Step was created from a PickleStep
 #
-# source://cucumber-core//lib/cucumber/core/events.rb#20
+# source://cucumber-core//lib/cucumber/core/events.rb#19
 class Cucumber::Core::Events::TestStepCreated < ::Cucumber::Core::Event
   # The source pickle step
   #
-  # source://cucumber-core//lib/cucumber/core/events.rb#25
+  # source://cucumber-core//lib/cucumber/core/events.rb#24
   def pickle_step; end
 
   # The created test step
   #
-  # source://cucumber-core//lib/cucumber/core/events.rb#22
+  # source://cucumber-core//lib/cucumber/core/events.rb#21
   def test_step; end
 end
 
 # Signals that a {Test::Step} has finished executing
 #
-# source://cucumber-core//lib/cucumber/core/events.rb#50
+# source://cucumber-core//lib/cucumber/core/events.rb#49
 class Cucumber::Core::Events::TestStepFinished < ::Cucumber::Core::Event
   # @return [Test::Result] the result of running the {Test::Step}
   #
-  # source://cucumber-core//lib/cucumber/core/events.rb#55
+  # source://cucumber-core//lib/cucumber/core/events.rb#54
   def result; end
 
   # @return [Test::Step] the test step that was executed
   #
-  # source://cucumber-core//lib/cucumber/core/events.rb#52
+  # source://cucumber-core//lib/cucumber/core/events.rb#51
   def test_step; end
 end
 
 # Signals that a {Test::Step} is about to be executed
 #
-# source://cucumber-core//lib/cucumber/core/events.rb#44
+# source://cucumber-core//lib/cucumber/core/events.rb#43
 class Cucumber::Core::Events::TestStepStarted < ::Cucumber::Core::Event
   # @return [Test::Step] the test step to be executed
   #
-  # source://cucumber-core//lib/cucumber/core/events.rb#46
+  # source://cucumber-core//lib/cucumber/core/events.rb#45
   def test_step; end
 end
 
@@ -444,10 +412,8 @@ class Cucumber::Core::Gherkin::Parser
   # source://cucumber-core//lib/cucumber/core/gherkin/parser.rb#42
   def source_messages(document); end
 
-  # @return [Boolean]
-  #
   # source://cucumber-core//lib/cucumber/core/gherkin/parser.rb#66
-  def type?(message); end
+  def type(message); end
 
   # source://cucumber-core//lib/cucumber/core/gherkin/parser.rb#62
   def update_gherkin_query(message); end
@@ -490,39 +456,74 @@ class Cucumber::Core::Report::Summary
   def subscribe_to(event_bus); end
 end
 
-# source://cucumber-core//lib/cucumber/core/test/result.rb#9
+# source://cucumber-core//lib/cucumber/core/test/result.rb#8
 module Cucumber::Core::Test; end
 
-# source://cucumber-core//lib/cucumber/core/test/actions/action.rb#10
-class Cucumber::Core::Test::Action
+# source://cucumber-core//lib/cucumber/core/test/action/defined.rb#10
+module Cucumber::Core::Test::Action; end
+
+# source://cucumber-core//lib/cucumber/core/test/action/defined.rb#11
+class Cucumber::Core::Test::Action::Defined
   # @raise [ArgumentError]
-  # @return [Action] a new instance of Action
+  # @return [Defined] a new instance of Defined
   #
-  # source://cucumber-core//lib/cucumber/core/test/actions/action.rb#11
+  # source://cucumber-core//lib/cucumber/core/test/action/defined.rb#14
   def initialize(location = T.unsafe(nil), &block); end
 
-  # source://cucumber-core//lib/cucumber/core/test/actions/action.rb#23
+  # source://cucumber-core//lib/cucumber/core/test/action/defined.rb#22
   def execute(*args); end
 
-  # source://cucumber-core//lib/cucumber/core/test/actions/action.rb#37
+  # source://cucumber-core//lib/cucumber/core/test/action/defined.rb#32
   def inspect; end
 
-  # source://cucumber-core//lib/cucumber/core/test/actions/action.rb#33
+  # Returns the value of attribute location.
+  #
+  # source://cucumber-core//lib/cucumber/core/test/action/defined.rb#12
   def location; end
 
-  # source://cucumber-core//lib/cucumber/core/test/actions/action.rb#19
+  # source://cucumber-core//lib/cucumber/core/test/action/defined.rb#36
   def skip(*_arg0); end
 
   private
 
-  # source://cucumber-core//lib/cucumber/core/test/actions/action.rb#47
+  # source://cucumber-core//lib/cucumber/core/test/action/defined.rb#46
   def failed(exception); end
 
-  # source://cucumber-core//lib/cucumber/core/test/actions/action.rb#43
+  # source://cucumber-core//lib/cucumber/core/test/action/defined.rb#42
   def passed; end
 
-  # source://cucumber-core//lib/cucumber/core/test/actions/action.rb#51
+  # source://cucumber-core//lib/cucumber/core/test/action/defined.rb#50
   def skipped; end
+end
+
+# source://cucumber-core//lib/cucumber/core/test/action/undefined.rb#9
+class Cucumber::Core::Test::Action::Undefined
+  # @return [Undefined] a new instance of Undefined
+  #
+  # source://cucumber-core//lib/cucumber/core/test/action/undefined.rb#12
+  def initialize(source_location); end
+
+  # source://cucumber-core//lib/cucumber/core/test/action/undefined.rb#16
+  def execute(*_arg0); end
+
+  # Returns the value of attribute location.
+  #
+  # source://cucumber-core//lib/cucumber/core/test/action/undefined.rb#10
+  def location; end
+
+  # source://cucumber-core//lib/cucumber/core/test/action/undefined.rb#20
+  def skip(*_arg0); end
+
+  private
+
+  # source://cucumber-core//lib/cucumber/core/test/action/undefined.rb#26
+  def undefined; end
+end
+
+# source://cucumber-core//lib/cucumber/core/test/action/unskippable.rb#10
+class Cucumber::Core::Test::Action::Unskippable < ::Cucumber::Core::Test::Action::Defined
+  # source://cucumber-core//lib/cucumber/core/test/action/unskippable.rb#11
+  def skip(*args); end
 end
 
 # source://cucumber-core//lib/cucumber/core/test/around_hook.rb#6
@@ -660,8 +661,6 @@ end
 # For example:
 #
 #   Given I have:
-#     | a | b |
-#     | c | d |
 #
 # And a matching StepDefinition:
 #
@@ -723,14 +722,9 @@ class Cucumber::Core::Test::DataTable
 
   # Returns a new, transposed table. Example:
   #
-  #   | a | 7 | 4 |
-  #   | b | 9 | 2 |
   #
   # Gets converted into the following:
   #
-  #   | a | b |
-  #   | 7 | 9 |
-  #   | 4 | 2 |
   #
   # source://cucumber-core//lib/cucumber/core/test/data_table.rb#71
   def transpose; end
@@ -796,7 +790,7 @@ class Cucumber::Core::Test::DocString < ::SimpleDelegator
   # source://cucumber-core//lib/cucumber/core/test/doc_string.rb#40
   def doc_string?; end
 
-  # source://cucumber-core//lib/cucumber/core/test/doc_string.rb#70
+  # source://cucumber-core//lib/cucumber/core/test/doc_string.rb#66
   def inspect; end
 
   # source://cucumber-core//lib/cucumber/core/test/doc_string.rb#55
@@ -906,6 +900,14 @@ class Cucumber::Core::Test::Location::Lines < ::Struct
   # source://cucumber-core//lib/cucumber/core/test/location.rb#122
   def +(other); end
 
+  # Sets the attribute data
+  #
+  # @param value [Object] the value to set the attribute data to.
+  # @return [Object] the newly set value
+  #
+  # source://cucumber-core//lib/cucumber/core/test/location.rb#99
+  def data=(_); end
+
   # source://cucumber-core//lib/cucumber/core/test/location.rb#106
   def first; end
 
@@ -931,16 +933,50 @@ class Cucumber::Core::Test::Location::Lines < ::Struct
   # Returns the value of attribute data
   #
   # @return [Object] the current value of data
+  #
+  # source://cucumber-core//lib/cucumber/core/test/location.rb#99
   def data; end
 
   # @return [Boolean]
   #
   # source://cucumber-core//lib/cucumber/core/test/location.rb#140
   def range?; end
+
+  class << self
+    # source://cucumber-core//lib/cucumber/core/test/location.rb#99
+    def [](*_arg0); end
+
+    # source://cucumber-core//lib/cucumber/core/test/location.rb#99
+    def inspect; end
+
+    # source://cucumber-core//lib/cucumber/core/test/location.rb#99
+    def keyword_init?; end
+
+    # source://cucumber-core//lib/cucumber/core/test/location.rb#99
+    def members; end
+
+    # source://cucumber-core//lib/cucumber/core/test/location.rb#99
+    def new(*_arg0); end
+  end
 end
 
 # source://cucumber-core//lib/cucumber/core/test/location.rb#55
 class Cucumber::Core::Test::Location::Precise < ::Struct
+  # Returns the value of attribute file
+  #
+  # @return [Object] the current value of file
+  #
+  # source://cucumber-core//lib/cucumber/core/test/location.rb#55
+  def file; end
+
+  # Sets the attribute file
+  #
+  # @param value [Object] the value to set the attribute file to.
+  # @return [Object] the newly set value
+  #
+  # source://cucumber-core//lib/cucumber/core/test/location.rb#55
+  def file=(_); end
+
   # source://cucumber-core//lib/cucumber/core/test/location.rb#74
   def hash; end
 
@@ -954,6 +990,21 @@ class Cucumber::Core::Test::Location::Precise < ::Struct
 
   # source://cucumber-core//lib/cucumber/core/test/location.rb#60
   def line; end
+
+  # Returns the value of attribute lines
+  #
+  # @return [Object] the current value of lines
+  #
+  # source://cucumber-core//lib/cucumber/core/test/location.rb#55
+  def lines; end
+
+  # Sets the attribute lines
+  #
+  # @param value [Object] the value to set the attribute lines to.
+  # @return [Object] the newly set value
+  #
+  # source://cucumber-core//lib/cucumber/core/test/location.rb#55
+  def lines=(_); end
 
   # @return [Boolean]
   #
@@ -971,10 +1022,42 @@ class Cucumber::Core::Test::Location::Precise < ::Struct
 
   # source://cucumber-core//lib/cucumber/core/test/location.rb#78
   def to_str; end
+
+  class << self
+    # source://cucumber-core//lib/cucumber/core/test/location.rb#55
+    def [](*_arg0); end
+
+    # source://cucumber-core//lib/cucumber/core/test/location.rb#55
+    def inspect; end
+
+    # source://cucumber-core//lib/cucumber/core/test/location.rb#55
+    def keyword_init?; end
+
+    # source://cucumber-core//lib/cucumber/core/test/location.rb#55
+    def members; end
+
+    # source://cucumber-core//lib/cucumber/core/test/location.rb#55
+    def new(*_arg0); end
+  end
 end
 
 # source://cucumber-core//lib/cucumber/core/test/location.rb#41
 class Cucumber::Core::Test::Location::Wildcard < ::Struct
+  # Returns the value of attribute file
+  #
+  # @return [Object] the current value of file
+  #
+  # source://cucumber-core//lib/cucumber/core/test/location.rb#41
+  def file; end
+
+  # Sets the attribute file
+  #
+  # @param value [Object] the value to set the attribute file to.
+  # @return [Object] the newly set value
+  #
+  # source://cucumber-core//lib/cucumber/core/test/location.rb#41
+  def file=(_); end
+
   # @return [Boolean]
   #
   # source://cucumber-core//lib/cucumber/core/test/location.rb#50
@@ -987,6 +1070,23 @@ class Cucumber::Core::Test::Location::Wildcard < ::Struct
 
   # source://cucumber-core//lib/cucumber/core/test/location.rb#42
   def to_s; end
+
+  class << self
+    # source://cucumber-core//lib/cucumber/core/test/location.rb#41
+    def [](*_arg0); end
+
+    # source://cucumber-core//lib/cucumber/core/test/location.rb#41
+    def inspect; end
+
+    # source://cucumber-core//lib/cucumber/core/test/location.rb#41
+    def keyword_init?; end
+
+    # source://cucumber-core//lib/cucumber/core/test/location.rb#41
+    def members; end
+
+    # source://cucumber-core//lib/cucumber/core/test/location.rb#41
+    def new(*_arg0); end
+  end
 end
 
 # Sorts and filters scenarios based on a list of locations
@@ -1017,91 +1117,90 @@ class Cucumber::Core::Test::NameFilter
 
   # @return [Boolean]
   #
-  # source://cucumber-core//lib/cucumber/core/test/filters/name_filter.rb#18
+  # source://cucumber-core//lib/cucumber/core/test/filters/name_filter.rb#16
   def accept?(test_case); end
 end
 
-# source://cucumber-core//lib/cucumber/core/test/result.rb#10
+# source://cucumber-core//lib/cucumber/core/test/result.rb#9
 module Cucumber::Core::Test::Result
   class << self
     # @return [Boolean]
     #
-    # source://cucumber-core//lib/cucumber/core/test/result.rb#14
+    # source://cucumber-core//lib/cucumber/core/test/result.rb#13
     def ok?(type, strict: T.unsafe(nil)); end
 
     # Defines to_sym on a result class for the given result type
     #
-    # Defines predicate methods on a result class with only the given one
-    # returning true
+    # Defines predicate methods on a result class with only the given one returning true
     #
-    # source://cucumber-core//lib/cucumber/core/test/result.rb#23
+    # source://cucumber-core//lib/cucumber/core/test/result.rb#21
     def query_methods(result_type); end
   end
 end
 
-# source://cucumber-core//lib/cucumber/core/test/result.rb#406
+# source://cucumber-core//lib/cucumber/core/test/result.rb#400
 class Cucumber::Core::Test::Result::Duration
-  include ::Cucumber::Messages::TimeConversion
+  include ::Cucumber::Messages::Helpers::TimeConversion
 
   # @return [Duration] a new instance of Duration
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#411
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#405
   def initialize(nanoseconds); end
 
   # Returns the value of attribute nanoseconds.
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#409
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#403
   def nanoseconds; end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#415
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#409
   def to_message_duration; end
 end
 
-# source://cucumber-core//lib/cucumber/core/test/result.rb#101
+# source://cucumber-core//lib/cucumber/core/test/result.rb#99
 class Cucumber::Core::Test::Result::Failed
   # @raise [ArgumentError]
   # @return [Failed] a new instance of Failed
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#110
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#108
   def initialize(duration, exception); end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#118
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#116
   def describe_to(visitor, *args); end
 
   # Returns the value of attribute duration.
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#104
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#102
   def duration; end
 
   # Returns the value of attribute exception.
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#104
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#102
   def exception; end
 
   # @return [Boolean]
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#143
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#141
   def ok?(*_arg0); end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#129
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#127
   def to_message; end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#125
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#123
   def to_s; end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#151
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#149
   def with_appended_backtrace(step); end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#147
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#145
   def with_duration(new_duration); end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#156
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#154
   def with_filtered_backtrace(filter); end
 
   class << self
     # @return [Boolean]
     #
-    # source://cucumber-core//lib/cucumber/core/test/result.rb#106
+    # source://cucumber-core//lib/cucumber/core/test/result.rb#104
     def ok?(*_arg0); end
   end
 end
@@ -1110,139 +1209,138 @@ end
 # reporting result type for test cases that fails and the passes on
 # retry, therefore only the class method self.ok? is needed.
 #
-# source://cucumber-core//lib/cucumber/core/test/result.rb#164
+# source://cucumber-core//lib/cucumber/core/test/result.rb#162
 class Cucumber::Core::Test::Result::Flaky
   class << self
     # @return [Boolean]
     #
-    # source://cucumber-core//lib/cucumber/core/test/result.rb#165
+    # source://cucumber-core//lib/cucumber/core/test/result.rb#163
     def ok?(strict: T.unsafe(nil)); end
   end
 end
 
-# source://cucumber-core//lib/cucumber/core/test/result.rb#57
+# source://cucumber-core//lib/cucumber/core/test/result.rb#55
 class Cucumber::Core::Test::Result::Passed
   # @raise [ArgumentError]
   # @return [Passed] a new instance of Passed
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#65
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#63
   def initialize(duration); end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#71
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#69
   def describe_to(visitor, *args); end
 
   # Returns the value of attribute duration.
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#59
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#57
   def duration; end
 
   # Sets the attribute duration
   #
   # @param value the value to set the attribute duration to.
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#59
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#57
   def duration=(_arg0); end
 
   # @return [Boolean]
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#88
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#86
   def ok?(*_arg0); end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#81
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#79
   def to_message; end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#77
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#75
   def to_s; end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#92
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#90
   def with_appended_backtrace(_step); end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#96
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#94
   def with_filtered_backtrace(_filter); end
 
   class << self
     # @return [Boolean]
     #
-    # source://cucumber-core//lib/cucumber/core/test/result.rb#61
+    # source://cucumber-core//lib/cucumber/core/test/result.rb#59
     def ok?(*_arg0); end
   end
 end
 
-# source://cucumber-core//lib/cucumber/core/test/result.rb#258
+# source://cucumber-core//lib/cucumber/core/test/result.rb#256
 class Cucumber::Core::Test::Result::Pending < ::Cucumber::Core::Test::Result::Raisable
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#265
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#263
   def describe_to(visitor, *args); end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#275
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#273
   def to_message; end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#271
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#269
   def to_s; end
 
   class << self
     # @return [Boolean]
     #
-    # source://cucumber-core//lib/cucumber/core/test/result.rb#261
+    # source://cucumber-core//lib/cucumber/core/test/result.rb#259
     def ok?(strict: T.unsafe(nil)); end
   end
 end
 
-# Base class for exceptions that can be raised in a step definition causing
-# the step to have that result.
+# Base class for exceptions that can be raised in a step definition causing the step to have that result.
 #
-# source://cucumber-core//lib/cucumber/core/test/result.rb#172
+# source://cucumber-core//lib/cucumber/core/test/result.rb#169
 class Cucumber::Core::Test::Result::Raisable < ::StandardError
   # @return [Raisable] a new instance of Raisable
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#175
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#172
   def initialize(message = T.unsafe(nil), duration = T.unsafe(nil), backtrace = T.unsafe(nil)); end
 
   # Returns the value of attribute duration.
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#173
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#170
   def duration; end
 
   # Returns the value of attribute message.
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#173
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#170
   def message; end
 
   # @return [Boolean]
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#203
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#201
   def ok?(strict: T.unsafe(nil)); end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#189
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#187
   def with_appended_backtrace(step); end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#185
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#183
   def with_duration(new_duration); end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#197
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#195
   def with_filtered_backtrace(filter); end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#181
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#179
   def with_message(new_message); end
 end
 
-# source://cucumber-core//lib/cucumber/core/test/result.rb#12
+# source://cucumber-core//lib/cucumber/core/test/result.rb#11
 Cucumber::Core::Test::Result::STRICT_AFFECTED_TYPES = T.let(T.unsafe(nil), Array)
 
-# source://cucumber-core//lib/cucumber/core/test/result.rb#233
+# source://cucumber-core//lib/cucumber/core/test/result.rb#231
 class Cucumber::Core::Test::Result::Skipped < ::Cucumber::Core::Test::Result::Raisable
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#240
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#238
   def describe_to(visitor, *args); end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#250
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#248
   def to_message; end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#246
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#244
   def to_s; end
 
   class << self
     # @return [Boolean]
     #
-    # source://cucumber-core//lib/cucumber/core/test/result.rb#236
+    # source://cucumber-core//lib/cucumber/core/test/result.rb#234
     def ok?(*_arg0); end
   end
 end
@@ -1250,41 +1348,41 @@ end
 # Handles the strict settings for the result types that are
 # affected by the strict options (that is the STRICT_AFFECTED_TYPES).
 #
-# source://cucumber-core//lib/cucumber/core/test/result.rb#285
+# source://cucumber-core//lib/cucumber/core/test/result.rb#283
 class Cucumber::Core::Test::Result::StrictConfiguration
   # @return [StrictConfiguration] a new instance of StrictConfiguration
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#289
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#287
   def initialize(strict_types = T.unsafe(nil)); end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#320
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#316
   def merge!(other); end
 
   # @return [Boolean]
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#327
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#323
   def set?(type); end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#310
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#308
   def set_strict(setting, type = T.unsafe(nil)); end
 
   # Sets the attribute settings
   #
   # @param value the value to set the attribute settings to.
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#286
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#284
   def settings=(_arg0); end
 
   # @return [Boolean]
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#296
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#294
   def strict?(type = T.unsafe(nil)); end
 
   private
 
   # Returns the value of attribute settings.
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#286
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#284
   def settings; end
 end
 
@@ -1296,104 +1394,104 @@ end
 #     puts summary.total_passed
 #     => 1
 #
-# source://cucumber-core//lib/cucumber/core/test/result.rb#341
+# source://cucumber-core//lib/cucumber/core/test/result.rb#337
 class Cucumber::Core::Test::Result::Summary
   # @return [Summary] a new instance of Summary
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#344
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#340
   def initialize; end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#389
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#383
   def decrement_failed; end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#376
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#370
   def duration(duration); end
 
   # Returns the value of attribute durations.
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#342
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#338
   def durations; end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#371
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#365
   def exception(exception); end
 
   # Returns the value of attribute exceptions.
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#342
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#338
   def exceptions; end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#350
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#346
   def method_missing(name, *_args); end
 
   # @return [Boolean]
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#362
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#358
   def ok?(strict: T.unsafe(nil)); end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#381
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#375
   def total(for_status = T.unsafe(nil)); end
 
   private
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#395
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#389
   def get_total(method_name); end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#400
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#394
   def increment_total(status); end
 
   # @return [Boolean]
   #
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#358
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#354
   def respond_to_missing?(*_arg0); end
 end
 
-# source://cucumber-core//lib/cucumber/core/test/result.rb#11
+# source://cucumber-core//lib/cucumber/core/test/result.rb#10
 Cucumber::Core::Test::Result::TYPES = T.let(T.unsafe(nil), Array)
 
-# source://cucumber-core//lib/cucumber/core/test/result.rb#208
+# source://cucumber-core//lib/cucumber/core/test/result.rb#206
 class Cucumber::Core::Test::Result::Undefined < ::Cucumber::Core::Test::Result::Raisable
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#215
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#213
   def describe_to(visitor, *args); end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#225
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#223
   def to_message; end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#221
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#219
   def to_s; end
 
   class << self
     # @return [Boolean]
     #
-    # source://cucumber-core//lib/cucumber/core/test/result.rb#211
+    # source://cucumber-core//lib/cucumber/core/test/result.rb#209
     def ok?(strict: T.unsafe(nil)); end
   end
 end
 
 # Null object for results. Represents the state where we haven't run anything yet
 #
-# source://cucumber-core//lib/cucumber/core/test/result.rb#38
+# source://cucumber-core//lib/cucumber/core/test/result.rb#36
 class Cucumber::Core::Test::Result::Unknown
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#41
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#39
   def describe_to(_visitor, *_args); end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#49
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#47
   def to_message; end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#45
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#43
   def with_filtered_backtrace(_filter); end
 end
 
-# source://cucumber-core//lib/cucumber/core/test/result.rb#427
+# source://cucumber-core//lib/cucumber/core/test/result.rb#421
 class Cucumber::Core::Test::Result::UnknownDuration
-  include ::Cucumber::Messages::TimeConversion
+  include ::Cucumber::Messages::Helpers::TimeConversion
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#434
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#428
   def nanoseconds; end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#430
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#424
   def tap; end
 
-  # source://cucumber-core//lib/cucumber/core/test/result.rb#438
+  # source://cucumber-core//lib/cucumber/core/test/result.rb#432
   def to_message_duration; end
 end
 
@@ -1613,7 +1711,7 @@ end
 
 # source://cucumber-core//lib/cucumber/core/test/filters/tag_filter.rb#8
 class Cucumber::Core::Test::TagFilter
-  # source://cucumber-core//lib/cucumber/core/test/filters/tag_filter.rb#17
+  # source://cucumber-core//lib/cucumber/core/test/filters/tag_filter.rb#15
   def done; end
 
   # source://cucumber-core//lib/cucumber/core/test/filters/tag_filter.rb#9
@@ -1621,28 +1719,28 @@ class Cucumber::Core::Test::TagFilter
 
   private
 
-  # source://cucumber-core//lib/cucumber/core/test/filters/tag_filter.rb#24
+  # source://cucumber-core//lib/cucumber/core/test/filters/tag_filter.rb#22
   def test_cases; end
 end
 
-# source://cucumber-core//lib/cucumber/core/test/filters/tag_filter.rb#28
+# source://cucumber-core//lib/cucumber/core/test/filters/tag_filter.rb#26
 class Cucumber::Core::Test::TagFilter::TestCases
   # @return [TestCases] a new instance of TestCases
   #
-  # source://cucumber-core//lib/cucumber/core/test/filters/tag_filter.rb#31
+  # source://cucumber-core//lib/cucumber/core/test/filters/tag_filter.rb#29
   def initialize; end
 
-  # source://cucumber-core//lib/cucumber/core/test/filters/tag_filter.rb#35
+  # source://cucumber-core//lib/cucumber/core/test/filters/tag_filter.rb#33
   def <<(test_case); end
 
-  # source://cucumber-core//lib/cucumber/core/test/filters/tag_filter.rb#42
+  # source://cucumber-core//lib/cucumber/core/test/filters/tag_filter.rb#40
   def with_tag_name(tag_name); end
 
   private
 
   # Returns the value of attribute test_cases_by_tag_name.
   #
-  # source://cucumber-core//lib/cucumber/core/test/filters/tag_filter.rb#29
+  # source://cucumber-core//lib/cucumber/core/test/filters/tag_filter.rb#27
   def test_cases_by_tag_name; end
 end
 
@@ -1677,36 +1775,6 @@ module Cucumber::Core::Test::Timer::MonotonicTime
     # source://cucumber-core//lib/cucumber/core/test/timer.rb#36
     def time_in_nanoseconds; end
   end
-end
-
-# source://cucumber-core//lib/cucumber/core/test/actions/undefined_action.rb#8
-class Cucumber::Core::Test::UndefinedAction
-  # @return [UndefinedAction] a new instance of UndefinedAction
-  #
-  # source://cucumber-core//lib/cucumber/core/test/actions/undefined_action.rb#11
-  def initialize(source_location); end
-
-  # source://cucumber-core//lib/cucumber/core/test/actions/undefined_action.rb#15
-  def execute(*_arg0); end
-
-  # Returns the value of attribute location.
-  #
-  # source://cucumber-core//lib/cucumber/core/test/actions/undefined_action.rb#9
-  def location; end
-
-  # source://cucumber-core//lib/cucumber/core/test/actions/undefined_action.rb#19
-  def skip(*_arg0); end
-
-  private
-
-  # source://cucumber-core//lib/cucumber/core/test/actions/undefined_action.rb#25
-  def undefined; end
-end
-
-# source://cucumber-core//lib/cucumber/core/test/actions/unskippable_action.rb#9
-class Cucumber::Core::Test::UnskippableAction < ::Cucumber::Core::Test::Action
-  # source://cucumber-core//lib/cucumber/core/test/actions/unskippable_action.rb#10
-  def skip(*args); end
 end
 
 # source://cucumber-core//lib/cucumber/core/platform.rb#10

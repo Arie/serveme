@@ -15,7 +15,7 @@ class Object < ::BasicObject
   def s(*args, &blk); end
 end
 
-# source://sexp_processor//lib/sexp.rb#11
+# source://sexp_processor//lib/sexp.rb#9
 class Sexp < ::Array
   # Create a new Sexp containing +args+.
   #
@@ -47,6 +47,7 @@ class Sexp < ::Array
   # source://sexp_processor//lib/sexp_matcher.rb#8
   def =~(pattern); end
 
+  # source://sexp_processor//lib/sexp.rb#39
   def _concat(*_arg0); end
 
   # Returns true if the node_type is +array+ or +args+.
@@ -57,12 +58,6 @@ class Sexp < ::Array
   #
   # source://sexp_processor//lib/sexp.rb#93
   def array_type?; end
-
-  # source://ruby_parser/3.21.1/lib/rp_extensions.rb#47
-  def block_pass?; end
-
-  # source://ruby_parser/3.21.1/lib/ruby_parser_extras.rb#12
-  def check_line_numbers; end
 
   # Optional comments above/aside this sexp. Usually set by ruby_parser.
   #
@@ -143,7 +138,7 @@ class Sexp < ::Array
 
   # Returns the node type of the Sexp.
   #
-  # source://sexp_processor//lib/sexp.rb#284
+  # source://sexp_processor//lib/sexp.rb#310
   def head; end
 
   # source://sexp_processor//lib/sexp.rb#190
@@ -171,9 +166,6 @@ class Sexp < ::Array
   # source://sexp_processor//lib/sexp.rb#18
   def line_max=(_arg0); end
 
-  # source://ruby_parser/3.21.1/lib/ruby_parser_extras.rb#23
-  def line_min; end
-
   # source://sexp_processor//lib/sexp.rb#72
   def map(&blk); end
 
@@ -192,15 +184,6 @@ class Sexp < ::Array
   #
   # source://sexp_processor//lib/sexp.rb#63
   def new(*body); end
-
-  # source://ruby_parser/3.21.1/lib/ruby_parser_extras.rb#27
-  def nil_line?; end
-
-  # source://ruby_parser/3.21.1/lib/rp_extensions.rb#43
-  def paren; end
-
-  # source://ruby_parser/3.21.1/lib/rp_extensions.rb#41
-  def paren=(_arg0); end
 
   # source://sexp_processor//lib/sexp.rb#272
   def pretty_print(q); end
@@ -221,7 +204,7 @@ class Sexp < ::Array
   # Returns the Sexp body (starting at +from+, defaulting to 1), ie
   # the values without the node type.
   #
-  # source://sexp_processor//lib/sexp.rb#299
+  # source://sexp_processor//lib/sexp.rb#311
   def rest(from = T.unsafe(nil)); end
 
   # Verifies that +pattern+ is a Matcher and then dispatches to its
@@ -277,7 +260,7 @@ class Sexp < ::Array
   # source://sexp_processor//lib/sexp.rb#368
   def to_a; end
 
-  # source://sexp_processor//lib/sexp.rb#190
+  # source://sexp_processor//lib/sexp.rb#372
   def to_s; end
 
   # Return the value (last item) of a single element sexp (eg `s(:lit, 42)`).
@@ -294,7 +277,7 @@ class Sexp < ::Array
     #
     # @return [Boolean]
     #
-    # source://sexp_processor//lib/sexp_matcher.rb#155
+    # source://sexp_processor//lib/sexp_matcher.rb#160
     def -(arg); end
 
     # Matches any single item.
@@ -627,7 +610,7 @@ class Sexp::MatchCollection < ::Array
   # source://sexp_processor//lib/sexp_matcher.rb#1094
   def pretty_print(q); end
 
-  # source://sexp_processor//lib/sexp_matcher.rb#1088
+  # source://sexp_processor//lib/sexp_matcher.rb#1092
   def to_s; end
 end
 
@@ -708,7 +691,7 @@ class Sexp::Matcher < ::Sexp
   #
   # @raise [ArgumentError]
   #
-  # source://sexp_processor//lib/sexp_matcher.rb#297
+  # source://sexp_processor//lib/sexp_matcher.rb#304
   def ===(sexp); end
 
   # Tree equivalent to String#=~, returns true if +self+ matches
@@ -836,15 +819,6 @@ class Sexp::Matcher::Parser
   # Parses a string into a sexp matcher:
   #
   #   SEXP : "(" SEXP:args* ")"          => Sexp.q(*args)
-  #        | "[" CMD:cmd sexp:args* "]"  => Sexp.cmd(*args)
-  #        | "nil"                       => nil
-  #        | /\d+/:n                     => n.to_i
-  #        | "___"                       => Sexp.___
-  #        | "_"                         => Sexp._
-  #        | /^\/(.*)\/$/:re             => Regexp.new re[0]
-  #        | /^"(.*)"$/:s                => String.new s[0]
-  #        | UP_NAME:name                => Object.const_get name
-  #        | NAME:name                   => name.to_sym
   # UP_NAME: /[A-Z]\w*/
   #   NAME : /:?[\w?!=~-]+/
   #    CMD : t | k | m | atom | not? | - | any | child | include

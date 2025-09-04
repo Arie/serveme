@@ -26972,6 +26972,7 @@ end
 #
 #   # good
 #   CGI.escape('http://example.com')
+#   URI.encode_uri_component(uri) # Since Ruby 3.1
 #   URI.encode_www_form([['example', 'param'], ['lang', 'en']])
 #   URI.encode_www_form(page: 10, locale: 'en')
 #   URI.encode_www_form_component('http://example.com')
@@ -26982,31 +26983,32 @@ end
 #
 #   # good
 #   CGI.unescape(enc_uri)
+#   URI.decode_uri_component(uri) # Since Ruby 3.1
 #   URI.decode_www_form(enc_uri)
 #   URI.decode_www_form_component(enc_uri)
 #
-# source://rubocop//lib/rubocop/cop/lint/uri_escape_unescape.rb#32
+# source://rubocop//lib/rubocop/cop/lint/uri_escape_unescape.rb#34
 class RuboCop::Cop::Lint::UriEscapeUnescape < ::RuboCop::Cop::Base
-  # source://rubocop//lib/rubocop/cop/lint/uri_escape_unescape.rb#57
+  # source://rubocop//lib/rubocop/cop/lint/uri_escape_unescape.rb#59
   def on_send(node); end
 
-  # source://rubocop//lib/rubocop/cop/lint/uri_escape_unescape.rb#51
+  # source://rubocop//lib/rubocop/cop/lint/uri_escape_unescape.rb#53
   def uri_escape_unescape?(param0 = T.unsafe(nil)); end
 end
 
-# source://rubocop//lib/rubocop/cop/lint/uri_escape_unescape.rb#33
+# source://rubocop//lib/rubocop/cop/lint/uri_escape_unescape.rb#35
 RuboCop::Cop::Lint::UriEscapeUnescape::ALTERNATE_METHODS_OF_URI_ESCAPE = T.let(T.unsafe(nil), Array)
 
-# source://rubocop//lib/rubocop/cop/lint/uri_escape_unescape.rb#38
+# source://rubocop//lib/rubocop/cop/lint/uri_escape_unescape.rb#40
 RuboCop::Cop::Lint::UriEscapeUnescape::ALTERNATE_METHODS_OF_URI_UNESCAPE = T.let(T.unsafe(nil), Array)
 
-# source://rubocop//lib/rubocop/cop/lint/uri_escape_unescape.rb#47
+# source://rubocop//lib/rubocop/cop/lint/uri_escape_unescape.rb#49
 RuboCop::Cop::Lint::UriEscapeUnescape::METHOD_NAMES = T.let(T.unsafe(nil), Array)
 
-# source://rubocop//lib/rubocop/cop/lint/uri_escape_unescape.rb#44
+# source://rubocop//lib/rubocop/cop/lint/uri_escape_unescape.rb#46
 RuboCop::Cop::Lint::UriEscapeUnescape::MSG = T.let(T.unsafe(nil), String)
 
-# source://rubocop//lib/rubocop/cop/lint/uri_escape_unescape.rb#48
+# source://rubocop//lib/rubocop/cop/lint/uri_escape_unescape.rb#50
 RuboCop::Cop::Lint::UriEscapeUnescape::RESTRICT_ON_SEND = T.let(T.unsafe(nil), Array)
 
 # Identifies places where `URI.regexp` is obsolete and should not be used.
@@ -31223,7 +31225,7 @@ end
 # method calls are assumed to return boolean values. The cop does not make an assessment
 # if the return type is unknown (non-predicate method calls, variables, etc.).
 #
-# NOTE: Operator methods (`def ==`, etc.) are ignored.
+# NOTE: The `initialize` method and operator methods (`def ==`, etc.) are ignored.
 #
 # By default, the cop runs in `conservative` mode, which allows a method to be named
 # with a question mark as long as at least one return value is boolean. In `aggressive`
@@ -31346,17 +31348,17 @@ class RuboCop::Cop::Naming::PredicateMethod < ::RuboCop::Cop::Base
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#159
+  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#160
   def acceptable?(return_values); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#189
+  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#190
   def all_return_values_boolean?(return_values); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#289
+  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#290
   def allow_bang_methods?; end
 
   # @return [Boolean]
@@ -31366,55 +31368,55 @@ class RuboCop::Cop::Naming::PredicateMethod < ::RuboCop::Cop::Base
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#283
+  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#284
   def allowed_bang_method?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#253
+  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#254
   def and_or?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#196
+  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#197
   def boolean_return?(value); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#279
+  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#280
   def conservative?; end
 
-  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#257
+  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#258
   def extract_and_or_clauses(node); end
 
-  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#264
+  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#265
   def extract_conditional_branches(node); end
 
-  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#223
+  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#224
   def extract_return_value(node); end
 
-  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#236
+  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#237
   def last_value(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#202
+  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#203
   def method_returning_boolean?(value); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#209
+  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#210
   def potential_non_predicate?(return_values); end
 
-  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#241
+  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#242
   def process_return_values(return_values); end
 
-  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#175
+  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#176
   def return_values(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#169
+  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#170
   def unknown_method_call?(value); end
 
   # If a method ending in `?` is known to not return a boolean value,
@@ -31423,10 +31425,10 @@ class RuboCop::Cop::Naming::PredicateMethod < ::RuboCop::Cop::Base
   #
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#296
+  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#297
   def wayward_predicate?(name); end
 
-  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#300
+  # source://rubocop//lib/rubocop/cop/naming/predicate_method.rb#301
   def wayward_predicates; end
 end
 
@@ -51027,28 +51029,25 @@ class RuboCop::Cop::Style::RedundantParentheses < ::RuboCop::Cop::Base
   include ::RuboCop::Cop::Parentheses
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#34
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#31
   def allowed_pin_operator?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#329
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#331
   def first_send_argument?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#334
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#336
   def first_super_argument?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#339
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#341
   def first_yield_argument?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#193
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#190
   def interpolation?(param0 = T.unsafe(nil)); end
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#28
-  def method_node_and_args(param0 = T.unsafe(nil)); end
-
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#36
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#33
   def on_begin(node); end
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#31
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#28
   def rescue?(param0 = T.unsafe(nil)); end
 
   # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#23
@@ -51058,165 +51057,170 @@ class RuboCop::Cop::Style::RedundantParentheses < ::RuboCop::Cop::Base
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#218
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#215
   def allow_in_multiline_conditions?; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#71
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#68
   def allowed_ancestor?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#64
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#61
   def allowed_expression?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#76
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#73
   def allowed_multiple_expression?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#85
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#82
   def allowed_ternary?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#195
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#192
   def argument_of_parenthesized_method_call?(begin_node, node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#343
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#345
   def call_chain_starts_with_int?(begin_node, send_node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#222
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#219
   def call_node?(node); end
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#141
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#138
   def check(begin_node); end
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#226
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#223
   def check_send(begin_node, node); end
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#238
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#235
   def check_unary(begin_node, node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#262
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#258
   def disallowed_literal?(begin_node, node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#272
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#268
   def disallowed_one_line_pattern_matching?(begin_node, node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#349
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#351
   def do_end_block_in_method_chain?(begin_node, node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#112
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#109
   def empty_parentheses?(node); end
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#156
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#153
   def find_offense_message(begin_node, node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#117
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#114
   def first_arg_begins_with_hash_literal?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#318
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#320
   def first_argument?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#57
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#54
   def ignore_syntax?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#126
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#123
   def in_pattern_matching_in_method_argument?(begin_node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#258
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#254
   def keyword_ancestor?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#292
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#288
   def keyword_with_redundant_parentheses?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#98
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#95
   def like_method_argument_parentheses?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#212
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#209
   def method_call_parentheses_required?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#305
-  def method_call_with_redundant_parentheses?(node); end
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#301
+  def method_call_with_redundant_parentheses?(begin_node, node); end
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#133
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#130
   def method_chain_begins_with_hash_literal(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#105
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#102
   def multiline_control_flow_statements?(node); end
 
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#248
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#244
   def offense(node, msg); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#204
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#201
   def oneline_rescue_parentheses_required?(begin_node, node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#314
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#316
   def only_begin_arg?(args); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#48
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#45
   def parens_allowed?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#281
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#277
   def raised_to_power_negative_numeric?(begin_node, node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#254
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#309
+  def singular_parenthesized_parent?(begin_node); end
+
+  # @return [Boolean]
+  #
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#250
   def suspect_unary?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#91
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#88
   def ternary_parentheses_required?; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#44
+  # source://rubocop//lib/rubocop/cop/style/redundant_parentheses.rb#41
   def variable?(node); end
 end
 
@@ -52993,27 +52997,27 @@ class RuboCop::Cop::Style::SafeNavigation < ::RuboCop::Cop::Base
 
   private
 
-  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#402
+  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#408
   def add_safe_nav_to_all_methods_in_chain(corrector, start_method, method_chain); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#298
+  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#304
   def allowed_if_condition?(node); end
 
   # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#235
   def and_parts(node); end
 
-  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#394
+  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#400
   def begin_range(node, method_call); end
 
-  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#353
+  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#359
   def chain_length(method_chain, method); end
 
   # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#217
   def collect_and_clauses(node); end
 
-  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#279
+  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#285
   def comments(node); end
 
   # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#229
@@ -53024,48 +53028,53 @@ class RuboCop::Cop::Style::SafeNavigation < ::RuboCop::Cop::Base
   # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#264
   def dotless_operator_call?(method_call); end
 
-  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#398
+  # @return [Boolean]
+  #
+  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#272
+  def dotless_operator_method?(method_call); end
+
+  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#404
   def end_range(node, method_call); end
 
-  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#317
+  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#323
   def extract_common_parts(method_chain, checked_variable); end
 
   # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#256
   def extract_if_body(node); end
 
-  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#302
+  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#308
   def extract_parts_from_if(node); end
 
-  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#325
+  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#331
   def find_matching_receiver_invocation(method_chain, checked_variable); end
 
   # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#211
   def find_method_chain(node); end
 
-  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#272
+  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#278
   def handle_comments(corrector, node, method_call); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#339
+  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#345
   def matching_call_nodes?(left, right); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#335
+  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#341
   def matching_nodes?(left, right); end
 
-  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#415
+  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#421
   def max_chain_length; end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#390
+  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#396
   def method_called?(send_node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#382
+  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#388
   def negated?(send_node); end
 
   # @return [Boolean]
@@ -53073,7 +53082,7 @@ class RuboCop::Cop::Style::SafeNavigation < ::RuboCop::Cop::Base
   # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#242
   def offending_node?(node, lhs_receiver, rhs, rhs_receiver); end
 
-  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#285
+  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#291
   def relevant_comment_ranges(node); end
 
   # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#194
@@ -53081,12 +53090,12 @@ class RuboCop::Cop::Style::SafeNavigation < ::RuboCop::Cop::Base
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#373
+  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#379
   def unsafe_method?(node, send_node); end
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#361
+  # source://rubocop//lib/rubocop/cop/style/safe_navigation.rb#367
   def unsafe_method_used?(node, method_chain, method); end
 
   # @return [Boolean]
@@ -54636,8 +54645,8 @@ class RuboCop::Cop::Style::StringConcatenation < ::RuboCop::Cop::Base
 
   private
 
-  # source://rubocop//lib/rubocop/cop/style/string_concatenation.rb#158
-  def adjust_str(node); end
+  # source://rubocop//lib/rubocop/cop/style/string_concatenation.rb#149
+  def adjust_str(part); end
 
   # source://rubocop//lib/rubocop/cop/style/string_concatenation.rb#114
   def collect_parts(node, parts = T.unsafe(nil)); end
@@ -54650,7 +54659,7 @@ class RuboCop::Cop::Style::StringConcatenation < ::RuboCop::Cop::Base
   # source://rubocop//lib/rubocop/cop/style/string_concatenation.rb#106
   def find_topmost_plus_node(node); end
 
-  # source://rubocop//lib/rubocop/cop/style/string_concatenation.rb#162
+  # source://rubocop//lib/rubocop/cop/style/string_concatenation.rb#166
   def handle_quotes(parts); end
 
   # @return [Boolean]
@@ -54663,7 +54672,7 @@ class RuboCop::Cop::Style::StringConcatenation < ::RuboCop::Cop::Base
   # source://rubocop//lib/rubocop/cop/style/string_concatenation.rb#96
   def line_end_concatenation?(node); end
 
-  # source://rubocop//lib/rubocop/cop/style/string_concatenation.rb#172
+  # source://rubocop//lib/rubocop/cop/style/string_concatenation.rb#176
   def mode; end
 
   # @return [Boolean]
@@ -54679,7 +54688,7 @@ class RuboCop::Cop::Style::StringConcatenation < ::RuboCop::Cop::Base
 
   # @return [Boolean]
   #
-  # source://rubocop//lib/rubocop/cop/style/string_concatenation.rb#168
+  # source://rubocop//lib/rubocop/cop/style/string_concatenation.rb#172
   def single_quoted?(str_node); end
 
   # @return [Boolean]

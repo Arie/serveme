@@ -443,7 +443,7 @@ export default class extends Controller {
     }
 
     updateElement('total-players', totalPlayers)
-    updateElement('active-servers', totalServers)
+    updateElement('active-servers', `${activeServers}/${totalServers}`)
     updateElement('total-countries', countries.size)
   }
 

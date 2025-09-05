@@ -62,66 +62,82 @@ class Reservation < ActiveRecord::Base
     where(starts_at: ..Time.current).where(ends_at: Time.current..)
   end
 
+  sig { returns(String) }
   def to_s
     "#{id}: #{human_timerange}"
   end
 
+  sig { returns(String) }
   def human_timerange
     "#{I18n.l(starts_at, format: :datepicker)} - #{I18n.l(ends_at, format: :time)}"
   end
 
+  sig { returns(T::Boolean) }
   def now?
     times_entered? && T.must(starts_at) < Time.current && T.must(ends_at) > Time.current
   end
 
+  sig { returns(T::Boolean) }
   def active?
     now? && provisioned?
   end
 
+  sig { returns(T::Boolean) }
   def past?
-    ends_at && T.must(ends_at) <= Time.current
+    !!(ends_at && T.must(ends_at) <= Time.current)
   end
 
+  sig { returns(T::Boolean) }
   def younger_than_cleanup_age?
     T.must(ends_at) > self.class.cleanup_age_in_days.days.ago
   end
 
+  sig { returns(T::Boolean) }
   def future?
     T.must(starts_at) > Time.current
   end
 
+  sig { returns(T::Boolean) }
   def schedulable?
     !persisted? || (persisted? && !active? && !past?)
   end
 
+  sig { returns(T::Boolean) }
   def collides?
     colliding_reservations.any?
   end
 
+  sig { returns(T::Array[Reservation]) }
   def colliding_reservations
     (own_colliding_reservations + other_users_colliding_reservations).uniq
   end
 
+  sig { returns(T::Array[Reservation]) }
   def own_colliding_reservations
     @own_colliding_reservations ||= CollisionFinder.new(Reservation.where(user_id: user&.id), self).colliding_reservations
   end
 
+  sig { returns(T::Array[Reservation]) }
   def other_users_colliding_reservations
     @other_users_colliding_reservations ||= CollisionFinder.new(Reservation.where(server_id: server&.id), self).colliding_reservations
   end
 
+  sig { returns(T::Boolean) }
   def collides_with_own_reservation?
     own_colliding_reservations.any?
   end
 
+  sig { returns(T::Boolean) }
   def collides_with_own_reservation_on_same_server?
     own_colliding_reservations.any? { |r| r.server_id == server_id }
   end
 
+  sig { returns(T::Boolean) }
   def collides_with_other_users_reservation?
     other_users_colliding_reservations.any?
   end
 
+  sig { returns(T.nilable(T::Boolean)) }
   def extend!
     return unless less_than_1_hour_left?
 
@@ -131,22 +147,27 @@ class Reservation < ActiveRecord::Base
     save
   end
 
+  sig { returns(T::Boolean) }
   def less_than_1_hour_left?
     active? && time_left < 1.hour
   end
 
+  sig { returns(T::Boolean) }
   def just_started?
     T.must(starts_at) > 1.minute.ago
   end
 
+  sig { returns(T::Boolean) }
   def nearly_over?
     time_left < 10.minutes
   end
 
+  sig { returns(Numeric) }
   def time_left
     T.must(ends_at) - Time.current
   end
 
+  sig { void }
   def warn_nearly_over
     time_left_in_minutes  = (time_left / 60.0).ceil
     time_left_text        = I18n.t(:timeleft, count: time_left_in_minutes)
@@ -154,6 +175,7 @@ class Reservation < ActiveRecord::Base
     server&.rcon_disconnect
   end
 
+  sig { returns(T::Boolean) }
   def cancellable?
     future?
   end
@@ -190,10 +212,12 @@ class Reservation < ActiveRecord::Base
     WhitelistTf.find_by(tf_whitelist_id: custom_whitelist_id).try(:content)
   end
 
+  sig { void }
   def calculate_duration
     self.duration = (ends_at.to_i - starts_at.to_i)
   end
 
+  sig { returns(String) }
   def generate_logsecret
     self.logsecret ||= rand(2**128).to_s
   end
@@ -206,31 +230,38 @@ class Reservation < ActiveRecord::Base
       .where(ended: true)
   end
 
+  sig { void }
   def start_reservation
     reservation_manager.start_reservation
   end
 
+  sig { void }
   def update_reservation
     reservation_manager.update_reservation
   end
 
+  sig { void }
   def end_reservation
     reservation_manager.end_reservation
   end
 
+  sig { returns(T::Hash[String, T.untyped]) }
   def reusable_attributes
     attributes.slice("server_id", "password", "rcon", "tv_password", "server_config_id", "whitelist_id", "custom_whitelist_id", "first_map", "enable_demos_tf")
   end
 
+  sig { returns(T::Hash[String, T.untyped]) }
   def template_attributes
     attributes.slice(*self.class.template_attribute_names)
   end
 
+  sig { returns(T::Array[String]) }
   def self.template_attribute_names
     %w[server_config_id whitelist_id custom_whitelist_id first_map]
   end
 
   # rubocop:disable Naming/AccessorMethodName
+  sig { returns(Binding) }
   def get_binding
     binding
   end
@@ -368,6 +399,7 @@ class Reservation < ActiveRecord::Base
     "http://logs.tf/search/log?s=#{SITE_HOST}+%23#{id}"
   end
 
+  sig { params(server_info: T.untyped).void }
   def save_sdr_info(server_info)
     return if server_info.ip.nil?
 
@@ -395,6 +427,7 @@ class Reservation < ActiveRecord::Base
     server&.rcon_exec("sm plugins reload serverhop")
   end
 
+  sig { void }
   def broadcast_connect_info
     broadcast_replace_to self, target: "reservation_connect_info_#{id}", partial: "reservations/connect_info", locals: { reservation: self }
     broadcast_replace_to self, target: "reservation_sdr_connect_info_#{id}", partial: "reservations/sdr_connect_info", locals: { reservation: self }

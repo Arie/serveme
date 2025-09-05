@@ -1,9 +1,11 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 require "zip"
 
 class MapUpload < ActiveRecord::Base
+  extend T::Sig
+
   belongs_to :user
   has_one_attached :file
   attr_accessor :maps
@@ -16,26 +18,31 @@ class MapUpload < ActiveRecord::Base
   before_validation :set_s3_prefix
   after_save :refresh_available_maps
 
+  sig { returns(T::Array[T.untyped]) }
   def self.available_maps
     bucket_objects.map { |h| h[:map_name] }
   end
 
+  sig { void }
   def refresh_available_maps
     AvailableMapsWorker.perform_async
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def self.bucket_objects
     Rails.cache.fetch("map_bucket_objects", expires_in: 10.minutes) do
       fetch_bucket_objects
     end
   end
 
+  sig { void }
   def self.refresh_bucket_objects
     Rails.cache.delete("map-list-view-for-admin-false")
     Rails.cache.delete("map-list-view-for-admin-true")
     Rails.cache.write("map_bucket_objects", fetch_bucket_objects, expire_in: 11.minutes)
   end
 
+  sig { returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def self.fetch_bucket_objects
     return [] unless ActiveStorage::Blob.service.respond_to?(:bucket)
 
@@ -90,16 +97,19 @@ class MapUpload < ActiveRecord::Base
     end.sort_by { |h| h[:map_name].downcase }
   end
 
+  sig { returns(T::Hash[String, T::Hash[Symbol, T.untyped]]) }
   def self.map_statistics
     Rails.cache.fetch("map_statistics", expires_in: 10.minutes) do
       fetch_map_statistics
     end
   end
 
+  sig { void }
   def self.refresh_map_statistics
     Rails.cache.write("map_statistics", fetch_map_statistics, expire_in: 11.minutes)
   end
 
+  sig { returns(T::Hash[String, T::Hash[Symbol, T.untyped]]) }
   def self.fetch_map_statistics
     Reservation.where.not(first_map: [ nil, "" ]).group(:first_map).select(
       "count(first_map) AS times_played",
@@ -107,10 +117,12 @@ class MapUpload < ActiveRecord::Base
       "MIN(starts_at) AS first_played",
       "first_map"
     ).inject({}) do |m, r|
-      m.merge!({ r.first_map => { times_played: r.times_played, last_played: r.last_played, first_played: r.first_played } })
+      # Use T.unsafe to access dynamic attributes from the SQL query
+      m.merge!({ T.unsafe(r).first_map => { times_played: T.unsafe(r).times_played, last_played: T.unsafe(r).last_played, first_played: T.unsafe(r).first_played } })
     end
   end
 
+  sig { params(map_name: String).void }
   def self.delete_bucket_object(map_name)
     ActiveStorage::Blob.service.delete("maps/#{map_name}.bsp")
     ActiveStorage::Blob.service.delete("maps/#{map_name}.bsp.bz2")
@@ -119,13 +131,15 @@ class MapUpload < ActiveRecord::Base
     Turbo::StreamsChannel.broadcast_replace_to("admin-maps-list", partial: "map_uploads/admin_list", locals: { bucket_objects: bucket_objects, map_statistics: map_statistics })
   end
 
+  sig { returns(Regexp) }
   def self.invalid_types_regex
     /(achievement_|jail_|mvm_|vsh_|zi_)/i
   end
 
+  sig { void }
   def validate_file_is_a_bsp
     # Skip validation if this is an existing blob with maps/ prefix and no new attachment
-    return if file&.blob&.key&.start_with?("maps/") && !attachment_changes["file"]
+    return if file.attached? && T.unsafe(file).blob&.key&.start_with?("maps/") && !attachment_changes["file"]
 
     return unless attachment_changes["file"]
 
@@ -138,27 +152,35 @@ class MapUpload < ActiveRecord::Base
     errors.add(:file, "not a map (bsp) file")
   end
 
+  sig { void }
   def validate_not_blacklisted_type
-    return unless file&.blob&.filename && self.class.blacklisted_type?(file.blob.filename.to_s)
+    return unless file.attached? && T.unsafe(file).blob&.filename && self.class.blacklisted_type?(T.unsafe(file).blob.filename.to_s)
 
     errors.add(:file, "game type not allowed")
   end
 
+  sig { void }
   def validate_not_already_present
-    return unless file&.blob&.key
+    return unless file.attached? && T.unsafe(file).blob&.key
 
-    is_r2_upload = file.blob.persisted? && file.blob.key.start_with?("maps/")
+    blob = T.unsafe(file).blob
+    is_r2_upload = blob.persisted? && blob.key.start_with?("maps/")
 
     return if is_r2_upload
 
-    errors.add(:file, "already available") if ActiveStorage::Blob.service.exist?(file.blob.key)
+    errors.add(:file, "already available") if ActiveStorage::Blob.service.exist?(blob.key)
   end
 
+  sig { params(filename: String).returns(T.nilable(T::Boolean)) }
   def self.blacklisted_type?(filename)
-    target_filename = filename.match(/(^.*\.bsp)/) && filename.match(/(^.*\.bsp)/)[1]
+    match = filename.match(/(^.*\.bsp)/)
+    return nil unless match
+
+    target_filename = match[1]
     target_filename&.starts_with?(invalid_types_regex)
   end
 
+  sig { params(user: User, key: String, filename: String).returns(T::Hash[Symbol, T.untyped]) }
   def self.create_from_direct_upload(user:, key:, filename:)
     existing_blob = ActiveStorage::Blob.find_by(key: key)
     return { success: false, error: "File already exists in database" } if existing_blob
@@ -198,6 +220,7 @@ class MapUpload < ActiveRecord::Base
     end
   end
 
+  sig { params(key: String).returns(T::Hash[Symbol, T.untyped]) }
   def self.validate_direct_upload_file(key)
     begin
       s3_resource = ActiveStorage::Blob.service.client
@@ -226,10 +249,11 @@ class MapUpload < ActiveRecord::Base
     end
   end
 
+  sig { returns(T.nilable(String)) }
   def filename
-    if file.attached?
+    if file.attached? && T.unsafe(file).blob
       # ActiveStorage upload
-      file.filename.to_s
+      T.unsafe(file).blob.filename.to_s
     elsif self[:file].present?
       # CarrierWave upload (filename stored in file column)
       self[:file]
@@ -241,6 +265,7 @@ class MapUpload < ActiveRecord::Base
     end
   end
 
+  sig { returns(T.nilable(String)) }
   def map_name
     fname = filename
     return nil unless fname
@@ -249,10 +274,11 @@ class MapUpload < ActiveRecord::Base
     fname.gsub(/\.bsp$/, "")
   end
 
+  sig { params(file_size_lookup: T.nilable(T::Hash[Integer, Integer])).returns(T.nilable(Integer)) }
   def file_size(file_size_lookup = nil)
-    if file.attached?
+    if file.attached? && T.unsafe(file).blob
       # ActiveStorage upload - size is stored in blob
-      file.blob.byte_size
+      T.unsafe(file).blob.byte_size
     elsif self[:file].present?
       # CarrierWave upload - use preloaded size if available, otherwise check bucket
       if file_size_lookup && file_size_lookup.key?(id)
@@ -268,6 +294,7 @@ class MapUpload < ActiveRecord::Base
     end
   end
 
+  sig { params(file_size_lookup: T.nilable(T::Hash[Integer, Integer])).returns(String) }
   def formatted_file_size(file_size_lookup = nil)
     size = file_size(file_size_lookup)
     return "Unknown" unless size
@@ -275,10 +302,11 @@ class MapUpload < ActiveRecord::Base
     "#{(size / 1024.0 / 1024.0).round(1)} MB"
   end
 
+  sig { params(file_exists_lookup: T.nilable(T::Hash[Integer, T::Boolean])).returns(T::Boolean) }
   def file_exists?(file_exists_lookup = nil)
     if file.attached?
       # ActiveStorage upload - check if blob exists
-      file.blob.present?
+      T.unsafe(file).blob.present?
     elsif self[:file].present?
       # CarrierWave upload - use preloaded existence if available
       if file_exists_lookup && file_exists_lookup.key?(id)
@@ -296,10 +324,13 @@ class MapUpload < ActiveRecord::Base
 
   private
 
+  sig { void }
   def set_s3_prefix
-    return unless file.attached? && file.blob.present?
-    return if file.blob.key.start_with?("maps/")
+    return unless file.attached? && T.unsafe(file).blob&.present?
 
-    file.blob.key = "maps/#{file.blob.filename}"
+    blob = T.unsafe(file).blob
+    return if blob.key.start_with?("maps/")
+
+    blob.key = "maps/#{blob.filename}"
   end
 end

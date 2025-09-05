@@ -1,9 +1,11 @@
-# typed: false
+# typed: true
 # frozen_string_literal: true
 
 class PaypalOrder < Order
+  extend T::Sig
   include PayPal::SDK::REST
 
+  sig { returns(T::Boolean) }
   def prepare
     set_redirect_urls
     add_transaction
@@ -15,6 +17,7 @@ class PaypalOrder < Order
     end
   end
 
+  sig { params(payer_id: String, payment_class: T.class_of(PayPal::SDK::REST::DataTypes::Payment)).returns(T.any(T::Boolean, T.nilable(String))) }
   def charge(payer_id, payment_class = Payment)
     payment = payment_class.find(payment_id)
     if payment.execute(payer_id: payer_id)
@@ -25,6 +28,7 @@ class PaypalOrder < Order
     end
   end
 
+  sig { void }
   def set_redirect_urls
     payment.redirect_urls = RedirectUrls.new(
       return_url: "#{SITE_URL}/orders/redirect/?order_id=#{id}",
@@ -32,10 +36,12 @@ class PaypalOrder < Order
     )
   end
 
+  sig { returns(String) }
   def checkout_url
     @checkout_url ||= payment.links.find { |v| v.method == "REDIRECT" }.href
   end
 
+  sig { returns(PayPal::SDK::REST::DataTypes::Payment) }
   def payment
     @payment ||= Payment.new(intent: "sale",
                              payer: {
@@ -43,11 +49,13 @@ class PaypalOrder < Order
                              })
   end
 
+  sig { returns(PayPal::SDK::REST::DataTypes::Amount) }
   def amount
-    Amount.new(currency: product.currency,
-               total: format_price(product.price))
+    Amount.new(currency: T.must(product).currency,
+               total: format_price(T.must(product).price))
   end
 
+  sig { void }
   def add_transaction
     payment.transactions = [
       Transaction.new(amount: amount,
@@ -55,21 +63,24 @@ class PaypalOrder < Order
     ]
   end
 
+  sig { returns(PayPal::SDK::REST::DataTypes::ItemList) }
   def item_list
     ItemList.new(items: items)
   end
 
+  sig { returns(T::Array[PayPal::SDK::REST::DataTypes::Item]) }
   def items
     [
-      Item.new(name: "#{SITE_HOST} - #{product.name}",
-               price: format_price(product.price),
+      Item.new(name: "#{SITE_HOST} - #{T.must(product).name}",
+               price: format_price(T.must(product).price),
                quantity: 1,
-               currency: product.currency)
+               currency: T.must(product).currency)
     ]
   end
 
   private
 
+  sig { params(price: Numeric).returns(String) }
   def format_price(price)
     format("%.2f", price.round(2))
   end

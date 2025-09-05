@@ -9,22 +9,22 @@ class SshServer < RemoteServer
     execute("ps ux | grep port | grep #{port} | grep srcds_linux | grep -v grep | grep -v ruby | awk '{print $2}'")
   end
 
-  sig { returns(T.nilable(Array)) }
+  sig { returns(T::Array[String]) }
   def demos
-    @demos ||= shell_output_to_array(execute("ls #{tf_dir}/*.dem"))
+    @demos ||= shell_output_to_array(execute("ls #{tf_dir}/*.dem")) || []
   end
 
-  sig { returns(T.nilable(Array)) }
+  sig { returns(T::Array[String]) }
   def logs
-    @logs ||= shell_output_to_array(execute("ls #{tf_dir}/logs/*.log"))
+    @logs ||= shell_output_to_array(execute("ls #{tf_dir}/logs/*.log")) || []
   end
 
-  sig { returns(T.nilable(Array)) }
+  sig { returns(T::Array[String]) }
   def stac_logs
-    @stac_logs ||= shell_output_to_array(execute("ls #{tf_dir}/addons/sourcemod/logs/stac/*.log"))
+    @stac_logs ||= shell_output_to_array(execute("ls #{tf_dir}/addons/sourcemod/logs/stac/*.log")) || []
   end
 
-  sig { params(dir: String).returns(Array) }
+  sig { params(dir: String).returns(T::Array[String]) }
   def list_files(dir)
     files = []
     Net::SFTP.start(ip, nil) do |sftp|
@@ -46,10 +46,13 @@ class SshServer < RemoteServer
     raise
   end
 
+  sig { params(files: T::Array[String]).returns(T.nilable(T::Boolean)) }
   def delete_from_server(files)
-    execute("rm -f #{files.map(&:shellescape).join(' ')}")
+    result = execute("rm -f #{files.map(&:shellescape).join(' ')}")
+    !!result
   end
 
+  sig { params(command: String, log: T::Boolean).returns(T.nilable(String)) }
   def execute(command, log: true)
     logger.info "executing remotely: #{command}" if log
     ssh_exec(command)
@@ -83,14 +86,17 @@ class SshServer < RemoteServer
     system("#{scp_command} #{ip}:\"#{files.map(&:shellescape).join(' ')}\" #{destination}")
   end
 
+  sig { returns(T.class_of(DownloadThenZipFileCreator)) }
   def zip_file_creator_class
     DownloadThenZipFileCreator
   end
 
+  sig { returns(T.nilable(String)) }
   def kill_process
     execute("kill -15 #{process_id}")
   end
 
+  sig { returns(T.nilable(String)) }
   def restart
     if process_id
       logger.info "Killing process id #{process_id}"
@@ -99,10 +105,14 @@ class SshServer < RemoteServer
       logger.error "No process_id found for server #{id} - #{name}"
     end
     ssh_close
+    nil
   end
 
+  sig { params(shell_output: T.nilable(String)).returns(T.nilable(T::Array[String])) }
   def shell_output_to_array(shell_output)
-    shell_output.lines.to_a.map(&:chomp)
+    return nil if shell_output.nil?
+
+    shell_output.lines.map(&:chomp)
   end
 
   sig { returns(T.nilable(Net::SSH::Connection::Session)) }
@@ -110,6 +120,7 @@ class SshServer < RemoteServer
     @ssh ||= Net::SSH.start(ip, nil)
   end
 
+  sig { void }
   def ssh_close
     ssh.try(:close)
     @ssh = nil

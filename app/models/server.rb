@@ -31,12 +31,13 @@ class Server < ActiveRecord::Base
 
   delegate :flag, to: :location, prefix: true, allow_nil: true
 
+  sig { returns(String) }
   def detailed_location
     return "Unknown" unless ip.present?
 
     Rails.cache.fetch("server_detailed_location_v5_#{id}", expires_in: 1.week) do
       # Check for overrides first
-      override = geocoding_override_for(ip)
+      override = geocoding_override_for(T.must(ip))
 
       if override
         city = override["city"]
@@ -74,6 +75,7 @@ class Server < ActiveRecord::Base
     location&.name || "Unknown"
   end
 
+  sig { params(ip_address: String).returns(T.nilable(T::Hash[String, T.untyped])) }
   def geocoding_override_for(ip_address)
     @geocoding_overrides ||= load_geocoding_overrides
 
@@ -179,12 +181,12 @@ class Server < ActiveRecord::Base
 
   sig { params(password: String).returns(T.nilable(String)) }
   def server_connect_url(password)
-    steam_connect_url(public_port, password)
+    steam_connect_url(T.must(public_port), password)
   end
 
   sig { params(password: String).returns(T.nilable(String)) }
   def stv_connect_url(password)
-    steam_connect_url(public_tv_port, password)
+    steam_connect_url(T.must(public_tv_port), password)
   end
 
   sig { params(reservation: Reservation).returns(ReservationStatus) }
@@ -229,17 +231,17 @@ class Server < ActiveRecord::Base
 
   sig { params(user: User).returns(T.any(String, T::Boolean)) }
   def add_sourcemod_admin(user)
-    write_configuration(sourcemod_admin_file, sourcemod_admin_body(user))
+    T.must(write_configuration(sourcemod_admin_file, sourcemod_admin_body(user)))
   end
 
   sig { params(reservation: Reservation).returns(T.any(String, T::Boolean)) }
   def add_sourcemod_servers(reservation)
-    write_configuration(sourcemod_servers_file, sourcemod_servers_body(reservation))
+    T.must(write_configuration(sourcemod_servers_file, sourcemod_servers_body(reservation)))
   end
 
   sig { params(reservation: Reservation).returns(T.any(String, T::Boolean)) }
   def add_motd(reservation)
-    write_configuration(motd_file, motd_body(reservation))
+    T.must(write_configuration(motd_file, motd_body(reservation)))
   end
 
   sig { returns(T.nilable(T.any(T::Boolean, String))) }
@@ -308,7 +310,7 @@ class Server < ActiveRecord::Base
 
   sig { params(reservation: Reservation).returns(T.nilable(T.any(String, T::Boolean))) }
   def write_custom_whitelist(reservation)
-    write_configuration(server_config_file("custom_whitelist_#{reservation.custom_whitelist_id}.txt"), reservation.custom_whitelist_content)
+    write_configuration(server_config_file("custom_whitelist_#{reservation.custom_whitelist_id}.txt"), T.must(reservation.custom_whitelist_content))
   end
 
   sig { params(object: Reservation, config_file: String).returns(String) }
@@ -319,6 +321,7 @@ class Server < ActiveRecord::Base
   end
 
   # rubocop:disable Naming/AccessorMethodName
+  sig { returns(Binding) }
   def get_binding
     binding
   end
@@ -351,18 +354,21 @@ class Server < ActiveRecord::Base
     current_reservations.first
   end
 
+  sig { returns(Integer) }
   def inactive_minutes
     current_reservation&.inactive_minute_counter || 0
   end
 
+  sig { returns(T::Boolean) }
   def occupied?
     if number_of_players
-      number_of_players.positive?
+      T.must(number_of_players).positive?
     else
       true
     end
   end
 
+  sig { params(reservation: Reservation).void }
   def start_reservation(reservation)
     reservation.enable_mitigations if supports_mitigations?
 
@@ -370,7 +376,7 @@ class Server < ActiveRecord::Base
     if reservation.enable_plugins? || reservation.enable_demos_tf? || au_system?
       reservation.status_update("Enabling plugins")
       enable_plugins
-      add_sourcemod_admin(reservation.user)
+      add_sourcemod_admin(T.must(reservation.user))
       add_sourcemod_servers(reservation)
       reservation.status_update("Enabled plugins")
       if reservation.enable_demos_tf? || au_system?
@@ -384,7 +390,7 @@ class Server < ActiveRecord::Base
       end
     end
     ensure_map_on_server(reservation)
-    if reservation.server.outdated?
+    if T.must(reservation.server).outdated?
       reservation.status_update("Server outdated, restarting server to update")
       clear_sdr_info!
       restart
@@ -404,28 +410,33 @@ class Server < ActiveRecord::Base
     end
   end
 
+  sig { params(reservation: Reservation).void }
   def ensure_map_on_server(reservation)
-    return if reservation.first_map.blank? || map_present?(reservation.first_map)
+    return if reservation.first_map.blank? || map_present?(T.must(reservation.first_map))
 
     reservation.status_update("Map #{reservation.first_map} not on the server, uploading")
 
     upload_map_to_server(reservation)
   end
 
+  sig { params(map_name: String).returns(T.nilable(T::Boolean)) }
   def map_present?(map_name)
     file_present?("#{tf_dir}/maps/#{map_name}.bsp")
   end
 
+  sig { params(reservation: Reservation).void }
   def upload_map_to_server(reservation)
     tempfile = Down.download("https://fastdl.serveme.tf/maps/#{reservation.first_map}.bsp")
     copy_to_server([ tempfile.path ], "#{tf_dir}/maps/#{reservation.first_map}.bsp")
     reservation.status_update("Uploaded map #{reservation.first_map} to server")
   end
 
+  sig { params(reservation: Reservation).void }
   def update_reservation(reservation)
     update_configuration(reservation)
   end
 
+  sig { params(reservation: Reservation).void }
   def end_reservation(reservation)
     reservation.reload
     return if reservation.ended?
@@ -447,33 +458,40 @@ class Server < ActiveRecord::Base
     reservation.status_update("Restarted server")
   end
 
+  sig { params(reservation: Reservation).void }
   def download_stac_logs(reservation)
     StacLogsDownloaderWorker.perform_async(reservation.id)
   end
 
+  sig { void }
   def enable_demos_tf
     demos_tf_file = Rails.root.join("doc", "demostf.smx").to_s
     copy_to_server([ demos_tf_file ], "#{tf_dir}/addons/sourcemod/plugins")
   end
 
+  sig { void }
   def disable_demos_tf
     delete_from_server([ "#{tf_dir}/addons/sourcemod/plugins/demostf.smx" ])
   end
 
+  sig { params(reservation: Reservation).void }
   def zip_demos_and_logs(reservation)
     ZipFileCreator.create(reservation, logs_and_demos)
   end
 
+  sig { params(reservation: Reservation).void }
   def copy_logs(reservation)
     LogCopier.copy(reservation, self)
   end
 
+  sig { returns(T.nilable(SteamCondenser::Servers::SourceServer)) }
   def condenser
     @condenser ||= SteamCondenser::Servers::SourceServer.new(ip, port.to_i)
   end
 
+  sig { params(rcon: T.nilable(String)).returns(T.nilable(T::Boolean)) }
   def rcon_auth(rcon = current_rcon)
-    @rcon_auth ||= condenser.rcon_auth(rcon)
+    @rcon_auth ||= T.must(condenser).rcon_auth(rcon)
   rescue NoMethodError # Empty rcon reply, typically due to rcon ban
     nil
   end
@@ -490,30 +508,34 @@ class Server < ActiveRecord::Base
     command = command.gsub("//", "/\u200B/")
     return nil if blocked_command?(command) && !allow_blocked
 
-    condenser.rcon_exec(command) if rcon_auth
+    T.must(condenser).rcon_exec(command) if rcon_auth
   rescue Errno::ECONNREFUSED, SteamCondenser::Error::Timeout, SteamCondenser::Error::RCONNoAuth, SteamCondenser::Error::RCONBan => e
     Rails.logger.error "Couldn't deliver command to server #{id} - #{name}, command: #{command}, exception: #{e}"
     nil
   end
 
+  sig { params(command: String).returns(T::Boolean) }
   def blocked_command?(command)
     blocked_commands.any? do |c|
       command.downcase.include?(c)
     end
   end
 
+  sig { void }
   def rcon_disconnect
-    condenser.disconnect
+    T.must(condenser).disconnect
   rescue StandardError => e
     Rails.logger.error "Couldn't disconnect RCON of server #{id} - #{name}, exception: #{e}"
   ensure
     @condenser = nil
   end
 
+  sig { returns(T.nilable(Integer)) }
   def version
     @version ||= /Network\ PatchVersion:\s+(\d+)/ =~ rcon_exec("version").to_s && Regexp.last_match(1).to_i
   end
 
+  sig { returns(T::Boolean) }
   def outdated?
     version != Server.latest_version
   end
@@ -527,6 +549,7 @@ class Server < ActiveRecord::Base
     nil
   end
 
+  sig { returns(T.nilable(Integer)) }
   def self.fetch_latest_version
     return 100_000_000 if Rails.env == "test"
 
@@ -540,32 +563,41 @@ class Server < ActiveRecord::Base
     json["response"]["required_version"].to_i
   end
 
+  sig { returns(T.nilable(Integer)) }
   def number_of_players
     @number_of_players ||= server_info.number_of_players
   rescue Errno::ECONNREFUSED, SteamCondenser::Error::Timeout
     nil
   end
 
+  sig { returns(ServerInfo) }
   def server_info
     @server_info ||= ServerInfo.new(self)
   end
 
+  sig { returns(Integer) }
   def tv_port
     self[:tv_port]&.to_i || (port.to_i + 5)
   end
 
+  sig { returns(T::Boolean) }
   def supports_mitigations?
     false
   end
 
+  sig { params(ip: T.nilable(String), port: T.nilable(T.any(Integer, String)), password: String).returns(T.nilable(String)) }
   def connect_string(ip, port, password)
+    return nil if ip.nil? || port.nil?
+
     "connect #{ip}:#{port}; password \"#{password}\""
   end
 
+  sig { params(port: T.any(Integer, String), password: String).returns(String) }
   def steam_connect_url(port, password)
     "steam://connect/#{hostname_to_ip}:#{port}/#{CGI.escape(password)}"
   end
 
+  sig { returns(T.nilable(String)) }
   def hostname_to_ip
     @hostname_to_ip ||=
       begin
@@ -575,10 +607,12 @@ class Server < ActiveRecord::Base
       end
   end
 
+  sig { void }
   def clear_sdr_info!
     persisted? && update_columns(last_sdr_ip: nil, last_sdr_port: nil, last_sdr_tv_port: nil)
   end
 
+  sig { params(server_info: T.nilable(ServerInfo)).void }
   def save_version_info(server_info)
     version = server_info&.version
     latest_version = self.class.latest_version
@@ -611,12 +645,10 @@ class Server < ActiveRecord::Base
     raise "not implemented"
   end
 
-  sig { params(_files: T::Array[String], _destination: String).returns(T.nilable(T::Boolean)) }
   def copy_to_server(_files, _destination)
     raise "not implemented"
   end
 
-  sig { params(_files: T::Array[String]).returns(T.nilable(T::Boolean)) }
   def delete_from_server(_files)
     raise "not implemented"
   end
@@ -633,13 +665,13 @@ class Server < ActiveRecord::Base
     raise "not implemented"
   end
 
-  sig { params(_file: String).returns(T.nilable(T::Boolean)) }
   def file_present?(_file)
     raise "not implemented"
   end
 
   private
 
+  sig { returns(T::Hash[String, T.untyped]) }
   def load_geocoding_overrides
     override_file = Rails.root.join("config", "geocoding_overrides.yml")
     return {} unless File.exist?(override_file)
@@ -651,46 +683,57 @@ class Server < ActiveRecord::Base
     {}
   end
 
+  sig { returns(T::Array[String]) }
   def logs_and_demos
     @logs_and_demos ||= logs + demos
   end
 
+  sig { returns(String) }
   def log_match
     File.join(tf_dir, "logs", "*.log")
   end
 
+  sig { returns(String) }
   def stac_log_match
     File.join(tf_dir, "addons", "sourcemod", "logs", "stac", "*.log")
   end
 
+  sig { returns(String) }
   def demo_match
     File.join(tf_dir, "*.dem")
   end
 
+  sig { params(config_file: String).returns(String) }
   def server_config_file(config_file)
     "#{tf_dir}/cfg/#{config_file}"
   end
 
+  sig { returns(T::Array[String]) }
   def configuration_files
     [ reservation_config_file, initial_map_config_file, banned_user_file, banned_ip_file, motd_file ]
   end
 
+  sig { returns(String) }
   def reservation_config_file
     server_config_file("reservation.cfg")
   end
 
+  sig { returns(String) }
   def initial_map_config_file
     server_config_file("ctf_turbine.cfg")
   end
 
+  sig { returns(String) }
   def banned_user_file
     server_config_file("banned_user.cfg")
   end
 
+  sig { returns(String) }
   def banned_ip_file
     server_config_file("banned_ip.cfg")
   end
 
+  sig { returns(String) }
   def motd_file
     "#{tf_dir}/motd.txt"
   end
@@ -700,10 +743,12 @@ class Server < ActiveRecord::Base
     Resolv.getaddress(T.must(ip)) unless Rails.env == "test"
   end
 
+  sig { returns(T::Array[String]) }
   def blocked_commands
     @blocked_commands ||= %w[logaddress rcon_password sv_downloadurl]
   end
 
+  sig { void }
   def update_resolved_ip
     return if ip.blank?
 

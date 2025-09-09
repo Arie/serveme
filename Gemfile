@@ -50,6 +50,7 @@ gem "pg"
 gem "puma"
 gem "rack"
 gem "rack-attack"
+gem "rack-utf8_sanitizer"
 gem "rails", "~> 8.0.0"
 gem "rbzip2"
 # Use Redis for Action Cable

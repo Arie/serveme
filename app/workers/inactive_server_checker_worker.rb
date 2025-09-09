@@ -32,7 +32,7 @@ class InactiveServerCheckerWorker
   end
 
   def save_sdr_info(server_info)
-    return unless server_info&.ip.present?
+    return unless server_info&.ip.present? && server_info&.port.present?
     return if server_info.ip == server.last_sdr_ip && server_info.port == server.last_sdr_port
 
     server.update_columns(

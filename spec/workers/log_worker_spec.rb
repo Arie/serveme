@@ -37,6 +37,7 @@ describe LogWorker do
   let(:troll_unbanall_line) { '1234567L 03/29/2014 - 13:15:53: "TRoll<3><[U:0:1337]><Red>" say "!unbanall"' }
   let(:password_line) { '1234567L 03/29/2014 - 13:15:53: "Player<3><[U:1:12345]><Red>" say "!password"' }
   let(:connect_bot) { '1234567L 03/29/2014 - 13:15:53: "SourceTV<1><BOT><>" connected, address "127.0.0.1:27020"' }
+  let(:console_extend_line) { '1234567L 02/15/2013 - 00:09:15: "Console<0><Console><Console>" say "!extend"' }
 
   subject(:logworker) { LogWorker.perform_async(line) }
 
@@ -376,6 +377,18 @@ describe LogWorker do
       expect(server).not_to receive(:rcon_exec).with(/sm_psay/)
       expect(server).to receive(:rcon_say).with("Password can't be sent via DM - plugins are disabled for this reservation")
       LogWorker.perform_async(password_line)
+    end
+  end
+
+  describe 'console commands' do
+    it 'handles Console commands without crashing on steam ID conversion' do
+      expect { LogWorker.perform_async(console_extend_line) }.not_to raise_error
+    end
+
+    it 'ignores Console commands and does not process them' do
+      expect(reservation).not_to receive(:status_update)
+      expect(reservation).not_to receive(:extend!)
+      LogWorker.perform_async(console_extend_line)
     end
   end
 end

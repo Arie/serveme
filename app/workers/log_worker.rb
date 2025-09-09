@@ -61,10 +61,12 @@ class LogWorker
   end
 
   def handle_message
+    return if event.player.steam_id.in?(%w[Console BOT])
+
     action = action_by_reserver || action_for_message_said_by_anyone
     return unless action
 
-    reservation&.status_update("#{event.player.name} (#{sayer_steam_uid}): #{event.message}")
+    reservation&.status_update("#{event.player.name}#{sayer_steam_uid ? " (#{sayer_steam_uid})" : ""}: #{event.message}")
     send(action)
     reservation&.server&.rcon_disconnect
   end
@@ -263,9 +265,13 @@ class LogWorker
     @reserver_steam_id ||= SteamCondenser::Community::SteamId.community_id_to_steam_id3(reserver.uid.to_i)
   end
 
-  sig { returns(Integer) }
+  sig { returns(T.nilable(Integer)) }
   def sayer_steam_uid
+    return nil if event.player.steam_id.in?(%w[Console BOT])
+
     @sayer_steam_uid ||= SteamCondenser::Community::SteamId.steam_id_to_community_id(event.player.steam_id)
+  rescue SteamCondenser::Error
+    nil
   end
 
   sig { returns(TF2LineParser::Events::Event) }

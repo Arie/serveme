@@ -74,7 +74,7 @@ class PingManager {
             socket = new WebSocket("wss://" + ip + "/ping");
             this.sockets.set(ip, socket);
 
-            socket.addEventListener("message", (event) => {
+            socket.addEventListener("message", () => {
               try {
                 const callbacks = this.pingCallbacks.get(ip) || [];
                 const start = callbacks.shift();
@@ -155,7 +155,7 @@ class PingManager {
       callbacks.push(start);
       this.pingCallbacks.set(ip, callbacks);
 
-      let timeout = setTimeout(() => {
+      setTimeout(() => {
         try {
           const callbacks = this.pingCallbacks.get(ip) || [];
           const index = callbacks.indexOf(start);
@@ -211,6 +211,10 @@ export default class extends Controller {
   static targets = ["table", "chart", "selected"];
 
   connect() {
+    this.lastActivityTime = Date.now();
+    this.inactivityTimeout = 10 * 60 * 1000;
+    this.isActive = true;
+    this.setupActivityTracking();
     try {
       if (this.hasTableTarget) {
         this.rows = Array.from(
@@ -252,6 +256,10 @@ export default class extends Controller {
     if (this.pingTimeout) {
       clearTimeout(this.pingTimeout);
     }
+    if (this.activityCheckTimeout) {
+      clearTimeout(this.activityCheckTimeout);
+    }
+    this.removeActivityTracking();
     document.removeEventListener("server-ping-update", this.handlePingUpdate);
     if (window.pingManager) {
       window.pingManager.cleanup();
@@ -285,7 +293,69 @@ export default class extends Controller {
     });
   }
 
+  setupActivityTracking() {
+    const activityEvents = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+
+    this.activityHandler = () => {
+      this.lastActivityTime = Date.now();
+      if (!this.isActive) {
+        this.isActive = true;
+        this.startPingCycle();
+      }
+    };
+
+    activityEvents.forEach(event => {
+      document.addEventListener(event, this.activityHandler, { passive: true });
+    });
+
+    this.startActivityMonitoring();
+  }
+
+  removeActivityTracking() {
+    if (this.activityHandler) {
+      const activityEvents = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+      activityEvents.forEach(event => {
+        document.removeEventListener(event, this.activityHandler);
+      });
+    }
+  }
+
+  startActivityMonitoring() {
+    const checkActivity = () => {
+      const now = Date.now();
+      const timeSinceActivity = now - this.lastActivityTime;
+
+      if (timeSinceActivity > this.inactivityTimeout && this.isActive) {
+        this.isActive = false;
+        if (this.pingTimeout) {
+          clearTimeout(this.pingTimeout);
+          this.pingTimeout = null;
+        }
+        if (this.rows) {
+          this.rows.forEach((row) => {
+            const pingCell = row.querySelector(".ping");
+            if (pingCell) {
+              pingCell.textContent = "Paused (inactive)";
+              pingCell.classList.add("text-muted");
+            }
+          });
+        }
+        if (this.hasSelectedTarget) {
+          this.selectedTarget.value = "Paused (inactive)";
+        }
+      }
+
+      this.activityCheckTimeout = setTimeout(checkActivity, 60000);
+    };
+
+    checkActivity();
+  }
+
   startPingCycle() {
+    if (!this.isActive) {
+      return;
+    }
+
     try {
       this.rows.forEach((row) => {
         const ip = row.dataset.ip;
@@ -298,9 +368,10 @@ export default class extends Controller {
           pingCell.textContent = result;
           if (result === "error" || result === "timeout") {
             pingCell.classList.add("text-danger");
+            pingCell.classList.remove("text-muted");
             pingCell.title = "Server is not responding";
           } else {
-            pingCell.classList.remove("text-danger");
+            pingCell.classList.remove("text-danger", "text-muted");
             pingCell.title = "";
           }
 
@@ -330,9 +401,13 @@ export default class extends Controller {
         window.pingManager.pingServer(ip, updatePing);
       });
 
-      this.pingTimeout = setTimeout(() => this.startPingCycle(), 1000);
+      if (this.isActive) {
+        this.pingTimeout = setTimeout(() => this.startPingCycle(), 1000);
+      }
     } catch (error) {
-      this.pingTimeout = setTimeout(() => this.startPingCycle(), 1000);
+      if (this.isActive) {
+        this.pingTimeout = setTimeout(() => this.startPingCycle(), 1000);
+      }
     }
   }
 
@@ -397,7 +472,7 @@ export default class extends Controller {
               usePointStyle: true,
               generateLabels: function(chart) {
                 const labels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
-                
+
                 labels.forEach((label, index) => {
                   const dataset = chart.data.datasets[index];
                   if (dataset) {
@@ -407,7 +482,7 @@ export default class extends Controller {
                     label.strokeStyle = dataset.borderColor;
                   }
                 });
-                
+
                 return labels;
               }
             },

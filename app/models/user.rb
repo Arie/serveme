@@ -53,8 +53,12 @@ class User < ActiveRecord::Base
     else
       steam_id.medium_avatar_url
     end
-  rescue StandardError
-    "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_#{size}.jpg" # Default avatar
+  rescue SteamCondenser::Error::Timeout, Net::ReadTimeout, Faraday::TimeoutError => e
+    Rails.logger.info "Steam API timeout when fetching avatar: #{e.message}"
+    "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_#{size}.jpg"
+  rescue StandardError => e
+    Rails.logger.error "Failed to fetch Steam avatar: #{e.message}"
+    "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_#{size}.jpg"
   end
 
   sig { returns(T::Boolean) }

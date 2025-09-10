@@ -76,6 +76,8 @@ class UserSearchService
       begin
         steam_id64 = SteamCondenser::Community::SteamId.resolve_vanity_url(match[1])
         return User.find_by(uid: steam_id64.to_s) if steam_id64
+      rescue SteamCondenser::Error::Timeout, Net::ReadTimeout, Faraday::TimeoutError => e
+        Rails.logger.info "Steam API timeout when resolving vanity URL: #{e.message}"
       rescue StandardError => e
         Rails.logger.error "Failed to resolve vanity URL: #{e.message}"
       end

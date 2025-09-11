@@ -545,8 +545,6 @@ class Server < ActiveRecord::Base
     Rails.cache.fetch("latest_server_version", expires_in: 5.minutes) do
       fetch_latest_version
     end
-  rescue Net::ReadTimeout, Faraday::TimeoutError
-    nil
   end
 
   sig { returns(T.nilable(Integer)) }
@@ -561,6 +559,12 @@ class Server < ActiveRecord::Base
 
     json = JSON.parse(response.body)
     json["response"]["required_version"].to_i
+  rescue SteamCondenser::Error::Timeout, Net::ReadTimeout, Faraday::TimeoutError => e
+    Rails.logger.info "Steam API timeout when fetching latest version: #{e.message}"
+    nil
+  rescue StandardError => e
+    Rails.logger.error "Failed to fetch latest version: #{e.message}"
+    nil
   end
 
   sig { returns(T.nilable(Integer)) }

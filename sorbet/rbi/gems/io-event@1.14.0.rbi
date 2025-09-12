@@ -265,8 +265,30 @@ class IO::Event::PriorityHeap
 
   # Empties out the heap, discarding all elements
   #
-  # source://io-event//lib/io/event/priority_heap.rb#83
+  # source://io-event//lib/io/event/priority_heap.rb#100
   def clear!; end
+
+  # Add multiple elements to the heap efficiently in O(n) time.
+  # This is more efficient than calling push multiple times (O(n log n)).
+  #
+  # source://io-event//lib/io/event/priority_heap.rb#87
+  def concat(elements); end
+
+  # Remove a specific element from the heap.
+  #
+  # O(n) where n is the number of elements in the heap.
+  #
+  # source://io-event//lib/io/event/priority_heap.rb#110
+  def delete(element); end
+
+  # Remove elements matching the given block condition by rebuilding the heap.
+  #
+  # This is more efficient than multiple delete operations when removing many elements.
+  #
+  # O(n) where n is the number of elements in the heap.
+  #
+  # source://io-event//lib/io/event/priority_heap.rb#149
+  def delete_if; end
 
   # @return [Boolean]
   #
@@ -293,12 +315,12 @@ class IO::Event::PriorityHeap
   #
   # @return [Boolean]
   #
-  # source://io-event//lib/io/event/priority_heap.rb#88
+  # source://io-event//lib/io/event/priority_heap.rb#167
   def valid?; end
 
   private
 
-  # source://io-event//lib/io/event/priority_heap.rb#113
+  # source://io-event//lib/io/event/priority_heap.rb#206
   def bubble_down(index); end
 
   # Left here for reference, but unused.
@@ -306,8 +328,14 @@ class IO::Event::PriorityHeap
   # 	@contents[i], @contents[j] = @contents[j], @contents[i]
   # end
   #
-  # source://io-event//lib/io/event/priority_heap.rb#100
+  # source://io-event//lib/io/event/priority_heap.rb#193
   def bubble_up(index); end
+
+  # Rebuild the heap property from an arbitrary array in O(n) time.
+  # Uses bottom-up heapify algorithm starting from the last non-leaf node.
+  #
+  # source://io-event//lib/io/event/priority_heap.rb#176
+  def heapify!; end
 end
 
 # source://io-event//lib/io/event/selector/select.rb#11
@@ -330,7 +358,7 @@ module IO::Event::Selector
   end
 end
 
-class IO::Event::Selector::EPoll
+class IO::Event::Selector::KQueue
   # source://io-event//lib/io/event/native.rb#7
   def initialize(_arg0); end
 

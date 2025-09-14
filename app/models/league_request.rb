@@ -99,7 +99,13 @@ class LeagueRequest
   end
 
   def pluck_uniques(query, to_pluck)
-    query.reorder("").distinct.pluck(to_pluck).compact
+    results = query.reorder("").distinct.pluck(to_pluck).compact
+
+    if @cross_reference && to_pluck == :ip
+      results.reject { |ip| ReservationPlayer.banned_asn_ip?(ip) }
+    else
+      results
+    end
   end
 
   def players_query

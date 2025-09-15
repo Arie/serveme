@@ -13,8 +13,8 @@ class LeagueRequest
   sig { params(user: User, ip: T.nilable(String), steam_uid: T.nilable(String), reservation_ids: T.nilable(T.any(String, T::Array[Integer])), cross_reference: T.nilable(String)).void }
   def initialize(user, ip: nil, steam_uid: nil, reservation_ids: nil, cross_reference: nil)
     @user = user
-    @ip = ip&.gsub(/[[:space:]]/, "")&.split(",")
-    @steam_uid = steam_uid&.gsub(/[[:space:]]/, "")&.split(",")
+    @ip = parse_ips(ip)
+    @steam_uid = parse_steam_uids(steam_uid)
     @reservation_ids =
       if reservation_ids.is_a?(String)
         reservation_ids.presence && reservation_ids.to_s.split(",").map(&:to_i)
@@ -101,11 +101,7 @@ class LeagueRequest
   def pluck_uniques(query, to_pluck)
     results = query.reorder("").distinct.pluck(to_pluck).compact
 
-    if @cross_reference && to_pluck == :ip
-      results.reject { |ip| ReservationPlayer.banned_asn_ip?(ip) }
-    else
-      results
-    end
+    @cross_reference && to_pluck == :ip ? results.reject { |ip| ReservationPlayer.banned_asn_ip?(ip) } : results
   end
 
   def players_query
@@ -113,5 +109,19 @@ class LeagueRequest
       .where(servers: { sdr: false })
       .where.not("reservation_players.ip LIKE ?", "169.254.%")
       .order(reservations: { starts_at: :desc })
+  end
+
+  def parse_ips(input)
+    return nil unless input.present?
+
+    ips = input.scan(/\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b/).uniq
+    ips.empty? ? input.gsub(/[[:space:]]/, "").split(",").presence : ips
+  end
+
+  def parse_steam_uids(input)
+    return nil unless input.present?
+
+    steam_ids = input.scan(/\b765[0-9]{14}\b/).uniq
+    steam_ids.empty? ? input.gsub(/[[:space:]]/, "").split(",").presence : steam_ids
   end
 end

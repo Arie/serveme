@@ -85,4 +85,48 @@ describe LeagueRequest do
       expect(results.map(&:id).sort).to eql([ player.id, alt.id, alt_other_reservation.id, other_ip.id ])
     end
   end
+
+  describe 'lenient input parsing' do
+    it 'extracts IPs from messy text' do
+      player1 = create(:reservation_player, ip: '192.168.1.1')
+      player2 = create(:reservation_player, ip: '10.0.0.1')
+
+      results = LeagueRequest.new(user, ip: '  Check: 192.168.1.1 and 10.0.0.1  ').search
+
+      expect(results.map(&:id).sort).to eq([ player1.id, player2.id ])
+    end
+
+    it 'handles IP with spaces' do
+      player = create(:reservation_player, ip: '8.8.8.8')
+
+      results = LeagueRequest.new(user, ip: '   8.8.8.8   ').search
+
+      expect(results.first.id).to eq(player.id)
+    end
+
+    it 'extracts Steam ID64s from text' do
+      player1 = create(:reservation_player, steam_uid: '76561198123456789')
+      player2 = create(:reservation_player, steam_uid: '76561198987654321')
+
+      results = LeagueRequest.new(user, steam_uid: 'User1: 76561198123456789 User2: 76561198987654321').search
+
+      expect(results.map(&:id).sort).to eq([ player1.id, player2.id ])
+    end
+
+    it 'handles Steam ID with spaces' do
+      player = create(:reservation_player, steam_uid: '76561198123456789')
+
+      results = LeagueRequest.new(user, steam_uid: '   76561198123456789   ').search
+
+      expect(results.first.id).to eq(player.id)
+    end
+
+    it 'falls back for invalid formats' do
+      player = create(:reservation_player, steam_uid: 'abc')
+
+      results = LeagueRequest.new(user, steam_uid: 'abc').search
+
+      expect(results.first.steam_uid).to eq('abc')
+    end
+  end
 end

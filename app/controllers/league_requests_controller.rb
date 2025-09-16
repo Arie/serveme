@@ -7,8 +7,10 @@ class LeagueRequestsController < ApplicationController
   def new
     respond_to do |format|
       if params[:ip] || params[:steam_uid]
-        @results = LeagueRequest.new(current_user, ip: params[:ip], steam_uid: params[:steam_uid], reservation_ids: params[:reservation_ids], cross_reference: params[:cross_reference]).search
+        league_request = LeagueRequest.new(current_user, ip: params[:ip], steam_uid: params[:steam_uid], reservation_ids: params[:reservation_ids], cross_reference: params[:cross_reference])
+        @results = league_request.search
         if @results
+          @stac_detections = league_request.stac_detections(@results)
           @asns = LeagueRequest.lookup_asns(@results)
           format.html { render :index }
         else
@@ -25,8 +27,10 @@ class LeagueRequestsController < ApplicationController
 
   def create
     respond_to do |format|
-      @results = LeagueRequest.new(current_user, ip: request_params[:ip], steam_uid: request_params[:steam_uid], reservation_ids: request_params[:reservation_ids], cross_reference: request_params[:cross_reference]).search
+      league_request = LeagueRequest.new(current_user, ip: request_params[:ip], steam_uid: request_params[:steam_uid], reservation_ids: request_params[:reservation_ids], cross_reference: request_params[:cross_reference])
+      @results = league_request.search
       if @results
+        @stac_detections = league_request.stac_detections(@results)
         @asns = LeagueRequest.lookup_asns(@results)
         format.html { render :index }
       else

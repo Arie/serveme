@@ -42,6 +42,19 @@ class LeagueRequest
     end
   end
 
+  sig { params(search_results: T.nilable(ActiveRecord::Relation)).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
+  def stac_detections(search_results = nil)
+    return [] unless search_results || @steam_uid.present?
+
+    if search_results
+      steam_uids = search_results.reorder("").distinct.pluck(:steam_uid).compact
+      return [] if steam_uids.empty?
+      find_stac_detections_for_steam_uids(steam_uids)
+    else
+      find_stac_detections_for_steam_uids(@steam_uid)
+    end
+  end
+
   sig { params(ip: T.any(String, T::Array[String])).returns(ActiveRecord::Relation) }
   def find_by_ip(ip)
     maybe_filter_by_reservation_ids(players_query.where(ip: ip))
@@ -123,5 +136,81 @@ class LeagueRequest
 
     steam_ids = input.scan(/\b765[0-9]{14}\b/).uniq
     steam_ids.empty? ? input.gsub(/[[:space:]]/, "").split(",").presence : steam_ids
+  end
+
+  def steam64_to_steam_id3(steam64)
+    return nil unless steam64.present?
+    begin
+      SteamCondenser::Community::SteamId.community_id_to_steam_id3(steam64.to_i)
+    rescue StandardError
+      nil
+    end
+  end
+
+  sig { params(steam_uids: T.nilable(T.any(String, T::Array[String]))).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
+  def find_stac_detections_for_steam_uids(steam_uids)
+    return [] unless steam_uids.present?
+
+    steam_uids_array = steam_uids.is_a?(Array) ? steam_uids : [ steam_uids ]
+    all_detections = []
+
+    steam_uids_array.each do |steam_uid|
+      steam_id3 = steam64_to_steam_id3(steam_uid)
+      next unless steam_id3
+
+      stac_logs = StacLog.joins(:reservation)
+        .where("stac_logs.contents LIKE ?", "%<#{steam_id3}>%")
+        .includes(reservation: :server)
+
+      maybe_filter_by_reservation_ids_for_stac(stac_logs).find_each do |stac_log|
+        detections = parse_stac_log_detections(stac_log, steam_uid)
+        all_detections.concat(detections) if detections.any?
+      end
+    end
+
+    all_detections.uniq { |detection| [ detection[:reservation_id], detection[:steam_uid], detection[:detections] ] }
+      .sort_by { |detection| -detection[:reservation_id] }
+  end
+
+  sig { params(stac_log: StacLog, target_steam_uid: String).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
+  def parse_stac_log_detections(stac_log, target_steam_uid)
+    return [] unless stac_log.contents.present?
+
+    begin
+      content = T.must(stac_log.contents).force_encoding("UTF-8")
+      processor = StacLogProcessor.new(stac_log.reservation)
+
+      all_detections = {}
+      processor.send(:process_log_content, content, all_detections)
+
+      detections_for_user = all_detections[target_steam_uid.to_i] || all_detections[target_steam_uid]
+      return [] unless detections_for_user
+
+      detection_counts = detections_for_user[:detections].group_by(&:itself).transform_values(&:count)
+      summarized_detections = detection_counts.map do |detection_type, count|
+        count > 1 ? "#{detection_type} (#{count}x)" : detection_type
+      end
+
+      [ {
+        reservation_id: stac_log.reservation_id,
+        reservation: stac_log.reservation,
+        steam_uid: target_steam_uid,
+        player_name: detections_for_user[:name],
+        steam_id: detections_for_user[:steam_id],
+        detections: summarized_detections,
+        stac_log_filename: stac_log.filename
+      } ]
+    rescue StandardError => e
+      Rails.logger.error "Error parsing STAC log #{stac_log.id}: #{e.message}"
+      []
+    end
+  end
+
+  def maybe_filter_by_reservation_ids_for_stac(query)
+    if @reservation_ids
+      query.where(reservation_id: @reservation_ids)
+    else
+      query
+    end
   end
 end

@@ -214,103 +214,103 @@ RSpec::Support::DEFAULT_FAILURE_NOTIFIER = T.let(T.unsafe(nil), Proc)
 # source://rspec-support//lib/rspec/support.rb#137
 RSpec::Support::DEFAULT_WARNING_NOTIFIER = T.let(T.unsafe(nil), Proc)
 
-# source://rspec-support//lib/rspec/support/differ.rb#12
+# source://rspec-support//lib/rspec/support/differ.rb#11
 class RSpec::Support::Differ
   # @return [Differ] a new instance of Differ
   #
-  # source://rspec-support//lib/rspec/support/differ.rb#69
+  # source://rspec-support//lib/rspec/support/differ.rb#68
   def initialize(opts = T.unsafe(nil)); end
 
   # @return [Boolean]
   #
-  # source://rspec-support//lib/rspec/support/differ.rb#65
+  # source://rspec-support//lib/rspec/support/differ.rb#64
   def color?; end
 
-  # source://rspec-support//lib/rspec/support/differ.rb#13
+  # source://rspec-support//lib/rspec/support/differ.rb#12
   def diff(actual, expected); end
 
-  # source://rspec-support//lib/rspec/support/differ.rb#59
+  # source://rspec-support//lib/rspec/support/differ.rb#58
   def diff_as_object(actual, expected); end
 
-  # source://rspec-support//lib/rspec/support/differ.rb#30
+  # source://rspec-support//lib/rspec/support/differ.rb#29
   def diff_as_string(actual, expected); end
 
   private
 
-  # source://rspec-support//lib/rspec/support/differ.rb#130
+  # source://rspec-support//lib/rspec/support/differ.rb#129
   def add_old_hunk_to_hunk(hunk, oldhunk); end
 
-  # source://rspec-support//lib/rspec/support/differ.rb#126
+  # source://rspec-support//lib/rspec/support/differ.rb#125
   def add_to_output(output, string); end
 
   # @return [Boolean]
   #
-  # source://rspec-support//lib/rspec/support/differ.rb#80
+  # source://rspec-support//lib/rspec/support/differ.rb#79
   def all_strings?(*args); end
 
   # @return [Boolean]
   #
-  # source://rspec-support//lib/rspec/support/differ.rb#84
+  # source://rspec-support//lib/rspec/support/differ.rb#83
   def any_multiline_strings?(*args); end
 
-  # source://rspec-support//lib/rspec/support/differ.rb#155
+  # source://rspec-support//lib/rspec/support/differ.rb#154
   def blue(text); end
 
-  # source://rspec-support//lib/rspec/support/differ.rb#117
+  # source://rspec-support//lib/rspec/support/differ.rb#116
   def build_hunks(actual, expected); end
 
-  # source://rspec-support//lib/rspec/support/differ.rb#92
+  # source://rspec-support//lib/rspec/support/differ.rb#91
   def coerce_to_string(string_or_array); end
 
-  # source://rspec-support//lib/rspec/support/differ.rb#143
+  # source://rspec-support//lib/rspec/support/differ.rb#142
   def color(text, color_code); end
 
-  # source://rspec-support//lib/rspec/support/differ.rb#163
+  # source://rspec-support//lib/rspec/support/differ.rb#162
   def color_diff(diff); end
 
-  # source://rspec-support//lib/rspec/support/differ.rb#97
+  # source://rspec-support//lib/rspec/support/differ.rb#96
   def diffably_stringify(array); end
 
-  # source://rspec-support//lib/rspec/support/differ.rb#121
+  # source://rspec-support//lib/rspec/support/differ.rb#120
   def finalize_output(output, final_line); end
 
-  # source://rspec-support//lib/rspec/support/differ.rb#139
+  # source://rspec-support//lib/rspec/support/differ.rb#138
   def format_type; end
 
-  # source://rspec-support//lib/rspec/support/differ.rb#151
+  # source://rspec-support//lib/rspec/support/differ.rb#150
   def green(text); end
 
-  # source://rspec-support//lib/rspec/support/differ.rb#204
+  # source://rspec-support//lib/rspec/support/differ.rb#203
   def handle_encoding_errors(actual, expected); end
 
-  # source://rspec-support//lib/rspec/support/differ.rb#194
+  # source://rspec-support//lib/rspec/support/differ.rb#193
   def hash_to_string(hash); end
 
   # @return [Boolean]
   #
-  # source://rspec-support//lib/rspec/support/differ.rb#108
+  # source://rspec-support//lib/rspec/support/differ.rb#107
   def multiline?(string); end
 
   # @return [Boolean]
   #
-  # source://rspec-support//lib/rspec/support/differ.rb#88
+  # source://rspec-support//lib/rspec/support/differ.rb#87
   def no_numbers?(*args); end
 
   # @return [Boolean]
   #
-  # source://rspec-support//lib/rspec/support/differ.rb#76
+  # source://rspec-support//lib/rspec/support/differ.rb#75
   def no_procs?(*args); end
 
-  # source://rspec-support//lib/rspec/support/differ.rb#159
+  # source://rspec-support//lib/rspec/support/differ.rb#158
   def normal(text); end
 
-  # source://rspec-support//lib/rspec/support/differ.rb#180
+  # source://rspec-support//lib/rspec/support/differ.rb#179
   def object_to_string(object); end
 
-  # source://rspec-support//lib/rspec/support/differ.rb#147
+  # source://rspec-support//lib/rspec/support/differ.rb#146
   def red(text); end
 
-  # source://rspec-support//lib/rspec/support/differ.rb#134
+  # source://rspec-support//lib/rspec/support/differ.rb#133
   def safely_flatten(array); end
 end
 

@@ -2,7 +2,7 @@
   = javascript_include_tag "https://js.stripe.com/v3/"
   = javascript_tag "var stripe = Stripe('#{STRIPE_PUBLISHABLE_KEY}'); var elements = stripe.elements();"
 
-= render 'shared/point_to_na'
+= render 'shared/point_to_na', blink: true
 
 .stripe-result
   .row

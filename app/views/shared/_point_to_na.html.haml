@@ -1,7 +1,7 @@
 - if eu_system? && current_user && current_user.from_na?
   .row
     .col-md-12
-      .flash_message.flash.alert.alert-success.blink-alert
+      .flash_message.flash.alert.alert-success{class: (local_assigns[:blink] ? 'blink-alert' : '')}
         %h5
           - if current_user.geocoded && current_user.na_sign_in_ip?
             %span.flags{class: "flags-#{current_user.geocoded.country_code.downcase}"}

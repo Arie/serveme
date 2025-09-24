@@ -1,7 +1,7 @@
 - unless @reservation.persisted?
   .row
     .col-md-12
-      %p.alert.alert-warning{class: ('blink-timezone' if current_user&.uid.in?(['76561198082697717']))}
+      %p.alert.alert-warning{class: ('blink-alert' if current_user&.uid.in?(['76561198082697717']))}
         Please pick your start and end time carefully, we like to see reserved servers be used. All times are in timezone:
         = link_to(Time.zone.name, edit_users_path)
 

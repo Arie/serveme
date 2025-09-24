@@ -288,7 +288,7 @@ class Sentry::Rails::LogSubscriber < ::ActiveSupport::LogSubscriber
   # @param event [ActiveSupport::Notifications::Event] The event
   # @return [Float] Duration in milliseconds
   #
-  # source://sentry-rails//lib/sentry/rails/log_subscriber.rb#65
+  # source://sentry-rails//lib/sentry/rails/log_subscriber.rb#68
   def duration_ms(event); end
 
   # Log a structured event using Sentry's structured logger
@@ -296,10 +296,14 @@ class Sentry::Rails::LogSubscriber < ::ActiveSupport::LogSubscriber
   # @param message [String] The log message
   # @param level [Symbol] The log level (:trace, :debug, :info, :warn, :error, :fatal)
   # @param attributes [Hash] Additional structured attributes to include
+  # @param origin [String] The origin of the log event
   #
-  # source://sentry-rails//lib/sentry/rails/log_subscriber.rb#54
-  def log_structured_event(message:, level: T.unsafe(nil), attributes: T.unsafe(nil)); end
+  # source://sentry-rails//lib/sentry/rails/log_subscriber.rb#57
+  def log_structured_event(message:, level: T.unsafe(nil), attributes: T.unsafe(nil), origin: T.unsafe(nil)); end
 end
+
+# source://sentry-rails//lib/sentry/rails/log_subscriber.rb#30
+Sentry::Rails::LogSubscriber::ORIGIN = T.let(T.unsafe(nil), String)
 
 # source://sentry-rails//lib/sentry/rails/log_subscribers/parameter_filter.rb#5
 module Sentry::Rails::LogSubscribers; end

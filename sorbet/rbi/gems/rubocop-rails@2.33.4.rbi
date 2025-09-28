@@ -4961,8 +4961,13 @@ class RuboCop::Cop::Rails::FindByOrAssignmentMemoization < ::RuboCop::Cop::Base
   # source://rubocop-rails//lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb#58
   def on_def(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb#73
+  # source://rubocop-rails//lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb#75
   def on_send(node); end
+
+  private
+
+  # source://rubocop-rails//lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb#97
+  def correct_to_regular_method_definition(corrector, node); end
 end
 
 # source://rubocop-rails//lib/rubocop/cop/rails/find_by_or_assignment_memoization.rb#46
@@ -8404,25 +8409,21 @@ RuboCop::Cop::Rails::ResponseParsedBody::RESTRICT_ON_SEND = T.let(T.unsafe(nil),
 # reversible.
 #
 # @example
+#   # remove_index
+#
 #   # bad
 #   def change
-#   change_table :users do |t|
-#   t.remove :name
-#   end
+#   remove_index :users, name: :index_users_on_email
 #   end
 #
 #   # good
 #   def change
-#   change_table :users do |t|
-#   t.remove :name, type: :string
-#   end
+#   remove_index :users, :email
 #   end
 #
 #   # good
 #   def change
-#   create_table :users do |t|
-#   t.string :name
-#   end
+#   remove_index :users, column: :email
 #   end
 # @example
 #   # drop_table
@@ -8524,21 +8525,25 @@ RuboCop::Cop::Rails::ResponseParsedBody::RESTRICT_ON_SEND = T.let(T.unsafe(nil),
 #   remove_columns :users, :name, :email, type: :string
 #   end
 # @example
-#   # remove_index
-#
 #   # bad
 #   def change
-#   remove_index :users, name: :index_users_on_email
+#   change_table :users do |t|
+#   t.remove :name
+#   end
 #   end
 #
 #   # good
 #   def change
-#   remove_index :users, :email
+#   change_table :users do |t|
+#   t.remove :name, type: :string
+#   end
 #   end
 #
 #   # good
 #   def change
-#   remove_index :users, column: :email
+#   create_table :users do |t|
+#   t.string :name
+#   end
 #   end
 #
 # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#153
@@ -11314,6 +11319,10 @@ class RuboCop::Cop::Style::ArrayFirstLast < ::RuboCop::Cop::Base
 end
 
 class RuboCop::Cop::Style::ArrayIntersect < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
+class RuboCop::Cop::Style::ArrayIntersectWithSingleElement < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
 

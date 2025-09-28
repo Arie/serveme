@@ -215,7 +215,7 @@ end
 
 # Transforms a token stream into HTML output.
 #
-# source://rouge//lib/rouge/formatters/html_legacy.rb#10
+# source://rouge//lib/rouge/formatters/html_legacy.rb#7
 class Rouge::Formatters::HTMLLegacy < ::Rouge::Formatter
   # Initialize with options.
   #
@@ -234,12 +234,12 @@ class Rouge::Formatters::HTMLLegacy < ::Rouge::Formatter
   # @param opts [Hash] a customizable set of options
   # @return [HTMLLegacy] a new instance of HTMLLegacy
   #
-  # source://rouge//lib/rouge/formatters/html_legacy.rb#27
+  # source://rouge//lib/rouge/formatters/html_legacy.rb#24
   def initialize(opts = T.unsafe(nil)); end
 
   # @yield the html output.
   #
-  # source://rouge//lib/rouge/formatters/html_legacy.rb#40
+  # source://rouge//lib/rouge/formatters/html_legacy.rb#37
   def stream(tokens, &b); end
 end
 
@@ -838,33 +838,33 @@ class Rouge::Lexer
   # @param opts [Hash] a customizable set of options
   # @return [Lexer] a new instance of Lexer
   #
-  # source://rouge//lib/rouge/lexer.rb#323
+  # source://rouge//lib/rouge/lexer.rb#325
   def initialize(opts = T.unsafe(nil)); end
 
-  # source://rouge//lib/rouge/lexer.rb#338
+  # source://rouge//lib/rouge/lexer.rb#340
   def as_bool(val); end
 
-  # source://rouge//lib/rouge/lexer.rb#366
+  # source://rouge//lib/rouge/lexer.rb#368
   def as_lexer(val); end
 
-  # source://rouge//lib/rouge/lexer.rb#355
+  # source://rouge//lib/rouge/lexer.rb#357
   def as_list(val); end
 
-  # source://rouge//lib/rouge/lexer.rb#349
+  # source://rouge//lib/rouge/lexer.rb#351
   def as_string(val); end
 
-  # source://rouge//lib/rouge/lexer.rb#379
+  # source://rouge//lib/rouge/lexer.rb#381
   def as_token(val); end
 
-  # source://rouge//lib/rouge/lexer.rb#389
+  # source://rouge//lib/rouge/lexer.rb#391
   def bool_option(name, &default); end
 
   # Continue the lex from the the current state without resetting
   #
-  # source://rouge//lib/rouge/lexer.rb#474
+  # source://rouge//lib/rouge/lexer.rb#476
   def continue_lex(string, &b); end
 
-  # source://rouge//lib/rouge/lexer.rb#415
+  # source://rouge//lib/rouge/lexer.rb#417
   def hash_option(name, defaults, &val_cast); end
 
   # Given a string, yield [token, chunk] pairs.  If no block is given,
@@ -877,18 +877,18 @@ class Rouge::Lexer
   # @option opts
   # @param opts [Hash] a customizable set of options
   #
-  # source://rouge//lib/rouge/lexer.rb#451
+  # source://rouge//lib/rouge/lexer.rb#453
   def lex(string, opts = T.unsafe(nil), &b); end
 
-  # source://rouge//lib/rouge/lexer.rb#403
+  # source://rouge//lib/rouge/lexer.rb#405
   def lexer_option(name, &default); end
 
-  # source://rouge//lib/rouge/lexer.rb#407
+  # source://rouge//lib/rouge/lexer.rb#409
   def list_option(name, &default); end
 
   # -*- instance methods -*- #
   #
-  # source://rouge//lib/rouge/lexer.rb#313
+  # source://rouge//lib/rouge/lexer.rb#315
   def options; end
 
   # Called after each lex is finished.  The default implementation
@@ -896,7 +896,7 @@ class Rouge::Lexer
   #
   # @abstract
   #
-  # source://rouge//lib/rouge/lexer.rb#437
+  # source://rouge//lib/rouge/lexer.rb#439
   def reset!; end
 
   # Yield `[token, chunk]` pairs, given a prepared input stream.  This
@@ -905,24 +905,24 @@ class Rouge::Lexer
   # @abstract
   # @param stream [StringScanner] the stream
   #
-  # source://rouge//lib/rouge/lexer.rb#508
+  # source://rouge//lib/rouge/lexer.rb#510
   def stream_tokens(stream, &b); end
 
-  # source://rouge//lib/rouge/lexer.rb#399
+  # source://rouge//lib/rouge/lexer.rb#401
   def string_option(name, &default); end
 
   # delegated to {Lexer.tag}
   #
-  # source://rouge//lib/rouge/lexer.rb#497
+  # source://rouge//lib/rouge/lexer.rb#499
   def tag; end
 
-  # source://rouge//lib/rouge/lexer.rb#411
+  # source://rouge//lib/rouge/lexer.rb#413
   def token_option(name, &default); end
 
   # Returns a new lexer with the given options set. Useful for e.g. setting
   # debug flags post hoc, or providing global overrides for certain options
   #
-  # source://rouge//lib/rouge/lexer.rb#332
+  # source://rouge//lib/rouge/lexer.rb#334
   def with(opts = T.unsafe(nil)); end
 
   class << self
@@ -936,18 +936,18 @@ class Rouge::Lexer
     #
     #   Lexer.find('eruby') # => Erb
     #
-    # source://rouge//lib/rouge/lexer.rb#261
+    # source://rouge//lib/rouge/lexer.rb#263
     def aliases(*args); end
 
     # @return a list of all lexers.
     #
-    # source://rouge//lib/rouge/lexer.rb#141
+    # source://rouge//lib/rouge/lexer.rb#143
     def all; end
 
     # @private
     # @raise [EncodingError]
     #
-    # source://rouge//lib/rouge/lexer.rb#295
+    # source://rouge//lib/rouge/lexer.rb#297
     def assert_utf8!(str); end
 
     # In case #continue_lex is called statically, we simply
@@ -960,23 +960,23 @@ class Rouge::Lexer
 
     # @return [Boolean]
     #
-    # source://rouge//lib/rouge/lexer.rb#215
+    # source://rouge//lib/rouge/lexer.rb#217
     def debug_enabled?; end
 
     # Specify or get a small demo string for this lexer
     #
-    # source://rouge//lib/rouge/lexer.rb#134
+    # source://rouge//lib/rouge/lexer.rb#136
     def demo(arg = T.unsafe(nil)); end
 
     # Specify or get the path name containing a small demo for
     # this lexer (can be overriden by {demo}).
     #
-    # source://rouge//lib/rouge/lexer.rb#127
+    # source://rouge//lib/rouge/lexer.rb#129
     def demo_file(arg = T.unsafe(nil)); end
 
     # Specify or get this lexer's description.
     #
-    # source://rouge//lib/rouge/lexer.rb#109
+    # source://rouge//lib/rouge/lexer.rb#111
     def desc(arg = T.unsafe(nil)); end
 
     # Return true if there is an in-text indication (such as a shebang
@@ -987,7 +987,7 @@ class Rouge::Lexer
     #   like {TextAnalyzer#shebang?} and {TextAnalyzer#doctype?}
     # @return [Boolean]
     #
-    # source://rouge//lib/rouge/lexer.rb#520
+    # source://rouge//lib/rouge/lexer.rb#522
     def detect?(text); end
 
     # Determine if a lexer has a method named +:detect?+ defined in its
@@ -995,13 +995,13 @@ class Rouge::Lexer
     #
     # @return [Boolean]
     #
-    # source://rouge//lib/rouge/lexer.rb#221
+    # source://rouge//lib/rouge/lexer.rb#223
     def detectable?; end
 
-    # source://rouge//lib/rouge/lexer.rb#211
+    # source://rouge//lib/rouge/lexer.rb#213
     def disable_debug!; end
 
-    # source://rouge//lib/rouge/lexer.rb#207
+    # source://rouge//lib/rouge/lexer.rb#209
     def enable_debug!; end
 
     # Specify a list of filename globs associated with this lexer.
@@ -1018,7 +1018,7 @@ class Rouge::Lexer
     #   filenames '*.rb', '*.ruby', 'Gemfile', 'Rakefile'
     #   end
     #
-    # source://rouge//lib/rouge/lexer.rb#280
+    # source://rouge//lib/rouge/lexer.rb#282
     def filenames(*fnames); end
 
     # Given a name in string, return the correct lexer class.
@@ -1046,7 +1046,7 @@ class Rouge::Lexer
     # This is used in the Redcarpet plugin as well as Rouge's own
     # markdown lexer for highlighting internal code blocks.
     #
-    # source://rouge//lib/rouge/lexer.rb#94
+    # source://rouge//lib/rouge/lexer.rb#96
     def find_fancy(str, code = T.unsafe(nil), default_options = T.unsafe(nil)); end
 
     # Guess which lexer to use based on a hash of info.
@@ -1054,23 +1054,23 @@ class Rouge::Lexer
     # @option info
     # @option info
     # @option info
+    # @param info [Hash] a customizable set of options
     # @param fallback [Proc] called if multiple lexers are detected.
     #   If omitted, Guesser::Ambiguous is raised.
-    # @param info [Hash] a customizable set of options
     # @return [Class<Rouge::Lexer>]
     # @see Lexer.detect?
     # @see Lexer.guesses
     #
-    # source://rouge//lib/rouge/lexer.rb#182
+    # source://rouge//lib/rouge/lexer.rb#184
     def guess(info = T.unsafe(nil), &fallback); end
 
-    # source://rouge//lib/rouge/lexer.rb#199
+    # source://rouge//lib/rouge/lexer.rb#201
     def guess_by_filename(fname); end
 
-    # source://rouge//lib/rouge/lexer.rb#195
+    # source://rouge//lib/rouge/lexer.rb#197
     def guess_by_mimetype(mt); end
 
-    # source://rouge//lib/rouge/lexer.rb#203
+    # source://rouge//lib/rouge/lexer.rb#205
     def guess_by_source(source); end
 
     # Guess which lexer to use based on a hash of info.
@@ -1079,7 +1079,7 @@ class Rouge::Lexer
     # an error.  It will return a (possibly empty) list of potential lexers
     # to use.
     #
-    # source://rouge//lib/rouge/lexer.rb#150
+    # source://rouge//lib/rouge/lexer.rb#152
     def guesses(info = T.unsafe(nil)); end
 
     # Lexes `stream` with the given options.  The lex is delegated to a
@@ -1106,13 +1106,13 @@ class Rouge::Lexer
     #   mimetypes 'text/html', 'application/xhtml+xml'
     #   end
     #
-    # source://rouge//lib/rouge/lexer.rb#290
+    # source://rouge//lib/rouge/lexer.rb#292
     def mimetypes(*mts); end
 
-    # source://rouge//lib/rouge/lexer.rb#121
+    # source://rouge//lib/rouge/lexer.rb#123
     def option(name, desc); end
 
-    # source://rouge//lib/rouge/lexer.rb#117
+    # source://rouge//lib/rouge/lexer.rb#119
     def option_docs; end
 
     # Used to specify or get the canonical name of this lexer class.
@@ -1126,32 +1126,32 @@ class Rouge::Lexer
     #
     #   Lexer.find('foo') # => MyLexer
     #
-    # source://rouge//lib/rouge/lexer.rb#245
+    # source://rouge//lib/rouge/lexer.rb#247
     def tag(t = T.unsafe(nil)); end
 
     # Specify or get this lexer's title. Meant to be human-readable.
     #
-    # source://rouge//lib/rouge/lexer.rb#101
+    # source://rouge//lib/rouge/lexer.rb#103
     def title(t = T.unsafe(nil)); end
 
     protected
 
     # @private
     #
-    # source://rouge//lib/rouge/lexer.rb#228
+    # source://rouge//lib/rouge/lexer.rb#230
     def register(name, lexer); end
 
     private
 
-    # source://rouge//lib/rouge/lexer.rb#306
+    # source://rouge//lib/rouge/lexer.rb#308
     def registry; end
   end
 end
 
-# source://rouge//lib/rouge/lexer.rb#525
+# source://rouge//lib/rouge/lexer.rb#527
 module Rouge::Lexers
   class << self
-    # source://rouge//lib/rouge/lexer.rb#529
+    # source://rouge//lib/rouge/lexer.rb#531
     def load_lexer(relpath); end
   end
 end
@@ -1364,7 +1364,7 @@ class Rouge::Lexers::Awk < ::Rouge::RegexLexer
   end
 end
 
-# source://rouge//lib/rouge/lexer.rb#526
+# source://rouge//lib/rouge/lexer.rb#528
 Rouge::Lexers::BASE_DIR = T.let(T.unsafe(nil), String)
 
 # source://rouge//lib/rouge/lexers/bbcbasic.rb#6

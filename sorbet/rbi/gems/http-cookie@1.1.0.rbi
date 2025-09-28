@@ -7,10 +7,7 @@
 
 # source://http-cookie//lib/http/cookie/version.rb#1
 module HTTP
-  class << self
-    # source://http/5.2.0/lib/http/chainable.rb#182
-    def [](headers); end
-  end
+  extend ::HTTP::Base64
 end
 
 # This class is used to represent an HTTP Cookie.
@@ -120,7 +117,7 @@ class HTTP::Cookie
 
   # YAML serialization helper for Psych.
   #
-  # source://http-cookie//lib/http/cookie.rb#664
+  # source://http-cookie//lib/http/cookie.rb#669
   def encode_with(coder); end
 
   # Expires this cookie by setting the expires attribute value to a
@@ -144,12 +141,12 @@ class HTTP::Cookie
   # source://http-cookie//lib/http/cookie.rb#493
   def expires=(t); end
 
-  # source://http-cookie//lib/http/cookie.rb#488
+  # source://http-cookie//lib/http/cookie.rb#506
   def expires_at; end
 
   # See #expires.
   #
-  # source://http-cookie//lib/http/cookie.rb#493
+  # source://http-cookie//lib/http/cookie.rb#507
   def expires_at=(t); end
 
   # The domain flag. (the opposite of host-only-flag)
@@ -176,7 +173,7 @@ class HTTP::Cookie
   # \#domain, including the host domain itself.  If it is false, this
   # cookie will be sent only to the host indicated by the #domain.
   #
-  # source://http-cookie//lib/http/cookie.rb#441
+  # source://http-cookie//lib/http/cookie.rb#442
   def for_domain?; end
 
   # The HttpOnly flag. (http-only-flag)
@@ -197,12 +194,12 @@ class HTTP::Cookie
   #
   # A cookie with this flag on should be hidden from a client script.
   #
-  # source://http-cookie//lib/http/cookie.rb#479
+  # source://http-cookie//lib/http/cookie.rb#480
   def httponly?; end
 
   # YAML deserialization helper for Syck.
   #
-  # source://http-cookie//lib/http/cookie.rb#671
+  # source://http-cookie//lib/http/cookie.rb#676
   def init_with(coder); end
 
   # source://http-cookie//lib/http/cookie.rb#640
@@ -269,7 +266,7 @@ class HTTP::Cookie
   # A cookie with this flag on should only be sent via a secure
   # protocol like HTTPS.
   #
-  # source://http-cookie//lib/http/cookie.rb#473
+  # source://http-cookie//lib/http/cookie.rb#474
   def secure?; end
 
   # The session flag. (the opposite of persistent-flag)
@@ -283,7 +280,7 @@ class HTTP::Cookie
   #
   # A cookie with this flag on should be hidden from a client script.
   #
-  # source://http-cookie//lib/http/cookie.rb#485
+  # source://http-cookie//lib/http/cookie.rb#486
   def session?; end
 
   # Returns a string for use in the Set-Cookie header.  If necessary
@@ -294,15 +291,20 @@ class HTTP::Cookie
   # source://http-cookie//lib/http/cookie.rb#610
   def set_cookie_value; end
 
+  # Hash serialization helper for use back into other libraries (Like Selenium)
+  #
+  # source://http-cookie//lib/http/cookie.rb#659
+  def to_h; end
+
   # Returns a string for use in the Cookie header, i.e. `name=value`
   # or `name="value"`.
   #
-  # source://http-cookie//lib/http/cookie.rb#601
+  # source://http-cookie//lib/http/cookie.rb#604
   def to_s; end
 
   # YAML serialization helper for Syck.
   #
-  # source://http-cookie//lib/http/cookie.rb#659
+  # source://http-cookie//lib/http/cookie.rb#664
   def to_yaml_properties; end
 
   # Tests if it is OK to send this cookie to a given `uri`.  A
@@ -325,7 +327,7 @@ class HTTP::Cookie
 
   # YAML deserialization helper for Psych.
   #
-  # source://http-cookie//lib/http/cookie.rb#676
+  # source://http-cookie//lib/http/cookie.rb#681
   def yaml_initialize(tag, map); end
 
   class << self
@@ -352,10 +354,8 @@ class HTTP::Cookie
     # Available option keywords are below:
     #
     # :created_at
-    # : The creation time of the cookies parsed.
     #
     # :logger
-    # : Logger object useful for debugging
     #
     # ### Compatibility Note for Mechanize::Cookie users
     #
@@ -540,7 +540,6 @@ class HTTP::CookieJar
   # Available option keywords are as below:
   #
   # :store
-  # : The store class that backs this jar. (default: `:hash`)
   # A symbol addressing a store class, a store class, or an instance
   # of a store class is accepted.  Symbols are mapped to store
   # classes, like `:hash` to HTTP::CookieJar::HashStore and `:mozilla`
@@ -580,7 +579,7 @@ class HTTP::CookieJar
   #       jar.origin = origin
   #       jar.add(cookie)     # acceptance check is performed
   #
-  # source://http-cookie//lib/http/cookie_jar.rb#105
+  # source://http-cookie//lib/http/cookie_jar.rb#114
   def <<(cookie); end
 
   # Adds a cookie to the jar if it is acceptable, and returns self in
@@ -975,7 +974,6 @@ class HTTP::CookieJar::HashStore < ::HTTP::CookieJar::AbstractStore
   # Available option keywords are as below:
   #
   # :gc_threshold
-  # : GC threshold; A GC happens when this many times cookies have
   # been stored (default: `HTTP::Cookie::MAX_COOKIES_TOTAL / 20`)
   #
   # @return [HashStore] a new instance of HashStore

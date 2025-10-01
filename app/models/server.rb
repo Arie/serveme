@@ -505,7 +505,9 @@ class Server < ActiveRecord::Base
 
   sig { params(command: String, allow_blocked: T::Boolean).returns(T.nilable(T.any(String, ActiveSupport::Multibyte::Chars))) }
   def rcon_exec(command, allow_blocked: false)
-    command = command.gsub("//", "/\u200B/")
+    # Escape // with zero-width space to prevent Source engine from treating it as a comment,
+    # but preserve URLs (https:// and http://)
+    command = command.gsub(%r{(?<!https:)(?<!http:)//}, "/\u200B/")
     return nil if blocked_command?(command) && !allow_blocked
 
     T.must(condenser).rcon_exec(command) if rcon_auth

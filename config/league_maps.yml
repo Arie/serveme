@@ -60,7 +60,7 @@ league_maps:
   - koth_product_final
   - koth_proot_b6c-alt2
   - koth_proside_v1
-  - pl_eruption_b14
+  - pl_eruption_b15
   - pl_swiftwater_final1
   - pl_upward_f12
   - pl_vigil_rc10
@@ -78,7 +78,7 @@ league_maps:
 - name: RGL HL
   active: true
   maps:
-  - cp_nidal_b6
+  - cp_nidal_b7
   - koth_ashville_final1
   - koth_lakeside_f5
   - koth_product_final

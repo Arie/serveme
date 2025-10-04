@@ -69,10 +69,27 @@ class PlayerStatisticsController < ApplicationController
 
   def render_or_error(format, player_statistics)
     if player_statistics
+      @asns = load_asns(player_statistics) if admin?
       format.html { render :index }
     else
       format.html { render :index, status: :unprocessable_entity }
     end
+  end
+
+  def load_asns(player_statistics)
+    asns = {}
+    ips = player_statistics.joins(:reservation_player).reorder("").distinct.pluck("reservation_players.ip").compact
+
+    ips.each do |ip|
+      asn = begin
+        ReservationPlayer.asn(ip) if ip.present?
+      rescue MaxMind::GeoIP2::AddressNotFoundError
+        nil
+      end
+      asns[ip] = asn
+    end
+
+    asns
   end
 
   def player_statistics

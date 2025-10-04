@@ -134,8 +134,27 @@ class LeagueRequest
   def parse_steam_uids(input)
     return nil unless input.present?
 
-    steam_ids = input.scan(/\b765[0-9]{14}\b/).uniq
-    steam_ids.empty? ? input.gsub(/[[:space:]]/, "").split(",").presence : steam_ids
+    converted_ids = []
+
+    converted_ids.concat(input.scan(/\b765[0-9]{14}\b/).uniq)
+
+    input.scan(/\[?U:1:\d+\]?/i).uniq.each do |steam_id|
+      normalized_id = "[#{steam_id.gsub(/[\[\]]/, '').upcase}]"
+      converted_ids << convert_to_steam64(normalized_id)
+    end
+
+    input.scan(/\bSTEAM_[0-5]:[01]:\d+\b/i).uniq.each do |steam_id|
+      converted_ids << convert_to_steam64(steam_id.upcase)
+    end
+
+    converted_ids.compact!
+    converted_ids.empty? ? input.gsub(/[[:space:]]/, "").split(",").presence : converted_ids.uniq
+  end
+
+  def convert_to_steam64(steam_id)
+    SteamCondenser::Community::SteamId.steam_id_to_community_id(steam_id).to_s
+  rescue StandardError
+    nil
   end
 
   def steam64_to_steam_id3(steam64)

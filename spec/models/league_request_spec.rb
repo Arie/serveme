@@ -129,4 +129,35 @@ describe LeagueRequest do
       expect(results.first.steam_uid).to eq('abc')
     end
   end
+
+  describe 'Steam ID format conversion' do
+    it 'converts Steam ID3 format (with or without brackets)' do
+      # [U:1:1406945480] or U:1:1406945480 -> 76561199367211208
+      player = create(:reservation_player, steam_uid: '76561199367211208')
+
+      results1 = LeagueRequest.new(user, steam_uid: '[U:1:1406945480]').search
+      results2 = LeagueRequest.new(user, steam_uid: 'U:1:1406945480').search
+
+      expect(results1.first.id).to eq(player.id)
+      expect(results2.first.id).to eq(player.id)
+    end
+
+    it 'converts classic Steam ID format' do
+      # STEAM_0:0:703472740 -> 76561199367211208
+      player = create(:reservation_player, steam_uid: '76561199367211208')
+
+      results = LeagueRequest.new(user, steam_uid: 'STEAM_0:0:703472740').search
+
+      expect(results.first.id).to eq(player.id)
+    end
+
+    it 'extracts multiple Steam ID formats from text' do
+      player1 = create(:reservation_player, steam_uid: '76561199367211208')
+      player2 = create(:reservation_player, steam_uid: '76561198067211208')
+
+      results = LeagueRequest.new(user, steam_uid: '[U:1:1406945480] STEAM_0:0:53472740').search
+
+      expect(results.map(&:id).sort).to eq([ player1.id, player2.id ])
+    end
+  end
 end

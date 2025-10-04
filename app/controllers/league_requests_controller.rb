@@ -27,14 +27,13 @@ class LeagueRequestsController < ApplicationController
 
   def create
     respond_to do |format|
-      league_request = LeagueRequest.new(current_user, ip: request_params[:ip], steam_uid: request_params[:steam_uid], reservation_ids: request_params[:reservation_ids], cross_reference: request_params[:cross_reference])
-      @results = league_request.search
-      if @results
-        @stac_detections = league_request.stac_detections(@results)
-        @asns = LeagueRequest.lookup_asns(@results)
-        format.html { render :index }
-      else
-        format.html { render :new, status: :unprocessable_entity }
+      format.html do
+        redirect_to league_request_path(
+          ip: request_params[:ip],
+          steam_uid: request_params[:steam_uid],
+          reservation_ids: request_params[:reservation_ids],
+          cross_reference: request_params[:cross_reference]
+        )
       end
     end
   end

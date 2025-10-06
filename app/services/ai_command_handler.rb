@@ -415,7 +415,6 @@ class AiCommandHandler
 
     final_response = OpenaiClient.chat({
       messages: messages,
-      temperature: 0.7,
       tools: AVAILABLE_TOOLS, # Still provide all tools
       tool_choice: { type: "function", function: { name: "submit_server_action" } } # Force the final tool
     })

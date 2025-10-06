@@ -359,6 +359,7 @@ class AiCommandHandler
   def call_openai_and_handle_tools(messages)
     response = OpenaiClient.chat({
       messages: messages,
+      reasoning_effort: "minimal",
       tools: AVAILABLE_TOOLS,
       tool_choice: "required"
     })
@@ -416,6 +417,7 @@ class AiCommandHandler
     final_response = OpenaiClient.chat({
       messages: messages,
       tools: AVAILABLE_TOOLS, # Still provide all tools
+      reasoning_effort: "minimal",
       tool_choice: { type: "function", function: { name: "submit_server_action" } } # Force the final tool
     })
 

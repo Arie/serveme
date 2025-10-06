@@ -26,7 +26,7 @@ class OpenaiClient
     @instance ||= ::OpenAI::Client.new(
       access_token: Rails.application.credentials.dig(provider, :api_key),
       uri_base: PROVIDERS.dig(provider, :uri_base),
-      request_timeout: 15,
+      request_timeout: 30,
       log_errors: true
     )
   end

@@ -359,7 +359,6 @@ class AiCommandHandler
   def call_openai_and_handle_tools(messages)
     response = OpenaiClient.chat({
       messages: messages,
-      temperature: 0.7,
       tools: AVAILABLE_TOOLS,
       tool_choice: "required"
     })

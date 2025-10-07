@@ -15,7 +15,7 @@ RSpec.describe OpenaiClient do
     allow(::OpenAI::Client).to receive(:new).with(
       access_token: api_key,
       uri_base: "https://api.openai.com/",
-      request_timeout: 15,
+      request_timeout: 30,
       log_errors: true
     ).and_return(openai_client)
   end

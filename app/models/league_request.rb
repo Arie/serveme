@@ -205,8 +205,15 @@ class LeagueRequest
       detections_for_user = all_detections[target_steam_uid.to_i] || all_detections[target_steam_uid]
       return [] unless detections_for_user
 
-      detection_counts = detections_for_user[:detections].group_by(&:itself).transform_values(&:count)
-      summarized_detections = detection_counts.map do |detection_type, count|
+      detection_counts = detections_for_user[:detections].tally
+      filtered_detections = detections_for_user[:detections].reject do |detection|
+        (detection.match?(/Silent ?Aim/i) || detection.match?(/Trigger ?Bot/i) || detection == "CmdNum SPIKE" || detection == "Aimsnap") &&
+          detection_counts[detection] < 3
+      end
+
+      return [] if filtered_detections.empty?
+
+      summarized_detections = filtered_detections.tally.map do |detection_type, count|
         count > 1 ? "#{detection_type} (#{count}x)" : detection_type
       end
 

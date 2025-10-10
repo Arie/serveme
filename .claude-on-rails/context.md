@@ -3,11 +3,13 @@
 This project uses ClaudeOnRails with a swarm of specialized agents for Rails development.
 
 ## Project Information
-- **Rails Version**: 8.0.2.1
-- **Ruby Version**: 3.4.1
+- **Rails Version**: 8.0.3
+- **Ruby Version**: 3.4.3
 - **Project Type**: Full-stack Rails
-- **Test Framework**: RSpec
+- **Test Framework**: RSpec (unit/integration tests) + Cucumber (acceptance tests)
 - **Turbo/Stimulus**: Enabled
+- **Template Engine**: HAML (primary), ERB (secondary)
+- **Background Jobs**: Sidekiq workers (not ActiveJob)
 
 ## Swarm Configuration
 

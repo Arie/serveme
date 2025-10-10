@@ -6,18 +6,7 @@
 
 
 # source://dry-schema//lib/dry/schema.rb#10
-module Dry
-  class << self
-    # source://dry-configurable/1.3.0/lib/dry/configurable.rb#11
-    def Configurable(**options); end
-
-    # source://dry-core/1.1.0/lib/dry/core.rb#52
-    def Equalizer(*keys, **options); end
-
-    # source://dry-types/1.8.2/lib/dry/types.rb#253
-    def Types(*namespaces, default: T.unsafe(nil), **aliases); end
-  end
-end
+module Dry; end
 
 # Main interface
 #
@@ -29,7 +18,7 @@ module Dry::Schema
   extend ::Dry::Core::Extensions
 
   class << self
-    # source://dry-schema//lib/dry/schema.rb#86
+    # source://dry-schema//lib/dry/schema.rb#89
     def Form(**options, &_arg1); end
 
     # Define a schema suitable for JSON data
@@ -353,12 +342,6 @@ class Dry::Schema::DSL
   #
   # source://dry-schema//lib/dry/schema/dsl.rb#381
   def merge_types(op_class, lhs, rhs); end
-
-  # source://fast-mcp/1.3.1/lib/mcp/tool.rb#52
-  def meta(key_name, meta_key, value); end
-
-  # source://fast-mcp/1.3.1/lib/mcp/tool.rb#58
-  def meta_data; end
 
   # Return a new DSL instance using the same processor type
   #
@@ -804,7 +787,7 @@ class Dry::Schema::KeyCoercer
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/key_coercer.rb#35
+  # source://dry-schema//lib/dry/schema/key_coercer.rb#38
   def [](result); end
 
   # @api private
@@ -1039,7 +1022,7 @@ module Dry::Schema::Macros; end
 class Dry::Schema::Macros::Array < ::Dry::Schema::Macros::DSL
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/macros/array.rb#47
+  # source://dry-schema//lib/dry/schema/macros/array.rb#50
   def ast(*_arg0); end
 
   # @api private
@@ -1064,7 +1047,7 @@ class Dry::Schema::Macros::Core
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/macros/core.rb#43
+  # source://dry-schema//lib/dry/schema/macros/core.rb#46
   def ast(*_arg0); end
 
   # @api private
@@ -1241,7 +1224,7 @@ end
 class Dry::Schema::Macros::Each < ::Dry::Schema::Macros::DSL
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/macros/each.rb#24
+  # source://dry-schema//lib/dry/schema/macros/each.rb#27
   def ast(*_arg0); end
 
   # @api private
@@ -1303,9 +1286,6 @@ class Dry::Schema::Macros::Hash < ::Dry::Schema::Macros::Schema
   #
   # source://dry-schema//lib/dry/schema/macros/hash.rb#11
   def call(*args, &block); end
-
-  # source://fast-mcp/1.3.1/lib/mcp/tool.rb#38
-  def description(text); end
 end
 
 # Base macro for specifying rules applied to a value found under a key
@@ -1362,9 +1342,6 @@ end
 #
 # source://dry-schema//lib/dry/schema/macros/optional.rb#9
 class Dry::Schema::Macros::Optional < ::Dry::Schema::Macros::Key
-  # source://fast-mcp/1.3.1/lib/mcp/tool.rb#29
-  def description(text); end
-
   # @api private
   #
   # source://dry-schema//lib/dry/schema/macros/optional.rb#11
@@ -1382,9 +1359,6 @@ end
 #
 # source://dry-schema//lib/dry/schema/macros/required.rb#9
 class Dry::Schema::Macros::Required < ::Dry::Schema::Macros::Key
-  # source://fast-mcp/1.3.1/lib/mcp/tool.rb#20
-  def description(text); end
-
   # @api private
   #
   # source://dry-schema//lib/dry/schema/macros/required.rb#11
@@ -1469,9 +1443,6 @@ class Dry::Schema::Macros::Value < ::Dry::Schema::Macros::DSL
   #
   # source://dry-schema//lib/dry/schema/macros/value.rb#15
   def call(*args, **opts, &_arg2); end
-
-  # source://fast-mcp/1.3.1/lib/mcp/tool.rb#11
-  def description(text); end
 
   # @api private
   # @return [Boolean]
@@ -1566,7 +1537,7 @@ class Dry::Schema::Message
   # @api public
   # @return [String, Hash]
   #
-  # source://dry-schema//lib/dry/schema/message.rb#50
+  # source://dry-schema//lib/dry/schema/message.rb#53
   def to_s; end
 end
 
@@ -1763,7 +1734,7 @@ class Dry::Schema::Message::Or::SinglePath < ::Dry::Schema::Message::Or::Abstrac
   # @return [String]
   # @see Message#dump
   #
-  # source://dry-schema//lib/dry/schema/message/or/single_path.rb#39
+  # source://dry-schema//lib/dry/schema/message/or/single_path.rb#42
   def to_s; end
 end
 
@@ -2057,7 +2028,7 @@ class Dry::Schema::MessageSet
   # @api public
   # @return [Hash<Symbol=>Array<String>>]
   #
-  # source://dry-schema//lib/dry/schema/message_set.rb#59
+  # source://dry-schema//lib/dry/schema/message_set.rb#62
   def to_hash; end
 
   private
@@ -2127,7 +2098,7 @@ class Dry::Schema::Messages::Abstract
   # @api public
   # @return [Template]
   #
-  # source://dry-schema//lib/dry/schema/messages/abstract.rb#91
+  # source://dry-schema//lib/dry/schema/messages/abstract.rb#110
   def [](predicate, options); end
 
   # Retrieve a message template
@@ -2335,7 +2306,7 @@ class Dry::Schema::Messages::Namespaced < ::Dry::Schema::Messages::Abstract
 
   # @api public
   #
-  # source://dry-schema//lib/dry/schema/messages/namespaced.rb#44
+  # source://dry-schema//lib/dry/schema/messages/namespaced.rb#47
   def [](key, options = T.unsafe(nil)); end
 
   # @api private
@@ -2422,7 +2393,7 @@ class Dry::Schema::Messages::Template
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/messages/template.rb#27
+  # source://dry-schema//lib/dry/schema/messages/template.rb#31
   def [](data = T.unsafe(nil)); end
 
   # @api private
@@ -2632,7 +2603,7 @@ class Dry::Schema::NamespacedRule
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/namespaced_rule.rb#32
+  # source://dry-schema//lib/dry/schema/namespaced_rule.rb#35
   def to_ast(input = T.unsafe(nil)); end
 end
 
@@ -2694,6 +2665,8 @@ class Dry::Schema::Path
   def last; end
 
   # @api private
+  #
+  # source://dry-schema//lib/dry/schema/path.rb#18
   def root(*_arg0); end
 
   # @api private
@@ -2776,7 +2749,7 @@ class Dry::Schema::Predicate
   # @api private
   # @return [Array]
   #
-  # source://dry-schema//lib/dry/schema/predicate.rb#96
+  # source://dry-schema//lib/dry/schema/predicate.rb#99
   def ast(*_arg0); end
 
   # @api private
@@ -2834,7 +2807,7 @@ class Dry::Schema::Predicate::Negation
   # @api private
   # @return [Array]
   #
-  # source://dry-schema//lib/dry/schema/predicate.rb#31
+  # source://dry-schema//lib/dry/schema/predicate.rb#34
   def ast(*_arg0, **_arg1, &_arg2); end
 
   # @api private
@@ -2919,20 +2892,20 @@ class Dry::Schema::Processor
   # @param input [Hash]
   # @return [Result]
   #
-  # source://dry-schema//lib/dry/schema/processor.rb#77
+  # source://dry-schema//lib/dry/schema/processor.rb#82
   def [](input); end
 
   # @api public
   # @raise [::NotImplementedError]
   #
-  # source://dry-schema//lib/dry/schema/processor.rb#85
+  # source://dry-schema//lib/dry/schema/processor.rb#88
   def ^(_other); end
 
   # Return AST representation of the rules
   #
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/processor.rb#168
+  # source://dry-schema//lib/dry/schema/processor.rb#171
   def ast(*_arg0); end
 
   # Apply processing steps to the provided input
@@ -3042,7 +3015,7 @@ class Dry::Schema::Processor
   #
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/processor.rb#151
+  # source://dry-schema//lib/dry/schema/processor.rb#154
   def to_rule; end
 
   # Return the type schema
@@ -3336,7 +3309,7 @@ class Dry::Schema::Result
   # @api private
   # @return [Hash]
   #
-  # source://dry-schema//lib/dry/schema/result.rb#77
+  # source://dry-schema//lib/dry/schema/result.rb#80
   def to_h; end
 
   # @api private
@@ -3445,7 +3418,7 @@ class Dry::Schema::Trace < ::BasicObject
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/trace.rb#54
+  # source://dry-schema//lib/dry/schema/trace.rb#58
   def <<(op); end
 
   # @api private
@@ -3532,15 +3505,15 @@ class Dry::Schema::TypeContainer
   # @api public
   # @return [TypeContainer] a new instance of TypeContainer
   #
-  # source://dry-core/1.1.0/lib/dry/core/container/mixin.rb#71
+  # source://dry-schema//lib/dry/schema/type_container.rb#18
   def initialize(*_arg0, **_arg1, &_arg2); end
 
-  # source://dry-core/1.1.0/lib/dry/core/container/mixin.rb#83
+  # source://dry-schema//lib/dry/schema/type_container.rb#16
   def config; end
 
   # @api public
   #
-  # source://dry-core/1.1.0/lib/dry/core/container/mixin.rb#181
+  # source://dry-schema//lib/dry/schema/type_container.rb#24
   def registered?(key); end
 end
 
@@ -3662,7 +3635,7 @@ class Dry::Schema::TypesMerger::ValueMerger
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/types_merger.rb#51
+  # source://dry-schema//lib/dry/schema/types_merger.rb#66
   def merge_and; end
 
   # @api private
@@ -3672,7 +3645,7 @@ class Dry::Schema::TypesMerger::ValueMerger
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/types_merger.rb#51
+  # source://dry-schema//lib/dry/schema/types_merger.rb#67
   def merge_implication; end
 
   # @api private

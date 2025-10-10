@@ -103,6 +103,7 @@ group :development do
   gem "rubocop-rails", require: false
   gem "tapioca", "~> 0.17", require: false
   gem "claude-on-rails"
+  gem "tidewave", "~> 0.3.1"
 end
 
 group :test, :development do

@@ -147,7 +147,7 @@ GEM
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
       rouge (>= 1.0.0)
-    bigdecimal (3.2.3)
+    bigdecimal (3.3.1)
     binding_of_caller (1.0.1)
       debug_inspector (>= 1.2.0)
     bootsnap (1.18.6)
@@ -332,7 +332,7 @@ GEM
       dry-logic (~> 1.4)
       zeitwerk (~> 2.6)
     ed25519 (1.4.0)
-    erb (5.0.2)
+    erb (5.0.3)
     erubi (1.13.1)
     et-orbi (1.4.0)
       tzinfo
@@ -359,6 +359,13 @@ GEM
       net-http-persistent (>= 4.0.4, < 5)
     faraday-retry (2.3.2)
       faraday (~> 2.0)
+    fast-mcp (1.5.0)
+      addressable (~> 2.8)
+      base64
+      dry-schema (~> 1.14)
+      json (~> 2.0)
+      mime-types (~> 3.4)
+      rack (~> 3.1)
     fast-mcp-annotations (1.5.2)
       addressable (~> 2.8)
       base64
@@ -428,7 +435,7 @@ GEM
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
-    json (2.15.0)
+    json (2.15.1)
     json-schema (5.2.2)
       addressable (~> 2.8)
       bigdecimal (~> 3.1)
@@ -482,7 +489,7 @@ GEM
     mini_mime (1.1.5)
     mini_racer (0.19.0)
       libv8-node (~> 24.1.0.0)
-    minitest (5.25.5)
+    minitest (5.26.0)
     mize (0.6.1)
     msgpack (1.8.0)
     multi_json (1.17.0)
@@ -497,7 +504,7 @@ GEM
       uri
     net-http-persistent (4.0.6)
       connection_pool (~> 2.2, >= 2.2.4)
-    net-imap (0.5.10)
+    net-imap (0.5.12)
       date
       net-protocol
     net-pop (0.1.2)
@@ -545,7 +552,7 @@ GEM
     pg (1.6.2-arm64-darwin)
     pg (1.6.2-x86_64-linux)
     popper_js (2.11.8)
-    pp (0.6.2)
+    pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
     prism (1.5.1)
@@ -562,7 +569,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.2.1)
+    rack (3.2.3)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-openid (1.4.2)
@@ -627,9 +634,10 @@ GEM
       logger
       prism (>= 1.3.0)
     rbzip2 (0.3.0)
-    rdoc (6.14.2)
+    rdoc (6.15.0)
       erb
       psych (>= 4.0.0)
+      tsort
     redis (5.4.1)
       redis-client (>= 0.22.0)
     redis-client (0.26.1)
@@ -842,6 +850,10 @@ GEM
     tf2_line_parser (0.3.0)
       activesupport
     thor (1.4.0)
+    tidewave (0.3.1)
+      fast-mcp (~> 1.5.0)
+      rack (>= 2.0)
+      rails (>= 7.1.0)
     tilt (2.6.1)
     time (0.4.1)
       date
@@ -861,7 +873,7 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
-    uri (1.0.3)
+    uri (1.0.4)
     useragent (0.16.11)
     vcr (6.3.1)
       base64
@@ -1015,6 +1027,7 @@ DEPENDENCIES
   terser
   text
   tf2_line_parser
+  tidewave (~> 0.3.1)
   uri
   vcr
   webmock

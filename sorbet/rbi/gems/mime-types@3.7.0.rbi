@@ -314,7 +314,7 @@ class MIME::Type
   #
   # :attr_accessor: obsolete
   #
-  # source://mime-types//lib/mime/type.rb#413
+  # source://mime-types//lib/mime/type.rb#414
   def obsolete?; end
 
   # source://mime-types//lib/mime/type.rb#352
@@ -381,7 +381,7 @@ class MIME::Type
   #
   # :attr_accessor: registered
   #
-  # source://mime-types//lib/mime/type.rb#481
+  # source://mime-types//lib/mime/type.rb#482
   def registered?; end
 
   # Indicateswhether the MIME type is declared as a signature type.
@@ -396,7 +396,7 @@ class MIME::Type
 
   # Indicateswhether the MIME type is declared as a signature type.
   #
-  # source://mime-types//lib/mime/type.rb#521
+  # source://mime-types//lib/mime/type.rb#522
   def signature?; end
 
   # A simplified form of the MIME content-type string, suitable for
@@ -482,16 +482,6 @@ class MIME::Type
   # Update the __sort_priority value. Lower numbers sort better, so the
   # bitmapping may seem a little odd. The _best_ sort priority is 0.
   #
-  # | bit | meaning         | details   |
-  # | --- | --------------- | --------- |
-  # | 7   | obsolete        | 1 if true |
-  # | 6   | provisional     | 1 if true |
-  # | 5   | registered      | 0 if true |
-  # | 4   | complete        | 0 if true |
-  # | 3   | # of extensions | see below |
-  # | 2   | # of extensions | see below |
-  # | 1   | # of extensions | see below |
-  # | 0   | # of extensions | see below |
   #
   # The # of extensions is marked as the number of extensions subtracted from
   # 16, to a minimum of 0.
@@ -837,7 +827,7 @@ class MIME::Types
   #   puts MIME::Types.type_for(%w(citydesk.xml citydesk.gif))
   #     => [application/xml, image/gif, text/xml]
   #
-  # source://mime-types//lib/mime/types.rb#148
+  # source://mime-types//lib/mime/types.rb#159
   def of(filename); end
 
   # Return the list of MIME::Types which belongs to the file based on its
@@ -916,7 +906,7 @@ class MIME::Types
 
     # MIME::Types#type_for against the default MIME::Types registry.
     #
-    # source://mime-types//lib/mime/types/registry.rb#35
+    # source://mime-types//lib/mime/types/registry.rb#38
     def of(filename); end
 
     # MIME::Types#type_for against the default MIME::Types registry.
@@ -963,14 +953,26 @@ end
 #
 # source://mime-types//lib/mime/types/cache.rb#3
 class MIME::Types::Cache < ::Struct
+  # source://mime-types//lib/mime/types/cache.rb#3
   def data; end
+
+  # source://mime-types//lib/mime/types/cache.rb#3
   def data=(_); end
+
+  # source://mime-types//lib/mime/types/cache.rb#3
   def version; end
+
+  # source://mime-types//lib/mime/types/cache.rb#3
   def version=(_); end
 
   class << self
+    # source://mime-types//lib/mime/types/cache.rb#3
     def [](*_arg0); end
+
+    # source://mime-types//lib/mime/types/cache.rb#3
     def inspect; end
+
+    # source://mime-types//lib/mime/types/cache.rb#3
     def keyword_init?; end
 
     # Attempts to load the cache from the file provided as a parameter or in
@@ -981,7 +983,10 @@ class MIME::Types::Cache < ::Struct
     # source://mime-types//lib/mime/types/cache.rb#17
     def load(cache_file = T.unsafe(nil)); end
 
+    # source://mime-types//lib/mime/types/cache.rb#3
     def members; end
+
+    # source://mime-types//lib/mime/types/cache.rb#3
     def new(*_arg0); end
 
     # Attempts to save the types provided to the cache file provided.
@@ -1104,7 +1109,7 @@ class MIME::Types::Container
   # source://mime-types//lib/mime/types/container.rb#51
   def count(*args, &block); end
 
-  # source://mime-types//lib/mime/types/container.rb#61
+  # source://mime-types//lib/mime/types/container.rb#65
   def each(&block); end
 
   # source://mime-types//lib/mime/types/container.rb#61

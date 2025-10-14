@@ -352,7 +352,12 @@ class AiCommandHandler
       messages << { role: "assistant", content: "replied: #{ctx['response']}\ncommand: #{ctx['command']}" }
     end
 
-    messages << { role: "user", content: "#{request}\n\nServer Status (all ip addresses hidden for privacy reasons): #{server_status}" }
+    messages << {
+      role: "system",
+      content: "Current Server Status (all IP addresses hidden for privacy):\n#{server_status}"
+    }
+
+    messages << { role: "user", content: request }
     messages
   end
 

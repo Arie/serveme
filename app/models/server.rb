@@ -146,9 +146,10 @@ class Server < ActiveRecord::Base
   sig { params(latest_version: T.nilable(Integer)).returns(ActiveRecord::Relation) }
   def self.updated(latest_version = nil)
     latest_version ||= self.latest_version
+    tc_server_ids = team_comtress_servers.pluck(:id)
 
     where(last_known_version: [ nil, latest_version ])
-      .or(team_comtress_servers)
+      .or(where(id: tc_server_ids))
   end
 
   sig { returns(ActiveRecord::Relation) }

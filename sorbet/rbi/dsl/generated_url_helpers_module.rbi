@@ -508,6 +508,9 @@ module GeneratedUrlHelpersModule
   def stripe_webhook_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def tc2_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def time_selection_reservations_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

@@ -508,6 +508,9 @@ module GeneratedPathHelpersModule
   def stripe_webhook_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def tc2_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def time_selection_reservations_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

@@ -148,6 +148,7 @@ class Server < ActiveRecord::Base
     latest_version ||= self.latest_version
 
     where(last_known_version: [ nil, latest_version ])
+      .or(team_comtress_servers)
   end
 
   sig { returns(ActiveRecord::Relation) }
@@ -647,6 +648,12 @@ class Server < ActiveRecord::Base
     version = server_info&.version
     latest_version = self.class.latest_version
     return if version.nil? || latest_version.nil?
+
+    # Team Comtress servers run a different version and should not be marked as outdated
+    if team_comtress_server?
+      update(last_known_version: version) if last_known_version != version
+      return
+    end
 
     if version < latest_version
       Rails.logger.warn("Server #{name} was updating since #{I18n.l(update_started_at, format: :short)} but is now back online with old version #{version} instead of latest #{latest_version}") if update_status == "Updating"

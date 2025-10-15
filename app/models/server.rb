@@ -133,7 +133,14 @@ class Server < ActiveRecord::Base
   def self.outdated(latest_version = nil)
     latest_version ||= self.latest_version
 
-    where.not(last_known_version: nil).where(last_known_version: ...latest_version)
+    where.not(last_known_version: nil)
+      .where(last_known_version: ...latest_version)
+      .where.not(id: team_comtress_servers.select(:id))
+  end
+
+  sig { returns(ActiveRecord::Relation) }
+  def self.team_comtress_servers
+    member_of_groups(Group.where(id: Group.team_comtress_group.id))
   end
 
   sig { params(latest_version: T.nilable(Integer)).returns(ActiveRecord::Relation) }
@@ -544,7 +551,14 @@ class Server < ActiveRecord::Base
 
   sig { returns(T::Boolean) }
   def outdated?
+    return false if team_comtress_server?
+
     version != Server.latest_version
+  end
+
+  sig { returns(T::Boolean) }
+  def team_comtress_server?
+    groups.exists?(id: Group.team_comtress_group.id)
   end
 
   sig { returns(T.nilable(Integer)) }

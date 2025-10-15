@@ -198,6 +198,9 @@ Serveme::Application.routes.draw do
   get   "/server-monitoring",             to: "server_monitoring#index",   as: "server_monitoring"
   post  "/server-monitoring/poll",        to: "server_monitoring#poll",    as: "poll_server_monitoring"
 
+  get   "/comtress",                      to: "pages#comtress",            as: "comtress"
+  post  "/comtress",                      to: "pages#comtress"
+
   get   "/player_statistics/sdr",                                          to: "player_statistics#show_for_sdr",                     as: "show_sdr"
   get   "/player_statistics/reservation/:reservation_id",                  to: "player_statistics#show_for_reservation",             as: "show_reservation_statistic"
   get   "/player_statistics/steam/:steam_uid",                             to: "player_statistics#show_for_player",                  as: "show_player_statistic"

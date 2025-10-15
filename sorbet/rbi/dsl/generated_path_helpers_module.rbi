@@ -79,6 +79,9 @@ module GeneratedPathHelpersModule
   def complete_map_uploads_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def comtress_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def confirm_payment_orders_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

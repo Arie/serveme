@@ -79,6 +79,9 @@ module GeneratedUrlHelpersModule
   def complete_map_uploads_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def comtress_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def confirm_payment_orders_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }

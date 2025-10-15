@@ -9,6 +9,7 @@ class Group < ActiveRecord::Base
   LEAGUE_ADMIN_GROUP = T.let(find_or_create_by(name: "League Admins"), Group)
   CONFIG_ADMIN_GROUP = T.let(find_or_create_by(name: "Config Admins"), Group)
   STREAMER_GROUP = T.let(find_or_create_by(name: "Streamers"), Group)
+  TEAM_COMTRESS_GROUP = T.let(find_or_create_by(name: "Team Comtress"), Group)
 
   validates_presence_of :name
 
@@ -47,6 +48,11 @@ class Group < ActiveRecord::Base
   sig { returns(Group) }
   def self.trusted_api_group
     find_or_create_by(name: "Trusted API")
+  end
+
+  sig { returns(Group) }
+  def self.team_comtress_group
+    find_or_create_by(name: "Team Comtress")
   end
 
   sig { params(user: User).returns(Group) }

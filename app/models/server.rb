@@ -344,7 +344,10 @@ class Server < ActiveRecord::Base
 
   sig { returns(String) }
   def tf_dir
-    File.join(path, "tf")
+    @tf_dir ||= begin
+      game_dir = team_comtress_server? ? "tc2" : "tf"
+      File.join(path, game_dir)
+    end
   end
 
   sig { returns(T.nilable(String)) }
@@ -558,7 +561,9 @@ class Server < ActiveRecord::Base
 
   sig { returns(T::Boolean) }
   def team_comtress_server?
-    groups.exists?(id: Group.team_comtress_group.id)
+    return @team_comtress_server if defined?(@team_comtress_server)
+
+    @team_comtress_server = groups.exists?(id: Group.team_comtress_group.id)
   end
 
   sig { returns(T.nilable(Integer)) }

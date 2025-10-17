@@ -32,7 +32,7 @@ class LocalServer < Server
   def find_process_id
     # brakeman: ignore:Command Injection
     # port is validated and comes from the database
-    process_name = team_comtress_server? ? "tc2_linux_64" : "srcds_linux"
+    process_name = team_comtress_server? ? "srcds_run_64 | grep -v steam-runtime-tools | grep -v srcds_run_64" : "srcds_linux"
     `ps ux | grep port | grep #{port} | grep #{process_name} | grep -v grep | grep -v ruby | awk '{print \$2}'`
   end
 

@@ -3,29 +3,6 @@
     {
       "warning_type": "Command Injection",
       "warning_code": 14,
-      "fingerprint": "1164a60713df0321c8614c02950a397027bf79cf61efe80f793ea94e85929161",
-      "check_name": "Execute",
-      "message": "Possible command injection",
-      "file": "app/models/local_server.rb",
-      "line": 27,
-      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
-      "code": "`ps ux | grep port | grep #{port} | grep srcds_linux | grep -v grep | grep -v ruby | awk '{print $2}'`",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "LocalServer",
-        "method": "find_process_id"
-      },
-      "user_input": "port",
-      "confidence": "Medium",
-      "cwe_id": [
-        77
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "Command Injection",
-      "warning_code": 14,
       "fingerprint": "33bc99c7c37396d2f19f97b596101d9f66a86e6ca42f03a6bf99ae23bbdcf287",
       "check_name": "Execute",
       "message": "Possible command injection",
@@ -68,40 +45,6 @@
         77
       ],
       "note": ""
-    },
-    {
-      "warning_type": "Cross-Site Scripting",
-      "warning_code": 4,
-      "fingerprint": "4b1d9e20748950978fdbaa39fd2a90f23186aac7a8e87d16ea77fe00a4008175",
-      "check_name": "LinkToHref",
-      "message": "Potentially unsafe model attribute in `link_to` href",
-      "file": "app/views/admin/donators/show.html.haml",
-      "line": 46,
-      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
-      "code": "link_to(\"View Steam Profile\", User.find(params[:id]).steam_profile_url, :target => \"_blank\", :rel => \"noopener nofollow\", :class => \"btn btn-primary btn-block mb-2\", :data => ({ :turbo => false }))",
-      "render_path": [
-        {
-          "type": "controller",
-          "class": "Admin::DonatorsController",
-          "method": "show",
-          "line": 77,
-          "file": "app/controllers/admin/donators_controller.rb",
-          "rendered": {
-            "name": "admin/donators/show",
-            "file": "app/views/admin/donators/show.html.haml"
-          }
-        }
-      ],
-      "location": {
-        "type": "template",
-        "template": "admin/donators/show"
-      },
-      "user_input": "User.find(params[:id]).steam_profile_url",
-      "confidence": "Weak",
-      "cwe_id": [
-        79
-      ],
-      "note": "False positive - Steam profile URLs are safely constructed from numeric Steam IDs via URI::HTTPS.build in the User model"
     },
     {
       "warning_type": "File Access",
@@ -258,7 +201,7 @@
       "check_name": "Execute",
       "message": "Possible command injection",
       "file": "app/models/ssh_server.rb",
-      "line": 83,
+      "line": 87,
       "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
       "code": "system(\"#{scp_command} #{ip}:\\\"#{files.map(&:shellescape).join(\" \")}\\\" #{destination}\")",
       "render_path": null,
@@ -327,7 +270,7 @@
       "check_name": "Execute",
       "message": "Possible command injection",
       "file": "app/models/local_server.rb",
-      "line": 58,
+      "line": 69,
       "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
       "code": "system(\"cp #{files.map(&:shellescape).join(\" \")} #{destination}\")",
       "render_path": null,
@@ -358,7 +301,7 @@
           "type": "controller",
           "class": "Admin::UsersController",
           "method": "show",
-          "line": 67,
+          "line": 38,
           "file": "app/controllers/admin/users_controller.rb",
           "rendered": {
             "name": "admin/users/show",
@@ -430,7 +373,7 @@
       "check_name": "Execute",
       "message": "Possible command injection",
       "file": "app/models/ssh_server.rb",
-      "line": 75,
+      "line": 79,
       "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
       "code": "system(\"#{scp_command} #{files.map(&:shellescape).join(\" \")} #{ip}:#{destination}\")",
       "render_path": null,
@@ -440,6 +383,29 @@
         "method": "copy_to_server"
       },
       "user_input": "scp_command",
+      "confidence": "Medium",
+      "cwe_id": [
+        77
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "e3e555deb6bd72451536733fd5f3f653c518bcf5ca62da66f3e4905b2f66f455",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/models/local_server.rb",
+      "line": 36,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "`ps ux | grep port | grep #{port} | grep #{(\"tc2_linux_64\" or \"srcds_linux\")} | grep -v grep | grep -v ruby | awk '{print $2}'`",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "LocalServer",
+        "method": "find_process_id"
+      },
+      "user_input": "port",
       "confidence": "Medium",
       "cwe_id": [
         77

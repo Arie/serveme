@@ -6,7 +6,8 @@ class SshServer < RemoteServer
 
   sig { returns(T.nilable(String)) }
   def find_process_id
-    execute("ps ux | grep port | grep #{port} | grep srcds_linux | grep -v grep | grep -v ruby | awk '{print $2}'")
+    process_name = team_comtress_server? ? "tc2_linux_64" : "srcds_linux"
+    execute("ps ux | grep port | grep #{port} | grep #{process_name} | grep -v grep | grep -v ruby | awk '{print $2}'")
   end
 
   sig { returns(T::Array[String]) }

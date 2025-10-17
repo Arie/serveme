@@ -346,7 +346,10 @@ class Server < ActiveRecord::Base
 
   sig { returns(String) }
   def tf_dir
-    File.join(path, "tf")
+    @tf_dir ||= begin
+      game_dir = team_comtress_server? ? "tc2" : "tf"
+      File.join(path, game_dir)
+    end
   end
 
   sig { returns(T.nilable(String)) }

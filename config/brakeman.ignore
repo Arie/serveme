@@ -392,13 +392,13 @@
     {
       "warning_type": "Command Injection",
       "warning_code": 14,
-      "fingerprint": "e3e555deb6bd72451536733fd5f3f653c518bcf5ca62da66f3e4905b2f66f455",
+      "fingerprint": "df91fb68d008f306e25952aba20b290b143aae6024ed63b7a030c68a8eb7136f",
       "check_name": "Execute",
       "message": "Possible command injection",
       "file": "app/models/local_server.rb",
       "line": 36,
       "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
-      "code": "`ps ux | grep port | grep #{port} | grep #{(\"tc2_linux_64\" or \"srcds_linux\")} | grep -v grep | grep -v ruby | awk '{print $2}'`",
+      "code": "`ps ux | grep port | grep #{port} | grep #{(\"srcds_run_64 | grep -v steam-runtime-tools | grep -v srcds_run_64\" or \"srcds_linux\")} | grep -v grep | grep -v ruby | awk '{print $2}'`",
       "render_path": null,
       "location": {
         "type": "method",

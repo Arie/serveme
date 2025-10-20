@@ -33,7 +33,12 @@ class PlayersController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+
         render json: {
+          region: current_region,
           servers: all_server_data.map { |data| server_globe_data(data[:server], data[:players]) }
         }
       end

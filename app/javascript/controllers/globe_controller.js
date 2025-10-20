@@ -8,13 +8,26 @@ export default class extends Controller {
     this.pendingArcUpdates = new Map()
     this.updateTimer = null
 
+    this.allRegions = [
+      { name: 'eu', displayName: 'EU', url: 'https://serveme.tf', color: '#0066ff' },
+      { name: 'na', displayName: 'NA', url: 'https://na.serveme.tf', color: '#ff6600' },
+      { name: 'au', displayName: 'AU', url: 'https://au.serveme.tf', color: '#00ff66' },
+      { name: 'sea', displayName: 'SEA', url: 'https://sea.serveme.tf', color: '#ff00ff' }
+    ]
+
+    this.currentRegion = this.regionValue || 'eu'
+
     this.initializeGlobe()
     this.loadPlayerData()
 
     this.setupTurboStreamListeners()
+    this.startCrossRegionUpdates()
   }
 
   disconnect() {
+    if (this.crossRegionInterval) {
+      clearInterval(this.crossRegionInterval)
+    }
     if (this.globe) {
       this.globe._destructor()
     }
@@ -69,14 +82,15 @@ export default class extends Controller {
       const response = await fetch('/players/globe.json')
       const data = await response.json()
 
-      this.currentData = data
+      this.localRegionData = data
+      this.currentRegion = data.region || this.regionValue || 'eu'
+
+      const allServers = this.mergeRegionData()
 
       if (incremental && this.globe) {
-        // Only update arcs and stats, keep server points unchanged
-        this.updateArcsOnly(data.servers)
+        this.updateArcsOnly(allServers)
       } else {
-        // Full update on initial load
-        this.updateGlobeData(data.servers)
+        this.updateGlobeData(allServers)
       }
 
       if (this.pendingArcUpdates.size > 0) {
@@ -89,7 +103,7 @@ export default class extends Controller {
         })
       }
 
-      this.updateStats(data.servers)
+      this.updateStats(allServers)
     } catch (error) {
       console.error('Error loading player data:', error)
     }
@@ -128,15 +142,19 @@ export default class extends Controller {
       const cityNames = Array.from(group.cities).join("/")
       const locationLabel = cityNames || group.location
 
+      const regionColor = group.servers[0]?.regionColor || '#0066ff'
+      const regionName = group.servers[0]?.region ? this.getRegionDisplayName(group.servers[0].region) : ''
+      const regionPrefix = regionName ? `[${regionName}] ` : ''
+
       const label = group.servers.length > 1
-        ? `${locationLabel} - ${activeServers}/${totalServers} servers in use (${group.totalPlayers} players)`
-        : `${group.servers[0].name} (${group.servers[0].location}) - ${group.totalPlayers > 0 ? 'In use' : 'Available'} (${group.totalPlayers} players)`
+        ? `${regionPrefix}${locationLabel} - ${activeServers}/${totalServers} servers in use (${group.totalPlayers} players)`
+        : `${regionPrefix}${group.servers[0].name} (${group.servers[0].location}) - ${group.totalPlayers > 0 ? 'In use' : 'Available'} (${group.totalPlayers} players)`
 
       return {
         lat: group.lat,
         lng: group.lng,
         label: label,
-        color: '#0066ff',
+        color: regionColor,
         size: 0.05,
         altitude: 0.01,
         servers: group.servers
@@ -251,29 +269,29 @@ export default class extends Controller {
 
   createArcTooltip(arc) {
     if (!arc) return ''
-    
-    const qualityEmoji = arc.loss >= 10 || arc.ping >= 150 ? '🔴' : 
+
+    const qualityEmoji = arc.loss >= 10 || arc.ping >= 150 ? '🔴' :
                         arc.loss >= 5 || arc.ping >= 100 ? '🟡' : '🟢'
-    
+
     const connectionTime = arc.minutes_connected ? `${arc.minutes_connected} min` : 'Just connected'
-    
+
     // Localize distance based on region
     const distanceStr = this.formatDistance(arc.distance || 0)
-    
+
     return `
       <div style="font-family: monospace; padding: 8px; min-width: 250px;">
         <strong style="color: #4CAF50;">Player → Server Connection</strong><br/>
         <hr style="margin: 4px 0; opacity: 0.3;"/>
-        
+
         <strong>📍 Player:</strong><br/>
         ${arc.playerCity || arc.playerCountry || 'Unknown'}<br/>
-        
+
         <strong>🖥️ Server:</strong><br/>
         ${arc.serverName}<br/>
         ${arc.serverLocation}<br/>
-        
+
         <hr style="margin: 4px 0; opacity: 0.3;"/>
-        
+
         <strong>📊 Connection:</strong><br/>
         ${qualityEmoji} Ping: ${arc.ping}ms<br/>
         ${qualityEmoji} Loss: ${arc.loss}%<br/>
@@ -296,15 +314,15 @@ export default class extends Controller {
 
   handleArcClick(arc) {
     if (!arc) return
-    
+
     // Calculate midpoint between player and server
     const midLat = (arc.startLat + arc.endLat) / 2
     const midLng = (arc.startLng + arc.endLng) / 2
-    
+
     // Calculate appropriate altitude based on distance
     const distance = this.calculateDistance(arc.startLat, arc.startLng, arc.endLat, arc.endLng)
     const altitude = Math.min(2.5, Math.max(0.5, distance / 5000))
-    
+
     // Animate to focus on the connection
     this.globe.pointOfView({
       lat: midLat,
@@ -410,12 +428,13 @@ export default class extends Controller {
   }
 
   updateFromTurboStream(data) {
-    this.currentData = data
-    
+    this.localRegionData = data
+
     if (this.globe) {
-      // Only update arcs and stats, not server points
-      this.updateArcsOnly(data.servers)
-      this.updateStats(data.servers)
+      const allServers = this.mergeRegionData()
+
+      this.updateArcsOnly(allServers)
+      this.updateStats(allServers)
     }
   }
 
@@ -424,12 +443,33 @@ export default class extends Controller {
     let activeServers = 0
     let totalServers = servers.length
     const countries = new Set()
+    const regionStats = {}
+
+    this.allRegions.forEach(region => {
+      regionStats[region.name] = { players: 0, activeServers: 0, totalServers: 0 }
+    })
 
     servers.forEach(server => {
+      const regionName = server.region || this.currentRegion
+
+      if (regionStats[regionName]) {
+        regionStats[regionName].totalServers++
+      }
+
       if (server.players.length > 0) {
         activeServers++
+
+        if (regionStats[regionName]) {
+          regionStats[regionName].activeServers++
+        }
+
         server.players.forEach(player => {
           totalPlayers++
+
+          if (regionStats[regionName]) {
+            regionStats[regionName].players++
+          }
+
           if (player.country_code) {
             countries.add(player.country_code)
           }
@@ -445,6 +485,46 @@ export default class extends Controller {
     updateElement('total-players', totalPlayers)
     updateElement('active-servers', `${activeServers}/${totalServers}`)
     updateElement('total-countries', countries.size)
+
+    this.updateRegionBreakdown(regionStats)
+  }
+
+  updateRegionBreakdown(regionStats) {
+    let regionBreakdownEl = document.getElementById('region-breakdown')
+
+    if (!regionBreakdownEl) {
+      const statsEl = document.getElementById('globe-stats')
+      if (statsEl) {
+        const flexContainer = statsEl.querySelector('.d-flex.text-white')
+        if (flexContainer) {
+          const breakdownWrapper = document.createElement('div')
+          breakdownWrapper.id = 'region-breakdown'
+          breakdownWrapper.className = 'd-flex'
+          flexContainer.appendChild(breakdownWrapper)
+          regionBreakdownEl = breakdownWrapper
+        }
+      }
+    }
+
+    if (!regionBreakdownEl) return
+
+    const html = this.allRegions.map(region => {
+      const stats = regionStats[region.name]
+      if (!stats || stats.totalServers === 0) return ''
+
+      return `
+        <div class="px-3 border-start border-secondary">
+          <small class="text-muted d-block">
+            <span style="color: ${region.color}; font-size: 1.2em;">●</span> ${region.displayName}
+          </small>
+          <span class="small">
+            ${stats.players} players - ${stats.activeServers}/${stats.totalServers} servers
+          </span>
+        </div>
+      `
+    }).filter(Boolean).join('')
+
+    regionBreakdownEl.innerHTML = html
   }
 
   calculateDistance(lat1, lon1, lat2, lon2) {
@@ -458,6 +538,91 @@ export default class extends Controller {
     return R * c
   }
 
+  startCrossRegionUpdates() {
+    this.otherRegionsData = {}
+
+    this.fetchOtherRegions()
+
+    this.crossRegionInterval = setInterval(() => {
+      this.fetchOtherRegions()
+    }, 60000)
+  }
+
+  async fetchOtherRegions() {
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+
+    const regionsToFetch = isLocalhost
+      ? this.allRegions
+      : this.allRegions.filter(r => r.name !== this.currentRegion)
+
+    const fetchPromises = regionsToFetch.map(region =>
+      this.fetchRegionData(region).catch(error => {
+        console.warn(`Failed to fetch data from ${region.name}:`, error)
+        return null
+      })
+    )
+
+    const results = await Promise.all(fetchPromises)
+
+    results.forEach((data, index) => {
+      if (data) {
+        const region = regionsToFetch[index]
+        this.otherRegionsData[region.name] = data
+      }
+    })
+
+    if (this.globe && this.localRegionData) {
+      const allServers = this.mergeRegionData()
+      this.updateGlobeData(allServers)
+      this.updateStats(allServers)
+    }
+  }
+
+  async fetchRegionData(region) {
+    const response = await fetch(`${region.url}/players/globe.json`, {
+      method: 'GET',
+      mode: 'cors',
+      cache: 'no-cache'
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`)
+    }
+
+    return await response.json()
+  }
+
+  mergeRegionData() {
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+
+    const localServers = isLocalhost ? [] : (this.localRegionData?.servers || []).map(server => ({
+      ...server,
+      region: this.currentRegion,
+      regionColor: this.getRegionColor(this.currentRegion)
+    }))
+
+    const otherServers = Object.entries(this.otherRegionsData).flatMap(([regionName, data]) => {
+      const actualRegion = data?.region || regionName
+      return (data?.servers || []).map(server => ({
+        ...server,
+        region: actualRegion,
+        regionColor: this.getRegionColor(actualRegion)
+      }))
+    })
+
+    return [...localServers, ...otherServers]
+  }
+
+  getRegionColor(regionName) {
+    const region = this.allRegions.find(r => r.name === regionName)
+    return region ? region.color : '#0066ff'
+  }
+
+  getRegionDisplayName(regionName) {
+    const region = this.allRegions.find(r => r.name === regionName)
+    return region ? region.displayName : regionName.toUpperCase()
+  }
+
   setupTurboStreamListeners() {
     document.addEventListener('turbo:before-stream-render', (event) => {
       const target = event.target.getAttribute('target')
@@ -466,7 +631,7 @@ export default class extends Controller {
         // Extract globe data from the incoming stream
         const template = event.detail.newStream.querySelector('template')
         const content = template.content.querySelector('#player_stats_update')
-        
+
         if (content && content.dataset.globeData) {
           const data = JSON.parse(content.dataset.globeData)
           this.updateFromTurboStream(data)

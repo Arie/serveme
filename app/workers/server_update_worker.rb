@@ -11,7 +11,7 @@ class ServerUpdateWorker
   def perform(latest_version)
     @latest_version = latest_version
 
-    ips_with_outdated_servers.each do |ip|
+    ips_with_outdated_servers.shuffle.each do |ip|
       attempt_update(ip)
     end
   end

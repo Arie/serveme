@@ -81,6 +81,7 @@ class LogWorker
     return unless reservation
 
     return if handle_locked_server_player(community_id, ip, event)
+    return if handle_sdr_first_time_player(community_id, ip, event, rp)
     return if handle_banned_vpn_player(community_id, ip, event)
     return if handle_banned_player(community_id, ip, event)
     return if handle_league_banned_player(community_id, ip, event)
@@ -104,6 +105,20 @@ class LogWorker
 
     reservation&.server&.rcon_exec "kickid #{event.player.uid} Server locked by reservation owner; banid 0 #{event.player.steam_id}"
     Rails.logger.info "Kicked player #{event.player.name} (#{community_id}) from locked reservation #{reservation_id}"
+    true
+  end
+
+  sig { params(community_id: Integer, ip: String, event: TF2LineParser::Events::Event, rp: T.nilable(ReservationPlayer)).returns(T::Boolean) }
+  def handle_sdr_first_time_player(community_id, ip, event, rp)
+    return false unless ReservationPlayer.sdr_ip?(ip)
+    return false if ReservationPlayer.whitelisted_uid?(community_id)
+
+    CheckSdrSteamProfileWorker.perform_async(rp.id) if rp
+
+    return false if ReservationPlayer.has_connected_with_normal_ip?(community_id, reservation_id)
+
+    reservation&.server&.rcon_exec "kickid #{event.player.uid} Please connect normally before joining with SDR; addip 1 #{ip}"
+    Rails.logger.info "Kicked SDR first-time player #{event.player.name} (#{community_id}) with IP #{ip} from reservation #{reservation_id}"
     true
   end
 

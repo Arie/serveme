@@ -54,7 +54,7 @@ class CurrentPlayersService
   end
 
   def self.get_player_location_info(reservation_player)
-    if reservation_player.ip && reservation_player.ip.start_with?("169.254.")
+    if reservation_player.ip && ReservationPlayer.sdr_ip?(reservation_player.ip)
       return { country_code: nil, country_name: nil, city_name: nil, distance: nil, player_latitude: nil, player_longitude: nil, sdr: true }
     end
 
@@ -99,11 +99,11 @@ class CurrentPlayersService
 
     ip_addr = IPAddr.new(ip)
     local_ranges = [
-      IPAddr.new("169.254.0.0/16"),  # SDR
-      IPAddr.new("10.0.0.0/8"),      # Private
-      IPAddr.new("172.16.0.0/12"),   # Private
-      IPAddr.new("192.168.0.0/16"),  # Private
-      IPAddr.new("127.0.0.0/8")      # Loopback
+      ReservationPlayer.sdr_ip_range,  # SDR
+      IPAddr.new("10.0.0.0/8"),        # Private
+      IPAddr.new("172.16.0.0/12"),     # Private
+      IPAddr.new("192.168.0.0/16"),    # Private
+      IPAddr.new("127.0.0.0/8")        # Loopback
     ]
 
     local_ranges.any? { |range| range.include?(ip_addr) }

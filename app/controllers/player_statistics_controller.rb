@@ -13,7 +13,7 @@ class PlayerStatisticsController < ApplicationController
 
   def show_for_sdr
     respond_to do |format|
-      @player_statistics = paginate(player_statistics.joins(:reservation_player).where("reservation_players.ip LIKE ?", "169.254.%"))
+      @player_statistics = paginate(player_statistics.joins(:reservation_player).merge(ReservationPlayer.with_sdr_ip))
       render_or_error(format, @player_statistics)
     end
   end

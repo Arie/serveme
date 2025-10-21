@@ -64,11 +64,30 @@ class ServerMetric
   end
 
   def firewall_allow_players
-    steam_uids = parser&.players&.map(&:steam_uid)
+    parser.players.each do |player|
+      next unless player.relevant?
 
-    ReservationPlayer.where(reservation: current_reservation, steam_uid: steam_uids).where(whitelisted: [ nil, false ]).each do |rp|
-      Rails.logger.info("Found unwhitelisted player with uid #{rp.steam_uid} for reservation #{current_reservation.id}")
-      current_reservation.allow_reservation_player(rp)
+      rp = ReservationPlayer.find_by(reservation: current_reservation, steam_uid: player.steam_uid, ip: player.ip)
+      next unless rp
+      next if rp.whitelisted?
+
+      if ReservationPlayer.sdr_ip?(player.ip)
+        next if ReservationPlayer.whitelisted_uid?(player.steam_uid)
+
+        Rails.logger.info("Found unwhitelisted SDR player #{player.name} (#{player.steam_uid}) for reservation #{current_reservation.id}")
+
+        CheckSdrSteamProfileWorker.perform_async(rp.id)
+
+        unless ReservationPlayer.has_connected_with_normal_ip?(player.steam_uid, current_reservation.id)
+          server.rcon_exec "kickid #{player.user_id} Please connect normally before joining with SDR; addip 1 #{player.ip}"
+          Rails.logger.info "Kicked SDR player #{player.name} (#{player.steam_uid}) without normal IP history from reservation #{current_reservation.id}"
+        end
+
+        rp.update(whitelisted: true)
+      else
+        Rails.logger.info("Found unwhitelisted player with uid #{rp.steam_uid} for reservation #{current_reservation.id}")
+        current_reservation.allow_reservation_player(rp)
+      end
     end
   end
 

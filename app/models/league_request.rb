@@ -120,7 +120,7 @@ class LeagueRequest
   def players_query
     ReservationPlayer.eager_load(:reservation).joins(reservation: :server)
       .where(servers: { sdr: false })
-      .where.not("reservation_players.ip LIKE ?", "169.254.%")
+      .without_sdr_ip
       .order(reservations: { starts_at: :desc })
   end
 

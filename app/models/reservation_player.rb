@@ -14,6 +14,13 @@ class ReservationPlayer < ActiveRecord::Base
   before_save :geocode, if: :ip_changed?
   before_save :store_asn_data, if: :ip_changed?
 
+  SDR_IP_PREFIX = "169.254."
+  SDR_IP_RANGE_CIDR = "169.254.0.0/16"
+  SDR_IP_SQL_PATTERN = "169.254.%"
+
+  scope :with_sdr_ip, -> { where("reservation_players.ip LIKE ?", SDR_IP_SQL_PATTERN) }
+  scope :without_sdr_ip, -> { where.not("reservation_players.ip LIKE ?", SDR_IP_SQL_PATTERN) }
+
   sig { returns(T.any(ActiveRecord::Relation, ActiveRecord::Associations::CollectionProxy)) }
   def duplicates
     self.class.where(reservation_id: reservation_id).where(steam_uid: steam_uid).where(ip: ip)
@@ -92,7 +99,7 @@ class ReservationPlayer < ActiveRecord::Base
 
   sig { params(ip: T.nilable(String)).returns(T.nilable(MaxMind::GeoIP2::Model::ASN)) }
   def self.asn(ip)
-    return nil if IPAddr.new("169.254.0.0/16").include?(ip)
+    return nil if ip && sdr_ip_range?(ip)
 
     begin
       $maxmind_asn.asn(ip)
@@ -118,6 +125,62 @@ class ReservationPlayer < ActiveRecord::Base
       212238, # Datacamp
       397423 # Tier.net
     ]
+  end
+
+  sig { params(ip: String).returns(T::Boolean) }
+  def self.sdr_ip?(ip)
+    ip.start_with?(SDR_IP_PREFIX)
+  end
+
+  sig { params(ip: String).returns(T::Boolean) }
+  def self.sdr_ip_range?(ip)
+    sdr_ip_range.include?(ip)
+  end
+
+  sig { returns(IPAddr) }
+  def self.sdr_ip_range
+    @sdr_ip_range ||= IPAddr.new(SDR_IP_RANGE_CIDR)
+  end
+
+  sig { params(steam_uid: Integer, reservation_id: Integer).returns(T::Boolean) }
+  def self.has_connected_with_normal_ip?(steam_uid, reservation_id)
+    ips = where(steam_uid: steam_uid, reservation_id: reservation_id)
+      .where.not(ip: nil)
+      .without_sdr_ip
+      .pluck(:ip)
+      .uniq
+
+    ips.any? { |ip| !banned_ip?(ip) && !banned_asn_ip?(ip) }
+  end
+
+  sig { params(steam_uid: Integer).returns(T::Boolean) }
+  def self.longtime_serveme_player?(steam_uid)
+    oldest_reservation_starts_at = joins(:reservation)
+      .where(steam_uid: steam_uid)
+      .order("reservations.starts_at ASC")
+      .first
+      &.reservation&.starts_at
+
+    return false unless oldest_reservation_starts_at
+
+    oldest_reservation_starts_at < 1.year.ago
+  end
+
+  sig { params(steam_uid: Integer).returns(T::Boolean) }
+  def self.sdr_eligible_steam_profile?(steam_uid)
+    return true if longtime_serveme_player?(steam_uid)
+
+    steam_profile = SteamCondenser::Community::SteamId.new(steam_uid)
+    steam_profile.fetch
+
+    return false unless steam_profile.public?
+    return false unless steam_profile.member_since
+    return false unless steam_profile.member_since < 6.months.ago
+
+    true
+  rescue SteamCondenser::Error, StandardError => e
+    Rails.logger.warn "Failed to fetch Steam profile for #{steam_uid}: #{e.message}"
+    false
   end
 
   sig { params(ip: String).returns(T::Boolean) }

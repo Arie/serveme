@@ -8,7 +8,7 @@ namespace :reservation_players do
     scope = ReservationPlayer
       .where(asn_number: nil)
       .where.not(ip: nil)
-      .where.not("ip LIKE ?", "169.254.%")
+      .without_sdr_ip
       .group(:ip)
       .pluck(:ip)
 
@@ -20,7 +20,7 @@ namespace :reservation_players do
 
     puts "Starting bulk ASN backfill..."
     puts "Found #{total_ips} unique IPs to process"
-    puts "These IPs represent #{ReservationPlayer.where(asn_number: nil).where.not(ip: nil).where.not('ip LIKE ?', '169.254.%').count} total records"
+    puts "These IPs represent #{ReservationPlayer.where(asn_number: nil).where.not(ip: nil).without_sdr_ip.count} total records"
     puts "Processing in batches of 100 IPs..."
 
     start_time = Time.now
@@ -104,8 +104,8 @@ namespace :reservation_players do
     total = ReservationPlayer.count
     with_ip = ReservationPlayer.where.not(ip: nil).count
     with_asn = ReservationPlayer.where.not(asn_number: nil).count
-    without_asn = ReservationPlayer.where(asn_number: nil).where.not(ip: nil).where.not("ip LIKE ?", "169.254.%").count
-    unique_ips_without_asn = ReservationPlayer.where(asn_number: nil).where.not(ip: nil).where.not("ip LIKE ?", "169.254.%").distinct.pluck(:ip).count
+    without_asn = ReservationPlayer.where(asn_number: nil).where.not(ip: nil).without_sdr_ip.count
+    unique_ips_without_asn = ReservationPlayer.where(asn_number: nil).where.not(ip: nil).without_sdr_ip.distinct.pluck(:ip).count
 
     puts "="*60
     puts "ASN Backfill Status"

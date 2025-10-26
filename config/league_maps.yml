@@ -19,7 +19,7 @@ league_maps:
   active: true
   maps:
   - cp_steel_f12
-  - koth_govan_rc2
+  - koth_govan_rc1
   - pl_vigil_rc10
   - pl_borneo_f2
   - cp_gullywash_f9

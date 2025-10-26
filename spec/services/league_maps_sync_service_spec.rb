@@ -72,7 +72,7 @@ RSpec.describe LeagueMapsSyncService do
     end
 
     it "successfully fetches valid YAML from GitHub" do
-      stub_request(:get, "https://example.com/test-config.yml")
+      stub_request(:get, /https:\/\/example\.com\/test-config\.yml\?cachebust=\d+/)
         .to_return(status: 200, body: valid_yaml_config.to_yaml)
 
       result = service.fetch_from_github
@@ -80,7 +80,7 @@ RSpec.describe LeagueMapsSyncService do
     end
 
     it "returns empty hash on HTTP error" do
-      stub_request(:get, "https://example.com/test-config.yml")
+      stub_request(:get, /https:\/\/example\.com\/test-config\.yml\?cachebust=\d+/)
         .to_return(status: 404, body: "Not Found")
 
       result = service.fetch_from_github
@@ -88,7 +88,7 @@ RSpec.describe LeagueMapsSyncService do
     end
 
     it "returns empty hash on network error" do
-      stub_request(:get, "https://example.com/test-config.yml")
+      stub_request(:get, /https:\/\/example\.com\/test-config\.yml\?cachebust=\d+/)
         .to_raise(StandardError.new("Network error"))
 
       result = service.fetch_from_github
@@ -96,7 +96,7 @@ RSpec.describe LeagueMapsSyncService do
     end
 
     it "returns empty hash on invalid YAML" do
-      stub_request(:get, "https://example.com/test-config.yml")
+      stub_request(:get, /https:\/\/example\.com\/test-config\.yml\?cachebust=\d+/)
         .to_return(status: 200, body: "invalid: yaml: content: [")
 
       result = service.fetch_from_github

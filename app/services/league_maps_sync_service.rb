@@ -51,7 +51,10 @@ class LeagueMapsSyncService
     http.read_timeout = 10
     http.open_timeout = 5
 
-    response = http.get(uri.path)
+    cache_buster = "?cachebust=#{Time.now.to_i}"
+    path_with_params = "#{uri.path}#{cache_buster}"
+
+    response = http.get(path_with_params)
 
     if response.code == "200"
       yaml_content = response.body

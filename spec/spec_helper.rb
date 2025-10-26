@@ -44,6 +44,12 @@ RSpec.configure do |config|
       FileUtils.rm(file)
     end
   end
+
+  # Include URL helpers for all specs
+  config.include Rails.application.routes.url_helpers
+
+  # Include Devise helpers for controller specs
+  config.include Devise::Test::ControllerHelpers, type: :controller
 end
 VCR.configure do |c|
   c.cassette_library_dir = 'spec/fixtures/vcr'

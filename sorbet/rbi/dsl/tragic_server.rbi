@@ -265,7 +265,7 @@ class TragicServer
     sig { returns(::TragicServer) }
     def fourth!; end
 
-    sig { returns(T::Array[T.untyped]) }
+    sig { returns(T::Array[::Integer]) }
     def ids; end
 
     sig do

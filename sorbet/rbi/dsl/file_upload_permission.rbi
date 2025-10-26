@@ -281,7 +281,7 @@ class FileUploadPermission
     sig { returns(::FileUploadPermission) }
     def fourth!; end
 
-    sig { returns(T::Array[T.untyped]) }
+    sig { returns(T::Array[::Integer]) }
     def ids; end
 
     sig do

@@ -4,8 +4,6 @@
 require 'spec_helper'
 
 RSpec.describe StacDiscordNotifier do
-  include Rails.application.routes.url_helpers
-
   let(:reservation) { create(:reservation) }
   let(:notifier) { described_class.new(reservation) }
   let(:detections) do
@@ -36,10 +34,6 @@ RSpec.describe StacDiscordNotifier do
         detections: [ 'Aimsnap' ] * 3  # Should be included
       }
     }
-  end
-
-  before do
-    self.default_url_options = { host: SITE_URL }
   end
 
   describe '#notify' do

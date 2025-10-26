@@ -260,7 +260,7 @@ class Whitelist
     sig { returns(::Whitelist) }
     def fourth!; end
 
-    sig { returns(T::Array[T.untyped]) }
+    sig { returns(T::Array[::Integer]) }
     def ids; end
 
     sig do

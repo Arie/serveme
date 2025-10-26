@@ -3,12 +3,6 @@
 
 require 'spec_helper'
 
-# Attempt to explicitly include necessary helpers
-RSpec.configure do |config|
-  config.include Devise::Test::ControllerHelpers, type: :controller
-  config.include Rails.application.routes.url_helpers, type: :controller # Ensure controller context for URL helpers
-end
-
 RSpec.describe Admin::ServerNotificationsController, type: :controller do
   render_views # Important for checking the content of the rendered template
 

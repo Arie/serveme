@@ -277,7 +277,7 @@ class ActiveStorage::Blob
     sig { returns(::ActiveStorage::Blob) }
     def fourth!; end
 
-    sig { returns(T::Array[T.untyped]) }
+    sig { returns(T::Array[::Integer]) }
     def ids; end
 
     sig do

@@ -24,12 +24,12 @@ class CheckSdrSteamProfileWorker
 
         if player
           reservation.server&.rcon_exec "kickid #{player.user_id} SDR requires public Steam profile 6+ months old; addip 1 #{rp.ip}"
-          Rails.logger.info "Kicked SDR player #{rp.name} (#{rp.steam_uid}) - ineligible Steam profile"
+          Rails.logger.info "Kicked SDR player #{rp.name} (#{rp.steam_uid}) - ineligible Steam profile - Reservation ##{reservation.id}"
 
           rp.update(whitelisted: false)
         end
       rescue SteamCondenser::Error => e
-        Rails.logger.warn "Failed to kick SDR player #{rp.steam_uid}: #{e.message}"
+        Rails.logger.warn "Failed to kick SDR player #{rp.steam_uid} - Reservation ##{reservation.id}: #{e.message}"
       end
     end
   end

@@ -183,7 +183,6 @@ class LogWorker
   sig { void }
   def handle_sdr_connect
     if reservation&.sdr_ip && reservation&.sdr_port
-      Rails.logger.info "Sending SDR info for #{reservation} after chat request from #{sayer_steam_uid}"
       reservation&.server&.rcon_say "SDR info: connect #{reservation&.sdr_ip}:#{reservation&.sdr_port}"
     else
       Rails.logger.info "Couldn't send SDR info #{reservation} after chat request from #{sayer_steam_uid}"

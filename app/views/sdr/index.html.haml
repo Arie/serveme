@@ -1,6 +1,16 @@
 - content_for(:title) { "SDR IP:Port" }
 %h2 Find SDR IP:Port
 
+- if user_signed_in?
+  .row
+    .col-md-12
+      .alert{ class: @sdr_eligible ? "alert-success" : "alert-warning" }
+        %strong SDR Eligibility:
+        - if @sdr_eligible
+          ✓ You are eligible to use SDR
+        - else
+          ✗ You are not currently eligible to use SDR. To qualify: use #{SITE_HOST} with your normal connection (no VPN/SDR) at least once per week - either by playing or by visiting this page.
+
 .row
   .col-md-6
     = form_with url: sdr_path, method: :get, data: { turbo_frame: "sdr_result" } do |f|

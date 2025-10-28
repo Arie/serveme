@@ -4,6 +4,11 @@ class SdrController < ApplicationController
   skip_before_action :redirect_if_country_banned, only: [ :index ]
 
   def index
+    if user_signed_in? && current_user
+      current_user.update(current_sign_in_ip: request.remote_ip, updated_at: Time.current)
+      @sdr_eligible = ReservationPlayer.sdr_eligible_steam_profile?(current_user.uid.to_i) if current_user.uid.present?
+    end
+
     @result = nil
     return unless params[:ip_port].present?
 

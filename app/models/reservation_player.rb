@@ -154,12 +154,35 @@ class ReservationPlayer < ActiveRecord::Base
   end
 
   sig { params(steam_uid: Integer).returns(T::Boolean) }
+  def self.has_connected_with_normal_ip_recently?(steam_uid)
+    ips = joins(:reservation)
+      .where(steam_uid: steam_uid)
+      .where("reservations.starts_at >= ?", 1.week.ago)
+      .where.not(ip: nil)
+      .without_sdr_ip
+      .pluck(:ip)
+      .uniq
+
+    ips.any? { |ip| !banned_ip?(ip) && !banned_asn_ip?(ip) }
+  end
+
+  sig { params(steam_uid: Integer).returns(T::Boolean) }
+  def self.has_logged_in_with_normal_ip_recently?(steam_uid)
+    user = User.find_by(uid: steam_uid)
+    return false unless user&.current_sign_in_ip
+
+    updated_at = user.updated_at
+    return false unless updated_at && updated_at >= 1.week.ago
+
+    ip = user.current_sign_in_ip
+    !banned_ip?(ip) && !banned_asn_ip?(ip)
+  end
+
+  sig { params(steam_uid: Integer).returns(T::Boolean) }
   def self.longtime_serveme_player?(steam_uid)
     oldest_reservation_starts_at = joins(:reservation)
       .where(steam_uid: steam_uid)
-      .order("reservations.starts_at ASC")
-      .first
-      &.reservation&.starts_at
+      .minimum("reservations.starts_at")
 
     return false unless oldest_reservation_starts_at
 
@@ -170,17 +193,7 @@ class ReservationPlayer < ActiveRecord::Base
   def self.sdr_eligible_steam_profile?(steam_uid)
     return true if longtime_serveme_player?(steam_uid)
 
-    steam_profile = SteamCondenser::Community::SteamId.new(steam_uid)
-    steam_profile.fetch
-
-    return false unless steam_profile.public?
-    return false unless steam_profile.member_since
-    return false unless steam_profile.member_since < 6.months.ago
-
-    true
-  rescue SteamCondenser::Error, StandardError => e
-    Rails.logger.warn "Failed to fetch Steam profile for #{steam_uid}: #{e.message}"
-    false
+    has_connected_with_normal_ip_recently?(steam_uid) || has_logged_in_with_normal_ip_recently?(steam_uid)
   end
 
   sig { params(ip: String).returns(T::Boolean) }

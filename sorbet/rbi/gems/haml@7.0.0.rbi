@@ -385,8 +385,8 @@ class Haml::Engine < ::Temple::Engine; end
 
 # source://haml//lib/haml/error.rb#3
 class Haml::Error < ::StandardError
-  # @param message [String] The error message
   # @param line [Fixnum] See \{#line}
+  # @param message [String] The error message
   # @return [Error] a new instance of Error
   #
   # source://haml//lib/haml/error.rb#49
@@ -423,7 +423,7 @@ class Haml::EscapeAny < ::Haml::Escape
   # source://haml//lib/haml/escape_any.rb#17
   def on_dynamic(value); end
 
-  # source://temple/0.10.3/lib/temple/filters/escapable.rb#24
+  # source://haml//lib/haml/escape_any.rb#15
   def on_escapeany(flag, exp); end
 end
 
@@ -656,7 +656,7 @@ class Haml::ForceEscape < ::Haml::Escape
   # source://haml//lib/haml/force_escape.rb#25
   def on_escape(flag, exp); end
 
-  # source://temple/0.10.3/lib/temple/filters/escapable.rb#24
+  # source://haml//lib/haml/force_escape.rb#21
   def on_fescape(flag, exp); end
 end
 
@@ -775,7 +775,7 @@ class Haml::Parser
   # source://haml//lib/haml/parser.rb#553
   def close_haml_comment(_); end
 
-  # source://haml//lib/haml/parser.rb#563
+  # source://haml//lib/haml/parser.rb#578
   def close_script(node); end
 
   # source://haml//lib/haml/parser.rb#563
@@ -997,17 +997,23 @@ class Haml::Parser::DynamicAttributes < ::Struct
   # Returns the value of attribute new
   #
   # @return [Object] the current value of new
+  #
+  # source://haml//lib/haml/parser.rb#236
   def new; end
 
   # Sets the attribute new
   #
   # @param value [Object] the value to set the attribute new to.
   # @return [Object] the newly set value
+  #
+  # source://haml//lib/haml/parser.rb#236
   def new=(_); end
 
   # Returns the value of attribute old
   #
   # @return [Object] the current value of old
+  #
+  # source://haml//lib/haml/parser.rb#236
   def old; end
 
   # Sets the attribute old
@@ -1015,7 +1021,7 @@ class Haml::Parser::DynamicAttributes < ::Struct
   # @param value [Object] the value to set the attribute old to.
   # @return [Object] the newly set value
   #
-  # source://haml//lib/haml/parser.rb#238
+  # source://haml//lib/haml/parser.rb#236
   def old=(value); end
 
   # This will be a literal for Haml::HamlBuffer#attributes's last argument, `attributes_hashes`.
@@ -1031,10 +1037,19 @@ class Haml::Parser::DynamicAttributes < ::Struct
   def stripped_old; end
 
   class << self
+    # source://haml//lib/haml/parser.rb#236
     def [](*_arg0); end
+
+    # source://haml//lib/haml/parser.rb#236
     def inspect; end
+
+    # source://haml//lib/haml/parser.rb#236
     def keyword_init?; end
+
+    # source://haml//lib/haml/parser.rb#236
     def members; end
+
+    # source://haml//lib/haml/parser.rb#236
     def new(*_arg0); end
   end
 end
@@ -1074,50 +1089,68 @@ class Haml::Parser::Line < ::Struct
   # Returns the value of attribute eod
   #
   # @return [Object] the current value of eod
+  #
+  # source://haml//lib/haml/parser.rb#207
   def eod; end
 
   # Sets the attribute eod
   #
   # @param value [Object] the value to set the attribute eod to.
   # @return [Object] the newly set value
+  #
+  # source://haml//lib/haml/parser.rb#207
   def eod=(_); end
 
   # Returns the value of attribute eod
   #
   # @return [Object] the current value of eod
+  #
+  # source://haml//lib/haml/parser.rb#208
   def eod?; end
 
   # Returns the value of attribute full
   #
   # @return [Object] the current value of full
+  #
+  # source://haml//lib/haml/parser.rb#207
   def full; end
 
   # Sets the attribute full
   #
   # @param value [Object] the value to set the attribute full to.
   # @return [Object] the newly set value
+  #
+  # source://haml//lib/haml/parser.rb#207
   def full=(_); end
 
   # Returns the value of attribute index
   #
   # @return [Object] the current value of index
+  #
+  # source://haml//lib/haml/parser.rb#207
   def index; end
 
   # Sets the attribute index
   #
   # @param value [Object] the value to set the attribute index to.
   # @return [Object] the newly set value
+  #
+  # source://haml//lib/haml/parser.rb#207
   def index=(_); end
 
   # Returns the value of attribute parser
   #
   # @return [Object] the current value of parser
+  #
+  # source://haml//lib/haml/parser.rb#207
   def parser; end
 
   # Sets the attribute parser
   #
   # @param value [Object] the value to set the attribute parser to.
   # @return [Object] the newly set value
+  #
+  # source://haml//lib/haml/parser.rb#207
   def parser=(_); end
 
   # source://haml//lib/haml/parser.rb#215
@@ -1131,30 +1164,47 @@ class Haml::Parser::Line < ::Struct
   # Returns the value of attribute text
   #
   # @return [Object] the current value of text
+  #
+  # source://haml//lib/haml/parser.rb#207
   def text; end
 
   # Sets the attribute text
   #
   # @param value [Object] the value to set the attribute text to.
   # @return [Object] the newly set value
+  #
+  # source://haml//lib/haml/parser.rb#207
   def text=(_); end
 
   # Returns the value of attribute whitespace
   #
   # @return [Object] the current value of whitespace
+  #
+  # source://haml//lib/haml/parser.rb#207
   def whitespace; end
 
   # Sets the attribute whitespace
   #
   # @param value [Object] the value to set the attribute whitespace to.
   # @return [Object] the newly set value
+  #
+  # source://haml//lib/haml/parser.rb#207
   def whitespace=(_); end
 
   class << self
+    # source://haml//lib/haml/parser.rb#207
     def [](*_arg0); end
+
+    # source://haml//lib/haml/parser.rb#207
     def inspect; end
+
+    # source://haml//lib/haml/parser.rb#207
     def keyword_init?; end
+
+    # source://haml//lib/haml/parser.rb#207
     def members; end
+
+    # source://haml//lib/haml/parser.rb#207
     def new(*_arg0); end
   end
 end
@@ -1190,12 +1240,16 @@ class Haml::Parser::ParseNode < ::Struct
   # Returns the value of attribute children
   #
   # @return [Object] the current value of children
+  #
+  # source://haml//lib/haml/parser.rb#223
   def children; end
 
   # Sets the attribute children
   #
   # @param value [Object] the value to set the attribute children to.
   # @return [Object] the newly set value
+  #
+  # source://haml//lib/haml/parser.rb#223
   def children=(_); end
 
   # source://haml//lib/haml/parser.rb#229
@@ -1204,52 +1258,77 @@ class Haml::Parser::ParseNode < ::Struct
   # Returns the value of attribute line
   #
   # @return [Object] the current value of line
+  #
+  # source://haml//lib/haml/parser.rb#223
   def line; end
 
   # Sets the attribute line
   #
   # @param value [Object] the value to set the attribute line to.
   # @return [Object] the newly set value
+  #
+  # source://haml//lib/haml/parser.rb#223
   def line=(_); end
 
   # Returns the value of attribute parent
   #
   # @return [Object] the current value of parent
+  #
+  # source://haml//lib/haml/parser.rb#223
   def parent; end
 
   # Sets the attribute parent
   #
   # @param value [Object] the value to set the attribute parent to.
   # @return [Object] the newly set value
+  #
+  # source://haml//lib/haml/parser.rb#223
   def parent=(_); end
 
   # Returns the value of attribute type
   #
   # @return [Object] the current value of type
+  #
+  # source://haml//lib/haml/parser.rb#223
   def type; end
 
   # Sets the attribute type
   #
   # @param value [Object] the value to set the attribute type to.
   # @return [Object] the newly set value
+  #
+  # source://haml//lib/haml/parser.rb#223
   def type=(_); end
 
   # Returns the value of attribute value
   #
   # @return [Object] the current value of value
+  #
+  # source://haml//lib/haml/parser.rb#223
   def value; end
 
   # Sets the attribute value
   #
   # @param value [Object] the value to set the attribute value to.
   # @return [Object] the newly set value
+  #
+  # source://haml//lib/haml/parser.rb#223
   def value=(_); end
 
   class << self
+    # source://haml//lib/haml/parser.rb#223
     def [](*_arg0); end
+
+    # source://haml//lib/haml/parser.rb#223
     def inspect; end
+
+    # source://haml//lib/haml/parser.rb#223
     def keyword_init?; end
+
+    # source://haml//lib/haml/parser.rb#223
     def members; end
+
+    # source://haml//lib/haml/parser.rb#223
     def new(*_arg0); end
   end
 end
@@ -1422,7 +1501,7 @@ class Haml::StringSplitter::SyntaxChecker::ParseError < ::StandardError; end
 # source://haml//lib/haml/error.rb#59
 class Haml::SyntaxError < ::Haml::Error; end
 
-# source://haml//lib/haml/template.rb#0
+# source://haml//lib/haml/template.rb#7
 class Haml::Template < ::Temple::Templates::Tilt
   extend ::Haml::TemplateExtension
 end
@@ -1475,11 +1554,11 @@ module Haml::Util
   #     ^                       ^
   #     from                    to
   #
-  # @param scanner [StringScanner] The string scanner to move
-  # @param start [String] The character opening the balanced pair.
-  # @param finish [String] The character closing the balanced pair.
   # @param count [Fixnum] The number of opening characters matched
   #   before calling this method
+  # @param finish [String] The character closing the balanced pair.
+  # @param scanner [StringScanner] The string scanner to move
+  # @param start [String] The character opening the balanced pair.
   # @return [(String, String)] The string matched within the balanced pair
   #   and the rest of the string.
   #   `["Foo (Bar (Baz bang) bop)", " (Bang (bop bip))"]` in the example above.
@@ -1595,6 +1674,7 @@ module Haml::Util
   def try_parse_haml_emacs_magic_comment(scanner); end
 
   class << self
+    # source://haml//lib/haml/util.rb#20
     def escape_html(_arg0); end
 
     # TODO: Remove unescape_interpolation's workaround and get rid of `respond_to?`.

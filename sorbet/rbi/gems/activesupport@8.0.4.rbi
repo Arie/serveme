@@ -10041,7 +10041,7 @@ class ActiveSupport::Notifications::Event
   # source://activesupport//lib/active_support/notifications/instrumenter.rb#182
   def gc_time; end
 
-  # Returns the idle time time (in milliseconds) passed between the call to
+  # Returns the idle time (in milliseconds) passed between the call to
   # #start! and the call to #finish!.
   #
   # source://activesupport//lib/active_support/notifications/instrumenter.rb#169
@@ -13567,33 +13567,36 @@ class ActiveSupport::Testing::Parallelization::Server
   # source://activesupport//lib/active_support/testing/parallelization/server.rb#14
   def initialize; end
 
-  # source://activesupport//lib/active_support/testing/parallelization/server.rb#31
+  # source://activesupport//lib/active_support/testing/parallelization/server.rb#32
   def <<(o); end
 
   # @return [Boolean]
   #
-  # source://activesupport//lib/active_support/testing/parallelization/server.rb#51
+  # source://activesupport//lib/active_support/testing/parallelization/server.rb#64
   def active_workers?; end
 
-  # source://activesupport//lib/active_support/testing/parallelization/server.rb#55
+  # source://activesupport//lib/active_support/testing/parallelization/server.rb#68
   def interrupt; end
 
-  # source://activesupport//lib/active_support/testing/parallelization/server.rb#36
+  # source://activesupport//lib/active_support/testing/parallelization/server.rb#37
   def pop; end
 
   # @raise [DRb::DRbConnError]
   #
-  # source://activesupport//lib/active_support/testing/parallelization/server.rb#20
+  # source://activesupport//lib/active_support/testing/parallelization/server.rb#21
   def record(reporter, result); end
 
-  # source://activesupport//lib/active_support/testing/parallelization/server.rb#59
+  # source://activesupport//lib/active_support/testing/parallelization/server.rb#54
+  def remove_dead_workers(dead_pids); end
+
+  # source://activesupport//lib/active_support/testing/parallelization/server.rb#72
   def shutdown; end
 
-  # source://activesupport//lib/active_support/testing/parallelization/server.rb#43
-  def start_worker(worker_id); end
+  # source://activesupport//lib/active_support/testing/parallelization/server.rb#44
+  def start_worker(worker_id, worker_pid); end
 
-  # source://activesupport//lib/active_support/testing/parallelization/server.rb#47
-  def stop_worker(worker_id); end
+  # source://activesupport//lib/active_support/testing/parallelization/server.rb#49
+  def stop_worker(worker_id, worker_pid); end
 end
 
 # source://activesupport//lib/active_support/testing/parallelization/worker.rb#6
@@ -15221,57 +15224,57 @@ end
 module ActiveSupport::XmlMini
   extend ::ActiveSupport::XmlMini
 
-  # source://activesupport//lib/active_support/xml_mini.rb#101
+  # source://activesupport//lib/active_support/xml_mini.rb#103
   def backend; end
 
-  # source://activesupport//lib/active_support/xml_mini.rb#105
+  # source://activesupport//lib/active_support/xml_mini.rb#107
   def backend=(name); end
 
   # Returns the value of attribute depth.
   #
-  # source://activesupport//lib/active_support/xml_mini.rb#96
+  # source://activesupport//lib/active_support/xml_mini.rb#98
   def depth; end
 
   # Sets the attribute depth
   #
   # @param value the value to set the attribute depth to.
   #
-  # source://activesupport//lib/active_support/xml_mini.rb#96
+  # source://activesupport//lib/active_support/xml_mini.rb#98
   def depth=(_arg0); end
 
-  # source://activesupport//lib/active_support/xml_mini.rb#99
+  # source://activesupport//lib/active_support/xml_mini.rb#101
   def parse(*_arg0, **_arg1, &_arg2); end
 
-  # source://activesupport//lib/active_support/xml_mini.rb#152
+  # source://activesupport//lib/active_support/xml_mini.rb#154
   def rename_key(key, options = T.unsafe(nil)); end
 
-  # source://activesupport//lib/active_support/xml_mini.rb#119
+  # source://activesupport//lib/active_support/xml_mini.rb#121
   def to_tag(key, value, options); end
 
-  # source://activesupport//lib/active_support/xml_mini.rb#111
+  # source://activesupport//lib/active_support/xml_mini.rb#113
   def with_backend(name); end
 
   private
 
-  # source://activesupport//lib/active_support/xml_mini.rb#163
+  # source://activesupport//lib/active_support/xml_mini.rb#165
   def _dasherize(key); end
 
-  # source://activesupport//lib/active_support/xml_mini.rb#169
+  # source://activesupport//lib/active_support/xml_mini.rb#171
   def _parse_binary(bin, entity); end
 
-  # source://activesupport//lib/active_support/xml_mini.rb#180
+  # source://activesupport//lib/active_support/xml_mini.rb#182
   def _parse_file(file, entity); end
 
-  # source://activesupport//lib/active_support/xml_mini.rb#188
+  # source://activesupport//lib/active_support/xml_mini.rb#190
   def _parse_hex_binary(bin); end
 
-  # source://activesupport//lib/active_support/xml_mini.rb#200
+  # source://activesupport//lib/active_support/xml_mini.rb#202
   def cast_backend_name_to_module(name); end
 
-  # source://activesupport//lib/active_support/xml_mini.rb#192
+  # source://activesupport//lib/active_support/xml_mini.rb#194
   def current_thread_backend; end
 
-  # source://activesupport//lib/active_support/xml_mini.rb#196
+  # source://activesupport//lib/active_support/xml_mini.rb#198
   def current_thread_backend=(name); end
 end
 

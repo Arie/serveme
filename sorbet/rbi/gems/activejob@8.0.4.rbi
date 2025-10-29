@@ -529,9 +529,6 @@ module ActiveJob::Callbacks
     # source://activejob//lib/active_job/callbacks.rb#23
     def __callbacks; end
 
-    # source://activejob//lib/active_job/callbacks.rb#23
-    def __callbacks=(value); end
-
     # source://activejob//lib/active_job/callbacks.rb#24
     def _execute_callbacks; end
 
@@ -1504,7 +1501,18 @@ ActiveJob::QueueAdapter::ClassMethods::QUEUE_ADAPTER_METHODS = T.let(T.unsafe(ni
 #
 # === Backends Features
 #
+#   |                   | Async | Queues | Delayed    | Priorities | Timeout | Retries |
 #   |-------------------|-------|--------|------------|------------|---------|---------|
+#   | Backburner        | Yes   | Yes    | Yes        | Yes        | Job     | Global  |
+#   | Delayed Job       | Yes   | Yes    | Yes        | Job        | Global  | Global  |
+#   | Que               | Yes   | Yes    | Yes        | Job        | No      | Job     |
+#   | queue_classic     | Yes   | Yes    | Yes*       | No         | No      | No      |
+#   | Resque            | Yes   | Yes    | Yes (Gem)  | Queue      | Global  | Yes     |
+#   | Sidekiq           | Yes   | Yes    | Yes        | Queue      | No      | Job     |
+#   | Sneakers          | Yes   | Yes    | No         | Queue      | Queue   | No      |
+#   | Active Job Async  | Yes   | Yes    | Yes        | No         | No      | No      |
+#   | Active Job Inline | No    | Yes    | N/A        | N/A        | N/A     | N/A     |
+#   | Active Job Test   | No    | Yes    | N/A        | N/A        | N/A     | N/A     |
 #
 # ==== Async
 #

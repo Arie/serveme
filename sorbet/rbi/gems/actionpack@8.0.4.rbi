@@ -12956,7 +12956,7 @@ ActionDispatch::Integration::Session::DEFAULT_HOST = T.let(T.unsafe(nil), String
 #         end
 #
 #         assert_response :success
-#         assert_equal({ id: Article.last.id, title: "Ahoy!" }, response.parsed_body)
+#         assert_equal({ "id" => Article.last.id, "title" => "Ahoy!" }, response.parsed_body)
 #       end
 #     end
 #
@@ -16253,51 +16253,53 @@ module ActionDispatch::RequestCookieMethods
   def use_cookies_with_metadata; end
 end
 
-# source://actionpack//lib/action_dispatch/testing/request_encoder.rb#8
+# source://actionpack//lib/action_dispatch/testing/request_encoder.rb#9
 class ActionDispatch::RequestEncoder
   # @return [RequestEncoder] a new instance of RequestEncoder
   #
-  # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#20
-  def initialize(mime_name, param_encoder, response_parser); end
+  # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#21
+  def initialize(mime_name, param_encoder, response_parser, content_type); end
 
-  # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#36
+  # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#34
   def accept_header; end
 
-  # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#32
+  # Returns the value of attribute content_type.
+  #
+  # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#19
   def content_type; end
 
-  # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#40
+  # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#38
   def encode_params(params); end
 
   # Returns the value of attribute response_parser.
   #
-  # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#18
+  # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#19
   def response_parser; end
 
   class << self
-    # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#49
+    # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#47
     def encoder(name); end
 
-    # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#44
+    # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#42
     def parser(content_type); end
 
-    # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#53
-    def register_encoder(mime_name, param_encoder: T.unsafe(nil), response_parser: T.unsafe(nil)); end
+    # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#51
+    def register_encoder(mime_name, param_encoder: T.unsafe(nil), response_parser: T.unsafe(nil), content_type: T.unsafe(nil)); end
   end
 end
 
-# source://actionpack//lib/action_dispatch/testing/request_encoder.rb#9
+# source://actionpack//lib/action_dispatch/testing/request_encoder.rb#10
 class ActionDispatch::RequestEncoder::IdentityEncoder
-  # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#11
+  # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#12
   def accept_header; end
 
-  # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#10
+  # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#11
   def content_type; end
 
-  # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#12
+  # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#13
   def encode_params(params); end
 
-  # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#13
+  # source://actionpack//lib/action_dispatch/testing/request_encoder.rb#14
   def response_parser; end
 end
 

@@ -10261,18 +10261,24 @@ class ActionView::Helpers::Tags::Base
 
   private
 
-  # source://actionview//lib/action_view/helpers/tags/base.rb#96
+  # source://actionview//lib/action_view/helpers/tags/base.rb#97
   def add_default_name_and_field(options, field = T.unsafe(nil)); end
 
   # source://actionview//lib/action_view/helpers/tags/base.rb#83
   def add_default_name_and_field_for_value(tag_value, options, field = T.unsafe(nil)); end
 
+  # source://actionview//lib/action_view/helpers/tags/base.rb#108
+  def add_default_name_and_id(options, field = T.unsafe(nil)); end
+
+  # source://actionview//lib/action_view/helpers/tags/base.rb#95
+  def add_default_name_and_id_for_value(tag_value, options, field = T.unsafe(nil)); end
+
   # @return [Boolean]
   #
-  # source://actionview//lib/action_view/helpers/tags/base.rb#132
+  # source://actionview//lib/action_view/helpers/tags/base.rb#134
   def generate_ids?; end
 
-  # source://actionview//lib/action_view/helpers/tags/base.rb#124
+  # source://actionview//lib/action_view/helpers/tags/base.rb#126
   def name_and_id_index(options); end
 
   # source://actionview//lib/action_view/helpers/tags/base.rb#74
@@ -10281,16 +10287,16 @@ class ActionView::Helpers::Tags::Base
   # source://actionview//lib/action_view/helpers/tags/base.rb#63
   def retrieve_object(object); end
 
-  # source://actionview//lib/action_view/helpers/tags/base.rb#116
+  # source://actionview//lib/action_view/helpers/tags/base.rb#118
   def sanitized_method_name; end
 
-  # source://actionview//lib/action_view/helpers/tags/base.rb#120
+  # source://actionview//lib/action_view/helpers/tags/base.rb#122
   def sanitized_value(value); end
 
-  # source://actionview//lib/action_view/helpers/tags/base.rb#112
+  # source://actionview//lib/action_view/helpers/tags/base.rb#114
   def tag_id(index = T.unsafe(nil), namespace = T.unsafe(nil)); end
 
-  # source://actionview//lib/action_view/helpers/tags/base.rb#108
+  # source://actionview//lib/action_view/helpers/tags/base.rb#110
   def tag_name(multiple = T.unsafe(nil), index = T.unsafe(nil)); end
 
   # source://actionview//lib/action_view/helpers/tags/base.rb#36

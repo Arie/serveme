@@ -1171,15 +1171,15 @@ class ActiveRecord::Associations::BelongsToAssociation < ::ActiveRecord::Associa
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/belongs_to_association.rb#155
+  # source://activerecord//lib/active_record/associations/belongs_to_association.rb#157
   def foreign_key_present?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/associations/belongs_to_association.rb#159
+  # source://activerecord//lib/active_record/associations/belongs_to_association.rb#161
   def invertible_for?(record); end
 
-  # source://activerecord//lib/active_record/associations/belongs_to_association.rb#151
+  # source://activerecord//lib/active_record/associations/belongs_to_association.rb#153
   def primary_key(klass); end
 
   # source://activerecord//lib/active_record/associations/belongs_to_association.rb#95
@@ -1193,7 +1193,7 @@ class ActiveRecord::Associations::BelongsToAssociation < ::ActiveRecord::Associa
   # source://activerecord//lib/active_record/associations/belongs_to_association.rb#128
   def require_counter_update?; end
 
-  # source://activerecord//lib/active_record/associations/belongs_to_association.rb#164
+  # source://activerecord//lib/active_record/associations/belongs_to_association.rb#166
   def stale_state; end
 
   # source://activerecord//lib/active_record/associations/belongs_to_association.rb#109
@@ -1560,6 +1560,7 @@ end
 # See also "Instance Public methods" below ( from #belongs_to ) for more details.
 #
 # === Singular associations (one-to-one)
+#                                     |            |  belongs_to  |
 #   generated methods                 | belongs_to | :polymorphic | has_one
 #   ----------------------------------+------------+--------------+---------
 #   other                             |     X      |      X       |    X
@@ -1572,6 +1573,7 @@ end
 #   other_previously_changed?         |     X      |      X       |
 #
 # === Collection associations (one-to-many / many-to-many)
+#                                     |       |          | has_many
 #   generated methods                 | habtm | has_many | :through
 #   ----------------------------------+-------+----------+----------
 #   others                            |   X   |    X     |    X
@@ -18081,22 +18083,22 @@ class ActiveRecord::ConnectionFailed < ::ActiveRecord::QueryAborted; end
 #
 # source://activerecord//lib/active_record/connection_handling.rb#5
 module ActiveRecord::ConnectionHandling
-  # source://activerecord//lib/active_record/connection_handling.rb#338
+  # source://activerecord//lib/active_record/connection_handling.rb#340
   def adapter_class; end
 
-  # source://activerecord//lib/active_record/connection_handling.rb#372
+  # source://activerecord//lib/active_record/connection_handling.rb#374
   def clear_cache!; end
 
   # Clears the query cache for all connections associated with the current thread.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#258
+  # source://activerecord//lib/active_record/connection_handling.rb#260
   def clear_query_caches_for_current_thread; end
 
   # Returns +true+ if Active Record is connected.
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#351
+  # source://activerecord//lib/active_record/connection_handling.rb#353
   def connected?; end
 
   # Connects to a role (e.g. writing, reading, or a custom role) and/or
@@ -18146,7 +18148,7 @@ module ActiveRecord::ConnectionHandling
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#253
+  # source://activerecord//lib/active_record/connection_handling.rb#255
   def connected_to?(role:, shard: T.unsafe(nil)); end
 
   # Passes the block to +connected_to+ for every +shard+ the
@@ -18156,7 +18158,7 @@ module ActiveRecord::ConnectionHandling
   # Optionally, +role+ and/or +prevent_writes+ can be passed which
   # will be forwarded to each +connected_to+ call.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#186
+  # source://activerecord//lib/active_record/connection_handling.rb#188
   def connected_to_all_shards(role: T.unsafe(nil), prevent_writes: T.unsafe(nil), &blk); end
 
   # Connects a role and/or shard to the provided connection names. Optionally +prevent_writes+
@@ -18184,12 +18186,12 @@ module ActiveRecord::ConnectionHandling
   # It is not recommended to use this method in a request since it
   # does not yield to a block like +connected_to+.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#199
+  # source://activerecord//lib/active_record/connection_handling.rb#201
   def connecting_to(role: T.unsafe(nil), shard: T.unsafe(nil), prevent_writes: T.unsafe(nil)); end
 
   # Soft deprecated. Use +#with_connection+ or +#lease_connection+ instead.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#274
+  # source://activerecord//lib/active_record/connection_handling.rb#276
   def connection; end
 
   # Returns the db_config object from the associated connection:
@@ -18200,22 +18202,22 @@ module ActiveRecord::ConnectionHandling
   #
   # Use only for reading.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#334
+  # source://activerecord//lib/active_record/connection_handling.rb#336
   def connection_db_config; end
 
-  # source://activerecord//lib/active_record/connection_handling.rb#342
+  # source://activerecord//lib/active_record/connection_handling.rb#344
   def connection_pool; end
 
   # Returns the connection specification name from the current class or its parent.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#316
+  # source://activerecord//lib/active_record/connection_handling.rb#318
   def connection_specification_name; end
 
   # Sets the attribute connection_specification_name
   #
   # @param value the value to set the attribute connection_specification_name to.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#313
+  # source://activerecord//lib/active_record/connection_handling.rb#315
   def connection_specification_name=(_arg0); end
 
   # Connects a model to the databases specified. The +database+ keyword
@@ -18300,12 +18302,12 @@ module ActiveRecord::ConnectionHandling
   # The connection will remain leased for the entire duration of the request
   # or job, or until +#release_connection+ is called.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#269
+  # source://activerecord//lib/active_record/connection_handling.rb#271
   def lease_connection; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#323
+  # source://activerecord//lib/active_record/connection_handling.rb#325
   def primary_class?; end
 
   # Prohibit swapping shards while inside of the passed block.
@@ -18315,36 +18317,36 @@ module ActiveRecord::ConnectionHandling
   # is useful in cases you're using sharding to provide per-request
   # database isolation.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#211
+  # source://activerecord//lib/active_record/connection_handling.rb#213
   def prohibit_shard_swapping(enabled = T.unsafe(nil)); end
 
   # Return the currently leased connection into the pool
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#298
+  # source://activerecord//lib/active_record/connection_handling.rb#300
   def release_connection; end
 
-  # source://activerecord//lib/active_record/connection_handling.rb#355
+  # source://activerecord//lib/active_record/connection_handling.rb#357
   def remove_connection; end
 
-  # source://activerecord//lib/active_record/connection_handling.rb#346
+  # source://activerecord//lib/active_record/connection_handling.rb#348
   def retrieve_connection; end
 
-  # source://activerecord//lib/active_record/connection_handling.rb#368
+  # source://activerecord//lib/active_record/connection_handling.rb#370
   def schema_cache; end
 
-  # source://activerecord//lib/active_record/connection_handling.rb#376
+  # source://activerecord//lib/active_record/connection_handling.rb#378
   def shard_keys; end
 
   # Determine whether or not shard swapping is currently prohibited
   #
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#220
+  # source://activerecord//lib/active_record/connection_handling.rb#222
   def shard_swapping_prohibited?; end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#380
+  # source://activerecord//lib/active_record/connection_handling.rb#382
   def sharded?; end
 
   # Prevent writing to the database regardless of role.
@@ -18359,7 +18361,7 @@ module ActiveRecord::ConnectionHandling
   # See +READ_QUERY+ for the queries that are blocked by this
   # method.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#235
+  # source://activerecord//lib/active_record/connection_handling.rb#237
   def while_preventing_writes(enabled = T.unsafe(nil), &block); end
 
   # Checkouts a connection from the pool, yield it and then check it back in.
@@ -18370,18 +18372,18 @@ module ActiveRecord::ConnectionHandling
   # If #connection is called inside the block, the connection won't be checked back in
   # unless the +prevent_permanent_checkout+ argument is set to +true+.
   #
-  # source://activerecord//lib/active_record/connection_handling.rb#309
+  # source://activerecord//lib/active_record/connection_handling.rb#311
   def with_connection(prevent_permanent_checkout: T.unsafe(nil), &block); end
 
   private
 
-  # source://activerecord//lib/active_record/connection_handling.rb#405
+  # source://activerecord//lib/active_record/connection_handling.rb#409
   def append_to_connected_to_stack(entry); end
 
-  # source://activerecord//lib/active_record/connection_handling.rb#385
+  # source://activerecord//lib/active_record/connection_handling.rb#387
   def resolve_config_for_connection(config_or_env); end
 
-  # source://activerecord//lib/active_record/connection_handling.rb#394
+  # source://activerecord//lib/active_record/connection_handling.rb#396
   def with_role_and_shard(role, shard, prevent_writes); end
 end
 
@@ -31414,16 +31416,16 @@ module ActiveRecord::QueryMethods
 
   private
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1990
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1991
   def arel_column(field); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2234
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2235
   def arel_column_aliases_from_hash(fields); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1978
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1979
   def arel_column_with_table(table_name, column_name); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1962
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1963
   def arel_columns_from_hash(fields); end
 
   # @raise [UnmodifiableRelation]
@@ -31440,7 +31442,7 @@ module ActiveRecord::QueryMethods
   # source://activerecord//lib/active_record/relation/query_methods.rb#1702
   def build_bound_sql_literal(statement, values); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2163
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2164
   def build_case_for_value_position(column, values, filter: T.unsafe(nil)); end
 
   # source://activerecord//lib/active_record/relation/query_methods.rb#1779
@@ -31461,7 +31463,7 @@ module ActiveRecord::QueryMethods
   # source://activerecord//lib/active_record/relation/query_methods.rb#1682
   def build_named_bound_sql_literal(statement, values); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2055
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2056
   def build_order(arel); end
 
   # source://activerecord//lib/active_record/relation/query_methods.rb#1903
@@ -31473,7 +31475,7 @@ module ActiveRecord::QueryMethods
   # source://activerecord//lib/active_record/relation/query_methods.rb#1929
   def build_with_expression_from_value(value, nested = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#1954
+  # source://activerecord//lib/active_record/relation/query_methods.rb#1955
   def build_with_join_node(name, kind = T.unsafe(nil)); end
 
   # source://activerecord//lib/active_record/relation/query_methods.rb#1923
@@ -31496,48 +31498,48 @@ module ActiveRecord::QueryMethods
   #   ...
   # end
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2213
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2214
   def check_if_method_has_arguments!(method_name, args, message = T.unsafe(nil)); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2124
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2125
   def column_references(order_args); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2044
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2045
   def does_not_support_reverse?(order); end
 
   # source://activerecord//lib/active_record/relation/query_methods.rb#1729
   def each_join_dependencies(join_dependencies = T.unsafe(nil), &block); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2149
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2150
   def extract_table_name_from(string); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2077
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2078
   def flattened_args(args); end
 
   # source://activerecord//lib/active_record/relation/query_methods.rb#1722
   def lookup_table_klass_from_join_dependencies(table_name); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2153
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2154
   def order_column(field); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2081
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2082
   def preprocess_order_args(order_args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2224
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2225
   def process_select_args(fields); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2254
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2255
   def process_with_args(args); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2173
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2174
   def resolve_arel_attributes(attrs); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2015
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2016
   def reverse_sql_order(order_query); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2118
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2119
   def sanitize_order_arguments(order_args); end
 
   # source://activerecord//lib/active_record/relation/query_methods.rb#1810
@@ -31546,15 +31548,15 @@ module ActiveRecord::QueryMethods
   # source://activerecord//lib/active_record/relation/query_methods.rb#1798
   def select_named_joins(join_names, stashed_joins = T.unsafe(nil), &block); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2266
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2267
   def structurally_incompatible_values_for(other); end
 
   # @return [Boolean]
   #
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2009
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2010
   def table_name_matches?(from); end
 
-  # source://activerecord//lib/active_record/relation/query_methods.rb#2063
+  # source://activerecord//lib/active_record/relation/query_methods.rb#2064
   def validate_order_args(args); end
 end
 
@@ -31577,10 +31579,10 @@ ActiveRecord::QueryMethods::FROZEN_EMPTY_ARRAY = T.let(T.unsafe(nil), Array)
 # source://activerecord//lib/active_record/relation/query_methods.rb#160
 ActiveRecord::QueryMethods::FROZEN_EMPTY_HASH = T.let(T.unsafe(nil), Hash)
 
-# source://activerecord//lib/active_record/relation/query_methods.rb#2261
+# source://activerecord//lib/active_record/relation/query_methods.rb#2262
 ActiveRecord::QueryMethods::STRUCTURAL_VALUE_METHODS = T.let(T.unsafe(nil), Array)
 
-# source://activerecord//lib/active_record/relation/query_methods.rb#2060
+# source://activerecord//lib/active_record/relation/query_methods.rb#2061
 ActiveRecord::QueryMethods::VALID_DIRECTIONS = T.let(T.unsafe(nil), Set)
 
 # source://activerecord//lib/active_record/relation/query_methods.rb#768
@@ -39483,13 +39485,24 @@ module ActiveRecord::Validations::ClassMethods
   #  SELECT * FROM comments              |
   #  WHERE title = 'My Post'             |
   #                                      |
+  #                                      | # User 2 does the same thing and also
+  #                                      | # infers that their title is unique.
+  #                                      | SELECT * FROM comments
+  #                                      | WHERE title = 'My Post'
   #                                      |
   #  # User 1 inserts their comment.     |
   #  INSERT INTO comments                |
   #  (title, content) VALUES             |
   #  ('My Post', 'hi!')                  |
   #                                      |
+  #                                      | # User 2 does the same thing.
+  #                                      | INSERT INTO comments
+  #                                      | (title, content) VALUES
+  #                                      | ('My Post', 'hello!')
   #                                      |
+  #                                      | # ^^^^^^
+  #                                      | # Boom! We now have a duplicate
+  #                                      | # title!
   #
   # The best way to work around this problem is to add a unique index to the database table using
   # {connection.add_index}[rdoc-ref:ConnectionAdapters::SchemaStatements#add_index].

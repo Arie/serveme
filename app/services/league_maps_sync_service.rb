@@ -185,7 +185,7 @@ class LeagueMapsSyncService
     league_count = config["league_maps"]&.size || 0
     total_maps = config["league_maps"]&.sum { |l| l["maps"]&.size || 0 } || 0
 
-    Rails.logger.info(
+    Rails.logger.debug(
       "League maps sync successful: #{league_count} leagues, #{total_maps} total maps"
     )
   end

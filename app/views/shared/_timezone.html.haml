@@ -1,3 +1,9 @@
 :javascript
-  var timeZone = jstz.determine();
-  document.cookie = 'time_zone='+timeZone.name()+';';
+  try {
+    var timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (timeZone) {
+      document.cookie = 'time_zone=' + timeZone + '; path=/; max-age=31536000; SameSite=Lax';
+    }
+  } catch (e) {
+    // browser too old
+  }

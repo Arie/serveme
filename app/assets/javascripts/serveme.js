@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require clipboard
 //= require datepicker
-//= require jstz
 //= require pay
 //= require select2
 //= require sessions

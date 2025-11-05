@@ -26,6 +26,9 @@ class ApplicationController < ActionController::Base
       current_user.update(time_zone: normalized_tz)
       current_user.reload
     end
+  rescue ArgumentError
+    current_user.update(time_zone: nil)
+    set_default_time_zone
   end
 
   def set_time_zone_from_cookie
@@ -42,11 +45,9 @@ class ApplicationController < ActionController::Base
 
     # Handle Europe/Kiev <-> Europe/Kyiv rename (tzdata 2022b)
     if timezone.match?(/Europe\/K(ie|yi)v/)
-      available_tz = ActiveSupport::TimeZone.all.find do |tz|
-        tz.tzinfo.identifier.match?(/Europe\/K(ie|yi)v/)
-      end
-
-      available_tz&.tzinfo&.identifier || timezone
+      ActiveSupport::TimeZone["Europe/Kyiv"]&.name ||
+        ActiveSupport::TimeZone["Europe/Kiev"]&.name ||
+        timezone
     else
       timezone
     end

@@ -43,14 +43,30 @@ class ApplicationController < ActionController::Base
   def normalize_timezone(timezone)
     return timezone unless timezone
 
-    # Handle Europe/Kiev <-> Europe/Kyiv rename (tzdata 2022b)
-    if timezone.match?(/Europe\/K(ie|yi)v/)
-      ActiveSupport::TimeZone["Europe/Kyiv"]&.name ||
-        ActiveSupport::TimeZone["Europe/Kiev"]&.name ||
-        timezone
+    # Handle IANA timezone renames that break on newer tzdata
+    # Map old names to new names, or vice versa depending on system
+    case timezone
+    when /Europe\/K(ie|yi)v/
+      # Europe/Kiev renamed to Europe/Kyiv (tzdata 2022b)
+      find_available_timezone("Europe/Kyiv", "Europe/Kiev") || timezone
+    when /America\/Godthab|America\/Nuuk/
+      # America/Godthab renamed to America/Nuuk
+      find_available_timezone("America/Nuuk", "America/Godthab") || timezone
+    when /Asia\/Rangoon|Asia\/Yangon/
+      # Asia/Rangoon renamed to Asia/Yangon
+      find_available_timezone("Asia/Yangon", "Asia/Rangoon") || timezone
     else
       timezone
     end
+  end
+
+  def find_available_timezone(*identifiers)
+    # Try each identifier and return the first one that exists in the system
+    identifiers.each do |identifier|
+      tz = ActiveSupport::TimeZone[identifier]
+      return identifier if tz
+    end
+    nil
   end
 
   def set_default_time_zone

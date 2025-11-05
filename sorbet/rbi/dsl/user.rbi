@@ -83,8 +83,34 @@ class User
     sig { params(attributes: T.untyped, block: T.nilable(T.proc.params(object: ::User).void)).returns(::User) }
     def create_or_find_by!(attributes, &block); end
 
+    sig do
+      params(
+        records: T.any(::User, Integer, String, T::Enumerable[T.any(::User, Integer, String, T::Enumerable[::User])])
+      ).returns(Integer)
+    end
+    def delete(*records); end
+
+    sig { returns(Integer) }
+    def delete_all; end
+
+    sig { params(args: T.untyped).returns(Integer) }
+    def delete_by(args); end
+
+    sig do
+      params(
+        records: T.any(::User, Integer, String, T::Enumerable[T.any(::User, Integer, String, T::Enumerable[::User])])
+      ).returns(T::Array[::User])
+    end
+    def destroy(*records); end
+
     sig { returns(T::Array[::User]) }
     def destroy_all; end
+
+    sig { returns(T::Array[::User]) }
+    def destroy_all; end
+
+    sig { params(args: T.untyped).returns(T::Array[::User]) }
+    def destroy_by(args); end
 
     sig { params(conditions: T.untyped).returns(T::Boolean) }
     def exists?(conditions = :none); end
@@ -248,6 +274,40 @@ class User
     sig { params(record: T.untyped).returns(T::Boolean) }
     def include?(record); end
 
+    sig do
+      params(
+        attributes: Hash,
+        returning: T.nilable(T.any(T::Array[Symbol], FalseClass)),
+        unique_by: T.nilable(T.any(T::Array[Symbol], Symbol))
+      ).returns(ActiveRecord::Result)
+    end
+    def insert(attributes, returning: nil, unique_by: nil); end
+
+    sig do
+      params(
+        attributes: Hash,
+        returning: T.nilable(T.any(T::Array[Symbol], FalseClass))
+      ).returns(ActiveRecord::Result)
+    end
+    def insert!(attributes, returning: nil); end
+
+    sig do
+      params(
+        attributes: T::Array[Hash],
+        returning: T.nilable(T.any(T::Array[Symbol], FalseClass)),
+        unique_by: T.nilable(T.any(T::Array[Symbol], Symbol))
+      ).returns(ActiveRecord::Result)
+    end
+    def insert_all(attributes, returning: nil, unique_by: nil); end
+
+    sig do
+      params(
+        attributes: T::Array[Hash],
+        returning: T.nilable(T.any(T::Array[Symbol], FalseClass))
+      ).returns(ActiveRecord::Result)
+    end
+    def insert_all!(attributes, returning: nil); end
+
     sig { returns(T.nilable(::User)) }
     sig { params(limit: Integer).returns(T::Array[::User]) }
     def last(limit = nil); end
@@ -332,6 +392,24 @@ class User
 
     sig { returns(::User) }
     def third_to_last!; end
+
+    sig do
+      params(
+        attributes: Hash,
+        returning: T.nilable(T.any(T::Array[Symbol], FalseClass)),
+        unique_by: T.nilable(T.any(T::Array[Symbol], Symbol))
+      ).returns(ActiveRecord::Result)
+    end
+    def upsert(attributes, returning: nil, unique_by: nil); end
+
+    sig do
+      params(
+        attributes: T::Array[Hash],
+        returning: T.nilable(T.any(T::Array[Symbol], FalseClass)),
+        unique_by: T.nilable(T.any(T::Array[Symbol], Symbol))
+      ).returns(ActiveRecord::Result)
+    end
+    def upsert_all(attributes, returning: nil, unique_by: nil); end
   end
 
   module GeneratedAssociationMethods

@@ -113,8 +113,34 @@ class ReservationStatus
     end
     def create_or_find_by!(attributes, &block); end
 
+    sig do
+      params(
+        records: T.any(::ReservationStatus, Integer, String, T::Enumerable[T.any(::ReservationStatus, Integer, String, T::Enumerable[::ReservationStatus])])
+      ).returns(Integer)
+    end
+    def delete(*records); end
+
+    sig { returns(Integer) }
+    def delete_all; end
+
+    sig { params(args: T.untyped).returns(Integer) }
+    def delete_by(args); end
+
+    sig do
+      params(
+        records: T.any(::ReservationStatus, Integer, String, T::Enumerable[T.any(::ReservationStatus, Integer, String, T::Enumerable[::ReservationStatus])])
+      ).returns(T::Array[::ReservationStatus])
+    end
+    def destroy(*records); end
+
     sig { returns(T::Array[::ReservationStatus]) }
     def destroy_all; end
+
+    sig { returns(T::Array[::ReservationStatus]) }
+    def destroy_all; end
+
+    sig { params(args: T.untyped).returns(T::Array[::ReservationStatus]) }
+    def destroy_by(args); end
 
     sig { params(conditions: T.untyped).returns(T::Boolean) }
     def exists?(conditions = :none); end
@@ -298,6 +324,40 @@ class ReservationStatus
     sig { params(record: T.untyped).returns(T::Boolean) }
     def include?(record); end
 
+    sig do
+      params(
+        attributes: Hash,
+        returning: T.nilable(T.any(T::Array[Symbol], FalseClass)),
+        unique_by: T.nilable(T.any(T::Array[Symbol], Symbol))
+      ).returns(ActiveRecord::Result)
+    end
+    def insert(attributes, returning: nil, unique_by: nil); end
+
+    sig do
+      params(
+        attributes: Hash,
+        returning: T.nilable(T.any(T::Array[Symbol], FalseClass))
+      ).returns(ActiveRecord::Result)
+    end
+    def insert!(attributes, returning: nil); end
+
+    sig do
+      params(
+        attributes: T::Array[Hash],
+        returning: T.nilable(T.any(T::Array[Symbol], FalseClass)),
+        unique_by: T.nilable(T.any(T::Array[Symbol], Symbol))
+      ).returns(ActiveRecord::Result)
+    end
+    def insert_all(attributes, returning: nil, unique_by: nil); end
+
+    sig do
+      params(
+        attributes: T::Array[Hash],
+        returning: T.nilable(T.any(T::Array[Symbol], FalseClass))
+      ).returns(ActiveRecord::Result)
+    end
+    def insert_all!(attributes, returning: nil); end
+
     sig { returns(T.nilable(::ReservationStatus)) }
     sig { params(limit: Integer).returns(T::Array[::ReservationStatus]) }
     def last(limit = nil); end
@@ -387,6 +447,24 @@ class ReservationStatus
 
     sig { returns(::ReservationStatus) }
     def third_to_last!; end
+
+    sig do
+      params(
+        attributes: Hash,
+        returning: T.nilable(T.any(T::Array[Symbol], FalseClass)),
+        unique_by: T.nilable(T.any(T::Array[Symbol], Symbol))
+      ).returns(ActiveRecord::Result)
+    end
+    def upsert(attributes, returning: nil, unique_by: nil); end
+
+    sig do
+      params(
+        attributes: T::Array[Hash],
+        returning: T.nilable(T.any(T::Array[Symbol], FalseClass)),
+        unique_by: T.nilable(T.any(T::Array[Symbol], Symbol))
+      ).returns(ActiveRecord::Result)
+    end
+    def upsert_all(attributes, returning: nil, unique_by: nil); end
   end
 
   module GeneratedAssociationMethods

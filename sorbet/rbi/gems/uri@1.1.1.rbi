@@ -1900,27 +1900,27 @@ class URI::MailTo < ::URI::Generic
   #
   # @return [MailTo] a new instance of MailTo
   #
-  # source://uri//lib/uri/mailto.rb#136
+  # source://uri//lib/uri/mailto.rb#132
   def initialize(*arg); end
 
   # E-mail headers set by the URL, as an Array of Arrays.
   #
-  # source://uri//lib/uri/mailto.rb#170
+  # source://uri//lib/uri/mailto.rb#166
   def headers; end
 
   # Setter for headers +v+.
   #
-  # source://uri//lib/uri/mailto.rb#236
+  # source://uri//lib/uri/mailto.rb#232
   def headers=(v); end
 
   # The primary e-mail address of the URL, as a String.
   #
-  # source://uri//lib/uri/mailto.rb#167
+  # source://uri//lib/uri/mailto.rb#163
   def to; end
 
   # Setter for to +v+.
   #
-  # source://uri//lib/uri/mailto.rb#204
+  # source://uri//lib/uri/mailto.rb#200
   def to=(v); end
 
   # Returns the RFC822 e-mail text equivalent of the URL, as a String.
@@ -1933,7 +1933,7 @@ class URI::MailTo < ::URI::Generic
   #   uri.to_mailtext
   #   # => "To: ruby-list@ruby-lang.org\nSubject: subscribe\nCc: myaddr\n\n\n"
   #
-  # source://uri//lib/uri/mailto.rb#272
+  # source://uri//lib/uri/mailto.rb#268
   def to_mailtext; end
 
   # Returns the RFC822 e-mail text equivalent of the URL, as a String.
@@ -1946,24 +1946,24 @@ class URI::MailTo < ::URI::Generic
   #   uri.to_mailtext
   #   # => "To: ruby-list@ruby-lang.org\nSubject: subscribe\nCc: myaddr\n\n\n"
   #
-  # source://uri//lib/uri/mailto.rb#293
+  # source://uri//lib/uri/mailto.rb#289
   def to_rfc822text; end
 
   # Constructs String from URI.
   #
-  # source://uri//lib/uri/mailto.rb#243
+  # source://uri//lib/uri/mailto.rb#239
   def to_s; end
 
   protected
 
   # Private setter for headers +v+.
   #
-  # source://uri//lib/uri/mailto.rb#225
+  # source://uri//lib/uri/mailto.rb#221
   def set_headers(v); end
 
   # Private setter for to +v+.
   #
-  # source://uri//lib/uri/mailto.rb#198
+  # source://uri//lib/uri/mailto.rb#194
   def set_to(v); end
 
   private
@@ -1971,12 +1971,12 @@ class URI::MailTo < ::URI::Generic
   # Checks the headers +v+ component against either
   # * HEADER_REGEXP
   #
-  # source://uri//lib/uri/mailto.rb#212
+  # source://uri//lib/uri/mailto.rb#208
   def check_headers(v); end
 
   # Checks the to +v+ component.
   #
-  # source://uri//lib/uri/mailto.rb#173
+  # source://uri//lib/uri/mailto.rb#169
   def check_to(v); end
 
   class << self
@@ -2006,7 +2006,7 @@ class URI::MailTo < ::URI::Generic
     #    m3 = URI::MailTo.build({:to => 'listman@example.com', :headers => [['subject', 'subscribe']]})
     #    m3.to_s  # => "mailto:listman@example.com?subject=subscribe"
     #
-    # source://uri//lib/uri/mailto.rb#89
+    # source://uri//lib/uri/mailto.rb#85
     def build(args); end
   end
 end

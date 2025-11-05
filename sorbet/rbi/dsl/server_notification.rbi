@@ -116,8 +116,34 @@ class ServerNotification
     end
     def create_or_find_by!(attributes, &block); end
 
+    sig do
+      params(
+        records: T.any(::ServerNotification, Integer, String, T::Enumerable[T.any(::ServerNotification, Integer, String, T::Enumerable[::ServerNotification])])
+      ).returns(Integer)
+    end
+    def delete(*records); end
+
+    sig { returns(Integer) }
+    def delete_all; end
+
+    sig { params(args: T.untyped).returns(Integer) }
+    def delete_by(args); end
+
+    sig do
+      params(
+        records: T.any(::ServerNotification, Integer, String, T::Enumerable[T.any(::ServerNotification, Integer, String, T::Enumerable[::ServerNotification])])
+      ).returns(T::Array[::ServerNotification])
+    end
+    def destroy(*records); end
+
     sig { returns(T::Array[::ServerNotification]) }
     def destroy_all; end
+
+    sig { returns(T::Array[::ServerNotification]) }
+    def destroy_all; end
+
+    sig { params(args: T.untyped).returns(T::Array[::ServerNotification]) }
+    def destroy_by(args); end
 
     sig { params(conditions: T.untyped).returns(T::Boolean) }
     def exists?(conditions = :none); end
@@ -301,6 +327,40 @@ class ServerNotification
     sig { params(record: T.untyped).returns(T::Boolean) }
     def include?(record); end
 
+    sig do
+      params(
+        attributes: Hash,
+        returning: T.nilable(T.any(T::Array[Symbol], FalseClass)),
+        unique_by: T.nilable(T.any(T::Array[Symbol], Symbol))
+      ).returns(ActiveRecord::Result)
+    end
+    def insert(attributes, returning: nil, unique_by: nil); end
+
+    sig do
+      params(
+        attributes: Hash,
+        returning: T.nilable(T.any(T::Array[Symbol], FalseClass))
+      ).returns(ActiveRecord::Result)
+    end
+    def insert!(attributes, returning: nil); end
+
+    sig do
+      params(
+        attributes: T::Array[Hash],
+        returning: T.nilable(T.any(T::Array[Symbol], FalseClass)),
+        unique_by: T.nilable(T.any(T::Array[Symbol], Symbol))
+      ).returns(ActiveRecord::Result)
+    end
+    def insert_all(attributes, returning: nil, unique_by: nil); end
+
+    sig do
+      params(
+        attributes: T::Array[Hash],
+        returning: T.nilable(T.any(T::Array[Symbol], FalseClass))
+      ).returns(ActiveRecord::Result)
+    end
+    def insert_all!(attributes, returning: nil); end
+
     sig { returns(T.nilable(::ServerNotification)) }
     sig { params(limit: Integer).returns(T::Array[::ServerNotification]) }
     def last(limit = nil); end
@@ -402,6 +462,24 @@ class ServerNotification
 
     sig { returns(::ServerNotification) }
     def third_to_last!; end
+
+    sig do
+      params(
+        attributes: Hash,
+        returning: T.nilable(T.any(T::Array[Symbol], FalseClass)),
+        unique_by: T.nilable(T.any(T::Array[Symbol], Symbol))
+      ).returns(ActiveRecord::Result)
+    end
+    def upsert(attributes, returning: nil, unique_by: nil); end
+
+    sig do
+      params(
+        attributes: T::Array[Hash],
+        returning: T.nilable(T.any(T::Array[Symbol], FalseClass)),
+        unique_by: T.nilable(T.any(T::Array[Symbol], Symbol))
+      ).returns(ActiveRecord::Result)
+    end
+    def upsert_all(attributes, returning: nil, unique_by: nil); end
   end
 
   module GeneratedAssociationRelationMethods

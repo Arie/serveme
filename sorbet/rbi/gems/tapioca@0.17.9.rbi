@@ -316,15 +316,9 @@ end
 
 # source://tapioca//lib/tapioca/sorbet_ext/name_patch.rb#7
 module T::Types::Simple::NamePatch
-  # source://tapioca//lib/tapioca/sorbet_ext/name_patch.rb#10
+  # source://tapioca//lib/tapioca/sorbet_ext/name_patch.rb#8
   def name; end
-
-  # source://tapioca//lib/tapioca/sorbet_ext/name_patch.rb#16
-  def qualified_name_of(constant); end
 end
-
-# source://tapioca//lib/tapioca/sorbet_ext/name_patch.rb#8
-T::Types::Simple::NamePatch::NAME_METHOD = T.let(T.unsafe(nil), UnboundMethod)
 
 # source://tapioca//lib/tapioca/sorbet_ext/generic_name_patch.rb#87
 module T::Utils::Private
@@ -341,17 +335,9 @@ module T::Utils::Private::PrivateCoercePatch
 end
 
 # source://tapioca//lib/tapioca/runtime/trackers/autoload.rb#4
-module Tapioca
-  class << self
-    # source://tapioca//lib/tapioca.rb#19
-    def silence_warnings(&blk); end
+module Tapioca; end
 
-    # source://tapioca//lib/tapioca.rb#30
-    def with_disabled_exits(&block); end
-  end
-end
-
-# source://tapioca//lib/tapioca.rb#56
+# source://tapioca//lib/tapioca.rb#20
 Tapioca::BINARY_FILE = T.let(T.unsafe(nil), String)
 
 # source://tapioca//lib/tapioca/bundler_ext/auto_require_hook.rb#5
@@ -391,13 +377,13 @@ module Tapioca::BundlerExt::AutoRequireHook
   end
 end
 
-# source://tapioca//lib/tapioca.rb#76
+# source://tapioca//lib/tapioca.rb#40
 Tapioca::CENTRAL_REPO_ANNOTATIONS_DIR = T.let(T.unsafe(nil), String)
 
-# source://tapioca//lib/tapioca.rb#75
+# source://tapioca//lib/tapioca.rb#39
 Tapioca::CENTRAL_REPO_INDEX_PATH = T.let(T.unsafe(nil), String)
 
-# source://tapioca//lib/tapioca.rb#74
+# source://tapioca//lib/tapioca.rb#38
 Tapioca::CENTRAL_REPO_ROOT_URI = T.let(T.unsafe(nil), String)
 
 # source://tapioca//lib/tapioca/cli.rb#5
@@ -1112,37 +1098,37 @@ class Tapioca::ConfigHelper::ConfigErrorMessagePart < ::T::Struct
   const :colors, T::Array[::Symbol]
 end
 
-# source://tapioca//lib/tapioca.rb#63
+# source://tapioca//lib/tapioca.rb#27
 Tapioca::DEFAULT_ANNOTATIONS_DIR = T.let(T.unsafe(nil), String)
 
-# source://tapioca//lib/tapioca.rb#59
+# source://tapioca//lib/tapioca.rb#23
 Tapioca::DEFAULT_DSL_DIR = T.let(T.unsafe(nil), String)
 
-# source://tapioca//lib/tapioca.rb#72
+# source://tapioca//lib/tapioca.rb#36
 Tapioca::DEFAULT_ENVIRONMENT = T.let(T.unsafe(nil), String)
 
-# source://tapioca//lib/tapioca.rb#60
+# source://tapioca//lib/tapioca.rb#24
 Tapioca::DEFAULT_GEM_DIR = T.let(T.unsafe(nil), String)
 
-# source://tapioca//lib/tapioca.rb#65
+# source://tapioca//lib/tapioca.rb#29
 Tapioca::DEFAULT_OVERRIDES = T.let(T.unsafe(nil), Hash)
 
-# source://tapioca//lib/tapioca.rb#57
+# source://tapioca//lib/tapioca.rb#21
 Tapioca::DEFAULT_POSTREQUIRE_FILE = T.let(T.unsafe(nil), String)
 
-# source://tapioca//lib/tapioca.rb#58
+# source://tapioca//lib/tapioca.rb#22
 Tapioca::DEFAULT_RBI_DIR = T.let(T.unsafe(nil), String)
 
 # source://tapioca//lib/tapioca/rbi_formatter.rb#25
 Tapioca::DEFAULT_RBI_FORMATTER = T.let(T.unsafe(nil), Tapioca::RBIFormatter)
 
-# source://tapioca//lib/tapioca.rb#71
+# source://tapioca//lib/tapioca.rb#35
 Tapioca::DEFAULT_RBI_MAX_LINE_LENGTH = T.let(T.unsafe(nil), Integer)
 
-# source://tapioca//lib/tapioca.rb#61
+# source://tapioca//lib/tapioca.rb#25
 Tapioca::DEFAULT_SHIM_DIR = T.let(T.unsafe(nil), String)
 
-# source://tapioca//lib/tapioca.rb#62
+# source://tapioca//lib/tapioca.rb#26
 Tapioca::DEFAULT_TODO_FILE = T.let(T.unsafe(nil), String)
 
 # source://tapioca//lib/tapioca/dsl/compilers.rb#5
@@ -2365,7 +2351,7 @@ Tapioca::Gemfile::GemSpec::IGNORED_GEMS = T.let(T.unsafe(nil), Array)
 # source://tapioca//lib/tapioca/gemfile.rb#10
 Tapioca::Gemfile::Spec = T.type_alias { T.any(::Bundler::StubSpecification, ::Gem::Specification) }
 
-# source://tapioca//lib/tapioca.rb#50
+# source://tapioca//lib/tapioca.rb#14
 Tapioca::LIB_ROOT_DIR = T.let(T.unsafe(nil), String)
 
 # source://tapioca//lib/tapioca/loaders/loader.rb#5
@@ -2564,9 +2550,6 @@ class Tapioca::Loaders::Loader
   sig { returns(T::Boolean) }
   def zeitwerk_mode?; end
 end
-
-# source://tapioca//lib/tapioca.rb#12
-Tapioca::NOOP_METHOD = T.let(T.unsafe(nil), Proc)
 
 # source://tapioca//lib/tapioca/helpers/rbi_files_helper.rb#5
 module Tapioca::RBIFilesHelper
@@ -2769,7 +2752,15 @@ class Tapioca::RepoIndex
 end
 
 # source://tapioca//lib/tapioca/runtime/trackers/autoload.rb#5
-module Tapioca::Runtime; end
+module Tapioca::Runtime
+  class << self
+    # source://tapioca//lib/tapioca/runtime/helpers.rb#11
+    def silence_warnings(&blk); end
+
+    # source://tapioca//lib/tapioca/runtime/helpers.rb#22
+    def with_disabled_exits(&block); end
+  end
+end
 
 # This module should only be included when running versions of Ruby
 # older than 3.2. Because the Class#attached_object method is not
@@ -2918,6 +2909,9 @@ class Tapioca::Runtime::GenericTypeRegistry::GenericType < ::T::Types::Simple
   # source://tapioca//lib/tapioca/runtime/generic_type_registry.rb#40
   def valid?(obj); end
 end
+
+# source://tapioca//lib/tapioca/runtime/helpers.rb#6
+Tapioca::Runtime::NOOP_METHOD = T.let(T.unsafe(nil), Proc)
 
 module Tapioca::Runtime::Reflection
   include ::Tapioca::Runtime::AttachedClassOf
@@ -3266,10 +3260,10 @@ module Tapioca::Runtime::Trackers::Tracker
   end
 end
 
-# source://tapioca//lib/tapioca.rb#52
+# source://tapioca//lib/tapioca.rb#16
 Tapioca::SORBET_CONFIG_FILE = T.let(T.unsafe(nil), String)
 
-# source://tapioca//lib/tapioca.rb#51
+# source://tapioca//lib/tapioca.rb#15
 Tapioca::SORBET_DIR = T.let(T.unsafe(nil), String)
 
 # source://tapioca//lib/tapioca/helpers/sorbet_helper.rb#5
@@ -3451,10 +3445,10 @@ end
 # source://tapioca//lib/tapioca/static/symbol_table_parser.rb#9
 Tapioca::Static::SymbolTableParser::SKIP_PARSE_KINDS = T.let(T.unsafe(nil), Array)
 
-# source://tapioca//lib/tapioca.rb#54
+# source://tapioca//lib/tapioca.rb#18
 Tapioca::TAPIOCA_CONFIG_FILE = T.let(T.unsafe(nil), String)
 
-# source://tapioca//lib/tapioca.rb#53
+# source://tapioca//lib/tapioca.rb#17
 Tapioca::TAPIOCA_DIR = T.let(T.unsafe(nil), String)
 
 # source://tapioca//lib/tapioca/sorbet_ext/generic_name_patch.rb#108

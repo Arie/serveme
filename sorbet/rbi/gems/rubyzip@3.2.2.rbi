@@ -364,20 +364,20 @@ class Zip::CentralDirectory
 
   private
 
-  # source://rubyzip//lib/zip/central_directory.rb#246
+  # source://rubyzip//lib/zip/central_directory.rb#252
   def eocd_data(io); end
 
   # @raise [Error]
   #
-  # source://rubyzip//lib/zip/central_directory.rb#170
+  # source://rubyzip//lib/zip/central_directory.rb#169
   def read_central_directory_entries(io); end
 
   # @raise [Error]
   #
-  # source://rubyzip//lib/zip/central_directory.rb#214
+  # source://rubyzip//lib/zip/central_directory.rb#213
   def read_eocds(io); end
 
-  # source://rubyzip//lib/zip/central_directory.rb#203
+  # source://rubyzip//lib/zip/central_directory.rb#202
   def read_local_extra_field(io); end
 
   # source://rubyzip//lib/zip/central_directory.rb#115
@@ -386,7 +386,10 @@ class Zip::CentralDirectory
   # source://rubyzip//lib/zip/central_directory.rb#139
   def unpack_64_eocd_locator(buffer); end
 
-  # source://rubyzip//lib/zip/central_directory.rb#146
+  # Unpack the EOCD and return a boolean indicating whether this header is
+  # complete without needing Zip64 extensions.
+  #
+  # source://rubyzip//lib/zip/central_directory.rb#148
   def unpack_e_o_c_d(buffer); end
 
   # source://rubyzip//lib/zip/central_directory.rb#89

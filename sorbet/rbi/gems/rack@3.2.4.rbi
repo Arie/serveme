@@ -3724,8 +3724,8 @@ module Rack::Response::Helpers
   # Specify that the content should be cached.
   #
   # @option directive
-  # @param duration [Integer] The number of seconds until the cache expires.
   # @param directive [Hash] a customizable set of options
+  # @param duration [Integer] The number of seconds until the cache expires.
   #
   # source://rack//lib/rack/response.rb#307
   def cache!(duration = T.unsafe(nil), directive: T.unsafe(nil)); end
@@ -5049,6 +5049,7 @@ Rack::Utils::DEFAULT_SEP = T.let(T.unsafe(nil), Regexp)
 # Every standard HTTP code mapped to the appropriate message.
 # Generated with:
 #   curl -s https://www.iana.org/assignments/http-status-codes/http-status-codes-1.csv \
+#     | ruby -rcsv -e "puts CSV.parse(STDIN, headers: true) \
 #     .reject {|v| v['Description'] == 'Unassigned' or v['Description'].include? '(' } \
 #     .map {|v| %Q/#{v['Value']} => '#{v['Description']}'/ }.join(','+?\n)"
 #

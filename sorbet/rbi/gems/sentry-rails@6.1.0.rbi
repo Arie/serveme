@@ -327,10 +327,10 @@ class Sentry::Rails::LogSubscribers::ActionControllerSubscriber < ::Sentry::Rail
 
   private
 
-  # source://sentry-rails//lib/sentry/rails/log_subscribers/action_controller_subscriber.rb#73
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/action_controller_subscriber.rb#75
   def extract_status(payload); end
 
-  # source://sentry-rails//lib/sentry/rails/log_subscribers/action_controller_subscriber.rb#88
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/action_controller_subscriber.rb#90
   def level_for_request(payload); end
 end
 
@@ -363,7 +363,7 @@ class Sentry::Rails::LogSubscribers::ActionMailerSubscriber < ::Sentry::Rails::L
   #
   # @param event [ActiveSupport::Notifications::Event] The email processing event
   #
-  # source://sentry-rails//lib/sentry/rails/log_subscribers/action_mailer_subscriber.rb#59
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/action_mailer_subscriber.rb#61
   def process(event); end
 end
 
@@ -385,14 +385,14 @@ end
 class Sentry::Rails::LogSubscribers::ActiveJobSubscriber < ::Sentry::Rails::LogSubscriber
   include ::Sentry::Rails::LogSubscribers::ParameterFilter
 
-  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_job_subscriber.rb#113
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_job_subscriber.rb#119
   def discard(event); end
 
   # Handle enqueue.active_job events
   #
   # @param event [ActiveSupport::Notifications::Event] The job enqueue event
   #
-  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_job_subscriber.rb#65
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_job_subscriber.rb#67
   def enqueue(event); end
 
   # Handle perform.active_job events
@@ -402,12 +402,12 @@ class Sentry::Rails::LogSubscribers::ActiveJobSubscriber < ::Sentry::Rails::LogS
   # source://sentry-rails//lib/sentry/rails/log_subscribers/active_job_subscriber.rb#28
   def perform(event); end
 
-  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_job_subscriber.rb#91
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_job_subscriber.rb#95
   def retry_stopped(event); end
 
   private
 
-  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_job_subscriber.rb#138
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_job_subscriber.rb#146
   def filter_sensitive_arguments(arguments); end
 end
 
@@ -437,23 +437,26 @@ class Sentry::Rails::LogSubscribers::ActiveRecordSubscriber < ::Sentry::Rails::L
   # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#31
   def sql(event); end
 
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#80
+  def type_casted_binds(event); end
+
   private
 
-  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#81
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#103
   def add_db_config_attributes(attributes, db_config); end
 
-  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#65
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#87
   def build_log_message(statement_name); end
 
-  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#73
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#95
   def extract_db_config(payload); end
 
-  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#128
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#150
   def extract_db_config_fallback(connection); end
 
   # Rails 6.0 and earlier use spec API
   #
-  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#102
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#124
   def extract_db_config_from_connection(connection); end
 end
 

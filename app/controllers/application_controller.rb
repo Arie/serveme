@@ -26,16 +26,22 @@ class ApplicationController < ActionController::Base
       current_user.update(time_zone: normalized_tz)
       current_user.reload
     end
+
+    true
   rescue ArgumentError
     current_user.update(time_zone: nil)
     set_default_time_zone
   end
 
   def set_time_zone_from_cookie
+    return if time_zone_from_cookie.blank?
+
     normalized_tz = normalize_timezone(time_zone_from_cookie)
     Time.zone = normalized_tz
 
     current_user&.update(time_zone: normalized_tz) if current_user&.time_zone.blank?
+
+    true
   rescue ArgumentError
     set_default_time_zone
   end
@@ -61,7 +67,6 @@ class ApplicationController < ActionController::Base
   end
 
   def find_available_timezone(*identifiers)
-    # Try each identifier and return the first one that exists in the system
     identifiers.each do |identifier|
       tz = ActiveSupport::TimeZone[identifier]
       return identifier if tz

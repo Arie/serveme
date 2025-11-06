@@ -32,7 +32,7 @@ describe ApplicationController do
         end
 
       cookies[:time_zone] = new_time_zone
-      Time.should_receive(:zone=).with(new_time_zone).twice
+      Time.should_receive(:zone=).with(new_time_zone).once
       get :index
 
       Time.zone.to_s.should_not eql(time_zone_before_request)

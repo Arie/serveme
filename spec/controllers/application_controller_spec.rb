@@ -20,7 +20,7 @@ describe ApplicationController do
     end
   end
 
-  context 'with a valid time zone' do
+  context 'with a valid time zone cookie' do
     it 'changes the time zone' do
       time_zone_before_request = Time.zone
 
@@ -36,6 +36,41 @@ describe ApplicationController do
       get :index
 
       Time.zone.to_s.should_not eql(time_zone_before_request)
+    end
+  end
+
+  context 'with a logged-in user with a saved timezone' do
+    controller(PagesController) do
+      skip_before_action :authenticate_user!
+      define_method(:index) do ||
+        render plain: 'foo'
+      end
+    end
+
+    let(:user) { create(:user, time_zone: 'America/New_York') }
+
+    before do
+      sign_in user
+    end
+
+    it 'users timezone from cookie if none set on the user' do
+      user.update_attribute(:time_zone, nil)
+      cookies[:time_zone] = 'Europe/London'
+
+      Time.should_receive(:zone=).with('Europe/London').once.and_call_original
+
+      get :index
+
+      expect(Time.zone.tzinfo.identifier).to eq('Europe/London')
+    end
+
+    it 'uses the saved timezone and does not overwrite with cookie' do
+      cookies[:time_zone] = 'Europe/London'
+
+      Time.should_receive(:zone=).with('America/New_York').once.and_call_original
+      Time.should_not_receive(:zone=).with('Europe/London')
+
+      get :index
     end
   end
 

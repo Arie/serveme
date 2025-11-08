@@ -128,10 +128,10 @@ module Rswag::Specs::ExampleGroupHelpers
 
   # Perform request and assert response matches swagger definitions
   #
-  # @param description [String] description of the test
-  # @param args [Array] arguments to pass to the `it` method
-  # @param options [Hash] options to pass to the `it` method
   # @param &block [Proc] you can make additional assertions within that block
+  # @param args [Array] arguments to pass to the `it` method
+  # @param description [String] description of the test
+  # @param options [Hash] options to pass to the `it` method
   # @return [void]
   #
   # source://rswag-specs//lib/rswag/specs/example_group_helpers.rb#123

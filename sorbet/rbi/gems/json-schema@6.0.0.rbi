@@ -8,16 +8,16 @@
 # This is a hack that I don't want to ever use anywhere else or repeat EVER, but we need enums to be
 # an Array to pass schema validation. But we also want fast lookup!
 #
-# source://json-schema//lib/json-schema/util/array_set.rb#6
+# source://json-schema//lib/json-schema/util/array_set.rb#4
 class ArraySet < ::Array
   # @return [Boolean]
   #
-  # source://json-schema//lib/json-schema/util/array_set.rb#7
+  # source://json-schema//lib/json-schema/util/array_set.rb#5
   def include?(obj); end
 
   private
 
-  # source://json-schema//lib/json-schema/util/array_set.rb#17
+  # source://json-schema//lib/json-schema/util/array_set.rb#15
   def convert_to_float_if_numeric(value); end
 end
 
@@ -745,15 +745,15 @@ class JSON::Schema::Reader
   # URIs using the +file+ scheme will be normalized into +Pathname+ objects
   # and passed to the +accept_file+ callback.
   #
-  # @example Reject all unregistered schemas
-  #   JSON::Validator.schema_reader = JSON::Schema::Reader.new(
-  #   :accept_uri => false,
-  #   :accept_file => false
-  #   )
   # @example Only permit URIs from certain hosts
   #   JSON::Validator.schema_reader = JSON::Schema::Reader.new(
   #   :accept_file => false,
   #   :accept_uri => proc { |uri| ['mycompany.com', 'json-schema.org'].include?(uri.host) }
+  #   )
+  # @example Reject all unregistered schemas
+  #   JSON::Validator.schema_reader = JSON::Schema::Reader.new(
+  #   :accept_uri => false,
+  #   :accept_file => false
   #   )
   # @option options
   # @option options
@@ -1093,8 +1093,8 @@ class JSON::Util::URI < ::Addressable::URI
     # Normalizes the reference URI based on the provided base URI
     #
     # @api private
-    # @param ref [String, Addressable::URI]
     # @param base [String, Addressable::URI]
+    # @param ref [String, Addressable::URI]
     # @return [Addressable::URI]
     #
     # source://json-schema//lib/json-schema/util/uri.rb#52
@@ -1150,7 +1150,7 @@ class JSON::Util::UUID < ::Struct
 
   # UUIDs are comparable (don't know what benefits are there, though).
   #
-  # source://json-schema//lib/json-schema/util/uuid.rb#247
+  # source://json-schema//lib/json-schema/util/uuid.rb#248
   def <=>(other); end
 
   # Two  UUIDs  are  said  to  be  equal if  and  only  if  their  (byte-order
@@ -1318,21 +1318,21 @@ end
 
 # Pre-defined UUID Namespaces described in RFC4122 Appendix C.
 #
-# source://json-schema//lib/json-schema/util/uuid.rb#252
+# source://json-schema//lib/json-schema/util/uuid.rb#253
 JSON::Util::UUID::NameSpace_DNS = T.let(T.unsafe(nil), JSON::Util::UUID)
 
-# source://json-schema//lib/json-schema/util/uuid.rb#254
+# source://json-schema//lib/json-schema/util/uuid.rb#255
 JSON::Util::UUID::NameSpace_OID = T.let(T.unsafe(nil), JSON::Util::UUID)
 
-# source://json-schema//lib/json-schema/util/uuid.rb#253
+# source://json-schema//lib/json-schema/util/uuid.rb#254
 JSON::Util::UUID::NameSpace_URL = T.let(T.unsafe(nil), JSON::Util::UUID)
 
-# source://json-schema//lib/json-schema/util/uuid.rb#255
+# source://json-schema//lib/json-schema/util/uuid.rb#256
 JSON::Util::UUID::NameSpace_X500 = T.let(T.unsafe(nil), JSON::Util::UUID)
 
 # The Nil UUID in RFC4122 Section 4.1.7
 #
-# source://json-schema//lib/json-schema/util/uuid.rb#258
+# source://json-schema//lib/json-schema/util/uuid.rb#259
 JSON::Util::UUID::Nil = T.let(T.unsafe(nil), JSON::Util::UUID)
 
 # source://json-schema//lib/json-schema/validator.rb#19
@@ -1368,124 +1368,124 @@ class JSON::Validator
 
   private
 
-  # source://json-schema//lib/json-schema/validator.rb#611
+  # source://json-schema//lib/json-schema/validator.rb#609
   def custom_open(uri); end
 
-  # source://json-schema//lib/json-schema/validator.rb#535
+  # source://json-schema//lib/json-schema/validator.rb#533
   def fake_uuid(schema); end
 
-  # source://json-schema//lib/json-schema/validator.rb#586
+  # source://json-schema//lib/json-schema/validator.rb#584
   def initialize_data(data); end
 
-  # source://json-schema//lib/json-schema/validator.rb#539
+  # source://json-schema//lib/json-schema/validator.rb#537
   def initialize_schema(schema, default_validator); end
 
-  # source://json-schema//lib/json-schema/validator.rb#527
+  # source://json-schema//lib/json-schema/validator.rb#525
   def serialize(schema); end
 
   class << self
-    # source://json-schema//lib/json-schema/validator.rb#323
+    # source://json-schema//lib/json-schema/validator.rb#321
     def add_schema(schema); end
 
-    # source://json-schema//lib/json-schema/validator.rb#342
+    # source://json-schema//lib/json-schema/validator.rb#340
     def cache_schemas=(val); end
 
-    # source://json-schema//lib/json-schema/validator.rb#315
+    # source://json-schema//lib/json-schema/validator.rb#313
     def clear_cache; end
 
-    # source://json-schema//lib/json-schema/validator.rb#351
+    # source://json-schema//lib/json-schema/validator.rb#349
     def default_validator; end
 
-    # source://json-schema//lib/json-schema/validator.rb#402
+    # source://json-schema//lib/json-schema/validator.rb#400
     def deregister_format_validator(format, versions = T.unsafe(nil)); end
 
-    # source://json-schema//lib/json-schema/validator.rb#289
+    # source://json-schema//lib/json-schema/validator.rb#287
     def fully_validate(schema, data, opts = T.unsafe(nil)); end
 
-    # source://json-schema//lib/json-schema/validator.rb#299
+    # source://json-schema//lib/json-schema/validator.rb#297
     def fully_validate_json(schema, data, opts = T.unsafe(nil)); end
 
-    # source://json-schema//lib/json-schema/validator.rb#293
+    # source://json-schema//lib/json-schema/validator.rb#291
     def fully_validate_schema(schema, opts = T.unsafe(nil)); end
 
-    # source://json-schema//lib/json-schema/validator.rb#303
+    # source://json-schema//lib/json-schema/validator.rb#301
     def fully_validate_uri(schema, data, opts = T.unsafe(nil)); end
 
-    # source://json-schema//lib/json-schema/validator.rb#416
+    # source://json-schema//lib/json-schema/validator.rb#414
     def json_backend; end
 
-    # source://json-schema//lib/json-schema/validator.rb#424
+    # source://json-schema//lib/json-schema/validator.rb#422
     def json_backend=(backend); end
 
-    # source://json-schema//lib/json-schema/validator.rb#467
+    # source://json-schema//lib/json-schema/validator.rb#465
     def merge_missing_values(source, destination); end
 
-    # source://json-schema//lib/json-schema/validator.rb#438
+    # source://json-schema//lib/json-schema/validator.rb#436
     def parse(s); end
 
-    # source://json-schema//lib/json-schema/validator.rb#390
+    # source://json-schema//lib/json-schema/validator.rb#388
     def register_default_validator(v); end
 
-    # source://json-schema//lib/json-schema/validator.rb#394
+    # source://json-schema//lib/json-schema/validator.rb#392
     def register_format_validator(format, validation_proc, versions = T.unsafe(nil)); end
 
-    # source://json-schema//lib/json-schema/validator.rb#386
+    # source://json-schema//lib/json-schema/validator.rb#384
     def register_validator(v); end
 
-    # source://json-schema//lib/json-schema/validator.rb#409
+    # source://json-schema//lib/json-schema/validator.rb#407
     def restore_default_formats(versions = T.unsafe(nil)); end
 
-    # source://json-schema//lib/json-schema/validator.rb#327
+    # source://json-schema//lib/json-schema/validator.rb#325
     def schema_for_uri(uri); end
 
-    # source://json-schema//lib/json-schema/validator.rb#337
+    # source://json-schema//lib/json-schema/validator.rb#335
     def schema_key_for(uri); end
 
     # @return [Boolean]
     #
-    # source://json-schema//lib/json-schema/validator.rb#333
+    # source://json-schema//lib/json-schema/validator.rb#331
     def schema_loaded?(schema_uri); end
 
-    # source://json-schema//lib/json-schema/validator.rb#307
+    # source://json-schema//lib/json-schema/validator.rb#305
     def schema_reader; end
 
-    # source://json-schema//lib/json-schema/validator.rb#311
+    # source://json-schema//lib/json-schema/validator.rb#309
     def schema_reader=(reader); end
 
-    # source://json-schema//lib/json-schema/validator.rb#319
+    # source://json-schema//lib/json-schema/validator.rb#317
     def schemas; end
 
     # source://json-schema//lib/json-schema/validator.rb#255
     def validate(schema, data, opts = T.unsafe(nil)); end
 
-    # source://json-schema//lib/json-schema/validator.rb#271
+    # source://json-schema//lib/json-schema/validator.rb#269
     def validate!(schema, data, opts = T.unsafe(nil)); end
 
-    # source://json-schema//lib/json-schema/validator.rb#276
+    # source://json-schema//lib/json-schema/validator.rb#274
     def validate2(schema, data, opts = T.unsafe(nil)); end
 
-    # source://json-schema//lib/json-schema/validator.rb#263
+    # source://json-schema//lib/json-schema/validator.rb#261
     def validate_json(schema, data, opts = T.unsafe(nil)); end
 
-    # source://json-schema//lib/json-schema/validator.rb#281
+    # source://json-schema//lib/json-schema/validator.rb#279
     def validate_json!(schema, data, opts = T.unsafe(nil)); end
 
-    # source://json-schema//lib/json-schema/validator.rb#267
+    # source://json-schema//lib/json-schema/validator.rb#265
     def validate_uri(schema, data, opts = T.unsafe(nil)); end
 
-    # source://json-schema//lib/json-schema/validator.rb#285
+    # source://json-schema//lib/json-schema/validator.rb#283
     def validate_uri!(schema, data, opts = T.unsafe(nil)); end
 
-    # source://json-schema//lib/json-schema/validator.rb#381
+    # source://json-schema//lib/json-schema/validator.rb#379
     def validator_for(schema_uri); end
 
-    # source://json-schema//lib/json-schema/validator.rb#367
+    # source://json-schema//lib/json-schema/validator.rb#365
     def validator_for_name(schema_name, raise_not_found = T.unsafe(nil)); end
 
-    # source://json-schema//lib/json-schema/validator.rb#355
+    # source://json-schema//lib/json-schema/validator.rb#353
     def validator_for_uri(schema_uri, raise_not_found = T.unsafe(nil)); end
 
-    # source://json-schema//lib/json-schema/validator.rb#347
+    # source://json-schema//lib/json-schema/validator.rb#345
     def validators; end
   end
 end

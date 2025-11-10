@@ -375,6 +375,7 @@ GEM
       rack (~> 3.1)
     ffi (1.17.2-aarch64-linux-gnu)
     ffi (1.17.2-aarch64-linux-musl)
+    ffi (1.17.2-arm64-darwin)
     ffi (1.17.2-x86_64-linux-gnu)
     ffi (1.17.2-x86_64-linux-musl)
     ffi-compiler (1.3.2)
@@ -448,6 +449,7 @@ GEM
       childprocess (~> 5.0)
       logger (~> 1.6)
     libv8-node (24.1.0.0-aarch64-linux)
+    libv8-node (24.1.0.0-arm64-darwin)
     libv8-node (24.1.0.0-x86_64-linux)
     libv8-node (24.1.0.0-x86_64-linux-musl)
     lint_roller (1.1.0)
@@ -528,6 +530,8 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.10-aarch64-linux-musl)
       racc (~> 1.4)
+    nokogiri (1.18.10-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.18.10-x86_64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.18.10-x86_64-linux-musl)
@@ -560,6 +564,7 @@ GEM
       xml-simple
     pg (1.6.2-aarch64-linux)
     pg (1.6.2-aarch64-linux-musl)
+    pg (1.6.2-arm64-darwin)
     pg (1.6.2-x86_64-linux)
     pg (1.6.2-x86_64-linux-musl)
     popper_js (2.11.8)
@@ -654,7 +659,7 @@ GEM
     redis-client (0.26.1)
       connection_pool
     regexp_parser (2.11.3)
-    reline (0.6.2)
+    reline (0.6.3)
       io-console (~> 0.5)
     request_store (1.7.0)
       rack (>= 1.4)
@@ -801,14 +806,15 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    sorbet (0.6.12730)
-      sorbet-static (= 0.6.12730)
-    sorbet-runtime (0.6.12730)
-    sorbet-static (0.6.12730-aarch64-linux)
-    sorbet-static (0.6.12730-x86_64-linux)
-    sorbet-static-and-runtime (0.6.12730)
-      sorbet (= 0.6.12730)
-      sorbet-runtime (= 0.6.12730)
+    sorbet (0.6.12731)
+      sorbet-static (= 0.6.12731)
+    sorbet-runtime (0.6.12731)
+    sorbet-static (0.6.12731-aarch64-linux)
+    sorbet-static (0.6.12731-universal-darwin)
+    sorbet-static (0.6.12731-x86_64-linux)
+    sorbet-static-and-runtime (0.6.12731)
+      sorbet (= 0.6.12731)
+      sorbet-runtime (= 0.6.12731)
     spoom (1.7.9)
       erubi (>= 1.10.0)
       prism (>= 0.28.0)
@@ -917,6 +923,7 @@ PLATFORMS
   aarch64-linux
   aarch64-linux-gnu
   aarch64-linux-musl
+  arm64-darwin-24
   x86_64-linux-gnu
   x86_64-linux-musl
 

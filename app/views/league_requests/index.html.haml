@@ -1,33 +1,9 @@
 %h2= "#{@results.size} search results"
 
-- if @stac_detections && @stac_detections.any?
+= turbo_frame_tag "stac_detections", src: league_request_stac_detections_path(steam_uids: @stac_steam_uids), loading: :lazy do
   .row
     .col-md-12
-      %h4 STAC Anti-Cheat Detections
-      %table.table.table-condensed.table-striped
-        %thead
-          %tr
-            %th Reservation ID
-            %th Start time
-            %th Player Name
-            %th Steam ID
-            %th Detections
-            %th STAC Log File
-        %tbody
-          - @stac_detections.each do |detection|
-            %tr.table-danger
-              %td= link_to(detection[:reservation_id], show_reservation_statistic_path(reservation_id: detection[:reservation_id]))
-              %td
-                - if detection[:reservation]
-                  = link_to(I18n.l(detection[:reservation].starts_at, format: :long), reservation_path(detection[:reservation]))
-              %td
-                %strong= detection[:player_name]
-              %td
-                = link_to(detection[:steam_uid], league_request_path(steam_uid: detection[:steam_uid]))
-              %td
-                - detection[:detections].each do |det_type|
-                  %span.badge.badge-danger= det_type
-              %td= link_to(detection[:stac_log_filename], stac_log_reservation_path(detection[:reservation_id]))
+      %p.text-muted Loading STAC detections...
 
 .row
   .col-md-12
@@ -47,31 +23,30 @@
       - @results.each do |result|
         %tr
           %td= link_to(result.reservation_id, show_reservation_statistic_path(reservation_id: result.reservation_id))
-          %td= I18n.l(result.reservation.starts_at, format: :long)
-          %td= I18n.l(result.reservation.ends_at, format: :time_without_seconds)
+          %td= I18n.l(result.reservation_starts_at, format: :long)
+          %td= I18n.l(result.reservation_ends_at, format: :time_without_seconds)
           %td
             - if result.ip.present?
               - asn = result.asn_number.present? ? result : @asns[result.ip]
               - if asn
-                = link_to(result.ip, league_request_path(ip: result.ip), class: "asn-tooltip", data: {toggle: "tooltip", html: true, placement: "top"}, title: render("asn_tooltip", asn: asn))
-                - if ban_reason = ReservationPlayer.banned_ip?(result.ip)
+                - asn_number = asn.respond_to?(:autonomous_system_number) ? asn.autonomous_system_number : asn.asn_number
+                - asn_org = asn.respond_to?(:autonomous_system_organization) ? asn.autonomous_system_organization : asn.asn_organization
+                - asn_net = asn.respond_to?(:network) ? asn.network : asn.asn_network
+                - tooltip_html = "<strong>ASN</strong> #{asn_number}<br><strong>ORG</strong> #{asn_org}<br><strong>NET</strong> #{asn_net}"
+                = link_to(result.ip, league_request_path(ip: result.ip), class: "asn-tooltip", data: {toggle: "tooltip", html: true, placement: "top"}, title: tooltip_html)
+                - if ban_reason = @banned_ips[result.ip]
                   %span.badge.badge-danger{title: ban_reason}
                     %i.fa 💀
-                - if asn.respond_to?(:autonomous_system_number)
-                  - if ReservationPlayer.banned_asn?(asn)
-                    %span.badge.badge-warning{title: "Possible VPN"}
-                      %i.fa.fa-flag
-                - else
-                  - if ReservationPlayer.banned_asns.include?(asn.asn_number) || ReservationPlayer.custom_banned_asns.include?(asn.asn_number)
-                    %span.badge.badge-warning{title: "Possible VPN"}
-                      %i.fa.fa-flag
+                - if @banned_asns[asn_number]
+                  %span.badge.badge-warning{title: "Possible VPN"}
+                    %i.fa.fa-flag
               - else
                 = link_to(result.ip, league_request_path(ip: result.ip))
           %td
             %span.player-name= result.name
           %td
             = link_to(result.steam_uid, league_request_path(steam_uid: result.steam_uid))
-            - if ban_reason = ReservationPlayer.banned_uid?(result.steam_uid)
+            - if ban_reason = @banned_uids[result.steam_uid]
               %span.badge.badge-danger{title: ban_reason}
                 %i.fa 💀
           %td= link_to("ETF2L", "http://etf2l.org/search/#{result.steam_uid}/")

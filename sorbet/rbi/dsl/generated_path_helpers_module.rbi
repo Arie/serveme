@@ -184,6 +184,9 @@ module GeneratedPathHelpersModule
   def league_request_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def league_request_stac_detections_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def login_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

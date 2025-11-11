@@ -7,11 +7,30 @@ class LeagueRequestsController < ApplicationController
   def new
     respond_to do |format|
       if params[:ip] || params[:steam_uid]
-        league_request = LeagueRequest.new(current_user, ip: params[:ip], steam_uid: params[:steam_uid], reservation_ids: params[:reservation_ids], cross_reference: params[:cross_reference])
+        @league_request_params = {
+          ip: params[:ip],
+          steam_uid: params[:steam_uid],
+          reservation_ids: params[:reservation_ids],
+          cross_reference: params[:cross_reference]
+        }
+        league_request = LeagueRequest.new(current_user, **@league_request_params)
         @results = league_request.search
         if @results
-          @stac_detections = league_request.stac_detections(@results)
           @asns = LeagueRequest.lookup_asns(@results)
+
+          unique_ips = @results.map(&:ip).compact.uniq
+          unique_uids = @results.map(&:steam_uid).compact.uniq
+
+          @banned_ips = {}
+          unique_ips.each { |ip| @banned_ips[ip] = ReservationPlayer.banned_ip?(ip) }
+
+          @banned_uids = {}
+          unique_uids.each { |uid| @banned_uids[uid] = ReservationPlayer.banned_uid?(uid) }
+
+          @banned_asns = LeagueRequest.precompute_banned_asns(@asns)
+
+          @stac_steam_uids = unique_uids.join(",")
+
           format.html { render :index }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -23,6 +42,17 @@ class LeagueRequestsController < ApplicationController
         end
       end
     end
+  end
+
+  def stac_detections
+    steam_uids = params[:steam_uids]&.split(",")
+    if steam_uids.present?
+      league_request = LeagueRequest.new(current_user)
+      @stac_detections = league_request.find_stac_detections_for_steam_uids(steam_uids)
+    else
+      @stac_detections = []
+    end
+    render partial: "stac_detections"
   end
 
   def create

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_28_201310) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_11_115752) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -182,6 +182,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_28_201310) do
     t.index ["ip"], name: "index_reservation_players_on_ip"
     t.index ["latitude", "longitude"], name: "idx_17193_index_reservation_players_on_latitude_and_longitude"
     t.index ["reservation_id"], name: "idx_17193_index_reservation_players_on_reservation_id"
+    t.index ["steam_uid", "ip"], name: "index_reservation_players_on_steam_uid_ip_no_sdr", where: "(ip !~~ '169.254.%'::text)"
     t.index ["steam_uid", "reservation_id"], name: "index_reservation_players_on_steam_uid_and_reservation_id"
     t.index ["steam_uid"], name: "idx_17193_index_reservation_players_on_steam_uid"
   end

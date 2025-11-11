@@ -73,15 +73,11 @@ class LeagueRequest
   sig { params(ip: T.nilable(T.any(String, T::Array[String])), steam_uid: T.nilable(T.any(String, T::Array[String]))).returns(ActiveRecord::Relation) }
   def find_with_cross_reference(ip: nil, steam_uid: nil)
     if ip.present? && steam_uid.present?
-      ips = pluck_uniques(find_by_steam_uid(steam_uid), :ip)
-      steam_uids = pluck_uniques(find_by_ip(ip), :steam_uid)
-      find_by_steam_uid(steam_uids).or(find_by_ip(ips))
+      find_by_steam_uid_subquery(T.must(steam_uid)).or(find_by_ip_subquery(T.must(ip)))
     elsif ip.present?
-      steam_uids = pluck_uniques(find_by_ip(ip), :steam_uid)
-      find_by_steam_uid(steam_uids)
+      find_by_steam_uid_subquery(T.must(ip), :ip)
     else
-      ips = pluck_uniques(find_by_steam_uid(steam_uid), :ip)
-      find_by_ip(ips)
+      find_by_ip_subquery(T.must(steam_uid), :steam_uid)
     end
   end
 
@@ -101,7 +97,60 @@ class LeagueRequest
     asns
   end
 
+  sig { params(asns: Hash).returns(Hash) }
+  def self.precompute_banned_asns(asns)
+    banned_asns = {}
+    asns.each do |_ip, asn|
+      next unless asn
+      asn_number = asn.respond_to?(:autonomous_system_number) ? asn.autonomous_system_number : asn.asn_number
+      banned_asns[asn_number] ||= ReservationPlayer.banned_asn?(asn) if asn_number
+    end
+    banned_asns
+  end
+
   private
+
+  sig { params(search_value: T.any(String, T::Array[String]), search_field: Symbol).returns(ActiveRecord::Relation) }
+  def find_by_steam_uid_subquery(search_value, search_field = :steam_uid)
+    subquery = ReservationPlayer.joins(reservation: :server)
+      .where(servers: { sdr: false })
+      .without_sdr_ip
+      .where(search_field => search_value)
+      .select(:steam_uid)
+      .distinct
+
+    if @reservation_ids.present?
+      subquery = subquery.where(reservation_id: @reservation_ids)
+    end
+
+    if @cross_reference && search_field == :ip
+      banned_asns = ReservationPlayer.banned_asns + ReservationPlayer.custom_banned_asns
+      subquery = subquery.where("asn_number IS NULL OR asn_number NOT IN (?)", banned_asns)
+    end
+
+    maybe_filter_by_reservation_ids(players_query.where(steam_uid: subquery))
+  end
+
+  sig { params(search_value: T.any(String, T::Array[String]), search_field: Symbol).returns(ActiveRecord::Relation) }
+  def find_by_ip_subquery(search_value, search_field = :steam_uid)
+    subquery = ReservationPlayer.joins(reservation: :server)
+      .where(servers: { sdr: false })
+      .without_sdr_ip
+      .where(search_field => search_value)
+      .select(:ip)
+      .distinct
+
+    if @reservation_ids.present?
+      subquery = subquery.where(reservation_id: @reservation_ids)
+    end
+
+    if @cross_reference
+      banned_asns = ReservationPlayer.banned_asns + ReservationPlayer.custom_banned_asns
+      subquery = subquery.where("asn_number IS NULL OR asn_number NOT IN (?)", banned_asns)
+    end
+
+    maybe_filter_by_reservation_ids(players_query.where(ip: subquery))
+  end
 
   def maybe_filter_by_reservation_ids(query)
     if @reservation_ids
@@ -111,17 +160,24 @@ class LeagueRequest
     end
   end
 
-  def pluck_uniques(query, to_pluck)
-    results = query.reorder("").distinct.pluck(to_pluck).compact
-
-    @cross_reference && to_pluck == :ip ? results.reject { |ip| ReservationPlayer.banned_asn_ip?(ip) } : results
-  end
-
   def players_query
-    ReservationPlayer.eager_load(:reservation).joins(reservation: :server)
+    ReservationPlayer
+      .select(
+        "reservation_players.id",
+        "reservation_players.reservation_id",
+        "reservation_players.ip",
+        "reservation_players.asn_number",
+        "reservation_players.asn_organization",
+        "reservation_players.asn_network",
+        "reservation_players.name",
+        "reservation_players.steam_uid",
+        "reservations.starts_at AS reservation_starts_at",
+        "reservations.ends_at AS reservation_ends_at"
+      )
+      .joins(reservation: :server)
       .where(servers: { sdr: false })
       .without_sdr_ip
-      .order(reservations: { starts_at: :desc })
+      .order("reservations.starts_at DESC")
   end
 
   def parse_ips(input)
@@ -166,6 +222,8 @@ class LeagueRequest
     end
   end
 
+  public
+
   sig { params(steam_uids: T.nilable(T.any(String, T::Array[String]))).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def find_stac_detections_for_steam_uids(steam_uids)
     return [] unless steam_uids.present?
@@ -190,6 +248,8 @@ class LeagueRequest
     all_detections.uniq { |detection| [ detection[:reservation_id], detection[:steam_uid], detection[:detections] ] }
       .sort_by { |detection| -detection[:reservation_id] }
   end
+
+  private
 
   sig { params(stac_log: StacLog, target_steam_uid: String).returns(T::Array[T::Hash[Symbol, T.untyped]]) }
   def parse_stac_log_detections(stac_log, target_steam_uid)

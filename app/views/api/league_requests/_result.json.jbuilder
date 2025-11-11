@@ -5,7 +5,9 @@ json.reservation_starts_at result.reservation.starts_at
 json.reservation_ends_at result.reservation.ends_at
 json.steam_uid result.steam_uid
 json.ip result.ip
-json.flagged_ip @asns[result.ip] && ReservationPlayer.banned_asn?(@asns[result.ip])
-json.asn @asns[result.ip]&.autonomous_system_number
-json.asn_org @asns[result.ip]&.autonomous_system_organization
-json.asn_net @asns[result.ip]&.network
+asn = @asns[result.ip]
+asn_number = asn&.respond_to?(:autonomous_system_number) ? asn.autonomous_system_number : asn&.asn_number
+json.flagged_ip asn && @banned_asns[asn_number]
+json.asn asn_number
+json.asn_org asn&.respond_to?(:autonomous_system_organization) ? asn.autonomous_system_organization : asn&.asn_organization
+json.asn_net asn&.respond_to?(:network) ? asn.network : asn&.asn_network

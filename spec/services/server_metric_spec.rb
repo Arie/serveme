@@ -130,7 +130,7 @@ players : 2 humans, 0 bots (25 max)
 
       # SDR player checks
       expect(CheckSdrSteamProfileWorker).to receive(:perform_async).with(kind_of(Integer))
-      ReservationPlayer.should_receive(:has_connected_with_normal_ip?).with(sdr_steam_uid, reservation.id).and_return(false)
+      ReservationPlayer.should_receive(:sdr_eligible_steam_profile?).with(sdr_steam_uid).and_return(false)
       server.should_receive(:rcon_exec).with('kickid 3 Please connect normally before joining with SDR; addip 1 169.254.1.1')
 
       # Normal player should get firewall whitelisted
@@ -162,7 +162,7 @@ players : 2 humans, 0 bots (25 max)
 
       # SDR player checks
       expect(CheckSdrSteamProfileWorker).to receive(:perform_async).with(kind_of(Integer))
-      ReservationPlayer.should_receive(:has_connected_with_normal_ip?).with(sdr_steam_uid, reservation.id).and_return(true)
+      ReservationPlayer.should_receive(:sdr_eligible_steam_profile?).with(sdr_steam_uid).and_return(true)
       server.should_not_receive(:rcon_exec).with(/kickid 3/)
 
       ServerMetric.new(server_info)

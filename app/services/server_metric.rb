@@ -78,7 +78,7 @@ class ServerMetric
 
         CheckSdrSteamProfileWorker.perform_async(rp.id)
 
-        unless ReservationPlayer.has_connected_with_normal_ip?(player.steam_uid, current_reservation.id)
+        unless ReservationPlayer.sdr_eligible_steam_profile?(player.steam_uid)
           server.rcon_exec "kickid #{player.user_id} Please connect normally before joining with SDR; addip 1 #{player.ip}"
           Rails.logger.info "Kicked SDR player #{player.name} (#{player.steam_uid}) without normal IP history from reservation #{current_reservation.id}"
         end

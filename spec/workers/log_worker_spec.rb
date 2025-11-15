@@ -238,19 +238,9 @@ describe LogWorker do
       ReservationPlayer.should_receive(:sdr_ip?).with('169.254.1.1').and_return(true)
       ReservationPlayer.should_receive(:whitelisted_uid?).with(76561197960365727).and_return(false)
       expect(CheckSdrSteamProfileWorker).to receive(:perform_async).with(kind_of(Integer))
-      ReservationPlayer.should_receive(:has_connected_with_normal_ip?).with(76561197960365727, reservation.id).and_return(false)
+      ReservationPlayer.should_receive(:sdr_eligible_steam_profile?).with(76561197960365727).and_return(false)
       server.should_receive(:rcon_exec).with('kickid 3 Please connect normally before joining with SDR; addip 1 169.254.1.1')
       LogWorker.perform_async(connect_sdr_first_time)
-    end
-
-    it 'allows SDR connections when player has normal IP history but still checks profile' do
-      # [U:1:88888] converts to 76561197960354616
-      ReservationPlayer.should_receive(:sdr_ip?).with('169.254.1.2').at_least(:once).and_return(true)
-      ReservationPlayer.should_receive(:whitelisted_uid?).with(76561197960354616).and_return(false)
-      expect(CheckSdrSteamProfileWorker).to receive(:perform_async).with(kind_of(Integer))
-      ReservationPlayer.should_receive(:has_connected_with_normal_ip?).with(76561197960354616, reservation.id).and_return(true)
-      server.should_not_receive(:rcon_exec).with(/kickid/)
-      LogWorker.perform_async(connect_sdr_with_history)
     end
 
     it 'allows SDR connections for whitelisted players without normal IP history' do

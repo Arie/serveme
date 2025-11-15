@@ -115,7 +115,7 @@ class LogWorker
 
     CheckSdrSteamProfileWorker.perform_async(rp.id) if rp
 
-    return false if ReservationPlayer.has_connected_with_normal_ip?(community_id, reservation_id)
+    return false if ReservationPlayer.sdr_eligible_steam_profile?(community_id)
 
     reservation&.server&.rcon_exec "kickid #{event.player.uid} Please connect normally before joining with SDR; addip 1 #{ip}"
     Rails.logger.info "Kicked SDR first-time player #{event.player.name} (#{community_id}) with IP #{ip} from reservation #{reservation_id}"

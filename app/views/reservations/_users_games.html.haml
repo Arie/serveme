@@ -17,8 +17,11 @@
           %td
             %span.player-name= reservation.user.nickname
           %td.actions
-            - if reservation.younger_than_cleanup_age?
+            - if reservation.younger_than_cleanup_age? || reservation.zipfile.attached?
               = render 'reservations/zip_file_link', :reservation => reservation
+              = link_to reservation_log_uploads_path(reservation), :class => 'btn btn-sm btn-success', :title => 'Upload the match logs to logs.tf' do
+                logs.tf
+                %i.fa.fa-upload
             - else
               = link_to reservation.logs_tf_url, :class => 'btn btn-sm btn-info', :title => 'Search on logs.tf' do
                 logs.tf

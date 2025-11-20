@@ -1,3 +1,6 @@
-%h2 Reservations you played in the last 31 days
+%h2 Reservations you played in
 
 = render "users_games"
+
+.text-center
+  = will_paginate @users_games

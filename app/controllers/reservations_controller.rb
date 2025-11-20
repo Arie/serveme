@@ -72,6 +72,7 @@ class ReservationsController < ApplicationController
     @users_games = Reservation.includes(:user, server: :location)
                               .played_in(current_user.uid)
                               .with_attached_zipfile
+                              .paginate(page: params[:page], per_page: 20)
   end
 
   def edit

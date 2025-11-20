@@ -226,7 +226,6 @@ class Reservation < ActiveRecord::Base
   def self.played_in(steam_uid)
     ordered.joins(:reservation_players)
       .where(reservation_players: { steam_uid: steam_uid })
-      .where(starts_at: (31.days.ago..))
       .where(ended: true)
   end
 

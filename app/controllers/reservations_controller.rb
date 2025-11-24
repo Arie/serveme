@@ -196,8 +196,8 @@ class ReservationsController < ApplicationController
   end
 
   def prepare_zip
-    @reservation = find_reservation
-    head :not_found unless @reservation
+    @reservation = find_reservation_for_download
+    return head :not_found unless @reservation
 
     local_file_path = @reservation.local_zipfile_path
     if local_file_path && File.exist?(local_file_path)
@@ -245,6 +245,19 @@ class ReservationsController < ApplicationController
     @reservation ||= find_reservation
   end
   helper_method :reservation
+
+  def find_reservation_for_download
+    return unless params[:id].to_i.positive?
+
+    reservation_id = params[:id].to_i
+    if current_admin || current_league_admin || current_streamer
+      Reservation.find_by(id: reservation_id)
+    else
+      played_in = Reservation.played_in(current_user.uid).find_by(id: reservation_id)
+      made_by   = current_user.reservations.find_by(id: reservation_id)
+      played_in || made_by
+    end
+  end
 
   def reservation_saved
     if @reservation.now?

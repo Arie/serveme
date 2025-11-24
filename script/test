@@ -20,6 +20,56 @@ def system!(*args)
   end
 end
 
+def sort_and_dedup_csv_files(autocorrect: false)
+  require 'csv'
+  require 'stringio'
+
+  files = [ 'banned_steam_ids.csv', 'banned_ips.csv', 'vpn_ips.csv', 'whitelisted_steam_ids.csv', 'bad-asn-list.csv' ]
+  doc_dir = File.join(APP_ROOT, 'doc')
+  files_modified = []
+
+  files.each do |file|
+    file_path = File.join(doc_dir, file)
+    next unless File.exist?(file_path)
+
+    table = CSV.parse(File.read(file_path), headers: true)
+
+    sorted_rows = if file == 'bad-asn-list.csv'
+      table.uniq { |r| r[0] }.sort_by { |r| [ r['ASN'].to_i, r['Entity'] ] }
+    else
+      table.uniq { |r| r[0] }.sort_by { |r| [ r['name'].downcase, r['reason'], r[0] ] }
+    end
+
+    current_content = File.read(file_path)
+    csv_options = { write_headers: true, headers: table.headers }
+    csv_options[:force_quotes] = true if file == 'bad-asn-list.csv'
+
+    new_content = CSV.generate(**csv_options) do |csv|
+      sorted_rows.each do |r|
+        csv << r
+      end
+    end
+
+    if current_content != new_content
+      files_modified << file
+      if autocorrect
+        File.write(file_path, new_content)
+      end
+    end
+  end
+
+  if files_modified.any? && !autocorrect
+    STDERR.puts "Files need sorting/deduplication: #{files_modified.join(', ')}"
+    STDERR.puts "Run with -a to automatically fix"
+    return false
+  end
+
+  true
+rescue => e
+  STDERR.puts "Error processing CSV files: #{e.message}"
+  false
+end
+
 options = {
   autocorrect: false,
   seed: nil,
@@ -28,6 +78,7 @@ options = {
 
 def get_tests(options)
   {
+  sort_and_dedup: -> { sort_and_dedup_csv_files(autocorrect: options[:autocorrect]) },
   brakeman: "bin/brakeman --no-pager --quiet --no-summary",
   importmap: "bin/importmap audit",
   rubocop: "bin/rubocop -f github",
@@ -74,9 +125,14 @@ OptionParser.new do |parser|
   parser.on("-l", "--list") do
     puts "Tests:"
     get_tests(options).each do |name, command|
+      original_command = command
       command = command.call if command.is_a?(Proc)
       puts
-      puts "# #{name}\n$ #{command}"
+      if command == true || command == false
+        puts "# #{name}\n# (Ruby function check)"
+      else
+        puts "# #{name}\n$ #{command}"
+      end
     end
     exit
   end
@@ -89,9 +145,9 @@ end.parse!
 
 # Checks that can run independently in parallel
 INDEPENDENT_CHECKS = if options[:autocorrect]
-  %i[brakeman importmap rubocop_autocorrect tapioca_gem_autocorrect]
+  %i[sort_and_dedup brakeman importmap rubocop_autocorrect tapioca_gem_autocorrect]
 else
-  %i[brakeman importmap rubocop tapioca_gem]
+  %i[sort_and_dedup brakeman importmap rubocop tapioca_gem]
 end
 
 # Checks that depend on tapioca completion
@@ -263,7 +319,12 @@ class Test
 
     @duration = Timing.measure(round: 3) do
       command = @command.is_a?(Proc) ? @command.call : @command
-      if @verbose
+
+      # If command is a boolean (returned from a Ruby method), use it directly
+      if command == true || command == false
+        @status = OpenStruct.new(success?: command)
+        @output = ""
+      elsif @verbose
         puts "\n$ #{command}"
         system(command)
         @status = $?

@@ -92,6 +92,9 @@ jQuery(document).on('turbo:load', function() {
         googlePay: 'black',
         applePay: 'black'
       },
+      layout: {
+        overflow: 'never'
+      },
       paymentMethods: {
         googlePay: 'always',
         applePay: 'always',

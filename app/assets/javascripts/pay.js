@@ -95,6 +95,7 @@ jQuery(document).on('turbo:load', function() {
       layout: {
         overflow: 'never'
       },
+      paymentMethodOrder: ['googlePay', 'applePay', 'amazonPay', 'link'],
       paymentMethods: {
         googlePay: 'always',
         applePay: 'always',

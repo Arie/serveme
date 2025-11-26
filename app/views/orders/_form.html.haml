@@ -1,36 +1,49 @@
 - @products.each do |product|
-  .hidden{id: "product-#{product.id}", data: { product_id: product.id, currency: product.currency, price: (product.price * 100).round } }
+  .hidden{id: "product-#{product.id}", data: { product_id: product.id, currency: product.currency.downcase, price: (product.price * 100).round } }
 
 .card.text-white.bg-primary
   .card-body
-    %h5 Payment method
-    .btn-group{role: "group"}
-      %button{type: "button", class: "btn btn-primary payment-method paypal-button selected"}
-        PayPal
-      %button{type: "button", class: "btn btn-primary payment-method credit-card-button"}
-        Credit or Debit Card
-
     = simple_form_for(@order, data: { turbo: false }) do |f|
-      .row.credit-card-row
-        .col-md-12
-          #stripe-card
-          #stripe-errors
-
-          .row
-            .col-md-12.offset-md-4
-              .stripe-logo= image_tag "powered_by_stripe.png"
-
-      = f.input :payer_id, as: :hidden
-
       .row
         .col-md-12
           %h5 Product
-          = f.input :product_id, collection: @products, label_method: :list_name, label: false, include_blank: false
+          = f.input :product_id, collection: @products, label_method: :list_name, label: false, include_blank: false, input_html: { id: 'order_product_id' }
 
           %h5 Gift or personal
           = f.input :gift, as: "radio_buttons", label: "", collection: [["Personal, add premium to my account", false], ["Gift, receive a sharable premium code", true]], checked: false
 
-      .row
+          = f.input :payer_id, as: :hidden
+
+      .row.mt-3.payment-loading
         .col-md-12.text-center
-          %button.btn.btn-success.submit{type: :submit}
-            Buy
+          .spinner-border.text-light{role: "status"}
+          %p.mt-2 Loading payment methods...
+
+      .payment-methods-wrapper
+        .payment-methods-inner
+          .row.mt-3.standard-payment-section
+            .col-md-12
+              %h5 Payment method
+              .payment-method-buttons
+                %button.payment-method-btn.paypal-btn{type: "submit"}
+                  = image_tag "paypal-logo.svg", alt: "PayPal", class: "payment-logo"
+                %button.payment-method-btn.card-btn{type: "button"}
+                  = image_tag "card-logo.svg", alt: "Card", class: "payment-logo"
+                  %span Card
+
+          .row.credit-card-row.d-none
+            .col-md-12
+              #stripe-card
+              #stripe-errors.text-danger
+              .mt-3
+                %button.btn.btn-success.submit{type: :submit}
+                  Pay
+
+          .row.mt-3.express-checkout-divider
+            .col-md-12
+              .divider.text-center.text-muted
+                %span or use express checkout
+
+          .row.mt-3.express-checkout-section
+            .col-md-12
+              #express-checkout-element

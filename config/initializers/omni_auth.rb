@@ -1,6 +1,11 @@
 # typed: false
 # frozen_string_literal: true
 
+if Rails.env.development?
+  OmniAuth.config.request_validation_phase = nil
+  OmniAuth.config.silence_get_warning = true
+end
+
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :steam, Rails.application.credentials.dig(:steam, :api_key)
 end

@@ -1,36 +1,97 @@
 .premium-page {
-  .payment-method-selection {
-    margin: 20px 0;
-    display: flex;
-    gap: 10px;
+  #express-checkout-element {
+    min-height: 48px;
+  }
 
-    .payment-method {
+  .payment-methods-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s ease;
+
+    &.visible {
+      grid-template-rows: 1fr;
+    }
+
+    > .payment-methods-inner {
+      overflow: hidden;
+    }
+  }
+
+  .payment-methods-inner {
+    opacity: 0;
+    transition: opacity 0.3s ease 0.1s;
+  }
+
+  .payment-methods-wrapper.visible .payment-methods-inner {
+    opacity: 1;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    &::before,
+    &::after {
+      content: '';
       flex: 1;
-      padding: 15px;
-      border: 2px solid #e0e0e0;
-      border-radius: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    span {
+      padding: 0 10px;
+    }
+  }
+
+  .payment-method-buttons {
+    display: flex;
+    gap: 8px;
+
+    .payment-method-btn {
+      flex: 1;
+      height: 44px;
+      border: none;
+      outline: none;
+      border-radius: 4px;
       cursor: pointer;
       transition: all 0.2s ease;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-      &:hover {
-        border-color: #32325d;
+      &.paypal-btn {
+        background-color: #ffc439;
+
+        &:hover {
+          background-color: #e5a800;
+        }
       }
 
-      &.selected {
-        border-color: #32325d;
+      &.card-btn {
+        background-color: #635bff;
+        color: white;
+        font-weight: 500;
+        gap: 8px;
+
+        &:hover {
+          background-color: #5147e5;
+        }
+
+        .payment-logo {
+          filter: brightness(0) invert(1);
+        }
       }
 
-      img {
-        height: 24px;
-        margin-right: 8px;
-        vertical-align: middle;
+      .payment-logo {
+        height: 20px;
+        width: auto;
       }
     }
   }
 
   .credit-card-row {
     margin-top: 20px;
+
     #stripe-card {
       padding: 12px;
       border: 1px solid #e0e0e0;
@@ -66,7 +127,7 @@
 
   .submit {
     width: 100%;
-    padding: 12px;
+    height: 44px;
     font-size: 16px;
     font-weight: 600;
     color: white;
@@ -130,12 +191,6 @@
     }
   }
 
-  .paypal-button {
-    img {
-      max-height: 24px;
-      vertical-align: middle;
-    }
-  }
 }
 
 .stripe-result {

@@ -32,4 +32,6 @@ Serveme::Application.configure do
   config.active_storage.service = :cloudflare
 
   config.eager_load = false
+
+  config.action_controller.forgery_protection_origin_check = false
 end

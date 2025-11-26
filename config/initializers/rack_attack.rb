@@ -3,7 +3,7 @@
 
 module Rack
   class Attack
-    unless Rails.env.test?
+    unless Rails.env.test? || Rails.env.development?
       safelist("server-monitoring") do |req|
         req.path.start_with?("/server-monitoring") && req.post?
       end

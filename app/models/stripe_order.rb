@@ -46,6 +46,31 @@ class StripeOrder < Order
     { error: e.message }
   end
 
+  sig { returns(T::Hash[String, T.any(String, T::Boolean)]) }
+  def create_express_payment_intent
+    intent = Stripe::PaymentIntent.create(
+      amount: product&.price_in_cents,
+      currency: product&.currency,
+      description: "#{SITE_URL} - #{product_name}",
+      automatic_payment_methods: { enabled: true },
+      metadata: {
+        site_url: SITE_URL,
+        order_id: id,
+        steam_uid: user&.uid,
+        product_name: product_name
+      }
+    )
+
+    update(payment_id: intent.id)
+
+    {
+      client_secret: intent.client_secret,
+      payment_intent_id: intent.id
+    }
+  rescue Stripe::StripeError => e
+    { error: e.message }
+  end
+
   sig { params(payment_intent_id: String).returns(T::Hash[String, T.any(String, T::Boolean)]) }
   def confirm_payment(payment_intent_id)
     intent = Stripe::PaymentIntent.retrieve(payment_intent_id)

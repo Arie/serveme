@@ -116,6 +116,7 @@ Serveme::Application.routes.draw do
       get :redirect
       post :stripe
       post :create_payment_intent
+      post :create_express_payment_intent
       post :confirm_payment
       get :stripe_return
       get :status

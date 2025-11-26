@@ -49,6 +49,20 @@ class OrdersController < ApplicationController
     end
   end
 
+  def create_express_payment_intent
+    order = current_user.stripe_orders.build(
+      product_id: params[:product_id].to_i,
+      gift: ActiveModel::Type::Boolean.new.cast(params[:gift])
+    )
+
+    if order.save
+      result = order.create_express_payment_intent
+      render json: result
+    else
+      render json: { error: "Could not create order" }, status: :unprocessable_entity
+    end
+  end
+
   def redirect
     if order.charge(params[:PayerID])
       if order.gift?

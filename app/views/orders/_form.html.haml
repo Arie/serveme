@@ -1,5 +1,5 @@
 - @products.each do |product|
-  .hidden{id: "product-#{product.id}", data: { product_id: product.id, currency: product.currency.downcase, price: (product.price * 100).round } }
+  .hidden{id: "product-#{product.id}", data: { product_id: product.id, currency: product.currency.downcase, price: (product.price * 100).round, name: "#{SITE_HOST} - #{product.list_name}" } }
 
 .card.text-white.bg-primary
   .card-body

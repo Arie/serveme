@@ -23,7 +23,10 @@ jQuery(document).on('turbo:load', function() {
     if (product && elements) {
       elements.update({
         amount: product.price,
-        currency: product.currency
+        currency: product.currency,
+        lineItems: [
+          { name: product.name, amount: product.price }
+        ]
       });
     }
   });
@@ -76,7 +79,10 @@ jQuery(document).on('turbo:load', function() {
     elements = stripe.elements({
       mode: 'payment',
       amount: product.price,
-      currency: product.currency
+      currency: product.currency,
+      lineItems: [
+        { name: product.name, amount: product.price }
+      ]
     });
 
     if (expressCheckoutElement) {
@@ -311,7 +317,8 @@ jQuery(document).on('turbo:load', function() {
     return {
       id: productEl.dataset.productId,
       currency: productEl.dataset.currency,
-      price: parseInt(productEl.dataset.price, 10)
+      price: parseInt(productEl.dataset.price, 10),
+      name: productEl.dataset.name
     };
   }
 

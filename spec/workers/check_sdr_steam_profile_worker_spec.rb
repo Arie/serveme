@@ -32,7 +32,7 @@ map     : koth_pro_viaduct_rc4
         allow(server).to receive(:server_info).and_return(server_info)
         allow(server_info).to receive(:fetch_rcon_status).and_return(rcon_status_output)
 
-        expect(server).to receive(:rcon_exec).with("kickid 3 SDR requires public Steam profile 6+ months old; addip 1 #{ip}")
+        expect(server).to receive(:rcon_exec).with("kickid 3 SDR blocked: check #{SITE_HOST}/sdr; addip 1 #{ip}")
         expect(reservation_player).to receive(:update).with(whitelisted: false)
         expect(Rails.logger).to receive(:info).with(/Kicked SDR player.*Reservation ##{reservation.id}/)
 

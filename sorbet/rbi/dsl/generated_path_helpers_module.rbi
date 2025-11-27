@@ -85,6 +85,9 @@ module GeneratedPathHelpersModule
   def confirm_payment_orders_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def create_express_payment_intent_orders_path(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def create_payment_intent_orders_path(*args); end
 
   sig { params(args: T.untyped).returns(String) }

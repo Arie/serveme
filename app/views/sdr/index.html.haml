@@ -3,32 +3,85 @@
 
 - if user_signed_in?
   .row
-    .col-md-12
-      .alert{ class: @sdr_eligible ? "alert-success" : "alert-warning" }
-        %strong SDR Eligibility:
-        - if @sdr_eligible
-          ✓ You are eligible to use SDR
-        - else
-          ✗ You are not currently eligible to use SDR. To qualify: use #{SITE_HOST} with your normal connection (no VPN/SDR) at least once per week - either by playing or by visiting this page.
+    .col-md-6
+      .card.mb-4
+        .card-header.d-flex.justify-content-between.align-items-center{ role: "button", style: "cursor: pointer", data: { bs_toggle: "collapse", bs_target: "#sdr-details" }, aria: { expanded: "false", controls: "sdr-details" } }
+          %div
+            %strong SDR Access:
+            - if @sdr_eligible
+              %span.text-success ✓ You can use SDR
+            - else
+              %span.text-danger ✗ You are not allowed to use SDR
+          %span.chevron ▶
 
-.row
-  .col-md-6
-    = form_with url: sdr_path, method: :get, data: { turbo_frame: "sdr_result" } do |f|
-      .form-group
-        = f.label :ip_port, "Normal IP:port or connect string"
-        = f.text_field :ip_port, class: "form-control", placeholder: "bolus.fakkelbrigade.eu:27015", value: params[:ip_port]
-      = f.submit "Get SDR IP:Port", class: "btn btn-primary mt-3"
+        #sdr-details.collapse
+          .card-body
+            %p.text-muted.mb-2
+              %strong Pass at least one:
+            %table.table.table-sm.mb-3
+              %tbody
+                %tr
+                  %td.align-top
+                    - if @logged_in_with_real_ip_recently
+                      %span.text-success ✓
+                    - else
+                      %span.text-danger ✗
+                  %td
+                    %strong Logged in with real IP recently
+                    %br
+                    %small.text-muted Visited #{SITE_HOST} with a non-VPN IP in the past week
 
-    = turbo_frame_tag "sdr_result" do
-      - if params[:ip_port].present?
-        .mt-4
-          - if !params[:ip_port].match?(/:[0-9]+/)
-            .alert.alert-warning Invalid format. Please enter server address in format: domain:port or ip:port
-          - elsif @server.nil? && @result.nil?
-            .alert.alert-warning Server not found
-          - elsif @result.blank?
-            .alert.alert-warning No SDR IP available for this server
-          - else
-            %h4 SDR IP:Port:
-            = @result
-            = render 'shared/copy_button', :copy_button_id => "sdr_result", :copy_text => @result
+                %tr
+                  %td.align-top
+                    - if @connected_with_real_ip_recently
+                      %span.text-success ✓
+                    - else
+                      %span.text-danger ✗
+                  %td
+                    %strong Played with real IP recently
+                    %br
+                    %small.text-muted Connected to a server with a non-VPN IP in the past week
+
+                %tr
+                  %td.align-top{ style: "width: 30px" }
+                    - if @longtime_player
+                      %span.text-success ✓
+                    - else
+                      %span.text-danger ✗
+                  %td
+                    %strong Longtime player
+                    %br
+                    %small.text-muted
+                      First played more than 1 year ago
+                      - if @first_played_at
+                        (your first game: #{time_ago_in_words(@first_played_at)} ago)
+                      - else
+                        (no games found)
+
+            - unless @sdr_eligible
+              .alert.alert-info.mt-3.mb-0
+                %strong How to qualify:
+                Visit this page or play on #{SITE_HOST} servers using your normal internet connection (no VPN) at least once per week.
+
+- if @sdr_eligible
+  .row
+    .col-md-6
+      = form_with url: sdr_path, method: :get, data: { turbo_frame: "sdr_result" } do |f|
+        .form-group
+          = f.label :ip_port, "Normal IP:port or connect string"
+          = f.text_field :ip_port, class: "form-control", placeholder: "bolus.fakkelbrigade.eu:27015", value: params[:ip_port]
+        = f.submit "Get SDR IP:Port", class: "btn btn-primary mt-3"
+
+      = turbo_frame_tag "sdr_result" do
+        - if params[:ip_port].present?
+          .mt-4
+            - if !params[:ip_port].match?(/:[0-9]+/)
+              .alert.alert-warning Invalid format. Please enter server address in format: domain:port or ip:port
+            - elsif @server.nil? && @result.nil?
+              .alert.alert-warning Server not found
+            - elsif @result.blank?
+              .alert.alert-warning No SDR IP available for this server
+            - else
+              %h4 SDR IP:Port:
+              = @result
+              = render 'shared/copy_button', :copy_button_id => "sdr_result", :copy_text => @result

@@ -23,7 +23,7 @@ class CheckSdrSteamProfileWorker
         player = parser.players.find { |p| p.steam_uid == rp.steam_uid.to_i && p.ip == rp.ip }
 
         if player
-          reservation.server&.rcon_exec "kickid #{player.user_id} SDR requires public Steam profile 6+ months old; addip 1 #{rp.ip}"
+          reservation.server&.rcon_exec "kickid #{player.user_id} SDR blocked: check #{SITE_HOST}/sdr; addip 1 #{rp.ip}"
           Rails.logger.info "Kicked SDR player #{rp.name} (#{rp.steam_uid}) - ineligible Steam profile - Reservation ##{reservation.id}"
 
           rp.update(whitelisted: false)

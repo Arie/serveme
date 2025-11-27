@@ -70,3 +70,11 @@ main
   text-overflow: ellipsis
   white-space: nowrap
   vertical-align: top
+
+// Collapsible chevron indicator
+.chevron
+  transition: transform 0.2s ease
+  display: inline-block
+
+[aria-expanded="true"] .chevron
+  transform: rotate(90deg)

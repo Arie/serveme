@@ -65,6 +65,18 @@ class Tidewave::Configuration
   # source://tidewave//lib/tidewave/configuration.rb#5
   def logger=(_arg0); end
 
+  # Returns the value of attribute logger_middleware.
+  #
+  # source://tidewave//lib/tidewave/configuration.rb#5
+  def logger_middleware; end
+
+  # Sets the attribute logger_middleware
+  #
+  # @param value the value to set the attribute logger_middleware to.
+  #
+  # source://tidewave//lib/tidewave/configuration.rb#5
+  def logger_middleware=(_arg0); end
+
   # Returns the value of attribute preferred_orm.
   #
   # source://tidewave//lib/tidewave/configuration.rb#5
@@ -136,11 +148,11 @@ class Tidewave::ExceptionsMiddleware
   def request_parameters(request); end
 end
 
-# source://tidewave//lib/tidewave/middleware.rb#12
+# source://tidewave//lib/tidewave/middleware.rb#13
 class Tidewave::Middleware
   # @return [Middleware] a new instance of Middleware
   #
-  # source://tidewave//lib/tidewave/middleware.rb#24
+  # source://tidewave//lib/tidewave/middleware.rb#25
   def initialize(app, config); end
 
   # source://tidewave//lib/tidewave/middleware.rb#54
@@ -148,34 +160,40 @@ class Tidewave::Middleware
 
   private
 
-  # source://tidewave//lib/tidewave/middleware.rb#98
+  # source://tidewave//lib/tidewave/middleware.rb#105
+  def config_data; end
+
+  # source://tidewave//lib/tidewave/middleware.rb#101
+  def config_endpoint(request); end
+
+  # source://tidewave//lib/tidewave/middleware.rb#114
   def forbidden(message); end
 
-  # source://tidewave//lib/tidewave/middleware.rb#75
+  # source://tidewave//lib/tidewave/middleware.rb#83
   def home(request); end
 
-  # source://tidewave//lib/tidewave/middleware.rb#103
+  # source://tidewave//lib/tidewave/middleware.rb#119
   def shell(request); end
 
   # @return [Boolean]
   #
-  # source://tidewave//lib/tidewave/middleware.rb#163
+  # source://tidewave//lib/tidewave/middleware.rb#179
   def valid_client_ip?(request); end
 end
 
-# source://tidewave//lib/tidewave/middleware.rb#18
+# source://tidewave//lib/tidewave/middleware.rb#17
+Tidewave::Middleware::CONFIG_ROUTE = T.let(T.unsafe(nil), String)
+
+# source://tidewave//lib/tidewave/middleware.rb#19
 Tidewave::Middleware::INVALID_IP = T.let(T.unsafe(nil), String)
 
 # source://tidewave//lib/tidewave/middleware.rb#15
-Tidewave::Middleware::MESSAGES_ROUTE = T.let(T.unsafe(nil), String)
+Tidewave::Middleware::MCP_ROUTE = T.let(T.unsafe(nil), String)
 
 # source://tidewave//lib/tidewave/middleware.rb#16
 Tidewave::Middleware::SHELL_ROUTE = T.let(T.unsafe(nil), String)
 
 # source://tidewave//lib/tidewave/middleware.rb#14
-Tidewave::Middleware::SSE_ROUTE = T.let(T.unsafe(nil), String)
-
-# source://tidewave//lib/tidewave/middleware.rb#13
 Tidewave::Middleware::TIDEWAVE_ROUTE = T.let(T.unsafe(nil), String)
 
 # source://tidewave//lib/tidewave/quiet_requests_middleware.rb#3
@@ -189,8 +207,65 @@ class Tidewave::QuietRequestsMiddleware
   def call(env); end
 end
 
-# source://tidewave//lib/tidewave/railtie.rb#14
+# source://tidewave//lib/tidewave/railtie.rb#35
 class Tidewave::Railtie < ::Rails::Railtie; end
+
+# Streamable HTTP transport for MCP (POST-only, no SSE)
+# This transport implements a simplified version of the MCP Streamable HTTP protocol
+# that only supports POST requests for JSON-RPC messages. Unlike the full protocol,
+# it does not support Server-Sent Events (SSE) for streaming responses.
+#
+# source://tidewave//lib/tidewave/streamable_http_transport.rb#12
+class Tidewave::StreamableHttpTransport < ::FastMcp::Transports::BaseTransport
+  # @return [StreamableHttpTransport] a new instance of StreamableHttpTransport
+  #
+  # source://tidewave//lib/tidewave/streamable_http_transport.rb#15
+  def initialize(app, server, options = T.unsafe(nil)); end
+
+  # Returns the value of attribute app.
+  #
+  # source://tidewave//lib/tidewave/streamable_http_transport.rb#13
+  def app; end
+
+  # source://tidewave//lib/tidewave/streamable_http_transport.rb#39
+  def call(env); end
+
+  # Returns the value of attribute path.
+  #
+  # source://tidewave//lib/tidewave/streamable_http_transport.rb#13
+  def path; end
+
+  # Send a message - capture response for synchronous HTTP
+  # Required by FastMCP::Transports::BaseTransport interface
+  #
+  # source://tidewave//lib/tidewave/streamable_http_transport.rb#34
+  def send_message(message); end
+
+  # source://tidewave//lib/tidewave/streamable_http_transport.rb#22
+  def start; end
+
+  # source://tidewave//lib/tidewave/streamable_http_transport.rb#27
+  def stop; end
+
+  private
+
+  # source://tidewave//lib/tidewave/streamable_http_transport.rb#52
+  def handle_mcp_request(request, env); end
+
+  # source://tidewave//lib/tidewave/streamable_http_transport.rb#60
+  def handle_post_request(request); end
+
+  # source://tidewave//lib/tidewave/streamable_http_transport.rb#116
+  def json_rpc_error_response(http_status, code, message, id); end
+
+  # source://tidewave//lib/tidewave/streamable_http_transport.rb#101
+  def method_not_allowed_response; end
+
+  # @return [Boolean]
+  #
+  # source://tidewave//lib/tidewave/streamable_http_transport.rb#94
+  def valid_jsonrpc_message?(message); end
+end
 
 # source://tidewave//lib/tidewave/tools/base.rb#4
 module Tidewave::Tools; end
@@ -200,11 +275,11 @@ class Tidewave::Tools::Base < ::FastMcp::Tool; end
 
 # source://tidewave//lib/tidewave/tools/execute_sql_query.rb#3
 class Tidewave::Tools::ExecuteSqlQuery < ::Tidewave::Tools::Base
-  # source://tidewave//lib/tidewave/tools/execute_sql_query.rb#27
+  # source://tidewave//lib/tidewave/tools/execute_sql_query.rb#33
   def call(query:, arguments: T.unsafe(nil)); end
 end
 
-# source://tidewave//lib/tidewave/tools/execute_sql_query.rb#25
+# source://tidewave//lib/tidewave/tools/execute_sql_query.rb#31
 Tidewave::Tools::ExecuteSqlQuery::RESULT_LIMIT = T.let(T.unsafe(nil), Integer)
 
 # source://tidewave//lib/tidewave/tools/get_docs.rb#3
@@ -256,12 +331,12 @@ end
 
 # source://tidewave//lib/tidewave/tools/project_eval.rb#6
 class Tidewave::Tools::ProjectEval < ::Tidewave::Tools::Base
-  # source://tidewave//lib/tidewave/tools/project_eval.rb#26
+  # source://tidewave//lib/tidewave/tools/project_eval.rb#32
   def call(code:, arguments: T.unsafe(nil), timeout: T.unsafe(nil), json: T.unsafe(nil)); end
 
   private
 
-  # source://tidewave//lib/tidewave/tools/project_eval.rb#85
+  # source://tidewave//lib/tidewave/tools/project_eval.rb#91
   def eval_binding(arguments); end
 end
 

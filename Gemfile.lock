@@ -113,7 +113,7 @@ GEM
       uri (>= 0.13.1)
     addressable (2.8.8)
       public_suffix (>= 2.0.2, < 8.0)
-    airbrussh (1.5.3)
+    airbrussh (1.6.0)
       sshkit (>= 1.6.1, != 1.7.0)
     american_date (1.3.0)
     ast (2.4.3)
@@ -359,13 +359,13 @@ GEM
       net-http-persistent (>= 4.0.4, < 5)
     faraday-retry (2.3.2)
       faraday (~> 2.0)
-    fast-mcp (1.5.0)
+    fast-mcp (1.6.0)
       addressable (~> 2.8)
       base64
       dry-schema (~> 1.14)
       json (~> 2.0)
       mime-types (~> 3.4)
-      rack (~> 3.1)
+      rack (>= 2.0, < 4.0)
     fast-mcp-annotations (1.5.2)
       addressable (~> 2.8)
       base64
@@ -727,7 +727,7 @@ GEM
       lint_roller (~> 1.1)
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.47.1, < 2.0)
-    rubocop-rails (2.34.1)
+    rubocop-rails (2.34.2)
       activesupport (>= 4.2.0)
       lint_roller (~> 1.1)
       rack (>= 1.1)
@@ -867,8 +867,8 @@ GEM
     tf2_line_parser (0.3.0)
       activesupport
     thor (1.4.0)
-    tidewave (0.3.1)
-      fast-mcp (~> 1.5.0)
+    tidewave (0.4.1)
+      fast-mcp (~> 1.6.0)
       rack (>= 2.0)
       rails (>= 7.1.0)
     tilt (2.6.1)
@@ -1045,11 +1045,11 @@ DEPENDENCIES
   sprockets-rails
   steam-condenser!
   stripe (~> 15.5)
-  tapioca (~> 0.17)
+  tapioca
   terser
   text
   tf2_line_parser
-  tidewave (~> 0.3.1)
+  tidewave
   uri
   vcr
   webmock

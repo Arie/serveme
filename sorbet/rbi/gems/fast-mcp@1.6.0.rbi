@@ -19,62 +19,73 @@ ActionTool::Base = FastMcp::Tool
 
 # Extend Dry::Schema DSL to store metadata
 #
-# source://fast-mcp//lib/mcp/tool.rb#6
+# source://fast-mcp//lib/mcp/tool.rb#8
 module Dry; end
 
-# source://fast-mcp//lib/mcp/tool.rb#7
+# source://fast-mcp//lib/mcp/tool.rb#9
 module Dry::Schema; end
 
-# source://fast-mcp//lib/mcp/tool.rb#75
+# source://fast-mcp//lib/mcp/tool.rb#150
 class Dry::Schema::DSL
-  # source://fast-mcp//lib/mcp/tool.rb#76
+  # source://fast-mcp//lib/mcp/tool.rb#151
   def meta(key_name, meta_key, value); end
 
-  # source://fast-mcp//lib/mcp/tool.rb#82
+  # source://fast-mcp//lib/mcp/tool.rb#163
   def meta_data; end
 end
 
-# source://fast-mcp//lib/mcp/tool.rb#8
+# source://fast-mcp//lib/mcp/tool.rb#10
 module Dry::Schema::Macros; end
 
 # Add description method to Hash macro
 #
-# source://fast-mcp//lib/mcp/tool.rb#61
+# source://fast-mcp//lib/mcp/tool.rb#63
 class Dry::Schema::Macros::Hash < ::Dry::Schema::Macros::Schema
-  # source://fast-mcp//lib/mcp/tool.rb#62
+  # source://fast-mcp//lib/mcp/tool.rb#85
+  def call(*args, &block); end
+
+  # source://fast-mcp//lib/mcp/tool.rb#64
   def description(text); end
+
+  # source://fast-mcp//lib/mcp/tool.rb#73
+  def hidden(hidden = T.unsafe(nil)); end
+
+  # Override call method to manage nested context
+  #
+  # source://fast-mcp//lib/mcp/tool.rb#83
+  def original_call(*args, &block); end
 end
 
 # Add description method to Optional macro
 #
-# source://fast-mcp//lib/mcp/tool.rb#44
+# source://fast-mcp//lib/mcp/tool.rb#46
 class Dry::Schema::Macros::Optional < ::Dry::Schema::Macros::Key
-  # source://fast-mcp//lib/mcp/tool.rb#45
+  # source://fast-mcp//lib/mcp/tool.rb#47
   def description(text); end
 
-  # source://fast-mcp//lib/mcp/tool.rb#52
+  # source://fast-mcp//lib/mcp/tool.rb#54
   def hidden(hidden = T.unsafe(nil)); end
 end
 
 # Add description method to Required macro
 #
-# source://fast-mcp//lib/mcp/tool.rb#27
+# source://fast-mcp//lib/mcp/tool.rb#29
 class Dry::Schema::Macros::Required < ::Dry::Schema::Macros::Key
-  # source://fast-mcp//lib/mcp/tool.rb#28
+  # source://fast-mcp//lib/mcp/tool.rb#30
   def description(text); end
 
-  # source://fast-mcp//lib/mcp/tool.rb#35
+  # source://fast-mcp//lib/mcp/tool.rb#37
   def hidden(hidden = T.unsafe(nil)); end
 end
 
 # Add description method to Value macro
 #
-# source://fast-mcp//lib/mcp/tool.rb#10
+# source://fast-mcp//lib/mcp/tool.rb#12
 class Dry::Schema::Macros::Value < ::Dry::Schema::Macros::DSL
-  # source://fast-mcp//lib/mcp/tool.rb#11
+  # source://fast-mcp//lib/mcp/tool.rb#13
   def description(text); end
 
-  # source://fast-mcp//lib/mcp/tool.rb#18
+  # source://fast-mcp//lib/mcp/tool.rb#20
   def hidden(hidden = T.unsafe(nil)); end
 end
 
@@ -95,10 +106,10 @@ module FastMcp
     # @yield [server] A block to configure the server
     # @yieldparam server [FastMcp::Server] The server to configure
     #
-    # source://fast-mcp//lib/fast_mcp.rb#73
+    # source://fast-mcp//lib/fast_mcp.rb#71
     def authenticated_rack_middleware(app, options = T.unsafe(nil)); end
 
-    # source://fast-mcp//lib/fast_mcp.rb#170
+    # source://fast-mcp//lib/fast_mcp.rb#159
     def default_rails_allowed_origins(rail_app); end
 
     # Mount the MCP middleware in a Rails application
@@ -118,18 +129,19 @@ module FastMcp
     # @yield [server] A block to configure the server
     # @yieldparam server [FastMcp::Server] The server to configure
     #
-    # source://fast-mcp//lib/fast_mcp.rb#134
+    # source://fast-mcp//lib/fast_mcp.rb#123
     def mount_in_rails(app, options = T.unsafe(nil)); end
 
     # Notify the server that a resource has been updated
     #
     # @param uri [String] The URI of the resource
     #
-    # source://fast-mcp//lib/fast_mcp.rb#186
+    # source://fast-mcp//lib/fast_mcp.rb#175
     def notify_resource_updated(uri); end
 
     # Create a Rack middleware for the MCP server
     #
+    # @option options
     # @option options
     # @option options
     # @option options
@@ -143,7 +155,7 @@ module FastMcp
     # @yield [server] A block to configure the server
     # @yieldparam server [FastMcp::Server] The server to configure
     #
-    # source://fast-mcp//lib/fast_mcp.rb#46
+    # source://fast-mcp//lib/fast_mcp.rb#44
     def rack_middleware(app, options = T.unsafe(nil)); end
 
     # Register a resource with the MCP server
@@ -151,7 +163,7 @@ module FastMcp
     # @param resource [FastMcp::Resource] The resource to register
     # @return [FastMcp::Resource] The registered resource
     #
-    # source://fast-mcp//lib/fast_mcp.rb#106
+    # source://fast-mcp//lib/fast_mcp.rb#95
     def register_resource(resource); end
 
     # Register multiple resources at once
@@ -159,7 +171,7 @@ module FastMcp
     # @param resources [Array<FastMcp::Resource>] The resources to register
     # @return [Array<FastMcp::Resource>] The registered resources
     #
-    # source://fast-mcp//lib/fast_mcp.rb#114
+    # source://fast-mcp//lib/fast_mcp.rb#103
     def register_resources(*resources); end
 
     # Register a tool with the MCP server
@@ -167,7 +179,7 @@ module FastMcp
     # @param tool [FastMcp::Tool] The tool to register
     # @return [FastMcp::Tool] The registered tool
     #
-    # source://fast-mcp//lib/fast_mcp.rb#90
+    # source://fast-mcp//lib/fast_mcp.rb#79
     def register_tool(tool); end
 
     # Register multiple tools at once
@@ -175,7 +187,7 @@ module FastMcp
     # @param tools [Array<FastMcp::Tool>] The tools to register
     # @return [Array<FastMcp::Tool>] The registered tools
     #
-    # source://fast-mcp//lib/fast_mcp.rb#98
+    # source://fast-mcp//lib/fast_mcp.rb#87
     def register_tools(*tools); end
 
     # Returns the value of attribute server.
@@ -190,78 +202,6 @@ module FastMcp
     # source://fast-mcp//lib/fast_mcp.rb#9
     def server=(_arg0); end
   end
-end
-
-# Module for handling basic type predicates
-#
-# source://fast-mcp//lib/mcp/tool.rb#420
-module FastMcp::BasicTypePredicateHandler
-  # Add basic type to schema
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#422
-  def add_basic_type(predicate_name, property); end
-
-  # Add numeric constraint to schema
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#453
-  def add_numeric_constraint(predicate_name, args, property); end
-
-  # Add string constraint to schema
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#441
-  def add_string_constraint(predicate_name, args, property); end
-end
-
-# Module for handling format predicates
-#
-# source://fast-mcp//lib/mcp/tool.rb#468
-module FastMcp::FormatPredicateHandler
-  # Add date/time format to schema
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#470
-  def add_date_time_format(predicate_name, property); end
-
-  # Add format constraint to schema
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#504
-  def add_format_constraint(args, property); end
-
-  # Add number constraint to schema
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#493
-  def add_number_constraint(predicate_name, property); end
-
-  # Add UUID pattern to schema
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#483
-  def add_uuid_pattern(predicate_name, property); end
-end
-
-# source://fast-mcp//lib/generators/fast_mcp/install/install_generator.rb#6
-module FastMcp::Generators; end
-
-# source://fast-mcp//lib/generators/fast_mcp/install/install_generator.rb#7
-class FastMcp::Generators::InstallGenerator < ::Rails::Generators::Base
-  # source://fast-mcp//lib/generators/fast_mcp/install/install_generator.rb#25
-  def copy_application_resource; end
-
-  # source://fast-mcp//lib/generators/fast_mcp/install/install_generator.rb#21
-  def copy_application_tool; end
-
-  # source://fast-mcp//lib/generators/fast_mcp/install/install_generator.rb#12
-  def copy_initializer; end
-
-  # source://fast-mcp//lib/generators/fast_mcp/install/install_generator.rb#33
-  def copy_sample_resource; end
-
-  # source://fast-mcp//lib/generators/fast_mcp/install/install_generator.rb#29
-  def copy_sample_tool; end
-
-  # source://fast-mcp//lib/generators/fast_mcp/install/install_generator.rb#16
-  def create_directories; end
-
-  # source://fast-mcp//lib/generators/fast_mcp/install/install_generator.rb#37
-  def display_post_install_message; end
 end
 
 # source://fast-mcp//lib/mcp/logger.rb#5
@@ -312,86 +252,6 @@ class FastMcp::Logger < ::Logger
   #
   # source://fast-mcp//lib/mcp/logger.rb#14
   def transport=(_arg0); end
-end
-
-# Module for handling nested rules
-#
-# source://fast-mcp//lib/mcp/tool.rb#523
-module FastMcp::NestedRuleHandler
-  # Add to nested rules
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#648
-  def add_to_nested_rules(nested_key, nested_key_op, nested_rules, is_optional); end
-
-  # Create implication
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#658
-  def create_implication(rule); end
-
-  # Extract from implication and
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#590
-  def extract_from_implication_and(and_rule, nested_rules); end
-
-  # Extract from implication key
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#581
-  def extract_from_implication_key(key_rule, nested_rules); end
-
-  # Extract nested rules from a rule
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#525
-  def extract_nested_rules(rule); end
-
-  # Extract nested rules from an And operation
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#541
-  def extract_nested_rules_from_and(rule, nested_rules); end
-
-  # Extract nested rules from an Implication operation
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#571
-  def extract_nested_rules_from_implication(rule, nested_rules); end
-
-  # Find nested key operation
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#639
-  def find_nested_key_op(rule); end
-
-  # Process a nested rule
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#625
-  def process_nested_rule(rule, nested_rules, is_optional); end
-
-  # Process a set operation
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#609
-  def process_set_operation(set_op, nested_rules); end
-end
-
-# Module for handling predicates
-#
-# source://fast-mcp//lib/mcp/tool.rb#353
-module FastMcp::PredicateHandler
-  # Add predicate description to schema
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#391
-  def add_predicate_description(predicate_name, args, key_name, properties); end
-
-  # Extract arguments from a predicate
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#380
-  def extract_predicate_args(rule); end
-
-  # Extract predicates from a rule
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#355
-  def extract_predicates(rule, key, properties = T.unsafe(nil)); end
-
-  # Process a predicate
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#373
-  def process_predicate(rule, key, properties); end
 end
 
 # Railtie for integrating Fast MCP with Rails applications
@@ -590,129 +450,6 @@ class FastMcp::Resource
   end
 end
 
-# Module for handling rule type detection
-#
-# source://fast-mcp//lib/mcp/tool.rb#316
-module FastMcp::RuleTypeDetector
-  # Check if a rule is for an array type
-  #
-  # @return [Boolean]
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#346
-  def array_type?(rule); end
-
-  # Check for direct hash predicate
-  #
-  # @return [Boolean]
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#325
-  def direct_hash_predicate?(rule); end
-
-  # Check if a rule is for a hash type
-  #
-  # @return [Boolean]
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#318
-  def hash_type?(rule); end
-
-  # Check for nested hash predicate
-  #
-  # @return [Boolean]
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#332
-  def nested_hash_predicate?(rule); end
-end
-
-# SchemaCompiler class for converting Dry::Schema to JSON Schema
-#
-# source://fast-mcp//lib/mcp/tool.rb#668
-class FastMcp::SchemaCompiler
-  include ::FastMcp::SchemaMetadataExtractor
-  include ::FastMcp::RuleTypeDetector
-  include ::FastMcp::PredicateHandler
-  include ::FastMcp::BasicTypePredicateHandler
-  include ::FastMcp::FormatPredicateHandler
-  include ::FastMcp::NestedRuleHandler
-
-  # @return [SchemaCompiler] a new instance of SchemaCompiler
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#676
-  def initialize; end
-
-  # Returns the value of attribute json_schema.
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#684
-  def json_schema; end
-
-  # source://fast-mcp//lib/mcp/tool.rb#686
-  def process(schema); end
-
-  # source://fast-mcp//lib/mcp/tool.rb#812
-  def process_deeper_nested_property(key, nested_key, deeper_key, deeper_rule); end
-
-  # source://fast-mcp//lib/mcp/tool.rb#792
-  def process_deeper_nested_schema(key, nested_key, nested_rule); end
-
-  # source://fast-mcp//lib/mcp/tool.rb#759
-  def process_nested_property(key, nested_key, nested_rule); end
-
-  # source://fast-mcp//lib/mcp/tool.rb#739
-  def process_nested_schema(key, rule); end
-
-  # source://fast-mcp//lib/mcp/tool.rb#711
-  def process_rule(key, rule); end
-end
-
-# Module for handling schema metadata
-#
-# source://fast-mcp//lib/mcp/tool.rb#198
-module FastMcp::SchemaMetadataExtractor
-  # Extract metadata from a node
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#304
-  def extract_metadata(and_node, metadata, nested_path); end
-
-  # Extract metadata from AST
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#223
-  def extract_metadata_from_ast(ast, metadata, parent_key = T.unsafe(nil)); end
-
-  # Extract metadata from a schema
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#200
-  def extract_metadata_from_schema(schema); end
-
-  # Process an and node in the AST
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#252
-  def process_and_node(ast, metadata, parent_key); end
-
-  # Process a key node in the AST
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#232
-  def process_key_node(ast, metadata, parent_key); end
-
-  # Process nested keys in a schema
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#292
-  def process_nested_keys(set_node, metadata, nested_key); end
-
-  # Process nested properties in an and node
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#265
-  def process_nested_properties(ast, metadata, parent_key); end
-
-  # Process a nested schema
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#277
-  def process_nested_schema_ast(ast, metadata, nested_key); end
-
-  # Process a set node in the AST
-  #
-  # source://fast-mcp//lib/mcp/tool.rb#243
-  def process_set_node(ast, metadata, parent_key); end
-end
-
 # source://fast-mcp//lib/mcp/server.rb#14
 class FastMcp::Server
   include ::FastMcp::ServerFiltering
@@ -729,24 +466,24 @@ class FastMcp::Server
 
   # Handle a JSON-RPC request and return the response as a JSON string
   #
-  # source://fast-mcp//lib/mcp/server.rb#143
+  # source://fast-mcp//lib/mcp/server.rb#135
   def handle_json_request(request, headers: T.unsafe(nil)); end
 
   # Handle incoming JSON-RPC request
   #
-  # source://fast-mcp//lib/mcp/server.rb#150
+  # source://fast-mcp//lib/mcp/server.rb#142
   def handle_request(json_str, headers: T.unsafe(nil)); end
 
   # Returns the value of attribute logger.
   #
-  # source://fast-mcp//lib/mcp/server.rb#46
+  # source://fast-mcp//lib/mcp/server.rb#47
   def logger; end
 
   # Sets the attribute logger
   #
   # @param value the value to set the attribute logger to.
   #
-  # source://fast-mcp//lib/mcp/server.rb#46
+  # source://fast-mcp//lib/mcp/server.rb#47
   def logger=(_arg0); end
 
   # Returns the value of attribute name.
@@ -756,39 +493,42 @@ class FastMcp::Server
 
   # Notify subscribers about a resource update
   #
-  # source://fast-mcp//lib/mcp/server.rb#199
+  # source://fast-mcp//lib/mcp/server.rb#191
   def notify_resource_updated(uri); end
 
-  # source://fast-mcp//lib/mcp/server.rb#217
+  # source://fast-mcp//lib/mcp/server.rb#84
+  def on_error_result(&block); end
+
+  # source://fast-mcp//lib/mcp/server.rb#209
   def read_resource(uri); end
 
   # Register a resource with the server
   #
-  # source://fast-mcp//lib/mcp/server.rb#72
+  # source://fast-mcp//lib/mcp/server.rb#73
   def register_resource(resource); end
 
   # Register multiple resources at once
   #
   # @param resources [Array<Resource>] Resources to register
   #
-  # source://fast-mcp//lib/mcp/server.rb#65
+  # source://fast-mcp//lib/mcp/server.rb#66
   def register_resources(*resources); end
 
   # Register a tool with the server
   #
-  # source://fast-mcp//lib/mcp/server.rb#57
+  # source://fast-mcp//lib/mcp/server.rb#58
   def register_tool(tool); end
 
   # Register multiple tools at once
   #
   # @param tools [Array<Tool>] Tools to register
   #
-  # source://fast-mcp//lib/mcp/server.rb#50
+  # source://fast-mcp//lib/mcp/server.rb#51
   def register_tools(*tools); end
 
   # Remove a resource from the server
   #
-  # source://fast-mcp//lib/mcp/server.rb#84
+  # source://fast-mcp//lib/mcp/server.rb#89
   def remove_resource(uri); end
 
   # Returns the value of attribute resources.
@@ -798,15 +538,12 @@ class FastMcp::Server
 
   # Start the server using stdio transport
   #
-  # source://fast-mcp//lib/mcp/server.rb#101
+  # source://fast-mcp//lib/mcp/server.rb#106
   def start; end
-
-  # source://fast-mcp//lib/mcp/server.rb#128
-  def start_authenticated_rack(app, options = T.unsafe(nil)); end
 
   # Start the server as a Rack middleware
   #
-  # source://fast-mcp//lib/mcp/server.rb#114
+  # source://fast-mcp//lib/mcp/server.rb#119
   def start_rack(app, options = T.unsafe(nil)); end
 
   # Returns the value of attribute tools.
@@ -816,26 +553,26 @@ class FastMcp::Server
 
   # Returns the value of attribute transport.
   #
-  # source://fast-mcp//lib/mcp/server.rb#46
+  # source://fast-mcp//lib/mcp/server.rb#47
   def transport; end
 
   # Sets the attribute transport
   #
   # @param value the value to set the attribute transport to.
   #
-  # source://fast-mcp//lib/mcp/server.rb#46
+  # source://fast-mcp//lib/mcp/server.rb#47
   def transport=(_arg0); end
 
   # Returns the value of attribute transport_klass.
   #
-  # source://fast-mcp//lib/mcp/server.rb#46
+  # source://fast-mcp//lib/mcp/server.rb#47
   def transport_klass; end
 
   # Sets the attribute transport_klass
   #
   # @param value the value to set the attribute transport_klass to.
   #
-  # source://fast-mcp//lib/mcp/server.rb#46
+  # source://fast-mcp//lib/mcp/server.rb#47
   def transport_klass=(_arg0); end
 
   # Returns the value of attribute version.
@@ -845,87 +582,87 @@ class FastMcp::Server
 
   private
 
-  # source://fast-mcp//lib/mcp/server.rb#225
+  # source://fast-mcp//lib/mcp/server.rb#217
   def handle_initialize(params, id); end
 
-  # source://fast-mcp//lib/mcp/server.rb#285
+  # source://fast-mcp//lib/mcp/server.rb#277
   def handle_initialized_notification; end
 
   # Handle resources/list request
   #
-  # source://fast-mcp//lib/mcp/server.rb#367
+  # source://fast-mcp//lib/mcp/server.rb#375
   def handle_resources_list(id); end
 
   # Handle a resource read
   #
-  # source://fast-mcp//lib/mcp/server.rb#250
+  # source://fast-mcp//lib/mcp/server.rb#242
   def handle_resources_read(params, id); end
 
   # Handle resources/subscribe request
   #
-  # source://fast-mcp//lib/mcp/server.rb#382
+  # source://fast-mcp//lib/mcp/server.rb#390
   def handle_resources_subscribe(params, id); end
 
   # Handle resources/templates/list request
   #
-  # source://fast-mcp//lib/mcp/server.rb#374
+  # source://fast-mcp//lib/mcp/server.rb#382
   def handle_resources_templates_list(id); end
 
   # Handle resources/unsubscribe request
   #
-  # source://fast-mcp//lib/mcp/server.rb#403
+  # source://fast-mcp//lib/mcp/server.rb#411
   def handle_resources_unsubscribe(params, id); end
 
   # Handle tools/call request
   #
-  # source://fast-mcp//lib/mcp/server.rb#308
+  # source://fast-mcp//lib/mcp/server.rb#314
   def handle_tools_call(params, headers, id); end
 
   # Handle tools/list request
   #
-  # source://fast-mcp//lib/mcp/server.rb#295
+  # source://fast-mcp//lib/mcp/server.rb#287
   def handle_tools_list(id); end
 
   # Notify clients about resource list changes
   #
-  # source://fast-mcp//lib/mcp/server.rb#423
+  # source://fast-mcp//lib/mcp/server.rb#431
   def notify_resource_list_changed; end
 
   # Send a JSON-RPC error response
   #
-  # source://fast-mcp//lib/mcp/server.rb#450
+  # source://fast-mcp//lib/mcp/server.rb#458
   def send_error(code, message, id = T.unsafe(nil)); end
 
   # Format and send error result
   #
-  # source://fast-mcp//lib/mcp/server.rb#356
+  # source://fast-mcp//lib/mcp/server.rb#362
   def send_error_result(message, id); end
 
   # Format and send successful result
   #
-  # source://fast-mcp//lib/mcp/server.rb#340
+  # source://fast-mcp//lib/mcp/server.rb#346
   def send_formatted_result(result, id, metadata); end
 
   # Send a JSON-RPC response
   #
-  # source://fast-mcp//lib/mcp/server.rb#464
+  # source://fast-mcp//lib/mcp/server.rb#472
   def send_response(response); end
 
   # Send a JSON-RPC result response
   #
-  # source://fast-mcp//lib/mcp/server.rb#436
+  # source://fast-mcp//lib/mcp/server.rb#444
   def send_result(result, id, metadata: T.unsafe(nil)); end
 
   # Helper method to convert string keys to symbols
   #
-  # source://fast-mcp//lib/mcp/server.rb#475
+  # source://fast-mcp//lib/mcp/server.rb#483
   def symbolize_keys(hash); end
 end
 
 # source://fast-mcp//lib/mcp/server.rb#19
 FastMcp::Server::DEFAULT_CAPABILITIES = T.let(T.unsafe(nil), Hash)
 
-# source://fast-mcp//lib/mcp/server.rb#223
+# source://fast-mcp//lib/mcp/server.rb#215
 FastMcp::Server::PROTOCOL_VERSION = T.let(T.unsafe(nil), String)
 
 # Module for handling server filtering functionality
@@ -979,93 +716,96 @@ end
 
 # Main Tool class that represents an MCP Tool
 #
-# source://fast-mcp//lib/mcp/tool.rb#91
+# source://fast-mcp//lib/mcp/tool.rb#262
 class FastMcp::Tool
   # @return [Tool] a new instance of Tool
   #
-  # source://fast-mcp//lib/mcp/tool.rb#155
+  # source://fast-mcp//lib/mcp/tool.rb#338
   def initialize(headers: T.unsafe(nil)); end
 
   # Returns the value of attribute _meta.
   #
-  # source://fast-mcp//lib/mcp/tool.rb#180
+  # source://fast-mcp//lib/mcp/tool.rb#363
   def _meta; end
 
   # Sets the attribute _meta
   #
   # @param value the value to set the attribute _meta to.
   #
-  # source://fast-mcp//lib/mcp/tool.rb#180
+  # source://fast-mcp//lib/mcp/tool.rb#363
   def _meta=(_arg0); end
 
   # @raise [InvalidArgumentsError]
   # @return [Boolean]
   #
-  # source://fast-mcp//lib/mcp/tool.rb#160
+  # source://fast-mcp//lib/mcp/tool.rb#343
   def authorized?(**args); end
 
   # @raise [InvalidArgumentsError]
   #
-  # source://fast-mcp//lib/mcp/tool.rb#187
+  # source://fast-mcp//lib/mcp/tool.rb#370
   def call_with_schema_validation!(**args); end
 
   # Returns the value of attribute headers.
   #
-  # source://fast-mcp//lib/mcp/tool.rb#181
+  # source://fast-mcp//lib/mcp/tool.rb#364
   def headers; end
 
-  # source://fast-mcp//lib/mcp/tool.rb#183
+  # source://fast-mcp//lib/mcp/tool.rb#366
   def notify_resource_updated(uri); end
 
   class << self
-    # source://fast-mcp//lib/mcp/tool.rb#118
+    # source://fast-mcp//lib/mcp/tool.rb#318
+    def annotations(annotations_hash = T.unsafe(nil)); end
+
+    # source://fast-mcp//lib/mcp/tool.rb#289
     def arguments(&block); end
 
-    # source://fast-mcp//lib/mcp/tool.rb#138
+    # source://fast-mcp//lib/mcp/tool.rb#324
     def authorize(&block); end
 
     # @raise [NotImplementedError]
     #
-    # source://fast-mcp//lib/mcp/tool.rb#143
+    # source://fast-mcp//lib/mcp/tool.rb#329
     def call(**args); end
 
-    # source://fast-mcp//lib/mcp/tool.rb#132
+    # source://fast-mcp//lib/mcp/tool.rb#312
     def description(description = T.unsafe(nil)); end
 
-    # source://fast-mcp//lib/mcp/tool.rb#122
+    # source://fast-mcp//lib/mcp/tool.rb#299
     def input_schema; end
 
-    # source://fast-mcp//lib/mcp/tool.rb#147
+    # source://fast-mcp//lib/mcp/tool.rb#333
     def input_schema_to_json; end
 
     # Add metadata support for tools
     #
-    # source://fast-mcp//lib/mcp/tool.rb#107
+    # source://fast-mcp//lib/mcp/tool.rb#278
     def metadata(key = T.unsafe(nil), value = T.unsafe(nil)); end
 
     # Returns the value of attribute server.
     #
-    # source://fast-mcp//lib/mcp/tool.rb#95
+    # source://fast-mcp//lib/mcp/tool.rb#266
     def server; end
 
     # Sets the attribute server
     #
     # @param value the value to set the attribute server to.
     #
-    # source://fast-mcp//lib/mcp/tool.rb#95
+    # source://fast-mcp//lib/mcp/tool.rb#266
     def server=(_arg0); end
 
     # Add tagging support for tools
     #
-    # source://fast-mcp//lib/mcp/tool.rb#98
+    # source://fast-mcp//lib/mcp/tool.rb#269
     def tags(*tag_list); end
 
-    # source://fast-mcp//lib/mcp/tool.rb#126
+    # source://fast-mcp//lib/mcp/tool.rb#303
     def tool_name(name = T.unsafe(nil)); end
   end
 end
 
-# source://fast-mcp//lib/mcp/tool.rb#92
+# source://fast-mcp//lib/mcp/tool.rb#263
 class FastMcp::Tool::InvalidArgumentsError < ::StandardError; end
 
 # source://fast-mcp//lib/mcp/transports/base_transport.rb#4
@@ -1374,8 +1114,10 @@ class FastMcp::Transports::RackTransport < ::FastMcp::Transports::BaseTransport
   # source://fast-mcp//lib/mcp/transports/rack_transport.rb#437
   def start_keep_alive_thread(client_id, io); end
 
+  # @return [Boolean]
+  #
   # source://fast-mcp//lib/mcp/transports/rack_transport.rb#139
-  def validate_client_ip(request); end
+  def valid_client_ip?(request); end
 
   # Validate the Origin header to prevent DNS rebinding attacks
   #
@@ -1433,3 +1175,64 @@ end
 
 # source://fast-mcp//lib/mcp/version.rb#4
 FastMcp::VERSION = T.let(T.unsafe(nil), String)
+
+# Context object for managing nested metadata collection
+#
+# source://fast-mcp//lib/mcp/tool.rb#106
+class MetadataContext
+  # @return [MetadataContext] a new instance of MetadataContext
+  #
+  # source://fast-mcp//lib/mcp/tool.rb#107
+  def initialize; end
+
+  # source://fast-mcp//lib/mcp/tool.rb#129
+  def current_path; end
+
+  # Returns the value of attribute metadata.
+  #
+  # source://fast-mcp//lib/mcp/tool.rb#112
+  def metadata; end
+
+  # source://fast-mcp//lib/mcp/tool.rb#114
+  def store(property_name, meta_key, value); end
+
+  # source://fast-mcp//lib/mcp/tool.rb#122
+  def with_nested(parent_property); end
+
+  class << self
+    # Class method to set/get current context for thread-safe access
+    #
+    # source://fast-mcp//lib/mcp/tool.rb#134
+    def current; end
+
+    # source://fast-mcp//lib/mcp/tool.rb#138
+    def with_context(context); end
+  end
+end
+
+# Schema metadata processor for handling custom predicates in JSON schema output
+#
+# source://fast-mcp//lib/mcp/tool.rb#171
+class SchemaMetadataProcessor
+  class << self
+    # source://fast-mcp//lib/mcp/tool.rb#172
+    def process(schema, collected_metadata = T.unsafe(nil)); end
+
+    private
+
+    # source://fast-mcp//lib/mcp/tool.rb#204
+    def apply_metadata_to_schema(base_schema, metadata); end
+
+    # source://fast-mcp//lib/mcp/tool.rb#184
+    def extract_metadata(schema); end
+
+    # source://fast-mcp//lib/mcp/tool.rb#251
+    def filter_required_properties(required_array, properties); end
+
+    # source://fast-mcp//lib/mcp/tool.rb#189
+    def merge_metadata(traditional, collected); end
+
+    # source://fast-mcp//lib/mcp/tool.rb#212
+    def process_properties_recursively(properties, metadata, path_prefix = T.unsafe(nil)); end
+  end
+end

@@ -7377,56 +7377,64 @@ class RuboCop::Cop::Rails::Presence < ::RuboCop::Cop::Base
   include ::RuboCop::Cop::RangeHelp
   extend ::RuboCop::Cop::AutoCorrector
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#102
+  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#103
   def on_if(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#87
+  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#88
   def redundant_receiver_and_chain(param0 = T.unsafe(nil)); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#72
+  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#73
   def redundant_receiver_and_other(param0 = T.unsafe(nil)); end
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#173
+  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#174
   def build_source_for_or_method(other); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#188
+  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#189
   def chain_replacement(receiver, chain, left_sibling); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#152
+  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#153
   def current(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#142
+  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#143
   def ignore_chain_node?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#134
+  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#135
   def ignore_if_node?(node); end
 
   # @return [Boolean]
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#138
+  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#139
   def ignore_other_node?(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#146
+  # @return [Boolean]
+  #
+  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#195
+  def index_access_method?(node); end
+
+  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#147
   def message(node, replacement); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#184
+  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#185
   def method_range(node); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#127
+  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#128
   def register_chain_offense(node, receiver, chain); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#120
+  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#121
   def register_offense(node, receiver, other); end
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#160
+  # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#161
   def replacement(receiver, other, left_sibling); end
 end
+
+# source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#71
+RuboCop::Cop::Rails::Presence::INDEX_ACCESS_METHODS = T.let(T.unsafe(nil), Array)
 
 # source://rubocop-rails//lib/rubocop/cop/rails/presence.rb#70
 RuboCop::Cop::Rails::Presence::MSG = T.let(T.unsafe(nil), String)

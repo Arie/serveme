@@ -31,7 +31,7 @@ class FindPlayersInLog
     begin
       match = line.match(PLAYER_JOINED_REGEX)
     rescue ArgumentError
-      tidied_line = ActiveSupport::Multibyte::Chars.new(line).tidy_bytes
+      tidied_line = StringSanitizer.tidy_bytes(line)
       match = tidied_line.match(PLAYER_JOINED_REGEX)
     end
     convert_steam_id_to_community_id(match[:player_steamid]) if match

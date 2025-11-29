@@ -79,7 +79,6 @@ module Serveme
     config.exceptions_app = routes
 
     config.load_defaults 7.1
-    config.active_support.to_time_preserves_timezone = :zone
 
     config.middleware.insert 0, Rack::UTF8Sanitizer
   end

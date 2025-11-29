@@ -4,9 +4,9 @@ source "https://rubygems.org"
 
 gem "actionpack-action_caching"
 gem "american_date"
-gem "aws-sigv4", "1.10.1"
-gem "aws-sdk-core", "3.214.1", require: false
-gem "aws-sdk-s3", "1.176.1", require: false
+gem "aws-sigv4"
+gem "aws-sdk-core", require: false
+gem "aws-sdk-s3", require: false
 gem "bcrypt_pbkdf"
 gem "bootsnap", require: false
 gem "bootstrap"
@@ -51,7 +51,7 @@ gem "puma"
 gem "rack"
 gem "rack-attack"
 gem "rack-utf8_sanitizer"
-gem "rails", "~> 8.0.0"
+gem "rails", "~> 8.1.0"
 gem "rbzip2"
 # Use Redis for Action Cable
 gem "redis"

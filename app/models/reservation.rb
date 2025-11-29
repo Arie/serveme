@@ -374,7 +374,7 @@ class Reservation < ActiveRecord::Base
       if listid_result.match?(/ID filter list: empty/i)
         { count: 0, message: "No players are currently banned" }
       else
-        entries_count = listid_result.match(/(\d+)\s+entr(?:y|ies)/)[1].to_i
+        entries_count = T.must(listid_result.match(/(\d+)\s+entr(?:y|ies)/))[1].to_i
         unban_commands = Array.new(entries_count) { "removeid 1" }
         server&.rcon_exec(unban_commands.join("; "))
         { count: entries_count, message: "Unbanned #{entries_count} player#{'s' if entries_count != 1}" }

@@ -142,7 +142,7 @@ class ReservationsController < ApplicationController
       @log_lines = File.open(filename) do |f|
         f.seek(-seek, IO::SEEK_END)
         f.readlines.last(1000).reverse.select do |line|
-          interesting_line?(ActiveSupport::Multibyte::Chars.new(line).tidy_bytes.to_s)
+          interesting_line?(StringSanitizer.tidy_bytes(line))
         end.first(200)
       end
     rescue Errno::ENOENT
@@ -181,8 +181,7 @@ class ReservationsController < ApplicationController
 
     if @stac_logs.any?
       contents = @stac_logs.map do |log|
-        content = ActiveSupport::Multibyte::Chars.new(log.contents).tidy_bytes.to_s
-        content.encode("UTF-8", invalid: :replace, undef: :replace, replace: "?")
+        StringSanitizer.tidy_bytes(log.contents)
       end.join("\n")
 
       send_data contents.force_encoding("UTF-8"),

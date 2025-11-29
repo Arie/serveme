@@ -37,7 +37,7 @@ class LogUploadsController < ApplicationController
     # find_log_file only returns files from LogUpload.find_log_files, which is restricted to server_logs directory
     file = find_log_file(params[:file_name].to_s)
     file_content = File.read(file[:file_name_and_path])
-    @log_file = ActiveSupport::Multibyte::Chars.new(file_content).tidy_bytes
+    @log_file = StringSanitizer.tidy_bytes(file_content)
   end
 
   private

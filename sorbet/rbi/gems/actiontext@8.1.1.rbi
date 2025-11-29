@@ -27,19 +27,19 @@ module ActionText
     # source://actiontext//lib/action_text.rb#53
     def html_document_fragment_class; end
 
-    # source://actiontext//lib/action_text/engine.rb#14
+    # source://actiontext//lib/action_text/engine.rb#15
     def railtie_helpers_paths; end
 
-    # source://actiontext//lib/action_text/engine.rb#14
+    # source://actiontext//lib/action_text/engine.rb#15
     def railtie_namespace; end
 
-    # source://actiontext//lib/action_text/engine.rb#14
+    # source://actiontext//lib/action_text/engine.rb#15
     def railtie_routes_url_helpers(include_path_helpers = T.unsafe(nil)); end
 
-    # source://actiontext//lib/action_text/engine.rb#14
+    # source://actiontext//lib/action_text/engine.rb#15
     def table_name_prefix; end
 
-    # source://actiontext//lib/action_text/engine.rb#14
+    # source://actiontext//lib/action_text/engine.rb#15
     def use_relative_model_naming?; end
 
     # Returns the currently loaded version of Action Text as a `Gem::Version`.
@@ -194,6 +194,9 @@ class ActionText::Attachables::ContentAttachment
 
   # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
   def _run_validate_callbacks(&block); end
+
+  # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
+  def _run_validate_callbacks!(&block); end
 
   # source://actiontext//lib/action_text/attachables/content_attachment.rb#8
   def _validate_callbacks; end
@@ -561,7 +564,10 @@ class ActionText::AttachmentGallery
   def __callbacks; end
 
   # source://actiontext//lib/action_text/attachment_gallery.rb#7
-  def _run_validate_callbacks(&block); end
+  def _run_validate_callbacks; end
+
+  # source://actiontext//lib/action_text/attachment_gallery.rb#7
+  def _run_validate_callbacks!(&block); end
 
   # source://actiontext//lib/action_text/attachment_gallery.rb#7
   def _validate_callbacks; end
@@ -770,13 +776,13 @@ class ActionText::Content
   # source://actiontext//lib/action_text/content.rb#40
   def initialize(content = T.unsafe(nil), options = T.unsafe(nil)); end
 
-  # source://actiontext//lib/action_text/content.rb#169
+  # source://actiontext//lib/action_text/content.rb#170
   def ==(other); end
 
   # source://actiontext//lib/action_text/content.rb#93
   def append_attachables(attachables); end
 
-  # source://actiontext//lib/action_text/content.rb#161
+  # source://actiontext//lib/action_text/content.rb#162
   def as_json(*_arg0); end
 
   # Extracts ActionText::Attachable objects from the HTML fragment:
@@ -822,7 +828,7 @@ class ActionText::Content
   # source://actiontext//lib/action_text/content.rb#30
   def html_safe(*_arg0, **_arg1, &_arg2); end
 
-  # source://actiontext//lib/action_text/content.rb#165
+  # source://actiontext//lib/action_text/content.rb#166
   def inspect; end
 
   # Extracts links from the HTML fragment:
@@ -846,10 +852,10 @@ class ActionText::Content
   # source://actiontext//lib/action_text/content.rb#98
   def render_attachments(**options, &block); end
 
-  # source://actiontext//lib/action_text/content.rb#138
+  # source://actiontext//lib/action_text/content.rb#139
   def to_html; end
 
-  # source://actiontext//lib/action_text/content.rb#146
+  # source://actiontext//lib/action_text/content.rb#147
   def to_partial_path; end
 
   # Returns a plain-text version of the markup contained by the content, with tags
@@ -862,15 +868,16 @@ class ActionText::Content
   #     content.to_plain_text # => "safeunsafe"
   #
   # NOTE: that the returned string is not HTML safe and should not be rendered in
-  # browsers.
+  # browsers without additional sanitization.
   #
   #     content = ActionText::Content.new("&lt;script&gt;alert()&lt;/script&gt;")
   #     content.to_plain_text # => "<script>alert()</script>"
+  #     ActionText::ContentHelper.sanitizer.sanitize(content.to_plain_text) # => ""
   #
-  # source://actiontext//lib/action_text/content.rb#130
+  # source://actiontext//lib/action_text/content.rb#131
   def to_plain_text; end
 
-  # source://actiontext//lib/action_text/content.rb#142
+  # source://actiontext//lib/action_text/content.rb#143
   def to_rendered_html_with_layout; end
 
   # Safely transforms Content into an HTML String.
@@ -881,24 +888,24 @@ class ActionText::Content
   #     content = ActionText::Content.new("<div onclick='action()'>safe<script>unsafe</script></div>")
   #     content.to_s # => "<div>safeunsafe</div>"
   #
-  # source://actiontext//lib/action_text/content.rb#157
+  # source://actiontext//lib/action_text/content.rb#158
   def to_s; end
 
-  # source://actiontext//lib/action_text/content.rb#134
+  # source://actiontext//lib/action_text/content.rb#135
   def to_trix_html; end
 
   private
 
-  # source://actiontext//lib/action_text/content.rb#186
+  # source://actiontext//lib/action_text/content.rb#187
   def attachment_for_node(node, with_full_attributes: T.unsafe(nil)); end
 
-  # source://actiontext//lib/action_text/content.rb#191
+  # source://actiontext//lib/action_text/content.rb#192
   def attachment_gallery_for_node(node); end
 
-  # source://actiontext//lib/action_text/content.rb#182
+  # source://actiontext//lib/action_text/content.rb#183
   def attachment_gallery_nodes; end
 
-  # source://actiontext//lib/action_text/content.rb#178
+  # source://actiontext//lib/action_text/content.rb#179
   def attachment_nodes; end
 
   class << self
@@ -986,7 +993,7 @@ module ActionText::Encryption
   def has_encrypted_rich_texts?; end
 end
 
-# source://actiontext//lib/action_text/engine.rb#13
+# source://actiontext//lib/action_text/engine.rb#14
 class ActionText::Engine < ::Rails::Engine; end
 
 # # Action Text FixtureSet
@@ -1124,68 +1131,93 @@ module ActionText::PlainTextConversion
 
   private
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#111
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#118
   def break_if_nested_list(node, text); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#88
-  def bullet_for_li_node(node, index); end
-
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#100
-  def indentation_for_li_node(node); end
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#94
+  def bullet_for_li_node(node); end
 
   # source://actiontext//lib/action_text/plain_text_conversion.rb#107
+  def indentation_for_li_node(node); end
+
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#114
   def list_node_depth_for_node(node); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#96
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#103
   def list_node_name_for_li_node(node); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#34
-  def plain_text_for_block(node, index = T.unsafe(nil)); end
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#40
+  def plain_text_for_block(node, child_values); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#66
-  def plain_text_for_blockquote_node(node, index); end
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#72
+  def plain_text_for_blockquote_node(node, child_values); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#50
-  def plain_text_for_br_node(node, index); end
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#56
+  def plain_text_for_br_node(node, _child_values); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#58
-  def plain_text_for_div_node(node, index); end
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#28
+  def plain_text_for_child_values(child_values); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#62
-  def plain_text_for_figcaption_node(node, index); end
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#64
+  def plain_text_for_div_node(node, child_values); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#39
-  def plain_text_for_h1_node(node, index = T.unsafe(nil)); end
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#68
+  def plain_text_for_figcaption_node(node, child_values); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#76
-  def plain_text_for_li_node(node, index); end
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#45
+  def plain_text_for_h1_node(node, child_values); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#42
-  def plain_text_for_list(node, index); end
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#82
+  def plain_text_for_li_node(node, child_values); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#14
-  def plain_text_for_node(node, index = T.unsafe(nil)); end
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#48
+  def plain_text_for_list(node, child_values); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#22
-  def plain_text_for_node_children(node); end
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#16
+  def plain_text_for_node(node, child_values); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#47
-  def plain_text_for_ol_node(node, index); end
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#53
+  def plain_text_for_ol_node(node, child_values); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#39
-  def plain_text_for_p_node(node, index = T.unsafe(nil)); end
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#45
+  def plain_text_for_p_node(node, child_values); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#54
-  def plain_text_for_text_node(node, index); end
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#37
+  def plain_text_for_script_node(node, _child_values); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#47
-  def plain_text_for_ul_node(node, index); end
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#37
+  def plain_text_for_style_node(node, _child_values); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#30
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#60
+  def plain_text_for_text_node(node, _child_values); end
+
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#53
+  def plain_text_for_ul_node(node, child_values); end
+
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#32
+  def plain_text_for_unsupported_node(node, _child_values); end
+
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#24
   def plain_text_method_for_node(node); end
 
-  # source://actiontext//lib/action_text/plain_text_conversion.rb#84
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#90
   def remove_trailing_newlines(text); end
+end
+
+# source://actiontext//lib/action_text/plain_text_conversion.rb#126
+class ActionText::PlainTextConversion::BottomUpReducer
+  # @return [BottomUpReducer] a new instance of BottomUpReducer
+  #
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#127
+  def initialize(node); end
+
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#132
+  def reduce(&block); end
+
+  private
+
+  # source://actiontext//lib/action_text/plain_text_conversion.rb#141
+  def traverse_bottom_up(node, &block); end
 end
 
 class ActionText::Record < ::ActiveRecord::Base
@@ -1205,22 +1237,22 @@ end
 module ActionText::Record::GeneratedAssociationMethods; end
 module ActionText::Record::GeneratedAttributeMethods; end
 
-# source://actiontext//lib/action_text/rendering.rb#9
+# source://actiontext//lib/action_text/rendering.rb#8
 module ActionText::Rendering
   extend ::ActiveSupport::Concern
 
   mixes_in_class_methods ::ActionText::Rendering::ClassMethods
 end
 
-# source://actiontext//lib/action_text/rendering.rb#17
+# source://actiontext//lib/action_text/rendering.rb#16
 module ActionText::Rendering::ClassMethods
-  # source://actiontext//lib/action_text/rendering.rb#18
+  # source://actiontext//lib/action_text/rendering.rb#17
   def action_controller_renderer; end
 
-  # source://actiontext//lib/action_text/rendering.rb#30
+  # source://actiontext//lib/action_text/rendering.rb#29
   def render(*args, &block); end
 
-  # source://actiontext//lib/action_text/rendering.rb#22
+  # source://actiontext//lib/action_text/rendering.rb#21
   def with_renderer(renderer); end
 end
 
@@ -1228,6 +1260,12 @@ class ActionText::RichText < ::ActionText::Record
   include ::ActionText::RichText::GeneratedAttributeMethods
   include ::ActionText::RichText::GeneratedAssociationMethods
 
+  def _run_commit_callbacks(&block); end
+  def _run_create_callbacks(&block); end
+  def _run_destroy_callbacks(&block); end
+  def _run_save_callbacks(&block); end
+  def _run_touch_callbacks(&block); end
+  def _run_update_callbacks(&block); end
   def autosave_associated_records_for_embeds_attachments(*args); end
   def autosave_associated_records_for_embeds_blobs(*args); end
   def autosave_associated_records_for_record(*args); end
@@ -1307,12 +1345,14 @@ module ActionText::SystemTestHelper
   # Locates a Trix editor and fills it in with the given HTML.
   #
   # The editor can be found by:
+  #
   # *   its `id`
   # *   its `placeholder`
   # *   the text from its `label` element
   # *   its `aria-label`
   # *   the `name` of its input
   #
+  # Additional options are forwarded to Capybara as filters
   #
   # Examples:
   #
@@ -1333,18 +1373,20 @@ module ActionText::SystemTestHelper
   #     # <trix-editor input="trix_input_1"></trix-editor>
   #     fill_in_rich_textarea "message[content]", with: "Hello <em>world!</em>"
   #
-  # source://actiontext//lib/action_text/system_test_helper.rb#38
-  def fill_in_rich_text_area(locator = T.unsafe(nil), with:); end
+  # source://actiontext//lib/action_text/system_test_helper.rb#46
+  def fill_in_rich_text_area(locator = T.unsafe(nil), with:, **_arg2); end
 
   # Locates a Trix editor and fills it in with the given HTML.
   #
   # The editor can be found by:
+  #
   # *   its `id`
   # *   its `placeholder`
   # *   the text from its `label` element
   # *   its `aria-label`
   # *   the `name` of its input
   #
+  # Additional options are forwarded to Capybara as filters
   #
   # Examples:
   #
@@ -1365,13 +1407,13 @@ module ActionText::SystemTestHelper
   #     # <trix-editor input="trix_input_1"></trix-editor>
   #     fill_in_rich_textarea "message[content]", with: "Hello <em>world!</em>"
   #
-  # source://actiontext//lib/action_text/system_test_helper.rb#35
-  def fill_in_rich_textarea(locator = T.unsafe(nil), with:); end
+  # source://actiontext//lib/action_text/system_test_helper.rb#37
+  def fill_in_rich_textarea(locator = T.unsafe(nil), with:, **_arg2); end
 end
 
 module ActionText::TagHelper
-  def rich_text_area_tag(name, value = T.unsafe(nil), options = T.unsafe(nil)); end
-  def rich_textarea_tag(name, value = T.unsafe(nil), options = T.unsafe(nil)); end
+  def rich_text_area_tag(name, value = T.unsafe(nil), options = T.unsafe(nil), &block); end
+  def rich_textarea_tag(name, value = T.unsafe(nil), options = T.unsafe(nil), &block); end
 
   class << self
     def id; end
@@ -1479,8 +1521,8 @@ module ActionView::Helpers
 end
 
 class ActionView::Helpers::FormBuilder
-  def rich_text_area(method, options = T.unsafe(nil)); end
-  def rich_textarea(method, options = T.unsafe(nil)); end
+  def rich_text_area(method, options = T.unsafe(nil), &block); end
+  def rich_textarea(method, options = T.unsafe(nil), &block); end
 end
 
 module ActionView::Helpers::FormHelper
@@ -1492,8 +1534,8 @@ module ActionView::Helpers::FormHelper
   mixes_in_class_methods ::ActionView::Helpers::UrlHelper::ClassMethods
   mixes_in_class_methods ::ActionView::Helpers::SanitizeHelper::ClassMethods
 
-  def rich_text_area(object_name, method, options = T.unsafe(nil)); end
-  def rich_textarea(object_name, method, options = T.unsafe(nil)); end
+  def rich_text_area(object_name, method, options = T.unsafe(nil), &block); end
+  def rich_textarea(object_name, method, options = T.unsafe(nil), &block); end
 end
 
 module ActionView::Helpers::Tags; end
@@ -1502,5 +1544,5 @@ class ActionView::Helpers::Tags::ActionText < ::ActionView::Helpers::Tags::Base
   include ::ActionView::Helpers::Tags::Placeholderable
 
   def dom_id(*_arg0, **_arg1, &_arg2); end
-  def render; end
+  def render(&block); end
 end

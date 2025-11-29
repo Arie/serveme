@@ -508,14 +508,14 @@ class Server < ActiveRecord::Base
     nil
   end
 
-  sig { params(message: String).returns(T::Array[T.nilable(T.any(String, ActiveSupport::Multibyte::Chars))]) }
+  sig { params(message: String).returns(T::Array[T.nilable(String)]) }
   def rcon_say(message)
     message.split("\n").flat_map do |line|
       T.cast(line.scan(/.{1,200}(?:\s|$)/), T::Array[String]).map(&:strip).map { |chunk| rcon_exec("say #{chunk}") }
     end
   end
 
-  sig { params(command: String, allow_blocked: T::Boolean).returns(T.nilable(T.any(String, ActiveSupport::Multibyte::Chars))) }
+  sig { params(command: String, allow_blocked: T::Boolean).returns(T.nilable(String)) }
   def rcon_exec(command, allow_blocked: false)
     # Escape // with zero-width space to prevent Source engine from treating it as a comment,
     # but preserve URLs inside quoted strings (like sm_web_rcon_url "https://...")

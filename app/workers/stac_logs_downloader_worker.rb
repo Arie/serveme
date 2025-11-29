@@ -34,7 +34,7 @@ class StacLogsDownloaderWorker
     logs.each do |f|
       s = StacLog.new(reservation_id: reservation_id)
       s.filename = File.basename(f)
-      s.contents = ActiveSupport::Multibyte::Chars.new(File.read(f)).tidy_bytes.to_s
+      s.contents = StringSanitizer.tidy_bytes(File.read(f))
       s.filesize = File.size(f)
       s.save
     end
@@ -46,7 +46,7 @@ class StacLogsDownloaderWorker
 
     processor = StacLogProcessor.new(reservation)
     logs.each do |f|
-      processor.process_content(ActiveSupport::Multibyte::Chars.new(File.read(f)).tidy_bytes.to_s)
+      processor.process_content(StringSanitizer.tidy_bytes(File.read(f)))
     end
   end
 

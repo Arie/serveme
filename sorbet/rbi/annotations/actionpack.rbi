@@ -1,4 +1,4 @@
-# typed: strict
+# typed: true
 
 # DO NOT EDIT MANUALLY
 # This file was pulled from a central RBI files repository.
@@ -110,12 +110,13 @@ class ActionController::Parameters
   sig { params(key: T.any(String, Symbol)).returns(T.untyped) }
   def [](key); end
 
-  sig { params(key: T.any(String, Symbol)).returns(ActionController::Parameters) }
-  sig { params(key: T::Array[T.any(String, Symbol)]).returns(T::Array[ActionController::Parameters]) }
+  sig { params(key: T.any(String, Symbol)).returns(T.untyped) }
+  sig { params(key: T::Array[T.any(String, Symbol)]).returns(T::Array[T.untyped]) }
   def require(key); end
 
-  sig { params(key: T.any(String, Symbol)).returns(ActionController::Parameters) }
-  sig { params(key: T::Array[T.any(String, Symbol)]).returns(T::Array[ActionController::Parameters]) }
+  # required is an alias of require
+  sig { params(key: T.any(String, Symbol)).returns(T.untyped) }
+  sig { params(key: T::Array[T.any(String, Symbol)]).returns(T::Array[T.untyped]) }
   def required(key); end
 
   sig { params(other_hash: T.untyped).returns(ActionController::Parameters) }

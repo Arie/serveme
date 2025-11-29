@@ -87,6 +87,17 @@ class ActiveRecord::Base
 end
 
 class ActiveRecord::Relation
+  Elem = type_member(:out) { { fixed: T.untyped } }
+
   sig { returns(T::Boolean) }
   def blank?; end
+
+  sig { abstract.params(blk: T.proc.params(arg0: Elem).returns(BasicObject)).returns(T.untyped) }
+  sig { abstract.returns(T::Enumerator[Elem]) }
+  def each(&blk); end
+end
+
+module ActiveRecord::Core
+  sig { params(comparison_object: T.anything).returns(T::Boolean) }
+  def ==(comparison_object); end
 end

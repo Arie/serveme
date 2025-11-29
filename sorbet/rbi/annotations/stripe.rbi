@@ -1,4 +1,4 @@
-# typed: strict
+# typed: true
 
 # DO NOT EDIT MANUALLY
 # This file was pulled from a central RBI files repository.
@@ -603,6 +603,10 @@ class Stripe::PaymentIntent < Stripe::APIResource
   # @method_missing: from StripeObject
   sig { returns(Stripe::ListObject) }
   def charges; end
+
+  # @method_missing: from StripeObject
+  sig { returns(T.nilable(Stripe::Charge)) }
+  def latest_charge; end
 
   # @method_missing: from StripeObject
   sig { returns(Stripe::ListObject) }

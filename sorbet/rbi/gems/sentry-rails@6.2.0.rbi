@@ -75,10 +75,10 @@ class Sentry::Rails::CaptureExceptions < ::Sentry::Rack::CaptureExceptions
 
   # @return [Boolean]
   #
-  # source://sentry-rails//lib/sentry/rails/capture_exceptions.rb#53
+  # source://sentry-rails//lib/sentry/rails/capture_exceptions.rb#54
   def show_exceptions?(exception, env); end
 
-  # source://sentry-rails//lib/sentry/rails/capture_exceptions.rb#37
+  # source://sentry-rails//lib/sentry/rails/capture_exceptions.rb#38
   def start_transaction(env, scope); end
 
   # source://sentry-rails//lib/sentry/rails/capture_exceptions.rb#24
@@ -270,8 +270,10 @@ Sentry::Rails::IGNORE_DEFAULT = T.let(T.unsafe(nil), Array)
 #   end
 #   end
 #
-# source://sentry-rails//lib/sentry/rails/log_subscriber.rb#29
+# source://sentry-rails//lib/sentry/rails/log_subscriber.rb#30
 class Sentry::Rails::LogSubscriber < ::ActiveSupport::LogSubscriber
+  include ::Sentry::LoggingHelper
+
   protected
 
   # Calculate duration in milliseconds from an event
@@ -279,7 +281,7 @@ class Sentry::Rails::LogSubscriber < ::ActiveSupport::LogSubscriber
   # @param event [ActiveSupport::Notifications::Event] The event
   # @return [Float] Duration in milliseconds
   #
-  # source://sentry-rails//lib/sentry/rails/log_subscriber.rb#68
+  # source://sentry-rails//lib/sentry/rails/log_subscriber.rb#71
   def duration_ms(event); end
 
   # Log a structured event using Sentry's structured logger
@@ -289,11 +291,11 @@ class Sentry::Rails::LogSubscriber < ::ActiveSupport::LogSubscriber
   # @param message [String] The log message
   # @param origin [String] The origin of the log event
   #
-  # source://sentry-rails//lib/sentry/rails/log_subscriber.rb#57
+  # source://sentry-rails//lib/sentry/rails/log_subscriber.rb#60
   def log_structured_event(message:, level: T.unsafe(nil), attributes: T.unsafe(nil), origin: T.unsafe(nil)); end
 end
 
-# source://sentry-rails//lib/sentry/rails/log_subscriber.rb#30
+# source://sentry-rails//lib/sentry/rails/log_subscriber.rb#33
 Sentry::Rails::LogSubscriber::ORIGIN = T.let(T.unsafe(nil), String)
 
 # source://sentry-rails//lib/sentry/rails/log_subscribers/parameter_filter.rb#5
@@ -434,31 +436,34 @@ class Sentry::Rails::LogSubscribers::ActiveRecordSubscriber < ::Sentry::Rails::L
   #
   # @param event [ActiveSupport::Notifications::Event] The SQL event
   #
-  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#31
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#32
   def sql(event); end
 
-  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#80
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#79
   def type_casted_binds(event); end
 
   private
 
-  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#103
-  def add_db_config_attributes(attributes, db_config); end
-
-  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#87
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#93
   def build_log_message(statement_name); end
 
-  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#95
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#123
   def extract_db_config(payload); end
 
-  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#150
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#158
   def extract_db_config_fallback(connection); end
 
   # Rails 6.0 and earlier use spec API
   #
-  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#124
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#132
   def extract_db_config_from_connection(connection); end
+
+  # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#101
+  def maybe_add_db_config_attributes(attributes, payload); end
 end
+
+# source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#27
+Sentry::Rails::LogSubscribers::ActiveRecordSubscriber::EMPTY_ARRAY = T.let(T.unsafe(nil), Array)
 
 # source://sentry-rails//lib/sentry/rails/log_subscribers/active_record_subscriber.rb#26
 Sentry::Rails::LogSubscribers::ActiveRecordSubscriber::EXCLUDED_NAMES = T.let(T.unsafe(nil), Array)
@@ -642,56 +647,53 @@ Sentry::Rails::Tracing::ActionViewSubscriber::SPAN_ORIGIN = T.let(T.unsafe(nil),
 # source://sentry-rails//lib/sentry/rails/tracing/action_view_subscriber.rb#10
 Sentry::Rails::Tracing::ActionViewSubscriber::SPAN_PREFIX = T.let(T.unsafe(nil), String)
 
-# source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#8
+# source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#9
 class Sentry::Rails::Tracing::ActiveRecordSubscriber < ::Sentry::Rails::Tracing::AbstractSubscriber
-  # source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#17
+  # source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#22
   def backtrace_cleaner; end
 
-  # source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#17
+  # source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#22
   def backtrace_cleaner=(_arg0); end
 
-  # source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#17
+  # source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#22
   def backtrace_cleaner?; end
 
   class << self
-    # source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#17
+    # source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#22
     def backtrace_cleaner; end
 
-    # source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#17
+    # source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#22
     def backtrace_cleaner=(value); end
 
-    # source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#17
+    # source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#22
     def backtrace_cleaner?; end
 
-    # source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#88
-    def query_source_location; end
-
-    # source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#23
+    # source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#26
     def subscribe!; end
 
     private
 
-    # source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#17
+    # source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#22
     def __class_attr_backtrace_cleaner; end
 
-    # source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#17
+    # source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#22
     def __class_attr_backtrace_cleaner=(new_value); end
   end
 end
 
-# source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#9
+# source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#10
 Sentry::Rails::Tracing::ActiveRecordSubscriber::EVENT_NAMES = T.let(T.unsafe(nil), Array)
 
-# source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#12
+# source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#13
 Sentry::Rails::Tracing::ActiveRecordSubscriber::EXCLUDED_EVENTS = T.let(T.unsafe(nil), Array)
 
-# source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#11
+# source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#12
 Sentry::Rails::Tracing::ActiveRecordSubscriber::SPAN_ORIGIN = T.let(T.unsafe(nil), String)
 
-# source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#10
+# source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#11
 Sentry::Rails::Tracing::ActiveRecordSubscriber::SPAN_PREFIX = T.let(T.unsafe(nil), String)
 
-# source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#14
+# source://sentry-rails//lib/sentry/rails/tracing/active_record_subscriber.rb#15
 Sentry::Rails::Tracing::ActiveRecordSubscriber::SUPPORT_SOURCE_LOCATION = T.let(T.unsafe(nil), TrueClass)
 
 # source://sentry-rails//lib/sentry/rails/tracing/active_storage_subscriber.rb#8

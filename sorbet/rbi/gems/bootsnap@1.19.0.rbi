@@ -16,21 +16,23 @@ module Bootsnap
 
   private
 
+  # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#3
   def instrumentation_enabled=(_arg0); end
 
   class << self
     # source://bootsnap//lib/bootsnap.rb#44
     def _instrument(event, path); end
 
-    # source://bootsnap//lib/bootsnap.rb#137
+    # source://bootsnap//lib/bootsnap.rb#139
     def absolute_path?(path); end
 
-    # source://bootsnap//lib/bootsnap.rb#82
+    # source://bootsnap//lib/bootsnap.rb#85
     def default_setup; end
 
     # source://bootsnap//lib/bootsnap.rb#37
     def instrumentation=(callback); end
 
+    # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#3
     def instrumentation_enabled=(_arg0); end
 
     # source://bootsnap//lib/bootsnap.rb#24
@@ -49,22 +51,24 @@ module Bootsnap
 
     # Allow the C extension to redefine `rb_get_path` without warning.
     # Allow the C extension to redefine `rb_get_path` without warning.
+    #
+    # source://bootsnap//lib/bootsnap.rb#147
     def rb_get_path(_arg0); end
 
     # source://bootsnap//lib/bootsnap.rb#48
     def setup(cache_dir:, development_mode: T.unsafe(nil), load_path_cache: T.unsafe(nil), ignore_directories: T.unsafe(nil), readonly: T.unsafe(nil), revalidation: T.unsafe(nil), compile_cache_iseq: T.unsafe(nil), compile_cache_yaml: T.unsafe(nil), compile_cache_json: T.unsafe(nil)); end
 
-    # source://bootsnap//lib/bootsnap.rb#78
+    # source://bootsnap//lib/bootsnap.rb#81
     def unload_cache!; end
 
     private
 
-    # source://bootsnap//lib/bootsnap.rb#159
+    # source://bootsnap//lib/bootsnap.rb#161
     def bool_env(key, default: T.unsafe(nil)); end
 
     # @return [Boolean]
     #
-    # source://bootsnap//lib/bootsnap.rb#155
+    # source://bootsnap//lib/bootsnap.rb#157
     def enabled?(key); end
   end
 end
@@ -73,11 +77,11 @@ end
 module Bootsnap::CompileCache
   class << self
     # source://bootsnap//lib/bootsnap/compile_cache.rb#12
-    def setup(cache_dir:, iseq:, yaml:, json:, readonly: T.unsafe(nil), revalidation: T.unsafe(nil)); end
+    def setup(cache_dir:, iseq:, yaml:, json: T.unsafe(nil), readonly: T.unsafe(nil), revalidation: T.unsafe(nil)); end
 
     # @return [Boolean]
     #
-    # source://bootsnap//lib/bootsnap/compile_cache.rb#46
+    # source://bootsnap//lib/bootsnap/compile_cache.rb#41
     def supported?; end
   end
 end
@@ -133,88 +137,38 @@ module Bootsnap::CompileCache::ISeq::InstructionSequenceMixin
   def load_iseq(path); end
 end
 
-# source://bootsnap//lib/bootsnap/compile_cache/json.rb#7
-module Bootsnap::CompileCache::JSON
-  class << self
-    # Returns the value of attribute cache_dir.
-    #
-    # source://bootsnap//lib/bootsnap/compile_cache/json.rb#10
-    def cache_dir; end
-
-    # source://bootsnap//lib/bootsnap/compile_cache/json.rb#12
-    def cache_dir=(cache_dir); end
-
-    # source://bootsnap//lib/bootsnap/compile_cache/json.rb#48
-    def init!; end
-
-    # source://bootsnap//lib/bootsnap/compile_cache/json.rb#28
-    def input_to_output(data, kwargs); end
-
-    # source://bootsnap//lib/bootsnap/compile_cache/json.rb#16
-    def input_to_storage(payload, _); end
-
-    # source://bootsnap//lib/bootsnap/compile_cache/json.rb#40
-    def install!(cache_dir); end
-
-    # Returns the value of attribute msgpack_factory.
-    #
-    # source://bootsnap//lib/bootsnap/compile_cache/json.rb#9
-    def msgpack_factory; end
-
-    # Sets the attribute msgpack_factory
-    #
-    # @param value the value to set the attribute msgpack_factory to.
-    #
-    # source://bootsnap//lib/bootsnap/compile_cache/json.rb#9
-    def msgpack_factory=(_arg0); end
-
-    # source://bootsnap//lib/bootsnap/compile_cache/json.rb#32
-    def precompile(path); end
-
-    # source://bootsnap//lib/bootsnap/compile_cache/json.rb#21
-    def storage_to_output(data, kwargs); end
-
-    # Returns the value of attribute supported_options.
-    #
-    # source://bootsnap//lib/bootsnap/compile_cache/json.rb#9
-    def supported_options; end
-
-    # Sets the attribute supported_options
-    #
-    # @param value the value to set the attribute supported_options to.
-    #
-    # source://bootsnap//lib/bootsnap/compile_cache/json.rb#9
-    def supported_options=(_arg0); end
-
-    private
-
-    # @return [Boolean]
-    #
-    # source://bootsnap//lib/bootsnap/compile_cache/json.rb#62
-    def supports_freeze?; end
-  end
-end
-
-# source://bootsnap//lib/bootsnap/compile_cache/json.rb#68
-module Bootsnap::CompileCache::JSON::Patch
-  # source://bootsnap//lib/bootsnap/compile_cache/json.rb#69
-  def load_file(path, *args, **_arg2); end
-end
-
 module Bootsnap::CompileCache::Native
   private
 
+  # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#3
   def compile_option_crc32=(_arg0); end
+
+  # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#3
   def fetch(_arg0, _arg1, _arg2, _arg3); end
+
+  # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#3
   def precompile(_arg0, _arg1, _arg2); end
+
+  # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#3
   def readonly=(_arg0); end
+
+  # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#3
   def revalidation=(_arg0); end
 
   class << self
+    # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#3
     def compile_option_crc32=(_arg0); end
+
+    # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#3
     def fetch(_arg0, _arg1, _arg2, _arg3); end
+
+    # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#3
     def precompile(_arg0, _arg1, _arg2); end
+
+    # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#3
     def readonly=(_arg0); end
+
+    # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#3
     def revalidation=(_arg0); end
   end
 end
@@ -288,9 +242,9 @@ module Bootsnap::CompileCache::YAML
   end
 end
 
-# source://bootsnap//lib/bootsnap/setup.rb#0
+# source://bootsnap//lib/bootsnap/setup.rb#5
 class Bootsnap::CompileCache::YAML::NoTagsVisitor < ::Psych::Visitors::NoAliasRuby
-  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#69
+  # source://bootsnap//lib/bootsnap/setup.rb#5
   def visit(target); end
 end
 
@@ -412,7 +366,7 @@ module Bootsnap::LoadPathCache
   class << self
     # Returns the value of attribute enabled.
     #
-    # source://bootsnap//lib/bootsnap/load_path_cache.rb#27
+    # source://bootsnap//lib/bootsnap/load_path_cache.rb#28
     def enabled?; end
 
     # Returns the value of attribute load_path_cache.
@@ -543,13 +497,13 @@ module Bootsnap::LoadPathCache::ChangeObserver::ArrayMixin
   # source://bootsnap//lib/bootsnap/load_path_cache/change_observer.rb#51
   def []=(*args, &block); end
 
-  # source://bootsnap//lib/bootsnap/load_path_cache/change_observer.rb#15
+  # source://bootsnap//lib/bootsnap/load_path_cache/change_observer.rb#19
   def append(*entries); end
 
   # source://bootsnap//lib/bootsnap/load_path_cache/change_observer.rb#51
   def clear(*args, &block); end
 
-  # source://bootsnap//lib/bootsnap/load_path_cache/change_observer.rb#58
+  # source://bootsnap//lib/bootsnap/load_path_cache/change_observer.rb#62
   def clone; end
 
   # source://bootsnap//lib/bootsnap/load_path_cache/change_observer.rb#51
@@ -591,7 +545,7 @@ module Bootsnap::LoadPathCache::ChangeObserver::ArrayMixin
   # source://bootsnap//lib/bootsnap/load_path_cache/change_observer.rb#51
   def pop(*args, &block); end
 
-  # source://bootsnap//lib/bootsnap/load_path_cache/change_observer.rb#21
+  # source://bootsnap//lib/bootsnap/load_path_cache/change_observer.rb#25
   def prepend(*entries); end
 
   # source://bootsnap//lib/bootsnap/load_path_cache/change_observer.rb#15
@@ -949,16 +903,15 @@ Bootsnap::LoadPathCache::Store::VERSION_KEY = T.let(T.unsafe(nil), String)
 # source://bootsnap//lib/bootsnap/version.rb#4
 Bootsnap::VERSION = T.let(T.unsafe(nil), String)
 
-module JSON
-  extend ::Bootsnap::CompileCache::JSON::Patch
-end
-
 # source://bootsnap//lib/bootsnap/load_path_cache/core_ext/kernel_require.rb#3
 module Kernel
   private
 
-  # source://bootsnap//lib/bootsnap/load_path_cache/core_ext/kernel_require.rb#8
-  def zeitwerk_original_require(path); end
+  # source://bootsnap//lib/bootsnap/load_path_cache/core_ext/kernel_require.rb#6
+  def require(path); end
+
+  # source://bootsnap//lib/bootsnap/load_path_cache/core_ext/kernel_require.rb#4
+  def require_without_bootsnap(name); end
 end
 
 module Psych
@@ -966,5 +919,6 @@ module Psych
 end
 
 class RubyVM::InstructionSequence
+  extend ::RequireHooks::LoadIseq
   extend ::Bootsnap::CompileCache::ISeq::InstructionSequenceMixin
 end

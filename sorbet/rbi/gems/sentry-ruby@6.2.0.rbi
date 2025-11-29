@@ -578,41 +578,55 @@ Sentry::BackpressureMonitor::MAX_DOWNSAMPLE_FACTOR = T.let(T.unsafe(nil), Intege
 
 # @api private
 #
-# source://sentry-ruby//lib/sentry/backtrace.rb#7
+# source://sentry-ruby//lib/sentry/backtrace/line.rb#5
 class Sentry::Backtrace
   # @api private
   # @return [Backtrace] a new instance of Backtrace
   #
-  # source://sentry-ruby//lib/sentry/backtrace.rb#103
+  # source://sentry-ruby//lib/sentry/backtrace.rb#71
   def initialize(lines); end
 
   # @api private
   #
-  # source://sentry-ruby//lib/sentry/backtrace.rb#119
+  # source://sentry-ruby//lib/sentry/backtrace.rb#87
   def ==(other); end
 
   # @api private
   #
-  # source://sentry-ruby//lib/sentry/backtrace.rb#107
+  # source://sentry-ruby//lib/sentry/backtrace.rb#75
   def inspect; end
 
   # holder for an Array of Backtrace::Line instances
   #
   # @api private
   #
-  # source://sentry-ruby//lib/sentry/backtrace.rb#85
+  # source://sentry-ruby//lib/sentry/backtrace.rb#11
   def lines; end
 
   # @api private
   #
-  # source://sentry-ruby//lib/sentry/backtrace.rb#111
+  # source://sentry-ruby//lib/sentry/backtrace.rb#79
   def to_s; end
 
   class << self
     # @api private
     #
-    # source://sentry-ruby//lib/sentry/backtrace.rb#87
+    # source://sentry-ruby//lib/sentry/backtrace.rb#58
+    def line_cache; end
+
+    # @api private
+    #
+    # source://sentry-ruby//lib/sentry/backtrace.rb#13
     def parse(backtrace, project_root, app_dirs_pattern, &backtrace_cleanup_callback); end
+
+    # Since Sentry is mostly used in production, we don't want to fallback
+    # to the slower implementation and adds potentially big overhead to the
+    # application.
+    #
+    # @api private
+    #
+    # source://sentry-ruby//lib/sentry/backtrace.rb#34
+    def source_location(&backtrace_cleaner); end
   end
 end
 
@@ -620,77 +634,88 @@ end
 #
 # @api private
 #
-# source://sentry-ruby//lib/sentry/backtrace.rb#9
+# source://sentry-ruby//lib/sentry/backtrace/line.rb#7
 class Sentry::Backtrace::Line
   # @api private
   # @return [Line] a new instance of Line
   #
-  # source://sentry-ruby//lib/sentry/backtrace.rb#52
+  # source://sentry-ruby//lib/sentry/backtrace/line.rb#67
   def initialize(file, number, method, module_name, in_app_pattern); end
 
   # @api private
   #
-  # source://sentry-ruby//lib/sentry/backtrace.rb#75
+  # source://sentry-ruby//lib/sentry/backtrace/line.rb#90
   def ==(other); end
 
   # The file portion of the line (such as app/models/user.rb)
   #
   # @api private
   #
-  # source://sentry-ruby//lib/sentry/backtrace.rb#22
+  # source://sentry-ruby//lib/sentry/backtrace/line.rb#20
   def file; end
 
   # @api private
   #
-  # source://sentry-ruby//lib/sentry/backtrace.rb#60
+  # source://sentry-ruby//lib/sentry/backtrace/line.rb#75
   def in_app; end
 
   # @api private
   #
-  # source://sentry-ruby//lib/sentry/backtrace.rb#33
+  # source://sentry-ruby//lib/sentry/backtrace/line.rb#31
   def in_app_pattern; end
 
   # @api private
   #
-  # source://sentry-ruby//lib/sentry/backtrace.rb#79
+  # source://sentry-ruby//lib/sentry/backtrace/line.rb#94
   def inspect; end
 
   # The method of the line (such as index)
   #
   # @api private
   #
-  # source://sentry-ruby//lib/sentry/backtrace.rb#28
+  # source://sentry-ruby//lib/sentry/backtrace/line.rb#26
   def method; end
 
   # The module name (JRuby)
   #
   # @api private
   #
-  # source://sentry-ruby//lib/sentry/backtrace.rb#31
+  # source://sentry-ruby//lib/sentry/backtrace/line.rb#29
   def module_name; end
 
   # The line number portion of the line
   #
   # @api private
   #
-  # source://sentry-ruby//lib/sentry/backtrace.rb#25
+  # source://sentry-ruby//lib/sentry/backtrace/line.rb#23
   def number; end
 
   # Reconstructs the line in a readable fashion
   #
   # @api private
   #
-  # source://sentry-ruby//lib/sentry/backtrace.rb#71
+  # source://sentry-ruby//lib/sentry/backtrace/line.rb#86
   def to_s; end
 
   class << self
+    # Creates a Line from a Thread::Backtrace::Location object
+    # This is more efficient than converting to string and parsing with regex
+    #
+    # @api private
+    # @param in_app_pattern [Regexp, nil] Optional pattern to determine if the line is in-app
+    # @param location [Thread::Backtrace::Location] The location object
+    # @return [Line] The backtrace line
+    #
+    # source://sentry-ruby//lib/sentry/backtrace/line.rb#55
+    def from_source_location(location, in_app_pattern = T.unsafe(nil)); end
+
     # Parses a single line of a given backtrace
     #
     # @api private
     # @param unparsed_line [String] The raw line from +caller+ or some backtrace
     # @return [Line] The parsed backtrace line
     #
-    # source://sentry-ruby//lib/sentry/backtrace.rb#38
+    # source://sentry-ruby//lib/sentry/backtrace/line.rb#36
     def parse(unparsed_line, in_app_pattern = T.unsafe(nil)); end
   end
 end
@@ -699,19 +724,19 @@ end
 #
 # @api private
 #
-# source://sentry-ruby//lib/sentry/backtrace.rb#19
+# source://sentry-ruby//lib/sentry/backtrace/line.rb#17
 Sentry::Backtrace::Line::JAVA_INPUT_FORMAT = T.let(T.unsafe(nil), Regexp)
 
 # @api private
 #
-# source://sentry-ruby//lib/sentry/backtrace.rb#10
+# source://sentry-ruby//lib/sentry/backtrace/line.rb#8
 Sentry::Backtrace::Line::RB_EXTENSION = T.let(T.unsafe(nil), String)
 
 # regexp (optional leading X: on windows, or JRuby9000 class-prefix)
 #
 # @api private
 #
-# source://sentry-ruby//lib/sentry/backtrace.rb#12
+# source://sentry-ruby//lib/sentry/backtrace/line.rb#10
 Sentry::Backtrace::Line::RUBY_INPUT_FORMAT = T.let(T.unsafe(nil), Regexp)
 
 # A {https://www.w3.org/TR/baggage W3C Baggage Header} implementation.
@@ -1026,14 +1051,14 @@ Sentry::CheckInEvent::TYPE = T.let(T.unsafe(nil), String)
 # source://sentry-ruby//lib/sentry/check_in_event.rb#31
 Sentry::CheckInEvent::VALID_STATUSES = T.let(T.unsafe(nil), Array)
 
-# source://sentry-ruby//lib/sentry/client.rb#9
+# source://sentry-ruby//lib/sentry/client.rb#10
 class Sentry::Client
   include ::Sentry::LoggingHelper
 
   # @param configuration [Configuration]
   # @return [Client] a new instance of Client
   #
-  # source://sentry-ruby//lib/sentry/client.rb#27
+  # source://sentry-ruby//lib/sentry/client.rb#28
   def initialize(configuration); end
 
   # Buffer a log event to be sent later with other logs in a single envelope
@@ -1041,7 +1066,7 @@ class Sentry::Client
   # @param event [LogEvent] the log event to be buffered
   # @return [LogEvent]
   #
-  # source://sentry-ruby//lib/sentry/client.rb#98
+  # source://sentry-ruby//lib/sentry/client.rb#99
   def buffer_log_event(event, scope); end
 
   # Capture an envelope directly.
@@ -1049,7 +1074,7 @@ class Sentry::Client
   # @param envelope [Envelope] the envelope to be captured.
   # @return [void]
   #
-  # source://sentry-ruby//lib/sentry/client.rb#107
+  # source://sentry-ruby//lib/sentry/client.rb#108
   def capture_envelope(envelope); end
 
   # Applies the given scope's data to the event and sends it to Sentry.
@@ -1059,12 +1084,12 @@ class Sentry::Client
   # @param scope [Scope] the scope with contextual data that'll be applied to the event before it's sent.
   # @return [Event, nil]
   #
-  # source://sentry-ruby//lib/sentry/client.rb#55
+  # source://sentry-ruby//lib/sentry/client.rb#56
   def capture_event(event, scope, hint = T.unsafe(nil)); end
 
   # Returns the value of attribute configuration.
   #
-  # source://sentry-ruby//lib/sentry/client.rb#24
+  # source://sentry-ruby//lib/sentry/client.rb#25
   def configuration; end
 
   # Initializes a CheckInEvent object with the given options.
@@ -1077,7 +1102,7 @@ class Sentry::Client
   # @param status [Symbol] status of this check-in, one of {CheckInEvent::VALID_STATUSES}
   # @return [Event]
   #
-  # source://sentry-ruby//lib/sentry/client.rb#163
+  # source://sentry-ruby//lib/sentry/client.rb#164
   def event_from_check_in(slug, status, hint = T.unsafe(nil), duration: T.unsafe(nil), monitor_config: T.unsafe(nil), check_in_id: T.unsafe(nil)); end
 
   # Initializes an Event object with the given exception. Returns `nil` if the exception's class is excluded from reporting.
@@ -1086,7 +1111,7 @@ class Sentry::Client
   # @param hint [Hash] the hint data that'll be passed to `before_send` callback and the scope's event processors.
   # @return [Event, nil]
   #
-  # source://sentry-ruby//lib/sentry/client.rb#123
+  # source://sentry-ruby//lib/sentry/client.rb#124
   def event_from_exception(exception, hint = T.unsafe(nil)); end
 
   # Initializes a LogEvent object with the given message and options
@@ -1097,7 +1122,7 @@ class Sentry::Client
   # @param options [Hash] additional options
   # @return [LogEvent] the created log event
   #
-  # source://sentry-ruby//lib/sentry/client.rb#192
+  # source://sentry-ruby//lib/sentry/client.rb#193
   def event_from_log(message, level:, **options); end
 
   # Initializes an Event object with the given message.
@@ -1106,7 +1131,7 @@ class Sentry::Client
   # @param message [String] the message to be reported.
   # @return [Event]
   #
-  # source://sentry-ruby//lib/sentry/client.rb#143
+  # source://sentry-ruby//lib/sentry/client.rb#144
   def event_from_message(message, hint = T.unsafe(nil), backtrace: T.unsafe(nil)); end
 
   # Initializes an Event object with the given Transaction object.
@@ -1114,19 +1139,19 @@ class Sentry::Client
   # @param transaction [Transaction] the transaction to be recorded.
   # @return [TransactionEvent]
   #
-  # source://sentry-ruby//lib/sentry/client.rb#204
+  # source://sentry-ruby//lib/sentry/client.rb#214
   def event_from_transaction(transaction); end
 
   # Flush pending events to Sentry.
   #
   # @return [void]
   #
-  # source://sentry-ruby//lib/sentry/client.rb#113
+  # source://sentry-ruby//lib/sentry/client.rb#114
   def flush; end
 
   # Returns the value of attribute log_event_buffer.
   #
-  # source://sentry-ruby//lib/sentry/client.rb#21
+  # source://sentry-ruby//lib/sentry/client.rb#22
   def log_event_buffer; end
 
   # Send an envelope directly to Sentry.
@@ -1134,10 +1159,10 @@ class Sentry::Client
   # @param envelope [Envelope] the envelope to be sent.
   # @return [void]
   #
-  # source://sentry-ruby//lib/sentry/client.rb#318
+  # source://sentry-ruby//lib/sentry/client.rb#328
   def send_envelope(envelope); end
 
-  # source://sentry-ruby//lib/sentry/client.rb#209
+  # source://sentry-ruby//lib/sentry/client.rb#219
   def send_event(event, hint = T.unsafe(nil)); end
 
   # Send an envelope with batched logs
@@ -1146,26 +1171,26 @@ class Sentry::Client
   # @param log_events [Array<LogEvent>] the log events to be sent
   # @return [void]
   #
-  # source://sentry-ruby//lib/sentry/client.rb#272
+  # source://sentry-ruby//lib/sentry/client.rb#282
   def send_logs(log_events); end
 
   # The Transport object that'll send events for the client.
   #
   # @return [SpotlightTransport, nil]
   #
-  # source://sentry-ruby//lib/sentry/client.rb#18
+  # source://sentry-ruby//lib/sentry/client.rb#19
   def spotlight_transport; end
 
   # The Transport object that'll send events for the client.
   #
   # @return [Transport]
   #
-  # source://sentry-ruby//lib/sentry/client.rb#14
+  # source://sentry-ruby//lib/sentry/client.rb#15
   def transport; end
 
   private
 
-  # source://sentry-ruby//lib/sentry/client.rb#333
+  # source://sentry-ruby//lib/sentry/client.rb#343
   def dispatch_background_event(event, hint); end
 end
 
@@ -3657,6 +3682,9 @@ class Sentry::LogEventBuffer < ::Sentry::ThreadedPeriodicWorker
   # source://sentry-ruby//lib/sentry/log_event_buffer.rb#49
   def add_event(event); end
 
+  # source://sentry-ruby//lib/sentry/log_event_buffer.rb#68
+  def clear!; end
+
   # @return [Boolean]
   #
   # source://sentry-ruby//lib/sentry/log_event_buffer.rb#60
@@ -3681,7 +3709,7 @@ class Sentry::LogEventBuffer < ::Sentry::ThreadedPeriodicWorker
 
   private
 
-  # source://sentry-ruby//lib/sentry/log_event_buffer.rb#70
+  # source://sentry-ruby//lib/sentry/log_event_buffer.rb#74
   def send_events; end
 end
 
@@ -6205,15 +6233,21 @@ Sentry::Utils::DELIMITER = T.let(T.unsafe(nil), String)
 # source://sentry-ruby//lib/sentry/utils/encoding_helper.rb#5
 module Sentry::Utils::EncodingHelper
   class << self
-    # source://sentry-ruby//lib/sentry/utils/encoding_helper.rb#6
+    # source://sentry-ruby//lib/sentry/utils/encoding_helper.rb#8
     def encode_to_utf_8(value); end
+
+    # source://sentry-ruby//lib/sentry/utils/encoding_helper.rb#23
+    def safe_utf_8_string(value); end
 
     # @return [Boolean]
     #
-    # source://sentry-ruby//lib/sentry/utils/encoding_helper.rb#15
+    # source://sentry-ruby//lib/sentry/utils/encoding_helper.rb#17
     def valid_utf_8?(value); end
   end
 end
+
+# source://sentry-ruby//lib/sentry/utils/encoding_helper.rb#6
+Sentry::Utils::EncodingHelper::MALFORMED_STRING = T.let(T.unsafe(nil), String)
 
 # source://sentry-ruby//lib/sentry/utils/env_helper.rb#5
 module Sentry::Utils::EnvHelper

@@ -1,4 +1,4 @@
-# typed: strict
+# typed: true
 
 # DO NOT EDIT MANUALLY
 # This file was pulled from a central RBI files repository.
@@ -88,6 +88,10 @@ class Hash
 
   sig { returns(T::Boolean) }
   def extractable_options?; end
+
+  # @version >= 6.1.0
+  sig { returns(T.self_type) }
+  def compact_blank; end
 end
 
 class Array
@@ -193,6 +197,32 @@ class DateTime
   def present?; end
 end
 
+module Enumerable
+  sig { type_parameters(:Block).params(block: T.proc.params(arg0: Elem).returns(T.type_parameter(:Block))).returns(T::Hash[T.type_parameter(:Block), Elem]) }
+  sig { returns(T::Enumerable[T.untyped]) }
+  def index_by(&block); end
+
+  sig { type_parameters(:Block).params(block: T.proc.params(arg0: Elem).returns(T.type_parameter(:Block))).returns(T::Hash[Elem, T.type_parameter(:Block)]) }
+  sig { returns(T::Enumerable[T.untyped]) }
+  sig { type_parameters(:Default).params(default: T.type_parameter(:Default)).returns(T::Hash[Elem, T.type_parameter(:Default)]) }
+  def index_with(default = nil, &block); end
+
+  sig { params(block: T.proc.params(arg0: Elem).returns(BasicObject)).returns(T::Boolean) }
+  sig { returns(T::Boolean) }
+  def many?(&block); end
+
+  sig { params(object: BasicObject).returns(T::Boolean) }
+  def exclude?(object); end
+
+  # @version >= 6.1.0
+  sig { returns(T::Array[Elem]) }
+  def compact_blank; end
+
+  # @version >= 7.0.0
+  sig { returns(Elem) }
+  def sole; end
+end
+
 class NilClass
   sig { returns(TrueClass) }
   def blank?; end
@@ -287,6 +317,8 @@ class String
   sig { returns(TrueClass) }
   def acts_like_string?; end
 
+  # This is the subset of `#[]` sigs that have just 1 parameter.
+  # https://github.com/sorbet/sorbet/blob/40ad87b4dc7be23fa00c1369ac9f927053c68907/rbi/core/string.rbi#L270-L303
   sig { params(position: Integer).returns(T.nilable(String)) }
   sig { params(position: T.any(T::Range[Integer], Regexp)).returns(T.nilable(String)) }
   sig { params(position: String).returns(T.nilable(String)) }
@@ -437,12 +469,27 @@ class String
 end
 
 class ActiveSupport::ErrorReporter
+  # @version >= 7.1.0.beta1
   sig { type_parameters(:Block, :Fallback).params(error_classes: T.class_of(Exception), severity: T.nilable(Symbol), context: T.nilable(T::Hash[Symbol, T.untyped]), fallback: T.nilable(T.proc.returns(T.type_parameter(:Fallback))), source: T.nilable(String), blk: T.proc.returns(T.type_parameter(:Block))).returns(T.any(T.type_parameter(:Block), T.type_parameter(:Fallback))) }
   def handle(*error_classes, severity: T.unsafe(nil), context: T.unsafe(nil), fallback: T.unsafe(nil), source: T.unsafe(nil), &blk); end
 
+  # @version >= 7.1.0.beta1
   sig { type_parameters(:Block).params(error_classes: T.class_of(Exception), severity: T.nilable(Symbol), context: T.nilable(T::Hash[Symbol, T.untyped]), source: T.nilable(String), blk: T.proc.returns(T.type_parameter(:Block))).returns(T.type_parameter(:Block)) }
   def record(*error_classes, severity: T.unsafe(nil), context: T.unsafe(nil), source: T.unsafe(nil), &blk); end
 
+  # @version >= 7.1.0.beta1
   sig { params(error: Exception, handled: T::Boolean, severity: T.nilable(Symbol), context: T::Hash[Symbol, T.untyped], source: T.nilable(String)).void }
   def report(error, handled: true, severity: T.unsafe(nil), context: T.unsafe(nil), source: T.unsafe(nil)); end
+
+  # @version >= 7.2.0.beta1
+  sig { params(error: T.any(Exception, String), severity: T.nilable(Symbol), context: T::Hash[Symbol, T.untyped], source: T.nilable(String)).void }
+  def unexpected(error, severity: T.unsafe(nil), context: T.unsafe(nil), source: T.unsafe(nil)); end
+end
+
+module ActiveSupport::Testing::Assertions
+  sig { type_parameters(:Block).params(block: T.proc.returns(T.type_parameter(:Block))).returns(T.type_parameter(:Block)) }
+  def assert_nothing_raised(&block); end
+
+  sig { type_parameters(:TResult).params(expression: T.any(Proc, Kernel), message: Kernel, from: T.anything, to: T.anything, block: T.proc.returns(T.type_parameter(:TResult))).returns(T.type_parameter(:TResult)) }
+  def assert_changes(expression, message = T.unsafe(nil), from: T.unsafe(nil), to: T.unsafe(nil), &block); end
 end

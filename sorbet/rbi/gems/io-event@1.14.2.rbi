@@ -358,7 +358,7 @@ module IO::Event::Selector
   end
 end
 
-class IO::Event::Selector::KQueue
+class IO::Event::Selector::EPoll
   # source://io-event//lib/io/event/native.rb#7
   def initialize(_arg0); end
 

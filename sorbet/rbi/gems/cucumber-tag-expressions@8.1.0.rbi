@@ -87,55 +87,55 @@ class Cucumber::TagExpressions::Parser
 
   private
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#121
+  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#120
   def check(infix_expression, expected_token_type, token_type); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#93
+  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#92
   def handle_binary_operator(infix_expression, token, expected_token_type); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#106
+  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#105
   def handle_close_paren(infix_expression, _token, expected_token_type); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#115
+  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#114
   def handle_literal(infix_expression, token, expected_token_type); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#100
+  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#99
   def handle_open_paren(infix_expression, token, expected_token_type); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#79
+  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#78
   def handle_sequential_tokens(token, infix_expression, expected_token_type); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#87
+  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#86
   def handle_unary_operator(infix_expression, token, expected_token_type); end
 
   # @return [Boolean]
   #
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#29
+  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#28
   def lower_precedence?(operation); end
 
   # @return [Boolean]
   #
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#34
+  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#33
   def operator?(token); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#134
+  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#133
   def operator_types; end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#127
-  def pop(array, amount = T.unsafe(nil)); end
+  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#126
+  def popOperand(infix_expression, array, amount = T.unsafe(nil)); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#38
+  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#37
   def precedence(token); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#70
-  def push_expression(token); end
+  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#69
+  def push_expression(infix_expression, token); end
 
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#42
+  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#41
   def tokenize(infix_expression); end
 
   # @return [Boolean]
   #
-  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#144
+  # source://cucumber-tag-expressions//lib/cucumber/tag_expressions/parser.rb#143
   def whitespace?(char); end
 end
 

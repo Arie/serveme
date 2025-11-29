@@ -13,60 +13,60 @@ module Addressable; end
 # source://addressable//lib/addressable/idna/pure.rb#21
 module Addressable::IDNA
   class << self
-    # source://addressable//lib/addressable/idna/pure.rb#122
+    # source://addressable//lib/addressable/idna/pure.rb#117
     def _deprecated_unicode_normalize_kc(value); end
 
     # Converts from a Unicode internationalized domain name to an ASCII
     # domain name as described in RFC 3490.
     #
-    # source://addressable//lib/addressable/idna/pure.rb#67
+    # source://addressable//lib/addressable/idna/pure.rb#62
     def to_ascii(input); end
 
     # Converts from an ASCII domain name to a Unicode internationalized
     # domain name as described in RFC 3490.
     #
-    # source://addressable//lib/addressable/idna/pure.rb#93
+    # source://addressable//lib/addressable/idna/pure.rb#88
     def to_unicode(input); end
 
     # @deprecated Use {String#unicode_normalize(:nfkc)} instead
     #
-    # source://addressable//lib/addressable/idna/pure.rb#117
+    # source://addressable//lib/addressable/idna/pure.rb#112
     def unicode_normalize_kc(*args, **_arg1, &block); end
 
     private
 
-    # source://addressable//lib/addressable/idna/pure.rb#140
+    # source://addressable//lib/addressable/idna/pure.rb#135
     def lookup_unicode_lowercase(codepoint); end
 
     # Bias adaptation method
     #
-    # source://addressable//lib/addressable/idna/pure.rb#488
+    # source://addressable//lib/addressable/idna/pure.rb#4703
     def punycode_adapt(delta, numpoints, firsttime); end
 
     # @return [Boolean]
     #
-    # source://addressable//lib/addressable/idna/pure.rb#456
+    # source://addressable//lib/addressable/idna/pure.rb#4671
     def punycode_basic?(codepoint); end
 
-    # source://addressable//lib/addressable/idna/pure.rb#334
+    # source://addressable//lib/addressable/idna/pure.rb#4549
     def punycode_decode(punycode); end
 
     # Returns the numeric value of a basic codepoint
     # (for use in representing integers) in the range 0 to
     # base - 1, or PUNYCODE_BASE if codepoint does not represent a value.
     #
-    # source://addressable//lib/addressable/idna/pure.rb#474
+    # source://addressable//lib/addressable/idna/pure.rb#4689
     def punycode_decode_digit(codepoint); end
 
     # @return [Boolean]
     #
-    # source://addressable//lib/addressable/idna/pure.rb#461
+    # source://addressable//lib/addressable/idna/pure.rb#4676
     def punycode_delimiter?(codepoint); end
 
-    # source://addressable//lib/addressable/idna/pure.rb#213
+    # source://addressable//lib/addressable/idna/pure.rb#4428
     def punycode_encode(unicode); end
 
-    # source://addressable//lib/addressable/idna/pure.rb#466
+    # source://addressable//lib/addressable/idna/pure.rb#4681
     def punycode_encode_digit(d); end
 
     # Unicode aware downcase method.
@@ -75,99 +75,109 @@ module Addressable::IDNA
     # @param input [String] The input string.
     # @return [String] The downcased result.
     #
-    # source://addressable//lib/addressable/idna/pure.rb#132
+    # source://addressable//lib/addressable/idna/pure.rb#127
     def unicode_downcase(input); end
   end
 end
 
-# source://addressable//lib/addressable/idna/pure.rb#183
+# source://addressable//lib/addressable/idna/pure.rb#4398
 Addressable::IDNA::ACE_MAX_LENGTH = T.let(T.unsafe(nil), Integer)
 
-# source://addressable//lib/addressable/idna/pure.rb#40
+# This module is loosely based on idn_actionmailer by Mick Staugaard,
+# the unicode library by Yoshida Masato, and the punycode implementation
+# by Kazuhiro Nishiyama.  Most of the code was copied verbatim, but
+# some reformatting was done, and some translation from C was done.
+#
+# Without their code to work from as a base, we'd all still be relying
+# on the presence of libidn.  Which nobody ever seems to have installed.
+#
+# Original sources:
+# http://github.com/staugaard/idn_actionmailer
+# http://www.yoshidam.net/Ruby.html#unicode
+# http://rubyforge.org/frs/?group_id=2550
+#
+# source://addressable//lib/addressable/idna/pure.rb#35
 Addressable::IDNA::ACE_PREFIX = T.let(T.unsafe(nil), String)
 
-# source://addressable//lib/addressable/idna/pure.rb#172
+# source://addressable//lib/addressable/idna/pure.rb#4387
 Addressable::IDNA::COMPOSITION_TABLE = T.let(T.unsafe(nil), Hash)
 
-# source://addressable//lib/addressable/idna/pure.rb#185
+# source://addressable//lib/addressable/idna/pure.rb#4400
 Addressable::IDNA::PUNYCODE_BASE = T.let(T.unsafe(nil), Integer)
 
-# source://addressable//lib/addressable/idna/pure.rb#189
+# source://addressable//lib/addressable/idna/pure.rb#4404
 Addressable::IDNA::PUNYCODE_DAMP = T.let(T.unsafe(nil), Integer)
 
-# source://addressable//lib/addressable/idna/pure.rb#192
+# source://addressable//lib/addressable/idna/pure.rb#4407
 Addressable::IDNA::PUNYCODE_DELIMITER = T.let(T.unsafe(nil), Integer)
 
-# source://addressable//lib/addressable/idna/pure.rb#190
+# source://addressable//lib/addressable/idna/pure.rb#4405
 Addressable::IDNA::PUNYCODE_INITIAL_BIAS = T.let(T.unsafe(nil), Integer)
 
-# source://addressable//lib/addressable/idna/pure.rb#191
+# source://addressable//lib/addressable/idna/pure.rb#4406
 Addressable::IDNA::PUNYCODE_INITIAL_N = T.let(T.unsafe(nil), Integer)
 
-# source://addressable//lib/addressable/idna/pure.rb#194
+# source://addressable//lib/addressable/idna/pure.rb#4409
 Addressable::IDNA::PUNYCODE_MAXINT = T.let(T.unsafe(nil), Integer)
 
-# source://addressable//lib/addressable/idna/pure.rb#196
+# source://addressable//lib/addressable/idna/pure.rb#4411
 Addressable::IDNA::PUNYCODE_PRINT_ASCII = T.let(T.unsafe(nil), String)
 
-# source://addressable//lib/addressable/idna/pure.rb#188
+# source://addressable//lib/addressable/idna/pure.rb#4403
 Addressable::IDNA::PUNYCODE_SKEW = T.let(T.unsafe(nil), Integer)
 
-# source://addressable//lib/addressable/idna/pure.rb#187
+# source://addressable//lib/addressable/idna/pure.rb#4402
 Addressable::IDNA::PUNYCODE_TMAX = T.let(T.unsafe(nil), Integer)
 
-# source://addressable//lib/addressable/idna/pure.rb#186
+# source://addressable//lib/addressable/idna/pure.rb#4401
 Addressable::IDNA::PUNYCODE_TMIN = T.let(T.unsafe(nil), Integer)
 
 # Input is invalid.
 #
-# source://addressable//lib/addressable/idna/pure.rb#207
+# source://addressable//lib/addressable/idna/pure.rb#4422
 class Addressable::IDNA::PunycodeBadInput < ::StandardError; end
 
 # Output would exceed the space provided.
 #
-# source://addressable//lib/addressable/idna/pure.rb#209
+# source://addressable//lib/addressable/idna/pure.rb#4424
 class Addressable::IDNA::PunycodeBigOutput < ::StandardError; end
 
 # Input needs wider integers to process.
 #
-# source://addressable//lib/addressable/idna/pure.rb#211
+# source://addressable//lib/addressable/idna/pure.rb#4426
 class Addressable::IDNA::PunycodeOverflow < ::StandardError; end
 
-# source://addressable//lib/addressable/idna/pure.rb#163
+# source://addressable//lib/addressable/idna/pure.rb#151
 Addressable::IDNA::UNICODE_DATA = T.let(T.unsafe(nil), Hash)
 
-# source://addressable//lib/addressable/idna/pure.rb#150
+# source://addressable//lib/addressable/idna/pure.rb#145
 Addressable::IDNA::UNICODE_DATA_CANONICAL = T.let(T.unsafe(nil), Integer)
 
-# source://addressable//lib/addressable/idna/pure.rb#148
+# source://addressable//lib/addressable/idna/pure.rb#143
 Addressable::IDNA::UNICODE_DATA_COMBINING_CLASS = T.let(T.unsafe(nil), Integer)
 
-# source://addressable//lib/addressable/idna/pure.rb#151
+# source://addressable//lib/addressable/idna/pure.rb#146
 Addressable::IDNA::UNICODE_DATA_COMPATIBILITY = T.let(T.unsafe(nil), Integer)
 
-# source://addressable//lib/addressable/idna/pure.rb#149
+# source://addressable//lib/addressable/idna/pure.rb#144
 Addressable::IDNA::UNICODE_DATA_EXCLUSION = T.let(T.unsafe(nil), Integer)
 
-# source://addressable//lib/addressable/idna/pure.rb#153
+# source://addressable//lib/addressable/idna/pure.rb#148
 Addressable::IDNA::UNICODE_DATA_LOWERCASE = T.let(T.unsafe(nil), Integer)
 
-# source://addressable//lib/addressable/idna/pure.rb#154
+# source://addressable//lib/addressable/idna/pure.rb#149
 Addressable::IDNA::UNICODE_DATA_TITLECASE = T.let(T.unsafe(nil), Integer)
 
-# source://addressable//lib/addressable/idna/pure.rb#152
+# source://addressable//lib/addressable/idna/pure.rb#147
 Addressable::IDNA::UNICODE_DATA_UPPERCASE = T.let(T.unsafe(nil), Integer)
 
-# source://addressable//lib/addressable/idna/pure.rb#182
+# source://addressable//lib/addressable/idna/pure.rb#4397
 Addressable::IDNA::UNICODE_MAX_LENGTH = T.let(T.unsafe(nil), Integer)
 
-# source://addressable//lib/addressable/idna/pure.rb#36
-Addressable::IDNA::UNICODE_TABLE = T.let(T.unsafe(nil), String)
-
-# source://addressable//lib/addressable/idna/pure.rb#42
+# source://addressable//lib/addressable/idna/pure.rb#37
 Addressable::IDNA::UTF8_REGEX = T.let(T.unsafe(nil), Regexp)
 
-# source://addressable//lib/addressable/idna/pure.rb#53
+# source://addressable//lib/addressable/idna/pure.rb#48
 Addressable::IDNA::UTF8_REGEX_MULTIBYTE = T.let(T.unsafe(nil), Regexp)
 
 # This is an implementation of a URI template based on
@@ -255,8 +265,8 @@ class Addressable::Template
   #   ).to_str
   #   #=> Addressable::Template::InvalidTemplateValueError
   # @param mapping [Hash] The mapping that corresponds to the pattern.
-  # @param processor [#validate, #transform] An optional processor object may be supplied.
   # @param normalize_values [Boolean] Optional flag to enable/disable unicode normalization. Default: true
+  # @param processor [#validate, #transform] An optional processor object may be supplied.
   # @return [Addressable::URI] The expanded URI template.
   #
   # source://addressable//lib/addressable/template.rb#591
@@ -296,7 +306,6 @@ class Addressable::Template
   #   "http://example.com/{first}/{-list|/|second}/"
   #   ).extract(uri)
   #   #=> {"first" => "a", "second" => ["b", "c"]}
-  # @param uri [Addressable::URI, #to_str] The URI to extract from.
   # @param processor [#restore, #match] A template processor object may optionally be supplied.
   #
   #   The object should respond to either the <tt>restore</tt> or
@@ -310,6 +319,7 @@ class Addressable::Template
   #   matching on that particular variable. The default value is `".*?"`.
   #   The <tt>match</tt> method has no effect on multivariate operator
   #   expansions.
+  # @param uri [Addressable::URI, #to_str] The URI to extract from.
   # @return [Hash, NilClass] The <tt>Hash</tt> mapping that was extracted from the URI, or
   #   <tt>nil</tt> if the URI didn't match the template.
   #
@@ -383,7 +393,6 @@ class Addressable::Template
   #   #=> ["first", "second"]
   #   match.captures
   #   #=> ["a", ["b", "c"]]
-  # @param uri [Addressable::URI, #to_str] The URI to extract from.
   # @param processor [#restore, #match] A template processor object may optionally be supplied.
   #
   #   The object should respond to either the <tt>restore</tt> or
@@ -397,6 +406,7 @@ class Addressable::Template
   #   matching on that particular variable. The default value is `".*?"`.
   #   The <tt>match</tt> method has no effect on multivariate operator
   #   expansions.
+  # @param uri [Addressable::URI, #to_str] The URI to extract from.
   # @return [Hash, NilClass] The <tt>Hash</tt> mapping that was extracted from the URI, or
   #   <tt>nil</tt> if the URI didn't match the template.
   #
@@ -451,8 +461,8 @@ class Addressable::Template
   #   ).partial_expand({"one" => "1", "three" => 3}).pattern
   #   #=> "http://example.com/?one=1{&two}&three=3"
   # @param mapping [Hash] The mapping that corresponds to the pattern.
-  # @param processor [#validate, #transform] An optional processor object may be supplied.
   # @param normalize_values [Boolean] Optional flag to enable/disable unicode normalization. Default: true
+  # @param processor [#validate, #transform] An optional processor object may be supplied.
   # @return [Addressable::Template] The partially expanded URI template.
   #
   # source://addressable//lib/addressable/template.rb#524
@@ -569,10 +579,10 @@ class Addressable::Template
   # automatically. Unicode normalization will be performed both before and
   # after sending the value to the transform method.
   #
-  # @param mapping [Hash] The mapping to replace captures
   # @param capture [String] The expression to replace
-  # @param processor [#validate, #transform] An optional processor object may be supplied.
+  # @param mapping [Hash] The mapping to replace captures
   # @param normalize_values [Boolean] Optional flag to enable/disable unicode normalization. Default: true
+  # @param processor [#validate, #transform] An optional processor object may be supplied.
   # @return [String] The expanded expression
   #
   # source://addressable//lib/addressable/template.rb#753
@@ -592,10 +602,10 @@ class Addressable::Template
   # automatically. Unicode normalization will be performed both before and
   # after sending the value to the transform method.
   #
-  # @param mapping [Hash] Set of keys to expand
   # @param capture [String] The expression to expand
-  # @param processor [#validate, #transform] An optional processor object may be supplied.
+  # @param mapping [Hash] Set of keys to expand
   # @param normalize_values [Boolean] Optional flag to enable/disable unicode normalization. Default: true
+  # @param processor [#validate, #transform] An optional processor object may be supplied.
   # @return [String] The expanded expression
   #
   # source://addressable//lib/addressable/template.rb#694
@@ -1517,11 +1527,11 @@ class Addressable::URI
 
     # Percent encodes any special characters in the URI.
     #
-    # @param uri [String, Addressable::URI, #to_str] The URI to encode.
     # @param return_type [Class] The type of object to return.
     #   This value may only be set to <code>String</code> or
     #   <code>Addressable::URI</code>. All other values are invalid. Defaults
     #   to <code>String</code>.
+    # @param uri [String, Addressable::URI, #to_str] The URI to encode.
     # @return [String, Addressable::URI] The encoded URI.
     #   The return type is determined by the <code>return_type</code>
     #   parameter.
@@ -1547,12 +1557,12 @@ class Addressable::URI
     #   "simple/example", Addressable::URI::CharacterClasses::UNRESERVED
     #   )
     #   => "simple%2Fexample"
-    # @param component [String, #to_str] The URI component to encode.
     # @param character_class [String, Regexp] The characters which are not percent encoded. If a <code>String</code>
     #   is passed, the <code>String</code> must be formatted as a regular
     #   expression character class. (Do not include the surrounding square
     #   brackets.)  For example, <code>"b-zB-Z0-9"</code> would cause
     #   everything but the letters 'b' through 'z' and the numbers '0' through
+    # @param component [String, #to_str] The URI component to encode.
     # @param upcase_encoded [Regexp] A string of characters that may already be percent encoded, and whose
     #   encodings should be upcased. This allows normalization of percent
     #   encodings for characters not included in the
@@ -1564,11 +1574,11 @@ class Addressable::URI
 
     # Percent encodes any special characters in the URI.
     #
-    # @param uri [String, Addressable::URI, #to_str] The URI to encode.
     # @param return_type [Class] The type of object to return.
     #   This value may only be set to <code>String</code> or
     #   <code>Addressable::URI</code>. All other values are invalid. Defaults
     #   to <code>String</code>.
+    # @param uri [String, Addressable::URI, #to_str] The URI to encode.
     # @return [String, Addressable::URI] The encoded URI.
     #   The return type is determined by the <code>return_type</code>
     #   parameter.
@@ -1594,12 +1604,12 @@ class Addressable::URI
     #   "simple/example", Addressable::URI::CharacterClasses::UNRESERVED
     #   )
     #   => "simple%2Fexample"
-    # @param component [String, #to_str] The URI component to encode.
     # @param character_class [String, Regexp] The characters which are not percent encoded. If a <code>String</code>
     #   is passed, the <code>String</code> must be formatted as a regular
     #   expression character class. (Do not include the surrounding square
     #   brackets.)  For example, <code>"b-zB-Z0-9"</code> would cause
     #   everything but the letters 'b' through 'z' and the numbers '0' through
+    # @param component [String, #to_str] The URI component to encode.
     # @param upcase_encoded [Regexp] A string of characters that may already be percent encoded, and whose
     #   encodings should be upcased. This allows normalization of percent
     #   encodings for characters not included in the
@@ -1635,11 +1645,11 @@ class Addressable::URI
     # URI — the method will use heuristics to guess what URI was intended.
     # This is not standards-compliant, merely user-friendly.
     #
+    # @param hints [Hash] A <code>Hash</code> of hints to the heuristic parser.
+    #   Defaults to <code>{:scheme => "http"}</code>.
     # @param uri [String, Addressable::URI, #to_str] The URI string to parse.
     #   No parsing is performed if the object is already an
     #   <code>Addressable::URI</code>.
-    # @param hints [Hash] A <code>Hash</code> of hints to the heuristic parser.
-    #   Defaults to <code>{:scheme => "http"}</code>.
     # @return [Addressable::URI] The parsed URI.
     #
     # source://addressable//lib/addressable/uri.rb#191
@@ -1685,7 +1695,6 @@ class Addressable::URI
     #   "/"
     #   )
     #   => "one two%2Fthree&four"
-    # @param component [String, #to_str] The URI component to encode.
     # @param character_class [String, Regexp] The characters which are not percent encoded. If a <code>String</code>
     #   is passed, the <code>String</code> must be formatted as a regular
     #   expression character class. (Do not include the surrounding square
@@ -1697,6 +1706,7 @@ class Addressable::URI
     #   <code>Addressable::URI::CharacterClasses</code> module. The default
     #   value is the reserved plus unreserved character classes specified in
     #   <a href="http://www.ietf.org/rfc/rfc3986.txt">RFC 3986</a>.
+    # @param component [String, #to_str] The URI component to encode.
     # @param leave_encoded [String] When <code>character_class</code> is a <code>String</code> then
     #   <code>leave_encoded</code> is a string of characters that should remain
     #   percent encoded while normalizing the component; if they appear percent
@@ -1718,11 +1728,11 @@ class Addressable::URI
     # Normalizes the encoding of a URI. Characters within a hostname are
     # not percent encoded to allow for internationalized domain names.
     #
-    # @param uri [String, Addressable::URI, #to_str] The URI to encode.
     # @param return_type [Class] The type of object to return.
     #   This value may only be set to <code>String</code> or
     #   <code>Addressable::URI</code>. All other values are invalid. Defaults
     #   to <code>String</code>.
+    # @param uri [String, Addressable::URI, #to_str] The URI to encode.
     # @return [String, Addressable::URI] The encoded URI.
     #   The return type is determined by the <code>return_type</code>
     #   parameter.
@@ -1752,13 +1762,13 @@ class Addressable::URI
     # however, it is recommended to use the <code>unencode_component</code>
     # alias when unencoding components.
     #
-    # @param uri [String, Addressable::URI, #to_str] The URI or component to unencode.
+    # @param leave_encoded [String] A string of characters to leave encoded. If a percent encoded character
+    #   in this list is encountered then it will remain percent encoded.
     # @param return_type [Class] The type of object to return.
     #   This value may only be set to <code>String</code> or
     #   <code>Addressable::URI</code>. All other values are invalid. Defaults
     #   to <code>String</code>.
-    # @param leave_encoded [String] A string of characters to leave encoded. If a percent encoded character
-    #   in this list is encountered then it will remain percent encoded.
+    # @param uri [String, Addressable::URI, #to_str] The URI or component to unencode.
     # @return [String, Addressable::URI] The unencoded component or URI.
     #   The return type is determined by the <code>return_type</code>
     #   parameter.
@@ -1771,13 +1781,13 @@ class Addressable::URI
     # however, it is recommended to use the <code>unencode_component</code>
     # alias when unencoding components.
     #
-    # @param uri [String, Addressable::URI, #to_str] The URI or component to unencode.
+    # @param leave_encoded [String] A string of characters to leave encoded. If a percent encoded character
+    #   in this list is encountered then it will remain percent encoded.
     # @param return_type [Class] The type of object to return.
     #   This value may only be set to <code>String</code> or
     #   <code>Addressable::URI</code>. All other values are invalid. Defaults
     #   to <code>String</code>.
-    # @param leave_encoded [String] A string of characters to leave encoded. If a percent encoded character
-    #   in this list is encountered then it will remain percent encoded.
+    # @param uri [String, Addressable::URI, #to_str] The URI or component to unencode.
     # @return [String, Addressable::URI] The unencoded component or URI.
     #   The return type is determined by the <code>return_type</code>
     #   parameter.
@@ -1790,13 +1800,13 @@ class Addressable::URI
     # however, it is recommended to use the <code>unencode_component</code>
     # alias when unencoding components.
     #
-    # @param uri [String, Addressable::URI, #to_str] The URI or component to unencode.
+    # @param leave_encoded [String] A string of characters to leave encoded. If a percent encoded character
+    #   in this list is encountered then it will remain percent encoded.
     # @param return_type [Class] The type of object to return.
     #   This value may only be set to <code>String</code> or
     #   <code>Addressable::URI</code>. All other values are invalid. Defaults
     #   to <code>String</code>.
-    # @param leave_encoded [String] A string of characters to leave encoded. If a percent encoded character
-    #   in this list is encountered then it will remain percent encoded.
+    # @param uri [String, Addressable::URI, #to_str] The URI or component to unencode.
     # @return [String, Addressable::URI] The unencoded component or URI.
     #   The return type is determined by the <code>return_type</code>
     #   parameter.
@@ -1809,13 +1819,13 @@ class Addressable::URI
     # however, it is recommended to use the <code>unencode_component</code>
     # alias when unencoding components.
     #
-    # @param uri [String, Addressable::URI, #to_str] The URI or component to unencode.
+    # @param leave_encoded [String] A string of characters to leave encoded. If a percent encoded character
+    #   in this list is encountered then it will remain percent encoded.
     # @param return_type [Class] The type of object to return.
     #   This value may only be set to <code>String</code> or
     #   <code>Addressable::URI</code>. All other values are invalid. Defaults
     #   to <code>String</code>.
-    # @param leave_encoded [String] A string of characters to leave encoded. If a percent encoded character
-    #   in this list is encountered then it will remain percent encoded.
+    # @param uri [String, Addressable::URI, #to_str] The URI or component to unencode.
     # @return [String, Addressable::URI] The unencoded component or URI.
     #   The return type is determined by the <code>return_type</code>
     #   parameter.

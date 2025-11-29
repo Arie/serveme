@@ -6,21 +6,7 @@
 
 
 # source://draper//lib/draper/railtie.rb#3
-module ActiveModel
-  class << self
-    # source://activemodel/8.0.1/lib/active_model/deprecator.rb#4
-    def deprecator; end
-
-    # source://activemodel/8.0.1/lib/active_model.rb#76
-    def eager_load!; end
-
-    # source://activemodel/8.0.1/lib/active_model/gem_version.rb#5
-    def gem_version; end
-
-    # source://activemodel/8.0.1/lib/active_model/version.rb#7
-    def version; end
-  end
-end
+module ActiveModel; end
 
 # source://draper//lib/draper/railtie.rb#4
 class ActiveModel::Railtie < ::Rails::Railtie; end
@@ -117,91 +103,91 @@ class Draper::CollectionDecorator
   # source://draper//lib/draper/collection_decorator.rb#30
   def initialize(object, options = T.unsafe(nil)); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def &(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def *(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def +(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def -(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def <<(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def ==(arg); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def [](*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def []=(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def all?(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def any?(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def append(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def as_json(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def assoc(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def at(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def bsearch(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def bsearch_index(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def chain(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def chunk(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def chunk_while(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def clear(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def collect(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def collect!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def collect_concat(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def combination(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def compact(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def compact!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def compact_blank(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def compact_blank!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def concat(*_arg0, **_arg1, &_arg2); end
 
   # @return [Hash] extra data to be used in user-defined methods, and passed
@@ -213,16 +199,16 @@ class Draper::CollectionDecorator
   # @return [Hash] extra data to be used in user-defined methods, and passed
   #   to each item's decorator.
   #
-  # source://draper//lib/draper/collection_decorator.rb#52
+  # source://draper//lib/draper/collection_decorator.rb#17
   def context=(value); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def count(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def cycle(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def deconstruct(*_arg0, **_arg1, &_arg2); end
 
   # @return [true]
@@ -235,6 +221,7 @@ class Draper::CollectionDecorator
   # source://draper//lib/draper/collection_decorator.rb#42
   def decorated_collection; end
 
+  # source://draper//lib/draper/collection_decorator.rb#62
   def decorated_with?(_arg0); end
 
   # @return [Class] the decorator class used to decorate each item, as set by
@@ -243,168 +230,168 @@ class Draper::CollectionDecorator
   # source://draper//lib/draper/collection_decorator.rb#13
   def decorator_class; end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def delete(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def delete_at(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def delete_if(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def detect(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def difference(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def dig(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def drop(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def drop_while(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def each(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def each_cons(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def each_entry(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def each_index(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def each_slice(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def each_with_index(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def each_with_object(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def empty?(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def entries(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def exclude?(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def excluding(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def extract!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def extract_options!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def fetch(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def fetch_values(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def fifth(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def fill(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def filter(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def filter!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def filter_map(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def find(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def find_all(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def find_index(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def first(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def flat_map(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def flatten(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def flatten!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def forty_two(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def fourth(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def from(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def grep(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def grep_v(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def group_by(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def in_order_of(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def include?(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def including(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def index(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def index_by(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def index_with(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def inject(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def insert(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def intersect?(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def intersection(*_arg0, **_arg1, &_arg2); end
 
   # @return [Boolean]
   #
-  # source://draper//lib/draper/collection_decorator.rb#64
+  # source://draper//lib/draper/collection_decorator.rb#68
   def is_a?(klass); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def join(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def keep_if(*_arg0, **_arg1, &_arg2); end
 
   # @return [Boolean]
@@ -412,52 +399,52 @@ class Draper::CollectionDecorator
   # source://draper//lib/draper/collection_decorator.rb#64
   def kind_of?(klass); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def last(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def lazy(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def length(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def many?(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def map(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def map!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def max(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def max_by(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def maximum(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def member?(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def min(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def min_by(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def minimum(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def minmax(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def minmax_by(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def none?(*_arg0, **_arg1, &_arg2); end
 
   # @return the collection being decorated.
@@ -465,214 +452,214 @@ class Draper::CollectionDecorator
   # source://draper//lib/draper/collection_decorator.rb#9
   def object; end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def one?(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def pack(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def partition(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def permutation(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def pick(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def place(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def pluck(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def pop(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def prepend(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def product(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def push(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def rassoc(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def reduce(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def reject(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def reject!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def repeated_combination(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def repeated_permutation(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/collection_decorator.rb#70
+  # source://draper//lib/draper/collection_decorator.rb#20
   def replace(other); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def reverse(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def reverse!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def reverse_each(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def rindex(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def rotate(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def rotate!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def sample(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def second(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def second_to_last(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def select(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def select!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def shelljoin(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def shift(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def shuffle(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def shuffle!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def size(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def slice(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def slice!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def slice_after(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def slice_before(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def slice_when(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def sole(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def sort(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def sort!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def sort_by(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def sort_by!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def sum(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def take(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def take_while(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def tally(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def third(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def third_to_last(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def to(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def to_a(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def to_ary(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def to_formatted_s(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def to_fs(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def to_h(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def to_msgpack(*_arg0, **_arg1, &_arg2); end
 
   # source://draper//lib/draper/collection_decorator.rb#48
   def to_s; end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def to_sentence(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def to_set(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def to_xml(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def transpose(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def union(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def uniq(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def uniq!(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def unshift(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def values_at(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def without(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def zip(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/collection_decorator.rb#20
   def |(*_arg0, **_arg1, &_arg2); end
 
   protected
@@ -688,6 +675,7 @@ class Draper::CollectionDecorator
   def item_decorator; end
 
   class << self
+    # source://draper//lib/draper/collection_decorator.rb#38
     def decorate(*_arg0); end
   end
 end
@@ -711,20 +699,42 @@ module Draper::Compatibility::ApiOnly
   extend ::ActiveSupport::Concern
 end
 
+# It would look consistent to use decorated objects inside templates broadcasted with
+# Turbo::Broadcastable.
+#
+# This compatibility patch fixes the issue by overriding the original defaults to decorate the
+# object, that's passed to the partial in a local variable.
+#
+# source://draper//lib/draper/compatibility/broadcastable.rb#10
+module Draper::Compatibility::Broadcastable
+  private
+
+  # source://draper//lib/draper/compatibility/broadcastable.rb#13
+  def broadcast_rendering_with_defaults(options); end
+end
+
 # [Active Job](http://edgeguides.rubyonrails.org/active_job_basics.html) allows you to pass
 # ActiveRecord objects to background tasks directly and performs the necessary serialization
 # and deserialization. In order to do this, arguments to a background job must implement
 # [Global ID](https://github.com/rails/globalid).
 #
-# This compatibility patch implements Global ID for decorated objects by delegating to the object
-# that is decorated. This means you can pass decorated objects to background jobs, but
-# the object won't be decorated when it is deserialized. This patch is meant as an intermediate
-# fix until we can find a way to deserialize the decorated object correctly.
+# This compatibility patch implements Global ID for decorated objects by defining `.find(id)`
+# class method that uses the original one and decorates the result.
+# This means you can pass decorated objects to background jobs and they will be decorated when
+# deserialized.
 #
 # source://draper//lib/draper/compatibility/global_id.rb#12
 module Draper::Compatibility::GlobalID
   extend ::ActiveSupport::Concern
   include ::GlobalID::Identification
+
+  mixes_in_class_methods ::Draper::Compatibility::GlobalID::ClassMethods
+end
+
+# source://draper//lib/draper/compatibility/global_id.rb#19
+module Draper::Compatibility::GlobalID::ClassMethods
+  # source://draper//lib/draper/compatibility/global_id.rb#20
+  def find(*args); end
 end
 
 # source://draper//lib/draper/configuration.rb#2
@@ -766,21 +776,21 @@ module Draper::Decoratable
   #
   # @return [Array<Class>] `[]`
   #
-  # source://draper//lib/draper/decoratable.rb#35
+  # source://draper//lib/draper/decoratable.rb#40
   def applied_decorators; end
 
   # Decorates the object using the inferred {#decorator_class}.
   #
   # @param options [Hash] see {Decorator#initialize}
   #
-  # source://draper//lib/draper/decoratable.rb#19
+  # source://draper//lib/draper/decoratable.rb#24
   def decorate(options = T.unsafe(nil)); end
 
   # Checks if this object is decorated.
   #
   # @return [false]
   #
-  # source://draper//lib/draper/decoratable.rb#48
+  # source://draper//lib/draper/decoratable.rb#53
   def decorated?; end
 
   # Checks if a given decorator has been applied to the object.
@@ -788,7 +798,7 @@ module Draper::Decoratable
   # @param decorator_class [Class]
   # @return [false]
   #
-  # source://draper//lib/draper/decoratable.rb#41
+  # source://draper//lib/draper/decoratable.rb#46
   def decorated_with?(decorator_class); end
 
   # Infers the decorator class to be used by {Decoratable#decorate} (e.g.
@@ -796,22 +806,22 @@ module Draper::Decoratable
   #
   # @return [Class] the inferred decorator class.
   #
-  # source://draper//lib/draper/decoratable.rb#24
+  # source://draper//lib/draper/decoratable.rb#29
   def decorator_class; end
 
   # @return [Boolean]
   #
-  # source://draper//lib/draper/decoratable.rb#28
+  # source://draper//lib/draper/decoratable.rb#33
   def decorator_class?; end
 end
 
-# source://draper//lib/draper/decoratable.rb#52
+# source://draper//lib/draper/decoratable.rb#57
 module Draper::Decoratable::ClassMethods
   # Compares with possibly-decorated objects.
   #
   # @return [Boolean]
   #
-  # source://draper//lib/draper/decoratable.rb#89
+  # source://draper//lib/draper/decoratable.rb#94
   def ===(other); end
 
   # Decorates a collection of objects. Used at the end of a scope chain.
@@ -820,7 +830,7 @@ module Draper::Decoratable::ClassMethods
   #   Product.popular.decorate
   # @param options [Hash] see {Decorator.decorate_collection}.
   #
-  # source://draper//lib/draper/decoratable.rb#59
+  # source://draper//lib/draper/decoratable.rb#64
   def decorate(options = T.unsafe(nil)); end
 
   # Infers the decorator class to be used by {Decoratable#decorate} (e.g.
@@ -828,12 +838,12 @@ module Draper::Decoratable::ClassMethods
   #
   # @return [Class] the inferred decorator class.
   #
-  # source://draper//lib/draper/decoratable.rb#73
+  # source://draper//lib/draper/decoratable.rb#78
   def decorator_class(called_on = T.unsafe(nil)); end
 
   # @return [Boolean]
   #
-  # source://draper//lib/draper/decoratable.rb#63
+  # source://draper//lib/draper/decoratable.rb#68
   def decorator_class?; end
 end
 
@@ -928,6 +938,7 @@ class Draper::Decorator
   include ::ActiveModel::Serializers::JSON
   include ::ActiveModel::Serializers::Xml
   extend ::Draper::ViewHelpers::ClassMethods
+  extend ::Draper::Compatibility::GlobalID::ClassMethods
   extend ::Draper::Delegation
   extend ::ActiveModel::Naming
 
@@ -965,7 +976,7 @@ class Draper::Decorator
   # source://draper//lib/draper/decorator.rb#217
   def attributes; end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/decorator.rb#207
   def blank?(*_arg0, **_arg1, &_arg2); end
 
   # @return [Hash] extra data to be used in user-defined methods.
@@ -1008,10 +1019,10 @@ class Draper::Decorator
   # source://draper//lib/draper/decorator.rb#184
   def hash; end
 
-  # source://activemodel/8.0.1/lib/active_model/serializers/json.rb#15
+  # source://draper//lib/draper/decorator.rb#10
   def include_root_in_json; end
 
-  # source://activemodel/8.0.1/lib/active_model/serializers/json.rb#15
+  # source://draper//lib/draper/decorator.rb#10
   def include_root_in_json?; end
 
   # Checks if `self.instance_of?(klass)` or `object.instance_of?(klass)`
@@ -1027,7 +1038,7 @@ class Draper::Decorator
   # @param klass [Class]
   # @return [Boolean]
   #
-  # source://draper//lib/draper/decorator.rb#191
+  # source://draper//lib/draper/decorator.rb#195
   def is_a?(klass); end
 
   # Checks if `self.kind_of?(klass)` or `object.kind_of?(klass)`
@@ -1040,10 +1051,10 @@ class Draper::Decorator
 
   # @return the object being decorated.
   #
-  # source://draper//lib/draper/decorator.rb#14
+  # source://draper//lib/draper/decorator.rb#16
   def model; end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/decorator.rb#10
   def model_name(&_arg0); end
 
   # @return the object being decorated.
@@ -1051,11 +1062,8 @@ class Draper::Decorator
   # source://draper//lib/draper/decorator.rb#14
   def object; end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/decorator.rb#207
   def present?(*_arg0, **_arg1, &_arg2); end
-
-  # source://draper//lib/draper/compatibility/global_id.rb#18
-  def to_global_id(*_arg0, **_arg1, &_arg2); end
 
   # ActiveModel compatibility
   #
@@ -1064,17 +1072,14 @@ class Draper::Decorator
   # source://draper//lib/draper/decorator.rb#211
   def to_model; end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/decorator.rb#222
   def to_param(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/decorator.rb#222
   def to_partial_path(*_arg0, **_arg1, &_arg2); end
 
-  # source://draper//lib/draper/delegation.rb#10
+  # source://draper//lib/draper/decorator.rb#204
   def to_s(*_arg0, **_arg1, &_arg2); end
-
-  # source://draper//lib/draper/compatibility/global_id.rb#18
-  def to_signed_global_id(*_arg0, **_arg1, &_arg2); end
 
   private
 
@@ -1096,6 +1101,7 @@ class Draper::Decorator
     # source://draper//lib/draper/decorator.rb#259
     def collection_decorator_name; end
 
+    # source://draper//lib/draper/decorator.rb#40
     def decorate(*_arg0); end
 
     # Decorates a collection of objects. The class of the collection decorator
@@ -1159,13 +1165,13 @@ class Draper::Decorator
     # source://draper//lib/draper/decorator.rb#47
     def delegate_all; end
 
-    # source://activemodel/8.0.1/lib/active_model/serializers/json.rb#15
+    # source://draper//lib/draper/decorator.rb#10
     def include_root_in_json; end
 
-    # source://activemodel/8.0.1/lib/active_model/serializers/json.rb#15
+    # source://draper//lib/draper/decorator.rb#10
     def include_root_in_json=(value); end
 
-    # source://activemodel/8.0.1/lib/active_model/serializers/json.rb#15
+    # source://draper//lib/draper/decorator.rb#10
     def include_root_in_json?; end
 
     # @raise [Draper::UninferrableObjectError]
@@ -1202,10 +1208,10 @@ class Draper::Decorator
 
     private
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#15
+    # source://draper//lib/draper/decorator.rb#10
     def __class_attr_include_root_in_json; end
 
-    # source://activesupport/8.0.1/lib/active_support/class_attribute.rb#17
+    # source://draper//lib/draper/decorator.rb#10
     def __class_attr_include_root_in_json=(new_value); end
   end
 end
@@ -1595,7 +1601,7 @@ module Draper::ViewHelpers
   #
   # @return [HelperProxy] the helpers proxy
   #
-  # source://draper//lib/draper/view_helpers.rb#23
+  # source://draper//lib/draper/view_helpers.rb#27
   def h; end
 
   # Access the helpers proxy to call built-in and user-defined
@@ -1606,7 +1612,7 @@ module Draper::ViewHelpers
   # source://draper//lib/draper/view_helpers.rb#23
   def helpers; end
 
-  # source://draper//lib/draper/view_helpers.rb#31
+  # source://draper//lib/draper/view_helpers.rb#35
   def l(*args, **_arg1); end
 
   # source://draper//lib/draper/view_helpers.rb#31
@@ -1620,7 +1626,7 @@ module Draper::ViewHelpers::ClassMethods
   #
   # @return [HelperProxy] the helpers proxy
   #
-  # source://draper//lib/draper/view_helpers.rb#12
+  # source://draper//lib/draper/view_helpers.rb#16
   def h; end
 
   # Access the helpers proxy to call built-in and user-defined

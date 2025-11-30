@@ -527,7 +527,7 @@ class Server < ActiveRecord::Base
     end
     return nil if blocked_command?(command) && !allow_blocked
 
-    T.must(condenser).rcon_exec(command)&.to_s if rcon_auth
+    T.must(condenser).rcon_exec(command) if rcon_auth
   rescue Errno::ECONNREFUSED, SteamCondenser::Error::Timeout, SteamCondenser::Error::RCONNoAuth, SteamCondenser::Error::RCONBan => e
     Rails.logger.error "Couldn't deliver command to server #{id} - #{name}, command: #{command}, exception: #{e}"
     nil

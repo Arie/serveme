@@ -201,6 +201,16 @@ class Async::Condition
   def exchange; end
 end
 
+# Private module that hooks into Process._fork to handle fork events.
+#
+# If `Scheduler#process_fork` hook is adopted in Ruby 4, this code can be removed after Ruby < 4 is no longer supported.
+#
+# source://async//lib/async/fork_handler.rb#11
+module Async::ForkHandler
+  # source://async//lib/async/fork_handler.rb#12
+  def _fork(&block); end
+end
+
 # A load balancing mechanism that can be used process work when the system is idle.
 #
 # source://async//lib/async/idler.rb#8
@@ -479,7 +489,7 @@ class Async::Node
   # If the node has a parent, and is {finished?}, then remove this node from
   # the parent.
   #
-  # source://async//lib/async/node.rb#230
+  # source://async//lib/async/node.rb#231
   def consume; end
 
   # A description of the node, including the annotation and object name.
@@ -491,7 +501,7 @@ class Async::Node
   #
   # @return [Boolean]
   #
-  # source://async//lib/async/node.rb#224
+  # source://async//lib/async/node.rb#225
   def finished?; end
 
   # @private
@@ -519,7 +529,7 @@ class Async::Node
 
   # Print the hierarchy of the task tree from the given node.
   #
-  # source://async//lib/async/node.rb#306
+  # source://async//lib/async/node.rb#307
   def print_hierarchy(out = T.unsafe(nil), backtrace: T.unsafe(nil)); end
 
   # source://async//lib/async/node.rb#92
@@ -527,14 +537,14 @@ class Async::Node
 
   # Attempt to stop the current node immediately, including all non-transient children. Invokes {#stop_children} to stop all children.
   #
-  # source://async//lib/async/node.rb#285
+  # source://async//lib/async/node.rb#286
   def stop(later = T.unsafe(nil)); end
 
   # Whether the node has been stopped.
   #
   # @return [Boolean]
   #
-  # source://async//lib/async/node.rb#298
+  # source://async//lib/async/node.rb#299
   def stopped?; end
 
   # @private
@@ -549,7 +559,7 @@ class Async::Node
 
   # Immediately terminate all children tasks, including transient tasks. Internally invokes `stop(false)` on all children. This should be considered a last ditch effort and is used when closing the scheduler.
   #
-  # source://async//lib/async/node.rb#270
+  # source://async//lib/async/node.rb#271
   def terminate; end
 
   # source://async//lib/async/node.rb#180
@@ -576,7 +586,7 @@ class Async::Node
 
   # Traverse the task tree.
   #
-  # source://async//lib/async/node.rb#255
+  # source://async//lib/async/node.rb#256
   def traverse(&block); end
 
   protected
@@ -593,17 +603,17 @@ class Async::Node
   # @yield [_self, level]
   # @yieldparam _self [Async::Node] the object that the method was called on
   #
-  # source://async//lib/async/node.rb#261
+  # source://async//lib/async/node.rb#262
   def traverse_recurse(level = T.unsafe(nil), &block); end
 
   private
 
-  # source://async//lib/async/node.rb#318
+  # source://async//lib/async/node.rb#319
   def print_backtrace(out, indent, node); end
 
   # Attempt to stop all non-transient children.
   #
-  # source://async//lib/async/node.rb#291
+  # source://async//lib/async/node.rb#292
   def stop_children(later = T.unsafe(nil)); end
 end
 
@@ -675,7 +685,7 @@ class Async::Notification::Signal < ::Struct
   end
 end
 
-# source://async//lib/async/scheduler.rb#24
+# source://async//lib/async/scheduler.rb#25
 Async::Profiler = T.let(T.unsafe(nil), T.untyped)
 
 # A promise represents a value that will be available in the future.
@@ -903,164 +913,171 @@ end
 
 # Handles scheduling of fibers. Implements the fiber scheduler interface.
 #
-# source://async//lib/async/scheduler.rb#28
+# source://async//lib/async/scheduler.rb#29
 class Async::Scheduler < ::Async::Node
   # Create a new scheduler.
   #
   # @return [Scheduler] a new instance of Scheduler
   #
-  # source://async//lib/async/scheduler.rb#76
+  # source://async//lib/async/scheduler.rb#77
   def initialize(parent = T.unsafe(nil), selector: T.unsafe(nil), profiler: T.unsafe(nil), worker_pool: T.unsafe(nil)); end
 
   # Resolve the address of the given hostname.
   #
-  # source://async//lib/async/scheduler.rb#291
+  # source://async//lib/async/scheduler.rb#294
   def address_resolve(hostname); end
 
   # Start an asynchronous task within the specified reactor. The task will be executed until the first blocking call, at which point it will yield and and this method will return.
   #
   # @deprecated Use {#run} or {Task#async} instead.
   #
-  # source://async//lib/async/scheduler.rb#585
+  # source://async//lib/async/scheduler.rb#588
   def async(*arguments, **options, &block); end
 
   # Invoked when a fiber tries to perform a blocking operation which cannot continue. A corresponding call {unblock} must be performed to allow this fiber to continue.
   #
-  # source://async//lib/async/scheduler.rb#230
+  # source://async//lib/async/scheduler.rb#233
   def block(blocker, timeout); end
 
   # Terminate all child tasks and close the scheduler.
   #
-  # source://async//lib/async/scheduler.rb#148
+  # source://async//lib/async/scheduler.rb#149
   def close; end
 
   # @return [Boolean]
   #
-  # source://async//lib/async/scheduler.rb#173
+  # source://async//lib/async/scheduler.rb#176
   def closed?; end
 
   # Create a new fiber and return it without starting execution.
   #
-  # source://async//lib/async/scheduler.rb#600
+  # source://async//lib/async/scheduler.rb#603
   def fiber(*_arg0, **_arg1, &_arg2); end
 
   # Raise an exception on the specified fiber, waking up the event loop if necessary.
   #
-  # source://async//lib/async/scheduler.rb#399
+  # source://async//lib/async/scheduler.rb#402
   def fiber_interrupt(fiber, exception); end
 
   # Interrupt the event loop and cause it to exit.
   #
-  # source://async//lib/async/scheduler.rb#184
+  # source://async//lib/async/scheduler.rb#187
   def interrupt; end
 
   # Read from the specified IO into the buffer.
   #
-  # source://async//lib/async/scheduler.rb#336
+  # source://async//lib/async/scheduler.rb#339
   def io_read(io, buffer, length, offset = T.unsafe(nil)); end
 
   # Wait for the specified IOs to become ready for the specified events.
   #
-  # source://async//lib/async/scheduler.rb#421
+  # source://async//lib/async/scheduler.rb#424
   def io_select(*_arg0, **_arg1, &_arg2); end
 
   # Wait for the specified IO to become ready for the specified events.
   #
-  # source://async//lib/async/scheduler.rb#306
+  # source://async//lib/async/scheduler.rb#309
   def io_wait(io, events, timeout = T.unsafe(nil)); end
 
   # Write the specified buffer to the IO.
   #
-  # source://async//lib/async/scheduler.rb#360
+  # source://async//lib/async/scheduler.rb#363
   def io_write(io, buffer, length, offset = T.unsafe(nil)); end
 
   # Sleep for the specified duration.
   #
-  # source://async//lib/async/scheduler.rb#275
+  # source://async//lib/async/scheduler.rb#278
   def kernel_sleep(duration = T.unsafe(nil)); end
 
   # Compute the scheduler load according to the busy and idle times that are updated by the run loop.
   #
-  # source://async//lib/async/scheduler.rb#105
+  # source://async//lib/async/scheduler.rb#106
   def load; end
+
+  # Handle fork in the child process. This method is called automatically when `Process.fork` is invoked.
+  #
+  # The child process starts with a clean slate - no scheduler is set. Users can create a new scheduler if needed.
+  #
+  # source://async//lib/async/scheduler.rb#654
+  def process_fork; end
 
   # Wait for the specified process ID to exit.
   #
-  # source://async//lib/async/scheduler.rb#413
+  # source://async//lib/async/scheduler.rb#416
   def process_wait(pid, flags); end
 
   # Schedule a fiber (or equivalent object) to be resumed on the next loop through the reactor.
   #
-  # source://async//lib/async/scheduler.rb#201
+  # source://async//lib/async/scheduler.rb#204
   def push(fiber); end
 
   # Raise an exception on a specified fiber with the given arguments.
   #
   # This internally schedules the current fiber to be ready, before raising the exception, so that it will later resume execution.
   #
-  # source://async//lib/async/scheduler.rb#211
+  # source://async//lib/async/scheduler.rb#214
   def raise(*_arg0, **_arg1, &_arg2); end
 
   # Resume execution of the specified fiber.
   #
-  # source://async//lib/async/scheduler.rb#219
+  # source://async//lib/async/scheduler.rb#222
   def resume(fiber, *arguments); end
 
   # Run the reactor until all tasks are finished. Proxies arguments to {#async} immediately before entering the loop, if a block is provided.
   #
   # Forwards all parameters to {#async} if a block is given.
   #
-  # source://async//lib/async/scheduler.rb#559
+  # source://async//lib/async/scheduler.rb#562
   def run(*_arg0, **_arg1, &_arg2); end
 
   # Run one iteration of the event loop.
   #
-  # source://async//lib/async/scheduler.rb#480
+  # source://async//lib/async/scheduler.rb#483
   def run_once(timeout = T.unsafe(nil)); end
 
   # Invoked when the fiber scheduler is being closed.
   #
   # Executes the run loop until all tasks are finished, then closes the scheduler.
   #
-  # source://async//lib/async/scheduler.rb#127
+  # source://async//lib/async/scheduler.rb#128
   def scheduler_close(error = T.unsafe(nil)); end
 
   # Stop all children, including transient children.
   #
-  # source://async//lib/async/scheduler.rb#514
+  # source://async//lib/async/scheduler.rb#517
   def stop; end
 
   # Terminate all child tasks.
   #
-  # source://async//lib/async/scheduler.rb#137
+  # source://async//lib/async/scheduler.rb#138
   def terminate; end
 
   # Invoke the block, but after the specified timeout, raise the specified exception with the given message. If the block runs to completion before the timeout occurs or there are no non-blocking operations after the timeout expires, the code will complete without any exception.
   #
-  # source://async//lib/async/scheduler.rb#640
+  # source://async//lib/async/scheduler.rb#643
   def timeout_after(duration, exception, message, &block); end
 
-  # source://async//lib/async/scheduler.rb#178
+  # source://async//lib/async/scheduler.rb#181
   def to_s; end
 
   # Transfer from the calling fiber to the event loop.
   #
-  # source://async//lib/async/scheduler.rb#190
+  # source://async//lib/async/scheduler.rb#193
   def transfer; end
 
   # Unblock a fiber that was previously blocked.
   #
-  # source://async//lib/async/scheduler.rb#259
+  # source://async//lib/async/scheduler.rb#262
   def unblock(blocker, fiber); end
 
   # Invoke the block, but after the specified timeout, raise {TimeoutError} in any currenly blocking operation. If the block runs to completion before the timeout occurs or there are no non-blocking operations after the timeout expires, the code will complete without any exception.
   #
-  # source://async//lib/async/scheduler.rb#613
+  # source://async//lib/async/scheduler.rb#616
   def with_timeout(duration, exception = T.unsafe(nil), message = T.unsafe(nil), &block); end
 
   # Yield the current fiber and resume it on the next iteration of the event loop.
   #
-  # source://async//lib/async/scheduler.rb#195
+  # source://async//lib/async/scheduler.rb#198
   def yield; end
 
   private
@@ -1069,17 +1086,17 @@ class Async::Scheduler < ::Async::Node
   #
   # @return [Boolean]
   #
-  # source://async//lib/async/scheduler.rb#498
+  # source://async//lib/async/scheduler.rb#501
   def interrupted?; end
 
-  # source://async//lib/async/scheduler.rb#520
+  # source://async//lib/async/scheduler.rb#523
   def run_loop(&block); end
 
   # Run one iteration of the event loop.
   #
   # When terminating the event loop, we already know we are finished. So we don't need to check the task tree. This is a logical requirement because `run_once` ignores transient tasks. For example, a single top level transient task is not enough to keep the reactor running, but during termination we must still process it in order to terminate child tasks.
   #
-  # source://async//lib/async/scheduler.rb#436
+  # source://async//lib/async/scheduler.rb#439
   def run_once!(timeout = T.unsafe(nil)); end
 
   class << self
@@ -1087,59 +1104,59 @@ class Async::Scheduler < ::Async::Node
     #
     # @return [Boolean]
     #
-    # source://async//lib/async/scheduler.rb#45
+    # source://async//lib/async/scheduler.rb#46
     def supported?; end
   end
 end
 
 # Used to augment the scheduler to add support for blocking operations.
 #
-# source://async//lib/async/scheduler.rb#50
+# source://async//lib/async/scheduler.rb#51
 module Async::Scheduler::BlockingOperationWait
   # Wait for the given work to be executed.
   #
-  # source://async//lib/async/scheduler.rb#58
+  # source://async//lib/async/scheduler.rb#59
   def blocking_operation_wait(work); end
 end
 
 # Raised when an operation is attempted on a closed scheduler.
 #
-# source://async//lib/async/scheduler.rb#34
+# source://async//lib/async/scheduler.rb#35
 class Async::Scheduler::ClosedError < ::RuntimeError
   # Create a new error.
   #
   # @return [ClosedError] a new instance of ClosedError
   #
-  # source://async//lib/async/scheduler.rb#38
+  # source://async//lib/async/scheduler.rb#39
   def initialize(message = T.unsafe(nil)); end
 end
 
 # Used to defer stopping the current task until later.
 #
-# source://async//lib/async/scheduler.rb#377
+# source://async//lib/async/scheduler.rb#380
 class Async::Scheduler::FiberInterrupt
   # Create a new stop later operation.
   #
   # @return [FiberInterrupt] a new instance of FiberInterrupt
   #
-  # source://async//lib/async/scheduler.rb#381
+  # source://async//lib/async/scheduler.rb#384
   def initialize(fiber, exception); end
 
   # @return [Boolean]
   #
-  # source://async//lib/async/scheduler.rb#387
+  # source://async//lib/async/scheduler.rb#390
   def alive?; end
 
   # Transfer control to the operation - this will stop the task.
   #
-  # source://async//lib/async/scheduler.rb#392
+  # source://async//lib/async/scheduler.rb#395
   def transfer; end
 end
 
-# source://async//lib/async/scheduler.rb#29
+# source://async//lib/async/scheduler.rb#30
 Async::Scheduler::WORKER_POOL = T.let(T.unsafe(nil), T.untyped)
 
-# source://async//lib/async/scheduler.rb#68
+# source://async//lib/async/scheduler.rb#69
 Async::Scheduler::WorkerPool = T.let(T.unsafe(nil), T.untyped)
 
 # Raised when a task is explicitly stopped.
@@ -1512,4 +1529,12 @@ module Kernel
   #
   # source://async//lib/kernel/sync.rb#20
   def Sync(annotation: T.unsafe(nil), &block); end
+end
+
+module Process
+  extend ::FFI::ModernForkTracking
+  extend ::ConnectionPool::ForkTracker
+  extend ::RedisClient::PIDCache::CoreExt
+  extend ::Async::ForkHandler
+  extend ::ActiveSupport::ForkTracker::CoreExt
 end

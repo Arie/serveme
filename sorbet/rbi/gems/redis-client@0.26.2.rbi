@@ -9,6 +9,7 @@ module Process
   extend ::FFI::ModernForkTracking
   extend ::ConnectionPool::ForkTracker
   extend ::RedisClient::PIDCache::CoreExt
+  extend ::Async::ForkHandler
   extend ::ActiveSupport::ForkTracker::CoreExt
 end
 
@@ -1199,7 +1200,7 @@ class RedisClient::RubyConnection
 
   # unknown
   #
-  # source://redis-client//lib/redis_client/ruby_connection.rb#179
+  # source://redis-client//lib/redis_client/ruby_connection.rb#172
   def enable_socket_keep_alive(socket); end
 
   class << self

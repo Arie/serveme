@@ -304,7 +304,7 @@ class MultiJson::OptionsCache::Store
   def initialize; end
 
   # source://multi_json//lib/multi_json/options_cache.rb#23
-  def fetch(key, &block); end
+  def fetch(key); end
 
   # source://multi_json//lib/multi_json/options_cache.rb#17
   def reset; end

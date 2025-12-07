@@ -2212,7 +2212,7 @@ class RDoc::Generator::Darkfish
   # For backwards compatibility, if +body_file+ contains "<html" the body is
   # used directly.
   #
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#589
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#593
   def assemble_template(body_file); end
 
   # The relative path to style sheets and javascript.  By default this is set
@@ -2261,7 +2261,7 @@ class RDoc::Generator::Darkfish
 
   # Returns an excerpt of the comment for usage in meta description tags
   #
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#704
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#708
   def excerpt(comment); end
 
   # When false the generate methods return a String instead of writing to a
@@ -2293,7 +2293,7 @@ class RDoc::Generator::Darkfish
   # source://rdoc//lib/rdoc/generator/darkfish.rb#219
   def generate; end
 
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#732
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#736
   def generate_ancestor_list(ancestors, klass); end
 
   # Generates a class file for +klass+
@@ -2303,18 +2303,18 @@ class RDoc::Generator::Darkfish
 
   # Generate a documentation file for each class and module
   #
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#346
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#350
   def generate_class_files; end
 
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#758
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#762
   def generate_class_index_content(classes, rel_prefix); end
 
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#750
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#754
   def generate_class_link(klass, rel_prefix); end
 
   # Generate a documentation file for each file
   #
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#371
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#375
   def generate_file_files; end
 
   # Generate an index page which lists all the classes which are documented.
@@ -2324,22 +2324,22 @@ class RDoc::Generator::Darkfish
 
   # Generate a page file for +file+
   #
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#438
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#442
   def generate_page(file); end
 
   # Generates the 404 page for the RDoc servlet
   #
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#465
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#469
   def generate_servlet_not_found(message); end
 
   # Generates the servlet root page for the RDoc servlet
   #
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#496
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#500
   def generate_servlet_root(installed); end
 
   # Generate an index page which lists all the classes which are documented.
   #
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#521
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#525
   def generate_table_of_contents; end
 
   # Return a list of the documented modules sorted by salience first, then
@@ -2348,10 +2348,10 @@ class RDoc::Generator::Darkfish
   # source://rdoc//lib/rdoc/generator/darkfish.rb#272
   def get_sorted_module_list(classes); end
 
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#783
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#787
   def group_classes_by_namespace_for_sidebar(classes); end
 
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#550
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#554
   def install_rdoc_static_file(source, destination, options); end
 
   # The JSON index generator for this Darkfish generator
@@ -2377,7 +2377,7 @@ class RDoc::Generator::Darkfish
   # Renders the ERb contained in +file_name+ relative to the template
   # directory and returns the result based on the current context.
   #
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#610
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#614
   def render(file_name); end
 
   # Load and render the erb template in the given +template_file+ and write
@@ -2387,12 +2387,12 @@ class RDoc::Generator::Darkfish
   #
   # An io will be yielded which must be captured by binding in the caller.
   #
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#628
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#632
   def render_template(template_file, out_file = T.unsafe(nil)); end
 
   # Prepares for generation of output from the current directory
   #
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#570
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#574
   def setup; end
 
   # The RDoc::Store that is the source of the generated content
@@ -2407,16 +2407,16 @@ class RDoc::Generator::Darkfish
 
   # Retrieves a cache template for +file+, if present, or fills the cache.
   #
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#675
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#679
   def template_for(file, page = T.unsafe(nil), klass = T.unsafe(nil)); end
 
   # Creates the result for +template+ with +context+.  If an error is raised a
   # Pathname +template_file+ will indicate the file where the error occurred.
   #
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#662
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#666
   def template_result(template, context, template_file); end
 
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#766
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#770
   def traverse_classes(klasses, grouped_classes, rel_prefix, solo = T.unsafe(nil)); end
 
   # Copy over the stylesheet into the appropriate place in the output
@@ -2427,21 +2427,21 @@ class RDoc::Generator::Darkfish
 
   private
 
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#806
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#810
   def generate_nesting_namespaces_breadcrumb(klass, rel_prefix); end
 
-  # source://rdoc//lib/rdoc/generator/darkfish.rb#796
+  # source://rdoc//lib/rdoc/generator/darkfish.rb#800
   def nesting_namespaces_to_class_modules(klass); end
 end
 
 # :stopdoc:
 #
-# source://rdoc//lib/rdoc/generator/darkfish.rb#698
+# source://rdoc//lib/rdoc/generator/darkfish.rb#702
 RDoc::Generator::Darkfish::ParagraphExcerptRegexpOther = T.let(T.unsafe(nil), Regexp)
 
 # use \p/\P{letter} instead of \w/\W in Unicode
 #
-# source://rdoc//lib/rdoc/generator/darkfish.rb#700
+# source://rdoc//lib/rdoc/generator/darkfish.rb#704
 RDoc::Generator::Darkfish::ParagraphExcerptRegexpUnicode = T.let(T.unsafe(nil), Regexp)
 
 # source://rdoc//lib/rdoc/generator/json_index.rb#77
@@ -5604,32 +5604,62 @@ class RDoc::Markup::HardBreak
   end
 end
 
+# A heading with a level (1-6) and text
+#
 # source://rdoc//lib/rdoc/markup/heading.rb#6
 class RDoc::Markup::Heading < ::Struct
+  # Calls #accept_heading on +visitor+
+  #
   # source://rdoc//lib/rdoc/markup/heading.rb#40
   def accept(visitor); end
 
+  # An HTML-safe anchor reference for this header.
+  #
   # source://rdoc//lib/rdoc/markup/heading.rb#47
   def aref; end
 
+  # Creates a fully-qualified label which will include the label from
+  # +context+.  This helps keep ids unique in HTML.
+  #
   # source://rdoc//lib/rdoc/markup/heading.rb#55
   def label(context = T.unsafe(nil)); end
 
+  # Returns the value of attribute level
+  #
+  # @return [Object] the current value of level
+  #
   # source://rdoc//lib/rdoc/markup/heading.rb#6
   def level; end
 
+  # Sets the attribute level
+  #
+  # @param value [Object] the value to set the attribute level to.
+  # @return [Object] the newly set value
+  #
   # source://rdoc//lib/rdoc/markup/heading.rb#6
   def level=(_); end
 
+  # HTML markup of the text of this label without the surrounding header
+  # element.
+  #
   # source://rdoc//lib/rdoc/markup/heading.rb#68
   def plain_html; end
 
   # source://rdoc//lib/rdoc/markup/heading.rb#78
   def pretty_print(q); end
 
+  # Returns the value of attribute text
+  #
+  # @return [Object] the current value of text
+  #
   # source://rdoc//lib/rdoc/markup/heading.rb#6
   def text; end
 
+  # Sets the attribute text
+  #
+  # @param value [Object] the value to set the attribute text to.
+  # @return [Object] the newly set value
+  #
   # source://rdoc//lib/rdoc/markup/heading.rb#6
   def text=(_); end
 
@@ -5649,9 +5679,14 @@ class RDoc::Markup::Heading < ::Struct
     # source://rdoc//lib/rdoc/markup/heading.rb#6
     def new(*_arg0); end
 
+    # A singleton plain HTML formatter for headings.  Used for creating labels
+    # for the Table of Contents
+    #
     # source://rdoc//lib/rdoc/markup/heading.rb#22
     def to_html; end
 
+    # A singleton RDoc::Markup::ToLabel formatter for headings.
+    #
     # source://rdoc//lib/rdoc/markup/heading.rb#14
     def to_label; end
   end
@@ -6382,6 +6417,9 @@ class RDoc::Markup::ToAnsi < ::RDoc::Markup::ToRdoc
   # source://rdoc//lib/rdoc/markup/to_ansi.rb#55
   def accept_list_item_start(list_item); end
 
+  # source://rdoc//lib/rdoc/markup/to_ansi.rb#84
+  def calculate_text_width(text); end
+
   # Maps attributes to ANSI sequences
   #
   # source://rdoc//lib/rdoc/markup/to_ansi.rb#22
@@ -6389,7 +6427,7 @@ class RDoc::Markup::ToAnsi < ::RDoc::Markup::ToRdoc
 
   # Starts accepting with a reset screen
   #
-  # source://rdoc//lib/rdoc/markup/to_ansi.rb#87
+  # source://rdoc//lib/rdoc/markup/to_ansi.rb#91
   def start_accepting; end
 end
 
@@ -6419,17 +6457,20 @@ class RDoc::Markup::ToBs < ::RDoc::Markup::ToRdoc
 
   # Turns on or off regexp handling for +convert_string+
   #
-  # source://rdoc//lib/rdoc/markup/to_bs.rb#71
+  # source://rdoc//lib/rdoc/markup/to_bs.rb#75
   def annotate(tag); end
+
+  # source://rdoc//lib/rdoc/markup/to_bs.rb#68
+  def calculate_text_width(text); end
 
   # Calls convert_string on the result of convert_regexp_handling
   #
-  # source://rdoc//lib/rdoc/markup/to_bs.rb#84
+  # source://rdoc//lib/rdoc/markup/to_bs.rb#88
   def convert_regexp_handling(target); end
 
   # Adds bold or underline mixed with backspaces
   #
-  # source://rdoc//lib/rdoc/markup/to_bs.rb#91
+  # source://rdoc//lib/rdoc/markup/to_bs.rb#95
   def convert_string(string); end
 
   # Sets a flag that is picked up by #annotate to do the right thing in
@@ -7238,22 +7279,25 @@ class RDoc::Markup::ToRdoc < ::RDoc::Markup::Formatter
 
   # Applies attribute-specific markup to +text+ using RDoc::AttributeManager
   #
-  # source://rdoc//lib/rdoc/markup/to_rdoc.rb#280
+  # source://rdoc//lib/rdoc/markup/to_rdoc.rb#288
   def attributes(text); end
+
+  # source://rdoc//lib/rdoc/markup/to_rdoc.rb#281
+  def calculate_text_width(text); end
 
   # Returns the generated output
   #
-  # source://rdoc//lib/rdoc/markup/to_rdoc.rb#288
+  # source://rdoc//lib/rdoc/markup/to_rdoc.rb#296
   def end_accepting; end
 
   # Adds a newline to the output
   #
-  # source://rdoc//lib/rdoc/markup/to_rdoc.rb#304
+  # source://rdoc//lib/rdoc/markup/to_rdoc.rb#312
   def handle_regexp_HARD_BREAK(target); end
 
   # Removes preceding \\ from the suppressed crossref +target+
   #
-  # source://rdoc//lib/rdoc/markup/to_rdoc.rb#295
+  # source://rdoc//lib/rdoc/markup/to_rdoc.rb#303
   def handle_regexp_SUPPRESSED_CROSSREF(target); end
 
   # Current indent amount for output in characters
@@ -7298,13 +7342,13 @@ class RDoc::Markup::ToRdoc < ::RDoc::Markup::Formatter
 
   # Prepares the visitor for text generation
   #
-  # source://rdoc//lib/rdoc/markup/to_rdoc.rb#311
+  # source://rdoc//lib/rdoc/markup/to_rdoc.rb#319
   def start_accepting; end
 
   # Adds the stored #prefix to the output and clears it.  Lists generate a
   # prefix for later consumption.
   #
-  # source://rdoc//lib/rdoc/markup/to_rdoc.rb#325
+  # source://rdoc//lib/rdoc/markup/to_rdoc.rb#333
   def use_prefix; end
 
   # Output width in characters
@@ -7319,7 +7363,7 @@ class RDoc::Markup::ToRdoc < ::RDoc::Markup::Formatter
 
   # Wraps +text+ to #width
   #
-  # source://rdoc//lib/rdoc/markup/to_rdoc.rb#335
+  # source://rdoc//lib/rdoc/markup/to_rdoc.rb#343
   def wrap(text); end
 end
 

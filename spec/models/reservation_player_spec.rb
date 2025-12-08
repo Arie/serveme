@@ -45,7 +45,7 @@ describe ReservationPlayer do
 
   context 'banned ip' do
     it 'recognizes a banned ip in a range' do
-      expect(described_class.banned_ip?('109.81.174.1')).to be_truthy
+      expect(described_class.banned_ip?('83.137.6.1')).to be_truthy
     end
     it 'doesnt flag a good ip as banned' do
       expect(described_class.banned_ip?('127.0.0.1')).to be_falsy
@@ -81,7 +81,7 @@ describe ReservationPlayer do
       expect(described_class.has_connected_with_normal_ip?(steam_uid, reservation.id)).to be false
 
       # Banned IP (from banned_ips.csv)
-      create(:reservation_player, steam_uid: steam_uid, ip: '79.118.14.197', reservation: reservation)
+      create(:reservation_player, steam_uid: steam_uid, ip: '46.138.79.27', reservation: reservation)
       expect(described_class.has_connected_with_normal_ip?(steam_uid, reservation.id)).to be false
 
       # Banned ASN (mocked since test MaxMind test DB is limited)
@@ -163,7 +163,7 @@ describe ReservationPlayer do
       user.update_columns(updated_at: 3.days.ago)
       expect(described_class.has_logged_in_with_normal_ip_recently?(steam_uid)).to be true
 
-      user.update_columns(current_sign_in_ip: '79.118.14.197')
+      user.update_columns(current_sign_in_ip: '46.138.79.27')
       expect(described_class.has_logged_in_with_normal_ip_recently?(steam_uid)).to be false
     end
   end

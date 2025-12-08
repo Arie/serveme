@@ -174,7 +174,7 @@ describe User do
     end
 
     it 'is banned with a banned IP' do
-      user = build(:user, current_sign_in_ip: '136.32.118.79')
+      user = build(:user, current_sign_in_ip: '46.138.79.27')
       user.should be_banned
     end
   end

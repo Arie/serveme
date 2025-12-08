@@ -881,7 +881,7 @@ GEM
     tilt (2.6.1)
     time (0.4.1)
       date
-    timeout (0.4.4)
+    timeout (0.5.0)
     tins (1.48.0)
       bigdecimal
       mize (~> 0.6)

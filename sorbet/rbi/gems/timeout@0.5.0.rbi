@@ -9,42 +9,10 @@
 module Timeout
   private
 
-  # Perform an operation in a block, raising an error if it takes longer than
-  # +sec+ seconds to complete.
-  #
-  # +sec+:: Number of seconds to wait for the block to terminate. Any non-negative number
-  #         or nil may be used, including Floats to specify fractional seconds. A
-  #         value of 0 or +nil+ will execute the block without any timeout.
-  #         Any negative number will raise an ArgumentError.
-  # +klass+:: Exception Class to raise if the block fails to terminate
-  #           in +sec+ seconds.  Omitting will use the default, Timeout::Error
-  # +message+:: Error message to raise with Exception Class.
-  #             Omitting will use the default, "execution expired"
-  #
-  # Returns the result of the block *if* the block completed before
-  # +sec+ seconds, otherwise throws an exception, based on the value of +klass+.
-  #
-  # The exception thrown to terminate the given block cannot be rescued inside
-  # the block unless +klass+ is given explicitly. However, the block can use
-  # ensure to prevent the handling of the exception.  For that reason, this
-  # method cannot be relied on to enforce timeouts for untrusted blocks.
-  #
-  # If a scheduler is defined, it will be used to handle the timeout by invoking
-  # Scheduler#timeout_after.
-  #
-  # Note that this is both a method of module Timeout, so you can <tt>include
-  # Timeout</tt> into your classes so they have a #timeout method, as well as
-  # a module method, so you can call it directly as Timeout.timeout().
-  #
-  # @raise [ArgumentError]
-  #
-  # source://timeout//lib/timeout.rb#170
-  def timeout(sec, klass = T.unsafe(nil), message = T.unsafe(nil), &block); end
+  # source://timeout//lib/timeout.rb#235
+  def timeout(*args, &block); end
 
   class << self
-    # source://timeout//lib/timeout.rb#124
-    def ensure_timeout_thread_created; end
-
     # Perform an operation in a block, raising an error if it takes longer than
     # +sec+ seconds to complete.
     #
@@ -74,20 +42,10 @@ module Timeout
     #
     # @raise [ArgumentError]
     #
-    # source://timeout//lib/timeout.rb#200
+    # source://timeout//lib/timeout.rb#202
     def timeout(sec, klass = T.unsafe(nil), message = T.unsafe(nil), &block); end
-
-    private
-
-    # source://timeout//lib/timeout.rb#94
-    def create_timeout_thread; end
   end
 end
-
-# :stopdoc:
-#
-# source://timeout//lib/timeout.rb#47
-Timeout::CONDVAR = T.let(T.unsafe(nil), Thread::ConditionVariable)
 
 # Raised by Timeout.timeout when the block times out.
 #
@@ -107,49 +65,80 @@ class Timeout::ExitException < ::Exception
   def exception(*_arg0); end
 end
 
-# We keep a private reference so that time mocking libraries won't break
-# Timeout.
+# We keep a private reference so that time mocking libraries won't break Timeout.
 #
-# source://timeout//lib/timeout.rb#139
+# source://timeout//lib/timeout.rb#49
 Timeout::GET_TIME = T.let(T.unsafe(nil), Method)
 
-# source://timeout//lib/timeout.rb#48
-Timeout::QUEUE = T.let(T.unsafe(nil), Thread::Queue)
-
-# source://timeout//lib/timeout.rb#49
-Timeout::QUEUE_MUTEX = T.let(T.unsafe(nil), Thread::Mutex)
-
-# source://timeout//lib/timeout.rb#54
+# source://timeout//lib/timeout.rb#134
 class Timeout::Request
   # @return [Request] a new instance of Request
   #
-  # source://timeout//lib/timeout.rb#57
+  # source://timeout//lib/timeout.rb#137
   def initialize(thread, timeout, exception_class, message); end
 
   # Returns the value of attribute deadline.
   #
-  # source://timeout//lib/timeout.rb#55
+  # source://timeout//lib/timeout.rb#135
   def deadline; end
 
   # @return [Boolean]
   #
-  # source://timeout//lib/timeout.rb#67
+  # source://timeout//lib/timeout.rb#147
   def done?; end
 
   # @return [Boolean]
   #
-  # source://timeout//lib/timeout.rb#73
+  # source://timeout//lib/timeout.rb#153
   def expired?(now); end
 
-  # source://timeout//lib/timeout.rb#86
+  # source://timeout//lib/timeout.rb#166
   def finished; end
 
-  # source://timeout//lib/timeout.rb#77
+  # source://timeout//lib/timeout.rb#157
   def interrupt; end
 end
 
-# source://timeout//lib/timeout.rb#50
-Timeout::TIMEOUT_THREAD_MUTEX = T.let(T.unsafe(nil), Thread::Mutex)
+# source://timeout//lib/timeout.rb#56
+class Timeout::State
+  # @return [State] a new instance of State
+  #
+  # source://timeout//lib/timeout.rb#59
+  def initialize; end
+
+  # shared with Timeout.timeout()
+  #
+  # source://timeout//lib/timeout.rb#57
+  def condvar; end
+
+  # source://timeout//lib/timeout.rb#85
+  def create_timeout_thread; end
+
+  # source://timeout//lib/timeout.rb#118
+  def ensure_timeout_thread_created; end
+
+  # shared with Timeout.timeout()
+  #
+  # source://timeout//lib/timeout.rb#57
+  def queue; end
+
+  # shared with Timeout.timeout()
+  #
+  # source://timeout//lib/timeout.rb#57
+  def queue_mutex; end
+
+  class << self
+    # Ractor support if
+    # 1. Ractor.store_if_absent is available
+    # 2. Method object can be shareable (4.0~)
+    #
+    # source://timeout//lib/timeout.rb#80
+    def instance; end
+  end
+end
+
+# source://timeout//lib/timeout.rb#78
+Timeout::State::GLOBAL_STATE = T.let(T.unsafe(nil), Timeout::State)
 
 # The version
 #

@@ -657,11 +657,11 @@ class Server < ActiveRecord::Base
     end
 
     if version < latest_version
-      Rails.logger.warn("Server #{name} was updating since #{I18n.l(update_started_at, format: :short)} but is now back online with old version #{version} instead of latest #{latest_version}") if update_status == "Updating"
+      Rails.logger.warn("Server #{name} was updating since #{update_started_at ? I18n.l(update_started_at, format: :short) : 'unknown'} but is now back online with old version #{version} instead of latest #{latest_version}") if update_status == "Updating"
 
       update(update_status: "Outdated", last_known_version: version)
     else
-      Rails.logger.info("Server #{name} was updating since #{I18n.l(update_started_at, format: :short)} from version #{last_known_version} and is now back online with latest version #{version}") if %w[Updating Outdated].include?(update_status)
+      Rails.logger.info("Server #{name} was updating since #{update_started_at ? I18n.l(update_started_at, format: :short) : 'unknown'} from version #{last_known_version} and is now back online with latest version #{version}") if %w[Updating Outdated].include?(update_status)
 
       update(update_status: "Updated", last_known_version: version)
     end

@@ -16,94 +16,98 @@ module Cucumber::Messages; end
 # Represents the Attachment message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
 #
 #
-# //// Attachments (parse errors, execution errors, screenshots, links...)
+# Attachments (parse errors, execution errors, screenshots, links...)
 #
-# *
-#  An attachment represents any kind of data associated with a line in a
-#  [Source](#io.cucumber.messages.Source) file. It can be used for:
+# An attachment represents any kind of data associated with a line in a
+# [Source](#io.cucumber.messages.Source) file. It can be used for:
 #
-#  * Syntax errors during parse time
-#  * Screenshots captured and attached during execution
-#  * Logs captured and attached during execution
+# * Syntax errors during parse time
+# * Screenshots captured and attached during execution
+# * Logs captured and attached during execution
 #
-#  It is not to be used for runtime errors raised/thrown during execution. This
-#  is captured in `TestResult`.
+# It is not to be used for runtime errors raised/thrown during execution. This
+# is captured in `TestResult`.
 #
-# source://cucumber-messages//lib/cucumber/messages/attachment.rb#23
+# source://cucumber-messages//lib/cucumber/messages/attachment.rb#22
 class Cucumber::Messages::Attachment < ::Cucumber::Messages::Message
   # @return [Attachment] a new instance of Attachment
   #
-  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#84
-  def initialize(body: T.unsafe(nil), content_encoding: T.unsafe(nil), file_name: T.unsafe(nil), media_type: T.unsafe(nil), source: T.unsafe(nil), test_case_started_id: T.unsafe(nil), test_step_id: T.unsafe(nil), url: T.unsafe(nil), test_run_started_id: T.unsafe(nil)); end
+  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#97
+  def initialize(body: T.unsafe(nil), content_encoding: T.unsafe(nil), file_name: T.unsafe(nil), media_type: T.unsafe(nil), source: T.unsafe(nil), test_case_started_id: T.unsafe(nil), test_step_id: T.unsafe(nil), url: T.unsafe(nil), test_run_started_id: T.unsafe(nil), test_run_hook_started_id: T.unsafe(nil), timestamp: T.unsafe(nil)); end
 
-  # *
-  #  The body of the attachment. If `contentEncoding` is `IDENTITY`, the attachment
-  #  is simply the string. If it's `BASE64`, the string should be Base64 decoded to
-  #  obtain the attachment.
+  # The body of the attachment. If `contentEncoding` is `IDENTITY`, the attachment
+  # is simply the string. If it's `BASE64`, the string should be Base64 decoded to
+  # obtain the attachment.
   #
-  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#30
+  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#28
   def body; end
 
-  # *
-  #  Whether to interpret `body` "as-is" (IDENTITY) or if it needs to be Base64-decoded (BASE64).
+  # Whether to interpret `body` "as-is" (IDENTITY) or if it needs to be Base64-decoded (BASE64).
   #
-  #  Content encoding is *not* determined by the media type, but rather by the type
-  #  of the object being attached:
+  # Content encoding is *not* determined by the media type, but rather by the type
+  # of the object being attached:
   #
-  #  - string: IDENTITY
-  #  - byte array: BASE64
-  #  - stream: BASE64
+  # - string: IDENTITY
+  # - byte array: BASE64
+  # - stream: BASE64
   #
-  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#43
+  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#40
   def content_encoding; end
 
-  # *
-  #  Suggested file name of the attachment. (Provided by the user as an argument to `attach`)
+  # Suggested file name of the attachment. (Provided by the user as an argument to `attach`)
   #
-  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#49
+  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#45
   def file_name; end
 
-  # *
-  #  The media type of the data. This can be any valid
-  #  [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
-  #  as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
-  #  and `text/x.cucumber.stacktrace+plain`
+  # The media type of the data. This can be any valid
+  # [IANA Media Type](https://www.iana.org/assignments/media-types/media-types.xhtml)
+  # as well as Cucumber-specific media types such as `text/x.cucumber.gherkin+plain`
+  # and `text/x.cucumber.stacktrace+plain`
   #
-  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#58
+  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#53
   def media_type; end
 
   # Returns the value of attribute source.
   #
-  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#60
+  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#55
   def source; end
 
-  # Returns the value of attribute test_case_started_id.
+  # The identifier of the test case attempt if the attachment was created during the execution of a test step
   #
-  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#62
+  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#60
   def test_case_started_id; end
 
-  # Returns the value of attribute test_run_started_id.
+  # The identifier of the test run hook execution if the attachment was created during the execution of a test run hook
   #
-  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#82
+  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#90
+  def test_run_hook_started_id; end
+
+  # Not used; implementers should instead populate `testRunHookStartedId` if an attachment was created during the execution of a test run hook
+  #
+  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#85
   def test_run_started_id; end
 
-  # Returns the value of attribute test_step_id.
+  # The identifier of the test step if the attachment was created during the execution of a test step
   #
-  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#64
+  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#65
   def test_step_id; end
 
-  # *
-  #  A URL where the attachment can be retrieved. This field should not be set by Cucumber.
-  #  It should be set by a program that reads a message stream and does the following for
-  #  each Attachment message:
+  # When the attachment was created
   #
-  #  - Writes the body (after base64 decoding if necessary) to a new file.
-  #  - Sets `body` and `contentEncoding` to `null`
-  #  - Writes out the new attachment message
+  # source://cucumber-messages//lib/cucumber/messages/attachment.rb#95
+  def timestamp; end
+
+  # A URL where the attachment can be retrieved. This field should not be set by Cucumber.
+  # It should be set by a program that reads a message stream and does the following for
+  # each Attachment message:
   #
-  #  This will result in a smaller message stream, which can improve performance and
-  #  reduce bandwidth of message consumers. It also makes it easier to process and download attachments
-  #  separately from reports.
+  # - Writes the body (after base64 decoding if necessary) to a new file.
+  # - Sets `body` and `contentEncoding` to `null`
+  # - Writes out the new attachment message
+  #
+  # This will result in a smaller message stream, which can improve performance and
+  # reduce bandwidth of message consumers. It also makes it easier to process and download attachments
+  # separately from reports.
   #
   # source://cucumber-messages//lib/cucumber/messages/attachment.rb#80
   def url; end
@@ -115,7 +119,7 @@ class Cucumber::Messages::Attachment < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::Attachment.from_h(some_hash) # => #<Cucumber::Messages::Attachment:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/attachment.rb#114
+    # source://cucumber-messages//lib/cucumber/messages/attachment.rb#131
     def from_h(hash); end
   end
 end
@@ -227,24 +231,23 @@ end
 # Represents the Comment message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
 #
 #
-# *
-#  A comment in a Gherkin document
+# A comment in a Gherkin document
 #
-# source://cucumber-messages//lib/cucumber/messages/comment.rb#13
+# source://cucumber-messages//lib/cucumber/messages/comment.rb#12
 class Cucumber::Messages::Comment < ::Cucumber::Messages::Message
   # @return [Comment] a new instance of Comment
   #
-  # source://cucumber-messages//lib/cucumber/messages/comment.rb#24
+  # source://cucumber-messages//lib/cucumber/messages/comment.rb#23
   def initialize(location: T.unsafe(nil), text: T.unsafe(nil)); end
 
   # The location of the comment
   #
-  # source://cucumber-messages//lib/cucumber/messages/comment.rb#17
+  # source://cucumber-messages//lib/cucumber/messages/comment.rb#16
   def location; end
 
   # The text of the comment
   #
-  # source://cucumber-messages//lib/cucumber/messages/comment.rb#22
+  # source://cucumber-messages//lib/cucumber/messages/comment.rb#21
   def text; end
 
   class << self
@@ -254,7 +257,7 @@ class Cucumber::Messages::Comment < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::Comment.from_h(some_hash) # => #<Cucumber::Messages::Comment:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/comment.rb#40
+    # source://cucumber-messages//lib/cucumber/messages/comment.rb#39
     def from_h(hash); end
   end
 end
@@ -335,7 +338,7 @@ end
 #
 #
 # The structure is pretty close of the Timestamp one. For clarity, a second type
-#  of message is used.
+# of message is used.
 #
 # source://cucumber-messages//lib/cucumber/messages/duration.rb#13
 class Cucumber::Messages::Duration < ::Cucumber::Messages::Message
@@ -345,9 +348,9 @@ class Cucumber::Messages::Duration < ::Cucumber::Messages::Message
   def initialize(seconds: T.unsafe(nil), nanos: T.unsafe(nil)); end
 
   # Non-negative fractions of a second at nanosecond resolution. Negative
-  #  second values with fractions must still have non-negative nanos values
-  #  that count forward in time. Must be from 0 to 999,999,999
-  #  inclusive.
+  # second values with fractions must still have non-negative nanos values
+  # that count forward in time. Must be from 0 to 999,999,999
+  # inclusive.
   #
   # source://cucumber-messages//lib/cucumber/messages/duration.rb#22
   def nanos; end
@@ -371,115 +374,111 @@ end
 
 # Represents the Envelope message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
 #
-#
-# When removing a field, replace it with reserved, rather than deleting the line.
-#  When adding a field, add it to the end and increment the number by one.
-#  See https://developers.google.com/protocol-buffers/docs/proto#updating for details
-#
-# *
-#  All the messages that are passed between different components/processes are Envelope
-#  messages.
-#
-# source://cucumber-messages//lib/cucumber/messages/envelope.rb#18
+# source://cucumber-messages//lib/cucumber/messages/envelope.rb#10
 class Cucumber::Messages::Envelope < ::Cucumber::Messages::Message
   # @return [Envelope] a new instance of Envelope
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#57
-  def initialize(attachment: T.unsafe(nil), gherkin_document: T.unsafe(nil), hook: T.unsafe(nil), meta: T.unsafe(nil), parameter_type: T.unsafe(nil), parse_error: T.unsafe(nil), pickle: T.unsafe(nil), source: T.unsafe(nil), step_definition: T.unsafe(nil), test_case: T.unsafe(nil), test_case_finished: T.unsafe(nil), test_case_started: T.unsafe(nil), test_run_finished: T.unsafe(nil), test_run_started: T.unsafe(nil), test_step_finished: T.unsafe(nil), test_step_started: T.unsafe(nil), test_run_hook_started: T.unsafe(nil), test_run_hook_finished: T.unsafe(nil), undefined_parameter_type: T.unsafe(nil)); end
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#51
+  def initialize(attachment: T.unsafe(nil), gherkin_document: T.unsafe(nil), hook: T.unsafe(nil), meta: T.unsafe(nil), parameter_type: T.unsafe(nil), parse_error: T.unsafe(nil), pickle: T.unsafe(nil), suggestion: T.unsafe(nil), source: T.unsafe(nil), step_definition: T.unsafe(nil), test_case: T.unsafe(nil), test_case_finished: T.unsafe(nil), test_case_started: T.unsafe(nil), test_run_finished: T.unsafe(nil), test_run_started: T.unsafe(nil), test_step_finished: T.unsafe(nil), test_step_started: T.unsafe(nil), test_run_hook_started: T.unsafe(nil), test_run_hook_finished: T.unsafe(nil), undefined_parameter_type: T.unsafe(nil)); end
 
   # Returns the value of attribute attachment.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#19
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#11
   def attachment; end
 
   # Returns the value of attribute gherkin_document.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#21
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#13
   def gherkin_document; end
 
   # Returns the value of attribute hook.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#23
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#15
   def hook; end
 
   # Returns the value of attribute meta.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#25
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#17
   def meta; end
 
   # Returns the value of attribute parameter_type.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#27
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#19
   def parameter_type; end
 
   # Returns the value of attribute parse_error.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#29
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#21
   def parse_error; end
 
   # Returns the value of attribute pickle.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#31
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#23
   def pickle; end
 
   # Returns the value of attribute source.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#33
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#27
   def source; end
 
   # Returns the value of attribute step_definition.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#35
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#29
   def step_definition; end
+
+  # Returns the value of attribute suggestion.
+  #
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#25
+  def suggestion; end
 
   # Returns the value of attribute test_case.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#37
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#31
   def test_case; end
 
   # Returns the value of attribute test_case_finished.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#39
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#33
   def test_case_finished; end
 
   # Returns the value of attribute test_case_started.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#41
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#35
   def test_case_started; end
 
   # Returns the value of attribute test_run_finished.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#43
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#37
   def test_run_finished; end
 
   # Returns the value of attribute test_run_hook_finished.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#53
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#47
   def test_run_hook_finished; end
 
   # Returns the value of attribute test_run_hook_started.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#51
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#45
   def test_run_hook_started; end
 
   # Returns the value of attribute test_run_started.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#45
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#39
   def test_run_started; end
 
   # Returns the value of attribute test_step_finished.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#47
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#41
   def test_step_finished; end
 
   # Returns the value of attribute test_step_started.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#49
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#43
   def test_step_started; end
 
   # Returns the value of attribute undefined_parameter_type.
   #
-  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#55
+  # source://cucumber-messages//lib/cucumber/messages/envelope.rb#49
   def undefined_parameter_type; end
 
   class << self
@@ -489,7 +488,7 @@ class Cucumber::Messages::Envelope < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::Envelope.from_h(some_hash) # => #<Cucumber::Messages::Envelope:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/envelope.rb#107
+    # source://cucumber-messages//lib/cucumber/messages/envelope.rb#103
     def from_h(hash); end
   end
 end
@@ -653,29 +652,28 @@ end
 # Represents the FeatureChild message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
 #
 #
-# *
-#  A child node of a `Feature` node
+# A child node of a `Feature` node
 #
-# source://cucumber-messages//lib/cucumber/messages/feature_child.rb#13
+# source://cucumber-messages//lib/cucumber/messages/feature_child.rb#12
 class Cucumber::Messages::FeatureChild < ::Cucumber::Messages::Message
   # @return [FeatureChild] a new instance of FeatureChild
   #
-  # source://cucumber-messages//lib/cucumber/messages/feature_child.rb#20
+  # source://cucumber-messages//lib/cucumber/messages/feature_child.rb#19
   def initialize(rule: T.unsafe(nil), background: T.unsafe(nil), scenario: T.unsafe(nil)); end
 
   # Returns the value of attribute background.
   #
-  # source://cucumber-messages//lib/cucumber/messages/feature_child.rb#16
+  # source://cucumber-messages//lib/cucumber/messages/feature_child.rb#15
   def background; end
 
   # Returns the value of attribute rule.
   #
-  # source://cucumber-messages//lib/cucumber/messages/feature_child.rb#14
+  # source://cucumber-messages//lib/cucumber/messages/feature_child.rb#13
   def rule; end
 
   # Returns the value of attribute scenario.
   #
-  # source://cucumber-messages//lib/cucumber/messages/feature_child.rb#18
+  # source://cucumber-messages//lib/cucumber/messages/feature_child.rb#17
   def scenario; end
 
   class << self
@@ -685,7 +683,7 @@ class Cucumber::Messages::FeatureChild < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::FeatureChild.from_h(some_hash) # => #<Cucumber::Messages::FeatureChild:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/feature_child.rb#38
+    # source://cucumber-messages//lib/cucumber/messages/feature_child.rb#37
     def from_h(hash); end
   end
 end
@@ -693,36 +691,34 @@ end
 # Represents the GherkinDocument message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
 #
 #
-# *
-#  The [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) of a Gherkin document.
-#  Cucumber implementations should *not* depend on `GherkinDocument` or any of its
-#  children for execution - use [Pickle](#io.cucumber.messages.Pickle) instead.
+# The [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree) of a Gherkin document.
+# Cucumber implementations should *not* depend on `GherkinDocument` or any of its
+# children for execution - use [Pickle](#io.cucumber.messages.Pickle) instead.
 #
-#  The only consumers of `GherkinDocument` should only be formatters that produce
-#  "rich" output, resembling the original Gherkin document.
+# The only consumers of `GherkinDocument` should only be formatters that produce
+# "rich" output, resembling the original Gherkin document.
 #
-# source://cucumber-messages//lib/cucumber/messages/gherkin_document.rb#18
+# source://cucumber-messages//lib/cucumber/messages/gherkin_document.rb#17
 class Cucumber::Messages::GherkinDocument < ::Cucumber::Messages::Message
   # @return [GherkinDocument] a new instance of GherkinDocument
   #
-  # source://cucumber-messages//lib/cucumber/messages/gherkin_document.rb#33
+  # source://cucumber-messages//lib/cucumber/messages/gherkin_document.rb#31
   def initialize(uri: T.unsafe(nil), feature: T.unsafe(nil), comments: T.unsafe(nil)); end
 
   # All the comments in the Gherkin document
   #
-  # source://cucumber-messages//lib/cucumber/messages/gherkin_document.rb#31
+  # source://cucumber-messages//lib/cucumber/messages/gherkin_document.rb#29
   def comments; end
 
   # Returns the value of attribute feature.
   #
-  # source://cucumber-messages//lib/cucumber/messages/gherkin_document.rb#26
+  # source://cucumber-messages//lib/cucumber/messages/gherkin_document.rb#24
   def feature; end
 
-  # *
-  #  The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
-  #  of the source, typically a file path relative to the root directory
+  # The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+  # of the source, typically a file path relative to the root directory
   #
-  # source://cucumber-messages//lib/cucumber/messages/gherkin_document.rb#24
+  # source://cucumber-messages//lib/cucumber/messages/gherkin_document.rb#22
   def uri; end
 
   class << self
@@ -732,7 +728,7 @@ class Cucumber::Messages::GherkinDocument < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::GherkinDocument.from_h(some_hash) # => #<Cucumber::Messages::GherkinDocument:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/gherkin_document.rb#51
+    # source://cucumber-messages//lib/cucumber/messages/gherkin_document.rb#49
     def from_h(hash); end
   end
 end
@@ -741,7 +737,7 @@ end
 #
 #
 # Information about Git, provided by the Build/CI server as environment
-#  variables.
+# variables.
 #
 # source://cucumber-messages//lib/cucumber/messages/git.rb#13
 class Cucumber::Messages::Git < ::Cucumber::Messages::Message
@@ -1014,24 +1010,23 @@ end
 # Represents the Location message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
 #
 #
-# *
-#  Points to a line and a column in a text file
+# Points to a line and a column in a text file
 #
-# source://cucumber-messages//lib/cucumber/messages/location.rb#13
+# source://cucumber-messages//lib/cucumber/messages/location.rb#12
 class Cucumber::Messages::Location < ::Cucumber::Messages::Message
   # @return [Location] a new instance of Location
   #
-  # source://cucumber-messages//lib/cucumber/messages/location.rb#18
+  # source://cucumber-messages//lib/cucumber/messages/location.rb#17
   def initialize(line: T.unsafe(nil), column: T.unsafe(nil)); end
 
   # Returns the value of attribute column.
   #
-  # source://cucumber-messages//lib/cucumber/messages/location.rb#16
+  # source://cucumber-messages//lib/cucumber/messages/location.rb#15
   def column; end
 
   # Returns the value of attribute line.
   #
-  # source://cucumber-messages//lib/cucumber/messages/location.rb#14
+  # source://cucumber-messages//lib/cucumber/messages/location.rb#13
   def line; end
 
   class << self
@@ -1041,7 +1036,7 @@ class Cucumber::Messages::Location < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::Location.from_h(some_hash) # => #<Cucumber::Messages::Location:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/location.rb#34
+    # source://cucumber-messages//lib/cucumber/messages/location.rb#33
     def from_h(hash); end
   end
 end
@@ -1122,46 +1117,44 @@ end
 # Represents the Meta message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
 #
 #
-# *
-#  This message contains meta information about the environment. Consumers can use
-#  this for various purposes.
+# This message contains meta information about the environment. Consumers can use
+# this for various purposes.
 #
-# source://cucumber-messages//lib/cucumber/messages/meta.rb#14
+# source://cucumber-messages//lib/cucumber/messages/meta.rb#13
 class Cucumber::Messages::Meta < ::Cucumber::Messages::Message
   # @return [Meta] a new instance of Meta
   #
-  # source://cucumber-messages//lib/cucumber/messages/meta.rb#43
+  # source://cucumber-messages//lib/cucumber/messages/meta.rb#41
   def initialize(protocol_version: T.unsafe(nil), implementation: T.unsafe(nil), runtime: T.unsafe(nil), os: T.unsafe(nil), cpu: T.unsafe(nil), ci: T.unsafe(nil)); end
 
   # Returns the value of attribute ci.
   #
-  # source://cucumber-messages//lib/cucumber/messages/meta.rb#41
+  # source://cucumber-messages//lib/cucumber/messages/meta.rb#39
   def ci; end
 
   # 386, arm, amd64 etc
   #
-  # source://cucumber-messages//lib/cucumber/messages/meta.rb#39
+  # source://cucumber-messages//lib/cucumber/messages/meta.rb#37
   def cpu; end
 
   # SpecFlow, Cucumber-JVM, Cucumber.js, Cucumber-Ruby, Behat etc.
   #
-  # source://cucumber-messages//lib/cucumber/messages/meta.rb#24
+  # source://cucumber-messages//lib/cucumber/messages/meta.rb#22
   def implementation; end
 
   # Windows, Linux, MacOS etc
   #
-  # source://cucumber-messages//lib/cucumber/messages/meta.rb#34
+  # source://cucumber-messages//lib/cucumber/messages/meta.rb#32
   def os; end
 
-  # *
-  #  The [SEMVER](https://semver.org/) version number of the protocol
+  # The [SEMVER](https://semver.org/) version number of the protocol
   #
-  # source://cucumber-messages//lib/cucumber/messages/meta.rb#19
+  # source://cucumber-messages//lib/cucumber/messages/meta.rb#17
   def protocol_version; end
 
   # Java, Ruby, Node.js etc
   #
-  # source://cucumber-messages//lib/cucumber/messages/meta.rb#29
+  # source://cucumber-messages//lib/cucumber/messages/meta.rb#27
   def runtime; end
 
   class << self
@@ -1171,7 +1164,7 @@ class Cucumber::Messages::Meta < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::Meta.from_h(some_hash) # => #<Cucumber::Messages::Meta:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/meta.rb#67
+    # source://cucumber-messages//lib/cucumber/messages/meta.rb#65
     def from_h(hash); end
   end
 end
@@ -1261,66 +1254,60 @@ end
 # Represents the Pickle message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
 #
 #
-# //// Pickles
+# A `Pickle` represents a template for a `TestCase`. It is typically derived
+# from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).
+# In the future a `Pickle` may be derived from other formats such as Markdown or
+# Excel files.
 #
-# *
-#  A `Pickle` represents a template for a `TestCase`. It is typically derived
-#  from another format, such as [GherkinDocument](#io.cucumber.messages.GherkinDocument).
-#  In the future a `Pickle` may be derived from other formats such as Markdown or
-#  Excel files.
+# By making `Pickle` the main data structure Cucumber uses for execution, the
+# implementation of Cucumber itself becomes simpler, as it doesn't have to deal
+# with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).
 #
-#  By making `Pickle` the main data structure Cucumber uses for execution, the
-#  implementation of Cucumber itself becomes simpler, as it doesn't have to deal
-#  with the complex structure of a [GherkinDocument](#io.cucumber.messages.GherkinDocument).
+# Each `PickleStep` of a `Pickle` is matched with a `StepDefinition` to create a `TestCase`
 #
-#  Each `PickleStep` of a `Pickle` is matched with a `StepDefinition` to create a `TestCase`
-#
-# source://cucumber-messages//lib/cucumber/messages/pickle.rb#24
+# source://cucumber-messages//lib/cucumber/messages/pickle.rb#21
 class Cucumber::Messages::Pickle < ::Cucumber::Messages::Message
   # @return [Pickle] a new instance of Pickle
   #
-  # source://cucumber-messages//lib/cucumber/messages/pickle.rb#66
+  # source://cucumber-messages//lib/cucumber/messages/pickle.rb#60
   def initialize(id: T.unsafe(nil), uri: T.unsafe(nil), name: T.unsafe(nil), language: T.unsafe(nil), steps: T.unsafe(nil), tags: T.unsafe(nil), ast_node_ids: T.unsafe(nil)); end
 
-  # *
-  #  Points to the AST node locations of the pickle. The last one represents the unique
-  #  id of the pickle. A pickle constructed from `Examples` will have the first
-  #  id originating from the `Scenario` AST node, and the second from the `TableRow` AST node.
+  # Points to the AST node locations of the pickle. The last one represents the unique
+  # id of the pickle. A pickle constructed from `Examples` will have the first
+  # id originating from the `Scenario` AST node, and the second from the `TableRow` AST node.
   #
-  # source://cucumber-messages//lib/cucumber/messages/pickle.rb#64
+  # source://cucumber-messages//lib/cucumber/messages/pickle.rb#58
   def ast_node_ids; end
 
-  # *
-  #  A unique id for the pickle
+  # A unique id for the pickle
   #
-  # source://cucumber-messages//lib/cucumber/messages/pickle.rb#29
+  # source://cucumber-messages//lib/cucumber/messages/pickle.rb#25
   def id; end
 
   # The language of the pickle
   #
-  # source://cucumber-messages//lib/cucumber/messages/pickle.rb#44
+  # source://cucumber-messages//lib/cucumber/messages/pickle.rb#40
   def language; end
 
   # The name of the pickle
   #
-  # source://cucumber-messages//lib/cucumber/messages/pickle.rb#39
+  # source://cucumber-messages//lib/cucumber/messages/pickle.rb#35
   def name; end
 
   # One or more steps
   #
-  # source://cucumber-messages//lib/cucumber/messages/pickle.rb#49
+  # source://cucumber-messages//lib/cucumber/messages/pickle.rb#45
   def steps; end
 
-  # *
-  #  One or more tags. If this pickle is constructed from a Gherkin document,
-  #  It includes inherited tags from the `Feature` as well.
+  # One or more tags. If this pickle is constructed from a Gherkin document,
+  # It includes inherited tags from the `Feature` as well.
   #
-  # source://cucumber-messages//lib/cucumber/messages/pickle.rb#56
+  # source://cucumber-messages//lib/cucumber/messages/pickle.rb#51
   def tags; end
 
   # The uri of the source file
   #
-  # source://cucumber-messages//lib/cucumber/messages/pickle.rb#34
+  # source://cucumber-messages//lib/cucumber/messages/pickle.rb#30
   def uri; end
 
   class << self
@@ -1330,7 +1317,7 @@ class Cucumber::Messages::Pickle < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::Pickle.from_h(some_hash) # => #<Cucumber::Messages::Pickle:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/pickle.rb#92
+    # source://cucumber-messages//lib/cucumber/messages/pickle.rb#86
     def from_h(hash); end
   end
 end
@@ -1369,42 +1356,41 @@ end
 # Represents the PickleStep message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
 #
 #
-# *
-#  An executable step
+# An executable step
 #
-# source://cucumber-messages//lib/cucumber/messages/pickle_step.rb#13
+# source://cucumber-messages//lib/cucumber/messages/pickle_step.rb#12
 class Cucumber::Messages::PickleStep < ::Cucumber::Messages::Message
   # @return [PickleStep] a new instance of PickleStep
   #
-  # source://cucumber-messages//lib/cucumber/messages/pickle_step.rb#36
+  # source://cucumber-messages//lib/cucumber/messages/pickle_step.rb#35
   def initialize(argument: T.unsafe(nil), ast_node_ids: T.unsafe(nil), id: T.unsafe(nil), type: T.unsafe(nil), text: T.unsafe(nil)); end
 
   # Returns the value of attribute argument.
   #
-  # source://cucumber-messages//lib/cucumber/messages/pickle_step.rb#14
+  # source://cucumber-messages//lib/cucumber/messages/pickle_step.rb#13
   def argument; end
 
   # References the IDs of the source of the step. For Gherkin, this can be
-  #  the ID of a Step, and possibly also the ID of a TableRow
+  # the ID of a Step, and possibly also the ID of a TableRow
   #
-  # source://cucumber-messages//lib/cucumber/messages/pickle_step.rb#20
+  # source://cucumber-messages//lib/cucumber/messages/pickle_step.rb#19
   def ast_node_ids; end
 
   # A unique ID for the PickleStep
   #
-  # source://cucumber-messages//lib/cucumber/messages/pickle_step.rb#25
+  # source://cucumber-messages//lib/cucumber/messages/pickle_step.rb#24
   def id; end
 
   # Returns the value of attribute text.
   #
-  # source://cucumber-messages//lib/cucumber/messages/pickle_step.rb#34
+  # source://cucumber-messages//lib/cucumber/messages/pickle_step.rb#33
   def text; end
 
   # The context in which the step was specified: context (Given), action (When) or outcome (Then).
   #
   # Note that the keywords `But` and `And` inherit their meaning from prior steps and the `*` 'keyword' doesn't have specific meaning (hence Unknown)
   #
-  # source://cucumber-messages//lib/cucumber/messages/pickle_step.rb#32
+  # source://cucumber-messages//lib/cucumber/messages/pickle_step.rb#31
   def type; end
 
   class << self
@@ -1414,7 +1400,7 @@ class Cucumber::Messages::PickleStep < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::PickleStep.from_h(some_hash) # => #<Cucumber::Messages::PickleStep:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/pickle_step.rb#58
+    # source://cucumber-messages//lib/cucumber/messages/pickle_step.rb#57
     def from_h(hash); end
   end
 end
@@ -1549,24 +1535,23 @@ end
 # Represents the PickleTag message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
 #
 #
-# *
-#  A tag
+# A tag
 #
-# source://cucumber-messages//lib/cucumber/messages/pickle_tag.rb#13
+# source://cucumber-messages//lib/cucumber/messages/pickle_tag.rb#12
 class Cucumber::Messages::PickleTag < ::Cucumber::Messages::Message
   # @return [PickleTag] a new instance of PickleTag
   #
-  # source://cucumber-messages//lib/cucumber/messages/pickle_tag.rb#21
+  # source://cucumber-messages//lib/cucumber/messages/pickle_tag.rb#20
   def initialize(name: T.unsafe(nil), ast_node_id: T.unsafe(nil)); end
 
   # Points to the AST node this was created from
   #
-  # source://cucumber-messages//lib/cucumber/messages/pickle_tag.rb#19
+  # source://cucumber-messages//lib/cucumber/messages/pickle_tag.rb#18
   def ast_node_id; end
 
   # Returns the value of attribute name.
   #
-  # source://cucumber-messages//lib/cucumber/messages/pickle_tag.rb#14
+  # source://cucumber-messages//lib/cucumber/messages/pickle_tag.rb#13
   def name; end
 
   class << self
@@ -1576,7 +1561,7 @@ class Cucumber::Messages::PickleTag < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::PickleTag.from_h(some_hash) # => #<Cucumber::Messages::PickleTag:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/pickle_tag.rb#37
+    # source://cucumber-messages//lib/cucumber/messages/pickle_tag.rb#36
     def from_h(hash); end
   end
 end
@@ -1674,24 +1659,23 @@ end
 # Represents the RuleChild message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
 #
 #
-# *
-#  A child node of a `Rule` node
+# A child node of a `Rule` node
 #
-# source://cucumber-messages//lib/cucumber/messages/rule_child.rb#13
+# source://cucumber-messages//lib/cucumber/messages/rule_child.rb#12
 class Cucumber::Messages::RuleChild < ::Cucumber::Messages::Message
   # @return [RuleChild] a new instance of RuleChild
   #
-  # source://cucumber-messages//lib/cucumber/messages/rule_child.rb#18
+  # source://cucumber-messages//lib/cucumber/messages/rule_child.rb#17
   def initialize(background: T.unsafe(nil), scenario: T.unsafe(nil)); end
 
   # Returns the value of attribute background.
   #
-  # source://cucumber-messages//lib/cucumber/messages/rule_child.rb#14
+  # source://cucumber-messages//lib/cucumber/messages/rule_child.rb#13
   def background; end
 
   # Returns the value of attribute scenario.
   #
-  # source://cucumber-messages//lib/cucumber/messages/rule_child.rb#16
+  # source://cucumber-messages//lib/cucumber/messages/rule_child.rb#15
   def scenario; end
 
   class << self
@@ -1701,7 +1685,7 @@ class Cucumber::Messages::RuleChild < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::RuleChild.from_h(some_hash) # => #<Cucumber::Messages::RuleChild:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/rule_child.rb#34
+    # source://cucumber-messages//lib/cucumber/messages/rule_child.rb#33
     def from_h(hash); end
   end
 end
@@ -1767,37 +1751,67 @@ class Cucumber::Messages::Scenario < ::Cucumber::Messages::Message
   end
 end
 
+# Represents the Snippet message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
+#
+# source://cucumber-messages//lib/cucumber/messages/snippet.rb#10
+class Cucumber::Messages::Snippet < ::Cucumber::Messages::Message
+  # @return [Snippet] a new instance of Snippet
+  #
+  # source://cucumber-messages//lib/cucumber/messages/snippet.rb#24
+  def initialize(language: T.unsafe(nil), code: T.unsafe(nil)); end
+
+  # A snippet of code
+  #
+  # source://cucumber-messages//lib/cucumber/messages/snippet.rb#22
+  def code; end
+
+  # The programming language of the code.
+  #
+  # This must be formatted as an all lowercase identifier such that syntax highlighters like [Prism](https://prismjs.com/#supported-languages) or [Highlight.js](https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md) can recognize it.
+  # For example: `cpp`, `cs`, `go`, `java`, `javascript`, `php`, `python`, `ruby`, `scala`.
+  #
+  # source://cucumber-messages//lib/cucumber/messages/snippet.rb#17
+  def language; end
+
+  class << self
+    # Returns a new Snippet from the given hash.
+    # If the hash keys are camelCased, they are properly assigned to the
+    # corresponding snake_cased attributes.
+    #
+    #   Cucumber::Messages::Snippet.from_h(some_hash) # => #<Cucumber::Messages::Snippet:0x... ...>
+    #
+    # source://cucumber-messages//lib/cucumber/messages/snippet.rb#40
+    def from_h(hash); end
+  end
+end
+
 # Represents the Source message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
 #
 #
-# //// Source
+# A source file, typically a Gherkin document or Java/Ruby/JavaScript source code
 #
-# *
-#  A source file, typically a Gherkin document or Java/Ruby/JavaScript source code
-#
-# source://cucumber-messages//lib/cucumber/messages/source.rb#15
+# source://cucumber-messages//lib/cucumber/messages/source.rb#12
 class Cucumber::Messages::Source < ::Cucumber::Messages::Message
   # @return [Source] a new instance of Source
   #
-  # source://cucumber-messages//lib/cucumber/messages/source.rb#34
+  # source://cucumber-messages//lib/cucumber/messages/source.rb#30
   def initialize(uri: T.unsafe(nil), data: T.unsafe(nil), media_type: T.unsafe(nil)); end
 
   # The contents of the file
   #
-  # source://cucumber-messages//lib/cucumber/messages/source.rb#26
+  # source://cucumber-messages//lib/cucumber/messages/source.rb#22
   def data; end
 
   # The media type of the file. Can be used to specify custom types, such as
-  #  text/x.cucumber.gherkin+plain
+  # text/x.cucumber.gherkin+plain
   #
-  # source://cucumber-messages//lib/cucumber/messages/source.rb#32
+  # source://cucumber-messages//lib/cucumber/messages/source.rb#28
   def media_type; end
 
-  # *
-  #  The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
-  #  of the source, typically a file path relative to the root directory
+  # The [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+  # of the source, typically a file path relative to the root directory
   #
-  # source://cucumber-messages//lib/cucumber/messages/source.rb#21
+  # source://cucumber-messages//lib/cucumber/messages/source.rb#17
   def uri; end
 
   class << self
@@ -1807,7 +1821,7 @@ class Cucumber::Messages::Source < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::Source.from_h(some_hash) # => #<Cucumber::Messages::Source:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/source.rb#52
+    # source://cucumber-messages//lib/cucumber/messages/source.rb#48
     def from_h(hash); end
   end
 end
@@ -1824,35 +1838,34 @@ Cucumber::Messages::SourceMediaType::TEXT_X_CUCUMBER_GHERKIN_PLAIN = T.let(T.uns
 # Represents the SourceReference message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
 #
 #
-# *
-#  Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
-#  [Location](#io.cucumber.messages.Location) within that file.
+# Points to a [Source](#io.cucumber.messages.Source) identified by `uri` and a
+# [Location](#io.cucumber.messages.Location) within that file.
 #
-# source://cucumber-messages//lib/cucumber/messages/source_reference.rb#14
+# source://cucumber-messages//lib/cucumber/messages/source_reference.rb#13
 class Cucumber::Messages::SourceReference < ::Cucumber::Messages::Message
   # @return [SourceReference] a new instance of SourceReference
   #
-  # source://cucumber-messages//lib/cucumber/messages/source_reference.rb#23
+  # source://cucumber-messages//lib/cucumber/messages/source_reference.rb#22
   def initialize(uri: T.unsafe(nil), java_method: T.unsafe(nil), java_stack_trace_element: T.unsafe(nil), location: T.unsafe(nil)); end
 
   # Returns the value of attribute java_method.
   #
-  # source://cucumber-messages//lib/cucumber/messages/source_reference.rb#17
+  # source://cucumber-messages//lib/cucumber/messages/source_reference.rb#16
   def java_method; end
 
   # Returns the value of attribute java_stack_trace_element.
   #
-  # source://cucumber-messages//lib/cucumber/messages/source_reference.rb#19
+  # source://cucumber-messages//lib/cucumber/messages/source_reference.rb#18
   def java_stack_trace_element; end
 
   # Returns the value of attribute location.
   #
-  # source://cucumber-messages//lib/cucumber/messages/source_reference.rb#21
+  # source://cucumber-messages//lib/cucumber/messages/source_reference.rb#20
   def location; end
 
   # Returns the value of attribute uri.
   #
-  # source://cucumber-messages//lib/cucumber/messages/source_reference.rb#15
+  # source://cucumber-messages//lib/cucumber/messages/source_reference.rb#14
   def uri; end
 
   class << self
@@ -1862,7 +1875,7 @@ class Cucumber::Messages::SourceReference < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::SourceReference.from_h(some_hash) # => #<Cucumber::Messages::SourceReference:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/source_reference.rb#43
+    # source://cucumber-messages//lib/cucumber/messages/source_reference.rb#42
     def from_h(hash); end
   end
 end
@@ -2023,31 +2036,29 @@ Cucumber::Messages::StepKeywordType::UNKNOWN = T.let(T.unsafe(nil), String)
 # Represents the StepMatchArgument message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
 #
 #
-# *
-#  Represents a single argument extracted from a step match and passed to a step definition.
-#  This is used for the following purposes:
-#  - Construct an argument to pass to a step definition (possibly through a parameter type transform)
-#  - Highlight the matched parameter in rich formatters such as the HTML formatter
+# Represents a single argument extracted from a step match and passed to a step definition.
+# This is used for the following purposes:
+# - Construct an argument to pass to a step definition (possibly through a parameter type transform)
+# - Highlight the matched parameter in rich formatters such as the HTML formatter
 #
-#  This message closely matches the `Argument` class in the `cucumber-expressions` library.
+# This message closely matches the `Argument` class in the `cucumber-expressions` library.
 #
-# source://cucumber-messages//lib/cucumber/messages/step_match_argument.rb#18
+# source://cucumber-messages//lib/cucumber/messages/step_match_argument.rb#17
 class Cucumber::Messages::StepMatchArgument < ::Cucumber::Messages::Message
   # @return [StepMatchArgument] a new instance of StepMatchArgument
   #
-  # source://cucumber-messages//lib/cucumber/messages/step_match_argument.rb#28
+  # source://cucumber-messages//lib/cucumber/messages/step_match_argument.rb#26
   def initialize(group: T.unsafe(nil), parameter_type_name: T.unsafe(nil)); end
 
-  # *
-  #  Represents the outermost capture group of an argument. This message closely matches the
-  #  `Group` class in the `cucumber-expressions` library.
+  # Represents the outermost capture group of an argument. This message closely matches the
+  # `Group` class in the `cucumber-expressions` library.
   #
-  # source://cucumber-messages//lib/cucumber/messages/step_match_argument.rb#24
+  # source://cucumber-messages//lib/cucumber/messages/step_match_argument.rb#22
   def group; end
 
   # Returns the value of attribute parameter_type_name.
   #
-  # source://cucumber-messages//lib/cucumber/messages/step_match_argument.rb#26
+  # source://cucumber-messages//lib/cucumber/messages/step_match_argument.rb#24
   def parameter_type_name; end
 
   class << self
@@ -2057,7 +2068,7 @@ class Cucumber::Messages::StepMatchArgument < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::StepMatchArgument.from_h(some_hash) # => #<Cucumber::Messages::StepMatchArgument:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/step_match_argument.rb#44
+    # source://cucumber-messages//lib/cucumber/messages/step_match_argument.rb#42
     def from_h(hash); end
   end
 end
@@ -2084,6 +2095,45 @@ class Cucumber::Messages::StepMatchArgumentsList < ::Cucumber::Messages::Message
     #   Cucumber::Messages::StepMatchArgumentsList.from_h(some_hash) # => #<Cucumber::Messages::StepMatchArgumentsList:0x... ...>
     #
     # source://cucumber-messages//lib/cucumber/messages/step_match_arguments_list.rb#27
+    def from_h(hash); end
+  end
+end
+
+# Represents the Suggestion message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
+#
+#
+# A suggested fragment of code to implement an undefined step
+#
+# source://cucumber-messages//lib/cucumber/messages/suggestion.rb#12
+class Cucumber::Messages::Suggestion < ::Cucumber::Messages::Message
+  # @return [Suggestion] a new instance of Suggestion
+  #
+  # source://cucumber-messages//lib/cucumber/messages/suggestion.rb#28
+  def initialize(id: T.unsafe(nil), pickle_step_id: T.unsafe(nil), snippets: T.unsafe(nil)); end
+
+  # A unique id for this suggestion
+  #
+  # source://cucumber-messages//lib/cucumber/messages/suggestion.rb#16
+  def id; end
+
+  # The ID of the `PickleStep` this `Suggestion` was created for.
+  #
+  # source://cucumber-messages//lib/cucumber/messages/suggestion.rb#21
+  def pickle_step_id; end
+
+  # A collection of code snippets that could implement the undefined step
+  #
+  # source://cucumber-messages//lib/cucumber/messages/suggestion.rb#26
+  def snippets; end
+
+  class << self
+    # Returns a new Suggestion from the given hash.
+    # If the hash keys are camelCased, they are properly assigned to the
+    # corresponding snake_cased attributes.
+    #
+    #   Cucumber::Messages::Suggestion.from_h(some_hash) # => #<Cucumber::Messages::Suggestion:0x... ...>
+    #
+    # source://cucumber-messages//lib/cucumber/messages/suggestion.rb#46
     def from_h(hash); end
   end
 end
@@ -2164,29 +2214,28 @@ end
 # Represents the Tag message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
 #
 #
-# *
-#  A tag
+# A tag
 #
-# source://cucumber-messages//lib/cucumber/messages/tag.rb#13
+# source://cucumber-messages//lib/cucumber/messages/tag.rb#12
 class Cucumber::Messages::Tag < ::Cucumber::Messages::Message
   # @return [Tag] a new instance of Tag
   #
-  # source://cucumber-messages//lib/cucumber/messages/tag.rb#29
+  # source://cucumber-messages//lib/cucumber/messages/tag.rb#28
   def initialize(location: T.unsafe(nil), name: T.unsafe(nil), id: T.unsafe(nil)); end
 
   # Unique ID to be able to reference the Tag from PickleTag
   #
-  # source://cucumber-messages//lib/cucumber/messages/tag.rb#27
+  # source://cucumber-messages//lib/cucumber/messages/tag.rb#26
   def id; end
 
   # Location of the tag
   #
-  # source://cucumber-messages//lib/cucumber/messages/tag.rb#17
+  # source://cucumber-messages//lib/cucumber/messages/tag.rb#16
   def location; end
 
   # The name of the tag (including the leading `@`)
   #
-  # source://cucumber-messages//lib/cucumber/messages/tag.rb#22
+  # source://cucumber-messages//lib/cucumber/messages/tag.rb#21
   def name; end
 
   class << self
@@ -2196,7 +2245,7 @@ class Cucumber::Messages::Tag < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::Tag.from_h(some_hash) # => #<Cucumber::Messages::Tag:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/tag.rb#47
+    # source://cucumber-messages//lib/cucumber/messages/tag.rb#46
     def from_h(hash); end
   end
 end
@@ -2204,36 +2253,33 @@ end
 # Represents the TestCase message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
 #
 #
-# //// TestCases
+# A `TestCase` contains a sequence of `TestStep`s.
 #
-# *
-#  A `TestCase` contains a sequence of `TestStep`s.
-#
-# source://cucumber-messages//lib/cucumber/messages/test_case.rb#15
+# source://cucumber-messages//lib/cucumber/messages/test_case.rb#12
 class Cucumber::Messages::TestCase < ::Cucumber::Messages::Message
   # @return [TestCase] a new instance of TestCase
   #
-  # source://cucumber-messages//lib/cucumber/messages/test_case.rb#30
+  # source://cucumber-messages//lib/cucumber/messages/test_case.rb#27
   def initialize(id: T.unsafe(nil), pickle_id: T.unsafe(nil), test_steps: T.unsafe(nil), test_run_started_id: T.unsafe(nil)); end
 
   # Returns the value of attribute id.
   #
-  # source://cucumber-messages//lib/cucumber/messages/test_case.rb#16
+  # source://cucumber-messages//lib/cucumber/messages/test_case.rb#13
   def id; end
 
   # The ID of the `Pickle` this `TestCase` is derived from.
   #
-  # source://cucumber-messages//lib/cucumber/messages/test_case.rb#21
+  # source://cucumber-messages//lib/cucumber/messages/test_case.rb#18
   def pickle_id; end
 
   # Identifier for the test run that this test case belongs to
   #
-  # source://cucumber-messages//lib/cucumber/messages/test_case.rb#28
+  # source://cucumber-messages//lib/cucumber/messages/test_case.rb#25
   def test_run_started_id; end
 
   # Returns the value of attribute test_steps.
   #
-  # source://cucumber-messages//lib/cucumber/messages/test_case.rb#23
+  # source://cucumber-messages//lib/cucumber/messages/test_case.rb#20
   def test_steps; end
 
   class << self
@@ -2243,7 +2289,7 @@ class Cucumber::Messages::TestCase < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::TestCase.from_h(some_hash) # => #<Cucumber::Messages::TestCase:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/test_case.rb#50
+    # source://cucumber-messages//lib/cucumber/messages/test_case.rb#47
     def from_h(hash); end
   end
 end
@@ -2290,36 +2336,34 @@ end
 class Cucumber::Messages::TestCaseStarted < ::Cucumber::Messages::Message
   # @return [TestCaseStarted] a new instance of TestCaseStarted
   #
-  # source://cucumber-messages//lib/cucumber/messages/test_case_started.rb#34
+  # source://cucumber-messages//lib/cucumber/messages/test_case_started.rb#32
   def initialize(attempt: T.unsafe(nil), id: T.unsafe(nil), test_case_id: T.unsafe(nil), worker_id: T.unsafe(nil), timestamp: T.unsafe(nil)); end
 
-  # *
-  #  The first attempt should have value 0, and for each retry the value
-  #  should increase by 1.
+  # The first attempt should have value 0, and for each retry the value
+  # should increase by 1.
   #
-  # source://cucumber-messages//lib/cucumber/messages/test_case_started.rb#16
+  # source://cucumber-messages//lib/cucumber/messages/test_case_started.rb#15
   def attempt; end
 
-  # *
-  #  Because a `TestCase` can be run multiple times (in case of a retry),
-  #  we use this field to group messages relating to the same attempt.
+  # Because a `TestCase` can be run multiple times (in case of a retry),
+  # we use this field to group messages relating to the same attempt.
   #
-  # source://cucumber-messages//lib/cucumber/messages/test_case_started.rb#23
+  # source://cucumber-messages//lib/cucumber/messages/test_case_started.rb#21
   def id; end
 
   # Returns the value of attribute test_case_id.
   #
-  # source://cucumber-messages//lib/cucumber/messages/test_case_started.rb#25
+  # source://cucumber-messages//lib/cucumber/messages/test_case_started.rb#23
   def test_case_id; end
 
   # Returns the value of attribute timestamp.
   #
-  # source://cucumber-messages//lib/cucumber/messages/test_case_started.rb#32
+  # source://cucumber-messages//lib/cucumber/messages/test_case_started.rb#30
   def timestamp; end
 
   # An identifier for the worker process running this test case, if test cases are being run in parallel. The identifier will be unique per worker, but no particular format is defined - it could be an index, uuid, machine name etc - and as such should be assumed that it's not human readable.
   #
-  # source://cucumber-messages//lib/cucumber/messages/test_case_started.rb#30
+  # source://cucumber-messages//lib/cucumber/messages/test_case_started.rb#28
   def worker_id; end
 
   class << self
@@ -2329,7 +2373,7 @@ class Cucumber::Messages::TestCaseStarted < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::TestCaseStarted.from_h(some_hash) # => #<Cucumber::Messages::TestCaseStarted:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/test_case_started.rb#56
+    # source://cucumber-messages//lib/cucumber/messages/test_case_started.rb#54
     def from_h(hash); end
   end
 end
@@ -2422,8 +2466,8 @@ end
 class Cucumber::Messages::TestRunHookStarted < ::Cucumber::Messages::Message
   # @return [TestRunHookStarted] a new instance of TestRunHookStarted
   #
-  # source://cucumber-messages//lib/cucumber/messages/test_run_hook_started.rb#28
-  def initialize(id: T.unsafe(nil), test_run_started_id: T.unsafe(nil), hook_id: T.unsafe(nil), timestamp: T.unsafe(nil)); end
+  # source://cucumber-messages//lib/cucumber/messages/test_run_hook_started.rb#33
+  def initialize(id: T.unsafe(nil), test_run_started_id: T.unsafe(nil), hook_id: T.unsafe(nil), worker_id: T.unsafe(nil), timestamp: T.unsafe(nil)); end
 
   # Identifier for the hook that will be executed
   #
@@ -2442,8 +2486,13 @@ class Cucumber::Messages::TestRunHookStarted < ::Cucumber::Messages::Message
 
   # Returns the value of attribute timestamp.
   #
-  # source://cucumber-messages//lib/cucumber/messages/test_run_hook_started.rb#26
+  # source://cucumber-messages//lib/cucumber/messages/test_run_hook_started.rb#31
   def timestamp; end
+
+  # An identifier for the worker process running this hook, if parallel workers are in use. The identifier will be unique per worker, but no particular format is defined - it could be an index, uuid, machine name etc - and as such should be assumed that it's not human readable.
+  #
+  # source://cucumber-messages//lib/cucumber/messages/test_run_hook_started.rb#29
+  def worker_id; end
 
   class << self
     # Returns a new TestRunHookStarted from the given hash.
@@ -2452,7 +2501,7 @@ class Cucumber::Messages::TestRunHookStarted < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::TestRunHookStarted.from_h(some_hash) # => #<Cucumber::Messages::TestRunHookStarted:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/test_run_hook_started.rb#48
+    # source://cucumber-messages//lib/cucumber/messages/test_run_hook_started.rb#55
     def from_h(hash); end
   end
 end
@@ -2491,42 +2540,46 @@ end
 # Represents the TestStep message in Cucumber's {message protocol}[https://github.com/cucumber/messages].
 #
 #
-# *
-#  A `TestStep` is derived from either a `PickleStep`
-#  combined with a `StepDefinition`, or from a `Hook`.
+# A `TestStep` is derived from either a `PickleStep` combined with a `StepDefinition`, or from a `Hook`.
 #
-# source://cucumber-messages//lib/cucumber/messages/test_step.rb#14
+# When derived from a PickleStep:
+#  * For `UNDEFINED` steps `stepDefinitionIds` and `stepMatchArgumentsLists` will be empty.
+#  * For `AMBIGUOUS` steps, there will be multiple entries in `stepDefinitionIds` and `stepMatchArgumentsLists`. The first entry in the stepMatchArgumentsLists holds the list of arguments for the first matching step definition, the second entry for the second, etc
+#
+# source://cucumber-messages//lib/cucumber/messages/test_step.rb#16
 class Cucumber::Messages::TestStep < ::Cucumber::Messages::Message
   # @return [TestStep] a new instance of TestStep
   #
-  # source://cucumber-messages//lib/cucumber/messages/test_step.rb#39
+  # source://cucumber-messages//lib/cucumber/messages/test_step.rb#43
   def initialize(hook_id: T.unsafe(nil), id: T.unsafe(nil), pickle_step_id: T.unsafe(nil), step_definition_ids: T.unsafe(nil), step_match_arguments_lists: T.unsafe(nil)); end
 
   # Pointer to the `Hook` (if derived from a Hook)
   #
-  # source://cucumber-messages//lib/cucumber/messages/test_step.rb#18
+  # source://cucumber-messages//lib/cucumber/messages/test_step.rb#20
   def hook_id; end
 
   # Returns the value of attribute id.
   #
-  # source://cucumber-messages//lib/cucumber/messages/test_step.rb#20
+  # source://cucumber-messages//lib/cucumber/messages/test_step.rb#22
   def id; end
 
   # Pointer to the `PickleStep` (if derived from a `PickleStep`)
   #
-  # source://cucumber-messages//lib/cucumber/messages/test_step.rb#25
+  # source://cucumber-messages//lib/cucumber/messages/test_step.rb#27
   def pickle_step_id; end
 
-  # Pointer to all the matching `StepDefinition`s (if derived from a `PickleStep`)
-  #  Each element represents a matching step definition. A size of 0 means `UNDEFINED`,
-  #  and a size of 2+ means `AMBIGUOUS`
+  # Pointer to all the matching `StepDefinition`s (if derived from a `PickleStep`).
   #
-  # source://cucumber-messages//lib/cucumber/messages/test_step.rb#32
+  # Each element represents a matching step definition.
+  #
+  # source://cucumber-messages//lib/cucumber/messages/test_step.rb#34
   def step_definition_ids; end
 
   # A list of list of StepMatchArgument (if derived from a `PickleStep`).
   #
-  # source://cucumber-messages//lib/cucumber/messages/test_step.rb#37
+  # Each element represents the arguments for a matching step definition.
+  #
+  # source://cucumber-messages//lib/cucumber/messages/test_step.rb#41
   def step_match_arguments_lists; end
 
   class << self
@@ -2536,7 +2589,7 @@ class Cucumber::Messages::TestStep < ::Cucumber::Messages::Message
     #
     #   Cucumber::Messages::TestStep.from_h(some_hash) # => #<Cucumber::Messages::TestStep:0x... ...>
     #
-    # source://cucumber-messages//lib/cucumber/messages/test_step.rb#61
+    # source://cucumber-messages//lib/cucumber/messages/test_step.rb#65
     def from_h(hash); end
   end
 end
@@ -2601,7 +2654,7 @@ class Cucumber::Messages::TestStepResult < ::Cucumber::Messages::Message
   # source://cucumber-messages//lib/cucumber/messages/test_step_result.rb#23
   def exception; end
 
-  # An arbitrary bit of information that explains this result. This can be a stack trace of anything else.
+  # An arbitrary bit of information that explains this result. If there was an exception, this should include a stringified representation of it including type, message and stack trace (the exact format will vary by platform).
   #
   # source://cucumber-messages//lib/cucumber/messages/test_step_result.rb#16
   def message; end
@@ -2693,16 +2746,16 @@ class Cucumber::Messages::Timestamp < ::Cucumber::Messages::Message
   def initialize(seconds: T.unsafe(nil), nanos: T.unsafe(nil)); end
 
   # Non-negative fractions of a second at nanosecond resolution. Negative
-  #  second values with fractions must still have non-negative nanos values
-  #  that count forward in time. Must be from 0 to 999,999,999
-  #  inclusive.
+  # second values with fractions must still have non-negative nanos values
+  # that count forward in time. Must be from 0 to 999,999,999
+  # inclusive.
   #
   # source://cucumber-messages//lib/cucumber/messages/timestamp.rb#24
   def nanos; end
 
   # Represents seconds of UTC time since Unix epoch
-  #  1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
-  #  9999-12-31T23:59:59Z inclusive.
+  # 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
+  # 9999-12-31T23:59:59Z inclusive.
   #
   # source://cucumber-messages//lib/cucumber/messages/timestamp.rb#16
   def seconds; end

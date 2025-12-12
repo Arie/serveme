@@ -1791,7 +1791,7 @@ Cucumber::IRONRUBY = T.let(T.unsafe(nil), FalseClass)
 Cucumber::JRUBY = T.let(T.unsafe(nil), T.untyped)
 
 # source://cucumber-core//lib/cucumber/core/platform.rb#12
-Cucumber::OS_X = T.let(T.unsafe(nil), T.untyped)
+Cucumber::OS_X = T.let(T.unsafe(nil), Integer)
 
 # source://cucumber-core//lib/cucumber/core/platform.rb#15
 Cucumber::RUBY_1_9 = T.let(T.unsafe(nil), T.untyped)

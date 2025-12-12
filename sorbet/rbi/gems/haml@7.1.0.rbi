@@ -28,13 +28,13 @@ module Haml::AttributeBuilder
     def build(escape_attrs, quote, format, object_ref, *hashes); end
 
     # source://haml//lib/haml/attribute_builder.rb#69
-    def build_aria(escape_attrs, quote, *hashes); end
+    def build_aria(escape_attrs, quote, format, *hashes); end
 
     # source://haml//lib/haml/attribute_builder.rb#35
     def build_class(escape_attrs, *values); end
 
     # source://haml//lib/haml/attribute_builder.rb#65
-    def build_data(escape_attrs, quote, *hashes); end
+    def build_data(escape_attrs, quote, format, *hashes); end
 
     # source://haml//lib/haml/attribute_builder.rb#31
     def build_id(escape_attrs, *values); end
@@ -45,7 +45,7 @@ module Haml::AttributeBuilder
     def build_boolean!(escape_attrs, quote, format, buf, key, value); end
 
     # source://haml//lib/haml/attribute_builder.rb#75
-    def build_data_attribute(key, escape_attrs, quote, *hashes); end
+    def build_data_attribute(key, escape_attrs, quote, format, *hashes); end
 
     # source://haml//lib/haml/attribute_builder.rb#154
     def escape_html(escape_attrs, str); end

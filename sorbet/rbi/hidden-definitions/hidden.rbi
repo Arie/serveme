@@ -14514,8 +14514,6 @@ end
 
 module Psych
   def self.libyaml_version(); end
-
-  def self.unsafe_load_file(filename, **kwargs); end
 end
 
 class Puma::Server

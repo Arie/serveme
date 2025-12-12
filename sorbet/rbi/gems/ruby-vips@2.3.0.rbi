@@ -5,15 +5,39 @@
 # Please instead update this file by running `bin/tapioca gem ruby-vips`.
 
 
-class Object < ::BasicObject
-  include ::Kernel
-  include ::PP::ObjectMixin
-
-  private
-
-  # source://ruby-vips//lib/vips.rb#26
-  def library_name(name, abi_number); end
+# Generate a library name for ffi.
+#
+# Platform notes:
+# linux:
+#   Some distros allow "libvips.so", but only if the -dev headers have been
+#   installed. To work everywhere, you must include the ABI number.
+#   Confusingly, the file extension is not at the end. ffi adds the "lib"
+#   prefix.
+# mac:
+#   As linux, but the extension is at the end and is added by ffi.
+# windows:
+#   The ABI number must be included, but with a hyphen. ffi does not add a
+#   "lib" prefix or a ".dll" suffix.
+#
+# source://ruby-vips//lib/vips.rb#26
+module FFI
+  class << self
+    # source://ruby-vips//lib/vips.rb#27
+    def library_name(name, abi_number); end
+  end
 end
+
+class FFI::ArrayType < ::FFI::Type; end
+class FFI::Buffer < ::FFI::AbstractMemory; end
+class FFI::FunctionType < ::FFI::Type; end
+module FFI::LastError; end
+class FFI::MemoryPointer < ::FFI::Pointer; end
+module FFI::NativeType; end
+class FFI::NullPointerError < ::RuntimeError; end
+class FFI::StructByValue < ::FFI::Type; end
+class FFI::Type; end
+class FFI::Type::Builtin < ::FFI::Type; end
+class FFI::Type::Mapped < ::FFI::Type; end
 
 # This module provides a binding for the [libvips image processing
 # library](https://libvips.github.io/libvips/).
@@ -430,7 +454,7 @@ end
 # {Image#maxpos}, {Image#minpos},
 # {Image#median}.
 #
-# source://ruby-vips//lib/vips.rb#43
+# source://ruby-vips//lib/vips.rb#45
 module Vips
   extend ::FFI::Library
 end

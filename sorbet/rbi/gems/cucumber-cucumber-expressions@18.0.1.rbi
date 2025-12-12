@@ -475,11 +475,11 @@ class Cucumber::CucumberExpressions::ParameterType
   # Create a new Parameter
   #
   # @param name the name of the parameter type
-  # @param regexp [Array] list of regexps for capture groups. A single regexp can also be used
-  # @param type the return type of the transformed
-  # @param transformer lambda that transforms a String to (possibly) another type
-  # @param use_for_snippets true if this should be used for snippet generation
   # @param prefer_for_regexp_match true if this should be preferred over similar types
+  # @param regexp [Array] list of regexps for capture groups. A single regexp can also be used
+  # @param transformer lambda that transforms a String to (possibly) another type
+  # @param type the return type of the transformed
+  # @param use_for_snippets true if this should be used for snippet generation
   # @return [ParameterType] a new instance of ParameterType
   #
   # source://cucumber-cucumber-expressions//lib/cucumber/cucumber_expressions/parameter_type.rb#31

@@ -7273,7 +7273,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.inventory_configuration.id #=> String
   #   resp.inventory_configuration.included_object_versions #=> String, one of "All", "Current"
   #   resp.inventory_configuration.optional_fields #=> Array
-  #   resp.inventory_configuration.optional_fields[0] #=> String, one of "Size", "LastModifiedDate", "StorageClass", "ETag", "IsMultipartUploaded", "ReplicationStatus", "EncryptionStatus", "ObjectLockRetainUntilDate", "ObjectLockMode", "ObjectLockLegalHoldStatus", "IntelligentTieringAccessTier", "BucketKeyStatus", "ChecksumAlgorithm", "ObjectAccessControlList", "ObjectOwner"
+  #   resp.inventory_configuration.optional_fields[0] #=> String, one of "Size", "LastModifiedDate", "StorageClass", "ETag", "IsMultipartUploaded", "ReplicationStatus", "EncryptionStatus", "ObjectLockRetainUntilDate", "ObjectLockMode", "ObjectLockLegalHoldStatus", "IntelligentTieringAccessTier", "BucketKeyStatus", "ChecksumAlgorithm", "ObjectAccessControlList", "ObjectOwner", "LifecycleExpirationDate"
   #   resp.inventory_configuration.schedule.frequency #=> String, one of "Daily", "Weekly"
   # @option params
   # @option params
@@ -10655,7 +10655,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   resp.inventory_configuration_list[0].id #=> String
   #   resp.inventory_configuration_list[0].included_object_versions #=> String, one of "All", "Current"
   #   resp.inventory_configuration_list[0].optional_fields #=> Array
-  #   resp.inventory_configuration_list[0].optional_fields[0] #=> String, one of "Size", "LastModifiedDate", "StorageClass", "ETag", "IsMultipartUploaded", "ReplicationStatus", "EncryptionStatus", "ObjectLockRetainUntilDate", "ObjectLockMode", "ObjectLockLegalHoldStatus", "IntelligentTieringAccessTier", "BucketKeyStatus", "ChecksumAlgorithm", "ObjectAccessControlList", "ObjectOwner"
+  #   resp.inventory_configuration_list[0].optional_fields[0] #=> String, one of "Size", "LastModifiedDate", "StorageClass", "ETag", "IsMultipartUploaded", "ReplicationStatus", "EncryptionStatus", "ObjectLockRetainUntilDate", "ObjectLockMode", "ObjectLockLegalHoldStatus", "IntelligentTieringAccessTier", "BucketKeyStatus", "ChecksumAlgorithm", "ObjectAccessControlList", "ObjectOwner", "LifecycleExpirationDate"
   #   resp.inventory_configuration_list[0].schedule.frequency #=> String, one of "Daily", "Weekly"
   #   resp.is_truncated #=> Boolean
   #   resp.next_continuation_token #=> String
@@ -12995,7 +12995,7 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   #   },
   #   id: "InventoryId", # required
   #   included_object_versions: "All", # required, accepts All, Current
-  #   optional_fields: ["Size"], # accepts Size, LastModifiedDate, StorageClass, ETag, IsMultipartUploaded, ReplicationStatus, EncryptionStatus, ObjectLockRetainUntilDate, ObjectLockMode, ObjectLockLegalHoldStatus, IntelligentTieringAccessTier, BucketKeyStatus, ChecksumAlgorithm, ObjectAccessControlList, ObjectOwner
+  #   optional_fields: ["Size"], # accepts Size, LastModifiedDate, StorageClass, ETag, IsMultipartUploaded, ReplicationStatus, EncryptionStatus, ObjectLockRetainUntilDate, ObjectLockMode, ObjectLockLegalHoldStatus, IntelligentTieringAccessTier, BucketKeyStatus, ChecksumAlgorithm, ObjectAccessControlList, ObjectOwner, LifecycleExpirationDate
   #   schedule: { # required
   #   frequency: "Daily", # required, accepts Daily, Weekly
   #   },

@@ -39,14 +39,14 @@ module Loofah
     #
     # This method accepts the same parameters as Nokogiri::HTML4::Document.parse
     #
-    # source://loofah//lib/loofah.rb#76
+    # source://loofah//lib/loofah.rb#139
     def document(*args, &block); end
 
     # Shortcut for Loofah::HTML4::DocumentFragment.parse(*args, &block)
     #
     # This method accepts the same parameters as Nokogiri::HTML4::DocumentFragment.parse
     #
-    # source://loofah//lib/loofah.rb#83
+    # source://loofah//lib/loofah.rb#140
     def fragment(*args, &block); end
 
     # Shortcut for Loofah::HTML4::Document.parse(*args, &block)
@@ -81,12 +81,12 @@ module Loofah
 
     # Shortcut for Loofah::HTML4::Document.parse(string_or_io).scrub!(method)
     #
-    # source://loofah//lib/loofah.rb#88
+    # source://loofah//lib/loofah.rb#141
     def scrub_document(string_or_io, method); end
 
     # Shortcut for Loofah::HTML4::DocumentFragment.parse(string_or_io).scrub!(method)
     #
-    # source://loofah//lib/loofah.rb#93
+    # source://loofah//lib/loofah.rb#142
     def scrub_fragment(string_or_io, method); end
 
     # Shortcut for Loofah::HTML4::Document.parse(string_or_io).scrub!(method)
@@ -342,42 +342,51 @@ module Loofah::HTML5::Scrub
   class << self
     # @return [Boolean]
     #
-    # source://loofah//lib/loofah/html5/scrub.rb#19
+    # source://loofah//lib/loofah/html5/scrub.rb#20
     def allowed_element?(element_name); end
 
-    # source://loofah//lib/loofah/html5/scrub.rb#193
+    # Returns true if the given URI string is safe, false otherwise.
+    # This method can be used to validate URI attribute values without
+    # requiring a Nokogiri DOM node.
+    #
+    # @return [Boolean]
+    #
+    # source://loofah//lib/loofah/html5/scrub.rb#147
+    def allowed_uri?(uri_string); end
+
+    # source://loofah//lib/loofah/html5/scrub.rb#204
     def cdata_escape(node); end
 
     # @return [Boolean]
     #
-    # source://loofah//lib/loofah/html5/scrub.rb#188
+    # source://loofah//lib/loofah/html5/scrub.rb#199
     def cdata_needs_escaping?(node); end
 
-    # source://loofah//lib/loofah/html5/scrub.rb#208
+    # source://loofah//lib/loofah/html5/scrub.rb#219
     def escape_tags(string); end
 
     # libxml2 >= 2.9.2 fails to escape comments within some attributes.
     #
     #  see comments about CVE-2018-8048 within the tests for more information
     #
-    # source://loofah//lib/loofah/html5/scrub.rb#167
+    # source://loofah//lib/loofah/html5/scrub.rb#178
     def force_correct_attribute_escaping!(node); end
 
-    # source://loofah//lib/loofah/html5/scrub.rb#124
+    # source://loofah//lib/loofah/html5/scrub.rb#125
     def scrub_attribute_that_allows_local_ref(attr_node); end
 
     # alternative implementation of the html5lib attribute scrubbing algorithm
     #
-    # source://loofah//lib/loofah/html5/scrub.rb#24
+    # source://loofah//lib/loofah/html5/scrub.rb#25
     def scrub_attributes(node); end
 
-    # source://loofah//lib/loofah/html5/scrub.rb#73
+    # source://loofah//lib/loofah/html5/scrub.rb#74
     def scrub_css(style); end
 
-    # source://loofah//lib/loofah/html5/scrub.rb#68
+    # source://loofah//lib/loofah/html5/scrub.rb#69
     def scrub_css_attribute(node); end
 
-    # source://loofah//lib/loofah/html5/scrub.rb#143
+    # source://loofah//lib/loofah/html5/scrub.rb#164
     def scrub_uri_attribute(attr_node); end
   end
 end
@@ -402,6 +411,11 @@ Loofah::HTML5::Scrub::CSS_WHITESPACE = T.let(T.unsafe(nil), String)
 
 # source://loofah//lib/loofah/html5/scrub.rb#16
 Loofah::HTML5::Scrub::DATA_ATTRIBUTE_NAME = T.let(T.unsafe(nil), Regexp)
+
+# RFC 3986
+#
+# source://loofah//lib/loofah/html5/scrub.rb#17
+Loofah::HTML5::Scrub::URI_PROTOCOL_REGEX = T.let(T.unsafe(nil), Regexp)
 
 # source://loofah//lib/loofah/html5/safelist.rb#1051
 Loofah::HTML5::WhiteList = Loofah::HTML5::SafeList
@@ -446,7 +460,7 @@ end
 module Loofah::HtmlFragmentBehavior
   mixes_in_class_methods ::Loofah::HtmlFragmentBehavior::ClassMethods
 
-  # source://loofah//lib/loofah/concerns.rb#197
+  # source://loofah//lib/loofah/concerns.rb#201
   def serialize; end
 
   # source://loofah//lib/loofah/concerns.rb#203
@@ -1014,7 +1028,7 @@ module Loofah::TextBehavior
   #    # decidedly not ok for browser:
   #    frag.text(:encode_special_chars => false) # => "<script>alert('EVIL');</script>"
   #
-  # source://loofah//lib/loofah/concerns.rb#94
+  # source://loofah//lib/loofah/concerns.rb#107
   def inner_text(options = T.unsafe(nil)); end
 
   # Returns a plain-text version of the markup contained by the document, with HTML entities
@@ -1058,7 +1072,7 @@ module Loofah::TextBehavior
   #    # decidedly not ok for browser:
   #    frag.text(:encode_special_chars => false) # => "<script>alert('EVIL');</script>"
   #
-  # source://loofah//lib/loofah/concerns.rb#94
+  # source://loofah//lib/loofah/concerns.rb#108
   def to_str(options = T.unsafe(nil)); end
 
   # Returns a plain-text version of the markup contained by the fragment, with HTML entities

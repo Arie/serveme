@@ -11,10 +11,8 @@ export default class extends Controller {
 
   connect() {
     this.debounceTimer = null
-    // Ensure results container is hidden on connect
     this.hideResults()
 
-    // Add event listener for tab key
     this.boundHandleTabKey = this.handleTabKey.bind(this)
     this.queryTarget.addEventListener('keydown', this.boundHandleTabKey)
   }
@@ -23,7 +21,6 @@ export default class extends Controller {
     this.reset()
     this.clearDebounceTimer()
 
-    // Remove event listener for tab key
     if (this.boundHandleTabKey) {
       this.queryTarget.removeEventListener('keydown', this.boundHandleTabKey)
       this.boundHandleTabKey = null
@@ -31,17 +28,14 @@ export default class extends Controller {
   }
 
   handleTabKey(event) {
-    // Check if the key pressed is Tab
     if (event.key === 'Tab') {
-      // If there are results and the results container is visible
       const hasVisibleSuggestions = this.resultsTarget.querySelector('[data-suggestion]') &&
                                    this.resultsTarget.style.display !== 'none';
 
       if (hasVisibleSuggestions) {
-        event.preventDefault() // Prevent default tab behavior
+        event.preventDefault()
 
         if (this.suggestionsResultsController) {
-          // Forward or backward navigation based on shift key
           if (event.shiftKey) {
             this.suggestionsResultsController.selectPreviousResult()
           } else {
@@ -64,8 +58,6 @@ export default class extends Controller {
       return
     }
 
-    // For very short queries (1-2 chars), use a longer debounce
-    // For longer queries, use a shorter debounce for snappier response
     const debounceTime = this.query.length <= 2 ? this.debounceValue : Math.max(50, this.debounceValue / 2)
 
     this.clearDebounceTimer()
@@ -82,13 +74,10 @@ export default class extends Controller {
       fetch(url, { signal: this.abortController.signal })
         .then(response => response.text())
         .then(html => {
-          // First, update the innerHTML
           this.resultsTarget.innerHTML = html
 
-          // Check if there are actual results in the HTML
           const hasResults = html.trim() !== "" && html.includes("<li");
 
-          // Show or hide based on results
           if (hasResults) {
             this.showResults();
           } else {
@@ -107,31 +96,25 @@ export default class extends Controller {
     const enterKey = 13;
     const escapeKey = 27;
 
-    // Always prevent default for Enter key to prevent Steam overlay from closing
     if (event.keyCode === enterKey) {
       event.preventDefault();
 
-      // Check if we have visible suggestions
       const hasVisibleSuggestions = this.hasResultsTarget &&
                                    this.resultsTarget.querySelector('[data-suggestion]') &&
                                    this.resultsTarget.style.display !== 'none';
 
       if (hasVisibleSuggestions && this.suggestionsResultsController) {
-        // If we have visible suggestions, let the suggestions controller handle it
         this.suggestionsResultsController.navigateResults(event);
       } else {
-        // Otherwise, submit the form
         this.submitForm();
       }
       return;
     }
 
-    // If we don't have a results target, we can't navigate further
     if (!this.hasResultsTarget) {
       return;
     }
 
-    // Check if we have visible suggestions for other navigation keys
     const hasVisibleSuggestions = this.resultsTarget.querySelector('[data-suggestion]') &&
                                  this.resultsTarget.style.display !== 'none';
 
@@ -139,11 +122,10 @@ export default class extends Controller {
       return;
     }
 
-    // Handle other navigation keys
     switch (event.keyCode) {
       case upKey:
       case downKey:
-        event.preventDefault(); // Prevent cursor movement
+        event.preventDefault();
         if (this.suggestionsResultsController) {
           this.suggestionsResultsController.navigateResults(event);
         }
@@ -154,14 +136,12 @@ export default class extends Controller {
     }
   }
 
-  // Handle form submission event
   submitForm(event) {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
 
-    // Find the actual form element
     const form = this.element.tagName === 'FORM' ?
                  this.element :
                  this.element.closest('form');
@@ -169,6 +149,10 @@ export default class extends Controller {
     if (!form) {
       console.error('Form element not found');
       return;
+    }
+
+    if (this.hasResultsTarget) {
+      this.hideResults();
     }
 
     const formData = new FormData(form);
@@ -184,7 +168,6 @@ export default class extends Controller {
     })
     .then(response => response.text())
     .then(html => {
-      // Process Turbo Stream response
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, 'text/html');
       const turboStreamElements = doc.querySelectorAll('turbo-stream');
@@ -197,17 +180,13 @@ export default class extends Controller {
         });
       }
 
-      // Clear the input field instead of resetting the form
       if (this.hasQueryTarget) {
         this.queryTarget.value = '';
       }
 
-      // Clear results if we have the results target
       if (this.hasResultsTarget) {
         this.reset();
       } else {
-        // If we don't have the results target, we're in the parent controller
-        // Find the nested suggestions controller and reset it
         const nestedController = this.application.controllers.find(
           c => c.context.identifier === 'suggestions' &&
                c !== this &&
@@ -228,17 +207,13 @@ export default class extends Controller {
     const element = event.currentTarget;
     let suggestion = null;
 
-    // First try data-suggestion attribute
     if (element.dataset.suggestion) {
       suggestion = element.dataset.suggestion;
     } else {
-      // If the clicked element doesn't have the suggestion data attribute,
-      // look for it in the parent elements
       const parent = element.closest('[data-suggestion]');
       if (parent) {
         suggestion = parent.dataset.suggestion;
       } else {
-        // If still not found, look for a child element with the command class
         const commandElement = element.querySelector('.command');
         if (commandElement) {
           suggestion = commandElement.textContent.trim();
@@ -255,8 +230,6 @@ export default class extends Controller {
     }
   }
 
-  // private
-
   reset() {
     if (this.hasResultsTarget) {
       this.resultsTarget.innerHTML = "";
@@ -266,7 +239,6 @@ export default class extends Controller {
   }
 
   resetForm() {
-    // Find the form element
     const form = this.element.tagName === 'FORM' ?
                  this.element :
                  this.element.closest('form');
@@ -275,7 +247,6 @@ export default class extends Controller {
       form.reset();
     }
 
-    // Clear the input field
     if (this.hasQueryTarget) {
       this.queryTarget.value = '';
     }

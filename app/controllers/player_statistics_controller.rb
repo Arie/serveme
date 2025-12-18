@@ -93,7 +93,12 @@ class PlayerStatisticsController < ApplicationController
   end
 
   def player_statistics
-    PlayerStatistic.order(id: :desc).includes(:user, { server: :location }, :reservation)
+    PlayerStatistic.order(id: :desc).includes(
+      reservation_player: [
+        :user,
+        { reservation: { server: :location } }
+      ]
+    )
   end
 
   def paginate(scope)

@@ -10,39 +10,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_11_115752) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_11_115752) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "action_text_rich_texts", force: :cascade do |t|
-    t.string "name", null: false
     t.text "body"
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
     t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "record_id", null: false
+    t.string "record_type", null: false
     t.datetime "updated_at", null: false
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "record_id", null: false
+    t.string "record_type", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
-    t.string "key", null: false
-    t.string "filename", null: false
-    t.string "content_type"
-    t.text "metadata"
-    t.string "service_name", null: false
     t.bigint "byte_size", null: false
     t.string "checksum"
+    t.string "content_type"
     t.datetime "created_at", null: false
+    t.string "filename", null: false
+    t.string "key", null: false
+    t.text "metadata"
+    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -53,91 +53,91 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_115752) do
   end
 
   create_table "file_upload_permissions", force: :cascade do |t|
-    t.bigint "user_id", null: false
     t.string "allowed_paths", default: [], array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_file_upload_permissions_on_user_id"
   end
 
   create_table "file_uploads", force: :cascade do |t|
-    t.string "file"
-    t.integer "user_id"
     t.datetime "created_at", null: false
+    t.string "file"
     t.datetime "updated_at", null: false
+    t.integer "user_id"
   end
 
   create_table "group_servers", force: :cascade do |t|
-    t.bigint "server_id"
-    t.bigint "group_id"
     t.datetime "created_at", precision: nil, null: false
+    t.bigint "group_id"
+    t.bigint "server_id"
     t.datetime "updated_at", precision: nil, null: false
     t.index ["group_id"], name: "idx_17095_index_group_servers_on_group_id"
     t.index ["server_id"], name: "idx_17095_index_group_servers_on_server_id"
   end
 
   create_table "group_users", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "group_id"
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
     t.datetime "expires_at", precision: nil
+    t.bigint "group_id"
+    t.datetime "updated_at", precision: nil, null: false
+    t.bigint "user_id"
     t.index ["expires_at"], name: "idx_17101_index_group_users_on_expires_at"
     t.index ["group_id"], name: "idx_17101_index_group_users_on_group_id"
     t.index ["user_id"], name: "idx_17101_index_group_users_on_user_id"
   end
 
   create_table "groups", force: :cascade do |t|
-    t.text "name"
     t.datetime "created_at", precision: nil, null: false
+    t.text "name"
     t.datetime "updated_at", precision: nil, null: false
     t.index ["name"], name: "idx_17086_index_groups_on_name"
   end
 
   create_table "hiperz_server_informations", force: :cascade do |t|
-    t.bigint "server_id"
     t.bigint "hiperz_id"
+    t.bigint "server_id"
     t.index ["hiperz_id"], name: "idx_17107_index_hiperz_server_informations_on_hiperz_id"
     t.index ["server_id"], name: "idx_17107_index_hiperz_server_informations_on_server_id"
   end
 
   create_table "locations", force: :cascade do |t|
-    t.text "name"
-    t.text "flag"
     t.datetime "created_at", precision: nil, null: false
+    t.text "flag"
+    t.text "name"
     t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "log_uploads", force: :cascade do |t|
-    t.bigint "reservation_id"
-    t.text "file_name"
-    t.text "title"
-    t.text "map_name"
-    t.text "status"
-    t.text "url"
     t.datetime "created_at", precision: nil, null: false
+    t.text "file_name"
+    t.text "map_name"
+    t.bigint "reservation_id"
+    t.text "status"
+    t.text "title"
     t.datetime "updated_at", precision: nil, null: false
+    t.text "url"
     t.index ["reservation_id"], name: "idx_17122_index_log_uploads_on_reservation_id"
   end
 
   create_table "map_uploads", force: :cascade do |t|
-    t.text "name"
-    t.text "file"
-    t.bigint "user_id", null: false
     t.datetime "created_at", precision: nil
+    t.text "file"
+    t.text "name"
     t.datetime "updated_at", precision: nil
+    t.bigint "user_id", null: false
   end
 
   create_table "paypal_orders", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "product_id"
-    t.text "payment_id"
-    t.text "payer_id"
-    t.text "status"
     t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
     t.boolean "gift", default: false
+    t.text "payer_id"
+    t.text "payment_id"
+    t.bigint "product_id"
+    t.text "status"
     t.string "type"
+    t.datetime "updated_at", precision: nil
+    t.bigint "user_id"
     t.index ["payer_id"], name: "idx_17140_index_paypal_orders_on_payer_id"
     t.index ["payment_id"], name: "idx_17140_index_paypal_orders_on_payment_id"
     t.index ["product_id"], name: "idx_17140_index_paypal_orders_on_product_id"
@@ -145,12 +145,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_115752) do
   end
 
   create_table "player_statistics", force: :cascade do |t|
-    t.bigint "ping"
+    t.datetime "created_at", precision: nil
     t.bigint "loss"
     t.bigint "minutes_connected"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.bigint "ping"
     t.bigint "reservation_player_id"
+    t.datetime "updated_at", precision: nil
     t.index ["created_at"], name: "idx_17149_index_player_statistics_on_created_at"
     t.index ["loss"], name: "idx_17149_index_player_statistics_on_loss"
     t.index ["ping"], name: "idx_17149_index_player_statistics_on_ping"
@@ -158,26 +158,26 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_115752) do
   end
 
   create_table "products", force: :cascade do |t|
-    t.text "name"
-    t.decimal "price", precision: 15, scale: 6, null: false
-    t.bigint "days"
     t.boolean "active", default: true
     t.text "currency"
+    t.bigint "days"
     t.boolean "grants_private_server"
+    t.text "name"
+    t.decimal "price", precision: 15, scale: 6, null: false
     t.index ["grants_private_server"], name: "idx_17155_index_products_on_grants_private_server"
   end
 
   create_table "reservation_players", force: :cascade do |t|
-    t.bigint "reservation_id"
-    t.text "steam_uid"
-    t.text "name"
+    t.string "asn_network"
+    t.integer "asn_number"
+    t.string "asn_organization"
     t.text "ip"
     t.float "latitude"
     t.float "longitude"
+    t.text "name"
+    t.bigint "reservation_id"
+    t.text "steam_uid"
     t.boolean "whitelisted"
-    t.integer "asn_number"
-    t.string "asn_organization"
-    t.string "asn_network"
     t.index ["asn_number"], name: "index_reservation_players_on_asn_number"
     t.index ["ip"], name: "index_reservation_players_on_ip"
     t.index ["latitude", "longitude"], name: "idx_17193_index_reservation_players_on_latitude_and_longitude"
@@ -188,48 +188,48 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_115752) do
   end
 
   create_table "reservation_statuses", force: :cascade do |t|
+    t.datetime "created_at", precision: nil
     t.bigint "reservation_id"
     t.text "status"
-    t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.index ["created_at"], name: "idx_17202_index_reservation_statuses_on_created_at"
     t.index ["reservation_id"], name: "idx_17202_index_reservation_statuses_on_reservation_id"
   end
 
   create_table "reservations", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "server_id"
-    t.text "password"
-    t.text "rcon"
-    t.text "tv_password"
-    t.text "tv_relaypassword"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.datetime "starts_at", precision: nil
-    t.datetime "ends_at", precision: nil
-    t.boolean "provisioned", default: false
-    t.boolean "ended", default: false
-    t.bigint "server_config_id"
-    t.bigint "whitelist_id"
-    t.bigint "inactive_minute_counter", default: 0
-    t.bigint "last_number_of_players", default: 0
-    t.text "first_map"
-    t.boolean "start_instantly", default: false
-    t.boolean "end_instantly", default: false
-    t.string "custom_whitelist_id"
-    t.bigint "duration"
     t.boolean "auto_end", default: true
-    t.text "logsecret"
-    t.boolean "enable_plugins", default: false
+    t.datetime "created_at", precision: nil
+    t.string "custom_whitelist_id"
+    t.boolean "disable_democheck", default: false
+    t.bigint "duration"
     t.boolean "enable_arena_respawn", default: false
     t.boolean "enable_demos_tf", default: false
+    t.boolean "enable_plugins", default: false
+    t.boolean "end_instantly", default: false
+    t.boolean "ended", default: false
+    t.datetime "ends_at", precision: nil
+    t.text "first_map"
     t.string "gameye_location"
+    t.bigint "inactive_minute_counter", default: 0
+    t.bigint "last_number_of_players", default: 0
+    t.datetime "locked_at"
+    t.text "logsecret"
+    t.text "original_password"
+    t.text "password"
+    t.boolean "provisioned", default: false
+    t.text "rcon"
     t.string "sdr_ip"
     t.string "sdr_port"
     t.string "sdr_tv_port"
-    t.boolean "disable_democheck", default: false
-    t.text "original_password"
-    t.datetime "locked_at"
+    t.bigint "server_config_id"
+    t.bigint "server_id"
+    t.boolean "start_instantly", default: false
+    t.datetime "starts_at", precision: nil
+    t.text "tv_password"
+    t.text "tv_relaypassword"
+    t.datetime "updated_at", precision: nil
+    t.bigint "user_id"
+    t.bigint "whitelist_id"
     t.index ["auto_end"], name: "idx_17175_index_reservations_on_auto_end"
     t.index ["created_at"], name: "index_reservations_on_created_at"
     t.index ["custom_whitelist_id"], name: "idx_17175_index_reservations_on_custom_whitelist_id"
@@ -248,10 +248,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_115752) do
   end
 
   create_table "server_configs", force: :cascade do |t|
-    t.text "file"
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.text "file"
     t.boolean "hidden", default: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["hidden"], name: "index_server_configs_on_hidden"
   end
 
@@ -261,15 +261,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_115752) do
   end
 
   create_table "server_statistics", force: :cascade do |t|
-    t.bigint "server_id", null: false
-    t.bigint "reservation_id", null: false
     t.bigint "cpu_usage"
+    t.datetime "created_at", precision: nil
     t.bigint "fps"
-    t.bigint "number_of_players"
     t.text "map_name"
+    t.bigint "number_of_players"
+    t.bigint "reservation_id", null: false
+    t.bigint "server_id", null: false
     t.bigint "traffic_in"
     t.bigint "traffic_out"
-    t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.index ["cpu_usage"], name: "idx_17248_index_server_statistics_on_cpu_usage"
     t.index ["created_at"], name: "idx_17248_index_server_statistics_on_created_at"
@@ -280,12 +280,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_115752) do
   end
 
   create_table "server_uploads", force: :cascade do |t|
-    t.integer "server_id"
-    t.integer "file_upload_id"
-    t.datetime "started_at", precision: nil
-    t.datetime "uploaded_at", precision: nil
     t.datetime "created_at", null: false
+    t.integer "file_upload_id"
+    t.integer "server_id"
+    t.datetime "started_at", precision: nil
     t.datetime "updated_at", null: false
+    t.datetime "uploaded_at", precision: nil
     t.index ["file_upload_id"], name: "index_server_uploads_on_file_upload_id"
     t.index ["server_id", "file_upload_id"], name: "index_server_uploads_on_server_id_and_file_upload_id", unique: true
     t.index ["server_id"], name: "index_server_uploads_on_server_id"
@@ -293,33 +293,33 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_115752) do
   end
 
   create_table "servers", force: :cascade do |t|
-    t.text "name"
-    t.text "path"
-    t.text "ip"
-    t.text "port"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.text "rcon"
-    t.text "type", default: "LocalServer"
-    t.bigint "position", default: 1000
-    t.bigint "location_id"
     t.boolean "active", default: true
-    t.text "ftp_username"
+    t.string "billing_id"
+    t.datetime "created_at", precision: nil
     t.text "ftp_password"
     t.bigint "ftp_port", default: 21
-    t.float "latitude"
-    t.float "longitude"
-    t.string "billing_id"
-    t.string "tv_port"
-    t.boolean "sdr", default: false
+    t.text "ftp_username"
+    t.text "ip"
+    t.integer "last_known_version"
     t.string "last_sdr_ip"
     t.string "last_sdr_port"
     t.string "last_sdr_tv_port"
-    t.integer "last_known_version"
+    t.float "latitude"
+    t.bigint "location_id"
+    t.float "longitude"
+    t.text "name"
+    t.text "path"
+    t.text "port"
+    t.bigint "position", default: 1000
+    t.text "rcon"
+    t.integer "reservations_count", default: 0, null: false
+    t.string "resolved_ip"
+    t.boolean "sdr", default: false
+    t.string "tv_port"
+    t.text "type", default: "LocalServer"
     t.datetime "update_started_at"
     t.string "update_status"
-    t.string "resolved_ip"
-    t.integer "reservations_count", default: 0, null: false
+    t.datetime "updated_at", precision: nil
     t.index ["active"], name: "idx_17217_index_servers_on_active"
     t.index ["ip"], name: "index_servers_on_ip"
     t.index ["latitude", "longitude"], name: "idx_17217_index_servers_on_latitude_and_longitude"
@@ -330,42 +330,42 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_115752) do
   end
 
   create_table "stac_logs", force: :cascade do |t|
-    t.integer "reservation_id"
-    t.string "filename"
-    t.integer "filesize"
     t.binary "contents"
     t.datetime "created_at", null: false
+    t.string "filename"
+    t.integer "filesize"
+    t.integer "reservation_id"
     t.datetime "updated_at", null: false
     t.index ["reservation_id"], name: "index_stac_logs_on_reservation_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.text "uid"
-    t.text "provider"
-    t.text "name"
-    t.text "nickname"
+    t.text "api_key"
+    t.datetime "created_at", precision: nil
+    t.datetime "current_sign_in_at", precision: nil
+    t.text "current_sign_in_ip"
+    t.string "demos_tf_api_key"
     t.text "email"
     t.text "encrypted_password", default: "", null: false
-    t.text "reset_password_token"
-    t.datetime "reset_password_sent_at", precision: nil
-    t.datetime "remember_created_at", precision: nil
-    t.bigint "sign_in_count", default: 0
-    t.datetime "current_sign_in_at", precision: nil
-    t.datetime "last_sign_in_at", precision: nil
-    t.text "current_sign_in_ip"
-    t.text "last_sign_in_ip"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.text "logs_tf_api_key"
-    t.text "remember_token"
-    t.text "time_zone"
-    t.text "api_key"
-    t.float "latitude"
-    t.float "longitude"
     t.bigint "expired_reservations", default: 0
-    t.string "demos_tf_api_key"
+    t.datetime "last_sign_in_at", precision: nil
+    t.text "last_sign_in_ip"
+    t.float "latitude"
+    t.text "logs_tf_api_key"
+    t.float "longitude"
+    t.text "name"
+    t.text "nickname"
+    t.text "provider"
+    t.datetime "remember_created_at", precision: nil
+    t.text "remember_token"
     t.integer "reservations_count", default: 0, null: false
+    t.datetime "reset_password_sent_at", precision: nil
+    t.text "reset_password_token"
+    t.bigint "sign_in_count", default: 0
+    t.text "time_zone"
     t.bigint "total_reservation_seconds", default: 0, null: false
+    t.text "uid"
+    t.datetime "updated_at", precision: nil
     t.index ["api_key"], name: "idx_17257_index_users_on_api_key", unique: true
     t.index ["latitude", "longitude"], name: "idx_17257_index_users_on_latitude_and_longitude"
     t.index ["reservations_count"], name: "index_users_on_reservations_count"
@@ -375,32 +375,32 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_11_115752) do
   end
 
   create_table "vouchers", id: :serial, force: :cascade do |t|
-    t.string "code"
-    t.integer "product_id"
     t.datetime "claimed_at", precision: nil
     t.integer "claimed_by_id"
+    t.string "code"
     t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
     t.integer "created_by_id"
     t.integer "order_id"
+    t.integer "product_id"
+    t.datetime "updated_at", precision: nil
     t.index ["claimed_by_id"], name: "index_vouchers_on_claimed_by_id"
     t.index ["code"], name: "index_vouchers_on_code"
     t.index ["product_id"], name: "index_vouchers_on_product_id"
   end
 
   create_table "whitelist_tfs", id: :serial, force: :cascade do |t|
-    t.string "tf_whitelist_id"
     t.text "content"
     t.datetime "created_at", precision: nil, null: false
+    t.string "tf_whitelist_id"
     t.datetime "updated_at", precision: nil, null: false
     t.index ["tf_whitelist_id"], name: "index_whitelist_tfs_on_tf_whitelist_id"
   end
 
   create_table "whitelists", force: :cascade do |t|
-    t.text "file"
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.text "file"
     t.boolean "hidden", default: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["hidden"], name: "index_whitelists_on_hidden"
   end
 

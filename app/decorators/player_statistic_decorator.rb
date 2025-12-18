@@ -30,6 +30,6 @@ class PlayerStatisticDecorator < Draper::Decorator
   end
 
   def geocoded
-    @geocoded ||= Geocoder.search(reservation_player.ip).try(:first)
+    @geocoded ||= context[:geocoded]&.dig(reservation_player.ip) || Geocoder.search(reservation_player.ip).try(:first)
   end
 end

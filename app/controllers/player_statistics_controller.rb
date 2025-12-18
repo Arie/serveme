@@ -70,6 +70,7 @@ class PlayerStatisticsController < ApplicationController
   def render_or_error(format, player_statistics)
     if player_statistics
       @asns = load_asns(player_statistics) if admin?
+      @geocoded = load_geocoded(player_statistics)
       format.html { render :index }
     else
       format.html { render :index, status: :unprocessable_entity }
@@ -78,7 +79,7 @@ class PlayerStatisticsController < ApplicationController
 
   def load_asns(player_statistics)
     asns = {}
-    ips = player_statistics.joins(:reservation_player).reorder("").distinct.pluck("reservation_players.ip").compact
+    ips = distinct_ips(player_statistics)
 
     ips.each do |ip|
       asn = begin
@@ -92,12 +93,29 @@ class PlayerStatisticsController < ApplicationController
     asns
   end
 
+  def load_geocoded(player_statistics)
+    geocoded = {}
+    ips = distinct_ips(player_statistics)
+
+    ips.each do |ip|
+      geocoded[ip] = Geocoder.search(ip).first if ip.present?
+    rescue StandardError
+      nil
+    end
+
+    geocoded
+  end
+
+  def distinct_ips(player_statistics)
+    player_statistics.map { |ps| ps.reservation_player&.ip }.compact.uniq
+  end
+
   def player_statistics
     PlayerStatistic.order(id: :desc).includes(
-      reservation_player: [
-        :user,
-        { reservation: { server: :location } }
-      ]
+      :reservation_player,
+      :user,
+      :reservation,
+      server: :location
     )
   end
 

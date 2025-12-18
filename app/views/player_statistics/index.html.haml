@@ -26,7 +26,7 @@
           %tbody
             - @player_statistics.each do |player_statistic|
               %tr[player_statistic]
-                - player_statistic = player_statistic.decorate
+                - player_statistic = player_statistic.decorate(context: { geocoded: @geocoded })
                 - user = player_statistic.user && player_statistic.user.decorate
                 - server = player_statistic.server && player_statistic.server.decorate
                 %td= link_to server.name, show_server_player_statistic_path(:server_id => player_statistic.server)

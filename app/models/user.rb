@@ -98,6 +98,17 @@ class User < ActiveRecord::Base
     !!(ReservationPlayer.banned_uid?(uid) || ReservationPlayer.banned_ip?(current_sign_in_ip))
   end
 
+  sig { returns(T.nilable(String)) }
+  def ban_reason
+    return nil if ReservationPlayer.whitelisted_uid?(uid)
+
+    uid_reason = ReservationPlayer.banned_uid?(uid)
+    return uid_reason if uid_reason
+
+    ip_reason = ReservationPlayer.banned_ip?(current_sign_in_ip)
+    ip_reason.is_a?(String) ? ip_reason : nil
+  end
+
   sig { returns(ActiveSupport::Duration) }
   def maximum_reservation_length
     if admin? || donator?

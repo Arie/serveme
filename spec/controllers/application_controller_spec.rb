@@ -130,4 +130,60 @@ describe ApplicationController do
       expect(controller.current_user).to eq(admin_user)
     end
   end
+
+  context 'when user is banned' do
+    controller(PagesController) do
+      skip_before_action :redirect_if_country_banned
+      define_method(:index) do ||
+        render plain: 'foo'
+      end
+    end
+
+    let(:banned_uid) { '76561199191964771' }
+    let(:user) { create(:user, uid: banned_uid) }
+
+    before do
+      sign_in user
+    end
+
+    it 'signs out the user and shows flash message with ban reason' do
+      get :index
+
+      expect(response).to redirect_to('/')
+      expect(flash[:alert]).to eq('You have been banned: bot/cheat dev')
+      expect(controller.current_user).to be_nil
+    end
+
+    it 'logs the sign out with reason' do
+      expect(Rails.logger).to receive(:info).with(/Logging out banned player.*reason: bot\/cheat dev/).once.and_call_original
+      allow(Rails.logger).to receive(:info).and_call_original
+      get :index
+    end
+  end
+
+  context 'when user is banned by IP' do
+    controller(PagesController) do
+      skip_before_action :redirect_if_country_banned
+      define_method(:index) do ||
+        render plain: 'foo'
+      end
+    end
+
+    let(:banned_ip) { '46.138.79.27' }
+    let(:user) { create(:user) }
+
+    before do
+      sign_in user
+      user.update(current_sign_in_ip: banned_ip)
+    end
+
+    it 'signs out the user and shows flash message with ban reason' do
+      get :index
+
+      expect(response).to redirect_to('/')
+      expect(flash[:alert]).to include('You have been banned:')
+      expect(flash[:alert]).to include('cheater')
+      expect(controller.current_user).to be_nil
+    end
+  end
 end

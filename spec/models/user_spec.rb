@@ -178,4 +178,21 @@ describe User do
       user.should be_banned
     end
   end
+
+  describe '#ban_reason' do
+    it 'returns the reason for a banned UID' do
+      user = build(:user, uid: '76561199191964771')
+      expect(user.ban_reason).to eq('bot/cheat dev')
+    end
+
+    it 'returns the reason for a banned IP' do
+      user = build(:user, current_sign_in_ip: '46.138.79.27')
+      expect(user.ban_reason).to eq('cheater (spinbot / fake angles / EU #1514884)')
+    end
+
+    it 'returns nil for a non-banned user' do
+      user = build(:user, uid: '12345678901234567')
+      expect(user.ban_reason).to be_nil
+    end
+  end
 end

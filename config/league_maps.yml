@@ -7,13 +7,10 @@ league_maps:
   - cp_gullywash_f9
   - cp_metalworks_f7
   - cp_process_f12
-  - cp_prolands_rc2p
-  - cp_reckoner
   - cp_snakewater_final1
-  - cp_sultry_b8a
+  - cp_subbase_b3a
   - cp_sunshine
   - koth_bagel_rc12
-  - koth_clearcut_b18
   - koth_product_final
 - name: ETF2L HL
   active: true

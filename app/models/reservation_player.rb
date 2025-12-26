@@ -94,7 +94,7 @@ class ReservationPlayer < ActiveRecord::Base
 
   sig { params(asn: T.nilable(MaxMind::GeoIP2::Model::ASN)).returns(T::Boolean) }
   def self.banned_asn?(asn)
-    !!asn && (banned_asns.include?(asn.autonomous_system_number) || custom_banned_asns.include?(asn.autonomous_system_number))
+    !!asn && banned_asns.include?(asn.autonomous_system_number)
   end
 
   sig { params(ip: T.nilable(String)).returns(T.nilable(MaxMind::GeoIP2::Model::ASN)) }
@@ -111,20 +111,6 @@ class ReservationPlayer < ActiveRecord::Base
   sig { returns(T::Array[Integer]) }
   def self.banned_asns
     @banned_asns ||= CSV.read(Rails.root.join("doc", "bad-asn-list.csv"), headers: true).map { |row| row["ASN"].to_i }
-  end
-
-  sig { returns(T::Array[Integer]) }
-  def self.custom_banned_asns
-    [
-      3214, # xTom
-      5631, # Luminet Data Limited
-      7195, # EdgeUno
-      46844, # Sharktech.net
-      59711, # HZ Hosting Ltd
-      136787, # TEFINCOM S.A.
-      212238, # Datacamp
-      397423 # Tier.net
-    ]
   end
 
   sig { params(ip: String).returns(T::Boolean) }

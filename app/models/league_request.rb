@@ -124,7 +124,7 @@ class LeagueRequest
     end
 
     if @cross_reference && search_field == :ip
-      banned_asns = ReservationPlayer.banned_asns + ReservationPlayer.custom_banned_asns
+      banned_asns = ReservationPlayer.banned_asns
       subquery = subquery.where("asn_number IS NULL OR asn_number NOT IN (?)", banned_asns)
     end
 
@@ -145,7 +145,7 @@ class LeagueRequest
     end
 
     if @cross_reference
-      banned_asns = ReservationPlayer.banned_asns + ReservationPlayer.custom_banned_asns
+      banned_asns = ReservationPlayer.banned_asns
       subquery = subquery.where("asn_number IS NULL OR asn_number NOT IN (?)", banned_asns)
     end
 

@@ -48,7 +48,7 @@
                             %span.badge.badge-warning{title: "Possible VPN"}
                               %i.fa.fa-flag
                         - else
-                          - if ReservationPlayer.banned_asns.include?(asn.asn_number) || ReservationPlayer.custom_banned_asns.include?(asn.asn_number)
+                          - if ReservationPlayer.banned_asns.include?(asn.asn_number)
                             %span.badge.badge-warning{title: "Possible VPN"}
                               %i.fa.fa-flag
                       - else

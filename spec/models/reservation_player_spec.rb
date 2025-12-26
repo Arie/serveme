@@ -10,7 +10,7 @@ describe ReservationPlayer do
     end
 
     it 'recognizes bad ASNs' do
-      described_class.stub(:custom_banned_asns).and_return([ 1221 ])
+      described_class.stub(:banned_asns).and_return([ 1221 ])
       expect(described_class.banned_asn_ip?('1.128.0.1')).to be true
     end
 

@@ -156,8 +156,8 @@ class Terser
   class << self
     # Minifies JavaScript code using implicit context.
     #
-    # @param source [IO, String] valid JS source code.
     # @param options [Hash] optional overrides to +Terser::DEFAULTS+
+    # @param source [IO, String] valid JS source code.
     # @return [String] minified code.
     #
     # source://terser//lib/terser.rb#134
@@ -165,8 +165,8 @@ class Terser
 
     # Minifies JavaScript code and generates a source map using implicit context.
     #
-    # @param source [IO, String] valid JS source code.
     # @param options [Hash] optional overrides to +Terser::DEFAULTS+
+    # @param source [IO, String] valid JS source code.
     # @return [Array(String, String)] minified code and source map.
     #
     # source://terser//lib/terser.rb#143

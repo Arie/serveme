@@ -2411,6 +2411,7 @@ Concurrent::AtomicReferenceImplementation = Concurrent::MutexAtomicReference
 
 # source://concurrent-ruby//lib/concurrent-ruby/concurrent/set.rb#30
 class Concurrent::CRubySet < ::Set
+
   # source://concurrent-ruby//lib/concurrent-ruby/concurrent/set.rb#33
   def initialize(*args, &block); end
 
@@ -2496,6 +2497,9 @@ class Concurrent::CRubySet < ::Set
   def empty?(*args); end
 
   # source://concurrent-ruby//lib/concurrent-ruby/concurrent/set.rb#33
+  def encode_with(*args); end
+
+  # source://concurrent-ruby//lib/concurrent-ruby/concurrent/set.rb#33
   def eql?(*args); end
 
   # source://concurrent-ruby//lib/concurrent-ruby/concurrent/set.rb#33
@@ -2508,16 +2512,13 @@ class Concurrent::CRubySet < ::Set
   def flatten!(*args); end
 
   # source://concurrent-ruby//lib/concurrent-ruby/concurrent/set.rb#33
-  def flatten_merge(*args); end
-
-  # source://concurrent-ruby//lib/concurrent-ruby/concurrent/set.rb#33
-  def freeze(*args); end
-
-  # source://concurrent-ruby//lib/concurrent-ruby/concurrent/set.rb#33
   def hash(*args); end
 
   # source://concurrent-ruby//lib/concurrent-ruby/concurrent/set.rb#33
   def include?(*args); end
+
+  # source://concurrent-ruby//lib/concurrent-ruby/concurrent/set.rb#33
+  def init_with(*args); end
 
   # source://concurrent-ruby//lib/concurrent-ruby/concurrent/set.rb#33
   def inspect(*args); end
@@ -2650,8 +2651,6 @@ class Concurrent::CachedThreadPool < ::Concurrent::ThreadPoolExecutor
 end
 
 # Raised when an asynchronous operation is cancelled before execution.
-#
-# source://concurrent-ruby//lib/concurrent-ruby/concurrent/errors.rb#9
 class Concurrent::CancelledOperationError < ::Concurrent::Error; end
 
 # source://concurrent-ruby//lib/concurrent-ruby/concurrent/map.rb#7
@@ -3591,8 +3590,6 @@ class Concurrent::ConcurrentUpdateError < ::ThreadError; end
 Concurrent::ConcurrentUpdateError::CONC_UP_ERR_BACKTRACE = T.let(T.unsafe(nil), Array)
 
 # Raised when errors occur during configuration.
-#
-# source://concurrent-ruby//lib/concurrent-ruby/concurrent/errors.rb#6
 class Concurrent::ConfigurationError < ::Concurrent::Error; end
 
 # A synchronization object that allows one thread to wait on multiple other threads.
@@ -3885,7 +3882,6 @@ class Concurrent::DependencyCounter
   def update(time, value, reason); end
 end
 
-# source://concurrent-ruby//lib/concurrent-ruby/concurrent/errors.rb#3
 class Concurrent::Error < ::StandardError; end
 
 # Old school kernel-style event reminiscent of Win32 programming in C++.
@@ -4495,8 +4491,6 @@ end
 
 # Raised when an operation is attempted which is not legal given the
 # receiver's current state
-#
-# source://concurrent-ruby//lib/concurrent-ruby/concurrent/errors.rb#20
 class Concurrent::IllegalOperationError < ::Concurrent::Error; end
 
 # An executor service which runs all operations on the current thread,
@@ -4588,8 +4582,6 @@ class Concurrent::ImmediateExecutor < ::Concurrent::AbstractExecutorService
 end
 
 # Raised when an attempt is made to violate an immutability guarantee.
-#
-# source://concurrent-ruby//lib/concurrent-ruby/concurrent/errors.rb#16
 class Concurrent::ImmutabilityError < ::Concurrent::Error; end
 
 # A thread-safe, immutable variation of Ruby's standard `Struct`.
@@ -4693,14 +4685,10 @@ end
 
 # Raised when an object's methods are called when it has not been
 # properly initialized.
-#
-# source://concurrent-ruby//lib/concurrent-ruby/concurrent/errors.rb#24
 class Concurrent::InitializationError < ::Concurrent::Error; end
 
 # Raised when a lifecycle method (such as `stop`) is called in an improper
 # sequence or when the object is in an inappropriate state.
-#
-# source://concurrent-ruby//lib/concurrent-ruby/concurrent/errors.rb#13
 class Concurrent::LifecycleError < ::Concurrent::Error; end
 
 # source://concurrent-ruby//lib/concurrent-ruby/concurrent/collection/lock_free_stack.rb#6
@@ -5210,8 +5198,6 @@ end
 # Raised when an object with a start/stop lifecycle has been started an
 # excessive number of times. Often used in conjunction with a restart
 # policy or strategy.
-#
-# source://concurrent-ruby//lib/concurrent-ruby/concurrent/errors.rb#29
 class Concurrent::MaxRestartFrequencyError < ::Concurrent::Error; end
 
 # A `Maybe` encapsulates an optional value. A `Maybe` either contains a value
@@ -6569,7 +6555,6 @@ class Concurrent::Promise < ::Concurrent::IVar
   end
 end
 
-# source://concurrent-ruby//lib/concurrent-ruby/concurrent/promise.rb#11
 class Concurrent::PromiseExecutionError < ::StandardError; end
 
 # {include:file:docs-source/promises-main.md}
@@ -8799,14 +8784,10 @@ Concurrent::ReentrantReadWriteLock::WRITE_LOCK_MASK = T.let(T.unsafe(nil), Integ
 
 # Raised by an `Executor` when it is unable to process a given task,
 # possibly because of a reject policy or other internal error.
-#
-# source://concurrent-ruby//lib/concurrent-ruby/concurrent/errors.rb#48
 class Concurrent::RejectedExecutionError < ::Concurrent::Error; end
 
 # Raised when any finite resource, such as a lock counter, exceeds its
 # maximum limit/threshold.
-#
-# source://concurrent-ruby//lib/concurrent-ruby/concurrent/errors.rb#52
 class Concurrent::ResourceLimitError < ::Concurrent::Error; end
 
 # source://concurrent-ruby//lib/concurrent-ruby/concurrent/exchanger.rb#129
@@ -11025,8 +11006,6 @@ Concurrent::ThreadSafe::Util::FIXNUM_BIT_SIZE = T.let(T.unsafe(nil), Integer)
 Concurrent::ThreadSafe::Util::MAX_INT = T.let(T.unsafe(nil), Integer)
 
 # Raised when an operation times out.
-#
-# source://concurrent-ruby//lib/concurrent-ruby/concurrent/errors.rb#55
 class Concurrent::TimeoutError < ::Concurrent::Error; end
 
 # Executes a collection of tasks, each after a given delay. A master task
@@ -11448,10 +11427,7 @@ end
 # source://concurrent-ruby//lib/concurrent-ruby/concurrent/tvar.rb#155
 Concurrent::Transaction::ABORTED = T.let(T.unsafe(nil), Object)
 
-# source://concurrent-ruby//lib/concurrent-ruby/concurrent/tvar.rb#159
 class Concurrent::Transaction::AbortError < ::StandardError; end
-
-# source://concurrent-ruby//lib/concurrent-ruby/concurrent/tvar.rb#160
 class Concurrent::Transaction::LeaveError < ::StandardError; end
 
 # source://concurrent-ruby//lib/concurrent-ruby/concurrent/tvar.rb#157

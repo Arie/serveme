@@ -9,11 +9,17 @@ class Date
   include ::Comparable
 
   class << self
-    # source://american_date//lib/american_date.rb#31
+    # source://american_date//lib/american_date.rb#30
     def _parse(string, comp = T.unsafe(nil), limit: T.unsafe(nil)); end
 
-    # source://american_date//lib/american_date.rb#52
+    # source://american_date//lib/american_date.rb#27
+    def _parse_without_american_date(*_arg0); end
+
+    # source://american_date//lib/american_date.rb#51
     def parse(string, comp = T.unsafe(nil), start = T.unsafe(nil), limit: T.unsafe(nil)); end
+
+    # source://american_date//lib/american_date.rb#48
+    def parse_without_american_date(*_arg0); end
 
     private
 

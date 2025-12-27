@@ -25,9 +25,9 @@ module OpenAI
 
     # Log a message with appropriate formatting
     #
-    # @param prefix [String] Prefix to add to the message
-    # @param message [String] The message to log
     # @param level [Symbol] The log level (:error, :warn, etc.)
+    # @param message [String] The message to log
+    # @param prefix [String] Prefix to add to the message
     #
     # source://ruby-openai//lib/openai.rb#98
     def log_message(prefix, message, level = T.unsafe(nil)); end

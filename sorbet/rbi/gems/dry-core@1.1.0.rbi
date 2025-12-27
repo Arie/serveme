@@ -8,9 +8,6 @@
 # source://dry-core//lib/dry/core/constants.rb#5
 module Dry
   class << self
-    # source://dry-configurable/1.3.0/lib/dry/configurable.rb#11
-    def Configurable(**options); end
-
     # Build an equalizer module for the inclusion in other class
     #
     # ## Credits
@@ -21,9 +18,6 @@ module Dry
     #
     # source://dry-core//lib/dry/core.rb#52
     def Equalizer(*keys, **options); end
-
-    # source://dry-types/1.8.2/lib/dry/types.rb#253
-    def Types(*namespaces, default: T.unsafe(nil), **aliases); end
   end
 end
 
@@ -66,12 +60,18 @@ class Dry::Core::BasicObject < ::BasicObject
   def inspect; end
 
   # @since 0.8.0
+  #
+  # source://dry-core//lib/dry/core/basic_object.rb#62
   def instance_of?(_arg0); end
 
   # @since 0.8.0
+  #
+  # source://dry-core//lib/dry/core/basic_object.rb#77
   def is_a?(_arg0); end
 
   # @since 0.8.0
+  #
+  # source://dry-core//lib/dry/core/basic_object.rb#92
   def kind_of?(_arg0); end
 
   # Alias for __id__
@@ -220,6 +220,27 @@ module Dry::Core::ClassAttributes
   #
   #   hello 'world'
   #   end
+  # @example with coercion using Proc
+  #
+  #   class Bar
+  #   extend Dry::Core::ClassAttributes
+  #
+  #   defines :one, coerce: proc { |value| value.to_s }
+  #   end
+  # @example with coercion using dry-types
+  #
+  #   class Bar
+  #   extend Dry::Core::ClassAttributes
+  #
+  #   defines :one, coerce: Dry::Types['coercible.string']
+  #   end
+  # @example with dry-types
+  #
+  #   class Foo
+  #   extend Dry::Core::ClassAttributes
+  #
+  #   defines :one, :two, type: Dry::Types['strict.int']
+  #   end
   # @example with inheritance and type checking
   #
   #   class MyClass
@@ -240,27 +261,6 @@ module Dry::Core::ClassAttributes
   #
   #   OtherClass.one # => 1
   #   OtherClass.two # => 3
-  # @example with dry-types
-  #
-  #   class Foo
-  #   extend Dry::Core::ClassAttributes
-  #
-  #   defines :one, :two, type: Dry::Types['strict.int']
-  #   end
-  # @example with coercion using Proc
-  #
-  #   class Bar
-  #   extend Dry::Core::ClassAttributes
-  #
-  #   defines :one, coerce: proc { |value| value.to_s }
-  #   end
-  # @example with coercion using dry-types
-  #
-  #   class Bar
-  #   extend Dry::Core::ClassAttributes
-  #
-  #   defines :one, coerce: Dry::Types['coercible.string']
-  #   end
   #
   # source://dry-core//lib/dry/core/class_attributes.rb#68
   def defines(*args, type: T.unsafe(nil), coerce: T.unsafe(nil)); end
@@ -353,7 +353,6 @@ class Dry::Core::ClassBuilder
   def create_named; end
 end
 
-# source://dry-core//lib/dry/core/class_builder.rb#7
 class Dry::Core::ClassBuilder::ParentClassMismatch < ::TypeError; end
 
 # A list of constants you can use to avoid memory allocations or identity checks.
@@ -468,7 +467,7 @@ class Dry::Core::Container
   extend ::Dry::Configurable::Methods
   extend ::Dry::Configurable::ClassMethods
 
-  # source://dry-core//lib/dry/core/container/mixin.rb#83
+  # source://dry-core//lib/dry/core/container.rb#24
   def config; end
 end
 
@@ -560,8 +559,6 @@ Dry::Core::Container::EMPTY_SET = T.let(T.unsafe(nil), Set)
 Dry::Core::Container::EMPTY_STRING = T.let(T.unsafe(nil), String)
 
 # @api public
-#
-# source://dry-core//lib/dry/core/container/mixin.rb#12
 class Dry::Core::Container::Error < ::StandardError; end
 
 # source://dry-core//lib/dry/core/constants.rb#112
@@ -702,8 +699,6 @@ Dry::Core::Container::Item::NO_OPTIONS = T.let(T.unsafe(nil), Hash)
 # Error raised when key is not defined in the registry
 #
 # @api public
-#
-# source://dry-core//lib/dry/core/container/mixin.rb#17
 class Dry::Core::Container::KeyError < ::KeyError; end
 
 # Mixin to expose Inversion of Control (IoC) container behaviour
@@ -836,8 +831,8 @@ module Dry::Core::Container::Mixin
   # Merge in the items of the other container
   #
   # @api public
-  # @param other [Dry::Core::Container] The other container to merge in
   # @param namespace [Symbol, nil] Namespace to prefix other container items with, defaults to nil
+  # @param other [Dry::Core::Container] The other container to merge in
   # @return [Dry::Core::Container::Mixin] self
   #
   # source://dry-core//lib/dry/core/container/mixin.rb#158
@@ -855,8 +850,8 @@ module Dry::Core::Container::Mixin
   # Register an item with the container to be resolved later
   #
   # @api public
-  # @param key [Mixed] The key to register the container item with (used to resolve)
   # @param contents [Mixed] The item to register with the container (if no block given)
+  # @param key [Mixed] The key to register the container item with (used to resolve)
   # @param options [Hash] Options to pass to the registry when registering the item
   # @return [Dry::Core::Container::Mixin] self
   # @yield If a block is given, contents will be ignored and the block
@@ -1011,10 +1006,10 @@ class Dry::Core::Container::Registry
   #
   # @api public
   # @option options
+  # @param container [Concurrent::Hash] The container
+  # @param item [Mixed] The item to register with the container
   # @param key [Mixed] The key to register the container item with (used to resolve)
   # @param options [Hash]
-  # @param item [Mixed] The item to register with the container
-  # @param container [Concurrent::Hash] The container
   # @raise [Dry::Core::Container::KeyError] If an item is already registered with the given key
   # @return [Mixed]
   #
@@ -1159,8 +1154,8 @@ module Dry::Core::Deprecations
     # Wraps arguments with a standard message format and prints a warning
     #
     # @api public
-    # @param name [Object] what is deprecated
     # @param msg [String] additional message usually containing upgrade instructions
+    # @param name [Object] what is deprecated
     #
     # source://dry-core//lib/dry/core/deprecations.rb#51
     def announce(name, msg, tag: T.unsafe(nil), uplevel: T.unsafe(nil)); end
@@ -1198,10 +1193,10 @@ module Dry::Core::Deprecations
     # Prints a warning
     #
     # @api public
+    # @param Caller [Integer] frame to add to the message
     # @param msg [String] Warning string
     # @param tag [String] Tag to help identify the source of the warning.
     #   Defaults to "deprecated"
-    # @param Caller [Integer] frame to add to the message
     #
     # source://dry-core//lib/dry/core/deprecations.rb#39
     def warn(msg, tag: T.unsafe(nil), uplevel: T.unsafe(nil)); end
@@ -1216,9 +1211,9 @@ module Dry::Core::Deprecations::Interface
   #
   # @api public
   # @option [String]
-  # @param old_name [Symbol] deprecated method
-  # @param new_name [Symbol] replacement (not required)
   # @param [String] [Hash] a customizable set of options
+  # @param new_name [Symbol] replacement (not required)
+  # @param old_name [Symbol] deprecated method
   #
   # source://dry-core//lib/dry/core/deprecations.rb#157
   def deprecate(old_name, new_name = T.unsafe(nil), message: T.unsafe(nil)); end
@@ -1227,9 +1222,9 @@ module Dry::Core::Deprecations::Interface
   #
   # @api public
   # @option [String]
-  # @param old_name [Symbol] deprecated method
-  # @param new_name [Symbol] replacement (not required)
   # @param [String] [Hash] a customizable set of options
+  # @param new_name [Symbol] replacement (not required)
+  # @param old_name [Symbol] deprecated method
   #
   # source://dry-core//lib/dry/core/deprecations.rb#190
   def deprecate_class_method(old_name, new_name = T.unsafe(nil), message: T.unsafe(nil)); end
@@ -1238,8 +1233,8 @@ module Dry::Core::Deprecations::Interface
   #
   # @api public
   # @option [String]
-  # @param constant_name [Symbol] constant name to be deprecated
   # @param [String] [Hash] a customizable set of options
+  # @param constant_name [Symbol] constant name to be deprecated
   #
   # source://dry-core//lib/dry/core/deprecations.rb#212
   def deprecate_constant(constant_name, message: T.unsafe(nil)); end
@@ -1410,8 +1405,8 @@ class Dry::Core::Equalizer < ::Module
   # Define the equalizer methods based on #keys
   #
   # @api private
-  # @param inspect [Boolean] whether to define #inspect method
   # @param immutable [Boolean] whether to memoize #hash method
+  # @param inspect [Boolean] whether to define #inspect method
   # @return [undefined]
   #
   # source://dry-core//lib/dry/core/equalizer.rb#50
@@ -1730,126 +1725,13 @@ Dry::Core::VERSION = T.let(T.unsafe(nil), String)
 
 module Dry::Types
   extend ::Dry::Core::Constants
-
-  class << self
-    # source://dry-types/1.8.2/lib/dry/types/constraints.rb#13
-    def Rule(options); end
-
-    # source://dry-types/1.8.2/lib/dry/types.rb#115
-    def [](name); end
-
-    # source://dry-types/1.8.2/lib/dry/types.rb#163
-    def const_missing(const); end
-
-    # source://dry-types/1.8.2/lib/dry/types.rb#82
-    def container; end
-
-    # source://dry-types/1.8.2/lib/dry/types.rb#197
-    def define_builder(method, &block); end
-
-    # source://dry-types/1.8.2/lib/dry/types.rb#149
-    def identifier(klass); end
-
-    # source://dry-types/1.8.2/lib/dry/types.rb#73
-    def included(*_arg0); end
-
-    # source://dry-types/1.8.2/lib/dry/types.rb#33
-    def loader; end
-
-    # source://dry-core//lib/dry/core/deprecations.rb#202
-    def module(*args, &block); end
-
-    # source://dry-types/1.8.2/lib/dry/types.rb#104
-    def register(name, type = T.unsafe(nil), &block); end
-
-    # source://dry-types/1.8.2/lib/dry/types.rb#91
-    def registered?(class_or_identifier); end
-
-    # source://dry-types/1.8.2/lib/dry/types/constraints.rb#26
-    def rule_compiler; end
-
-    # source://dry-types/1.8.2/lib/dry/types.rb#158
-    def type_map; end
-  end
 end
 
-class Dry::Types::Compiler
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#11
-  def initialize(registry); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#15
-  def call(ast); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#114
-  def compile_fn(fn); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#9
-  def registry; end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#17
-  def visit(node); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#110
-  def visit_any(meta); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#59
-  def visit_array(node); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#22
-  def visit_constrained(node); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#28
-  def visit_constructor(node); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#100
-  def visit_enum(node); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#65
-  def visit_hash(node); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#80
-  def visit_json_array(node); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#75
-  def visit_json_hash(node); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#95
-  def visit_key(node); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#34
-  def visit_lax(node); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#105
-  def visit_map(node); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#39
-  def visit_nominal(node); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#90
-  def visit_params_array(node); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#85
-  def visit_params_hash(node); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#50
-  def visit_rule(node); end
-
-  # source://dry-core//lib/dry/core/deprecations.rb#168
-  def visit_safe(*args, &block); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#70
-  def visit_schema(node); end
-
-  # source://dry-types/1.8.2/lib/dry/types/compiler.rb#54
-  def visit_sum(node); end
-end
+class Dry::Types::Compiler; end
 
 class Dry::Types::Container
   extend ::Dry::Core::Constants
   extend ::Dry::Configurable::Methods
-
-  # source://dry-core//lib/dry/core/container/mixin.rb#83
-  def config; end
 end
 
 # source://dry-core//lib/dry/core/constants.rb#112
@@ -1870,25 +1752,12 @@ Dry::Types::EMPTY_STRING = T.let(T.unsafe(nil), String)
 # source://dry-core//lib/dry/core/constants.rb#112
 Dry::Types::IDENTITY = T.let(T.unsafe(nil), Proc)
 
+class Dry::Types::MapError < ::Dry::Types::CoercionError; end
+
 # source://dry-core//lib/dry/core/constants.rb#112
 Dry::Types::Self = T.let(T.unsafe(nil), Proc)
 
-module Dry::Types::Type
-  # source://dry-types/1.8.2/lib/dry/types/type.rb#18
-  def ===(input = T.unsafe(nil)); end
-
-  # source://dry-types/1.8.2/lib/dry/types/type.rb#43
-  def [](input = T.unsafe(nil), &_arg1); end
-
-  # source://dry-types/1.8.2/lib/dry/types/type.rb#43
-  def call(input = T.unsafe(nil), &_arg1); end
-
-  # source://dry-core//lib/dry/core/deprecations.rb#168
-  def safe(*args, &block); end
-
-  # source://dry-types/1.8.2/lib/dry/types/type.rb#18
-  def valid?(input = T.unsafe(nil)); end
-end
+module Dry::Types::Type; end
 
 # source://dry-core//lib/dry/core/constants.rb#112
 Dry::Types::Undefined = T.let(T.unsafe(nil), Object)

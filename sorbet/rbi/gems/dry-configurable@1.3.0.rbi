@@ -12,12 +12,6 @@ module Dry
     #
     # source://dry-configurable//lib/dry/configurable.rb#11
     def Configurable(**options); end
-
-    # source://dry-core/1.1.0/lib/dry/core.rb#52
-    def Equalizer(*keys, **options); end
-
-    # source://dry-types/1.8.2/lib/dry/types.rb#253
-    def Types(*namespaces, default: T.unsafe(nil), **aliases); end
   end
 end
 
@@ -89,8 +83,6 @@ module Dry::Configurable
 end
 
 # @api public
-#
-# source://dry-configurable//lib/dry/configurable/errors.rb#14
 class Dry::Configurable::AlreadyIncludedError < ::Dry::Configurable::Error; end
 
 # source://dry-configurable//lib/dry/configurable/class_methods.rb#7
@@ -133,9 +125,9 @@ module Dry::Configurable::ClassMethods
   # Add a setting to the configuration
   #
   # @api public
-  # @param name [Mixed] The accessor key for the configuration value
-  # @param default [Mixed] Default value for the setting
   # @param constructor [#call] Transformation given value will go through
+  # @param default [Mixed] Default value for the setting
+  # @param name [Mixed] The accessor key for the configuration value
   # @param reader [Boolean] Whether a reader accessor must be created
   # @return [Dry::Configurable::Config]
   # @yield A block can be given to add nested settings.
@@ -215,7 +207,7 @@ class Dry::Configurable::Config
 
   # @api private
   #
-  # source://dry-core/1.1.0/lib/dry/core/equalizer.rb#87
+  # source://dry-configurable//lib/dry/configurable/config.rb#149
   def _dry_equalizer_hash; end
 
   # @api private
@@ -396,8 +388,6 @@ end
 Dry::Configurable::DSL::VALID_NAME = T.let(T.unsafe(nil), Regexp)
 
 # @api public
-#
-# source://dry-configurable//lib/dry/configurable/errors.rb#10
 class Dry::Configurable::Error < ::StandardError; end
 
 # @api public
@@ -432,8 +422,6 @@ class Dry::Configurable::Extension < ::Module
 end
 
 # @api public
-#
-# source://dry-configurable//lib/dry/configurable/errors.rb#12
 class Dry::Configurable::FrozenConfigError < ::Dry::Configurable::Error; end
 
 # Initializer method which is prepended when `Dry::Configurable`
@@ -524,7 +512,7 @@ class Dry::Configurable::Setting
   # @api public
   # @return [Boolean]
   #
-  # source://dry-configurable//lib/dry/configurable/setting.rb#67
+  # source://dry-configurable//lib/dry/configurable/setting.rb#70
   def cloneable?; end
 
   # @api public

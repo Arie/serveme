@@ -282,9 +282,6 @@ class OpenStruct
   # source://ostruct//lib/ostruct.rb#481
   def freeze!; end
 
-  # source://ostruct//lib/ostruct.rb#481
-  def gem!(dep, *reqs); end
-
   # Computes a hash code for this OpenStruct.
   #
   # source://ostruct//lib/ostruct.rb#442

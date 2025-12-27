@@ -6,33 +6,7 @@
 
 
 # source://aws-eventstream//lib/aws-eventstream/decoder.rb#7
-module Aws
-  class << self
-    # source://aws-sdk-core/3.214.1/lib/aws-sdk-core.rb#93
-    def config; end
-
-    # source://aws-sdk-core/3.214.1/lib/aws-sdk-core.rb#96
-    def config=(config); end
-
-    # source://aws-sdk-core/3.214.1/lib/aws-sdk-core.rb#155
-    def eager_autoload!(*args); end
-
-    # source://aws-sdk-core/3.214.1/lib/aws-sdk-core.rb#148
-    def empty_connection_pools!; end
-
-    # source://aws-sdk-core/3.214.1/lib/aws-sdk-core.rb#105
-    def partition(partition_name); end
-
-    # source://aws-sdk-core/3.214.1/lib/aws-sdk-core.rb#110
-    def partitions; end
-
-    # source://aws-sdk-core/3.214.1/lib/aws-sdk-core.rb#86
-    def shared_config; end
-
-    # source://aws-sdk-core/3.214.1/lib/aws-sdk-core.rb#125
-    def use_bundled_cert!; end
-  end
-end
+module Aws; end
 
 # source://aws-eventstream//lib/aws-eventstream/decoder.rb#8
 module Aws::EventStream; end
@@ -207,10 +181,10 @@ class Aws::EventStream::Encoder
   # Encodes Aws::EventStream::Message to output IO when
   #   provided, else return the encoded binary string
   #
-  # @param message [Aws::EventStream::Message]
   # @param io [IO#write, nil] An IO-like object that
   #   responds to `#write`, encoded message will be
   #   written to this IO when provided
+  # @param message [Aws::EventStream::Message]
   # @return [nil, String] when output IO is provided,
   #   encoded message will be written to that IO, nil
   #   will be returned. Else, encoded binary string is

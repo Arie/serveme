@@ -73,8 +73,8 @@ module HTTP::Chainable
   # Convert to a transparent TCP/IP tunnel
   #
   # @option options
-  # @param uri
   # @param options [Hash] a customizable set of options
+  # @param uri
   #
   # source://http//lib/http/chainable.rb#62
   def connect(uri, options = T.unsafe(nil)); end
@@ -102,8 +102,8 @@ module HTTP::Chainable
   # Delete a resource
   #
   # @option options
-  # @param uri
   # @param options [Hash] a customizable set of options
+  # @param uri
   #
   # source://http//lib/http/chainable.rb#41
   def delete(uri, options = T.unsafe(nil)); end
@@ -125,8 +125,8 @@ module HTTP::Chainable
   # Get a resource
   #
   # @option options
-  # @param uri
   # @param options [Hash] a customizable set of options
+  # @param uri
   #
   # source://http//lib/http/chainable.rb#20
   def get(uri, options = T.unsafe(nil)); end
@@ -134,8 +134,8 @@ module HTTP::Chainable
   # Request a get sans response body
   #
   # @option options
-  # @param uri
   # @param options [Hash] a customizable set of options
+  # @param uri
   #
   # source://http//lib/http/chainable.rb#13
   def head(uri, options = T.unsafe(nil)); end
@@ -155,8 +155,8 @@ module HTTP::Chainable
   # Return the methods supported on the given URI
   #
   # @option options
-  # @param uri
   # @param options [Hash] a customizable set of options
+  # @param uri
   #
   # source://http//lib/http/chainable.rb#55
   def options(uri, options = T.unsafe(nil)); end
@@ -164,8 +164,8 @@ module HTTP::Chainable
   # Apply partial modifications to a resource
   #
   # @option options
-  # @param uri
   # @param options [Hash] a customizable set of options
+  # @param uri
   #
   # source://http//lib/http/chainable.rb#69
   def patch(uri, options = T.unsafe(nil)); end
@@ -179,8 +179,8 @@ module HTTP::Chainable
   # Post to a resource
   #
   # @option options
-  # @param uri
   # @param options [Hash] a customizable set of options
+  # @param uri
   #
   # source://http//lib/http/chainable.rb#27
   def post(uri, options = T.unsafe(nil)); end
@@ -188,8 +188,8 @@ module HTTP::Chainable
   # Put to a resource
   #
   # @option options
-  # @param uri
   # @param options [Hash] a customizable set of options
+  # @param uri
   #
   # source://http//lib/http/chainable.rb#34
   def put(uri, options = T.unsafe(nil)); end
@@ -236,8 +236,8 @@ module HTTP::Chainable
   # Echo the request back to the client
   #
   # @option options
-  # @param uri
   # @param options [Hash] a customizable set of options
+  # @param uri
   #
   # source://http//lib/http/chainable.rb#48
   def trace(uri, options = T.unsafe(nil)); end
@@ -299,7 +299,7 @@ class HTTP::Client
   # @see Options#persistent?
   #
   # source://http//lib/http/client.rb#61
-  def persistent?(*args, **_arg1, &block); end
+  def persistent?(*_arg0, **_arg1, &_arg2); end
 
   # Make an HTTP request
   #
@@ -355,8 +355,8 @@ class HTTP::ConnectTimeoutError < ::HTTP::TimeoutError; end
 class HTTP::Connection
   extend ::Forwardable
 
-  # @param req [HTTP::Request]
   # @param options [HTTP::Options]
+  # @param req [HTTP::Request]
   # @raise [HTTP::ConnectionError] when failed to connect
   # @return [Connection] a new instance of Connection
   #
@@ -395,10 +395,10 @@ class HTTP::Connection
   def finished_request?; end
 
   # source://http//lib/http/connection.rb#61
-  def headers(*args, **_arg1, &block); end
+  def headers(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/connection.rb#58
-  def http_version(*args, **_arg1, &block); end
+  def http_version(*_arg0, **_arg1, &_arg2); end
 
   # Whether we're keeping the conn alive
   #
@@ -437,7 +437,7 @@ class HTTP::Connection
   def send_request(req); end
 
   # source://http//lib/http/connection.rb#55
-  def status_code(*args, **_arg1, &block); end
+  def status_code(*_arg0, **_arg1, &_arg2); end
 
   private
 
@@ -471,8 +471,8 @@ class HTTP::Connection
 
   # Sets up SSL context and starts TLS if needed.
   #
-  # @param req [HTTP::Request]
   # @param options [HTTP::Options]
+  # @param req [HTTP::Request]
   # @return [void]
   #
   # source://http//lib/http/connection.rb#160
@@ -895,7 +895,7 @@ class HTTP::Headers
   # @return [Boolean]
   #
   # source://http//lib/http/headers.rb#183
-  def empty?(*args, **_arg1, &block); end
+  def empty?(*_arg0, **_arg1, &_arg2); end
 
   # Returns list of header values if any.
   #
@@ -911,7 +911,7 @@ class HTTP::Headers
   # @see http://www.ruby-doc.org/core/Object.html#method-i-hash
   #
   # source://http//lib/http/headers.rb#191
-  def hash(*args, **_arg1, &block); end
+  def hash(*_arg0, **_arg1, &_arg2); end
 
   # Tells whenever header with given `name` is set or not.
   #
@@ -1156,14 +1156,14 @@ module HTTP::Headers::Mixin
   # @return [Array<String>] if header has more than one value
   #
   # source://http//lib/http/headers/mixin.rb#27
-  def [](*args, **_arg1, &block); end
+  def [](*_arg0, **_arg1, &_arg2); end
 
   # Sets header.
   #
   # @return [void]
   #
   # source://http//lib/http/headers/mixin.rb#31
-  def []=(*args, **_arg1, &block); end
+  def []=(*_arg0, **_arg1, &_arg2); end
 
   # @return [HTTP::Headers]
   #
@@ -1305,8 +1305,8 @@ module HTTP::MimeType
     #   end
     #
     #   HTTP::MimeType.register_adapter 'application/json', MyJsonAdapter
-    # @param type [#to_s]
     # @param adapter [#encode, #decode]
+    # @param type [#to_s]
     # @return [void]
     #
     # source://http//lib/http/mime_type.rb#28
@@ -1317,8 +1317,8 @@ module HTTP::MimeType
     # @example
     #
     #   HTTP::MimeType.register_alias 'application/json', :json
-    # @param type [#to_s]
     # @param shortcut [#to_sym]
+    # @param type [#to_s]
     # @return [void]
     #
     # source://http//lib/http/mime_type.rb#50
@@ -1350,10 +1350,10 @@ class HTTP::MimeType::Adapter
 
   class << self
     # source://http//lib/http/mime_type/adapter.rb#14
-    def decode(*args, **_arg1, &block); end
+    def decode(*_arg0, **_arg1, &_arg2); end
 
     # source://http//lib/http/mime_type/adapter.rb#14
-    def encode(*args, **_arg1, &block); end
+    def encode(*_arg0, **_arg1, &_arg2); end
 
     private
 
@@ -1823,7 +1823,7 @@ class HTTP::Request
   # @return [String]
   #
   # source://http//lib/http/request.rb#229
-  def host(*args, **_arg1, &block); end
+  def host(*_arg0, **_arg1, &_arg2); end
 
   # Compute and add the Proxy-Authorization header
   #
@@ -2153,7 +2153,7 @@ class HTTP::Response
   # @return [String, nil]
   #
   # source://http//lib/http/response.rb#138
-  def charset(*args, **_arg1, &block); end
+  def charset(*_arg0, **_arg1, &_arg2); end
 
   # @return [Boolean]
   #
@@ -2163,14 +2163,14 @@ class HTTP::Response
   # @return [Fixnum] status code
   #
   # source://http//lib/http/response.rb#68
-  def code(*args, **_arg1, &block); end
+  def code(*_arg0, **_arg1, &_arg2); end
 
   # The connection object used to make the corresponding request.
   #
   # @return [HTTP::Connection]
   #
   # source://http//lib/http/response.rb#81
-  def connection(*args, **_arg1, &block); end
+  def connection(*_arg0, **_arg1, &_arg2); end
 
   # Value of the Content-Length header.
   #
@@ -2208,7 +2208,7 @@ class HTTP::Response
   # @return [String, nil]
   #
   # source://http//lib/http/response.rb#133
-  def mime_type(*args, **_arg1, &block); end
+  def mime_type(*_arg0, **_arg1, &_arg2); end
 
   # Parse response body with corresponding MIME type adapter.
   #
@@ -2225,12 +2225,12 @@ class HTTP::Response
   def proxy_headers; end
 
   # source://http//lib/http/response.rb#77
-  def readpartial(*args, **_arg1, &block); end
+  def readpartial(*_arg0, **_arg1, &_arg2); end
 
   # @return [String, nil] status message
   #
   # source://http//lib/http/response.rb#64
-  def reason(*args, **_arg1, &block); end
+  def reason(*_arg0, **_arg1, &_arg2); end
 
   # @return [Request]
   #
@@ -2252,15 +2252,15 @@ class HTTP::Response
   # @return [String] eagerly consume the entire body as a string
   #
   # source://http//lib/http/response.rb#72
-  def to_s(*args, **_arg1, &block); end
+  def to_s(*_arg0, **_arg1, &_arg2); end
 
   # @return [String] eagerly consume the entire body as a string
   #
   # source://http//lib/http/response.rb#73
-  def to_str(*args, **_arg1, &block); end
+  def to_str(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/response.rb#85
-  def uri(*args, **_arg1, &block); end
+  def uri(*_arg0, **_arg1, &_arg2); end
 
   # @return [String]
   #
@@ -2306,7 +2306,7 @@ class HTTP::Response::Body
   def each; end
 
   # source://http//lib/http/response/body.rb#12
-  def empty?(*args, **_arg1, &block); end
+  def empty?(*_arg0, **_arg1, &_arg2); end
 
   # Easier to interpret string inspect
   #
@@ -2848,8 +2848,8 @@ module HTTP::Retriable; end
 #
 # source://http//lib/http/retriable/client.rb#10
 class HTTP::Retriable::Client < ::HTTP::Client
-  # @param performer [Performer]
   # @param options [HTTP::Options, Hash]
+  # @param performer [Performer]
   # @return [Client] a new instance of Client
   #
   # source://http//lib/http/retriable/client.rb#13
@@ -2955,9 +2955,9 @@ class HTTP::Retriable::Performer
   # Builds OutOfRetriesError
   #
   # @api private
+  # @param exception [Exception, nil]
   # @param request [HTTP::Request]
   # @param status [HTTP::Response, nil]
-  # @param exception [Exception, nil]
   #
   # source://http//lib/http/retriable/performer.rb#140
   def out_of_retries_error(request, response, exception); end
@@ -3230,10 +3230,10 @@ class HTTP::URI
   def ==(other); end
 
   # source://http//lib/http/uri.rb#12
-  def authority(*args, **_arg1, &block); end
+  def authority(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#12
-  def authority=(*args, **_arg1, &block); end
+  def authority=(*_arg0, **_arg1, &_arg2); end
 
   # @return [Object] duplicated URI
   #
@@ -3249,10 +3249,10 @@ class HTTP::URI
   def eql?(other); end
 
   # source://http//lib/http/uri.rb#19
-  def fragment(*args, **_arg1, &block); end
+  def fragment(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#19
-  def fragment=(*args, **_arg1, &block); end
+  def fragment=(*_arg0, **_arg1, &_arg2); end
 
   # Hash value based off the normalized form of a URI
   #
@@ -3295,16 +3295,16 @@ class HTTP::URI
   def inspect; end
 
   # source://http//lib/http/uri.rb#20
-  def join(*args, **_arg1, &block); end
+  def join(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#20
-  def normalize(*args, **_arg1, &block); end
+  def normalize(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#12
-  def normalized_authority(*args, **_arg1, &block); end
+  def normalized_authority(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#19
-  def normalized_fragment(*args, **_arg1, &block); end
+  def normalized_fragment(*_arg0, **_arg1, &_arg2); end
 
   # Normalized host, either a domain name or IP address. If the host is an IPv6 address, it will
   # be returned without brackets surrounding it.
@@ -3315,43 +3315,43 @@ class HTTP::URI
   def normalized_host; end
 
   # source://http//lib/http/uri.rb#11
-  def normalized_password(*args, **_arg1, &block); end
+  def normalized_password(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#15
-  def normalized_path(*args, **_arg1, &block); end
+  def normalized_path(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#14
-  def normalized_port(*args, **_arg1, &block); end
+  def normalized_port(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#16
-  def normalized_query(*args, **_arg1, &block); end
+  def normalized_query(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#9
-  def normalized_scheme(*args, **_arg1, &block); end
+  def normalized_scheme(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#10
-  def normalized_user(*args, **_arg1, &block); end
+  def normalized_user(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#20
-  def omit(*args, **_arg1, &block); end
+  def omit(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#13
-  def origin(*args, **_arg1, &block); end
+  def origin(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#13
-  def origin=(*args, **_arg1, &block); end
+  def origin=(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#11
-  def password(*args, **_arg1, &block); end
+  def password(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#11
-  def password=(*args, **_arg1, &block); end
+  def password=(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#15
-  def path(*args, **_arg1, &block); end
+  def path(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#15
-  def path=(*args, **_arg1, &block); end
+  def path=(*_arg0, **_arg1, &_arg2); end
 
   # Port number, either as specified or the default if unspecified
   #
@@ -3361,31 +3361,31 @@ class HTTP::URI
   def port; end
 
   # source://http//lib/http/uri.rb#14
-  def port=(*args, **_arg1, &block); end
+  def port=(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#16
-  def query(*args, **_arg1, &block); end
+  def query(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#16
-  def query=(*args, **_arg1, &block); end
+  def query=(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#17
-  def query_values(*args, **_arg1, &block); end
+  def query_values(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#17
-  def query_values=(*args, **_arg1, &block); end
+  def query_values=(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#18
-  def request_uri(*args, **_arg1, &block); end
+  def request_uri(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#18
-  def request_uri=(*args, **_arg1, &block); end
+  def request_uri=(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#9
-  def scheme(*args, **_arg1, &block); end
+  def scheme(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#9
-  def scheme=(*args, **_arg1, &block); end
+  def scheme=(*_arg0, **_arg1, &_arg2); end
 
   # Convert an HTTP::URI to a String
   #
@@ -3402,10 +3402,10 @@ class HTTP::URI
   def to_str; end
 
   # source://http//lib/http/uri.rb#10
-  def user(*args, **_arg1, &block); end
+  def user(*_arg0, **_arg1, &_arg2); end
 
   # source://http//lib/http/uri.rb#10
-  def user=(*args, **_arg1, &block); end
+  def user=(*_arg0, **_arg1, &_arg2); end
 
   private
 

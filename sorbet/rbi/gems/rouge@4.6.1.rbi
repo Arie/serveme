@@ -1054,9 +1054,9 @@ class Rouge::Lexer
     # @option info
     # @option info
     # @option info
-    # @param info [Hash] a customizable set of options
     # @param fallback [Proc] called if multiple lexers are detected.
     #   If omitted, Guesser::Ambiguous is raised.
+    # @param info [Hash] a customizable set of options
     # @return [Class<Rouge::Lexer>]
     # @see Lexer.detect?
     # @see Lexer.guesses
@@ -4946,16 +4946,16 @@ class Rouge::RegexLexer::StateDSL
   #
   # @overload rule
   # @overload rule
-  # @param re [Regexp] a regular expression for this rule to test.
-  # @param tok [String] the token type to yield if `re` matches.
-  # @param next_state [#to_s] (optional) a state to push onto the stack if `re` matches.
-  #   If `next_state` is `:pop!`, the state stack will be popped
-  #   instead.
   # @param callback [Proc] a block that will be evaluated in the context of the lexer
   #   if `re` matches.  This block has access to a number of lexer
   #   methods, including {RegexLexer#push}, {RegexLexer#pop!},
   #   {RegexLexer#token}, and {RegexLexer#delegate}.  The first
   #   argument can be used to access the match groups.
+  # @param next_state [#to_s] (optional) a state to push onto the stack if `re` matches.
+  #   If `next_state` is `:pop!`, the state stack will be popped
+  #   instead.
+  # @param re [Regexp] a regular expression for this rule to test.
+  # @param tok [String] the token type to yield if `re` matches.
   # @raise [ClosedState]
   #
   # source://rouge//lib/rouge/regex_lexer.rb#129

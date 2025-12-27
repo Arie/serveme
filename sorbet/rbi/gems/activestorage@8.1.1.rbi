@@ -919,7 +919,6 @@ module ActiveStorage::Attached::Model
   end
 end
 
-# source://activestorage//lib/active_storage/attached/model.rb#54
 module ActiveStorage::Attached::Model::ClassMethods
   # source://activestorage//lib/active_storage/attached/model.rb#210
   def has_many_attached(name, dependent: T.unsafe(nil), service: T.unsafe(nil), strict_loading: T.unsafe(nil)); end
@@ -1012,24 +1011,6 @@ class ActiveStorage::Attachment < ::ActiveStorage::Record
     def __class_attr_defined_enums; end
     def __class_attr_defined_enums=(new_value); end
   end
-end
-
-module ActiveStorage::Attachment::GeneratedAssociationMethods
-  def blob; end
-  def blob=(value); end
-  def blob_changed?; end
-  def blob_previously_changed?; end
-  def build_blob(*args, &block); end
-  def create_blob(*args, &block); end
-  def create_blob!(*args, &block); end
-  def record; end
-  def record=(value); end
-  def record_changed?; end
-  def record_previously_changed?; end
-  def reload_blob; end
-  def reload_record; end
-  def reset_blob; end
-  def reset_record; end
 end
 
 module ActiveStorage::Attachment::GeneratedAttributeMethods; end

@@ -8600,25 +8600,21 @@ RuboCop::Cop::Rails::ResponseParsedBody::RESTRICT_ON_SEND = T.let(T.unsafe(nil),
 # reversible.
 #
 # @example
+#   # remove_index
+#
 #   # bad
 #   def change
-#   change_table :users do |t|
-#   t.remove :name
-#   end
+#   remove_index :users, name: :index_users_on_email
 #   end
 #
 #   # good
 #   def change
-#   change_table :users do |t|
-#   t.remove :name, type: :string
-#   end
+#   remove_index :users, :email
 #   end
 #
 #   # good
 #   def change
-#   create_table :users do |t|
-#   t.string :name
-#   end
+#   remove_index :users, column: :email
 #   end
 # @example
 #   # drop_table
@@ -8720,21 +8716,25 @@ RuboCop::Cop::Rails::ResponseParsedBody::RESTRICT_ON_SEND = T.let(T.unsafe(nil),
 #   remove_columns :users, :name, :email, type: :string
 #   end
 # @example
-#   # remove_index
-#
 #   # bad
 #   def change
-#   remove_index :users, name: :index_users_on_email
+#   change_table :users do |t|
+#   t.remove :name
+#   end
 #   end
 #
 #   # good
 #   def change
-#   remove_index :users, :email
+#   change_table :users do |t|
+#   t.remove :name, type: :string
+#   end
 #   end
 #
 #   # good
 #   def change
-#   remove_index :users, column: :email
+#   create_table :users do |t|
+#   t.string :name
+#   end
 #   end
 #
 # source://rubocop-rails//lib/rubocop/cop/rails/reversible_migration.rb#153
@@ -12043,6 +12043,10 @@ class RuboCop::Cop::Style::MixinUsage < ::RuboCop::Cop::Base
 end
 
 class RuboCop::Cop::Style::ModuleFunction < ::RuboCop::Cop::Base
+  include ::RuboCop::Rails::MigrationFileSkippable
+end
+
+class RuboCop::Cop::Style::ModuleMemberExistenceCheck < ::RuboCop::Cop::Base
   include ::RuboCop::Rails::MigrationFileSkippable
 end
 

@@ -832,85 +832,122 @@ class Net::SFTP::Operations::Download::Entry < ::Struct
   # Returns the value of attribute directory
   #
   # @return [Object] the current value of directory
+  #
+  # source://net-sftp//lib/net/sftp/operations/download.rb#207
   def directory; end
 
   # Sets the attribute directory
   #
   # @param value [Object] the value to set the attribute directory to.
   # @return [Object] the newly set value
+  #
+  # source://net-sftp//lib/net/sftp/operations/download.rb#207
   def directory=(_); end
 
   # Returns the value of attribute handle
   #
   # @return [Object] the current value of handle
+  #
+  # source://net-sftp//lib/net/sftp/operations/download.rb#207
   def handle; end
 
   # Sets the attribute handle
   #
   # @param value [Object] the value to set the attribute handle to.
   # @return [Object] the newly set value
+  #
+  # source://net-sftp//lib/net/sftp/operations/download.rb#207
   def handle=(_); end
 
   # Returns the value of attribute local
   #
   # @return [Object] the current value of local
+  #
+  # source://net-sftp//lib/net/sftp/operations/download.rb#207
   def local; end
 
   # Sets the attribute local
   #
   # @param value [Object] the value to set the attribute local to.
   # @return [Object] the newly set value
+  #
+  # source://net-sftp//lib/net/sftp/operations/download.rb#207
   def local=(_); end
 
   # Returns the value of attribute offset
   #
   # @return [Object] the current value of offset
+  #
+  # source://net-sftp//lib/net/sftp/operations/download.rb#207
   def offset; end
 
   # Sets the attribute offset
   #
   # @param value [Object] the value to set the attribute offset to.
   # @return [Object] the newly set value
+  #
+  # source://net-sftp//lib/net/sftp/operations/download.rb#207
   def offset=(_); end
 
   # Returns the value of attribute remote
   #
   # @return [Object] the current value of remote
+  #
+  # source://net-sftp//lib/net/sftp/operations/download.rb#207
   def remote; end
 
   # Sets the attribute remote
   #
   # @param value [Object] the value to set the attribute remote to.
   # @return [Object] the newly set value
+  #
+  # source://net-sftp//lib/net/sftp/operations/download.rb#207
   def remote=(_); end
 
   # Returns the value of attribute sink
   #
   # @return [Object] the current value of sink
+  #
+  # source://net-sftp//lib/net/sftp/operations/download.rb#207
   def sink; end
 
   # Sets the attribute sink
   #
   # @param value [Object] the value to set the attribute sink to.
   # @return [Object] the newly set value
+  #
+  # source://net-sftp//lib/net/sftp/operations/download.rb#207
   def sink=(_); end
 
   # Returns the value of attribute size
   #
   # @return [Object] the current value of size
+  #
+  # source://net-sftp//lib/net/sftp/operations/download.rb#207
   def size; end
 
   # Sets the attribute size
   #
   # @param value [Object] the value to set the attribute size to.
   # @return [Object] the newly set value
+  #
+  # source://net-sftp//lib/net/sftp/operations/download.rb#207
   def size=(_); end
 
   class << self
+    # source://net-sftp//lib/net/sftp/operations/download.rb#207
     def [](*_arg0); end
+
+    # source://net-sftp//lib/net/sftp/operations/download.rb#207
     def inspect; end
+
+    # source://net-sftp//lib/net/sftp/operations/download.rb#207
     def keyword_init?; end
+
+    # source://net-sftp//lib/net/sftp/operations/download.rb#207
     def members; end
+
+    # source://net-sftp//lib/net/sftp/operations/download.rb#207
     def new(*_arg0); end
   end
 end
@@ -1375,63 +1412,92 @@ class Net::SFTP::Operations::Upload::LiveFile < ::Struct
   # Returns the value of attribute handle
   #
   # @return [Object] the current value of handle
+  #
+  # source://net-sftp//lib/net/sftp/operations/upload.rb#230
   def handle; end
 
   # Sets the attribute handle
   #
   # @param value [Object] the value to set the attribute handle to.
   # @return [Object] the newly set value
+  #
+  # source://net-sftp//lib/net/sftp/operations/upload.rb#230
   def handle=(_); end
 
   # Returns the value of attribute io
   #
   # @return [Object] the current value of io
+  #
+  # source://net-sftp//lib/net/sftp/operations/upload.rb#230
   def io; end
 
   # Sets the attribute io
   #
   # @param value [Object] the value to set the attribute io to.
   # @return [Object] the newly set value
+  #
+  # source://net-sftp//lib/net/sftp/operations/upload.rb#230
   def io=(_); end
 
   # Returns the value of attribute local
   #
   # @return [Object] the current value of local
+  #
+  # source://net-sftp//lib/net/sftp/operations/upload.rb#230
   def local; end
 
   # Sets the attribute local
   #
   # @param value [Object] the value to set the attribute local to.
   # @return [Object] the newly set value
+  #
+  # source://net-sftp//lib/net/sftp/operations/upload.rb#230
   def local=(_); end
 
   # Returns the value of attribute remote
   #
   # @return [Object] the current value of remote
+  #
+  # source://net-sftp//lib/net/sftp/operations/upload.rb#230
   def remote; end
 
   # Sets the attribute remote
   #
   # @param value [Object] the value to set the attribute remote to.
   # @return [Object] the newly set value
+  #
+  # source://net-sftp//lib/net/sftp/operations/upload.rb#230
   def remote=(_); end
 
   # Returns the value of attribute size
   #
   # @return [Object] the current value of size
+  #
+  # source://net-sftp//lib/net/sftp/operations/upload.rb#230
   def size; end
 
   # Sets the attribute size
   #
   # @param value [Object] the value to set the attribute size to.
   # @return [Object] the newly set value
+  #
+  # source://net-sftp//lib/net/sftp/operations/upload.rb#230
   def size=(_); end
 
   class << self
+    # source://net-sftp//lib/net/sftp/operations/upload.rb#230
     def [](*_arg0); end
+
+    # source://net-sftp//lib/net/sftp/operations/upload.rb#230
     def inspect; end
+
+    # source://net-sftp//lib/net/sftp/operations/upload.rb#230
     def keyword_init?; end
+
+    # source://net-sftp//lib/net/sftp/operations/upload.rb#230
     def members; end
+
+    # source://net-sftp//lib/net/sftp/operations/upload.rb#230
     def new(*_arg0); end
   end
 end
@@ -1566,9 +1632,13 @@ class Net::SFTP::Protocol::V01::Attributes
   def initialize(attributes = T.unsafe(nil)); end
 
   # The last access time of the file
+  #
+  # source://net-sftp//lib/net/sftp/protocol/01/attributes.rb#82
   def atime; end
 
   # The last access time of the file
+  #
+  # source://net-sftp//lib/net/sftp/protocol/01/attributes.rb#97
   def atime=(value); end
 
   # The hash of name/value pairs that backs this Attributes instance
@@ -1584,9 +1654,13 @@ class Net::SFTP::Protocol::V01::Attributes
   def directory?; end
 
   # The hash of name/value pairs identifying extended information about the file
+  #
+  # source://net-sftp//lib/net/sftp/protocol/01/attributes.rb#82
   def extended; end
 
   # The hash of name/value pairs identifying extended information about the file
+  #
+  # source://net-sftp//lib/net/sftp/protocol/01/attributes.rb#97
   def extended=(value); end
 
   # Returns true if these attributes appear to describe a regular file.
@@ -1605,6 +1679,8 @@ class Net::SFTP::Protocol::V01::Attributes
   def gid; end
 
   # The group-id of the user that owns the file
+  #
+  # source://net-sftp//lib/net/sftp/protocol/01/attributes.rb#97
   def gid=(value); end
 
   # Returns the group name of the group that owns the file, or +nil+ if that
@@ -1616,9 +1692,13 @@ class Net::SFTP::Protocol::V01::Attributes
   def group; end
 
   # The modification time of the file
+  #
+  # source://net-sftp//lib/net/sftp/protocol/01/attributes.rb#82
   def mtime; end
 
   # The modification time of the file
+  #
+  # source://net-sftp//lib/net/sftp/protocol/01/attributes.rb#97
   def mtime=(value); end
 
   # Returns the username of the user that owns the file, or +nil+ if that
@@ -1630,15 +1710,23 @@ class Net::SFTP::Protocol::V01::Attributes
   def owner; end
 
   # The permissions on the file
+  #
+  # source://net-sftp//lib/net/sftp/protocol/01/attributes.rb#82
   def permissions; end
 
   # The permissions on the file
+  #
+  # source://net-sftp//lib/net/sftp/protocol/01/attributes.rb#97
   def permissions=(value); end
 
   # The size of the file.
+  #
+  # source://net-sftp//lib/net/sftp/protocol/01/attributes.rb#82
   def size; end
 
   # The size of the file.
+  #
+  # source://net-sftp//lib/net/sftp/protocol/01/attributes.rb#97
   def size=(value); end
 
   # Returns the type as a symbol, rather than an integer, for easier use in
@@ -1676,6 +1764,8 @@ class Net::SFTP::Protocol::V01::Attributes
   def uid; end
 
   # The user-id of the user that owns the file
+  #
+  # source://net-sftp//lib/net/sftp/protocol/01/attributes.rb#97
   def uid=(value); end
 
   private
@@ -2177,45 +2267,73 @@ class Net::SFTP::Protocol::V04::Attributes < ::Net::SFTP::Protocol::V01::Attribu
   def initialize(attributes = T.unsafe(nil)); end
 
   # The array of access control entries for this item.
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#101
   def acl; end
 
   # The array of access control entries for this item.
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#101
   def acl=(value); end
 
   # The nanosecond component of the access time.
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#89
   def atime_nseconds; end
 
   # The nanosecond component of the access time.
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#89
   def atime_nseconds=(value); end
 
   # The creation time of the remote item, in seconds since the epoch.
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#92
   def createtime; end
 
   # The creation time of the remote item, in seconds since the epoch.
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#92
   def createtime=(value); end
 
   # The nanosecond component of the creation time.
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#95
   def createtime_nseconds; end
 
   # The nanosecond component of the creation time.
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#95
   def createtime_nseconds=(value); end
 
   # The group of the item on the remote server, as a string.
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#86
   def group=(value); end
 
   # The nanosecond component of the modification time.
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#98
   def mtime_nseconds; end
 
   # The nanosecond component of the modification time.
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#98
   def mtime_nseconds=(value); end
 
   # The owner of the item on the remote server, as a string.
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#83
   def owner=(value); end
 
   # The type of the item on the remote server. Must be one of the T_* constants.
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#80
   def type; end
 
   # The type of the item on the remote server. Must be one of the T_* constants.
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#80
   def type=(value); end
 
   private
@@ -2255,52 +2373,77 @@ class Net::SFTP::Protocol::V04::Attributes::ACL < ::Struct
   # Returns the value of attribute flag
   #
   # @return [Object] the current value of flag
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#43
   def flag; end
 
   # Sets the attribute flag
   #
   # @param value [Object] the value to set the attribute flag to.
   # @return [Object] the newly set value
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#43
   def flag=(_); end
 
   # Returns the value of attribute mask
   #
   # @return [Object] the current value of mask
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#43
   def mask; end
 
   # Sets the attribute mask
   #
   # @param value [Object] the value to set the attribute mask to.
   # @return [Object] the newly set value
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#43
   def mask=(_); end
 
   # Returns the value of attribute type
   #
   # @return [Object] the current value of type
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#43
   def type; end
 
   # Sets the attribute type
   #
   # @param value [Object] the value to set the attribute type to.
   # @return [Object] the newly set value
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#43
   def type=(_); end
 
   # Returns the value of attribute who
   #
   # @return [Object] the current value of who
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#43
   def who; end
 
   # Sets the attribute who
   #
   # @param value [Object] the value to set the attribute who to.
   # @return [Object] the newly set value
+  #
+  # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#43
   def who=(_); end
 
   class << self
+    # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#43
     def [](*_arg0); end
+
+    # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#43
     def inspect; end
+
+    # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#43
     def keyword_init?; end
+
+    # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#43
     def members; end
+
+    # source://net-sftp//lib/net/sftp/protocol/04/attributes.rb#43
     def new(*_arg0); end
   end
 end
@@ -2535,57 +2678,93 @@ module Net::SFTP::Protocol::V06; end
 # source://net-sftp//lib/net/sftp/protocol/06/attributes.rb#41
 class Net::SFTP::Protocol::V06::Attributes < ::Net::SFTP::Protocol::V04::Attributes
   # The size on-disk of the file
+  #
+  # source://net-sftp//lib/net/sftp/protocol/06/attributes.rb#80
   def allocation_size; end
 
   # The size on-disk of the file
+  #
+  # source://net-sftp//lib/net/sftp/protocol/06/attributes.rb#80
   def allocation_size=(value); end
 
   # Other attributes of this file or directory (as a bit field)
+  #
+  # source://net-sftp//lib/net/sftp/protocol/06/attributes.rb#89
   def attrib_bits; end
 
   # Other attributes of this file or directory (as a bit field)
+  #
+  # source://net-sftp//lib/net/sftp/protocol/06/attributes.rb#89
   def attrib_bits=(value); end
 
   # A bit mask describing which bits in #attrib_bits are valid
+  #
+  # source://net-sftp//lib/net/sftp/protocol/06/attributes.rb#92
   def attrib_bits_valid; end
 
   # A bit mask describing which bits in #attrib_bits are valid
+  #
+  # source://net-sftp//lib/net/sftp/protocol/06/attributes.rb#92
   def attrib_bits_valid=(value); end
 
   # The time at which the file's attributes were last changed
+  #
+  # source://net-sftp//lib/net/sftp/protocol/06/attributes.rb#83
   def ctime; end
 
   # The time at which the file's attributes were last changed
+  #
+  # source://net-sftp//lib/net/sftp/protocol/06/attributes.rb#83
   def ctime=(value); end
 
   # The nanosecond component of #ctime
+  #
+  # source://net-sftp//lib/net/sftp/protocol/06/attributes.rb#86
   def ctime_nseconds; end
 
   # The nanosecond component of #ctime
+  #
+  # source://net-sftp//lib/net/sftp/protocol/06/attributes.rb#86
   def ctime_nseconds=(value); end
 
   # The hard link count for the file
+  #
+  # source://net-sftp//lib/net/sftp/protocol/06/attributes.rb#101
   def link_count; end
 
   # The hard link count for the file
+  #
+  # source://net-sftp//lib/net/sftp/protocol/06/attributes.rb#101
   def link_count=(value); end
 
   # The mime-type of the file
+  #
+  # source://net-sftp//lib/net/sftp/protocol/06/attributes.rb#98
   def mime_type; end
 
   # The mime-type of the file
+  #
+  # source://net-sftp//lib/net/sftp/protocol/06/attributes.rb#98
   def mime_type=(value); end
 
   # Describes whether the file may or may not contain textual data
+  #
+  # source://net-sftp//lib/net/sftp/protocol/06/attributes.rb#95
   def text_hint; end
 
   # Describes whether the file may or may not contain textual data
+  #
+  # source://net-sftp//lib/net/sftp/protocol/06/attributes.rb#95
   def text_hint=(value); end
 
   # The value of the file name before filename translation was attempted
+  #
+  # source://net-sftp//lib/net/sftp/protocol/06/attributes.rb#104
   def untranslated_name; end
 
   # The value of the file name before filename translation was attempted
+  #
+  # source://net-sftp//lib/net/sftp/protocol/06/attributes.rb#104
   def untranslated_name=(value); end
 
   class << self
@@ -2844,7 +3023,7 @@ class Net::SFTP::Response
   # Returns a textual description of this response, including the status
   # code and name.
   #
-  # source://net-sftp//lib/net/sftp/response.rb#47
+  # source://net-sftp//lib/net/sftp/response.rb#55
   def to_str; end
 end
 
@@ -3658,6 +3837,7 @@ class Net::SFTP::Session
   # source://net-sftp//lib/net/sftp/session.rb#826
   def input; end
 
+  # source://net-sftp//lib/net/sftp/session.rb#793
   def loop_forever; end
 
   # Create and enqueue a new SFTP request of the given type, with the
@@ -3756,102 +3936,6 @@ module Net::SSH::Connection; end
 
 # source://net-sftp//lib/net/sftp.rb#62
 class Net::SSH::Connection::Session
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#68
-  def initialize(transport, options = T.unsafe(nil)); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#94
-  def [](key); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#99
-  def []=(key, value); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#152
-  def busy?(include_invisible = T.unsafe(nil)); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#51
-  def channel_open_handlers; end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#44
-  def channels; end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#522
-  def cleanup_channel(channel); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#121
-  def close; end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#114
-  def closed?; end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#255
-  def ev_do_calculate_rw_wait(wait); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#270
-  def ev_do_handle_events(readers, writers); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#289
-  def ev_do_postprocess(was_events); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#248
-  def ev_preprocess(&block); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#379
-  def exec(command, status: T.unsafe(nil), &block); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#420
-  def exec!(command, status: T.unsafe(nil), &block); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#493
-  def forward; end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#105
-  def host; end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#481
-  def listen_to(io, &callback); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#47
-  def listeners; end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#177
-  def loop(wait = T.unsafe(nil), &block); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#532
-  def max_select_wait_time; end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#517
-  def on_global_request(type, &block); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#507
-  def on_open_channel(type, &block); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#338
-  def open_channel(type = T.unsafe(nil), *extra, &on_confirm); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#38
-  def options; end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#54
-  def pending_requests; end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#262
-  def postprocess(readers, writers); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#237
-  def preprocess(&block); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#225
-  def process(wait = T.unsafe(nil), &block); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#41
-  def properties; end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#311
-  def send_global_request(type, *extra, &callback); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#443
-  def send_message(message); end
-
   # A convenience method for starting up a new SFTP connection on the current
   # SSH session. Blocks until the SFTP session is fully open, and then
   # returns the SFTP session.
@@ -3863,77 +3947,4 @@ class Net::SSH::Connection::Session
   #
   # source://net-sftp//lib/net/sftp.rb#71
   def sftp(wait = T.unsafe(nil)); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#136
-  def shutdown!; end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#487
-  def stop_listening_to(io); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#35
-  def transport; end
-
-  private
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#682
-  def channel_close(packet); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#568
-  def channel_closed(channel); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#667
-  def channel_data(packet); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#677
-  def channel_eof(packet); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#672
-  def channel_extended_data(packet); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#694
-  def channel_failure(packet); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#612
-  def channel_open(packet); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#645
-  def channel_open_confirmation(packet); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#651
-  def channel_open_failure(packet); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#662
-  def channel_request(packet); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#689
-  def channel_success(packet); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#657
-  def channel_window_adjust(packet); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#545
-  def dispatch_incoming_packets(raise_disconnect_errors: T.unsafe(nil)); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#539
-  def each_channel(&block); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#562
-  def force_channel_cleanup_on_close; end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#558
-  def get_next_channel_id; end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#579
-  def global_request(packet); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#699
-  def io_select_wait(wait); end
-
-  def loop_forever; end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#602
-  def request_failure(packet); end
-
-  # source://net-ssh/7.2.3/lib/net/ssh/connection/session.rb#595
-  def request_success(packet); end
 end

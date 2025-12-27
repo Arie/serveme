@@ -6,15 +6,7 @@
 
 
 # source://rack-openid//lib/rack/openid.rb#11
-module Rack
-  class << self
-    # source://rack/2.2.9/lib/rack/version.rb#26
-    def release; end
-
-    # source://rack/2.2.9/lib/rack/version.rb#19
-    def version; end
-  end
-end
+module Rack; end
 
 # A Rack middleware that provides a more HTTPish API around the
 # ruby-openid library.

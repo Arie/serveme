@@ -5,29 +5,6 @@
 # Please instead update this file by running `bin/tapioca gem turbo-rails`.
 
 
-class ActionController::Base < ::ActionController::Metal
-  include ::ActionDispatch::Routing::PolymorphicRoutes
-  include ::ActionController::Head
-  include ::AbstractController::Caching::ConfigMethods
-  include ::ActionController::BasicImplicitRender
-  include ::Devise::Controllers::SignInOut
-  include ::Devise::Controllers::StoreLocation
-  extend ::AbstractController::Helpers::Resolution
-end
-
-module ActionController::Base::HelperMethods
-  include ::ActionText::ContentHelper
-  include ::ActionText::TagHelper
-  include ::Turbo::DriveHelper
-  include ::Turbo::FramesHelper
-  include ::Turbo::IncludesHelper
-  include ::Turbo::StreamsHelper
-  include ::ActionView::Helpers::CaptureHelper
-  include ::ActionView::Helpers::OutputSafetyHelper
-  include ::ActionView::Helpers::TagHelper
-  include ::Turbo::Streams::ActionHelper
-end
-
 # source://turbo-rails//lib/turbo/engine.rb#3
 module Turbo
   extend ::ActiveSupport::Autoload
@@ -369,11 +346,12 @@ class Turbo::Native::NavigationController < ::ActionController::Base
   private
 
   def _layout(lookup_context, formats, keys); end
-  def _layout_from_proc; end
 
   class << self
     private
 
+    def __class_attr_config; end
+    def __class_attr_config=(new_value); end
     def __class_attr_middleware_stack; end
     def __class_attr_middleware_stack=(new_value); end
   end
@@ -387,7 +365,6 @@ module Turbo::RequestIdTracking
   def turbo_tracking_request_id(&block); end
 end
 
-# source://turbo-rails//lib/turbo/system_test_helper.rb#107
 module Turbo::Streams; end
 
 class Turbo::Streams::ActionBroadcastJob < ::ActiveJob::Base

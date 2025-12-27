@@ -12,7 +12,7 @@ gem "bootsnap", require: false
 gem "bootstrap"
 gem "carrierwave"
 gem "coffee-rails"
-gem "connection_pool"
+gem "connection_pool", "< 3"
 gem "dante"
 gem "devise"
 gem "down"
@@ -86,7 +86,6 @@ gem "rswag-ui"
 
 group :development do
   gem "better_errors"
-  gem "binding_of_caller"
   gem "capistrano", require: false
   gem "capistrano3-puma"
   gem "capistrano-bundler", require: false
@@ -101,7 +100,7 @@ group :development do
   gem "rubocop-rails-omakase", require: false
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
-  gem "tapioca", require: false
+  gem "tapioca", "~> 0.17.10", require: false
   gem "claude-on-rails"
   gem "tidewave"
 end

@@ -9,12 +9,7 @@
 module Stimulus; end
 
 # source://stimulus-rails//lib/stimulus/engine.rb#2
-class Stimulus::Engine < ::Rails::Engine
-  class << self
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
-    def __callbacks; end
-  end
-end
+class Stimulus::Engine < ::Rails::Engine; end
 
 # If you don't want to precompile Stimulus's assets (e.g., you're using jsbundling),
 # you can do this in an initializer:

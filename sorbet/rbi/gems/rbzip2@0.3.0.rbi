@@ -102,6 +102,7 @@ class RBzip2::FFI::Compressor
   # source://rbzip2//lib/rbzip2/ffi/compressor.rb#51
   def initialize(io); end
 
+  # source://rbzip2//lib/rbzip2/ffi/compressor.rb#12
   def BZ2_bzBuffToBuffCompress(*_arg0); end
 
   # source://rbzip2//lib/rbzip2/ffi/compressor.rb#59
@@ -120,6 +121,7 @@ class RBzip2::FFI::Compressor
   def write(bytes); end
 
   class << self
+    # source://rbzip2//lib/rbzip2/ffi/compressor.rb#12
     def BZ2_bzBuffToBuffCompress(*_arg0); end
 
     # source://rbzip2//lib/rbzip2/ffi/compressor.rb#16
@@ -145,9 +147,16 @@ class RBzip2::FFI::Decompressor
   # source://rbzip2//lib/rbzip2/ffi/decompressor.rb#75
   def initialize(io); end
 
+  # source://rbzip2//lib/rbzip2/ffi/decompressor.rb#29
   def BZ2_bzBuffToBuffDecompress(*_arg0); end
+
+  # source://rbzip2//lib/rbzip2/ffi/decompressor.rb#20
   def BZ2_bzRead(*_arg0); end
+
+  # source://rbzip2//lib/rbzip2/ffi/decompressor.rb#23
   def BZ2_bzReadClose(*_arg0); end
+
+  # source://rbzip2//lib/rbzip2/ffi/decompressor.rb#26
   def BZ2_bzReadOpen(*_arg0); end
 
   # source://rbzip2//lib/rbzip2/ffi/decompressor.rb#79
@@ -156,7 +165,10 @@ class RBzip2::FFI::Decompressor
   # source://rbzip2//lib/rbzip2/ffi/decompressor.rb#88
   def close_file; end
 
+  # source://rbzip2//lib/rbzip2/ffi/decompressor.rb#15
   def fclose(*_arg0); end
+
+  # source://rbzip2//lib/rbzip2/ffi/decompressor.rb#12
   def fopen(*_arg0); end
 
   # source://rbzip2//lib/rbzip2/ffi/decompressor.rb#94
@@ -184,15 +196,25 @@ class RBzip2::FFI::Decompressor
   def uncompressed; end
 
   class << self
+    # source://rbzip2//lib/rbzip2/ffi/decompressor.rb#29
     def BZ2_bzBuffToBuffDecompress(*_arg0); end
+
+    # source://rbzip2//lib/rbzip2/ffi/decompressor.rb#20
     def BZ2_bzRead(*_arg0); end
+
+    # source://rbzip2//lib/rbzip2/ffi/decompressor.rb#23
     def BZ2_bzReadClose(*_arg0); end
+
+    # source://rbzip2//lib/rbzip2/ffi/decompressor.rb#26
     def BZ2_bzReadOpen(*_arg0); end
 
     # source://rbzip2//lib/rbzip2/ffi/decompressor.rb#33
     def decompress(data, factor = T.unsafe(nil), small = T.unsafe(nil), verbosity = T.unsafe(nil)); end
 
+    # source://rbzip2//lib/rbzip2/ffi/decompressor.rb#15
     def fclose(*_arg0); end
+
+    # source://rbzip2//lib/rbzip2/ffi/decompressor.rb#12
     def fopen(*_arg0); end
   end
 end

@@ -36,10 +36,10 @@ class Warden::Config < ::Hash
   # source://warden//lib/warden/config.rb#37
   def initialize(other = T.unsafe(nil)); end
 
-  # source://warden//lib/warden/config.rb#24
+  # source://warden//lib/warden/config.rb#23
   def default_scope; end
 
-  # source://warden//lib/warden/config.rb#28
+  # source://warden//lib/warden/config.rb#23
   def default_scope=(value); end
 
   # Set the default strategies to use.
@@ -48,16 +48,16 @@ class Warden::Config < ::Hash
   # source://warden//lib/warden/config.rb#63
   def default_strategies(*strategies); end
 
-  # source://warden//lib/warden/config.rb#24
+  # source://warden//lib/warden/config.rb#23
   def failure_app; end
 
-  # source://warden//lib/warden/config.rb#28
+  # source://warden//lib/warden/config.rb#23
   def failure_app=(value); end
 
-  # source://warden//lib/warden/config.rb#24
+  # source://warden//lib/warden/config.rb#23
   def intercept_401; end
 
-  # source://warden//lib/warden/config.rb#28
+  # source://warden//lib/warden/config.rb#23
   def intercept_401=(value); end
 
   # A short hand way to set up a particular scope
@@ -312,22 +312,22 @@ module Warden::Hooks
   # source://warden//lib/warden/hooks.rb#191
   def on_request(options = T.unsafe(nil), method = T.unsafe(nil), &block); end
 
-  # source://warden//lib/warden/hooks.rb#206
+  # source://warden//lib/warden/hooks.rb#205
   def prepend_after_authentication(options = T.unsafe(nil), &block); end
 
-  # source://warden//lib/warden/hooks.rb#206
+  # source://warden//lib/warden/hooks.rb#205
   def prepend_after_fetch(options = T.unsafe(nil), &block); end
 
-  # source://warden//lib/warden/hooks.rb#206
+  # source://warden//lib/warden/hooks.rb#205
   def prepend_after_set_user(options = T.unsafe(nil), &block); end
 
-  # source://warden//lib/warden/hooks.rb#206
+  # source://warden//lib/warden/hooks.rb#205
   def prepend_before_failure(options = T.unsafe(nil), &block); end
 
-  # source://warden//lib/warden/hooks.rb#206
+  # source://warden//lib/warden/hooks.rb#205
   def prepend_before_logout(options = T.unsafe(nil), &block); end
 
-  # source://warden//lib/warden/hooks.rb#206
+  # source://warden//lib/warden/hooks.rb#205
   def prepend_on_request(options = T.unsafe(nil), &block); end
 end
 
@@ -437,9 +437,6 @@ module Warden::Mixins; end
 
 # source://warden//lib/warden/mixins/common.rb#5
 module Warden::Mixins::Common
-  # source://devise/4.9.4/lib/devise/rails/warden_compat.rb#12
-  def cookies; end
-
   # Convenience method to access the rack request params
   # :api: public
   #
@@ -450,13 +447,13 @@ module Warden::Mixins::Common
   # :api: public
   # Alias :session to :raw_session since the former will be user API for storing scoped data.
   #
-  # source://warden//lib/warden/mixins/common.rb#9
+  # source://warden//lib/warden/mixins/common.rb#14
   def raw_session; end
 
   # Convenience method to access the rack request.
   # :api: public
   #
-  # source://devise/4.9.4/lib/devise/rails/warden_compat.rb#4
+  # source://warden//lib/warden/mixins/common.rb#18
   def request; end
 
   # Resets the session.  By using this non-hash like sessions can
@@ -464,7 +461,7 @@ module Warden::Mixins::Common
   #
   # @api overwritable
   #
-  # source://devise/4.9.4/lib/devise/rails/warden_compat.rb#8
+  # source://warden//lib/warden/mixins/common.rb#39
   def reset_session!; end
 
   # Convenience method to access the session
@@ -606,11 +603,11 @@ class Warden::Proxy
   # source://warden//lib/warden/proxy.rb#304
   def custom_failure?; end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
-  def custom_response(*args, **_arg1, &block); end
+  # source://warden//lib/warden/proxy.rb#23
+  def custom_response(*_arg0, **_arg1, &_arg2); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
-  def default_strategies(*args, **_arg1, &block); end
+  # source://warden//lib/warden/proxy.rb#26
+  def default_strategies(*_arg0, **_arg1, &_arg2); end
 
   # An accessor to the rack env hash, the proxy owner and its config
   # :api: public
@@ -624,8 +621,8 @@ class Warden::Proxy
   # source://warden//lib/warden/proxy.rb#42
   def errors; end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
-  def headers(*args, **_arg1, &block); end
+  # source://warden//lib/warden/proxy.rb#23
+  def headers(*_arg0, **_arg1, &_arg2); end
 
   # source://warden//lib/warden/proxy.rb#318
   def inspect(*args); end
@@ -721,8 +718,8 @@ class Warden::Proxy
   # source://warden//lib/warden/proxy.rb#170
   def set_user(user, opts = T.unsafe(nil)); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
-  def status(*args, **_arg1, &block); end
+  # source://warden//lib/warden/proxy.rb#23
+  def status(*_arg0, **_arg1, &_arg2); end
 
   # source://warden//lib/warden/proxy.rb#322
   def to_s(*args); end

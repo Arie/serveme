@@ -111,8 +111,8 @@ class Dry::Schema::Compiler < ::Dry::Logic::RuleCompiler
   # used as nested schemas
   #
   # @api private
-  # @param node [Array]
   # @param _opts [Hash] Unused
+  # @param node [Array]
   # @return [NamespacedRule]
   #
   # source://dry-schema//lib/dry/schema/compiler.rb#34
@@ -321,9 +321,9 @@ class Dry::Schema::DSL
   # A generic method for defining keys
   #
   # @api public
-  # @param name [Symbol] The key name
   # @param macro [Class] The macro sub-class (ie `Macros::Required` or
   #   any other `Macros::Key` subclass)
+  # @param name [Symbol] The key name
   # @raise [ArgumentError]
   # @return [Macros::Key]
   #
@@ -553,10 +553,10 @@ class Dry::Schema::DSL
     # @option options
     # @param options [Hash]
     # @return [DSL]
-    # @see Schema.define
-    # @see Schema.Params
-    # @see Schema.JSON
     # @see Processor.define
+    # @see Schema.JSON
+    # @see Schema.Params
+    # @see Schema.define
     #
     # source://dry-schema//lib/dry/schema/dsl.rb#81
     def new(**options, &_arg1); end
@@ -571,8 +571,6 @@ Dry::Schema::DSL::Types = Dry::Schema::Types
 # An error raised when DSL is used in an incorrect way
 #
 # @api public
-#
-# source://dry-schema//lib/dry/schema/constants.rb#33
 class Dry::Schema::InvalidSchemaError < ::StandardError; end
 
 # JSON schema type
@@ -583,6 +581,161 @@ class Dry::Schema::InvalidSchemaError < ::StandardError; end
 #
 # source://dry-schema//lib/dry/schema/json.rb#11
 class Dry::Schema::JSON < ::Dry::Schema::Processor; end
+
+# JSONSchema extension
+#
+# @api public
+#
+# source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#8
+module Dry::Schema::JSONSchema; end
+
+# @api private
+#
+# source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#10
+class Dry::Schema::JSONSchema::SchemaCompiler
+  # @api private
+  # @return [SchemaCompiler] a new instance of SchemaCompiler
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#61
+  def initialize(root: T.unsafe(nil), loose: T.unsafe(nil)); end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#79
+  def call(ast); end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#194
+  def fetch_filled_options(type, _target); end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#182
+  def fetch_type_opts_for_predicate(name, rest, target); end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#58
+  def keys; end
+
+  # @api private
+  # @return [Boolean]
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#225
+  def loose?; end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#208
+  def merge_opts!(orig_opts, new_opts); end
+
+  # @api private
+  # @raise [UnknownConversionError]
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#229
+  def raise_unknown_conversion_error!(type, name); end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#58
+  def required; end
+
+  # @api private
+  # @return [Boolean]
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#220
+  def root?; end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#76
+  def to_h; end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#69
+  def to_hash; end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#84
+  def visit(node, opts = T.unsafe(nil)); end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#104
+  def visit_and(node, opts = T.unsafe(nil)); end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#137
+  def visit_each(node, opts = T.unsafe(nil)); end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#130
+  def visit_implication(node, opts = T.unsafe(nil)); end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#142
+  def visit_key(node, opts = T.unsafe(nil)); end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#155
+  def visit_not(node, opts = T.unsafe(nil)); end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#118
+  def visit_or(node, opts = T.unsafe(nil)); end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#162
+  def visit_predicate(node, opts = T.unsafe(nil)); end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#90
+  def visit_set(node, opts = T.unsafe(nil)); end
+end
+
+# @api private
+#
+# source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#14
+Dry::Schema::JSONSchema::SchemaCompiler::IDENTITY = T.let(T.unsafe(nil), Proc)
+
+# @api private
+#
+# source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#17
+Dry::Schema::JSONSchema::SchemaCompiler::PREDICATE_TO_TYPE = T.let(T.unsafe(nil), Hash)
+
+# @api private
+#
+# source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#15
+Dry::Schema::JSONSchema::SchemaCompiler::TO_INTEGER = T.let(T.unsafe(nil), Proc)
+
+# An error raised when a predicate cannot be converted
+#
+# @api private
+class Dry::Schema::JSONSchema::SchemaCompiler::UnknownConversionError < ::StandardError; end
+
+# @api public
+#
+# source://dry-schema//lib/dry/schema/extensions/json_schema.rb#11
+module Dry::Schema::JSONSchema::SchemaMethods
+  # Convert the schema into a JSON schema hash
+  #
+  # @api public
+  # @param loose [Symbol] Compile the schema in "loose" mode
+  # @return [Hash<Symbol=>Hash>]
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema.rb#19
+  def json_schema(loose: T.unsafe(nil)); end
+end
 
 # Key objects used by key maps
 #
@@ -1088,12 +1241,12 @@ class Dry::Schema::Macros::DSL < ::Dry::Schema::Macros::Core
   # Like `each` but sets `array?` type-check
   #
   # @api public
-  # @example a list of strings
-  #   required(:tags).array(:str?)
   # @example a list of hashes
   #   required(:tags).array(:hash) do
   #   required(:name).filled(:string)
   #   end
+  # @example a list of strings
+  #   required(:tags).array(:str?)
   # @return [Macros::Core]
   #
   # source://dry-schema//lib/dry/schema/macros/dsl.rb#176
@@ -1112,12 +1265,12 @@ class Dry::Schema::Macros::DSL < ::Dry::Schema::Macros::Core
   # manually.
   #
   # @api public
-  # @example a list of strings
-  #   required(:tags).value(:array, min_size?: 2).each(:str?)
   # @example a list of hashes
   #   required(:tags).value(:array, min_size?: 2).each(:hash) do
   #   required(:name).filled(:string)
   #   end
+  # @example a list of strings
+  #   required(:tags).value(:array, min_size?: 2).each(:str?)
   # @return [Macros::Core]
   #
   # source://dry-schema//lib/dry/schema/macros/dsl.rb#157
@@ -2143,8 +2296,8 @@ class Dry::Schema::Messages::Abstract
   # Retrieve an array of looked up paths
   #
   # @api public
-  # @param predicate [Symbol]
   # @param options [Hash]
+  # @param predicate [Symbol]
   # @return [String]
   #
   # source://dry-schema//lib/dry/schema/messages/abstract.rb#129
@@ -2466,8 +2619,8 @@ class Dry::Schema::Messages::YAML < ::Dry::Schema::Messages::Abstract
   # Get an array of looked up paths
   #
   # @api public
-  # @param predicate [Symbol]
   # @param options [Hash]
+  # @param predicate [Symbol]
   # @return [String]
   #
   # source://dry-schema//lib/dry/schema/messages/yaml.rb#99
@@ -2836,8 +2989,6 @@ class Dry::Schema::PredicateInferrer < ::Dry::Types::PredicateInferrer
 end
 
 # @api private
-#
-# source://dry-schema//lib/dry/schema/predicate_inferrer.rb#7
 class Dry::Schema::PredicateInferrer::Compiler < ::Dry::Types::PredicateInferrer::Compiler; end
 
 # A registry with predicate objects from `Dry::Logic::Predicates`
@@ -2864,22 +3015,21 @@ class Dry::Schema::PrimitiveInferrer < ::Dry::Types::PrimitiveInferrer
 end
 
 # @api private
-#
-# source://dry-schema//lib/dry/schema/primitive_inferrer.rb#7
 class Dry::Schema::PrimitiveInferrer::Compiler < ::Dry::Types::PrimitiveInferrer::Compiler; end
 
 # Processes input data using objects configured within the DSL
 # Processing is split into steps represented by `ProcessorSteps`.
 #
 # @api public
-# @see ProcessorSteps
-# @see Params
 # @see JSON
+# @see Params
+# @see ProcessorSteps
 #
 # source://dry-schema//lib/dry/schema/processor.rb#15
 class Dry::Schema::Processor
   include ::Dry::Initializer::Mixin::Root
   include ::Dry::Logic::Operators
+  include ::Dry::Schema::JSONSchema::SchemaMethods
   extend ::Dry::Initializer
   extend ::Dry::Core::Constants
   extend ::Dry::Configurable
@@ -3044,9 +3194,9 @@ class Dry::Schema::Processor
     #
     # @api public
     # @return [Class]
-    # @see Schema#define
-    # @see Schema#Params
     # @see Schema#JSON
+    # @see Schema#Params
+    # @see Schema#define
     #
     # source://dry-schema//lib/dry/schema/processor.rb#45
     def define(&_arg0); end

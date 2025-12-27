@@ -1545,15 +1545,8 @@ class ActionMailer::Base < ::AbstractController::Base
   end
 end
 
-# source://actionmailer//lib/action_mailer/base.rb#491
 module ActionMailer::Base::HelperMethods
   include ::ActionMailer::MailHelper
-
-  # source://actionmailer//lib/action_mailer/base.rb#495
-  def combined_fragment_cache_key(*_arg0, **_arg1, &_arg2); end
-
-  # source://actionmailer//lib/action_mailer/base.rb#495
-  def view_cache_dependencies(*_arg0, **_arg1, &_arg2); end
 end
 
 # source://actionmailer//lib/action_mailer/base.rb#764
@@ -2427,7 +2420,6 @@ module ActionMailer::Rescuable
   end
 end
 
-# source://actionmailer//lib/action_mailer/rescuable.rb#14
 module ActionMailer::Rescuable::ClassMethods
   # source://actionmailer//lib/action_mailer/rescuable.rb#15
   def handle_exception(exception); end

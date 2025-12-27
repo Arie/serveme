@@ -237,7 +237,6 @@ module MiniMagick::Configuration
   end
 end
 
-# source://mini_magick//lib/mini_magick.rb#9
 class MiniMagick::Error < ::RuntimeError; end
 
 # source://mini_magick//lib/mini_magick/image/info.rb#4
@@ -657,12 +656,12 @@ class MiniMagick::Image
     #
     # @param blob [String] Binary string blob containing raw pixel data.
     # @param columns [Integer] Number of columns.
-    # @param rows [Integer] Number of rows.
     # @param depth [Integer] Bit depth of the encoded pixel data.
-    # @param map [String] A code for the mapping of the pixel data. Example:
-    #   'gray' or 'rgb'.
     # @param format [String] The file extension of the image format to be
     #   used when creating the image object.
+    # @param map [String] A code for the mapping of the pixel data. Example:
+    #   'gray' or 'rgb'.
+    # @param rows [Integer] Number of rows.
     # @return [MiniMagick::Image] The loaded image.
     #
     # source://mini_magick//lib/mini_magick/image.rb#52
@@ -674,10 +673,10 @@ class MiniMagick::Image
     # Extension is either guessed from the path or you can specify it as a
     # second parameter.
     #
-    # @param path_or_url [String] Either a local file path or a URL that
-    #   open-uri can read
     # @param ext [String] Specify the extension you want to read it as
     # @param options [Hash] Specify options for the open method
+    # @param path_or_url [String] Either a local file path or a URL that
+    #   open-uri can read
     # @return [MiniMagick::Image] The loaded image
     #
     # source://mini_magick//lib/mini_magick/image.rb#82
@@ -692,10 +691,10 @@ class MiniMagick::Image
     # Probably easier to use the {.open} method if you want to open a file or a
     # URL.
     #
-    # @param stream [#read, String] Some kind of stream object that needs
-    #   to be read or is a binary String blob
     # @param ext [String] A manual extension to use for reading the file. Not
     #   required, but if you are having issues, give this a try.
+    # @param stream [#read, String] Some kind of stream object that needs
+    #   to be read or is a binary String blob
     # @return [MiniMagick::Image]
     #
     # source://mini_magick//lib/mini_magick/image.rb#29
@@ -762,7 +761,6 @@ end
 # source://mini_magick//lib/mini_magick/image/info.rb#7
 MiniMagick::Image::Info::ASCII_ENCODED_EXIF_KEYS = T.let(T.unsafe(nil), Array)
 
-# source://mini_magick//lib/mini_magick.rb#10
 class MiniMagick::Invalid < ::StandardError; end
 
 # Sends commands to the shell (more precisely, it sends commands directly to
@@ -784,7 +782,6 @@ class MiniMagick::Shell
   def log(command, &block); end
 end
 
-# source://mini_magick//lib/mini_magick.rb#11
 class MiniMagick::TimeoutError < ::MiniMagick::Error; end
 
 # Class that wraps command-line tools directly, as opposed MiniMagick::Image

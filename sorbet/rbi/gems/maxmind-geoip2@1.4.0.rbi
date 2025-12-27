@@ -80,7 +80,6 @@ class MaxMind::GeoIP2::Client
   # @raise [AddressInvalidError] if the web service believes the IP address
   #   to be invalid or missing.
   # @raise [AddressNotFoundError] if the IP address was not found.
-  # @raise [AddressReservedError] if the IP address is reserved.
   # @raise [AuthenticationError] if there was a problem authenticating to the
   #   web service, such as an invalid or missing license key.
   # @raise [InsufficientFundsError] if your account is out of credit.
@@ -88,6 +87,7 @@ class MaxMind::GeoIP2::Client
   #   to use the web service.
   # @raise [InvalidRequestError] if the web service responded with an error
   #   and there is no more specific error to raise.
+  # @raise [AddressReservedError] if the IP address is reserved.
   # @return [MaxMind::GeoIP2::Model::City]
   #
   # source://maxmind-geoip2//lib/maxmind/geoip2/client.rb#157
@@ -106,7 +106,6 @@ class MaxMind::GeoIP2::Client
   # @raise [AddressInvalidError] if the web service believes the IP address
   #   to be invalid or missing.
   # @raise [AddressNotFoundError] if the IP address was not found.
-  # @raise [AddressReservedError] if the IP address is reserved.
   # @raise [AuthenticationError] if there was a problem authenticating to the
   #   web service, such as an invalid or missing license key.
   # @raise [InsufficientFundsError] if your account is out of credit.
@@ -114,6 +113,7 @@ class MaxMind::GeoIP2::Client
   #   to use the web service.
   # @raise [InvalidRequestError] if the web service responded with an error
   #   and there is no more specific error to raise.
+  # @raise [AddressReservedError] if the IP address is reserved.
   # @return [MaxMind::GeoIP2::Model::Country]
   #
   # source://maxmind-geoip2//lib/maxmind/geoip2/client.rb#194
@@ -135,7 +135,6 @@ class MaxMind::GeoIP2::Client
   # @raise [AddressInvalidError] if the web service believes the IP address
   #   to be invalid or missing.
   # @raise [AddressNotFoundError] if the IP address was not found.
-  # @raise [AddressReservedError] if the IP address is reserved.
   # @raise [AuthenticationError] if there was a problem authenticating to the
   #   web service, such as an invalid or missing license key.
   # @raise [InsufficientFundsError] if your account is out of credit.
@@ -143,6 +142,7 @@ class MaxMind::GeoIP2::Client
   #   to use the web service.
   # @raise [InvalidRequestError] if the web service responded with an error
   #   and there is no more specific error to raise.
+  # @raise [AddressReservedError] if the IP address is reserved.
   # @return [MaxMind::GeoIP2::Model::Insights]
   #
   # source://maxmind-geoip2//lib/maxmind/geoip2/client.rb#234

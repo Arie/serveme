@@ -170,16 +170,16 @@ module Text::Soundex
   def soundex_str(str); end
 
   class << self
-    # source://text//lib/text/soundex.rb#53
+    # source://text//lib/text/soundex.rb#56
     def get_code(char); end
 
-    # source://text//lib/text/soundex.rb#11
+    # source://text//lib/text/soundex.rb#21
     def soundex(str_or_arr); end
 
     # returns nil if the value couldn't be calculated (empty-string, wrong-character)
     # do not change the parameter "str"
     #
-    # source://text//lib/text/soundex.rb#29
+    # source://text//lib/text/soundex.rb#51
     def soundex_str(str); end
   end
 end

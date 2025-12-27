@@ -10,3 +10,6 @@
 --suppress-payload-superclass-redefinition-for=Net::IMAP::Literal
 --suppress-payload-superclass-redefinition-for=Net::IMAP::Atom
 --suppress-payload-superclass-redefinition-for=Net::IMAP::CommandData
+--suppress-payload-superclass-redefinition-for=RDoc::Markup::BlankLine
+--suppress-payload-superclass-redefinition-for=RDoc::Markup::HardBreak
+--suppress-payload-superclass-redefinition-for=RDoc::Markup::Heading

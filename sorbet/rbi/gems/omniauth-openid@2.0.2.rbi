@@ -6,24 +6,7 @@
 
 
 # source://omniauth-openid//lib/omniauth/openid/version.rb#1
-module OmniAuth
-  class << self
-    # source://omniauth/2.1.3/lib/omniauth.rb#134
-    def config; end
-
-    # source://omniauth/2.1.3/lib/omniauth.rb#138
-    def configure; end
-
-    # source://omniauth/2.1.3/lib/omniauth.rb#142
-    def logger; end
-
-    # source://omniauth/2.1.3/lib/omniauth.rb#146
-    def mock_auth_for(provider); end
-
-    # source://omniauth/2.1.3/lib/omniauth.rb#24
-    def strategies; end
-  end
-end
+module OmniAuth; end
 
 # source://omniauth-openid//lib/omniauth/openid/version.rb#2
 module OmniAuth::OpenID

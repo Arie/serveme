@@ -1330,7 +1330,7 @@ class CarrierWave::SanitizedFile
   #
   # [String] the sanitized filename
   #
-  # source://carrierwave//lib/carrierwave/sanitized_file.rb#55
+  # source://carrierwave//lib/carrierwave/sanitized_file.rb#59
   def identifier; end
 
   # === Returns
@@ -2008,7 +2008,7 @@ class CarrierWave::Test::Matchers::BeFormat
 
   # RSpec 2 compatibility:
   #
-  # source://carrierwave//lib/carrierwave/test/matchers.rb#319
+  # source://carrierwave//lib/carrierwave/test/matchers.rb#328
   def negative_failure_message; end
 end
 
@@ -2035,7 +2035,7 @@ class CarrierWave::Test::Matchers::BeIdenticalTo
 
   # RSpec 2 compatibility:
   #
-  # source://carrierwave//lib/carrierwave/test/matchers.rb#24
+  # source://carrierwave//lib/carrierwave/test/matchers.rb#33
   def negative_failure_message; end
 end
 
@@ -2062,7 +2062,7 @@ class CarrierWave::Test::Matchers::BeNoLargerThan
 
   # RSpec 2 compatibility:
   #
-  # source://carrierwave//lib/carrierwave/test/matchers.rb#120
+  # source://carrierwave//lib/carrierwave/test/matchers.rb#129
   def negative_failure_message; end
 end
 
@@ -2089,7 +2089,7 @@ class CarrierWave::Test::Matchers::BeNoTallerThan
 
   # RSpec 2 compatibility:
   #
-  # source://carrierwave//lib/carrierwave/test/matchers.rb#286
+  # source://carrierwave//lib/carrierwave/test/matchers.rb#295
   def negative_failure_message; end
 end
 
@@ -2116,7 +2116,7 @@ class CarrierWave::Test::Matchers::BeNoWiderThan
 
   # RSpec 2 compatibility:
   #
-  # source://carrierwave//lib/carrierwave/test/matchers.rb#253
+  # source://carrierwave//lib/carrierwave/test/matchers.rb#262
   def negative_failure_message; end
 end
 
@@ -2143,7 +2143,7 @@ class CarrierWave::Test::Matchers::HaveDimensions
 
   # RSpec 2 compatibility:
   #
-  # source://carrierwave//lib/carrierwave/test/matchers.rb#154
+  # source://carrierwave//lib/carrierwave/test/matchers.rb#163
   def negative_failure_message; end
 end
 
@@ -2170,7 +2170,7 @@ class CarrierWave::Test::Matchers::HaveDirectoryPermissions
 
   # RSpec 2 compatibility:
   #
-  # source://carrierwave//lib/carrierwave/test/matchers.rb#86
+  # source://carrierwave//lib/carrierwave/test/matchers.rb#95
   def negative_failure_message; end
 end
 
@@ -2197,7 +2197,7 @@ class CarrierWave::Test::Matchers::HaveHeight
 
   # RSpec 2 compatibility:
   #
-  # source://carrierwave//lib/carrierwave/test/matchers.rb#187
+  # source://carrierwave//lib/carrierwave/test/matchers.rb#196
   def negative_failure_message; end
 end
 
@@ -2224,7 +2224,7 @@ class CarrierWave::Test::Matchers::HavePermissions
 
   # RSpec 2 compatibility:
   #
-  # source://carrierwave//lib/carrierwave/test/matchers.rb#55
+  # source://carrierwave//lib/carrierwave/test/matchers.rb#64
   def negative_failure_message; end
 end
 
@@ -2251,7 +2251,7 @@ class CarrierWave::Test::Matchers::HaveWidth
 
   # RSpec 2 compatibility:
   #
-  # source://carrierwave//lib/carrierwave/test/matchers.rb#220
+  # source://carrierwave//lib/carrierwave/test/matchers.rb#229
   def negative_failure_message; end
 end
 
@@ -2361,94 +2361,94 @@ class CarrierWave::Uploader::Base
   extend ::CarrierWave::Uploader::Processing::ClassMethods
   extend ::CarrierWave::Uploader::Versions::ClassMethods
 
-  # source://carrierwave//lib/carrierwave/uploader/callbacks.rb#7
+  # source://carrierwave//lib/carrierwave/uploader.rb#48
   def _after_callbacks; end
 
-  # source://carrierwave//lib/carrierwave/uploader/callbacks.rb#7
+  # source://carrierwave//lib/carrierwave/uploader.rb#48
   def _after_callbacks?; end
 
-  # source://carrierwave//lib/carrierwave/uploader/callbacks.rb#7
+  # source://carrierwave//lib/carrierwave/uploader.rb#48
   def _before_callbacks; end
 
-  # source://carrierwave//lib/carrierwave/uploader/callbacks.rb#7
+  # source://carrierwave//lib/carrierwave/uploader.rb#48
   def _before_callbacks?; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#10
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def _cache_storage; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#10
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def _cache_storage?; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#10
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def _storage; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#10
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def _storage?; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def asset_host; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def asset_host=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def base_path; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def base_path=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def cache_dir; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def cache_dir=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def cache_only; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def cache_only=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def delete_tmp_file_after_storage; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def delete_tmp_file_after_storage=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def directory_permissions; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def directory_permissions=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def download_retry_count; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def download_retry_count=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def download_retry_wait_time; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def download_retry_wait_time=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def downloader; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def downloader=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def enable_processing; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def enable_processing=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def ensure_multipart_form; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def ensure_multipart_form=(value); end
 
   # Returns the value of attribute file.
@@ -2456,535 +2456,535 @@ class CarrierWave::Uploader::Base
   # source://carrierwave//lib/carrierwave/uploader.rb#45
   def file; end
 
-  # source://carrierwave//lib/carrierwave/uploader/store.rb#20
+  # source://carrierwave//lib/carrierwave/uploader.rb#53
   def filename_safeguard_checked; end
 
-  # source://carrierwave//lib/carrierwave/uploader/store.rb#20
+  # source://carrierwave//lib/carrierwave/uploader.rb#53
   def filename_safeguard_checked=(_arg0); end
 
-  # source://carrierwave//lib/carrierwave/uploader/store.rb#20
+  # source://carrierwave//lib/carrierwave/uploader.rb#53
   def filename_safeguard_checked?; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def fog_attributes; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def fog_attributes=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def fog_authenticated_url_expiration; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def fog_authenticated_url_expiration=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def fog_aws_accelerate; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def fog_aws_accelerate=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def fog_aws_fips; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def fog_aws_fips=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def fog_credentials; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def fog_credentials=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def fog_directory; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def fog_directory=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#172
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def fog_provider; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#168
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def fog_provider=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def fog_public; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def fog_public=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def fog_use_ssl_for_aws; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def fog_use_ssl_for_aws=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def force_extension; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def force_extension=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def ignore_download_errors; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def ignore_download_errors=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def ignore_integrity_errors; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def ignore_integrity_errors=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def ignore_processing_errors; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def ignore_processing_errors=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def mount_on; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def mount_on=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def move_to_cache; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def move_to_cache=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def move_to_store; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def move_to_store=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/versions.rb#97
+  # source://carrierwave//lib/carrierwave/uploader.rb#63
   def parent_version; end
 
-  # source://carrierwave//lib/carrierwave/uploader/versions.rb#97
+  # source://carrierwave//lib/carrierwave/uploader.rb#63
   def parent_version=(_arg0); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def permissions; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def permissions=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/processing.rb#9
+  # source://carrierwave//lib/carrierwave/uploader.rb#62
   def processors; end
 
-  # source://carrierwave//lib/carrierwave/uploader/processing.rb#9
+  # source://carrierwave//lib/carrierwave/uploader.rb#62
   def processors?; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def remove_previously_stored_files_after_update; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def remove_previously_stored_files_after_update=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def root; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def root=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def skip_ssrf_protection; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def skip_ssrf_protection=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/cache.rb#49
+  # source://carrierwave//lib/carrierwave/uploader.rb#52
   def staged; end
 
-  # source://carrierwave//lib/carrierwave/uploader/cache.rb#49
+  # source://carrierwave//lib/carrierwave/uploader.rb#52
   def staged=(_arg0); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def storage_engines; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def storage_engines=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def store_dir; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def store_dir=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def validate_download; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def validate_download=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def validate_integrity; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def validate_integrity=(value); end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#146
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def validate_processing; end
 
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#142
+  # source://carrierwave//lib/carrierwave/uploader.rb#47
   def validate_processing=(value); end
 
   class << self
-    # source://carrierwave//lib/carrierwave/uploader/callbacks.rb#7
+    # source://carrierwave//lib/carrierwave/uploader.rb#48
     def _after_callbacks; end
 
-    # source://carrierwave//lib/carrierwave/uploader/callbacks.rb#7
+    # source://carrierwave//lib/carrierwave/uploader.rb#48
     def _after_callbacks=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/callbacks.rb#7
+    # source://carrierwave//lib/carrierwave/uploader.rb#48
     def _after_callbacks?; end
 
-    # source://carrierwave//lib/carrierwave/uploader/callbacks.rb#7
+    # source://carrierwave//lib/carrierwave/uploader.rb#48
     def _before_callbacks; end
 
-    # source://carrierwave//lib/carrierwave/uploader/callbacks.rb#7
+    # source://carrierwave//lib/carrierwave/uploader.rb#48
     def _before_callbacks=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/callbacks.rb#7
+    # source://carrierwave//lib/carrierwave/uploader.rb#48
     def _before_callbacks?; end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#10
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def _cache_storage; end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#10
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def _cache_storage=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#10
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def _cache_storage?; end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#10
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def _storage; end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#10
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def _storage=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#10
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def _storage?; end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def asset_host(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def asset_host=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def base_path(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def base_path=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def cache_dir(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def cache_dir=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def cache_only(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def cache_only=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def delete_tmp_file_after_storage(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def delete_tmp_file_after_storage=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def directory_permissions(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def directory_permissions=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def download_retry_count(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def download_retry_count=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def download_retry_wait_time(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def download_retry_wait_time=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def downloader(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def downloader=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def enable_processing(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def enable_processing=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def ensure_multipart_form(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def ensure_multipart_form=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/store.rb#20
+    # source://carrierwave//lib/carrierwave/uploader.rb#53
     def filename_safeguard_checked; end
 
-    # source://carrierwave//lib/carrierwave/uploader/store.rb#20
+    # source://carrierwave//lib/carrierwave/uploader.rb#53
     def filename_safeguard_checked=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/store.rb#20
+    # source://carrierwave//lib/carrierwave/uploader.rb#53
     def filename_safeguard_checked?; end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def fog_attributes(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def fog_attributes=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def fog_authenticated_url_expiration(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def fog_authenticated_url_expiration=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def fog_aws_accelerate(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def fog_aws_accelerate=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def fog_aws_fips(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def fog_aws_fips=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def fog_credentials(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def fog_credentials=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def fog_directory(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def fog_directory=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#160
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def fog_provider(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#164
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def fog_provider=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def fog_public(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def fog_public=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def fog_use_ssl_for_aws(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def fog_use_ssl_for_aws=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def force_extension(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def force_extension=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def ignore_download_errors(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def ignore_download_errors=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def ignore_integrity_errors(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def ignore_integrity_errors=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def ignore_processing_errors(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def ignore_processing_errors=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def mount_on(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def mount_on=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def move_to_cache(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def move_to_cache=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def move_to_store(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def move_to_store=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def permissions(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def permissions=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/processing.rb#9
+    # source://carrierwave//lib/carrierwave/uploader.rb#62
     def processors; end
 
-    # source://carrierwave//lib/carrierwave/uploader/processing.rb#9
+    # source://carrierwave//lib/carrierwave/uploader.rb#62
     def processors=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/processing.rb#9
+    # source://carrierwave//lib/carrierwave/uploader.rb#62
     def processors?; end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def remove_previously_stored_files_after_update(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def remove_previously_stored_files_after_update=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def root(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def root=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def skip_ssrf_protection(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def skip_ssrf_protection=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def storage_engines(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def storage_engines=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def store_dir(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def store_dir=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def validate_download(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def validate_download=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def validate_integrity(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def validate_integrity=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#130
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def validate_processing(value = T.unsafe(nil)); end
 
-    # source://carrierwave//lib/carrierwave/uploader/configuration.rb#138
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def validate_processing=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/versions.rb#92
+    # source://carrierwave//lib/carrierwave/uploader.rb#63
     def version_names; end
 
-    # source://carrierwave//lib/carrierwave/uploader/versions.rb#92
+    # source://carrierwave//lib/carrierwave/uploader.rb#63
     def version_names=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/versions.rb#92
+    # source://carrierwave//lib/carrierwave/uploader.rb#63
     def version_names?; end
 
-    # source://carrierwave//lib/carrierwave/uploader/versions.rb#92
+    # source://carrierwave//lib/carrierwave/uploader.rb#63
     def version_options; end
 
-    # source://carrierwave//lib/carrierwave/uploader/versions.rb#92
+    # source://carrierwave//lib/carrierwave/uploader.rb#63
     def version_options=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/versions.rb#92
+    # source://carrierwave//lib/carrierwave/uploader.rb#63
     def version_options?; end
 
-    # source://carrierwave//lib/carrierwave/uploader/versions.rb#92
+    # source://carrierwave//lib/carrierwave/uploader.rb#63
     def versions; end
 
-    # source://carrierwave//lib/carrierwave/uploader/versions.rb#92
+    # source://carrierwave//lib/carrierwave/uploader.rb#63
     def versions=(value); end
 
-    # source://carrierwave//lib/carrierwave/uploader/versions.rb#92
+    # source://carrierwave//lib/carrierwave/uploader.rb#63
     def versions?; end
 
     private
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
+    # source://carrierwave//lib/carrierwave/uploader.rb#48
     def __class_attr__after_callbacks; end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
+    # source://carrierwave//lib/carrierwave/uploader.rb#48
     def __class_attr__after_callbacks=(new_value); end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
+    # source://carrierwave//lib/carrierwave/uploader.rb#48
     def __class_attr__before_callbacks; end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
+    # source://carrierwave//lib/carrierwave/uploader.rb#48
     def __class_attr__before_callbacks=(new_value); end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def __class_attr__cache_storage; end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def __class_attr__cache_storage=(new_value); end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def __class_attr__storage; end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
+    # source://carrierwave//lib/carrierwave/uploader.rb#47
     def __class_attr__storage=(new_value); end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
+    # source://carrierwave//lib/carrierwave/uploader.rb#53
     def __class_attr_filename_safeguard_checked; end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
+    # source://carrierwave//lib/carrierwave/uploader.rb#53
     def __class_attr_filename_safeguard_checked=(new_value); end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
+    # source://carrierwave//lib/carrierwave/uploader.rb#62
     def __class_attr_processors; end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
+    # source://carrierwave//lib/carrierwave/uploader.rb#62
     def __class_attr_processors=(new_value); end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
+    # source://carrierwave//lib/carrierwave/uploader.rb#63
     def __class_attr_version_names; end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
+    # source://carrierwave//lib/carrierwave/uploader.rb#63
     def __class_attr_version_names=(new_value); end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
+    # source://carrierwave//lib/carrierwave/uploader.rb#63
     def __class_attr_version_options; end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
+    # source://carrierwave//lib/carrierwave/uploader.rb#63
     def __class_attr_version_options=(new_value); end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#15
+    # source://carrierwave//lib/carrierwave/uploader.rb#63
     def __class_attr_versions; end
 
-    # source://activesupport/8.0.2/lib/active_support/class_attribute.rb#17
+    # source://carrierwave//lib/carrierwave/uploader.rb#63
     def __class_attr_versions=(new_value); end
   end
 end
@@ -3075,7 +3075,7 @@ module CarrierWave::Uploader::Cache
   # source://carrierwave//lib/carrierwave/uploader/cache.rb#165
   def retrieve_from_cache!(cache_name); end
 
-  # source://activesupport/8.0.2/lib/active_support/deprecation/method_wrappers.rb#46
+  # source://carrierwave//lib/carrierwave/uploader/cache.rb#93
   def sanitized_file(*args, **_arg1, &block); end
 
   protected
@@ -3267,7 +3267,7 @@ module CarrierWave::Uploader::Configuration::ClassMethods
   #     cache_storage CarrierWave::Storage::File
   #     cache_storage MyCustomStorageEngine
   #
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#118
+  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#124
   def cache_storage=(storage = T.unsafe(nil)); end
 
   # @yield [_self]
@@ -3328,7 +3328,7 @@ module CarrierWave::Uploader::Configuration::ClassMethods
   #     storage CarrierWave::Storage::File
   #     storage MyCustomStorageEngine
   #
-  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#82
+  # source://carrierwave//lib/carrierwave/uploader/configuration.rb#97
   def storage=(storage = T.unsafe(nil)); end
 end
 
@@ -3794,7 +3794,7 @@ module CarrierWave::Uploader::Proxy
   #
   # [String] the path where the file is currently located.
   #
-  # source://carrierwave//lib/carrierwave/uploader/proxy.rb#19
+  # source://carrierwave//lib/carrierwave/uploader/proxy.rb#23
   def path; end
 
   # Read the contents of the file
@@ -4125,7 +4125,7 @@ module CarrierWave::Uploader::Versions
   #
   # @return [Boolean]
   #
-  # source://activesupport/8.0.2/lib/active_support/deprecation/method_wrappers.rb#46
+  # source://carrierwave//lib/carrierwave/uploader/versions.rb#225
   def version_exists?(*args, **_arg1, &block); end
 
   # === Returns

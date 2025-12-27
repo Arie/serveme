@@ -8,18 +8,7 @@
 # Namespace for gems in a dry-rb community
 #
 # source://dry-initializer//lib/dry/initializer.rb#6
-module Dry
-  class << self
-    # source://dry-configurable/1.3.0/lib/dry/configurable.rb#11
-    def Configurable(**options); end
-
-    # source://dry-core/1.1.0/lib/dry/core.rb#52
-    def Equalizer(*keys, **options); end
-
-    # source://dry-types/1.8.2/lib/dry/types.rb#253
-    def Types(*namespaces, default: T.unsafe(nil), **aliases); end
-  end
-end
+module Dry; end
 
 # DSL for declaring params and options of class initializers
 #
@@ -41,8 +30,8 @@ module Dry::Initializer
   # @option opts
   # @option opts
   # @param name [Symbol]
-  # @param type [#call, nil] (nil)
   # @param opts [Hash] a customizable set of options
+  # @param type [#call, nil] (nil)
   # @return [self] itself
   # @yield block with nested definition
   #
@@ -56,8 +45,8 @@ module Dry::Initializer
   # @option opts
   # @option opts
   # @param name [Symbol]
-  # @param type [#call, nil] (nil)
   # @param opts [Hash] a customizable set of options
+  # @param type [#call, nil] (nil)
   # @return [self] itself
   # @yield block with nested definition
   #
@@ -293,8 +282,8 @@ class Dry::Initializer::Config
   # @option opts
   # @option opts
   # @param name [Symbol]
-  # @param type [#call, nil] (nil)
   # @param opts [Hash] a customizable set of options
+  # @param type [#call, nil] (nil)
   # @return [self] itself
   #
   # source://dry-initializer//lib/dry/initializer/config.rb#73
@@ -314,8 +303,8 @@ class Dry::Initializer::Config
   # @option opts
   # @option opts
   # @param name [Symbol]
-  # @param type [#call, nil] (nil)
   # @param opts [Hash] a customizable set of options
+  # @param type [#call, nil] (nil)
   # @return [self] itself
   #
   # source://dry-initializer//lib/dry/initializer/config.rb#63
@@ -434,7 +423,7 @@ class Dry::Initializer::Definition
   # source://dry-initializer//lib/dry/initializer/definition.rb#44
   def inch; end
 
-  # source://dry-initializer//lib/dry/initializer/definition.rb#29
+  # source://dry-initializer//lib/dry/initializer/definition.rb#34
   def inspect; end
 
   # Returns the value of attribute ivar.
@@ -478,10 +467,10 @@ class Dry::Initializer::Definition
   # source://dry-initializer//lib/dry/initializer/definition.rb#14
   def target; end
 
-  # source://dry-initializer//lib/dry/initializer/definition.rb#29
+  # source://dry-initializer//lib/dry/initializer/definition.rb#32
   def to_s; end
 
-  # source://dry-initializer//lib/dry/initializer/definition.rb#29
+  # source://dry-initializer//lib/dry/initializer/definition.rb#33
   def to_str; end
 
   # Returns the value of attribute type.
@@ -731,10 +720,10 @@ module Dry::Initializer::Mixin::Local
   # source://dry-initializer//lib/dry/initializer/mixin/local.rb#8
   def klass; end
 
-  # source://dry-initializer//lib/dry/initializer/mixin/local.rb#10
+  # source://dry-initializer//lib/dry/initializer/mixin/local.rb#13
   def to_s; end
 
-  # source://dry-initializer//lib/dry/initializer/mixin/local.rb#10
+  # source://dry-initializer//lib/dry/initializer/mixin/local.rb#14
   def to_str; end
 
   private
@@ -769,7 +758,7 @@ class Dry::Initializer::Struct
   def __hashify(value); end
 
   class << self
-    # source://dry-initializer//lib/dry/initializer/struct.rb#13
+    # source://dry-initializer//lib/dry/initializer/struct.rb#16
     def call(options); end
 
     # source://dry-initializer//lib/dry/initializer/struct.rb#13

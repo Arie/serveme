@@ -516,6 +516,9 @@ class Draper::CollectionDecorator
   def reverse_each(*_arg0, **_arg1, &_arg2); end
 
   # source://draper//lib/draper/collection_decorator.rb#20
+  def rfind(*_arg0, **_arg1, &_arg2); end
+
+  # source://draper//lib/draper/collection_decorator.rb#20
   def rindex(*_arg0, **_arg1, &_arg2); end
 
   # source://draper//lib/draper/collection_decorator.rb#20
@@ -731,7 +734,6 @@ module Draper::Compatibility::GlobalID
   mixes_in_class_methods ::Draper::Compatibility::GlobalID::ClassMethods
 end
 
-# source://draper//lib/draper/compatibility/global_id.rb#19
 module Draper::Compatibility::GlobalID::ClassMethods
   # source://draper//lib/draper/compatibility/global_id.rb#20
   def find(*args); end

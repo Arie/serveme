@@ -2094,7 +2094,6 @@ module Rails::Command::Behavior
   mixes_in_class_methods ::Rails::Command::Behavior::ClassMethods
 end
 
-# source://railties//lib/rails/command/behavior.rb#10
 module Rails::Command::Behavior::ClassMethods
   # source://railties//lib/rails/command/behavior.rb#12
   def no_color!; end
@@ -5678,7 +5677,6 @@ class Rails::MailersController < ::Rails::ApplicationController
   end
 end
 
-# source://railties//lib/rails/mailers_controller.rb#13
 module Rails::MailersController::HelperMethods
   include ::ActionController::Base::HelperMethods
 

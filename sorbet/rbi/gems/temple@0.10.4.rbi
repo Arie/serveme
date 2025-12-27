@@ -41,8 +41,6 @@ end
 Temple::ERB::Parser::ERB_PATTERN = T.let(T.unsafe(nil), Regexp)
 
 # ERB Template class
-#
-# source://temple//lib/temple/erb/template.rb#10
 class Temple::ERB::Template < ::Temple::Templates::Tilt; end
 
 # ERB trimming like in erubis

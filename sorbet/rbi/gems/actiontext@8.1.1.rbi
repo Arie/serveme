@@ -152,7 +152,6 @@ module ActionText::Attachable
   end
 end
 
-# source://actiontext//lib/action_text/attachable.rb#57
 module ActionText::Attachable::ClassMethods
   # source://actiontext//lib/action_text/attachable.rb#58
   def from_attachable_sgid(sgid); end
@@ -695,7 +694,6 @@ module ActionText::Attachments::Minification
   mixes_in_class_methods ::ActionText::Attachments::Minification::ClassMethods
 end
 
-# source://actiontext//lib/action_text/attachments/minification.rb#10
 module ActionText::Attachments::Minification::ClassMethods
   # source://actiontext//lib/action_text/attachments/minification.rb#11
   def fragment_by_minifying_attachments(content); end
@@ -716,7 +714,6 @@ module ActionText::Attachments::TrixConversion
   def trix_attachment_content; end
 end
 
-# source://actiontext//lib/action_text/attachments/trix_conversion.rb#12
 module ActionText::Attachments::TrixConversion::ClassMethods
   # source://actiontext//lib/action_text/attachments/trix_conversion.rb#13
   def fragment_by_converting_trix_attachments(content); end
@@ -732,7 +729,6 @@ module ActionText::Attribute
   mixes_in_class_methods ::ActionText::Attribute::ClassMethods
 end
 
-# source://actiontext//lib/action_text/attribute.rb#9
 module ActionText::Attribute::ClassMethods
   # source://actiontext//lib/action_text/attribute.rb#53
   def has_rich_text(name, encrypted: T.unsafe(nil), strict_loading: T.unsafe(nil), store_if_blank: T.unsafe(nil)); end
@@ -1244,7 +1240,6 @@ module ActionText::Rendering
   mixes_in_class_methods ::ActionText::Rendering::ClassMethods
 end
 
-# source://actiontext//lib/action_text/rendering.rb#16
 module ActionText::Rendering::ClassMethods
   # source://actiontext//lib/action_text/rendering.rb#17
   def action_controller_renderer; end
@@ -1297,25 +1292,6 @@ class ActionText::RichText < ::ActionText::Record
   end
 end
 
-module ActionText::RichText::GeneratedAssociationMethods
-  def embeds; end
-  def embeds=(attachables); end
-  def embeds_attachment_ids; end
-  def embeds_attachment_ids=(ids); end
-  def embeds_attachments; end
-  def embeds_attachments=(value); end
-  def embeds_blob_ids; end
-  def embeds_blob_ids=(ids); end
-  def embeds_blobs; end
-  def embeds_blobs=(value); end
-  def record; end
-  def record=(value); end
-  def record_changed?; end
-  def record_previously_changed?; end
-  def reload_record; end
-  def reset_record; end
-end
-
 module ActionText::RichText::GeneratedAttributeMethods; end
 
 # source://actiontext//lib/action_text/serialization.rb#6
@@ -1328,7 +1304,6 @@ module ActionText::Serialization
   def _dump(*_arg0); end
 end
 
-# source://actiontext//lib/action_text/serialization.rb#9
 module ActionText::Serialization::ClassMethods
   # source://actiontext//lib/action_text/serialization.rb#31
   def _load(content); end

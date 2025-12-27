@@ -953,15 +953,33 @@ end
 #
 # source://mime-types//lib/mime/types/cache.rb#3
 class MIME::Types::Cache < ::Struct
+  # Returns the value of attribute data
+  #
+  # @return [Object] the current value of data
+  #
   # source://mime-types//lib/mime/types/cache.rb#3
   def data; end
 
+  # Sets the attribute data
+  #
+  # @param value [Object] the value to set the attribute data to.
+  # @return [Object] the newly set value
+  #
   # source://mime-types//lib/mime/types/cache.rb#3
   def data=(_); end
 
+  # Returns the value of attribute version
+  #
+  # @return [Object] the current value of version
+  #
   # source://mime-types//lib/mime/types/cache.rb#3
   def version; end
 
+  # Sets the attribute version
+  #
+  # @param value [Object] the value to set the attribute version to.
+  # @return [Object] the newly set value
+  #
   # source://mime-types//lib/mime/types/cache.rb#3
   def version=(_); end
 

@@ -9079,7 +9079,6 @@ class Aws::KMS::Errors::NotFoundException < ::Aws::KMS::Errors::ServiceError
   def message; end
 end
 
-# source://aws-sdk-kms//lib/aws-sdk-kms/errors.rb#83
 class Aws::KMS::Errors::ServiceError < ::Aws::Errors::ServiceError; end
 
 # source://aws-sdk-kms//lib/aws-sdk-kms/errors.rb#595

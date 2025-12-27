@@ -20,6 +20,8 @@ class Rake::Application
   include ::Sentry::Rake::Application
 end
 
+class Rake::CommandLineOptionError < ::StandardError; end
+
 # Based on ActionDispatch::RemoteIp. All security-related precautions from that
 # middleware have been removed, because the Event IP just needs to be accurate,
 # and spoofing an IP here only makes data inaccurate, not insecure. Don't re-use
@@ -486,7 +488,6 @@ class Sentry::Attachment
   def infer_filename(path); end
 end
 
-# source://sentry-ruby//lib/sentry/attachment.rb#5
 class Sentry::Attachment::PathNotFoundError < ::StandardError; end
 
 # source://sentry-ruby//lib/sentry-ruby.rb#50

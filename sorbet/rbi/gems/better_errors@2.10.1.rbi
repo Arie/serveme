@@ -43,7 +43,7 @@ module BetterErrors
     # @private
     # @private
     #
-    # source://better_errors//lib/better_errors.rb#33
+    # source://better_errors//lib/better_errors.rb#36
     def binding_of_caller_available?; end
 
     # Automatically sniffs a default editor preset based on the EDITOR
@@ -397,63 +397,92 @@ class BetterErrors::ErrorPage::VariableInfo < ::Struct
   # Returns the value of attribute editor_url
   #
   # @return [Object] the current value of editor_url
+  #
+  # source://better_errors//lib/better_errors/error_page.rb#10
   def editor_url; end
 
   # Sets the attribute editor_url
   #
   # @param value [Object] the value to set the attribute editor_url to.
   # @return [Object] the newly set value
+  #
+  # source://better_errors//lib/better_errors/error_page.rb#10
   def editor_url=(_); end
 
   # Returns the value of attribute frame
   #
   # @return [Object] the current value of frame
+  #
+  # source://better_errors//lib/better_errors/error_page.rb#10
   def frame; end
 
   # Sets the attribute frame
   #
   # @param value [Object] the value to set the attribute frame to.
   # @return [Object] the newly set value
+  #
+  # source://better_errors//lib/better_errors/error_page.rb#10
   def frame=(_); end
 
   # Returns the value of attribute rack_session
   #
   # @return [Object] the current value of rack_session
+  #
+  # source://better_errors//lib/better_errors/error_page.rb#10
   def rack_session; end
 
   # Sets the attribute rack_session
   #
   # @param value [Object] the value to set the attribute rack_session to.
   # @return [Object] the newly set value
+  #
+  # source://better_errors//lib/better_errors/error_page.rb#10
   def rack_session=(_); end
 
   # Returns the value of attribute rails_params
   #
   # @return [Object] the current value of rails_params
+  #
+  # source://better_errors//lib/better_errors/error_page.rb#10
   def rails_params; end
 
   # Sets the attribute rails_params
   #
   # @param value [Object] the value to set the attribute rails_params to.
   # @return [Object] the newly set value
+  #
+  # source://better_errors//lib/better_errors/error_page.rb#10
   def rails_params=(_); end
 
   # Returns the value of attribute start_time
   #
   # @return [Object] the current value of start_time
+  #
+  # source://better_errors//lib/better_errors/error_page.rb#10
   def start_time; end
 
   # Sets the attribute start_time
   #
   # @param value [Object] the value to set the attribute start_time to.
   # @return [Object] the newly set value
+  #
+  # source://better_errors//lib/better_errors/error_page.rb#10
   def start_time=(_); end
 
   class << self
+    # source://better_errors//lib/better_errors/error_page.rb#10
     def [](*_arg0); end
+
+    # source://better_errors//lib/better_errors/error_page.rb#10
     def inspect; end
+
+    # source://better_errors//lib/better_errors/error_page.rb#10
     def keyword_init?; end
+
+    # source://better_errors//lib/better_errors/error_page.rb#10
     def members; end
+
+    # source://better_errors//lib/better_errors/error_page.rb#10
     def new(*_arg0); end
   end
 end
@@ -469,15 +498,6 @@ module BetterErrors::ErrorPageStyle
     # source://better_errors//lib/better_errors/error_page_style.rb#33
     def style_tag(csp_nonce); end
   end
-end
-
-# source://better_errors//lib/better_errors/exception_extension.rb#2
-module BetterErrors::ExceptionExtension
-  # source://better_errors//lib/better_errors/exception_extension.rb#13
-  def __better_errors_bindings_stack; end
-
-  # source://better_errors//lib/better_errors/exception_extension.rb#5
-  def set_backtrace(*_arg0); end
 end
 
 # source://better_errors//lib/better_errors/exception_hint.rb#2
@@ -536,15 +556,15 @@ end
 # If you are using Ruby on Rails, you do not need to manually insert this
 # middleware into your middleware stack.
 #
+# @example Rack
+#   require "better_errors"
+#   if ENV["RACK_ENV"] == "development"
+#   use BetterErrors::Middleware
+#   end
 # @example Sinatra
 #   require "better_errors"
 #
 #   if development?
-#   use BetterErrors::Middleware
-#   end
-# @example Rack
-#   require "better_errors"
-#   if ENV["RACK_ENV"] == "development"
 #   use BetterErrors::Middleware
 #   end
 #
@@ -821,7 +841,3 @@ BetterErrors::VERSION = T.let(T.unsafe(nil), String)
 
 # source://better_errors//lib/better_errors/inspectable_value.rb#5
 class BetterErrors::ValueLargerThanConfiguredMaximum < ::StandardError; end
-
-class Exception
-  include ::BetterErrors::ExceptionExtension
-end

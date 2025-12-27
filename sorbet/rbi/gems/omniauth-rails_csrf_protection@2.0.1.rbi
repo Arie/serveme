@@ -225,14 +225,5 @@ class OmniAuth::RailsCsrfProtection::TokenVerifier
   end
 end
 
-# source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
-module OmniAuth::RailsCsrfProtection::TokenVerifier::HelperMethods
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
-  def form_authenticity_token(*_arg0, **_arg1, &_arg2); end
-
-  # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/token_verifier.rb#34
-  def protect_against_forgery?(*_arg0, **_arg1, &_arg2); end
-end
-
 # source://omniauth-rails_csrf_protection//lib/omniauth/rails_csrf_protection/version.rb#3
 OmniAuth::RailsCsrfProtection::VERSION = T.let(T.unsafe(nil), String)

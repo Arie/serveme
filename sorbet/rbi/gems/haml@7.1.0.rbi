@@ -1501,7 +1501,6 @@ class Haml::StringSplitter::SyntaxChecker::ParseError < ::StandardError; end
 # source://haml//lib/haml/error.rb#59
 class Haml::SyntaxError < ::Haml::Error; end
 
-# source://haml//lib/haml/template.rb#7
 class Haml::Template < ::Temple::Templates::Tilt
   extend ::Haml::TemplateExtension
 end

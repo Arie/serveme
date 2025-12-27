@@ -34,6 +34,8 @@ class Dry::Schema::DSL
   def meta_data; end
 end
 
+class Dry::Schema::InvalidSchemaError < ::StandardError; end
+
 # source://fast-mcp//lib/mcp/tool.rb#10
 module Dry::Schema::Macros; end
 

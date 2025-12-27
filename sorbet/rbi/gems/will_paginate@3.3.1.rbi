@@ -35,15 +35,7 @@ class ActionView::Base
   include ::WillPaginate::ActionView
 end
 
-module ERB::Escape
-  private
-
-  def html_escape(_arg0); end
-
-  class << self
-    def html_escape(_arg0); end
-  end
-end
+module ERB::Escape; end
 
 # You will paginate!
 #
@@ -111,6 +103,7 @@ module WillPaginate::ActionView
   # source://will_paginate//lib/will_paginate/view_helpers/action_view.rb#65
   def paginated_section(*args, &block); end
 
+  # source://will_paginate//lib/will_paginate/view_helpers/action_view.rb#26
   def will_paginate(collection = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # source://will_paginate//lib/will_paginate/view_helpers/action_view.rb#74
@@ -366,33 +359,33 @@ class WillPaginate::PageNumber < ::Numeric
   # source://will_paginate//lib/will_paginate/page_number.rb#14
   def initialize(value, name); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
-  def *(*args, **_arg1, &block); end
+  # source://will_paginate//lib/will_paginate/page_number.rb#30
+  def *(*_arg0, **_arg1, &_arg2); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
-  def +(*args, **_arg1, &block); end
+  # source://will_paginate//lib/will_paginate/page_number.rb#30
+  def +(*_arg0, **_arg1, &_arg2); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
-  def -(*args, **_arg1, &block); end
+  # source://will_paginate//lib/will_paginate/page_number.rb#30
+  def -(*_arg0, **_arg1, &_arg2); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
-  def /(*args, **_arg1, &block); end
+  # source://will_paginate//lib/will_paginate/page_number.rb#30
+  def /(*_arg0, **_arg1, &_arg2); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
-  def <=>(*args, **_arg1, &block); end
+  # source://will_paginate//lib/will_paginate/page_number.rb#30
+  def <=>(*_arg0, **_arg1, &_arg2); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
-  def ==(*args, **_arg1, &block); end
+  # source://will_paginate//lib/will_paginate/page_number.rb#30
+  def ==(*_arg0, **_arg1, &_arg2); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
-  def coerce(*args, **_arg1, &block); end
+  # source://will_paginate//lib/will_paginate/page_number.rb#30
+  def coerce(*_arg0, **_arg1, &_arg2); end
 
   # source://will_paginate//lib/will_paginate/page_number.rb#32
   def inspect; end
 
   # @return [Boolean]
   #
-  # source://will_paginate//lib/will_paginate/page_number.rb#40
+  # source://will_paginate//lib/will_paginate/page_number.rb#43
   def is_a?(klass); end
 
   # @return [Boolean]
@@ -403,14 +396,14 @@ class WillPaginate::PageNumber < ::Numeric
   # source://will_paginate//lib/will_paginate/page_number.rb#26
   def to_i; end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
-  def to_json(*args, **_arg1, &block); end
+  # source://will_paginate//lib/will_paginate/page_number.rb#30
+  def to_json(*_arg0, **_arg1, &_arg2); end
 
   # source://will_paginate//lib/will_paginate/page_number.rb#36
   def to_offset(per_page); end
 
-  # source://forwardable/1.3.3/forwardable.rb#231
-  def to_s(*args, **_arg1, &block); end
+  # source://will_paginate//lib/will_paginate/page_number.rb#30
+  def to_s(*_arg0, **_arg1, &_arg2); end
 end
 
 # a value larger than this is not supported in SQL queries

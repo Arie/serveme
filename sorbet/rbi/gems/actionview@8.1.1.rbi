@@ -14824,7 +14824,6 @@ end
 # source://actionview//lib/action_view/template/handlers/erb/erubi.rb#45
 ActionView::Template::Handlers::ERB::Erubi::BLOCK_EXPR = T.let(T.unsafe(nil), Regexp)
 
-# source://actionview//lib/action_view/template/handlers/erb.rb#27
 class ActionView::Template::Handlers::ERB::LocationParsingError < ::StandardError; end
 
 # source://actionview//lib/action_view/template/handlers/html.rb#5
@@ -15761,7 +15760,6 @@ class ActionView::TestCase::Behavior::RenderedViewsCollection
   def view_rendered?(view, expected_locals); end
 end
 
-# source://actionview//lib/action_view/test_case.rb#444
 module ActionView::TestCase::HelperMethods
   # source://actionview//lib/action_view/test_case.rb#263
   def _test_case; end

@@ -15,17 +15,6 @@ module Dry
     # Export registered types as a module with constants
     #
     # @api public
-    # @example no options
-    #
-    #   module Types
-    #   # imports all types as constants, uses modules for namespaces
-    #   include Dry.Types()
-    #   end
-    #   # strict types are exported by default
-    #   Types::Integer
-    #   # => #<Dry::Types[Constrained<Nominal<Integer> rule=[type?(Integer)]>]>
-    #   Types::Nominal::Integer
-    #   # => #<Dry::Types[Nominal<Integer>]>
     # @example changing default types
     #
     #   module Types
@@ -48,9 +37,20 @@ module Dry
     #   end
     #   Types::Kernel::Integer
     #   # => #<Dry::Types[Constructor<Nominal<Integer> fn=Kernel.Integer>]>
-    # @param namespaces [Array<Symbol>] List of type namespaces to export
-    # @param default [Symbol] Default namespace to export
+    # @example no options
+    #
+    #   module Types
+    #   # imports all types as constants, uses modules for namespaces
+    #   include Dry.Types()
+    #   end
+    #   # strict types are exported by default
+    #   Types::Integer
+    #   # => #<Dry::Types[Constrained<Nominal<Integer> rule=[type?(Integer)]>]>
+    #   Types::Nominal::Integer
+    #   # => #<Dry::Types[Nominal<Integer>]>
     # @param aliases [Hash{Symbol => Symbol}] Optional renamings, like strict: :Draconian
+    # @param default [Symbol] Default namespace to export
+    # @param namespaces [Array<Symbol>] List of type namespaces to export
     # @return [Dry::Types::Module]
     # @see Dry::Types::Module
     #
@@ -104,20 +104,20 @@ module Dry::Types
     # type constructors
     #
     # @api public
-    # @example simple custom type constructor
-    #   Dry::Types.define_builder(:or_nil) do |type|
-    #   type.optional.fallback(nil)
-    #   end
-    #
-    #   Dry::Types["integer"].or_nil.("foo") # => nil
     # @example fallback alias
     #   Dry::Types.define_builder(:or) do |type, fallback|
     #   type.fallback(fallback)
     #   end
     #
     #   Dry::Types["integer"].or(100).("foo") # => 100
-    # @param method [Symbol]
+    # @example simple custom type constructor
+    #   Dry::Types.define_builder(:or_nil) do |type|
+    #   type.optional.fallback(nil)
+    #   end
+    #
+    #   Dry::Types["integer"].or_nil.("foo") # => nil
     # @param block [#call]
+    # @param method [Symbol]
     #
     # source://dry-types//lib/dry/types.rb#197
     def define_builder(method, &block); end
@@ -150,9 +150,9 @@ module Dry::Types
     # Register a new built-in type
     #
     # @api private
+    # @param block [#call, nil]
     # @param name [String]
     # @param type [Type]
-    # @param block [#call, nil]
     # @return [Container{String => Nominal}]
     #
     # source://dry-types//lib/dry/types.rb#104
@@ -285,8 +285,8 @@ end
 class Dry::Types::Array::Member < ::Dry::Types::Array
   # @api private
   # @option options
-  # @param primitive [Class]
   # @param options [Hash]
+  # @param primitive [Class]
   # @return [Member] a new instance of Member
   #
   # source://dry-types//lib/dry/types/array/member.rb#19
@@ -332,8 +332,8 @@ class Dry::Types::Array::Member < ::Dry::Types::Array
   def to_ast(meta: T.unsafe(nil)); end
 
   # @api public
-  # @param input [Array, Object]
   # @param block [#call, nil]
+  # @param input [Array, Object]
   # @return [Result, Logic::Result]
   # @yieldparam failure [Failure]
   # @yieldreturn [Result]
@@ -362,9 +362,9 @@ module Dry::Types::Builder
   # Define a constructor for the type
   #
   # @api public
+  # @param block [#call, nil]
   # @param constructor [#call, nil]
   # @param options [Hash]
-  # @param block [#call, nil]
   # @return [Constructor]
   #
   # source://dry-types//lib/dry/types/builder.rb#144
@@ -382,9 +382,9 @@ module Dry::Types::Builder
   # Define a constructor for the type
   #
   # @api public
+  # @param block [#call, nil]
   # @param constructor [#call, nil]
   # @param options [Hash]
-  # @param block [#call, nil]
   # @return [Constructor]
   #
   # source://dry-types//lib/dry/types/builder.rb#143
@@ -393,9 +393,9 @@ module Dry::Types::Builder
   # Define a constructor for the type
   #
   # @api public
+  # @param block [#call, nil]
   # @param constructor [#call, nil]
   # @param options [Hash]
-  # @param block [#call, nil]
   # @return [Constructor]
   #
   # source://dry-types//lib/dry/types/builder.rb#141
@@ -419,9 +419,9 @@ module Dry::Types::Builder
   # Define a constructor for the type
   #
   # @api public
+  # @param block [#call, nil]
   # @param constructor [#call, nil]
   # @param options [Hash]
-  # @param block [#call, nil]
   # @return [Constructor]
   #
   # source://dry-types//lib/dry/types/builder.rb#138
@@ -437,9 +437,9 @@ module Dry::Types::Builder
   #
   # @api public
   # @option [Boolean]
-  # @param input [Object]
-  # @param block [#call, nil]
   # @param [Boolean] [Hash] a customizable set of options
+  # @param block [#call, nil]
+  # @param input [Object]
   # @raise [ConstraintError]
   # @return [Default]
   #
@@ -459,9 +459,9 @@ module Dry::Types::Builder
   #
   # @api public
   # @option [Boolean]
-  # @param value [Object]
-  # @param fallback [#call, nil]
   # @param [Boolean] [Hash] a customizable set of options
+  # @param fallback [#call, nil]
+  # @param value [Object]
   # @return [Constructor]
   #
   # source://dry-types//lib/dry/types/builder.rb#155
@@ -487,9 +487,9 @@ module Dry::Types::Builder
   # Define a constructor for the type
   #
   # @api public
+  # @param block [#call, nil]
   # @param constructor [#call, nil]
   # @param options [Hash]
-  # @param block [#call, nil]
   # @return [Constructor]
   #
   # source://dry-types//lib/dry/types/builder.rb#142
@@ -545,9 +545,9 @@ module Dry::Types::BuilderMethods
   # If no constructor block given it uses .new method
   #
   # @api public
-  # @param klass [Class]
-  # @param cons [#call, nil] Value constructor
   # @param block [#call, nil] Value constructor
+  # @param cons [#call, nil] Value constructor
+  # @param klass [Class]
   # @return [Dry::Types::Type]
   #
   # source://dry-types//lib/dry/types/builder_methods.rb#80
@@ -786,8 +786,8 @@ module Dry::Types::Coercions::Params
     # @param input [String, Object]
     # @raise CoercionError
     # @return [Boolean, Object]
-    # @see TRUE_VALUES
     # @see FALSE_VALUES
+    # @see TRUE_VALUES
     #
     # source://dry-types//lib/dry/types/coercions/params.rb#69
     def to_false(input, &_arg1); end
@@ -828,8 +828,8 @@ module Dry::Types::Coercions::Params
     # @param input [String, Object]
     # @raise CoercionError
     # @return [Boolean, Object]
-    # @see TRUE_VALUES
     # @see FALSE_VALUES
+    # @see TRUE_VALUES
     #
     # source://dry-types//lib/dry/types/coercions/params.rb#49
     def to_true(input, &_arg1); end
@@ -985,8 +985,8 @@ module Dry::Types::Composition
 
   # @api private
   # @param left [Type]
-  # @param right [Type]
   # @param options [Hash]
+  # @param right [Type]
   #
   # source://dry-types//lib/dry/types/composition.rb#50
   def initialize(left, right, **options); end
@@ -1114,8 +1114,8 @@ class Dry::Types::Constrained
   include ::Dry::Core::Equalizer::Methods
 
   # @api public
-  # @param type [Type]
   # @param options [Hash]
+  # @param type [Type]
   # @return [Constrained] a new instance of Constrained
   #
   # source://dry-types//lib/dry/types/constrained.rb#23
@@ -1141,12 +1141,12 @@ class Dry::Types::Constrained
   def call_unsafe(input); end
 
   # @api public
-  # @param *nullary_rules [Array<Symbol>] a list of rules that do not require an additional
-  #   argument (e.g., :odd)
   # @param **unary_rules [Hash] a list of rules that require an additional argument
   #   (e.g., gt: 0)
   #   The parameters are merger to create a rules hash provided to {Types.Rule} and combined
   #   using {&} with previous {#rule}
+  # @param *nullary_rules [Array<Symbol>] a list of rules that do not require an additional
+  #   argument (e.g., :odd)
   # @return [Constrained]
   # @see Dry::Logic::Operators#and
   #
@@ -1242,8 +1242,8 @@ end
 # source://dry-types//lib/dry/types/errors.rb#112
 class Dry::Types::ConstraintError < ::Dry::Types::CoercionError
   # @api public
-  # @param result [String, #to_s]
   # @param input [Object]
+  # @param result [String, #to_s]
   # @return [ConstraintError] a new instance of ConstraintError
   #
   # source://dry-types//lib/dry/types/errors.rb#120
@@ -1284,9 +1284,9 @@ class Dry::Types::Constructor < ::Dry::Types::Nominal
   # Instantiate a new constructor type instance
   #
   # @api private
-  # @param type [Type]
   # @param fn [Function]
   # @param options [Hash]
+  # @param type [Type]
   # @return [Constructor] a new instance of Constructor
   #
   # source://dry-types//lib/dry/types/constructor.rb#62
@@ -1295,9 +1295,9 @@ class Dry::Types::Constructor < ::Dry::Types::Nominal
   # Build a new constructor by prepending a block to the coercion function
   #
   # @api public
+  # @param block [#call, nil]
   # @param new_fn [#call, nil]
   # @param options [Hash]
-  # @param block [#call, nil]
   # @return [Constructor]
   #
   # source://dry-types//lib/dry/types/constructor.rb#143
@@ -1306,9 +1306,9 @@ class Dry::Types::Constructor < ::Dry::Types::Nominal
   # Build a new constructor by appending a block to the coercion function
   #
   # @api public
+  # @param block [#call, nil]
   # @param new_fn [#call, nil]
   # @param options [Hash]
-  # @param block [#call, nil]
   # @return [Constructor]
   #
   # source://dry-types//lib/dry/types/constructor.rb#117
@@ -1317,9 +1317,9 @@ class Dry::Types::Constructor < ::Dry::Types::Nominal
   # Build a new constructor by appending a block to the coercion function
   #
   # @api public
+  # @param block [#call, nil]
   # @param new_fn [#call, nil]
   # @param options [Hash]
-  # @param block [#call, nil]
   # @return [Constructor]
   #
   # source://dry-types//lib/dry/types/constructor.rb#116
@@ -1346,9 +1346,9 @@ class Dry::Types::Constructor < ::Dry::Types::Nominal
   # Build a new constructor by appending a block to the coercion function
   #
   # @api public
+  # @param block [#call, nil]
   # @param new_fn [#call, nil]
   # @param options [Hash]
-  # @param block [#call, nil]
   # @return [Constructor]
   #
   # source://dry-types//lib/dry/types/constructor.rb#107
@@ -1371,9 +1371,9 @@ class Dry::Types::Constructor < ::Dry::Types::Nominal
   # Build a new constructor by prepending a block to the coercion function
   #
   # @api public
+  # @param block [#call, nil]
   # @param new_fn [#call, nil]
   # @param options [Hash]
-  # @param block [#call, nil]
   # @return [Constructor]
   #
   # source://dry-types//lib/dry/types/constructor.rb#140
@@ -1394,8 +1394,8 @@ class Dry::Types::Constructor < ::Dry::Types::Nominal
   def to_proc; end
 
   # @api public
-  # @param input [Object]
   # @param block [#call, nil]
+  # @param input [Object]
   # @return [Logic::Result, Types::Result]
   # @return [Object] if block given and try fails
   #
@@ -1413,16 +1413,16 @@ class Dry::Types::Constructor < ::Dry::Types::Nominal
   # Delegates missing methods to {#type}
   #
   # @api private
-  # @param method [Symbol]
   # @param args [Array]
   # @param block [#call, nil]
+  # @param method [Symbol]
   #
   # source://dry-types//lib/dry/types/constructor.rb#176
   def method_missing(method, *_arg1, **_arg2, &_arg3); end
 
   # @api private
-  # @param meth [Symbol]
   # @param include_private [Boolean]
+  # @param meth [Symbol]
   # @return [Boolean]
   #
   # source://dry-types//lib/dry/types/constructor.rb#165
@@ -1430,17 +1430,17 @@ class Dry::Types::Constructor < ::Dry::Types::Nominal
 
   class << self
     # @api public
+    # @param block [#call, nil]
     # @param input [Builder, Object]
     # @param options [Hash]
-    # @param block [#call, nil]
     #
     # source://dry-types//lib/dry/types/constructor.rb#35
     def [](type, fn:, **options); end
 
     # @api public
+    # @param block [#call, nil]
     # @param input [Builder, Object]
     # @param options [Hash]
-    # @param block [#call, nil]
     #
     # source://dry-types//lib/dry/types/constructor.rb#25
     def new(input, fn: T.unsafe(nil), **options, &block); end
@@ -1658,9 +1658,9 @@ module Dry::Types::Constructor::Wrapper
   # Build a new constructor by prepending a block to the coercion function
   #
   # @api public
+  # @param block [#call, nil]
   # @param new_fn [#call, nil]
   # @param options [Hash]
-  # @param block [#call, nil]
   # @return [Constructor]
   #
   # source://dry-types//lib/dry/types/constructor/wrapper.rb#68
@@ -1669,9 +1669,9 @@ module Dry::Types::Constructor::Wrapper
   # Define a constructor for the type
   #
   # @api public
+  # @param block [#call, nil]
   # @param constructor [#call, nil]
   # @param options [Hash]
-  # @param block [#call, nil]
   # @return [Constructor]
   #
   # source://dry-types//lib/dry/types/constructor/wrapper.rb#45
@@ -1680,9 +1680,9 @@ module Dry::Types::Constructor::Wrapper
   # Define a constructor for the type
   #
   # @api public
+  # @param block [#call, nil]
   # @param constructor [#call, nil]
   # @param options [Hash]
-  # @param block [#call, nil]
   # @return [Constructor]
   #
   # source://dry-types//lib/dry/types/constructor/wrapper.rb#44
@@ -1703,9 +1703,9 @@ module Dry::Types::Constructor::Wrapper
   # Define a constructor for the type
   #
   # @api public
+  # @param block [#call, nil]
   # @param constructor [#call, nil]
   # @param options [Hash]
-  # @param block [#call, nil]
   # @return [Constructor]
   #
   # source://dry-types//lib/dry/types/constructor/wrapper.rb#43
@@ -1720,17 +1720,17 @@ module Dry::Types::Constructor::Wrapper
   # Build a new constructor by prepending a block to the coercion function
   #
   # @api public
+  # @param block [#call, nil]
   # @param new_fn [#call, nil]
   # @param options [Hash]
-  # @param block [#call, nil]
   # @return [Constructor]
   #
   # source://dry-types//lib/dry/types/constructor/wrapper.rb#56
   def prepend(new_fn = T.unsafe(nil), **options, &block); end
 
   # @api public
-  # @param input [Object]
   # @param block [#call, nil]
+  # @param input [Object]
   # @return [Logic::Result, Types::Result]
   # @return [Object] if block given and try fails
   #
@@ -1800,8 +1800,8 @@ module Dry::Types::Decorator
   def to_proc; end
 
   # @api public
-  # @param input [Object]
   # @param block [#call, nil]
+  # @param input [Object]
   # @return [Result, Logic::Result]
   # @return [Object] if block given and try fails
   #
@@ -1833,16 +1833,16 @@ module Dry::Types::Decorator
   # Delegates missing methods to {#type}
   #
   # @api private
-  # @param meth [Symbol]
   # @param args [Array]
   # @param block [#call, nil]
+  # @param meth [Symbol]
   #
   # source://dry-types//lib/dry/types/decorator.rb#72
   def method_missing(meth, *_arg1, **_arg2, &_arg3); end
 
   # @api public
-  # @param meth [Symbol]
   # @param include_private [Boolean]
+  # @param meth [Symbol]
   # @return [Boolean]
   #
   # source://dry-types//lib/dry/types/decorator.rb#45
@@ -1978,8 +1978,8 @@ class Dry::Types::Enum
 
   # @api private
   # @option options
-  # @param type [Type]
   # @param options [Hash]
+  # @param type [Type]
   # @return [Enum] a new instance of Enum
   #
   # source://dry-types//lib/dry/types/enum.rb#28
@@ -2183,8 +2183,8 @@ class Dry::Types::Hash < ::Dry::Types::Nominal
   # Injects a type transformation function for building schemas
   #
   # @api public
-  # @param proc [#call, nil]
   # @param block [#call, nil]
+  # @param proc [#call, nil]
   # @raise [::ArgumentError]
   # @return [Hash]
   #
@@ -2442,8 +2442,8 @@ class Dry::Types::Lax
   def to_ast(meta: T.unsafe(nil)); end
 
   # @api public
-  # @param input [Object]
   # @param block [#call, nil]
+  # @param input [Object]
   # @return [Result, Logic::Result]
   # @yieldparam failure [Failure]
   # @yieldreturn [Result]
@@ -2570,8 +2570,6 @@ class Dry::Types::Map < ::Dry::Types::Nominal
 end
 
 # @api public
-#
-# source://dry-types//lib/dry/types/errors.rb#85
 class Dry::Types::MapError < ::Dry::Types::CoercionError; end
 
 # Storage for meta-data
@@ -2733,8 +2731,8 @@ class Dry::Types::Nominal
   include ::Dry::Core::Equalizer::Methods
 
   # @api private
-  # @param primitive [Type, Class]
   # @param options [Hash]
+  # @param primitive [Type, Class]
   # @return [Nominal] a new instance of Nominal
   #
   # source://dry-types//lib/dry/types/nominal.rb#42
@@ -3367,8 +3365,8 @@ end
 # source://dry-types//lib/dry/types/result.rb#39
 class Dry::Types::Result::Failure < ::Dry::Types::Result
   # @api private
-  # @param input [Object]
   # @param error [#to_s]
+  # @param input [Object]
   # @return [Failure] a new instance of Failure
   #
   # source://dry-types//lib/dry/types/result.rb#50
@@ -3430,9 +3428,9 @@ Dry::Types::Safe = Dry::Types::Lax
 # {Schema} implements Enumerable using its keys as collection.
 #
 # @api public
-# @see Dry::Types::Schema::Key
 # @see Dry::Types::Default#evaluate
 # @see Dry::Types::Default::Callable#evaluate
+# @see Dry::Types::Schema::Key
 #
 # source://dry-types//lib/dry/types/schema.rb#19
 class Dry::Types::Schema < ::Dry::Types::Hash
@@ -3600,8 +3598,8 @@ class Dry::Types::Schema < ::Dry::Types::Hash
   # Inject a key transformation function
   #
   # @api public
-  # @param proc [#call, nil]
   # @param block [#call, nil]
+  # @param proc [#call, nil]
   # @raise [::ArgumentError]
   # @return [Schema]
   #
@@ -3780,8 +3778,8 @@ Dry::Types::Schema::SYMBOLIZE_KEY = T.let(T.unsafe(nil), String)
 class Dry::Types::SchemaError < ::Dry::Types::CoercionError
   # @api public
   # @param key [String, Symbol]
-  # @param value [Object]
   # @param result [String, #to_s]
+  # @param value [Object]
   # @return [SchemaError] a new instance of SchemaError
   #
   # source://dry-types//lib/dry/types/errors.rb#75
@@ -3801,8 +3799,6 @@ class Dry::Types::SchemaError < ::Dry::Types::CoercionError
 end
 
 # @api public
-#
-# source://dry-types//lib/dry/types/errors.rb#87
 class Dry::Types::SchemaKeyError < ::Dry::Types::CoercionError; end
 
 # Sum type

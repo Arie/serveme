@@ -65,7 +65,7 @@ Integer::GMP_VERSION = T.let(T.unsafe(nil), String)
 module MessagePack
   private
 
-  # source://msgpack//lib/msgpack.rb#39
+  # source://msgpack//lib/msgpack.rb#44
   def dump(v, io = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # source://msgpack//lib/msgpack.rb#22
@@ -74,22 +74,76 @@ module MessagePack
   # source://msgpack//lib/msgpack.rb#39
   def pack(v, io = T.unsafe(nil), options = T.unsafe(nil)); end
 
-  # source://msgpack//lib/msgpack.rb#22
+  # source://msgpack//lib/msgpack.rb#34
   def unpack(src, param = T.unsafe(nil)); end
 
   class << self
-    # source://msgpack//lib/msgpack.rb#39
+    # source://msgpack//lib/msgpack.rb#47
     def dump(v, io = T.unsafe(nil), options = T.unsafe(nil)); end
 
-    # source://msgpack//lib/msgpack.rb#22
+    # source://msgpack//lib/msgpack.rb#36
     def load(src, param = T.unsafe(nil)); end
 
-    # source://msgpack//lib/msgpack.rb#39
+    # source://msgpack//lib/msgpack.rb#46
     def pack(v, io = T.unsafe(nil), options = T.unsafe(nil)); end
 
-    # source://msgpack//lib/msgpack.rb#22
+    # source://msgpack//lib/msgpack.rb#37
     def unpack(src, param = T.unsafe(nil)); end
   end
+end
+
+# source://msgpack//lib/msgpack/buffer.rb#2
+class MessagePack::Buffer
+  # source://msgpack//lib/msgpack.rb#7
+  def initialize(*_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def <<(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def clear; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def close; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def empty?; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def flush; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def io; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def read(*_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def read_all(*_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def size; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def skip(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def skip_all(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def to_a; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def to_s; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def to_str; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write_to(_arg0); end
 end
 
 # source://msgpack//lib/msgpack/core_ext.rb#2
@@ -102,22 +156,63 @@ end
 class MessagePack::ExtensionValue < ::Struct
   include ::MessagePack::CoreExt
 
+  # source://msgpack//lib/msgpack.rb#7
+  def payload; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def payload=(_); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def type; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def type=(_); end
+
   private
 
   # source://msgpack//lib/msgpack/core_ext.rb#134
   def to_msgpack_with_packer(packer); end
+
+  class << self
+    # source://msgpack//lib/msgpack.rb#7
+    def [](*_arg0); end
+
+    # source://msgpack//lib/msgpack.rb#7
+    def inspect; end
+
+    # source://msgpack//lib/msgpack.rb#7
+    def keyword_init?; end
+
+    # source://msgpack//lib/msgpack.rb#7
+    def members; end
+
+    # source://msgpack//lib/msgpack.rb#7
+    def new(*_arg0); end
+  end
 end
 
 # source://msgpack//lib/msgpack/factory.rb#2
 class MessagePack::Factory
+  # source://msgpack//lib/msgpack.rb#7
+  def initialize(*_arg0); end
+
   # source://msgpack//lib/msgpack/factory.rb#113
   def dump(v, *rest); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def dup; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def freeze; end
 
   # source://msgpack//lib/msgpack/factory.rb#99
   def load(src, param = T.unsafe(nil)); end
 
-  # source://msgpack//lib/msgpack/factory.rb#113
+  # source://msgpack//lib/msgpack/factory.rb#118
   def pack(v, *rest); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def packer(*_arg0); end
 
   # source://msgpack//lib/msgpack/factory.rb#120
   def pool(size = T.unsafe(nil), **options); end
@@ -139,8 +234,19 @@ class MessagePack::Factory
   # source://msgpack//lib/msgpack/factory.rb#86
   def type_registered?(klass_or_type, selector = T.unsafe(nil)); end
 
-  # source://msgpack//lib/msgpack/factory.rb#99
+  # source://msgpack//lib/msgpack/factory.rb#111
   def unpack(src, param = T.unsafe(nil)); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def unpacker(*_arg0); end
+
+  private
+
+  # source://msgpack//lib/msgpack.rb#7
+  def register_type_internal(_arg0, _arg1, _arg2); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def registered_types_internal; end
 end
 
 # source://msgpack//lib/msgpack/factory.rb#128
@@ -178,18 +284,119 @@ class MessagePack::HeldBuffer < ::BasicObject; end
 
 # source://msgpack//lib/msgpack/packer.rb#2
 class MessagePack::Packer
+  # source://msgpack//lib/msgpack.rb#7
+  def initialize(*_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def buffer; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def clear; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def compatibility_mode?; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def empty?; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def flush; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def full_pack; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def pack(_arg0); end
+
   # @raise [ArgumentError]
   #
   # source://msgpack//lib/msgpack/packer.rb#9
   def register_type(type, klass, method_name = T.unsafe(nil), &block); end
 
+  # source://msgpack//lib/msgpack.rb#7
+  def register_type_internal(_arg0, _arg1, _arg2); end
+
   # source://msgpack//lib/msgpack/packer.rb#14
   def registered_types; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def reset; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def size; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def to_a; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def to_s; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def to_str; end
 
   # @return [Boolean]
   #
   # source://msgpack//lib/msgpack/packer.rb#24
   def type_registered?(klass_or_type); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write_array(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write_array_header(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write_bin(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write_bin_header(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write_ext(_arg0, _arg1); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write_extension(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write_false; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write_float(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write_float32(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write_hash(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write_int(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write_map_header(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write_nil; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write_string(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write_symbol(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write_to(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def write_true; end
+
+  private
+
+  # source://msgpack//lib/msgpack.rb#7
+  def registered_types_internal; end
 end
 
 # source://msgpack//lib/msgpack/time.rb#5
@@ -210,8 +417,8 @@ MessagePack::Time::Unpacker = T.let(T.unsafe(nil), Proc)
 #
 # source://msgpack//lib/msgpack/timestamp.rb#4
 class MessagePack::Timestamp
-  # @param sec [Integer]
   # @param nsec [Integer]
+  # @param sec [Integer]
   # @return [Timestamp] a new instance of Timestamp
   #
   # source://msgpack//lib/msgpack/timestamp.rb#24
@@ -260,16 +467,75 @@ end
 
 # source://msgpack//lib/msgpack/unpacker.rb#2
 class MessagePack::Unpacker
+  # source://msgpack//lib/msgpack.rb#7
+  def initialize(*_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def allow_unknown_ext?; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def buffer; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def each; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def feed(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def feed_each(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def feed_reference(_arg0); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def freeze?; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def full_unpack; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def read; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def read_array_header; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def read_map_header; end
+
   # source://msgpack//lib/msgpack/unpacker.rb#9
   def register_type(type, klass = T.unsafe(nil), method_name = T.unsafe(nil), &block); end
 
   # source://msgpack//lib/msgpack/unpacker.rb#18
   def registered_types; end
 
+  # source://msgpack//lib/msgpack.rb#7
+  def reset; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def skip; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def skip_nil; end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def symbolize_keys?; end
+
   # @return [Boolean]
   #
   # source://msgpack//lib/msgpack/unpacker.rb#28
   def type_registered?(klass_or_type); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def unpack; end
+
+  private
+
+  # source://msgpack//lib/msgpack.rb#7
+  def register_type_internal(_arg0, _arg1, _arg2); end
+
+  # source://msgpack//lib/msgpack.rb#7
+  def registered_types_internal; end
 end
 
 # source://msgpack//lib/msgpack/core_ext.rb#17
@@ -297,6 +563,9 @@ end
 class Symbol
   include ::Comparable
   include ::MessagePack::CoreExt
+
+  # source://msgpack//lib/msgpack/symbol.rb#7
+  def to_msgpack_ext; end
 
   private
 

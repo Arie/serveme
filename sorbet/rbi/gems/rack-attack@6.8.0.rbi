@@ -38,25 +38,25 @@ class Rack::Attack
 
   class << self
     # source://rack-attack//lib/rack/attack.rb#63
-    def blocklist(*args, **_arg1, &block); end
+    def blocklist(*_arg0, **_arg1, &_arg2); end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def blocklist_ip(*args, **_arg1, &block); end
+    def blocklist_ip(*_arg0, **_arg1, &_arg2); end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def blocklisted_responder(*args, **_arg1, &block); end
+    def blocklisted_responder(*_arg0, **_arg1, &_arg2); end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def blocklisted_responder=(*args, **_arg1, &block); end
+    def blocklisted_responder=(*_arg0, **_arg1, &_arg2); end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def blocklisted_response(*args, **_arg1, &block); end
+    def blocklisted_response(*_arg0, **_arg1, &_arg2); end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def blocklisted_response=(*args, **_arg1, &block); end
+    def blocklisted_response=(*_arg0, **_arg1, &_arg2); end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def blocklists(*args, **_arg1, &block); end
+    def blocklists(*_arg0, **_arg1, &_arg2); end
 
     # source://rack-attack//lib/rack/attack.rb#49
     def cache; end
@@ -65,7 +65,7 @@ class Rack::Attack
     def clear!; end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def clear_configuration(*args, **_arg1, &block); end
+    def clear_configuration(*_arg0, **_arg1, &_arg2); end
 
     # Returns the value of attribute configuration.
     #
@@ -103,16 +103,16 @@ class Rack::Attack
     def reset!; end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def safelist(*args, **_arg1, &block); end
+    def safelist(*_arg0, **_arg1, &_arg2); end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def safelist_ip(*args, **_arg1, &block); end
+    def safelist_ip(*_arg0, **_arg1, &_arg2); end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def safelists(*args, **_arg1, &block); end
+    def safelists(*_arg0, **_arg1, &_arg2); end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def throttle(*args, **_arg1, &block); end
+    def throttle(*_arg0, **_arg1, &_arg2); end
 
     # Returns the value of attribute throttle_discriminator_normalizer.
     #
@@ -127,31 +127,31 @@ class Rack::Attack
     def throttle_discriminator_normalizer=(_arg0); end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def throttled_responder(*args, **_arg1, &block); end
+    def throttled_responder(*_arg0, **_arg1, &_arg2); end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def throttled_responder=(*args, **_arg1, &block); end
+    def throttled_responder=(*_arg0, **_arg1, &_arg2); end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def throttled_response(*args, **_arg1, &block); end
+    def throttled_response(*_arg0, **_arg1, &_arg2); end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def throttled_response=(*args, **_arg1, &block); end
+    def throttled_response=(*_arg0, **_arg1, &_arg2); end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def throttled_response_retry_after_header(*args, **_arg1, &block); end
+    def throttled_response_retry_after_header(*_arg0, **_arg1, &_arg2); end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def throttled_response_retry_after_header=(*args, **_arg1, &block); end
+    def throttled_response_retry_after_header=(*_arg0, **_arg1, &_arg2); end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def throttles(*args, **_arg1, &block); end
+    def throttles(*_arg0, **_arg1, &_arg2); end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def track(*args, **_arg1, &block); end
+    def track(*_arg0, **_arg1, &_arg2); end
 
     # source://rack-attack//lib/rack/attack.rb#63
-    def tracks(*args, **_arg1, &block); end
+    def tracks(*_arg0, **_arg1, &_arg2); end
   end
 end
 

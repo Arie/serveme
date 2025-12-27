@@ -25,8 +25,8 @@ module MethodSource
     # the comments for a specified method. Defined here to avoid polluting
     # `Method` class.
     #
-    # @param source_location [Array] The array returned by Method#source_location
     # @param method_name [String]
+    # @param source_location [Array] The array returned by Method#source_location
     # @raise [SourceNotFoundError]
     # @return [String] The comments up to the point of the method.
     #
@@ -51,8 +51,8 @@ module MethodSource
     # Helper method responsible for extracting method body.
     # Defined here to avoid polluting `Method` class.
     #
-    # @param source_location [Array] The array returned by Method#source_location
     # @param method_name [String]
+    # @param source_location [Array] The array returned by Method#source_location
     # @return [String] The method body
     #
     # source://method_source//lib/method_source.rb#23
@@ -116,9 +116,9 @@ module MethodSource::CodeHelpers
 
   # Get the first expression from the input.
   #
-  # @param lines [Array<String>]
   # @param consume [Integer] A number of lines to automatically
   #   consume (add to the expression buffer) without checking for validity.
+  # @param lines [Array<String>]
   # @raise [SyntaxError]
   # @return [String] a valid ruby expression
   # @yield a clean-up function to run before checking for complete_expression
@@ -197,7 +197,7 @@ module MethodSource::MethodExtensions
   # @raise SourceNotFoundException
   # @return [String] The method's comments as a string
   #
-  # source://method_source//lib/method_source.rb#139
+  # source://method_source//lib/method_source.rb#159
   def module_comment; end
 
   # Return the sourcecode for the method as a string

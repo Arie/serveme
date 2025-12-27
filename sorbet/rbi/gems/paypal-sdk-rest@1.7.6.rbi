@@ -115,7 +115,7 @@ class PayPal::SDK::Core::API::Base
 
   # Returns the value of attribute http.
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/base.rb#45
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/base.rb#14
   def http; end
 
   # Sets the attribute http
@@ -146,7 +146,7 @@ class PayPal::SDK::Core::API::Base
   # * <tt>params</tt> -- (Optional) Parameters for the action
   # * <tt>initheader</tt> -- (Optional) HTTP header
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/base.rb#96
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/base.rb#100
   def request(action, params = T.unsafe(nil), header = T.unsafe(nil), query = T.unsafe(nil)); end
 
   # Get service end point
@@ -173,7 +173,7 @@ class PayPal::SDK::Core::API::Base
 
   # Returns the value of attribute uri.
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/base.rb#36
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/base.rb#14
   def uri; end
 
   # Sets the attribute uri
@@ -774,14 +774,14 @@ class PayPal::SDK::Core::Config
 
   # Returns the value of attribute endpoint.
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#71
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#81
   def end_point; end
 
   # Sets the attribute endpoint
   #
   # @param value the value to set the attribute endpoint to.
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#71
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#80
   def end_point=(_arg0); end
 
   # Returns the value of attribute endpoint.
@@ -825,14 +825,14 @@ class PayPal::SDK::Core::Config
 
   # Returns the value of attribute ipn_endpoint.
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#71
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#87
   def ipn_end_point; end
 
   # Sets the attribute ipn_endpoint
   #
   # @param value the value to set the attribute ipn_endpoint to.
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#71
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#86
   def ipn_end_point=(_arg0); end
 
   # Returns the value of attribute ipn_endpoint.
@@ -852,14 +852,14 @@ class PayPal::SDK::Core::Config
 
   # Returns the value of attribute merchant_endpoint.
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#71
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#85
   def merchant_end_point; end
 
   # Sets the attribute merchant_endpoint
   #
   # @param value the value to set the attribute merchant_endpoint to.
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#71
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#84
   def merchant_end_point=(_arg0); end
 
   # Returns the value of attribute merchant_endpoint.
@@ -953,14 +953,14 @@ class PayPal::SDK::Core::Config
 
   # Returns the value of attribute platform_endpoint.
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#71
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#83
   def platform_end_point; end
 
   # Sets the attribute platform_endpoint
   #
   # @param value the value to set the attribute platform_endpoint to.
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#71
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#82
   def platform_end_point=(_arg0); end
 
   # Returns the value of attribute platform_endpoint.
@@ -987,14 +987,14 @@ class PayPal::SDK::Core::Config
 
   # Returns the value of attribute rest_endpoint.
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#71
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#88
   def rest_end_point; end
 
   # Sets the attribute rest_endpoint
   #
   # @param value the value to set the attribute rest_endpoint to.
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#71
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#89
   def rest_end_point=(_arg0); end
 
   # Returns the value of attribute rest_endpoint.
@@ -1011,14 +1011,14 @@ class PayPal::SDK::Core::Config
 
   # Returns the value of attribute rest_token_endpoint.
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#71
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#90
   def rest_token_end_point; end
 
   # Sets the attribute rest_token_endpoint
   #
   # @param value the value to set the attribute rest_token_endpoint to.
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#71
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#91
   def rest_token_end_point=(_arg0); end
 
   # Returns the value of attribute rest_token_endpoint.
@@ -1182,7 +1182,7 @@ class PayPal::SDK::Core::Config
     # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#217
     def logger=(logger); end
 
-    # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#176
+    # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#185
     def set_config(options = T.unsafe(nil), &block); end
 
     private
@@ -1225,7 +1225,7 @@ module PayPal::SDK::Core::Configuration
   #   obj.set_config(:development)
   #   obj.set_config(:development, :http_timeout => 30)
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#33
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/config.rb#49
   def config=(env, override_configurations = T.unsafe(nil)); end
 
   # To change the configuration to given environment or configuration
@@ -1680,7 +1680,7 @@ module PayPal::SDK::Core::OpenIDConnect
     # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#27
     def authorize_url(params = T.unsafe(nil)); end
 
-    # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#18
+    # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#21
     def config=(*args); end
 
     # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#38
@@ -1726,34 +1726,34 @@ module PayPal::SDK::Core::OpenIDConnect::DataTypes; end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#9
 class PayPal::SDK::Core::OpenIDConnect::DataTypes::Address < ::PayPal::SDK::Core::OpenIDConnect::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#15
   def country(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#15
   def country=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#12
   def locality(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#12
   def locality=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#14
   def postal_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#14
   def postal_code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#13
   def region(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#13
   def region=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#11
   def street_address(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#11
   def street_address=(value); end
 
   class << self
@@ -1767,22 +1767,22 @@ class PayPal::SDK::Core::OpenIDConnect::DataTypes::Base < ::PayPal::SDK::Core::A
 
 # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#57
 class PayPal::SDK::Core::OpenIDConnect::DataTypes::Error < ::PayPal::SDK::Core::OpenIDConnect::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#59
   def error(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#59
   def error=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#60
   def error_description(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#60
   def error_description=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#61
   def error_uri(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#61
   def error_uri=(value); end
 
   class << self
@@ -1798,22 +1798,22 @@ class PayPal::SDK::Core::OpenIDConnect::DataTypes::Tokeninfo < ::PayPal::SDK::Co
   extend ::PayPal::SDK::Core::OpenIDConnect::GetAPI
   extend ::PayPal::SDK::Core::OpenIDConnect::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#49
   def access_token(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#49
   def access_token=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#53
   def expires_in(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#53
   def expires_in=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#52
   def id_token(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#52
   def id_token=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#115
@@ -1822,22 +1822,22 @@ class PayPal::SDK::Core::OpenIDConnect::DataTypes::Tokeninfo < ::PayPal::SDK::Co
   # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#105
   def refresh(options = T.unsafe(nil)); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#50
   def refresh_token(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#50
   def refresh_token=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#48
   def scope(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#48
   def scope=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#51
   def token_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#51
   def token_type=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#111
@@ -1850,10 +1850,10 @@ class PayPal::SDK::Core::OpenIDConnect::DataTypes::Tokeninfo < ::PayPal::SDK::Co
     # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#62
     def basic_auth_header(options); end
 
-    # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#68
+    # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#73
     def create(options, http_header = T.unsafe(nil)); end
 
-    # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#83
+    # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#90
     def create_fp(options, http_header = T.unsafe(nil)); end
 
     # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#68
@@ -1868,10 +1868,10 @@ class PayPal::SDK::Core::OpenIDConnect::DataTypes::Tokeninfo < ::PayPal::SDK::Co
     # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#47
     def load_members; end
 
-    # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#75
+    # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#81
     def refresh(options, http_header = T.unsafe(nil)); end
 
-    # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#83
+    # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#89
     def token_hash(options, http_header = T.unsafe(nil)); end
 
     # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#92
@@ -1892,140 +1892,140 @@ class PayPal::SDK::Core::OpenIDConnect::DataTypes::Userinfo < ::PayPal::SDK::Cor
   extend ::PayPal::SDK::Core::OpenIDConnect::GetAPI
   extend ::PayPal::SDK::Core::OpenIDConnect::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#40
   def account_creation_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#40
   def account_creation_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#39
   def account_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#39
   def account_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#37
   def address(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#37
   def address=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#41
   def age_range(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#41
   def age_range=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#31
   def birthday(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#31
   def birthday=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#28
   def email(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#28
   def email=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#29
   def email_verified(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#29
   def email_verified=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#25
   def family_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#25
   def family_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#30
   def gender(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#30
   def gender=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#24
   def given_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#24
   def given_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#34
   def language(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#34
   def language=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#33
   def locale(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#33
   def locale=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#26
   def middle_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#26
   def middle_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#23
   def name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#23
   def name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#42
   def payer_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#42
   def payer_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#36
   def phone_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#36
   def phone_number=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#27
   def picture(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#27
   def picture=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#22
   def sub(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#22
   def sub=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#21
   def user_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#21
   def user_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#35
   def verified(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#35
   def verified=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#38
   def verified_account(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#38
   def verified_account=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#32
   def zoneinfo(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/data_types.rb#32
   def zoneinfo=(value); end
 
   class << self
-    # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#126
+    # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#131
     def get(options = T.unsafe(nil), http_header = T.unsafe(nil)); end
 
     # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect.rb#126
@@ -2112,7 +2112,7 @@ module PayPal::SDK::Core::OpenIDConnect::SetAPI
   #   payment.set_config
   #   payment.api = API.new(:development)
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/set_api.rb#11
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/set_api.rb#22
   def api=(*args); end
 
   # Override client id
@@ -2132,7 +2132,7 @@ module PayPal::SDK::Core::OpenIDConnect::SetAPI
   #   payment.set_config
   #   payment.api = API.new(:development)
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/set_api.rb#11
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/set_api.rb#20
   def config=(*args); end
 
   # Set new api
@@ -2142,7 +2142,7 @@ module PayPal::SDK::Core::OpenIDConnect::SetAPI
   #   payment.set_config
   #   payment.api = API.new(:development)
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/set_api.rb#11
+  # source://paypal-sdk-rest//lib/paypal-sdk/core/openid_connect/set_api.rb#21
   def set_api(*args); end
 
   # Set new api
@@ -2384,10 +2384,10 @@ module PayPal::SDK::REST::DataTypes; end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#382
 class PayPal::SDK::REST::DataTypes::Address < ::PayPal::SDK::REST::DataTypes::BaseAddress
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#384
   def phone(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#384
   def phone=(value); end
 
   class << self
@@ -2403,10 +2403,10 @@ class PayPal::SDK::REST::DataTypes::Agreement < ::PayPal::SDK::REST::DataTypes::
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2242
   def agreement_details(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2242
   def agreement_details=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2311
@@ -2427,16 +2427,16 @@ class PayPal::SDK::REST::DataTypes::Agreement < ::PayPal::SDK::REST::DataTypes::
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def create!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2248
   def create_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2248
   def create_time=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2240
   def description(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2240
   def description=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2264
@@ -2448,46 +2448,46 @@ class PayPal::SDK::REST::DataTypes::Agreement < ::PayPal::SDK::REST::DataTypes::
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2338
   def get_token(links); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2237
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2237
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2250
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2250
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2239
   def name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2239
   def name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2246
   def override_charge_models(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2246
   def override_charge_models=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2245
   def override_merchant_preferences(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2245
   def override_merchant_preferences=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2243
   def payer(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2243
   def payer=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2247
   def plan(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2247
   def plan=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2295
@@ -2502,22 +2502,22 @@ class PayPal::SDK::REST::DataTypes::Agreement < ::PayPal::SDK::REST::DataTypes::
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def set_balance!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2244
   def shipping_address(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2244
   def shipping_address=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2241
   def start_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2241
   def start_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2238
   def state(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2238
   def state=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2287
@@ -2526,10 +2526,10 @@ class PayPal::SDK::REST::DataTypes::Agreement < ::PayPal::SDK::REST::DataTypes::
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def suspend!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2251
   def token(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2251
   def token=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2279
@@ -2538,10 +2538,10 @@ class PayPal::SDK::REST::DataTypes::Agreement < ::PayPal::SDK::REST::DataTypes::
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def update!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2249
   def update_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2249
   def update_time=(value); end
 
   class << self
@@ -2560,52 +2560,52 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2349
 class PayPal::SDK::REST::DataTypes::AgreementDetails < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2353
   def cycles_completed(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2353
   def cycles_completed=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2352
   def cycles_remaining(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2352
   def cycles_remaining=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2358
   def failed_payment_count(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2358
   def failed_payment_count=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2357
   def final_payment_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2357
   def final_payment_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2356
   def last_payment_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2356
   def last_payment_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2355
   def last_payment_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2355
   def last_payment_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2354
   def next_billing_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2354
   def next_billing_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2351
   def outstanding_balance(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2351
   def outstanding_balance=(value); end
 
   class << self
@@ -2616,16 +2616,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2369
 class PayPal::SDK::REST::DataTypes::AgreementStateDescriptor < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2372
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2372
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2371
   def note(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2371
   def note=(value); end
 
   class << self
@@ -2636,64 +2636,64 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2382
 class PayPal::SDK::REST::DataTypes::AgreementTransaction < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2387
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2387
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2388
   def fee_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2388
   def fee_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2389
   def net_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2389
   def net_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2390
   def payer_email(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2390
   def payer_email=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2391
   def payer_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2391
   def payer_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2385
   def status(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2385
   def status=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2393
   def time_stamp(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2393
   def time_stamp=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2392
   def time_zone(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2392
   def time_zone=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2384
   def transaction_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2384
   def transaction_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2386
   def transaction_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2386
   def transaction_type=(value); end
 
   class << self
@@ -2704,10 +2704,10 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2376
 class PayPal::SDK::REST::DataTypes::AgreementTransactions < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2378
   def agreement_transaction_list(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2378
   def agreement_transaction_list=(value); end
 
   class << self
@@ -2718,10 +2718,10 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#653
 class PayPal::SDK::REST::DataTypes::AllOf < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#655
   def related_resources(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#655
   def related_resources=(value); end
 
   class << self
@@ -2737,22 +2737,22 @@ class PayPal::SDK::REST::DataTypes::AlternatePayment < ::PayPal::SDK::REST::Data
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#162
   def alternate_payment_account_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#162
   def alternate_payment_account_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#164
   def alternate_payment_provider_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#164
   def alternate_payment_provider_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#163
   def external_customer_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#163
   def external_customer_id=(value); end
 
   class << self
@@ -2763,22 +2763,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#693
 class PayPal::SDK::REST::DataTypes::Amount < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#695
   def currency(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#695
   def currency=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#697
   def details(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#697
   def details=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#696
   def total(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#696
   def total=(value); end
 
   class << self
@@ -2789,10 +2789,10 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#843
 class PayPal::SDK::REST::DataTypes::AnyOf < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#845
   def refund(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#845
   def refund=(value); end
 
   class << self
@@ -2808,10 +2808,10 @@ class PayPal::SDK::REST::DataTypes::Authorization < ::PayPal::SDK::REST::DataTyp
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#852
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#852
   def amount=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#878
@@ -2820,58 +2820,58 @@ class PayPal::SDK::REST::DataTypes::Authorization < ::PayPal::SDK::REST::DataTyp
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def capture!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#861
   def create_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#861
   def create_time=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#858
   def fmf_details(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#858
   def fmf_details=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#851
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#851
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#865
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#865
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#859
   def parent_payment(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#859
   def parent_payment=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#853
   def payment_mode(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#853
   def payment_mode=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#856
   def protection_eligibility(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#856
   def protection_eligibility=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#857
   def protection_eligibility_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#857
   def protection_eligibility_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#855
   def reason_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#855
   def reason_code=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#892
@@ -2880,34 +2880,34 @@ class PayPal::SDK::REST::DataTypes::Authorization < ::PayPal::SDK::REST::DataTyp
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def reauthorize!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#864
   def receipt_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#864
   def receipt_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#863
   def reference_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#863
   def reference_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#854
   def state(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#854
   def state=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#862
   def update_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#862
   def update_time=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#860
   def valid_until(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#860
   def valid_until=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#885
@@ -2934,76 +2934,76 @@ class PayPal::SDK::REST::DataTypes::BankAccount < ::PayPal::SDK::REST::DataTypes
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#440
   def account_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#440
   def account_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#436
   def account_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#436
   def account_number=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#437
   def account_number_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#437
   def account_number_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#439
   def account_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#439
   def account_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#443
   def auth_capture_timestamp(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#443
   def auth_capture_timestamp=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#442
   def auth_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#442
   def auth_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#444
   def bank_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#444
   def bank_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#449
   def billing_address(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#449
   def billing_address=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#448
   def birth_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#448
   def birth_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#441
   def check_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#441
   def check_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#451
   def confirmation_status(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#451
   def confirmation_status=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#445
   def country_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#445
   def country_code=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#462
@@ -3012,10 +3012,10 @@ class PayPal::SDK::REST::DataTypes::BankAccount < ::PayPal::SDK::REST::DataTypes
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def create!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#455
   def create_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#455
   def create_time=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#477
@@ -3024,52 +3024,52 @@ class PayPal::SDK::REST::DataTypes::BankAccount < ::PayPal::SDK::REST::DataTypes
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def delete!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#453
   def external_customer_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#453
   def external_customer_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#446
   def first_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#446
   def first_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#435
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#435
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#447
   def last_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#447
   def last_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#454
   def merchant_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#454
   def merchant_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#452
   def payer_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#452
   def payer_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#438
   def routing_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#438
   def routing_number=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#450
   def state(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#450
   def state=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#484
@@ -3078,16 +3078,16 @@ class PayPal::SDK::REST::DataTypes::BankAccount < ::PayPal::SDK::REST::DataTypes
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def update!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#456
   def update_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#456
   def update_time=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#457
   def valid_until(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#457
   def valid_until=(value); end
 
   class << self
@@ -3103,22 +3103,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1169
 class PayPal::SDK::REST::DataTypes::BankAccountsList < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1171
   def bank_accounts(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1171
   def bank_accounts=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1172
   def count(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1172
   def count=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1173
   def next_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1173
   def next_id=(value); end
 
   class << self
@@ -3129,22 +3129,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#501
 class PayPal::SDK::REST::DataTypes::BankToken < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#503
   def bank_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#503
   def bank_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#504
   def external_customer_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#504
   def external_customer_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#505
   def mandate_reference_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#505
   def mandate_reference_number=(value); end
 
   class << self
@@ -3217,58 +3217,58 @@ class PayPal::SDK::REST::DataTypes::Base::Number < ::PayPal::SDK::Core::API::Dat
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#368
 class PayPal::SDK::REST::DataTypes::BaseAddress < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#372
   def city(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#372
   def city=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#373
   def country_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#373
   def country_code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#370
   def line1(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#370
   def line1=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#371
   def line2(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#371
   def line2=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#376
   def normalization_status(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#376
   def normalization_status=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#374
   def postal_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#374
   def postal_code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#375
   def state(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#375
   def state=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#377
   def status(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#377
   def status=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#378
   def type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#378
   def type=(value); end
 
   class << self
@@ -3284,16 +3284,16 @@ class PayPal::SDK::REST::DataTypes::Billing < ::PayPal::SDK::REST::DataTypes::Ba
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#172
   def billing_agreement_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#172
   def billing_agreement_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#173
   def selected_installment_option(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#173
   def selected_installment_option=(value); end
 
   class << self
@@ -3317,34 +3317,34 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1820
 class PayPal::SDK::REST::DataTypes::BillingInfo < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1828
   def additional_info(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1828
   def additional_info=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1840
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1826
   def address(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1832
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1826
   def address=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1825
   def business_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1825
   def business_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1822
   def email(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1822
   def email=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1823
   def first_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1823
   def first_name=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1852
@@ -3353,28 +3353,28 @@ class PayPal::SDK::REST::DataTypes::BillingInfo < ::PayPal::SDK::REST::DataTypes
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1847
   def invoice_address=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1827
   def language(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1827
   def language=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1824
   def last_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1824
   def last_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1829
   def notification_channel(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1829
   def notification_channel=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1830
   def phone(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1830
   def phone=(value); end
 
   class << self
@@ -3385,16 +3385,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2536
 class PayPal::SDK::REST::DataTypes::Buyer < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2538
   def email(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2538
   def email=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2539
   def name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2539
   def name=(value); end
 
   class << self
@@ -3405,28 +3405,28 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2066
 class PayPal::SDK::REST::DataTypes::CancelNotification < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2069
   def note(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2069
   def note=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2070
   def send_to_merchant(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2070
   def send_to_merchant=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2071
   def send_to_payer(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2071
   def send_to_payer=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2068
   def subject(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2068
   def subject=(value); end
 
   class << self
@@ -3442,52 +3442,52 @@ class PayPal::SDK::REST::DataTypes::Capture < ::PayPal::SDK::REST::DataTypes::Ba
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#957
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#957
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#964
   def create_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#964
   def create_time=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#956
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#956
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#962
   def invoice_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#962
   def invoice_number=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#958
   def is_final_capture(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#958
   def is_final_capture=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#966
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#966
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#961
   def parent_payment(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#961
   def parent_payment=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#960
   def reason_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#960
   def reason_code=(value); end
 
   # Deprecated - please use refund_request
@@ -3498,22 +3498,22 @@ class PayPal::SDK::REST::DataTypes::Capture < ::PayPal::SDK::REST::DataTypes::Ba
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#987
   def refund_request(refund_request); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#959
   def state(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#959
   def state=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#963
   def transaction_fee(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#963
   def transaction_fee=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#965
   def update_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#965
   def update_time=(value); end
 
   class << self
@@ -3529,16 +3529,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#537
 class PayPal::SDK::REST::DataTypes::CarrierAccountToken < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#539
   def carrier_account_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#539
   def carrier_account_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#540
   def external_customer_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#540
   def external_customer_id=(value); end
 
   class << self
@@ -3549,76 +3549,76 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#676
 class PayPal::SDK::REST::DataTypes::CartBase < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#678
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#678
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#682
   def custom(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#682
   def custom=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#680
   def description(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#680
   def description=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#683
   def invoice_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#683
   def invoice_number=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#686
   def item_list(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#686
   def item_list=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#681
   def note_to_payee(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#681
   def note_to_payee=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#687
   def notify_url(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#687
   def notify_url=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#688
   def order_url(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#688
   def order_url=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#679
   def payee(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#679
   def payee=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#685
   def payment_options(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#685
   def payment_options=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#689
   def reference_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#689
   def reference_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#684
   def soft_descriptor(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#684
   def soft_descriptor=(value); end
 
   class << self
@@ -3629,22 +3629,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2137
 class PayPal::SDK::REST::DataTypes::ChargeModels < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2141
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2141
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2139
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2139
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2140
   def type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2140
   def type=(value); end
 
   class << self
@@ -3655,16 +3655,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1970
 class PayPal::SDK::REST::DataTypes::Cost < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1973
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1973
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1972
   def percent(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1972
   def percent=(value); end
 
   class << self
@@ -3680,10 +3680,10 @@ class PayPal::SDK::REST::DataTypes::CountryCode < ::PayPal::SDK::REST::DataTypes
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#188
   def country_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#188
   def country_code=(value); end
 
   class << self
@@ -3694,16 +3694,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#509
 class PayPal::SDK::REST::DataTypes::Credit < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#511
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#511
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#512
   def type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#512
   def type=(value); end
 
   class << self
@@ -3719,10 +3719,10 @@ class PayPal::SDK::REST::DataTypes::CreditCard < ::PayPal::SDK::REST::DataTypes:
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#320
   def billing_address(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#320
   def billing_address=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#331
@@ -3731,16 +3731,16 @@ class PayPal::SDK::REST::DataTypes::CreditCard < ::PayPal::SDK::REST::DataTypes:
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def create!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#324
   def create_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#324
   def create_time=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#317
   def cvv2(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#317
   def cvv2=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#346
@@ -3749,64 +3749,64 @@ class PayPal::SDK::REST::DataTypes::CreditCard < ::PayPal::SDK::REST::DataTypes:
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def delete!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#315
   def expire_month(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#315
   def expire_month=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#316
   def expire_year(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#316
   def expire_year=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#321
   def external_customer_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#321
   def external_customer_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#318
   def first_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#318
   def first_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#312
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#312
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#319
   def last_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#319
   def last_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#326
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#326
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#313
   def number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#313
   def number=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#322
   def state(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#322
   def state=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#314
   def type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#314
   def type=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#353
@@ -3815,16 +3815,16 @@ class PayPal::SDK::REST::DataTypes::CreditCard < ::PayPal::SDK::REST::DataTypes:
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def update!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#325
   def update_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#325
   def update_time=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#323
   def valid_until(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#323
   def valid_until=(value); end
 
   class << self
@@ -3840,28 +3840,28 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1151
 class PayPal::SDK::REST::DataTypes::CreditCardList < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1153
   def items(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1153
   def items=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1156
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1156
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1154
   def total_items(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1154
   def total_items=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1155
   def total_pages(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1155
   def total_pages=(value); end
 
   class << self
@@ -3875,40 +3875,40 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#400
 class PayPal::SDK::REST::DataTypes::CreditCardToken < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#402
   def credit_card_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#402
   def credit_card_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#406
   def expire_month(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#406
   def expire_month=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#407
   def expire_year(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#407
   def expire_year=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#404
   def last4(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#404
   def last4=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#403
   def payer_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#403
   def payer_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#405
   def type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#405
   def type=(value); end
 
   class << self
@@ -3924,40 +3924,40 @@ class PayPal::SDK::REST::DataTypes::CreditFinancingOffered < ::PayPal::SDK::REST
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#201
   def cart_amount_immutable(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#201
   def cart_amount_immutable=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#198
   def monthly_payment(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#198
   def monthly_payment=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#200
   def payer_acceptance(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#200
   def payer_acceptance=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#197
   def term(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#197
   def term=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#196
   def total_cost(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#196
   def total_cost=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#199
   def total_interest(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#199
   def total_interest=(value); end
 
   class << self
@@ -3968,16 +3968,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#530
 class PayPal::SDK::REST::DataTypes::Currency < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#532
   def currency(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#532
   def currency=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#533
   def value(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#533
   def value=(value); end
 
   class << self
@@ -3988,52 +3988,52 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#580
 class PayPal::SDK::REST::DataTypes::CurrencyConversion < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#582
   def conversion_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#582
   def conversion_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#587
   def conversion_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#587
   def conversion_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#588
   def conversion_type_changeable(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#588
   def conversion_type_changeable=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#584
   def from_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#584
   def from_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#583
   def from_currency(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#583
   def from_currency=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#586
   def to_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#586
   def to_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#585
   def to_currency(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#585
   def to_currency=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#589
   def web_url(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#589
   def web_url=(value); end
 
   class << self
@@ -4044,16 +4044,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1993
 class PayPal::SDK::REST::DataTypes::CustomAmount < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1996
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1996
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1995
   def label(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1995
   def label=(value); end
 
   class << self
@@ -4064,40 +4064,40 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1036
 class PayPal::SDK::REST::DataTypes::DetailedRefund < ::PayPal::SDK::REST::DataTypes::Refund
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1038
   def custom(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1038
   def custom=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1043
   def refund_from_received_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1043
   def refund_from_received_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1042
   def refund_from_transaction_fee(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1042
   def refund_from_transaction_fee=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1041
   def refund_to_external_funding(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1041
   def refund_to_external_funding=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1040
   def refund_to_payer(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1040
   def refund_to_payer=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1044
   def total_refunded_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1044
   def total_refunded_amount=(value); end
 
   class << self
@@ -4108,52 +4108,52 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#701
 class PayPal::SDK::REST::DataTypes::Details < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#706
   def fee(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#706
   def fee=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#710
   def gift_wrap(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#710
   def gift_wrap=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#707
   def handling_fee(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#707
   def handling_fee=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#709
   def insurance(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#709
   def insurance=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#704
   def shipping(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#704
   def shipping=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#708
   def shipping_discount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#708
   def shipping_discount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#703
   def subtotal(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#703
   def subtotal=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#705
   def tax(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#705
   def tax=(value); end
 
   class << self
@@ -4164,100 +4164,100 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2500
 class PayPal::SDK::REST::DataTypes::Dispute < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2514
   def buyer_response_due_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2514
   def buyer_response_due_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2503
   def create_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2503
   def create_time=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2508
   def dispute_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2508
   def dispute_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2512
   def dispute_channel(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2512
   def dispute_channel=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2502
   def dispute_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2502
   def dispute_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2511
   def dispute_life_cycle_stage(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2511
   def dispute_life_cycle_stage=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2510
   def dispute_outcome(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2510
   def dispute_outcome=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2505
   def disputed_transactions(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2505
   def disputed_transactions=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2509
   def external_reason_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2509
   def external_reason_code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2517
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2517
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2513
   def messages(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2513
   def messages=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2516
   def offer(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2516
   def offer=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2506
   def reason(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2506
   def reason=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2515
   def seller_response_due_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2515
   def seller_response_due_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2507
   def status(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2507
   def status=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2504
   def update_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2504
   def update_time=(value); end
 
   class << self
@@ -4268,16 +4268,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2568
 class PayPal::SDK::REST::DataTypes::DisputeOutcome < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2571
   def amount_refunded(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2571
   def amount_refunded=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2570
   def outcome_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2570
   def outcome_code=(value); end
 
   class << self
@@ -4288,46 +4288,46 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1048
 class PayPal::SDK::REST::DataTypes::Error < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1053
   def code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1053
   def code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1051
   def debug_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1051
   def debug_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1055
   def details(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1055
   def details=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1054
   def information_link(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1054
   def information_link=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1056
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1056
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1052
   def message(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1052
   def message=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1050
   def name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1050
   def name=(value); end
 
   class << self
@@ -4338,22 +4338,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1060
 class PayPal::SDK::REST::DataTypes::ErrorDetails < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1064
   def code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1064
   def code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1062
   def field(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1062
   def field=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1063
   def issue(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1063
   def issue=(value); end
 
   class << self
@@ -4364,22 +4364,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1484
 class PayPal::SDK::REST::DataTypes::EventType < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1487
   def description(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1487
   def description=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1486
   def name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1486
   def name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1488
   def status(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1488
   def status=(value); end
 
   class << self
@@ -4390,10 +4390,10 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1472
 class PayPal::SDK::REST::DataTypes::EventTypeList < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1474
   def event_types(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1474
   def event_types=(value); end
 
   class << self
@@ -4404,10 +4404,10 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#495
 class PayPal::SDK::REST::DataTypes::ExtendedBankAccount < ::PayPal::SDK::REST::DataTypes::BankAccount
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#497
   def mandate_reference_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#497
   def mandate_reference_number=(value); end
 
   class << self
@@ -4423,40 +4423,40 @@ class PayPal::SDK::REST::DataTypes::ExternalFunding < ::PayPal::SDK::REST::DataT
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#213
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#213
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#210
   def code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#210
   def code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#212
   def display_text(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#212
   def display_text=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#211
   def funding_account_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#211
   def funding_account_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#214
   def funding_instruction(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#214
   def funding_instruction=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#209
   def reference_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#209
   def reference_id=(value); end
 
   class << self
@@ -4467,16 +4467,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1429
 class PayPal::SDK::REST::DataTypes::FileAttachment < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1432
   def name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1432
   def name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1433
   def url(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1433
   def url=(value); end
 
   class << self
@@ -4487,28 +4487,28 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2462
 class PayPal::SDK::REST::DataTypes::FlowConfig < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2465
   def bank_txn_pending_url(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2465
   def bank_txn_pending_url=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2464
   def landing_page_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2464
   def landing_page_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2467
   def return_uri_http_method(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2467
   def return_uri_http_method=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2466
   def user_action(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2466
   def user_action=(value); end
 
   class << self
@@ -4519,28 +4519,28 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1068
 class PayPal::SDK::REST::DataTypes::FmfDetails < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1073
   def description(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1073
   def description=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1071
   def filter_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1071
   def filter_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1070
   def filter_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1070
   def filter_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1072
   def name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1072
   def name=(value); end
 
   class << self
@@ -4551,28 +4551,28 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#571
 class PayPal::SDK::REST::DataTypes::FundingDetail < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#573
   def clearing_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#573
   def clearing_time=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#575
   def payment_debit_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#575
   def payment_debit_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#574
   def payment_hold_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#574
   def payment_hold_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#576
   def processing_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#576
   def processing_type=(value); end
 
   class << self
@@ -4583,16 +4583,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#303
 class PayPal::SDK::REST::DataTypes::FundingInstrument < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#305
   def credit_card(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#305
   def credit_card=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#306
   def credit_card_token(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#306
   def credit_card_token=(value); end
 
   class << self
@@ -4603,34 +4603,34 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#544
 class PayPal::SDK::REST::DataTypes::FundingOption < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#548
   def backup_funding_instrument(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#548
   def backup_funding_instrument=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#549
   def currency_conversion(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#549
   def currency_conversion=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#547
   def funding_sources(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#547
   def funding_sources=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#546
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#546
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#550
   def installment_info(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#550
   def installment_info=(value); end
 
   class << self
@@ -4641,70 +4641,70 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#554
 class PayPal::SDK::REST::DataTypes::FundingSource < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#564
   def additional_text(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#564
   def additional_text=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#559
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#559
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#565
   def extends(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#565
   def extends=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#563
   def funding_detail(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#563
   def funding_detail=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#557
   def funding_instrument_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#557
   def funding_instrument_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#556
   def funding_mode(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#556
   def funding_mode=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#561
   def legal_text(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#561
   def legal_text=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#567
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#567
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#560
   def negative_balance_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#560
   def negative_balance_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#558
   def soft_descriptor(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#558
   def soft_descriptor=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#562
   def terms(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#562
   def terms=(value); end
 
   class << self
@@ -4729,64 +4729,64 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2215
 class PayPal::SDK::REST::DataTypes::HyperSchema < ::PayPal::SDK::REST::DataTypes::Schema
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2220
   def contentEncoding(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2220
   def contentEncoding=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2220
   def content_encoding(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2220
   def content_encoding=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2218
   def fragmentResolution(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2218
   def fragmentResolution=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2218
   def fragment_resolution(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2218
   def fragment_resolution=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2217
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2217
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2222
   def mediaType(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2222
   def mediaType=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2222
   def media_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2222
   def media_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2221
   def pathStart(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2221
   def pathStart=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2221
   def path_start(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2221
   def path_start=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2219
   def readonly(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2219
   def readonly=(value); end
 
   class << self
@@ -4797,58 +4797,58 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#516
 class PayPal::SDK::REST::DataTypes::Incentive < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#519
   def code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#519
   def code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#521
   def description(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#521
   def description=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#524
   def expiry_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#524
   def expiry_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#518
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#518
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#523
   def logo_image_url(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#523
   def logo_image_url=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#522
   def minimum_purchase_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#522
   def minimum_purchase_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#520
   def name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#520
   def name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#526
   def terms(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#526
   def terms=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#525
   def type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#525
   def type=(value); end
 
   class << self
@@ -4859,22 +4859,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2471
 class PayPal::SDK::REST::DataTypes::InputFields < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2475
   def address_override(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2475
   def address_override=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2473
   def allow_note(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2473
   def allow_note=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2474
   def no_shipping(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2474
   def no_shipping=(value); end
 
   class << self
@@ -4885,28 +4885,28 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#593
 class PayPal::SDK::REST::DataTypes::InstallmentInfo < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#595
   def installment_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#595
   def installment_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#598
   def installment_options(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#598
   def installment_options=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#597
   def issuer(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#597
   def issuer=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#596
   def network(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#596
   def network=(value); end
 
   class << self
@@ -4917,28 +4917,28 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#602
 class PayPal::SDK::REST::DataTypes::InstallmentOption < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#606
   def discount_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#606
   def discount_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#607
   def discount_percentage(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#607
   def discount_percentage=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#605
   def monthly_payment(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#605
   def monthly_payment=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#604
   def term(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#604
   def term=(value); end
 
   class << self
@@ -4954,28 +4954,28 @@ class PayPal::SDK::REST::DataTypes::Invoice < ::PayPal::SDK::REST::DataTypes::Ba
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1213
   def additional_data(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1213
   def additional_data=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1201
   def allow_partial_payment(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1201
   def allow_partial_payment=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1217
   def attachments(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1217
   def attachments=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1191
   def billing_info(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1191
   def billing_info=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1245
@@ -4984,10 +4984,10 @@ class PayPal::SDK::REST::DataTypes::Invoice < ::PayPal::SDK::REST::DataTypes::Ba
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def cancel!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1192
   def cc_info(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1192
   def cc_info=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1223
@@ -4996,10 +4996,10 @@ class PayPal::SDK::REST::DataTypes::Invoice < ::PayPal::SDK::REST::DataTypes::Ba
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def create!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1200
   def custom(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1200
   def custom=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1276
@@ -5008,100 +5008,100 @@ class PayPal::SDK::REST::DataTypes::Invoice < ::PayPal::SDK::REST::DataTypes::Ba
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def delete!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1198
   def discount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1198
   def discount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1214
   def gratuity(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1214
   def gratuity=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1185
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1185
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1195
   def invoice_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1195
   def invoice_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1194
   def items(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1194
   def items=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1218
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1218
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1208
   def logo_url(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1208
   def logo_url=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1190
   def merchant_info(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1190
   def merchant_info=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1207
   def merchant_memo(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1207
   def merchant_memo=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1212
   def metadata(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1212
   def metadata=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1202
   def minimum_amount_due(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1202
   def minimum_amount_due=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1206
   def note(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1206
   def note=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1186
   def number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1186
   def number=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1215
   def paid_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1215
   def paid_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1196
   def payment_term(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1196
   def payment_term=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1210
   def payments(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1210
   def payments=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1253
@@ -5116,22 +5116,22 @@ class PayPal::SDK::REST::DataTypes::Invoice < ::PayPal::SDK::REST::DataTypes::Ba
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def record_refund!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1197
   def reference(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1197
   def reference=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1216
   def refunded_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1216
   def refunded_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1211
   def refunds(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1211
   def refunds=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1237
@@ -5146,52 +5146,52 @@ class PayPal::SDK::REST::DataTypes::Invoice < ::PayPal::SDK::REST::DataTypes::Ba
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def send_invoice!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1199
   def shipping_cost(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1199
   def shipping_cost=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1193
   def shipping_info(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1193
   def shipping_info=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1189
   def status(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1189
   def status=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1203
   def tax_calculated_after_discount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1203
   def tax_calculated_after_discount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1204
   def tax_inclusive(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1204
   def tax_inclusive=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1187
   def template_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1187
   def template_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1205
   def terms(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1205
   def terms=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1209
   def total_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1209
   def total_amount=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1269
@@ -5200,10 +5200,10 @@ class PayPal::SDK::REST::DataTypes::Invoice < ::PayPal::SDK::REST::DataTypes::Ba
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def update!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1188
   def uri(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1188
   def uri=(value); end
 
   class << self
@@ -5228,10 +5228,10 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#388
 class PayPal::SDK::REST::DataTypes::InvoiceAddress < ::PayPal::SDK::REST::DataTypes::BaseAddress
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#390
   def phone(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#390
   def phone=(value); end
 
   class << self
@@ -5242,10 +5242,10 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1177
 class PayPal::SDK::REST::DataTypes::InvoiceAmountWrapper < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1179
   def paypal(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1179
   def paypal=(value); end
 
   class << self
@@ -5256,58 +5256,58 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1790
 class PayPal::SDK::REST::DataTypes::InvoiceItem < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1797
   def date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1797
   def date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1793
   def description(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1793
   def description=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1798
   def discount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1798
   def discount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1799
   def image_url(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1799
   def image_url=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1792
   def name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1792
   def name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1794
   def quantity(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1794
   def quantity=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1796
   def tax(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1796
   def tax=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1800
   def unit_of_measure(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1800
   def unit_of_measure=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1795
   def unit_price(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1795
   def unit_price=(value); end
 
   class << self
@@ -5318,16 +5318,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1783
 class PayPal::SDK::REST::DataTypes::Invoices < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1786
   def invoices(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1786
   def invoices=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1785
   def total_count(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1785
   def total_count=(value); end
 
   class << self
@@ -5338,58 +5338,58 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1905
 class PayPal::SDK::REST::DataTypes::InvoicingMetaData < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1910
   def cancelled_by(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1910
   def cancelled_by=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1909
   def cancelled_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1909
   def cancelled_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1908
   def created_by(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1908
   def created_by=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1907
   def created_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1907
   def created_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1913
   def first_sent_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1913
   def first_sent_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1915
   def last_sent_by(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1915
   def last_sent_by=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1914
   def last_sent_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1914
   def last_sent_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1912
   def last_updated_by(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1912
   def last_updated_by=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1911
   def last_updated_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1911
   def last_updated_date=(value); end
 
   class << self
@@ -5400,28 +5400,28 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1896
 class PayPal::SDK::REST::DataTypes::InvoicingNotification < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1901
   def cc_emails(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1901
   def cc_emails=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1899
   def note(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1899
   def note=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1900
   def send_to_merchant(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1900
   def send_to_merchant=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1898
   def subject(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1898
   def subject=(value); end
 
   class << self
@@ -5432,40 +5432,40 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1919
 class PayPal::SDK::REST::DataTypes::InvoicingPaymentDetail < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1924
   def date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1924
   def date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1925
   def method(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1925
   def method=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1926
   def note(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1926
   def note=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1922
   def transaction_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1922
   def transaction_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1923
   def transaction_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1923
   def transaction_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1921
   def type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1921
   def type=(value); end
 
   class << self
@@ -5476,22 +5476,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1930
 class PayPal::SDK::REST::DataTypes::InvoicingRefundDetail < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1933
   def date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1933
   def date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1934
   def note(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1934
   def note=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1932
   def type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1932
   def type=(value); end
 
   class << self
@@ -5502,124 +5502,124 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1938
 class PayPal::SDK::REST::DataTypes::InvoicingSearch < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1959
   def archived(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1959
   def archived=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1940
   def email(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1940
   def email=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1955
   def end_creation_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1955
   def end_creation_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1951
   def end_due_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1951
   def end_due_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1949
   def end_invoice_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1949
   def end_invoice_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1953
   def end_payment_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1953
   def end_payment_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1946
   def lower_total_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1946
   def lower_total_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1944
   def number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1944
   def number=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1956
   def page(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1956
   def page=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1957
   def page_size(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1957
   def page_size=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1943
   def recipient_business_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1943
   def recipient_business_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1941
   def recipient_first_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1941
   def recipient_first_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1942
   def recipient_last_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1942
   def recipient_last_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1954
   def start_creation_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1954
   def start_creation_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1950
   def start_due_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1950
   def start_due_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1948
   def start_invoice_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1948
   def start_invoice_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1952
   def start_payment_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1952
   def start_payment_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1945
   def status(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1945
   def status=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1958
   def total_count_required(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1958
   def total_count_required=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1947
   def upper_total_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1947
   def upper_total_amount=(value); end
 
   class << self
@@ -5630,94 +5630,94 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#736
 class PayPal::SDK::REST::DataTypes::Item < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#746
   def category(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#746
   def category=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#743
   def currency(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#743
   def currency=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#740
   def description(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#740
   def description=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#749
   def height(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#749
   def height=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#748
   def length(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#748
   def length=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#739
   def name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#739
   def name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#752
   def postback_data(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#752
   def postback_data=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#742
   def price(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#742
   def price=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#741
   def quantity(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#741
   def quantity=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#738
   def sku(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#738
   def sku=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#751
   def supplementary_data(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#751
   def supplementary_data=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#744
   def tax(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#744
   def tax=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#745
   def url(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#745
   def url=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#747
   def weight(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#747
   def weight=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#750
   def width(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#750
   def width=(value); end
 
   class << self
@@ -5728,34 +5728,34 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2551
 class PayPal::SDK::REST::DataTypes::ItemInfo < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2556
   def dispute_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2556
   def dispute_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2553
   def item_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2553
   def item_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2557
   def notes(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2557
   def notes=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2554
   def partner_transaction_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2554
   def partner_transaction_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2555
   def reason(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2555
   def reason=(value); end
 
   class << self
@@ -5766,28 +5766,28 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#770
 class PayPal::SDK::REST::DataTypes::ItemList < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#772
   def items(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#772
   def items=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#773
   def shipping_address(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#773
   def shipping_address=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#774
   def shipping_method(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#774
   def shipping_method=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#775
   def shipping_phone_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#775
   def shipping_phone_number=(value); end
 
   class << self
@@ -5798,52 +5798,52 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2171
 class PayPal::SDK::REST::DataTypes::Links < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2177
   def encType(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2177
   def encType=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2177
   def enc_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2177
   def enc_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2173
   def href(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2173
   def href=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2176
   def method(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2176
   def method=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2174
   def rel(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2174
   def rel=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2178
   def schema(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2178
   def schema=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2175
   def targetSchema(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2175
   def targetSchema=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2175
   def target_schema(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2175
   def target_schema=(value); end
 
   class << self
@@ -5854,16 +5854,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#756
 class PayPal::SDK::REST::DataTypes::Measurement < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#759
   def unit(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#759
   def unit=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#758
   def value(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#758
   def value=(value); end
 
   class << self
@@ -5874,70 +5874,70 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1804
 class PayPal::SDK::REST::DataTypes::MerchantInfo < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1816
   def additional_info(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1816
   def additional_info=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1815
   def additional_info_label(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1815
   def additional_info_label=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1809
   def address(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1809
   def address=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1810
   def business_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1810
   def business_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1806
   def email(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1806
   def email=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1812
   def fax(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1812
   def fax=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1807
   def first_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1807
   def first_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1808
   def last_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1808
   def last_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1811
   def phone(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1811
   def phone=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1814
   def tax_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1814
   def tax_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1813
   def website(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1813
   def website=(value); end
 
   class << self
@@ -5948,64 +5948,64 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2156
 class PayPal::SDK::REST::DataTypes::MerchantPreferences < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2166
   def accepted_payment_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2166
   def accepted_payment_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2164
   def auto_bill_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2164
   def auto_bill_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2160
   def cancel_url(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2160
   def cancel_url=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2167
   def char_set(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2167
   def char_set=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2158
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2158
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2165
   def initial_fail_amount_action(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2165
   def initial_fail_amount_action=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2163
   def max_fail_attempts(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2163
   def max_fail_attempts=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2162
   def notify_url(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2162
   def notify_url=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2161
   def return_url(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2161
   def return_url=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2159
   def setup_fee(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2159
   def setup_fee=(value); end
 
   class << self
@@ -6016,22 +6016,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2575
 class PayPal::SDK::REST::DataTypes::Messages < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2579
   def content(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2579
   def content=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2577
   def posted_by(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2577
   def posted_by=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2578
   def time_posted(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2578
   def time_posted=(value); end
 
   class << self
@@ -6042,64 +6042,64 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2019
 class PayPal::SDK::REST::DataTypes::Metadata < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2024
   def cancelled_by(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2024
   def cancelled_by=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2023
   def cancelled_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2023
   def cancelled_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2022
   def created_by(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2022
   def created_by=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2021
   def created_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2021
   def created_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2027
   def first_sent_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2027
   def first_sent_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2029
   def last_sent_by(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2029
   def last_sent_by=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2028
   def last_sent_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2028
   def last_sent_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2026
   def last_updated_by(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2026
   def last_updated_by=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2025
   def last_updated_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2025
   def last_updated_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2030
   def payer_view_url(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2030
   def payer_view_url=(value); end
 
   class << self
@@ -6110,16 +6110,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2561
 class PayPal::SDK::REST::DataTypes::Money < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2563
   def currency_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2563
   def currency_code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2564
   def value(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2564
   def value=(value); end
 
   class << self
@@ -6130,16 +6130,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#763
 class PayPal::SDK::REST::DataTypes::NameValuePair < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#765
   def name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#765
   def name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#766
   def value(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#766
   def value=(value); end
 
   class << self
@@ -6150,22 +6150,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2034
 class PayPal::SDK::REST::DataTypes::Notification < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2037
   def note(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2037
   def note=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2038
   def send_to_merchant(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2038
   def send_to_merchant=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2036
   def subject(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2036
   def subject=(value); end
 
   class << self
@@ -6176,22 +6176,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2583
 class PayPal::SDK::REST::DataTypes::Offer < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2585
   def buyer_requested_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2585
   def buyer_requested_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2587
   def offer_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2587
   def offer_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2586
   def seller_offered_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2586
   def seller_offered_amount=(value); end
 
   class << self
@@ -6202,10 +6202,10 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#394
 class PayPal::SDK::REST::DataTypes::OneOf < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#396
   def phone(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#396
   def phone=(value); end
 
   class << self
@@ -6221,10 +6221,10 @@ class PayPal::SDK::REST::DataTypes::Order < ::PayPal::SDK::REST::DataTypes::Base
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#907
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#907
   def amount=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#945
@@ -6239,88 +6239,88 @@ class PayPal::SDK::REST::DataTypes::Order < ::PayPal::SDK::REST::DataTypes::Base
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def capture!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#916
   def create_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#916
   def create_time=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#915
   def fmf_details(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#915
   def fmf_details=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#904
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#904
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#918
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#918
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#914
   def parent_payment(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#914
   def parent_payment=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#908
   def payment_mode(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#908
   def payment_mode=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#911
   def pending_reason(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#911
   def pending_reason=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#912
   def protection_eligibility(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#912
   def protection_eligibility=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#913
   def protection_eligibility_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#913
   def protection_eligibility_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#905
   def purchase_unit_reference_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#905
   def purchase_unit_reference_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#910
   def reason_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#910
   def reason_code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#906
   def reference_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#906
   def reference_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#909
   def state(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#909
   def state=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#917
   def update_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#917
   def update_time=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#938
@@ -6342,16 +6342,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2362
 class PayPal::SDK::REST::DataTypes::OverrideChargeModel < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2365
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2365
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2364
   def charge_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2364
   def charge_id=(value); end
 
   class << self
@@ -6362,58 +6362,58 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1321
 class PayPal::SDK::REST::DataTypes::Participant < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1330
   def additional_info(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1330
   def additional_info=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1331
   def address(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1331
   def address=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1326
   def business_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1326
   def business_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1323
   def email(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1323
   def email=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1328
   def fax(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1328
   def fax=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1324
   def first_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1324
   def first_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1325
   def last_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1325
   def last_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1327
   def phone(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1327
   def phone=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1329
   def website(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1329
   def website=(value); end
 
   class << self
@@ -6424,28 +6424,28 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1117
 class PayPal::SDK::REST::DataTypes::Patch < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1122
   def from(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1122
   def from=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1119
   def op(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1119
   def op=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1120
   def path(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1120
   def path=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1121
   def value(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1121
   def value=(value); end
 
   class << self
@@ -6456,28 +6456,28 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1126
 class PayPal::SDK::REST::DataTypes::PatchRequest < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1131
   def from(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1131
   def from=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1128
   def op(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1128
   def op=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1129
   def path(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1129
   def path=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1130
   def value(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1130
   def value=(value); end
 
   class << self
@@ -6488,22 +6488,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#714
 class PayPal::SDK::REST::DataTypes::Payee < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#716
   def email(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#716
   def email=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#717
   def merchant_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#717
   def merchant_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#718
   def phone(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#718
   def phone=(value); end
 
   class << self
@@ -6514,70 +6514,70 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#287
 class PayPal::SDK::REST::DataTypes::Payer < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#292
   def account_age(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#292
   def account_age=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#291
   def account_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#291
   def account_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#299
   def billing(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#299
   def billing=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#296
   def external_selected_funding_instrument_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#296
   def external_selected_funding_instrument_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#293
   def funding_instruments(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#293
   def funding_instruments=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#295
   def funding_option(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#295
   def funding_option=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#294
   def funding_option_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#294
   def funding_option_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#298
   def payer_info(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#298
   def payer_info=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#289
   def payment_method(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#289
   def payment_method=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#297
   def related_funding_option(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#297
   def related_funding_option=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#290
   def status(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#290
   def status=(value); end
 
   class << self
@@ -6588,106 +6588,106 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#616
 class PayPal::SDK::REST::DataTypes::PayerInfo < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#633
   def billing_address(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#633
   def billing_address=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#629
   def birth_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#629
   def birth_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#620
   def buyer_account_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#620
   def buyer_account_number=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#632
   def country_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#632
   def country_code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#618
   def email(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#618
   def email=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#619
   def external_remember_me_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#619
   def external_remember_me_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#622
   def first_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#622
   def first_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#624
   def last_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#624
   def last_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#623
   def middle_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#623
   def middle_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#626
   def payer_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#626
   def payer_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#627
   def phone(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#627
   def phone=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#628
   def phone_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#628
   def phone_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#621
   def salutation(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#621
   def salutation=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#634
   def shipping_address(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#634
   def shipping_address=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#625
   def suffix(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#625
   def suffix=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#630
   def tax_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#630
   def tax_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#631
   def tax_id_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#631
   def tax_id_type=(value); end
 
   class << self
@@ -6706,16 +6706,16 @@ class PayPal::SDK::REST::DataTypes::Payment < ::PayPal::SDK::REST::DataTypes::Ba
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#111
   def approval_url(immediate = T.unsafe(nil)); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#74
   def billing_agreement_tokens(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#74
   def billing_agreement_tokens=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#61
   def cart(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#61
   def cart=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#82
@@ -6724,16 +6724,16 @@ class PayPal::SDK::REST::DataTypes::Payment < ::PayPal::SDK::REST::DataTypes::Ba
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def create!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#70
   def create_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#70
   def create_time=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#76
   def credit_financing_offered(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#76
   def credit_financing_offered=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#101
@@ -6742,91 +6742,91 @@ class PayPal::SDK::REST::DataTypes::Payment < ::PayPal::SDK::REST::DataTypes::Ba
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def execute!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#66
   def experience_profile_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#66
   def experience_profile_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#63
   def failed_transactions(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#63
   def failed_transactions=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#69
   def failure_reason(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#69
   def failure_reason=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#57
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#57
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#58
   def intent(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#58
   def intent=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#72
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#72
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#67
   def note_to_payer(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#67
   def note_to_payer=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#60
   def payee(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#60
   def payee=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#59
   def payer(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#59
   def payer=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#64
   def payment_instruction(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#64
   def payment_instruction=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#75
   def potential_payer_info(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#75
   def potential_payer_info=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#68
   def redirect_urls(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#68
   def redirect_urls=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#65
   def state(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#65
   def state=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#117
   def token; end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#62
   def transactions(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#62
   def transactions=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#89
@@ -6835,10 +6835,10 @@ class PayPal::SDK::REST::DataTypes::Payment < ::PayPal::SDK::REST::DataTypes::Ba
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def update!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#71
   def update_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#71
   def update_time=(value); end
 
   class << self
@@ -6857,106 +6857,106 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#411
 class PayPal::SDK::REST::DataTypes::PaymentCard < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#424
   def billing_address(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#424
   def billing_address=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#423
   def billing_country(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#423
   def billing_country=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#427
   def card_product_class(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#427
   def card_product_class=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#420
   def cvv2(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#420
   def cvv2=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#416
   def expire_month(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#416
   def expire_month=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#417
   def expire_year(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#417
   def expire_year=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#425
   def external_customer_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#425
   def external_customer_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#421
   def first_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#421
   def first_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#413
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#413
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#429
   def issue_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#429
   def issue_number=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#422
   def last_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#422
   def last_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#414
   def number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#414
   def number=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#418
   def start_month(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#418
   def start_month=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#419
   def start_year(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#419
   def start_year=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#426
   def status(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#426
   def status=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#415
   def type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#415
   def type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#428
   def valid_until(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#428
   def valid_until=(value); end
 
   class << self
@@ -6967,52 +6967,52 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2124
 class PayPal::SDK::REST::DataTypes::PaymentDefinition < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2132
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2132
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2133
   def charge_models(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2133
   def charge_models=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2131
   def cycles(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2131
   def cycles=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2130
   def frequency(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2130
   def frequency=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2129
   def frequency_interval(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2129
   def frequency_interval=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2126
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2126
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2127
   def name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2127
   def name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2128
   def type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2128
   def type=(value); end
 
   class << self
@@ -7023,40 +7023,40 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2000
 class PayPal::SDK::REST::DataTypes::PaymentDetail < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2005
   def date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2005
   def date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2006
   def method(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2006
   def method=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2007
   def note(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2007
   def note=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2003
   def transaction_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2003
   def transaction_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2004
   def transaction_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2004
   def transaction_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2002
   def type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2002
   def type=(value); end
 
   class << self
@@ -7067,22 +7067,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1135
 class PayPal::SDK::REST::DataTypes::PaymentExecution < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1138
   def carrier_account_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1138
   def carrier_account_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1137
   def payer_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1137
   def payer_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1139
   def transactions(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1139
   def transactions=(value); end
 
   class << self
@@ -7093,22 +7093,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1143
 class PayPal::SDK::REST::DataTypes::PaymentHistory < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1146
   def count(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1146
   def count=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1147
   def next_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1147
   def next_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1145
   def payments(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1145
   def payments=(value); end
 
   class << self
@@ -7124,46 +7124,46 @@ class PayPal::SDK::REST::DataTypes::PaymentInstruction < ::PayPal::SDK::REST::Da
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1082
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1082
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1080
   def instruction_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1080
   def instruction_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1085
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1085
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1084
   def note(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1084
   def note=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1083
   def payment_due_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1083
   def payment_due_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1081
   def recipient_banking_instruction(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1081
   def recipient_banking_instruction=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1079
   def reference_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1079
   def reference_number=(value); end
 
   class << self
@@ -7179,10 +7179,10 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#730
 class PayPal::SDK::REST::DataTypes::PaymentOptions < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#732
   def allowed_payment_method(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#732
   def allowed_payment_method=(value); end
 
   class << self
@@ -7193,16 +7193,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1423
 class PayPal::SDK::REST::DataTypes::PaymentSummary < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1426
   def other(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1426
   def other=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1425
   def paypal(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1425
   def paypal=(value); end
 
   class << self
@@ -7213,16 +7213,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1963
 class PayPal::SDK::REST::DataTypes::PaymentTerm < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1966
   def due_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1966
   def due_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1965
   def term_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1965
   def term_type=(value); end
 
   class << self
@@ -7241,16 +7241,16 @@ class PayPal::SDK::REST::DataTypes::Payout < ::PayPal::SDK::REST::DataTypes::Bas
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1693
   def create(sync_mode = T.unsafe(nil)); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1688
   def items(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1688
   def items=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1687
   def sender_batch_header(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1687
   def sender_batch_header=(value); end
 
   class << self
@@ -7266,22 +7266,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1751
 class PayPal::SDK::REST::DataTypes::PayoutBatch < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1754
   def batch_header(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1754
   def batch_header=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1755
   def items(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1755
   def items=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1756
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1756
   def links=(value); end
 
   class << self
@@ -7292,52 +7292,52 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1760
 class PayPal::SDK::REST::DataTypes::PayoutBatchHeader < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1768
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1768
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1764
   def batch_status(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1764
   def batch_status=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1770
   def errors(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1770
   def errors=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1769
   def fees(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1769
   def fees=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1763
   def payout_batch_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1763
   def payout_batch_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1767
   def sender_batch_header(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1767
   def sender_batch_header=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1766
   def time_completed(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1766
   def time_completed=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1765
   def time_created(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1765
   def time_created=(value); end
 
   class << self
@@ -7353,40 +7353,40 @@ class PayPal::SDK::REST::DataTypes::PayoutItem < ::PayPal::SDK::REST::DataTypes:
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1712
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1712
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1713
   def note(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1713
   def note=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1714
   def receiver(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1714
   def receiver=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1711
   def recipient_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1711
   def recipient_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1716
   def recipient_wallet(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1716
   def recipient_wallet=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1715
   def sender_item_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1715
   def sender_item_id=(value); end
 
   class << self
@@ -7407,64 +7407,64 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1735
 class PayPal::SDK::REST::DataTypes::PayoutItemDetails < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1746
   def errors(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1746
   def errors=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1747
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1747
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1742
   def payout_batch_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1742
   def payout_batch_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1744
   def payout_item(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1744
   def payout_item=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1741
   def payout_item_fee(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1741
   def payout_item_fee=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1738
   def payout_item_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1738
   def payout_item_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1743
   def sender_batch_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1743
   def sender_batch_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1745
   def time_processed(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1745
   def time_processed=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1739
   def transaction_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1739
   def transaction_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1740
   def transaction_status(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1740
   def transaction_status=(value); end
 
   class << self
@@ -7475,22 +7475,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1774
 class PayPal::SDK::REST::DataTypes::PayoutSenderBatchHeader < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1778
   def email_subject(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1778
   def email_subject=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1779
   def recipient_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1779
   def recipient_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1777
   def sender_batch_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1777
   def sender_batch_id=(value); end
 
   class << self
@@ -7509,22 +7509,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#722
 class PayPal::SDK::REST::DataTypes::Phone < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#724
   def country_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#724
   def country_code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#726
   def extension(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#726
   def extension=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#725
   def national_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#725
   def national_number=(value); end
 
   class << self
@@ -7546,64 +7546,64 @@ class PayPal::SDK::REST::DataTypes::Plan < ::PayPal::SDK::REST::DataTypes::Base
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def create!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2082
   def create_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2082
   def create_time=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2079
   def description(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2079
   def description=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2077
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2077
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2087
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2087
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2086
   def merchant_preferences(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2086
   def merchant_preferences=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2078
   def name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2078
   def name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2084
   def payment_definitions(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2084
   def payment_definitions=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2081
   def state(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2081
   def state=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2085
   def terms(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2085
   def terms=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2080
   def type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2080
   def type=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2099
@@ -7612,10 +7612,10 @@ class PayPal::SDK::REST::DataTypes::Plan < ::PayPal::SDK::REST::DataTypes::Base
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def update!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2083
   def update_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2083
   def update_time=(value); end
 
   class << self
@@ -7634,28 +7634,28 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2226
 class PayPal::SDK::REST::DataTypes::PlanList < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2231
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2231
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2228
   def plans(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2228
   def plans=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2229
   def total_items(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2229
   def total_items=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2230
   def total_pages(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2230
   def total_pages=(value); end
 
   class << self
@@ -7671,60 +7671,60 @@ class PayPal::SDK::REST::DataTypes::PotentialPayerInfo < ::PayPal::SDK::REST::Da
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#224
   def billing_address(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#224
   def billing_address=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#222
   def email(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#222
   def email=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#223
   def external_remember_me_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#223
   def external_remember_me_id=(value); end
 
   class << self
-    # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#221
+    # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#138
     def load_members; end
   end
 end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2479
 class PayPal::SDK::REST::DataTypes::Presentation < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2481
   def brand_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2481
   def brand_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2483
   def locale_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2483
   def locale_code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2482
   def logo_image(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2482
   def logo_image=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2485
   def note_to_seller_label(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2485
   def note_to_seller_label=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2484
   def return_url_label(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2484
   def return_url_label=(value); end
 
   class << self
@@ -7740,34 +7740,34 @@ class PayPal::SDK::REST::DataTypes::PrivateLabelCard < ::PayPal::SDK::REST::Data
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#233
   def card_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#233
   def card_number=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#232
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#232
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#236
   def image_key(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#236
   def image_key=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#234
   def issuer_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#234
   def issuer_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#235
   def issuer_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#235
   def issuer_name=(value); end
 
   class << self
@@ -7783,84 +7783,84 @@ class PayPal::SDK::REST::DataTypes::ProcessorResponse < ::PayPal::SDK::REST::Dat
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#247
   def advice_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#247
   def advice_code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#245
   def avs_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#245
   def avs_code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#246
   def cvv_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#246
   def cvv_code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#248
   def eci_submitted(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#248
   def eci_submitted=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#244
   def response_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#244
   def response_code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#249
   def vpas(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#249
   def vpas=(value); end
 
   class << self
-    # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#243
+    # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#148
     def load_members; end
   end
 end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1099
 class PayPal::SDK::REST::DataTypes::RecipientBankingInstruction < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1102
   def account_holder_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1102
   def account_holder_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1103
   def account_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1103
   def account_number=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1106
   def bank_identifier_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1106
   def bank_identifier_code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1101
   def bank_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1101
   def bank_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1105
   def international_bank_account_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1105
   def international_bank_account_number=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1104
   def routing_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1104
   def routing_number=(value); end
 
   class << self
@@ -7871,16 +7871,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1110
 class PayPal::SDK::REST::DataTypes::RedirectUrls < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1113
   def cancel_url(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1113
   def cancel_url=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1112
   def return_url(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1112
   def return_url=(value); end
 
   class << self
@@ -7896,82 +7896,82 @@ class PayPal::SDK::REST::DataTypes::Refund < ::PayPal::SDK::REST::DataTypes::Bas
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#998
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#998
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1003
   def capture_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1003
   def capture_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1006
   def create_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1006
   def create_time=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1005
   def description(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1005
   def description=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#997
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#997
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1001
   def invoice_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1001
   def invoice_number=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1009
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1009
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1004
   def parent_payment(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1004
   def parent_payment=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1000
   def reason(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1000
   def reason=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1008
   def reason_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1008
   def reason_code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1002
   def sale_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1002
   def sale_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#999
   def state(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#999
   def state=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1007
   def update_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1007
   def update_time=(value); end
 
   class << self
@@ -7987,22 +7987,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2011
 class PayPal::SDK::REST::DataTypes::RefundDetail < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2014
   def date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2014
   def date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2015
   def note(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2015
   def note=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2013
   def type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2013
   def type=(value); end
 
   class << self
@@ -8013,52 +8013,52 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1023
 class PayPal::SDK::REST::DataTypes::RefundRequest < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1025
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1025
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1026
   def description(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1026
   def description=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1030
   def invoice_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1030
   def invoice_number=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1032
   def is_non_platform_transaction(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1032
   def is_non_platform_transaction=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1029
   def reason(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1029
   def reason=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1031
   def refund_advice(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1031
   def refund_advice=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1028
   def refund_source(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1028
   def refund_source=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1027
   def refund_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1027
   def refund_type=(value); end
 
   class << self
@@ -8069,34 +8069,34 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#779
 class PayPal::SDK::REST::DataTypes::RelatedResources < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#782
   def authorization(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#782
   def authorization=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#784
   def capture(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#784
   def capture=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#783
   def order(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#783
   def order=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#785
   def refund(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#785
   def refund=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#781
   def sale(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#781
   def sale=(value); end
 
   class << self
@@ -8112,130 +8112,130 @@ class PayPal::SDK::REST::DataTypes::Sale < ::PayPal::SDK::REST::DataTypes::Base
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#793
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#793
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#812
   def billing_agreement_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#812
   def billing_agreement_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#799
   def clearing_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#799
   def clearing_time=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#809
   def create_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#809
   def create_time=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#805
   def exchange_rate(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#805
   def exchange_rate=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#806
   def fmf_details(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#806
   def fmf_details=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#802
   def hold_reason(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#802
   def hold_reason=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#791
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#791
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#811
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#811
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#808
   def parent_payment(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#808
   def parent_payment=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#813
   def payment_hold_reasons(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#813
   def payment_hold_reasons=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#801
   def payment_hold_status(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#801
   def payment_hold_status=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#794
   def payment_mode(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#794
   def payment_mode=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#814
   def processor_response(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#814
   def processor_response=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#797
   def protection_eligibility(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#797
   def protection_eligibility=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#798
   def protection_eligibility_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#798
   def protection_eligibility_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#792
   def purchase_unit_reference_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#792
   def purchase_unit_reference_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#796
   def reason_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#796
   def reason_code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#807
   def receipt_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#807
   def receipt_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#804
   def receivable_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#804
   def receivable_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#800
   def recipient_fund_status(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#800
   def recipient_fund_status=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#827
@@ -8244,22 +8244,22 @@ class PayPal::SDK::REST::DataTypes::Sale < ::PayPal::SDK::REST::DataTypes::Base
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#834
   def refund_request(refund_request); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#795
   def state(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#795
   def state=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#803
   def transaction_fee(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#803
   def transaction_fee=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#810
   def update_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#810
   def update_time=(value); end
 
   class << self
@@ -8275,226 +8275,226 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2182
 class PayPal::SDK::REST::DataTypes::Schema < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2189
   def additionalItems(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2189
   def additionalItems=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2187
   def additionalProperties(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2187
   def additionalProperties=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2189
   def additional_items(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2189
   def additional_items=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2187
   def additional_properties(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2187
   def additional_properties=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2191
   def dependencies(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2191
   def dependencies=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2204
   def description(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2204
   def description=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2207
   def disallow(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2207
   def disallow=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2206
   def divisibleBy(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2206
   def divisibleBy=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2206
   def divisible_by(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2206
   def divisible_by=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2202
   def enum(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2202
   def enum=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2195
   def exclusiveMaximum(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2195
   def exclusiveMaximum=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2194
   def exclusiveMinimum(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2194
   def exclusiveMinimum=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2195
   def exclusive_maximum(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2195
   def exclusive_maximum=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2194
   def exclusive_minimum(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2194
   def exclusive_minimum=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2208
   def extends(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2208
   def extends=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2205
   def format(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2205
   def format=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2209
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2209
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2188
   def items(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2188
   def items=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2197
   def maxItems(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2197
   def maxItems=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2201
   def maxLength(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2201
   def maxLength=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2197
   def max_items(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2197
   def max_items=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2201
   def max_length(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2201
   def max_length=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2193
   def maximum(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2193
   def maximum=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2196
   def minItems(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2196
   def minItems=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2200
   def minLength(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2200
   def minLength=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2196
   def min_items(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2196
   def min_items=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2200
   def min_length(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2200
   def min_length=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2192
   def minimum(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2192
   def minimum=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2199
   def pattern(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2199
   def pattern=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2186
   def patternProperties(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2186
   def patternProperties=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2186
   def pattern_properties(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2186
   def pattern_properties=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2185
   def properties(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2185
   def properties=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2190
   def required(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2190
   def required=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2203
   def title(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2203
   def title=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2184
   def type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2184
   def type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2198
   def uniqueItems(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2198
   def uniqueItems=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2198
   def unique_items(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2198
   def unique_items=(value); end
 
   class << self
@@ -8505,118 +8505,118 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2042
 class PayPal::SDK::REST::DataTypes::Search < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2044
   def email(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2044
   def email=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2059
   def end_creation_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2059
   def end_creation_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2055
   def end_due_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2055
   def end_due_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2053
   def end_invoice_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2053
   def end_invoice_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2057
   def end_payment_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2057
   def end_payment_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2050
   def lower_total_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2050
   def lower_total_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2048
   def number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2048
   def number=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2060
   def page(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2060
   def page=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2061
   def page_size(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2061
   def page_size=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2047
   def recipient_business_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2047
   def recipient_business_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2045
   def recipient_first_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2045
   def recipient_first_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2046
   def recipient_last_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2046
   def recipient_last_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2058
   def start_creation_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2058
   def start_creation_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2054
   def start_due_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2054
   def start_due_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2052
   def start_invoice_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2052
   def start_invoice_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2056
   def start_payment_date(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2056
   def start_payment_date=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2049
   def status(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2049
   def status=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2062
   def total_count_required(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2062
   def total_count_required=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2051
   def upper_total_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2051
   def upper_total_amount=(value); end
 
   class << self
@@ -8627,22 +8627,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2543
 class PayPal::SDK::REST::DataTypes::Seller < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2545
   def email(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2545
   def email=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2546
   def merchant_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2546
   def merchant_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2547
   def name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2547
   def name=(value); end
 
   class << self
@@ -8653,64 +8653,64 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#638
 class PayPal::SDK::REST::DataTypes::ShippingAddress < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#642
   def city(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#642
   def city=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#645
   def country_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#645
   def country_code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#648
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#648
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#640
   def line1(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#640
   def line1=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#641
   def line2(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#641
   def line2=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#647
   def normalization_status(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#647
   def normalization_status=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#646
   def phone(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#646
   def phone=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#644
   def postal_code(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#644
   def postal_code=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#649
   def recipient_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#649
   def recipient_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#643
   def state(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#643
   def state=(value); end
 
   class << self
@@ -8721,16 +8721,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1977
 class PayPal::SDK::REST::DataTypes::ShippingCost < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1979
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1979
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1980
   def tax(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1980
   def tax=(value); end
 
   class << self
@@ -8741,28 +8741,28 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1860
 class PayPal::SDK::REST::DataTypes::ShippingInfo < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1876
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1865
   def address(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1868
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1865
   def address=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1864
   def business_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1864
   def business_name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1866
   def email(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1866
   def email=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1862
   def first_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1862
   def first_name=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1888
@@ -8771,10 +8771,10 @@ class PayPal::SDK::REST::DataTypes::ShippingInfo < ::PayPal::SDK::REST::DataType
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1883
   def invoice_address=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1863
   def last_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1863
   def last_name=(value); end
 
   class << self
@@ -8785,28 +8785,28 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1984
 class PayPal::SDK::REST::DataTypes::Tax < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1989
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1989
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1986
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1986
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1987
   def name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1987
   def name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1988
   def percent(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1988
   def percent=(value); end
 
   class << self
@@ -8825,55 +8825,55 @@ class PayPal::SDK::REST::DataTypes::Template < ::PayPal::SDK::REST::DataTypes::B
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1364
   def create; end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1344
   def custom(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1344
   def custom=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1340
   def default(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1340
   def default=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1350
   def delete; end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1345
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1345
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1339
   def name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1339
   def name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1342
   def settings(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1342
   def settings=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1341
   def template_data(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1341
   def template_data=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1338
   def template_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1338
   def template_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1343
   def unit_of_measure(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1343
   def unit_of_measure=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1357
@@ -8892,124 +8892,124 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1380
 class PayPal::SDK::REST::DataTypes::TemplateData < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1393
   def allow_partial_payment(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1393
   def allow_partial_payment=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1402
   def attachments(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1402
   def attachments=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1384
   def billing_info(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1384
   def billing_info=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1385
   def cc_info(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1385
   def cc_info=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1392
   def custom(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1392
   def custom=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1390
   def discount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1390
   def discount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1387
   def items(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1387
   def items=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1400
   def logo_url(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1400
   def logo_url=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1383
   def merchant_info(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1383
   def merchant_info=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1399
   def merchant_memo(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1399
   def merchant_memo=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1394
   def minimum_amount_due(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1394
   def minimum_amount_due=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1398
   def note(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1398
   def note=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1388
   def payment_term(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1388
   def payment_term=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1389
   def reference(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1389
   def reference=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1391
   def shipping_cost(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1391
   def shipping_cost=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1386
   def shipping_info(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1386
   def shipping_info=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1395
   def tax_calculated_after_discount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1395
   def tax_calculated_after_discount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1396
   def tax_inclusive(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1396
   def tax_inclusive=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1397
   def terms(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1397
   def terms=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1401
   def total_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1401
   def total_amount=(value); end
 
   class << self
@@ -9020,16 +9020,16 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1407
 class PayPal::SDK::REST::DataTypes::TemplateSettings < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1411
   def display_preference(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1411
   def display_preference=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1410
   def field_name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1410
   def field_name=(value); end
 
   class << self
@@ -9040,10 +9040,10 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1415
 class PayPal::SDK::REST::DataTypes::TemplateSettingsMetadata < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1418
   def hidden(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1418
   def hidden=(value); end
 
   class << self
@@ -9059,34 +9059,34 @@ class PayPal::SDK::REST::DataTypes::Templates < ::PayPal::SDK::REST::DataTypes::
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1440
   def addresses(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1440
   def addresses=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1441
   def emails(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1441
   def emails=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1444
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1444
   def links=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1442
   def phones(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1442
   def phones=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1443
   def templates(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1443
   def templates=(value); end
 
   class << self
@@ -9100,40 +9100,40 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2145
 class PayPal::SDK::REST::DataTypes::Terms < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2151
   def amount_range(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2151
   def amount_range=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2152
   def buyer_editable(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2152
   def buyer_editable=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2147
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2147
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2149
   def max_billing_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2149
   def max_billing_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2150
   def occurrences(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2150
   def occurrences=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2148
   def type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2148
   def type=(value); end
 
   class << self
@@ -9144,76 +9144,76 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#659
 class PayPal::SDK::REST::DataTypes::Transaction < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#661
   def amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#661
   def amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#665
   def custom(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#665
   def custom=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#663
   def description(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#663
   def description=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#664
   def invoice_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#664
   def invoice_number=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#667
   def item_list(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#667
   def item_list=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#668
   def notify_url(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#668
   def notify_url=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#662
   def payee(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#662
   def payee=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#672
   def payment_options(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#672
   def payment_options=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#669
   def purchase_unit_reference_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#669
   def purchase_unit_reference_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#670
   def related_resources(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#670
   def related_resources=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#666
   def soft_descriptor(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#666
   def soft_descriptor=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#671
   def transactions(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#671
   def transactions=(value); end
 
   class << self
@@ -9224,64 +9224,64 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2521
 class PayPal::SDK::REST::DataTypes::TransactionInfo < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2530
   def buyer(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2530
   def buyer=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2523
   def buyer_transaction_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2523
   def buyer_transaction_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2525
   def create_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2525
   def create_time=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2529
   def custom(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2529
   def custom=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2527
   def gross_amount(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2527
   def gross_amount=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2528
   def invoice_number(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2528
   def invoice_number=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2532
   def items(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2532
   def items=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2531
   def seller(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2531
   def seller=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2524
   def seller_transaction_id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2524
   def seller_transaction_id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2526
   def transaction_status(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2526
   def transaction_status=(value); end
 
   class << self
@@ -9306,28 +9306,28 @@ class PayPal::SDK::REST::DataTypes::WebProfile < ::PayPal::SDK::REST::DataTypes:
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def delete!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2402
   def flow_config(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2402
   def flow_config=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2399
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2399
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2403
   def input_fields(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2403
   def input_fields=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2400
   def name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2400
   def name=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2423
@@ -9336,16 +9336,16 @@ class PayPal::SDK::REST::DataTypes::WebProfile < ::PayPal::SDK::REST::DataTypes:
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def partial_update!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2404
   def presentation(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2404
   def presentation=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2401
   def temporary(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2401
   def temporary=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2416
@@ -9370,40 +9370,40 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2489
 class PayPal::SDK::REST::DataTypes::WebProfileList < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2493
   def flow_config(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2493
   def flow_config=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2491
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2491
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2494
   def input_fields(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2494
   def input_fields=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2492
   def name(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2492
   def name=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2495
   def presentation(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2495
   def presentation=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2496
   def temporary(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#2496
   def temporary=(value); end
 
   class << self
@@ -9428,22 +9428,22 @@ class PayPal::SDK::REST::DataTypes::Webhook < ::PayPal::SDK::REST::DataTypes::Ba
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def delete!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1626
   def event_types(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1626
   def event_types=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1624
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1624
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1627
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1627
   def links=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1639
@@ -9452,10 +9452,10 @@ class PayPal::SDK::REST::DataTypes::Webhook < ::PayPal::SDK::REST::DataTypes::Ba
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#45
   def update!(*arg); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1625
   def url(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1625
   def url=(value); end
 
   class << self
@@ -9487,64 +9487,64 @@ class PayPal::SDK::REST::DataTypes::WebhookEvent < ::PayPal::SDK::REST::DataType
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1503
   def create_time(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1503
   def create_time=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1506
   def event_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1506
   def event_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1505
   def event_version(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1505
   def event_version=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1518
   def get_resource; end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1502
   def id(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1502
   def id=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1510
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1510
   def links=(value); end
 
   # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1513
   def resend; end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1509
   def resource(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1509
   def resource=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1504
   def resource_type(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1504
   def resource_type=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1508
   def status(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1508
   def status=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1507
   def summary(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1507
   def summary=(value); end
 
   class << self
@@ -9599,22 +9599,22 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1492
 class PayPal::SDK::REST::DataTypes::WebhookEventList < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1494
   def count(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1494
   def count=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1495
   def events(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1495
   def events=(value); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1496
   def links(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1496
   def links=(value); end
 
   class << self
@@ -9625,10 +9625,10 @@ end
 
 # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1478
 class PayPal::SDK::REST::DataTypes::WebhookList < ::PayPal::SDK::REST::DataTypes::Base
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1480
   def webhooks(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1480
   def webhooks=(value); end
 
   class << self
@@ -9644,10 +9644,10 @@ class PayPal::SDK::REST::DataTypes::WebhooksEventType < ::PayPal::SDK::REST::Dat
   extend ::PayPal::SDK::REST::GetAPI
   extend ::PayPal::SDK::REST::SetAPI
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#60
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1459
   def event_types(&block); end
 
-  # source://paypal-sdk-rest//lib/paypal-sdk/core/api/data_types/base.rb#55
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/data_types.rb#1459
   def event_types=(value); end
 
   class << self
@@ -9742,12 +9742,12 @@ module PayPal::SDK::REST::SetAPI
   #   payment.set_config
   #   payment.api = API.new(:development)
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/rest/set_api.rb#11
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/set_api.rb#22
   def api=(*args); end
 
   # Override token
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/rest/set_api.rb#25
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/set_api.rb#28
   def auth=(token); end
 
   # Override client id
@@ -9767,7 +9767,7 @@ module PayPal::SDK::REST::SetAPI
   #   payment.set_config
   #   payment.api = API.new(:development)
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/rest/set_api.rb#11
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/set_api.rb#20
   def config=(*args); end
 
   # Set new api
@@ -9777,7 +9777,7 @@ module PayPal::SDK::REST::SetAPI
   #   payment.set_config
   #   payment.api = API.new(:development)
   #
-  # source://paypal-sdk-rest//lib/paypal-sdk/rest/set_api.rb#11
+  # source://paypal-sdk-rest//lib/paypal-sdk/rest/set_api.rb#21
   def set_api(*args); end
 
   # Set new api

@@ -9169,111 +9169,14 @@ YARD::Parser::Ruby::Legacy::RubyToken::EXPR_MID = T.let(T.unsafe(nil), Symbol)
 # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#308
 YARD::Parser::Ruby::Legacy::RubyToken::NEWLINE_TOKEN = T.let(T.unsafe(nil), YARD::Parser::Ruby::Legacy::RubyToken::TkNL)
 
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::OPASGN < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkALIAS < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkAMPER < ::YARD::Parser::Ruby::Legacy::RubyToken::Token; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkAND < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkANDOP < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkAREF < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkASET < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkASSIGN < ::YARD::Parser::Ruby::Legacy::RubyToken::Token; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkASSOC < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkAT < ::YARD::Parser::Ruby::Legacy::RubyToken::TkUnknownChar; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkBACKQUOTE < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkBACKSLASH < ::YARD::Parser::Ruby::Legacy::RubyToken::TkUnknownChar; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkBACK_REF < ::YARD::Parser::Ruby::Legacy::RubyToken::TkId; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkBEGIN < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkBITAND < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkBITNOT < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkBITOR < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkBITXOR < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkBREAK < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
 
 # Represents a block
@@ -9284,182 +9187,38 @@ class YARD::Parser::Ruby::Legacy::RubyToken::TkBlockContents < ::YARD::Parser::R
   def text; end
 end
 
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkCASE < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkCLASS < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkCMP < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkCOLON < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkCOLON2 < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkCOLON3 < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkCOMMA < ::YARD::Parser::Ruby::Legacy::RubyToken::Token; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkCOMMENT < ::YARD::Parser::Ruby::Legacy::RubyToken::TkVal; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkCONSTANT < ::YARD::Parser::Ruby::Legacy::RubyToken::TkId; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkDEF < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkDEFINED < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkDIV < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkDO < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkDOLLAR < ::YARD::Parser::Ruby::Legacy::RubyToken::TkUnknownChar; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkDOT < ::YARD::Parser::Ruby::Legacy::RubyToken::Token; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkDOT2 < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkDOT3 < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkDREGEXP < ::YARD::Parser::Ruby::Legacy::RubyToken::TkNode; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkDSTRING < ::YARD::Parser::Ruby::Legacy::RubyToken::TkNode; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkDXSTRING < ::YARD::Parser::Ruby::Legacy::RubyToken::TkNode; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkELSE < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkELSIF < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkEND < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkEND_OF_SCRIPT < ::YARD::Parser::Ruby::Legacy::RubyToken::TkWhitespace; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkENSURE < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkEQ < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkEQQ < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
 
 # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#115
 class YARD::Parser::Ruby::Legacy::RubyToken::TkError < ::YARD::Parser::Ruby::Legacy::RubyToken::Token; end
 
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkFALSE < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkFID < ::YARD::Parser::Ruby::Legacy::RubyToken::TkId; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkFLOAT < ::YARD::Parser::Ruby::Legacy::RubyToken::TkVal; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkFOR < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkGEQ < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkGT < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkGVAR < ::YARD::Parser::Ruby::Legacy::RubyToken::TkId; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkIDENTIFIER < ::YARD::Parser::Ruby::Legacy::RubyToken::TkId; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkIF < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkIF_MOD < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkIN < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkINTEGER < ::YARD::Parser::Ruby::Legacy::RubyToken::TkVal; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkIVAR < ::YARD::Parser::Ruby::Legacy::RubyToken::TkId; end
 
 # Represents a Ruby identifier
@@ -9482,114 +9241,15 @@ end
 # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#81
 class YARD::Parser::Ruby::Legacy::RubyToken::TkKW < ::YARD::Parser::Ruby::Legacy::RubyToken::TkId; end
 
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkLABEL < ::YARD::Parser::Ruby::Legacy::RubyToken::TkVal; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkLBRACE < ::YARD::Parser::Ruby::Legacy::RubyToken::Token; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkLBRACK < ::YARD::Parser::Ruby::Legacy::RubyToken::Token; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkLEQ < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkLPAREN < ::YARD::Parser::Ruby::Legacy::RubyToken::Token; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkLSHFT < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkLT < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkMATCH < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkMINUS < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkMOD < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkMODULE < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkMULT < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkNEQ < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkNEXT < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkNIL < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkNL < ::YARD::Parser::Ruby::Legacy::RubyToken::TkWhitespace; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkNMATCH < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkNOT < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkNOTOP < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkNTH_REF < ::YARD::Parser::Ruby::Legacy::RubyToken::TkId; end
 
 # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#63
@@ -9613,16 +9273,7 @@ class YARD::Parser::Ruby::Legacy::RubyToken::TkOPASGN < ::YARD::Parser::Ruby::Le
   def op; end
 end
 
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkOR < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkOROP < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
 
 # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#92
 class YARD::Parser::Ruby::Legacy::RubyToken::TkOp < ::YARD::Parser::Ruby::Legacy::RubyToken::Token
@@ -9630,61 +9281,14 @@ class YARD::Parser::Ruby::Legacy::RubyToken::TkOp < ::YARD::Parser::Ruby::Legacy
   def name; end
 end
 
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkPLUS < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkPOW < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkQUESTION < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkRBRACE < ::YARD::Parser::Ruby::Legacy::RubyToken::Token; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkRBRACK < ::YARD::Parser::Ruby::Legacy::RubyToken::Token; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkREDO < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkREGEXP < ::YARD::Parser::Ruby::Legacy::RubyToken::TkVal; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkRESCUE < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkRETRY < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkRETURN < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkRPAREN < ::YARD::Parser::Ruby::Legacy::RubyToken::Token; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkRSHFT < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
 
 # { reading => token_class }
 # { reading => [token_class, *opt] }
@@ -9692,28 +9296,13 @@ end
 # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#271
 YARD::Parser::Ruby::Legacy::RubyToken::TkReading2Token = T.let(T.unsafe(nil), Hash)
 
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkSELF < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkSEMICOLON < ::YARD::Parser::Ruby::Legacy::RubyToken::Token; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkSPACE < ::YARD::Parser::Ruby::Legacy::RubyToken::TkWhitespace; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkSTAR < ::YARD::Parser::Ruby::Legacy::RubyToken::Token; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkSTRING < ::YARD::Parser::Ruby::Legacy::RubyToken::TkVal; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkSUPER < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkSYMBEG < ::YARD::Parser::Ruby::Legacy::RubyToken::TkId; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkSYMBOL < ::YARD::Parser::Ruby::Legacy::RubyToken::TkVal; end
 
 # Represents an end statement
@@ -9727,42 +9316,13 @@ end
 # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#272
 YARD::Parser::Ruby::Legacy::RubyToken::TkSymbol2Token = T.let(T.unsafe(nil), Hash)
 
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkTHEN < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkTRUE < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkUMINUS < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkUNDEF < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkUNLESS < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkUNLESS_MOD < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkUNTIL < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkUNTIL_MOD < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
-class YARD::Parser::Ruby::Legacy::RubyToken::TkUPLUS < ::YARD::Parser::Ruby::Legacy::RubyToken::TkOp
-  class << self
-    # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#298
-    def op_name; end
-  end
-end
 
 # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#107
 class YARD::Parser::Ruby::Legacy::RubyToken::TkUnknownChar < ::YARD::Parser::Ruby::Legacy::RubyToken::Token
@@ -9787,13 +9347,8 @@ class YARD::Parser::Ruby::Legacy::RubyToken::TkVal < ::YARD::Parser::Ruby::Legac
   def initialize(line_no, char_no, value = T.unsafe(nil)); end
 end
 
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkWHEN < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkWHILE < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkWHILE_MOD < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
 
 # Represents whitespace
@@ -9801,22 +9356,11 @@ class YARD::Parser::Ruby::Legacy::RubyToken::TkWHILE_MOD < ::YARD::Parser::Ruby:
 # source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#68
 class YARD::Parser::Ruby::Legacy::RubyToken::TkWhitespace < ::YARD::Parser::Ruby::Legacy::RubyToken::Token; end
 
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkXSTRING < ::YARD::Parser::Ruby::Legacy::RubyToken::TkVal; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TkYIELD < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::Tk__FILE__ < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::Tk__LINE__ < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TklBEGIN < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
-
-# source://yard//lib/yard/parser/ruby/legacy/ruby_lex.rb#281
 class YARD::Parser::Ruby::Legacy::RubyToken::TklEND < ::YARD::Parser::Ruby::Legacy::RubyToken::TkKW; end
 
 # Represents a token in the Ruby lexer

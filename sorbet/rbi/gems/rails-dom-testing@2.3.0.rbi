@@ -6,75 +6,7 @@
 
 
 # source://rails-dom-testing//lib/rails/dom/testing/assertions/dom_assertions.rb#3
-module Rails
-  class << self
-    # source://railties/8.0.2/lib/rails.rb#44
-    def app_class; end
-
-    # source://railties/8.0.2/lib/rails.rb#44
-    def app_class=(_arg0); end
-
-    # source://railties/8.0.2/lib/rails.rb#45
-    def application; end
-
-    # source://railties/8.0.2/lib/rails.rb#43
-    def application=(_arg0); end
-
-    # source://railties/8.0.2/lib/rails.rb#126
-    def autoloaders; end
-
-    # source://railties/8.0.2/lib/rails.rb#56
-    def backtrace_cleaner; end
-
-    # source://railties/8.0.2/lib/rails.rb#44
-    def cache; end
-
-    # source://railties/8.0.2/lib/rails.rb#44
-    def cache=(_arg0); end
-
-    # source://railties/8.0.2/lib/rails.rb#52
-    def configuration; end
-
-    # source://railties/8.0.2/lib/rails/deprecator.rb#4
-    def deprecator; end
-
-    # source://railties/8.0.2/lib/rails.rb#75
-    def env; end
-
-    # source://railties/8.0.2/lib/rails.rb#82
-    def env=(environment); end
-
-    # source://railties/8.0.2/lib/rails.rb#93
-    def error; end
-
-    # source://railties/8.0.2/lib/rails/gem_version.rb#5
-    def gem_version; end
-
-    # source://railties/8.0.2/lib/rails.rb#106
-    def groups(*groups); end
-
-    # source://railties/8.0.2/lib/rails.rb#49
-    def initialize!(*_arg0, **_arg1, &_arg2); end
-
-    # source://railties/8.0.2/lib/rails.rb#49
-    def initialized?(*_arg0, **_arg1, &_arg2); end
-
-    # source://railties/8.0.2/lib/rails.rb#44
-    def logger; end
-
-    # source://railties/8.0.2/lib/rails.rb#44
-    def logger=(_arg0); end
-
-    # source://railties/8.0.2/lib/rails.rb#122
-    def public_path; end
-
-    # source://railties/8.0.2/lib/rails.rb#65
-    def root; end
-
-    # source://railties/8.0.2/lib/rails/version.rb#7
-    def version; end
-  end
-end
+module Rails; end
 
 # source://rails-dom-testing//lib/rails/dom/testing/assertions/dom_assertions.rb#4
 module Rails::Dom; end
@@ -207,7 +139,7 @@ module Rails::Dom::Testing::Assertions::DomAssertions
   #
   #   assert_dom_not_equal expected, actual, html_version: :html5
   #
-  # source://rails-dom-testing//lib/rails/dom/testing/assertions/dom_assertions.rb#68
+  # source://rails-dom-testing//lib/rails/dom/testing/assertions/dom_assertions.rb#73
   def refute_dom_equal(expected, actual, message = T.unsafe(nil), strict: T.unsafe(nil), html_version: T.unsafe(nil)); end
 
   protected
@@ -476,7 +408,7 @@ module Rails::Dom::Testing::Assertions::SelectorAssertions
   # * <tt>:minimum</tt>
   # * <tt>:maximum</tt>
   #
-  # source://rails-dom-testing//lib/rails/dom/testing/assertions/selector_assertions.rb#183
+  # source://rails-dom-testing//lib/rails/dom/testing/assertions/selector_assertions.rb#190
   def assert_not_select(*args, &block); end
 
   # An assertion that selects elements and makes one or more equality tests.
@@ -577,7 +509,7 @@ module Rails::Dom::Testing::Assertions::SelectorAssertions
   #     assert_dom ":match('name', ?)", /.+/  # Not empty
   #   end
   #
-  # source://rails-dom-testing//lib/rails/dom/testing/assertions/selector_assertions.rb#163
+  # source://rails-dom-testing//lib/rails/dom/testing/assertions/selector_assertions.rb#169
   def assert_select(*args, &block); end
 
   # Extracts the body of an email and runs nested assertions on it.
@@ -611,7 +543,7 @@ module Rails::Dom::Testing::Assertions::SelectorAssertions
   #     assert_dom "h1", "Email alert"
   #   end
   #
-  # source://rails-dom-testing//lib/rails/dom/testing/assertions/selector_assertions.rb#318
+  # source://rails-dom-testing//lib/rails/dom/testing/assertions/selector_assertions.rb#331
   def assert_select_email(html_version: T.unsafe(nil), &block); end
 
   # Extracts the content of an element, treats it as encoded HTML and runs
@@ -664,7 +596,7 @@ module Rails::Dom::Testing::Assertions::SelectorAssertions
   #     end
   #   end
   #
-  # source://rails-dom-testing//lib/rails/dom/testing/assertions/selector_assertions.rb#265
+  # source://rails-dom-testing//lib/rails/dom/testing/assertions/selector_assertions.rb#285
   def assert_select_encoded(element = T.unsafe(nil), html_version: T.unsafe(nil), &block); end
 
   # Select and return all matching elements.
@@ -722,7 +654,7 @@ module Rails::Dom::Testing::Assertions::SelectorAssertions
   # * <tt>:minimum</tt>
   # * <tt>:maximum</tt>
   #
-  # source://rails-dom-testing//lib/rails/dom/testing/assertions/selector_assertions.rb#183
+  # source://rails-dom-testing//lib/rails/dom/testing/assertions/selector_assertions.rb#189
   def refute_dom(*args, &block); end
 
   # The negated form of +assert_dom+.
@@ -738,7 +670,7 @@ module Rails::Dom::Testing::Assertions::SelectorAssertions
   # * <tt>:minimum</tt>
   # * <tt>:maximum</tt>
   #
-  # source://rails-dom-testing//lib/rails/dom/testing/assertions/selector_assertions.rb#183
+  # source://rails-dom-testing//lib/rails/dom/testing/assertions/selector_assertions.rb#191
   def refute_select(*args, &block); end
 
   private

@@ -333,31 +333,31 @@ class Zip::CentralDirectory
   def delete(param); end
 
   # source://rubyzip//lib/zip/central_directory.rb#25
-  def each(*args, **_arg1, &block); end
+  def each(*_arg0, **_arg1, &_arg2); end
 
   # source://rubyzip//lib/zip/central_directory.rb#25
-  def entries(*args, **_arg1, &block); end
+  def entries(*_arg0, **_arg1, &_arg2); end
 
   # source://rubyzip//lib/zip/central_directory.rb#25
-  def find_entry(*args, **_arg1, &block); end
+  def find_entry(*_arg0, **_arg1, &_arg2); end
 
   # source://rubyzip//lib/zip/central_directory.rb#25
-  def glob(*args, **_arg1, &block); end
+  def glob(*_arg0, **_arg1, &_arg2); end
 
   # source://rubyzip//lib/zip/central_directory.rb#25
-  def include?(*args, **_arg1, &block); end
+  def include?(*_arg0, **_arg1, &_arg2); end
 
   # source://rubyzip//lib/zip/central_directory.rb#29
   def orig_comment=(_arg0); end
 
   # source://rubyzip//lib/zip/central_directory.rb#29
-  def orig_delete(*args, **_arg1, &block); end
+  def orig_delete(*_arg0, **_arg1, &_arg2); end
 
   # source://rubyzip//lib/zip/central_directory.rb#37
   def read_from_stream(io); end
 
   # source://rubyzip//lib/zip/central_directory.rb#25
-  def size(*args, **_arg1, &block); end
+  def size(*_arg0, **_arg1, &_arg2); end
 
   # source://rubyzip//lib/zip/central_directory.rb#42
   def write_to_stream(io, suppress_extra_fields: T.unsafe(nil)); end
@@ -1821,10 +1821,10 @@ class Zip::File
   def close; end
 
   # source://rubyzip//lib/zip/file.rb#71
-  def comment(*args, **_arg1, &block); end
+  def comment(*_arg0, **_arg1, &_arg2); end
 
   # source://rubyzip//lib/zip/file.rb#71
-  def comment=(*args, **_arg1, &block); end
+  def comment=(*_arg0, **_arg1, &_arg2); end
 
   # Commits changes that has been made since the previous commit to
   # the zip archive.
@@ -1841,10 +1841,10 @@ class Zip::File
   def commit_required?; end
 
   # source://rubyzip//lib/zip/file.rb#71
-  def each(*args, **_arg1, &block); end
+  def each(*_arg0, **_arg1, &_arg2); end
 
   # source://rubyzip//lib/zip/file.rb#71
-  def entries(*args, **_arg1, &block); end
+  def entries(*_arg0, **_arg1, &_arg2); end
 
   # Extracts `entry` to a file at `entry_path`, with `destination_directory`
   # as the base location in the filesystem.
@@ -1886,7 +1886,7 @@ class Zip::File
   def get_output_stream(entry, permissions: T.unsafe(nil), comment: T.unsafe(nil), extra: T.unsafe(nil), compressed_size: T.unsafe(nil), crc: T.unsafe(nil), compression_method: T.unsafe(nil), compression_level: T.unsafe(nil), size: T.unsafe(nil), time: T.unsafe(nil), &a_proc); end
 
   # source://rubyzip//lib/zip/file.rb#71
-  def glob(*args, **_arg1, &block); end
+  def glob(*_arg0, **_arg1, &_arg2); end
 
   # Creates a directory
   #
@@ -1952,7 +1952,7 @@ class Zip::File
   def restore_times=(_arg0); end
 
   # source://rubyzip//lib/zip/file.rb#71
-  def size(*args, **_arg1, &block); end
+  def size(*_arg0, **_arg1, &_arg2); end
 
   # Returns the name of the zip archive
   #
@@ -2476,10 +2476,10 @@ class Zip::OutputStream
   def close_buffer; end
 
   # source://rubyzip//lib/zip/output_stream.rb#28
-  def comment(*args, **_arg1, &block); end
+  def comment(*_arg0, **_arg1, &_arg2); end
 
   # source://rubyzip//lib/zip/output_stream.rb#28
-  def comment=(*args, **_arg1, &block); end
+  def comment=(*_arg0, **_arg1, &_arg2); end
 
   # @raise [Error]
   #

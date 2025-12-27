@@ -178,7 +178,6 @@ class RSpec::Mocks::AndWrapOriginalImplementation
   def cannot_modify_further_error; end
 end
 
-# source://rspec-mocks//lib/rspec/mocks/message_expectation.rb#821
 class RSpec::Mocks::AndWrapOriginalImplementation::CannotModifyFurtherError < ::StandardError; end
 
 # Handles the implementation of an `and_yield` declaration.
@@ -1326,8 +1325,6 @@ end
 #
 # @deprecated We no longer raise this error but the constant remains until
 #   RSpec 4 for SemVer reasons.
-#
-# source://rspec-mocks//lib/rspec/mocks/error_generator.rb#26
 class RSpec::Mocks::CannotSupportArgMutationsError < ::StandardError; end
 
 # When a class's `.new` method is stubbed, we want to use the method
@@ -2534,8 +2531,6 @@ end
 
 # Raised when a test double is used after it has been torn
 # down (typically at the end of an rspec-core example).
-#
-# source://rspec-mocks//lib/rspec/mocks/error_generator.rb#10
 class RSpec::Mocks::ExpiredTestDoubleError < ::RSpec::Mocks::MockExpectationError; end
 
 # @private
@@ -3887,8 +3882,6 @@ end
 RSpec::Mocks::MethodDouble::FROZEN_ERROR_MSG = T.let(T.unsafe(nil), Regexp)
 
 # We subclass `Module` in order to be able to easily detect our prepended module.
-#
-# source://rspec-mocks//lib/rspec/mocks/method_double.rb#253
 class RSpec::Mocks::MethodDouble::RSpecPrependedModule < ::Module; end
 
 # Represents a method on an object that may or may not be defined.
@@ -3964,13 +3957,9 @@ end
 # Raised when an expectation customization method (e.g. `with`,
 # `and_return`) is called on a message expectation which has already been
 # invoked.
-#
-# source://rspec-mocks//lib/rspec/mocks/error_generator.rb#18
 class RSpec::Mocks::MockExpectationAlreadyInvokedError < ::Exception; end
 
 # Raised when a message expectation is not satisfied.
-#
-# source://rspec-mocks//lib/rspec/mocks/error_generator.rb#6
 class RSpec::Mocks::MockExpectationError < ::Exception; end
 
 # An implementation of rspec-mocks' reference interface.
@@ -4027,8 +4016,6 @@ class RSpec::Mocks::NamedObjectReference
 end
 
 # @private
-#
-# source://rspec-mocks//lib/rspec/mocks/error_generator.rb#31
 class RSpec::Mocks::NegationUnsupportedError < ::StandardError; end
 
 # @private
@@ -4222,8 +4209,6 @@ class RSpec::Mocks::OrderGroup
 end
 
 # Raised when doubles or partial doubles are used outside of the per-test lifecycle.
-#
-# source://rspec-mocks//lib/rspec/mocks/error_generator.rb#13
 class RSpec::Mocks::OutsideOfExampleError < ::StandardError; end
 
 # @private
@@ -5057,8 +5042,6 @@ class RSpec::Mocks::TestDoubleProxy < ::RSpec::Mocks::Proxy
 end
 
 # @private
-#
-# source://rspec-mocks//lib/rspec/mocks/error_generator.rb#29
 class RSpec::Mocks::UnsupportedMatcherError < ::StandardError; end
 
 # @private
@@ -5084,8 +5067,6 @@ module RSpec::Mocks::VerifyingDouble
 end
 
 # @private
-#
-# source://rspec-mocks//lib/rspec/mocks/error_generator.rb#33
 class RSpec::Mocks::VerifyingDoubleNotDefinedError < ::StandardError; end
 
 # Used in place of a `VerifyingExistingMethodDouble` for the specific case

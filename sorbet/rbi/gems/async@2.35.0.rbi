@@ -1156,27 +1156,13 @@ end
 # source://async//lib/async/scheduler.rb#30
 Async::Scheduler::WORKER_POOL = T.let(T.unsafe(nil), T.untyped)
 
-# source://async//lib/async/scheduler.rb#69
-Async::Scheduler::WorkerPool = T.let(T.unsafe(nil), T.untyped)
+# source://async//lib/async/scheduler.rb#67
+Async::Scheduler::WorkerPool = IO::Event::WorkerPool
 
 # Raised when a task is explicitly stopped.
 #
 # source://async//lib/async/stop.rb#11
-class Async::Stop < ::Exception
-  # Create a new stop operation.
-  #
-  # This is a compatibility method for Ruby versions before 3.5 where cause is not propagated correctly when using {Fiber#raise}
-  #
-  # @return [Stop] a new instance of Stop
-  #
-  # source://async//lib/async/stop.rb#43
-  def initialize(message = T.unsafe(nil)); end
-
-  # This is a compatibility method for Ruby versions before 3.5 where cause is not propagated correctly when using {Fiber#raise}, we explicitly capture the cause here.
-  #
-  # source://async//lib/async/stop.rb#55
-  def cause; end
-end
+class Async::Stop < ::Exception; end
 
 # Represents the source of the stop operation.
 #

@@ -946,8 +946,6 @@ ActiveSupport::Cache::DEFAULT_COMPRESS_LIMIT = T.let(T.unsafe(nil), Integer)
 
 # Raised by coders when the cache entry can't be deserialized.
 # This error is treated as a cache miss.
-#
-# source://activesupport//lib/active_support/cache.rb#51
 class ActiveSupport::Cache::DeserializationError < ::StandardError; end
 
 # This class is used to represent cache entries. Cache entries have a value, an optional
@@ -6577,7 +6575,6 @@ end
 # source://activesupport//lib/active_support/error_reporter.rb#27
 ActiveSupport::ErrorReporter::SEVERITIES = T.let(T.unsafe(nil), Array)
 
-# source://activesupport//lib/active_support/error_reporter.rb#33
 class ActiveSupport::ErrorReporter::UnexpectedError < ::Exception; end
 
 # source://activesupport//lib/active_support/event_reporter.rb#49
@@ -13325,7 +13322,6 @@ class ActiveSupport::SecureCompareRotator
   def secure_compare!(other_value, on_rotation: T.unsafe(nil)); end
 end
 
-# source://activesupport//lib/active_support/secure_compare_rotator.rb#35
 class ActiveSupport::SecureCompareRotator::InvalidMatch < ::StandardError; end
 
 # source://activesupport//lib/active_support/security_utils.rb#4
@@ -13844,7 +13840,7 @@ class ActiveSupport::TestCase < ::Minitest::Test
   def assert_not_in_epsilon(exp, act, epsilon = T.unsafe(nil), msg = T.unsafe(nil)); end
 
   # source://activesupport//lib/active_support/test_case.rb#263
-  def assert_not_includes(collection, obj, msg = T.unsafe(nil)); end
+  def assert_not_includes(obj, sub, msg = T.unsafe(nil)); end
 
   # source://activesupport//lib/active_support/test_case.rb#274
   def assert_not_instance_of(cls, obj, msg = T.unsafe(nil)); end
@@ -14810,7 +14806,6 @@ end
 # source://activesupport//lib/active_support/testing/isolation.rb#74
 ActiveSupport::Testing::Isolation::Subprocess::ORIG_ARGV = T.let(T.unsafe(nil), Array)
 
-# source://activesupport//lib/active_support/testing/isolation.rb#8
 class ActiveSupport::Testing::Isolation::SubprocessCrashed < ::StandardError; end
 
 # source://activesupport//lib/active_support/testing/notification_assertions.rb#5
@@ -21639,6 +21634,7 @@ module Process
   extend ::FFI::ModernForkTracking
   extend ::ConnectionPool::ForkTracker
   extend ::RedisClient::PIDCache::CoreExt
+  extend ::Async::ForkHandler
   extend ::ActiveSupport::ForkTracker::CoreExt
 
   class << self

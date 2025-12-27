@@ -403,11 +403,6 @@ OpenID::AX::AXMessage::NS_URI = T.let(T.unsafe(nil), String)
 # request. This should be added to an Request object in order to
 # request the attribute.
 #
-# @type required: bool
-# @type count: int
-# @type type_uri: str
-# @type alias: str or NoneType
-#
 # source://ruby-openid//lib/openid/extensions/ax.rb#85
 class OpenID::AX::AttrInfo
   # @return [AttrInfo] a new instance of AttrInfo

@@ -1430,7 +1430,6 @@ class WebMock::Response
   def stringify_body!; end
 end
 
-# source://webmock//lib/webmock/response.rb#145
 class WebMock::Response::InvalidBody < ::StandardError; end
 
 # source://webmock//lib/webmock/response.rb#7

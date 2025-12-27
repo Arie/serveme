@@ -204,7 +204,7 @@ class ChunkyPNG::Canvas
   # @return [true, false] True if the size and pixel values of the other
   #   canvas are exactly the same as this canvas's size and pixel values.
   #
-  # source://chunky_png//lib/chunky_png/canvas.rb#277
+  # source://chunky_png//lib/chunky_png/canvas.rb#284
   def ==(other); end
 
   # Returns a single pixel's color value from this canvas.
@@ -221,9 +221,9 @@ class ChunkyPNG::Canvas
 
   # Replaces a single pixel in this canvas.
   #
+  # @param color [Integer] The new color for the provided coordinates.
   # @param x [Integer] The x-coordinate of the pixel (column)
   # @param y [Integer] The y-coordinate of the pixel (row)
-  # @param color [Integer] The new color for the provided coordinates.
   # @raise [ChunkyPNG::OutOfBounds] when the coordinates are outside of the
   #   image's dimensions.
   # @return [Integer] The new color value for this pixel, i.e.
@@ -289,7 +289,7 @@ class ChunkyPNG::Canvas
   #   within the limits of this canvas.
   # @see ChunkyPNG.Point
   #
-  # source://chunky_png//lib/chunky_png/canvas.rb#233
+  # source://chunky_png//lib/chunky_png/canvas.rb#237
   def include?(*point_like); end
 
   # Checks whether the given coordinates are in the range of the canvas
@@ -356,9 +356,9 @@ class ChunkyPNG::Canvas
 
   # Replaces a column of pixels on this canvas.
   #
-  # @param x [Integer] The 0-based column index.
   # @param vector [Array<Integer>] The vector of pixels to replace the column
   #   with.
+  # @param x [Integer] The 0-based column index.
   # @return [void]
   #
   # source://chunky_png//lib/chunky_png/canvas.rb#220
@@ -366,9 +366,9 @@ class ChunkyPNG::Canvas
 
   # Replaces a row of pixels on this canvas.
   #
-  # @param y [Integer] The 0-based row index.
   # @param vector [Array<Integer>] The vector of pixels to replace the row
   #   with.
+  # @param y [Integer] The 0-based row index.
   # @return [void]
   #
   # source://chunky_png//lib/chunky_png/canvas.rb#210
@@ -387,9 +387,9 @@ class ChunkyPNG::Canvas
   # This method return value and effects are undefined for coordinates
   # out of bounds of the canvas.
   #
+  # @param color [Integer] The new color for the provided coordinates.
   # @param x [Integer] The x-coordinate of the pixel (column)
   # @param y [Integer] The y-coordinate of the pixel (row)
-  # @param color [Integer] The new color for the provided coordinates.
   # @return [Integer] The new color value for this pixel, i.e.
   #   <tt>color</tt>.
   #
@@ -399,9 +399,9 @@ class ChunkyPNG::Canvas
   # Replaces a single pixel in this canvas, with bounds checking. It will do
   # noting if the provided coordinates are out of bounds.
   #
+  # @param color [Integer] The new color value for the provided coordinates.
   # @param x [Integer] The x-coordinate of the pixel (column)
   # @param y [Integer] The y-coordinate of the pixel (row)
-  # @param color [Integer] The new color value for the provided coordinates.
   # @return [Integer] The new color value for this pixel, i.e.
   #   <tt>color</tt>, or <tt>nil</tt> if the coordinates are out of bounds.
   #
@@ -492,8 +492,8 @@ end
 module ChunkyPNG::Canvas::Adam7Interlacing
   # Extracts a pass from a complete image
   #
-  # @param pass [Integer] The pass number, should be in 0..6.
   # @param canvas [ChunkyPNG::Canvas] The image that is being deconstructed.
+  # @param pass [Integer] The pass number, should be in 0..6.
   # @return [ChunkyPNG::Canvas] The extracted pass image.
   #
   # source://chunky_png//lib/chunky_png/canvas/adam7_interlacing.rb#63
@@ -501,8 +501,8 @@ module ChunkyPNG::Canvas::Adam7Interlacing
 
   # Merges a pass image into a total image that is being constructed.
   #
-  # @param pass [Integer] The pass number, should be in 0..6.
   # @param canvas [ChunkyPNG::Canvas] The image that is being constructed.
+  # @param pass [Integer] The pass number, should be in 0..6.
   # @param subcanvas [ChunkyPNG::Canvas] The pass image that should be merged
   #
   # source://chunky_png//lib/chunky_png/canvas/adam7_interlacing.rb#48
@@ -517,17 +517,17 @@ module ChunkyPNG::Canvas::Adam7Interlacing
 
   # Returns the pixel dimensions of the requested pass.
   #
-  # @param pass [Integer] The pass number, should be in 0..6.
-  # @param original_width [Integer] The width of the original image.
   # @param original_height [Integer] The height of the original image.
+  # @param original_width [Integer] The width of the original image.
+  # @param pass [Integer] The pass number, should be in 0..6.
   #
   # source://chunky_png//lib/chunky_png/canvas/adam7_interlacing.rb#27
   def adam7_pass_size(pass, original_width, original_height); end
 
   # Returns an array of the dimension of all the pass images.
   #
-  # @param original_width [Integer] The width of the original image.
   # @param original_height [Integer] The height of the original image.
+  # @param original_width [Integer] The width of the original image.
   # @return [Array<Array<Integer>>] Returns an array with 7 pairs of dimensions.
   # @see #adam7_pass_size
   #
@@ -585,11 +585,11 @@ module ChunkyPNG::Canvas::Drawing
 
   # Draws a circle on the canvas.
   #
-  # @param x0 [Integer] The x-coordinate of the center of the circle.
-  # @param y0 [Integer] The y-coordinate of the center of the circle.
+  # @param fill_color [Integer] The color to use that fills the circle.
   # @param radius [Integer] The radius of the circle from the center point.
   # @param stroke_color [Integer] The color to use for the line.
-  # @param fill_color [Integer] The color to use that fills the circle.
+  # @param x0 [Integer] The x-coordinate of the center of the circle.
+  # @param y0 [Integer] The y-coordinate of the center of the circle.
   # @return [ChunkyPNG::Canvas] Itself, with the circle drawn.
   #
   # source://chunky_png//lib/chunky_png/canvas/drawing.rb#241
@@ -598,9 +598,9 @@ module ChunkyPNG::Canvas::Drawing
   # Composes a pixel on the canvas by alpha blending a color with its
   # background color.
   #
+  # @param color [Integer] The foreground color to blend with
   # @param x [Integer] The x-coordinate of the pixel to blend.
   # @param y [Integer] The y-coordinate of the pixel to blend.
-  # @param color [Integer] The foreground color to blend with
   # @return [Integer] The composed color.
   #
   # source://chunky_png//lib/chunky_png/canvas/drawing.rb#21
@@ -609,9 +609,9 @@ module ChunkyPNG::Canvas::Drawing
   # Composes a pixel on the canvas by alpha blending a color with its
   # background color, without bounds checking.
   #
+  # @param color [Integer] The foreground color to blend with
   # @param x [Integer] The x-coordinate of the pixel to blend.
   # @param y [Integer] The y-coordinate of the pixel to blend.
-  # @param color [Integer] The foreground color to blend with
   # @return [Integer] The composed color.
   #
   # source://chunky_png//lib/chunky_png/canvas/drawing.rb#31
@@ -619,27 +619,27 @@ module ChunkyPNG::Canvas::Drawing
 
   # Draws an anti-aliased line using Xiaolin Wu's algorithm.
   #
-  # @param x0 [Integer] The x-coordinate of the first control point.
-  # @param y0 [Integer] The y-coordinate of the first control point.
-  # @param x1 [Integer] The x-coordinate of the second control point.
-  # @param y1 [Integer] The y-coordinate of the second control point.
-  # @param stroke_color [Integer] The color to use for this line.
   # @param inclusive [true, false] Whether to draw the last pixel. Set to
   #   false when drawing multiple lines in a path.
+  # @param stroke_color [Integer] The color to use for this line.
+  # @param x0 [Integer] The x-coordinate of the first control point.
+  # @param x1 [Integer] The x-coordinate of the second control point.
+  # @param y0 [Integer] The y-coordinate of the first control point.
+  # @param y1 [Integer] The y-coordinate of the second control point.
   # @return [ChunkyPNG::Canvas] Itself, with the line drawn.
   #
-  # source://chunky_png//lib/chunky_png/canvas/drawing.rb#94
+  # source://chunky_png//lib/chunky_png/canvas/drawing.rb#156
   def line(x0, y0, x1, y1, stroke_color, inclusive = T.unsafe(nil)); end
 
   # Draws an anti-aliased line using Xiaolin Wu's algorithm.
   #
-  # @param x0 [Integer] The x-coordinate of the first control point.
-  # @param y0 [Integer] The y-coordinate of the first control point.
-  # @param x1 [Integer] The x-coordinate of the second control point.
-  # @param y1 [Integer] The y-coordinate of the second control point.
-  # @param stroke_color [Integer] The color to use for this line.
   # @param inclusive [true, false] Whether to draw the last pixel. Set to
   #   false when drawing multiple lines in a path.
+  # @param stroke_color [Integer] The color to use for this line.
+  # @param x0 [Integer] The x-coordinate of the first control point.
+  # @param x1 [Integer] The x-coordinate of the second control point.
+  # @param y0 [Integer] The y-coordinate of the first control point.
+  # @param y1 [Integer] The y-coordinate of the second control point.
   # @return [ChunkyPNG::Canvas] Itself, with the line drawn.
   #
   # source://chunky_png//lib/chunky_png/canvas/drawing.rb#94
@@ -648,10 +648,10 @@ module ChunkyPNG::Canvas::Drawing
   # Draws a polygon on the canvas using the stroke_color, filled using the
   # fill_color if any.
   #
+  # @param fill_color [Integer] The fill color to use for this polygon.
   # @param path [Array, String] The control point vector. Accepts everything
   #   {ChunkyPNG.Vector} accepts.
   # @param stroke_color [Integer] The stroke color to use for this polygon.
-  # @param fill_color [Integer] The fill color to use for this polygon.
   # @return [ChunkyPNG::Canvas] Itself, with the polygon drawn.
   #
   # source://chunky_png//lib/chunky_png/canvas/drawing.rb#166
@@ -659,12 +659,12 @@ module ChunkyPNG::Canvas::Drawing
 
   # Draws a rectangle on the canvas, using two control points.
   #
-  # @param x0 [Integer] The x-coordinate of the first control point.
-  # @param y0 [Integer] The y-coordinate of the first control point.
-  # @param x1 [Integer] The x-coordinate of the second control point.
-  # @param y1 [Integer] The y-coordinate of the second control point.
-  # @param stroke_color [Integer] The line color to use for this rectangle.
   # @param fill_color [Integer] The fill color to use for this rectangle.
+  # @param stroke_color [Integer] The line color to use for this rectangle.
+  # @param x0 [Integer] The x-coordinate of the first control point.
+  # @param x1 [Integer] The x-coordinate of the second control point.
+  # @param y0 [Integer] The y-coordinate of the first control point.
+  # @param y1 [Integer] The y-coordinate of the second control point.
   # @return [ChunkyPNG::Canvas] Itself, with the rectangle drawn.
   #
   # source://chunky_png//lib/chunky_png/canvas/drawing.rb#211
@@ -674,10 +674,10 @@ module ChunkyPNG::Canvas::Drawing
 
   # Calculates the binomial coefficient for n over k.
   #
-  # @param n [Integer] first parameter in coeffient (the number on top when
-  #   looking at the mathematic formula)
   # @param k [Integer] k-element, second parameter in coeffient (the number
   #   on the bottom when looking at the mathematic formula)
+  # @param n [Integer] first parameter in coeffient (the number on top when
+  #   looking at the mathematic formula)
   # @return [Integer] The binomial coeffcient of (n,k)
   #
   # source://chunky_png//lib/chunky_png/canvas/drawing.rb#311
@@ -717,15 +717,15 @@ module ChunkyPNG::Canvas::Masking
   # from a background color (preferably white). You can set a tolerance level to influence
   # the extraction process.
   #
-  # @param old_theme_color [Integer] The original theme color in this image.
-  # @param new_theme_color [Integer] The color to replace the old theme color with.
   # @param bg_color [Integer] The background color on which the theme colored pixels are placed.
+  # @param new_theme_color [Integer] The color to replace the old theme color with.
+  # @param old_theme_color [Integer] The original theme color in this image.
   # @param tolerance [Integer] The tolerance level to use when extracting the mask image. Five is
   #   the default; increase this if the masked image does not extract all the required pixels,
   #   decrease it if too many pixels get extracted.
   # @return [ChunkyPNG::Canvas] Returns itself, but with the theme colored pixels changed.
-  # @see #change_theme_color!
   # @see #change_mask_color!
+  # @see #change_theme_color!
   #
   # source://chunky_png//lib/chunky_png/canvas/masking.rb#30
   def change_theme_color!(old_theme_color, new_theme_color, bg_color = T.unsafe(nil), tolerance = T.unsafe(nil)); end
@@ -741,15 +741,15 @@ module ChunkyPNG::Canvas::Masking
   # then be composed upon the base image to create an image with a new theme color. A call to
   # {#change_theme_color!} will perform this in one go.
   #
-  # @param mask_color [Integer] The current theme color.
   # @param bg_color [Integer] The background color on which the theme colored pixels are applied.
+  # @param mask_color [Integer] The current theme color.
   # @param tolerance [Integer] The tolerance level to use when extracting the mask image. Five is
   #   the default; increase this if the masked image does not extract all the required pixels,
   #   decrease it if too many pixels get extracted.
   # @return [Array<ChunkyPNG::Canvas, ChunkyPNG::Canvas>] An array with the base canvas and the mask
   #   canvas as elements.
-  # @see #change_theme_color!
   # @see #change_mask_color!
+  # @see #change_theme_color!
   #
   # source://chunky_png//lib/chunky_png/canvas/masking.rb#56
   def extract_mask(mask_color, bg_color = T.unsafe(nil), tolerance = T.unsafe(nil)); end
@@ -768,8 +768,8 @@ end
 module ChunkyPNG::Canvas::Operations
   # Draws a border around the image.
   #
-  # @param size [Integer] The size of the border.
   # @param color [Integer] The color of the border.
+  # @param size [Integer] The size of the border.
   # @return [ChunkyPNG::Canvas] Returns a bordered version of the image.
   # @see #border!
   #
@@ -778,8 +778,8 @@ module ChunkyPNG::Canvas::Operations
 
   # Draws a border around the image in place.
   #
-  # @param size [Integer] The size of the border.
   # @param color [Integer] The color of the border.
+  # @param size [Integer] The size of the border.
   # @return [ChunkyPNG::Canvas] Returns itself with the border added.
   # @see #border
   #
@@ -795,10 +795,10 @@ module ChunkyPNG::Canvas::Operations
   # @note API changed since 1.0 - This method now no longer is in place,
   #   but returns a new canvas and leaves the original intact. Use
   #   {#compose!} if you want to compose on the canvas in place.
-  # @param other [ChunkyPNG::Canvas] The foreground canvas to compose on
-  #   the current canvas, using alpha compositing.
   # @param offset_x [Integer] The x-offset to apply the new foreground on.
   # @param offset_y [Integer] The y-offset to apply the new foreground on.
+  # @param other [ChunkyPNG::Canvas] The foreground canvas to compose on
+  #   the current canvas, using alpha compositing.
   # @raise [ChunkyPNG::OutOfBounds] when the other canvas doesn't fit on
   #   this one, given the offset and size of the other canvas.
   # @return [ChunkyPNG::Canvas] Returns the new canvas, composed of the
@@ -814,16 +814,16 @@ module ChunkyPNG::Canvas::Operations
   # If you simply want to replace pixels or when the other image does not
   # have transparency, it is faster to use {#replace!}.
   #
-  # @param other [ChunkyPNG::Canvas] The foreground canvas to compose on
-  #   the current canvas, using alpha compositing.
   # @param offset_x [Integer] The x-offset to apply the new foreground on.
   # @param offset_y [Integer] The y-offset to apply the new foreground on.
+  # @param other [ChunkyPNG::Canvas] The foreground canvas to compose on
+  #   the current canvas, using alpha compositing.
   # @raise [ChunkyPNG::OutOfBounds] when the other canvas doesn't fit on
   #   this one, given the offset and size of the other canvas.
   # @return [ChunkyPNG::Canvas] Returns itself, but with the other canvas
   #   composed onto it.
-  # @see #replace!
   # @see #compose
+  # @see #replace!
   #
   # source://chunky_png//lib/chunky_png/canvas/operations.rb#56
   def compose!(other, offset_x = T.unsafe(nil), offset_y = T.unsafe(nil)); end
@@ -832,12 +832,12 @@ module ChunkyPNG::Canvas::Operations
   # to be cut out. This will leave the original image intact and return a
   # new, cropped image with pixels copied from the original image.
   #
+  # @param crop_height [Integer] The height of the image to be cropped.
+  # @param crop_width [Integer] The width of the image to be cropped.
   # @param x [Integer] The x-coordinate of the top left corner of the image
   #   to be cropped.
   # @param y [Integer] The y-coordinate of the top left corner of the image
   #   to be cropped.
-  # @param crop_width [Integer] The width of the image to be cropped.
-  # @param crop_height [Integer] The height of the image to be cropped.
   # @raise [ChunkyPNG::OutOfBounds] when the crop dimensions plus the given
   #   coordinates are bigger then the original image.
   # @return [ChunkyPNG::Canvas] Returns the newly created cropped image.
@@ -852,12 +852,12 @@ module ChunkyPNG::Canvas::Operations
   # {#crop} if you want to have a new canvas returned instead, leaving the
   # current canvas intact.
   #
+  # @param crop_height [Integer] The height of the image to be cropped.
+  # @param crop_width [Integer] The width of the image to be cropped.
   # @param x [Integer] The x-coordinate of the top left corner of the image
   #   to be cropped.
   # @param y [Integer] The y-coordinate of the top left corner of the image
   #   to be cropped.
-  # @param crop_width [Integer] The width of the image to be cropped.
-  # @param crop_height [Integer] The height of the image to be cropped.
   # @raise [ChunkyPNG::OutOfBounds] when the crop dimensions plus the given
   #   coordinates are bigger then the original image.
   # @return [ChunkyPNG::Canvas] Returns itself, but cropped.
@@ -875,7 +875,7 @@ module ChunkyPNG::Canvas::Operations
   # @return [ChunkyPNG::Canvas] The flipped image
   # @see #flip_horizontally!
   #
-  # source://chunky_png//lib/chunky_png/canvas/operations.rb#205
+  # source://chunky_png//lib/chunky_png/canvas/operations.rb#229
   def flip; end
 
   # Flips the image horizontally in place.
@@ -888,7 +888,7 @@ module ChunkyPNG::Canvas::Operations
   # @return [ChunkyPNG::Canvas] Itself, but flipped
   # @see #flip_horizontally
   #
-  # source://chunky_png//lib/chunky_png/canvas/operations.rb#218
+  # source://chunky_png//lib/chunky_png/canvas/operations.rb#228
   def flip!; end
 
   # Flips the image horizontally, leaving the original intact.
@@ -978,7 +978,7 @@ module ChunkyPNG::Canvas::Operations
   # @return [ChunkyPNG::Canvas] The flipped image
   # @see #flip_vertically!
   #
-  # source://chunky_png//lib/chunky_png/canvas/operations.rb#240
+  # source://chunky_png//lib/chunky_png/canvas/operations.rb#261
   def mirror; end
 
   # Flips the image vertically in place.
@@ -991,7 +991,7 @@ module ChunkyPNG::Canvas::Operations
   # @return [ChunkyPNG::Canvas] Itself, but flipped
   # @see #flip_vertically
   #
-  # source://chunky_png//lib/chunky_png/canvas/operations.rb#253
+  # source://chunky_png//lib/chunky_png/canvas/operations.rb#260
   def mirror!; end
 
   # Replaces pixels on this image by pixels from another pixels, on a given
@@ -1004,10 +1004,10 @@ module ChunkyPNG::Canvas::Operations
   # @note API changed since 1.0 - This method now no longer is in place,
   #   but returns a new canvas and leaves the original intact. Use
   #   {#replace!} if you want to replace pixels on the canvas in place.
-  # @param other [ChunkyPNG::Canvas] The foreground canvas to get the
-  #   pixels from.
   # @param offset_x [Integer] The x-offset to apply the new foreground on.
   # @param offset_y [Integer] The y-offset to apply the new foreground on.
+  # @param other [ChunkyPNG::Canvas] The foreground canvas to get the
+  #   pixels from.
   # @raise [ChunkyPNG::OutOfBounds] when the other canvas doesn't fit on
   #   this one, given the offset and size of the other canvas.
   # @return [ChunkyPNG::Canvas] Returns a new, combined canvas.
@@ -1023,10 +1023,10 @@ module ChunkyPNG::Canvas::Operations
   # want to blend them with semi-transparent pixels from the foreground
   # image, see {#compose!}.
   #
-  # @param other [ChunkyPNG::Canvas] The foreground canvas to get the
-  #   pixels from.
   # @param offset_x [Integer] The x-offset to apply the new foreground on.
   # @param offset_y [Integer] The y-offset to apply the new foreground on.
+  # @param other [ChunkyPNG::Canvas] The foreground canvas to get the
+  #   pixels from.
   # @raise [ChunkyPNG::OutOfBounds] when the other canvas doesn't fit on
   #   this one, given the offset and size of the other canvas.
   # @return [ChunkyPNG::Canvas] Returns itself, but with the other canvas
@@ -1063,7 +1063,7 @@ module ChunkyPNG::Canvas::Operations
   # @return [ChunkyPNG::Canvas] A clockwise-rotated copy.
   # @see #rotate_right! for the in place version.
   #
-  # source://chunky_png//lib/chunky_png/canvas/operations.rb#269
+  # source://chunky_png//lib/chunky_png/canvas/operations.rb#285
   def rotate_clockwise; end
 
   # Rotates the image 90 degrees clockwise in place.
@@ -1073,7 +1073,7 @@ module ChunkyPNG::Canvas::Operations
   # @return [ChunkyPNG::Canvas] Itself, but rotated clockwise.
   # @see #rotate_right for a version that leaves the current canvas intact
   #
-  # source://chunky_png//lib/chunky_png/canvas/operations.rb#279
+  # source://chunky_png//lib/chunky_png/canvas/operations.rb#286
   def rotate_clockwise!; end
 
   # Returns an image that is rotated 90 degrees counter-clockwise.
@@ -1084,7 +1084,7 @@ module ChunkyPNG::Canvas::Operations
   # @return [ChunkyPNG::Canvas] A rotated copy of itself.
   # @see #rotate_left! for the in-place version.
   #
-  # source://chunky_png//lib/chunky_png/canvas/operations.rb#295
+  # source://chunky_png//lib/chunky_png/canvas/operations.rb#312
   def rotate_counter_clockwise; end
 
   # Rotates the image 90 degrees counter-clockwise in place.
@@ -1095,7 +1095,7 @@ module ChunkyPNG::Canvas::Operations
   #
   # @return [ChunkyPNG::Canvas] Itself, but rotated.
   #
-  # source://chunky_png//lib/chunky_png/canvas/operations.rb#306
+  # source://chunky_png//lib/chunky_png/canvas/operations.rb#313
   def rotate_counter_clockwise!; end
 
   # Returns an image that is rotated 90 degrees counter-clockwise.
@@ -1166,11 +1166,11 @@ module ChunkyPNG::Canvas::Operations
   # an operation on the current image, given an offset coordinate to work
   # with.
   #
-  # @param other [ChunkyPNG::Canvas] The other canvas
   # @param offset_x [Integer] The x offset on which the other image will be
   #   applied.
   # @param offset_y [Integer] The y offset on which the other image will be
   #   applied.
+  # @param other [ChunkyPNG::Canvas] The other canvas
   # @raise [ChunkyPNG::OutOfBounds] when the other image doesn't fit.
   #
   # source://chunky_png//lib/chunky_png/canvas/operations.rb#395
@@ -1209,14 +1209,14 @@ module ChunkyPNG::Canvas::PNGDecoding
   # Decodes a canvas from a PNG encoded pixelstream, using a given width, height,
   # color mode and interlacing mode.
   #
-  # @param stream [String] The pixelstream to read from.
-  # @param width [Integer] The width of the image.
-  # @param height [Integer] The height of the image.
   # @param color_mode [Integer] The color mode of the encoded pixelstream.
-  # @param depth [Integer] The bit depth of the pixel samples.
-  # @param interlace [Integer] The interlace method of the encoded pixelstream.
   # @param decoding_palette [ChunkyPNG::Palette] The palette to use to decode colors.
+  # @param depth [Integer] The bit depth of the pixel samples.
+  # @param height [Integer] The height of the image.
+  # @param interlace [Integer] The interlace method of the encoded pixelstream.
+  # @param stream [String] The pixelstream to read from.
   # @param transparent_color [Integer] The color that should be considered fully transparent.
+  # @param width [Integer] The width of the image.
   # @raise [ChunkyPNG::ExpectationFailed]
   # @return [ChunkyPNG::Canvas] The decoded Canvas instance.
   #
@@ -1260,7 +1260,7 @@ module ChunkyPNG::Canvas::PNGDecoding
   # @param io [IO, #read] The stream to read from.
   # @return [ChunkyPNG::Canvas] The canvas decoded from the PNG stream.
   #
-  # source://chunky_png//lib/chunky_png/canvas/png_decoding.rb#51
+  # source://chunky_png//lib/chunky_png/canvas/png_decoding.rb#55
   def from_stream(io); end
 
   # Decodes a Canvas from a PNG encoded string.
@@ -1268,7 +1268,7 @@ module ChunkyPNG::Canvas::PNGDecoding
   # @param str [String] The string to read from.
   # @return [ChunkyPNG::Canvas] The canvas decoded from the PNG encoded string.
   #
-  # source://chunky_png//lib/chunky_png/canvas/png_decoding.rb#35
+  # source://chunky_png//lib/chunky_png/canvas/png_decoding.rb#39
   def from_string(str); end
 
   protected
@@ -1309,12 +1309,12 @@ module ChunkyPNG::Canvas::PNGDecoding
   # A non-interlaced image only consists of one pass, while an Adam7
   # image consists of 7 passes that must be combined after decoding.
   #
-  # @param start_pos [Integer] The position in the pixel stream to start reading.
+  # @param color_mode [Integer] The color mode of the encoded pixelstream.
   # @param decoding_palette [ChunkyPNG::Palette] The palette to use to decode colors.
+  # @param height [Integer] The height of the image.
+  # @param start_pos [Integer] The position in the pixel stream to start reading.
   # @param stream [String] The pixelstream to read from.
   # @param width [Integer] The width of the image.
-  # @param height [Integer] The height of the image.
-  # @param color_mode [Integer] The color mode of the encoded pixelstream.
   # @return [ChunkyPNG::Canvas] The decoded Canvas instance.
   #
   # source://chunky_png//lib/chunky_png/canvas/png_decoding.rb#383
@@ -1371,10 +1371,10 @@ module ChunkyPNG::Canvas::PNGDecoding
 
   # Decodes a scanline of a 1-bit, indexed image into a row of pixels.
   #
-  # @param stream [String] The stream to decode from.
-  # @param pos [Integer] The position in the stream on which the scanline starts (including the filter byte).
-  # @param width [Integer] The width in pixels of the scanline.
   # @param decoding_palette [ChunkyPNG::Palette] The palette to use to decode colors.
+  # @param pos [Integer] The position in the stream on which the scanline starts (including the filter byte).
+  # @param stream [String] The stream to decode from.
+  # @param width [Integer] The width in pixels of the scanline.
   # @return [Array<Integer>] An array of decoded pixels.
   #
   # source://chunky_png//lib/chunky_png/canvas/png_decoding.rb#214
@@ -1486,12 +1486,12 @@ module ChunkyPNG::Canvas::PNGDecoding
   #
   # The bytes of the scanline can then be used to construct pixels, based on the color mode..
   #
-  # @param stream [String] The pixelstream to undo the filtering in.
+  # @param line_length [Integer] The number of bytes in the scanline, discounting the filter method byte.
+  # @param pixel_size [Integer] The number of bytes used per pixel, based on the color mode.
   # @param pos [Integer] The starting position of the scanline to decode.
   # @param prev_pos [Integer, nil] The starting position of the previously decoded scanline, or <tt>nil</tt>
   #   if this is the first scanline of the image.
-  # @param line_length [Integer] The number of bytes in the scanline, discounting the filter method byte.
-  # @param pixel_size [Integer] The number of bytes used per pixel, based on the color mode.
+  # @param stream [String] The pixelstream to undo the filtering in.
   # @return [void]
   #
   # source://chunky_png//lib/chunky_png/canvas/png_decoding.rb#421
@@ -1539,12 +1539,12 @@ module ChunkyPNG::Canvas::PNGDecoding
   # Decodes a canvas from a Adam 7 interlaced PNG encoded pixelstream, using a
   # given width, height and color mode.
   #
+  # @param color_mode [Integer] The color mode of the encoded pixelstream.
   # @param decoding_palette [ChunkyPNG::Palette] The palette to use to decode colors.
+  # @param depth [Integer] The bit depth of the pixel samples.
+  # @param height [Integer] The height of the image.
   # @param stream [String] The pixelstream to read from.
   # @param width [Integer] The width of the image.
-  # @param height [Integer] The height of the image.
-  # @param color_mode [Integer] The color mode of the encoded pixelstream.
-  # @param depth [Integer] The bit depth of the pixel samples.
   # @return [ChunkyPNG::Canvas] The decoded Canvas instance.
   #
   # source://chunky_png//lib/chunky_png/canvas/png_decoding.rb#132
@@ -1553,12 +1553,12 @@ module ChunkyPNG::Canvas::PNGDecoding
   # Decodes a canvas from a non-interlaced PNG encoded pixelstream, using a
   # given width, height and color mode.
   #
+  # @param color_mode [Integer] The color mode of the encoded pixelstream.
   # @param decoding_palette [ChunkyPNG::Palette] The palette to use to decode colors.
+  # @param depth [Integer] The bit depth of the pixel samples.
+  # @param height [Integer] The height of the image.
   # @param stream [String] The pixelstream to read from.
   # @param width [Integer] The width of the image.
-  # @param height [Integer] The height of the image.
-  # @param color_mode [Integer] The color mode of the encoded pixelstream.
-  # @param depth [Integer] The bit depth of the pixel samples.
   # @return [ChunkyPNG::Canvas] The decoded Canvas instance.
   #
   # source://chunky_png//lib/chunky_png/canvas/png_decoding.rb#119
@@ -1605,7 +1605,6 @@ module ChunkyPNG::Canvas::PNGEncoding
 
   # Writes the canvas to a file, encoded as a PNG image.
   #
-  # @param filename [String] The file to save the PNG image to.
   # @param constraints [Hash, Symbol] The constraints to use when encoding the canvas.
   #   This can either be a hash with different constraints, or a symbol which acts as a
   #   preset for some constraints. If no constraints are given, ChunkyPNG will decide
@@ -1613,6 +1612,7 @@ module ChunkyPNG::Canvas::PNGEncoding
   #   Supported presets are <tt>:fast_rgba</tt> for quickly saving images with transparency,
   #   <tt>:fast_rgb</tt> for quickly saving opaque images, and <tt>:best_compression</tt> to
   #   obtain the smallest possible filesize.
+  # @param filename [String] The file to save the PNG image to.
   # @return [void]
   #
   # source://chunky_png//lib/chunky_png/canvas/png_encoding.rb#42
@@ -1655,19 +1655,18 @@ module ChunkyPNG::Canvas::PNGEncoding
   #
   # @return [String] The PNG encoded canvas as string.
   #
-  # source://chunky_png//lib/chunky_png/canvas/png_encoding.rb#49
+  # source://chunky_png//lib/chunky_png/canvas/png_encoding.rb#54
   def to_s(constraints = T.unsafe(nil)); end
 
   # Encoded the canvas to a PNG formatted string.
   #
   # @return [String] The PNG encoded canvas as string.
   #
-  # source://chunky_png//lib/chunky_png/canvas/png_encoding.rb#49
+  # source://chunky_png//lib/chunky_png/canvas/png_encoding.rb#53
   def to_string(constraints = T.unsafe(nil)); end
 
   # Writes the canvas to an IO stream, encoded as a PNG image.
   #
-  # @param io [IO] The output stream to write to.
   # @param constraints [Hash, Symbol] The constraints to use when encoding the canvas.
   #   This can either be a hash with different constraints, or a symbol which acts as a
   #   preset for some constraints. If no constraints are given, ChunkyPNG will decide
@@ -1675,6 +1674,7 @@ module ChunkyPNG::Canvas::PNGEncoding
   #   Supported presets are <tt>:fast_rgba</tt> for quickly saving images with transparency,
   #   <tt>:fast_rgb</tt> for quickly saving opaque images, and <tt>:best_compression</tt> to
   #   obtain the smallest possible filesize.
+  # @param io [IO] The output stream to write to.
   # @return [void]
   #
   # source://chunky_png//lib/chunky_png/canvas/png_encoding.rb#34
@@ -1697,10 +1697,10 @@ module ChunkyPNG::Canvas::PNGEncoding
 
   # Encodes the canvas to a stream, in a given color mode.
   #
-  # @param stream [String] The stream to write to.
-  # @param color_mode [Integer] The color mode to use for encoding.
   # @param bit_depth [Integer] The bit depth of the image.
+  # @param color_mode [Integer] The color mode to use for encoding.
   # @param filtering [Integer] The filtering method to use.
+  # @param stream [String] The stream to write to.
   #
   # source://chunky_png//lib/chunky_png/canvas/png_encoding.rb#206
   def encode_png_image_pass_to_stream(stream, color_mode, bit_depth, filtering); end
@@ -1711,8 +1711,8 @@ module ChunkyPNG::Canvas::PNGEncoding
   # This method will split the original canvas in 7 smaller canvases and encode them
   # one by one, concatenating the resulting strings.
   #
-  # @param color_mode [Integer] The color mode to use for encoding.
   # @param bit_depth [Integer] The bit depth of the image.
+  # @param color_mode [Integer] The color mode to use for encoding.
   # @param filtering [Integer] The filtering method to use.
   # @return [String] The PNG encoded canvas as string.
   #
@@ -1721,8 +1721,8 @@ module ChunkyPNG::Canvas::PNGEncoding
 
   # Encodes the canvas according to the PNG format specification with a given color mode.
   #
-  # @param color_mode [Integer] The color mode to use for encoding.
   # @param bit_depth [Integer] The bit depth of the image.
+  # @param color_mode [Integer] The color mode to use for encoding.
   # @param filtering [Integer] The filtering method to use.
   # @return [String] The PNG encoded canvas as string.
   #
@@ -1830,8 +1830,8 @@ module ChunkyPNG::Canvas::PNGEncoding
   # Encodes the canvas according to the PNG format specification with a given color
   # mode, possibly with interlacing.
   #
-  # @param color_mode [Integer] The color mode to use for encoding.
   # @param bit_depth [Integer] The bit depth of the image.
+  # @param color_mode [Integer] The color mode to use for encoding.
   # @param interlace [Integer] The interlacing method to use.
   # @return [String] The PNG encoded canvas as string.
   #
@@ -1840,13 +1840,13 @@ module ChunkyPNG::Canvas::PNGEncoding
 
   # Encodes a scanline of a pixelstream using AVERAGE filtering. This will modify the stream.
   #
-  # @param stream [String] The pixelstream to work on. This string will be modified.
-  # @param pos [Integer] The starting position of the scanline.
-  # @param prev_pos [Integer, nil] The starting position of the previous scanline. <tt>nil</tt> if
-  #   this is the first line.
   # @param line_width [Integer] The number of bytes in this scanline, without counting the filtering
   #   method byte.
   # @param pixel_size [Integer] The number of bytes used per pixel.
+  # @param pos [Integer] The starting position of the scanline.
+  # @param prev_pos [Integer, nil] The starting position of the previous scanline. <tt>nil</tt> if
+  #   this is the first line.
+  # @param stream [String] The pixelstream to work on. This string will be modified.
   # @return [void]
   #
   # source://chunky_png//lib/chunky_png/canvas/png_encoding.rb#417
@@ -1854,13 +1854,13 @@ module ChunkyPNG::Canvas::PNGEncoding
 
   # Encodes a scanline of a pixelstream without filtering. This is a no-op.
   #
-  # @param stream [String] The pixelstream to work on. This string will be modified.
-  # @param pos [Integer] The starting position of the scanline.
-  # @param prev_pos [Integer, nil] The starting position of the previous scanline. <tt>nil</tt> if
-  #   this is the first line.
   # @param line_width [Integer] The number of bytes in this scanline, without counting the filtering
   #   method byte.
   # @param pixel_size [Integer] The number of bytes used per pixel.
+  # @param pos [Integer] The starting position of the scanline.
+  # @param prev_pos [Integer, nil] The starting position of the previous scanline. <tt>nil</tt> if
+  #   this is the first line.
+  # @param stream [String] The pixelstream to work on. This string will be modified.
   # @return [void]
   #
   # source://chunky_png//lib/chunky_png/canvas/png_encoding.rb#388
@@ -1868,13 +1868,13 @@ module ChunkyPNG::Canvas::PNGEncoding
 
   # Encodes a scanline of a pixelstream using PAETH filtering. This will modify the stream.
   #
-  # @param stream [String] The pixelstream to work on. This string will be modified.
-  # @param pos [Integer] The starting position of the scanline.
-  # @param prev_pos [Integer, nil] The starting position of the previous scanline. <tt>nil</tt> if
-  #   this is the first line.
   # @param line_width [Integer] The number of bytes in this scanline, without counting the filtering
   #   method byte.
   # @param pixel_size [Integer] The number of bytes used per pixel.
+  # @param pos [Integer] The starting position of the scanline.
+  # @param prev_pos [Integer, nil] The starting position of the previous scanline. <tt>nil</tt> if
+  #   this is the first line.
+  # @param stream [String] The pixelstream to work on. This string will be modified.
   # @return [void]
   #
   # source://chunky_png//lib/chunky_png/canvas/png_encoding.rb#429
@@ -1882,13 +1882,13 @@ module ChunkyPNG::Canvas::PNGEncoding
 
   # Encodes a scanline of a pixelstream using SUB filtering. This will modify the stream.
   #
-  # @param stream [String] The pixelstream to work on. This string will be modified.
-  # @param pos [Integer] The starting position of the scanline.
-  # @param prev_pos [Integer, nil] The starting position of the previous scanline. <tt>nil</tt> if
-  #   this is the first line.
   # @param line_width [Integer] The number of bytes in this scanline, without counting the filtering
   #   method byte.
   # @param pixel_size [Integer] The number of bytes used per pixel.
+  # @param pos [Integer] The starting position of the scanline.
+  # @param prev_pos [Integer, nil] The starting position of the previous scanline. <tt>nil</tt> if
+  #   this is the first line.
+  # @param stream [String] The pixelstream to work on. This string will be modified.
   # @return [void]
   #
   # source://chunky_png//lib/chunky_png/canvas/png_encoding.rb#395
@@ -1896,13 +1896,13 @@ module ChunkyPNG::Canvas::PNGEncoding
 
   # Encodes a scanline of a pixelstream using UP filtering. This will modify the stream.
   #
-  # @param stream [String] The pixelstream to work on. This string will be modified.
-  # @param pos [Integer] The starting position of the scanline.
-  # @param prev_pos [Integer, nil] The starting position of the previous scanline. <tt>nil</tt> if
-  #   this is the first line.
   # @param line_width [Integer] The number of bytes in this scanline, without counting the filtering
   #   method byte.
   # @param pixel_size [Integer] The number of bytes used per pixel.
+  # @param pos [Integer] The starting position of the scanline.
+  # @param prev_pos [Integer, nil] The starting position of the previous scanline. <tt>nil</tt> if
+  #   this is the first line.
+  # @param stream [String] The pixelstream to work on. This string will be modified.
   # @return [void]
   #
   # source://chunky_png//lib/chunky_png/canvas/png_encoding.rb#406
@@ -1919,7 +1919,7 @@ end
 #
 # source://chunky_png//lib/chunky_png/canvas/resampling.rb#12
 module ChunkyPNG::Canvas::Resampling
-  # source://chunky_png//lib/chunky_png/canvas/resampling.rb#90
+  # source://chunky_png//lib/chunky_png/canvas/resampling.rb#138
   def resample(new_width, new_height); end
 
   # source://chunky_png//lib/chunky_png/canvas/resampling.rb#134
@@ -1927,8 +1927,8 @@ module ChunkyPNG::Canvas::Resampling
 
   # Resamples the canvas with bilinear interpolation.
   #
-  # @param new_width [Integer] The width of the resampled canvas.
   # @param new_height [Integer] The height of the resampled canvas.
+  # @param new_width [Integer] The width of the resampled canvas.
   # @return [ChunkyPNG::Canvas] A new canvas instance with the resampled pixels.
   #
   # source://chunky_png//lib/chunky_png/canvas/resampling.rb#98
@@ -1939,14 +1939,14 @@ module ChunkyPNG::Canvas::Resampling
 
   # Resamples the canvas using nearest neighbor interpolation.
   #
-  # @param new_width [Integer] The width of the resampled canvas.
   # @param new_height [Integer] The height of the resampled canvas.
+  # @param new_width [Integer] The width of the resampled canvas.
   # @return [ChunkyPNG::Canvas] A new canvas instance with the resampled pixels.
   #
   # source://chunky_png//lib/chunky_png/canvas/resampling.rb#74
   def resample_nearest_neighbor!(new_width, new_height); end
 
-  # source://chunky_png//lib/chunky_png/canvas/resampling.rb#90
+  # source://chunky_png//lib/chunky_png/canvas/resampling.rb#139
   def resize(new_width, new_height); end
 
   # Integer Interpolation between two values
@@ -1954,8 +1954,8 @@ module ChunkyPNG::Canvas::Resampling
   # Used for generating indicies for interpolation (eg, nearest
   # neighbour).
   #
-  # @param width [Integer] The width of the source
   # @param new_width [Integer] The width of the destination
+  # @param width [Integer] The width of the source
   # @return [Array<Integer>] An Array of Integer indicies
   #
   # source://chunky_png//lib/chunky_png/canvas/resampling.rb#21
@@ -1966,8 +1966,8 @@ module ChunkyPNG::Canvas::Resampling
   # Used for generating values for interpolation (eg, bilinear).
   # Produces both the indices and the interpolation factors (residues).
   #
-  # @param width [Integer] The width of the source
   # @param new_width [Integer] The width of the destination
+  # @param width [Integer] The width of the source
   # @return [Array<Integer>, Array<Integer>] Two arrays of indicies and residues
   #
   # source://chunky_png//lib/chunky_png/canvas/resampling.rb#38
@@ -2040,9 +2040,9 @@ module ChunkyPNG::Canvas::StreamImporting
   # ARGB order. This format is almost like the internal representation of a
   # canvas object, so this kind of stream can be read extremely quickly.
   #
-  # @param width [Integer] The width of the new canvas.
   # @param height [Integer] The height of the new canvas.
   # @param stream [#read, String] The stream to read the pixel data from.
+  # @param width [Integer] The width of the new canvas.
   # @return [ChunkyPNG::Canvas] The newly constructed canvas instance.
   #
   # source://chunky_png//lib/chunky_png/canvas/stream_importing.rb#71
@@ -2055,9 +2055,9 @@ module ChunkyPNG::Canvas::StreamImporting
   # BGR order. This format closely resembles the internal representation of a
   # canvas object, so this kind of stream can be read extremely quickly.
   #
-  # @param width [Integer] The width of the new canvas.
   # @param height [Integer] The height of the new canvas.
   # @param stream [#read, String] The stream to read the pixel data from.
+  # @param width [Integer] The width of the new canvas.
   # @return [ChunkyPNG::Canvas] The newly constructed canvas instance.
   #
   # source://chunky_png//lib/chunky_png/canvas/stream_importing.rb#53
@@ -2070,9 +2070,9 @@ module ChunkyPNG::Canvas::StreamImporting
   # RGB order. This format closely resembles the internal representation of a
   # canvas object, so this kind of stream can be read extremely quickly.
   #
-  # @param width [Integer] The width of the new canvas.
   # @param height [Integer] The height of the new canvas.
   # @param stream [#read, String] The stream to read the pixel data from.
+  # @param width [Integer] The width of the new canvas.
   # @return [ChunkyPNG::Canvas] The newly constructed canvas instance.
   #
   # source://chunky_png//lib/chunky_png/canvas/stream_importing.rb#18
@@ -2085,9 +2085,9 @@ module ChunkyPNG::Canvas::StreamImporting
   # RGBA order. This format is exactly like the internal representation of a
   # canvas object, so this kind of stream can be read extremely quickly.
   #
-  # @param width [Integer] The width of the new canvas.
   # @param height [Integer] The height of the new canvas.
   # @param stream [#read, String] The stream to read the pixel data from.
+  # @param width [Integer] The width of the new canvas.
   # @return [ChunkyPNG::Canvas] The newly constructed canvas instance.
   #
   # source://chunky_png//lib/chunky_png/canvas/stream_importing.rb#37
@@ -2130,9 +2130,9 @@ module ChunkyPNG::Chunk
 
     # Verifies the CRC of a chunk.
     #
-    # @param type [String] The chunk's type.
     # @param content [String] The chunk's content.
     # @param found_crc [Integer] The chunk's found CRC value.
+    # @param type [String] The chunk's type.
     # @raise [ChunkyPNG::CRCMismatch] An exception is raised if
     #   the found CRC value is not equal to the expected CRC value.
     #
@@ -2153,8 +2153,8 @@ end
 class ChunkyPNG::Chunk::Base
   # Initializes the chunk instance.
   #
-  # @param type [String] The four character chunk type indicator.
   # @param attributes [Hash] A hash of attributes to set on this chunk.
+  # @param type [String] The four character chunk type indicator.
   # @return [Base] a new instance of Base
   #
   # source://chunky_png//lib/chunky_png/chunk.rb#69
@@ -2189,8 +2189,8 @@ class ChunkyPNG::Chunk::Base
   # Writes the chunk to the IO stream, using the provided content.
   # The checksum will be calculated and appended to the stream.
   #
-  # @param io [IO] The IO stream to write to.
   # @param content [String] The content for this chunk.
+  # @param io [IO] The IO stream to write to.
   #
   # source://chunky_png//lib/chunky_png/chunk.rb#78
   def write_with_crc(io, content); end
@@ -2211,9 +2211,9 @@ ChunkyPNG::Chunk::CHUNK_TYPES = T.let(T.unsafe(nil), Hash)
 # PNG stream. In this chunk, the value is compressed using Deflate
 # compression.
 #
-# @see https://www.w3.org/TR/PNG/#11zTXt
 # @see ChunkyPNG::Chunk::CompressedText
 # @see ChunkyPNG::Chunk::InternationalText
+# @see https://www.w3.org/TR/PNG/#11zTXt
 #
 # source://chunky_png//lib/chunky_png/chunk.rb#331
 class ChunkyPNG::Chunk::CompressedText < ::ChunkyPNG::Chunk::Base
@@ -2284,10 +2284,10 @@ class ChunkyPNG::Chunk::End < ::ChunkyPNG::Chunk::Base
   class << self
     # Reads the END chunk. It will check if the content is empty.
     #
-    # @param type [String] The four character chunk type indicator (=
-    #   "IEND").
     # @param content [String] The content read from the chunk. Should be
     #   empty.
+    # @param type [String] The four character chunk type indicator (=
+    #   "IEND").
     # @raise [ChunkyPNG::ExpectationFailed] Raises an exception if the content was not empty.
     # @return [ChunkyPNG::Chunk::End] The new End chunk instance.
     #
@@ -2321,8 +2321,8 @@ class ChunkyPNG::Chunk::Generic < ::ChunkyPNG::Chunk::Base
   class << self
     # Creates an instance, given the chunk's type and content.
     #
-    # @param type [String] The four character chunk type indicator.
     # @param content [String] The content read from the chunk.
+    # @param type [String] The four character chunk type indicator.
     # @return [ChunkyPNG::Chunk::Generic] The new chunk instance.
     #
     # source://chunky_png//lib/chunky_png/chunk.rb#108
@@ -2445,8 +2445,8 @@ class ChunkyPNG::Chunk::Header < ::ChunkyPNG::Chunk::Base
     # Reads the 13 bytes of content from the header chunk to set the image
     # attributes.
     #
-    # @param type [String] The four character chunk type indicator (= "IHDR").
     # @param content [String] The 13 bytes of content read from the chunk.
+    # @param type [String] The four character chunk type indicator (= "IHDR").
     # @return [ChunkyPNG::Chunk::End] The new Header chunk instance with the
     #   variables set to the values according to the content.
     #
@@ -2476,9 +2476,9 @@ class ChunkyPNG::Chunk::ImageData < ::ChunkyPNG::Chunk::Generic
 
     # Splits and compresses a pixeldata stream into a list of IDAT chunks.
     #
+    # @param chunk_size [Integer] The maximum size of a chunk.
     # @param data [String] The binary string of pixeldata
     # @param level [Integer] The compression level to use.
-    # @param chunk_size [Integer] The maximum size of a chunk.
     #
     # source://chunky_png//lib/chunky_png/chunk.rb#286
     def split_in_chunks(data, level = T.unsafe(nil), chunk_size = T.unsafe(nil)); end
@@ -2493,9 +2493,9 @@ end
 # a translation of the keyword name. Finally, it supports bot compressed
 # and uncompressed values.
 #
-# @see https://www.w3.org/TR/PNG/#11iTXt
-# @see ChunkyPNG::Chunk::Text
 # @see ChunkyPNG::Chunk::CompressedText
+# @see ChunkyPNG::Chunk::Text
+# @see https://www.w3.org/TR/PNG/#11iTXt
 #
 # source://chunky_png//lib/chunky_png/chunk.rb#407
 class ChunkyPNG::Chunk::InternationalText < ::ChunkyPNG::Chunk::Base
@@ -2586,8 +2586,8 @@ class ChunkyPNG::Chunk::InternationalText < ::ChunkyPNG::Chunk::Base
   class << self
     # Reads the iTXt chunk.
     #
-    # @param type [String] The four character chunk type indicator (= "iTXt").
     # @param content [String] The content read from the chunk.
+    # @param type [String] The four character chunk type indicator (= "iTXt").
     # @raise [ChunkyPNG::InvalidUTF8] If the chunk contains data that is not UTF8-encoded text.
     # @raise [ChunkyPNG::NotSupported] If the chunk refers to an unsupported compression method.
     #   Currently uncompressed data and deflate are supported.
@@ -2601,9 +2601,9 @@ end
 # The Palette (PLTE) chunk contains the image's palette, i.e. the
 # 8-bit RGB colors this image is using.
 #
-# @see https://www.w3.org/TR/PNG/#11PLTE
 # @see ChunkyPNG::Chunk::Transparency
 # @see ChunkyPNG::Palette
+# @see https://www.w3.org/TR/PNG/#11PLTE
 #
 # source://chunky_png//lib/chunky_png/chunk.rb#205
 class ChunkyPNG::Chunk::Palette < ::ChunkyPNG::Chunk::Generic; end
@@ -2689,9 +2689,9 @@ ChunkyPNG::Chunk::Physical::INCHES_PER_METER = T.let(T.unsafe(nil), Float)
 # The tEXt chunk only supports Latin-1 encoded textual data. If you need
 # UTF-8 support, check out the InternationalText chunk type.
 #
-# @see https://www.w3.org/TR/PNG/#11tEXt
 # @see ChunkyPNG::Chunk::CompressedText
 # @see ChunkyPNG::Chunk::InternationalText
+# @see https://www.w3.org/TR/PNG/#11tEXt
 #
 # source://chunky_png//lib/chunky_png/chunk.rb#302
 class ChunkyPNG::Chunk::Text < ::ChunkyPNG::Chunk::Base
@@ -2750,9 +2750,9 @@ end
 # Images having a color mode that already includes an alpha channel, this
 # chunk should not be included.
 #
-# @see https://www.w3.org/TR/PNG/#11tRNS
 # @see ChunkyPNG::Chunk::Palette
 # @see ChunkyPNG::Palette
+# @see https://www.w3.org/TR/PNG/#11tRNS
 #
 # source://chunky_png//lib/chunky_png/chunk.rb#223
 class ChunkyPNG::Chunk::Transparency < ::ChunkyPNG::Chunk::Generic
@@ -2819,10 +2819,10 @@ module ChunkyPNG::Color
   # given the resulting color, the mask color and a background color,
   # all of which should be opaque.
   #
+  # @param bg [Integer] The background color on which the color was composed.
   # @param color [Integer] The color that was the result of compositing.
   # @param mask [Integer] The opaque variant of the color that was being
   #   composed
-  # @param bg [Integer] The background color on which the color was composed.
   # @param tolerance [Integer] The decomposition tolerance level, a value
   #   between 0 and 255.
   # @return [Boolean] True if the alpha component can be decomposed
@@ -2843,8 +2843,8 @@ module ChunkyPNG::Color
   # Blends the foreground and background color by taking the average of
   # the components.
   #
-  # @param fg [Integer] The foreground color.
   # @param bg [Integer] The foreground color.
+  # @param fg [Integer] The foreground color.
   # @return [Integer] The blended color.
   #
   # source://chunky_png//lib/chunky_png/color.rb#406
@@ -2855,12 +2855,12 @@ module ChunkyPNG::Color
   # This version is faster than the version based on floating point math, so
   # this compositing function is used by default.
   #
-  # @param fg [Integer] The foreground color.
   # @param bg [Integer] The background color.
+  # @param fg [Integer] The foreground color.
   # @return [Integer] The composited color.
   # @see ChunkyPNG::Color#compose_precise
   #
-  # source://chunky_png//lib/chunky_png/color.rb#361
+  # source://chunky_png//lib/chunky_png/color.rb#398
   def compose(fg, bg); end
 
   # Composes two colors with an alpha channel using floating point math.
@@ -2869,8 +2869,8 @@ module ChunkyPNG::Color
   # lost when the result is converted back to an integer. Because it is
   # slower than the version based on integer math, that version is preferred.
   #
-  # @param fg [Integer] The foreground color.
   # @param bg [Integer] The background color.
+  # @param fg [Integer] The foreground color.
   # @return [Integer] The composited color.
   # @see ChunkyPNG::Color#compose_quick
   #
@@ -2882,8 +2882,8 @@ module ChunkyPNG::Color
   # This version is faster than the version based on floating point math, so
   # this compositing function is used by default.
   #
-  # @param fg [Integer] The foreground color.
   # @param bg [Integer] The background color.
+  # @param fg [Integer] The foreground color.
   # @return [Integer] The composited color.
   # @see ChunkyPNG::Color#compose_precise
   #
@@ -2897,10 +2897,10 @@ module ChunkyPNG::Color
   # channel value can successfully decomposed with a given tolerance,
   # otherwise the return value of this method is undefined.
   #
+  # @param bg [Integer] The background color on which the color was composed.
   # @param color [Integer] The color that was the result of compositing.
   # @param mask [Integer] The opaque variant of the color that was being
   #   composed
-  # @param bg [Integer] The background color on which the color was composed.
   # @return [Integer] The best fitting alpha channel, a value between 0 and
   #   255.
   # @see #alpha_decomposable?
@@ -2910,12 +2910,12 @@ module ChunkyPNG::Color
 
   # Decomposes an alpha channel for either the r, g or b color channel.
   #
+  # @param bg [Integer] The background color on which the color was composed.
   # @param channel [:r, :g, :b] The channel to decompose the alpha channel
   #   from.
   # @param color [Integer] The color that was the result of compositing.
   # @param mask [Integer] The opaque variant of the color that was being
   #   composed
-  # @param bg [Integer] The background color on which the color was composed.
   # @return [Integer] The decomposed alpha value for the channel.
   #
   # source://chunky_png//lib/chunky_png/color.rb#537
@@ -2923,10 +2923,10 @@ module ChunkyPNG::Color
 
   # Decomposes the alpha channels for the r, g and b color channel.
   #
+  # @param bg [Integer] The background color on which the color was composed.
   # @param color [Integer] The color that was the result of compositing.
   # @param mask [Integer] The opaque variant of the color that was being
   #   composed
-  # @param bg [Integer] The background color on which the color was composed.
   # @return [Array<Integer>] The decomposed alpha values for the r, g and b
   #   channels.
   #
@@ -2941,10 +2941,10 @@ module ChunkyPNG::Color
   # If the color cannot be decomposed, this method will return the fully
   # transparent variant of the mask color.
   #
+  # @param bg [Integer] The background color on which the color was composed.
   # @param color [Integer] The color that was the result of compositing.
   # @param mask [Integer] The opaque variant of the color that was being
   #   composed
-  # @param bg [Integer] The background color on which the color was composed.
   # @param tolerance [Integer] The decomposition tolerance level, a value
   #   between 0 and 255.
   # @return [Integer] The decomposed color, a variant of the masked color
@@ -3001,15 +3001,15 @@ module ChunkyPNG::Color
   # in descriptions of this colorspace. This implementation follows the modern
   # convention of 0 degrees hue indicating red.
   #
+  # @param alpha [Fixnum] Defaults to opaque (255).
   # @param hue [Fixnum] The hue component (0-360)
   # @param saturation [Fixnum] The saturation component (0-1)
   # @param value [Fixnum] The value (brightness) component (0-1)
-  # @param alpha [Fixnum] Defaults to opaque (255).
   # @raise [ArgumentError] if the hsv triple is invalid.
   # @return [Integer] The newly constructed color value.
   # @see https://en.wikipedia.org/wiki/HSL_and_HSV
   #
-  # source://chunky_png//lib/chunky_png/color.rb#194
+  # source://chunky_png//lib/chunky_png/color.rb#206
   def from_hsb(hue, saturation, value, alpha = T.unsafe(nil)); end
 
   # Creates a new color from an HSL triple.
@@ -3017,10 +3017,10 @@ module ChunkyPNG::Color
   # This implementation follows the modern convention of 0 degrees hue
   # indicating red.
   #
-  # @param hue [Fixnum] The hue component (0-360)
-  # @param saturation [Fixnum] The saturation component (0-1)
-  # @param lightness [Fixnum] The lightness component (0-1)
   # @param alpha [Fixnum] Defaults to opaque (255).
+  # @param hue [Fixnum] The hue component (0-360)
+  # @param lightness [Fixnum] The lightness component (0-1)
+  # @param saturation [Fixnum] The saturation component (0-1)
   # @raise [ArgumentError] if the hsl triple is invalid.
   # @return [Integer] The newly constructed color value.
   # @see https://en.wikipedia.org/wiki/HSL_and_HSV
@@ -3035,10 +3035,10 @@ module ChunkyPNG::Color
   # in descriptions of this colorspace. This implementation follows the modern
   # convention of 0 degrees hue indicating red.
   #
+  # @param alpha [Fixnum] Defaults to opaque (255).
   # @param hue [Fixnum] The hue component (0-360)
   # @param saturation [Fixnum] The saturation component (0-1)
   # @param value [Fixnum] The value (brightness) component (0-1)
-  # @param alpha [Fixnum] Defaults to opaque (255).
   # @raise [ArgumentError] if the hsv triple is invalid.
   # @return [Integer] The newly constructed color value.
   # @see https://en.wikipedia.org/wiki/HSL_and_HSV
@@ -3048,9 +3048,9 @@ module ChunkyPNG::Color
 
   # Creates a color by unpacking an rgb triple from a string.
   #
+  # @param pos [Integer] The position in the string to load the triple from.
   # @param stream [String] The string to load the color from. It should be
   #   at least 3 + pos bytes long.
-  # @param pos [Integer] The position in the string to load the triple from.
   # @return [Integer] The newly constructed color value.
   #
   # source://chunky_png//lib/chunky_png/color.rb#142
@@ -3058,9 +3058,9 @@ module ChunkyPNG::Color
 
   # Creates a color by unpacking an rgba triple from a string
   #
+  # @param pos [Integer] The position in the string to load the triple from.
   # @param stream [String] The string to load the color from. It should be
   #   at least 4 + pos bytes long.
-  # @param pos [Integer] The position in the string to load the triple from.
   # @return [Integer] The newly constructed color value.
   #
   # source://chunky_png//lib/chunky_png/color.rb#152
@@ -3101,9 +3101,9 @@ module ChunkyPNG::Color
 
   # Creates a new color using a grayscale teint and alpha value.
   #
+  # @param a [Integer] The opacity (0-255)
   # @param teint [Integer] The grayscale teint (0-255), will be used as r, g,
   #   and b value.
-  # @param a [Integer] The opacity (0-255)
   # @return [Integer] The newly constructed color value.
   #
   # source://chunky_png//lib/chunky_png/color.rb#128
@@ -3156,9 +3156,9 @@ module ChunkyPNG::Color
   # A blending factor of 255 will give entirely the foreground,
   # while a blending factor of 0 will give the background.
   #
-  # @param fg [Integer] The foreground color.
-  # @param bg [Integer] The background color.
   # @param alpha [Integer] The blending factor (fixed 8bit)
+  # @param bg [Integer] The background color.
+  # @param fg [Integer] The foreground color.
   # @return [Integer] The interpolated color.
   #
   # source://chunky_png//lib/chunky_png/color.rb#420
@@ -3196,8 +3196,8 @@ module ChunkyPNG::Color
   # @param color_mode [Integer] The color mode in which the pixels are
   #   stored.
   # @param depth [Integer] The color depth of the pixels.
-  # @param width [Integer] The width of the image pass.
   # @param height [Integer] The height of the image pass.
+  # @param width [Integer] The width of the image pass.
   # @return [Integer] The number of bytes used per scanline in a datastream.
   #
   # source://chunky_png//lib/chunky_png/color.rb#984
@@ -3234,9 +3234,9 @@ module ChunkyPNG::Color
 
   # Creates a new color using an r, g, b triple.
   #
-  # @param r [Integer] The r-component (0-255)
-  # @param g [Integer] The g-component (0-255)
   # @param b [Integer] The b-component (0-255)
+  # @param g [Integer] The g-component (0-255)
+  # @param r [Integer] The r-component (0-255)
   # @return [Integer] The newly constructed color value.
   #
   # source://chunky_png//lib/chunky_png/color.rb#111
@@ -3244,10 +3244,10 @@ module ChunkyPNG::Color
 
   # Creates a new color using an r, g, b triple and an alpha value.
   #
-  # @param r [Integer] The r-component (0-255)
-  # @param g [Integer] The g-component (0-255)
-  # @param b [Integer] The b-component (0-255)
   # @param a [Integer] The opacity (0-255)
+  # @param b [Integer] The b-component (0-255)
+  # @param g [Integer] The g-component (0-255)
+  # @param r [Integer] The r-component (0-255)
   # @return [Integer] The newly constructed color value.
   #
   # source://chunky_png//lib/chunky_png/color.rb#102
@@ -3342,7 +3342,7 @@ module ChunkyPNG::Color
   #   include_alpha=true (0-255)
   # @see https://en.wikipedia.org/wiki/HSL_and_HSV
   #
-  # source://chunky_png//lib/chunky_png/color.rb#595
+  # source://chunky_png//lib/chunky_png/color.rb#604
   def to_hsb(color, include_alpha = T.unsafe(nil)); end
 
   # Returns an array with the separate HSL components of a color.
@@ -3420,11 +3420,11 @@ module ChunkyPNG::Color
   # is calculated differently for each colorspace, it must be passed in as
   # a parameter.
   #
+  # @param chroma [Fixnum] The associated chroma value.
   # @param hue [Fixnum] The hue-component (0-360)
   # @param saturation [Fixnum] The saturation-component (0-1)
   # @param y_component [Fixnum] The y_component can represent either lightness
   #   or brightness/value (0-1) depending on which scheme (HSV/HSL) is being used.
-  # @param chroma [Fixnum] The associated chroma value.
   # @private
   # @return [Array<Fixnum>] A scaled r,g,b triple. Scheme-dependent
   #   adjustments are still needed to reach the true r,g,b values.
@@ -3653,14 +3653,14 @@ class ChunkyPNG::Datastream
   #
   # @return [String] The encoded PNG datastream.
   #
-  # source://chunky_png//lib/chunky_png/datastream.rb#176
+  # source://chunky_png//lib/chunky_png/datastream.rb#184
   def to_s; end
 
   # Encodes this datastream into a string.
   #
   # @return [String] The encoded PNG datastream.
   #
-  # source://chunky_png//lib/chunky_png/datastream.rb#176
+  # source://chunky_png//lib/chunky_png/datastream.rb#183
   def to_string; end
 
   # The chunk containing the transparency information of the palette.
@@ -3714,7 +3714,7 @@ class ChunkyPNG::Datastream
     # @param str [String] The PNG encoded string to load from.
     # @return [ChunkyPNG::Datastream] The loaded datastream instance.
     #
-    # source://chunky_png//lib/chunky_png/datastream.rb#58
+    # source://chunky_png//lib/chunky_png/datastream.rb#62
     def from_string(str); end
 
     # Verifies that the current stream is a PNG datastream by checking its signature.
@@ -3744,8 +3744,8 @@ ChunkyPNG::Datastream::SIGNATURE = T.let(T.unsafe(nil), String)
 class ChunkyPNG::Dimension
   # Initializes a new dimension instance.
   #
-  # @param width [Integer] The width-component of the new dimension.
   # @param height [Integer] The height-component of the new dimension.
+  # @param width [Integer] The width-component of the new dimension.
   # @return [Dimension] a new instance of Dimension
   #
   # source://chunky_png//lib/chunky_png/dimension.rb#82
@@ -3765,7 +3765,7 @@ class ChunkyPNG::Dimension
   # @param other [ChunkyPNG::Dimension] The dimension to compare with.
   # @return [true, false] <tt>true</tt> iff width and height match.
   #
-  # source://chunky_png//lib/chunky_png/dimension.rb#104
+  # source://chunky_png//lib/chunky_png/dimension.rb#109
   def ==(other); end
 
   # Returns the area of this dimension.
@@ -3820,7 +3820,7 @@ class ChunkyPNG::Dimension
   #
   # @return [Array<Integer>] <tt>[width, height]</tt> for this dimension.
   #
-  # source://chunky_png//lib/chunky_png/dimension.rb#127
+  # source://chunky_png//lib/chunky_png/dimension.rb#131
   def to_ary; end
 
   # @return [Integer] The width-component of this dimension.
@@ -3924,10 +3924,10 @@ ChunkyPNG::INTERLACING_NONE = T.let(T.unsafe(nil), Integer)
 class ChunkyPNG::Image < ::ChunkyPNG::Canvas
   # Initializes a new ChunkyPNG::Image instance.
   #
-  # @param width [Integer] The width of the new image.
-  # @param height [Integer] The height of the new image.
   # @param bg_color [Integer] The background color of the new image.
+  # @param height [Integer] The height of the new image.
   # @param metadata [Hash] A hash of metadata fields and values for this image.
+  # @param width [Integer] The width of the new image.
   # @return [Image] a new instance of Image
   # @see ChunkyPNG::Canvas#initialize
   #
@@ -3962,8 +3962,8 @@ class ChunkyPNG::Image < ::ChunkyPNG::Canvas
   #
   # @param constraints [Hash] The constraints to use when encoding the canvas.
   # @return [ChunkyPNG::Datastream] The datastream that contains this image.
-  # @see ChunkyPNG::Canvas::PNGEncoding#to_datastream
   # @see #metadata_chunks
+  # @see ChunkyPNG::Canvas::PNGEncoding#to_datastream
   #
   # source://chunky_png//lib/chunky_png/image.rb#61
   def to_datastream(constraints = T.unsafe(nil)); end
@@ -4025,13 +4025,14 @@ class ChunkyPNG::OutOfBounds < ::ChunkyPNG::ExpectationFailed; end
 #
 # source://chunky_png//lib/chunky_png/palette.rb#15
 class ChunkyPNG::Palette < ::Set
+
   # Builds a new palette given a set (Enumerable instance) of colors.
   #
-  # @param enum [Enumerable<Integer>] The set of colors to include in this
-  #   palette.This Enumerable can contain duplicates.
   # @param decoding_map [Array] An array of colors in the exact order at
   #   which they appeared in the palette chunk, so that this array can be
   #   used for decoding.
+  # @param enum [Enumerable<Integer>] The set of colors to include in this
+  #   palette.This Enumerable can contain duplicates.
   # @return [Palette] a new instance of Palette
   #
   # source://chunky_png//lib/chunky_png/palette.rb#23
@@ -4236,7 +4237,7 @@ class ChunkyPNG::Point
   #
   # @return [true, false] <tt>true</tt> iff the x and y coordinates match
   #
-  # source://chunky_png//lib/chunky_png/point.rb#93
+  # source://chunky_png//lib/chunky_png/point.rb#97
   def ==(other); end
 
   # Checks whether 2 points are identical.
@@ -4257,7 +4258,7 @@ class ChunkyPNG::Point
   #
   # @return [Array] A 2-element array, i.e. <tt>[x, y]</tt>.
   #
-  # source://chunky_png//lib/chunky_png/point.rb#115
+  # source://chunky_png//lib/chunky_png/point.rb#119
   def to_ary; end
 
   # Checks whether the point falls into a dimension
@@ -4348,7 +4349,7 @@ class ChunkyPNG::Vector
   # @param other [ChunkyPNG::Vector] The vector to compare with.
   # @return [true, false] true if the list of points are identical
   #
-  # source://chunky_png//lib/chunky_png/vector.rb#98
+  # source://chunky_png//lib/chunky_png/vector.rb#102
   def ==(other); end
 
   # Returns the point with the given indexof this vector.

@@ -14,6 +14,7 @@ class ActionController::API < ::ActionController::Metal
   include ::AbstractController::Caching::ConfigMethods
   include ::Devise::Controllers::SignInOut
   include ::Devise::Controllers::StoreLocation
+  extend ::ActionController::Renderers::DeprecatedEscapeJsonResponses
 end
 
 class ActionController::Base < ::ActionController::Metal
@@ -24,6 +25,7 @@ class ActionController::Base < ::ActionController::Metal
   include ::Devise::Controllers::SignInOut
   include ::Devise::Controllers::StoreLocation
   extend ::AbstractController::Helpers::Resolution
+  extend ::ActionController::Renderers::DeprecatedEscapeJsonResponses
 end
 
 # source://responders//lib/action_controller/respond_with.rb#7

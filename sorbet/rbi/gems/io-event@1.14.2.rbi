@@ -358,7 +358,7 @@ module IO::Event::Selector
   end
 end
 
-class IO::Event::Selector::EPoll
+class IO::Event::Selector::KQueue
   # source://io-event//lib/io/event/native.rb#7
   def initialize(_arg0); end
 
@@ -775,6 +775,25 @@ end
 
 # source://io-event//lib/io/event/version.rb#10
 IO::Event::VERSION = T.let(T.unsafe(nil), String)
+
+class IO::Event::WorkerPool
+  # source://io-event//lib/io/event/native.rb#7
+  def initialize(*_arg0); end
+
+  # source://io-event//lib/io/event/native.rb#7
+  def call(_arg0); end
+
+  # source://io-event//lib/io/event/native.rb#7
+  def close; end
+
+  # source://io-event//lib/io/event/native.rb#7
+  def statistics; end
+
+  class << self
+    # source://io-event//lib/io/event/native.rb#7
+    def busy(*_arg0); end
+  end
+end
 
 IO::PRIORITY = T.let(T.unsafe(nil), Integer)
 IO::READABLE = T.let(T.unsafe(nil), Integer)

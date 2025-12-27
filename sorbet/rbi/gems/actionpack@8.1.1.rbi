@@ -2919,7 +2919,6 @@ class ActionController::Base < ::ActionController::Metal
   end
 end
 
-# source://actionpack//lib/action_controller/base.rb#275
 module ActionController::Base::HelperMethods
   # source://actionpack//lib/action_controller/base.rb#290
   def alert(*_arg0, **_arg1, &_arg2); end
@@ -10807,8 +10806,6 @@ class ActionDispatch::Cookies::CookieJar
 end
 
 # Raised when storing more than 4K of session data.
-#
-# source://actionpack//lib/action_dispatch/middleware/cookies.rb#216
 class ActionDispatch::Cookies::CookieOverflow < ::StandardError; end
 
 # source://actionpack//lib/action_dispatch/middleware/cookies.rb#203
@@ -16725,7 +16722,6 @@ class ActionDispatch::Request::Session
   end
 end
 
-# source://actionpack//lib/action_dispatch/request/session.rb#11
 class ActionDispatch::Request::Session::DisabledSessionError < ::StandardError; end
 
 # source://actionpack//lib/action_dispatch/request/session.rb#12

@@ -127,7 +127,7 @@ class Sass::BaseEnvironment
   # source://sass//lib/sass/environment.rb#68
   def content=(_arg0); end
 
-  # source://sass//lib/sass/environment.rb#16
+  # source://sass//lib/sass/environment.rb#15
   def function(name); end
 
   # Returns whether this is the global environment.
@@ -144,16 +144,16 @@ class Sass::BaseEnvironment
   # source://sass//lib/sass/environment.rb#133
   def global_env; end
 
-  # source://sass//lib/sass/environment.rb#25
+  # source://sass//lib/sass/environment.rb#15
   def is_function_global?(name); end
 
-  # source://sass//lib/sass/environment.rb#25
+  # source://sass//lib/sass/environment.rb#15
   def is_mixin_global?(name); end
 
-  # source://sass//lib/sass/environment.rb#25
+  # source://sass//lib/sass/environment.rb#15
   def is_var_global?(name); end
 
-  # source://sass//lib/sass/environment.rb#16
+  # source://sass//lib/sass/environment.rb#15
   def mixin(name); end
 
   # The options passed to the Sass Engine.
@@ -184,18 +184,18 @@ class Sass::BaseEnvironment
   # source://sass//lib/sass/environment.rb#140
   def stack; end
 
-  # source://sass//lib/sass/environment.rb#16
+  # source://sass//lib/sass/environment.rb#15
   def var(name); end
 
   protected
 
-  # source://sass//lib/sass/environment.rb#20
+  # source://sass//lib/sass/environment.rb#15
   def _function(name); end
 
-  # source://sass//lib/sass/environment.rb#20
+  # source://sass//lib/sass/environment.rb#15
   def _mixin(name); end
 
-  # source://sass//lib/sass/environment.rb#20
+  # source://sass//lib/sass/environment.rb#15
   def _var(name); end
 
   class << self
@@ -240,10 +240,10 @@ class Sass::CacheStores::Base
   # then the key may be deleted by the cache store, if it wants to do so.
   #
   # @param key [String] The key to retrieve
-  # @param version [String] The current sass version.
-  #   Cached contents must not be retrieved across different versions of sass.
   # @param sha [String] The sha of the sass source.
   #   Cached contents must not be retrieved if the sha has changed.
+  # @param version [String] The current sass version.
+  #   Cached contents must not be retrieved across different versions of sass.
   # @return [String] The contents that were previously stored.
   # @return [NilClass] when the cache key is not found or the version or sha have changed.
   #
@@ -255,12 +255,12 @@ class Sass::CacheStores::Base
   #
   # Note: cache contents contain binary data.
   #
+  # @param contents [String] The contents to store.
   # @param key [String] The key to store the contents under
-  # @param version [String] The current sass version.
-  #   Cached contents must not be retrieved across different versions of sass.
   # @param sha [String] The sha of the sass source.
   #   Cached contents must not be retrieved if the sha has changed.
-  # @param contents [String] The contents to store.
+  # @param version [String] The current sass version.
+  #   Cached contents must not be retrieved across different versions of sass.
   #
   # source://sass//lib/sass/cache_stores/base.rb#24
   def _store(key, version, sha, contents); end
@@ -271,10 +271,10 @@ class Sass::CacheStores::Base
   # should uniquely identify the Sass document,
   # but otherwise there are no restrictions on their content.
   #
-  # @param sass_dirname [String] The fully-expanded location of the Sass file.
-  #   This corresponds to the directory name on a filesystem.
   # @param sass_basename [String] The name of the Sass file that is being referenced.
   #   This corresponds to the basename on a filesystem.
+  # @param sass_dirname [String] The fully-expanded location of the Sass file.
+  #   This corresponds to the directory name on a filesystem.
   #
   # source://sass//lib/sass/cache_stores/base.rb#81
   def key(sass_dirname, sass_basename); end
@@ -291,8 +291,8 @@ class Sass::CacheStores::Base
   # Store a {Sass::Tree::RootNode}.
   #
   # @param key [String] The key to store it under.
-  # @param sha [String] The checksum for the contents that are being stored.
   # @param root [Object] The root node to cache.
+  # @param sha [String] The checksum for the contents that are being stored.
   #
   # source://sass//lib/sass/cache_stores/base.rb#50
   def store(key, sha, root); end
@@ -420,32 +420,24 @@ end
 # A Sass mixin or function.
 #
 # `name`: `String`
-# : The name of the mixin/function.
 #
 # `args`: `Array<(Script::Tree::Node, Script::Tree::Node)>`
-# : The arguments for the mixin/function.
 #   Each element is a tuple containing the variable node of the argument
 #   and the parse tree for the default value of the argument.
 #
 # `splat`: `Script::Tree::Node?`
-# : The variable node of the splat argument for this callable, or null.
 #
 # `environment`: {Sass::Environment}
-# : The environment in which the mixin/function was defined.
 #   This is captured so that the mixin/function can have access
 #   to local variables defined in its scope.
 #
 # `tree`: `Array<Tree::Node>`
-# : The parse tree for the mixin/function.
 #
 # `has_content`: `Boolean`
-# : Whether the callable accepts a content block.
 #
 # `type`: `String`
-# : The user-friendly name of the type of the callable.
 #
 # `origin`: `Symbol`
-# : From whence comes the callable: `:stylesheet`, `:builtin`, `:css`
 #   A callable with an origin of `:stylesheet` was defined in the stylesheet itself.
 #   A callable with an origin of `:builtin` was defined in ruby.
 #   A callable (function) with an origin of `:css` returns a function call with arguments to CSS.
@@ -455,96 +447,137 @@ class Sass::Callable < ::Struct
   # Returns the value of attribute args
   #
   # @return [Object] the current value of args
+  #
+  # source://sass//lib/sass/engine.rb#89
   def args; end
 
   # Sets the attribute args
   #
   # @param value [Object] the value to set the attribute args to.
   # @return [Object] the newly set value
+  #
+  # source://sass//lib/sass/engine.rb#89
   def args=(_); end
 
   # Returns the value of attribute environment
   #
   # @return [Object] the current value of environment
+  #
+  # source://sass//lib/sass/engine.rb#89
   def environment; end
 
   # Sets the attribute environment
   #
   # @param value [Object] the value to set the attribute environment to.
   # @return [Object] the newly set value
+  #
+  # source://sass//lib/sass/engine.rb#89
   def environment=(_); end
 
   # Returns the value of attribute has_content
   #
   # @return [Object] the current value of has_content
+  #
+  # source://sass//lib/sass/engine.rb#89
   def has_content; end
 
   # Sets the attribute has_content
   #
   # @param value [Object] the value to set the attribute has_content to.
   # @return [Object] the newly set value
+  #
+  # source://sass//lib/sass/engine.rb#89
   def has_content=(_); end
 
   # Returns the value of attribute name
   #
   # @return [Object] the current value of name
+  #
+  # source://sass//lib/sass/engine.rb#89
   def name; end
 
   # Sets the attribute name
   #
   # @param value [Object] the value to set the attribute name to.
   # @return [Object] the newly set value
+  #
+  # source://sass//lib/sass/engine.rb#89
   def name=(_); end
 
   # Returns the value of attribute origin
   #
   # @return [Object] the current value of origin
+  #
+  # source://sass//lib/sass/engine.rb#89
   def origin; end
 
   # Sets the attribute origin
   #
   # @param value [Object] the value to set the attribute origin to.
   # @return [Object] the newly set value
+  #
+  # source://sass//lib/sass/engine.rb#89
   def origin=(_); end
 
   # Returns the value of attribute splat
   #
   # @return [Object] the current value of splat
+  #
+  # source://sass//lib/sass/engine.rb#89
   def splat; end
 
   # Sets the attribute splat
   #
   # @param value [Object] the value to set the attribute splat to.
   # @return [Object] the newly set value
+  #
+  # source://sass//lib/sass/engine.rb#89
   def splat=(_); end
 
   # Returns the value of attribute tree
   #
   # @return [Object] the current value of tree
+  #
+  # source://sass//lib/sass/engine.rb#89
   def tree; end
 
   # Sets the attribute tree
   #
   # @param value [Object] the value to set the attribute tree to.
   # @return [Object] the newly set value
+  #
+  # source://sass//lib/sass/engine.rb#89
   def tree=(_); end
 
   # Returns the value of attribute type
   #
   # @return [Object] the current value of type
+  #
+  # source://sass//lib/sass/engine.rb#89
   def type; end
 
   # Sets the attribute type
   #
   # @param value [Object] the value to set the attribute type to.
   # @return [Object] the newly set value
+  #
+  # source://sass//lib/sass/engine.rb#89
   def type=(_); end
 
   class << self
+    # source://sass//lib/sass/engine.rb#89
     def [](*_arg0); end
+
+    # source://sass//lib/sass/engine.rb#89
     def inspect; end
+
+    # source://sass//lib/sass/engine.rb#89
     def keyword_init?; end
+
+    # source://sass//lib/sass/engine.rb#89
     def members; end
+
+    # source://sass//lib/sass/engine.rb#89
     def new(*_arg0); end
   end
 end
@@ -600,14 +633,14 @@ class Sass::Engine
   # If you're compiling multiple files from the filesystem,
   # use {Sass::Plugin}.
   #
+  # @param options [{Symbol => Object}] An options hash.
+  #   See {file:SASS_REFERENCE.md#Options the Sass options documentation}.
   # @param template [String] The Sass template.
   #   This template can be encoded using any encoding
   #   that can be converted to Unicode.
   #   If the template contains an `@charset` declaration,
   #   that overrides the Ruby encoding
   #   (see {file:SASS_REFERENCE.md#Encodings the encoding documentation})
-  # @param options [{Symbol => Object}] An options hash.
-  #   See {file:SASS_REFERENCE.md#Options the Sass options documentation}.
   # @return [Engine] a new instance of Engine
   # @see {Sass::Engine.for_file}
   # @see {Sass::Plugin}
@@ -684,7 +717,7 @@ class Sass::Engine
   # @raise [ArgumentError] if the document uses an unknown encoding with `@charset`
   # @return [String] The CSS
   #
-  # source://sass//lib/sass/engine.rb#289
+  # source://sass//lib/sass/engine.rb#311
   def to_css; end
 
   # Parses the document into its parse tree. Memoized.
@@ -940,26 +973,19 @@ Sass::Engine::FUNCTION_RE = T.let(T.unsafe(nil), Regexp)
 # A line of Sass code.
 #
 # `text`: `String`
-# : The text in the line, without any whitespace at the beginning or end.
 #
 # `tabs`: `Integer`
-# : The level of indentation of the line.
 #
 # `index`: `Integer`
-# : The line number in the original document.
 #
 # `offset`: `Integer`
-# : The number of bytes in on the line that the text begins.
 #   This ends up being the number of bytes of leading whitespace.
 #
 # `filename`: `String`
-# : The name of the file in which this line appeared.
 #
 # `children`: `Array<Line>`
-# : The lines nested below this one.
 #
 # `comment_tab_str`: `String?`
-# : The prefix indentation for this comment, if it is a comment.
 #
 # source://sass//lib/sass/engine.rb#124
 class Sass::Engine::Line < ::Struct
@@ -1030,42 +1056,42 @@ class Sass::Environment < ::Sass::BaseEnvironment
   # source://sass//lib/sass/environment.rb#161
   def parent; end
 
-  # source://sass//lib/sass/environment.rb#34
+  # source://sass//lib/sass/environment.rb#33
   def set_function(name, value); end
 
-  # source://sass//lib/sass/environment.rb#57
+  # source://sass//lib/sass/environment.rb#33
   def set_global_function(name, value); end
 
-  # source://sass//lib/sass/environment.rb#57
+  # source://sass//lib/sass/environment.rb#33
   def set_global_mixin(name, value); end
 
-  # source://sass//lib/sass/environment.rb#57
+  # source://sass//lib/sass/environment.rb#33
   def set_global_var(name, value); end
 
-  # source://sass//lib/sass/environment.rb#52
+  # source://sass//lib/sass/environment.rb#33
   def set_local_function(name, value); end
 
-  # source://sass//lib/sass/environment.rb#52
+  # source://sass//lib/sass/environment.rb#33
   def set_local_mixin(name, value); end
 
-  # source://sass//lib/sass/environment.rb#52
+  # source://sass//lib/sass/environment.rb#33
   def set_local_var(name, value); end
 
-  # source://sass//lib/sass/environment.rb#34
+  # source://sass//lib/sass/environment.rb#33
   def set_mixin(name, value); end
 
-  # source://sass//lib/sass/environment.rb#34
+  # source://sass//lib/sass/environment.rb#33
   def set_var(name, value); end
 
   protected
 
-  # source://sass//lib/sass/environment.rb#39
+  # source://sass//lib/sass/environment.rb#33
   def try_set_function(name, value); end
 
-  # source://sass//lib/sass/environment.rb#39
+  # source://sass//lib/sass/environment.rb#33
   def try_set_mixin(name, value); end
 
-  # source://sass//lib/sass/environment.rb#39
+  # source://sass//lib/sass/environment.rb#33
   def try_set_var(name, value); end
 end
 
@@ -1183,11 +1209,11 @@ class Sass::Importers::Base
   # `:filename` should be set to `uri`,
   # and `:importer` should be set to this importer.
   #
-  # @param uri [String] The URI to import.
   # @param options [{Symbol => Object}] Options for the Sass file
   #   containing the `@import` that's currently being resolved.
   #   This is safe for subclasses to modify destructively.
   #   Callers should only pass in a value they don't mind being destructively modified.
+  # @param uri [String] The URI to import.
   # @return [Sass::Engine, nil] An Engine containing the imported file,
   #   or nil if it couldn't be found or was in the wrong format.
   #
@@ -1206,13 +1232,13 @@ class Sass::Importers::Base
   # The `:filename` option passed to the returned {Sass::Engine}
   # should be of a format that could be passed to \{#find}.
   #
-  # @param uri [String] The URI to import. This is not necessarily relative,
-  #   but this method should only return true if it is.
   # @param base [String] The base filename. If `uri` is relative,
   #   it should be interpreted as relative to `base`.
   #   `base` is guaranteed to be in a format importable by this importer.
   # @param options [{Symbol => Object}] Options for the Sass file
   #   containing the `@import` that's currently being resolved.
+  # @param uri [String] The URI to import. This is not necessarily relative,
+  #   but this method should only return true if it is.
   # @return [Sass::Engine, nil] An Engine containing the imported file,
   #   or nil if it couldn't be found or was in the wrong format.
   #
@@ -1231,9 +1257,9 @@ class Sass::Importers::Base
   # Thus it's probably a good idea to include the importer name
   # at the beginning of the first component.
   #
-  # @param uri [String] A URI known to be valid for this importer.
   # @param options [{Symbol => Object}] Options for the Sass file
   #   containing the `@import` currently being checked.
+  # @param uri [String] A URI known to be valid for this importer.
   # @return [(String, String)] The key pair which uniquely identifies
   #   the file at the given URI.
   #
@@ -1245,10 +1271,10 @@ class Sass::Importers::Base
   # If the given file has been deleted or the time can't be accessed
   # for some other reason, this should return nil.
   #
-  # @param uri [String] The URI of the file to check.
-  #   Comes from a `:filename` option set on an engine returned by this importer.
   # @param options [{Symbol => Object}] Options for the Sass file
   #   containing the `@import` currently being checked.
+  # @param uri [String] The URI of the file to check.
+  #   Comes from a `:filename` option set on an engine returned by this importer.
   # @return [Time, nil]
   #
   # source://sass//lib/sass/importers/base.rb#96
@@ -1264,12 +1290,12 @@ class Sass::Importers::Base
   # should be preferred to returning `nil`. However, a URL relative to
   # `sourcemap_directory` should be preferred over an absolute "file:" URI.
   #
-  # @param uri [String] A URI known to be valid for this importer.
   # @param sourcemap_directory [String, NilClass] The absolute path to a
   #   directory on disk where the sourcemap will be saved. If uri refers to
   #   a file on disk that's accessible relative to sourcemap_directory, this
   #   may return a relative URL. This may be `nil` if the sourcemap's
   #   eventual location is unknown.
+  # @param uri [String] A URI known to be valid for this importer.
   # @return [String?] The publicly-visible URL for this file, or `nil`
   #   indicating that no publicly-visible URL exists. This should be
   #   appropriately URL-escaped.
@@ -1490,7 +1516,7 @@ class Sass::Logger::Base
   # source://sass//lib/sass/logger/base.rb#27
   def capture; end
 
-  # source://sass//lib/sass/logger/log_level.rb#37
+  # source://sass//lib/sass/logger/base.rb#11
   def debug(message); end
 
   # Returns the value of attribute disabled.
@@ -1505,10 +1531,10 @@ class Sass::Logger::Base
   # source://sass//lib/sass/logger/base.rb#7
   def disabled=(_arg0); end
 
-  # source://sass//lib/sass/logger/log_level.rb#37
+  # source://sass//lib/sass/logger/base.rb#14
   def error(message); end
 
-  # source://sass//lib/sass/logger/log_level.rb#37
+  # source://sass//lib/sass/logger/base.rb#12
   def info(message); end
 
   # Returns the value of attribute io.
@@ -1543,10 +1569,10 @@ class Sass::Logger::Base
   # source://sass//lib/sass/logger/base.rb#21
   def logging_level?(level); end
 
-  # source://sass//lib/sass/logger/log_level.rb#37
+  # source://sass//lib/sass/logger/base.rb#10
   def trace(message); end
 
-  # source://sass//lib/sass/logger/log_level.rb#37
+  # source://sass//lib/sass/logger/base.rb#13
   def warn(message); end
 end
 
@@ -1655,9 +1681,9 @@ end
 #
 # source://sass//lib/sass/media.rb#66
 class Sass::Media::Query
+  # @param expressions [Array<Array<String, Sass::Script::Tree::Node>>] See \{#expressions}
   # @param modifier [Array<String, Sass::Script::Tree::Node>] See \{#modifier}
   # @param type [Array<String, Sass::Script::Tree::Node>] See \{#type}
-  # @param expressions [Array<Array<String, Sass::Script::Tree::Node>>] See \{#expressions}
   # @return [Query] a new instance of Query
   #
   # source://sass//lib/sass/media.rb#96
@@ -1944,9 +1970,6 @@ end
 class Sass::SCSS::Parser
   include ::Sass::SCSS::RX
 
-  # @param str [String, StringScanner] The source document to parse.
-  #   Note that `Parser` *won't* raise a nice error message if this isn't properly parsed;
-  #   for that, you should use the higher-level {Sass::Engine} or {Sass::CSS}.
   # @param filename [String] The name of the file being parsed. Used for
   #   warnings and source maps.
   # @param importer [Sass::Importers::Base] The importer used to import the
@@ -1956,6 +1979,9 @@ class Sass::SCSS::Parser
   # @param offset [Integer] The 1-based character (not byte) offset in the line on
   #   which the source string starts. Used for error reporting and sourcemap
   #   building.
+  # @param str [String, StringScanner] The source document to parse.
+  #   Note that `Parser` *won't* raise a nice error message if this isn't properly parsed;
+  #   for that, you should use the higher-level {Sass::Engine} or {Sass::CSS}.
   # @return [Parser] a new instance of Parser
   #
   # source://sass//lib/sass/scss/parser.rb#24
@@ -2065,7 +2091,7 @@ class Sass::SCSS::Parser
   # source://sass//lib/sass/scss/parser.rb#555
   def at_root_directive_list; end
 
-  # source://sass//lib/sass/scss/parser.rb#474
+  # source://sass//lib/sass/scss/parser.rb#506
   def at_root_query; end
 
   # source://sass//lib/sass/scss/parser.rb#686
@@ -2230,7 +2256,7 @@ class Sass::SCSS::Parser
   # Aliases allow us to use different descriptions if the same
   # expression fails in different contexts.
   #
-  # source://sass//lib/sass/scss/parser.rb#474
+  # source://sass//lib/sass/scss/parser.rb#505
   def media_expr; end
 
   # source://sass//lib/sass/scss/parser.rb#439
@@ -2463,8 +2489,8 @@ module Sass::SCSS::RX
     # Creates a Regexp from a plain text string,
     # escaping all significant characters.
     #
-    # @param str [String] The text of the regexp
     # @param flags [Integer] Flags for the created regular expression
+    # @param str [String] The text of the regexp
     # @private
     # @return [Regexp]
     #
@@ -2805,13 +2831,13 @@ module Sass::Script
 
     # Parses a string of SassScript
     #
-    # @param value [String] The SassScript
     # @param line [Integer] The number of the line on which the SassScript appeared.
     #   Used for error reporting
     # @param offset [Integer] The number of characters in on `line` that the SassScript started.
     #   Used for error reporting
     # @param options [{Symbol => Object}] An options hash;
     #   see {file:SASS_REFERENCE.md#Options the Sass options documentation}
+    # @param value [String] The SassScript
     # @return [Script::Tree::Node] The root node of the parse tree
     #
     # source://sass//lib/sass/script.rb#26
@@ -2848,10 +2874,10 @@ end
 #
 # source://sass//lib/sass/script/css_parser.rb#9
 class Sass::Script::CssParser < ::Sass::Script::Parser
-  # source://sass//lib/sass/script/parser.rb#269
+  # source://sass//lib/sass/script/css_parser.rb#17
   def div; end
 
-  # source://sass//lib/sass/script/parser.rb#269
+  # source://sass//lib/sass/script/css_parser.rb#31
   def or_expr; end
 
   private
@@ -2866,13 +2892,13 @@ class Sass::Script::CssParser < ::Sass::Script::Parser
   # source://sass//lib/sass/script/css_parser.rb#13
   def lexer_class; end
 
-  # source://sass//lib/sass/script/css_parser.rb#19
+  # source://sass//lib/sass/script/css_parser.rb#33
   def paren; end
 
   # source://sass//lib/sass/script/css_parser.rb#19
   def string; end
 
-  # source://sass//lib/sass/script/parser.rb#506
+  # source://sass//lib/sass/script/css_parser.rb#32
   def unary_div; end
 end
 
@@ -2891,147 +2917,104 @@ end
 # ## RGB Functions
 #
 # \{#rgb rgb($red, $green, $blue)}
-# : Creates a {Sass::Script::Value::Color Color} from red, green, and blue
 #   values.
 #
 # \{#rgba rgba($red, $green, $blue, $alpha)}
-# : Creates a {Sass::Script::Value::Color Color} from red, green, blue, and
 #   alpha values.
 #
 # \{#red red($color)}
-# : Gets the red component of a color.
 #
 # \{#green green($color)}
-# : Gets the green component of a color.
 #
 # \{#blue blue($color)}
-# : Gets the blue component of a color.
 #
 # \{#mix mix($color1, $color2, \[$weight\])}
-# : Mixes two colors together.
 #
 # ## HSL Functions
 #
 # \{#hsl hsl($hue, $saturation, $lightness)}
-# : Creates a {Sass::Script::Value::Color Color} from hue, saturation, and
 #   lightness values.
 #
 # \{#hsla hsla($hue, $saturation, $lightness, $alpha)}
-# : Creates a {Sass::Script::Value::Color Color} from hue, saturation,
 #   lightness, and alpha values.
 #
 # \{#hue hue($color)}
-# : Gets the hue component of a color.
 #
 # \{#saturation saturation($color)}
-# : Gets the saturation component of a color.
 #
 # \{#lightness lightness($color)}
-# : Gets the lightness component of a color.
 #
 # \{#adjust_hue adjust-hue($color, $degrees)}
-# : Changes the hue of a color.
 #
 # \{#lighten lighten($color, $amount)}
-# : Makes a color lighter.
 #
 # \{#darken darken($color, $amount)}
-# : Makes a color darker.
 #
 # \{#saturate saturate($color, $amount)}
-# : Makes a color more saturated.
 #
 # \{#desaturate desaturate($color, $amount)}
-# : Makes a color less saturated.
 #
 # \{#grayscale grayscale($color)}
-# : Converts a color to grayscale.
 #
 # \{#complement complement($color)}
-# : Returns the complement of a color.
 #
 # \{#invert invert($color, \[$weight\])}
-# : Returns the inverse of a color.
 #
 # ## Opacity Functions
 #
 # \{#alpha alpha($color)} / \{#opacity opacity($color)}
-# : Gets the alpha component (opacity) of a color.
 #
 # \{#rgba rgba($color, $alpha)}
-# : Changes the alpha component for a color.
 #
 # \{#opacify opacify($color, $amount)} / \{#fade_in fade-in($color, $amount)}
-# : Makes a color more opaque.
 #
 # \{#transparentize transparentize($color, $amount)} / \{#fade_out fade-out($color, $amount)}
-# : Makes a color more transparent.
 #
 # ## Other Color Functions
 #
 # \{#adjust_color adjust-color($color, \[$red\], \[$green\], \[$blue\], \[$hue\], \[$saturation\], \[$lightness\], \[$alpha\])}
-# : Increases or decreases one or more components of a color.
 #
 # \{#scale_color scale-color($color, \[$red\], \[$green\], \[$blue\], \[$saturation\], \[$lightness\], \[$alpha\])}
-# : Fluidly scales one or more properties of a color.
 #
 # \{#change_color change-color($color, \[$red\], \[$green\], \[$blue\], \[$hue\], \[$saturation\], \[$lightness\], \[$alpha\])}
-# : Changes one or more properties of a color.
 #
 # \{#ie_hex_str ie-hex-str($color)}
-# : Converts a color into the format understood by IE filters.
 #
 # ## String Functions
 #
 # \{#unquote unquote($string)}
-# : Removes quotes from a string.
 #
 # \{#quote quote($string)}
-# : Adds quotes to a string.
 #
 # \{#str_length str-length($string)}
-# : Returns the number of characters in a string.
 #
 # \{#str_insert str-insert($string, $insert, $index)}
-# : Inserts `$insert` into `$string` at `$index`.
 #
 # \{#str_index str-index($string, $substring)}
-# : Returns the index of the first occurrence of `$substring` in `$string`.
 #
 # \{#str_slice str-slice($string, $start-at, [$end-at])}
-# : Extracts a substring from `$string`.
 #
 # \{#to_upper_case to-upper-case($string)}
-# : Converts a string to upper case.
 #
 # \{#to_lower_case to-lower-case($string)}
-# : Converts a string to lower case.
 #
 # ## Number Functions
 #
 # \{#percentage percentage($number)}
-# : Converts a unitless number to a percentage.
 #
 # \{#round round($number)}
-# : Rounds a number to the nearest whole number.
 #
 # \{#ceil ceil($number)}
-# : Rounds a number up to the next whole number.
 #
 # \{#floor floor($number)}
-# : Rounds a number down to the previous whole number.
 #
 # \{#abs abs($number)}
-# : Returns the absolute value of a number.
 #
 # \{#min min($numbers...)\}
-# : Finds the minimum of several numbers.
 #
 # \{#max max($numbers...)\}
-# : Finds the maximum of several numbers.
 #
 # \{#random random([$limit])\}
-# : Returns a random number.
 #
 # ## List Functions {#list-functions}
 #
@@ -3041,31 +3024,22 @@ end
 # All list functions work for maps as well, treating them as lists of pairs.
 #
 # \{#length length($list)}
-# : Returns the length of a list.
 #
 # \{#nth nth($list, $n)}
-# : Returns a specific item in a list.
 #
 # \{#set-nth set-nth($list, $n, $value)}
-# : Replaces the nth item in a list.
 #
 # \{#join join($list1, $list2, \[$separator, $bracketed\])}
-# : Joins together two lists into one.
 #
 # \{#append append($list1, $val, \[$separator\])}
-# : Appends a single value onto the end of a list.
 #
 # \{#zip zip($lists...)}
-# : Combines several lists into a single multidimensional list.
 #
 # \{#index index($list, $value)}
-# : Returns the position of a value within a list.
 #
 # \{#list_separator list-separator($list)}
-# : Returns the separator of a list.
 #
 # \{#is_bracketed is-bracketed($list)}
-# : Returns whether a list has square brackets.
 #
 # ## Map Functions {#map-functions}
 #
@@ -3073,25 +3047,18 @@ end
 # updating the existing map in-place.
 #
 # \{#map_get map-get($map, $key)}
-# : Returns the value in a map associated with a given key.
 #
 # \{#map_merge map-merge($map1, $map2)}
-# : Merges two maps together into a new map.
 #
 # \{#map_remove map-remove($map, $keys...)}
-# : Returns a new map with keys removed.
 #
 # \{#map_keys map-keys($map)}
-# : Returns a list of all keys in a map.
 #
 # \{#map_values map-values($map)}
-# : Returns a list of all values in a map.
 #
 # \{#map_has_key map-has-key($map, $key)}
-# : Returns whether a map has a value associated with a given key.
 #
 # \{#keywords keywords($args)}
-# : Returns the keywords passed to a function that takes variable arguments.
 #
 # ## Selector Functions
 #
@@ -3109,82 +3076,59 @@ end
 # (`%foo`) but disallow parent-reference selectors (`&`).
 #
 # \{#selector_nest selector-nest($selectors...)}
-# : Nests selector beneath one another like they would be nested in the
 #   stylesheet.
 #
 # \{#selector_append selector-append($selectors...)}
-# : Appends selectors to one another without spaces in between.
 #
 # \{#selector_extend selector-extend($selector, $extendee, $extender)}
-# : Extends `$extendee` with `$extender` within `$selector`.
 #
 # \{#selector_replace selector-replace($selector, $original, $replacement)}
-# : Replaces `$original` with `$replacement` within `$selector`.
 #
 # \{#selector_unify selector-unify($selector1, $selector2)}
-# : Unifies two selectors to produce a selector that matches
 #   elements matched by both.
 #
 # \{#is_superselector is-superselector($super, $sub)}
-# : Returns whether `$super` matches all the elements `$sub` does, and
 #   possibly more.
 #
 # \{#simple_selectors simple-selectors($selector)}
-# : Returns the simple selectors that comprise a compound selector.
 #
 # \{#selector_parse selector-parse($selector)}
-# : Parses a selector into the format returned by `&`.
 #
 # ## Introspection Functions
 #
 # \{#feature_exists feature-exists($feature)}
-# : Returns whether a feature exists in the current Sass runtime.
 #
 # \{#variable_exists variable-exists($name)}
-# : Returns whether a variable with the given name exists in the current scope.
 #
 # \{#global_variable_exists global-variable-exists($name)}
-# : Returns whether a variable with the given name exists in the global scope.
 #
 # \{#function_exists function-exists($name)}
-# : Returns whether a function with the given name exists.
 #
 # \{#mixin_exists mixin-exists($name)}
-# : Returns whether a mixin with the given name exists.
 #
 # \{#content_exists content-exists()}
-# : Returns whether the current mixin was passed a content block.
 #
 # \{#inspect inspect($value)}
-# : Returns the string representation of a value as it would be represented in Sass.
 #
 # \{#type_of type-of($value)}
-# : Returns the type of a value.
 #
 # \{#unit unit($number)}
-# : Returns the unit(s) associated with a number.
 #
 # \{#unitless unitless($number)}
-# : Returns whether a number has units.
 #
 # \{#comparable comparable($number1, $number2)}
-# : Returns whether two numbers can be added, subtracted, or compared.
 #
 # \{#call call($function, $args...)}
-# : Dynamically calls a Sass function reference returned by `get-function`.
 #
 # \{#get_function get-function($name, $css: false)}
-# : Looks up a function with the given name in the current lexical scope
 #   and returns a reference to it.
 #
 # ## Miscellaneous Functions
 #
 # \{#if if($condition, $if-true, $if-false)}
-# : Returns one of two values, depending on whether or not `$condition` is
 #   true.
 #
 # \{#unique_id unique-id()}
-# : Returns a unique CSS identifier.
 #
 # ## Adding Custom Functions
 #
@@ -3493,7 +3437,7 @@ module Sass::Script::Functions
   # @return [Sass::Script::Value::Color]
   # @see #transparentize
   #
-  # source://sass//lib/sass/script/functions.rb#1013
+  # source://sass//lib/sass/script/functions.rb#1018
   def fade_in(color, amount); end
 
   # Makes a color more transparent. Takes a color and a number between 0 and
@@ -3508,7 +3452,7 @@ module Sass::Script::Functions
   # @return [Sass::Script::Value::Color]
   # @see #opacify
   #
-  # source://sass//lib/sass/script/functions.rb#1035
+  # source://sass//lib/sass/script/functions.rb#1040
   def fade_out(color, amount); end
 
   # Returns whether a feature exists in the current Sass runtime.
@@ -4558,6 +4502,8 @@ module Sass::Script::Functions
     #
     # @param function_name [String]
     # @return [Boolean]
+    #
+    # source://sass//lib/sass/script/functions.rb#622
     def callable?(*_arg0); end
 
     # Declare a Sass signature for a Ruby-defined function.
@@ -4582,9 +4528,9 @@ module Sass::Script::Functions
     #   declare :some_func, [:foo, :bar, :baz], :var_kwargs => true
     # @option options
     # @option options
+    # @param args [Array<Symbol>] The names of the arguments for the function signature.
     # @param method_name [Symbol] The name of the method
     #   whose signature is being declared.
-    # @param args [Array<Symbol>] The names of the arguments for the function signature.
     # @param options [Hash] a customizable set of options
     #
     # source://sass//lib/sass/script/functions.rb#411
@@ -4612,9 +4558,9 @@ module Sass::Script::Functions
     # passed in for a given function.
     # If no signatures match, the first signature is returned for error messaging.
     #
-    # @param method_name [Symbol] The name of the Ruby function to be called.
     # @param arg_arity [Integer] The number of unnamed arguments the function was passed.
     # @param kwarg_arity [Integer] The number of keyword arguments the function was passed.
+    # @param method_name [Symbol] The name of the Ruby function to be called.
     # @return [{Symbol => Object}, nil] The signature options for the matching signature,
     #   or nil if no signatures are declared for this function. See {declare}.
     #
@@ -4651,8 +4597,8 @@ class Sass::Script::Functions::EvaluationContext
   #   => SyntaxError: "Expected 2.5px to be an integer"
   #   assert_integer 2.5px, "width"
   #   => SyntaxError: "Expected width to be an integer but got 2.5px"
-  # @param number [Sass::Script::Value::Base] The value to be validated.
   # @param name [::String] The name of the parameter being validated.
+  # @param number [Sass::Script::Value::Base] The value to be validated.
   # @raise [ArgumentError] if number is not an integer or is not a number.
   #
   # source://sass//lib/sass/script/functions.rb#588
@@ -4668,9 +4614,9 @@ class Sass::Script::Functions::EvaluationContext
   # @example
   #   assert_type value, :String
   #   assert_type value, :Number
-  # @param value [Sass::Script::Value::Base] A SassScript value
-  # @param type [Symbol, Array<Symbol>] The name(s) of the type the value is expected to be
   # @param name [String, Symbol, nil] The name of the argument.
+  # @param type [Symbol, Array<Symbol>] The name(s) of the type the value is expected to be
+  # @param value [Sass::Script::Value::Base] A SassScript value
   # @raise [ArgumentError] if value is not of the correct type.
   #
   # source://sass//lib/sass/script/functions.rb#533
@@ -4681,10 +4627,10 @@ class Sass::Script::Functions::EvaluationContext
   # @example
   #   assert_unit number, "px"
   #   assert_unit number, nil
+  # @param name [::String] The name of the parameter being validated.
   # @param number [Sass::Script::Value::Number] The number to be validated.
   # @param unit [::String] The unit that the number must have.
   #   If nil, the number must be unitless.
-  # @param name [::String] The name of the parameter being validated.
   # @raise [ArgumentError] if number is not of the correct unit or is not a number.
   #
   # source://sass//lib/sass/script/functions.rb#566
@@ -4709,12 +4655,12 @@ class Sass::Script::Functions::EvaluationContext
 
   # Performs a node that has been delayed for execution.
   #
+  # @param env [Sass::Environment] The environment within which to perform the node.
+  #   Defaults to the (read-only) environment of the caller.
   # @param node [Sass::Script::Tree::Node, Sass::Script::Value::Base] When this is a tree node, it's
   #   performed in the caller's environment. When it's a value
   #   (which can happen when the value had to be performed already
   #   -- like for a splat), it's returned as-is.
-  # @param env [Sass::Environment] The environment within which to perform the node.
-  #   Defaults to the (read-only) environment of the caller.
   # @private
   #
   # source://sass//lib/sass/script/functions.rb#608
@@ -4740,18 +4686,24 @@ class Sass::Script::Functions::Signature < ::Struct
   # The names of the arguments to the function.
   #
   # @return [Array<String>] the current value of args
+  #
+  # source://sass//lib/sass/script/functions.rb#375
   def args; end
 
   # The names of the arguments to the function.
   #
   # @param value [Array<String>] the value to set the attribute args to.
   # @return [Array<String>] the newly set value
+  #
+  # source://sass//lib/sass/script/functions.rb#375
   def args=(_); end
 
   # The names of the arguments whose evaluation should be
   # delayed.
   #
   # @return [Array<String>] the current value of delayed_args
+  #
+  # source://sass//lib/sass/script/functions.rb#375
   def delayed_args; end
 
   # The names of the arguments whose evaluation should be
@@ -4759,46 +4711,69 @@ class Sass::Script::Functions::Signature < ::Struct
   #
   # @param value [Array<String>] the value to set the attribute delayed_args to.
   # @return [Array<String>] the newly set value
+  #
+  # source://sass//lib/sass/script/functions.rb#375
   def delayed_args=(_); end
 
   # Returns the value of attribute deprecated
   #
   # @return [Object] the current value of deprecated
+  #
+  # source://sass//lib/sass/script/functions.rb#375
   def deprecated; end
 
   # Sets the attribute deprecated
   #
   # @param value [Object] the value to set the attribute deprecated to.
   # @return [Object] the newly set value
+  #
+  # source://sass//lib/sass/script/functions.rb#375
   def deprecated=(_); end
 
   # Whether the function takes a variable number of arguments.
   #
   # @return [Boolean] the current value of var_args
+  #
+  # source://sass//lib/sass/script/functions.rb#375
   def var_args; end
 
   # Whether the function takes a variable number of arguments.
   #
   # @param value [Boolean] the value to set the attribute var_args to.
   # @return [Boolean] the newly set value
+  #
+  # source://sass//lib/sass/script/functions.rb#375
   def var_args=(_); end
 
   # Whether the function takes an arbitrary set of keyword arguments.
   #
   # @return [Boolean] the current value of var_kwargs
+  #
+  # source://sass//lib/sass/script/functions.rb#375
   def var_kwargs; end
 
   # Whether the function takes an arbitrary set of keyword arguments.
   #
   # @param value [Boolean] the value to set the attribute var_kwargs to.
   # @return [Boolean] the newly set value
+  #
+  # source://sass//lib/sass/script/functions.rb#375
   def var_kwargs=(_); end
 
   class << self
+    # source://sass//lib/sass/script/functions.rb#375
     def [](*_arg0); end
+
+    # source://sass//lib/sass/script/functions.rb#375
     def inspect; end
+
+    # source://sass//lib/sass/script/functions.rb#375
     def keyword_init?; end
+
+    # source://sass//lib/sass/script/functions.rb#375
     def members; end
+
+    # source://sass//lib/sass/script/functions.rb#375
     def new(*_arg0); end
   end
 end
@@ -4811,13 +4786,13 @@ end
 class Sass::Script::Lexer
   include ::Sass::SCSS::RX
 
-  # @param str [String, StringScanner] The source text to lex
   # @param line [Integer] The 1-based line on which the SassScript appears.
   #   Used for error reporting and sourcemap building
   # @param offset [Integer] The 1-based character (not byte) offset in the line in the source.
   #   Used for error reporting and sourcemap building
   # @param options [{Symbol => Object}] An options hash;
   #   see {file:SASS_REFERENCE.md#Options the Sass options documentation}
+  # @param str [String, StringScanner] The source text to lex
   # @return [Lexer] a new instance of Lexer
   #
   # source://sass//lib/sass/script/lexer.rb#153
@@ -5030,68 +5005,89 @@ Sass::Script::Lexer::TOKEN_NAMES = T.let(T.unsafe(nil), Hash)
 # A struct containing information about an individual token.
 #
 # `type`: \[`Symbol`\]
-# : The type of token.
 #
 # `value`: \[`Object`\]
-# : The Ruby object corresponding to the value of the token.
 #
 # `source_range`: \[`Sass::Source::Range`\]
-# : The range in the source file in which the token appeared.
 #
 # `pos`: \[`Integer`\]
-# : The scanner position at which the SassScript token appeared.
 #
 # source://sass//lib/sass/script/lexer.rb#24
 class Sass::Script::Lexer::Token < ::Struct
   # Returns the value of attribute pos
   #
   # @return [Object] the current value of pos
+  #
+  # source://sass//lib/sass/script/lexer.rb#24
   def pos; end
 
   # Sets the attribute pos
   #
   # @param value [Object] the value to set the attribute pos to.
   # @return [Object] the newly set value
+  #
+  # source://sass//lib/sass/script/lexer.rb#24
   def pos=(_); end
 
   # Returns the value of attribute source_range
   #
   # @return [Object] the current value of source_range
+  #
+  # source://sass//lib/sass/script/lexer.rb#24
   def source_range; end
 
   # Sets the attribute source_range
   #
   # @param value [Object] the value to set the attribute source_range to.
   # @return [Object] the newly set value
+  #
+  # source://sass//lib/sass/script/lexer.rb#24
   def source_range=(_); end
 
   # Returns the value of attribute type
   #
   # @return [Object] the current value of type
+  #
+  # source://sass//lib/sass/script/lexer.rb#24
   def type; end
 
   # Sets the attribute type
   #
   # @param value [Object] the value to set the attribute type to.
   # @return [Object] the newly set value
+  #
+  # source://sass//lib/sass/script/lexer.rb#24
   def type=(_); end
 
   # Returns the value of attribute value
   #
   # @return [Object] the current value of value
+  #
+  # source://sass//lib/sass/script/lexer.rb#24
   def value; end
 
   # Sets the attribute value
   #
   # @param value [Object] the value to set the attribute value to.
   # @return [Object] the newly set value
+  #
+  # source://sass//lib/sass/script/lexer.rb#24
   def value=(_); end
 
   class << self
+    # source://sass//lib/sass/script/lexer.rb#24
     def [](*_arg0); end
+
+    # source://sass//lib/sass/script/lexer.rb#24
     def inspect; end
+
+    # source://sass//lib/sass/script/lexer.rb#24
     def keyword_init?; end
+
+    # source://sass//lib/sass/script/lexer.rb#24
     def members; end
+
+    # source://sass//lib/sass/script/lexer.rb#24
     def new(*_arg0); end
   end
 end
@@ -5106,7 +5102,6 @@ Sass::Script::MATCH = T.let(T.unsafe(nil), Regexp)
 #
 # source://sass//lib/sass/script/parser.rb#7
 class Sass::Script::Parser
-  # @param str [String, StringScanner] The source text to parse
   # @param line [Integer] The line on which the SassScript appears.
   #   Used for error reporting and sourcemap building
   # @param offset [Integer] The character (not byte) offset where the script starts in the line.
@@ -5116,18 +5111,19 @@ class Sass::Script::Parser
   #   This supports an additional `:allow_extra_text` option that controls
   #   whether the parser throws an error when extra text is encountered
   #   after the parsed construct.
+  # @param str [String, StringScanner] The source text to parse
   # @return [Parser] a new instance of Parser
   #
   # source://sass//lib/sass/script/parser.rb#32
   def initialize(str, line, offset, options = T.unsafe(nil)); end
 
-  # source://sass//lib/sass/script/parser.rb#269
+  # source://sass//lib/sass/script/parser.rb#268
   def and_expr; end
 
-  # source://sass//lib/sass/script/parser.rb#269
+  # source://sass//lib/sass/script/parser.rb#268
   def eq_or_neq; end
 
-  # source://sass//lib/sass/script/parser.rb#269
+  # source://sass//lib/sass/script/parser.rb#268
   def equals; end
 
   # The line number of the parser's current position.
@@ -5144,7 +5140,7 @@ class Sass::Script::Parser
   # source://sass//lib/sass/script/parser.rb#18
   def offset; end
 
-  # source://sass//lib/sass/script/parser.rb#269
+  # source://sass//lib/sass/script/parser.rb#268
   def or_expr; end
 
   # Parses a SassScript expression.
@@ -5217,25 +5213,25 @@ class Sass::Script::Parser
   # source://sass//lib/sass/script/parser.rb#84
   def parse_until(tokens); end
 
-  # source://sass//lib/sass/script/parser.rb#269
+  # source://sass//lib/sass/script/parser.rb#268
   def plus_or_minus; end
 
-  # source://sass//lib/sass/script/parser.rb#269
+  # source://sass//lib/sass/script/parser.rb#268
   def relational; end
 
-  # source://sass//lib/sass/script/parser.rb#269
+  # source://sass//lib/sass/script/parser.rb#268
   def times_div_or_mod; end
 
-  # source://sass//lib/sass/script/parser.rb#294
+  # source://sass//lib/sass/script/parser.rb#293
   def unary_div; end
 
-  # source://sass//lib/sass/script/parser.rb#294
+  # source://sass//lib/sass/script/parser.rb#293
   def unary_minus; end
 
-  # source://sass//lib/sass/script/parser.rb#294
+  # source://sass//lib/sass/script/parser.rb#293
   def unary_not; end
 
-  # source://sass//lib/sass/script/parser.rb#294
+  # source://sass//lib/sass/script/parser.rb#293
   def unary_plus; end
 
   private
@@ -5316,10 +5312,10 @@ class Sass::Script::Parser
 
   # Returns whether `expr` is unsafe to include before an interpolation.
   #
-  # @param expr [Node] The expression to check.
   # @param char_before [String] The character immediately before the
   #   interpolation being checked (and presumably the last character of
   #   `expr`).
+  # @param expr [Node] The expression to check.
   # @return [Boolean]
   #
   # source://sass//lib/sass/script/parser.rb#460
@@ -5498,11 +5494,11 @@ module Sass::Script::Tree; end
 #
 # source://sass//lib/sass/script/tree/funcall.rb#10
 class Sass::Script::Tree::Funcall < ::Sass::Script::Tree::Node
-  # @param name_or_callable [String, Sass::Callable] See \{#name}
   # @param args [Array<Node>] See \{#args}
   # @param keywords [Sass::Util::NormalizedMap<Node>] See \{#keywords}
-  # @param splat [Node] See \{#splat}
   # @param kwarg_splat [Node] See \{#kwarg_splat}
+  # @param name_or_callable [String, Sass::Callable] See \{#name}
+  # @param splat [Node] See \{#splat}
   # @return [Funcall] a new instance of Funcall
   #
   # source://sass//lib/sass/script/tree/funcall.rb#52
@@ -5657,13 +5653,13 @@ end
 class Sass::Script::Tree::Interpolation < ::Sass::Script::Tree::Node
   # Interpolation in a property is of the form `before #{mid} after`.
   #
+  # @param after [Node] See {Interpolation#after}
   # @param before [Node] See {Interpolation#before}
   # @param mid [Node] See {Interpolation#mid}
-  # @param after [Node] See {Interpolation#after}
-  # @param wb [Boolean] See {Interpolation#whitespace_before}
-  # @param wa [Boolean] See {Interpolation#whitespace_after}
   # @param originally_text [Boolean] See {Interpolation#originally_text}
+  # @param wa [Boolean] See {Interpolation#whitespace_after}
   # @param warn_for_color [Boolean] See {Interpolation#warn_for_color}
+  # @param wb [Boolean] See {Interpolation#whitespace_before}
   # @return [Interpolation] a new instance of Interpolation
   #
   # source://sass//lib/sass/script/tree/interpolation.rb#50
@@ -5797,9 +5793,9 @@ end
 class Sass::Script::Tree::ListLiteral < ::Sass::Script::Tree::Node
   # Creates a new list literal.
   #
+  # @param bracketed [Boolean] See \{#bracketed}
   # @param elements [Array<Node>] See \{#elements}
   # @param separator [Symbol] See \{#separator}
-  # @param bracketed [Boolean] See \{#bracketed}
   # @return [ListLiteral] a new instance of ListLiteral
   #
   # source://sass//lib/sass/script/tree/list_literal.rb#26
@@ -5954,7 +5950,7 @@ class Sass::Script::Tree::MapLiteral < ::Sass::Script::Tree::Node
 
   # @see Node#to_sass
   #
-  # source://sass//lib/sass/script/tree/map_literal.rb#24
+  # source://sass//lib/sass/script/tree/map_literal.rb#37
   def inspect(opts = T.unsafe(nil)); end
 
   # The key/value pairs that make up this map node. This isn't a Hash so that
@@ -6218,9 +6214,9 @@ class Sass::Script::Tree::StringInterpolation < ::Sass::Script::Tree::Node
   # Interpolation in a string is of the form `"before #{mid} after"`,
   # where `before` and `after` may include more interpolation.
   #
+  # @param after [Literal] See {StringInterpolation#after}
   # @param before [StringInterpolation, Literal] See {StringInterpolation#before}
   # @param mid [Node] See {StringInterpolation#mid}
-  # @param after [Literal] See {StringInterpolation#after}
   # @return [StringInterpolation] a new instance of StringInterpolation
   #
   # source://sass//lib/sass/script/tree/string_interpolation.rb#39
@@ -6397,7 +6393,7 @@ class Sass::Script::Tree::Variable < ::Sass::Script::Tree::Node
 
   # @return [String] A string representation of the variable
   #
-  # source://sass//lib/sass/script/tree/variable.rb#22
+  # source://sass//lib/sass/script/tree/variable.rb#25
   def to_sass(opts = T.unsafe(nil)); end
 
   # The underscored name of the variable.
@@ -6437,9 +6433,9 @@ module Sass::Script::Value; end
 class Sass::Script::Value::ArgList < ::Sass::Script::Value::List
   # Creates a new argument list.
   #
-  # @param value [Array<Value>] See \{List#value}.
   # @param keywords [Hash<String, Value>, NormalizedMap<Value>] See \{#keywords}
   # @param separator [String] See \{List#separator}.
+  # @param value [Array<Value>] See \{List#value}.
   # @return [ArgList] a new instance of ArgList
   #
   # source://sass//lib/sass/script/value/arg_list.rb#19
@@ -6673,7 +6669,7 @@ class Sass::Script::Value::Base
   #
   # @return [String]
   #
-  # source://sass//lib/sass/script/value/base.rb#225
+  # source://sass//lib/sass/script/value/base.rb#228
   def to_sass(opts = T.unsafe(nil)); end
 
   # The SassScript unary `/` operation (e.g. `/$a`).
@@ -6725,9 +6721,9 @@ class Sass::Script::Value::Base
   # Creates a new list containing `contents` but with the same brackets and
   # separators as this object, when interpreted as a list.
   #
+  # @param bracketed [Boolean] Whether the new list is bracketed. Defaults to \{#bracketed}.
   # @param contents [Array<Value>] The contents of the new list.
   # @param separator [Symbol] The separator of the new list. Defaults to \{#separator}.
-  # @param bracketed [Boolean] Whether the new list is bracketed. Defaults to \{#bracketed}.
   # @return [Sass::Script::Value::List]
   #
   # source://sass//lib/sass/script/value/base.rb#244
@@ -6752,7 +6748,7 @@ class Sass::Script::Value::Bool < ::Sass::Script::Value::Base
   #
   # @return [Boolean]
   #
-  # source://sass//lib/sass/script/value/bool.rb#26
+  # source://sass//lib/sass/script/value/bool.rb#27
   def to_bool; end
 
   # @return [String] "true" or "false"
@@ -6762,7 +6758,7 @@ class Sass::Script::Value::Bool < ::Sass::Script::Value::Base
 
   # @return [String] "true" or "false"
   #
-  # source://sass//lib/sass/script/value/bool.rb#30
+  # source://sass//lib/sass/script/value/bool.rb#33
   def to_sass(opts = T.unsafe(nil)); end
 
   # The Ruby value of the boolean.
@@ -6885,13 +6881,10 @@ class Sass::Script::Value::Color < ::Sass::Script::Value::Base
   # Its functionality depends on the type of its argument:
   #
   # {Number}
-  # : Divides each of the RGB color channels by the number.
   #
   # {Color}
-  # : Divides each of this color's RGB color channels by the other color's.
   #
   # {Value}
-  # : See {Value::Base#div}.
   #
   # @param other [Value] The right-hand side of the operator
   # @raise [Sass::SyntaxError] if `other` is a number with units
@@ -6962,13 +6955,10 @@ class Sass::Script::Value::Color < ::Sass::Script::Value::Base
   # Its functionality depends on the type of its argument:
   #
   # {Number}
-  # : Subtracts the number from each of the RGB color channels.
   #
   # {Color}
-  # : Subtracts each of the other color's RGB color channels from this color's.
   #
   # {Value}
-  # : See {Value::Base#minus}.
   #
   # @param other [Value] The right-hand side of the operator
   # @raise [Sass::SyntaxError] if `other` is a number with units
@@ -6981,10 +6971,8 @@ class Sass::Script::Value::Color < ::Sass::Script::Value::Base
   # Its functionality depends on the type of its argument:
   #
   # {Number}
-  # : Takes each of the RGB color channels module the number.
   #
   # {Color}
-  # : Takes each of this color's RGB color channels modulo the other color's.
   #
   # @param other [Number, Color] The right-hand side of the operator
   # @raise [Sass::SyntaxError] if `other` is a number with units
@@ -7004,13 +6992,10 @@ class Sass::Script::Value::Color < ::Sass::Script::Value::Base
   # Its functionality depends on the type of its argument:
   #
   # {Number}
-  # : Adds the number to each of the RGB color channels.
   #
   # {Color}
-  # : Adds each of the RGB color channels together.
   #
   # {Value}
-  # : See {Value::Base#plus}.
   #
   # @param other [Value] The right-hand side of the operator
   # @raise [Sass::SyntaxError] if `other` is a number with units
@@ -7060,10 +7045,8 @@ class Sass::Script::Value::Color < ::Sass::Script::Value::Base
   # Its functionality depends on the type of its argument:
   #
   # {Number}
-  # : Multiplies the number by each of the RGB color channels.
   #
   # {Color}
-  # : Multiplies each of the RGB color channels together.
   #
   # @param other [Number, Color] The right-hand side of the operator
   # @raise [Sass::SyntaxError] if `other` is a number with units
@@ -7087,7 +7070,7 @@ class Sass::Script::Value::Color < ::Sass::Script::Value::Base
   #
   # @return [String] The string representation
   #
-  # source://sass//lib/sass/script/value/color.rb#564
+  # source://sass//lib/sass/script/value/color.rb#575
   def to_sass(opts = T.unsafe(nil)); end
 
   # Returns a copy of this color with one or more channels changed.
@@ -7218,9 +7201,9 @@ module Sass::Script::Value::Helpers
 
   # Construct a Sass Color from a hex color string.
   #
+  # @param alpha [::Number] The alpha channel. A number between 0 and 1.
   # @param value [::String] A string representing a hex color.
   #   The leading hash ("#") is optional.
-  # @param alpha [::Number] The alpha channel. A number between 0 and 1.
   # @return [Sass::Script::Value::Color] the color object
   # @since `3.3.0`
   #
@@ -7229,13 +7212,13 @@ module Sass::Script::Value::Helpers
 
   # Construct a Sass Color from hsl values.
   #
+  # @param alpha [::Number] The alpha channel. A number between 0 and 1.
   # @param hue [::Number] The hue of the color in degrees.
   #   A non-negative number, usually less than 360.
-  # @param saturation [::Number] The saturation of the color.
-  #   Must be between 0 and 100 inclusive.
   # @param lightness [::Number] The lightness of the color.
   #   Must be between 0 and 100 inclusive.
-  # @param alpha [::Number] The alpha channel. A number between 0 and 1.
+  # @param saturation [::Number] The saturation of the color.
+  #   Must be between 0 and 100 inclusive.
   # @return [Sass::Script::Value::Color] the color object
   # @since `3.3.0`
   #
@@ -7248,7 +7231,7 @@ module Sass::Script::Value::Helpers
   # @return [Sass::Script::Value::String] An unquoted string.
   # @since `3.3.0`
   #
-  # source://sass//lib/sass/script/value/helpers.rb#128
+  # source://sass//lib/sass/script/value/helpers.rb#131
   def identifier(str); end
 
   # @overload list
@@ -7294,11 +7277,11 @@ module Sass::Script::Value::Helpers
   #
   # A complex selector can contain combinators but cannot contain commas.
   #
-  # @param value [Sass::Script::Value::String, Sass::Script::Value::List] The selector to parse. This can be either a string or a list of
-  #   strings.
+  # @param allow_parent_ref [Boolean] Whether the parsed selector should allow parent references.
   # @param name [Symbol, nil] If provided, the name of the selector argument. This is used
   #   for error reporting.
-  # @param allow_parent_ref [Boolean] Whether the parsed selector should allow parent references.
+  # @param value [Sass::Script::Value::String, Sass::Script::Value::List] The selector to parse. This can be either a string or a list of
+  #   strings.
   # @raise [ArgumentError]
   # @return [Sass::Selector::Sequence] The parsed selector.
   # @since `3.3.0`
@@ -7310,10 +7293,10 @@ module Sass::Script::Value::Helpers
   #
   # A compound selector cannot contain combinators or commas.
   #
-  # @param value [Sass::Script::Value::String] The selector to parse.
+  # @param allow_parent_ref [Boolean] Whether the parsed selector should allow parent references.
   # @param name [Symbol, nil] If provided, the name of the selector argument. This is used
   #   for error reporting.
-  # @param allow_parent_ref [Boolean] Whether the parsed selector should allow parent references.
+  # @param value [Sass::Script::Value::String] The selector to parse.
   # @raise [ArgumentError]
   # @return [Sass::Selector::SimpleSequence] The parsed selector.
   # @since `3.3.0`
@@ -7323,11 +7306,11 @@ module Sass::Script::Value::Helpers
 
   # Parses a user-provided selector.
   #
-  # @param value [Sass::Script::Value::String, Sass::Script::Value::List] The selector to parse. This can be either a string, a list of
-  #   strings, or a list of lists of strings as returned by `&`.
+  # @param allow_parent_ref [Boolean] Whether the parsed selector should allow parent references.
   # @param name [Symbol, nil] If provided, the name of the selector argument. This is used
   #   for error reporting.
-  # @param allow_parent_ref [Boolean] Whether the parsed selector should allow parent references.
+  # @param value [Sass::Script::Value::String, Sass::Script::Value::List] The selector to parse. This can be either a string, a list of
+  #   strings, or a list of lists of strings as returned by `&`.
   # @return [Sass::Selector::CommaSequence] The parsed selector.
   # @since `3.3.0`
   #
@@ -7345,10 +7328,10 @@ module Sass::Script::Value::Helpers
 
   # Construct a Sass Color from rgb values.
   #
-  # @param red [::Number] The red component. Must be between 0 and 255 inclusive.
-  # @param green [::Number] The green component. Must be between 0 and 255 inclusive.
-  # @param blue [::Number] The blue component. Must be between 0 and 255 inclusive.
   # @param alpha [::Number] The alpha channel. A number between 0 and 1.
+  # @param blue [::Number] The blue component. Must be between 0 and 255 inclusive.
+  # @param green [::Number] The green component. Must be between 0 and 255 inclusive.
+  # @param red [::Number] The red component. Must be between 0 and 255 inclusive.
   # @return [Sass::Script::Value::Color] the color object
   # @since `3.3.0`
   #
@@ -7426,9 +7409,9 @@ Sass::Script::Value::Helpers::VALID_UNIT = T.let(T.unsafe(nil), Regexp)
 class Sass::Script::Value::List < ::Sass::Script::Value::Base
   # Creates a new list.
   #
-  # @param value [Array<Value>] See \{#value}
-  # @param separator [Symbol] See \{#separator}
   # @param bracketed [Boolean] See \{#bracketed}
+  # @param separator [Symbol] See \{#separator}
+  # @param value [Array<Value>] See \{#value}
   # @return [List] a new instance of List
   #
   # source://sass//lib/sass/script/value/list.rb#27
@@ -7471,7 +7454,7 @@ class Sass::Script::Value::List < ::Sass::Script::Value::Base
   #
   # @return [Array<Value>]
   #
-  # source://sass//lib/sass/script/value/list.rb#8
+  # source://sass//lib/sass/script/value/list.rb#9
   def to_a; end
 
   # @see Value#to_h
@@ -7539,7 +7522,7 @@ class Sass::Script::Value::Map < ::Sass::Script::Value::Base
   # source://sass//lib/sass/script/value/map.rb#46
   def hash; end
 
-  # source://sass//lib/sass/script/value/map.rb#55
+  # source://sass//lib/sass/script/value/map.rb#68
   def inspect(opts = T.unsafe(nil)); end
 
   # @see Value#options=
@@ -7561,7 +7544,7 @@ class Sass::Script::Value::Map < ::Sass::Script::Value::Base
   #
   # @return [Hash<Node, Node>]
   #
-  # source://sass//lib/sass/script/value/map.rb#8
+  # source://sass//lib/sass/script/value/map.rb#9
   def to_h; end
 
   # @raise [Sass::SyntaxError]
@@ -7640,9 +7623,9 @@ Sass::Script::Value::Null::NULL = T.let(T.unsafe(nil), Sass::Script::Value::Null
 #
 # source://sass//lib/sass/script/value/number.rb#10
 class Sass::Script::Value::Number < ::Sass::Script::Value::Base
-  # @param value [Numeric] The value of the number
-  # @param numerator_units [::String, Array<::String>] See \{#numerator\_units}
   # @param denominator_units [::String, Array<::String>] See \{#denominator\_units}
+  # @param numerator_units [::String, Array<::String>] See \{#numerator\_units}
+  # @param value [Numeric] The value of the number
   # @return [Number] a new instance of Number
   #
   # source://sass//lib/sass/script/value/number.rb#70
@@ -7657,10 +7640,10 @@ class Sass::Script::Value::Number < ::Sass::Script::Value::Base
   #
   # An incompatible coercion, e.g. between px and cm, will raise an error.
   #
-  # @param num_units [Array<String>] The numerator units to coerce this number into.
-  #   See {\#numerator\_units}
   # @param den_units [Array<String>] The denominator units to coerce this number into.
   #   See {\#denominator\_units}
+  # @param num_units [Array<String>] The numerator units to coerce this number into.
+  #   See {\#numerator\_units}
   # @raise [Sass::UnitConversionError] if the given units are incompatible with the number's
   #   current units
   # @return [Number] The number with the new units
@@ -7686,10 +7669,8 @@ class Sass::Script::Value::Number < ::Sass::Script::Value::Base
   # Its functionality depends on the type of its argument:
   #
   # {Number}
-  # : Divides this number by the other, converting units appropriately.
   #
   # {Value}
-  # : See {Value::Base#div}.
   #
   # @param other [Value] The right-hand side of the operator
   # @return [Value] The result of the operation
@@ -7792,10 +7773,8 @@ class Sass::Script::Value::Number < ::Sass::Script::Value::Base
   # Its functionality depends on the type of its argument:
   #
   # {Number}
-  # : Subtracts this number from the other, converting units if possible.
   #
   # {Value}
-  # : See {Value::Base#minus}.
   #
   # @param other [Value] The right-hand side of the operator
   # @raise [Sass::UnitConversionError] if `other` is a number with incompatible units
@@ -7850,13 +7829,10 @@ class Sass::Script::Value::Number < ::Sass::Script::Value::Base
   # Its functionality depends on the type of its argument:
   #
   # {Number}
-  # : Adds the two numbers together, converting units if possible.
   #
   # {Color}
-  # : Adds this number to each of the RGB color channels.
   #
   # {Value}
-  # : See {Value::Base#plus}.
   #
   # @param other [Value] The right-hand side of the operator
   # @raise [Sass::UnitConversionError] if `other` is a number with incompatible units
@@ -7869,10 +7845,8 @@ class Sass::Script::Value::Number < ::Sass::Script::Value::Base
   # Its functionality depends on the type of its argument:
   #
   # {Number}
-  # : Multiplies the two numbers together, converting units appropriately.
   #
   # {Color}
-  # : Multiplies each of the RGB color channels by this number.
   #
   # @param other [Number, Color] The right-hand side of the operator
   # @raise [NoMethodError] if `other` is an invalid type
@@ -7901,7 +7875,7 @@ class Sass::Script::Value::Number < ::Sass::Script::Value::Base
   #
   # @return [String] The representation
   #
-  # source://sass//lib/sass/script/value/number.rb#285
+  # source://sass//lib/sass/script/value/number.rb#308
   def to_sass(opts = T.unsafe(nil)); end
 
   # The SassScript unary `-` operation (e.g. `-$a`).
@@ -8037,10 +8011,10 @@ Sass::Script::Value::Number::OPERATIONS = T.let(T.unsafe(nil), Array)
 class Sass::Script::Value::String < ::Sass::Script::Value::Base
   # Creates a new string.
   #
-  # @param value [String] See \{#value}
-  # @param type [Symbol] See \{#type}
   # @param deprecated_interp_equivalent [String?] If this was created via a potentially-deprecated string interpolation,
   #   this is the replacement expression that should be suggested to the user.
+  # @param type [Symbol] See \{#type}
+  # @param value [String] See \{#value}
   # @return [String] a new instance of String
   #
   # source://sass//lib/sass/script/value/string.rb#84
@@ -8135,7 +8109,7 @@ class Sass::Selector::AbstractSequence
   # @param other [Object] The object to test equality against
   # @return [Boolean] Whether or not this is equal to `other`
   #
-  # source://sass//lib/sass/selector/abstract_sequence.rb#57
+  # source://sass//lib/sass/selector/abstract_sequence.rb#60
   def ==(other); end
 
   # Checks equality between this and another object.
@@ -8231,11 +8205,11 @@ end
 #
 # source://sass//lib/sass/selector.rb#271
 class Sass::Selector::Attribute < ::Sass::Selector::Simple
+  # @param flags [String] See \{#flags}
   # @param name [String] The attribute name
   # @param namespace [String, nil] See \{#namespace}
   # @param operator [String] The matching operator, e.g. `"="` or `"^="`
   # @param value [String] See \{#value}
-  # @param flags [String] See \{#flags}
   # @return [Attribute] a new instance of Attribute
   #
   # source://sass//lib/sass/selector.rb#303
@@ -8340,12 +8314,12 @@ class Sass::Selector::CommaSequence < ::Sass::Selector::AbstractSequence
   #
   # @param extends [Sass::Util::SubsetMap{Selector::Simple =>
   # Sass::Tree::Visitors::Cssize::Extend}]
+  # @param original [Boolean] Whether this is the original selector being extended, as opposed to
+  #   the result of a previous extension that's being re-extended.
   # @param parent_directives [Array<Sass::Tree::DirectiveNode>] The directives containing this selector.
   # @param replace [Boolean] Whether to replace the original selector entirely or include
   #   it in the result.
   # @param seen [Set<Array<Selector::Simple>>] The set of simple sequences that are currently being replaced.
-  # @param original [Boolean] Whether this is the original selector being extended, as opposed to
-  #   the result of a previous extension that's being re-extended.
   # @return [CommaSequence] A copy of this selector,
   #   with extensions made according to `extends`
   # @todo Link this to the reference documentation on `@extend`
@@ -8376,12 +8350,12 @@ class Sass::Selector::CommaSequence < ::Sass::Selector::AbstractSequence
   #
   #   The subset map representing the extensions to perform.
   #
+  # @param allow_compound_target [Boolean] Whether `extendee` is allowed to contain compound selectors.
+  # @param extend_node [Sass::Tree::ExtendNode] The node that caused this extension.
+  # @param extendee [CommaSequence] The selector being extended.
   # @param extends [Sass::Util::SubsetMap{Selector::Simple =>
   # Sass::Tree::Visitors::Cssize::Extend}]
-  # @param extendee [CommaSequence] The selector being extended.
-  # @param extend_node [Sass::Tree::ExtendNode] The node that caused this extension.
   # @param parent_directives [Array<Sass::Tree::DirectiveNode>] The parent directives containing `extend_node`.
-  # @param allow_compound_target [Boolean] Whether `extendee` is allowed to contain compound selectors.
   # @raise [Sass::SyntaxError] if this extension is invalid.
   #
   # source://sass//lib/sass/selector/comma_sequence.rb#104
@@ -8391,10 +8365,10 @@ class Sass::Selector::CommaSequence < ::Sass::Selector::AbstractSequence
   # by replacing them with the given parent selector,
   # handling commas appropriately.
   #
-  # @param super_cseq [CommaSequence] The parent selector
   # @param implicit_parent [Boolean] Whether the the parent
   #   selector should automatically be prepended to the resolved
   #   selector if it contains no parent refs.
+  # @param super_cseq [CommaSequence] The parent selector
   # @raise [Sass::SyntaxError] If a parent selector is invalid
   # @return [CommaSequence] This selector, with parent references resolved
   #
@@ -8624,10 +8598,10 @@ end
 #
 # source://sass//lib/sass/selector/pseudo.rb#7
 class Sass::Selector::Pseudo < ::Sass::Selector::Simple
-  # @param syntactic_type [Symbol] See \{#syntactic_type}
-  # @param name [String] See \{#name}
   # @param arg [nil, String] See \{#arg}
+  # @param name [String] See \{#name}
   # @param selector [nil, CommaSequence] See \{#selector}
+  # @param syntactic_type [Symbol] See \{#syntactic_type}
   # @return [Pseudo] a new instance of Pseudo
   #
   # source://sass//lib/sass/selector/pseudo.rb#45
@@ -8684,8 +8658,8 @@ class Sass::Selector::Pseudo < ::Sass::Selector::Simple
   # @example
   #   (.foo).superselector?(.foo.bar) #=> true
   #   (.foo).superselector?(.bar) #=> false
-  # @param their_sseq [SimpleSequence]
   # @param parents [Array<SimpleSequence, String>] The parent selectors of `their_sseq`, if any.
+  # @param their_sseq [SimpleSequence]
   # @return [Boolean]
   #
   # source://sass//lib/sass/selector/pseudo.rb#166
@@ -8785,12 +8759,12 @@ class Sass::Selector::Sequence < ::Sass::Selector::AbstractSequence
   #
   # @param extends [Sass::Util::SubsetMap{Selector::Simple =>
   # Sass::Tree::Visitors::Cssize::Extend}]
+  # @param original [Boolean] Whether this is the original selector being extended, as opposed to
+  #   the result of a previous extension that's being re-extended.
   # @param parent_directives [Array<Sass::Tree::DirectiveNode>] The directives containing this selector.
   # @param replace [Boolean] Whether to replace the original selector entirely or include
   #   it in the result.
   # @param seen [Set<Array<Selector::Simple>>] The set of simple sequences that are currently being replaced.
-  # @param original [Boolean] Whether this is the original selector being extended, as opposed to
-  #   the result of a previous extension that's being re-extended.
   # @return [Array<Sequence>] A list of selectors generated
   #   by extending this selector with `extends`.
   #   These correspond to a {CommaSequence}'s {CommaSequence#members members array}.
@@ -8841,10 +8815,10 @@ class Sass::Selector::Sequence < ::Sass::Selector::AbstractSequence
   # by replacing them with the given parent selector,
   # handling commas appropriately.
   #
-  # @param super_cseq [CommaSequence] The parent selector
   # @param implicit_parent [Boolean] Whether the the parent
   #   selector should automatically be prepended to the resolved
   #   selector if it contains no parent refs.
+  # @param super_cseq [CommaSequence] The parent selector
   # @raise [Sass::SyntaxError] If a parent selector is invalid
   # @return [CommaSequence] This selector, with parent references resolved
   #
@@ -9085,7 +9059,7 @@ class Sass::Selector::Simple
   # @param other [Object] The object to test equality against
   # @return [Boolean] Whether or not this is equal to `other`
   #
-  # source://sass//lib/sass/selector/simple.rb#60
+  # source://sass//lib/sass/selector/simple.rb#63
   def ==(other); end
 
   # Checks equality between this and another object.
@@ -9221,8 +9195,8 @@ end
 # source://sass//lib/sass/selector/simple_sequence.rb#7
 class Sass::Selector::SimpleSequence < ::Sass::Selector::AbstractSequence
   # @param selectors [Array<Simple>] See \{#members}
-  # @param subject [Boolean] See \{#subject?}
   # @param source_range [Sass::Source::Range]
+  # @param subject [Boolean] See \{#subject?}
   # @return [SimpleSequence] a new instance of SimpleSequence
   #
   # source://sass//lib/sass/selector/simple_sequence.rb#74
@@ -9243,10 +9217,10 @@ class Sass::Selector::SimpleSequence < ::Sass::Selector::AbstractSequence
   #
   # @param extends [{Selector::Simple =>
   # Sass::Tree::Visitors::Cssize::Extend}]
-  # @param parent_directives [Array<Sass::Tree::DirectiveNode>] The directives containing this selector.
-  # @param seen [Set<Array<Selector::Simple>>] The set of simple sequences that are currently being replaced.
   # @param original [Boolean] Whether this is the original selector being extended, as opposed to
   #   the result of a previous extension that's being re-extended.
+  # @param parent_directives [Array<Sass::Tree::DirectiveNode>] The directives containing this selector.
+  # @param seen [Set<Array<Selector::Simple>>] The set of simple sequences that are currently being replaced.
   # @return [Array<Sequence>] A list of selectors generated
   #   by extending this selector with `extends`.
   # @see CommaSequence#do_extend
@@ -9370,8 +9344,8 @@ class Sass::Selector::SimpleSequence < ::Sass::Selector::AbstractSequence
   # @example
   #   (.foo).superselector?(.foo.bar) #=> true
   #   (.foo).superselector?(.bar) #=> false
-  # @param their_sseq [SimpleSequence]
   # @param parents [Array<SimpleSequence, String>] The parent selectors of `their_sseq`, if any.
+  # @param their_sseq [SimpleSequence]
   # @return [Boolean]
   #
   # source://sass//lib/sass/selector/simple_sequence.rb#254
@@ -9504,13 +9478,13 @@ module Sass::Shared
   #     ^                       ^
   #     from                    to
   #
+  # @param count [Integer] The number of opening characters matched
+  #   before calling this method
+  # @param finish [Character] The character closing the balanced pair.
+  #   A `Fixnum` in 1.8, a `String` in 1.9
   # @param scanner [StringScanner] The string scanner to move
   # @param start [Character] The character opening the balanced pair.
   #   A `Fixnum` in 1.8, a `String` in 1.9
-  # @param finish [Character] The character closing the balanced pair.
-  #   A `Fixnum` in 1.8, a `String` in 1.9
-  # @param count [Integer] The number of opening characters matched
-  #   before calling this method
   # @return [(String, String)] The string matched within the balanced pair
   #   and the rest of the string.
   #   `["Foo (Bar (Baz bang) bop)", " (Bang (bop bip))"]` in the example above.
@@ -9681,10 +9655,10 @@ end
 
 # source://sass//lib/sass/source/range.rb#2
 class Sass::Source::Range
-  # @param start_pos [Sass::Source::Position] See \{#start_pos}
   # @param end_pos [Sass::Source::Position] See \{#end_pos}
   # @param file [String] See \{#file}
   # @param importer [Sass::Importers::Base] See \{#importer}
+  # @param start_pos [Sass::Source::Position] See \{#start_pos}
   # @return [Range] a new instance of Range
   #
   # source://sass//lib/sass/source/range.rb#29
@@ -10218,9 +10192,9 @@ end
 #
 # source://sass//lib/sass/error.rb#25
 class Sass::SyntaxError < ::StandardError
-  # @param msg [String] The error message
   # @param attrs [{Symbol => Object}] The information in the backtrace entry.
   #   See \{#sass\_backtrace}
+  # @param msg [String] The error message
   # @return [SyntaxError] a new instance of SyntaxError
   #
   # source://sass//lib/sass/error.rb#55
@@ -10265,15 +10239,12 @@ class Sass::SyntaxError < ::StandardError
   # The hashes have the following keys:
   #
   # `:filename`
-  # : The name of the file in which the exception was raised,
   #   or `nil` if no filename is available.
   #
   # `:mixin`
-  # : The name of the mixin in which the exception was raised,
   #   or `nil` if it wasn't raised in a mixin.
   #
   # `:line`
-  # : The line of the file on which the error occurred. Never nil.
   #
   # This information is also included in standard backtrace format
   # in the output of \{#backtrace}.
@@ -10288,15 +10259,12 @@ class Sass::SyntaxError < ::StandardError
   # The hashes have the following keys:
   #
   # `:filename`
-  # : The name of the file in which the exception was raised,
   #   or `nil` if no filename is available.
   #
   # `:mixin`
-  # : The name of the mixin in which the exception was raised,
   #   or `nil` if it wasn't raised in a mixin.
   #
   # `:line`
-  # : The line of the file on which the error occurred. Never nil.
   #
   # This information is also included in standard backtrace format
   # in the output of \{#backtrace}.
@@ -10536,9 +10504,16 @@ class Sass::Tree::AtRootNode < ::Sass::Tree::Node
   def tabs=(_arg0); end
 
   class << self
+    # source://sass//lib/sass/tree/at_root_node.rb#9
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/at_root_node.rb#9
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/at_root_node.rb#9
     def node_name; end
+
+    # source://sass//lib/sass/tree/at_root_node.rb#9
     def visit_method; end
   end
 end
@@ -10576,9 +10551,16 @@ class Sass::Tree::CharsetNode < ::Sass::Tree::Node
   def name=(_arg0); end
 
   class << self
+    # source://sass//lib/sass/tree/charset_node.rb#5
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/charset_node.rb#5
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/charset_node.rb#5
     def node_name; end
+
+    # source://sass//lib/sass/tree/charset_node.rb#5
     def visit_method; end
   end
 end
@@ -10589,8 +10571,8 @@ end
 #
 # source://sass//lib/sass/tree/comment_node.rb#7
 class Sass::Tree::CommentNode < ::Sass::Tree::Node
-  # @param value [Array<String, Sass::Script::Tree::Node>] See \{#value}
   # @param type [Symbol] See \{#type}
+  # @param value [Array<String, Sass::Script::Tree::Node>] See \{#value}
   # @return [CommentNode] a new instance of CommentNode
   #
   # source://sass//lib/sass/tree/comment_node.rb#31
@@ -10682,9 +10664,16 @@ class Sass::Tree::CommentNode < ::Sass::Tree::Node
   def normalize_indentation(str); end
 
   class << self
+    # source://sass//lib/sass/tree/comment_node.rb#7
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/comment_node.rb#7
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/comment_node.rb#7
     def node_name; end
+
+    # source://sass//lib/sass/tree/comment_node.rb#7
     def visit_method; end
   end
 end
@@ -10696,9 +10685,16 @@ end
 # source://sass//lib/sass/tree/content_node.rb#6
 class Sass::Tree::ContentNode < ::Sass::Tree::Node
   class << self
+    # source://sass//lib/sass/tree/content_node.rb#6
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/content_node.rb#6
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/content_node.rb#6
     def node_name; end
+
+    # source://sass//lib/sass/tree/content_node.rb#6
     def visit_method; end
   end
 end
@@ -10709,9 +10705,9 @@ end
 #
 # source://sass//lib/sass/tree/css_import_node.rb#5
 class Sass::Tree::CssImportNode < ::Sass::Tree::DirectiveNode
-  # @param uri [String, Sass::Script::Tree::Node] See \{#uri}
   # @param query [Array<String, Sass::Script::Tree::Node>] See \{#query}
   # @param supports_condition [Sass::Supports::Condition] See \{#supports_condition}
+  # @param uri [String, Sass::Script::Tree::Node] See \{#uri}
   # @return [CssImportNode] a new instance of CssImportNode
   #
   # source://sass//lib/sass/tree/css_import_node.rb#39
@@ -10809,8 +10805,13 @@ class Sass::Tree::CssImportNode < ::Sass::Tree::DirectiveNode
   def value; end
 
   class << self
+    # source://sass//lib/sass/tree/css_import_node.rb#5
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/css_import_node.rb#5
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/css_import_node.rb#5
     def node_name; end
 
     # @param uri [String] See \{#resolved_uri}
@@ -10819,6 +10820,7 @@ class Sass::Tree::CssImportNode < ::Sass::Tree::DirectiveNode
     # source://sass//lib/sass/tree/css_import_node.rb#48
     def resolved(uri); end
 
+    # source://sass//lib/sass/tree/css_import_node.rb#5
     def visit_method; end
   end
 end
@@ -10850,9 +10852,16 @@ class Sass::Tree::DebugNode < ::Sass::Tree::Node
   def expr=(_arg0); end
 
   class << self
+    # source://sass//lib/sass/tree/debug_node.rb#6
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/debug_node.rb#6
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/debug_node.rb#6
     def node_name; end
+
+    # source://sass//lib/sass/tree/debug_node.rb#6
     def visit_method; end
   end
 end
@@ -10943,8 +10952,13 @@ class Sass::Tree::DirectiveNode < ::Sass::Tree::Node
   def value=(_arg0); end
 
   class << self
+    # source://sass//lib/sass/tree/directive_node.rb#11
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/directive_node.rb#11
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/directive_node.rb#11
     def node_name; end
 
     # @param value [String] See \{#resolved_value}
@@ -10953,6 +10967,7 @@ class Sass::Tree::DirectiveNode < ::Sass::Tree::Node
     # source://sass//lib/sass/tree/directive_node.rb#38
     def resolved(value); end
 
+    # source://sass//lib/sass/tree/directive_node.rb#11
     def visit_method; end
   end
 end
@@ -10963,8 +10978,8 @@ end
 #
 # source://sass//lib/sass/tree/each_node.rb#7
 class Sass::Tree::EachNode < ::Sass::Tree::Node
-  # @param vars [Array<String>] The names of the loop variables
   # @param list [Script::Tree::Node] The parse tree for the list
+  # @param vars [Array<String>] The names of the loop variables
   # @return [EachNode] a new instance of EachNode
   #
   # source://sass//lib/sass/tree/each_node.rb#18
@@ -10992,9 +11007,16 @@ class Sass::Tree::EachNode < ::Sass::Tree::Node
   def vars; end
 
   class << self
+    # source://sass//lib/sass/tree/each_node.rb#7
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/each_node.rb#7
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/each_node.rb#7
     def node_name; end
+
+    # source://sass//lib/sass/tree/each_node.rb#7
     def visit_method; end
   end
 end
@@ -11026,9 +11048,16 @@ class Sass::Tree::ErrorNode < ::Sass::Tree::Node
   def expr=(_arg0); end
 
   class << self
+    # source://sass//lib/sass/tree/error_node.rb#6
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/error_node.rb#6
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/error_node.rb#6
     def node_name; end
+
+    # source://sass//lib/sass/tree/error_node.rb#6
     def visit_method; end
   end
 end
@@ -11039,10 +11068,10 @@ end
 #
 # source://sass//lib/sass/tree/extend_node.rb#7
 class Sass::Tree::ExtendNode < ::Sass::Tree::Node
+  # @param optional [Boolean] See \{ExtendNode#optional?}
   # @param selector [Array<String, Sass::Script::Tree::Node>] The CSS selector to extend,
   #   interspersed with {Sass::Script::Tree::Node}s
   #   representing `#{}`-interpolation.
-  # @param optional [Boolean] See \{ExtendNode#optional?}
   # @param selector_source_range [Sass::Source::Range] The extended selector source range.
   # @return [ExtendNode] a new instance of ExtendNode
   #
@@ -11103,9 +11132,16 @@ class Sass::Tree::ExtendNode < ::Sass::Tree::Node
   def selector_source_range=(_arg0); end
 
   class << self
+    # source://sass//lib/sass/tree/extend_node.rb#7
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/extend_node.rb#7
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/extend_node.rb#7
     def node_name; end
+
+    # source://sass//lib/sass/tree/extend_node.rb#7
     def visit_method; end
   end
 end
@@ -11116,10 +11152,10 @@ end
 #
 # source://sass//lib/sass/tree/for_node.rb#7
 class Sass::Tree::ForNode < ::Sass::Tree::Node
-  # @param var [String] See \{#var}
+  # @param exclusive [Boolean] See \{#exclusive}
   # @param from [Script::Tree::Node] See \{#from}
   # @param to [Script::Tree::Node] See \{#to}
-  # @param exclusive [Boolean] See \{#exclusive}
+  # @param var [String] See \{#var}
   # @return [ForNode] a new instance of ForNode
   #
   # source://sass//lib/sass/tree/for_node.rb#28
@@ -11168,9 +11204,16 @@ class Sass::Tree::ForNode < ::Sass::Tree::Node
   def var; end
 
   class << self
+    # source://sass//lib/sass/tree/for_node.rb#7
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/for_node.rb#7
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/for_node.rb#7
     def node_name; end
+
+    # source://sass//lib/sass/tree/for_node.rb#7
     def visit_method; end
   end
 end
@@ -11181,8 +11224,8 @@ end
 #
 # source://sass//lib/sass/tree/function_node.rb#6
 class Sass::Tree::FunctionNode < ::Sass::Tree::Node
-  # @param name [String] The function name
   # @param args [Array<(Script::Tree::Node, Script::Tree::Node)>] The arguments for the function.
+  # @param name [String] The function name
   # @param splat [Script::Tree::Node] See \{#splat}
   # @raise [Sass::SyntaxError]
   # @return [FunctionNode] a new instance of FunctionNode
@@ -11237,9 +11280,16 @@ class Sass::Tree::FunctionNode < ::Sass::Tree::Node
   def splat=(_arg0); end
 
   class << self
+    # source://sass//lib/sass/tree/function_node.rb#6
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/function_node.rb#6
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/function_node.rb#6
     def node_name; end
+
+    # source://sass//lib/sass/tree/function_node.rb#6
     def visit_method; end
   end
 end
@@ -11304,9 +11354,16 @@ class Sass::Tree::IfNode < ::Sass::Tree::Node
     # source://sass//lib/sass/tree/if_node.rb#42
     def _load(data); end
 
+    # source://sass//lib/sass/tree/if_node.rb#11
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/if_node.rb#11
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/if_node.rb#11
     def node_name; end
+
+    # source://sass//lib/sass/tree/if_node.rb#11
     def visit_method; end
   end
 end
@@ -11364,9 +11421,16 @@ class Sass::Tree::ImportNode < ::Sass::Tree::RootNode
   def options_for_importer; end
 
   class << self
+    # source://sass//lib/sass/tree/import_node.rb#6
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/import_node.rb#6
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/import_node.rb#6
     def node_name; end
+
+    # source://sass//lib/sass/tree/import_node.rb#6
     def visit_method; end
   end
 end
@@ -11396,9 +11460,16 @@ class Sass::Tree::KeyframeRuleNode < ::Sass::Tree::Node
   def resolved_value=(_arg0); end
 
   class << self
+    # source://sass//lib/sass/tree/keyframe_rule_node.rb#2
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/keyframe_rule_node.rb#2
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/keyframe_rule_node.rb#2
     def node_name; end
+
+    # source://sass//lib/sass/tree/keyframe_rule_node.rb#2
     def visit_method; end
   end
 end
@@ -11476,9 +11547,16 @@ class Sass::Tree::MediaNode < ::Sass::Tree::DirectiveNode
   def value; end
 
   class << self
+    # source://sass//lib/sass/tree/media_node.rb#8
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/media_node.rb#8
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/media_node.rb#8
     def node_name; end
+
+    # source://sass//lib/sass/tree/media_node.rb#8
     def visit_method; end
   end
 end
@@ -11489,8 +11567,8 @@ end
 #
 # source://sass//lib/sass/tree/mixin_def_node.rb#6
 class Sass::Tree::MixinDefNode < ::Sass::Tree::Node
-  # @param name [String] The mixin name
   # @param args [Array<(Script::Tree::Node, Script::Tree::Node)>] See \{#args}
+  # @param name [String] The mixin name
   # @param splat [Script::Tree::Node] See \{#splat}
   # @return [MixinDefNode] a new instance of MixinDefNode
   #
@@ -11551,9 +11629,16 @@ class Sass::Tree::MixinDefNode < ::Sass::Tree::Node
   def splat=(_arg0); end
 
   class << self
+    # source://sass//lib/sass/tree/mixin_def_node.rb#6
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/mixin_def_node.rb#6
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/mixin_def_node.rb#6
     def node_name; end
+
+    # source://sass//lib/sass/tree/mixin_def_node.rb#6
     def visit_method; end
   end
 end
@@ -11566,11 +11651,11 @@ end
 #
 # source://sass//lib/sass/tree/mixin_node.rb#9
 class Sass::Tree::MixinNode < ::Sass::Tree::Node
-  # @param name [String] The name of the mixin
   # @param args [Array<Script::Tree::Node>] See \{#args}
-  # @param splat [Script::Tree::Node] See \{#splat}
-  # @param kwarg_splat [Script::Tree::Node] See \{#kwarg_splat}
   # @param keywords [Sass::Util::NormalizedMap<Script::Tree::Node>] See \{#keywords}
+  # @param kwarg_splat [Script::Tree::Node] See \{#kwarg_splat}
+  # @param name [String] The name of the mixin
+  # @param splat [Script::Tree::Node] See \{#splat}
   # @return [MixinNode] a new instance of MixinNode
   #
   # source://sass//lib/sass/tree/mixin_node.rb#43
@@ -11652,9 +11737,16 @@ class Sass::Tree::MixinNode < ::Sass::Tree::Node
   def splat=(_arg0); end
 
   class << self
+    # source://sass//lib/sass/tree/mixin_node.rb#9
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/mixin_node.rb#9
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/mixin_node.rb#9
     def node_name; end
+
+    # source://sass//lib/sass/tree/mixin_node.rb#9
     def visit_method; end
   end
 end
@@ -11884,9 +11976,9 @@ end
 # source://sass//lib/sass/tree/prop_node.rb#5
 class Sass::Tree::PropNode < ::Sass::Tree::Node
   # @param name [Array<String, Sass::Script::Tree::Node>] See \{#name}
-  # @param value [Array<String, Sass::Script::Tree::Node>] See \{#value}
   # @param prop_syntax [Symbol] `:new` if this property uses `a: b`-style syntax,
   #   `:old` if it uses `:a b`-style syntax
+  # @param value [Array<String, Sass::Script::Tree::Node>] See \{#value}
   # @return [PropNode] a new instance of PropNode
   #
   # source://sass//lib/sass/tree/prop_node.rb#70
@@ -11912,8 +12004,8 @@ class Sass::Tree::PropNode < ::Sass::Tree::Node
   # This is like \{#to\_scss} or \{#to\_sass},
   # except it doesn't print any child properties or a trailing semicolon.
   #
-  # @param opts [{Symbol => Object}] The options hash for the tree.
   # @param fmt [Symbol] `:scss` or `:sass`.
+  # @param opts [{Symbol => Object}] The options hash for the tree.
   #
   # source://sass//lib/sass/tree/prop_node.rb#112
   def declaration(opts = T.unsafe(nil), fmt = T.unsafe(nil)); end
@@ -12084,9 +12176,16 @@ class Sass::Tree::PropNode < ::Sass::Tree::Node
   def value_needs_parens?; end
 
   class << self
+    # source://sass//lib/sass/tree/prop_node.rb#5
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/prop_node.rb#5
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/prop_node.rb#5
     def node_name; end
+
+    # source://sass//lib/sass/tree/prop_node.rb#5
     def visit_method; end
   end
 end
@@ -12118,9 +12217,16 @@ class Sass::Tree::ReturnNode < ::Sass::Tree::Node
   def expr=(_arg0); end
 
   class << self
+    # source://sass//lib/sass/tree/return_node.rb#6
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/return_node.rb#6
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/return_node.rb#6
     def node_name; end
+
+    # source://sass//lib/sass/tree/return_node.rb#6
     def visit_method; end
   end
 end
@@ -12164,9 +12270,16 @@ class Sass::Tree::RootNode < ::Sass::Tree::Node
   def css_tree; end
 
   class << self
+    # source://sass//lib/sass/tree/root_node.rb#4
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/root_node.rb#4
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/root_node.rb#4
     def node_name; end
+
+    # source://sass//lib/sass/tree/root_node.rb#4
     def visit_method; end
   end
 end
@@ -12372,9 +12485,16 @@ class Sass::Tree::RuleNode < ::Sass::Tree::Node
   def try_to_parse_non_interpolated_rules; end
 
   class << self
+    # source://sass//lib/sass/tree/rule_node.rb#7
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/rule_node.rb#7
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/rule_node.rb#7
     def node_name; end
+
+    # source://sass//lib/sass/tree/rule_node.rb#7
     def visit_method; end
   end
 end
@@ -12443,9 +12563,16 @@ class Sass::Tree::SupportsNode < ::Sass::Tree::DirectiveNode
   def value; end
 
   class << self
+    # source://sass//lib/sass/tree/supports_node.rb#5
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/supports_node.rb#5
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/supports_node.rb#5
     def node_name; end
+
+    # source://sass//lib/sass/tree/supports_node.rb#5
     def visit_method; end
   end
 end
@@ -12480,9 +12607,16 @@ class Sass::Tree::TraceNode < ::Sass::Tree::Node
     # source://sass//lib/sass/tree/trace_node.rb#25
     def from_node(name, node); end
 
+    # source://sass//lib/sass/tree/trace_node.rb#8
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/trace_node.rb#8
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/trace_node.rb#8
     def node_name; end
+
+    # source://sass//lib/sass/tree/trace_node.rb#8
     def visit_method; end
   end
 end
@@ -12493,10 +12627,10 @@ end
 #
 # source://sass//lib/sass/tree/variable_node.rb#6
 class Sass::Tree::VariableNode < ::Sass::Tree::Node
-  # @param name [String] The name of the variable
   # @param expr [Script::Tree::Node] See \{#expr}
-  # @param guarded [Boolean] See \{#guarded}
   # @param global [Boolean] See \{#global}
+  # @param guarded [Boolean] See \{#guarded}
+  # @param name [String] The name of the variable
   # @return [VariableNode] a new instance of VariableNode
   #
   # source://sass//lib/sass/tree/variable_node.rb#27
@@ -12538,9 +12672,16 @@ class Sass::Tree::VariableNode < ::Sass::Tree::Node
   def name; end
 
   class << self
+    # source://sass//lib/sass/tree/variable_node.rb#6
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/variable_node.rb#6
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/variable_node.rb#6
     def node_name; end
+
+    # source://sass//lib/sass/tree/variable_node.rb#6
     def visit_method; end
   end
 end
@@ -12864,9 +13005,9 @@ class Sass::Tree::Visitors::Convert < ::Sass::Tree::Visitors::Base
   class << self
     # Runs the visitor on a tree.
     #
-    # @param root [Tree::Node] The root node of the Sass tree.
-    # @param options [{Symbol => Object}] An options hash (see {Sass::CSS#initialize}).
     # @param format [Symbol] `:sass` or `:scss`.
+    # @param options [{Symbol => Object}] An options hash (see {Sass::CSS#initialize}).
+    # @param root [Tree::Node] The root node of the Sass tree.
     # @return [String] The Sass or SCSS source for the tree.
     #
     # source://sass//lib/sass/tree/visitors/convert.rb#9
@@ -13091,74 +13232,103 @@ end
 # single {ExtendNode} can have multiple Extends if either the parent node or
 # the extended selector is a comma sequence.
 #
-# @attr extender [Sass::Selector::Sequence] The selector of the CSS rule containing the `@extend`.
-# @attr target [Array<Sass::Selector::Simple>] The selector being `@extend`ed.
-# @attr node [Sass::Tree::ExtendNode] The node that produced this extend.
 # @attr directives [Array<Sass::Tree::DirectiveNode>] The directives containing the `@extend`.
+# @attr extender [Sass::Selector::Sequence] The selector of the CSS rule containing the `@extend`.
+# @attr node [Sass::Tree::ExtendNode] The node that produced this extend.
 # @attr success [Boolean] Whether this extend successfully matched a selector.
+# @attr target [Array<Sass::Selector::Simple>] The selector being `@extend`ed.
 #
 # source://sass//lib/sass/tree/visitors/cssize.rb#111
 class Sass::Tree::Visitors::Cssize::Extend < ::Struct
   # The directives containing the `@extend`.
   #
   # @return [Array<Sass::Tree::DirectiveNode>] the current value of directives
+  #
+  # source://sass//lib/sass/tree/visitors/cssize.rb#111
   def directives; end
 
   # The directives containing the `@extend`.
   #
   # @param value [Array<Sass::Tree::DirectiveNode>] the value to set the attribute directives to.
   # @return [Array<Sass::Tree::DirectiveNode>] the newly set value
+  #
+  # source://sass//lib/sass/tree/visitors/cssize.rb#111
   def directives=(_); end
 
   # The selector of the CSS rule containing the `@extend`.
   #
   # @return [Sass::Selector::Sequence] the current value of extender
+  #
+  # source://sass//lib/sass/tree/visitors/cssize.rb#111
   def extender; end
 
   # The selector of the CSS rule containing the `@extend`.
   #
   # @param value [Sass::Selector::Sequence] the value to set the attribute extender to.
   # @return [Sass::Selector::Sequence] the newly set value
+  #
+  # source://sass//lib/sass/tree/visitors/cssize.rb#111
   def extender=(_); end
 
   # The node that produced this extend.
   #
   # @return [Sass::Tree::ExtendNode] the current value of node
+  #
+  # source://sass//lib/sass/tree/visitors/cssize.rb#111
   def node; end
 
   # The node that produced this extend.
   #
   # @param value [Sass::Tree::ExtendNode] the value to set the attribute node to.
   # @return [Sass::Tree::ExtendNode] the newly set value
+  #
+  # source://sass//lib/sass/tree/visitors/cssize.rb#111
   def node=(_); end
 
   # Whether this extend successfully matched a selector.
   #
   # @return [Boolean] the current value of success
+  #
+  # source://sass//lib/sass/tree/visitors/cssize.rb#111
   def success; end
 
   # Whether this extend successfully matched a selector.
   #
   # @param value [Boolean] the value to set the attribute success to.
   # @return [Boolean] the newly set value
+  #
+  # source://sass//lib/sass/tree/visitors/cssize.rb#111
   def success=(_); end
 
   # The selector being `@extend`ed.
   #
   # @return [Array<Sass::Selector::Simple>] the current value of target
+  #
+  # source://sass//lib/sass/tree/visitors/cssize.rb#111
   def target; end
 
   # The selector being `@extend`ed.
   #
   # @param value [Array<Sass::Selector::Simple>] the value to set the attribute target to.
   # @return [Array<Sass::Selector::Simple>] the newly set value
+  #
+  # source://sass//lib/sass/tree/visitors/cssize.rb#111
   def target=(_); end
 
   class << self
+    # source://sass//lib/sass/tree/visitors/cssize.rb#111
     def [](*_arg0); end
+
+    # source://sass//lib/sass/tree/visitors/cssize.rb#111
     def inspect; end
+
+    # source://sass//lib/sass/tree/visitors/cssize.rb#111
     def keyword_init?; end
+
+    # source://sass//lib/sass/tree/visitors/cssize.rb#111
     def members; end
+
+    # source://sass//lib/sass/tree/visitors/cssize.rb#111
     def new(*_arg0); end
   end
 end
@@ -13264,9 +13434,9 @@ class Sass::Tree::Visitors::Extend < ::Sass::Tree::Visitors::Base
     #
     #   The extensions to perform on this tree.
     #
-    # @param root [Tree::Node] The root node of the tree to visit.
     # @param extends [Sass::Util::SubsetMap{Selector::Simple =>
     # Sass::Tree::Visitors::Cssize::Extend}]
+    # @param root [Tree::Node] The root node of the tree to visit.
     # @return [Object] The return value of \{#visit} for the root node.
     #
     # source://sass//lib/sass/tree/visitors/extend.rb#13
@@ -13451,8 +13621,8 @@ class Sass::Tree::Visitors::Perform < ::Sass::Tree::Visitors::Base
     # source://sass//lib/sass/tree/visitors/perform.rb#106
     def perform_splat(splat, performed_keywords, kwarg_splat, environment); end
 
-    # @param root [Tree::Node] The root node of the tree to visit.
     # @param environment [Sass::Environment] The lexical environment.
+    # @param root [Tree::Node] The root node of the tree to visit.
     # @return [Tree::Node] The resulting tree of static nodes.
     #
     # source://sass//lib/sass/tree/visitors/perform.rb#9
@@ -13543,8 +13713,8 @@ class Sass::Tree::Visitors::SetOptions < ::Sass::Tree::Visitors::Base
   def visit_while(node); end
 
   class << self
-    # @param root [Tree::Node] The root node of the tree to visit.
     # @param options [{Symbol => Object}] The options has to set.
+    # @param root [Tree::Node] The root node of the tree to visit.
     #
     # source://sass//lib/sass/tree/visitors/set_options.rb#5
     def visit(root, options); end
@@ -13698,9 +13868,16 @@ class Sass::Tree::WarnNode < ::Sass::Tree::Node
   def expr=(_arg0); end
 
   class << self
+    # source://sass//lib/sass/tree/warn_node.rb#6
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/warn_node.rb#6
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/warn_node.rb#6
     def node_name; end
+
+    # source://sass//lib/sass/tree/warn_node.rb#6
     def visit_method; end
   end
 end
@@ -13732,9 +13909,16 @@ class Sass::Tree::WhileNode < ::Sass::Tree::Node
   def expr=(_arg0); end
 
   class << self
+    # source://sass//lib/sass/tree/while_node.rb#7
     def invalid_child_method_name; end
+
+    # source://sass//lib/sass/tree/while_node.rb#7
     def invalid_parent_method_name; end
+
+    # source://sass//lib/sass/tree/while_node.rb#7
     def node_name; end
+
+    # source://sass//lib/sass/tree/while_node.rb#7
     def visit_method; end
   end
 end
@@ -13833,8 +14017,8 @@ module Sass::Util
   #
   # @param name [String] The name of the value. Used in the error message.
   # @param range [Range] The allowed range of values.
-  # @param value [Numeric, Sass::Script::Value::Number] The value to check.
   # @param unit [String] The unit of the value. Used in error reporting.
+  # @param value [Numeric, Sass::Script::Value::Number] The value to check.
   # @raise [ArgumentError]
   # @return [Numeric] `value` adjusted to fall within range, if it
   #   was outside by a floating-point margin.
@@ -13873,8 +14057,8 @@ module Sass::Util
 
   # Prints a deprecation warning for the caller method.
   #
-  # @param obj [Object] `self`
   # @param message [String] A message describing what to do instead.
+  # @param obj [Object] `self`
   #
   # source://sass//lib/sass/util.rb#499
   def deprecated(obj, message = T.unsafe(nil)); end
@@ -14090,8 +14274,8 @@ module Sass::Util
   #   #=> {"foo" => "bar", "baz" => "bang"}
   # @param hash [Hash] The hash to map
   # @return [Hash] The mapped hash
-  # @see #map_vals
   # @see #map_hash
+  # @see #map_vals
   # @yield [key] A block in which the keys are transformed
   # @yieldparam key [Object] The key that should be mapped
   # @yieldreturn [Object] The new value for the key
@@ -14106,8 +14290,8 @@ module Sass::Util
   #   #=> {:foo => :bar, :baz => :bang}
   # @param hash [Hash] The hash to map
   # @return [Hash] The mapped hash
-  # @see #map_keys
   # @see #map_hash
+  # @see #map_keys
   # @yield [value] A block in which the values are transformed
   # @yieldparam value [Object] The value that should be mapped
   # @yieldreturn [Object] The new value for the value
@@ -14227,8 +14411,8 @@ module Sass::Util
   # an error rather than crashing if the paths use different encodings
   # (https://github.com/ruby/ruby/pull/713).
   #
-  # @param path [String, Pathname]
   # @param from [String, Pathname]
+  # @param path [String, Pathname]
   # @return [Pathname?]
   #
   # source://sass//lib/sass/util.rb#697
@@ -14241,8 +14425,8 @@ module Sass::Util
   #   replace_subseq([1, 2, 3, 4, 5], [2, 3], [:a, :b])
   #   #=> [1, :a, :b, 4, 5]
   # @param arr [Array] The array whose subsequences will be replaced.
-  # @param subseq [Array] The subsequence to find and replace.
   # @param replacement [Array] The sequence that `subseq` will be replaced with.
+  # @param subseq [Array] The subsequence to find and replace.
   # @return [Array] `arr` with `subseq` replaced with `replacement`.
   #
   # source://sass//lib/sass/util.rb#183
@@ -14252,8 +14436,8 @@ module Sass::Util
   # Returns the number if it falls within the range,
   # or the closest value in the range if it doesn't.
   #
-  # @param value [Numeric]
   # @param range [Range<Numeric>]
+  # @param value [Numeric]
   # @return [Numeric]
   #
   # source://sass//lib/sass/util.rb#126
@@ -14417,199 +14601,199 @@ module Sass::Util
   def with_extracted_values(arr); end
 
   class << self
-    # source://sass//lib/sass/util.rb#491
+    # source://sass//lib/sass/util.rb#1132
     def abstract(obj); end
 
-    # source://sass//lib/sass/util.rb#565
+    # source://sass//lib/sass/util.rb#1132
     def ap_geq?(version); end
 
-    # source://sass//lib/sass/util.rb#554
+    # source://sass//lib/sass/util.rb#1132
     def ap_geq_3?; end
 
-    # source://sass//lib/sass/util.rb#364
+    # source://sass//lib/sass/util.rb#1132
     def array_minus(minuend, subtrahend); end
 
-    # source://sass//lib/sass/util.rb#1054
+    # source://sass//lib/sass/util.rb#1132
     def atomic_create_and_write_file(filename, perms = T.unsafe(nil)); end
 
-    # source://sass//lib/sass/util.rb#581
+    # source://sass//lib/sass/util.rb#1132
     def av_template_class(name); end
 
-    # source://sass//lib/sass/util.rb#439
+    # source://sass//lib/sass/util.rb#1132
     def caller_info(entry = T.unsafe(nil)); end
 
-    # source://sass//lib/sass/util.rb#405
+    # source://sass//lib/sass/util.rb#1132
     def check_range(name, range, value, unit = T.unsafe(nil)); end
 
-    # source://sass//lib/sass/util.rb#786
+    # source://sass//lib/sass/util.rb#1132
     def check_sass_encoding(str); end
 
-    # source://sass//lib/sass/util.rb#662
+    # source://sass//lib/sass/util.rb#1132
     def cleanpath(path); end
 
-    # source://sass//lib/sass/util.rb#499
+    # source://sass//lib/sass/util.rb#1132
     def deprecated(obj, message = T.unsafe(nil)); end
 
-    # source://sass//lib/sass/util.rb#747
+    # source://sass//lib/sass/util.rb#1132
     def destructure(val); end
 
-    # source://sass//lib/sass/util.rb#352
+    # source://sass//lib/sass/util.rb#1132
     def downcase(string); end
 
-    # source://sass//lib/sass/util.rb#1001
+    # source://sass//lib/sass/util.rb#1132
     def encode_vlq(value); end
 
-    # source://sass//lib/sass/util.rb#284
+    # source://sass//lib/sass/util.rb#1132
     def escaped_char(escape); end
 
-    # source://sass//lib/sass/util.rb#832
+    # source://sass//lib/sass/util.rb#1132
     def extract!(array); end
 
-    # source://sass//lib/sass/util.rb#886
+    # source://sass//lib/sass/util.rb#1132
     def extract_values(arr); end
 
-    # source://sass//lib/sass/util.rb#713
+    # source://sass//lib/sass/util.rb#1132
     def file_uri_from_path(path); end
 
-    # source://sass//lib/sass/util.rb#848
+    # source://sass//lib/sass/util.rb#1132
     def flatten_vertically(arrs); end
 
-    # source://sass//lib/sass/util.rb#633
+    # source://sass//lib/sass/util.rb#1132
     def glob(path); end
 
-    # source://sass//lib/sass/util.rb#902
+    # source://sass//lib/sass/util.rb#1132
     def inject_values(str, values); end
 
-    # source://sass//lib/sass/util.rb#867
+    # source://sass//lib/sass/util.rb#1132
     def inspect_obj(obj); end
 
-    # source://sass//lib/sass/util.rb#215
+    # source://sass//lib/sass/util.rb#1132
     def intersperse(enum, val); end
 
-    # source://sass//lib/sass/util.rb#602
+    # source://sass//lib/sass/util.rb#1132
     def ironruby?; end
 
-    # source://sass//lib/sass/util.rb#618
+    # source://sass//lib/sass/util.rb#1132
     def jruby?; end
 
-    # source://sass//lib/sass/util.rb#626
+    # source://sass//lib/sass/util.rb#1132
     def jruby_version; end
 
-    # source://sass//lib/sass/util.rb#940
+    # source://sass//lib/sass/util.rb#1132
     def json_escape_string(s); end
 
-    # source://sass//lib/sass/util.rb#964
+    # source://sass//lib/sass/util.rb#1132
     def json_value_of(v); end
 
-    # source://sass//lib/sass/util.rb#338
+    # source://sass//lib/sass/util.rb#1132
     def lcs(x, y, &block); end
 
-    # source://sass//lib/sass/util.rb#88
+    # source://sass//lib/sass/util.rb#1132
     def map_hash(hash); end
 
-    # source://sass//lib/sass/util.rb#48
+    # source://sass//lib/sass/util.rb#1132
     def map_keys(hash); end
 
-    # source://sass//lib/sass/util.rb#64
+    # source://sass//lib/sass/util.rb#1132
     def map_vals(hash); end
 
-    # source://sass//lib/sass/util.rb#372
+    # source://sass//lib/sass/util.rb#1132
     def max(val1, val2); end
 
-    # source://sass//lib/sass/util.rb#155
+    # source://sass//lib/sass/util.rb#1132
     def merge_adjacent_strings(arr); end
 
-    # source://sass//lib/sass/util.rb#378
+    # source://sass//lib/sass/util.rb#1132
     def min(val1, val2); end
 
-    # source://sass//lib/sass/util.rb#267
+    # source://sass//lib/sass/util.rb#1132
     def normalize_ident_escapes(ident, start: T.unsafe(nil)); end
 
-    # source://sass//lib/sass/util.rb#650
+    # source://sass//lib/sass/util.rb#1132
     def pathname(path); end
 
-    # source://sass//lib/sass/util.rb#321
+    # source://sass//lib/sass/util.rb#1132
     def paths(arrs); end
 
-    # source://sass//lib/sass/util.rb#108
+    # source://sass//lib/sass/util.rb#1132
     def powerset(arr); end
 
-    # source://sass//lib/sass/util.rb#544
+    # source://sass//lib/sass/util.rb#1132
     def rails_env; end
 
-    # source://sass//lib/sass/util.rb#530
+    # source://sass//lib/sass/util.rb#1132
     def rails_root; end
 
-    # source://sass//lib/sass/util.rb#610
+    # source://sass//lib/sass/util.rb#1132
     def rbx?; end
 
-    # source://sass//lib/sass/util.rb#671
+    # source://sass//lib/sass/util.rb#1132
     def realpath(path); end
 
-    # source://sass//lib/sass/util.rb#697
+    # source://sass//lib/sass/util.rb#1132
     def relative_path_from(path, from); end
 
-    # source://sass//lib/sass/util.rb#183
+    # source://sass//lib/sass/util.rb#1132
     def replace_subseq(arr, subseq, replacement); end
 
-    # source://sass//lib/sass/util.rb#126
+    # source://sass//lib/sass/util.rb#1132
     def restrict(value, range); end
 
-    # source://sass//lib/sass/util.rb#727
+    # source://sass//lib/sass/util.rb#1132
     def retry_on_windows; end
 
-    # source://sass//lib/sass/util.rb#135
+    # source://sass//lib/sass/util.rb#1132
     def round(value); end
 
-    # source://sass//lib/sass/util.rb#306
+    # source://sass//lib/sass/util.rb#1132
     def rstrip_except_escapes(string); end
 
-    # source://sass//lib/sass/util.rb#762
+    # source://sass//lib/sass/util.rb#1132
     def ruby2_4?; end
 
-    # source://sass//lib/sass/util.rb#519
+    # source://sass//lib/sass/util.rb#1132
     def sass_warn(msg); end
 
-    # source://sass//lib/sass/util.rb#32
+    # source://sass//lib/sass/util.rb#1132
     def scope(file); end
 
-    # source://sass//lib/sass/util.rb#509
+    # source://sass//lib/sass/util.rb#1132
     def silence_sass_warnings; end
 
-    # source://sass//lib/sass/util.rb#219
+    # source://sass//lib/sass/util.rb#1132
     def slice_by(enum); end
 
-    # source://sass//lib/sass/util.rb#930
+    # source://sass//lib/sass/util.rb#1132
     def sourcemap_name(css); end
 
-    # source://sass//lib/sass/util.rb#297
+    # source://sass//lib/sass/util.rb#1132
     def strip_except_escapes(string); end
 
-    # source://sass//lib/sass/util.rb#255
+    # source://sass//lib/sass/util.rb#1132
     def strip_string_array(arr); end
 
-    # source://sass//lib/sass/util.rb#423
+    # source://sass//lib/sass/util.rb#1132
     def subsequence?(seq1, seq2); end
 
-    # source://sass//lib/sass/util.rb#237
+    # source://sass//lib/sass/util.rb#1132
     def substitute(ary, from, to); end
 
-    # source://sass//lib/sass/util.rb#387
+    # source://sass//lib/sass/util.rb#1132
     def undefined_conversion_error_char(e); end
 
-    # source://sass//lib/sass/util.rb#346
+    # source://sass//lib/sass/util.rb#1132
     def upcase(string); end
 
-    # source://sass//lib/sass/util.rb#483
+    # source://sass//lib/sass/util.rb#1132
     def version_geq(v1, v2); end
 
-    # source://sass//lib/sass/util.rb#454
+    # source://sass//lib/sass/util.rb#1132
     def version_gt(v1, v2); end
 
-    # source://sass//lib/sass/util.rb#594
+    # source://sass//lib/sass/util.rb#1132
     def windows?; end
 
-    # source://sass//lib/sass/util.rb#920
+    # source://sass//lib/sass/util.rb#1132
     def with_extracted_values(arr); end
   end
 end
@@ -14640,7 +14824,10 @@ class Sass::Util::MultibyteStringScanner < ::StringScanner
   # source://sass//lib/sass/util/multibyte_string_scanner.rb#22
   def initialize(str); end
 
+  # source://sass//lib/sass/util/multibyte_string_scanner.rb#42
   def byte_matched_size; end
+
+  # source://sass//lib/sass/util/multibyte_string_scanner.rb#41
   def byte_pos; end
 
   # source://sass//lib/sass/util/multibyte_string_scanner.rb#44
@@ -14649,7 +14836,7 @@ class Sass::Util::MultibyteStringScanner < ::StringScanner
   # source://sass//lib/sass/util/multibyte_string_scanner.rb#45
   def check_until(pattern); end
 
-  # source://sass//lib/sass/util/multibyte_string_scanner.rb#116
+  # source://sass//lib/sass/util/multibyte_string_scanner.rb#122
   def clear; end
 
   # source://sass//lib/sass/util/multibyte_string_scanner.rb#59
@@ -14672,10 +14859,10 @@ class Sass::Util::MultibyteStringScanner < ::StringScanner
   # source://sass//lib/sass/util/multibyte_string_scanner.rb#49
   def peek(len); end
 
-  # source://sass//lib/sass/util/multibyte_string_scanner.rb#49
+  # source://sass//lib/sass/util/multibyte_string_scanner.rb#50
   def peep(len); end
 
-  # source://sass//lib/sass/util/multibyte_string_scanner.rb#51
+  # source://sass//lib/sass/util/multibyte_string_scanner.rb#52
   def pointer; end
 
   # source://sass//lib/sass/util/multibyte_string_scanner.rb#51

@@ -6,75 +6,7 @@
 
 
 # source://rails-controller-testing//lib/rails/controller/testing/test_process.rb#3
-module Rails
-  class << self
-    # source://railties/7.2.0/lib/rails.rb#44
-    def app_class; end
-
-    # source://railties/7.2.0/lib/rails.rb#44
-    def app_class=(_arg0); end
-
-    # source://railties/7.2.0/lib/rails.rb#45
-    def application; end
-
-    # source://railties/7.2.0/lib/rails.rb#43
-    def application=(_arg0); end
-
-    # source://railties/7.2.0/lib/rails.rb#126
-    def autoloaders; end
-
-    # source://railties/7.2.0/lib/rails.rb#56
-    def backtrace_cleaner; end
-
-    # source://railties/7.2.0/lib/rails.rb#44
-    def cache; end
-
-    # source://railties/7.2.0/lib/rails.rb#44
-    def cache=(_arg0); end
-
-    # source://railties/7.2.0/lib/rails.rb#52
-    def configuration; end
-
-    # source://railties/7.2.0/lib/rails/deprecator.rb#4
-    def deprecator; end
-
-    # source://railties/7.2.0/lib/rails.rb#75
-    def env; end
-
-    # source://railties/7.2.0/lib/rails.rb#82
-    def env=(environment); end
-
-    # source://railties/7.2.0/lib/rails.rb#93
-    def error; end
-
-    # source://railties/7.2.0/lib/rails/gem_version.rb#5
-    def gem_version; end
-
-    # source://railties/7.2.0/lib/rails.rb#106
-    def groups(*groups); end
-
-    # source://railties/7.2.0/lib/rails.rb#49
-    def initialize!(*_arg0, **_arg1, &_arg2); end
-
-    # source://railties/7.2.0/lib/rails.rb#49
-    def initialized?(*_arg0, **_arg1, &_arg2); end
-
-    # source://railties/7.2.0/lib/rails.rb#44
-    def logger; end
-
-    # source://railties/7.2.0/lib/rails.rb#44
-    def logger=(_arg0); end
-
-    # source://railties/7.2.0/lib/rails.rb#122
-    def public_path; end
-
-    # source://railties/7.2.0/lib/rails.rb#65
-    def root; end
-
-    # source://railties/7.2.0/lib/rails/version.rb#7
-    def version; end
-  end
-end
+module Rails; end
 
 # source://rails-controller-testing//lib/rails/controller/testing/test_process.rb#4
 module Rails::Controller; end

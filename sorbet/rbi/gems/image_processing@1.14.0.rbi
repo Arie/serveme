@@ -104,7 +104,6 @@ end
 # source://image_processing//lib/image_processing/chainable.rb#95
 ImageProcessing::Chainable::DEFAULT_OPTIONS = T.let(T.unsafe(nil), Hash)
 
-# source://image_processing//lib/image_processing.rb#8
 class ImageProcessing::Error < ::StandardError; end
 
 # source://image_processing//lib/image_processing/mini_magick.rb#5
@@ -192,7 +191,7 @@ class ImageProcessing::MiniMagick::Processor < ::ImageProcessing::Processor
 
   protected
 
-  # source://image_processing//lib/image_processing/processor.rb#32
+  # source://image_processing//lib/image_processing/mini_magick.rb#28
   def magick; end
 
   private

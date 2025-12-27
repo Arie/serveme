@@ -13,9 +13,9 @@ module JMESPath
     # source://jmespath//lib/jmespath.rb#35
     def load_json(path); end
 
+    # @param data [Hash]
     # @param expression [String] A valid
     #   [JMESPath](https://github.com/boto/jmespath) expression.
-    # @param data [Hash]
     # @return [Mixed, nil] Returns the matched values. Returns `nil` if the
     #   expression does not resolve inside `data`.
     #
@@ -1571,8 +1571,8 @@ class JMESPath::Parser
   private
 
   # @api private
-  # @param stream [TokenStream]
   # @param rbp [Integer] Right binding power
+  # @param stream [TokenStream]
   #
   # source://jmespath//lib/jmespath/parser.rb#60
   def expr(stream, rbp = T.unsafe(nil)); end
@@ -1765,16 +1765,16 @@ class JMESPath::Runtime
   # `:parser`.
   #
   # @api private
-  # @example Re-use a Runtime, caching enabled by default
-  #
-  #   runtime = JMESPath::Runtime.new
-  #   runtime.parser
-  #   #=> #<JMESPath::CachingParser ...>
   # @example Disable caching
   #
   #   runtime = JMESPath::Runtime.new(cache_expressions: false)
   #   runtime.parser
   #   #=> #<JMESPath::Parser ...>
+  # @example Re-use a Runtime, caching enabled by default
+  #
+  #   runtime = JMESPath::Runtime.new
+  #   runtime.parser
+  #   #=> #<JMESPath::CachingParser ...>
   # @option options
   # @option options
   # @option options
@@ -1791,8 +1791,8 @@ class JMESPath::Runtime
   def parser; end
 
   # @api private
-  # @param expression [String<JMESPath>]
   # @param data [Hash]
+  # @param expression [String<JMESPath>]
   # @return [Mixed, nil]
   #
   # source://jmespath//lib/jmespath/runtime.rb#55
@@ -1816,9 +1816,9 @@ JMESPath::Runtime::DEFAULT_PARSER = JMESPath::CachingParser
 # source://jmespath//lib/jmespath/token.rb#4
 class JMESPath::Token < ::Struct
   # @api private
+  # @param position [Integer]
   # @param type [Symbol]
   # @param value [Mixed]
-  # @param position [Integer]
   # @return [Token] a new instance of Token
   #
   # source://jmespath//lib/jmespath/token.rb#37

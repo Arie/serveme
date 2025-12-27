@@ -5,14 +5,25 @@
 # Please instead update this file by running `bin/tapioca gem devise`.
 
 
+class ActionController::Base < ::ActionController::Metal
+  include ::ActionDispatch::Routing::PolymorphicRoutes
+  include ::ActionController::Head
+  include ::AbstractController::Caching::ConfigMethods
+  include ::ActionController::BasicImplicitRender
+  include ::Devise::Controllers::SignInOut
+  include ::Devise::Controllers::StoreLocation
+  include ::Devise::Controllers::Helpers
+  include ::Devise::Controllers::UrlHelpers
+  extend ::AbstractController::Helpers::Resolution
+  extend ::Devise::Controllers::Helpers::ClassMethods
+  extend ::ActionController::Renderers::DeprecatedEscapeJsonResponses
+end
+
 # source://devise//lib/devise/rails/routes.rb#28
 module ActionDispatch::Routing; end
 
 # source://devise//lib/devise/rails/routes.rb#35
 class ActionDispatch::Routing::Mapper
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/mapper.rb#2348
-  def initialize(set); end
-
   # Sets the devise scope to be used in the controller. If you have custom routes,
   # you are required to call this method (also aliased as :as) in order to specify
   # to which controller it is targeted.
@@ -36,7 +47,7 @@ class ActionDispatch::Routing::Mapper
   #
   # Notice and be aware of the differences above between :user and :users
   #
-  # source://devise//lib/devise/rails/routes.rb#363
+  # source://devise//lib/devise/rails/routes.rb#373
   def as(scope); end
 
   # Allow you to add authentication request from the router.
@@ -346,202 +357,11 @@ class ActionDispatch::Routing::Mapper
 
   # source://devise//lib/devise/rails/routes.rb#461
   def with_devise_exclusive_scope(new_path, new_as, options); end
-
-  class << self
-    # source://actionpack/7.2.0/lib/action_dispatch/routing/mapper.rb#27
-    def backtrace_cleaner; end
-
-    # source://actionpack/7.2.0/lib/action_dispatch/routing/mapper.rb#27
-    def backtrace_cleaner=(val); end
-
-    # source://actionpack/7.2.0/lib/action_dispatch/routing/mapper.rb#429
-    def normalize_name(name); end
-
-    # source://actionpack/7.2.0/lib/action_dispatch/routing/mapper.rb#414
-    def normalize_path(path); end
-
-    # source://actionpack/7.2.0/lib/action_dispatch/routing/mapper.rb#26
-    def route_source_locations; end
-
-    # source://actionpack/7.2.0/lib/action_dispatch/routing/mapper.rb#26
-    def route_source_locations=(val); end
-  end
 end
 
 # source://devise//lib/devise/rails/routes.rb#29
 class ActionDispatch::Routing::RouteSet
   include ::Devise::RouteSet
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#384
-  def initialize(config = T.unsafe(nil)); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#664
-  def add_polymorphic_mapping(klass, options, &block); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#633
-  def add_route(mapping, name); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#668
-  def add_url_helper(name, options, &block); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#415
-  def api_only?; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#454
-  def append(&block); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#893
-  def call(env); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#478
-  def clear!; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#428
-  def default_env; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#354
-  def default_scope; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#354
-  def default_scope=(_arg0); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#356
-  def default_url_options; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#356
-  def default_url_options=(_arg0); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#499
-  def define_mounted_helper(name, script_namer = T.unsafe(nil)); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#355
-  def disable_clear_and_finalize; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#355
-  def disable_clear_and_finalize=(_arg0); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#447
-  def draw(&block); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#356
-  def draw_paths; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#356
-  def draw_paths=(_arg0); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#404
-  def eager_load!; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#629
-  def empty?; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#357
-  def env_key; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#808
-  def extra_keys(options, recall = T.unsafe(nil)); end
-
-  # source://devise//lib/devise/rails/routes.rb#8
-  def finalize!; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#836
-  def find_script_name(options); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#354
-  def formatter; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#354
-  def formatter=(_arg0); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#29
-  def from_requirements(requirements); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#812
-  def generate_extras(options, recall = T.unsafe(nil)); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#526
-  def generate_url_helpers(supports_path); end
-
-  def inspect; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#495
-  def mounted_helpers; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#354
-  def named_routes; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#354
-  def named_routes=(_arg0); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#832
-  def optimize_routes_generation?; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#840
-  def path_for(options, route_name = T.unsafe(nil), reserved = T.unsafe(nil)); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#357
-  def polymorphic_mappings; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#458
-  def prepend(&block); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#899
-  def recognize_path(path, environment = T.unsafe(nil)); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#914
-  def recognize_path_with_request(req, path, extras, raise_on_missing: T.unsafe(nil)); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#411
-  def relative_url_root; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#419
-  def request_class; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#355
-  def resources_path_names; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#355
-  def resources_path_names=(_arg0); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#354
-  def router; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#354
-  def router=(_arg0); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#354
-  def routes; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#354
-  def set; end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#354
-  def set=(_arg0); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#845
-  def url_for(options, route_name = T.unsafe(nil), url_strategy = T.unsafe(nil), method_name = T.unsafe(nil), reserved = T.unsafe(nil)); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#518
-  def url_helpers(supports_path = T.unsafe(nil)); end
-
-  private
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#462
-  def eval_block(block); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#823
-  def generate(route_name, options, recall = T.unsafe(nil), method_name = T.unsafe(nil)); end
-
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#423
-  def make_request(env); end
-
-  class << self
-    # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#361
-    def default_resources_path_names; end
-
-    # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#365
-    def new_with_config(config); end
-  end
 end
 
 # source://devise//lib/devise.rb#11
@@ -1551,15 +1371,19 @@ end
 # source://devise//lib/devise/controllers/responder.rb#7
 class Devise::Controllers::Responder < ::ActionController::Responder
   class << self
-    # TODO: remove this support for older Rails versions, which aren't supported by Turbo
-    # and/or responders. It won't allow configuring a custom response, but it allows Devise
-    # to use these methods and defaults across the implementation more easily.
-    #
-    # source://responders/3.1.1/lib/action_controller/responder.rb#123
-    def error_status; end
+    private
 
-    # source://responders/3.1.1/lib/action_controller/responder.rb#124
-    def redirect_status; end
+    # source://devise//lib/devise/controllers/responder.rb#9
+    def __class_attr_error_status; end
+
+    # source://devise//lib/devise/controllers/responder.rb#9
+    def __class_attr_error_status=(new_value); end
+
+    # source://devise//lib/devise/controllers/responder.rb#10
+    def __class_attr_redirect_status; end
+
+    # source://devise//lib/devise/controllers/responder.rb#10
+    def __class_attr_redirect_status=(new_value); end
   end
 end
 
@@ -1650,7 +1474,7 @@ module Devise::Controllers::SignInOut
   # source://devise//lib/devise/controllers/sign_in_out.rb#108
   def expire_data_after_sign_in!; end
 
-  # source://devise//lib/devise/controllers/sign_in_out.rb#108
+  # source://devise//lib/devise/controllers/sign_in_out.rb#118
   def expire_data_after_sign_out!; end
 end
 
@@ -1850,12 +1674,7 @@ module Devise::Encryptor
 end
 
 # source://devise//lib/devise/rails.rb#7
-class Devise::Engine < ::Rails::Engine
-  class << self
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
-    def __callbacks; end
-  end
-end
+class Devise::Engine < ::Rails::Engine; end
 
 # Failure application that will be called every time :warden is thrown from
 # any strategy or hook. It is responsible for redirecting the user to the sign
@@ -1876,28 +1695,41 @@ class Devise::FailureApp < ::ActionController::Metal
   include ::ActiveSupport::Callbacks
   include ::AbstractController::Callbacks
   extend ::AbstractController::UrlFor::ClassMethods
+  extend ::ActionController::Redirecting::ClassMethods
   extend ::ActiveSupport::Callbacks::ClassMethods
   extend ::AbstractController::Callbacks::ClassMethods
 
-  # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+  # source://devise//lib/devise/failure_app.rb#21
   def __callbacks; end
 
-  # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
-  def __callbacks?; end
-
-  # source://activesupport/7.2.0/lib/active_support/callbacks.rb#924
+  # source://devise//lib/devise/failure_app.rb#21
   def _process_action_callbacks; end
 
-  # source://activesupport/7.2.0/lib/active_support/callbacks.rb#912
+  # source://devise//lib/devise/failure_app.rb#21
   def _run_process_action_callbacks(&block); end
 
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/url_for.rb#100
+  # source://devise//lib/devise/failure_app.rb#21
+  def _run_process_action_callbacks!(&block); end
+
+  # source://devise//lib/devise/failure_app.rb#12
+  def action_on_open_redirect; end
+
+  # source://devise//lib/devise/failure_app.rb#12
+  def action_on_open_redirect=(val); end
+
+  # source://devise//lib/devise/failure_app.rb#12
+  def action_on_path_relative_redirect; end
+
+  # source://devise//lib/devise/failure_app.rb#12
+  def action_on_path_relative_redirect=(val); end
+
+  # source://devise//lib/devise/failure_app.rb#11
   def default_url_options; end
 
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/url_for.rb#100
+  # source://devise//lib/devise/failure_app.rb#11
   def default_url_options=(_arg0); end
 
-  # source://actionpack/7.2.0/lib/action_dispatch/routing/url_for.rb#100
+  # source://devise//lib/devise/failure_app.rb#11
   def default_url_options?; end
 
   # source://devise//lib/devise/failure_app.rb#19
@@ -1906,22 +1738,22 @@ class Devise::FailureApp < ::ActionController::Metal
   # source://devise//lib/devise/failure_app.rb#52
   def http_auth; end
 
-  # source://activesupport/7.2.0/lib/active_support/configurable.rb#115
-  def logger; end
+  # source://devise//lib/devise/failure_app.rb#12
+  def logger(*_arg0, **_arg1, &_arg2); end
 
-  # source://activesupport/7.2.0/lib/active_support/configurable.rb#116
-  def logger=(value); end
+  # source://devise//lib/devise/failure_app.rb#12
+  def logger=(arg); end
 
-  # source://actionpack/7.2.0/lib/abstract_controller/callbacks.rb#36
+  # source://devise//lib/devise/failure_app.rb#21
   def raise_on_missing_callback_actions; end
 
-  # source://actionpack/7.2.0/lib/abstract_controller/callbacks.rb#36
+  # source://devise//lib/devise/failure_app.rb#21
   def raise_on_missing_callback_actions=(val); end
 
-  # source://actionpack/7.2.0/lib/action_controller/metal/redirecting.rb#17
+  # source://devise//lib/devise/failure_app.rb#12
   def raise_on_open_redirects; end
 
-  # source://actionpack/7.2.0/lib/action_controller/metal/redirecting.rb#17
+  # source://devise//lib/devise/failure_app.rb#12
   def raise_on_open_redirects=(val); end
 
   # source://devise//lib/devise/failure_app.rb#59
@@ -2049,23 +1881,47 @@ class Devise::FailureApp < ::ActionController::Metal
   def root_path_defined?(context); end
 
   class << self
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+    # source://devise//lib/devise/failure_app.rb#21
     def __callbacks; end
 
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
+    # source://devise//lib/devise/failure_app.rb#21
     def __callbacks=(value); end
 
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#70
-    def __callbacks?; end
+    # source://devise//lib/devise/failure_app.rb#12
+    def _allowed_redirect_hosts; end
 
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#916
+    # source://devise//lib/devise/failure_app.rb#12
+    def _allowed_redirect_hosts=(value); end
+
+    # source://devise//lib/devise/failure_app.rb#21
     def _process_action_callbacks; end
 
-    # source://activesupport/7.2.0/lib/active_support/callbacks.rb#920
+    # source://devise//lib/devise/failure_app.rb#21
     def _process_action_callbacks=(value); end
 
-    # source://actionpack/7.2.0/lib/action_dispatch/routing/route_set.rb#600
+    # source://devise//lib/devise/failure_app.rb#14
     def _routes; end
+
+    # source://devise//lib/devise/failure_app.rb#12
+    def action_on_open_redirect; end
+
+    # source://devise//lib/devise/failure_app.rb#12
+    def action_on_open_redirect=(val); end
+
+    # source://devise//lib/devise/failure_app.rb#12
+    def action_on_path_relative_redirect; end
+
+    # source://devise//lib/devise/failure_app.rb#12
+    def action_on_path_relative_redirect=(val); end
+
+    # source://devise//lib/devise/failure_app.rb#12
+    def allowed_redirect_hosts; end
+
+    # source://devise//lib/devise/failure_app.rb#12
+    def allowed_redirect_hosts_permissions; end
+
+    # source://devise//lib/devise/failure_app.rb#12
+    def allowed_redirect_hosts_permissions=(value); end
 
     # source://devise//lib/devise/failure_app.rb#26
     def call(env); end
@@ -2074,35 +1930,70 @@ class Devise::FailureApp < ::ActionController::Metal
     # ApplicationController). Instance methods are not supported at the moment,
     # so only the class-level attribute is used.
     #
-    # source://devise//lib/devise/failure_app.rb#34
+    # source://devise//lib/devise/failure_app.rb#11
     def default_url_options(*args); end
 
-    # source://actionpack/7.2.0/lib/action_dispatch/routing/url_for.rb#100
+    # source://devise//lib/devise/failure_app.rb#11
     def default_url_options=(value); end
 
-    # source://actionpack/7.2.0/lib/action_dispatch/routing/url_for.rb#100
+    # source://devise//lib/devise/failure_app.rb#11
     def default_url_options?; end
 
-    # source://activesupport/7.2.0/lib/active_support/configurable.rb#115
-    def logger; end
+    # source://devise//lib/devise/failure_app.rb#12
+    def logger(*_arg0, **_arg1, &_arg2); end
 
-    # source://activesupport/7.2.0/lib/active_support/configurable.rb#116
-    def logger=(value); end
+    # source://devise//lib/devise/failure_app.rb#12
+    def logger=(arg); end
 
-    # source://actionpack/7.2.0/lib/action_controller/metal.rb#288
-    def middleware_stack; end
-
-    # source://actionpack/7.2.0/lib/abstract_controller/callbacks.rb#36
+    # source://devise//lib/devise/failure_app.rb#21
     def raise_on_missing_callback_actions; end
 
-    # source://actionpack/7.2.0/lib/abstract_controller/callbacks.rb#36
+    # source://devise//lib/devise/failure_app.rb#21
     def raise_on_missing_callback_actions=(val); end
 
-    # source://actionpack/7.2.0/lib/action_controller/metal/redirecting.rb#17
+    # source://devise//lib/devise/failure_app.rb#12
     def raise_on_open_redirects; end
 
-    # source://actionpack/7.2.0/lib/action_controller/metal/redirecting.rb#17
+    # source://devise//lib/devise/failure_app.rb#12
     def raise_on_open_redirects=(val); end
+
+    private
+
+    # source://devise//lib/devise/failure_app.rb#21
+    def __class_attr___callbacks; end
+
+    # source://devise//lib/devise/failure_app.rb#21
+    def __class_attr___callbacks=(new_value); end
+
+    # source://devise//lib/devise/failure_app.rb#12
+    def __class_attr__allowed_redirect_hosts; end
+
+    # source://devise//lib/devise/failure_app.rb#12
+    def __class_attr__allowed_redirect_hosts=(new_value); end
+
+    # source://devise//lib/devise/failure_app.rb#12
+    def __class_attr_allowed_redirect_hosts_permissions; end
+
+    # source://devise//lib/devise/failure_app.rb#12
+    def __class_attr_allowed_redirect_hosts_permissions=(new_value); end
+
+    # source://devise//lib/devise/failure_app.rb#10
+    def __class_attr_config; end
+
+    # source://devise//lib/devise/failure_app.rb#10
+    def __class_attr_config=(new_value); end
+
+    # source://devise//lib/devise/failure_app.rb#11
+    def __class_attr_default_url_options; end
+
+    # source://devise//lib/devise/failure_app.rb#11
+    def __class_attr_default_url_options=(new_value); end
+
+    # source://devise//lib/devise/failure_app.rb#10
+    def __class_attr_middleware_stack; end
+
+    # source://devise//lib/devise/failure_app.rb#10
+    def __class_attr_middleware_stack=(new_value); end
   end
 end
 
@@ -2161,8 +2052,14 @@ class Devise::Mailer < ::ActionMailer::Base
 
   private
 
-  # source://actionview/7.2.0/lib/action_view/layouts.rb#328
-  def _layout(lookup_context, formats); end
+  def _layout(lookup_context, formats, keys); end
+
+  class << self
+    private
+
+    def __class_attr_config; end
+    def __class_attr_config=(new_value); end
+  end
 end
 
 # source://devise//lib/devise.rb#38
@@ -2271,13 +2168,13 @@ class Devise::Mapping
   # source://devise//lib/devise/mapping.rb#27
   def class_name; end
 
-  # source://devise//lib/devise/mapping.rb#115
+  # source://devise//lib/devise/modules.rb#24
   def confirmable?; end
 
   # source://devise//lib/devise/mapping.rb#27
   def controllers; end
 
-  # source://devise//lib/devise/mapping.rb#115
+  # source://devise//lib/devise/modules.rb#9
   def database_authenticatable?; end
 
   # source://devise//lib/devise/mapping.rb#27
@@ -2289,7 +2186,7 @@ class Devise::Mapping
   # source://devise//lib/devise/mapping.rb#102
   def fullpath; end
 
-  # source://devise//lib/devise/mapping.rb#115
+  # source://devise//lib/devise/modules.rb#25
   def lockable?; end
 
   # Return modules for the mapping.
@@ -2297,13 +2194,13 @@ class Devise::Mapping
   # source://devise//lib/devise/mapping.rb#77
   def modules; end
 
-  # source://devise//lib/devise/mapping.rb#27
+  # source://devise//lib/devise/mapping.rb#31
   def name; end
 
   # source://devise//lib/devise/mapping.rb#90
   def no_input_strategies; end
 
-  # source://devise//lib/devise/mapping.rb#115
+  # source://devise//lib/devise/modules.rb#14
   def omniauthable?; end
 
   # source://devise//lib/devise/mapping.rb#27
@@ -2312,13 +2209,13 @@ class Devise::Mapping
   # source://devise//lib/devise/mapping.rb#27
   def path_names; end
 
-  # source://devise//lib/devise/mapping.rb#115
+  # source://devise//lib/devise/modules.rb#18
   def recoverable?; end
 
-  # source://devise//lib/devise/mapping.rb#115
+  # source://devise//lib/devise/modules.rb#19
   def registerable?; end
 
-  # source://devise//lib/devise/mapping.rb#115
+  # source://devise//lib/devise/modules.rb#10
   def rememberable?; end
 
   # source://devise//lib/devise/mapping.rb#27
@@ -2339,7 +2236,7 @@ class Devise::Mapping
   # source://devise//lib/devise/mapping.rb#86
   def strategies; end
 
-  # source://devise//lib/devise/mapping.rb#115
+  # source://devise//lib/devise/modules.rb#26
   def timeoutable?; end
 
   # Gives the class the mapping points to.
@@ -2347,7 +2244,7 @@ class Devise::Mapping
   # source://devise//lib/devise/mapping.rb#82
   def to; end
 
-  # source://devise//lib/devise/mapping.rb#115
+  # source://devise//lib/devise/modules.rb#29
   def trackable?; end
 
   # source://devise//lib/devise/mapping.rb#27
@@ -2356,7 +2253,7 @@ class Devise::Mapping
   # source://devise//lib/devise/mapping.rb#27
   def used_routes; end
 
-  # source://devise//lib/devise/mapping.rb#115
+  # source://devise//lib/devise/modules.rb#20
   def validatable?; end
 
   private
@@ -2652,16 +2549,16 @@ end
 
 # source://devise//lib/devise/models/authenticatable.rb#232
 module Devise::Models::Authenticatable::ClassMethods
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/authenticatable.rb#233
   def authentication_keys; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/authenticatable.rb#233
   def authentication_keys=(value); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/authenticatable.rb#233
   def case_insensitive_keys; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/authenticatable.rb#233
   def case_insensitive_keys=(value); end
 
   # source://devise//lib/devise/models/authenticatable.rb#279
@@ -2700,10 +2597,10 @@ module Devise::Models::Authenticatable::ClassMethods
   # source://devise//lib/devise/models/authenticatable.rb#289
   def find_or_initialize_with_errors(required_attributes, attributes, error = T.unsafe(nil)); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/authenticatable.rb#233
   def http_authenticatable; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/authenticatable.rb#233
   def http_authenticatable=(value); end
 
   # @return [Boolean]
@@ -2711,16 +2608,16 @@ module Devise::Models::Authenticatable::ClassMethods
   # source://devise//lib/devise/models/authenticatable.rb#251
   def http_authenticatable?(strategy); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/authenticatable.rb#233
   def http_authentication_key; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/authenticatable.rb#233
   def http_authentication_key=(value); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/authenticatable.rb#233
   def params_authenticatable; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/authenticatable.rb#233
   def params_authenticatable=(value); end
 
   # @return [Boolean]
@@ -2728,10 +2625,10 @@ module Devise::Models::Authenticatable::ClassMethods
   # source://devise//lib/devise/models/authenticatable.rb#246
   def params_authenticatable?(strategy); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/authenticatable.rb#233
   def request_keys; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/authenticatable.rb#233
   def request_keys=(value); end
 
   # source://devise//lib/devise/models/authenticatable.rb#241
@@ -2740,16 +2637,16 @@ module Devise::Models::Authenticatable::ClassMethods
   # source://devise//lib/devise/models/authenticatable.rb#237
   def serialize_into_session(record); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/authenticatable.rb#233
   def skip_session_storage; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/authenticatable.rb#233
   def skip_session_storage=(value); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/authenticatable.rb#233
   def strip_whitespace_keys; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/authenticatable.rb#233
   def strip_whitespace_keys=(value); end
 
   protected
@@ -2758,10 +2655,10 @@ module Devise::Models::Authenticatable::ClassMethods
   def devise_parameter_filter; end
 
   class << self
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/authenticatable.rb#233
     def available_configs; end
 
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/authenticatable.rb#233
     def available_configs=(_arg0); end
   end
 end
@@ -3011,10 +2908,10 @@ end
 
 # source://devise//lib/devise/models/confirmable.rb#311
 module Devise::Models::Confirmable::ClassMethods
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/confirmable.rb#365
   def allow_unconfirmed_access_for; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/confirmable.rb#365
   def allow_unconfirmed_access_for=(value); end
 
   # Find a user by its confirmation token and try to confirm it.
@@ -3025,16 +2922,16 @@ module Devise::Models::Confirmable::ClassMethods
   # source://devise//lib/devise/models/confirmable.rb#329
   def confirm_by_token(confirmation_token); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/confirmable.rb#365
   def confirm_within; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/confirmable.rb#365
   def confirm_within=(value); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/confirmable.rb#365
   def confirmation_keys; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/confirmable.rb#365
   def confirmation_keys=(value); end
 
   # Find a record for confirmation by unconfirmed email field
@@ -3042,10 +2939,10 @@ module Devise::Models::Confirmable::ClassMethods
   # source://devise//lib/devise/models/confirmable.rb#357
   def find_by_unconfirmed_email_with_errors(attributes = T.unsafe(nil)); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/confirmable.rb#365
   def reconfirmable; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/confirmable.rb#365
   def reconfirmable=(value); end
 
   # Attempt to find a user by its email. If a record is found, send new
@@ -3057,10 +2954,10 @@ module Devise::Models::Confirmable::ClassMethods
   def send_confirmation_instructions(attributes = T.unsafe(nil)); end
 
   class << self
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/confirmable.rb#365
     def available_configs; end
 
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/confirmable.rb#365
     def available_configs=(_arg0); end
   end
 end
@@ -3225,35 +3122,35 @@ module Devise::Models::DatabaseAuthenticatable::ClassMethods
   # source://devise//lib/devise/models/database_authenticatable.rb#216
   def find_for_database_authentication(conditions); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/database_authenticatable.rb#210
   def pepper; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/database_authenticatable.rb#210
   def pepper=(value); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/database_authenticatable.rb#210
   def send_email_changed_notification; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/database_authenticatable.rb#210
   def send_email_changed_notification=(value); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/database_authenticatable.rb#210
   def send_password_change_notification; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/database_authenticatable.rb#210
   def send_password_change_notification=(value); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/database_authenticatable.rb#210
   def stretches; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/database_authenticatable.rb#210
   def stretches=(value); end
 
   class << self
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/database_authenticatable.rb#210
     def available_configs; end
 
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/database_authenticatable.rb#210
     def available_configs=(_arg0); end
   end
 end
@@ -3384,16 +3281,16 @@ end
 
 # source://devise//lib/devise/models/lockable.rb#171
 module Devise::Models::Lockable::ClassMethods
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/lockable.rb#210
   def last_attempt_warning; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/lockable.rb#210
   def last_attempt_warning=(value); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/lockable.rb#210
   def lock_strategy; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/lockable.rb#210
   def lock_strategy=(value); end
 
   # Is the lock enabled for the given lock strategy?
@@ -3403,10 +3300,10 @@ module Devise::Models::Lockable::ClassMethods
   # source://devise//lib/devise/models/lockable.rb#206
   def lock_strategy_enabled?(strategy); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/lockable.rb#210
   def maximum_attempts; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/lockable.rb#210
   def maximum_attempts=(value); end
 
   # Attempt to find a user by its unlock keys. If a record is found, send new
@@ -3425,22 +3322,22 @@ module Devise::Models::Lockable::ClassMethods
   # source://devise//lib/devise/models/lockable.rb#189
   def unlock_access_by_token(unlock_token); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/lockable.rb#210
   def unlock_in; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/lockable.rb#210
   def unlock_in=(value); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/lockable.rb#210
   def unlock_keys; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/lockable.rb#210
   def unlock_keys=(value); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/lockable.rb#210
   def unlock_strategy; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/lockable.rb#210
   def unlock_strategy=(value); end
 
   # Is the unlock enabled for the given unlock strategy?
@@ -3451,10 +3348,10 @@ module Devise::Models::Lockable::ClassMethods
   def unlock_strategy_enabled?(strategy); end
 
   class << self
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/lockable.rb#210
     def available_configs; end
 
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/lockable.rb#210
     def available_configs=(_arg0); end
   end
 end
@@ -3499,17 +3396,17 @@ end
 
 # source://devise//lib/devise/models/omniauthable.rb#24
 module Devise::Models::Omniauthable::ClassMethods
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/omniauthable.rb#25
   def omniauth_providers; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/omniauthable.rb#25
   def omniauth_providers=(value); end
 
   class << self
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/omniauthable.rb#25
     def available_configs; end
 
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/omniauthable.rb#25
     def available_configs=(_arg0); end
   end
 end
@@ -3610,16 +3507,16 @@ module Devise::Models::Recoverable::ClassMethods
   # source://devise//lib/devise/models/recoverable.rb#134
   def reset_password_by_token(attributes = T.unsafe(nil)); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/recoverable.rb#152
   def reset_password_keys; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/recoverable.rb#152
   def reset_password_keys=(value); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/recoverable.rb#152
   def reset_password_within; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/recoverable.rb#152
   def reset_password_within=(value); end
 
   # Attempt to find a user by its email. If a record is found, send new
@@ -3630,10 +3527,10 @@ module Devise::Models::Recoverable::ClassMethods
   # source://devise//lib/devise/models/recoverable.rb#123
   def send_reset_password_instructions(attributes = T.unsafe(nil)); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/recoverable.rb#152
   def sign_in_after_reset_password; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/recoverable.rb#152
   def sign_in_after_reset_password=(value); end
 
   # Attempt to find a user by password reset token. If a user is found, return it
@@ -3643,10 +3540,10 @@ module Devise::Models::Recoverable::ClassMethods
   def with_reset_password_token(token); end
 
   class << self
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/recoverable.rb#152
     def available_configs; end
 
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/recoverable.rb#152
     def available_configs=(_arg0); end
   end
 end
@@ -3678,17 +3575,17 @@ module Devise::Models::Registerable::ClassMethods
   # source://devise//lib/devise/models/registerable.rb#21
   def new_with_session(params, session); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/registerable.rb#25
   def sign_in_after_change_password; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/registerable.rb#25
   def sign_in_after_change_password=(value); end
 
   class << self
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/registerable.rb#25
     def available_configs; end
 
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/registerable.rb#25
     def available_configs=(_arg0); end
   end
 end
@@ -3796,22 +3693,22 @@ end
 
 # source://devise//lib/devise/models/rememberable.rb#132
 module Devise::Models::Rememberable::ClassMethods
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/rememberable.rb#154
   def expire_all_remember_me_on_sign_out; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/rememberable.rb#154
   def expire_all_remember_me_on_sign_out=(value); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/rememberable.rb#154
   def extend_remember_period; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/rememberable.rb#154
   def extend_remember_period=(value); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/rememberable.rb#154
   def remember_for; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/rememberable.rb#154
   def remember_for=(value); end
 
   # Generate a token checking if one does not already exist in the database.
@@ -3819,10 +3716,10 @@ module Devise::Models::Rememberable::ClassMethods
   # source://devise//lib/devise/models/rememberable.rb#147
   def remember_token; end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/rememberable.rb#154
   def rememberable_options; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/rememberable.rb#154
   def rememberable_options=(value); end
 
   # Recreate the user based on the stored cookie
@@ -3836,10 +3733,10 @@ module Devise::Models::Rememberable::ClassMethods
   def serialize_into_cookie(record); end
 
   class << self
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/rememberable.rb#154
     def available_configs; end
 
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/rememberable.rb#154
     def available_configs=(_arg0); end
   end
 end
@@ -3883,17 +3780,17 @@ end
 
 # source://devise//lib/devise/models/timeoutable.rb#40
 module Devise::Models::Timeoutable::ClassMethods
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/timeoutable.rb#41
   def timeout_in; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/timeoutable.rb#41
   def timeout_in=(value); end
 
   class << self
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/timeoutable.rb#41
     def available_configs; end
 
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/timeoutable.rb#41
     def available_configs=(_arg0); end
   end
 end
@@ -3971,23 +3868,23 @@ end
 
 # source://devise//lib/devise/models/validatable.rb#63
 module Devise::Models::Validatable::ClassMethods
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/validatable.rb#64
   def email_regexp; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/validatable.rb#64
   def email_regexp=(value); end
 
-  # source://devise//lib/devise/models.rb#37
+  # source://devise//lib/devise/models/validatable.rb#64
   def password_length; end
 
-  # source://devise//lib/devise/models.rb#47
+  # source://devise//lib/devise/models/validatable.rb#64
   def password_length=(value); end
 
   class << self
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/validatable.rb#64
     def available_configs; end
 
-    # source://devise//lib/devise/models.rb#32
+    # source://devise//lib/devise/models/validatable.rb#64
     def available_configs=(_arg0); end
   end
 end
@@ -4809,21 +4706,9 @@ module Warden::Mixins::Common
   # source://devise//lib/devise/rails/warden_compat.rb#12
   def cookies; end
 
-  # source://warden/1.2.9/lib/warden/mixins/common.rb#32
-  def params; end
-
-  # source://warden/1.2.9/lib/warden/mixins/common.rb#9
-  def raw_session; end
-
   # source://devise//lib/devise/rails/warden_compat.rb#4
   def request; end
 
   # source://devise//lib/devise/rails/warden_compat.rb#8
   def reset_session!; end
-
-  # source://warden/1.2.9/lib/warden/mixins/common.rb#9
-  def session; end
-
-  # source://warden/1.2.9/lib/warden/mixins/common.rb#25
-  def warden_cookies; end
 end

@@ -6,18 +6,7 @@
 
 
 # source://dry-logic//lib/dry/logic.rb#6
-module Dry
-  class << self
-    # source://dry-configurable/1.3.0/lib/dry/configurable.rb#11
-    def Configurable(**options); end
-
-    # source://dry-core/1.1.0/lib/dry/core.rb#52
-    def Equalizer(*keys, **options); end
-
-    # source://dry-types/1.8.2/lib/dry/types.rb#253
-    def Types(*namespaces, default: T.unsafe(nil), **aliases); end
-  end
-end
+module Dry; end
 
 # source://dry-logic//lib/dry/logic.rb#7
 module Dry::Logic
@@ -73,7 +62,7 @@ module Dry::Logic::Builder
   #   p is_zero.call(-1) # => false
   # @return [Builder::Result]
   #
-  # source://dry-logic//lib/dry/logic/builder.rb#31
+  # source://dry-logic//lib/dry/logic/builder.rb#35
   def build(&_arg0); end
 
   # Predicate and operation builder
@@ -104,7 +93,7 @@ module Dry::Logic::Builder
     #   p is_zero.call(-1) # => false
     # @return [Builder::Result]
     #
-    # source://dry-logic//lib/dry/logic/builder.rb#31
+    # source://dry-logic//lib/dry/logic/builder.rb#34
     def call(&_arg0); end
   end
 end
@@ -137,7 +126,10 @@ class Dry::Logic::Builder::Context
   class << self
     private
 
+    # source://dry-logic//lib/dry/logic/builder.rb#40
     def allocate; end
+
+    # source://dry-logic//lib/dry/logic/builder.rb#40
     def new(*_arg0); end
   end
 end
@@ -172,7 +164,7 @@ end
 
 # source://dry-logic//lib/dry/logic/evaluator.rb#36
 class Dry::Logic::Evaluator::Attr < ::Dry::Logic::Evaluator
-  # source://dry-logic//lib/dry/logic/evaluator.rb#37
+  # source://dry-logic//lib/dry/logic/evaluator.rb#40
   def [](input); end
 
   # source://dry-logic//lib/dry/logic/evaluator.rb#37
@@ -181,7 +173,7 @@ end
 
 # source://dry-logic//lib/dry/logic/evaluator.rb#29
 class Dry::Logic::Evaluator::Key < ::Dry::Logic::Evaluator
-  # source://dry-logic//lib/dry/logic/evaluator.rb#30
+  # source://dry-logic//lib/dry/logic/evaluator.rb#33
   def [](input); end
 
   # source://dry-logic//lib/dry/logic/evaluator.rb#30
@@ -197,7 +189,7 @@ class Dry::Logic::Evaluator::Set
   # source://dry-logic//lib/dry/logic/evaluator.rb#19
   def initialize(evaluators); end
 
-  # source://dry-logic//lib/dry/logic/evaluator.rb#23
+  # source://dry-logic//lib/dry/logic/evaluator.rb#26
   def [](input); end
 
   # source://dry-logic//lib/dry/logic/evaluator.rb#23
@@ -272,7 +264,7 @@ class Dry::Logic::Operations::And < ::Dry::Logic::Operations::Binary
   # source://dry-logic//lib/dry/logic/operations/and.rb#7
   def hints; end
 
-  # source://dry-logic//lib/dry/logic/operations/and.rb#14
+  # source://dry-logic//lib/dry/logic/operations/and.rb#17
   def operator; end
 
   # source://dry-logic//lib/dry/logic/operations/and.rb#14
@@ -432,7 +424,7 @@ class Dry::Logic::Operations::Or < ::Dry::Logic::Operations::Binary
   # source://dry-logic//lib/dry/logic/operations/or.rb#12
   def call(input); end
 
-  # source://dry-logic//lib/dry/logic/operations/or.rb#7
+  # source://dry-logic//lib/dry/logic/operations/or.rb#10
   def operator; end
 
   # source://dry-logic//lib/dry/logic/operations/or.rb#7
@@ -487,7 +479,7 @@ class Dry::Logic::Operations::Xor < ::Dry::Logic::Operations::Binary
   # source://dry-logic//lib/dry/logic/operations/xor.rb#12
   def call(input); end
 
-  # source://dry-logic//lib/dry/logic/operations/xor.rb#7
+  # source://dry-logic//lib/dry/logic/operations/xor.rb#10
   def operator; end
 
   # source://dry-logic//lib/dry/logic/operations/xor.rb#7
@@ -496,13 +488,13 @@ end
 
 # source://dry-logic//lib/dry/logic/operators.rb#5
 module Dry::Logic::Operators
-  # source://dry-logic//lib/dry/logic/operators.rb#6
+  # source://dry-logic//lib/dry/logic/operators.rb#9
   def &(other); end
 
-  # source://dry-logic//lib/dry/logic/operators.rb#21
+  # source://dry-logic//lib/dry/logic/operators.rb#24
   def >(other); end
 
-  # source://dry-logic//lib/dry/logic/operators.rb#16
+  # source://dry-logic//lib/dry/logic/operators.rb#19
   def ^(other); end
 
   # source://dry-logic//lib/dry/logic/operators.rb#6
@@ -517,7 +509,7 @@ module Dry::Logic::Operators
   # source://dry-logic//lib/dry/logic/operators.rb#16
   def xor(other); end
 
-  # source://dry-logic//lib/dry/logic/operators.rb#11
+  # source://dry-logic//lib/dry/logic/operators.rb#14
   def |(other); end
 end
 
@@ -718,7 +710,7 @@ module Dry::Logic::Predicates::Methods
 
   # @return [Boolean]
   #
-  # source://dry-logic//lib/dry/logic/predicates.rb#45
+  # source://dry-logic//lib/dry/logic/predicates.rb#46
   def none?(input); end
 
   # @return [Boolean]
@@ -1059,7 +1051,7 @@ class Dry::Logic::Rule::Predicate < ::Dry::Logic::Rule
   # source://dry-logic//lib/dry/logic/rule/predicate.rb#15
   def name; end
 
-  # source://dry-logic//lib/dry/logic/rule/predicate.rb#27
+  # source://dry-logic//lib/dry/logic/rule/predicate.rb#30
   def to_ast(input = T.unsafe(nil)); end
 
   # source://dry-logic//lib/dry/logic/rule/predicate.rb#19

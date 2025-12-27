@@ -500,8 +500,8 @@ class Tilt::Mapping < ::Tilt::BaseMapping
   # @example
   #   mapping.register MyEngine::Template, 'mt'
   #   mapping['index.mt'] # => MyEngine::Template
-  # @param template_class
   # @param extensions [Array<String>] List of extensions.
+  # @param template_class
   # @return [void]
   #
   # source://tilt//lib/tilt/mapping.rb#200
@@ -519,8 +519,8 @@ class Tilt::Mapping < ::Tilt::BaseMapping
   #   mapping['index.mt'] # => MyEngine::Template
   #   defined?(MyEngine::Template) # => true
   # @param class_name [String] Class name of a template class.
-  # @param file [String] Filename where the template class is defined.
   # @param extensions [Array<String>] List of extensions.
+  # @param file [String] Filename where the template class is defined.
   # @return [void]
   #
   # source://tilt//lib/tilt/mapping.rb#176
@@ -542,13 +542,13 @@ class Tilt::Mapping < ::Tilt::BaseMapping
   #   mapping.register_pipeline('scss.erb', 'erb'=>{:outvar=>'@foo'})
   #   mapping.register_pipeline('scsserb', :extra_exts => 'scss.erb',
   #   :templates=>['erb', 'scss'])
-  # @option :templates
   # @option :extra_exts
+  # @option :templates
   # @option String
-  # @param ext [String] Primary extension to register
-  # @param :templates [Hash] a customizable set of options
   # @param :extra_exts [Hash] a customizable set of options
+  # @param :templates [Hash] a customizable set of options
   # @param String [Hash] a customizable set of options
+  # @param ext [String] Primary extension to register
   # @return [void]
   #
   # source://tilt//lib/tilt/mapping.rb#238

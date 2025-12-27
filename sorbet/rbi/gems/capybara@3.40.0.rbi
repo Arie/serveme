@@ -48,52 +48,52 @@ module Capybara
     def add_selector(name, **options, &block); end
 
     # source://capybara//lib/capybara.rb#45
-    def allow_gumbo(*args, **_arg1, &block); end
+    def allow_gumbo(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#45
-    def allow_gumbo=(*args, **_arg1, &block); end
+    def allow_gumbo=(*_arg0, **_arg1, &_arg2); end
 
     # See {Capybara.configure}
     #
     # source://capybara//lib/capybara.rb#58
-    def always_include_port(*args, **_arg1, &block); end
+    def always_include_port(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def always_include_port=(*args, **_arg1, &block); end
+    def always_include_port=(*_arg0, **_arg1, &_arg2); end
 
     # See {Capybara.configure}
     #
     # source://capybara//lib/capybara.rb#45
-    def app(*args, **_arg1, &block); end
+    def app(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#45
-    def app=(*args, **_arg1, &block); end
+    def app=(*_arg0, **_arg1, &_arg2); end
 
     # See {Capybara.configure}
     #
     # source://capybara//lib/capybara.rb#58
-    def app_host(*args, **_arg1, &block); end
+    def app_host(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def app_host=(*args, **_arg1, &block); end
+    def app_host=(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def asset_host(*args, **_arg1, &block); end
+    def asset_host(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def asset_host=(*args, **_arg1, &block); end
+    def asset_host=(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def automatic_label_click(*args, **_arg1, &block); end
+    def automatic_label_click(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def automatic_label_click=(*args, **_arg1, &block); end
+    def automatic_label_click=(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def automatic_reload(*args, **_arg1, &block); end
+    def automatic_reload(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def automatic_reload=(*args, **_arg1, &block); end
+    def automatic_reload=(*_arg0, **_arg1, &_arg2); end
 
     # Configure Capybara to suit your needs.
     #
@@ -169,103 +169,103 @@ module Capybara
     # See {Capybara.configure}
     #
     # source://capybara//lib/capybara.rb#45
-    def default_driver(*args, **_arg1, &block); end
+    def default_driver(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#45
-    def default_driver=(*args, **_arg1, &block); end
+    def default_driver=(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def default_host(*args, **_arg1, &block); end
+    def default_host(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def default_host=(*args, **_arg1, &block); end
-
-    # See {Capybara.configure}
-    #
-    # source://capybara//lib/capybara.rb#58
-    def default_max_wait_time(*args, **_arg1, &block); end
-
-    # source://capybara//lib/capybara.rb#58
-    def default_max_wait_time=(*args, **_arg1, &block); end
-
-    # source://capybara//lib/capybara.rb#58
-    def default_normalize_ws(*args, **_arg1, &block); end
-
-    # source://capybara//lib/capybara.rb#58
-    def default_normalize_ws=(*args, **_arg1, &block); end
-
-    # source://capybara//lib/capybara.rb#58
-    def default_retry_interval(*args, **_arg1, &block); end
-
-    # source://capybara//lib/capybara.rb#58
-    def default_retry_interval=(*args, **_arg1, &block); end
+    def default_host=(*_arg0, **_arg1, &_arg2); end
 
     # See {Capybara.configure}
     #
     # source://capybara//lib/capybara.rb#58
-    def default_selector(*args, **_arg1, &block); end
+    def default_max_wait_time(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def default_selector=(*args, **_arg1, &block); end
+    def default_max_wait_time=(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def default_set_options(*args, **_arg1, &block); end
+    def default_normalize_ws(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def default_set_options=(*args, **_arg1, &block); end
+    def default_normalize_ws=(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def disable_animation(*args, **_arg1, &block); end
+    def default_retry_interval(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def disable_animation=(*args, **_arg1, &block); end
+    def default_retry_interval=(*_arg0, **_arg1, &_arg2); end
+
+    # See {Capybara.configure}
+    #
+    # source://capybara//lib/capybara.rb#58
+    def default_selector(*_arg0, **_arg1, &_arg2); end
+
+    # source://capybara//lib/capybara.rb#58
+    def default_selector=(*_arg0, **_arg1, &_arg2); end
+
+    # source://capybara//lib/capybara.rb#58
+    def default_set_options(*_arg0, **_arg1, &_arg2); end
+
+    # source://capybara//lib/capybara.rb#58
+    def default_set_options=(*_arg0, **_arg1, &_arg2); end
+
+    # source://capybara//lib/capybara.rb#58
+    def disable_animation(*_arg0, **_arg1, &_arg2); end
+
+    # source://capybara//lib/capybara.rb#58
+    def disable_animation=(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#204
     def drivers; end
 
     # source://capybara//lib/capybara.rb#58
-    def enable_aria_label(*args, **_arg1, &block); end
+    def enable_aria_label(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def enable_aria_label=(*args, **_arg1, &block); end
+    def enable_aria_label=(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def enable_aria_role(*args, **_arg1, &block); end
+    def enable_aria_role(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def enable_aria_role=(*args, **_arg1, &block); end
+    def enable_aria_role=(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def exact(*args, **_arg1, &block); end
+    def exact(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def exact=(*args, **_arg1, &block); end
+    def exact=(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def exact_text(*args, **_arg1, &block); end
+    def exact_text(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def exact_text=(*args, **_arg1, &block); end
+    def exact_text=(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def ignore_hidden_elements(*args, **_arg1, &block); end
+    def ignore_hidden_elements(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def ignore_hidden_elements=(*args, **_arg1, &block); end
+    def ignore_hidden_elements=(*_arg0, **_arg1, &_arg2); end
 
     # See {Capybara.configure}
     #
     # source://capybara//lib/capybara.rb#45
-    def javascript_driver(*args, **_arg1, &block); end
+    def javascript_driver(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#45
-    def javascript_driver=(*args, **_arg1, &block); end
+    def javascript_driver=(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def match(*args, **_arg1, &block); end
+    def match(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def match=(*args, **_arg1, &block); end
+    def match=(*_arg0, **_arg1, &_arg2); end
 
     # @return [Symbol] The name of the driver currently in use
     #
@@ -287,16 +287,16 @@ module Capybara
     def modify_selector(name, &block); end
 
     # source://capybara//lib/capybara.rb#58
-    def predicates_wait(*args, **_arg1, &block); end
+    def predicates_wait(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def predicates_wait=(*args, **_arg1, &block); end
+    def predicates_wait=(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def raise_server_errors(*args, **_arg1, &block); end
+    def raise_server_errors(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def raise_server_errors=(*args, **_arg1, &block); end
+    def raise_server_errors=(*_arg0, **_arg1, &_arg2); end
 
     # Register a new driver for Capybara.
     #
@@ -322,8 +322,8 @@ module Capybara
     # @param name [Symbol] The name of the new driver
     # @yield [app, port, host] This block takes a rack app and a port and returns a rack server listening on that port
     # @yieldparam app [<Rack>] The rack application that this server will contain.
-    # @yieldparam port The port number the server should listen on
     # @yieldparam host The host/ip to bind to
+    # @yieldparam port The port number the server should listen on
     #
     # source://capybara//lib/capybara.rb#150
     def register_server(name, &block); end
@@ -343,10 +343,10 @@ module Capybara
     # See {Capybara.configure}
     #
     # source://capybara//lib/capybara.rb#45
-    def reuse_server(*args, **_arg1, &block); end
+    def reuse_server(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#45
-    def reuse_server=(*args, **_arg1, &block); end
+    def reuse_server=(*_arg0, **_arg1, &_arg2); end
 
     # Runs Capybara's default server for the given application and port
     # under most circumstances you should not have to call this method
@@ -359,42 +359,42 @@ module Capybara
     def run_default_server(app, port); end
 
     # source://capybara//lib/capybara.rb#58
-    def run_server(*args, **_arg1, &block); end
+    def run_server(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def run_server=(*args, **_arg1, &block); end
+    def run_server=(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def save_path(*args, **_arg1, &block); end
+    def save_path(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def save_path=(*args, **_arg1, &block); end
+    def save_path=(*_arg0, **_arg1, &_arg2); end
 
     # See {Capybara.configure}
     #
     # source://capybara//lib/capybara.rb#45
-    def server(*args, **_arg1, &block); end
+    def server(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#45
-    def server=(*args, **_arg1, &block); end
+    def server=(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def server_errors(*args, **_arg1, &block); end
+    def server_errors(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def server_errors=(*args, **_arg1, &block); end
+    def server_errors=(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def server_host(*args, **_arg1, &block); end
+    def server_host(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def server_host=(*args, **_arg1, &block); end
+    def server_host=(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def server_port(*args, **_arg1, &block); end
+    def server_port(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def server_port=(*args, **_arg1, &block); end
+    def server_port=(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#208
     def servers; end
@@ -442,18 +442,18 @@ module Capybara
     def string(html); end
 
     # source://capybara//lib/capybara.rb#58
-    def test_id(*args, **_arg1, &block); end
+    def test_id(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def test_id=(*args, **_arg1, &block); end
+    def test_id=(*_arg0, **_arg1, &_arg2); end
 
     # See {Capybara.configure}
     #
     # source://capybara//lib/capybara.rb#45
-    def threadsafe(*args, **_arg1, &block); end
+    def threadsafe(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#45
-    def threadsafe=(*args, **_arg1, &block); end
+    def threadsafe=(*_arg0, **_arg1, &_arg2); end
 
     # Use the default driver as the current driver
     #
@@ -463,10 +463,10 @@ module Capybara
     # See {Capybara.configure}
     #
     # source://capybara//lib/capybara.rb#45
-    def use_html5_parsing(*args, **_arg1, &block); end
+    def use_html5_parsing(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#45
-    def use_html5_parsing=(*args, **_arg1, &block); end
+    def use_html5_parsing=(*_arg0, **_arg1, &_arg2); end
 
     # Yield a block using a specific driver
     #
@@ -484,16 +484,16 @@ module Capybara
     def using_wait_time(seconds); end
 
     # source://capybara//lib/capybara.rb#58
-    def visible_text_only(*args, **_arg1, &block); end
+    def visible_text_only(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def visible_text_only=(*args, **_arg1, &block); end
+    def visible_text_only=(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def w3c_click_offset(*args, **_arg1, &block); end
+    def w3c_click_offset(*_arg0, **_arg1, &_arg2); end
 
     # source://capybara//lib/capybara.rb#58
-    def w3c_click_offset=(*args, **_arg1, &block); end
+    def w3c_click_offset=(*_arg0, **_arg1, &_arg2); end
 
     private
 
@@ -533,10 +533,10 @@ class Capybara::Config
   def allow_gumbo=(val); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def always_include_port(*args, **_arg1, &block); end
+  def always_include_port(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def always_include_port=(*args, **_arg1, &block); end
+  def always_include_port=(*_arg0, **_arg1, &_arg2); end
 
   # Returns the value of attribute app.
   #
@@ -551,28 +551,28 @@ class Capybara::Config
   def app=(_arg0); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def app_host(*args, **_arg1, &block); end
+  def app_host(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def app_host=(*args, **_arg1, &block); end
+  def app_host=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def asset_host(*args, **_arg1, &block); end
+  def asset_host(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def asset_host=(*args, **_arg1, &block); end
+  def asset_host=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def automatic_label_click(*args, **_arg1, &block); end
+  def automatic_label_click(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def automatic_label_click=(*args, **_arg1, &block); end
+  def automatic_label_click=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def automatic_reload(*args, **_arg1, &block); end
+  def automatic_reload(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def automatic_reload=(*args, **_arg1, &block); end
+  def automatic_reload=(*_arg0, **_arg1, &_arg2); end
 
   # @return [Symbol] The name of the driver to use by default
   #
@@ -587,79 +587,79 @@ class Capybara::Config
   def default_driver=(_arg0); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def default_host(*args, **_arg1, &block); end
+  def default_host(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def default_host=(*args, **_arg1, &block); end
+  def default_host=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def default_max_wait_time(*args, **_arg1, &block); end
+  def default_max_wait_time(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def default_max_wait_time=(*args, **_arg1, &block); end
+  def default_max_wait_time=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def default_normalize_ws(*args, **_arg1, &block); end
+  def default_normalize_ws(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def default_normalize_ws=(*args, **_arg1, &block); end
+  def default_normalize_ws=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def default_retry_interval(*args, **_arg1, &block); end
+  def default_retry_interval(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def default_retry_interval=(*args, **_arg1, &block); end
+  def default_retry_interval=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def default_selector(*args, **_arg1, &block); end
+  def default_selector(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def default_selector=(*args, **_arg1, &block); end
+  def default_selector=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def default_set_options(*args, **_arg1, &block); end
+  def default_set_options(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def default_set_options=(*args, **_arg1, &block); end
+  def default_set_options=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#86
   def deprecate(method, alternate_method, once: T.unsafe(nil)); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def disable_animation(*args, **_arg1, &block); end
+  def disable_animation(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def disable_animation=(*args, **_arg1, &block); end
+  def disable_animation=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def enable_aria_label(*args, **_arg1, &block); end
+  def enable_aria_label(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def enable_aria_label=(*args, **_arg1, &block); end
+  def enable_aria_label=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def enable_aria_role(*args, **_arg1, &block); end
+  def enable_aria_role(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def enable_aria_role=(*args, **_arg1, &block); end
+  def enable_aria_role=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def exact(*args, **_arg1, &block); end
+  def exact(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def exact=(*args, **_arg1, &block); end
+  def exact=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def exact_text(*args, **_arg1, &block); end
+  def exact_text(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def exact_text=(*args, **_arg1, &block); end
+  def exact_text=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def ignore_hidden_elements(*args, **_arg1, &block); end
+  def ignore_hidden_elements(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def ignore_hidden_elements=(*args, **_arg1, &block); end
+  def ignore_hidden_elements=(*_arg0, **_arg1, &_arg2); end
 
   # @return [Symbol] The name of the driver used when JavaScript is needed
   #
@@ -674,22 +674,22 @@ class Capybara::Config
   def javascript_driver=(_arg0); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def match(*args, **_arg1, &block); end
+  def match(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def match=(*args, **_arg1, &block); end
+  def match=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def predicates_wait(*args, **_arg1, &block); end
+  def predicates_wait(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def predicates_wait=(*args, **_arg1, &block); end
+  def predicates_wait=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def raise_server_errors(*args, **_arg1, &block); end
+  def raise_server_errors(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def raise_server_errors=(*args, **_arg1, &block); end
+  def raise_server_errors=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#15
   def reuse_server; end
@@ -698,16 +698,16 @@ class Capybara::Config
   def reuse_server=(_arg0); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def run_server(*args, **_arg1, &block); end
+  def run_server(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def run_server=(*args, **_arg1, &block); end
+  def run_server=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def save_path(*args, **_arg1, &block); end
+  def save_path(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def save_path=(*args, **_arg1, &block); end
+  def save_path=(*_arg0, **_arg1, &_arg2); end
 
   # Return the proc that Capybara will call to run the Rack application.
   # The block returned receives a rack app, port, and host/ip and should run a Rack handler
@@ -729,31 +729,31 @@ class Capybara::Config
   def server=(name); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def server_errors(*args, **_arg1, &block); end
+  def server_errors(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def server_errors=(*args, **_arg1, &block); end
+  def server_errors=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def server_host(*args, **_arg1, &block); end
+  def server_host(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def server_host=(*args, **_arg1, &block); end
+  def server_host=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def server_port(*args, **_arg1, &block); end
+  def server_port(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def server_port=(*args, **_arg1, &block); end
+  def server_port=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#15
   def session_options; end
 
   # source://capybara//lib/capybara/config.rb#19
-  def test_id(*args, **_arg1, &block); end
+  def test_id(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def test_id=(*args, **_arg1, &block); end
+  def test_id=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#15
   def threadsafe; end
@@ -774,16 +774,16 @@ class Capybara::Config
   def use_html5_parsing=(_arg0); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def visible_text_only(*args, **_arg1, &block); end
+  def visible_text_only(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def visible_text_only=(*args, **_arg1, &block); end
+  def visible_text_only=(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def w3c_click_offset(*args, **_arg1, &block); end
+  def w3c_click_offset(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/config.rb#19
-  def w3c_click_offset=(*args, **_arg1, &block); end
+  def w3c_click_offset=(*_arg0, **_arg1, &_arg2); end
 end
 
 # source://capybara//lib/capybara/config.rb#10
@@ -1166,8 +1166,8 @@ class Capybara::Driver::Base
   # @option options
   # @option options
   # @option options
-  # @param type [:alert, :confirm, :prompt]
   # @param options [Hash] a customizable set of options
+  # @param type [:alert, :confirm, :prompt]
   # @raise [Capybara::ModalNotFound] if modal dialog hasn't been found
   # @return [String] the message shown in the modal
   #
@@ -1198,8 +1198,8 @@ class Capybara::Driver::Base
   #
   # @option options
   # @option options
-  # @param type [:alert, :confirm, :prompt]
   # @param options [Hash] a customizable set of options
+  # @param type [:alert, :confirm, :prompt]
   # @raise [Capybara::ModalNotFound] if modal dialog hasn't been found
   # @return [String] the message shown in the modal
   #
@@ -1492,8 +1492,8 @@ class Capybara::Driver::Node
   # source://capybara//lib/capybara/driver/node.rb#60
   def send_keys(*args); end
 
-  # @param value [String, Array] Array is only allowed if node has 'multiple' attribute
   # @param options [Hash] Driver specific options for how to set a value on a node
+  # @param value [String, Array] Array is only allowed if node has 'multiple' attribute
   # @raise [NotImplementedError]
   #
   # source://capybara//lib/capybara/driver/node.rb#36
@@ -1567,9 +1567,9 @@ module Capybara::Helpers
   # way we can generate grammatically correct error message.
   #
   # @api private
-  # @param singular [String] The singular form of the word
-  # @param plural [String] The plural form of the word
   # @param count [Integer] The number of items
+  # @param plural [String] The plural form of the word
+  # @param singular [String] The singular form of the word
   #
   # source://capybara//lib/capybara/helpers.rb#69
   def declension(singular, plural, count); end
@@ -1583,8 +1583,8 @@ module Capybara::Helpers
   # {Capybara.configure asset_host}.
   #
   # @api private
-  # @param html [String] HTML code to inject into
   # @param host [URL] (Capybara.asset_host) The host from which assets should be loaded
+  # @param html [String] HTML code to inject into
   # @return [String] The modified HTML code
   #
   # source://capybara//lib/capybara/helpers.rb#50
@@ -1616,9 +1616,9 @@ module Capybara::Helpers
   # if text is not a regexp
   #
   # @api private
-  # @param text [String] Text to escape
   # @param exact [Boolean] (false) Whether or not this should be an exact text match
   # @param options [Fixnum, Boolean, nil] Options passed to Regexp.new when creating the Regexp
+  # @param text [String] Text to escape
   # @return [Regexp] Regexp to match the passed in text and options
   #
   # source://capybara//lib/capybara/helpers.rb#32
@@ -1635,9 +1635,9 @@ module Capybara::Helpers
     # way we can generate grammatically correct error message.
     #
     # @api private
-    # @param singular [String] The singular form of the word
-    # @param plural [String] The plural form of the word
     # @param count [Integer] The number of items
+    # @param plural [String] The plural form of the word
+    # @param singular [String] The singular form of the word
     #
     # source://capybara//lib/capybara/helpers.rb#69
     def declension(singular, plural, count); end
@@ -1651,8 +1651,8 @@ module Capybara::Helpers
     # {Capybara.configure asset_host}.
     #
     # @api private
-    # @param html [String] HTML code to inject into
     # @param host [URL] (Capybara.asset_host) The host from which assets should be loaded
+    # @param html [String] HTML code to inject into
     # @return [String] The modified HTML code
     #
     # source://capybara//lib/capybara/helpers.rb#50
@@ -1682,9 +1682,9 @@ module Capybara::Helpers
     # if text is not a regexp
     #
     # @api private
-    # @param text [String] Text to escape
     # @param exact [Boolean] (false) Whether or not this should be an exact text match
     # @param options [Fixnum, Boolean, nil] Options passed to Regexp.new when creating the Regexp
+    # @param text [String] Text to escape
     # @return [Regexp] Regexp to match the passed in text and options
     #
     # source://capybara//lib/capybara/helpers.rb#32
@@ -2355,9 +2355,9 @@ class Capybara::Node::Base
   # time has passed. On rubies/platforms which don't support access to a monotonic process clock
   # if the return value of `Time.now` is stubbed out, Capybara will raise `Capybara::FrozenInTime`.
   #
-  # @param seconds [Integer] (current sessions default_max_wait_time) Maximum number of seconds to retry this block
   # @param errors [Array<Exception>] (driver.invalid_element_errors +
   #   [Capybara::ElementNotFound]) exception types that cause the block to be rerun
+  # @param seconds [Integer] (current sessions default_max_wait_time) Maximum number of seconds to retry this block
   # @raise [Capybara::FrozenInTime] If the return value of `Time.now` appears stuck
   # @return [Object] The result of the given block
   #
@@ -2522,8 +2522,8 @@ class Capybara::Node::Element < ::Capybara::Node::Base
   #
   # @option options
   # @overload click
-  # @param wait [false, Numeric] Maximum time to wait for the action to succeed. Defaults to {Capybara.configure default_max_wait_time}.
   # @param options [Hash] a customizable set of options
+  # @param wait [false, Numeric] Maximum time to wait for the action to succeed. Defaults to {Capybara.configure default_max_wait_time}.
   # @return [Capybara::Node::Element] The element
   #
   # source://capybara//lib/capybara/node/element.rb#170
@@ -2603,8 +2603,8 @@ class Capybara::Node::Element < ::Capybara::Node::Base
   # complex objects, such as jQuery statements. {#execute_script} should be used over
   # {#evaluate_script} whenever a result is not expected or needed. `this` in the script will refer to the element this is called on.
   #
-  # @param script [String] A string of JavaScript to execute
   # @param args Optional arguments that will be passed to the script. Driver support for this is optional and types of objects supported may differ between drivers
+  # @param script [String] A string of JavaScript to execute
   #
   # source://capybara//lib/capybara/node/element.rb#495
   def execute_script(script, *args); end
@@ -2687,8 +2687,8 @@ class Capybara::Node::Element < ::Capybara::Node::Base
   #
   # @option options
   # @overload right_click
-  # @param wait [false, Numeric] Maximum time to wait for the action to succeed. Defaults to {Capybara.configure default_max_wait_time}.
   # @param options [Hash] a customizable set of options
+  # @param wait [false, Numeric] Maximum time to wait for the action to succeed. Defaults to {Capybara.configure default_max_wait_time}.
   # @return [Capybara::Node::Element] The element
   #
   # source://capybara//lib/capybara/node/element.rb#184
@@ -2796,8 +2796,8 @@ class Capybara::Node::Element < ::Capybara::Node::Base
 
   # Set the value of the form element to the given value.
   #
-  # @param value [String] The new value
   # @param options [Hash] Driver specific options for how to set the value. Take default values from {Capybara.configure default_set_options}.
+  # @param value [String] The new value
   # @return [Capybara::Node::Element] The element
   #
   # source://capybara//lib/capybara/node/element.rb#117
@@ -2968,9 +2968,9 @@ module Capybara::Node::Finders
   # expires. The length of time this method will wait is controlled through {Capybara.configure default_max_wait_time}.
   #
   # @option options
-  # @param options [Hash] a customizable set of options
   # @param kind [Symbol] Optional selector type (:css, :xpath, :field, etc.). Defaults to {Capybara.configure default_selector}.
   # @param locator [String] The locator for the specified selector
+  # @param options [Hash] a customizable set of options
   # @param options [Hash] a customizable set of options
   # @raise [Capybara::ElementNotFound] If the element can't be found before time expires
   # @return [Capybara::Node::Element] The found element
@@ -3000,9 +3000,9 @@ module Capybara::Node::Finders
   # @option options
   # @option options
   # @option options
-  # @param options [Hash] a customizable set of options
   # @param kind [Symbol] Optional selector type (:css, :xpath, :field, etc.). Defaults to {Capybara.configure default_selector}.
   # @param locator [String] The locator for the specified selector
+  # @param options [Hash] a customizable set of options
   # @param options [Hash] a customizable set of options
   # @raise [Capybara::ElementNotFound] If the element can't be found before time expires
   # @return [Capybara::Node::Element] The found element
@@ -3143,9 +3143,9 @@ module Capybara::Node::Finders
   # expires. The length of time this method will wait is controlled through {Capybara.configure default_max_wait_time}.
   #
   # @option options
-  # @param options [Hash] a customizable set of options
   # @param kind [Symbol] Optional selector type (:css, :xpath, :field, etc.). Defaults to {Capybara.configure default_selector}.
   # @param locator [String] The locator for the specified selector
+  # @param options [Hash] a customizable set of options
   # @param options [Hash] a customizable set of options
   # @raise [Capybara::ElementNotFound] If the element can't be found before time expires
   # @return [Capybara::Node::Element] The found element
@@ -3206,9 +3206,9 @@ module Capybara::Node::Matchers
   #
   # Accepts the same options as {#assert_selector}
   #
-  # @param options [Hash] a customizable set of options
   # @param kind [Symbol] Optional selector type (:css, :xpath, :field, etc.). Defaults to {Capybara.configure default_selector}.
   # @param locator [String] The locator for the specified selector
+  # @param options [Hash] a customizable set of options
   # @param options [Hash] a customizable set of options
   # @raise [Capybara::ExpectationNotMet] If the selector does not exist
   #
@@ -3369,9 +3369,9 @@ module Capybara::Node::Matchers
   #
   # Accepts the same options as {#assert_selector}
   #
-  # @param options [Hash] a customizable set of options
   # @param kind [Symbol] Optional selector type (:css, :xpath, :field, etc.). Defaults to {Capybara.configure default_selector}.
   # @param locator [String] The locator for the specified selector
+  # @param options [Hash] a customizable set of options
   # @param options [Hash] a customizable set of options
   # @raise [Capybara::ExpectationNotMet] If the selector does not exist
   #
@@ -3454,8 +3454,8 @@ module Capybara::Node::Matchers
   #     page.has_css?('li', text: 'Horse', visible: true)
   #
   # @option options
-  # @param path [String] A CSS selector
   # @param options [Hash] a customizable set of options
+  # @param path [String] A CSS selector
   # @return [Boolean] If the selector exists
   #
   # source://capybara//lib/capybara/node/matchers.rb#309
@@ -3546,8 +3546,8 @@ module Capybara::Node::Matchers
   # Checks if a given CSS selector is not on the page or a descendant of the current node.
   # Usage is identical to {#has_css?}.
   #
-  # @param path [String] A CSS selector
   # @param options [Hash] a customizable set of options
+  # @param path [String] A CSS selector
   # @return [Boolean]
   #
   # source://capybara//lib/capybara/node/matchers.rb#321
@@ -3646,8 +3646,8 @@ module Capybara::Node::Matchers
   # Checks if a given XPath expression is not on the page or a descendant of the current node.
   # Usage is identical to {#has_xpath?}.
   #
-  # @param path [String] An XPath expression
   # @param options [Hash] a customizable set of options
+  # @param path [String] An XPath expression
   # @return [Boolean]
   #
   # source://capybara//lib/capybara/node/matchers.rb#282
@@ -3798,8 +3798,8 @@ module Capybara::Node::Matchers
   #     page.has_xpath?(xpath)
   #
   # @option options
-  # @param path [String] An XPath expression
   # @param options [Hash] a customizable set of options
+  # @param path [String] An XPath expression
   # @return [Boolean] If the expression exists
   #
   # source://capybara//lib/capybara/node/matchers.rb#270
@@ -5734,13 +5734,13 @@ class Capybara::Result
   def index(*_arg0); end
 
   # source://capybara//lib/capybara/result.rb#37
-  def inspect(*args, **_arg1, &block); end
+  def inspect(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/result.rb#37
-  def last(*args, **_arg1, &block); end
+  def last(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/result.rb#37
-  def length(*args, **_arg1, &block); end
+  def length(*_arg0, **_arg1, &_arg2); end
 
   # @return [Boolean]
   #
@@ -5751,19 +5751,19 @@ class Capybara::Result
   def negative_failure_message; end
 
   # source://capybara//lib/capybara/result.rb#37
-  def sample(*args, **_arg1, &block); end
+  def sample(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/result.rb#37
-  def size(*args, **_arg1, &block); end
+  def size(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/result.rb#37
-  def to_ary(*args, **_arg1, &block); end
+  def to_ary(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/result.rb#133
   def unfiltered_size; end
 
   # source://capybara//lib/capybara/result.rb#37
-  def values_at(*args, **_arg1, &block); end
+  def values_at(*_arg0, **_arg1, &_arg2); end
 
   private
 
@@ -6422,7 +6422,7 @@ class Capybara::Selector::Definition
   def default_visibility(fallback = T.unsafe(nil), options = T.unsafe(nil)); end
 
   # source://capybara//lib/capybara/selector/definition.rb#178
-  def describe(*args, **_arg1, &block); end
+  def describe(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/selector/definition.rb#190
   def describe_all_expression_filters(**opts); end
@@ -6437,19 +6437,19 @@ class Capybara::Selector::Definition
   # @return [String] Description of the selector when used with the options passed
   #
   # source://capybara//lib/capybara/selector/definition.rb#116
-  def description(*args, **_arg1, &block); end
+  def description(*_arg0, **_arg1, &_arg2); end
 
   # @option options
   # @option options
   # @option options
   # @option options
-  # @param name [Symbol, Regexp] The filter name
   # @param matcher [Regexp] (nil)   A Regexp used to check whether a specific option is handled by this filter
-  # @param types [Array<Symbol>] The types of the filter - currently valid types are [:boolean]
+  # @param name [Symbol, Regexp] The filter name
   # @param options [Hash] ({})      Options of the filter
+  # @param types [Array<Symbol>] The types of the filter - currently valid types are [:boolean]
   #
   # source://capybara//lib/capybara/selector/definition.rb#166
-  def expression_filter(*args, **_arg1, &block); end
+  def expression_filter(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/selector/definition.rb#41
   def expression_filters; end
@@ -6460,7 +6460,7 @@ class Capybara::Selector::Definition
   def expressions; end
 
   # source://capybara//lib/capybara/selector/definition.rb#166
-  def filter(*args, **_arg1, &block); end
+  def filter(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/selector/definition.rb#174
   def filter_set(name, filters_to_use = T.unsafe(nil)); end
@@ -6512,11 +6512,11 @@ class Capybara::Selector::Definition
   # @option options
   # @option options
   # @param name [Symbol, Regexp] The filter name
-  # @param types [Array<Symbol>] The types of the filter - currently valid types are [:boolean]
   # @param options [Hash] ({})      Options of the filter
+  # @param types [Array<Symbol>] The types of the filter - currently valid types are [:boolean]
   #
   # source://capybara//lib/capybara/selector/definition.rb#166
-  def node_filter(*args, **_arg1, &block); end
+  def node_filter(*_arg0, **_arg1, &_arg2); end
 
   # source://capybara//lib/capybara/selector/definition.rb#37
   def node_filters; end
@@ -7683,8 +7683,8 @@ class Capybara::Selenium::Node < ::Capybara::Driver::Node
   #
   # @option options
   # @option options
-  # @param value [String] The new value
   # @param options [Hash{}] Driver specific options for how to set the value
+  # @param value [String] The new value
   #
   # source://capybara//lib/capybara/selenium/node.rb#59
   def set(value, **options); end
@@ -8540,8 +8540,8 @@ class Capybara::Session
 
   # Evaluate the given JavaScript and obtain the result from a callback function which will be passed as the last argument to the script.
   #
-  # @param script [String] A string of JavaScript to evaluate
   # @param args Optional arguments that will be passed to the script
+  # @param script [String] A string of JavaScript to evaluate
   # @return [Object] The result of the evaluated JavaScript (may be driver specific)
   #
   # source://capybara//lib/capybara/session.rb#633
@@ -8551,8 +8551,8 @@ class Capybara::Session
   # scripts that return complex objects, such as jQuery statements. {#execute_script} might
   # be a better alternative.
   #
-  # @param script [String] A string of JavaScript to evaluate
   # @param args Optional arguments that will be passed to the script
+  # @param script [String] A string of JavaScript to evaluate
   # @return [Object] The result of the evaluated JavaScript (may be driver specific)
   #
   # source://capybara//lib/capybara/session.rb#619
@@ -8562,8 +8562,8 @@ class Capybara::Session
   # complex objects, such as jQuery statements. {#execute_script} should be used over
   # {#evaluate_script} whenever possible.
   #
-  # @param script [String] A string of JavaScript to execute
   # @param args Optional arguments that will be passed to the script. Driver support for this is optional and types of objects supported may differ between drivers
+  # @param script [String] A string of JavaScript to execute
   #
   # source://capybara//lib/capybara/session.rb#604
   def execute_script(script, *args); end
@@ -8794,8 +8794,8 @@ class Capybara::Session
   # and file will be given randomly generated filename. If invoked with a relative path
   # the path will be relative to {Capybara.configure save_path}.
   #
-  # @param path [String] the path to where it should be saved
   # @param options [Hash] a customizable set of options
+  # @param path [String] the path to where it should be saved
   #
   # source://capybara//lib/capybara/session.rb#762
   def save_and_open_screenshot(path = T.unsafe(nil), **options); end
@@ -8819,8 +8819,8 @@ class Capybara::Session
   # and file will be given randomly generated filename. If invoked with a relative path
   # the path will be relative to {Capybara.configure save_path}.
   #
-  # @param path [String] the path to where it should be saved
   # @param options [Hash] a customizable set of options
+  # @param path [String] the path to where it should be saved
   # @return [String] the path to which the file was saved
   #
   # source://capybara//lib/capybara/session.rb#747
@@ -9551,8 +9551,8 @@ class Capybara::Window
   # If this method was called for window that is not current, then after calling this method
   # current window should remain the same as it was before calling this method.
   #
-  # @param width [Integer] the new window width in pixels
   # @param height [Integer] the new window height in pixels
+  # @param width [Integer] the new window width in pixels
   #
   # source://capybara//lib/capybara/window.rb#88
   def resize_to(width, height); end
@@ -9584,7 +9584,9 @@ end
 class Capybara::WindowError < ::Capybara::CapybaraError; end
 
 # source://capybara//lib/capybara/selector/xpath_extensions.rb#3
-module XPath; end
+module XPath
+  include ::XPath::DSL
+end
 
 # source://capybara//lib/capybara/selector/xpath_extensions.rb#12
 module XPath::DSL

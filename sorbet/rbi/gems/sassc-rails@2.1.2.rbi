@@ -6,12 +6,7 @@
 
 
 # source://sassc-rails//lib/sassc/rails/version.rb#3
-module SassC
-  class << self
-    # source://sassc/2.4.0/lib/sassc.rb#21
-    def load_paths; end
-  end
-end
+module SassC; end
 
 # source://sassc-rails//lib/sassc/rails/version.rb#4
 module SassC::Rails; end
@@ -192,25 +187,11 @@ class Sprockets::SassCompressor
   # source://sassc-rails//lib/sassc/rails/compressor.rb#7
   def initialize(options = T.unsafe(nil)); end
 
-  # source://sprockets/4.2.1/lib/sprockets/sass_compressor.rb#37
-  def cache_key; end
-
   # source://sassc-rails//lib/sassc/rails/compressor.rb#17
   def call(*args); end
 
   # sprockets 2.x
   #
-  # source://sassc-rails//lib/sassc/rails/compressor.rb#17
+  # source://sassc-rails//lib/sassc/rails/compressor.rb#33
   def evaluate(*args); end
-
-  class << self
-    # source://sprockets/4.2.1/lib/sprockets/sass_compressor.rb#33
-    def cache_key; end
-
-    # source://sprockets/4.2.1/lib/sprockets/sass_compressor.rb#29
-    def call(input); end
-
-    # source://sprockets/4.2.1/lib/sprockets/sass_compressor.rb#25
-    def instance; end
-  end
 end

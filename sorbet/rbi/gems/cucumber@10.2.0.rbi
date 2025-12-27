@@ -553,10 +553,7 @@ class Cucumber::Cli::ProfileLoader
   def processed_shellwords(args_from_yml); end
 end
 
-# source://cucumber//lib/cucumber/cli/configuration.rb#13
 class Cucumber::Cli::ProfileNotFound < ::StandardError; end
-
-# source://cucumber//lib/cucumber/cli/configuration.rb#12
 class Cucumber::Cli::ProfilesNotDefinedError < ::Cucumber::Cli::YmlLoadError; end
 
 # source://cucumber//lib/cucumber/cli/rerun_file.rb#5
@@ -590,7 +587,6 @@ class Cucumber::Cli::RerunFile
   end
 end
 
-# source://cucumber//lib/cucumber/cli/configuration.rb#11
 class Cucumber::Cli::YmlLoadError < ::StandardError; end
 
 # The base class for configuring settings for a Cucumber run.
@@ -683,7 +679,7 @@ class Cucumber::Configuration
   # @yield [Object] Block to be called when the event occurs
   #
   # source://cucumber//lib/cucumber/configuration.rb#30
-  def on_event(*args, **_arg1, &block); end
+  def on_event(*_arg0, **_arg1, &_arg2); end
 
   # source://cucumber//lib/cucumber/configuration.rb#45
   def out_stream; end
@@ -5631,28 +5627,28 @@ class Cucumber::Runtime::ForProgrammingLanguages
   def initialize(support_code, user_interface); end
 
   # source://cucumber//lib/cucumber/runtime/for_programming_languages.rb#21
-  def ask(*args, **_arg1, &block); end
+  def ask(*_arg0, **_arg1, &_arg2); end
 
   # source://cucumber//lib/cucumber/runtime/for_programming_languages.rb#21
-  def attach(*args, **_arg1, &block); end
+  def attach(*_arg0, **_arg1, &_arg2); end
 
   # source://cucumber//lib/cucumber/runtime/for_programming_languages.rb#21
-  def embed(*args, **_arg1, &block); end
+  def embed(*_arg0, **_arg1, &_arg2); end
 
   # source://cucumber//lib/cucumber/runtime/for_programming_languages.rb#21
-  def features_paths(*args, **_arg1, &block); end
+  def features_paths(*_arg0, **_arg1, &_arg2); end
 
   # source://cucumber//lib/cucumber/runtime/for_programming_languages.rb#29
-  def invoke_dynamic_step(*args, **_arg1, &block); end
+  def invoke_dynamic_step(*_arg0, **_arg1, &_arg2); end
 
   # source://cucumber//lib/cucumber/runtime/for_programming_languages.rb#29
-  def invoke_dynamic_steps(*args, **_arg1, &block); end
+  def invoke_dynamic_steps(*_arg0, **_arg1, &_arg2); end
 
   # source://cucumber//lib/cucumber/runtime/for_programming_languages.rb#21
-  def puts(*args, **_arg1, &block); end
+  def puts(*_arg0, **_arg1, &_arg2); end
 
   # source://cucumber//lib/cucumber/runtime/for_programming_languages.rb#21
-  def step_match(*args, **_arg1, &block); end
+  def step_match(*_arg0, **_arg1, &_arg2); end
 
   # Returns the value of attribute support_code.
   #

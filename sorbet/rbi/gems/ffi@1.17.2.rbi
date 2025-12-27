@@ -9,17 +9,19 @@
 module FFI
   private
 
+  # source://ffi//lib/ffi.rb#5
   def custom_typedefs; end
 
   class << self
+    # source://ffi//lib/ffi.rb#5
     def _async_cb_dispatcher_atfork_child; end
 
     # Add a definition type to type definitions.
     #
     # The type definition is local per Ractor.
     #
-    # @param old [Type, DataConverter, Symbol] type definition used by {FFI.find_type}
     # @param add [Symbol] new type definition's name to add
+    # @param old [Type, DataConverter, Symbol] type definition used by {FFI.find_type}
     # @return [Type]
     #
     # source://ffi//lib/ffi/types.rb#62
@@ -78,8 +80,8 @@ module FFI
     #
     # The type definition is local per Ractor.
     #
-    # @param old [Type, DataConverter, Symbol] type definition used by {FFI.find_type}
     # @param add [Symbol] new type definition's name to add
+    # @param old [Type, DataConverter, Symbol] type definition used by {FFI.find_type}
     # @return [Type]
     #
     # source://ffi//lib/ffi/types.rb#56
@@ -92,159 +94,456 @@ module FFI
 
     # Truffleruby and JRuby don't support Ractor so far.
     # So they don't need separation between builtin and custom types.
+    #
+    # source://ffi//lib/ffi.rb#5
     def custom_typedefs; end
   end
 end
 
 # source://ffi//lib/ffi/abstract_memory.rb#33
 class FFI::AbstractMemory
+  # source://ffi//lib/ffi.rb#5
   def [](_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def __copy_from__(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def clear; end
+
+  # source://ffi//lib/ffi.rb#5
   def freeze; end
+
+  # source://ffi//lib/ffi.rb#5
   def get(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_char(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_double(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_float(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_float32(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_float64(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_int(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_int16(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_int32(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_int64(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_int8(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_long(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_long_long(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_pointer(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_short(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_string(*_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_uchar(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_uint(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_uint16(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_uint32(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_uint64(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_uint8(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_ulong(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_ulong_long(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_array_of_ushort(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_bytes(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_char(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_double(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_float(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_float32(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_float64(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_int(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_int16(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_int32(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_int64(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_int8(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_long(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_long_long(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_pointer(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_short(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_string(*_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_uchar(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_uint(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_uint16(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_uint32(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_uint64(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_uint8(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_ulong(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_ulong_long(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def get_ushort(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def put(_arg0, _arg1, _arg2); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_char(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_double(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_float(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_float32(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_float64(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_int(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_int16(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_int32(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_int64(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_int8(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_long(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_long_long(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_pointer(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_short(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_uchar(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_uint(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_uint16(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_uint32(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_uint64(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_uint8(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_ulong(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_ulong_long(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_array_of_ushort(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_bytes(*_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_char(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_double(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_float(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_float32(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_float64(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_int(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_int16(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_int32(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_int64(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_int8(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_long(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_long_long(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_pointer(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_short(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_string(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_uchar(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_uint(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_uint16(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_uint32(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_uint64(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_uint8(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_ulong(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_ulong_long(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def put_ushort(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_char(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_double(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_float(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_int(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_int16(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_int32(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_int64(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_int8(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_long(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_long_long(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_pointer(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_short(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_string(*_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_uchar(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_uint(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_uint16(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_uint32(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_uint64(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_uint8(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_ulong(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_ulong_long(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_array_of_ushort(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_bytes(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def read_char; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_double; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_float; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_int; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_int16; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_int32; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_int64; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_int8; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_long; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_long_long; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_pointer; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_short; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_uchar; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_uint; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_uint16; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_uint32; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_uint64; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_uint8; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_ulong; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_ulong_long; end
+
+  # source://ffi//lib/ffi.rb#5
   def read_ushort; end
+
+  # source://ffi//lib/ffi.rb#5
   def size; end
 
   # Return +true+ if +self+ has a size limit.
@@ -254,50 +553,139 @@ class FFI::AbstractMemory
   # source://ffi//lib/ffi/abstract_memory.rb#40
   def size_limit?; end
 
+  # source://ffi//lib/ffi.rb#5
   def total; end
+
+  # source://ffi//lib/ffi.rb#5
   def type_size; end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_char(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_double(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_float(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_int(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_int16(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_int32(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_int64(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_int8(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_long(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_long_long(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_pointer(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_short(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_uchar(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_uint(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_uint16(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_uint32(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_uint64(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_uint8(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_ulong(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_ulong_long(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_array_of_ushort(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_bytes(*_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_char(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_double(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_float(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_int(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_int16(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_int32(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_int64(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_int8(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_long(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_long_long(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_pointer(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_short(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_uchar(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_uint(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_uint16(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_uint32(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_uint64(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_uint8(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_ulong(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_ulong_long(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def write_ushort(_arg0); end
 end
 
@@ -305,9 +693,13 @@ end
 FFI::AbstractMemory::LONG_MAX = T.let(T.unsafe(nil), Integer)
 
 class FFI::ArrayType < ::FFI::Type
+  # source://ffi//lib/ffi.rb#5
   def initialize(_arg0, _arg1); end
 
+  # source://ffi//lib/ffi.rb#5
   def elem_type; end
+
+  # source://ffi//lib/ffi.rb#5
   def length; end
 end
 
@@ -395,8 +787,8 @@ end
 class FFI::AutoPointer::Releaser
   # A new instance of Releaser.
   #
-  # @param ptr [Pointer]
   # @param proc [#call]
+  # @param ptr [Pointer]
   # @return [nil]
   #
   # source://ffi//lib/ffi/autopointer.rb#123
@@ -470,8 +862,8 @@ class FFI::Bitmask < ::FFI::Enum
   # source://ffi//lib/ffi/enum.rb#236
   def [](*query); end
 
-  # @param val [Integer]
   # @param ctx unused
+  # @param val [Integer]
   # @return [Array<Symbol, Integer>] list of symbol names corresponding to val, plus an optional remainder if some bits don't match any constant
   #
   # source://ffi//lib/ffi/enum.rb#288
@@ -487,24 +879,46 @@ class FFI::Bitmask < ::FFI::Enum
 end
 
 class FFI::Buffer < ::FFI::AbstractMemory
+  # source://ffi//lib/ffi.rb#5
   def initialize(*_arg0); end
 
+  # source://ffi//lib/ffi.rb#5
   def +(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def inspect; end
+
+  # source://ffi//lib/ffi.rb#5
   def length; end
+
+  # source://ffi//lib/ffi.rb#5
   def order(*_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def slice(_arg0, _arg1); end
 
   private
 
+  # source://ffi//lib/ffi.rb#5
   def initialize_copy(_arg0); end
 
   class << self
+    # source://ffi//lib/ffi.rb#5
     def alloc_in(*_arg0); end
+
+    # source://ffi//lib/ffi.rb#5
     def alloc_inout(*_arg0); end
+
+    # source://ffi//lib/ffi.rb#5
     def alloc_out(*_arg0); end
+
+    # source://ffi//lib/ffi.rb#5
     def new_in(*_arg0); end
+
+    # source://ffi//lib/ffi.rb#5
     def new_inout(*_arg0); end
+
+    # source://ffi//lib/ffi.rb#5
     def new_out(*_arg0); end
   end
 end
@@ -541,16 +955,29 @@ end
 
 # source://ffi//lib/ffi/dynamic_library.rb#32
 class FFI::DynamicLibrary
+  # source://ffi//lib/ffi.rb#5
   def initialize(_arg0, _arg1); end
 
+  # source://ffi//lib/ffi.rb#5
   def find_function(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def find_symbol(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def find_variable(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def last_error; end
+
+  # source://ffi//lib/ffi.rb#5
   def name; end
 
   class << self
+    # source://ffi//lib/ffi.rb#5
     def last_error; end
+
+    # source://ffi//lib/ffi.rb#5
     def open(_arg0, _arg1); end
 
     private
@@ -583,10 +1010,12 @@ FFI::DynamicLibrary::SEARCH_PATH = T.let(T.unsafe(nil), Array)
 FFI::DynamicLibrary::SEARCH_PATH_MESSAGE = T.let(T.unsafe(nil), String)
 
 class FFI::DynamicLibrary::Symbol < ::FFI::Pointer
+  # source://ffi//lib/ffi.rb#5
   def inspect; end
 
   private
 
+  # source://ffi//lib/ffi.rb#5
   def initialize_copy(_arg0); end
 end
 
@@ -627,7 +1056,7 @@ class FFI::Enum
   # @overload []
   # @overload []
   #
-  # source://ffi//lib/ffi/enum.rb#133
+  # source://ffi//lib/ffi/enum.rb#141
   def find(query); end
 
   # @param val
@@ -662,18 +1091,18 @@ class FFI::Enum
   #
   # @return [Hash]
   #
-  # source://ffi//lib/ffi/enum.rb#145
+  # source://ffi//lib/ffi/enum.rb#149
   def to_h; end
 
   # Get the symbol map.
   #
   # @return [Hash]
   #
-  # source://ffi//lib/ffi/enum.rb#145
+  # source://ffi//lib/ffi/enum.rb#150
   def to_hash; end
 
-  # @param val [Symbol, Integer, #to_int]
   # @param ctx unused
+  # @param val [Symbol, Integer, #to_int]
   # @return [Integer] value of a enum symbol
   #
   # source://ffi//lib/ffi/enum.rb#155
@@ -715,15 +1144,25 @@ end
 class FFI::Function < ::FFI::Pointer
   include ::FFI::Function::RegisterAttach
 
+  # source://ffi//lib/ffi.rb#5
   def initialize(*_arg0); end
 
-  # source://ffi//lib/ffi/function.rb#57
+  # source://ffi//lib/ffi.rb#5
   def attach(mod, name); end
 
+  # source://ffi//lib/ffi.rb#5
   def autorelease; end
+
+  # source://ffi//lib/ffi.rb#5
   def autorelease=(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def autorelease?; end
+
+  # source://ffi//lib/ffi.rb#5
   def call(*_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def free; end
 
   # Retrieve Array of parameter types
@@ -746,7 +1185,10 @@ class FFI::Function < ::FFI::Pointer
 
   private
 
+  # source://ffi//lib/ffi.rb#5
   def initialize_copy(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def type; end
 end
 
@@ -762,9 +1204,13 @@ end
 FFI::FunctionInfo = FFI::FunctionType
 
 class FFI::FunctionType < ::FFI::Type
+  # source://ffi//lib/ffi.rb#5
   def initialize(*_arg0); end
 
+  # source://ffi//lib/ffi.rb#5
   def param_types; end
+
+  # source://ffi//lib/ffi.rb#5
   def return_type; end
 end
 
@@ -786,8 +1232,8 @@ module FFI::IO
     #
     # This will be optimized at some future time to eliminate the double copy.
     #
-    # @param io [#read] io to read from
     # @param buf [AbstractMemory] destination for data read from +io+
+    # @param io [#read] io to read from
     # @param len [nil, Integer] maximul number of bytes to read from +io+. If +nil+,
     #   read until end of file.
     # @return [Integer] length really read, in bytes
@@ -800,11 +1246,17 @@ end
 module FFI::LastError
   private
 
+  # source://ffi//lib/ffi.rb#5
   def error; end
+
+  # source://ffi//lib/ffi.rb#5
   def error=(_arg0); end
 
   class << self
+    # source://ffi//lib/ffi.rb#5
     def error; end
+
+    # source://ffi//lib/ffi.rb#5
     def error=(_arg0); end
   end
 end
@@ -830,7 +1282,7 @@ module FFI::LegacyForkTracking::KernelExtPrivate
 
   private
 
-  # source://ffi//lib/ffi/ffi.rb#65
+  # source://ffi//lib/ffi/ffi.rb#81
   def fork; end
 end
 
@@ -857,11 +1309,11 @@ module FFI::Library
   # @option options
   # @overload attach_function
   # @overload attach_function
-  # @param name [#to_s] name of ruby method to attach as
-  # @param func [#to_s] name of C function to attach
   # @param args [Array<Symbol>] an array of types
-  # @param returns [Symbol] type of return value
+  # @param func [#to_s] name of C function to attach
+  # @param name [#to_s] name of ruby method to attach as
   # @param options [Hash] a customizable set of options
+  # @param returns [Symbol] type of return value
   # @raise [FFI::NotFoundError] if +func+ cannot be found in the attached libraries (see {#ffi_lib})
   # @return [FFI::VariadicInvoker]
   #
@@ -1009,8 +1461,8 @@ module FFI::Library
   #   * http://en.wikibooks.org/wiki/X86_Disassembly/Calling_Conventions#STDCALL
   #   Note that decorated names can be overridden via def files.  Also note that the
   #   windows api, although using, doesn't have decorated names.
-  # @param name [#to_s] function name
   # @param arg_types [Array] function's argument types
+  # @param name [#to_s] function name
   # @return [Array<String>]
   #
   # source://ffi//lib/ffi/library.rb#232
@@ -1029,9 +1481,9 @@ module FFI::Library
   #
   # If +old+ is a key for type map, #typedef get +old+ type definition.
   #
-  # @param old [DataConverter, Symbol, Type]
   # @param add [Symbol]
   # @param info [Symbol]
+  # @param old [DataConverter, Symbol, Type]
   # @return [FFI::Enum, FFI::Type]
   #
   # source://ffi//lib/ffi/library.rb#374
@@ -1178,9 +1630,11 @@ class FFI::ManagedStruct < ::FFI::Struct
 end
 
 class FFI::MemoryPointer < ::FFI::Pointer
+  # source://ffi//lib/ffi.rb#5
   def initialize(*_arg0); end
 
   class << self
+    # source://ffi//lib/ffi.rb#5
     def from_string(_arg0); end
   end
 end
@@ -1367,16 +1821,34 @@ class FFI::PlatformError < ::LoadError; end
 
 # source://ffi//lib/ffi/pointer.rb#42
 class FFI::Pointer < ::FFI::AbstractMemory
+  # source://ffi//lib/ffi.rb#5
   def initialize(*_arg0); end
 
+  # source://ffi//lib/ffi.rb#5
   def +(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def ==(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def address; end
+
+  # source://ffi//lib/ffi.rb#5
   def autorelease=(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def autorelease?; end
+
+  # source://ffi//lib/ffi.rb#5
   def free; end
+
+  # source://ffi//lib/ffi.rb#5
   def inspect; end
+
+  # source://ffi//lib/ffi.rb#5
   def null?; end
+
+  # source://ffi//lib/ffi.rb#5
   def order(*_arg0); end
 
   # Read pointer's contents as +type+
@@ -1394,9 +1866,9 @@ class FFI::Pointer < ::FFI::AbstractMemory
   #
   # @example
   #   ptr.read_array_of_type(TYPE_UINT8, :read_uint8, 4) # -> [1, 2, 3, 4]
-  # @param type [Type] type of data to read from pointer's contents
-  # @param reader [Symbol] method to send to +self+ to read +type+
   # @param length [Integer]
+  # @param reader [Symbol] method to send to +self+ to read +type+
+  # @param type [Type] type of data to read from pointer's contents
   # @return [Array]
   #
   # source://ffi//lib/ffi/pointer.rb#114
@@ -1432,7 +1904,10 @@ class FFI::Pointer < ::FFI::AbstractMemory
   # source://ffi//lib/ffi/pointer.rb#81
   def read_string_to_null; end
 
+  # source://ffi//lib/ffi.rb#5
   def slice(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def to_i; end
 
   # @return [self]
@@ -1440,7 +1915,10 @@ class FFI::Pointer < ::FFI::AbstractMemory
   # source://ffi//lib/ffi/pointer.rb#142
   def to_ptr; end
 
+  # source://ffi//lib/ffi.rb#5
   def to_s; end
+
+  # source://ffi//lib/ffi.rb#5
   def type_size; end
 
   # Write +value+ of type +type+ to pointer's content
@@ -1459,9 +1937,9 @@ class FFI::Pointer < ::FFI::AbstractMemory
   #
   # @example
   #   ptr.write_array_of_type(TYPE_UINT8, :put_uint8, [1, 2, 3 ,4])
+  # @param ary [Array]
   # @param type [Type] type of data to write to pointer's contents
   # @param writer [Symbol] method to send to +self+ to write +type+
-  # @param ary [Array]
   # @return [self]
   #
   # source://ffi//lib/ffi/pointer.rb#132
@@ -1470,8 +1948,8 @@ class FFI::Pointer < ::FFI::AbstractMemory
   # Write +str+ in pointer's contents, or first +len+ bytes if
   # +len+ is not +nil+.
   #
-  # @param str [String] string to write
   # @param len [Integer] length of string to return
+  # @param str [String] string to write
   # @return [self]
   #
   # source://ffi//lib/ffi/pointer.rb#101
@@ -1482,8 +1960,8 @@ class FFI::Pointer < ::FFI::AbstractMemory
   # Same as:
   #  ptr.write_string(str, len)   # with len not nil
   #
-  # @param str [String] string to write
   # @param len [Integer] length of string to return
+  # @param str [String] string to write
   # @return [self]
   #
   # source://ffi//lib/ffi/pointer.rb#92
@@ -1491,6 +1969,7 @@ class FFI::Pointer < ::FFI::AbstractMemory
 
   private
 
+  # source://ffi//lib/ffi.rb#5
   def initialize_copy(_arg0); end
 
   class << self
@@ -1525,8 +2004,8 @@ class FFI::StrPtrConverter
   class << self
     # Returns a [ String, Pointer ] tuple so the C memory for the string can be freed
     #
-    # @param val [Pointer]
     # @param ctx not used
+    # @param val [Pointer]
     # @return [Array(String, Pointer)]
     #
     # source://ffi//lib/ffi/types.rb#199
@@ -1536,14 +2015,18 @@ end
 
 # source://ffi//lib/ffi/struct.rb#41
 class FFI::Struct
+  # source://ffi//lib/ffi.rb#5
   def initialize(*_arg0); end
 
+  # source://ffi//lib/ffi.rb#5
   def [](_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def []=(_arg0, _arg1); end
 
   # @return [Integer] Struct alignment
   #
-  # source://ffi//lib/ffi/struct.rb#50
+  # source://ffi//lib/ffi/struct.rb#53
   def align; end
 
   # @return [Integer] Struct alignment
@@ -1558,11 +2041,13 @@ class FFI::Struct
   # source://ffi//lib/ffi/struct.rb#78
   def clear; end
 
+  # source://ffi//lib/ffi.rb#5
   def layout; end
 
   # source://ffi//lib/ffi/struct.rb#61
   def members; end
 
+  # source://ffi//lib/ffi.rb#5
   def null?; end
 
   # Get the offset of a field.
@@ -1579,7 +2064,10 @@ class FFI::Struct
   # source://ffi//lib/ffi/struct.rb#72
   def offsets; end
 
+  # source://ffi//lib/ffi.rb#5
   def order(*_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def pointer; end
 
   # Get struct size
@@ -1605,8 +2093,13 @@ class FFI::Struct
 
   private
 
+  # source://ffi//lib/ffi.rb#5
   def initialize_copy(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def layout=(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def pointer=(_arg0); end
 
   class << self
@@ -1615,8 +2108,13 @@ class FFI::Struct
     # source://ffi//lib/ffi/struct.rb#104
     def alignment; end
 
+    # source://ffi//lib/ffi.rb#5
     def alloc_in(*_arg0); end
+
+    # source://ffi//lib/ffi.rb#5
     def alloc_inout(*_arg0); end
+
+    # source://ffi//lib/ffi.rb#5
     def alloc_out(*_arg0); end
 
     # source://ffi//lib/ffi/struct.rb#165
@@ -1641,8 +2139,13 @@ class FFI::Struct
     # source://ffi//lib/ffi/struct.rb#109
     def members; end
 
+    # source://ffi//lib/ffi.rb#5
     def new_in(*_arg0); end
+
+    # source://ffi//lib/ffi.rb#5
     def new_inout(*_arg0); end
+
+    # source://ffi//lib/ffi.rb#5
     def new_out(*_arg0); end
 
     # Get the offset of a field.
@@ -1686,7 +2189,7 @@ class FFI::Struct
 
     protected
 
-    # source://ffi//lib/ffi/struct.rb#244
+    # source://ffi//lib/ffi/struct.rb#247
     def align(alignment = T.unsafe(nil)); end
 
     # source://ffi//lib/ffi/struct.rb#244
@@ -1704,7 +2207,7 @@ class FFI::Struct
     # source://ffi//lib/ffi/struct.rb#276
     def find_type(type, mod = T.unsafe(nil)); end
 
-    # source://ffi//lib/ffi/struct.rb#239
+    # source://ffi//lib/ffi/struct.rb#242
     def pack(packed = T.unsafe(nil)); end
 
     # source://ffi//lib/ffi/struct.rb#239
@@ -1735,13 +2238,25 @@ end
 class FFI::Struct::InlineArray
   include ::Enumerable
 
+  # source://ffi//lib/ffi.rb#5
   def initialize(_arg0, _arg1); end
 
+  # source://ffi//lib/ffi.rb#5
   def [](_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def []=(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def each; end
+
+  # source://ffi//lib/ffi.rb#5
   def size; end
+
+  # source://ffi//lib/ffi.rb#5
   def to_a; end
+
+  # source://ffi//lib/ffi.rb#5
   def to_ptr; end
 end
 
@@ -1754,8 +2269,8 @@ class FFI::Struct::ManagedStructConverter < ::FFI::StructByReference
   # source://ffi//lib/ffi/struct.rb#150
   def initialize(struct_class); end
 
-  # @param ptr [Pointer]
   # @param ctx [nil]
+  # @param ptr [Pointer]
   # @return [Struct]
   #
   # source://ffi//lib/ffi/struct.rb#160
@@ -1776,8 +2291,8 @@ class FFI::StructByReference
 
   # Create a struct from content of memory +value+.
   #
-  # @param value [AbstractMemory]
   # @param ctx [nil]
+  # @param value [AbstractMemory]
   # @return [Struct]
   #
   # source://ffi//lib/ffi/struct_by_reference.rb#68
@@ -1793,8 +2308,8 @@ class FFI::StructByReference
   # source://ffi//lib/ffi/struct_by_reference.rb#36
   def struct_class; end
 
-  # @param value [nil, Struct]
   # @param ctx [nil]
+  # @param value [nil, Struct]
   # @return [AbstractMemory] Pointer on +value+.
   #
   # source://ffi//lib/ffi/struct_by_reference.rb#54
@@ -1802,19 +2317,31 @@ class FFI::StructByReference
 end
 
 class FFI::StructByValue < ::FFI::Type
+  # source://ffi//lib/ffi.rb#5
   def initialize(_arg0); end
 
+  # source://ffi//lib/ffi.rb#5
   def layout; end
+
+  # source://ffi//lib/ffi.rb#5
   def struct_class; end
 end
 
 # source://ffi//lib/ffi/struct_layout.rb#36
 class FFI::StructLayout < ::FFI::Type
+  # source://ffi//lib/ffi.rb#5
   def initialize(_arg0, _arg1, _arg2); end
 
+  # source://ffi//lib/ffi.rb#5
   def [](_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def __union!; end
+
+  # source://ffi//lib/ffi.rb#5
   def fields; end
+
+  # source://ffi//lib/ffi.rb#5
   def members; end
 
   # Get the offset of a field.
@@ -1831,16 +2358,23 @@ class FFI::StructLayout < ::FFI::Type
   # source://ffi//lib/ffi/struct_layout.rb#40
   def offsets; end
 
+  # source://ffi//lib/ffi.rb#5
   def to_a; end
 end
 
 class FFI::StructLayout::Array < ::FFI::StructLayout::Field
+  # source://ffi//lib/ffi.rb#5
   def get(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def put(_arg0, _arg1); end
 end
 
 class FFI::StructLayout::CharArray < ::FFI::Struct::InlineArray
+  # source://ffi//lib/ffi.rb#5
   def to_s; end
+
+  # source://ffi//lib/ffi.rb#5
   def to_str; end
 end
 
@@ -1867,19 +2401,36 @@ class FFI::StructLayout::Enum < ::FFI::StructLayout::Field
 end
 
 class FFI::StructLayout::Field
+  # source://ffi//lib/ffi.rb#5
   def initialize(*_arg0); end
 
+  # source://ffi//lib/ffi.rb#5
   def alignment; end
+
+  # source://ffi//lib/ffi.rb#5
   def get(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def name; end
+
+  # source://ffi//lib/ffi.rb#5
   def offset; end
+
+  # source://ffi//lib/ffi.rb#5
   def put(_arg0, _arg1); end
+
+  # source://ffi//lib/ffi.rb#5
   def size; end
+
+  # source://ffi//lib/ffi.rb#5
   def type; end
 end
 
 class FFI::StructLayout::Function < ::FFI::StructLayout::Field
+  # source://ffi//lib/ffi.rb#5
   def get(_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def put(_arg0, _arg1); end
 end
 
@@ -1925,8 +2476,8 @@ class FFI::StructLayoutBuilder
   #
   # @note Setting +offset+ to +nil+ or +-1+ is equivalent to +0+.
   # @param name [String, Symbol] name of the field
-  # @param type [Array, DataConverter, Struct, StructLayout::Field, Symbol, Type] type of the field
   # @param offset [Integer, nil]
+  # @param type [Array, DataConverter, Struct, StructLayout::Field, Symbol, Type] type of the field
   # @return [self]
   #
   # source://ffi//lib/ffi/struct_layout_builder.rb#123
@@ -1936,8 +2487,8 @@ class FFI::StructLayoutBuilder
   #
   # @param count [Integer] array length
   # @param name [String, Symbol] name of the field
-  # @param type [Array, DataConverter, Struct, StructLayout::Field, Symbol, Type] type of the field
   # @param offset [Integer, nil]
+  # @param type [Array, DataConverter, Struct, StructLayout::Field, Symbol, Type] type of the field
   # @return [self]
   #
   # source://ffi//lib/ffi/struct_layout_builder.rb#161
@@ -1946,8 +2497,8 @@ class FFI::StructLayoutBuilder
   # Same as {#add}.
   #
   # @param name [String, Symbol] name of the field
-  # @param type [Array, DataConverter, Struct, StructLayout::Field, Symbol, Type] type of the field
   # @param offset [Integer, nil]
+  # @param type [Array, DataConverter, Struct, StructLayout::Field, Symbol, Type] type of the field
   # @return [self]
   # @see #add
   #
@@ -1957,8 +2508,8 @@ class FFI::StructLayoutBuilder
   # Add a struct as a field to the builder.
   #
   # @param name [String, Symbol] name of the field
-  # @param type [Array, DataConverter, Struct, StructLayout::Field, Symbol, Type] type of the field
   # @param offset [Integer, nil]
+  # @param type [Array, DataConverter, Struct, StructLayout::Field, Symbol, Type] type of the field
   # @return [self]
   #
   # source://ffi//lib/ffi/struct_layout_builder.rb#151
@@ -2021,16 +2572,16 @@ class FFI::StructLayoutBuilder
 
   private
 
-  # @param offset [Integer]
   # @param align [Integer]
+  # @param offset [Integer]
   # @return [Integer]
   #
   # source://ffi//lib/ffi/struct_layout_builder.rb#181
   def align(offset, align); end
 
   # @param name [String, Symbol] name of the field
-  # @param type [Array, DataConverter, Struct, StructLayout::Field, Symbol, Type] type of the field
   # @param offset [Integer, nil]
+  # @param type [Array, DataConverter, Struct, StructLayout::Field, Symbol, Type] type of the field
   # @return [StructLayout::Field]
   #
   # source://ffi//lib/ffi/struct_layout_builder.rb#187
@@ -2065,10 +2616,16 @@ FFI::TYPE_VARARGS = T.let(T.unsafe(nil), FFI::Type::Builtin)
 FFI::TYPE_VOID = T.let(T.unsafe(nil), FFI::Type::Builtin)
 
 class FFI::Type
+  # source://ffi//lib/ffi.rb#5
   def initialize(_arg0); end
 
+  # source://ffi//lib/ffi.rb#5
   def alignment; end
+
+  # source://ffi//lib/ffi.rb#5
   def inspect; end
+
+  # source://ffi//lib/ffi.rb#5
   def size; end
 end
 
@@ -2079,6 +2636,7 @@ FFI::Type::BUFFER_INOUT = T.let(T.unsafe(nil), FFI::Type::Builtin)
 FFI::Type::BUFFER_OUT = T.let(T.unsafe(nil), FFI::Type::Builtin)
 
 class FFI::Type::Builtin < ::FFI::Type
+  # source://ffi//lib/ffi.rb#5
   def inspect; end
 end
 
@@ -2098,12 +2656,22 @@ FFI::Type::LONGDOUBLE = T.let(T.unsafe(nil), FFI::Type::Builtin)
 FFI::Type::LONG_LONG = T.let(T.unsafe(nil), FFI::Type::Builtin)
 
 class FFI::Type::Mapped < ::FFI::Type
+  # source://ffi//lib/ffi.rb#5
   def initialize(_arg0); end
 
+  # source://ffi//lib/ffi.rb#5
   def converter; end
+
+  # source://ffi//lib/ffi.rb#5
   def from_native(*_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def native_type; end
+
+  # source://ffi//lib/ffi.rb#5
   def to_native(*_arg0); end
+
+  # source://ffi//lib/ffi.rb#5
   def type; end
 end
 
@@ -2145,6 +2713,7 @@ FFI::VERSION = T.let(T.unsafe(nil), String)
 
 # source://ffi//lib/ffi/variadic.rb#34
 class FFI::VariadicInvoker
+  # source://ffi//lib/ffi.rb#5
   def initialize(_arg0, _arg1, _arg2, _arg3); end
 
   # Attach the invoker to module +mod+ as +mname+
@@ -2155,6 +2724,7 @@ class FFI::VariadicInvoker
   # source://ffi//lib/ffi/variadic.rb#35
   def call(*args, &block); end
 
+  # source://ffi//lib/ffi.rb#5
   def invoke(_arg0, _arg1); end
 
   # Retrieve Array of parameter types
@@ -2166,6 +2736,7 @@ class FFI::VariadicInvoker
   # source://ffi//lib/ffi/variadic.rb#76
   def param_types; end
 
+  # source://ffi//lib/ffi.rb#5
   def return_type; end
 end
 
@@ -2173,5 +2744,6 @@ module Process
   extend ::FFI::ModernForkTracking
   extend ::ConnectionPool::ForkTracker
   extend ::RedisClient::PIDCache::CoreExt
+  extend ::Async::ForkHandler
   extend ::ActiveSupport::ForkTracker::CoreExt
 end

@@ -10124,10 +10124,7 @@ class ActiveRecord::Base
   end
 end
 
-# source://activerecord//lib/active_record/base.rb#313
 module ActiveRecord::Base::GeneratedAssociationMethods; end
-
-# source://activerecord//lib/active_record/base.rb#313
 module ActiveRecord::Base::GeneratedAttributeMethods; end
 
 # = Active Record \Batches
@@ -13119,7 +13116,6 @@ module ActiveRecord::ConnectionAdapters::ColumnMethods
   def virtual(*names, **options); end
 end
 
-# source://activerecord//lib/active_record/connection_adapters/abstract/schema_definitions.rb#310
 module ActiveRecord::ConnectionAdapters::ColumnMethods::ClassMethods
   private
 
@@ -21373,7 +21369,6 @@ module ActiveRecord::Encryption::Configurable
   mixes_in_class_methods ::ActiveRecord::Encryption::Configurable::ClassMethods
 end
 
-# source://activerecord//lib/active_record/encryption/configurable.rb#14
 module ActiveRecord::Encryption::Configurable::ClassMethods
   # source://activerecord//lib/active_record/encryption/configurable.rb#17
   def cipher(*_arg0, **_arg1, &_arg2); end
@@ -21485,7 +21480,6 @@ module ActiveRecord::Encryption::Contexts
   mixes_in_class_methods ::ActiveRecord::Encryption::Contexts::ClassMethods
 end
 
-# source://activerecord//lib/active_record/encryption/contexts.rb#21
 module ActiveRecord::Encryption::Contexts::ClassMethods
   # source://activerecord//lib/active_record/encryption/contexts.rb#62
   def context; end
@@ -21608,7 +21602,6 @@ module ActiveRecord::Encryption::EncryptableRecord
   end
 end
 
-# source://activerecord//lib/active_record/encryption/encryptable_record.rb#16
 module ActiveRecord::Encryption::EncryptableRecord::ClassMethods
   # source://activerecord//lib/active_record/encryption/encryptable_record.rb#58
   def deterministic_encrypted_attributes; end
@@ -22086,7 +22079,6 @@ module ActiveRecord::Encryption::ExtendedDeterministicQueries::CoreQueries
   mixes_in_class_methods ::ActiveRecord::Encryption::ExtendedDeterministicQueries::CoreQueries::ClassMethods
 end
 
-# source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#127
 module ActiveRecord::Encryption::ExtendedDeterministicQueries::CoreQueries::ClassMethods
   # source://activerecord//lib/active_record/encryption/extended_deterministic_queries.rb#128
   def find_by(*args); end
@@ -24503,7 +24495,6 @@ class ActiveRecord::FutureResult
   end
 end
 
-# source://activerecord//lib/active_record/future_result.rb#51
 class ActiveRecord::FutureResult::Canceled < ::ActiveRecord::ActiveRecordError; end
 
 # source://activerecord//lib/active_record/future_result.rb#5
@@ -40812,7 +40803,6 @@ class Arel::Nodes::Addition < ::Arel::Nodes::InfixOperation
   def initialize(left, right); end
 end
 
-# source://activerecord//lib/arel/nodes/nary.rb#36
 class Arel::Nodes::And < ::Arel::Nodes::Nary; end
 
 # source://activerecord//lib/arel/nodes/binary.rb#42
@@ -40840,10 +40830,7 @@ class Arel::Nodes::Ascending < ::Arel::Nodes::Ordering
   def reverse; end
 end
 
-# source://activerecord//lib/arel/nodes/binary.rb#122
 class Arel::Nodes::Assignment < ::Arel::Nodes::Binary; end
-
-# source://activerecord//lib/arel/nodes/function.rb#36
 class Arel::Nodes::Avg < ::Arel::Nodes::Function; end
 
 # source://activerecord//lib/arel/nodes/binary.rb#48
@@ -40851,7 +40838,6 @@ class Arel::Nodes::Between < ::Arel::Nodes::Binary
   include ::Arel::Nodes::FetchAttribute
 end
 
-# source://activerecord//lib/arel/nodes/unary.rb#41
 class Arel::Nodes::Bin < ::Arel::Nodes::Unary; end
 
 # source://activerecord//lib/arel/nodes/binary.rb#5
@@ -41248,7 +41234,6 @@ class Arel::Nodes::Cte < ::Arel::Nodes::Binary
   def to_table; end
 end
 
-# source://activerecord//lib/arel/nodes/unary.rb#41
 class Arel::Nodes::Cube < ::Arel::Nodes::Unary; end
 
 # source://activerecord//lib/arel/nodes/window.rb#103
@@ -41436,7 +41421,6 @@ class Arel::Nodes::Distinct < ::Arel::Nodes::NodeExpression
   def hash; end
 end
 
-# source://activerecord//lib/arel/nodes/unary.rb#41
 class Arel::Nodes::DistinctOn < ::Arel::Nodes::Unary; end
 
 # source://activerecord//lib/arel/nodes/infix_operation.rb#26
@@ -41466,10 +41450,7 @@ class Arel::Nodes::Equality < ::Arel::Nodes::Binary
   def invert; end
 end
 
-# source://activerecord//lib/arel/nodes/binary.rb#122
 class Arel::Nodes::Except < ::Arel::Nodes::Binary; end
-
-# source://activerecord//lib/arel/nodes/function.rb#36
 class Arel::Nodes::Exists < ::Arel::Nodes::Function; end
 
 # source://activerecord//lib/arel/nodes/extract.rb#5
@@ -41643,7 +41624,6 @@ class Arel::Nodes::GreaterThanOrEqual < ::Arel::Nodes::Binary
   def invert; end
 end
 
-# source://activerecord//lib/arel/nodes/unary.rb#41
 class Arel::Nodes::Group < ::Arel::Nodes::Unary; end
 
 # source://activerecord//lib/arel/nodes/grouping.rb#5
@@ -41652,10 +41632,7 @@ class Arel::Nodes::Grouping < ::Arel::Nodes::Unary
   def fetch_attribute(&block); end
 end
 
-# source://activerecord//lib/arel/nodes/unary.rb#41
 class Arel::Nodes::GroupingElement < ::Arel::Nodes::Unary; end
-
-# source://activerecord//lib/arel/nodes/unary.rb#41
 class Arel::Nodes::GroupingSet < ::Arel::Nodes::Unary; end
 
 # source://activerecord//lib/arel/nodes/homogeneous_in.rb#5
@@ -41825,7 +41802,6 @@ class Arel::Nodes::InsertStatement < ::Arel::Nodes::Node
   def initialize_copy(other); end
 end
 
-# source://activerecord//lib/arel/nodes/binary.rb#122
 class Arel::Nodes::Intersect < ::Arel::Nodes::Binary; end
 
 # source://activerecord//lib/arel/nodes/binary.rb#82
@@ -41844,7 +41820,6 @@ class Arel::Nodes::IsNotDistinctFrom < ::Arel::Nodes::Binary
   def invert; end
 end
 
-# source://activerecord//lib/arel/nodes/binary.rb#122
 class Arel::Nodes::Join < ::Arel::Nodes::Binary; end
 
 # Class that represents a join source
@@ -41864,7 +41839,6 @@ class Arel::Nodes::JoinSource < ::Arel::Nodes::Binary
   def empty?; end
 end
 
-# source://activerecord//lib/arel/nodes/unary.rb#41
 class Arel::Nodes::Lateral < ::Arel::Nodes::Unary; end
 
 # source://activerecord//lib/arel/nodes/leading_join.rb#5
@@ -41886,10 +41860,7 @@ class Arel::Nodes::LessThanOrEqual < ::Arel::Nodes::Binary
   def invert; end
 end
 
-# source://activerecord//lib/arel/nodes/unary.rb#41
 class Arel::Nodes::Limit < ::Arel::Nodes::Unary; end
-
-# source://activerecord//lib/arel/nodes/unary.rb#41
 class Arel::Nodes::Lock < ::Arel::Nodes::Unary; end
 
 # source://activerecord//lib/arel/nodes/matches.rb#5
@@ -41917,10 +41888,7 @@ class Arel::Nodes::Matches < ::Arel::Nodes::Binary
   def escape; end
 end
 
-# source://activerecord//lib/arel/nodes/function.rb#36
 class Arel::Nodes::Max < ::Arel::Nodes::Function; end
-
-# source://activerecord//lib/arel/nodes/function.rb#36
 class Arel::Nodes::Min < ::Arel::Nodes::Function; end
 
 # source://activerecord//lib/arel/nodes/infix_operation.rb#20
@@ -42200,7 +42168,6 @@ class Arel::Nodes::NodeExpression < ::Arel::Nodes::Node
   include ::Arel::Math
 end
 
-# source://activerecord//lib/arel/nodes/unary.rb#41
 class Arel::Nodes::Not < ::Arel::Nodes::Unary; end
 
 # source://activerecord//lib/arel/nodes/binary.rb#98
@@ -42234,16 +42201,9 @@ class Arel::Nodes::NullsLast < ::Arel::Nodes::Ordering
   def reverse; end
 end
 
-# source://activerecord//lib/arel/nodes/unary.rb#41
 class Arel::Nodes::Offset < ::Arel::Nodes::Unary; end
-
-# source://activerecord//lib/arel/nodes/unary.rb#41
 class Arel::Nodes::On < ::Arel::Nodes::Unary; end
-
-# source://activerecord//lib/arel/nodes/unary.rb#41
 class Arel::Nodes::OptimizerHints < ::Arel::Nodes::Unary; end
-
-# source://activerecord//lib/arel/nodes/nary.rb#37
 class Arel::Nodes::Or < ::Arel::Nodes::Nary; end
 
 # source://activerecord//lib/arel/nodes/ordering.rb#5
@@ -42335,7 +42295,6 @@ end
 # source://activerecord//lib/arel/nodes/right_outer_join.rb#5
 class Arel::Nodes::RightOuterJoin < ::Arel::Nodes::Join; end
 
-# source://activerecord//lib/arel/nodes/unary.rb#41
 class Arel::Nodes::RollUp < ::Arel::Nodes::Unary; end
 
 # source://activerecord//lib/arel/nodes/window.rb#91
@@ -42628,7 +42587,6 @@ class Arel::Nodes::Subtraction < ::Arel::Nodes::InfixOperation
   def initialize(left, right); end
 end
 
-# source://activerecord//lib/arel/nodes/function.rb#36
 class Arel::Nodes::Sum < ::Arel::Nodes::Function; end
 
 # source://activerecord//lib/arel/nodes/table_alias.rb#5
@@ -42730,10 +42688,7 @@ class Arel::Nodes::UnaryOperation < ::Arel::Nodes::Unary
   def operator; end
 end
 
-# source://activerecord//lib/arel/nodes/binary.rb#122
 class Arel::Nodes::Union < ::Arel::Nodes::Binary; end
-
-# source://activerecord//lib/arel/nodes/binary.rb#122
 class Arel::Nodes::UnionAll < ::Arel::Nodes::Binary; end
 
 # source://activerecord//lib/arel/nodes/unqualified_column.rb#5

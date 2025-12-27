@@ -260,107 +260,305 @@ class SassC::InvalidStyleError < ::SassC::BaseError; end
 module SassC::Native
   extend ::FFI::Library
 
+  # source://sassc//lib/sassc/native/native_context_api.rb#138
   def _context_get_included_files(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#15
   def _make_data_context(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#82
   def boolean_get_value(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#97
   def color_get_a(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#97
   def color_get_b(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#97
   def color_get_g(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#97
   def color_get_r(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#98
   def color_set_a(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#98
   def color_set_b(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#98
   def color_set_g(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#98
   def color_set_r(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#25
   def compile_data_context(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#24
   def compile_file_context(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#145
   def compiler_get_last_import(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#136
   def context_get_error_column(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#134
   def context_get_error_file(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#132
   def context_get_error_json(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#135
   def context_get_error_line(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#133
   def context_get_error_message(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#131
   def context_get_error_status(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#58
   def context_get_options(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#130
   def context_get_output_string(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#137
   def context_get_source_map_string(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#50
   def data_context_get_context(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#60
   def data_context_get_options(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#62
   def data_context_set_options(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#44
   def delete_data_context(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#43
   def delete_file_context(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#103
   def error_get_message(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#104
   def error_set_message(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#49
   def file_context_get_context(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#59
   def file_context_get_options(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#61
   def file_context_set_options(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#112
   def function_get_cookie(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#111
   def function_get_function(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#14
   def function_get_list_entry(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#110
   def function_get_signature(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#15
   def function_set_list_entry(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#145
   def import_get_abs_path(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#143
   def import_get_imp_path(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#147
   def import_get_source(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#138
   def import_set_list_entry(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#60
   def list_get_length(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#54
   def list_get_value(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#57
   def list_set_value(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#36
   def make_boolean(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#27
   def make_color(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#63
   def make_error(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#14
   def make_file_context(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#9
   def make_function(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#8
   def make_function_list(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#133
   def make_import_entry(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#128
   def make_import_list(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#117
   def make_importer(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#33
   def make_list(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#30
   def make_map(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#18
   def make_number(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#9
   def make_options(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#24
   def make_qstring(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#21
   def make_string(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#42
   def map_get_key(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#51
   def map_get_length(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#48
   def map_get_value(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#39
   def map_set_key(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#45
   def map_set_value(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#79
   def number_get_unit(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#76
   def number_get_value(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#88
   def option_get_c_functions(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#86
   def option_get_include_path(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#84
   def option_get_input_path(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#83
   def option_get_is_indented_syntax_src(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#82
   def option_get_omit_source_map_url(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#85
   def option_get_output_path(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#78
   def option_get_output_style(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#77
   def option_get_precision(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#79
   def option_get_source_comments(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#81
   def option_get_source_map_contents(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#80
   def option_get_source_map_embed(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#87
   def option_get_source_map_file(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#116
   def option_set_c_functions(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#117
   def option_set_c_importers(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#114
   def option_set_include_path(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#112
   def option_set_input_path(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#111
   def option_set_is_indented_syntax_src(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#110
   def option_set_omit_source_map_url(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#113
   def option_set_output_path(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#106
   def option_set_output_style(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#105
   def option_set_precision(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#107
   def option_set_source_comments(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#109
   def option_set_source_map_contents(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#108
   def option_set_source_map_embed(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#115
   def option_set_source_map_file(*_arg0); end
+
+  # source://sassc//lib/sassc/native/sass2scss_api.rb#6
   def sass2scss(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#70
   def string_get_value(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#73
   def string_is_quoted(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#66
   def value_get_tag(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_functions_api.rb#67
   def value_is_null(*_arg0); end
+
+  # source://sassc//lib/sassc/native/native_context_api.rb#5
   def version(*_arg0); end
 
   class << self
+    # source://sassc//lib/sassc/native/native_context_api.rb#138
     def _context_get_included_files(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#15
     def _make_data_context(*_arg0); end
 
     # Remove the redundant "sass_" from the beginning of every method name
@@ -368,107 +566,283 @@ module SassC::Native
     # source://sassc//lib/sassc/native.rb#39
     def attach_function(*args); end
 
+    # source://sassc//lib/sassc/native/native_functions_api.rb#82
     def boolean_get_value(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#97
     def color_get_a(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#97
     def color_get_b(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#97
     def color_get_g(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#97
     def color_get_r(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#98
     def color_set_a(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#98
     def color_set_b(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#98
     def color_set_g(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#98
     def color_set_r(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#25
     def compile_data_context(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#24
     def compile_file_context(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#145
     def compiler_get_last_import(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#136
     def context_get_error_column(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#134
     def context_get_error_file(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#132
     def context_get_error_json(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#135
     def context_get_error_line(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#133
     def context_get_error_message(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#131
     def context_get_error_status(*_arg0); end
 
     # source://sassc//lib/sassc/native/native_context_api.rb#140
     def context_get_included_files(*args); end
 
+    # source://sassc//lib/sassc/native/native_context_api.rb#58
     def context_get_options(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#130
     def context_get_output_string(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#137
     def context_get_source_map_string(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#50
     def data_context_get_context(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#60
     def data_context_get_options(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#62
     def data_context_set_options(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#44
     def delete_data_context(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#43
     def delete_file_context(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#103
     def error_get_message(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#104
     def error_set_message(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#49
     def file_context_get_context(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#59
     def file_context_get_options(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#61
     def file_context_set_options(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#112
     def function_get_cookie(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#111
     def function_get_function(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#14
     def function_get_list_entry(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#110
     def function_get_signature(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#15
     def function_set_list_entry(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#145
     def import_get_abs_path(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#143
     def import_get_imp_path(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#147
     def import_get_source(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#138
     def import_set_list_entry(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#60
     def list_get_length(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#54
     def list_get_value(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#57
     def list_set_value(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#36
     def make_boolean(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#27
     def make_color(*_arg0); end
 
     # source://sassc//lib/sassc/native/native_context_api.rb#17
     def make_data_context(data); end
 
+    # source://sassc//lib/sassc/native/native_functions_api.rb#63
     def make_error(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#14
     def make_file_context(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#9
     def make_function(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#8
     def make_function_list(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#133
     def make_import_entry(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#128
     def make_import_list(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#117
     def make_importer(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#33
     def make_list(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#30
     def make_map(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#18
     def make_number(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#9
     def make_options(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#24
     def make_qstring(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#21
     def make_string(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#42
     def map_get_key(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#51
     def map_get_length(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#48
     def map_get_value(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#39
     def map_set_key(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#45
     def map_set_value(*_arg0); end
 
     # source://sassc//lib/sassc/native.rb#54
     def native_string(string); end
 
+    # source://sassc//lib/sassc/native/native_functions_api.rb#79
     def number_get_unit(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#76
     def number_get_value(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#88
     def option_get_c_functions(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#86
     def option_get_include_path(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#84
     def option_get_input_path(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#83
     def option_get_is_indented_syntax_src(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#82
     def option_get_omit_source_map_url(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#85
     def option_get_output_path(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#78
     def option_get_output_style(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#77
     def option_get_precision(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#79
     def option_get_source_comments(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#81
     def option_get_source_map_contents(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#80
     def option_get_source_map_embed(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#87
     def option_get_source_map_file(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#116
     def option_set_c_functions(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#117
     def option_set_c_importers(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#114
     def option_set_include_path(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#112
     def option_set_input_path(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#111
     def option_set_is_indented_syntax_src(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#110
     def option_set_omit_source_map_url(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#113
     def option_set_output_path(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#106
     def option_set_output_style(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#105
     def option_set_precision(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#107
     def option_set_source_comments(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#109
     def option_set_source_map_contents(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#108
     def option_set_source_map_embed(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#115
     def option_set_source_map_file(*_arg0); end
 
     # https://github.com/ffi/ffi/wiki/Examples#array-of-strings
@@ -476,15 +850,25 @@ module SassC::Native
     # source://sassc//lib/sassc/native.rb#50
     def return_string_array(ptr); end
 
+    # source://sassc//lib/sassc/native/sass2scss_api.rb#6
     def sass2scss(*_arg0); end
 
     # source://sassc//lib/sassc/native/native_functions_api.rb#84
     def string_get_type(native_value); end
 
+    # source://sassc//lib/sassc/native/native_functions_api.rb#70
     def string_get_value(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#73
     def string_is_quoted(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#66
     def value_get_tag(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_functions_api.rb#67
     def value_is_null(*_arg0); end
+
+    # source://sassc//lib/sassc/native/native_context_api.rb#5
     def version(*_arg0); end
   end
 end
@@ -695,7 +1079,7 @@ class SassC::Script::Value
   #
   # @return [String]
   #
-  # source://sassc//lib/sassc/script/value.rb#106
+  # source://sassc//lib/sassc/script/value.rb#109
   def to_sass(opts = T.unsafe(nil)); end
 
   # Returns the pure Ruby value of the value.
@@ -707,9 +1091,9 @@ class SassC::Script::Value
   # Creates a new list containing `contents` but with the same brackets and
   # separators as this object, when interpreted as a list.
   #
+  # @param bracketed [Boolean] Whether the new list is bracketed. Defaults to \{#bracketed}.
   # @param contents [Array<Value>] The contents of the new list.
   # @param separator [Symbol] The separator of the new list. Defaults to \{#separator}.
-  # @param bracketed [Boolean] Whether the new list is bracketed. Defaults to \{#bracketed}.
   # @return [Sass::Script::Value::List]
   #
   # source://sassc//lib/sassc/script/value.rb#123
@@ -732,7 +1116,7 @@ end
 class SassC::Script::Value::Bool < ::SassC::Script::Value
   # The pure Ruby value of this Boolean
   #
-  # source://sassc//lib/sassc/script/value/bool.rb#23
+  # source://sassc//lib/sassc/script/value/bool.rb#24
   def to_bool; end
 
   # Returns the string "true" or "false" for this value
@@ -742,7 +1126,7 @@ class SassC::Script::Value::Bool < ::SassC::Script::Value
 
   # Returns the string "true" or "false" for this value
   #
-  # source://sassc//lib/sassc/script/value/bool.rb#27
+  # source://sassc//lib/sassc/script/value/bool.rb#30
   def to_sass(opts = T.unsafe(nil)); end
 
   # The pure Ruby value of this Boolean
@@ -793,7 +1177,7 @@ class SassC::Script::Value::Color < ::SassC::Script::Value
   #
   # @return [Boolean]
   #
-  # source://sassc//lib/sassc/script/value/color.rb#81
+  # source://sassc//lib/sassc/script/value/color.rb#87
   def ==(other_color); end
 
   # Returns the value of attribute alpha.
@@ -884,9 +1268,9 @@ end
 class SassC::Script::Value::List < ::SassC::Script::Value
   # Creates a new list.
   #
-  # @param value [Array<Value>] See \{#value}
-  # @param separator [Symbol] See \{#separator}
   # @param bracketed [Boolean] See \{#bracketed}
+  # @param separator [Symbol] See \{#separator}
+  # @param value [Array<Value>] See \{#value}
   # @return [List] a new instance of List
   #
   # source://sassc//lib/sassc/script/value/list.rb#30
@@ -929,7 +1313,7 @@ class SassC::Script::Value::List < ::SassC::Script::Value
   #
   # @return [Array<Value>]
   #
-  # source://sassc//lib/sassc/script/value/list.rb#11
+  # source://sassc//lib/sassc/script/value/list.rb#12
   def to_a; end
 
   # @see Value#to_h
@@ -994,7 +1378,7 @@ class SassC::Script::Value::Map < ::SassC::Script::Value
   # source://sassc//lib/sassc/script/value/map.rb#45
   def hash; end
 
-  # source://sassc//lib/sassc/script/value/map.rb#54
+  # source://sassc//lib/sassc/script/value/map.rb#67
   def inspect(opts = T.unsafe(nil)); end
 
   # @see Value#options=
@@ -1016,7 +1400,7 @@ class SassC::Script::Value::Map < ::SassC::Script::Value
   #
   # @return [Hash<Node, Node>]
   #
-  # source://sassc//lib/sassc/script/value/map.rb#7
+  # source://sassc//lib/sassc/script/value/map.rb#8
   def to_h; end
 
   # @raise [SassC::SyntaxError]
@@ -1047,9 +1431,9 @@ end
 #
 # source://sassc//lib/sassc/script/value/number.rb#12
 class SassC::Script::Value::Number < ::SassC::Script::Value
-  # @param value [Numeric] The value of the number
-  # @param numerator_units [::String, Array<::String>] See \{#numerator\_units}
   # @param denominator_units [::String, Array<::String>] See \{#denominator\_units}
+  # @param numerator_units [::String, Array<::String>] See \{#numerator\_units}
+  # @param value [Numeric] The value of the number
   # @return [Number] a new instance of Number
   #
   # source://sassc//lib/sassc/script/value/number.rb#73
@@ -1064,10 +1448,10 @@ class SassC::Script::Value::Number < ::SassC::Script::Value
   #
   # An incompatible coercion, e.g. between px and cm, will raise an error.
   #
-  # @param num_units [Array<String>] The numerator units to coerce this number into.
-  #   See {\#numerator\_units}
   # @param den_units [Array<String>] The denominator units to coerce this number into.
   #   See {\#denominator\_units}
+  # @param num_units [Array<String>] The numerator units to coerce this number into.
+  #   See {\#numerator\_units}
   # @raise [Sass::UnitConversionError] if the given units are incompatible with the number's
   #   current units
   # @return [Number] The number with the new units
@@ -1188,7 +1572,7 @@ class SassC::Script::Value::Number < ::SassC::Script::Value
   #
   # @return [String] The representation
   #
-  # source://sassc//lib/sassc/script/value/number.rb#110
+  # source://sassc//lib/sassc/script/value/number.rb#133
   def to_sass(opts = T.unsafe(nil)); end
 
   # Returns a human readable representation of the units in this number.
@@ -1308,10 +1692,10 @@ SassC::Script::Value::Number::OPERATIONS = T.let(T.unsafe(nil), Array)
 class SassC::Script::Value::String < ::SassC::Script::Value
   # Creates a new string.
   #
-  # @param value [String] See \{#value}
-  # @param type [Symbol] See \{#type}
   # @param deprecated_interp_equivalent [String?] If this was created via a potentially-deprecated string interpolation,
   #   this is the replacement expression that should be suggested to the user.
+  # @param type [Symbol] See \{#type}
+  # @param value [String] See \{#value}
   # @return [String] a new instance of String
   #
   # source://sassc//lib/sassc/script/value/string.rb#66
@@ -1471,8 +1855,8 @@ module SassC::Util
 
   # Prints a deprecation warning for the caller method.
   #
-  # @param obj [Object] `self`
   # @param message [String] A message describing what to do instead.
+  # @param obj [Object] `self`
   #
   # source://sassc//lib/sassc/util.rb#112
   def deprecated(obj, message = T.unsafe(nil)); end
@@ -1505,8 +1889,8 @@ module SassC::Util
   #   #=> {"foo" => "bar", "baz" => "bang"}
   # @param hash [Hash] The hash to map
   # @return [Hash] The mapped hash
-  # @see #map_vals
   # @see #map_hash
+  # @see #map_vals
   # @yield [key] A block in which the keys are transformed
   # @yieldparam key [Object] The key that should be mapped
   # @yieldreturn [Object] The new value for the key
@@ -1560,8 +1944,8 @@ module SassC::Util
   # an error rather than crashing if the paths use different encodings
   # (https://github.com/ruby/ruby/pull/713).
   #
-  # @param path [String, Pathname]
   # @param from [String, Pathname]
+  # @param path [String, Pathname]
   # @return [Pathname?]
   #
   # source://sassc//lib/sassc/util.rb#217
@@ -1598,55 +1982,55 @@ module SassC::Util
   def windows?; end
 
   class << self
-    # source://sassc//lib/sassc/util.rb#104
+    # source://sassc//lib/sassc/util.rb#229
     def abstract(obj); end
 
-    # source://sassc//lib/sassc/util.rb#90
+    # source://sassc//lib/sassc/util.rb#229
     def caller_info(entry = T.unsafe(nil)); end
 
-    # source://sassc//lib/sassc/util.rb#44
+    # source://sassc//lib/sassc/util.rb#229
     def clamp(value, min, max); end
 
-    # source://sassc//lib/sassc/util.rb#112
+    # source://sassc//lib/sassc/util.rb#229
     def deprecated(obj, message = T.unsafe(nil)); end
 
-    # source://sassc//lib/sassc/util.rb#179
+    # source://sassc//lib/sassc/util.rb#229
     def ironruby?; end
 
-    # source://sassc//lib/sassc/util.rb#195
+    # source://sassc//lib/sassc/util.rb#229
     def jruby?; end
 
-    # source://sassc//lib/sassc/util.rb#203
+    # source://sassc//lib/sassc/util.rb#229
     def jruby_version; end
 
-    # source://sassc//lib/sassc/util.rb#38
+    # source://sassc//lib/sassc/util.rb#229
     def map_keys(hash); end
 
-    # source://sassc//lib/sassc/util.rb#78
+    # source://sassc//lib/sassc/util.rb#229
     def paths(arrs); end
 
-    # source://sassc//lib/sassc/util.rb#157
+    # source://sassc//lib/sassc/util.rb#229
     def rails_env; end
 
-    # source://sassc//lib/sassc/util.rb#143
+    # source://sassc//lib/sassc/util.rb#229
     def rails_root; end
 
-    # source://sassc//lib/sassc/util.rb#187
+    # source://sassc//lib/sassc/util.rb#229
     def rbx?; end
 
-    # source://sassc//lib/sassc/util.rb#217
+    # source://sassc//lib/sassc/util.rb#229
     def relative_path_from(path, from); end
 
-    # source://sassc//lib/sassc/util.rb#55
+    # source://sassc//lib/sassc/util.rb#229
     def round(value); end
 
-    # source://sassc//lib/sassc/util.rb#132
+    # source://sassc//lib/sassc/util.rb#229
     def sass_warn(msg); end
 
-    # source://sassc//lib/sassc/util.rb#122
+    # source://sassc//lib/sassc/util.rb#229
     def silence_sass_warnings; end
 
-    # source://sassc//lib/sassc/util.rb#171
+    # source://sassc//lib/sassc/util.rb#229
     def windows?; end
   end
 end

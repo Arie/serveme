@@ -806,7 +806,6 @@ Regexp::Expression::Escape = Regexp::Expression::EscapeSequence
 # source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#4
 module Regexp::Expression::EscapeSequence; end
 
-# source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#25
 class Regexp::Expression::EscapeSequence::AbstractMetaControlSequence < ::Regexp::Expression::EscapeSequence::Base
   private
 
@@ -818,22 +817,17 @@ class Regexp::Expression::EscapeSequence::AbstractMetaControlSequence < ::Regexp
 end
 
 # \e
-#
-# source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#7
 class Regexp::Expression::EscapeSequence::AsciiEscape < ::Regexp::Expression::EscapeSequence::Base
   # source://regexp_parser//lib/regexp_parser/expression/methods/escape_sequence_codepoint.rb#4
   def codepoint; end
 end
 
 # \b
-#
-# source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#8
 class Regexp::Expression::EscapeSequence::Backspace < ::Regexp::Expression::EscapeSequence::Base
   # source://regexp_parser//lib/regexp_parser/expression/methods/escape_sequence_codepoint.rb#5
   def codepoint; end
 end
 
-# source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#5
 class Regexp::Expression::EscapeSequence::Base < ::Regexp::Expression::Base
   # source://regexp_parser//lib/regexp_parser/expression/methods/escape_sequence_char.rb#4
   def char; end
@@ -843,22 +837,18 @@ class Regexp::Expression::EscapeSequence::Base < ::Regexp::Expression::Base
 end
 
 # \a
-#
-# source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#9
 class Regexp::Expression::EscapeSequence::Bell < ::Regexp::Expression::EscapeSequence::Base
   # source://regexp_parser//lib/regexp_parser/expression/methods/escape_sequence_codepoint.rb#6
   def codepoint; end
 end
 
 # e.g. \u000A
-#
-# source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#20
 class Regexp::Expression::EscapeSequence::Codepoint < ::Regexp::Expression::EscapeSequence::Base
   # source://regexp_parser//lib/regexp_parser/expression/methods/escape_sequence_codepoint.rb#18
   def codepoint; end
 end
 
-# source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#22
+# source://regexp_parser//lib/regexp_parser/expression/methods/match_length.rb#165
 class Regexp::Expression::EscapeSequence::CodepointList < ::Regexp::Expression::EscapeSequence::Base
   # source://regexp_parser//lib/regexp_parser/expression/methods/escape_sequence_codepoint.rb#28
   def char; end
@@ -877,96 +867,72 @@ class Regexp::Expression::EscapeSequence::CodepointList < ::Regexp::Expression::
 end
 
 # e.g. \cB
-#
-# source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#26
 class Regexp::Expression::EscapeSequence::Control < ::Regexp::Expression::EscapeSequence::AbstractMetaControlSequence
   # source://regexp_parser//lib/regexp_parser/expression/methods/escape_sequence_codepoint.rb#60
   def codepoint; end
 end
 
 # \f
-#
-# source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#10
 class Regexp::Expression::EscapeSequence::FormFeed < ::Regexp::Expression::EscapeSequence::Base
   # source://regexp_parser//lib/regexp_parser/expression/methods/escape_sequence_codepoint.rb#7
   def codepoint; end
 end
 
 # e.g. \x0A
-#
-# source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#19
 class Regexp::Expression::EscapeSequence::Hex < ::Regexp::Expression::EscapeSequence::Base
   # source://regexp_parser//lib/regexp_parser/expression/methods/escape_sequence_codepoint.rb#17
   def codepoint; end
 end
 
 # e.g. \j, \@, \😀 (ineffectual escapes)
-#
-# source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#16
 class Regexp::Expression::EscapeSequence::Literal < ::Regexp::Expression::EscapeSequence::Base
   # source://regexp_parser//lib/regexp_parser/expression/methods/escape_sequence_codepoint.rb#13
   def codepoint; end
 end
 
 # e.g. \M-Z
-#
-# source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#27
 class Regexp::Expression::EscapeSequence::Meta < ::Regexp::Expression::EscapeSequence::AbstractMetaControlSequence
   # source://regexp_parser//lib/regexp_parser/expression/methods/escape_sequence_codepoint.rb#66
   def codepoint; end
 end
 
 # e.g. \M-\cX
-#
-# source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#28
 class Regexp::Expression::EscapeSequence::MetaControl < ::Regexp::Expression::EscapeSequence::AbstractMetaControlSequence
   # source://regexp_parser//lib/regexp_parser/expression/methods/escape_sequence_codepoint.rb#72
   def codepoint; end
 end
 
 # \n
-#
-# source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#11
 class Regexp::Expression::EscapeSequence::Newline < ::Regexp::Expression::EscapeSequence::Base
   # source://regexp_parser//lib/regexp_parser/expression/methods/escape_sequence_codepoint.rb#8
   def codepoint; end
 end
 
 # e.g. \012
-#
-# source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#18
 class Regexp::Expression::EscapeSequence::Octal < ::Regexp::Expression::EscapeSequence::Base
   # source://regexp_parser//lib/regexp_parser/expression/methods/escape_sequence_codepoint.rb#15
   def codepoint; end
 end
 
 # \r
-#
-# source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#12
 class Regexp::Expression::EscapeSequence::Return < ::Regexp::Expression::EscapeSequence::Base
   # source://regexp_parser//lib/regexp_parser/expression/methods/escape_sequence_codepoint.rb#9
   def codepoint; end
 end
 
 # \t
-#
-# source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#13
 class Regexp::Expression::EscapeSequence::Tab < ::Regexp::Expression::EscapeSequence::Base
   # source://regexp_parser//lib/regexp_parser/expression/methods/escape_sequence_codepoint.rb#10
   def codepoint; end
 end
 
 # e.g. \xE2\x82\xAC
-#
-# source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#23
 class Regexp::Expression::EscapeSequence::UTF8Hex < ::Regexp::Expression::EscapeSequence::Base
   # source://regexp_parser//lib/regexp_parser/expression/methods/escape_sequence_codepoint.rb#21
   def codepoint; end
 end
 
 # \v
-#
-# source://regexp_parser//lib/regexp_parser/expression/classes/escape_sequence.rb#14
 class Regexp::Expression::EscapeSequence::VerticalTab < ::Regexp::Expression::EscapeSequence::Base
   # source://regexp_parser//lib/regexp_parser/expression/methods/escape_sequence_codepoint.rb#11
   def codepoint; end
@@ -3128,7 +3094,7 @@ class Regexp::Syntax::Base
 end
 
 # source://regexp_parser//lib/regexp_parser/syntax/versions.rb#10
-Regexp::Syntax::CURRENT = Regexp::Syntax::V3_2_0
+Regexp::Syntax::CURRENT = Regexp::Syntax::V3_5_0
 
 # source://regexp_parser//lib/regexp_parser/syntax/version_lookup.rb#8
 class Regexp::Syntax::InvalidVersionNameError < ::Regexp::Syntax::SyntaxError

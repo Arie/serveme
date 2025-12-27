@@ -11,6 +11,8 @@ module Bootsnap; end
 # source://tapioca//lib/tapioca/rbs/rewriter.rb#24
 module Bootsnap::CompileCache; end
 
+class Bootsnap::CompileCache::Error < ::StandardError; end
+
 # source://tapioca//lib/tapioca/rbs/rewriter.rb#25
 module Bootsnap::CompileCache::ISeq; end
 
@@ -21,6 +23,7 @@ module Bootsnap::CompileCache::ISeq::InstructionSequenceMixin
 end
 
 module Bootsnap::CompileCache::Native; end
+class Bootsnap::InvalidConfiguration < ::StandardError; end
 
 class Bundler::Dependency < ::Gem::Dependency
   include ::Tapioca::BundlerExt::AutoRequireHook

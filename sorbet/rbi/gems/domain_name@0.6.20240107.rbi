@@ -85,7 +85,7 @@ class DomainName
   # source://domain_name//lib/domain_name.rb#244
   def hostname_idn; end
 
-  # source://domain_name//lib/domain_name.rb#244
+  # source://domain_name//lib/domain_name.rb#253
   def idn; end
 
   # source://domain_name//lib/domain_name.rb#273
@@ -124,7 +124,7 @@ class DomainName
   # source://domain_name//lib/domain_name.rb#238
   def to_s; end
 
-  # source://domain_name//lib/domain_name.rb#238
+  # source://domain_name//lib/domain_name.rb#242
   def to_str; end
 
   # Returns a host name representation suitable for use in the host

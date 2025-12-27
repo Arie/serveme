@@ -7,7 +7,7 @@
 
 # Define some basic Sprockets error classes
 #
-# source://sprockets//lib/sprockets/version.rb#2
+# source://sprockets//lib/sprockets/autoload.rb#2
 module Sprockets
   extend ::Sprockets::Utils
   extend ::Sprockets::URIUtils
@@ -83,7 +83,7 @@ class Sprockets::Asset
   #
   # @return [Boolean]
   #
-  # source://sprockets//lib/sprockets/asset.rb#207
+  # source://sprockets//lib/sprockets/asset.rb#210
   def ==(other); end
 
   # Public: Returns String base64 digest of source.
@@ -93,7 +93,7 @@ class Sprockets::Asset
 
   # Public: Returns Integer length of source.
   #
-  # source://sprockets//lib/sprockets/asset.rb#120
+  # source://sprockets//lib/sprockets/asset.rb#123
   def bytesize; end
 
   # Public: Get charset of source.
@@ -403,7 +403,7 @@ class Sprockets::Base
   #
   # @raise [NotImplementedError]
   #
-  # source://sprockets//lib/sprockets/base.rb#53
+  # source://sprockets//lib/sprockets/base.rb#56
   def index; end
 
   # Pretty inspect
@@ -933,7 +933,7 @@ class Sprockets::CachedEnvironment < ::Sprockets::Base
 
   # No-op return self as cached environment.
   #
-  # source://sprockets//lib/sprockets/cached_environment.rb#27
+  # source://sprockets//lib/sprockets/cached_environment.rb#30
   def index; end
 
   # Internal: Cache Environment#load
@@ -1404,7 +1404,7 @@ class Sprockets::Context
   # current file is `app/javascripts/foo/bar.js`, `load_path` would
   # return `app/javascripts`.
   #
-  # source://sprockets//lib/sprockets/context.rb#73
+  # source://sprockets//lib/sprockets/context.rb#74
   def root_path; end
 
   # `stub_asset` blacklists `path` from being included in the bundle.
@@ -1497,7 +1497,7 @@ module Sprockets::Dependencies
   #
   # Returns nothing.
   #
-  # source://sprockets//lib/sprockets/dependencies.rb#48
+  # source://sprockets//lib/sprockets/dependencies.rb#53
   def depend_on(uri); end
 
   # Public: Default set of dependency URIs for assets.
@@ -2220,7 +2220,7 @@ class Sprockets::Environment < ::Sprockets::Base
   # faster. This behavior is ideal in production since the file
   # system only changes between deploys.
   #
-  # source://sprockets//lib/sprockets/environment.rb#25
+  # source://sprockets//lib/sprockets/environment.rb#28
   def index; end
 
   # source://sprockets//lib/sprockets/environment.rb#42
@@ -2787,7 +2787,7 @@ class Sprockets::Manifest
 
   # Returns the value of attribute directory.
   #
-  # source://sprockets//lib/sprockets/manifest.rb#80
+  # source://sprockets//lib/sprockets/manifest.rb#81
   def dir; end
 
   # Returns the value of attribute directory.
@@ -2837,7 +2837,7 @@ class Sprockets::Manifest
 
   # Returns String path to manifest.json file.
   #
-  # source://sprockets//lib/sprockets/manifest.rb#77
+  # source://sprockets//lib/sprockets/manifest.rb#78
   def path; end
 
   # Removes file from directory and from manifest. `filename` must
@@ -3471,7 +3471,7 @@ module Sprockets::Processing
   # Preprocessors are ran before Postprocessors and Engine
   # processors.
   #
-  # source://sprockets//lib/sprockets/processing.rb#33
+  # source://sprockets//lib/sprockets/processing.rb#36
   def processors; end
 
   # Public: Register bundle metadata reducer function.
@@ -3548,7 +3548,7 @@ module Sprockets::Processing
   #       input[:data].gsub(...)
   #     end
   #
-  # source://sprockets//lib/sprockets/processing.rb#53
+  # source://sprockets//lib/sprockets/processing.rb#57
   def register_processor(*args, &block); end
 
   # Remove Bundle Processor `klass` for `mime_type`.
@@ -3576,7 +3576,7 @@ module Sprockets::Processing
   #
   #     unregister_preprocessor 'text/css', Sprockets::DirectiveProcessor
   #
-  # source://sprockets//lib/sprockets/processing.rb#78
+  # source://sprockets//lib/sprockets/processing.rb#82
   def unregister_processor(*args); end
 
   protected
@@ -3914,7 +3914,7 @@ Sprockets::SassCacheStore = Sprockets::SassProcessor::CacheStore
 class Sprockets::SassCompressor
   # @return [SassCompressor] a new instance of SassCompressor
   #
-  # source://sassc-rails/2.1.2/lib/sassc/rails/compressor.rb#7
+  # source://sprockets//lib/sprockets/sass_compressor.rb#39
   def initialize(options = T.unsafe(nil)); end
 
   # Returns the value of attribute cache_key.
@@ -3922,11 +3922,8 @@ class Sprockets::SassCompressor
   # source://sprockets//lib/sprockets/sass_compressor.rb#37
   def cache_key; end
 
-  # source://sassc-rails/2.1.2/lib/sassc/rails/compressor.rb#17
+  # source://sprockets//lib/sprockets/sass_compressor.rb#49
   def call(*args); end
-
-  # source://sassc-rails/2.1.2/lib/sassc/rails/compressor.rb#17
-  def evaluate(*args); end
 
   class << self
     # source://sprockets//lib/sprockets/sass_compressor.rb#33
@@ -4059,7 +4056,7 @@ module Sprockets::SassProcessor::Functions
   #
   # Returns a Sass::Script::String.
   #
-  # source://sassc-rails/2.1.2/lib/sassc/rails/functions.rb#7
+  # source://sprockets//lib/sprockets/sass_processor.rb#274
   def asset_data_url(path); end
 
   # Public: Generate a url for asset path.
@@ -5000,41 +4997,62 @@ class Sprockets::Transformers::Transformer < ::Struct
   # Returns the value of attribute from
   #
   # @return [Object] the current value of from
+  #
+  # source://sprockets//lib/sprockets/transformers.rb#22
   def from; end
 
   # Sets the attribute from
   #
   # @param value [Object] the value to set the attribute from to.
   # @return [Object] the newly set value
+  #
+  # source://sprockets//lib/sprockets/transformers.rb#22
   def from=(_); end
 
   # Returns the value of attribute proc
   #
   # @return [Object] the current value of proc
+  #
+  # source://sprockets//lib/sprockets/transformers.rb#22
   def proc; end
 
   # Sets the attribute proc
   #
   # @param value [Object] the value to set the attribute proc to.
   # @return [Object] the newly set value
+  #
+  # source://sprockets//lib/sprockets/transformers.rb#22
   def proc=(_); end
 
   # Returns the value of attribute to
   #
   # @return [Object] the current value of to
+  #
+  # source://sprockets//lib/sprockets/transformers.rb#22
   def to; end
 
   # Sets the attribute to
   #
   # @param value [Object] the value to set the attribute to to.
   # @return [Object] the newly set value
+  #
+  # source://sprockets//lib/sprockets/transformers.rb#22
   def to=(_); end
 
   class << self
+    # source://sprockets//lib/sprockets/transformers.rb#22
     def [](*_arg0); end
+
+    # source://sprockets//lib/sprockets/transformers.rb#22
     def inspect; end
+
+    # source://sprockets//lib/sprockets/transformers.rb#22
     def keyword_init?; end
+
+    # source://sprockets//lib/sprockets/transformers.rb#22
     def members; end
+
+    # source://sprockets//lib/sprockets/transformers.rb#22
     def new(*_arg0); end
   end
 end

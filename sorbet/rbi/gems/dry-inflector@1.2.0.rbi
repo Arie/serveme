@@ -6,18 +6,7 @@
 
 
 # source://dry-inflector//lib/dry/inflector.rb#3
-module Dry
-  class << self
-    # source://dry-configurable/1.3.0/lib/dry/configurable.rb#11
-    def Configurable(**options); end
-
-    # source://dry-core/1.1.0/lib/dry/core.rb#52
-    def Equalizer(*keys, **options); end
-
-    # source://dry-types/1.8.2/lib/dry/types.rb#253
-    def Types(*namespaces, default: T.unsafe(nil), **aliases); end
-  end
-end
+module Dry; end
 
 # dry-inflector
 #
@@ -59,7 +48,7 @@ class Dry::Inflector
   # @return [String] the upper camelized string
   # @since 0.1.3
   #
-  # source://dry-inflector//lib/dry/inflector.rb#66
+  # source://dry-inflector//lib/dry/inflector.rb#70
   def camelize(input); end
 
   # Lower camelize a string
@@ -184,7 +173,7 @@ class Dry::Inflector
   # @return [String]
   # @since 0.2.0
   #
-  # source://dry-inflector//lib/dry/inflector.rb#310
+  # source://dry-inflector//lib/dry/inflector.rb#313
   def inspect; end
 
   # Ordinalize a number
@@ -404,8 +393,8 @@ class Dry::Inflector::Inflections
   #   inflections.human(/_cnt$/i, '\1_count')
   #   inflections.human("legacy_col_person_name", "Name")
   #   end
-  # @param rule [String, Regexp] the rule
   # @param replacement [String] the replacement
+  # @param rule [String, Regexp] the rule
   # @since 0.1.0
   #
   # source://dry-inflector//lib/dry/inflector/inflections.rb#224
@@ -434,8 +423,8 @@ class Dry::Inflector::Inflections
   #   inflector = Dry::Inflector.new do |inflections|
   #   inflections.singular "octopus", "octopi"
   #   end
-  # @param singular [String] the singular
   # @param plural [String] the plural
+  # @param singular [String] the singular
   # @since 0.1.0
   #
   # source://dry-inflector//lib/dry/inflector/inflections.rb#151
@@ -455,8 +444,8 @@ class Dry::Inflector::Inflections
   #   inflector = Dry::Inflector.new do |inflections|
   #   inflections.plural "virus", "viruses"
   #   end
-  # @param rule [String, Regexp] the rule
   # @param replacement [String] the replacement
+  # @param rule [String, Regexp] the rule
   # @since 0.1.0
   #
   # source://dry-inflector//lib/dry/inflector/inflections.rb#105
@@ -485,8 +474,8 @@ class Dry::Inflector::Inflections
   #   inflector = Dry::Inflector.new do |inflections|
   #   inflections.singular "thieves", "thief"
   #   end
-  # @param rule [String, Regexp] the rule
   # @param replacement [String] the replacement
+  # @param rule [String, Regexp] the rule
   # @since 0.1.0
   #
   # source://dry-inflector//lib/dry/inflector/inflections.rb#128
@@ -533,8 +522,8 @@ class Dry::Inflector::Inflections
   # Add irregular inflection
   #
   # @api private
-  # @param rule [String] the rule
   # @param replacement [String] the replacement
+  # @param rule [String] the rule
   # @return [undefined]
   # @since 0.1.0
   #
@@ -544,8 +533,8 @@ class Dry::Inflector::Inflections
   # Add a new rule
   #
   # @api private
-  # @param rule [String, Regexp] the rule
   # @param replacement [String, Regexp] the replacement
+  # @param rule [String, Regexp] the rule
   # @param target [Dry::Inflector::Rules] the target
   # @since 0.1.0
   #

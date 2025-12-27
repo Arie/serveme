@@ -39,7 +39,7 @@ class WebSocket::Extensions
   # source://websocket-extensions//lib/websocket/extensions.rb#120
   def valid_frame_rsv(frame); end
 
-  # source://websocket-extensions//lib/websocket/extensions.rb#120
+  # source://websocket-extensions//lib/websocket/extensions.rb#135
   def valid_frame_rsv?(frame); end
 
   private
@@ -53,7 +53,6 @@ class WebSocket::Extensions
   def reserved?(ext); end
 end
 
-# source://websocket-extensions//lib/websocket/extensions.rb#6
 class WebSocket::Extensions::ExtensionError < ::ArgumentError; end
 
 # source://websocket-extensions//lib/websocket/extensions.rb#8
@@ -105,7 +104,6 @@ WebSocket::Extensions::Parser::NUMBER = T.let(T.unsafe(nil), Regexp)
 # source://websocket-extensions//lib/websocket/extensions/parser.rb#10
 WebSocket::Extensions::Parser::PARAM = T.let(T.unsafe(nil), Regexp)
 
-# source://websocket-extensions//lib/websocket/extensions/parser.rb#15
 class WebSocket::Extensions::Parser::ParseError < ::ArgumentError; end
 
 # source://websocket-extensions//lib/websocket/extensions/parser.rb#9
@@ -114,8 +112,4 @@ WebSocket::Extensions::Parser::QUOTED = T.let(T.unsafe(nil), Regexp)
 # source://websocket-extensions//lib/websocket/extensions/parser.rb#7
 WebSocket::Extensions::Parser::TOKEN = T.let(T.unsafe(nil), Regexp)
 
-module WebSocket::Mask
-  class << self
-    def mask(_arg0, _arg1); end
-  end
-end
+module WebSocket::Mask; end

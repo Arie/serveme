@@ -2587,8 +2587,6 @@ RSpec::Core::Configuration::RAISE_ERROR_WARNING_NOTIFIER = T.let(T.unsafe(nil), 
 # module to allow us to override those methods and use `super`.
 #
 # @private
-#
-# source://rspec-core//lib/rspec/core/configuration.rb#53
 module RSpec::Core::Configuration::Readers
   # source://rspec-core//lib/rspec/core/configuration.rb#63
   def default_color; end
@@ -2908,8 +2906,6 @@ module RSpec::Core::DSL
 end
 
 # Deprecation Error.
-#
-# source://rspec-core//lib/rspec/core/formatters/deprecation_formatter.rb#221
 class RSpec::Core::DeprecationError < ::StandardError; end
 
 # Wrapper around Ruby's `DidYouMean::SpellChecker` when available to provide file name suggestions.
@@ -4570,8 +4566,6 @@ RSpec::Core::ExampleGroup::INSTANCE_VARIABLE_TO_IGNORE = T.let(T.unsafe(nil), Sy
 # Raised when an RSpec API is called in the wrong scope, such as `before`
 # being called from within an example rather than from within an example
 # group block.
-#
-# source://rspec-core//lib/rspec/core/example_group.rb#747
 class RSpec::Core::ExampleGroup::WrongScopeError < ::NoMethodError; end
 
 # Dumps a list of hashes in a pretty, human readable format
@@ -6428,13 +6422,8 @@ class RSpec::Core::Formatters::SnippetExtractor
   end
 end
 
-# source://rspec-core//lib/rspec/core/formatters/snippet_extractor.rb#22
 class RSpec::Core::Formatters::SnippetExtractor::NoExpressionAtLineError < ::StandardError; end
-
-# source://rspec-core//lib/rspec/core/formatters/snippet_extractor.rb#6
 class RSpec::Core::Formatters::SnippetExtractor::NoSuchFileError < ::StandardError; end
-
-# source://rspec-core//lib/rspec/core/formatters/snippet_extractor.rb#7
 class RSpec::Core::Formatters::SnippetExtractor::NoSuchLineError < ::StandardError; end
 
 # Provides terminal syntax highlighting of code snippets
@@ -7087,11 +7076,11 @@ module RSpec::Core::Hooks
   # invoked but before any `after` context hooks.
   #
   # @api public
-  # @note The `:example` and `:context` scopes are also available as
-  #   `:each` and `:all`, respectively. Use whichever you prefer.
   # @note The `:suite` scope is only supported for hooks registered on
   #   `RSpec.configuration` since they exist independently of any
   #   example or example group.
+  # @note The `:example` and `:context` scopes are also available as
+  #   `:each` and `:all`, respectively. Use whichever you prefer.
   # @overload after
   # @overload after
   # @overload after
@@ -7316,6 +7305,7 @@ module RSpec::Core::Hooks
   # They are not a synonym for `before`/`after`.
   #
   # @api public
+  # @note `:example`/`:each` is the only supported scope.
   # @note the syntax of `around` is similar to that of `before` and `after`
   #   but the semantics are quite different. `before` and `after` hooks are
   #   run in the context of the examples with which they are associated,
@@ -7323,7 +7313,6 @@ module RSpec::Core::Hooks
   #   examples. Consequently, `around` hooks do not have direct access to
   #   resources that are made available within the examples and their
   #   associated `before` and `after` hooks.
-  # @note `:example`/`:each` is the only supported scope.
   # @overload around
   # @overload around
   # @overload around
@@ -7549,11 +7538,11 @@ module RSpec::Core::Hooks
   # invoked but before any `after` context hooks.
   #
   # @api public
-  # @note The `:example` and `:context` scopes are also available as
-  #   `:each` and `:all`, respectively. Use whichever you prefer.
   # @note The `:suite` scope is only supported for hooks registered on
   #   `RSpec.configuration` since they exist independently of any
   #   example or example group.
+  # @note The `:example` and `:context` scopes are also available as
+  #   `:each` and `:all`, respectively. Use whichever you prefer.
   # @overload after
   # @overload after
   # @overload after
@@ -9967,9 +9956,6 @@ class RSpec::Core::OutputWrapper
   def nonblock?(*args, &block); end
 
   # source://rspec-core//lib/rspec/core/output_wrapper.rb#23
-  def nread(*args, &block); end
-
-  # source://rspec-core//lib/rspec/core/output_wrapper.rb#23
   def oflush(*args, &block); end
 
   # @private
@@ -10044,9 +10030,6 @@ class RSpec::Core::OutputWrapper
 
   # source://rspec-core//lib/rspec/core/output_wrapper.rb#23
   def readpartial(*args, &block); end
-
-  # source://rspec-core//lib/rspec/core/output_wrapper.rb#23
-  def ready?(*args, &block); end
 
   # source://rspec-core//lib/rspec/core/output_wrapper.rb#23
   def reopen(*args, &block); end

@@ -64,15 +64,14 @@ class ReservationsController < ApplicationController
     else
                     current_user
     end
-    @users_reservations = target_user.reservations.ordered.with_attached_zipfile.paginate(page: params[:page], per_page: 20)
+    @pagy, @users_reservations = pagy(target_user.reservations.ordered.with_attached_zipfile, limit: 20)
     @target_user = target_user
   end
 
   def played_in
-    @users_games = Reservation.includes(:user, server: :location)
+    @pagy, @users_games = pagy(Reservation.includes(:user, server: :location)
                               .played_in(current_user.uid)
-                              .with_attached_zipfile
-                              .paginate(page: params[:page], per_page: 20)
+                              .with_attached_zipfile, limit: 20)
   end
 
   def edit

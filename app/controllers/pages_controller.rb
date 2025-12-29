@@ -17,7 +17,7 @@ class PagesController < ApplicationController
   def credits; end
 
   def recent_reservations
-    @recent_reservations = Reservation.order(starts_at: :desc).includes(user: :groups, server: :location).paginate(page: params[:page], per_page: 50)
+    @pagy, @recent_reservations = pagy(Reservation.order(starts_at: :desc).includes(user: :groups, server: :location), limit: 50)
   end
 
   def statistics

@@ -5,6 +5,6 @@ class StacLogsController < ApplicationController
   before_action :require_site_or_league_admin
 
   def index
-    @stac_logs = StacLog.joins(:reservation).order(id: :desc).paginate(page: params[:page], per_page: 100)
+    @pagy, @stac_logs = pagy(StacLog.joins(:reservation).order(id: :desc), limit: 100)
   end
 end

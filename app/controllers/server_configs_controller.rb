@@ -5,7 +5,7 @@ class ServerConfigsController < ApplicationController
   before_action :require_config_admin_or_above
 
   def index
-    @server_configs = ServerConfig.ordered.paginate(page: params[:page], per_page: 50)
+    @pagy, @server_configs = pagy(ServerConfig.ordered, limit: 50)
   end
 
   def new

@@ -120,6 +120,7 @@ class PlayerStatisticsController < ApplicationController
   end
 
   def paginate(scope)
-    scope.paginate(page: params[:page], per_page: 100)
+    @pagy, records = pagy(scope, limit: 100)
+    records
   end
 end

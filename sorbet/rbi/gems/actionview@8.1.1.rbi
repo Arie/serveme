@@ -398,8 +398,6 @@ class ActionView::Base
   include ::SimpleForm::ActionViewExtensions::FormHelper
   include ::ActionCable::Helpers::ActionCableHelper
   include ::Devise::Controllers::UrlHelpers
-  include ::WillPaginate::I18n
-  include ::WillPaginate::ViewHelpers
   extend ::ActionView::Helpers::UrlHelper::ClassMethods
   extend ::ActionView::Helpers::SanitizeHelper::ClassMethods
 

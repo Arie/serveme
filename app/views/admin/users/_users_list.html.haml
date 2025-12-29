@@ -66,4 +66,4 @@
   .row.mt-3
     .col-md-12
       .d-flex.justify-content-center
-        = will_paginate @users, params: request.query_parameters
+        != pagy_bootstrap_nav(@pagy)

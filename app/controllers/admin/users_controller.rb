@@ -13,7 +13,7 @@ module Admin
       @users = apply_search_filter(@users)
       @users = apply_group_filter(@users)
       @users = apply_sorting(@users)
-      @users = @users.paginate(page: params[:page], per_page: 30)
+      @pagy, @users = pagy(@users, limit: 30)
 
       load_user_statistics
       @filtered_groups = Group.non_private.order(:name)

@@ -7,9 +7,8 @@ module Admin
     before_action :set_voucher, only: [ :destroy ]
 
     def index
-      @vouchers = Voucher.includes(:product, :claimed_by, :created_by)
-                         .order(created_at: :desc)
-                         .page(params[:page])
+      @pagy, @vouchers = pagy(Voucher.includes(:product, :claimed_by, :created_by)
+                         .order(created_at: :desc), limit: 25)
     end
 
     def new

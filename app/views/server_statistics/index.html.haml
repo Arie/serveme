@@ -4,7 +4,7 @@
 
 .row
   .col-12.col-md-10
-    = will_paginate @server_statistics
+    != pagy_bootstrap_nav(@pagy)
 
 .row
   .col-12

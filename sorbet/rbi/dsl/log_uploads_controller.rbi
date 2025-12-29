@@ -22,6 +22,10 @@ class LogUploadsController
     include ::ActionText::TagHelper
     include ::Importmap::ImportmapTagsHelper
     include ::ActionController::Base::HelperMethods
+    include ::Pagy::UrlHelpers
+    include ::Pagy::Frontend
+    include ::Pagy::JSTools::FrontendAddOn
+    include ::Pagy::BootstrapExtra
     include ::ApplicationHelper
     include ::DonatorsHelper
     include ::LogLineHelper

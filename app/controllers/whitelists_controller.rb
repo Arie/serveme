@@ -5,7 +5,7 @@ class WhitelistsController < ApplicationController
   before_action :require_config_admin_or_above
 
   def index
-    @whitelists = Whitelist.ordered.paginate(page: params[:page], per_page: 50)
+    @pagy, @whitelists = pagy(Whitelist.ordered, limit: 50)
   end
 
   def new

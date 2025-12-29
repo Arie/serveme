@@ -4,7 +4,7 @@
 
 .row
   .col-md-12
-    = will_paginate @recent_reservations
+    != pagy_bootstrap_nav(@pagy)
 
 .row
   .col-md-12

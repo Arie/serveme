@@ -6530,29 +6530,29 @@ class RuboCop::AST::ProcessedSource
 
   private
 
-  # source://rubocop-ast//lib/rubocop/ast/processed_source.rb#333
+  # source://rubocop-ast//lib/rubocop/ast/processed_source.rb#328
   def builder_class(parser_engine); end
 
   # source://rubocop-ast//lib/rubocop/ast/processed_source.rb#218
   def comment_index; end
 
-  # source://rubocop-ast//lib/rubocop/ast/processed_source.rb#343
+  # source://rubocop-ast//lib/rubocop/ast/processed_source.rb#338
   def create_parser(ruby_version, parser_engine, prism_result); end
 
   # The Parser gem does not support Ruby 3.5 or later.
   # It is also not fully compatible with Ruby 3.4 but for
   # now respects using parser for backwards compatibility.
   #
-  # source://rubocop-ast//lib/rubocop/ast/processed_source.rb#389
+  # source://rubocop-ast//lib/rubocop/ast/processed_source.rb#384
   def default_parser_engine(ruby_version); end
 
-  # source://rubocop-ast//lib/rubocop/ast/processed_source.rb#397
+  # source://rubocop-ast//lib/rubocop/ast/processed_source.rb#392
   def first_token_index(range_or_node); end
 
-  # source://rubocop-ast//lib/rubocop/ast/processed_source.rb#402
+  # source://rubocop-ast//lib/rubocop/ast/processed_source.rb#397
   def last_token_index(range_or_node); end
 
-  # source://rubocop-ast//lib/rubocop/ast/processed_source.rb#372
+  # source://rubocop-ast//lib/rubocop/ast/processed_source.rb#367
   def normalize_parser_engine(parser_engine, ruby_version); end
 
   # source://rubocop-ast//lib/rubocop/ast/processed_source.rb#224
@@ -6561,7 +6561,7 @@ class RuboCop::AST::ProcessedSource
   # source://rubocop-ast//lib/rubocop/ast/processed_source.rb#260
   def parser_class(ruby_version, parser_engine); end
 
-  # source://rubocop-ast//lib/rubocop/ast/processed_source.rb#407
+  # source://rubocop-ast//lib/rubocop/ast/processed_source.rb#402
   def source_range(range_or_node); end
 
   # source://rubocop-ast//lib/rubocop/ast/processed_source.rb#243

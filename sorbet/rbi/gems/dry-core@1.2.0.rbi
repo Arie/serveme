@@ -5,7 +5,7 @@
 # Please instead update this file by running `bin/tapioca gem dry-core`.
 
 
-# source://dry-core//lib/dry/core/constants.rb#5
+# source://dry-core//lib/dry/core/constants.rb#3
 module Dry
   class << self
     # Build an equalizer module for the inclusion in other class
@@ -21,7 +21,7 @@ module Dry
   end
 end
 
-# source://dry-core//lib/dry/core/constants.rb#6
+# source://dry-core//lib/dry/core/constants.rb#4
 module Dry::Core
   include ::Dry::Core::Constants
 
@@ -110,7 +110,7 @@ class Dry::Core::BasicObject < ::BasicObject
   # source://dry-core//lib/dry/core/basic_object.rb#140
   def __inspect; end
 
-  # Must be overridden by descendants
+  # Can be overridden by descendants to customize respond_to? behavior
   #
   # @api private
   # @return [Boolean]
@@ -266,28 +266,28 @@ module Dry::Core::ClassAttributes
   def defines(*args, type: T.unsafe(nil), coerce: T.unsafe(nil)); end
 end
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::ClassAttributes::EMPTY_ARRAY = T.let(T.unsafe(nil), Array)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::ClassAttributes::EMPTY_HASH = T.let(T.unsafe(nil), Hash)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::ClassAttributes::EMPTY_OPTS = T.let(T.unsafe(nil), Hash)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::ClassAttributes::EMPTY_SET = T.let(T.unsafe(nil), Set)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::ClassAttributes::EMPTY_STRING = T.let(T.unsafe(nil), String)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::ClassAttributes::IDENTITY = T.let(T.unsafe(nil), Proc)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::ClassAttributes::Self = T.let(T.unsafe(nil), Proc)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::ClassAttributes::Undefined = T.let(T.unsafe(nil), Object)
 
 # Class for generating more classes
@@ -366,13 +366,13 @@ class Dry::Core::ClassBuilder::ParentClassMismatch < ::TypeError; end
 #   end
 #   end
 #
-# source://dry-core//lib/dry/core/constants.rb#18
+# source://dry-core//lib/dry/core/constants.rb#16
 module Dry::Core::Constants
   class << self
     # @api public
     # @private
     #
-    # source://dry-core//lib/dry/core/constants.rb#108
+    # source://dry-core//lib/dry/core/constants.rb#106
     def included(base); end
   end
 end
@@ -381,45 +381,45 @@ end
 #
 # @api public
 #
-# source://dry-core//lib/dry/core/constants.rb#20
+# source://dry-core//lib/dry/core/constants.rb#18
 Dry::Core::Constants::EMPTY_ARRAY = T.let(T.unsafe(nil), Array)
 
 # An empty hash
 #
 # @api public
 #
-# source://dry-core//lib/dry/core/constants.rb#22
+# source://dry-core//lib/dry/core/constants.rb#20
 Dry::Core::Constants::EMPTY_HASH = T.let(T.unsafe(nil), Hash)
 
 # An empty list of options
 #
 # @api public
 #
-# source://dry-core//lib/dry/core/constants.rb#24
+# source://dry-core//lib/dry/core/constants.rb#22
 Dry::Core::Constants::EMPTY_OPTS = T.let(T.unsafe(nil), Hash)
 
 # An empty set
 #
 # @api public
 #
-# source://dry-core//lib/dry/core/constants.rb#26
+# source://dry-core//lib/dry/core/constants.rb#24
 Dry::Core::Constants::EMPTY_SET = T.let(T.unsafe(nil), Set)
 
 # An empty string
 #
 # @api public
 #
-# source://dry-core//lib/dry/core/constants.rb#28
+# source://dry-core//lib/dry/core/constants.rb#26
 Dry::Core::Constants::EMPTY_STRING = T.let(T.unsafe(nil), String)
 
 # Identity function
 #
 # @api public
 #
-# source://dry-core//lib/dry/core/constants.rb#30
+# source://dry-core//lib/dry/core/constants.rb#28
 Dry::Core::Constants::IDENTITY = T.let(T.unsafe(nil), Proc)
 
-# source://dry-core//lib/dry/core/constants.rb#45
+# source://dry-core//lib/dry/core/constants.rb#43
 Dry::Core::Constants::Self = T.let(T.unsafe(nil), Proc)
 
 # A special value you can use as a default to know if no arguments
@@ -435,7 +435,7 @@ Dry::Core::Constants::Self = T.let(T.unsafe(nil), Proc)
 #   end
 #   end
 #
-# source://dry-core//lib/dry/core/constants.rb#43
+# source://dry-core//lib/dry/core/constants.rb#41
 Dry::Core::Constants::Undefined = T.let(T.unsafe(nil), Object)
 
 # Thread-safe object registry
@@ -543,25 +543,25 @@ module Dry::Core::Container::Configuration
   end
 end
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::Container::EMPTY_ARRAY = T.let(T.unsafe(nil), Array)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::Container::EMPTY_HASH = T.let(T.unsafe(nil), Hash)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::Container::EMPTY_OPTS = T.let(T.unsafe(nil), Hash)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::Container::EMPTY_SET = T.let(T.unsafe(nil), Set)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::Container::EMPTY_STRING = T.let(T.unsafe(nil), String)
 
 # @api public
 class Dry::Core::Container::Error < ::StandardError; end
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::Container::IDENTITY = T.let(T.unsafe(nil), Proc)
 
 # Base class to abstract Memoizable and Callable implementations
@@ -1084,7 +1084,7 @@ class Dry::Core::Container::Resolver
   def keys(container); end
 end
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::Container::Self = T.let(T.unsafe(nil), Proc)
 
 # source://dry-core//lib/dry/core/container/stub.rb#6
@@ -1119,7 +1119,7 @@ module Dry::Core::Container::Stub
   def _stubs; end
 end
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::Container::Undefined = T.let(T.unsafe(nil), Object)
 
 # An extension for issuing warnings on using deprecated methods.
@@ -1342,19 +1342,19 @@ module Dry::Core::DescendantsTracker
   end
 end
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::EMPTY_ARRAY = T.let(T.unsafe(nil), Array)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::EMPTY_HASH = T.let(T.unsafe(nil), Hash)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::EMPTY_OPTS = T.let(T.unsafe(nil), Hash)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::EMPTY_SET = T.let(T.unsafe(nil), Set)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::EMPTY_STRING = T.let(T.unsafe(nil), String)
 
 # Define equality, equivalence and inspection methods
@@ -1465,21 +1465,21 @@ end
 #   Foo.load_extensions(:bar)
 #   Foo.new.bar # => :bar
 #
-# source://dry-core//lib/dry/core/extensions.rb#23
+# source://dry-core//lib/dry/core/extensions.rb#21
 module Dry::Core::Extensions
   # Whether an extension is available
   #
   # @param name [Symbol] extension name
   # @return [Boolean] Extension availability
   #
-  # source://dry-core//lib/dry/core/extensions.rb#43
+  # source://dry-core//lib/dry/core/extensions.rb#41
   def available_extension?(name); end
 
   # Enables specified extensions. Already enabled extensions remain untouched
   #
   # @param extensions [Array<Symbol>] list of extension names
   #
-  # source://dry-core//lib/dry/core/extensions.rb#50
+  # source://dry-core//lib/dry/core/extensions.rb#48
   def load_extensions(*extensions); end
 
   # Register an extension
@@ -1487,19 +1487,19 @@ module Dry::Core::Extensions
   # @param name [Symbol] extension name
   # @yield extension block. This block guaranteed not to be called more than once
   #
-  # source://dry-core//lib/dry/core/extensions.rb#35
+  # source://dry-core//lib/dry/core/extensions.rb#33
   def register_extension(name, &block); end
 
   class << self
     # @api private
     # @private
     #
-    # source://dry-core//lib/dry/core/extensions.rb#25
+    # source://dry-core//lib/dry/core/extensions.rb#23
     def extended(obj); end
   end
 end
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::IDENTITY = T.let(T.unsafe(nil), Proc)
 
 # Helper module providing thin interface around an inflection backend.
@@ -1714,10 +1714,10 @@ Dry::Core::Memoizable::Memoizer::KERNEL = T.let(T.unsafe(nil), Hash)
 # source://dry-core//lib/dry/core/memoizable.rb#7
 Dry::Core::Memoizable::PARAM_PLACEHOLDERS = T.let(T.unsafe(nil), Array)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::Self = T.let(T.unsafe(nil), Proc)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Core::Undefined = T.let(T.unsafe(nil), Object)
 
 # source://dry-core//lib/dry/core/version.rb#5
@@ -1734,30 +1734,30 @@ class Dry::Types::Container
   extend ::Dry::Configurable::Methods
 end
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Types::EMPTY_ARRAY = T.let(T.unsafe(nil), Array)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Types::EMPTY_HASH = T.let(T.unsafe(nil), Hash)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Types::EMPTY_OPTS = T.let(T.unsafe(nil), Hash)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Types::EMPTY_SET = T.let(T.unsafe(nil), Set)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Types::EMPTY_STRING = T.let(T.unsafe(nil), String)
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Types::IDENTITY = T.let(T.unsafe(nil), Proc)
 
 class Dry::Types::MapError < ::Dry::Types::CoercionError; end
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Types::Self = T.let(T.unsafe(nil), Proc)
 
 module Dry::Types::Type; end
 
-# source://dry-core//lib/dry/core/constants.rb#112
+# source://dry-core//lib/dry/core/constants.rb#110
 Dry::Types::Undefined = T.let(T.unsafe(nil), Object)

@@ -5402,7 +5402,7 @@ class RSpec::Matchers::BuiltIn::DynamicPredicate < ::RSpec::Matchers::BuiltIn::B
   # @api private
   # @return [Boolean]
   #
-  # source://rspec-expectations//lib/rspec/matchers/built_in/has.rb#53
+  # source://rspec-expectations//lib/rspec/matchers/built_in/has.rb#62
   def really_responds_to?(method); end
 
   # @api private

@@ -247,46 +247,6 @@ class Tilt::Cache
   def fetch(*key); end
 end
 
-# source://tilt//lib/tilt/coffee.rb#31
-class Tilt::CoffeeScriptLiterateTemplate < ::Tilt::CoffeeScriptTemplate
-  class << self
-    # @return [Boolean]
-    #
-    # source://tilt//lib/tilt/coffee.rb#34
-    def literate?; end
-  end
-end
-
-# CoffeeScript template implementation. See:
-# http://coffeescript.org/
-#
-# CoffeeScript templates do not support object scopes, locals, or yield.
-#
-# source://tilt//lib/tilt/coffee.rb#10
-class Tilt::CoffeeScriptTemplate < ::Tilt::StaticTemplate
-  # source://tilt//lib/tilt/coffee.rb#22
-  def prepare; end
-
-  class << self
-    # Returns the value of attribute default_bare.
-    #
-    # source://tilt//lib/tilt/coffee.rb#15
-    def default_bare; end
-
-    # Sets the attribute default_bare
-    #
-    # @param value the value to set the attribute default_bare to.
-    #
-    # source://tilt//lib/tilt/coffee.rb#15
-    def default_bare=(_arg0); end
-
-    # @return [Boolean]
-    #
-    # source://tilt//lib/tilt/coffee.rb#18
-    def literate?; end
-  end
-end
-
 # @private
 #
 # source://tilt//lib/tilt/template.rb#4

@@ -273,9 +273,6 @@ end
 # source://sprockets//lib/sprockets/autoload.rb#3
 module Sprockets::Autoload; end
 
-# source://sprockets//lib/sprockets/autoload/coffee_script.rb#6
-Sprockets::Autoload::CoffeeScript = CoffeeScript
-
 # source://sprockets//lib/sprockets/autoload/sass.rb#6
 Sprockets::Autoload::Sass = Sass
 

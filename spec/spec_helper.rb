@@ -1,18 +1,15 @@
 # typed: strict
 # frozen_string_literal: true
 
-require 'coveralls'
 require 'sidekiq'
 require 'sidekiq/testing'
 require 'rspec/sorbet'
-require 'delorean'
 require 'vcr'
 RSpec::Sorbet.allow_doubles!
 Sidekiq::Testing.inline!
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['RAILS_ENV'] ||= 'test'
-gem 'minitest'
 require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
 require 'json_expressions/rspec'
@@ -23,7 +20,7 @@ require 'rails-controller-testing'
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
-  config.include Delorean
+  config.include ActiveSupport::Testing::TimeHelpers
   config.fixture_paths = [ "#{Rails.root}/spec/fixtures" ]
   config.use_transactional_fixtures = true
   config.infer_base_class_for_anonymous_controllers = false

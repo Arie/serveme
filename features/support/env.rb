@@ -1,9 +1,6 @@
 # typed: false
 # frozen_string_literal: true
 
-require 'simplecov'
-require 'coveralls'
-
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'sidekiq'

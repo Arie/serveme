@@ -326,7 +326,7 @@ class Date
     def strptime(*_arg0); end
 
     # source://date//lib/date.rb#4
-    def today(sg = T.unsafe(nil)); end
+    def today(*_arg0); end
 
     # source://date//lib/date.rb#4
     def valid_civil?(*_arg0); end

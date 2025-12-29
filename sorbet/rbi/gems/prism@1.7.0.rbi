@@ -34451,8 +34451,7 @@ class Prism::Translation::Parser34 < ::Prism::Translation::Parser
 end
 
 # source://prism//lib/prism/translation/parser35.rb#6
-Prism::Translation::Parser35 = Prism::Translation::Parser40
-
+# NOTE: Removed duplicate constant assignment that conflicts with class definition
 class Prism::Translation::Parser35 < Prism::Translation::Parser; end
 
 # This class is the entry-point for Ruby 4.0 of `Prism::Translation::Parser`.

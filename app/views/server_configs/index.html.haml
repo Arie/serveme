@@ -4,7 +4,7 @@
 
 .row
   .col-md-10
-    != pagy_bootstrap_nav(@pagy)
+    != @pagy.series_nav(:bootstrap)
   .col-md-2
     = link_to("Add server config", new_server_config_path)
 

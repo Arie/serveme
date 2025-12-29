@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  include Pagy::Backend
+  include Pagy::Method
   include ApplicationHelper
 
   protect_from_forgery

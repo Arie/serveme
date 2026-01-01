@@ -72,7 +72,7 @@
         </div>
       </div>
       <div class="web-rcon-log-lines" id="<%= "reservation_#{@logsecret}_log_lines" %>" data-log-filter-target="container">
-<% @log_lines.each do |line| %><%= render "reservations/log_line", log_line: line %><% end %>
+<% @log_lines.each do |line| %><%= render "reservations/log_line", log_line: line, skip_sanitization: @skip_sanitization %><% end %>
       </div>
     </div>
   </div>

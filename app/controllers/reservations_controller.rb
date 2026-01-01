@@ -135,6 +135,7 @@ class ReservationsController < ApplicationController
 
   def rcon
     @logsecret = reservation.logsecret
+    @skip_sanitization = current_user&.admin?
     filename = Rails.root.join("log", "streaming", "#{@logsecret}.log")
     begin
       seek = [ File.size(filename), 50_000 ].min

@@ -33,14 +33,14 @@ class LogLineFormatter
     @line = line
   end
 
-  sig { returns(T::Hash[Symbol, T.untyped]) }
-  def format
+  sig { params(skip_sanitization: T::Boolean).returns(T::Hash[Symbol, T.untyped]) }
+  def format(skip_sanitization: false)
     {
       timestamp: extract_timestamp,
       type: event_type,
       event: parsed_event,
-      raw: self.class.sanitize_sensitive_data(@line),
-      message: extract_sanitized_message
+      raw: skip_sanitization ? @line : self.class.sanitize_sensitive_data(@line),
+      message: extract_message(skip_sanitization)
     }
   end
 
@@ -212,12 +212,13 @@ class LogLineFormatter
     end
   end
 
-  sig { returns(T.nilable(String)) }
-  def extract_sanitized_message
+  sig { params(skip_sanitization: T::Boolean).returns(T.nilable(String)) }
+  def extract_message(skip_sanitization)
     event = parsed_event
     return nil unless event&.respond_to?(:message)
 
-    self.class.sanitize_sensitive_data(event.message.to_s)
+    msg = event.message.to_s
+    skip_sanitization ? msg : self.class.sanitize_sensitive_data(msg)
   end
 
   sig { params(line: String).returns(String) }

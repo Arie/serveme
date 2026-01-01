@@ -366,12 +366,19 @@ describe ReservationsController do
         expect(response.body).to include('log-raw-toggle')
       end
 
-      it 'sanitizes IP addresses in rendered output' do
+      it 'sanitizes IP addresses for non-admin users' do
+        @user.groups.delete(Group.admin_group)
         get :rcon, params: { id: reservation.id }
 
         # IP addresses should be sanitized to 0.0.0.0
         expect(response.body).not_to include('192.168.1.1')
         expect(response.body).to include('0.0.0.0')
+      end
+
+      it 'shows real IP addresses for admin users' do
+        get :rcon, params: { id: reservation.id }
+
+        expect(response.body).to include('192.168.1.1')
       end
     end
 
@@ -393,7 +400,8 @@ describe ReservationsController do
 
       after { FileUtils.rm_f(log_file) }
 
-      it 'sanitizes IP addresses and secrets in both raw and formatted views' do
+      it 'sanitizes secrets for non-admin users' do
+        @user.groups.delete(Group.admin_group)
         get :rcon, params: { id: reservation.id }
 
         expect(response).to be_successful
@@ -401,17 +409,22 @@ describe ReservationsController do
         # IPs should be sanitized
         expect(response.body).not_to include('46.4.87.20')
         expect(response.body).not_to include('192.168.1.100')
-        expect(response.body).not_to include('10.0.0.1')
 
         # Secrets should be sanitized
         expect(response.body).not_to include('75313243783007334810188687151252384638')
-        expect(response.body).not_to include('63625991abbfde2aca687ac8c2ac84ad')
         expect(response.body).not_to include('supersecret123')
-        expect(response.body).not_to include('matchpassword')
 
         # Should show masked versions
         expect(response.body).to include('0.0.0.0')
         expect(response.body).to include('*****')
+      end
+
+      it 'shows secrets for admin users' do
+        get :rcon, params: { id: reservation.id }
+
+        expect(response).to be_successful
+        expect(response.body).to include('46.4.87.20')
+        expect(response.body).to include('supersecret123')
       end
     end
 

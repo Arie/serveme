@@ -566,6 +566,9 @@
 // Console/RCON events
 .log-line-console_say,
 .log-line-rcon
+  .log-formatted
+    align-items: flex-start
+
   .console-prefix,
   .rcon-prefix
     color: #17a2b8
@@ -574,6 +577,8 @@
   .console-message,
   .rcon-message
     color: #adb5bd
+    white-space: pre-wrap
+    flex: 1
 
 // Suicide events
 .log-line-suicide

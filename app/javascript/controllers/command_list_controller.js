@@ -9,20 +9,10 @@ export default class extends Controller {
 
   show(event) {
     event.preventDefault()
+    this.listTarget.classList.toggle('show')
 
-    // Toggle the command list
-    if (this.listTarget.style.display === 'block') {
-      this.hide()
-    } else {
-      this.showList()
-    }
-  }
-
-  showList() {
-    this.listTarget.style.display = 'block'
-
-    // Focus the search input if it exists
-    if (this.hasSearchTarget) {
+    // Focus the search input when opening
+    if (this.listTarget.classList.contains('show') && this.hasSearchTarget) {
       this.searchTarget.value = ''
       this.searchTarget.focus()
       this.filterCommands('')
@@ -30,7 +20,7 @@ export default class extends Controller {
   }
 
   hide() {
-    this.listTarget.style.display = 'none'
+    this.listTarget.classList.remove('show')
   }
 
   selectCommand(event) {
@@ -47,12 +37,8 @@ export default class extends Controller {
     this.commandItemTargets.forEach(item => {
       const commandText = item.getAttribute('data-command-text').toLowerCase()
       const commandDesc = item.getAttribute('data-command-desc').toLowerCase()
-
-      if (commandText.includes(searchTerm) || commandDesc.includes(searchTerm)) {
-        item.style.display = 'block'
-      } else {
-        item.style.display = 'none'
-      }
+      const matches = commandText.includes(searchTerm) || commandDesc.includes(searchTerm)
+      item.classList.toggle('hidden', !matches)
     })
   }
 }

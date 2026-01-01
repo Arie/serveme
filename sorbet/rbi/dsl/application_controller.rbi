@@ -28,6 +28,11 @@ class ApplicationController
     include ::ApplicationHelper
     include ::DonatorsHelper
     include ::LogLineHelper
+    include ::ERB::Escape
+    include ::ERB::Util
+    include ::ActiveSupport::CoreExt::ERBUtil
+    include ::ActiveSupport::CoreExt::ERBUtilPrivate
+    include ::LogLineViewHelper
     include ::RconHelper
     include ::ReservationsHelper
     include ::SessionsHelper

@@ -1,0 +1,67 @@
+L 12/31/2025 - 14:00:00: Log file started (file "logs/L1231001.log") (game "/tf") (version "9328488")
+L 12/31/2025 - 14:00:01: "Player1<2><[U:1:12345678]><>" connected, address "192.168.1.1:27005"
+L 12/31/2025 - 14:00:02: "Player2<3><[U:1:23456789]><>" connected, address "192.168.1.2:27005"
+L 12/31/2025 - 14:00:03: "Player3<4><[U:1:34567890]><>" connected, address "192.168.1.3:27005"
+L 12/31/2025 - 14:00:04: "Player4<5><[U:1:45678901]><>" connected, address "192.168.1.4:27005"
+L 12/31/2025 - 14:00:10: "Player1<2><[U:1:12345678]><Unassigned>" joined team "Red"
+L 12/31/2025 - 14:00:11: "Player2<3><[U:1:23456789]><Unassigned>" joined team "Red"
+L 12/31/2025 - 14:00:12: "Player3<4><[U:1:34567890]><Unassigned>" joined team "Blue"
+L 12/31/2025 - 14:00:13: "Player4<5><[U:1:45678901]><Unassigned>" joined team "Blue"
+L 12/31/2025 - 14:00:20: "Player1<2><[U:1:12345678]><Red>" changed role to "scout"
+L 12/31/2025 - 14:00:21: "Player2<3><[U:1:23456789]><Red>" changed role to "medic"
+L 12/31/2025 - 14:00:22: "Player3<4><[U:1:34567890]><Blue>" changed role to "soldier"
+L 12/31/2025 - 14:00:23: "Player4<5><[U:1:45678901]><Blue>" changed role to "demoman"
+L 12/31/2025 - 14:00:30: World triggered "Round_Start"
+L 12/31/2025 - 14:00:35: "Player1<2><[U:1:12345678]><Red>" say "gl hf"
+L 12/31/2025 - 14:00:36: "Player3<4><[U:1:34567890]><Blue>" say "u2"
+L 12/31/2025 - 14:00:40: "Player2<3><[U:1:23456789]><Red>" say_team "buff pls"
+L 12/31/2025 - 14:01:00: "Player1<2><[U:1:12345678]><Red>" killed "Player3<4><[U:1:34567890]><Blue>" with "scattergun" (attacker_position "100 200 300") (victim_position "150 250 350")
+L 12/31/2025 - 14:01:05: "Player4<5><[U:1:45678901]><Blue>" killed "Player1<2><[U:1:12345678]><Red>" with "tf_projectile_pipe" (attacker_position "200 300 400") (victim_position "250 350 450")
+L 12/31/2025 - 14:01:10: "Player3<4><[U:1:34567890]><Blue>" killed "Player2<3><[U:1:23456789]><Red>" with "tf_projectile_rocket" (customkill "headshot") (attacker_position "300 400 500") (victim_position "350 450 550")
+L 12/31/2025 - 14:01:15: "Player2<3><[U:1:23456789]><Red>" triggered "healed" against "Player1<2><[U:1:12345678]><Red>" (healing "152")
+L 12/31/2025 - 14:01:20: "Player1<2><[U:1:12345678]><Red>" picked up item "medkit_medium"
+L 12/31/2025 - 14:01:25: "Player3<4><[U:1:34567890]><Blue>" picked up item "ammopack_small"
+L 12/31/2025 - 14:01:30: "Player2<3><[U:1:23456789]><Red>" triggered "chargeready"
+L 12/31/2025 - 14:01:35: "Player2<3><[U:1:23456789]><Red>" triggered "chargedeployed"
+L 12/31/2025 - 14:01:40: "Player1<2><[U:1:12345678]><Red>" killed "Player4<5><[U:1:45678901]><Blue>" with "scattergun" (attacker_position "400 500 600") (victim_position "450 550 650")
+L 12/31/2025 - 14:01:45: "Player1<2><[U:1:12345678]><Red>" triggered "domination" against "Player4<5><[U:1:45678901]><Blue>"
+L 12/31/2025 - 14:01:50: "Player2<3><[U:1:23456789]><Red>" triggered "chargeended" (duration "7.5")
+L 12/31/2025 - 14:02:00: "Player3<4><[U:1:34567890]><Blue>" triggered "damage" against "Player1<2><[U:1:12345678]><Red>" (damage "106") (realdamage "88") (weapon "tf_projectile_rocket") (airshot "1") (height "364")
+L 12/31/2025 - 14:02:05: "Player4<5><[U:1:45678901]><Blue>" killed "Player1<2><[U:1:12345678]><Red>" with "sword" (customkill "backstab") (attacker_position "500 600 700") (victim_position "550 650 750")
+L 12/31/2025 - 14:02:10: "Player4<5><[U:1:45678901]><Blue>" triggered "revenge" against "Player1<2><[U:1:12345678]><Red>"
+L 12/31/2025 - 14:02:15: "Player3<4><[U:1:34567890]><Blue>" killed "Player2<3><[U:1:23456789]><Red>" with "tf_projectile_rocket" (attacker_position "600 700 800") (victim_position "650 750 850")
+L 12/31/2025 - 14:02:16: "Player2<3><[U:1:23456789]><Red>" triggered "medic_death" against "Player3<4><[U:1:34567890]><Blue>" (healing "1250") (ubercharge "1")
+L 12/31/2025 - 14:02:20: Team "Blue" triggered "pointcaptured" (cp "0") (cpname "Control Point A") (numcappers "2") (player1 "Player3<4><[U:1:34567890]><Blue>") (position1 "700 800 900") (player2 "Player4<5><[U:1:45678901]><Blue>") (position2 "750 850 950")
+L 12/31/2025 - 14:02:30: "Player1<2><[U:1:12345678]><Red>" committed suicide with "world" (attacker_position "100 100 -500")
+L 12/31/2025 - 14:02:35: "Player4<5><[U:1:45678901]><Blue>" triggered "builtobject" (object "OBJ_SENTRYGUN") (position "800 900 1000")
+L 12/31/2025 - 14:02:40: "Player1<2><[U:1:12345678]><Red>" triggered "killedobject" (object "OBJ_SENTRYGUN") (weapon "obj_attachment_sapper") (objectowner "Player4<5><[U:1:45678901]><Blue>") (attacker_position "850 950 1050")
+L 12/31/2025 - 14:02:45: "Player2<3><[U:1:23456789]><Red>" triggered "healed" against "Player1<2><[U:1:12345678]><Red>" (healing "75") (airshot "1") (height "261")
+L 12/31/2025 - 14:02:50: "Player3<4><[U:1:34567890]><Blue>" killed "Player1<2><[U:1:12345678]><Red>" with "taunt_soldier" (customkill "taunt_equalizer") (attacker_position "900 1000 1100") (victim_position "950 1050 1150")
+L 12/31/2025 - 14:02:55: "Player1<2><[U:1:12345678]><Red>" killed "Player3<4><[U:1:34567890]><Blue>" with "telefrag" (customkill "telefrag") (attacker_position "1000 1100 1200") (victim_position "1050 1150 1250")
+L 12/31/2025 - 14:03:00: "Player4<5><[U:1:45678901]><Blue>" triggered "player_extinguished" against "Player3<4><[U:1:34567890]><Blue>" with "tf_weapon_medigun" (attacker_position "1100 1200 1300")
+L 12/31/2025 - 14:03:05: "Player1<2><[U:1:12345678]><Red>" killed "Player4<5><[U:1:45678901]><Blue>" with "deflect_rocket" (customkill "reflected") (attacker_position "1200 1300 1400") (victim_position "1250 1350 1450")
+L 12/31/2025 - 14:03:10: "Player3<4><[U:1:34567890]><Blue>" triggered "damage" against "Player1<2><[U:1:12345678]><Red>" (damage "150") (realdamage "150") (weapon "tf_projectile_rocket") (crit "crit")
+L 12/31/2025 - 14:03:15: "Player4<5><[U:1:45678901]><Blue>" triggered "damage" against "Player2<3><[U:1:23456789]><Red>" (damage "81") (realdamage "81") (weapon "minigun") (headshot "1")
+L 12/31/2025 - 14:03:20: Team "Blue" triggered "Round_Win" (winner "Blue")
+L 12/31/2025 - 14:03:21: Team "Blue" current score "1" with "2" players
+L 12/31/2025 - 14:03:22: Team "Red" current score "0" with "2" players
+L 12/31/2025 - 14:03:30: World triggered "Round_Start"
+L 12/31/2025 - 14:03:35: Console say "Round starting in 5 seconds"
+L 12/31/2025 - 14:03:40: rcon from "192.168.1.100:27015": command "status"
+L 12/31/2025 - 14:04:00: "Player1<2><[U:1:12345678]><Red>" killed "Player3<4><[U:1:34567890]><Blue>" with "sniperrifle" (customkill "headshot") (attacker_position "1300 1400 1500") (victim_position "1350 1450 1550")
+L 12/31/2025 - 14:04:05: "Player2<3><[U:1:23456789]><Red>" triggered "first_heal_after_spawn" (time "3.5")
+L 12/31/2025 - 14:04:10: "Player2<3><[U:1:23456789]><Red>" triggered "lost_uber_advantage" (time "15")
+L 12/31/2025 - 14:04:15: "Player2<3><[U:1:23456789]><Red>" triggered "empty_uber"
+L 12/31/2025 - 14:04:20: "Player4<5><[U:1:45678901]><Blue>" killed "Player1<2><[U:1:12345678]><Red>" with "flamethrower" (customkill "burning") (attacker_position "1400 1500 1600") (victim_position "1450 1550 1650")
+L 12/31/2025 - 14:04:25: "Player3<4><[U:1:34567890]><Blue>" killed "Player2<3><[U:1:23456789]><Red>" with "tribalkukri" (customkill "bleed") (attacker_position "1500 1600 1700") (victim_position "1550 1650 1750")
+L 12/31/2025 - 14:04:30: Team "Blue" triggered "Round_Win" (winner "Blue")
+L 12/31/2025 - 14:04:31: Team "Blue" final score "2" with "2" players
+L 12/31/2025 - 14:04:32: Team "Red" final score "0" with "2" players
+L 12/31/2025 - 14:04:33: World triggered "Game_Over" reason "Reached Win Limit"
+L 12/31/2025 - 14:04:40: "Player3<4><[U:1:34567890]><Blue>" say "gg"
+L 12/31/2025 - 14:04:41: "Player1<2><[U:1:12345678]><Red>" say "gg wp"
+L 12/31/2025 - 14:04:50: "Player1<2><[U:1:12345678]><Red>" disconnected (reason "Disconnect by user.")
+L 12/31/2025 - 14:04:51: "Player2<3><[U:1:23456789]><Red>" disconnected (reason "Disconnect by user.")
+L 12/31/2025 - 14:04:52: "Player3<4><[U:1:34567890]><Blue>" disconnected (reason "Disconnect by user.")
+L 12/31/2025 - 14:04:53: "Player4<5><[U:1:45678901]><Blue>" disconnected (reason "Disconnect by user.")
+L 12/31/2025 - 14:05:00: Log file closed

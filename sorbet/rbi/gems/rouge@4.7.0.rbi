@@ -2140,6 +2140,14 @@ class Rouge::Lexers::Gherkin < ::Rouge::RegexLexer
   end
 end
 
+# source://rouge//lib/rouge/lexers/gjs.rb#8
+class Rouge::Lexers::Gjs < ::Rouge::Lexers::Javascript
+  # @return [Gjs] a new instance of Gjs
+  #
+  # source://rouge//lib/rouge/lexers/gjs.rb#15
+  def initialize(*_arg0); end
+end
+
 # This file defines the GLSL language lexer to the Rouge
 # syntax highlighter.
 #
@@ -2165,21 +2173,27 @@ end
 # source://rouge//lib/rouge/lexers/go.rb#6
 class Rouge::Lexers::Go < ::Rouge::RegexLexer; end
 
-# source://rouge//lib/rouge/lexers/go.rb#96
+# source://rouge//lib/rouge/lexers/go.rb#98
 Rouge::Lexers::Go::BIG_U_VALUE = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#102
+# source://rouge//lib/rouge/lexers/go.rb#28
+Rouge::Lexers::Go::BINARY_DIGIT = T.let(T.unsafe(nil), Regexp)
+
+# source://rouge//lib/rouge/lexers/go.rb#76
+Rouge::Lexers::Go::BINARY_LIT = T.let(T.unsafe(nil), Regexp)
+
+# source://rouge//lib/rouge/lexers/go.rb#104
 Rouge::Lexers::Go::BYTE_VALUE = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#103
+# source://rouge//lib/rouge/lexers/go.rb#105
 Rouge::Lexers::Go::CHAR_LIT = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#35
+# source://rouge//lib/rouge/lexers/go.rb#36
 Rouge::Lexers::Go::COMMENT = T.let(T.unsafe(nil), Regexp)
 
 # Floating-point literals
 #
-# source://rouge//lib/rouge/lexers/go.rb#81
+# source://rouge//lib/rouge/lexers/go.rb#83
 Rouge::Lexers::Go::DECIMALS = T.let(T.unsafe(nil), Regexp)
 
 # source://rouge//lib/rouge/lexers/go.rb#27
@@ -2187,54 +2201,54 @@ Rouge::Lexers::Go::DECIMAL_DIGIT = T.let(T.unsafe(nil), Regexp)
 
 # Integer literals
 #
-# source://rouge//lib/rouge/lexers/go.rb#74
+# source://rouge//lib/rouge/lexers/go.rb#75
 Rouge::Lexers::Go::DECIMAL_LIT = T.let(T.unsafe(nil), Regexp)
 
 # Rune literals
 #
-# source://rouge//lib/rouge/lexers/go.rb#94
+# source://rouge//lib/rouge/lexers/go.rb#96
 Rouge::Lexers::Go::ESCAPED_CHAR = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#104
+# source://rouge//lib/rouge/lexers/go.rb#106
 Rouge::Lexers::Go::ESCAPE_SEQUENCE = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#82
+# source://rouge//lib/rouge/lexers/go.rb#84
 Rouge::Lexers::Go::EXPONENT = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#83
+# source://rouge//lib/rouge/lexers/go.rb#85
 Rouge::Lexers::Go::FLOAT_LIT = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#34
+# source://rouge//lib/rouge/lexers/go.rb#35
 Rouge::Lexers::Go::GENERAL_COMMENT = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#101
+# source://rouge//lib/rouge/lexers/go.rb#103
 Rouge::Lexers::Go::HEX_BYTE_VALUE = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#29
+# source://rouge//lib/rouge/lexers/go.rb#30
 Rouge::Lexers::Go::HEX_DIGIT = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#76
+# source://rouge//lib/rouge/lexers/go.rb#78
 Rouge::Lexers::Go::HEX_LIT = T.let(T.unsafe(nil), Regexp)
 
 # Identifiers
 #
-# source://rouge//lib/rouge/lexers/go.rb#53
+# source://rouge//lib/rouge/lexers/go.rb#54
 Rouge::Lexers::Go::IDENTIFIER = T.let(T.unsafe(nil), Regexp)
 
 # Imaginary literals
 #
-# source://rouge//lib/rouge/lexers/go.rb#90
+# source://rouge//lib/rouge/lexers/go.rb#92
 Rouge::Lexers::Go::IMAGINARY_LIT = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#113
+# source://rouge//lib/rouge/lexers/go.rb#115
 Rouge::Lexers::Go::INTERPRETED_STRING_LIT = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#77
+# source://rouge//lib/rouge/lexers/go.rb#79
 Rouge::Lexers::Go::INT_LIT = T.let(T.unsafe(nil), Regexp)
 
 # Keywords
 #
-# source://rouge//lib/rouge/lexers/go.rb#39
+# source://rouge//lib/rouge/lexers/go.rb#40
 Rouge::Lexers::Go::KEYWORD = T.let(T.unsafe(nil), Regexp)
 
 # Letters and digits
@@ -2244,49 +2258,49 @@ Rouge::Lexers::Go::LETTER = T.let(T.unsafe(nil), Regexp)
 
 # Comments
 #
-# source://rouge//lib/rouge/lexers/go.rb#33
+# source://rouge//lib/rouge/lexers/go.rb#34
 Rouge::Lexers::Go::LINE_COMMENT = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#95
+# source://rouge//lib/rouge/lexers/go.rb#97
 Rouge::Lexers::Go::LITTLE_U_VALUE = T.let(T.unsafe(nil), Regexp)
 
 # source://rouge//lib/rouge/lexers/go.rb#19
 Rouge::Lexers::Go::NEWLINE = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#100
+# source://rouge//lib/rouge/lexers/go.rb#102
 Rouge::Lexers::Go::OCTAL_BYTE_VALUE = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#28
+# source://rouge//lib/rouge/lexers/go.rb#29
 Rouge::Lexers::Go::OCTAL_DIGIT = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#75
+# source://rouge//lib/rouge/lexers/go.rb#77
 Rouge::Lexers::Go::OCTAL_LIT = T.let(T.unsafe(nil), Regexp)
 
 # Operators and delimiters
 #
-# source://rouge//lib/rouge/lexers/go.rb#58
+# source://rouge//lib/rouge/lexers/go.rb#59
 Rouge::Lexers::Go::OPERATOR = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#130
+# source://rouge//lib/rouge/lexers/go.rb#132
 Rouge::Lexers::Go::PREDECLARED_CONSTANTS = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#132
+# source://rouge//lib/rouge/lexers/go.rb#134
 Rouge::Lexers::Go::PREDECLARED_FUNCTIONS = T.let(T.unsafe(nil), Regexp)
 
 # Predeclared identifiers
 #
-# source://rouge//lib/rouge/lexers/go.rb#120
+# source://rouge//lib/rouge/lexers/go.rb#122
 Rouge::Lexers::Go::PREDECLARED_TYPES = T.let(T.unsafe(nil), Regexp)
 
 # String literals
 #
-# source://rouge//lib/rouge/lexers/go.rb#112
+# source://rouge//lib/rouge/lexers/go.rb#114
 Rouge::Lexers::Go::RAW_STRING_LIT = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#68
+# source://rouge//lib/rouge/lexers/go.rb#69
 Rouge::Lexers::Go::SEPARATOR = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#116
+# source://rouge//lib/rouge/lexers/go.rb#118
 Rouge::Lexers::Go::STRING_LIT = T.let(T.unsafe(nil), Regexp)
 
 # source://rouge//lib/rouge/lexers/go.rb#20
@@ -2298,7 +2312,7 @@ Rouge::Lexers::Go::UNICODE_DIGIT = T.let(T.unsafe(nil), Regexp)
 # source://rouge//lib/rouge/lexers/go.rb#21
 Rouge::Lexers::Go::UNICODE_LETTER = T.let(T.unsafe(nil), Regexp)
 
-# source://rouge//lib/rouge/lexers/go.rb#97
+# source://rouge//lib/rouge/lexers/go.rb#99
 Rouge::Lexers::Go::UNICODE_VALUE = T.let(T.unsafe(nil), Regexp)
 
 # Characters
@@ -2340,6 +2354,14 @@ class Rouge::Lexers::Groovy < ::Rouge::RegexLexer
     # source://rouge//lib/rouge/lexers/groovy.rb#34
     def types; end
   end
+end
+
+# source://rouge//lib/rouge/lexers/gts.rb#8
+class Rouge::Lexers::Gts < ::Rouge::Lexers::Typescript
+  # @return [Gts] a new instance of Gts
+  #
+  # source://rouge//lib/rouge/lexers/gts.rb#15
+  def initialize(*_arg0); end
 end
 
 # source://rouge//lib/rouge/lexers/hlsl.rb#8

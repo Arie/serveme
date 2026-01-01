@@ -1,1 +1,1 @@
-<% clean = clean_log_line(log_line) %><%= clean %><%= !clean.end_with?("\n") ? "\n" : "" %>
+<% formatted = LogLineFormatter.new(log_line).format %><div class="log-line log-line-<%= formatted[:type] %>" data-action="click->log-filter#toggleRawLine"><div class="log-formatted"><%= log_timestamp(formatted[:timestamp]) %><%= render_log_line_content(formatted) %></div><div class="log-raw-expandable"><%= formatted[:raw] %></div></div>

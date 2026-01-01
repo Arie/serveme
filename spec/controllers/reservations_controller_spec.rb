@@ -296,4 +296,88 @@ describe ReservationsController do
       expect(regular_player_data[:sdr]).to be_falsy
     end
   end
+
+  describe '#rcon' do
+    render_views
+
+    let(:log_dir) { Rails.root.join('log', 'streaming') }
+
+    before { FileUtils.mkdir_p(log_dir) }
+
+    context 'with a comprehensive log file' do
+      let(:reservation) { create(:reservation, user: @user, server: create(:server)) }
+      let(:log_file) { log_dir.join("#{reservation.logsecret}.log") }
+      let(:log_content) do
+        <<~LOG
+          L 01/01/2026 - 12:00:00: "Scout<2><[U:1:12345]><Red>" connected, address "192.168.1.1:27005"
+          L 01/01/2026 - 12:00:03: World triggered "Round_Start"
+          L 01/01/2026 - 12:00:10: "Scout<2><[U:1:12345]><Red>" killed "Medic<3><[U:1:67890]><Blue>" with "scattergun" (attacker_position "1024 512 64") (victim_position "1000 500 60")
+          L 01/01/2026 - 12:00:11: "Scout<2><[U:1:12345]><Red>" killed "Sniper<4><[U:1:11111]><Blue>" with "scattergun" (customkill "headshot") (attacker_position "1024 512 64") (victim_position "1000 500 60")
+          L 01/01/2026 - 12:00:12: "Spy<5><[U:1:22222]><Blue>" killed "Heavy<6><[U:1:33333]><Red>" with "knife" (customkill "backstab") (attacker_position "500 300 64") (victim_position "500 300 64")
+          L 01/01/2026 - 12:00:15: "Soldier<7><[U:1:44444]><Red>" say "nice shot!"
+          L 01/01/2026 - 12:00:35: World triggered "Round_Win" (winner "Red")
+          L 01/01/2026 - 12:00:40: "Pyro<10><[U:1:77777]><Blue>" committed suicide with "world"
+          L 01/01/2026 - 12:00:50: "Scout<2><[U:1:12345]><Red>" disconnected (reason "Disconnect by user.")
+        LOG
+      end
+
+      before do
+        reservation.update_columns(starts_at: 1.hour.ago, ends_at: 1.hour.from_now)
+        File.write(log_file, log_content)
+      end
+
+      after { FileUtils.rm_f(log_file) }
+
+      it 'renders log lines with proper formatting' do
+        get :rcon, params: { id: reservation.id }
+
+        expect(response).to be_successful
+        expect(assigns(:log_lines)).to be_present
+
+        # Kill events with weapon icons
+        expect(response.body).to include('log-line-kill')
+        expect(response.body).to include('killicon')
+
+        # Kill modifiers
+        expect(response.body).to include('headshot')
+        expect(response.body).to include('backstab')
+
+        # Chat messages
+        expect(response.body).to include('log-line-say')
+        expect(response.body).to include('nice shot!')
+
+        # Connect/disconnect
+        expect(response.body).to include('log-line-connect')
+        expect(response.body).to include('log-line-disconnect')
+
+        # Round events
+        expect(response.body).to include('log-line-round_start')
+        expect(response.body).to include('log-line-round_win')
+
+        # Suicide
+        expect(response.body).to include('log-line-suicide')
+
+        # Player team colors
+        expect(response.body).to include('team-red')
+        expect(response.body).to include('team-blue')
+
+        # Filter controls
+        expect(response.body).to include('log-filter-group')
+        expect(response.body).to include('log-raw-toggle')
+      end
+    end
+
+    context 'without a log file' do
+      let(:reservation) { create(:reservation, user: @user, server: create(:server)) }
+
+      before { reservation.update_columns(starts_at: 1.hour.ago, ends_at: 1.hour.from_now) }
+
+      it 'handles missing log file gracefully' do
+        get :rcon, params: { id: reservation.id }
+
+        expect(response).to be_successful
+        expect(assigns(:log_lines)).to eq([])
+      end
+    end
+  end
 end

@@ -18,7 +18,7 @@ class Handler < EM::Connection
   include LogLineHelper
 
   def receive_data(data)
-    log_line = ActiveSupport::Multibyte::Chars.new(data).tidy_bytes[5..]
+    log_line = data.force_encoding('UTF-8').scrub[5..]
     LogWorker.perform_async(log_line.to_s) if interesting_line?(log_line)
     matches = log_line.match(LogWorker::LOG_LINE_REGEX)
     write_log(matches[:secret], matches[:line]) if matches && matches[:line] && matches[:secret].present?

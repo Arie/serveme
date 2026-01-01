@@ -1,0 +1,790 @@
+// Web RCON Log Lines Styles
+// Kill-feed style display for TF2 server logs
+
+// Utility
+.hidden
+  display: none !important
+
+// Combined RCON form + filters bar
+.log-controls-bar
+  display: flex
+  align-items: center
+  gap: 16px
+  margin-bottom: 10px
+  padding: 8px 2px
+  background: #2a2a2a
+  border-radius: 4px
+
+// RCON form container
+.rcon-form-container
+  display: flex
+  align-items: center
+  flex-shrink: 0
+  position: relative
+
+.rcon-command
+  display: flex
+  align-items: center
+  gap: 8px
+  margin: 0
+
+  .suggestions
+    position: relative
+    flex-shrink: 0
+
+  // Target the input inside simple_form wrapper
+  input[type="text"].form-control
+    width: 350px !important
+    height: 38px !important
+    padding: 6px 12px
+    font-size: 14px
+    box-sizing: border-box
+
+  // Hide simple_form wrapper margin
+  .form-group
+    margin: 0
+
+  input[type="submit"].btn
+    height: 38px
+    padding: 6px 16px
+    font-size: 14px
+    flex-shrink: 0
+
+.rcon-help-link
+  color: #ffc107
+  font-weight: bold
+  font-size: 1.1em
+  margin-left: 8px
+  text-decoration: none
+
+  &:hover
+    color: #ffda6a
+
+// Command list popup
+.command-list-popup
+  display: none
+  position: absolute
+  top: 100%
+  left: 0
+  z-index: 1000
+  width: 600px
+  max-width: 80vw
+  margin-top: 8px
+  padding: 12px
+  background: #343a40
+  border: 1px solid #495057
+  border-radius: 4px
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3)
+
+  &.show
+    display: block
+
+.command-list-header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-bottom: 8px
+
+  h6
+    margin: 0
+    color: #f8f9fa
+
+.command-list-close
+  background: none
+  border: none
+  color: #adb5bd
+  font-size: 1.4em
+  cursor: pointer
+  padding: 0
+  line-height: 1
+
+  &:hover
+    color: #fff
+
+.command-list-search
+  margin-bottom: 8px
+
+  input
+    background: #1a1a1a
+    border-color: #495057
+    color: #f8f9fa
+
+    &::placeholder
+      color: #6c757d
+
+.commands-grid
+  display: grid
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr))
+  gap: 4px
+  max-height: 300px
+  overflow-y: auto
+
+.command-item
+  margin-bottom: 2px
+
+.command-link
+  display: block
+  padding: 4px 8px
+  text-decoration: none
+  border-radius: 3px
+  color: #adb5bd
+
+  &:hover
+    background: #495057
+    color: #f8f9fa
+    text-decoration: none
+
+.command-name
+  color: #e9ecef
+  display: block
+
+.command-desc
+  color: #888
+  display: block
+  font-size: 0.85em
+
+// Filter group
+.log-filter-group
+  display: flex
+  align-items: center
+  gap: 10px
+  flex: 1
+
+  &.hidden
+    display: none
+
+.log-filter-title
+  color: #888
+  font-size: 0.9em
+  line-height: 1
+  display: flex
+  align-items: center
+
+.log-filter-label
+  display: flex
+  align-items: center
+  gap: 4px
+  cursor: pointer
+  color: #ccc
+  font-size: 0.9em
+  user-select: none
+  margin: 0
+
+  input[type="checkbox"]
+    cursor: pointer
+
+  &:hover
+    color: #fff
+
+// Raw toggle switch
+.log-raw-toggle
+  display: flex
+  align-items: center
+  gap: 6px
+  cursor: pointer
+  color: #ccc
+  font-size: 0.9em
+  user-select: none
+  margin: 0 0 0 8px
+
+  input[type="checkbox"]
+    display: none
+
+  .toggle-switch
+    position: relative
+    width: 32px
+    height: 18px
+    background: #555
+    border-radius: 9px
+    transition: background 0.2s
+
+    &::after
+      content: ''
+      position: absolute
+      top: 2px
+      left: 2px
+      width: 14px
+      height: 14px
+      background: #fff
+      border-radius: 50%
+      transition: transform 0.2s
+
+  input:checked + .toggle-switch
+    background: #5cb85c
+
+    &::after
+      transform: translateX(14px)
+
+  &:hover
+    color: #fff
+
+// Test log page (full viewport)
+.test-log-page
+  height: calc(100vh - 80px)
+  display: flex
+  flex-direction: column
+  padding: 10px 15px
+
+.test-log-wrapper
+  display: flex
+  flex-direction: column
+  flex: 1
+  min-height: 0
+
+.test-log-lines
+  flex: 1
+  max-height: none
+
+// Main log container
+.web-rcon-log-lines
+  max-height: calc(100vh - 280px)
+  min-height: 100px
+  overflow-y: auto
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace
+  font-size: 13px
+  background: #1a1a1a
+  padding: 10px
+  border-radius: 4px
+
+  &:empty
+    display: flex
+    align-items: center
+    justify-content: center
+    color: #666
+    &::after
+      content: "Waiting for log data..."
+
+  // Raw view mode - show all raw lines, hide formatted
+  &.raw-view
+    .log-line
+      cursor: default
+      .log-formatted
+        display: none
+      .log-raw-expandable
+        max-height: none
+        padding: 0
+        margin: 0
+        background: transparent
+        font-size: 13px
+
+// Individual log line
+.log-line
+  padding: 3px 0
+  display: flex
+  flex-direction: column
+  border-bottom: 1px solid #2a2a2a
+  min-height: 24px
+  cursor: pointer
+
+  &:hover
+    background: #252525
+
+  .log-formatted
+    display: flex
+    align-items: center
+    gap: 6px
+    flex-wrap: wrap
+    line-height: 24px
+
+  .log-raw-expandable
+    max-height: 0
+    overflow: hidden
+    color: #888
+    font-size: 0.85em
+    white-space: pre-wrap
+    word-break: break-all
+    background: #222
+    border-radius: 3px
+    transition: max-height 0.2s ease-out, padding 0.2s ease-out, margin 0.2s ease-out
+    padding: 0 8px
+    margin: 0
+    line-height: 24px
+
+  &.expanded
+    .log-raw-expandable
+      max-height: 200px
+      padding: 6px 8px
+      margin-top: 4px
+
+// Timestamp
+.log-timestamp
+  color: #666
+  font-size: 0.85em
+  min-width: 65px
+  flex-shrink: 0
+
+// Player names with team colors
+.player-name
+  font-weight: bold
+  text-decoration: none
+  padding: 1px 4px
+  border-radius: 2px
+
+  &:hover
+    text-decoration: underline
+
+  &.team-red
+    color: #ff6b6b
+    background: rgba(189, 59, 59, 0.2)
+
+  &.team-blue
+    color: #74b9ff
+    background: rgba(88, 133, 162, 0.2)
+
+  &.team-spectator,
+  &.team-unassigned
+    color: #888
+    background: rgba(136, 136, 136, 0.1)
+
+// Killicon sprite (new consistent icons)
+.killicon
+  display: inline-block
+  background-image: image-url('killicons.png')
+  background-repeat: no-repeat
+  vertical-align: middle
+  flex-shrink: 0
+  transform: scale(0.6)
+  margin: -6px -8px
+  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.9))
+
+.killicon2
+  display: inline-block
+  background-image: image-url('killicons2.png')
+  background-repeat: no-repeat
+  vertical-align: middle
+  flex-shrink: 0
+  transform: scale(0.6)
+  margin: -6px -8px
+  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.9))
+
+.killicon3
+  display: inline-block
+  background-image: image-url('killicons3.png')
+  background-repeat: no-repeat
+  vertical-align: middle
+  flex-shrink: 0
+  transform: scale(0.6)
+  margin: -6px -8px
+  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.9))
+
+.killicon4
+  display: inline-block
+  background-image: image-url('killicons_tf2.png')
+  background-repeat: no-repeat
+  vertical-align: middle
+  flex-shrink: 0
+  transform: scale(0.6)
+  margin: -6px -8px
+  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.9))
+
+.killicon5
+  display: inline-block
+  background-image: image-url('killicons_tf2_v2.png')
+  background-repeat: no-repeat
+  vertical-align: middle
+  flex-shrink: 0
+  transform: scale(0.6)
+  margin: -6px -8px
+  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.9))
+
+.killicon6
+  display: inline-block
+  background-image: image-url('killicons_tf2_v3.png')
+  background-repeat: no-repeat
+  vertical-align: middle
+  flex-shrink: 0
+  transform: scale(0.6)
+  margin: -6px -8px
+  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.9))
+
+// Weapon icon (legacy fallback)
+.weapon-icon
+  display: inline-block
+  width: 28px
+  height: 30px
+  background-image: image-url('itemsprite.png')
+  background-repeat: no-repeat
+  vertical-align: middle
+  flex-shrink: 0
+  transform: scale(0.7)
+  margin: -4px -4px
+  filter: drop-shadow(0.5px 0 0 rgba(255,255,255,0.6)) drop-shadow(-0.5px 0 0 rgba(255,255,255,0.6)) drop-shadow(0 0.5px 0 rgba(255,255,255,0.6)) drop-shadow(0 -0.5px 0 rgba(255,255,255,0.6))
+
+// Emoji weapon icon (for world kills, etc.)
+.weapon-icon-emoji
+  display: inline-block
+  font-size: 14px
+  line-height: 1
+  vertical-align: middle
+  flex-shrink: 0
+
+// Kill skull
+.kill-skull
+  font-size: 12px
+  margin: 0 2px
+
+// Damage arrow
+.damage-arrow
+  color: #888
+  margin: 0 2px
+
+// Damage amount (TF2 yellow by default)
+.damage-amount
+  color: #ffe400
+  font-weight: bold
+  &.damage-crit
+    color: #ff4444
+  &.damage-minicrit
+    color: #ff8800
+
+// Headshot badge
+.damage-headshot
+  color: #000
+  background: #ffcc00
+  font-size: 0.75em
+  font-weight: bold
+  padding: 1px 3px
+  border-radius: 2px
+
+// Healing amount (used in heals, pickups, airshot heals)
+.heal-amount
+  color: #00ff88
+  font-weight: bold
+  margin: 0 2px
+
+// Class icons
+.class-icon
+  width: 20px
+  height: 20px
+  vertical-align: middle
+  flex-shrink: 0
+
+// Kill event specific
+.log-line-kill
+  .log-kill
+    display: flex
+    align-items: center
+    gap: 4px
+
+  .kill-modifier
+    font-size: 0.75em
+    font-weight: bold
+    padding: 1px 3px
+    border-radius: 2px
+    margin-left: 4px
+
+    &.headshot
+      color: #000
+      background: #ffcc00
+
+    &.backstab
+      font-size: 1em
+      background: none
+      padding: 0
+
+    &.telefrag
+      color: #fff
+      background: #9b59b6
+      font-size: 1em
+      padding: 0
+
+    &.taunt
+      font-size: 1em
+      background: none
+      padding: 0
+
+    &.bleed
+      font-size: 1em
+      background: none
+      padding: 0
+
+    &.burning
+      font-size: 1em
+      background: none
+      padding: 0
+
+    &.reflected
+      color: #fff
+      background: #3498db
+      font-size: 1em
+      padding: 0
+
+    &.gib
+      font-size: 1em
+      background: none
+      padding: 0
+
+// Chat event
+.log-line-say,
+.log-line-team_say
+  .log-chat
+    display: flex
+    align-items: baseline
+    gap: 4px
+
+  .chat-separator
+    color: #666
+
+  .chat-message
+    color: #fff
+    word-break: break-word
+
+.log-line-team_say
+  .chat-message
+    color: #90ee90
+
+// Connect/disconnect events
+.log-line-connect,
+.log-line-disconnect
+  .connect-action,
+  .disconnect-action
+    color: #6c757d
+    font-style: italic
+
+.log-line-connect
+  .connect-action
+    color: #28a745
+
+.log-line-disconnect
+  .disconnect-action
+    color: #dc3545
+
+// Round events
+.log-line-round_win,
+.log-line-round_start,
+.log-line-round_stalemate,
+.log-line-round_length,
+.log-line-current_score,
+.log-line-final_score,
+.log-line-match_end,
+.log-line-point_capture
+  .log-round,
+  .log-capture
+    color: #ffc107
+    font-weight: bold
+
+// Console/RCON events
+.log-line-console_say,
+.log-line-rcon
+  .console-prefix,
+  .rcon-prefix
+    color: #17a2b8
+    font-weight: bold
+
+  .console-message,
+  .rcon-message
+    color: #adb5bd
+
+// Suicide events
+.log-line-suicide
+  .suicide-action
+    color: #6c757d
+    font-style: italic
+
+// Medic death/drop events
+.log-line-medic_death_ex
+  .medic-drop-action
+    color: #ff4444
+    font-weight: bold
+    text-transform: uppercase
+
+.log-medic-drop
+  background: rgba(255, 68, 68, 0.15)
+  padding: 2px 6px
+  border-radius: 3px
+  border-left: 3px solid #ff4444
+
+// Charge ready event
+.log-line-charge_ready
+  .charge-ready-action
+    color: #00ff00
+    font-weight: bold
+
+// Charge deployed event
+.log-line-charge_deployed
+  .charge-deployed-action
+    color: #ffc107
+    font-weight: bold
+
+// Charge ended event
+.log-line-charge_ended
+  .charge-ended-action
+    color: #ffc107
+    font-weight: bold
+
+// Lost uber advantage event
+.log-line-lost_uber_advantage
+  .lost-uber-action
+    color: #ff6600
+    font-weight: bold
+
+// Empty uber event (uber depleted)
+.log-line-empty_uber
+  .empty-uber-action
+    color: #ffc107
+    font-weight: bold
+
+// First heal after spawn
+.log-line-first_heal_after_spawn
+  .first-heal-action
+    color: #888
+
+// Player extinguished
+.log-line-player_extinguished
+  .log-extinguish
+    display: flex
+    align-items: center
+    gap: 4px
+
+  .extinguish-icon
+    font-size: 14px
+
+// Airshot event
+.log-line-airshot
+  .log-airshot
+    display: flex
+    align-items: center
+    gap: 4px
+
+  .airshot-badge
+    color: #000
+    background: linear-gradient(135deg, #ff6b6b, #ffd93d)
+    font-size: 0.75em
+    font-weight: bold
+    padding: 2px 5px
+    border-radius: 3px
+    text-transform: uppercase
+    margin: 0 4px
+
+// Airshot heal event (Crusader's Crossbow mid-air heal)
+.log-line-airshot_heal
+  .log-airshot-heal
+    display: flex
+    align-items: center
+    gap: 4px
+
+  .airshot-heal-badge
+    color: #000
+    background: linear-gradient(135deg, #74b9ff, #00ff88)
+    font-size: 0.75em
+    font-weight: bold
+    padding: 2px 5px
+    border-radius: 3px
+    text-transform: uppercase
+    margin: 0 4px
+
+// Joined team event
+.log-line-joined_team
+  .joined-action
+    color: #6c757d
+
+  .team-name
+    font-weight: bold
+    &.team-red
+      color: #ff6b6b
+    &.team-blue
+      color: #74b9ff
+    &.team-spectator,
+    &.team-unassigned
+      color: #888
+
+// Built object event
+.log-line-builtobject
+  .build-action
+    color: #b8860b
+
+// Killedobject events (building destruction)
+.log-line-killedobject
+  .log-killedobject
+    display: flex
+    align-items: center
+    gap: 4px
+
+  .destroy-emoji
+    font-size: 16px
+
+  .building-name
+    color: #ff9800
+    font-weight: bold
+
+// Capture blocked event
+.log-line-capture_block
+  .log-capture-block
+    display: flex
+    align-items: center
+    gap: 4px
+
+  .capture-block-action
+    color: #ff9800
+    font-weight: bold
+
+  .cap-name
+    color: #ffc107
+
+// Shot fired/hit events
+.log-line-shot_fired,
+.log-line-shot_hit
+  .log-shot
+    display: flex
+    align-items: center
+    gap: 4px
+
+  .shot-action
+    color: #888
+
+  .shot-hit-action
+    color: #8bc34a
+
+// Unknown events
+.log-line-unknown
+  .log-content
+    color: #666
+
+// CSS-based filtering using hide classes (faster than show classes)
+// Hide specific types when their hide-* class is on the container
+.web-rcon-log-lines
+  &.hide-kill .log-line-kill,
+  &.hide-suicide .log-line-suicide,
+  &.hide-assist .log-line-assist,
+  &.hide-domination .log-line-domination,
+  &.hide-revenge .log-line-revenge,
+  &.hide-say .log-line-say,
+  &.hide-team_say .log-line-team_say,
+  &.hide-console_say .log-line-console_say,
+  &.hide-rcon .log-line-rcon,
+  &.hide-connect .log-line-connect,
+  &.hide-disconnect .log-line-disconnect,
+  &.hide-joined_team .log-line-joined_team,
+  &.hide-spawn .log-line-spawn,
+  &.hide-role_change .log-line-role_change,
+  &.hide-round_win .log-line-round_win,
+  &.hide-round_start .log-line-round_start,
+  &.hide-round_stalemate .log-line-round_stalemate,
+  &.hide-round_length .log-line-round_length,
+  &.hide-current_score .log-line-current_score,
+  &.hide-final_score .log-line-final_score,
+  &.hide-match_end .log-line-match_end,
+  &.hide-point_capture .log-line-point_capture,
+  &.hide-capture_block .log-line-capture_block,
+  &.hide-damage .log-line-damage,
+  &.hide-headshot_damage .log-line-headshot_damage,
+  &.hide-airshot .log-line-airshot,
+  &.hide-heal .log-line-heal,
+  &.hide-airshot_heal .log-line-airshot_heal,
+  &.hide-pickup_item .log-line-pickup_item,
+  &.hide-charge_ready .log-line-charge_ready,
+  &.hide-charge_deployed .log-line-charge_deployed,
+  &.hide-charge_ended .log-line-charge_ended,
+  &.hide-medic_death .log-line-medic_death,
+  &.hide-medic_death_ex .log-line-medic_death_ex,
+  &.hide-lost_uber_advantage .log-line-lost_uber_advantage,
+  &.hide-empty_uber .log-line-empty_uber,
+  &.hide-first_heal_after_spawn .log-line-first_heal_after_spawn,
+  &.hide-builtobject .log-line-builtobject,
+  &.hide-killedobject .log-line-killedobject,
+  &.hide-player_extinguished .log-line-player_extinguished,
+  &.hide-shot_fired .log-line-shot_fired,
+  &.hide-shot_hit .log-line-shot_hit,
+  &.hide-position_report .log-line-position_report,
+  &.hide-unknown .log-line-unknown
+    display: none

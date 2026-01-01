@@ -2,95 +2,78 @@
 
 <div class="row">
   <div class="col-md-12">
-    <% if @reservation.now? %>
-      <div data-controller="command-list" id="command-list-container">
-        <%= simple_form_for(@reservation, url: url_for(controller: "reservations", action: @action || "rcon_command"), html: { class: "form-inline rcon-command", autocomplete: "off"}, data: { controller: "suggestions", action: "turbo:submit-end->suggestions#resetForm", suggestions_url_value: rcon_autocomplete_url(reservation_id: @reservation.id), suggestions_debounce_value: "150", suggestions_prevent_default_submission: true }) do |f| %>
-          <div class="suggestions">
-            <%= f.input :query, label: false, class: "col-md-12 form-control required" do %>
-              <%= text_field_tag :query, nil, placeholder: "RCON command (e.g., changelevel cp_badlands)", class: "col-md-12 form-control required", autocomplete: "off", autofocus: true, spellcheck: false, data: { action: "keyup->suggestions#fetchResults keydown->suggestions#navigateResults", suggestions_target: "query", command_list_target: "input" } %>
+    <div data-controller="log-filter">
+      <div class="log-controls-bar">
+        <% if @reservation.now? %>
+          <div data-controller="command-list" class="rcon-form-container">
+            <%= simple_form_for(@reservation, url: url_for(controller: "reservations", action: @action || "rcon_command"), html: { class: "rcon-command", autocomplete: "off"}, data: { controller: "suggestions", action: "turbo:submit-end->suggestions#resetForm", suggestions_url_value: rcon_autocomplete_url(reservation_id: @reservation.id), suggestions_debounce_value: "150", suggestions_prevent_default_submission: true }) do |f| %>
+              <div class="suggestions">
+                <%= f.input :query, label: false do %>
+                  <%= text_field_tag :query, nil, placeholder: "RCON command", class: "form-control", autocomplete: "off", autofocus: true, spellcheck: false, data: { action: "keyup->suggestions#fetchResults keydown->suggestions#navigateResults", suggestions_target: "query", command_list_target: "input" } %>
+                <% end %>
+                <div data-suggestions-target="results"></div>
+              </div>
+              <%= submit_tag "Send", name: "commit", class: "btn btn-primary", data: { action: "click->suggestions#submitForm" } %>
+              <a href="#" data-action="click->command-list#show" class="rcon-help-link" title="View available commands">?</a>
             <% end %>
-            <div data-suggestions-target="results"></div>
+            <div data-command-list-target="list" class="command-list-popup">
+              <div class="command-list-header">
+                <h6>Available Commands</h6>
+                <button type="button" class="command-list-close" data-action="click->command-list#hide" aria-label="Close">&times;</button>
+              </div>
+              <div class="command-list-search">
+                <input type="text" class="form-control form-control-sm" placeholder="Search commands..."
+                       data-command-list-target="search"
+                       data-action="input->command-list#filterCommands">
+              </div>
+              <div class="commands-grid">
+                <% RconAutocomplete.commands_to_suggest.each do |cmd| %>
+                  <div class="command-item"
+                       data-command-list-target="commandItem"
+                       data-command-text="<%= cmd[:command] %>"
+                       data-command-desc="<%= cmd[:description] %>">
+                    <a href="#" class="command-link" data-action="click->command-list#selectCommand" data-command="<%= cmd[:command] %>">
+                      <strong class="command-name"><%= cmd[:command] %></strong>
+                      <small class="command-desc"><%= cmd[:description] %></small>
+                    </a>
+                  </div>
+                <% end %>
+              </div>
+            </div>
           </div>
-          <%= submit_tag "Send", name: "commit", class: "btn btn-primary", data: { action: "click->suggestions#submitForm" } %>
         <% end %>
-
-        <small class="form-text text-muted">
-          <a href="#" data-action="click->command-list#show" class="help-link">View available commands</a>
-          <div data-command-list-target="list" style="display: none;" class="mt-2 p-2 border rounded command-list-popup">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <h6 class="mb-0 text-light">Available Commands</h6>
-              <button type="button" class="close text-light" data-action="click->command-list#hide" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-
-            <div class="mb-2">
-              <input type="text" class="form-control form-control-sm bg-dark text-light border-secondary" placeholder="Search commands..."
-                     data-command-list-target="search"
-                     data-action="input->command-list#filterCommands">
-            </div>
-
-            <div class="commands-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; max-height: 300px; overflow-y: auto;">
-              <% RconAutocomplete.commands_to_suggest.each do |cmd| %>
-                <div class="command-item"
-                     data-command-list-target="commandItem"
-                     data-command-text="<%= cmd[:command] %>"
-                     data-command-desc="<%= cmd[:description] %>">
-                  <a href="#" class="command-link" data-action="click->command-list#selectCommand" data-command="<%= cmd[:command] %>">
-                    <strong class="command-name"><%= cmd[:command] %></strong>
-                    <small class="d-block command-desc"><%= cmd[:description] %></small>
-                  </a>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        </small>
-
-        <style>
-          .command-list-popup {
-            position: absolute;
-            z-index: 1000;
-            width: 80%;
-            max-width: 800px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            background-color: #343a40;
-            border-color: #495057 !important;
-          }
-          .command-link {
-            display: block;
-            padding: 4px 8px;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background-color 0.2s;
-            color: #adb5bd;
-          }
-          .command-link:hover {
-            background-color: #495057;
-            color: #f8f9fa;
-            text-decoration: none;
-          }
-          .command-item {
-            margin-bottom: 4px;
-          }
-          .command-name {
-            color: #e9ecef;
-          }
-          .command-desc {
-            color: #adb5bd;
-          }
-          .help-link {
-            color: #ffc107;
-          }
-          .help-link:hover {
-            color: #ffda6a;
-            text-decoration: none;
-          }
-        </style>
+        <div class="log-filter-group">
+          <span class="log-filter-title">Filters:</span>
+          <label class="log-filter-label">
+            <input type="checkbox" data-action="change->log-filter#toggleAll" data-log-filter-target="allCheckbox" checked>
+            All
+          </label>
+          <label class="log-filter-label">
+            <input type="checkbox" data-action="change->log-filter#toggleFilter" data-log-filter-target="filterCheckbox" data-log-filter-type="kill,suicide">
+            Kills
+          </label>
+          <label class="log-filter-label">
+            <input type="checkbox" data-action="change->log-filter#toggleFilter" data-log-filter-target="filterCheckbox" data-log-filter-type="say,team_say">
+            Chat
+          </label>
+          <label class="log-filter-label">
+            <input type="checkbox" data-action="change->log-filter#toggleFilter" data-log-filter-target="filterCheckbox" data-log-filter-type="connect,disconnect">
+            Connects
+          </label>
+          <label class="log-filter-label">
+            <input type="checkbox" data-action="change->log-filter#toggleFilter" data-log-filter-target="filterCheckbox" data-log-filter-type="round_win,round_start,round_stalemate,current_score,final_score,match_end,point_capture">
+            Round
+          </label>
+          <label class="log-raw-toggle">
+            <input type="checkbox" data-action="change->log-filter#toggleRaw" data-log-filter-target="rawToggle">
+            <span class="toggle-switch"></span>
+            Raw
+          </label>
+        </div>
       </div>
-    <% end %>
-    <br />
-    <pre class="web-rcon-log-lines" id="<%= "reservation_#{@logsecret}_log_lines" %>">
+      <div class="web-rcon-log-lines" id="<%= "reservation_#{@logsecret}_log_lines" %>" data-log-filter-target="container">
 <% @log_lines.each do |line| %><%= render "reservations/log_line", log_line: line %><% end %>
-    </pre>
+      </div>
+    </div>
   </div>
 </div>

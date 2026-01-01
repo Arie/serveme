@@ -34,13 +34,9 @@ describe LogLineFormatter do
         expect(formatted[:event].weapon).to eq("scattergun")
       end
 
-      it "removes position data from clean output" do
-        expect(formatted[:clean]).not_to include("attacker_position")
-        expect(formatted[:clean]).not_to include("victim_position")
-      end
-
-      it "keeps raw line intact" do
+      it "includes position data in raw output" do
         expect(formatted[:raw]).to include("attacker_position")
+        expect(formatted[:raw]).to include("victim_position")
       end
     end
 

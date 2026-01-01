@@ -365,6 +365,54 @@ describe ReservationsController do
         expect(response.body).to include('log-filter-group')
         expect(response.body).to include('log-raw-toggle')
       end
+
+      it 'sanitizes IP addresses in rendered output' do
+        get :rcon, params: { id: reservation.id }
+
+        # IP addresses should be sanitized to 0.0.0.0
+        expect(response.body).not_to include('192.168.1.1')
+        expect(response.body).to include('0.0.0.0')
+      end
+    end
+
+    context 'with RCON commands containing sensitive data' do
+      let(:reservation) { create(:reservation, user: @user, server: create(:server)) }
+      let(:log_file) { log_dir.join("#{reservation.logsecret}.log") }
+      let(:log_content) do
+        <<~LOG
+          L 01/01/2026 - 12:00:00: rcon from "46.4.87.20:41762": command "sv_logsecret 75313243783007334810188687151252384638; logstf_apikey "63625991abbfde2aca687ac8c2ac84ad""
+          L 01/01/2026 - 12:00:05: rcon from "192.168.1.100:27015": command "rcon_password "supersecret123""
+          L 01/01/2026 - 12:00:10: rcon from "10.0.0.1:27015": command "sv_password "matchpassword""
+        LOG
+      end
+
+      before do
+        reservation.update_columns(starts_at: 1.hour.ago, ends_at: 1.hour.from_now)
+        File.write(log_file, log_content)
+      end
+
+      after { FileUtils.rm_f(log_file) }
+
+      it 'sanitizes IP addresses and secrets in both raw and formatted views' do
+        get :rcon, params: { id: reservation.id }
+
+        expect(response).to be_successful
+
+        # IPs should be sanitized
+        expect(response.body).not_to include('46.4.87.20')
+        expect(response.body).not_to include('192.168.1.100')
+        expect(response.body).not_to include('10.0.0.1')
+
+        # Secrets should be sanitized
+        expect(response.body).not_to include('75313243783007334810188687151252384638')
+        expect(response.body).not_to include('63625991abbfde2aca687ac8c2ac84ad')
+        expect(response.body).not_to include('supersecret123')
+        expect(response.body).not_to include('matchpassword')
+
+        # Should show masked versions
+        expect(response.body).to include('0.0.0.0')
+        expect(response.body).to include('*****')
+      end
     end
 
     context 'without a log file' do

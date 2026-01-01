@@ -81,7 +81,7 @@ module LogLineViewHelper
 
   def render_kill_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
 
     attacker = event.player
     victim = event.target
@@ -120,7 +120,7 @@ module LogLineViewHelper
 
   def render_chat_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:message)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:message)
 
     team_prefix = formatted[:type] == :team_say ? "(TEAM) " : ""
 
@@ -135,7 +135,7 @@ module LogLineViewHelper
 
   def render_connect_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
     content = safe_join([
       log_player_name(event.player),
@@ -147,7 +147,7 @@ module LogLineViewHelper
 
   def render_disconnect_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
     reason = event.respond_to?(:message) ? " (#{event.message})" : ""
 
@@ -176,7 +176,7 @@ module LogLineViewHelper
         content_tag(:span, " captured #{cap_name}", class: "capture-action")
       ])
     else
-      return content_tag(:span, formatted[:clean], class: "log-content")
+      return content_tag(:span, formatted[:raw], class: "log-content")
     end
 
     content_tag(:span, content, class: "log-capture")
@@ -196,13 +196,13 @@ module LogLineViewHelper
       if event.respond_to?(:team) && event.respond_to?(:score)
         "#{event.team}: #{event.score}"
       else
-        formatted[:clean]
+        formatted[:raw]
       end
     when :final_score
       if event.respond_to?(:team) && event.respond_to?(:score)
         "Final - #{event.team}: #{event.score}"
       else
-        formatted[:clean]
+        formatted[:raw]
       end
     when :match_end
       "Match ended"
@@ -213,18 +213,17 @@ module LogLineViewHelper
         secs = (seconds % 60).round
         "Round length: #{mins}:#{secs.to_s.rjust(2, '0')}"
       else
-        formatted[:clean]
+        formatted[:raw]
       end
     else
-      formatted[:clean]
+      formatted[:raw]
     end
 
     content_tag(:span, message, class: "log-round")
   end
 
   def render_console_event(formatted)
-    event = formatted[:event]
-    message = event.respond_to?(:message) ? event.message : formatted[:clean]
+    message = formatted[:message] || formatted[:raw]
 
     content = safe_join([
       content_tag(:span, "Console: ", class: "console-prefix"),
@@ -236,7 +235,7 @@ module LogLineViewHelper
 
   def render_suicide_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
     weapon = event.respond_to?(:weapon) ? event.weapon : nil
 
@@ -250,8 +249,7 @@ module LogLineViewHelper
   end
 
   def render_rcon_event(formatted)
-    event = formatted[:event]
-    message = event.respond_to?(:message) ? event.message : formatted[:clean]
+    message = formatted[:message] || formatted[:raw]
 
     content = safe_join([
       content_tag(:span, "RCON: ", class: "rcon-prefix"),
@@ -263,7 +261,7 @@ module LogLineViewHelper
 
   def render_role_change_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
     role = event.respond_to?(:role) ? event.role : "unknown"
     icon = class_icon(role)
@@ -280,7 +278,7 @@ module LogLineViewHelper
 
   def render_spawn_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
     role = event.respond_to?(:role) ? event.role : nil
     icon = class_icon(role)
@@ -296,7 +294,7 @@ module LogLineViewHelper
 
   def render_domination_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
 
     content = safe_join([
       log_player_name(event.player),
@@ -309,7 +307,7 @@ module LogLineViewHelper
 
   def render_revenge_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
 
     content = safe_join([
       log_player_name(event.player),
@@ -322,7 +320,7 @@ module LogLineViewHelper
 
   def render_pickup_item_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
     item = event.respond_to?(:item) ? event.item : "item"
     healing = event.respond_to?(:healing) && event.healing ? event.healing : nil
@@ -339,7 +337,7 @@ module LogLineViewHelper
 
   def render_heal_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
 
     healing = event.respond_to?(:healing) && event.healing ? event.healing : nil
 
@@ -355,7 +353,7 @@ module LogLineViewHelper
 
   def render_charge_deployed_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
     content = safe_join([
       log_player_name(event.player),
@@ -368,7 +366,7 @@ module LogLineViewHelper
 
   def render_charge_ready_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
     content = safe_join([
       log_player_name(event.player),
@@ -381,7 +379,7 @@ module LogLineViewHelper
 
   def render_charge_ended_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
     duration = event.respond_to?(:duration) ? event.duration : nil
     duration_text = duration ? " (#{duration}s)" : ""
@@ -397,7 +395,7 @@ module LogLineViewHelper
 
   def render_lost_uber_advantage_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
     time_lost = event.respond_to?(:advantage_time) ? event.advantage_time : nil
     time_text = time_lost ? " #{format_duration(time_lost)}" : ""
@@ -425,7 +423,7 @@ module LogLineViewHelper
 
   def render_empty_uber_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
     content = safe_join([
       log_player_name(event.player),
@@ -438,7 +436,7 @@ module LogLineViewHelper
 
   def render_first_heal_after_spawn_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
     heal_time = event.respond_to?(:heal_time) ? event.heal_time : nil
     time_text = heal_time ? " (#{heal_time}s)" : ""
@@ -454,7 +452,7 @@ module LogLineViewHelper
 
   def render_player_extinguished_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
 
     weapon = event.respond_to?(:weapon) ? event.weapon : nil
 
@@ -471,7 +469,7 @@ module LogLineViewHelper
 
   def render_airshot_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
 
     damage = event.respond_to?(:damage) ? event.damage : nil
     weapon = event.respond_to?(:weapon) ? event.weapon : nil
@@ -490,7 +488,7 @@ module LogLineViewHelper
 
   def render_airshot_heal_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
 
     healing = event.respond_to?(:healing) ? event.healing : nil
 
@@ -508,7 +506,7 @@ module LogLineViewHelper
 
   def render_joined_team_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
     team = event.respond_to?(:team) ? event.team : "unknown"
     team_class = team&.downcase || "unassigned"
@@ -524,7 +522,7 @@ module LogLineViewHelper
 
   def render_builtobject_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
     object_name = format_building_name(event.object) if event.respond_to?(:object)
 
@@ -539,7 +537,7 @@ module LogLineViewHelper
 
   def render_damage_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:target)
 
     damage = event.respond_to?(:damage) ? event.damage : nil
     weapon = event.respond_to?(:weapon) ? event.weapon : nil
@@ -568,7 +566,7 @@ module LogLineViewHelper
 
   def render_medic_death_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
     uber = event.respond_to?(:ubercharge) && event.ubercharge ? " (#{event.ubercharge}%)" : ""
 
@@ -583,7 +581,7 @@ module LogLineViewHelper
 
   def render_medic_death_ex_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
     uber = event.respond_to?(:ubercharge) ? event.ubercharge : nil
     is_drop = uber == 100
@@ -608,7 +606,7 @@ module LogLineViewHelper
 
   def render_killedobject_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:objectowner)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player) && event.respond_to?(:objectowner)
 
     weapon = event.respond_to?(:weapon) ? event.weapon : nil
     object_name = format_building_name(event.object) if event.respond_to?(:object)
@@ -711,14 +709,14 @@ module LogLineViewHelper
       render_shot_hit_event(formatted)
     else
       # Strip timestamp from unknown events since we show formatted timestamp separately
-      content_without_timestamp = LogLineFormatter.strip_timestamp(formatted[:clean])
+      content_without_timestamp = LogLineFormatter.strip_timestamp(formatted[:raw])
       content_tag(:span, content_without_timestamp, class: "log-content log-unknown")
     end
   end
 
   def render_capture_block_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
     cap_name = event.respond_to?(:cap_name) ? event.cap_name : "control point"
 
@@ -733,7 +731,7 @@ module LogLineViewHelper
 
   def render_shot_fired_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
     weapon = event.respond_to?(:weapon) ? event.weapon : nil
 
@@ -748,7 +746,7 @@ module LogLineViewHelper
 
   def render_shot_hit_event(formatted)
     event = formatted[:event]
-    return content_tag(:span, formatted[:clean], class: "log-content") unless event.respond_to?(:player)
+    return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
     weapon = event.respond_to?(:weapon) ? event.weapon : nil
 

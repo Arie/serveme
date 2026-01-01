@@ -5,7 +5,6 @@ class LogLineFormatter
   extend T::Sig
 
   TIMESTAMP_REGEX = /^L (\d{2}\/\d{2}\/\d{4} - \d{2}:\d{2}:\d{2}):/
-  POSITION_REGEX = /\s*\((attacker_position|victim_position)\s+"[^"]+"\)/
 
   # Patterns for sanitizing sensitive data
   IP_REGEX = /(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/
@@ -27,12 +26,11 @@ class LogLineFormatter
     attr_accessor :steam_id_cache
   end
 
-  attr_reader :line, :raw_line
+  attr_reader :line
 
   sig { params(line: String).void }
   def initialize(line)
-    @raw_line = line
-    @line = line  # Keep original line for parsing
+    @line = line
   end
 
   sig { returns(T::Hash[Symbol, T.untyped]) }
@@ -41,8 +39,8 @@ class LogLineFormatter
       timestamp: extract_timestamp,
       type: event_type,
       event: parsed_event,
-      raw: sanitize_sensitive_data(@raw_line),
-      clean: clean_for_display(@line)
+      raw: self.class.sanitize_sensitive_data(@line),
+      message: extract_sanitized_message
     }
   end
 
@@ -172,6 +170,21 @@ class LogLineFormatter
     @steam_id_cache = {}
   end
 
+  sig { params(line: String).returns(String) }
+  def self.sanitize_sensitive_data(line)
+    line
+      .gsub(IP_REGEX, "0.0.0.0")
+      .gsub(RCON_PASSWORD_REGEX, 'rcon_password "*****"')
+      .gsub(SV_PASSWORD_REGEX, 'sv_password "*****"')
+      .gsub(TV_PASSWORD_REGEX, 'tv_password "*****"')
+      .gsub(TFTRUE_LOGS_API_KEY_REGEX, 'tftrue_logs_apikey "*****"')
+      .gsub(LOGS_TF_API_KEY_REGEX, 'logstf_apikey "*****"')
+      .gsub(SM_DEMOSTF_APIKEY_REGEX, 'sm_demostf_apikey "*****"')
+      .gsub(LOGADDRESS_ADD_REGEX, 'logaddress_add "*****"')
+      .gsub(LOGADDRESS_DEL_REGEX, 'logaddress_del "*****"')
+      .gsub(LOGSECRET_REGEX, 'sv_logsecret "*****"')
+  end
+
   private
 
   sig { returns(T.nilable(Time)) }
@@ -199,25 +212,12 @@ class LogLineFormatter
     end
   end
 
-  sig { params(line: String).returns(String) }
-  def clean_for_display(line)
-    # Remove position data from line for cleaner display
-    line.gsub(POSITION_REGEX, "")
-  end
+  sig { returns(T.nilable(String)) }
+  def extract_sanitized_message
+    event = parsed_event
+    return nil unless event&.respond_to?(:message)
 
-  sig { params(line: String).returns(String) }
-  def sanitize_sensitive_data(line)
-    line
-      .gsub(IP_REGEX, "0.0.0.0")
-      .gsub(RCON_PASSWORD_REGEX, 'rcon_password "*****"')
-      .gsub(SV_PASSWORD_REGEX, 'sv_password "*****"')
-      .gsub(TV_PASSWORD_REGEX, 'tv_password "*****"')
-      .gsub(TFTRUE_LOGS_API_KEY_REGEX, 'tftrue_logs_apikey "*****"')
-      .gsub(LOGS_TF_API_KEY_REGEX, 'logstf_apikey "*****"')
-      .gsub(SM_DEMOSTF_APIKEY_REGEX, 'sm_demostf_apikey "*****"')
-      .gsub(LOGADDRESS_ADD_REGEX, 'logaddress_add "*****"')
-      .gsub(LOGADDRESS_DEL_REGEX, 'logaddress_del "*****"')
-      .gsub(LOGSECRET_REGEX, 'sv_logsecret "*****"')
+    self.class.sanitize_sensitive_data(event.message.to_s)
   end
 
   sig { params(line: String).returns(String) }

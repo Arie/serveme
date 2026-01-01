@@ -1,4 +1,4 @@
-<%= turbo_stream_from "reservation_#{@logsecret}_log_lines" %>
+<%= turbo_stream_from "reservation_#{@logsecret}_log_lines#{@skip_sanitization ? '_admin' : ''}" %>
 
 <div class="row">
   <div class="col-md-12">

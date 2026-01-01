@@ -47,7 +47,10 @@ class LogWorker
       mapstart = event.unknown.match(MAP_START)
       handle_mapstart(mapstart[2]) if mapstart
     end
-    Turbo::StreamsChannel.broadcast_prepend_to "reservation_#{reservation&.logsecret}_log_lines", target: "reservation_#{reservation&.logsecret}_log_lines", partial: "reservations/log_line", locals: { log_line: line }
+    # Broadcast sanitized version for regular users
+    Turbo::StreamsChannel.broadcast_prepend_to "reservation_#{reservation&.logsecret}_log_lines", target: "reservation_#{reservation&.logsecret}_log_lines", partial: "reservations/log_line", locals: { log_line: line, skip_sanitization: false }
+    # Broadcast unsanitized version for admins
+    Turbo::StreamsChannel.broadcast_prepend_to "reservation_#{reservation&.logsecret}_log_lines_admin", target: "reservation_#{reservation&.logsecret}_log_lines", partial: "reservations/log_line", locals: { log_line: line, skip_sanitization: true }
   end
 
   def handle_mapstart(mapname)

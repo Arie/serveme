@@ -112,4 +112,41 @@ describe LogLineFormatter do
       expect(described_class.steam_id_to_community_id("")).to be_nil
     end
   end
+
+  describe "sensitive data sanitization" do
+    it "sanitizes IP addresses in raw output" do
+      line = 'L 01/01/2026 - 12:00:00: "Player<2><[U:1:12345]><Red>" connected, address "192.168.1.100:27005"'
+      result = described_class.new(line).format
+      expect(result[:raw]).to include("0.0.0.0")
+      expect(result[:raw]).not_to include("192.168.1.100")
+    end
+
+    it "sanitizes rcon_password" do
+      line = 'L 01/01/2026 - 12:00:00: rcon from "192.168.1.1:27015": command "rcon_password "secret123""'
+      result = described_class.new(line).format
+      expect(result[:raw]).to include('rcon_password "*****"')
+      expect(result[:raw]).not_to include("secret123")
+    end
+
+    it "sanitizes sv_password" do
+      line = 'L 01/01/2026 - 12:00:00: rcon: sv_password "mysecret"'
+      result = described_class.new(line).format
+      expect(result[:raw]).to include('sv_password "*****"')
+      expect(result[:raw]).not_to include("mysecret")
+    end
+
+    it "sanitizes API keys" do
+      line = 'L 01/01/2026 - 12:00:00: rcon: logstf_apikey "abc123def456"'
+      result = described_class.new(line).format
+      expect(result[:raw]).to include('logstf_apikey "*****"')
+      expect(result[:raw]).not_to include("abc123def456")
+    end
+
+    it "sanitizes sv_logsecret" do
+      line = 'L 01/01/2026 - 12:00:00: rcon: sv_logsecret secretvalue123'
+      result = described_class.new(line).format
+      expect(result[:raw]).to include('sv_logsecret "*****"')
+      expect(result[:raw]).not_to include("secretvalue123")
+    end
+  end
 end

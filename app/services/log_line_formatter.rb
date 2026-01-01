@@ -7,6 +7,18 @@ class LogLineFormatter
   TIMESTAMP_REGEX = /^L (\d{2}\/\d{2}\/\d{4} - \d{2}:\d{2}:\d{2}):/
   POSITION_REGEX = /\s*\((attacker_position|victim_position)\s+"[^"]+"\)/
 
+  # Patterns for sanitizing sensitive data
+  IP_REGEX = /(\b[0-9]{1,3}\.){3}[0-9]{1,3}\b/
+  RCON_PASSWORD_REGEX = /rcon_password "\S+"/
+  SV_PASSWORD_REGEX = /sv_password "\S+"/
+  TV_PASSWORD_REGEX = /tv_password "\S+"/
+  TFTRUE_LOGS_API_KEY_REGEX = /tftrue_logs_apikey "\S+"/
+  LOGS_TF_API_KEY_REGEX = /logstf_apikey "\S+"/
+  SM_DEMOSTF_APIKEY_REGEX = /sm_demostf_apikey "\S+"/
+  LOGADDRESS_ADD_REGEX = /logaddress_add \S+"/
+  LOGADDRESS_DEL_REGEX = /logaddress_del \S+"/
+  LOGSECRET_REGEX = /sv_logsecret \S+/
+
   TF2_KILLICONS = YAML.load_file(Rails.root.join("config", "tf2_killicons.yml")).freeze
 
   # Memoization cache for Steam ID conversions (cleared per-request via middleware or manually)
@@ -29,8 +41,8 @@ class LogLineFormatter
       timestamp: extract_timestamp,
       type: event_type,
       event: parsed_event,
-      raw: @raw_line,
-      clean: clean_for_display(@line)  # Clean for display only
+      raw: sanitize_sensitive_data(@raw_line),
+      clean: clean_for_display(@line)
     }
   end
 
@@ -191,6 +203,21 @@ class LogLineFormatter
   def clean_for_display(line)
     # Remove position data from line for cleaner display
     line.gsub(POSITION_REGEX, "")
+  end
+
+  sig { params(line: String).returns(String) }
+  def sanitize_sensitive_data(line)
+    line
+      .gsub(IP_REGEX, "0.0.0.0")
+      .gsub(RCON_PASSWORD_REGEX, 'rcon_password "*****"')
+      .gsub(SV_PASSWORD_REGEX, 'sv_password "*****"')
+      .gsub(TV_PASSWORD_REGEX, 'tv_password "*****"')
+      .gsub(TFTRUE_LOGS_API_KEY_REGEX, 'tftrue_logs_apikey "*****"')
+      .gsub(LOGS_TF_API_KEY_REGEX, 'logstf_apikey "*****"')
+      .gsub(SM_DEMOSTF_APIKEY_REGEX, 'sm_demostf_apikey "*****"')
+      .gsub(LOGADDRESS_ADD_REGEX, 'logaddress_add "*****"')
+      .gsub(LOGADDRESS_DEL_REGEX, 'logaddress_del "*****"')
+      .gsub(LOGSECRET_REGEX, 'sv_logsecret "*****"')
   end
 
   sig { params(line: String).returns(String) }

@@ -121,7 +121,7 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     american_date (1.3.0)
     ast (2.4.3)
-    async (2.35.0)
+    async (2.35.1)
       console (~> 1.29)
       fiber-annotation
       io-event (~> 1.11)
@@ -361,6 +361,7 @@ GEM
       rack (~> 3.1)
     ffi (1.17.3-aarch64-linux-gnu)
     ffi (1.17.3-aarch64-linux-musl)
+    ffi (1.17.3-arm64-darwin)
     ffi (1.17.3-x86_64-linux-gnu)
     ffi (1.17.3-x86_64-linux-musl)
     ffi-compiler (1.3.2)
@@ -431,6 +432,7 @@ GEM
       logger (~> 1.6)
     libv8-node (24.12.0.1-aarch64-linux)
     libv8-node (24.12.0.1-aarch64-linux-musl)
+    libv8-node (24.12.0.1-arm64-darwin)
     libv8-node (24.12.0.1-x86_64-linux)
     libv8-node (24.12.0.1-x86_64-linux-musl)
     lint_roller (1.1.0)
@@ -511,6 +513,8 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.0-aarch64-linux-musl)
       racc (~> 1.4)
+    nokogiri (1.19.0-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.19.0-x86_64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.19.0-x86_64-linux-musl)
@@ -546,6 +550,7 @@ GEM
       xml-simple
     pg (1.6.3-aarch64-linux)
     pg (1.6.3-aarch64-linux-musl)
+    pg (1.6.3-arm64-darwin)
     pg (1.6.3-x86_64-linux)
     pg (1.6.3-x86_64-linux-musl)
     popper_js (2.11.8)
@@ -561,7 +566,7 @@ GEM
     psych (5.3.1)
       date
       stringio
-    public_suffix (7.0.0)
+    public_suffix (7.0.1)
     puma (7.1.0)
       nio4r (~> 2.0)
     raabro (1.4.0)
@@ -708,7 +713,7 @@ GEM
       lint_roller (~> 1.1)
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.47.1, < 2.0)
-    rubocop-rails (2.34.2)
+    rubocop-rails (2.34.3)
       activesupport (>= 4.2.0)
       lint_roller (~> 1.1)
       rack (>= 1.1)
@@ -782,14 +787,15 @@ GEM
     simple_form (5.4.0)
       actionpack (>= 7.0)
       activemodel (>= 7.0)
-    sorbet (0.6.12872)
-      sorbet-static (= 0.6.12872)
-    sorbet-runtime (0.6.12872)
-    sorbet-static (0.6.12872-aarch64-linux)
-    sorbet-static (0.6.12872-x86_64-linux)
-    sorbet-static-and-runtime (0.6.12872)
-      sorbet (= 0.6.12872)
-      sorbet-runtime (= 0.6.12872)
+    sorbet (0.6.12873)
+      sorbet-static (= 0.6.12873)
+    sorbet-runtime (0.6.12873)
+    sorbet-static (0.6.12873-aarch64-linux)
+    sorbet-static (0.6.12873-universal-darwin)
+    sorbet-static (0.6.12873-x86_64-linux)
+    sorbet-static-and-runtime (0.6.12873)
+      sorbet (= 0.6.12873)
+      sorbet-runtime (= 0.6.12873)
     spoom (1.7.11)
       erubi (>= 1.10.0)
       prism (>= 0.28.0)
@@ -887,6 +893,7 @@ PLATFORMS
   aarch64-linux
   aarch64-linux-gnu
   aarch64-linux-musl
+  arm64-darwin-25
   x86_64-linux-gnu
   x86_64-linux-musl
 

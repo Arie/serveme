@@ -707,7 +707,7 @@ class Async::Promise
   # All current and future waiters will receive nil.
   # Can only be called on pending promises - no-op if already resolved.
   #
-  # source://async//lib/async/promise.rb#150
+  # source://async//lib/async/promise.rb#152
   def cancel(exception = T.unsafe(nil)); end
 
   # @return [Boolean]
@@ -729,21 +729,21 @@ class Async::Promise
   # If the block raises an exception, the promise will be rejected.
   # If the promise was already resolved, the block will not be called.
   #
-  # source://async//lib/async/promise.rb#170
+  # source://async//lib/async/promise.rb#172
   def fulfill(&block); end
 
   # Reject the promise with an exception.
   # All current and future waiters will receive this exception.
   # Can only be called once - subsequent calls are ignored.
   #
-  # source://async//lib/async/promise.rb#129
+  # source://async//lib/async/promise.rb#131
   def reject(exception); end
 
   # Resolve the promise with a value.
   # All current and future waiters will receive this value.
   # Can only be called once - subsequent calls are ignored.
   #
-  # source://async//lib/async/promise.rb#110
+  # source://async//lib/async/promise.rb#112
   def resolve(value); end
 
   # @private For internal use by Task.
@@ -786,14 +786,14 @@ class Async::Promise
     # If no promise is given, simply yield to the block.
     # This is useful for methods that may optionally take a promise to fulfill.
     #
-    # source://async//lib/async/promise.rb#194
+    # source://async//lib/async/promise.rb#196
     def fulfill(promise, &block); end
   end
 end
 
 # Exception used to indicate cancellation.
 #
-# source://async//lib/async/promise.rb#144
+# source://async//lib/async/promise.rb#146
 class Async::Promise::Cancel < ::Exception; end
 
 # A thread-safe queue which allows items to be processed in order.

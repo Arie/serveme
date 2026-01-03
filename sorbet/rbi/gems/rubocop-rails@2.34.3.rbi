@@ -9555,7 +9555,7 @@ class RuboCop::Cop::Rails::SelectMap < ::RuboCop::Cop::Base
 
   private
 
-  # source://rubocop-rails//lib/rubocop/cop/rails/select_map.rb#56
+  # source://rubocop-rails//lib/rubocop/cop/rails/select_map.rb#60
   def autocorrect(corrector, select_node, node, preferred_method); end
 
   # source://rubocop-rails//lib/rubocop/cop/rails/select_map.rb#47
@@ -9563,7 +9563,7 @@ class RuboCop::Cop::Rails::SelectMap < ::RuboCop::Cop::Base
 
   # @return [Boolean]
   #
-  # source://rubocop-rails//lib/rubocop/cop/rails/select_map.rb#63
+  # source://rubocop-rails//lib/rubocop/cop/rails/select_map.rb#71
   def match_column_name?(select_candidate, column_name); end
 end
 

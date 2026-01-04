@@ -13,8 +13,8 @@ module LogLineViewHelper
     "" => "#888888"
   }.freeze
 
-  # Special weapons that show emoji instead of sprite
-  WORLD_WEAPONS = %w[world player trigger_hurt env_explosion].freeze
+  # Special weapons that show emoji instead of sprite (environmental deaths without sprite)
+  WORLD_WEAPONS = %w[player].freeze
 
   # Sentry kills - show engineer class icon
   SENTRY_WEAPONS = %w[obj_sentrygun obj_sentrygun2 obj_sentrygun3 obj_minisentry tf_projectile_sentryrocket].freeze

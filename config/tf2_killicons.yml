@@ -119,6 +119,7 @@ splendid_screen: [512, 352, 76, 32]
 bottle: [640, 352, 63, 32]
 headtaker: [896, 352, 66, 32]
 horseless_headless_horsemann: [896, 352, 66, 32]
+sword: [896, 352, 66, 32]
 
 # === ROW 12 (y=384): Demo Melees ===
 claidheamohmor: [0, 384, 68, 32]

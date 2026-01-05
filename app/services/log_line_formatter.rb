@@ -18,8 +18,6 @@ class LogLineFormatter
   LOGADDRESS_DEL_REGEX = /logaddress_del \S+"/
   LOGSECRET_REGEX = /sv_logsecret \S+/
 
-  TF2_KILLICONS = YAML.load_file(Rails.root.join("config", "tf2_killicons.yml")).freeze
-
   # Memoization cache for Steam ID conversions (cleared per-request via middleware or manually)
   @steam_id_cache = {}
   class << self
@@ -138,19 +136,6 @@ class LogLineFormatter
     else
       :unknown
     end
-  end
-
-  # Returns [x, y, width, height, sprite] for killicon sprite, or nil if not found
-  # sprite is 1, 2, or 3 (defaults to 1 if not specified)
-  sig { params(weapon_name: T.nilable(String)).returns(T.nilable(T::Array[Integer])) }
-  def self.killicon_sprite(weapon_name)
-    return nil unless weapon_name
-
-    coords = TF2_KILLICONS[weapon_name.downcase] || TF2_KILLICONS["default"]
-    return nil unless coords
-
-    # Ensure 5 elements: [x, y, w, h, sprite] - default sprite to 1
-    coords.length == 5 ? coords : coords + [ 1 ]
   end
 
   sig { params(steam_id: String).returns(T.nilable(Integer)) }

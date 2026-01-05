@@ -13,14 +13,17 @@ module LogLineViewHelper
     "" => "#888888"
   }.freeze
 
-  # Special weapons that show emoji instead of sprite (environmental deaths without sprite)
-  WORLD_WEAPONS = %w[player].freeze
-
   # Sentry kills - show engineer class icon
   SENTRY_WEAPONS = %w[obj_sentrygun obj_sentrygun2 obj_sentrygun3 obj_minisentry tf_projectile_sentryrocket].freeze
 
   # TF2 class names mapping to icon filenames
   CLASS_ICONS = %w[scout soldier pyro demoman heavyweapons engineer medic sniper spy].freeze
+
+  # Weapons with specific backstab icons (use #{weapon}_backstab instead of generic backstab)
+  BACKSTAB_VARIANTS = %w[big_earner kunai conniver_kunai spy_cicle sharp_dresser voodoo_pin].freeze
+
+  # Weapons with specific headshot icons (use #{weapon}_headshot instead of weapon + HS badge)
+  HEADSHOT_VARIANTS = %w[ambassador huntsman huntsman_flyingburn deflect_huntsman deflect_huntsman_flyingburn].freeze
 
   def class_icon(class_name)
     return "" unless class_name.present?
@@ -32,22 +35,12 @@ module LogLineViewHelper
   end
 
   def weapon_icon(weapon_name)
-    weapon_lower = weapon_name&.downcase
+    weapon_lower = weapon_name&.downcase || "default"
 
-    if weapon_lower.in?(WORLD_WEAPONS)
-      content_tag(:span, "💀", class: "weapon-icon-emoji", title: weapon_name || "world")
-    else
-      sprite = LogLineFormatter.killicon_sprite(weapon_name)
-      if sprite
-        x, y, w, h, sprite_num = sprite
-        style = "background-position: -#{x}px -#{y}px; width: #{w}px; height: #{h}px;"
-        css_class = sprite_num == 1 ? "killicon" : "killicon#{sprite_num}"
-        content_tag(:span, "", class: css_class, style: style, title: weapon_name || "unknown")
-      else
-        # No sprite found (weapon_name was nil)
-        content_tag(:span, "⚔️", class: "weapon-icon-emoji", title: "unknown")
-      end
-    end
+    # CSS classes from _killicons.css.scss handle positioning
+    # .killicon provides the base sprite styling
+    # .killicon-{weapon} provides the specific position and dimensions
+    content_tag(:span, "", class: "killicon killicon-#{weapon_lower}", title: weapon_name || "unknown")
   end
 
   def log_player_name(player, link: true)
@@ -87,14 +80,28 @@ module LogLineViewHelper
     victim = event.target
     weapon = event.respond_to?(:weapon) ? event.weapon : nil
     customkill = event.respond_to?(:customkill) ? event.customkill : nil
+    weapon_lower = weapon&.downcase
 
-    # Use backstab killicon for backstabs
-    weapon = "backstab" if customkill == "backstab"
+    # Use weapon-specific backstab/headshot icons when available
+    if customkill == "backstab"
+      weapon = if weapon_lower.in?(BACKSTAB_VARIANTS)
+        # Map conniver_kunai to kunai_backstab
+        base = weapon_lower == "conniver_kunai" ? "kunai" : weapon_lower
+        "#{base}_backstab"
+      else
+        "backstab"
+      end
+    elsif customkill == "headshot" && weapon_lower.in?(HEADSHOT_VARIANTS)
+      weapon = "#{weapon_lower}_headshot"
+    end
 
     modifier = if customkill.present?
       case customkill
       when "headshot"
-        content_tag(:span, "HS", class: "kill-modifier headshot", title: "Headshot")
+        # Only show HS badge if we didn't use a headshot-specific icon
+        unless weapon_lower.in?(HEADSHOT_VARIANTS)
+          content_tag(:span, "HS", class: "kill-modifier headshot", title: "Headshot")
+        end
       when /^taunt/
         content_tag(:span, "🎭", class: "kill-modifier taunt", title: "Taunt Kill")
       when "bleed"

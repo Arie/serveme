@@ -364,6 +364,9 @@ module GeneratedUrlHelpersModule
   def rcon_command_reservation_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def rcon_load_more_reservation_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def rcon_reservation_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -442,6 +445,9 @@ module GeneratedUrlHelpersModule
   def show_ip_statistic_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
+  def show_log_load_more_reservation_log_uploads_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def show_log_reservation_log_uploads_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
@@ -500,6 +506,9 @@ module GeneratedUrlHelpersModule
 
   sig { params(args: T.untyped).returns(String) }
   def steam_sessions_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
+  def streaming_load_more_reservation_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
   def streaming_reservation_url(*args); end

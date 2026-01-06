@@ -2,8 +2,51 @@
   Send to logs.tf
   %i.fa.fa-upload
 
-.log
+.streaming-page
+  %div{data: {controller: "log-filter", log_filter_load_more_url_value: show_log_load_more_reservation_log_uploads_path(reservation, file_name: @file_name), log_filter_total_lines_value: @total_lines, log_filter_matched_lines_value: @matched_lines, log_filter_loaded_lines_value: @loaded_lines}}
+    .log-controls-bar
+      .log-search-container
+        %input.log-search-input{type: "text", placeholder: "Search logs...", value: @search_query, data: {action: "input->log-filter#search", log_filter_target: "searchInput"}}
+        %button.log-search-clear{type: "button", data: {action: "click->log-filter#clearSearch", log_filter_target: "clearBtn"}, title: "Clear search"} ×
+        = form_with url: show_log_reservation_log_uploads_path(reservation), method: :get, data: { turbo_frame: "log-lines", log_filter_target: "searchForm" }, html: { style: "display:none" } do
+          %input{type: "hidden", name: "file_name", value: @file_name}
+          %input{type: "hidden", name: "q", data: {log_filter_target: "searchFormQuery"}, value: @search_query}
+        %span.log-search-count{data: {log_filter_target: "searchCount"}}
+          - if @matched_lines != @total_lines
+            = "#{@matched_lines} / #{@total_lines}"
 
-  - @log_file.each_line do |line|
-    = line
-    %br
+    .log-lines-wrapper
+      .log-loading-overlay{data: {log_filter_target: "loadingOverlay"}}
+        .log-load-more-spinner
+        %span Loading...
+
+      = turbo_frame_tag "log-lines" do
+        .web-rcon-log-lines.streaming-log-lines{data: {log_filter_target: "container"}}
+          = render partial: "reservations/log_line", collection: @log_lines, as: :log_line, locals: { skip_sanitization: @skip_sanitization }
+
+          - if @has_more
+            .log-load-more{data: {log_filter_target: "loadMoreSentinel", next_offset: @next_offset, search_query: @search_query}}
+              .log-load-more-spinner
+              %span.log-load-more-text
+                - if @matched_lines != @total_lines
+                  Loading more... (#{@loaded_lines} / #{@matched_lines} matches)
+                - else
+                  Loading more... (#{@loaded_lines} / #{@total_lines} lines)
+
+        .log-status-bar{data: {log_filter_target: "statusBar"}}
+          - if @matched_lines > 0
+            .log-progress-container{data: {log_filter_target: "progressContainer"}}
+              .log-progress-bar{data: {log_filter_target: "progressBar"}, style: "width: #{@matched_lines > 0 ? (@loaded_lines * 100.0 / @matched_lines).round(1) : 0}%"}
+              .log-progress-position{data: {log_filter_target: "progressPosition"}, style: "left: 0%"}
+              .log-progress-tooltip{data: {log_filter_target: "progressTooltip"}}
+          .log-status-controls
+            - if @matched_lines > 0
+              %button.log-nav-btn{type: "button", data: {action: "click->log-filter#scrollToTop", log_filter_target: "topBtn"}, title: "Scroll to top (Home)"} ↑
+            - if @matched_lines == 0
+              %span.log-status-text{data: {log_filter_target: "statusText"}} No matching lines
+            - elsif @matched_lines != @total_lines
+              %span.log-status-text{data: {log_filter_target: "statusText"}}= "Match 1 of #{@matched_lines}"
+            - else
+              %span.log-status-text{data: {log_filter_target: "statusText"}}= "Line 1 of #{@total_lines}"
+            - if @matched_lines > 0
+              %button.log-nav-btn{type: "button", data: {action: "click->log-filter#scrollToBottom", log_filter_target: "bottomBtn"}, title: "Scroll to bottom (End)"} ↓

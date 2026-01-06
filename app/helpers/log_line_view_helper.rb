@@ -25,6 +25,15 @@ module LogLineViewHelper
   # Weapons with specific headshot icons (use #{weapon}_headshot instead of weapon + HS badge)
   HEADSHOT_VARIANTS = %w[ambassador huntsman huntsman_flyingburn deflect_huntsman deflect_huntsman_flyingburn].freeze
 
+  # Sniper rifles that should use the generic headshot icon
+  SNIPER_RIFLES = %w[sniperrifle awper_hand bazaar_bargain machina the_classic pro_rifle shooting_star].freeze
+
+  # Map projectile/alternate weapon names to their icon names
+  WEAPON_ALIASES = {
+    "tf_projectile_arrow" => "huntsman",
+    "tf_projectile_arrow_fire" => "huntsman_flyingburn"
+  }.freeze
+
   def class_icon(class_name)
     return "" unless class_name.present?
 
@@ -44,6 +53,8 @@ module LogLineViewHelper
   end
 
   def log_player_name(player, link: true)
+    return content_tag(:span, "Unknown", class: "player-name team-unassigned") unless player
+
     team_class = player.team&.downcase || "unassigned"
     name = h(player.name)
 
@@ -82,6 +93,9 @@ module LogLineViewHelper
     customkill = event.respond_to?(:customkill) ? event.customkill : nil
     weapon_lower = weapon&.downcase
 
+    # Normalize projectile names to their weapon icon names
+    weapon_lower = WEAPON_ALIASES[weapon_lower] || weapon_lower
+
     # Use weapon-specific backstab/headshot icons when available
     if customkill == "backstab"
       weapon = if weapon_lower.in?(BACKSTAB_VARIANTS)
@@ -91,15 +105,23 @@ module LogLineViewHelper
       else
         "backstab"
       end
-    elsif customkill == "headshot" && weapon_lower.in?(HEADSHOT_VARIANTS)
-      weapon = "#{weapon_lower}_headshot"
+    elsif customkill == "headshot"
+      weapon = if weapon_lower.in?(HEADSHOT_VARIANTS)
+        "#{weapon_lower}_headshot"
+      elsif weapon_lower.in?(SNIPER_RIFLES)
+        "headshot"
+      else
+        weapon_lower
+      end
+    else
+      weapon = weapon_lower
     end
 
     modifier = if customkill.present?
       case customkill
       when "headshot"
         # Only show HS badge if we didn't use a headshot-specific icon
-        unless weapon_lower.in?(HEADSHOT_VARIANTS)
+        unless weapon_lower.in?(HEADSHOT_VARIANTS) || weapon_lower.in?(SNIPER_RIFLES)
           content_tag(:span, "HS", class: "kill-modifier headshot", title: "Headshot")
         end
       when /^taunt/
@@ -144,9 +166,12 @@ module LogLineViewHelper
     event = formatted[:event]
     return content_tag(:span, formatted[:raw], class: "log-content") unless event.respond_to?(:player)
 
+    # Use formatted[:message] which is sanitized based on skip_sanitization flag
+    address_text = formatted[:message].present? ? " from #{formatted[:message]}" : ""
+
     content = safe_join([
       log_player_name(event.player),
-      content_tag(:span, " connected", class: "connect-action")
+      content_tag(:span, " connected#{address_text}", class: "connect-action")
     ])
 
     content_tag(:span, content, class: "log-connect")

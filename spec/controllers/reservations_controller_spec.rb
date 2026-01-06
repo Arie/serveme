@@ -329,6 +329,8 @@ describe ReservationsController do
       after { FileUtils.rm_f(log_file) }
 
       it 'renders log lines with proper formatting' do
+        # Simulate turbo frame request to get actual content (initial load is lazy)
+        request.headers['Turbo-Frame'] = 'rcon-log-lines'
         get :rcon, params: { id: reservation.id }
 
         expect(response).to be_successful
@@ -360,14 +362,12 @@ describe ReservationsController do
         # Player team colors
         expect(response.body).to include('team-red')
         expect(response.body).to include('team-blue')
-
-        # Filter controls
-        expect(response.body).to include('log-filter-group')
-        expect(response.body).to include('log-raw-toggle')
       end
 
       it 'sanitizes IP addresses for non-admin users' do
         @user.groups.delete(Group.admin_group)
+        # Simulate turbo frame request to get actual content
+        request.headers['Turbo-Frame'] = 'rcon-log-lines'
         get :rcon, params: { id: reservation.id }
 
         # IP addresses should be sanitized to 0.0.0.0
@@ -376,6 +376,8 @@ describe ReservationsController do
       end
 
       it 'shows real IP addresses for admin users' do
+        # Simulate turbo frame request to get actual content
+        request.headers['Turbo-Frame'] = 'rcon-log-lines'
         get :rcon, params: { id: reservation.id }
 
         expect(response.body).to include('192.168.1.1')
@@ -402,6 +404,8 @@ describe ReservationsController do
 
       it 'sanitizes secrets for non-admin users' do
         @user.groups.delete(Group.admin_group)
+        # Simulate turbo frame request to get actual content
+        request.headers['Turbo-Frame'] = 'rcon-log-lines'
         get :rcon, params: { id: reservation.id }
 
         expect(response).to be_successful
@@ -420,6 +424,8 @@ describe ReservationsController do
       end
 
       it 'shows secrets for admin users' do
+        # Simulate turbo frame request to get actual content
+        request.headers['Turbo-Frame'] = 'rcon-log-lines'
         get :rcon, params: { id: reservation.id }
 
         expect(response).to be_successful

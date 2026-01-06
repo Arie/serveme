@@ -5,15 +5,21 @@
 .hidden
   display: none !important
 
+.search-hidden
+  display: none !important
+
 // Combined RCON form + filters bar
 .log-controls-bar
   display: flex
   align-items: center
   gap: 16px
   margin-bottom: 10px
-  padding: 8px 2px
+  padding: 8px 12px
   background: #2a2a2a
   border-radius: 4px
+  position: sticky
+  top: 0
+  z-index: 50
 
 // RCON form container
 .rcon-form-container
@@ -143,97 +149,107 @@
   display: block
   font-size: 0.85em
 
-// Filter group
-.log-filter-group
+// Search box
+.log-search-container
   display: flex
   align-items: center
-  gap: 10px
-  flex: 1
+  gap: 8px
 
-  &.hidden
-    display: none
-
-.log-filter-title
-  color: #888
+.log-search-input
+  width: 200px
+  background: #1a1a1a
+  border: 1px solid #444
+  color: #fff
+  padding: 4px 28px 4px 10px
+  border-radius: 4px
   font-size: 0.9em
+
+  &::placeholder
+    color: #666
+
+  &:focus
+    outline: none
+    border-color: #5cb85c
+    box-shadow: 0 0 0 2px rgba(92, 184, 92, 0.2)
+
+button.log-search-clear
+  background: transparent
+  border: none
+  color: #666
+  font-size: 1.2em
+  cursor: pointer
+  padding: 4px
   line-height: 1
-  display: flex
-  align-items: center
+  margin-left: -32px
+  outline: none
+  box-shadow: none
 
-.log-filter-label
-  display: flex
-  align-items: center
-  gap: 4px
-  cursor: pointer
-  color: #ccc
-  font-size: 0.9em
-  user-select: none
-  margin: 0
-
-  input[type="checkbox"]
-    cursor: pointer
+  &:focus,
+  &:active,
+  &:focus-visible
+    outline: none
+    box-shadow: none
+    border: none
 
   &:hover
     color: #fff
 
-// Raw toggle switch
-.log-raw-toggle
-  display: flex
-  align-items: center
-  gap: 6px
-  cursor: pointer
-  color: #ccc
-  font-size: 0.9em
-  user-select: none
-  margin: 0 0 0 8px
+.log-search-count
+  color: #888
+  font-size: 0.85em
+  min-width: 70px
 
-  input[type="checkbox"]
-    display: none
+// Body background for log pages
+body:has(.rcon-page),
+body:has(.streaming-page)
+  background: #1a1a1a
 
-  .toggle-switch
-    position: relative
-    width: 32px
-    height: 18px
-    background: #555
-    border-radius: 9px
-    transition: background 0.2s
-
-    &::after
-      content: ''
-      position: absolute
-      top: 2px
-      left: 2px
-      width: 14px
-      height: 14px
-      background: #fff
-      border-radius: 50%
-      transition: transform 0.2s
-
-  input:checked + .toggle-switch
-    background: #5cb85c
-
-    &::after
-      transform: translateX(14px)
-
-  &:hover
-    color: #fff
-
-// Test log page (full viewport)
-.test-log-page
-  height: calc(100vh - 80px)
-  display: flex
-  flex-direction: column
+// RCON page styling
+.rcon-page
+  margin: -15px -15px 0 -15px
   padding: 10px 15px
+  background: #1a1a1a
+  min-height: 100vh
 
-.test-log-wrapper
-  display: flex
-  flex-direction: column
-  flex: 1
-  min-height: 0
+  .log-controls-bar
+    background: #1a1a1a
+    border-bottom: 1px solid #333
+    padding: 8px 0
 
-.test-log-lines
-  flex: 1
+// RCON log lines - full height like streaming
+.web-rcon-log-lines.rcon-log-lines
   max-height: none
+  overflow-y: visible
+
+// Streaming log page - full viewport
+.streaming-page
+  margin: -15px -15px 0 -15px
+  padding: 10px 15px
+  background: #1a1a1a
+  min-height: 100vh
+
+  h3
+    margin: 0 0 5px 0
+    color: #fff
+
+  .text-muted
+    margin: 0 0 10px 0
+
+  .log-controls-bar
+    background: #1a1a1a
+    border-bottom: 1px solid #333
+    margin-bottom: 0
+    padding: 8px 0
+
+// Wrapper for log lines + loading overlay
+.log-lines-wrapper
+  position: relative
+  min-height: 200px
+  background: #1a1a1a
+
+.web-rcon-log-lines.streaming-log-lines
+  max-height: none
+  overflow-y: visible
 
 // Main log container
 .web-rcon-log-lines
@@ -254,19 +270,6 @@
     &::after
       content: "Waiting for log data..."
 
-  // Raw view mode - show all raw lines, hide formatted
-  &.raw-view
-    .log-line
-      cursor: default
-      .log-formatted
-        display: none
-      .log-raw-expandable
-        max-height: none
-        padding: 0
-        margin: 0
-        background: transparent
-        font-size: 13px
-
 // Individual log line
 .log-line
   padding: 3px 0
@@ -286,25 +289,26 @@
     flex-wrap: wrap
     line-height: 24px
 
-  .log-raw-expandable
+  // Raw line display (slides out below formatted line)
+  .log-raw
     max-height: 0
     overflow: hidden
-    color: #888
+    opacity: 0
+    transition: max-height 0.2s ease-out, opacity 0.2s ease-out, padding 0.2s ease-out
+    font-family: monospace
     font-size: 0.85em
+    color: #888
+    background: #1a1a1a
+    padding: 0 8px
+    margin-top: 0
     white-space: pre-wrap
     word-break: break-all
-    background: #222
-    border-radius: 3px
-    transition: max-height 0.2s ease-out, padding 0.2s ease-out, margin 0.2s ease-out
-    padding: 0 8px
-    margin: 0
-    line-height: 24px
 
-  &.expanded
-    .log-raw-expandable
-      max-height: 200px
-      padding: 6px 8px
-      margin-top: 4px
+  &.show-raw .log-raw
+    max-height: 200px
+    opacity: 1
+    padding: 6px 8px
+    margin-top: 4px
 
 // Timestamp
 .log-timestamp
@@ -741,3 +745,236 @@
   &.hide-position_report .log-line-position_report,
   &.hide-unknown .log-line-unknown
     display: none
+
+// Loading overlay for filter/search changes
+.log-loading-overlay
+  display: none
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  background: rgba(26, 26, 26, 0.85)
+  z-index: 100
+  flex-direction: column
+  align-items: center
+  padding-top: 100px
+  gap: 10px
+  color: #888
+
+  &.visible
+    display: flex
+
+// Load more sentinel for infinite scroll
+.log-load-more
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 10px
+  padding: 20px
+  color: #888
+
+.log-load-more-spinner
+  width: 20px
+  height: 20px
+  border: 2px solid #333
+  border-top-color: #5cb85c
+  border-radius: 50%
+  animation: spin 0.8s linear infinite
+
+@keyframes spin
+  to
+    transform: rotate(360deg)
+
+.log-load-more-text
+  font-size: 0.9em
+
+// Initial loading state for lazy-loaded content
+.log-initial-loading
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 10px
+  padding: 40px
+  color: #888
+
+// CSS-based filtering for live mode (rcon page)
+// When filter-active is set, hide all lines by default, then show selected groups
+.web-rcon-log-lines.filter-active
+  .log-line
+    display: none
+
+  // Show kills group when filter-kills is set
+  &.filter-kills
+    .log-line-kill,
+    .log-line-suicide
+      display: flex
+
+  // Show chat group when filter-chat is set
+  &.filter-chat
+    .log-line-say,
+    .log-line-team_say
+      display: flex
+
+  // Show connects group when filter-connects is set
+  &.filter-connects
+    .log-line-connect,
+    .log-line-disconnect
+      display: flex
+
+  // Show round group when filter-round is set
+  &.filter-round
+    .log-line-round_win,
+    .log-line-round_start,
+    .log-line-round_stalemate,
+    .log-line-current_score,
+    .log-line-final_score,
+    .log-line-match_end,
+    .log-line-point_capture
+      display: flex
+
+// Status bar for chunked loading
+.log-status-bar
+  position: sticky
+  bottom: 0
+  background: linear-gradient(to top, #1a1a1a 80%, transparent)
+  padding: 15px 10px 10px
+  text-align: center
+
+// Progress bar container
+.log-progress-container
+  width: 100%
+  height: 6px
+  background: #333
+  border-radius: 3px
+  margin-bottom: 8px
+  position: relative
+  cursor: pointer
+  user-select: none
+  // Invisible expanded hit area
+  &::before
+    content: ''
+    position: absolute
+    top: -10px
+    bottom: -10px
+    left: 0
+    right: 0
+
+.log-progress-bar
+  height: 100%
+  background: linear-gradient(90deg, #5cb85c, #4cae4c)
+  border-radius: 3px
+  transition: width 0.3s ease-out
+  min-width: 0
+
+.log-progress-position
+  position: absolute
+  top: -2px
+  width: 6px
+  height: 10px
+  background: #fff
+  border-radius: 2px
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5)
+  cursor: grab
+  // Invisible expanded hit area for easier dragging
+  &::before
+    content: ''
+    position: absolute
+    top: -8px
+    bottom: -8px
+    left: -8px
+    right: -8px
+
+  &:hover
+    background: #5cb85c
+
+  &.dragging
+    cursor: grabbing
+    background: #5cb85c
+    transition: none
+
+  &.loading
+    background: #ffc107
+    animation: pulse-marker 0.5s ease-in-out infinite
+
+.log-progress-tooltip
+  display: none
+  position: absolute
+  bottom: 100%
+  left: 0%
+  transform: translateX(-50%)
+  margin-bottom: 8px
+  padding: 4px 8px
+  background: #222
+  border: 1px solid #5cb85c
+  border-radius: 4px
+  color: #fff
+  font-size: 0.8em
+  white-space: nowrap
+  pointer-events: none
+  z-index: 10
+
+  &::after
+    content: ''
+    position: absolute
+    top: 100%
+    left: 50%
+    transform: translateX(-50%)
+    border: 5px solid transparent
+    border-top-color: #5cb85c
+
+.log-progress-container:hover .log-progress-tooltip,
+.log-progress-container.dragging .log-progress-tooltip
+  display: block
+
+@keyframes pulse-marker
+  0%, 100%
+    opacity: 1
+  50%
+    opacity: 0.5
+
+// Status controls row
+.log-status-controls
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 12px
+
+// Navigation buttons
+.log-nav-btn
+  background: #2a2a2a
+  border: 1px solid #444
+  color: #aaa
+  padding: 4px 8px
+  border-radius: 4px
+  font-size: 1em
+  line-height: 1
+  cursor: pointer
+  transition: all 0.15s ease
+
+  &:hover
+    background: #3a3a3a
+    border-color: #5cb85c
+    color: #fff
+
+  &:active
+    background: #4a4a4a
+
+.log-status-text
+  color: #888
+  font-size: 0.85em
+  background: #1a1a1a
+  padding: 4px 12px
+  border-radius: 12px
+  border: 1px solid #333
+  cursor: default
+  transition: opacity 0.2s ease
+
+  &.loading
+    animation: pulse-text 1s ease-in-out infinite
+
+@keyframes pulse-text
+  0%, 100%
+    opacity: 1
+  50%
+    opacity: 0.5

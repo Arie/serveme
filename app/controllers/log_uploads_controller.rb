@@ -2,6 +2,10 @@
 # frozen_string_literal: true
 
 class LogUploadsController < ApplicationController
+  helper LogLineHelper
+  include LogLineHelper
+  layout "simple", only: %i[show_log]
+
   def new
     @log_upload = link_log_upload_to_reservation
     log_file = find_log_file(params[:file_name].to_s)
@@ -33,14 +37,66 @@ class LogUploadsController < ApplicationController
   end
 
   def show_log
-    # brakeman: ignore:FileAccess
-    # find_log_file only returns files from LogUpload.find_log_files, which is restricted to server_logs directory
-    file = find_log_file(params[:file_name].to_s)
-    file_content = File.read(file[:file_name_and_path])
-    @log_file = StringSanitizer.tidy_bytes(file_content)
+    setup_log_viewing
+    result = log_streaming_service.stream_forward
+    assign_log_result(result)
+  rescue Errno::ENOENT
+    flash[:error] = "Log file not found"
+    redirect_to reservation_log_uploads_path(reservation)
+  end
+
+  def show_log_load_more
+    setup_log_viewing
+    chunk_size = params[:chunk_size].to_i.nonzero? || LogStreamingService::DEFAULT_CHUNK_SIZE
+
+    result = log_streaming_service(chunk_size: chunk_size).stream_forward
+    render partial: "log_uploads/show_log_chunk", locals: {
+      log_lines: result[:lines],
+      skip_sanitization: @skip_sanitization,
+      has_more: result[:has_more],
+      next_offset: result[:next_offset],
+      total_lines: result[:total_lines],
+      loaded_lines: result[:loaded_lines],
+      search_query: @search_query,
+      matched_lines: result[:matched_lines],
+      reservation: reservation,
+      file_name: @file_name
+    }
+  rescue Errno::ENOENT
+    head :not_found
   end
 
   private
+
+  def setup_log_viewing
+    @file_name = params[:file_name].to_s
+    @skip_sanitization = current_user&.admin?
+    @search_query = params[:q].presence
+    @offset = params[:offset].to_i
+  end
+
+  def log_streaming_service(chunk_size: nil)
+    file = find_log_file(@file_name)
+    file_path = file[:file_name_and_path]
+    raise Errno::ENOENT, "Log file not found: #{@file_name}" unless file_path
+
+    LogStreamingService.new(
+      file_path,
+      search_query: @search_query,
+      offset: @offset,
+      chunk_size: chunk_size || LogStreamingService::DEFAULT_CHUNK_SIZE
+    )
+  end
+
+  def assign_log_result(result)
+    @log_lines = result[:lines]
+    @total_lines = result[:total_lines]
+    @matched_lines = result[:matched_lines]
+    @has_more = result[:has_more]
+    @next_offset = result[:next_offset]
+    @loaded_lines = result[:loaded_lines]
+  end
+
 
   def link_log_upload_to_reservation
     @log_upload ||= LogUpload.new

@@ -79,11 +79,24 @@ describe LogUploadsController do
     end
 
     describe '#show_log' do
-      it 'assigns the log_file variable' do
-        log = double.as_null_object
+      it 'assigns log line variables from LogStreamingService' do
+        result = {
+          lines: [ "line1", "line2" ],
+          total_lines: 100,
+          matched_lines: 100,
+          has_more: true,
+          next_offset: 1000,
+          loaded_lines: 2
+        }
+        service = instance_double(LogStreamingService, stream_forward: result)
         subject.stub(logs: [ { file_name: 'foo.log', file_name_and_path: 'bar.log' } ])
-        File.should_receive(:read).with('bar.log').and_return(log)
+        allow(LogStreamingService).to receive(:new).and_return(service)
+
         get :show_log, params: { reservation_id: @reservation.id, file_name: 'foo.log' }
+
+        expect(assigns(:log_lines)).to eq([ "line1", "line2" ])
+        expect(assigns(:total_lines)).to eq(100)
+        expect(assigns(:has_more)).to be true
       end
     end
   end

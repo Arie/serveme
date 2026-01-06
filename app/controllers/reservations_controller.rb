@@ -3,12 +3,12 @@
 
 class ReservationsController < ApplicationController
   include ActionView::RecordIdentifier # Include for dom_id helper
-  before_action :require_admin, only: %i[streaming]
+  before_action :require_admin, only: %i[streaming streaming_load_more]
   skip_before_action :redirect_if_country_banned, only: :played_in
   skip_before_action :authenticate_user!, only: %i[motd]
   skip_before_action :store_current_location, only: %i[extend_reservation destroy]
   helper LogLineHelper
-  layout "simple", only: %i[rcon motd]
+  layout "simple", only: %i[rcon motd streaming]
   caches_action :motd, cache_path: -> { "motd_#{params[:id]}" }, unless: -> { current_user }, expires_in: 1.seconds
   include RconHelper
   include LogLineHelper
@@ -124,30 +124,39 @@ class ReservationsController < ApplicationController
   end
 
   def streaming
-    filename = Rails.root.join("log", "streaming", "#{reservation.logsecret}.log")
-    begin
-      @streaming_log = File.open(filename)
-    rescue Errno::ENOENT
-      flash[:error] = "No such streaming logfile #{reservation.logsecret}.log"
-      redirect_to reservation_path(reservation)
-    end
+    setup_log_viewing
+
+    result = log_streaming_service.stream_forward
+    assign_log_result(result)
+  rescue Errno::ENOENT
+    flash[:error] = "No such streaming logfile #{@logsecret}.log"
+    redirect_to reservation_path(reservation)
+  end
+
+  def streaming_load_more
+    setup_log_viewing
+    load_more_logs(:stream_forward, "reservations/streaming_chunk")
   end
 
   def rcon
-    @logsecret = reservation.logsecret
-    @skip_sanitization = current_user&.admin?
-    filename = Rails.root.join("log", "streaming", "#{@logsecret}.log")
-    begin
-      seek = [ File.size(filename), 50_000 ].min
-      @log_lines = File.open(filename) do |f|
-        f.seek(-seek, IO::SEEK_END)
-        f.readlines.last(1000).reverse.select do |line|
-          interesting_line?(StringSanitizer.tidy_bytes(line))
-        end.first(200)
-      end
-    rescue Errno::ENOENT
-      @log_lines = []
+    setup_log_viewing
+
+    # On initial page load (not turbo frame), render shell and let frame fetch content async
+    unless turbo_frame_request?
+      @lazy_load = true
+      assign_empty_log_result
+      return
     end
+
+    result = log_streaming_service.stream_reverse
+    assign_log_result(result)
+  rescue Errno::ENOENT
+    assign_empty_log_result
+  end
+
+  def rcon_load_more
+    setup_log_viewing
+    load_more_logs(:stream_reverse, "reservations/rcon_chunk")
   end
 
   def rcon_command
@@ -209,6 +218,67 @@ class ReservationsController < ApplicationController
   end
 
   private
+
+  def setup_log_viewing
+    @logsecret = reservation.logsecret
+    @skip_sanitization = current_user&.admin?
+    @search_query = params[:q].presence
+    @offset = params[:offset].to_i
+  end
+
+  def log_streaming_service(chunk_size: nil)
+    LogStreamingService.new(
+      streaming_log_path,
+      search_query: @search_query,
+      offset: @offset,
+      chunk_size: chunk_size || LogStreamingService::DEFAULT_CHUNK_SIZE
+    )
+  end
+
+  def load_more_logs(direction, partial)
+    @offset = params[:offset].to_i
+    chunk_size = params[:chunk_size].to_i.nonzero? || LogStreamingService::DEFAULT_CHUNK_SIZE
+
+    result = log_streaming_service(chunk_size: chunk_size).public_send(direction)
+    render_log_chunk(partial, result)
+  rescue Errno::ENOENT
+    head :not_found
+  end
+
+  def streaming_log_path
+    Rails.root.join("log", "streaming", "#{@logsecret}.log")
+  end
+
+  def assign_log_result(result)
+    @log_lines = result[:lines]
+    @total_lines = result[:total_lines]
+    @matched_lines = result[:matched_lines]
+    @has_more = result[:has_more]
+    @next_offset = result[:next_offset]
+    @loaded_lines = result[:loaded_lines]
+  end
+
+  def assign_empty_log_result
+    @log_lines = []
+    @total_lines = 0
+    @matched_lines = 0
+    @has_more = false
+    @loaded_lines = 0
+  end
+
+  def render_log_chunk(partial, result)
+    render partial: partial, locals: {
+      log_lines: result[:lines],
+      skip_sanitization: @skip_sanitization,
+      has_more: result[:has_more],
+      next_offset: result[:next_offset],
+      total_lines: result[:total_lines],
+      loaded_lines: result[:loaded_lines],
+      search_query: @search_query,
+      matched_lines: result[:matched_lines],
+      reservation: reservation
+    }
+  end
 
   def shared_rcon_command(return_path)
     if reservation&.now?

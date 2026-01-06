@@ -1,0 +1,14 @@
+<%= render partial: "reservations/log_line", collection: log_lines, as: :log_line, locals: { skip_sanitization: skip_sanitization } %>
+
+<% if has_more %>
+  <div class="log-load-more" data-log-filter-target="loadMoreSentinel" data-next-offset="<%= next_offset %>" data-search-query="<%= search_query %>">
+    <div class="log-load-more-spinner"></div>
+    <span class="log-load-more-text">
+      <% if matched_lines != total_lines %>
+        Loading more... (<%= [loaded_lines, matched_lines].min %> / <%= matched_lines %> matches)
+      <% else %>
+        Loading more... (<%= loaded_lines %> / <%= total_lines %> lines)
+      <% end %>
+    </span>
+  </div>
+<% end %>

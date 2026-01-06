@@ -1,8 +1,7 @@
 <%= turbo_stream_from "reservation_#{@logsecret}_log_lines#{@skip_sanitization ? '_admin' : ''}" %>
 
-<div class="row">
-  <div class="col-md-12">
-    <div data-controller="log-filter">
+<div class="rcon-page">
+  <div data-controller="log-filter" data-log-filter-live-mode-value="true" data-log-filter-load-more-url-value="<%= rcon_load_more_reservation_path(@reservation) %>" data-log-filter-total-lines-value="<%= @total_lines %>" data-log-filter-matched-lines-value="<%= @matched_lines %>" data-log-filter-loaded-lines-value="<%= @loaded_lines %>">
       <div class="log-controls-bar">
         <% if @reservation.now? %>
           <div data-controller="command-list" class="rcon-form-container">
@@ -42,38 +41,78 @@
             </div>
           </div>
         <% end %>
-        <div class="log-filter-group">
-          <span class="log-filter-title">Filters:</span>
-          <label class="log-filter-label">
-            <input type="checkbox" data-action="change->log-filter#toggleAll" data-log-filter-target="allCheckbox" checked>
-            All
-          </label>
-          <label class="log-filter-label">
-            <input type="checkbox" data-action="change->log-filter#toggleFilter" data-log-filter-target="filterCheckbox" data-log-filter-type="kill,suicide">
-            Kills
-          </label>
-          <label class="log-filter-label">
-            <input type="checkbox" data-action="change->log-filter#toggleFilter" data-log-filter-target="filterCheckbox" data-log-filter-type="say,team_say">
-            Chat
-          </label>
-          <label class="log-filter-label">
-            <input type="checkbox" data-action="change->log-filter#toggleFilter" data-log-filter-target="filterCheckbox" data-log-filter-type="connect,disconnect">
-            Connects
-          </label>
-          <label class="log-filter-label">
-            <input type="checkbox" data-action="change->log-filter#toggleFilter" data-log-filter-target="filterCheckbox" data-log-filter-type="round_win,round_start,round_stalemate,current_score,final_score,match_end,point_capture">
-            Round
-          </label>
-          <label class="log-raw-toggle">
-            <input type="checkbox" data-action="change->log-filter#toggleRaw" data-log-filter-target="rawToggle">
-            <span class="toggle-switch"></span>
-            Raw
-          </label>
+        <div class="log-search-container">
+          <input type="text" class="log-search-input" placeholder="Search logs..." value="<%= @search_query %>" data-action="input->log-filter#search" data-log-filter-target="searchInput">
+          <button type="button" class="log-search-clear" data-action="click->log-filter#clearSearch" data-log-filter-target="clearBtn" title="Clear search">&times;</button>
+          <%= form_with url: rcon_reservation_path(@reservation), method: :get, data: { turbo_frame: "rcon-log-lines", log_filter_target: "searchForm" }, html: { style: "display:none" } do %>
+            <input type="hidden" name="q" data-log-filter-target="searchFormQuery" value="<%= @search_query %>">
+          <% end %>
+          <span class="log-search-count" data-log-filter-target="searchCount">
+            <% if @matched_lines != @total_lines %>
+              <%= "#{@matched_lines} / #{@total_lines}" %>
+            <% end %>
+          </span>
         </div>
       </div>
-      <div class="web-rcon-log-lines" id="<%= "reservation_#{@logsecret}_log_lines" %>" data-log-filter-target="container">
-<% @log_lines.each do |line| %><%= render "reservations/log_line", log_line: line, skip_sanitization: @skip_sanitization %><% end %>
+
+    <div class="log-lines-wrapper">
+      <div class="log-loading-overlay" data-log-filter-target="loadingOverlay">
+        <div class="log-load-more-spinner"></div>
+        <span>Loading...</span>
       </div>
+
+      <%= turbo_frame_tag "rcon-log-lines", src: (@lazy_load ? rcon_reservation_path(@reservation) : nil) do %>
+        <% if @lazy_load %>
+          <div class="web-rcon-log-lines rcon-log-lines" id="<%= "reservation_#{@logsecret}_log_lines" %>" data-log-filter-target="container">
+            <div class="log-initial-loading">
+              <div class="log-load-more-spinner"></div>
+              <span>Loading log lines...</span>
+            </div>
+          </div>
+        <% else %>
+          <div class="web-rcon-log-lines rcon-log-lines" id="<%= "reservation_#{@logsecret}_log_lines" %>" data-log-filter-target="container">
+<% @log_lines.each do |line| %><%= render "reservations/log_line", log_line: line, skip_sanitization: @skip_sanitization %><% end %>
+
+            <% if @has_more %>
+              <div class="log-load-more" data-log-filter-target="loadMoreSentinel" data-next-offset="<%= @next_offset %>" data-search-query="<%= @search_query %>">
+                <div class="log-load-more-spinner"></div>
+                <span class="log-load-more-text">
+                  <% if @matched_lines != @total_lines %>
+                    Loading more... (<%= @loaded_lines %> / <%= @matched_lines %> matches)
+                  <% else %>
+                    Loading more... (<%= @loaded_lines %> / <%= @total_lines %> lines)
+                  <% end %>
+                </span>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="log-status-bar" data-log-filter-target="statusBar">
+            <% if @matched_lines > 0 %>
+              <div class="log-progress-container" data-log-filter-target="progressContainer">
+                <div class="log-progress-bar" data-log-filter-target="progressBar" style="width: <%= @matched_lines > 0 ? (@loaded_lines * 100.0 / @matched_lines).round(1) : 0 %>%"></div>
+                <div class="log-progress-position" data-log-filter-target="progressPosition" style="left: 0%"></div>
+                <div class="log-progress-tooltip" data-log-filter-target="progressTooltip"></div>
+              </div>
+            <% end %>
+            <div class="log-status-controls">
+              <% if @matched_lines > 0 %>
+                <button type="button" class="log-nav-btn" data-action="click->log-filter#scrollToTop" data-log-filter-target="topBtn" title="Scroll to top (Home)">↑</button>
+              <% end %>
+              <% if @matched_lines == 0 %>
+                <span class="log-status-text" data-log-filter-target="statusText">No matching lines</span>
+              <% elsif @matched_lines != @total_lines %>
+                <span class="log-status-text" data-log-filter-target="statusText">Match 1 of <%= @matched_lines %></span>
+              <% else %>
+                <span class="log-status-text" data-log-filter-target="statusText">Line 1 of <%= @total_lines %></span>
+              <% end %>
+              <% if @matched_lines > 0 %>
+                <button type="button" class="log-nav-btn" data-action="click->log-filter#scrollToBottom" data-log-filter-target="bottomBtn" title="Scroll to bottom (End)">↓</button>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
     </div>
   </div>
 </div>

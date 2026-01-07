@@ -58,7 +58,7 @@ module LogLineViewHelper
     team_class = player.team&.downcase || "unassigned"
     name = h(player.name)
 
-    if link
+    if link && player.steam_id
       steam_uid = LogLineFormatter.steam_id_to_community_id(player.steam_id)
       if steam_uid
         steam_url = "https://steamcommunity.com/profiles/#{steam_uid}"

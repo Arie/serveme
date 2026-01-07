@@ -67,6 +67,11 @@
               .alert.alert-info.mt-3.mb-0
                 %strong How to qualify:
                 Visit this page or play on #{SITE_HOST} servers using your normal internet connection (no VPN) at least once per week.
+- else
+  .alert.alert-info.mb-4
+    %strong Note:
+    You must be logged in to see if you are eligible for SDR access.
+    Please log in to continue.
 
 - if @sdr_eligible
   .row

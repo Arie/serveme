@@ -2,10 +2,13 @@
 
 class SdrController < ApplicationController
   skip_before_action :redirect_if_country_banned, only: [ :index ]
+  skip_before_action :authenticate_user!, only: [ :index ]
+  before_action :authenticate_user_allow_vpn!, only: [ :index ]
 
   def index
     if user_signed_in? && current_user
       current_user.update(current_sign_in_ip: request.remote_ip, updated_at: Time.current)
+      @on_vpn = ReservationPlayer.banned_asn_ip?(request.remote_ip)
       compute_eligibility_details if current_user.uid.present?
     end
 
@@ -27,6 +30,18 @@ class SdrController < ApplicationController
   end
 
   private
+
+  def authenticate_user_allow_vpn!
+    return unless user_signed_in?
+
+    if current_user.banned?
+      ban_reason = current_user.ban_reason
+      Rails.logger.info "Logging out banned player with user id #{current_user.id} steam uid #{current_user.uid}, IP #{current_user.current_sign_in_ip}, name #{current_user.name}, reason: #{ban_reason}"
+      sign_out(current_user)
+      flash[:alert] = "You have been banned: #{ban_reason}"
+      redirect_to root_path
+    end
+  end
 
   def resolve_ip(ip)
     return ip if ip.match?(/^\d+\.\d+\.\d+\.\d+$/)

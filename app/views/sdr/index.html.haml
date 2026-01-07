@@ -1,6 +1,11 @@
 - content_for(:title) { "SDR IP:Port" }
 %h2 Find SDR IP:Port
 
+- if @on_vpn
+  .alert.alert-warning.mb-4
+    %strong We think you are on a VPN.
+    This is the only page you can visit while using a VPN.
+
 - if user_signed_in?
   .row
     .col-md-6

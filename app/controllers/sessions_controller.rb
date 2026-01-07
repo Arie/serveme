@@ -16,11 +16,15 @@ class SessionsController < Devise::OmniauthCallbacksController
     return unless user
 
     remember_me(user)
-    sign_in_and_redirect(user, event: :authentication)
 
-    return unless is_navigational_format?
-
-    set_flash_message(:notice, :success, kind: "Steam")
+    if user.current_sign_in_ip && ReservationPlayer.banned_asn_ip?(user.current_sign_in_ip) && !user.admin?
+      sign_in(user, event: :authentication)
+      set_flash_message(:notice, :success, kind: "Steam") if is_navigational_format?
+      redirect_to sdr_path
+    else
+      sign_in_and_redirect(user, event: :authentication)
+      set_flash_message(:notice, :success, kind: "Steam") if is_navigational_format?
+    end
   end
 
   def failure; end

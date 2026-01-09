@@ -250,13 +250,27 @@ export default class extends Controller {
     // Watch for new log lines being added via Turbo Stream
     if (this.hasContainerTarget) {
       this.liveObserver = new MutationObserver((mutations) => {
+        let newLinesCount = 0
+        let matchedCount = 0
         mutations.forEach(mutation => {
           mutation.addedNodes.forEach(node => {
             if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('log-line')) {
+              newLinesCount++
               this.applySearchToLine(node)
+              // Count as matched if not hidden by search
+              if (!node.classList.contains('search-hidden')) {
+                matchedCount++
+              }
             }
           })
         })
+        // Update totals when new lines are added
+        if (newLinesCount > 0) {
+          this.totalLinesValue += newLinesCount
+          this.matchedLinesValue += matchedCount
+          this.loadedLinesValue += newLinesCount
+          this.updateScrollPosition()
+        }
       })
 
       this.liveObserver.observe(this.containerTarget, {
@@ -503,9 +517,9 @@ export default class extends Controller {
     window.scrollBy({ top: window.innerHeight * 0.8, behavior: 'smooth' })
   }
 
-  // Check if we're in search mode (matched lines differs from total)
+  // Check if we're in search mode (search input has a query)
   isSearchMode() {
-    return this.matchedLinesValue > 0 && this.matchedLinesValue !== this.totalLinesValue
+    return this.hasSearchInputTarget && this.searchInputTarget.value.trim() !== ''
   }
 
   // Check if search is active but has no results

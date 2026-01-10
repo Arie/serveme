@@ -790,9 +790,6 @@ module SimpleForm::Components::MinMax
 
   private
 
-  # source://simple_form//lib/simple_form/components/min_max.rb#40
-  def evaluate_numericality_validator_option(option); end
-
   # source://simple_form//lib/simple_form/components/min_max.rb#36
   def find_numericality_validator; end
 
@@ -835,9 +832,6 @@ module SimpleForm::Components::Pattern
   def pattern(wrapper_options = T.unsafe(nil)); end
 
   private
-
-  # source://simple_form//lib/simple_form/components/pattern.rb#26
-  def evaluate_format_validator_option(option); end
 
   # source://simple_form//lib/simple_form/components/pattern.rb#22
   def find_pattern_validator; end
@@ -1600,6 +1594,12 @@ module SimpleForm::Helpers::Validators
 
   # source://simple_form//lib/simple_form/helpers/validators.rb#15
   def reflection_validators; end
+
+  # Implements `ActiveModel::Validations::ResolveValue`, introduced by Rails 7.1.
+  # https://github.com/rails/rails/blob/v7.1.0/activemodel/lib/active_model/validations/resolve_value.rb
+  #
+  # source://simple_form//lib/simple_form/helpers/validators.rb#46
+  def resolve_validator_value(value); end
 
   # @return [Boolean]
   #

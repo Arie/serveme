@@ -3872,22 +3872,22 @@ class ActiveModel::Railtie < ::Rails::Railtie; end
 # source://activemodel//lib/active_model/errors.rb#520
 class ActiveModel::RangeError < ::RangeError; end
 
-# source://activemodel//lib/active_model/secure_password.rb#4
+# source://activemodel//lib/active_model/secure_password.rb#6
 module ActiveModel::SecurePassword
   extend ::ActiveSupport::Concern
 
   mixes_in_class_methods ::ActiveModel::SecurePassword::ClassMethods
 
   class << self
-    # source://activemodel//lib/active_model/secure_password.rb#15
+    # source://activemodel//lib/active_model/secure_password.rb#17
     def min_cost; end
 
-    # source://activemodel//lib/active_model/secure_password.rb#15
+    # source://activemodel//lib/active_model/secure_password.rb#17
     def min_cost=(_arg0); end
   end
 end
 
-# source://activemodel//lib/active_model/secure_password.rb#19
+# source://activemodel//lib/active_model/secure_password.rb#21
 module ActiveModel::SecurePassword::ClassMethods
   # Adds methods to set and authenticate against a BCrypt password.
   # This mechanism requires you to have a +XXX_digest+ attribute,
@@ -3993,18 +3993,18 @@ module ActiveModel::SecurePassword::ClassMethods
   #   # raises ActiveSupport::MessageVerifier::InvalidSignature since the token is expired
   #   User.find_by_password_reset_token!(token)
   #
-  # source://activemodel//lib/active_model/secure_password.rb#123
+  # source://activemodel//lib/active_model/secure_password.rb#125
   def has_secure_password(attribute = T.unsafe(nil), validations: T.unsafe(nil), reset_token: T.unsafe(nil)); end
 end
 
-# source://activemodel//lib/active_model/secure_password.rb#12
+# source://activemodel//lib/active_model/secure_password.rb#14
 ActiveModel::SecurePassword::DEFAULT_RESET_TOKEN_EXPIRES_IN = T.let(T.unsafe(nil), ActiveSupport::Duration)
 
-# source://activemodel//lib/active_model/secure_password.rb#194
+# source://activemodel//lib/active_model/secure_password.rb#196
 class ActiveModel::SecurePassword::InstanceMethodsOnActivation < ::Module
   # @return [InstanceMethodsOnActivation] a new instance of InstanceMethodsOnActivation
   #
-  # source://activemodel//lib/active_model/secure_password.rb#195
+  # source://activemodel//lib/active_model/secure_password.rb#197
   def initialize(attribute, reset_token:); end
 end
 
@@ -4012,7 +4012,7 @@ end
 # password of length more than 72 bytes it ignores extra characters.
 # Hence need to put a restriction on password length.
 #
-# source://activemodel//lib/active_model/secure_password.rb#10
+# source://activemodel//lib/active_model/secure_password.rb#12
 ActiveModel::SecurePassword::MAX_PASSWORD_LENGTH_ALLOWED = T.let(T.unsafe(nil), Integer)
 
 # = Active \Model \Serialization

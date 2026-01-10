@@ -334,7 +334,7 @@ Dry::Inflector::DEFAULT_SEPARATOR = T.let(T.unsafe(nil), String)
 #
 # @since 0.1.0
 #
-# source://dry-inflector//lib/dry/inflector/inflections.rb#12
+# source://dry-inflector//lib/dry/inflector/inflections.rb#11
 class Dry::Inflector::Inflections
   # Instantiate the rules
   #
@@ -343,7 +343,7 @@ class Dry::Inflector::Inflections
   # @since 0.1.0
   # @yieldparam [self]
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#76
+  # source://dry-inflector//lib/dry/inflector/inflections.rb#75
   def initialize; end
 
   # Add one or more acronyms
@@ -363,7 +363,7 @@ class Dry::Inflector::Inflections
   # @param words [Array<String>] a list of acronyms
   # @since 0.1.2
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#197
+  # source://dry-inflector//lib/dry/inflector/inflections.rb#196
   def acronym(*words); end
 
   # Acronyms
@@ -372,7 +372,7 @@ class Dry::Inflector::Inflections
   # @return [Dry::Inflector::Acronyms]
   # @since 0.1.2
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#67
+  # source://dry-inflector//lib/dry/inflector/inflections.rb#66
   def acronyms; end
 
   # Add a custom humanize rule
@@ -397,7 +397,7 @@ class Dry::Inflector::Inflections
   # @param rule [String, Regexp] the rule
   # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#224
+  # source://dry-inflector//lib/dry/inflector/inflections.rb#223
   def human(rule, replacement); end
 
   # Human rules
@@ -406,7 +406,7 @@ class Dry::Inflector::Inflections
   # @return [Dry::Inflector::Rules]
   # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#59
+  # source://dry-inflector//lib/dry/inflector/inflections.rb#58
   def humans; end
 
   # Add a custom pluralization rule
@@ -427,7 +427,7 @@ class Dry::Inflector::Inflections
   # @param singular [String] the singular
   # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#151
+  # source://dry-inflector//lib/dry/inflector/inflections.rb#150
   def irregular(singular, plural); end
 
   # Add a custom pluralization rule
@@ -448,7 +448,7 @@ class Dry::Inflector::Inflections
   # @param rule [String, Regexp] the rule
   # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#105
+  # source://dry-inflector//lib/dry/inflector/inflections.rb#104
   def plural(rule, replacement); end
 
   # Pluralization rules
@@ -457,7 +457,7 @@ class Dry::Inflector::Inflections
   # @return [Dry::Inflector::Rules]
   # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#35
+  # source://dry-inflector//lib/dry/inflector/inflections.rb#34
   def plurals; end
 
   # Add a custom singularization rule
@@ -478,7 +478,7 @@ class Dry::Inflector::Inflections
   # @param rule [String, Regexp] the rule
   # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#128
+  # source://dry-inflector//lib/dry/inflector/inflections.rb#127
   def singular(rule, replacement); end
 
   # Singularization rules
@@ -487,7 +487,7 @@ class Dry::Inflector::Inflections
   # @return [Dry::Inflector::Rules]
   # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#43
+  # source://dry-inflector//lib/dry/inflector/inflections.rb#42
   def singulars; end
 
   # Add a custom rule for uncountable words
@@ -505,7 +505,7 @@ class Dry::Inflector::Inflections
   # @param words [Enumerable<String>]
   # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#175
+  # source://dry-inflector//lib/dry/inflector/inflections.rb#174
   def uncountable(*words); end
 
   # Uncountable rules
@@ -514,7 +514,7 @@ class Dry::Inflector::Inflections
   # @return [Set]
   # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#51
+  # source://dry-inflector//lib/dry/inflector/inflections.rb#50
   def uncountables; end
 
   private
@@ -527,7 +527,7 @@ class Dry::Inflector::Inflections
   # @return [undefined]
   # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#239
+  # source://dry-inflector//lib/dry/inflector/inflections.rb#238
   def add_irregular(rule, replacement, target); end
 
   # Add a new rule
@@ -538,7 +538,7 @@ class Dry::Inflector::Inflections
   # @param target [Dry::Inflector::Rules] the target
   # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/inflections.rb#252
+  # source://dry-inflector//lib/dry/inflector/inflections.rb#251
   def rule(rule, replacement, target); end
 
   class << self
@@ -549,7 +549,7 @@ class Dry::Inflector::Inflections
     # @param blk [Proc] the optional, custom rules
     # @since 0.1.0
     #
-    # source://dry-inflector//lib/dry/inflector/inflections.rb#22
+    # source://dry-inflector//lib/dry/inflector/inflections.rb#21
     def build(&blk); end
   end
 end
@@ -574,13 +574,13 @@ module Dry::Inflector::Inflections::Defaults
     # @api private
     # @since 0.1.2
     #
-    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#112
+    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#110
     def acronyms(inflect); end
 
     # @api private
     # @since 0.1.0
     #
-    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#87
+    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#88
     def irregular(inflect); end
 
     # @api private
@@ -592,13 +592,13 @@ module Dry::Inflector::Inflections::Defaults
     # @api private
     # @since 0.1.0
     #
-    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#55
+    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#52
     def singular(inflect); end
 
     # @api private
     # @since 0.1.0
     #
-    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#105
+    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#103
     def uncountable(inflect); end
   end
 end
@@ -632,13 +632,7 @@ class Dry::Inflector::Rules
   # @api private
   # @since 0.1.0
   #
-  # source://dry-inflector//lib/dry/inflector/rules.rb#32
-  def each(&_arg0); end
-
-  # @api private
-  # @since 0.1.0
-  #
-  # source://dry-inflector//lib/dry/inflector/rules.rb#26
+  # source://dry-inflector//lib/dry/inflector/rules.rb#29
   def insert(index, array); end
 end
 

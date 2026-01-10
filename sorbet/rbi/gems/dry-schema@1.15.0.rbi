@@ -596,110 +596,147 @@ class Dry::Schema::JSONSchema::SchemaCompiler
   # @api private
   # @return [SchemaCompiler] a new instance of SchemaCompiler
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#61
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#78
   def initialize(root: T.unsafe(nil), loose: T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#79
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#221
+  def apply_array_item_constraint(target, type_opts); end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#215
+  def apply_array_size_constraint(target, name, rest); end
+
+  # @api private
+  # @return [Boolean]
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#227
+  def array_size_predicate?(name); end
+
+  # @api private
+  # @return [Boolean]
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#210
+  def array_with_size_predicate?(target, name, opts); end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#96
   def call(ast); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#194
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#232
+  def convert_array_size_predicate(name, rest); end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#257
   def fetch_filled_options(type, _target); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#182
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#245
   def fetch_type_opts_for_predicate(name, rest, target); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#58
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#190
+  def handle_key_predicate(rest); end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#196
+  def handle_value_predicate(name, rest, opts); end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#75
   def keys; end
 
   # @api private
   # @return [Boolean]
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#225
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#288
   def loose?; end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#208
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#271
   def merge_opts!(orig_opts, new_opts); end
 
   # @api private
   # @raise [UnknownConversionError]
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#229
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#292
   def raise_unknown_conversion_error!(type, name); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#58
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#75
   def required; end
 
   # @api private
   # @return [Boolean]
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#220
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#283
   def root?; end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#76
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#93
   def to_h; end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#69
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#86
   def to_hash; end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#84
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#101
   def visit(node, opts = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#104
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#121
   def visit_and(node, opts = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#137
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#154
   def visit_each(node, opts = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#130
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#147
   def visit_implication(node, opts = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#142
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#159
   def visit_key(node, opts = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#155
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#172
   def visit_not(node, opts = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#118
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#135
   def visit_or(node, opts = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#162
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#179
   def visit_predicate(node, opts = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#90
+  # source://dry-schema//lib/dry/schema/extensions/json_schema/schema_compiler.rb#107
   def visit_set(node, opts = T.unsafe(nil)); end
 end
 
@@ -1104,7 +1141,7 @@ class Dry::Schema::KeyValidator
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/key_validator.rb#20
+  # source://dry-schema//lib/dry/schema/key_validator.rb#21
   def call(result); end
 
   private
@@ -1112,50 +1149,60 @@ class Dry::Schema::KeyValidator
   # @api private
   # @return [Boolean]
   #
-  # source://dry-schema//lib/dry/schema/key_validator.rb#58
+  # source://dry-schema//lib/dry/schema/key_validator.rb#59
   def any_key_paths_match?(key_paths, path); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/key_validator.rb#65
+  # source://dry-schema//lib/dry/schema/key_validator.rb#66
   def find_path(key_paths, path, prefix_match); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/key_validator.rb#97
+  # source://dry-schema//lib/dry/schema/key_validator.rb#96
   def hashes_or_arrays(xs); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/key_validator.rb#71
+  # source://dry-schema//lib/dry/schema/key_validator.rb#72
   def key_paths(hash); end
 
   # @api private
   # @return [Boolean]
   #
-  # source://dry-schema//lib/dry/schema/key_validator.rb#53
+  # source://dry-schema//lib/dry/schema/key_validator.rb#54
   def none_key_paths_match?(key_paths, path); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/key_validator.rb#40
+  # source://dry-schema//lib/dry/schema/key_validator.rb#103
+  def traverse_array(arr); end
+
+  # @api private
+  #
+  # source://dry-schema//lib/dry/schema/key_validator.rb#41
   def validate_path(key_paths, path); end
 end
 
 # @api private
 #
-# source://dry-schema//lib/dry/schema/key_validator.rb#14
+# source://dry-schema//lib/dry/schema/key_validator.rb#15
 Dry::Schema::KeyValidator::BRACKETS = T.let(T.unsafe(nil), String)
 
 # @api private
 #
-# source://dry-schema//lib/dry/schema/key_validator.rb#13
+# source://dry-schema//lib/dry/schema/key_validator.rb#14
 Dry::Schema::KeyValidator::DIGIT_REGEX = T.let(T.unsafe(nil), Regexp)
 
 # @api private
 #
-# source://dry-schema//lib/dry/schema/key_validator.rb#12
+# source://dry-schema//lib/dry/schema/key_validator.rb#13
 Dry::Schema::KeyValidator::INDEX_REGEX = T.let(T.unsafe(nil), Regexp)
+
+# @api private
+#
+# source://dry-schema//lib/dry/schema/key_validator.rb#12
+Dry::Schema::KeyValidator::MULTI_INDEX_REGEX = T.let(T.unsafe(nil), Regexp)
 
 # @api public
 #
@@ -1359,13 +1406,13 @@ class Dry::Schema::Macros::DSL < ::Dry::Schema::Macros::Core
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/macros/dsl.rb#259
+  # source://dry-schema//lib/dry/schema/macros/dsl.rb#263
   def resolve_type(type_spec, nullable); end
 
   # @api private
   # @return [Boolean]
   #
-  # source://dry-schema//lib/dry/schema/macros/dsl.rb#270
+  # source://dry-schema//lib/dry/schema/macros/dsl.rb#274
   def schema_or_predicate?(arg); end
 end
 
@@ -1692,6 +1739,13 @@ class Dry::Schema::Message
   #
   # source://dry-schema//lib/dry/schema/message.rb#53
   def to_s; end
+
+  private
+
+  # @api public
+  #
+  # source://dry-schema//lib/dry/schema/message.rb#110
+  def remove_prefix(array, prefix:); end
 end
 
 # Hints extension for Or messages
@@ -2235,7 +2289,7 @@ end
 #
 # @api public
 #
-# source://dry-schema//lib/dry/schema/messages/abstract.rb#14
+# source://dry-schema//lib/dry/schema/messages/abstract.rb#13
 class Dry::Schema::Messages::Abstract
   include ::Dry::Configurable::Initializer
   include ::Dry::Core::Constants
@@ -2251,7 +2305,7 @@ class Dry::Schema::Messages::Abstract
   # @api public
   # @return [Template]
   #
-  # source://dry-schema//lib/dry/schema/messages/abstract.rb#110
+  # source://dry-schema//lib/dry/schema/messages/abstract.rb#109
   def [](predicate, options); end
 
   # Retrieve a message template
@@ -2259,29 +2313,29 @@ class Dry::Schema::Messages::Abstract
   # @api public
   # @return [Template]
   #
-  # source://dry-schema//lib/dry/schema/messages/abstract.rb#91
+  # source://dry-schema//lib/dry/schema/messages/abstract.rb#90
   def call(predicate, options); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/messages/abstract.rb#169
+  # source://dry-schema//lib/dry/schema/messages/abstract.rb#168
   def default_locale; end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/messages/abstract.rb#141
+  # source://dry-schema//lib/dry/schema/messages/abstract.rb#140
   def filled_lookup_paths(tokens); end
 
   # @api private
   # @raise [::NotImplementedError]
   #
-  # source://dry-schema//lib/dry/schema/messages/abstract.rb#174
+  # source://dry-schema//lib/dry/schema/messages/abstract.rb#173
   def interpolatable_data(_key, _options, **_data); end
 
   # @api private
   # @raise [::NotImplementedError]
   #
-  # source://dry-schema//lib/dry/schema/messages/abstract.rb#179
+  # source://dry-schema//lib/dry/schema/messages/abstract.rb#178
   def interpolate(_key, _options, **_data); end
 
   # Check if given key is defined
@@ -2290,7 +2344,7 @@ class Dry::Schema::Messages::Abstract
   # @raise [::NotImplementedError]
   # @return [Boolean]
   #
-  # source://dry-schema//lib/dry/schema/messages/abstract.rb#117
+  # source://dry-schema//lib/dry/schema/messages/abstract.rb#116
   def key?(_key, _options = T.unsafe(nil)); end
 
   # Retrieve an array of looked up paths
@@ -2300,12 +2354,12 @@ class Dry::Schema::Messages::Abstract
   # @param predicate [Symbol]
   # @return [String]
   #
-  # source://dry-schema//lib/dry/schema/messages/abstract.rb#129
+  # source://dry-schema//lib/dry/schema/messages/abstract.rb#128
   def looked_up_paths(predicate, options); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/messages/abstract.rb#135
+  # source://dry-schema//lib/dry/schema/messages/abstract.rb#134
   def lookup_paths(predicate, options); end
 
   # Return a new message backend that will look for messages under provided namespace
@@ -2313,7 +2367,7 @@ class Dry::Schema::Messages::Abstract
   # @api public
   # @param namespace [Symbol, String]
   #
-  # source://dry-schema//lib/dry/schema/messages/abstract.rb#155
+  # source://dry-schema//lib/dry/schema/messages/abstract.rb#154
   def namespaced(namespace); end
 
   # Return root path to messages file
@@ -2321,22 +2375,22 @@ class Dry::Schema::Messages::Abstract
   # @api public
   # @return [Pathname]
   #
-  # source://dry-schema//lib/dry/schema/messages/abstract.rb#164
+  # source://dry-schema//lib/dry/schema/messages/abstract.rb#163
   def root; end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/messages/abstract.rb#78
+  # source://dry-schema//lib/dry/schema/messages/abstract.rb#77
   def rule(name, options = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/messages/abstract.rb#146
+  # source://dry-schema//lib/dry/schema/messages/abstract.rb#145
   def rule_lookup_paths(tokens); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/messages/abstract.rb#73
+  # source://dry-schema//lib/dry/schema/messages/abstract.rb#72
   def translate(key, locale: T.unsafe(nil)); end
 
   private
@@ -2344,23 +2398,23 @@ class Dry::Schema::Messages::Abstract
   # @api private
   # @return [Boolean]
   #
-  # source://dry-schema//lib/dry/schema/messages/abstract.rb#197
+  # source://dry-schema//lib/dry/schema/messages/abstract.rb#196
   def custom_top_namespace?(path); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/messages/abstract.rb#186
+  # source://dry-schema//lib/dry/schema/messages/abstract.rb#185
   def lookup_tokens(predicate, options); end
 
   class << self
     # @api private
     #
-    # source://dry-schema//lib/dry/schema/messages/abstract.rb#52
+    # source://dry-schema//lib/dry/schema/messages/abstract.rb#51
     def build(options = T.unsafe(nil)); end
 
     # @api private
     #
-    # source://dry-schema//lib/dry/schema/messages/abstract.rb#47
+    # source://dry-schema//lib/dry/schema/messages/abstract.rb#46
     def setting_names; end
   end
 end
@@ -2384,7 +2438,7 @@ class Dry::Schema::Messages::I18n < ::Dry::Schema::Messages::Abstract
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/messages/i18n.rb#73
+  # source://dry-schema//lib/dry/schema/messages/i18n.rb#74
   def default_locale; end
 
   # Get a message for the given key and its options
@@ -2399,12 +2453,12 @@ class Dry::Schema::Messages::I18n < ::Dry::Schema::Messages::Abstract
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/messages/i18n.rb#99
+  # source://dry-schema//lib/dry/schema/messages/i18n.rb#100
   def interpolatable_data(_key, _options, **data); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/messages/i18n.rb#104
+  # source://dry-schema//lib/dry/schema/messages/i18n.rb#105
   def interpolate(key, options, **data); end
 
   # Check if given key is defined
@@ -2412,7 +2466,7 @@ class Dry::Schema::Messages::I18n < ::Dry::Schema::Messages::Abstract
   # @api public
   # @return [Boolean]
   #
-  # source://dry-schema//lib/dry/schema/messages/i18n.rb#56
+  # source://dry-schema//lib/dry/schema/messages/i18n.rb#57
   def key?(key, options); end
 
   # Merge messages from an additional path
@@ -2421,12 +2475,12 @@ class Dry::Schema::Messages::I18n < ::Dry::Schema::Messages::Abstract
   # @param paths [String, Array<String>]
   # @return [Messages::I18n]
   #
-  # source://dry-schema//lib/dry/schema/messages/i18n.rb#68
+  # source://dry-schema//lib/dry/schema/messages/i18n.rb#69
   def merge(paths); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/messages/i18n.rb#78
+  # source://dry-schema//lib/dry/schema/messages/i18n.rb#79
   def prepare(paths = T.unsafe(nil)); end
 
   # Translation function
@@ -2441,7 +2495,7 @@ class Dry::Schema::Messages::I18n < ::Dry::Schema::Messages::Abstract
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/messages/i18n.rb#121
+  # source://dry-schema//lib/dry/schema/messages/i18n.rb#125
   def store_translations(data); end
 end
 
@@ -2984,12 +3038,17 @@ class Dry::Schema::PredicateInferrer < ::Dry::Types::PredicateInferrer
   # @api private
   # @return [PredicateInferrer] a new instance of PredicateInferrer
   #
-  # source://dry-schema//lib/dry/schema/predicate_inferrer.rb#9
+  # source://dry-schema//lib/dry/schema/predicate_inferrer.rb#18
   def initialize(registry = T.unsafe(nil)); end
 end
 
 # @api private
-class Dry::Schema::PredicateInferrer::Compiler < ::Dry::Types::PredicateInferrer::Compiler; end
+#
+# source://dry-schema//lib/dry/schema/predicate_inferrer.rb#7
+class Dry::Schema::PredicateInferrer::Compiler < ::Dry::Types::PredicateInferrer::Compiler
+  # source://dry-schema//lib/dry/schema/predicate_inferrer.rb#9
+  def visit_intersection(node); end
+end
 
 # A registry with predicate objects from `Dry::Logic::Predicates`
 #
@@ -3010,12 +3069,17 @@ class Dry::Schema::PrimitiveInferrer < ::Dry::Types::PrimitiveInferrer
   # @api private
   # @return [PrimitiveInferrer] a new instance of PrimitiveInferrer
   #
-  # source://dry-schema//lib/dry/schema/primitive_inferrer.rb#9
+  # source://dry-schema//lib/dry/schema/primitive_inferrer.rb#15
   def initialize; end
 end
 
 # @api private
-class Dry::Schema::PrimitiveInferrer::Compiler < ::Dry::Types::PrimitiveInferrer::Compiler; end
+#
+# source://dry-schema//lib/dry/schema/primitive_inferrer.rb#7
+class Dry::Schema::PrimitiveInferrer::Compiler < ::Dry::Types::PrimitiveInferrer::Compiler
+  # source://dry-schema//lib/dry/schema/primitive_inferrer.rb#9
+  def visit_intersection(node); end
+end
 
 # Processes input data using objects configured within the DSL
 # Processing is split into steps represented by `ProcessorSteps`.
@@ -3563,70 +3627,70 @@ class Dry::Schema::Trace < ::BasicObject
   # @api private
   # @return [Trace] a new instance of Trace
   #
-  # source://dry-schema//lib/dry/schema/trace.rb#22
+  # source://dry-schema//lib/dry/schema/trace.rb#23
   def initialize(compiler = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/trace.rb#58
+  # source://dry-schema//lib/dry/schema/trace.rb#59
   def <<(op); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/trace.rb#54
+  # source://dry-schema//lib/dry/schema/trace.rb#55
   def append(op); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/trace.rb#19
+  # source://dry-schema//lib/dry/schema/trace.rb#20
   def captures; end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/trace.rb#77
+  # source://dry-schema//lib/dry/schema/trace.rb#78
   def class; end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/trace.rb#16
+  # source://dry-schema//lib/dry/schema/trace.rb#17
   def compiler; end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/trace.rb#28
+  # source://dry-schema//lib/dry/schema/trace.rb#29
   def evaluate(*args, **opts); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/trace.rb#39
+  # source://dry-schema//lib/dry/schema/trace.rb#40
   def evaluate_predicates(predicates); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/trace.rb#72
+  # source://dry-schema//lib/dry/schema/trace.rb#73
   def to_ast; end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/trace.rb#61
+  # source://dry-schema//lib/dry/schema/trace.rb#62
   def to_rule(name = T.unsafe(nil)); end
 
   private
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/trace.rb#93
+  # source://dry-schema//lib/dry/schema/trace.rb#95
   def method_missing(meth, *args, &block); end
 
   # @api private
   #
-  # source://dry-schema//lib/dry/schema/trace.rb#84
+  # source://dry-schema//lib/dry/schema/trace.rb#85
   def reduced_rule; end
 
   # @api private
   # @return [Boolean]
   #
-  # source://dry-schema//lib/dry/schema/trace.rb#88
+  # source://dry-schema//lib/dry/schema/trace.rb#89
   def respond_to_missing?(meth, include_private = T.unsafe(nil)); end
 end
 
@@ -3634,6 +3698,11 @@ end
 #
 # source://dry-schema//lib/dry/schema/trace.rb#9
 Dry::Schema::Trace::INVALID_PREDICATES = T.let(T.unsafe(nil), Array)
+
+# @api private
+#
+# source://dry-schema//lib/dry/schema/trace.rb#10
+Dry::Schema::Trace::RESPOND_TO_MISSING_METHOD = T.let(T.unsafe(nil), UnboundMethod)
 
 # A class to build containers for custom types, which can be used in schemas
 #

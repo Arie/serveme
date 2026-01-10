@@ -1181,7 +1181,7 @@ class RedisClient::RubyConnection
 
   # unknown
   #
-  # source://redis-client//lib/redis_client/ruby_connection.rb#179
+  # source://redis-client//lib/redis_client/ruby_connection.rb#172
   def enable_socket_keep_alive(socket); end
 
   class << self
@@ -1301,10 +1301,10 @@ class RedisClient::SentinelConfig
   # source://redis-client//lib/redis_client/sentinel_config.rb#12
   def initialize(sentinels:, sentinel_password: T.unsafe(nil), sentinel_username: T.unsafe(nil), role: T.unsafe(nil), name: T.unsafe(nil), url: T.unsafe(nil), **client_config); end
 
-  # source://redis-client//lib/redis_client/sentinel_config.rb#110
+  # source://redis-client//lib/redis_client/sentinel_config.rb#113
   def check_role!(role); end
 
-  # source://redis-client//lib/redis_client/sentinel_config.rb#89
+  # source://redis-client//lib/redis_client/sentinel_config.rb#92
   def host; end
 
   # Returns the value of attribute name.
@@ -1312,57 +1312,57 @@ class RedisClient::SentinelConfig
   # source://redis-client//lib/redis_client/sentinel_config.rb#10
   def name; end
 
-  # source://redis-client//lib/redis_client/sentinel_config.rb#97
+  # source://redis-client//lib/redis_client/sentinel_config.rb#100
   def path; end
 
-  # source://redis-client//lib/redis_client/sentinel_config.rb#93
+  # source://redis-client//lib/redis_client/sentinel_config.rb#96
   def port; end
 
-  # source://redis-client//lib/redis_client/sentinel_config.rb#79
+  # source://redis-client//lib/redis_client/sentinel_config.rb#82
   def reset; end
 
   # @return [Boolean]
   #
-  # source://redis-client//lib/redis_client/sentinel_config.rb#124
+  # source://redis-client//lib/redis_client/sentinel_config.rb#127
   def resolved?; end
 
   # @return [Boolean]
   #
-  # source://redis-client//lib/redis_client/sentinel_config.rb#101
+  # source://redis-client//lib/redis_client/sentinel_config.rb#104
   def retry_connecting?(attempt, error); end
 
   # @return [Boolean]
   #
-  # source://redis-client//lib/redis_client/sentinel_config.rb#106
+  # source://redis-client//lib/redis_client/sentinel_config.rb#109
   def sentinel?; end
 
-  # source://redis-client//lib/redis_client/sentinel_config.rb#73
+  # source://redis-client//lib/redis_client/sentinel_config.rb#76
   def sentinels; end
 
-  # source://redis-client//lib/redis_client/sentinel_config.rb#85
+  # source://redis-client//lib/redis_client/sentinel_config.rb#88
   def server_key; end
 
   private
 
-  # source://redis-client//lib/redis_client/sentinel_config.rb#143
+  # source://redis-client//lib/redis_client/sentinel_config.rb#146
   def config; end
 
-  # source://redis-client//lib/redis_client/sentinel_config.rb#190
+  # source://redis-client//lib/redis_client/sentinel_config.rb#193
   def each_sentinel; end
 
-  # source://redis-client//lib/redis_client/sentinel_config.rb#216
+  # source://redis-client//lib/redis_client/sentinel_config.rb#219
   def refresh_sentinels(sentinel_client); end
 
-  # source://redis-client//lib/redis_client/sentinel_config.rb#153
+  # source://redis-client//lib/redis_client/sentinel_config.rb#156
   def resolve_master; end
 
-  # source://redis-client//lib/redis_client/sentinel_config.rb#172
+  # source://redis-client//lib/redis_client/sentinel_config.rb#175
   def resolve_replica; end
 
-  # source://redis-client//lib/redis_client/sentinel_config.rb#168
+  # source://redis-client//lib/redis_client/sentinel_config.rb#171
   def sentinel_client(sentinel_config); end
 
-  # source://redis-client//lib/redis_client/sentinel_config.rb#132
+  # source://redis-client//lib/redis_client/sentinel_config.rb#135
   def sentinels_to_configs(sentinels); end
 end
 

@@ -2089,14 +2089,14 @@ class Aws::EC2Metadata
   #   ec2_metadata = Aws::EC2Metadata.new
   #   ec2_metadata.get('/latest/meta-data/instance-id')
   #   => "i-023a25f10a73a0f79"
+  # @note This implementation always returns a String and will not parse any
+  #   responses. Parsable responses may include JSON objects or directory
+  #   listings, which are strings separated by line feeds (ASCII 10).
   # @note Unlike other services, IMDS does not have a service API model. This
   #   means that we cannot confidently generate code with methods and
   #   response structures. This implementation ensures that new IMDS features
   #   are always supported by being deployed to the instance and does not
   #   require code changes.
-  # @note This implementation always returns a String and will not parse any
-  #   responses. Parsable responses may include JSON objects or directory
-  #   listings, which are strings separated by line feeds (ASCII 10).
   # @param path [String] The full path to the metadata.
   # @see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-identity-documents.html
   # @see https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-categories.html
@@ -5284,36 +5284,74 @@ end
 #
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#468
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#482
 class Aws::Plugins::ChecksumAlgorithm::AwsChunkedTrailerDigestIO
   # @api private
   # @return [AwsChunkedTrailerDigestIO] a new instance of AwsChunkedTrailerDigestIO
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#471
-  def initialize(io, algorithm, location_name); end
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#486
+  def initialize(options = T.unsafe(nil)); end
+
+  # @api private
+  # @return [Boolean]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#539
+  def eof?; end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#496
-  def read(length, buf = T.unsafe(nil)); end
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#520
+  def read(length = T.unsafe(nil), buf = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#492
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#513
   def rewind; end
 
   # the size of the application layer aws-chunked + trailer body
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#480
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#499
   def size; end
+
+  private
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#545
+  def calculate_overhead(chunk_size); end
+
+  # Returns true if more data needs to be read into the buffer
+  #
+  # @api private
+  # @return [Boolean]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#569
+  def fill_data?(length); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#549
+  def fill_encoded_buffer(required_length); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#564
+  def trailer_string; end
 end
+
+# "\r\n\r\n"
+#
+# @api private
+#
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#483
+Aws::Plugins::ChecksumAlgorithm::AwsChunkedTrailerDigestIO::CHUNK_OVERHEAD = T.let(T.unsafe(nil), Integer)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#469
-Aws::Plugins::ChecksumAlgorithm::AwsChunkedTrailerDigestIO::CHUNK_SIZE = T.let(T.unsafe(nil), Integer)
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#484
+Aws::Plugins::ChecksumAlgorithm::AwsChunkedTrailerDigestIO::HEX_BASE = T.let(T.unsafe(nil), Integer)
 
 # Priority order of checksum algorithms to validate responses against.
 # Remove any algorithms not supported by client (ie, depending on CRT availability).
@@ -5321,60 +5359,60 @@ Aws::Plugins::ChecksumAlgorithm::AwsChunkedTrailerDigestIO::CHUNK_SIZE = T.let(T
 #
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#28
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#30
 Aws::Plugins::ChecksumAlgorithm::CHECKSUM_ALGORITHM_PRIORITIES = T.let(T.unsafe(nil), Array)
-
-# byte size of checksums, used in computing the trailer length
-#
-# @api private
-#
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#31
-Aws::Plugins::ChecksumAlgorithm::CHECKSUM_SIZE = T.let(T.unsafe(nil), Hash)
 
 # one MB
 #
 # @api private
 #
 # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#7
-Aws::Plugins::ChecksumAlgorithm::CHUNK_SIZE = T.let(T.unsafe(nil), Integer)
+Aws::Plugins::ChecksumAlgorithm::CHECKSUM_CHUNK_SIZE = T.let(T.unsafe(nil), Integer)
+
+# byte size of checksums, used in computing the trailer length
+#
+# @api private
+#
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#33
+Aws::Plugins::ChecksumAlgorithm::CHECKSUM_SIZE = T.let(T.unsafe(nil), Hash)
 
 # determine the set of supported client side checksum algorithms
 # CRC32c requires aws-crt (optional sdk dependency) for support
 #
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#11
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#12
 Aws::Plugins::ChecksumAlgorithm::CLIENT_ALGORITHMS = T.let(T.unsafe(nil), Array)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#23
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#24
 Aws::Plugins::ChecksumAlgorithm::CRT_ALGORITHMS = T.let(T.unsafe(nil), Array)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#182
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#180
 class Aws::Plugins::ChecksumAlgorithm::ChecksumHandler < ::Seahorse::Client::Handler
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#183
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#181
   def call(context); end
 
   private
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#232
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#228
   def add_request_checksum_metrics(algorithm, metrics); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#214
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#210
   def add_request_config_metric(config, metrics); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#223
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#219
   def add_response_config_metric(config, metrics); end
 
   # Add events to the http_response to verify the checksum as its read
@@ -5383,42 +5421,42 @@ class Aws::Plugins::ChecksumAlgorithm::ChecksumHandler < ::Seahorse::Client::Han
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#407
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#425
   def add_verify_response_checksum_handlers(context); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#436
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#450
   def add_verify_response_data_handler(context, checksum_context); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#414
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#432
   def add_verify_response_headers_handler(context, checksum_context); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#442
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#456
   def add_verify_response_success_handler(context, checksum_context); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#347
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#358
   def apply_request_checksum(context, headers, checksum_properties); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#376
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#388
   def apply_request_trailer_checksum(context, headers, checksum_properties); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#356
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#366
   def calculate_checksum(algorithm, body); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#332
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#328
   def calculate_request_checksum(context, checksum_properties); end
 
   # Checks if checksum calculation should proceed based on operation requirements and client settings.
@@ -5430,49 +5468,49 @@ class Aws::Plugins::ChecksumAlgorithm::ChecksumHandler < ::Seahorse::Client::Han
   # @api private
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#291
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#286
   def checksum_applicable?(context); end
 
   # @api private
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#274
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#270
   def checksum_provided_as_header?(headers); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#323
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#318
   def checksum_request_in(context); end
 
   # @api private
   # @raise [ArgumentError]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#309
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#304
   def choose_request_algorithm!(context); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#268
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#264
   def operation_response_algorithms(context); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#255
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#251
   def request_algorithm_header(context); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#247
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#243
   def request_algorithm_selection(context); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#261
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#257
   def request_validation_mode(context); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#457
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#471
   def response_header_to_verify(headers, validation_list); end
 
   # Determines whether a request checksum should be calculated.
@@ -5482,30 +5520,49 @@ class Aws::Plugins::ChecksumAlgorithm::ChecksumHandler < ::Seahorse::Client::Han
   # @api private
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#281
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#277
   def should_calculate_request_checksum?(context); end
 
   # @api private
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#400
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#344
+  def should_fallback_to_header?(context); end
+
+  # @api private
+  # @return [Boolean]
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#418
   def should_verify_response_checksum?(context); end
 
   # @api private
+  # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#366
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#324
+  def supports_trailer_checksums?(operation); end
+
+  # @api private
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#378
   def update_in_chunks(digest, io); end
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#206
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#202
   def with_metrics(config, algorithm, &block); end
 end
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#40
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#25
 Aws::Plugins::ChecksumAlgorithm::DEFAULT_CHECKSUM = T.let(T.unsafe(nil), String)
+
+# 16 KB
+#
+# @api private
+#
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#8
+Aws::Plugins::ChecksumAlgorithm::DEFAULT_TRAILER_CHUNK_SIZE = T.let(T.unsafe(nil), Integer)
 
 # Interface for computing digests on request/response bodies
 # which may be files, strings or IO like objects.
@@ -5546,7 +5603,7 @@ class Aws::Plugins::ChecksumAlgorithm::OptionHandler < ::Seahorse::Client::Handl
 
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#174
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/checksum_algorithm.rb#172
   def enable_request_validation_mode(context); end
 end
 
@@ -6474,20 +6531,20 @@ Aws::Plugins::Retries::ClientRateLimiter::SMOOTH = T.let(T.unsafe(nil), Float)
 
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#8
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#7
 class Aws::Plugins::Retries::ClockSkew
   # @api private
   # @return [ClockSkew] a new instance of ClockSkew
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#12
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#10
   def initialize; end
 
   # Gets the clock_correction in seconds to apply to a given endpoint
   #
   # @api private
-  # @param endpoint [URI / String]
+  # @param endpoint [URI, String]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#26
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#24
   def clock_correction(endpoint); end
 
   # Determines whether a request has clock skew by comparing
@@ -6497,7 +6554,7 @@ class Aws::Plugins::Retries::ClockSkew
   # @param context [Seahorse::Client::RequestContext]
   # @return [Boolean]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#44
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#42
   def clock_skewed?(context); end
 
   # The estimated skew factors in any clock skew from
@@ -6510,7 +6567,7 @@ class Aws::Plugins::Retries::ClockSkew
   #
   # @api private
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#37
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#35
   def estimated_skew(endpoint); end
 
   # Called only on clock skew related errors
@@ -6520,7 +6577,7 @@ class Aws::Plugins::Retries::ClockSkew
   # @api private
   # @param context [Seahorse::Client::RequestContext]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#54
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#52
   def update_clock_correction(context); end
 
   # Called for every request
@@ -6530,15 +6587,22 @@ class Aws::Plugins::Retries::ClockSkew
   # @api private
   # @param context [Seahorse::Client::RequestContext]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#67
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#65
   def update_estimated_skew(context); end
 
   private
 
   # @api private
+  # @param endpoint [URI, String] the endpoint to normalize
+  # @return [String] the endpoint's schema, host, and port - without any path or query arguments
+  #
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#84
+  def normalized_endpoint(endpoint); end
+
+  # @api private
   # @param response [Seahorse::Client::Http::Response:]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#80
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#95
   def server_time(response); end
 
   # Sets the clock correction for an endpoint
@@ -6547,7 +6611,7 @@ class Aws::Plugins::Retries::ClockSkew
   # @param correction [Number]
   # @param endpoint [URI / String]
   #
-  # source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#91
+  # source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#104
   def set_clock_correction(endpoint, correction); end
 end
 
@@ -6555,7 +6619,7 @@ end
 #
 # @api private
 #
-# source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#10
+# source://aws-sdk-core//lib/aws-sdk-core/plugins/retries/clock_skew.rb#8
 Aws::Plugins::Retries::ClockSkew::CLOCK_SKEW_THRESHOLD = T.let(T.unsafe(nil), Integer)
 
 # This class will be obsolete when APIs contain modeled exceptions
@@ -17291,7 +17355,7 @@ class Aws::Xml::Parser::UnknownMemberFrame < ::Aws::Xml::Parser::Frame
 end
 
 class Net::HTTPGenericRequest
-  include ::Seahorse::Client::NetHttp::Patches::PatchDefaultContentType
+  include ::Seahorse::Client::NetHttp::Patches::RequestPatches
 end
 
 # source://aws-sdk-core//lib/seahorse/util.rb#6
@@ -19340,31 +19404,56 @@ end
 
 # @api private
 #
-# source://aws-sdk-core//lib/seahorse/client/net_http/patches.rb#11
+# source://aws-sdk-core//lib/seahorse/client/net_http/patches.rb#10
 module Seahorse::Client::NetHttp::Patches
   class << self
     # @api private
     #
-    # source://aws-sdk-core//lib/seahorse/client/net_http/patches.rb#13
+    # source://aws-sdk-core//lib/seahorse/client/net_http/patches.rb#11
     def apply!; end
   end
 end
 
-# For requests with bodies, Net::HTTP sets a default content type of:
-#   'application/x-www-form-urlencoded'
-# There are cases where we should not send content type at all.
-# Even when no body is supplied, Net::HTTP uses a default empty body
-# and sets it anyway. This patch disables the behavior when a Thread
-# local variable is set.
+# Patches intended to override Net::HTTP functionality
 #
 # @api private
 #
-# source://aws-sdk-core//lib/seahorse/client/net_http/patches.rb#23
-module Seahorse::Client::NetHttp::Patches::PatchDefaultContentType
+# source://aws-sdk-core//lib/seahorse/client/net_http/patches.rb#16
+module Seahorse::Client::NetHttp::Patches::RequestPatches
+  # IO.copy_stream is capped at 16KB buffer so this patch intends to
+  # increase its chunk size for better performance.
+  # Only intended to use for S3 TM implementation.
+  # See: https://github.com/ruby/net-http/blob/master/lib/net/http/generic_request.rb#L292
+  #
+  # @api private
+  #
+  # source://aws-sdk-core//lib/seahorse/client/net_http/patches.rb#34
+  def send_request_with_body_stream(sock, ver, path, f); end
+
+  # For requests with bodies, Net::HTTP sets a default content type of:
+  #   'application/x-www-form-urlencoded'
+  # There are cases where we should not send content type at all.
+  # Even when no body is supplied, Net::HTTP uses a default empty body
+  # and sets it anyway. This patch disables the behavior when a Thread
+  # local variable is set.
+  # See: https://github.com/ruby/net-http/issues/205
+  #
   # @api private
   #
   # source://aws-sdk-core//lib/seahorse/client/net_http/patches.rb#24
   def supply_default_content_type; end
+end
+
+# @api private
+#
+# source://aws-sdk-core//lib/seahorse/client/net_http/patches.rb#53
+class Seahorse::Client::NetHttp::Patches::RequestPatches::RequestIO
+  class << self
+    # @api private
+    #
+    # source://aws-sdk-core//lib/seahorse/client/net_http/patches.rb#54
+    def custom_stream(src, dst, chunk_size); end
+  end
 end
 
 # source://aws-sdk-core//lib/seahorse/client/networking_error.rb#5

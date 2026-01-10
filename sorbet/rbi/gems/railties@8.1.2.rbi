@@ -3189,8 +3189,24 @@ end
 
 # source://railties//lib/rails/test_unit/line_filtering.rb#6
 module Rails::LineFiltering
-  # source://railties//lib/rails/test_unit/line_filtering.rb#7
+  class << self
+    # @private
+    #
+    # source://railties//lib/rails/test_unit/line_filtering.rb#7
+    def extended(obj); end
+  end
+end
+
+# source://railties//lib/rails/test_unit/line_filtering.rb#18
+module Rails::LineFiltering::MT5
+  # source://railties//lib/rails/test_unit/line_filtering.rb#19
   def run(reporter, options = T.unsafe(nil)); end
+end
+
+# source://railties//lib/rails/test_unit/line_filtering.rb#26
+module Rails::LineFiltering::MT6
+  # source://railties//lib/rails/test_unit/line_filtering.rb#27
+  def run_suite(reporter, options = T.unsafe(nil)); end
 end
 
 # source://railties//lib/rails/mailers_controller.rb#6
@@ -3993,19 +4009,19 @@ end
 class Rails::SourceAnnotationExtractor
   # @return [SourceAnnotationExtractor] a new instance of SourceAnnotationExtractor
   #
-  # source://railties//lib/rails/source_annotation_extractor.rb#154
+  # source://railties//lib/rails/source_annotation_extractor.rb#158
   def initialize(tag); end
 
   # Prints the mapping from filenames to annotations in +results+ ordered by filename.
   # The +options+ hash is passed to each annotation's +to_s+.
   #
-  # source://railties//lib/rails/source_annotation_extractor.rb#203
+  # source://railties//lib/rails/source_annotation_extractor.rb#207
   def display(results, options = T.unsafe(nil)); end
 
   # Returns a hash that maps filenames under +dirs+ (recursively) to arrays
   # with their annotations.
   #
-  # source://railties//lib/rails/source_annotation_extractor.rb#160
+  # source://railties//lib/rails/source_annotation_extractor.rb#164
   def find(dirs); end
 
   # Returns a hash that maps filenames under +dir+ (recursively) to arrays
@@ -4013,12 +4029,12 @@ class Rails::SourceAnnotationExtractor
   # <tt>Rails::SourceAnnotationExtractor::Annotation.extensions</tt> are
   # taken into account. Only files with annotations are included.
   #
-  # source://railties//lib/rails/source_annotation_extractor.rb#168
+  # source://railties//lib/rails/source_annotation_extractor.rb#172
   def find_in(dir); end
 
   # Returns the value of attribute tag.
   #
-  # source://railties//lib/rails/source_annotation_extractor.rb#152
+  # source://railties//lib/rails/source_annotation_extractor.rb#156
   def tag; end
 
   class << self
@@ -4037,7 +4053,7 @@ class Rails::SourceAnnotationExtractor
     #
     # This class method is the single entry point for the <tt>rails notes</tt> command.
     #
-    # source://railties//lib/rails/source_annotation_extractor.rb#145
+    # source://railties//lib/rails/source_annotation_extractor.rb#149
     def enumerate(tag = T.unsafe(nil), options = T.unsafe(nil)); end
   end
 end
@@ -4051,7 +4067,7 @@ class Rails::SourceAnnotationExtractor::Annotation < ::Struct
   # If +options+ has a flag <tt>:tag</tt> the tag is shown as in the example above.
   # Otherwise the string contains just line and text.
   #
-  # source://railties//lib/rails/source_annotation_extractor.rb#124
+  # source://railties//lib/rails/source_annotation_extractor.rb#128
   def to_s(options = T.unsafe(nil)); end
 
   class << self

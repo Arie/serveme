@@ -148,60 +148,35 @@ end
 
 # Builder template implementation.
 #
-# source://tilt//lib/tilt/builder.rb#7
+# source://tilt//lib/tilt/builder.rb#11
 class Tilt::BuilderTemplate < ::Tilt::Template
-  # source://tilt//lib/tilt/builder.rb#14
+  # source://tilt//lib/tilt/builder.rb#18
   def evaluate(scope, locals, &block); end
 
-  # source://tilt//lib/tilt/builder.rb#28
+  # source://tilt//lib/tilt/builder.rb#32
   def precompiled_postamble(locals); end
 
-  # source://tilt//lib/tilt/builder.rb#32
+  # source://tilt//lib/tilt/builder.rb#36
   def precompiled_template(locals); end
 
-  # source://tilt//lib/tilt/builder.rb#10
+  # source://tilt//lib/tilt/builder.rb#14
   def prepare; end
 
   private
 
-  # source://tilt//lib/tilt/builder.rb#38
+  # source://tilt//lib/tilt/builder.rb#42
   def xml_builder; end
 end
 
-# CSV Template implementation. See:
-# http://ruby-doc.org/stdlib/libdoc/csv/rdoc/CSV.html
-#
-# == Example
-#
-#    # Example of csv template
-#    tpl = <<-EOS
-#      # header
-#      csv << ['NAME', 'ID']
-#
-#      # data rows
-#      @people.each do |person|
-#        csv << [person[:name], person[:id]]
-#      end
-#    EOS
-#
-#    @people = [
-#      {:name => "Joshua Peek", :id => 1},
-#      {:name => "Ryan Tomayko", :id => 2},
-#      {:name => "Simone Carletti", :id => 3}
-#    ]
-#
-#    template = Tilt::CSVTemplate.new { tpl }
-#    template.render(self)
-#
-# source://tilt//lib/tilt/csv.rb#32
+# source://tilt//lib/tilt/csv.rb#42
 class Tilt::CSVTemplate < ::Tilt::Template
-  # source://tilt//lib/tilt/csv.rb#47
+  # source://tilt//lib/tilt/csv.rb#57
   def precompiled(locals); end
 
-  # source://tilt//lib/tilt/csv.rb#39
+  # source://tilt//lib/tilt/csv.rb#49
   def precompiled_template(locals); end
 
-  # source://tilt//lib/tilt/csv.rb#35
+  # source://tilt//lib/tilt/csv.rb#45
   def prepare; end
 end
 
@@ -258,70 +233,58 @@ Tilt::EMPTY_ARRAY = T.let(T.unsafe(nil), Array)
 # source://tilt//lib/tilt.rb#13
 Tilt::EMPTY_HASH = T.let(T.unsafe(nil), Hash)
 
-# ERB template implementation. See:
-# http://www.ruby-doc.org/stdlib/libdoc/erb/rdoc/classes/ERB.html
-#
-# source://tilt//lib/tilt/erb.rb#8
+# source://tilt//lib/tilt/erb.rb#73
 class Tilt::ERBTemplate < ::Tilt::Template
   # @return [Boolean]
   #
-  # source://tilt//lib/tilt/erb.rb#60
+  # source://tilt//lib/tilt/erb.rb#125
   def freeze_string_literals?; end
 
   # ERB generates a line to specify the character coding of the generated
   # source in 1.9. Account for this in the line offset.
   #
-  # source://tilt//lib/tilt/erb.rb#55
+  # source://tilt//lib/tilt/erb.rb#120
   def precompiled(locals); end
 
-  # source://tilt//lib/tilt/erb.rb#44
+  # source://tilt//lib/tilt/erb.rb#109
   def precompiled_postamble(locals); end
 
-  # source://tilt//lib/tilt/erb.rb#36
+  # source://tilt//lib/tilt/erb.rb#101
   def precompiled_preamble(locals); end
 
-  # source://tilt//lib/tilt/erb.rb#31
+  # source://tilt//lib/tilt/erb.rb#96
   def precompiled_template(locals); end
 
-  # source://tilt//lib/tilt/erb.rb#11
+  # source://tilt//lib/tilt/erb.rb#76
   def prepare; end
 end
 
-# source://tilt//lib/tilt/erb.rb#9
+# source://tilt//lib/tilt/erb.rb#74
 Tilt::ERBTemplate::SUPPORTS_KVARGS = T.let(T.unsafe(nil), Array)
 
-# Erubi (a simplified version of Erubis) template implementation.
-# See https://github.com/jeremyevans/erubi
-#
-# ErubiTemplate supports the following additional options, in addition
-# to the options supported by the Erubi engine:
-#
-# :engine_class :: allows you to specify a custom engine class to use
-#                  instead of the default (which is ::Erubi::Engine).
-#
-# source://tilt//lib/tilt/erubi.rb#14
+# source://tilt//lib/tilt/erubi.rb#47
 class Tilt::ErubiTemplate < ::Tilt::Template
   # @return [Boolean]
   #
-  # source://tilt//lib/tilt/erubi.rb#51
+  # source://tilt//lib/tilt/erubi.rb#84
   def freeze_string_literals?; end
 
-  # source://tilt//lib/tilt/erubi.rb#47
+  # source://tilt//lib/tilt/erubi.rb#80
   def precompiled_template(locals); end
 
-  # source://tilt//lib/tilt/erubi.rb#15
+  # source://tilt//lib/tilt/erubi.rb#48
   def prepare; end
 end
 
-# source://tilt//lib/tilt/etanni.rb#5
+# source://tilt//lib/tilt/etanni.rb#12
 class Tilt::EtanniTemplate < ::Tilt::Template
-  # source://tilt//lib/tilt/etanni.rb#23
+  # source://tilt//lib/tilt/etanni.rb#30
   def precompiled(locals); end
 
-  # source://tilt//lib/tilt/etanni.rb#19
+  # source://tilt//lib/tilt/etanni.rb#26
   def precompiled_template(locals); end
 
-  # source://tilt//lib/tilt/etanni.rb#6
+  # source://tilt//lib/tilt/etanni.rb#13
   def prepare; end
 end
 
@@ -368,7 +331,7 @@ class Tilt::FinalizedMapping < ::Tilt::BaseMapping
   def lookup(ext); end
 end
 
-# source://tilt//lib/tilt/haml.rb#10
+# source://tilt//lib/tilt/haml.rb#76
 Tilt::HamlTemplate = Haml::Template
 
 # @private
@@ -419,8 +382,8 @@ Tilt::LOCK = T.let(T.unsafe(nil), Thread::Mutex)
 #     # => RDiscount::Template
 #
 # In the previous example we say that RDiscount has a *higher priority* than
-# Kramdown. Tilt will first try to `require "rdiscount/template"`, falling
-# back to `require "kramdown/template"`. If none of these are successful,
+# Kramdown. Tilt will first try to <tt>require "rdiscount/template"</tt>, falling
+# back to <tt>require "kramdown/template"</tt>. If none of these are successful,
 # the first error will be raised.
 #
 # source://tilt//lib/tilt/mapping.rb#125
@@ -548,13 +511,13 @@ class Tilt::Mapping < ::Tilt::BaseMapping
   private
 
   # The proper behavior (in MRI) for autoload? is to
-  # return `false` when the constant/file has been
+  # return <tt>false</tt> when the constant/file has been
   # explicitly required.
   #
-  # However, in JRuby it returns `true` even after it's
-  # been required. In that case it turns out that `defined?`
-  # returns `"constant"` if it exists and `nil` when it doesn't.
-  # This is actually a second bug: `defined?` should resolve
+  # However, in JRuby it returns <tt>true</tt> even after it's
+  # been required. In that case it turns out that <tt>defined?</tt>
+  # returns <tt>"constant"</tt> if it exists and <tt>nil</tt> when it doesn't.
+  # This is actually a second bug: <tt>defined?</tt> should resolve
   # autoload (aka. actually try to require the file).
   #
   # We use the second bug in order to resolve the first bug.
@@ -587,81 +550,70 @@ end
 # source://tilt//lib/tilt/mapping.rb#126
 Tilt::Mapping::LOCK = T.let(T.unsafe(nil), Thread::Mutex)
 
-# Nokogiri template implementation. See:
-# http://nokogiri.org/
-#
-# source://tilt//lib/tilt/nokogiri.rb#8
+# source://tilt//lib/tilt/nokogiri.rb#19
 class Tilt::NokogiriTemplate < ::Tilt::Template
-  # source://tilt//lib/tilt/nokogiri.rb#12
+  # source://tilt//lib/tilt/nokogiri.rb#23
   def evaluate(scope, locals); end
 
-  # source://tilt//lib/tilt/nokogiri.rb#29
+  # source://tilt//lib/tilt/nokogiri.rb#40
   def precompiled_postamble(locals); end
 
-  # source://tilt//lib/tilt/nokogiri.rb#24
+  # source://tilt//lib/tilt/nokogiri.rb#35
   def precompiled_preamble(locals); end
 
-  # source://tilt//lib/tilt/nokogiri.rb#33
+  # source://tilt//lib/tilt/nokogiri.rb#44
   def precompiled_template(locals); end
 end
 
-# source://tilt//lib/tilt/nokogiri.rb#9
+# source://tilt//lib/tilt/nokogiri.rb#20
 Tilt::NokogiriTemplate::DOCUMENT_HEADER = T.let(T.unsafe(nil), Regexp)
 
 # Superclass used for pipeline templates.  Should not be used directly.
 #
-# source://tilt//lib/tilt/pipeline.rb#6
+# source://tilt//lib/tilt/pipeline.rb#7
 class Tilt::Pipeline < ::Tilt::Template
-  # source://tilt//lib/tilt/pipeline.rb#15
+  # source://tilt//lib/tilt/pipeline.rb#20
   def evaluate(scope, locals, &block); end
 
-  # source://tilt//lib/tilt/pipeline.rb#7
+  # source://tilt//lib/tilt/pipeline.rb#8
   def prepare; end
 end
 
-# Raw text (no template functionality).
-#
-# source://tilt//lib/tilt/plain.rb#5
+# source://tilt//lib/tilt/plain.rb#9
 class Tilt::PlainTemplate < ::Tilt::StaticTemplate
   private
 
-  # source://tilt//lib/tilt/plain.rb#5
+  # source://tilt//lib/tilt/plain.rb#9
   def _prepare_output; end
 end
 
-# RDoc template. See: https://github.com/ruby/rdoc
-#
-# source://tilt//lib/tilt/rdoc.rb#9
+# source://tilt//lib/tilt/rdoc.rb#31
 class Tilt::RDocTemplate < ::Tilt::StaticTemplate
   private
 
-  # source://tilt//lib/tilt/rdoc.rb#9
+  # source://tilt//lib/tilt/rdoc.rb#31
   def _prepare_output; end
 end
 
-# Sass template implementation for generating CSS. See: https://sass-lang.com/
-#
-# Sass templates do not support object scopes, locals, or yield.
-#
-# source://tilt//lib/tilt/sass.rb#8
+# source://tilt//lib/tilt/sass.rb#21
 class Tilt::SassTemplate < ::Tilt::StaticTemplate
   private
 
-  # source://tilt//lib/tilt/sass.rb#53
+  # source://tilt//lib/tilt/sass.rb#66
   def _prepare_output; end
 
-  # source://tilt//lib/tilt/sass.rb#57
+  # source://tilt//lib/tilt/sass.rb#70
   def sass_options; end
 end
 
-# source://tilt//lib/tilt/sass.rb#41
+# source://tilt//lib/tilt/sass.rb#54
 Tilt::SassTemplate::Engine = SassC::Engine
 
-# source://tilt//lib/tilt/sass.rb#67
+# source://tilt//lib/tilt/sass.rb#80
 class Tilt::ScssTemplate < ::Tilt::SassTemplate
   private
 
-  # source://tilt//lib/tilt/sass.rb#72
+  # source://tilt//lib/tilt/sass.rb#85
   def sass_options; end
 end
 
@@ -721,23 +673,20 @@ class Tilt::StaticTemplate < ::Tilt::Template
   end
 end
 
-# The template source is evaluated as a Ruby string. The #{} interpolation
-# syntax can be used to generated dynamic output.
-#
-# source://tilt//lib/tilt/string.rb#7
+# source://tilt//lib/tilt/string.rb#15
 class Tilt::StringTemplate < ::Tilt::Template
   # @return [Boolean]
   #
-  # source://tilt//lib/tilt/string.rb#23
+  # source://tilt//lib/tilt/string.rb#31
   def freeze_string_literals?; end
 
-  # source://tilt//lib/tilt/string.rb#18
+  # source://tilt//lib/tilt/string.rb#26
   def precompiled(locals); end
 
-  # source://tilt//lib/tilt/string.rb#14
+  # source://tilt//lib/tilt/string.rb#22
   def precompiled_template(locals); end
 
-  # source://tilt//lib/tilt/string.rb#8
+  # source://tilt//lib/tilt/string.rb#16
   def prepare; end
 end
 
@@ -1008,12 +957,12 @@ class Tilt::Template
   def unbind_compiled_method(method_name); end
 
   class << self
-    # Use `.metadata[:mime_type]` instead.
+    # Use <tt>.metadata[:mime_type]</tt> instead.
     #
     # source://tilt//lib/tilt/template.rb#45
     def default_mime_type; end
 
-    # Use `.metadata[:mime_type] = val` instead.
+    # Use <tt>.metadata[:mime_type] = val</tt> instead.
     #
     # source://tilt//lib/tilt/template.rb#50
     def default_mime_type=(value); end

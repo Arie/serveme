@@ -17275,16 +17275,16 @@ class Aws::S3::Client < ::Seahorse::Client::Base
   # @param options [Hash] ({})
   # @param params [Hash] ({})
   # @param waiter_name [Symbol]
-  # @raise [Errors::TooManyAttemptsError] Raised when the configured
-  #   maximum number of attempts have been made, and the waiter is not
-  #   yet successful.
-  # @raise [Errors::NoSuchWaiterError] Raised when you request to wait
-  #   for an unknown state.
-  # @raise [Errors::UnexpectedError] Raised when an error is encounted
-  #   while polling for a resource that is not expected.
   # @raise [Errors::FailureStateError] Raised when the waiter terminates
   #   because the waiter has entered a state that it will not transition
   #   out of, preventing success.
+  # @raise [Errors::TooManyAttemptsError] Raised when the configured
+  #   maximum number of attempts have been made, and the waiter is not
+  #   yet successful.
+  # @raise [Errors::UnexpectedError] Raised when an error is encounted
+  #   while polling for a resource that is not expected.
+  # @raise [Errors::NoSuchWaiterError] Raised when you request to wait
+  #   for an unknown state.
   # @return [Boolean] Returns `true` if the waiter was successful.
   # @yield [w.waiter]
   #
@@ -26623,13 +26623,13 @@ class Aws::S3::FileUploader
   # @api private
   # @return [Client]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/file_uploader.rb#22
+  # source://aws-sdk-s3//lib/aws-sdk-s3/file_uploader.rb#23
   def client; end
 
   # @api private
   # @return [Integer] Files larger than or equal to this in bytes are uploaded using a {MultipartFileUploader}.
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/file_uploader.rb#25
+  # source://aws-sdk-s3//lib/aws-sdk-s3/file_uploader.rb#26
   def multipart_threshold; end
 
   # @api private
@@ -26641,24 +26641,24 @@ class Aws::S3::FileUploader
   # @param source [String, Pathname, File, Tempfile] The file to upload.
   # @return [void]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/file_uploader.rb#37
+  # source://aws-sdk-s3//lib/aws-sdk-s3/file_uploader.rb#38
   def upload(source, options = T.unsafe(nil)); end
 
   private
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/file_uploader.rb#49
+  # source://aws-sdk-s3//lib/aws-sdk-s3/file_uploader.rb#54
   def open_file(source, &block); end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/file_uploader.rb#57
+  # source://aws-sdk-s3//lib/aws-sdk-s3/file_uploader.rb#62
   def put_object(source, options); end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/file_uploader.rb#66
+  # source://aws-sdk-s3//lib/aws-sdk-s3/file_uploader.rb#74
   def single_part_progress(progress_callback); end
 end
 
@@ -26801,7 +26801,7 @@ class Aws::S3::MultipartFileUploader
   # @api private
   # @return [Client]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#28
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#29
   def client; end
 
   # @api private
@@ -26813,92 +26813,92 @@ class Aws::S3::MultipartFileUploader
   # @raise [ArgumentError]
   # @return [Seahorse::Client::Response] - the CompleteMultipartUploadResponse
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#37
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#38
   def upload(source, options = T.unsafe(nil)); end
 
   private
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#74
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#75
   def abort_upload(upload_id, options, errors); end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#171
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#174
   def apply_part_checksum(resp, part); end
 
   # @api private
   # @return [Boolean]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#107
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#108
   def checksum_key?(key); end
 
   # @api private
   # @return [Boolean]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#115
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#116
   def checksum_not_required?(options); end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#128
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#129
   def complete_opts(options); end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#52
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#53
   def complete_upload(upload_id, parts, file_size, options); end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#178
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#181
   def compute_default_part_size(file_size); end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#86
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#87
   def compute_parts(upload_id, source, file_size, options); end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#119
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#120
   def create_opts(options); end
 
   # @api private
   # @return [Boolean]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#111
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#112
   def has_checksum_key?(keys); end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#48
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#49
   def initiate_upload(options); end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#182
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#185
   def part_size(total_size, part_size, offset); end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#190
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#193
   def update_progress(progress, part); end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#134
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#135
   def upload_part_opts(options); end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#63
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#64
   def upload_parts(upload_id, source, file_size, options); end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#141
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#142
   def upload_with_executor(pending, completed, options); end
 end
 
@@ -26931,63 +26931,63 @@ Aws::S3::MultipartFileUploader::MIN_PART_SIZE = T.let(T.unsafe(nil), Integer)
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#232
+# source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#235
 class Aws::S3::MultipartFileUploader::MultipartProgress
   # @api private
   # @return [MultipartProgress] a new instance of MultipartProgress
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#233
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#236
   def initialize(parts, progress_callback); end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#241
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#244
   def call(part_number, bytes_read); end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#239
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#242
   def progress_callback; end
 end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#200
+# source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#203
 class Aws::S3::MultipartFileUploader::PartList
   # @api private
   # @return [PartList] a new instance of PartList
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#201
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#204
   def initialize(parts = T.unsafe(nil)); end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#214
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#217
   def clear!; end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#222
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#225
   def part_sizes; end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#206
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#209
   def push(part); end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#210
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#213
   def shift; end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#218
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#221
   def size; end
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#226
+  # source://aws-sdk-s3//lib/aws-sdk-s3/multipart_file_uploader.rb#229
   def to_a; end
 end
 
@@ -31349,8 +31349,30 @@ end
 class Aws::S3::Plugins::ChecksumAlgorithm < ::Seahorse::Client::Plugin
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/checksum_algorithm.rb#21
+  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/checksum_algorithm.rb#37
   def add_handlers(handlers, _config); end
+end
+
+# Handler to disable trailer checksums for S3-compatible services
+# that don't support STREAMING-UNSIGNED-PAYLOAD-TRAILER
+# See: https://github.com/aws/aws-sdk-ruby/issues/3338
+#
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/plugins/checksum_algorithm.rb#24
+class Aws::S3::Plugins::ChecksumAlgorithm::SkipTrailerChecksumsHandler < ::Seahorse::Client::Handler
+  # @api private
+  #
+  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/checksum_algorithm.rb#25
+  def call(context); end
+
+  private
+
+  # @api private
+  # @return [Boolean]
+  #
+  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/checksum_algorithm.rb#32
+  def custom_endpoint?(config); end
 end
 
 # S3 GetObject results for whole Multipart Objects contain a checksum
@@ -31491,23 +31513,28 @@ end
 #
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#12
+# source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#11
 class Aws::S3::Plugins::Http200Errors < ::Seahorse::Client::Plugin; end
 
 # @api private
 #
-# source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#14
+# source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#12
 class Aws::S3::Plugins::Http200Errors::Handler < ::Seahorse::Client::Handler
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#16
+  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#29
   def call(context); end
 
   private
 
   # @api private
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#72
+  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#44
+  def build_error(context, code, message); end
+
+  # @api private
+  #
+  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#48
   def check_for_error(context); end
 
   # Must have a member in the body and have the start of an XML Tag.
@@ -31516,7 +31543,7 @@ class Aws::S3::Plugins::Http200Errors::Handler < ::Seahorse::Client::Handler
   # @api private
   # @return [Boolean]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#68
+  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#64
   def incomplete_xml_body?(xml, output); end
 
   # Checks if the output shape is a structure shape and has members that
@@ -31528,23 +31555,64 @@ class Aws::S3::Plugins::Http200Errors::Handler < ::Seahorse::Client::Handler
   # @api private
   # @return [Boolean]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#47
+  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#73
   def members_in_body?(output); end
+
+  # Fixes encoding issues when S3 returns UTF-8 content with missing charset in Content-Type header or omits
+  # Content-Type header entirely.  Net::HTTP defaults to US-ASCII or ASCII-8BIT when charset is unspecified.
+  #
+  # @api private
+  #
+  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#85
+  def normalize_encoding(xml); end
+
+  # @api private
+  #
+  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#91
+  def resolve_shape(output); end
 
   # Streaming outputs are not subject to 200 errors.
   #
   # @api private
   # @return [Boolean]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#32
+  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#98
   def streaming_output?(output); end
 
   # @api private
   # @return [Boolean]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#62
+  # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#107
   def structure_shape?(shape); end
 end
+
+# A regular expression to match error codes in the response body
+#
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#14
+Aws::S3::Plugins::Http200Errors::Handler::CODE_PATTERN = T.let(T.unsafe(nil), Regexp)
+
+# A list of encodings we force into UTF-8
+#
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#18
+Aws::S3::Plugins::Http200Errors::Handler::ENCODINGS_TO_FIX = T.let(T.unsafe(nil), Array)
+
+# A regular expression to match detect errors in the response body
+#
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#22
+Aws::S3::Plugins::Http200Errors::Handler::ERROR_PATTERN = T.let(T.unsafe(nil), Regexp)
+
+# A regular expression to match an error message in the response body
+#
+# @api private
+#
+# source://aws-sdk-s3//lib/aws-sdk-s3/plugins/http_200_errors.rb#26
+Aws::S3::Plugins::Http200Errors::Handler::MESSAGE_PATTERN = T.let(T.unsafe(nil), Regexp)
 
 # source://aws-sdk-s3//lib/aws-sdk-s3/plugins/iad_regional_endpoint.rb#7
 class Aws::S3::Plugins::IADRegionalEndpoint < ::Seahorse::Client::Plugin
@@ -32859,11 +32927,13 @@ class Aws::S3::TransferManager
   #     end
   #     tm.upload_file('/path/to/file', bucket: 'bucket', key: 'key', progress_callback: progress)
   #
+  # @option option
   # @option options
   # @option options
   # @option options
   # @param bucket [String] The name of the S3 bucket to upload to.
   # @param key [String] The object key name for the uploaded file.
+  # @param option [Hash] a customizable set of options
   # @param options [Hash] Additional options for {Client#put_object} when file sizes below the multipart threshold.
   #   For files larger than the multipart threshold, options for {Client#create_multipart_upload},
   #   {Client#complete_multipart_upload}, and {Client#upload_part} can be provided.
@@ -32881,7 +32951,7 @@ class Aws::S3::TransferManager
   # @see Client#upload_part
   # @yield [response]
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/transfer_manager.rb#222
+  # source://aws-sdk-s3//lib/aws-sdk-s3/transfer_manager.rb#227
   def upload_file(source, bucket:, key:, **options); end
 
   # Uploads a stream in a streaming fashion to S3.
@@ -32919,7 +32989,7 @@ class Aws::S3::TransferManager
   # @see Client#create_multipart_upload
   # @see Client#upload_part
   #
-  # source://aws-sdk-s3//lib/aws-sdk-s3/transfer_manager.rb#288
+  # source://aws-sdk-s3//lib/aws-sdk-s3/transfer_manager.rb#306
   def upload_stream(bucket:, key:, **options, &block); end
 end
 

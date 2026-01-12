@@ -9,4 +9,9 @@ if [ "serveme.tf", "na.serveme.tf", "sea.serveme.tf", "au.serveme.tf" ].include?
   OpenTelemetry::SDK.configure do |c|
     c.use_all
   end
+
+  # Send structured logs to SigNoz via OpenTelemetry (alongside existing lograge)
+  Rails.application.config.after_initialize do
+    OtelLogger.setup!
+  end
 end

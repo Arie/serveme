@@ -67,5 +67,6 @@ Serveme::Application.configure do
       user_id: event.payload[:user_id]
     }
   end
+
   config.active_storage.service = :cloudflare
 end

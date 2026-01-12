@@ -152,6 +152,9 @@
             = link_to stac_logs_path, class: "dropdown-item" do
               %i.fa.fa-warning
               STAC Logs
+            = link_to league_request_path, class: "dropdown-item" do
+              %i.fa.fa-search
+              League Request
             - if current_user.admin?
               = link_to "/sidekiq", class: "dropdown-item", target: "_blank" do
                 %i.fa.fa-tasks

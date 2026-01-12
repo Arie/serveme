@@ -43,7 +43,8 @@ class LogStreamingService
     total_lines = 0
 
     File.foreach(filename) do |line|
-      match_indices << total_lines if line.downcase.include?(search_term)
+      sanitized = StringSanitizer.tidy_bytes(line)
+      match_indices << total_lines if sanitized.downcase.include?(search_term)
       total_lines += 1
     end
 
@@ -87,7 +88,8 @@ class LogStreamingService
     total_lines = 0
 
     File.foreach(filename) do |line|
-      match_indices << total_lines if line.downcase.include?(search_term)
+      sanitized = StringSanitizer.tidy_bytes(line)
+      match_indices << total_lines if sanitized.downcase.include?(search_term)
       total_lines += 1
     end
 

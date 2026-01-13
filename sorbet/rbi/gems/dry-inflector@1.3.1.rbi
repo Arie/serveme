@@ -574,13 +574,13 @@ module Dry::Inflector::Inflections::Defaults
     # @api private
     # @since 0.1.2
     #
-    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#110
+    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#111
     def acronyms(inflect); end
 
     # @api private
     # @since 0.1.0
     #
-    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#88
+    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#89
     def irregular(inflect); end
 
     # @api private
@@ -592,13 +592,13 @@ module Dry::Inflector::Inflections::Defaults
     # @api private
     # @since 0.1.0
     #
-    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#52
+    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#53
     def singular(inflect); end
 
     # @api private
     # @since 0.1.0
     #
-    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#103
+    # source://dry-inflector//lib/dry/inflector/inflections/defaults.rb#104
     def uncountable(inflect); end
   end
 end

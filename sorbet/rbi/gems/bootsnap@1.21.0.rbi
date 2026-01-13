@@ -99,22 +99,22 @@ module Bootsnap::CompileCache::ISeq
     # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#12
     def cache_dir=(cache_dir); end
 
-    # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#103
+    # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#105
     def compile_option_updated; end
 
-    # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#63
+    # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#65
     def fetch(path, cache_dir: T.unsafe(nil)); end
 
-    # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#80
+    # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#82
     def input_to_output(_data, _kwargs); end
 
     # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#45
     def input_to_storage(_, path); end
 
-    # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#110
+    # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#112
     def install!(cache_dir); end
 
-    # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#72
+    # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#74
     def precompile(path); end
 
     # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#52
@@ -127,12 +127,12 @@ module Bootsnap::CompileCache::ISeq
   end
 end
 
-# source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#84
+# source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#86
 module Bootsnap::CompileCache::ISeq::InstructionSequenceMixin
-  # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#97
+  # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#99
   def compile_option=(hash); end
 
-  # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#85
+  # source://bootsnap//lib/bootsnap/compile_cache/iseq.rb#87
   def load_iseq(path); end
 end
 
@@ -247,26 +247,26 @@ class Bootsnap::CompileCache::YAML::NoTagsVisitor < ::Psych::Visitors::NoAliasRu
   def visit(target); end
 end
 
-# source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#264
+# source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#266
 module Bootsnap::CompileCache::YAML::Psych3
   extend ::Bootsnap::CompileCache::YAML::Psych3
 
-  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#289
+  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#291
   def input_to_output(data, kwargs); end
 
-  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#267
+  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#269
   def input_to_storage(contents, _); end
 
-  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#279
+  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#281
   def storage_to_output(data, kwargs); end
 end
 
-# source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#293
+# source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#295
 module Bootsnap::CompileCache::YAML::Psych3::Patch
-  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#294
+  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#296
   def load_file(path, *args, **_arg2); end
 
-  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#314
+  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#316
   def unsafe_load_file(path, *args, **_arg2); end
 end
 
@@ -278,26 +278,26 @@ module Bootsnap::CompileCache::YAML::Psych4
   def input_to_storage(contents, _); end
 end
 
-# source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#221
+# source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#223
 module Bootsnap::CompileCache::YAML::Psych4::Patch
-  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#222
+  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#224
   def load_file(path, *args, **_arg2); end
 
-  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#242
+  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#244
   def unsafe_load_file(path, *args, **_arg2); end
 end
 
-# source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#181
+# source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#183
 module Bootsnap::CompileCache::YAML::Psych4::SafeLoad
   extend ::Bootsnap::CompileCache::YAML::Psych4::SafeLoad
 
-  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#216
+  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#218
   def input_to_output(data, kwargs); end
 
-  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#184
+  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#186
   def input_to_storage(contents, _); end
 
-  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#201
+  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#203
   def storage_to_output(data, kwargs); end
 end
 
@@ -305,7 +305,7 @@ end
 module Bootsnap::CompileCache::YAML::Psych4::UnsafeLoad
   extend ::Bootsnap::CompileCache::YAML::Psych4::UnsafeLoad
 
-  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#176
+  # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#178
   def input_to_output(data, kwargs); end
 
   # source://bootsnap//lib/bootsnap/compile_cache/yaml.rb#153

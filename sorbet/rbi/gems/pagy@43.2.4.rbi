@@ -250,7 +250,7 @@ Pagy::Calendar::UNITS = T.let(T.unsafe(nil), Array)
 # To define a "bimester" unit you should:
 # - Define a `Pagy::Calendar::Bimester` class
 # - Add the `:bimester` unit symbol in the `Pagy::Calendar::UNITS`
-# - Ensure the desc durtion order of the UNITS (i.e. insert it between `:quarter` and `:month`)
+# - Ensure the desc duration order of the UNITS (i.e. insert it between `:quarter` and `:month`)
 #
 # source://pagy//lib/pagy/classes/calendar/unit.rb#14
 class Pagy::Calendar::Unit < ::Pagy
@@ -317,7 +317,7 @@ class Pagy::Calendar::Unit < ::Pagy
   def calendar?; end
 
   # Apply the strftime format to the time.
-  # Localization other than :en, require the rails-I18n gem.
+  # Localization other than :en, requires the rails-I18n gem.
   #
   # source://pagy//lib/pagy/classes/calendar/unit.rb#70
   def localize(time, **options); end
@@ -403,7 +403,7 @@ module Pagy::CalendarPaginator
   end
 end
 
-# Add configurstion methods
+# Add configuration methods
 #
 # source://pagy//lib/pagy/modules/abilities/configurable.rb#5
 module Pagy::Configurable
@@ -999,7 +999,7 @@ Pagy::LIMIT_TOKEN = T.let(T.unsafe(nil), Pagy::EscapedValue)
 module Pagy::Linkable
   protected
 
-  # Overriddable by classes with composite page param
+  # Overridable by classes with composite page param
   #
   # source://pagy//lib/pagy/modules/abilities/linkable.rb#42
   def compose_page_param(page); end
@@ -1363,7 +1363,7 @@ class Pagy::Request
   # source://pagy//lib/pagy/classes/request.rb#18
   def path; end
 
-  # source://pagy//lib/pagy/classes/request.rb#27
+  # source://pagy//lib/pagy/classes/request.rb#26
   def resolve_limit; end
 
   # source://pagy//lib/pagy/classes/request.rb#20
@@ -1371,7 +1371,7 @@ class Pagy::Request
 
   private
 
-  # source://pagy//lib/pagy/classes/request.rb#38
+  # source://pagy//lib/pagy/classes/request.rb#37
   def get_params(request); end
 end
 
